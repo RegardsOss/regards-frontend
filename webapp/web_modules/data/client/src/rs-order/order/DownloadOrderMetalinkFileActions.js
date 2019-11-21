@@ -36,8 +36,7 @@ class DownloadOrderMetalinkFileAtions extends BasicActions {
    * @return {string} metalink download URL
    */
   getFileDownloadLink(orderId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+    return BasicActions.buildURL(this.entityEndpoint, { orderId }, { token })
   }
 }
 

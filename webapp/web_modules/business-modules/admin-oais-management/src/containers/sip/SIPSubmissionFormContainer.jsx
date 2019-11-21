@@ -37,7 +37,7 @@ export class SIPSubmissionFormContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
-    submitSips: file => dispatch(sipImportActions.createEntitiesUsingMultiPart({}, { file })),
+    submitSips: file => dispatch(sipImportActions.importSIPFeaturesCollection(file)),
   })
 
   static propTypes = {
@@ -93,10 +93,6 @@ export class SIPSubmissionFormContainer extends React.Component {
         // We receive here the action
         if (!actionResult.error || actionResult.meta.status === 422) {
           this.onSucceed()
-          this.setState({
-            isError: false,
-            isLoading: false,
-          })
         } else {
           this.setState({
             isError: true,

@@ -16,13 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { sipImportSelectors } from '../../clients/SIPImportClient'
 import SIPsubmissionSummaryComponent from '../../components/sip/submission/SIPSubmissionSummaryComponent'
 import messages from '../../i18n'
+import styles from '../../styles'
 
 /**
 * Container to display sip submission synchrone results from server. May contain rejected or handled SIP.
@@ -37,7 +40,7 @@ export class SIPSubmissionSummaryContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      submitedSips: sipImportSelectors.getArray(state),
+      submissionResponse: sipImportSelectors.getSubmissionResponse(state),
     }
   }
 
@@ -47,8 +50,7 @@ export class SIPSubmissionSummaryContainer extends React.Component {
       project: PropTypes.string,
     }).isRequired,
     // from mapStateToProps
-    submitedSips: PropTypes.arrayOf(IngestShapes.SIPSubmited).isRequired,
-    // from mapDispatchToProps
+    submissionResponse: IngestShapes.SIPSubmissionResponse,
   }
 
   onBack = () => {
@@ -60,10 +62,13 @@ export class SIPSubmissionSummaryContainer extends React.Component {
   render() {
     return (
       <SIPsubmissionSummaryComponent
-        submitedSips={this.props.submitedSips}
+        submissionResponse={this.props.submissionResponse}
         onBack={this.onBack}
       />
     )
   }
 }
-export default connect(SIPSubmissionSummaryContainer.mapStateToProps)(withI18n(messages)(SIPSubmissionSummaryContainer))
+
+export default compose(
+  connect(SIPSubmissionSummaryContainer.mapStateToProps),
+  withI18n(messages), withModuleStyle(styles))(SIPSubmissionSummaryContainer)

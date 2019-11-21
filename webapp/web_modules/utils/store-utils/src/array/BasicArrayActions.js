@@ -37,8 +37,6 @@ class BasicArrayActions extends BasicActions {
   }
 
   fetchEntityList(pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [RSAA]: {
         types: [
@@ -46,36 +44,8 @@ class BasicArrayActions extends BasicActions {
           this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
         method: 'GET',
-      },
-    }
-  }
-
-  /**
-  * Allows to send multiple objects on the same time
-  * Requires that the API send back new entities
-  * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
-  * @param files Object containing key - values with key expected by the API and value a file
-  * @param pathParams
-  * @param queryParams
-  * @returns {{}}
-  */
-  createEntitiesUsingMultiPart(objectValues, files, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
-    return {
-      [RSAA]: {
-        types: [
-          this.CREATE_ENTITIES_REQUEST,
-          this.buildSuccessAction(this.CREATE_ENTITIES_SUCCESS, (action, state, res) => getJSON(res)),
-          this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
       },
     }
   }

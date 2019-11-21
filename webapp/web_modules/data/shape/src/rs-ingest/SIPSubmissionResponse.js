@@ -18,14 +18,14 @@
  **/
 
 /**
- * Describes a Submited SIP returned by server after a SIP submission process
+ * Describes a SIP submission response, as returned by server on user request
  * @author Sébastien Binda
  */
 
 /** A dated selection item shape */
-export const SIPSubmited = PropTypes.shape({
-  id: PropTypes.string.isRequired,
-  version: PropTypes.number,
-  rejectionCauses: PropTypes.arrayOf(PropTypes.string),
-  state: PropTypes.string.isRequired,
+export const SIPSubmissionResponse = PropTypes.shape({
+  // list of granted SIPs (key) with their request ID as value
+  granted: PropTypes.objectOf(PropTypes.string).isRequired,
+  // list of denied SIPs (key) with corresponding error message as value
+  denied: PropTypes.objectOf(PropTypes.string).isRequired,
 })

@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { SIP, SIP_ARRAY } from '@regardsoss/api'
-import { BasicArrayActions } from '@regardsoss/store-utils'
+import { RequestVerbEnum, BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle SIP entities from backend server.
  * @author Sébastien Binda
  */
-export default class SIPImportActions extends BasicArrayActions {
+export default class SIPImportActions extends BasicSignalActions {
   /**
    * Construtor
    * @param namespace
@@ -33,10 +32,13 @@ export default class SIPImportActions extends BasicArrayActions {
       namespace,
       bypassErrorMiddleware: true,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips/import`,
-      schemaTypes: {
-        ENTITY: SIP,
-        ENTITY_ARRAY: SIP_ARRAY,
-      },
     })
+  }
+
+  /**
+   * @return {*} redux action to dispatch to import a SIP features collection
+   */
+  importSIPFeaturesCollection(sipFile) {
+    return this.sendEntityUsingMultiPart(RequestVerbEnum.POST, {}, { file: sipFile })
   }
 }

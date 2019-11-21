@@ -35,8 +35,7 @@ class DownloadAllOrderFilesActions extends BasicActions {
    * @return {string} zip file download URL
    */
   getFileDownloadLink(orderId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+    return BasicActions.buildURL(this.entityEndpoint, { orderId }, { token })
   }
 }
 

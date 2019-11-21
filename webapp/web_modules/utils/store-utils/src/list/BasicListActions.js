@@ -69,8 +69,6 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   fetchEntityList(pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [RSAA]: {
         types: [
@@ -81,7 +79,7 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
         headers: this.headers,
         method: 'GET',
       },
@@ -104,9 +102,6 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   fetchEntity(keyValue, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [RSAA]: {
         types: [
@@ -117,7 +112,7 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(`${this.entityEndpoint}/${keyValue}`, pathParams, queryParams),
         method: 'GET',
       },
     }
@@ -131,9 +126,6 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   fetchSilentEntity(keyValue, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [RSAA]: {
         types: [
@@ -144,15 +136,13 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(`${this.entityEndpoint}/${keyValue}`, pathParams, queryParams),
         method: 'GET',
       },
     }
   }
 
   createEntity(values, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [RSAA]: {
         types: [
@@ -163,7 +153,7 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
         method: 'POST',
         body: JSON.stringify(values),
       },
@@ -178,8 +168,6 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   createEntities(object, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [RSAA]: {
         types: [
@@ -190,7 +178,7 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
         method: 'POST',
         body: JSON.stringify(object),
       },
@@ -208,10 +196,8 @@ class BasicListActions extends BasicActions {
     } else {
       endpointRequest = `${endpointRequest}/${keyValue}`
     }
-    // 2. Handle path params
-    endpointRequest = this.handleRequestPathParameters(endpointRequest, pathParamsRequest)
-    // 3. Handle query params
-    endpointRequest = this.handleRequestQueryParams(endpointRequest, queryParams)
+    // 2. Handle parameters
+    endpointRequest = BasicActions.buildURL(endpointRequest, pathParamsRequest, queryParams)
 
     return {
       [RSAA]: {
@@ -231,11 +217,6 @@ class BasicListActions extends BasicActions {
   }
 
   deleteEntity(keyValue, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    if (keyValue) {
-      endpoint = `${endpoint}/${keyValue}`
-    }
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [RSAA]: {
         types: [
@@ -243,18 +224,14 @@ class BasicListActions extends BasicActions {
           this.buildSuccessAction(this.DELETE_ENTITY_SUCCESS, keyValue),
           this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(keyValue ? `${this.entityEndpoint}/${keyValue}` : this.entityEndpoint,
+          pathParams, queryParams),
         method: 'DELETE',
       },
     }
   }
 
   deleteEntityWithPayloadResponse(keyValue, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    if (keyValue) {
-      endpoint = `${endpoint}/${keyValue}`
-    }
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
     return {
       [RSAA]: {
         types: [
@@ -265,7 +242,8 @@ class BasicListActions extends BasicActions {
           ),
           this.buildFailureAction(this.DELETE_ENTITY_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(keyValue ? `${this.entityEndpoint}/${keyValue}` : this.entityEndpoint,
+          pathParams, queryParams),
         method: 'DELETE',
       },
     }
@@ -281,25 +259,15 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   createEntityUsingMultiPart(objectValues, files, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
-    return {
-      [RSAA]: {
-        types: [
-          this.CREATE_ENTITY_REQUEST,
-          this.buildSuccessAction(
-            this.CREATE_ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          ),
-          this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
-      },
-    }
+    return this.buildMultiPartsRSAAction(this.entityEndpoint, pathParams, queryParams,
+      BasicActions.createFormDataWithFilesMap(objectValues, files), [
+        this.CREATE_ENTITY_REQUEST,
+        this.buildSuccessAction(
+          this.CREATE_ENTITY_SUCCESS,
+          (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+        ),
+        this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
+      ])
   }
 
   /**
@@ -313,26 +281,16 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   updateEntityUsingMultiPart(keyValue, objectValues, files, pathParams, queryParams) {
-    let endpoint = this.handleRequestPathParameters(this.entityEndpoint, pathParams)
-    endpoint = `${endpoint}/${keyValue}`
-    endpoint = this.handleRequestQueryParams(endpoint, queryParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
-    return {
-      [RSAA]: {
-        types: [
-          this.UPDATE_ENTITY_REQUEST,
-          this.buildSuccessAction(
-            this.UPDATE_ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          ),
-          this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
-      },
-    }
+    return this.buildMultiPartsRSAAction(`${this.entityEndpoint}/${keyValue}`,
+      pathParams, queryParams, BasicActions.createFormDataWithFilesMap(objectValues, files), [
+        this.UPDATE_ENTITY_REQUEST,
+        this.buildSuccessAction(
+          this.UPDATE_ENTITY_SUCCESS,
+          (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+        ),
+        this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
+      ],
+    )
   }
 
 
@@ -347,25 +305,15 @@ class BasicListActions extends BasicActions {
    * @returns {{}}
    */
   sendMultipleFiles(objectValues, files, fileKey, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesList(objectValues, files, fileKey)
-    return {
-      [RSAA]: {
-        types: [
-          this.CREATE_ENTITY_REQUEST,
-          {
-            type: this.CREATE_ENTITY_SUCCESS,
-            payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
-          },
-          this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
-        ],
-        endpoint,
-        method: 'POST',
-        body: formData,
-      },
-    }
+    return this.buildMultiPartsRSAAction(this.entityEndpoint, pathParams, queryParams,
+      BasicActions.createFormDataWithFilesList(objectValues, files, fileKey), [
+        this.CREATE_ENTITY_REQUEST,
+        {
+          type: this.CREATE_ENTITY_SUCCESS,
+          payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+        },
+        this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
+      ])
   }
 
 

@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
-import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'
+import {
+  Field, RenderFileFieldWithMui, reduxForm, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import {
   CardActionsComponent,
   FormErrorMessage,
@@ -39,6 +40,7 @@ export class SIPSubmissionFormComponent extends React.Component {
     onBack: PropTypes.func.isRequired,
     isError: PropTypes.bool.isRequired,
     // from reduxForm
+    invalid: PropTypes.bool,
     handleSubmit: PropTypes.func,
   }
 
@@ -50,7 +52,7 @@ export class SIPSubmissionFormComponent extends React.Component {
   render() {
     const { intl } = this.context
     const {
-      isLoading, handleSubmit, submitSips, isError, onBack,
+      isLoading, invalid, handleSubmit, submitSips, isError, onBack,
     } = this.props
     return (
       <form onSubmit={handleSubmit(submitSips)}>
@@ -72,6 +74,7 @@ export class SIPSubmissionFormComponent extends React.Component {
                 component={RenderFileFieldWithMui}
                 label={intl.formatMessage({ id: 'sips.submit.select.file.button' })}
                 changeLabel={intl.formatMessage({ id: 'sips.submit.change.file.button' })}
+                validate={ValidationHelpers.required}
                 accept=".json"
               />
             </CardText>
@@ -79,7 +82,7 @@ export class SIPSubmissionFormComponent extends React.Component {
               <CardActionsComponent
                 mainButtonLabel={intl.formatMessage({ id: 'sips.submit.submit.button' })}
                 mainButtonType="submit"
-                isMainButtonDisabled={isLoading}
+                isMainButtonDisabled={isLoading || invalid}
                 secondaryButtonLabel={intl.formatMessage({ id: 'sips.submit.back.button' })}
                 secondaryButtonClick={onBack}
                 isSecondaryButtonDisabled={isLoading}

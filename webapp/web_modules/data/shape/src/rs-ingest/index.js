@@ -25,4 +25,4 @@ export {
 export {
   IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
 } from './IngestSession'
-export { SIPSubmited } from './SIPSubmited'
+export { SIPSubmissionResponse } from './SIPSubmissionResponse'

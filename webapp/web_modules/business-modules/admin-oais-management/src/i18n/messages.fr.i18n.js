@@ -174,5 +174,15 @@ export default {
 
   'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
   'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
+  'sips.submission-summary.granted.count.message': `{count, plural, 
+    =0 {Aucune entité n'a été soumise.} 
+    one {# entité a été soumise.} 
+    other {# entités ont été soumises.}
+  }`,
+  'sips.submission-summary.denied.count.message': `{count, plural, 
+    one {L'entité suivante a été rejetée:} 
+    other {Les # entités suivantes ont été rejetées:}
+  }`,
+  'sip.submission-summary.denied.feature.message': '- {label}: {reason}',
   'sips.submission-summary.back.button': 'Retour',
 }
