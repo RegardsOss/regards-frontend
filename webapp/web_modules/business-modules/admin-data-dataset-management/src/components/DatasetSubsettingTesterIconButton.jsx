@@ -22,9 +22,9 @@ import Error from 'material-ui/svg-icons/alert/error'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatasetSubsettingTesterProgress from './DatasetSubsettingTesterProgress'
+import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
 
 const states = {
   NOT_TESTED: 'not_tested',
@@ -42,7 +42,7 @@ e passed {@link Connection}.<br>
  */
 class ConnectionTesterIconButton extends React.Component {
   static propTypes = {
-    currentDataset: DataManagementShapes.Dataset,
+    currentDataset: SubsettingEditionDataset.isRequired,
     subsetting: PropTypes.string,
     handleTestSubsetting: PropTypes.func.isRequired,
   }

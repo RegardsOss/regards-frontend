@@ -198,7 +198,6 @@ export class DatasetFormContainer extends React.Component {
     const {
       isEditing, isCreating, state, currentDataset,
     } = this.state
-    console.error('plop', datasourceId)
     switch (state) {
       case states.FORM_ATTRIBUTE:
         return (<DatasetFormAttributesContainer
