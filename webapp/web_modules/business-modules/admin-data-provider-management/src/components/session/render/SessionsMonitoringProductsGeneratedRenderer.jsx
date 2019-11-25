@@ -127,23 +127,23 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   :
                   </div>
                   <div style={two}>
-                    {formatMessage({ id: 'acquisition-sessions.states.files_acquired' })}
-                  :
-                  </div>
-                  <div style={three}>
                     {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
                   :
                   </div>
-                  <div style={four}>
+                  <div style={three}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
+                  :
+                  </div>
+                  <div style={four}>
+                    {formatMessage({ id: 'acquisition-sessions.states.files_acquired' })}
                   :
                   </div>
                 </div>
                 <div style={listFourValues}>
                   <div style={one}>{this.getGenerated(entity)}</div>
-                  <div style={two}>{this.getFilesAcquired(entity)}</div>
-                  <div style={three}>{this.getIncompletes(entity)}</div>
-                  <div style={four}>{this.getErrors(entity)}</div>
+                  <div style={two}>{this.getIncompletes(entity)}</div>
+                  <div style={three}>{this.getErrors(entity)}</div>
+                  <div style={four}>{this.getFilesAcquired(entity)}</div>
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton

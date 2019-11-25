@@ -117,9 +117,9 @@ class SessionsMonitoringProductsStored extends React.Component {
     if (entity.content.lifeCycle.oais) {
       const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
       const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
-      const processedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
+      const storedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
 
-      donePlusWidth = { ...done, width: `${processedWidth}%` }
+      donePlusWidth = { ...done, width: `${storedWidth}%` }
       errorPlusWidth = { ...error, width: `${errorWidth}%` }
       pendingPlusWidth = { ...pending, width: `${pendingWidth}%` }
     }
@@ -139,7 +139,7 @@ class SessionsMonitoringProductsStored extends React.Component {
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
                 <div style={barGraphContainer}>
-                  <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
+                  <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
                   <div style={errorPlusWidth} title={`${errors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
                   <div style={pendingPlusWidth} title={`${pendings} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
                 </div>
@@ -171,7 +171,7 @@ class SessionsMonitoringProductsStored extends React.Component {
                 </div>
                 <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                   <DropDownButton
-                    title={formatMessage({ id: 'acquisition-sessions.table.aip-generated' })}
+                    title={formatMessage({ id: 'acquisition-sessions.menus.archives' })}
                     style={menuDropDown}
                     icon={<Menu />}
                   >
