@@ -163,6 +163,10 @@ class PluginFormUtils {
   }
 
   static formatPluginParameterConf(parameterConf, parameterMetaData, forInit = false) {
+    if (!parameterMetaData) {
+      // Only remove null values from parameters
+      return isNil(parameterConf.value) ? null : parameterConf
+    }
     if (parameterMetaData.unconfigurable) {
       return null
     }
@@ -193,14 +197,17 @@ class PluginFormUtils {
    * @param {*} forInit
    */
   static formatPluginConf(pluginConfiguration, pluginMetaData, forInit = false) {
-    if (pluginConfiguration && pluginMetaData) {
+    if (pluginConfiguration) {
       const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
       let configurableParameters = pluginConfiguration.parameters
       if (pluginMetaData && pluginMetaData.parameters) {
         formatedConf.parameters = []
         configurableParameters = filter(pluginConfiguration.parameters, p => find(pluginMetaData.parameters, { unconfigurable: false }))
+        formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, pluginMetaData, forInit)
+      } else {
+        formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, null, forInit)
       }
-      formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, pluginMetaData, forInit)
+
       return formatedConf
     }
     return pluginConfiguration
@@ -209,7 +216,7 @@ class PluginFormUtils {
   static formatPluginConfParameters(parameters, pluginMetaData, forInit) {
     const parametersWithoutEmpty = []
     forEach(parameters, (p) => {
-      const parameterMetaData = find(pluginMetaData.parameters, { name: p.name })
+      const parameterMetaData = pluginMetaData ? find(pluginMetaData.parameters, { name: p.name }) : null
       const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterMetaData, forInit)
       if (formatedParameter !== null) {
         if (forInit || (formatedParameter.value !== null && formatedParameter.value.length !== 0)) {
