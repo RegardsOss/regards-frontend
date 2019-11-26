@@ -105,15 +105,15 @@ class StorageLocationFormComponent extends React.Component {
    */
   updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
+    const pluginConfiguration = fields.pluginConfiguration ? {
+      ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
+    } : null
     const storageLocationConfToUpdate = {
       name: get(entity, 'content.name'),
       configuration: {
-        name: get(entity, 'content.name'),
-        configuration: {
-          ...get(entity, 'content.configuration', {}),
-          allocatedSizeInKo: this.getAllocatedSizeInKo(fields.allocatedSize),
-          pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
-        },
+        ...get(entity, 'content.configuration', {}),
+        allocatedSizeInKo: this.getAllocatedSizeInKo(fields.allocatedSize),
+        pluginConfiguration,
       },
     }
     onUpdate(get(entity, 'content.name'), storageLocationConfToUpdate).then((actionResults) => {
@@ -137,7 +137,6 @@ class StorageLocationFormComponent extends React.Component {
         pluginConfiguration: formatedPluginConf,
       },
     }
-    console.error('storageLocationConf', storageLocationConf)
     onCreate(storageLocationConf).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
@@ -163,7 +162,7 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    const allocatedSizeStyle = { width: '150px' }
+    const allocatedSizeStyle = { width: '100px' }
     const unitsStyle = { display: 'inline-block', marginTop: '8px' }
     if (mode !== 'create' && !entity) {
       return (
@@ -202,7 +201,7 @@ class StorageLocationFormComponent extends React.Component {
           key="storagePlugin"
           name="pluginConfiguration"
           component={RenderPluginField}
-          title={formatMessage({ id: 'storage.location.form.plugin.label' })}
+          defaultPluginConfLabel={get(entity, 'content.name')}
           selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
           pluginType={pluginType}
           microserviceName={STATIC_CONF.MSERVICES.STORAGE}
