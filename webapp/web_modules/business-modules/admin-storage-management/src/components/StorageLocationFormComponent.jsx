@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import map from 'lodash/map'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
 import DropDownMenu from 'material-ui/DropDownMenu'
@@ -75,9 +76,9 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity, initialize } = this.props
     if (mode === 'edit' && entity) {
       initialize({
-        name: entity.content.name,
-        allocatedSize: entity.content.configuration ? this.calculateUnitAndReturnValue(entity.content.configuration.allocatedSizeInKo) : null,
-        pluginConfiguration: entity.content.configuration ? entity.content.configuration.pluginConfiguration : null,
+        name: get(entity, 'content.name'),
+        allocatedSize: get(entity, 'content.configuration.allocatedSizeInKo') ? this.calculateUnitAndReturnValue(entity.content.configuration.allocatedSizeInKo) : null,
+        pluginConfiguration: get(entity, 'content.configuration.pluginConfiguration'),
       })
     }
   }
@@ -105,17 +106,17 @@ class StorageLocationFormComponent extends React.Component {
   updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
     const storageLocationConfToUpdate = {
-      name: entity.content.name,
+      name: get(entity, 'content.name'),
       configuration: {
-        name: entity.content.name,
+        name: get(entity, 'content.name'),
         configuration: {
-          ...entity.content.configuration,
+          ...get(entity, 'content.configuration', {}),
           allocatedSizeInKo: this.getAllocatedSizeInKo(fields.allocatedSize),
           pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
         },
       },
     }
-    onUpdate(entity.content.name, storageLocationConfToUpdate).then((actionResults) => {
+    onUpdate(get(entity, 'content.name'), storageLocationConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
       }
@@ -221,13 +222,13 @@ class StorageLocationFormComponent extends React.Component {
     if (mode === 'create') {
       onSubmitAction = this.createStorageLocationConf
     } else {
-      onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
+      onSubmitAction = get(entity, 'content.configuration.id') ? this.updateStorageLocationConf : this.createStorageLocationConf
     }
 
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit'
-      ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: entity.content.name })
+      ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: get(entity, 'content.name') })
       : formatMessage({ id: 'storage.location.form.create.title' })
     const buttonTitle = mode === 'edit'
       ? formatMessage({ id: 'storage.location.form.submit.edit.button' })
