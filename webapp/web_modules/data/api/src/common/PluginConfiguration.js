@@ -20,7 +20,7 @@ import { Schema, arrayOf } from 'normalizr'
 import { PLUGIN_PARAMETER_ARRAY } from './PluginParameter'
 
 export const AdminPluginConfigurationSchemaConfiguration = {
-  entityKey: 'id',
+  entityKey: 'businessId',
   normalizrKey: 'pluginConfiguration',
 }
 

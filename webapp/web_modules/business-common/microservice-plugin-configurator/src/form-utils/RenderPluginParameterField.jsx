@@ -118,7 +118,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   componentWillMount() {
     // Format plugin parameter conf for initialization with the given metadatas
     const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
-    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(pluginParameterType, value, true) : value
+    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(value, pluginParameterType, true) : value
     if (!isEqual(formatedParam, value)) {
       onChange(formatedParam)
     }

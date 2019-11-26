@@ -29,7 +29,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import {
-  RenderTextField, reduxForm, ValidationHelpers, Field,
+  RenderTextField, reduxForm, Field,
 } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
 import { StorageDomain } from '@regardsoss/domain'

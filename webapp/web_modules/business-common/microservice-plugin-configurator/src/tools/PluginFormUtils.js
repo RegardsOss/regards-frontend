@@ -162,7 +162,7 @@ class PluginFormUtils {
     return formatedConf
   }
 
-  static formatPluginParameterConf(parameterMetaData, parameterConf, forInit = false) {
+  static formatPluginParameterConf(parameterConf, parameterMetaData, forInit = false) {
     if (parameterMetaData.unconfigurable) {
       return null
     }
@@ -193,24 +193,24 @@ class PluginFormUtils {
    * @param {*} forInit
    */
   static formatPluginConf(pluginConfiguration, pluginMetaData, forInit = false) {
-    if (pluginConfiguration) {
+    if (pluginConfiguration && pluginMetaData) {
       const formatedConf = cloneDeep(omit(pluginConfiguration, ['parameters']))
       let configurableParameters = pluginConfiguration.parameters
       if (pluginMetaData && pluginMetaData.parameters) {
         formatedConf.parameters = []
-        configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
+        configurableParameters = filter(pluginConfiguration.parameters, p => find(pluginMetaData.parameters, { unconfigurable: false }))
       }
-      formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, forInit)
+      formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, pluginMetaData, forInit)
       return formatedConf
     }
     return pluginConfiguration
   }
 
-  static formatPluginConfParameters(parameters, forInit) {
+  static formatPluginConfParameters(parameters, pluginMetaData, forInit) {
     const parametersWithoutEmpty = []
     forEach(parameters, (p) => {
-      const parameterConf = find(parameters, { name: p.name })
-      const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
+      const parameterMetaData = find(pluginMetaData.parameters, { name: p.name })
+      const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterMetaData, forInit)
       if (formatedParameter !== null) {
         if (forInit || (formatedParameter.value !== null && formatedParameter.value.length !== 0)) {
           parametersWithoutEmpty.push(formatedParameter)
