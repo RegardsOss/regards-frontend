@@ -189,7 +189,6 @@ class StorageLocationFormComponent extends React.Component {
             name="allocatedSize"
             component={RenderTextField}
             type="number"
-            validate={ValidationHelpers.required}
             label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
             style={allocatedSizeStyle}
           />
