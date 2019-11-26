@@ -16,9 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { default as formatStorageCapacity } from './formatStorageCapacity'
-export { default as FormattedStorageCapacity } from './FormattedStorageCapacity'
-export { default as FormattedStorageUnit } from './FormattedStorageUnit'
-export { default as messages } from './i18n'
-export { StorageCapacityShape, StorageCapacity } from './StorageCapacity'
-export { StorageUnitScale, StorageUnits, StorageUnitScaleShape } from './StorageUnit'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import messages from './i18n'
+import { StorageUnit } from './StorageUnit'
+
+/**
+ * Format storage unit as a react component (react-intl style). Allows embedding
+ * automatically context in external consumer
+ * @author Raphaël Mechali
+ */
+export class FormattedStorageUnit extends React.Component {
+  static propTypes = {
+    unit: PropTypes.instanceOf(StorageUnit).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { unit } = this.props
+    const { intl: { formatMessage } } = this.context
+    return formatMessage({ id: unit.messageKey })
+  }
+}
+
+export default withI18n(messages)(FormattedStorageUnit)

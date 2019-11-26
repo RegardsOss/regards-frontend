@@ -21,7 +21,7 @@
  * A storagae unit (o, Ko, Mo...)
  * @author Raphaël Mechali
  */
-class StorageUnit {
+export class StorageUnit {
   /**
    * constructor
    * @param symbol unit symbol, like b, B, mb, MB
