@@ -84,7 +84,6 @@ export class ListViewContainer extends React.Component {
       .map(model => ({
         key: model.key,
         label: model.label,
-        unit: get(model, 'attributes.length', 0) === 1 ? get(model.attributes[0], 'content.unit', null) : null,
         renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
       }))
   }

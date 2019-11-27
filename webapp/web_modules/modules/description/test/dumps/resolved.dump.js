@@ -72,16 +72,24 @@ export const resolvedDataEntity = {
         label: { en: 'Label', fr: 'Label' },
         displayedAttributes: [{
           key: 'label',
-          renderValue: 'Toulouse France',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'Toulouse France',
+            },
+          },
         }],
       }, {
         key: 'element.1',
         label: { en: 'Model', fr: 'Model' },
         displayedAttributes: [{
           key: 'model',
-          renderValue: 'VALIDATION_DATA_MODEL_1',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'VALIDATION_DATA_MODEL_1',
+            },
+          },
         }],
       }],
     }, {
@@ -93,16 +101,24 @@ export const resolvedDataEntity = {
         label: { en: 'Internal identifier', fr: 'Identifiant interne' },
         displayedAttributes: [{
           key: 'id',
-          renderValue: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
+            },
+          },
         }],
       }, {
         key: 'element.1',
         label: { en: 'Provider identifier', fr: 'Identifiant fournisseur' },
         displayedAttributes: [{
           key: 'providerId',
-          renderValue: 'Toulouse_France',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'Toulouse_France',
+            },
+          },
         }],
       }],
     }, {
@@ -114,18 +130,26 @@ export const resolvedDataEntity = {
         label: { en: 'long value', fr: 'long value' },
         displayedAttributes: [{
           key: 'properties.value_l1',
-          renderValue: 102,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
+            props: {
+              value: 102,
+              unit: 'unitless',
+            },
+          },
         }],
       }, {
         key: 'element.1',
         label: { en: 'double value', fr: 'double value' },
         displayedAttributes: [{
           key: 'properties.value_d1',
-          renderValue: 89.56,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
+            props: {
+              value: 89.56,
+              unit: 'unitless',
+            },
+          },
         }],
       }],
     }, {
@@ -137,9 +161,13 @@ export const resolvedDataEntity = {
         label: { en: 'date UTC', fr: 'date UTC' },
         displayedAttributes: [{
           key: 'properties.date',
-          renderValue: '2017-09-09T19:00:00Z',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
+            props: {
+              value: '2017-09-09T19:00:00Z',
+              unit: 'unitless',
+            },
+          },
         }],
       }],
     }, {
@@ -154,57 +182,102 @@ export const resolvedDataEntity = {
         },
         displayedAttributes: [{
           key: 'properties.date',
-          renderValue: '2017-09-09T19:00:00Z',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
+            props: {
+              value: '2017-09-09T19:00:00Z',
+              unit: 'unitless',
+            },
+          },
         }, {
           key: 'properties.description',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: { },
+          },
         }, {
           key: 'properties.value_d1',
-          renderValue: 89.56,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
+            props: {
+              value: 89.56,
+              unit: 'unitless',
+            },
+          },
         }, {
           key: 'geometry',
-          renderValue: null,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: null,
+            },
+          },
         }, {
           key: 'id',
-          renderValue: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
+            },
+          },
         }, {
           key: 'label',
-          renderValue: 'Toulouse France',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'Toulouse France',
+            },
+          },
         }, {
           key: 'properties.value_l1',
-          renderValue: 102,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
+            props: {
+              value: 102,
+              unit: 'unitless',
+            },
+          },
         }, {
           key: 'model',
-          renderValue: 'VALIDATION_DATA_MODEL_1',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'VALIDATION_DATA_MODEL_1',
+            },
+          },
         }, {
           key: 'providerId',
-          renderValue: 'Toulouse_France',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'Toulouse_France',
+            },
+          },
         }, {
           key: 'tags',
-          renderValue: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY),
+            props: {
+              value: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
+            },
+          },
         }, {
           key: 'properties.data_size',
-          renderValue: 100000,
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
-          renderUnit: 'kb',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.LONG),
+            props: {
+              value: 100000,
+              unit: 'kb',
+            },
+          },
         }, {
           key: 'properties.DATASET_VALIDATION_TYPE',
-          renderValue: 'chris_harvest_simple_model',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
-          renderUnit: 'unitless',
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'chris_harvest_simple_model',
+            },
+          },
         }],
       }],
     }],
@@ -318,8 +391,12 @@ export const resolvedDatasetEntity = {
         label: { en: 'Internal ID', fr: 'Internal ID' },
         displayedAttributes: [{
           key: 'id',
-          renderValue: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
-          Renderer: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+          render: {
+            Constructor: getTypeRender(DamDomain.MODEL_ATTR_TYPES.STRING),
+            props: {
+              value: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
+            },
+          },
         }],
       }],
     }],

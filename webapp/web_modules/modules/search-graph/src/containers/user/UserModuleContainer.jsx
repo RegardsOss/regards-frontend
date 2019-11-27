@@ -129,11 +129,17 @@ export class UserModuleContainer extends React.Component {
         const foundModel = DamDomain.AttributeModelController
           .findModelFromAttributeFullyQualifiedName(attributeElement.attributes[0].name, fetchedAtributesModels)
         if (foundModel) {
+          const {
+            content: {
+              jsonPath, type, precision, unit,
+            },
+          } = foundModel
           return [...resolvedAcc, {
             label: attributeElement.label,
-            attributePath: foundModel.content.jsonPath, // fragment attribute
-            render: getTypeRender(foundModel.content.type),
-            unit: foundModel.content.unit, // attribute unit if any
+            attributePath: jsonPath, // fragment attribute
+            render: getTypeRender(type),
+            precision, // optional (double {array / range / single} attributes only)
+            unit, // optional (numeric {array / range / single} attributes only)
           }]
         }
         // else : not found, ignore it

@@ -32,7 +32,7 @@ import { buildRenderDelegate, buildThumbnailRenderDelegate } from '../render/Att
  * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
  */
 function buildRenderDelegates(attributes) {
-  return attributes.map(({ content }) => buildRenderDelegate(`content.${content.jsonPath}`, content.type, content.unit))
+  return attributes.map(({ content }) => buildRenderDelegate(`content.${content.jsonPath}`, content.type, content.precision, content.unit))
 }
 
 /**

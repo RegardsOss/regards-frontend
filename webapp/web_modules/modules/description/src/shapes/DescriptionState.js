@@ -30,9 +30,13 @@ export const TreePath = PropTypes.arrayOf(PropTypes.number)
 /** Attribute with value and render, ready for displaying */
 export const RuntimeAttribute = PropTypes.shape({
   key: PropTypes.string.isRequired,
-  Renderer: PropTypes.func.isRequired, // Render for the attribute (React constructor)
-  renderValue: PropTypes.any, // the current value of the attribute
-  renderUnit: PropTypes.string,
+  render: PropTypes.shape({
+    Constructor: PropTypes.func.isRequired, // Render for the attribute (React constructor)
+    props: PropTypes.shape({ // Render properties (including value plus whatever properties the constructor accepts...)
+      value: PropTypes.any,
+      // ...other properties
+    }),
+  }),
 })
 
 /** A displayable group row (label and 1 / many attribute values) */

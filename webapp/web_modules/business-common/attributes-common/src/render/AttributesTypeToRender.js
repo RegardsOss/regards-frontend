@@ -18,8 +18,10 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 import {
-  BooleanValueRender, DateArrayValueRender, DateRangeValueRender, DateValueRender,
-  NumberValueRender, RangeValueRender, StringArrayValueRender, StringValueRender,
+  BooleanValueRender,
+  DateArrayValueRender, DateRangeValueRender, DateValueRender,
+  NumberArrayValueRender, NumberRangeValueRender, NumberValueRender,
+  StringArrayValueRender, StringValueRender,
   URLValueRender,
 } from '@regardsoss/components'
 import ThumbnailAttributeRender from './ThumbnailAttributeRender'
@@ -43,14 +45,14 @@ const typeToRenderMap = {
   [DamDomain.MODEL_ATTR_TYPES.URL]: URLValueRender,
   [DamDomain.MODEL_ATTR_TYPES.BOOLEAN]: BooleanValueRender,
   [DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY]: StringArrayValueRender,
-  [DamDomain.MODEL_ATTR_TYPES.INTEGER_ARRAY]: StringArrayValueRender, // units are not rendered now
-  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY]: StringArrayValueRender, // units are not rendered now
+  [DamDomain.MODEL_ATTR_TYPES.INTEGER_ARRAY]: NumberArrayValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY]: NumberArrayValueRender,
   [DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY]: DateArrayValueRender,
-  [DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL]: RangeValueRender,
-  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_INTERVAL]: RangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL]: NumberRangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.DOUBLE_INTERVAL]: NumberRangeValueRender,
   [DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL]: DateRangeValueRender,
   [DamDomain.MODEL_ATTR_TYPES.LONG]: NumberValueRender,
-  [DamDomain.MODEL_ATTR_TYPES.LONG_INTERVAL]: RangeValueRender,
+  [DamDomain.MODEL_ATTR_TYPES.LONG_INTERVAL]: NumberRangeValueRender,
   [DamDomain.MODEL_ATTR_TYPES.LONG_ARRAY]: StringArrayValueRender, // units are not rendered now
 }
 
@@ -67,12 +69,14 @@ export function getTypeRender(type) {
  * Builds a property cell render delegate
  * @param {*} path property path
  * @param {*} type property type, from TYPES_ENUM, optional
+ * @param {number} precision precision (for numeric type only, optionnal)
+ * @param {string} unit  unit (for numeric type only, optionnal)
  */
-export function buildRenderDelegate(path, type, unit) {
+export function buildRenderDelegate(path, type, precision, unit) {
   return {
     path,
     RenderConstructor: type ? getTypeRender(type) : undefined,
-    props: { unit }, // specifies unit to value render when provided with attribute
+    props: { precision, unit }, // prece unit to value render when provided with attribute
   }
 }
 

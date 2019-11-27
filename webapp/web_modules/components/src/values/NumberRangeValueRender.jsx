@@ -16,20 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import DateValueRender from './DateValueRender'
+import RangeValueRenderDelegate from './RangeValueRenderDelegate'
+import { NumberValueRender } from './NumberValueRender'
+
 
 /**
- * Component to display Date Array values group value
+ * Component to display Number range values
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
- * Note 2: when using this render outside table, provide context using withValueRenderContext method
  *
- * @author Sébastien binda
+ * @author Raphaël Mechali
  */
-class DateArrayValueRender extends React.Component {
+class NumberRangeValueRender extends React.Component {
   static propTypes = {
-    value: PropTypes.arrayOf(PropTypes.string),
+    value: PropTypes.shape({
+      lowerBound: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      upperBound: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    }),
+    precision: PropTypes.number,
+    unit: PropTypes.string,
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
   }
@@ -43,20 +50,19 @@ class DateArrayValueRender extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
-    const value = this.props.value || []
-    const { multilineDisplay } = this.props
-    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
-    const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(dateText => DateValueRender.getFormattedDate(intl, dateText) || noValueText)
-      .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
+    const value = this.props.value || {}
+    const { multilineDisplay, precision, unit } = this.props
+    const { intl } = this.context
 
     return (
-      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
-        {textValue}
-      </div>)
+      <RangeValueRenderDelegate
+        noValue={isNil(this.props.value)}
+        lowerBound={NumberValueRender.formatValue(intl, value.lowerBound, precision, unit)}
+        upperBound={NumberValueRender.formatValue(intl, value.upperBound, precision, unit)}
+        multilineDisplay={multilineDisplay}
+      />)
   }
 }
 
-export default DateArrayValueRender
+export default NumberRangeValueRender

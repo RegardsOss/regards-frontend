@@ -28,6 +28,7 @@ const messages = {
   'value.render.range.full.label': '[{lower}, {upper}]',
   'value.render.range.upper.only.label': ']-∞, {upper}]',
   'value.render.range.lower.only.label': '[{lower}, +∞[',
+  'value.render.range.infinite.label': ']-∞, +∞[',
 
   'value.render.duration.year': '{year, plural, one {{year} year} other {{year} years}}',
   'value.render.duration.month': ' {month, plural, one {{month} month} other {{month} months}}',

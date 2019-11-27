@@ -16,43 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-
-
-/**
- * Formats a values range
- * @param {formatMessage: function} intl intl context
- * @param {string} lower lower bound text
- * @param {string} upper upper bound text
- */
-export const getFormattedRange = (intl, lower, upper) => {
-  const hasLower = !isNil(lower)
-  const hasUpper = !isNil(upper)
-  if (hasLower && hasUpper) {
-    return intl.formatMessage({ id: 'value.render.range.full.label' }, { lower, upper })
-  } if (hasUpper) {
-    return intl.formatMessage({ id: 'value.render.range.upper.only.label' }, { upper })
-  } if (hasLower) {
-    return intl.formatMessage({ id: 'value.render.range.lower.only.label' }, { lower })
-  }
-  // undefined range
-  return intl.formatMessage({ id: 'value.render.no.value.label' })
-}
+import { NumberValueRender } from './NumberValueRender'
 
 /**
- * Component to render ranged values group value
+ * Component to display a number array values
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
+ * Note 2: when using this render outside table, provide context using withValueRenderContext method
  *
- * @author Sébastien binda
+ * @author Raphaël Mechali
  */
-class RangeValueRender extends React.Component {
+class NumberArrayValueRender extends React.Component {
   static propTypes = {
-    value: PropTypes.shape({
-      lowerBound: PropTypes.any,
-      upperBound: PropTypes.any,
-    }),
+    value: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+    precision: PropTypes.number,
+    unit: PropTypes.string,
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
   }
@@ -67,11 +46,13 @@ class RangeValueRender extends React.Component {
   }
 
   render() {
-    const value = this.props.value || {}
-    const { multilineDisplay } = this.props
+    const value = this.props.value || []
+    const { precision, unit, multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
-    const textValue = getFormattedRange(intl, value.lowerBound, value.upperBound)
-      || intl.formatMessage({ id: 'value.render.no.value.label' })
+    const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = value.map(nValue => NumberValueRender.formatValue(intl, nValue, precision, unit) || noValueText)
+      .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
+
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}
@@ -79,4 +60,4 @@ class RangeValueRender extends React.Component {
   }
 }
 
-export default RangeValueRender
+export default NumberArrayValueRender

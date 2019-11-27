@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { DamDomain } from '@regardsoss/domain'
 import { criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  getTypeText, formatNumberBound, formatDateBound, formatBoundValue, formatBoundsStateHint,
+  getTypeText, formatDateBound, formatBoundValue, formatBoundsStateHint,
   formatAnyBoundHintText, formatLowerBoundHintText, formatUpperBoundHintText,
   formatHintText, formatTooltip, BOUND_TYPE,
 } from '../../src/utils/AttributesMessagesHelper'
@@ -96,10 +96,9 @@ const testValues = [
 ]
 
 
-describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
+describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
   it('should define expected members', () => {
     assert.isDefined(getTypeText, 'getTypeText should be exported')
-    assert.isDefined(formatNumberBound, 'formatNumberBound should be exported')
     assert.isDefined(formatDateBound, 'formatDateBound should be exported')
     assert.isDefined(formatBoundValue, 'formatBoundValue should be exported')
     assert.isDefined(formatBoundsStateHint, 'formatBoundsStateHint should be exported')
@@ -114,41 +113,6 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     const intlStub = makeIntlStub()
     assert.equal(getTypeText(intlStub, criterionTestSuiteHelpers.getAttributeStub('my.type')), 'criterion.attribute.hint.type.my.type', 'key should be correctly computed')
     assert.equal(intlStub.results.formatMessage.count, 1, 'Type should be internationalized')
-  })
-  it('should format correctly a number bound value', () => {
-    const intlStub = makeIntlStub()
-    // 1 - Without unit
-    // a - zero
-    const result1a = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 0)
-    assert.equal(result1a, 0, '1a - Result should be correctly formatted')
-    // b - small number
-    const result1b = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER), 15)
-    assert.equal(result1b, 15, '1b - Result should be correctly formatted')
-    // c - big number
-    const result1c = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.LONG), 456789123456000000000)
-    assert.equal(result1c, 456789123456000000000, '1c - Result should be correctly formatted')
-    // d - negative floating number
-    const result1d = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25)
-    assert.equal(result1d, -45.25, '1d - Result should be correctly formatted')
-
-    // 2 - With unit
-    // a - any unit
-    const result2a = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15)
-    assert.equal(result2a, 'criterion.attribute.bounds.value.with.unit', '2a - Result should be correctly formatted')
-    assert.equal(intlStub.results.formatMessage.count, 1, '2a - formatMessage should have been called 1 times')
-    assert.deepInclude(intlStub.results.formatMessage.parameters, { value: 15, unit: 'dB' }, '2a - formatMessage should have been called with right parameters')
-    // b - storage unit
-    const result2b = formatNumberBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000)
-    assert.equal(result2b, 'storage.capacity.monitoring.capacity', '2b - Result should be correctly formatted')
-    assert.equal(intlStub.results.formatNumber.count, 1, '2b - formatNumber should have been called 1 time for storage value')
-    assert.include(intlStub.results.formatNumber.number, 15.5, '2b - formatNumber should have been called for 15.5')
-    assert.equal(intlStub.results.formatMessage.count, 3, '2b - formatMessage should have been called 2 times')
-    assert.deepInclude(intlStub.results.formatMessage.parameters, { valueLabel: '15.5', unitLabel: 'storage.capacity.monitoring.unit.MB' }, '2b - formatMessage should have been called with right parameters')
-
-    // 3 - Error
-    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), 'any'))
-    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), null))
-    assert.throws(formatNumberBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), undefined))
   })
   it('should format correctly a date bound value', () => {
     // 1 - Valid date
@@ -175,7 +139,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE), -45.25),
       '-45.25', '"-45.25" should be returned by the number bound value formatter')
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, 'dB'), 15),
-      'criterion.attribute.bounds.value.with.unit', '"criterion.attribute.bounds.value.with.unit" should be returned by the number bound value formatter')
+      '15dB', '"15dB" should be returned by the number bound value formatter (delegated onto number render)')
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000),
       'storage.capacity.monitoring.capacity', '"storage.capacity.monitoring.capacity" should be returned by the number bound value formatter')
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z'),
@@ -198,7 +162,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     })
     const result1a = formatLowerBoundHintText(intlStub1a, attrStub1a)
     assert.equal(result1a, 'criterion.attribute.bounds.lower.bound.value', '1a - Bound should be internationalized with value')
-    assert.deepInclude(intlStub1a.results.formatMessage.parameters, { lowerBoundText: -564678 }, '1a - Message should include the right bounds information')
+    assert.deepInclude(intlStub1a.results.formatMessage.parameters, { lowerBoundText: '-564678' }, '1a - Message should include the right bounds information')
 
     // b - with simple unit
     const intlStub1b = makeIntlStub()
@@ -207,8 +171,8 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     })
     const result1b = formatLowerBoundHintText(intlStub1b, attrStub1b)
     assert.equal(result1b, 'criterion.attribute.bounds.lower.bound.value', '1b - Bound should be internationalized with value')
-    assert.equal(intlStub1b.results.formatMessage.count, 2, '1b - formatMessage should have been called to format bound value and value with unit')
-    assert.deepInclude(intlStub1b.results.formatMessage.parameters, { lowerBoundText: 'criterion.attribute.bounds.value.with.unit' }, '1b - Message should include the right bounds information')
+    assert.equal(intlStub1b.results.formatMessage.count, 1, '1b - formatMessage should have been called to format bound value')
+    assert.deepInclude(intlStub1b.results.formatMessage.parameters, { lowerBoundText: '-0.25km' }, '1b - Message should include the right bounds information')
 
     // c - with storage unit
     const intlStub1c = makeIntlStub()
@@ -269,8 +233,8 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     })
     const result1 = formatUpperBoundHintText(intlStub1, attrStub1)
     assert.equal(result1, 'criterion.attribute.bounds.upper.bound.value', '1 - Bound should be internationalized with value')
-    assert.equal(intlStub1.results.formatMessage.count, 2, '1 - formatMessage should have been called to format bound value and value with unit')
-    assert.deepInclude(intlStub1.results.formatMessage.parameters, { upperBoundText: 'criterion.attribute.bounds.value.with.unit' }, '1 - Message should include the right bounds information')
+    assert.equal(intlStub1.results.formatMessage.count, 1, '1 - formatMessage should have been called to format bound value')
+    assert.deepInclude(intlStub1.results.formatMessage.parameters, { upperBoundText: '-0.25km' }, '1 - Message should include the right bounds information')
 
     // 2 - Valid date
     const intlStub2 = makeIntlStub()
@@ -333,7 +297,7 @@ describe('[PLUGINS API] Testing BoundsMessagesHelper', () => {
     })
     const result3 = formatAnyBoundHintText(intlStub3, attrStub3)
     assert.equal(result3, 'criterion.attribute.bounds.range.values', '3 - Bound should be internationalized with values')
-    assert.equal(intlStub3.results.formatMessage.count, 4, '3 - formatMessage for bound each (2 times), for unit displaying and for and full range')
+    assert.equal(intlStub3.results.formatMessage.count, 3, '3 - formatMessage for bound each (2 times) and for and full range')
     assert.deepInclude(intlStub3.results.formatMessage.parameters, {
       rangeMin: 'criterion.attribute.bounds.range.min.infinity.bound',
       rangeMax: 'criterion.attribute.bounds.range.inclusive.max.bound',

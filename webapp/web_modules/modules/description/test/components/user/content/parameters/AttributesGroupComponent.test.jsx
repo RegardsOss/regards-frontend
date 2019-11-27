@@ -55,8 +55,8 @@ describe('[Description] Testing AttributesGroupComponent', () => {
       //   // Nota: we must here test on tooltip and not label, as label may be to long for enzyme to log it
       //   assert.lengthOf(elementDiv, 1, 'There should be a division showing element label as tooltip')
       //   const parentWrapper = elementDiv.parent()
-      //   displayedAttributes.forEach(({ renderValue, Renderer, unit }, attributeValueIndex) => {
-      //     const renderer = parentWrapper.find(Renderer).findWhere(n => n.props().value === renderValue)
+      //   displayedAttributes.forEach(({ render: {Constructor, props} }, attributeValueIndex) => {
+      //     const renderer = parentWrapper.find(Renderer).findWhere(n => n.props().value === props.value)
       //     assert.lengthOf(renderer,  1, `Attribute value #${elementIndex}:${attributeValueIndex}: There should be attribute render`)
       //       assert.equal(renderer.props().unit, unit,  `Attribute value #${elementIndex}:${attributeValueIndex}: unit should be displayed`)
       //   })

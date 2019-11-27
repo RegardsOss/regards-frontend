@@ -46,10 +46,10 @@ export const ListThumbnailRenderData = PropTypes.shape({
 export const ListAttributeRenderData = PropTypes.shape({
   key: PropTypes.string.isRequired,
   label: PropTypes.objectOf(PropTypes.string).isRequired, // labels map by locale
-  unit: PropTypes.string, // optional unit type of attribute
   renderers: PropTypes.arrayOf(PropTypes.shape({
     path: PropTypes.string.isRequired,
     RenderConstructor: PropTypes.func.isRequired,
+    props: PropTypes.objectOf(PropTypes.any), // optionnaly other props
   })).isRequired,
 })
 /**
@@ -182,13 +182,13 @@ class ListCellComponent extends React.Component {
    * @param {AttributeRenderData} renderData render data for attribute
    * @return {[React.Element]} built components array for value
    */
-  renderAttributeValue = ({ key, renderers, unit }) => {
+  renderAttributeValue = ({ key, renderers }) => {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
-    return flatMap(renderers, ({ path, RenderConstructor }, index) => [
+    return flatMap(renderers, ({ path, RenderConstructor, props = {} }, index) => [
       // insert separator if mutilple values
       index > 0 ? (<div key={`separator.${key}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
-      <RenderConstructor key={key} value={get(entity, path)} unit={unit} />])
+      <RenderConstructor key={key} value={get(entity, path)} {...props} />])
   }
 
 

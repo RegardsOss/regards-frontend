@@ -261,13 +261,22 @@ export class DescriptionEntityHelper {
     const convertedAttributes = confAttributes.reduce((acc, attribute) => {
       const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attribute.name, attributes)
       if (model) {
-        const { content: { type, jsonPath, unit } } = model
+        const {
+          content: {
+            type, jsonPath, precision, unit,
+          },
+        } = model
         // the attribute model could be retrieved in current model attributes: resolve its render for current entity
         return [...acc, {
           key: jsonPath,
-          Renderer: getTypeRender(type),
-          renderValue: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
-          renderUnit: unit, // unit if any
+          render: {
+            Constructor: getTypeRender(type),
+            props: {
+              value: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
+              precision,
+              unit,
+            },
+          },
         }]
       }
       // filter that attribute as it has no available model
