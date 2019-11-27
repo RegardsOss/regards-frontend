@@ -49,27 +49,27 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
   getFilesAcquired = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const acquired = get(entity, 'content.lifeCycle.PRODUCTS.files_acquired', 0)
+    const acquired = get(entity, 'content.lifeCycle.dataprovider.files_acquired', 0)
     return formatNumber(parseInt(acquired, 10))
   }
 
   getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const submitted = get(entity, 'content.lifeCycle.PRODUCTS.submitted', 0)
-    const ingested = get(entity, 'content.lifeCycle.PRODUCTS.ingested', 0)
+    const submitted = get(entity, 'content.lifeCycle.dataprovider.submitted', 0)
+    const ingested = get(entity, 'content.lifeCycle.dataprovider.ingested', 0)
     return formatNumber(parseInt(submitted, 10) + parseInt(ingested, 10))
   }
 
   getIncompletes = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const incompletes = get(entity, 'content.lifeCycle.PRODUCTS.incomplete', 0)
+    const incompletes = get(entity, 'content.lifeCycle.dataprovider.incomplete', 0)
     return formatNumber(parseInt(incompletes, 10))
   }
 
   getErrors = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const error = get(entity, 'content.lifeCycle.PRODUCTS.generation_error', 0)
-    const ingFailed = get(entity, 'content.lifeCycle.PRODUCTS.ingestion_failed', 0)
+    const error = get(entity, 'content.lifeCycle.dataprovider.generation_error', 0)
+    const ingFailed = get(entity, 'content.lifeCycle.dataprovider.ingestion_failed', 0)
     return formatNumber(parseInt(error, 10) + parseInt(ingFailed, 10))
   }
 
@@ -100,7 +100,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         isInError={entity.content.state === 'ERROR'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.PRODUCTS ? (
+          { !entity.content.lifeCycle.dataprovider ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
               -
@@ -109,7 +109,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-                { entity.content.lifeCycle.PRODUCTS.state === 'RUNNING' ? (
+                { entity.content.lifeCycle.dataprovider.state === 'RUNNING' ? (
                   <div style={runningContainer}>
                     <Play color={runningIconColor} />
                     <div style={running}>

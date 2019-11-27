@@ -154,17 +154,17 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
 
   //3.3 Products states
-  'acquisition-sessions.states.complet': 'Generated products',
-  'acquisition-sessions.states.incomplete': 'Incomplet products',
+  'acquisition-sessions.states.complet': 'Generated',
+  'acquisition-sessions.states.incomplete': 'Incomplet',
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',
-  'acquisition-sessions.states.generating': 'To generate',
+  'acquisition-sessions.states.generating': 'Generation ...',
   'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
-  'acquisition-sessions.states.invalid': 'Invalid',
-  'acquisition-sessions.states.refused': 'Refused',
   'acquisition-sessions.states.running': 'Running',
+  'acquisition-sessions.states.indexed': 'Indexed',
+  'acquisition-sessions.states.index.errors': 'Errors',
   'acquisition-sessions.states.acknowledge': 'Acknowledge this session error',
 
   //3.4 Cell's Menus

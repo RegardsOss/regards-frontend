@@ -49,20 +49,18 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            aip: {
+            oais: {
               done: 599450,
               total: 599450,
               errors: 0,
               indexed: 599450,
               pending: 0,
             },
-            sip: {
-              total: 600000,
-              errors: 1,
-              invalid: 0,
-              generatedAIP: 65,
+            catalog: {
+              indexed: 0,
+              indexedError: 0,
             },
-            PRODUCTS: {
+            dataprovider: {
               generated: 5054876,
               generation_error: 0,
               state: 'DONE',

@@ -162,7 +162,7 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    const allocatedSizeStyle = { width: '100px' }
+    const allocatedSizeStyle = { width: '120px' }
     const unitsStyle = { display: 'inline-block', marginTop: '8px' }
     if (mode !== 'create' && !entity) {
       return (

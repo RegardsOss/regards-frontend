@@ -154,17 +154,17 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
   //3.3 Products states
-  'acquisition-sessions.states.complet': 'Produits Générés',
-  'acquisition-sessions.states.incomplete': 'Produits incomplets',
+  'acquisition-sessions.states.complet': 'Générés',
+  'acquisition-sessions.states.incomplete': 'incomplets',
   'acquisition-sessions.states.files_acquired': 'Fichiers détectés',
   'acquisition-sessions.states.error': 'Erreurs',
   'acquisition-sessions.states.pending': 'En cours',
-  'acquisition-sessions.states.generating': 'Génération en cours',
-  'acquisition-sessions.states.storing': 'Archivages en cours',
+  'acquisition-sessions.states.generating': 'Génération ...',
+  'acquisition-sessions.states.storing': 'Archivages ...',
   'acquisition-sessions.states.stored': 'Archivés',
-  'acquisition-sessions.states.invalid': 'Invalide',
-  'acquisition-sessions.states.refused': 'Refusé',
   'acquisition-sessions.states.running': 'En cours',
+  'acquisition-sessions.states.indexed': 'Indexés',
+  'acquisition-sessions.states.index.errors': 'Erreurs',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
   //3.4 Cell's Menus

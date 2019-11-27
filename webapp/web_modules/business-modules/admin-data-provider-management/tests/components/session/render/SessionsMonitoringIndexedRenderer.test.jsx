@@ -82,9 +82,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringIndexedRend
       },
       onClickListIndexed: () => {},
     }
-    const enzymeWrapper = shallow(<SessionsMonitoringIndexedRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
+    shallow(<SessionsMonitoringIndexedRenderer {...props} />, { context })
   })
 
   it('should render correctly without aip', () => {
