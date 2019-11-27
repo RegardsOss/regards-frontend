@@ -91,7 +91,7 @@ const messages = {
   // User messages
   'search.results.tab.main.results': 'Results',
   'search.results.tab.description': 'Description',
-  'search.results.tab.tag.results': '{tabName}',
+  'search.results.tab.tag.results': '{tabLabel}',
   'search.results.configure.columns.option': 'Columns',
   'search.results.configure.columns.summary.text': '{columnsCount} columns are available for table display',
   'search.results.configure.columns.toggle.all.visible': 'Display all',
