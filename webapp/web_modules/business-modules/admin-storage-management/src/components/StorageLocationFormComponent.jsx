@@ -16,7 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
+import map from 'lodash/map'
 import MoodIcon from 'material-ui/svg-icons/social/mood'
+import DropDownMenu from 'material-ui/DropDownMenu'
+import MenuItem from 'material-ui/MenuItem'
 import { browserHistory } from 'react-router'
 import {
   Card, CardActions, CardText, CardTitle,
@@ -25,8 +29,9 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import {
-  RenderTextField, reduxForm, ValidationHelpers, Field,
+  RenderTextField, reduxForm, Field,
 } from '@regardsoss/form-utils'
+import { storage } from '@regardsoss/units'
 import { StorageDomain } from '@regardsoss/domain'
 import { RenderPluginField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { StorageShapes } from '@regardsoss/shape'
@@ -52,9 +57,15 @@ class StorageLocationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
+  static kbUnit = storage.StorageUnitScale.getMatchingUnit('kB')
+
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  state = {
+    unit: storage.StorageUnitScale.bytesScale.units[2],
   }
 
   componentDidMount(prevProps) {
@@ -65,11 +76,23 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity, initialize } = this.props
     if (mode === 'edit' && entity) {
       initialize({
-        name: entity.content.name,
-        allocatedSizeInKo: entity.content.configuration ? entity.content.configuration.allocatedSizeInKo : null,
-        pluginConfiguration: entity.content.configuration ? entity.content.configuration.pluginConfiguration : null,
+        name: get(entity, 'content.name'),
+        allocatedSize: get(entity, 'content.configuration.allocatedSizeInKo') ? this.calculateUnitAndReturnValue(entity.content.configuration.allocatedSizeInKo) : null,
+        pluginConfiguration: get(entity, 'content.configuration.pluginConfiguration'),
       })
     }
+  }
+
+  getAllocatedSizeInKo = value => value ? new storage.StorageCapacity(value, this.state.unit).convert(StorageLocationFormComponent.kbUnit).value
+    : null
+
+  calculateUnitAndReturnValue = (value) => {
+    if (value) {
+      const capacity = new storage.StorageCapacity(value, StorageLocationFormComponent.kbUnit).scaleAndConvert(storage.StorageUnitScale.bytesScale)
+      this.setState({ unit: capacity.unit })
+      return capacity.value
+    }
+    return null
   }
 
   onBack = () => {
@@ -82,18 +105,18 @@ class StorageLocationFormComponent extends React.Component {
    */
   updateStorageLocationConf = (fields) => {
     const { onUpdate, entity } = this.props
+    const pluginConfiguration = fields.pluginConfiguration ? {
+      ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
+    } : null
     const storageLocationConfToUpdate = {
-      name: entity.content.name,
+      name: get(entity, 'content.name'),
       configuration: {
-        name: entity.content.name,
-        configuration: {
-          ...entity.content.configuration,
-          allocatedSizeInKo: fields.allocatedSizeInKo,
-          pluginConfiguration: fields.pluginConfiguration ? PluginFormUtils.formatPluginConf(fields.pluginConfiguration) : null,
-        },
+        ...get(entity, 'content.configuration', {}),
+        allocatedSizeInKo: this.getAllocatedSizeInKo(fields.allocatedSize),
+        pluginConfiguration,
       },
     }
-    onUpdate(entity.content.name, storageLocationConfToUpdate).then((actionResults) => {
+    onUpdate(get(entity, 'content.name'), storageLocationConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
       }
@@ -110,7 +133,7 @@ class StorageLocationFormComponent extends React.Component {
     const storageLocationConf = {
       name: fields.name,
       configuration: {
-        allocatedSizeInKo: fields.allocatedSizeInKo,
+        allocatedSizeInKo: this.getAllocatedSizeInKo(fields.allocatedSize),
         pluginConfiguration: formatedPluginConf,
       },
     }
@@ -121,10 +144,26 @@ class StorageLocationFormComponent extends React.Component {
     })
   }
 
+  changeUnit = (event, index, unit) => {
+    this.setState({ unit })
+  }
+
+  renderUnits = () => (
+    <DropDownMenu value={this.state.unit} onChange={this.changeUnit}>
+      {map(storage.StorageUnitScale.bytesScale.units, u => <MenuItem
+        key={u.symbol}
+        value={u}
+        primaryText={<storage.FormattedStorageUnit unit={u} />}
+      />)}
+    </DropDownMenu>
+  )
+
   renderContent = () => {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
+    const allocatedSizeStyle = { width: '100px' }
+    const unitsStyle = { display: 'inline-block', marginTop: '8px' }
     if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
@@ -145,19 +184,23 @@ class StorageLocationFormComponent extends React.Component {
           validate={validateName}
           disabled={mode !== 'create'}
         />
-        <Field
-          name="allocatedSizeInKo"
-          fullWidth
-          component={RenderTextField}
-          type="number"
-          validate={ValidationHelpers.required}
-          label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
-        />
+        <div>
+          <Field
+            name="allocatedSize"
+            component={RenderTextField}
+            type="number"
+            label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
+            style={allocatedSizeStyle}
+          />
+          <div style={unitsStyle}>
+            {this.renderUnits()}
+          </div>
+        </div>
         <Field
           key="storagePlugin"
           name="pluginConfiguration"
           component={RenderPluginField}
-          title={formatMessage({ id: 'storage.location.form.plugin.label' })}
+          defaultPluginConfLabel={get(entity, 'content.name')}
           selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
           pluginType={pluginType}
           microserviceName={STATIC_CONF.MSERVICES.STORAGE}
@@ -177,13 +220,13 @@ class StorageLocationFormComponent extends React.Component {
     if (mode === 'create') {
       onSubmitAction = this.createStorageLocationConf
     } else {
-      onSubmitAction = entity.content.configuration && entity.content.configuration.id ? this.updateStorageLocationConf : this.createStorageLocationConf
+      onSubmitAction = get(entity, 'content.configuration.id') ? this.updateStorageLocationConf : this.createStorageLocationConf
     }
 
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const title = mode === 'edit'
-      ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: entity.content.name })
+      ? formatMessage({ id: 'storage.location.form.edit.title' }, { name: get(entity, 'content.name') })
       : formatMessage({ id: 'storage.location.form.create.title' })
     const buttonTitle = mode === 'edit'
       ? formatMessage({ id: 'storage.location.form.submit.edit.button' })
@@ -215,5 +258,4 @@ class StorageLocationFormComponent extends React.Component {
 const connectedReduxForm = reduxForm({
   form: 'storage-form',
 })(StorageLocationFormComponent)
-// [a-zA-Z0-9_\-]+
 export default withModuleStyle(styles)(withI18n(messages)(connectedReduxForm))

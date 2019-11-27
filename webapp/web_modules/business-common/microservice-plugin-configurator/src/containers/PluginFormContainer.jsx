@@ -51,7 +51,7 @@ export class PluginFormContainer extends React.Component {
     fetchPluginMetaData: (microserviceName, pluginId) => dispatch(pluginMetadataActions.fetchEntity(pluginId, {
       microserviceName,
     })),
-    fetchPluginConfiguration: (pluginConfId, pluginId, microserviceName) => dispatch(pluginConfigurationByPluginIdActions.fetchEntity(pluginConfId, {
+    fetchPluginConfiguration: (pluginConfBusinessId, pluginId, microserviceName) => dispatch(pluginConfigurationByPluginIdActions.fetchEntity(pluginConfBusinessId, {
       microserviceName,
       pluginId,
     })),
@@ -59,7 +59,7 @@ export class PluginFormContainer extends React.Component {
       microserviceName,
       pluginId,
     })),
-    updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, vals, {
+    updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfBusinessId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfBusinessId, vals, {
       microserviceName,
       pluginId,
     })),
@@ -77,7 +77,7 @@ export class PluginFormContainer extends React.Component {
     hideDynamicParameterConf: PropTypes.bool, // Set to true to hide dynamic configuration of each plugin parameter
     backUrl: PropTypes.string, // Url after form submission success or cancel
     // Function to overidde default plugin conf update endpoint
-    // Parameters (pluginConf, microservice, pluginId, pluginConfId)
+    // Parameters (pluginConf, microservice, pluginId, pluginConfBusinessId)
     // Return a Promise
     onUpdatePluginConfiguration: PropTypes.func,
     // Function to overidde default plugin conf create endpoint
@@ -172,7 +172,7 @@ export class PluginFormContainer extends React.Component {
       backUrl, microserviceName, onUpdatePluginConfiguration, updatePluginConfiguration,
     } = this.props
     const { currentPluginConfiguration } = this.state
-    const pluginConfId = get(currentPluginConfiguration, 'content.id', null)
+    const pluginConfBusinessId = get(currentPluginConfiguration, 'content.businessId', null)
     const pluginId = get(currentPluginConfiguration, 'content.pluginId', null)
     let updateFunction
     if (onUpdatePluginConfiguration) {
@@ -180,7 +180,7 @@ export class PluginFormContainer extends React.Component {
     } else {
       updateFunction = updatePluginConfiguration
     }
-    return Promise.resolve(updateFunction(vals, microserviceName, pluginId, pluginConfId))
+    return Promise.resolve(updateFunction(vals, microserviceName, pluginId, pluginConfBusinessId))
       .then((actionResult) => {
         // We receive here the actions
         if (!actionResult.error) {

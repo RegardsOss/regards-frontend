@@ -79,7 +79,7 @@ export class FragmentFormContainer extends React.Component {
     const updatedFragment = Object.assign({}, previousFragment, {
       description: values.description,
     })
-    Promise.resolve(this.props.updateFragment(previousFragment.id, updatedFragment))
+    return Promise.resolve(this.props.updateFragment(previousFragment.id, updatedFragment))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -106,7 +106,7 @@ export class FragmentFormContainer extends React.Component {
       }
       task = this.props.createFragment(newFragment)
     }
-    Promise.resolve(task)
+    return Promise.resolve(task)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
