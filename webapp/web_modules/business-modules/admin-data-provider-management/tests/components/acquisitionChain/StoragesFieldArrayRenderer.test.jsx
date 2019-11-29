@@ -55,6 +55,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
       },
     ]
     const props = {
+      changeField: () => {},
       fields: {
         getAll: () => [
           {

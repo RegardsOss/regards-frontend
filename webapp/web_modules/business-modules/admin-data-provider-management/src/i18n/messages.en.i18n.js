@@ -113,6 +113,7 @@ const messages = Object.assign({
   'acquisition-chain.list.enabled.true': 'True',
   'acquisition-chain.list.enabled.false': 'False',
   'acquisition-chain.list.addnew.button': 'Create new chain',
+  'acquisition-chain.list.delete.confirm.title': 'Delete chain {label} ?',
 
   // 2.4 Table filters
   'acquisition-chain.list.filters.label': 'Label',

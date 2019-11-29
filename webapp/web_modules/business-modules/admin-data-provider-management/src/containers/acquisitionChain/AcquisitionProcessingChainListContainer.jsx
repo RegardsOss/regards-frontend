@@ -26,7 +26,7 @@ import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
-  ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions,
+  ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
   MultiToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors,
 }
   from '../../clients/AcquisitionProcessingChainClient'
@@ -68,7 +68,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
       stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
-      deleteChain: id => dispatch(AcquisitionProcessingChainActions.deleteEntity(id)),
+      deleteChain: id => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
       toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
       multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
     }
@@ -163,8 +163,8 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    * Callback to delete the given chain by id
    * @param { content: * } chain : Object containing the chain to delete ({content: chain})
    */
-  onDelete = ({ content: { id } }, callback) => {
-    this.props.deleteChain(id).then(callback)
+  onDelete = ({ content: { chainId } }, callback) => {
+    this.props.deleteChain(chainId).then(callback)
   }
 
   /**

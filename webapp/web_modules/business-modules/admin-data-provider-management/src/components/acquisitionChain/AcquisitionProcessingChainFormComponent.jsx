@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import find from 'lodash/find'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
@@ -64,6 +66,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     storages: CommonShapes.PluginConfigurationArray.isRequired,
+    changeField: PropTypes.func.isRequired,
     // from reduxForm
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
@@ -96,28 +99,36 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
    */
   static getDuplicatedInitialValues = (chainToDuplicate) => {
     const duplicatedChain = omit(chainToDuplicate.content, [
-      'id', 'label', 'locked', 'lastDateActivation', 'fileInfos',
+      'id', 'businessId', 'label', 'locked', 'lastDateActivation', 'fileInfos',
       'productPluginConf', 'generatePluginConf', 'validationPluginConf',
       'postProcessSipPluginConf',
     ])
     duplicatedChain.fileInfos = map(chainToDuplicate.content.fileInfos,
-      AcquisitionProcessingChainFormComponent.getFileInfoForChainDuplication)
-    if (chainToDuplicate.content.validationPluginConf) {
-      duplicatedChain.validationPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.validationPluginConf)
+      AcquisitionProcessingChainFormComponent.duplicateFileInfo)
+    if (get(chainToDuplicate, 'content.validationPluginConf')) {
+      duplicatedChain.validationPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(get(chainToDuplicate, 'content.validationPluginConf'))
     }
-    if (chainToDuplicate.content.productPluginConf) {
-      duplicatedChain.productPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.productPluginConf)
+    if (get(chainToDuplicate, 'content.productPluginConf')) {
+      duplicatedChain.productPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(get(chainToDuplicate, 'content.productPluginConf'))
     }
-    if (chainToDuplicate.content.generateSipPluginConf) {
-      duplicatedChain.generateSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.generateSipPluginConf)
+    if (get(chainToDuplicate, 'content.generateSipPluginConf')) {
+      duplicatedChain.generateSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(get(chainToDuplicate, 'content.generateSipPluginConf'))
     }
-    if (chainToDuplicate.content.postProcessSipPluginConf) {
-      duplicatedChain.postProcessSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(chainToDuplicate.content.postProcessSipPluginConf)
+    if (get(chainToDuplicate, 'content.postProcessSipPluginConf')) {
+      duplicatedChain.postProcessSipPluginConf = AcquisitionProcessingChainFormComponent.duplicatePluginConf(get(chainToDuplicate, 'content.postProcessSipPluginConf'))
+    }
+    if (get(chainToDuplicate, 'content.label')) {
+      duplicatedChain.label = `${get(chainToDuplicate, 'content.label')} (1)`
     }
     return duplicatedChain
   }
 
-  static getFileInfoForChainDuplication = fileInfo => omit(fileInfo, ['id', 'scanPlugin'])
+  static getFileInfoForChainDuplication = (fileInfo) => {
+    const infos = omit(fileInfo, ['id', 'scanPlugin'])
+    return {
+      ...infos,
+    }
+  }
 
   static duplicateFileInfo(fileInfo) {
     return {
@@ -129,7 +140,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
 
   static duplicatePluginConf(plugin) {
     return {
-      ...omit(plugin, ['id', 'label', 'parameters']),
+      ...omit(plugin, ['id', 'label', 'parameters', 'businessId']),
       label: plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now(),
       parameters: map(plugin.parameters, parameter => omit(parameter, ['id'])) || [],
     }
@@ -139,6 +150,19 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return some(value, { active: true }) ? undefined : true
   }
 
+  static isStorageFileTypeSelected = (storage, targetType) => {
+    if (isNil(storage)) {
+      return false
+    }
+    if (get(storage, 'targetTypes')) {
+      if (get(storage, 'targetTypes').length > 0) {
+        return !!get(storage, 'targetTypes').includes(targetType)
+      }
+      return true
+    }
+    return true
+  }
+
   componentWillMount() {
     const {
       chain, mode, storages, initialize,
@@ -146,29 +170,28 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     let initialValues
     let loadedStorages
     if (mode !== 'create') {
-      loadedStorages = storages.map((serverStorage) => {
-        const findStorage = chain.content.storages.find(configuredStorage => serverStorage.content.businessId === configuredStorage.pluginBusinessId)
+      loadedStorages = map(storages, (serverStorage) => {
+        const findStorage = find(chain.content.storages, s => serverStorage.content.label === s.pluginBusinessId)
         return {
           label: serverStorage.content.label,
           active: !!findStorage,
           storePath: findStorage ? findStorage.storePath : '',
-          aip: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.AIP) : false,
-          rawdata: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.RAWDATA) : false,
-          document: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.DOCUMENT) : false,
-          description: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.DESCRIPTION) : false,
-          thumbnail: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.THUMBNAIL) : false,
-          quicklook: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.QUICKLOOK) : false,
-          other: findStorage && findStorage.targetTypes ? findStorage.targetTypes.includes(DATA_TYPES_ENUM.OTHER) : false,
+          aip: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.AIP),
+          rawdata: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.RAWDATA),
+          document: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DOCUMENT),
+          description: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DESCRIPTION),
+          thumbnail: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.THUMBNAIL),
+          quicklook: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.QUICKLOOK),
+          other: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.OTHER),
         }
-      },
-      ).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
+      }).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
     }
 
     switch (mode) {
       case 'create':
         initialValues = {
           ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
-          storages: storages.map(serverStorage => ({
+          storages: map(storages, serverStorage => ({
             label: serverStorage.content.label,
             active: false,
             storePath: '',
@@ -273,6 +296,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       text: 'name',
       value: 'name',
     }
+    const componentProps = { changeField: this.props.changeField }
     return (
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -358,6 +382,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                 <FieldArray
                   name="storages"
                   component={StoragesFieldArrayRenderer}
+                  props={componentProps}
                   elementLabel="Test"
                   canBeEmpty={false}
                   validate={AcquisitionProcessingChainFormComponent.validateStorages}
