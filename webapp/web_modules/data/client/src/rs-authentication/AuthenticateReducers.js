@@ -65,12 +65,13 @@ class AuthenticateReducers extends BasicSignalReducers {
       // update authentication date and unlock session
       case this.basicSignalActionInstance.SIGNAL_SUCCESS: {
         const expiresInSeconds = get(newState, 'result.expires_in', null)
-        const authExpirationDate = Date.now() + (expiresInSeconds * 1000)
+        const authenticateDate = Date.now()
+        const authenticateExpirationDate = authenticateDate + (expiresInSeconds * 1000)
         return {
           ...newState,
           sessionLocked: false,
-          authenticateDate: Date.now(),
-          authenticateExpirationDate: authExpirationDate,
+          authenticateDate,
+          authenticateExpirationDate,
           error: {
             loginError: null,
             ...error,
@@ -83,18 +84,18 @@ class AuthenticateReducers extends BasicSignalReducers {
           ...state,
           sessionLocked: true,
         }
-      // renew authentication data (action result, see AuthenticateActions)
+      // renew /restore authentication data (requires authentication date)
       case this.basicSignalActionInstance.AUTHENTICATION_CHANGED: {
         const newResult = { ...(state.result), ...action.result }
         const expiresInSeconds = get(newResult, 'expires_in', null)
-        const authExpirationDate = Date.now() + (expiresInSeconds * 1000)
+        const { authenticateDate } = action
+        const authenticateExpirationDate = authenticateDate + (expiresInSeconds * 1000)
         return {
           // recover previous state
           ...state,
-          // update token authentication date
-          authenticateDate: Date.now(),
-          authenticateExpirationDate: authExpirationDate,
-          // use new action result authentication state
+          // restore token authentication date
+          authenticateDate,
+          authenticateExpirationDate,
           result: newResult,
         }
       }

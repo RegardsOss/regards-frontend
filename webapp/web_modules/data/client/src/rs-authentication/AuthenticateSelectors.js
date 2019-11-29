@@ -51,6 +51,15 @@ class AuthenticateSelectors extends BasicSignalSelectors {
   }
 
   /**
+   * Is session locked?
+   * @param {*} state redux state
+   * @return {boolean} true when session locked, false otherwise
+   */
+  isSessionLocked(state) {
+    return this.getAuthentication(state).sessionLocked
+  }
+
+  /**
    * Retun true when the current user has a INSTANCE_ADMIN role
    */
   isInstanceAdmin(state) {
