@@ -44,6 +44,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'create',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -130,6 +131,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'edit',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -166,25 +168,25 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: true,
           label: 'LocalDataStorage',
           storePath: '/machin/chose',
-          aip: false,
-          description: false,
-          document: false,
-          other: false,
-          rawdata: false,
-          thumbnail: false,
-          quicklook: false,
+          aip: true,
+          description: true,
+          document: true,
+          other: true,
+          rawdata: true,
+          thumbnail: true,
+          quicklook: true,
         },
         {
           active: true,
           label: 'Sacoche Infini',
           storePath: '',
-          aip: false,
-          description: false,
-          document: false,
-          other: false,
-          rawdata: false,
-          thumbnail: false,
-          quicklook: false,
+          aip: true,
+          description: true,
+          document: true,
+          other: true,
+          rawdata: true,
+          thumbnail: true,
+          quicklook: true,
         },
         {
           active: false,
@@ -219,6 +221,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
       mode: 'duplicate',
       onSubmit: sinon.stub().callsFake(() => new Promise(() => { })),
       onBack: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
       // from reduxForm
       initialize: sinon.spy(),
       invalid: false,
@@ -248,7 +251,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     const initializeValues = props.initialize.getCall(0).args[0]
     // Check the duplication of a chain (ids should be removed as other specific parameters)
     assert.notExists(initializeValues.id, 'The id parameter should be removed when duplicating a chain')
-    assert.notExists(initializeValues.label, 'The label parameter should be removed when duplicating a chain')
+    assert.equal(`${chain.label} (1)`, initializeValues.label, 'The label parameter si not a valid duplicated label')
     assert.notExists(initializeValues.locked, 'The locked parameter should be removed when duplicating a chain')
     assert.notExists(initializeValues.lastDateActivation, 'The lastDateActivation parameter should be removed when duplicating a chain')
     assert.equal(initializeValues.active, chain.active, 'The active parameter should be duplicated')

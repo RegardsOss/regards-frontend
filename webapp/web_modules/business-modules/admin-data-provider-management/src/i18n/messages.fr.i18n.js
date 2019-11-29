@@ -113,6 +113,7 @@ const messages = Object.assign({
   'acquisition-chain.list.enabled.true': 'Activé',
   'acquisition-chain.list.enabled.false': 'Désactivé',
   'acquisition-chain.list.addnew.button': 'Créer une nouvelle chaîne',
+  'acquisition-chain.list.delete.confirm.title': 'Supprimer la chaîne d\'acquisition {label} ?',
 
   // 2.4 Table filters
   'acquisition-chain.list.filters.label': 'Libellé',

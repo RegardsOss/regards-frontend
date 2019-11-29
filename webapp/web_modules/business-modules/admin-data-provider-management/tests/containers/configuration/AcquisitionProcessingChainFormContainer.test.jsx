@@ -59,6 +59,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         },
       ],
       getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -135,6 +136,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         },
       ],
       getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)
@@ -211,6 +213,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
         },
       ],
       getStorages: sinon.stub().callsFake(() => new Promise(() => { })),
+      changeField: () => {},
     }
     const enzymeWrapper = shallow(<AcquisitionProcessingChainFormContainer {...props} />, { context })
     const components = enzymeWrapper.find(AcquisitionProcessingChainFormComponent)

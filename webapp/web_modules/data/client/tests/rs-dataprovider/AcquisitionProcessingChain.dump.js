@@ -36,7 +36,7 @@ export default {
             targetTypes: [],
           },
           {
-            pluginBusinessId: 'SacocheInfini',
+            pluginBusinessId: 'Sacoche Infini',
             storePath: '',
             targetTypes: [],
           },
