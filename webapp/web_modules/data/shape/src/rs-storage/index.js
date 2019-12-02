@@ -24,7 +24,7 @@ export {
 } from './AIP'
 export { AIPDeletionError, AIPDeletionErrorsArray } from './AIPDeletionError'
 export {
-  StorageLocation, StorageLocationContent, StorageLocationList, StorageLocationArray,
+  StorageLocation, StorageLocationContent, StorageLocationConfiguration, StorageLocationList, StorageLocationArray,
 } from './StorageLocation'
 export {
   DataObject, DataObjectContent, DataObjectList, DataObjectArray,

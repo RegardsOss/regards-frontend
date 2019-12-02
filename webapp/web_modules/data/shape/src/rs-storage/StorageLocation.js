@@ -19,7 +19,7 @@
 import { StorageDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common'
 
-const StorageLocationConfiguration = PropTypes.shape({
+export const StorageLocationConfiguration = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   pluginConfiguration: PluginConfigurationContent,
