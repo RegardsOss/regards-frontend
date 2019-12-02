@@ -53,6 +53,8 @@ export class ModulePaneStateField extends React.Component {
     label: PropTypes.string,
     // field default value
     defaultValue: PropTypes.oneOf(UIDomain.MODULE_PANE_DISPLAY_MODES),
+    // should span full width?
+    spanFullWidth: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -68,32 +70,33 @@ export class ModulePaneStateField extends React.Component {
 
   render() {
     const {
-      currentNamespace, paneName, label, defaultValue,
+      currentNamespace, paneName, label, defaultValue, spanFullWidth,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <div>
-        <FieldsGroup title={label || formatMessage({ id: 'modules.common.admin.pane.expanded.field.label' }, { paneName })}>
-          <Field
-            name={ModulePaneStateField.getFieldName(currentNamespace, paneName)}
-            component={RenderRadio}
-            defaultSelected={defaultValue}
-          >
-            <RadioButton
-              label={formatMessage({ id: 'modules.common.admin.pane.expanded.label' })}
-              value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE}
-            />
-            <RadioButton
-              label={formatMessage({ id: 'modules.common.admin.pane.collapsed.label' })}
-              value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE}
-            />
-            <RadioButton
-              label={formatMessage({ id: 'modules.common.admin.pane.always.expanded.label' })}
-              value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED}
-            />
-          </Field>
-        </FieldsGroup>
-      </div>
+      <FieldsGroup
+        title={label || formatMessage({ id: 'modules.common.admin.pane.expanded.field.label' }, { paneName })}
+        spanFullWidth={spanFullWidth}
+      >
+        <Field
+          name={ModulePaneStateField.getFieldName(currentNamespace, paneName)}
+          component={RenderRadio}
+          defaultSelected={defaultValue}
+        >
+          <RadioButton
+            label={formatMessage({ id: 'modules.common.admin.pane.expanded.label' })}
+            value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.EXPANDED_COLLAPSIBLE}
+          />
+          <RadioButton
+            label={formatMessage({ id: 'modules.common.admin.pane.collapsed.label' })}
+            value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.COLLAPSED_EXPANDABLE}
+          />
+          <RadioButton
+            label={formatMessage({ id: 'modules.common.admin.pane.always.expanded.label' })}
+            value={UIDomain.MODULE_PANE_DISPLAY_MODES_ENUM.ALWAYS_EXPANDED}
+          />
+        </Field>
+      </FieldsGroup>
     )
   }
 }

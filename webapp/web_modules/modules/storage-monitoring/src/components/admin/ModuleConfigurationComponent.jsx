@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ModulePaneStateField } from '@regardsoss/modules-api'
+import { FormPresentation, FormRow } from '@regardsoss/form-utils'
 
 /**
  * Module configuration component (admin form)
@@ -29,7 +30,12 @@ class ModuleConfigurationComponent extends React.Component {
 
   render() {
     const { currentNamespace } = this.props
-    return <ModulePaneStateField currentNamespace={currentNamespace} />
+    return (
+      <FormPresentation>
+        <FormRow>
+          <ModulePaneStateField currentNamespace={currentNamespace} spanFullWidth />
+        </FormRow>
+      </FormPresentation>)
   }
 }
 

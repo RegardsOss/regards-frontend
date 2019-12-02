@@ -27,7 +27,7 @@ import styles from '../styles'
  *
  * @author Raphaël Mechali
  */
-class PresentationGroup extends React.Component {
+class FormPresentation extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -50,4 +50,4 @@ class PresentationGroup extends React.Component {
   }
 }
 
-export default withModuleStyle(styles, true)(PresentationGroup)
+export default withModuleStyle(styles, true)(FormPresentation)
