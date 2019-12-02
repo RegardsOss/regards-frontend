@@ -62,7 +62,7 @@ export class StorageLocationFormContainer extends React.Component {
       mode: PropTypes.string,
     }),
     // from mapStateToProps
-    entity: StorageShapes.StorageMonitoring,
+    entity: StorageShapes.StorageLocation,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
