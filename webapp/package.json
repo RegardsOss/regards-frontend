@@ -60,7 +60,6 @@
     "@regardsoss-modules/search-form": "file:web_modules/modules/search-form",
     "@regardsoss-modules/search-graph": "file:web_modules/modules/search-graph",
     "@regardsoss-modules/search-results": "file:web_modules/modules/search-results",
-    "@regardsoss-modules/storage-monitoring": "file:web_modules/modules/storage-monitoring",
     "@regardsoss/adapters": "file:web_modules/utils/adapters",
     "@regardsoss/admin": "file:web_modules/business-modules/admin",
     "@regardsoss/admin-accessright-accessgroup-management": "file:web_modules/business-modules/admin-accessright-accessgroup-management",

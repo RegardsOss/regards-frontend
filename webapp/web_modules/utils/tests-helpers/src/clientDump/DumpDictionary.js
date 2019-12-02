@@ -56,7 +56,6 @@ import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprov
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
 import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
-import StorageMonitoringDump from '@regardsoss/client/tests/rs-storage/StorageMonitoring.dump'
 
 import {
 
@@ -148,9 +147,6 @@ import {
   STORAGE_LOCATION_ARRAY,
   StorageLocationConfiguration,
 
-  STORAGE_MONITORING_ARRAY,
-  StorageMonitoringConfiguration,
-
   THEME_ARRAY,
   ThemeConfiguration,
 
@@ -170,12 +166,6 @@ export default {
       dump: StorageLocationDump,
       ENTITY_ARRAY: STORAGE_LOCATION_ARRAY,
       normalizrKey: StorageLocationConfiguration.normalizrKey,
-    },
-    StorageMonitoring: {
-      isPageable: false,
-      dump: StorageMonitoringDump,
-      ENTITY_ARRAY: STORAGE_MONITORING_ARRAY,
-      normalizrKey: StorageMonitoringConfiguration.normalizrKey,
     },
   },
   AccessProjectClient: {
