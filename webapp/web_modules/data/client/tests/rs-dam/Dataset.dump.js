@@ -61,19 +61,19 @@ export default {
           parameters: [{
             id: 18,
             name: 'connection',
-            TYPE: 'PLUGIN',
+            type: 'PLUGIN',
             value: 'rs_ext_validation_db',
           }, {
             id: 20,
             name: 'table',
             value: 't_validation_1',
-            TYPE: 'STRING',
+            type: 'STRING',
             dynamicsValues: [],
           }, {
             id: 19,
             name: 'model',
             value: '{"model":1,"attributesMapping":[{"name":"sipId","type":"LONG","nameDS":"id"},{"name":"label","type":"STRING","nameDS":"description"},{"name":"weight","type":"INTEGER","namespace":"","nameDS":"weight"},{"name":"date","type":"DATE_ISO8601","namespace":"","nameDS":"creation_date"},{"name":"value_l1","type":"LONG","namespace":"","nameDS":"value_l1"},{"name":"value_d1","type":"DOUBLE","namespace":"","nameDS":"value_d1"},{"name":"activated","type":"BOOLEAN","namespace":"fragment1","nameDS":"activated"},{"name":"state","type":"STRING","namespace":"fragment1","nameDS":"state"},{"name":"description","type":"STRING","namespace":"","nameDS":"description"}]}',
-            TYPE: 'STRING',
+            type: 'STRING',
           }],
         },
         groups: [],

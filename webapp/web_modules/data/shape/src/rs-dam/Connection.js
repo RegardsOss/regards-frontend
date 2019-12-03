@@ -19,6 +19,7 @@
 export const Connection = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
+    businessId: PropTypes.string.isRequired,
     label: PropTypes.string,
   }).isRequired,
 })

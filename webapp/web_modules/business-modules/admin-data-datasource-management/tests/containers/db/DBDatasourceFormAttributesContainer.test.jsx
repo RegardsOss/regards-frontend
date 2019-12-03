@@ -38,7 +38,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormAttributesC
       currentDatasource: null,
       handleSave: () => { },
       backUrl: '#',
-      currentConnectionId: parseInt(DumpProvider.getFirstEntityKey('DataManagementClient', 'Connection'), 10),
+      currentConnectionId: DumpProvider.getFirstEntityKey('DataManagementClient', 'Connection'),
       // from mapStateToProps
       modelList: DumpProvider.get('DataManagementClient', 'Model'),
       currentConnection: DumpProvider.getFirstEntity('DataManagementClient', 'Connection'),

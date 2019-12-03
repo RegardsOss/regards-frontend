@@ -21,6 +21,7 @@ const DataSourcePluginTypeEnum = {
   AIP: 'aip-storage-datasource',
   OPENSEARCH: 'webservice-datasource',
   DB_POSTGRES: 'postgresql-datasource',
+  DB_POSTGRES_SINGLE_TABLE: 'postgresql-datasource-single-table',
   DB_ORACLE: 'oracle-datasource-single-table',
 }
 
