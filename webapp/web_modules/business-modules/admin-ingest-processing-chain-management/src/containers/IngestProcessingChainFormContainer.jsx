@@ -53,19 +53,17 @@ export class IngestProcessingChainFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleUpdate = (values) => {
-    Promise.resolve(this.props.updateChain(this.props.processingChain.content.name, values))
-      .then((actionResult) => {
-        // We receive here the action
-        if (!actionResult.error) {
-          this.onBack()
-        }
-      })
-  }
+  handleUpdate = values => Promise.resolve(this.props.updateChain(this.props.processingChain.content.name, values))
+    .then((actionResult) => {
+      // We receive here the action
+      if (!actionResult.error) {
+        this.onBack()
+      }
+    })
 
   handleCreate = (values) => {
     const task = this.props.createChain(values)
-    Promise.resolve(task)
+    return Promise.resolve(task)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {

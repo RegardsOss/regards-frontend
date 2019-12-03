@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicArrayActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
  * Redux actions to handle SIP entities from backend server.
  * @author Sébastien Binda
  */
-export default class ProcessingChainImportActions extends BasicArrayActions {
+export default class ProcessingChainImportActions extends BasicListActions {
   /**
    * Construtor
    * @param namespace
