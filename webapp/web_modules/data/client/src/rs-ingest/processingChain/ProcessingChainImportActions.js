@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY } from '@regardsoss/api'
 import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
@@ -32,6 +33,10 @@ export default class ProcessingChainImportActions extends BasicListActions {
       namespace,
       bypassErrorMiddleware: true,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/processingchains/import`,
+      schemaTypes: {
+        ENTITY: PROCESSING_CHAIN,
+        ENTITY_ARRAY: PROCESSING_CHAIN_ARRAY,
+      },
     })
   }
 }
