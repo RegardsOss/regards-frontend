@@ -25,7 +25,7 @@ import Checkbox from 'material-ui/Checkbox'
  */
 class StorageSelectionCheckbox extends React.Component {
 static propTypes = {
-  storage: StorageShapes.StorageLocationContent.isRequired,
+  storage: StorageShapes.StorageLocationConfiguration.isRequired,
   selected: PropTypes.bool.isRequired,
   index: PropTypes.number.isRequired, // stprage index in list
   onToggleStorage: PropTypes.func.isRequired, // toggle selection for a storage callback: (storageIndex: number) => ()

@@ -24,11 +24,10 @@ import { Schema, arrayOf } from 'normalizr'
  */
 export const StorageLocationConfiguration = {
   entityKey: 'name',
-  normalizrKey: 'storage-location',
+  normalizrKey: 'storage-location-conf',
 }
 
 export const STORAGE_LOCATION = new Schema(StorageLocationConfiguration.normalizrKey, {
-  idAttribute: model => model.content[StorageLocationConfiguration.entityKey]
-  ,
+  idAttribute: model => model.content[StorageLocationConfiguration.entityKey],
 })
 export const STORAGE_LOCATION_ARRAY = arrayOf(STORAGE_LOCATION)

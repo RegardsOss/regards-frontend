@@ -27,7 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ConfirmDeleteOnSomeStoragesDialogComponent extends React.Component {
   static propTypes = {
-    selectedStorages: PropTypes.arrayOf(StorageShapes.StorageLocationContent).isRequired,
+    selectedStorages: PropTypes.arrayOf(StorageShapes.StorageLocationConfiguration).isRequired,
     onConfirm: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
   }

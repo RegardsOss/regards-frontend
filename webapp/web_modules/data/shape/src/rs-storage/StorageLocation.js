@@ -19,18 +19,26 @@
 import { StorageDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common'
 
-export const StorageLocationContent = PropTypes.shape({
+export const StorageLocationConfiguration = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   pluginConfiguration: PluginConfigurationContent,
   storageType: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
   priority: PropTypes.number.isRequired,
+  allocatedSizeInKo: PropTypes.number,
 })
 
+export const StorageLocationContent = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  nbFilesStored: PropTypes.number,
+  totalStoredFilesSizeKo: PropTypes.number,
+  nbStorageError: PropTypes.number,
+  nbDeletionError: PropTypes.number,
+  configuration: StorageLocationConfiguration,
+}).isRequired
+
 export const StorageLocation = PropTypes.shape({
-  content: PropTypes.shape({
-    configuration: StorageLocationContent.isRequired,
-  }),
+  content: StorageLocationContent,
 })
 
 export const StorageLocationList = PropTypes.objectOf(StorageLocation)

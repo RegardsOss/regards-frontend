@@ -260,7 +260,7 @@ export class AIPDatasourceFormContainer extends React.Component {
       parameters.push(
         {
           name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
-          type: 'LONG',
+          type: 'STRING',
           value: values.attributeFileSize,
         },
       )
@@ -268,7 +268,6 @@ export class AIPDatasourceFormContainer extends React.Component {
     if (isCreating) {
       const datasource = {
         pluginId: 'aip-storage-datasource',
-        businessId: values.label.replace(/[` ~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, ''),
         label: values.label,
         parameters,
       }
