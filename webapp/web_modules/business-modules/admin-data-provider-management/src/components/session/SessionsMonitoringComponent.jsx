@@ -53,8 +53,8 @@ export class SessionsMonitoringComponent extends React.Component {
     onAcknowledge: PropTypes.func.isRequired,
     onSort: PropTypes.func.isRequired,
     initialFilters: PropTypes.shape({
-      source: PropTypes.string.isRequired,
-      session: PropTypes.string.isRequired,
+      source: PropTypes.string,
+      session: PropTypes.string,
       lastSessionOnly: PropTypes.bool.isRequired,
       errorsOnly: PropTypes.bool.isRequired,
       from: PropTypes.instanceOf(Date),
@@ -182,6 +182,25 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
+  renderDeleteDialog() {
+    const { intl: { formatMessage } } = this.context
+    const { sessionToDelete } = this.state
+    const titleParameters = {
+      source: get(sessionToDelete, 'content.source', 'undefined'),
+      name: get(sessionToDelete, 'content.name', 'undefined'),
+    }
+    const title = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.title' }, titleParameters)
+    const message = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.message' })
+    return (<ConfirmDialogComponent
+      dialogType={ConfirmDialogComponentTypes.CONFIRM}
+      title={title}
+      message={message}
+      onConfirm={this.onConfirmDelete}
+      onClose={this.onCloseDeleteConfirm}
+      open={!!sessionToDelete}
+    />)
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
     const {
@@ -189,7 +208,7 @@ export class SessionsMonitoringComponent extends React.Component {
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
       onDeleteSession, onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts,
     } = this.props
-    const { sessionToAcknowledge, sessionToDelete } = this.state
+    const { sessionToAcknowledge } = this.state
     const iconStyle = {
       margin: 5,
     }
@@ -263,14 +282,7 @@ export class SessionsMonitoringComponent extends React.Component {
             onClose={this.onCloseAcknowledge}
             open={!!sessionToAcknowledge}
           />
-          <ConfirmDialogComponent
-            dialogType={ConfirmDialogComponentTypes.CONFIRM}
-            title={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.title' }, { source: get(sessionToDelete, 'content.source'), name: get(sessionToDelete, 'content.name') })}
-            message={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.message' })}
-            onConfirm={this.onConfirmDelete}
-            onClose={this.onCloseDeleteConfirm}
-            open={!!sessionToDelete}
-          />
+          {this.renderDeleteDialog()}
           <RaisedButton
             label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}
             onClick={this.props.onRefresh}

@@ -170,8 +170,9 @@ const messages = Object.assign({
 
   //3.4 Cell's Menus
   'acquisition-sessions.menus.session.delete.button': 'Delete session products',
+  'acquisition-sessions.menus.session.delete.force.button': 'Delete session',
   'acquisition-sessions.menus.session.delete.dialog.title': 'Delete session <{source} - {name}> products',
-  'acquisition-sessions.menus.session.delete.dialog.message': 'The session deletion will delete all acquired products and all stored packages.',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'The session deletion will delete all acquired products. If associated storage location is configured to allow deletion, so files will also be deleted.',
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
   'acquisition-sessions.menus.archives': 'Archive ready products',

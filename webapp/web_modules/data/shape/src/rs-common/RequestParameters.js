@@ -22,7 +22,9 @@
  * @author Raphaël Mechali
  */
 
+const URLParameterValue = PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]).isRequired
+
 export const RequestParameters = PropTypes.objectOf(PropTypes.oneOfType([
-  PropTypes.string, // simple parameter
-  PropTypes.arrayOf(PropTypes.string).isRequired, // multiple values parameters
+  URLParameterValue, // simple parameter
+  PropTypes.arrayOf(URLParameterValue).isRequired, // multiple values parameters
 ]))

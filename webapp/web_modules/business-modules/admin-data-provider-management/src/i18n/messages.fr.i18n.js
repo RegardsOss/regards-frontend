@@ -170,8 +170,9 @@ const messages = Object.assign({
 
   //3.4 Cell's Menus
   'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
+  'acquisition-sessions.menus.session.delete.force.button': 'Supprimer la session',
   'acquisition-sessions.menus.session.delete.dialog.title': 'Supprimer les produits de la session <{source} - {name}>',
-  'acquisition-sessions.menus.session.delete.dialog.message': 'La suppression de cette session entrainera la suppression de tous les produits acquis et stockés.',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'La suppression de cette session entrainera la suppression de tous les produits acquis. Si les fichiers sont sockés sur un espace de stockage configuré pour autoriser la suppression, alors les fichiers seront également supprimés.',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
   'acquisition-sessions.menus.archives': 'Produits pour archivage',

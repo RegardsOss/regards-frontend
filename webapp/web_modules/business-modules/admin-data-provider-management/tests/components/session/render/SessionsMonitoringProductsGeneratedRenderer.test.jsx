@@ -71,7 +71,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         links: [],
       },
       onDeleteProducts: () => {},
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)
@@ -108,7 +108,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         },
         links: [],
       },
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
       onDeleteProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })

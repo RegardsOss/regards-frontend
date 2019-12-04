@@ -34,7 +34,7 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickRelaunchProducts: PropTypes.func.isRequired,
+    onRelaunchProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,8 +43,8 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   }
 
   onClickRelaunchProducts = () => {
-    const { entity, onClickRelaunchProducts } = this.props
-    onClickRelaunchProducts(entity.content.source, entity.content.name)
+    const { entity, onRelaunchProducts } = this.props
+    onRelaunchProducts(entity.content.source, entity.content.name)
   }
 
   getFilesAcquired = (entity) => {

@@ -96,7 +96,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       onClickListSIP: wrapperInstance.onClickListSIP,
       onClickRelaunchAIP: wrapperInstance.onClickRelaunchAIP,
       onClickRelaunchSIP: wrapperInstance.onClickRelaunchSIP,
-      onClickRelaunchProducts: wrapperInstance.onClickRelaunchProducts,
+      onRelaunchProducts: wrapperInstance.onRelaunchProducts,
     }, 'Component should define the expected properties')
   })
 })

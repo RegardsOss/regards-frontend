@@ -30,17 +30,11 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 export class SessionsMonitoringIndexedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickListIndexed: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  onClickListIndexed = () => {
-    const { entity, onClickListIndexed } = this.props
-    onClickListIndexed(entity.content.source, entity.content.session)
   }
 
   getIndexed = (entity) => {
