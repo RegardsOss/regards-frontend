@@ -25,6 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 export class SessionsMonitoringTableBackgroundComponent extends React.Component {
   static propTypes = {
     isInError: PropTypes.bool.isRequired,
+    isDeleted: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
   }
 
@@ -33,11 +34,13 @@ export class SessionsMonitoringTableBackgroundComponent extends React.Component 
   }
 
   render() {
-    const { moduleTheme: { sessionsStyles: { cellErrorBackground, gridCell: { cellContainer } } } } = this.context
-    const { children, isInError } = this.props
+    const { moduleTheme: { sessionsStyles: { cellErrorBackground, cellDeletedBackground, gridCell: { cellContainer } } } } = this.context
+    const { children, isInError, isDeleted } = this.props
     let style = cellContainer
     if (isInError) {
       style = { ...cellErrorBackground, ...cellContainer }
+    } else if (isDeleted) {
+      style = { ...cellDeletedBackground, ...cellContainer }
     }
     return (
       <div style={style}>

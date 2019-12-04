@@ -62,6 +62,7 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={state === 'ERROR'}
+        isDeleted={state === 'DELETED'}
       >
         <div style={gridSessionContainer}>
           <div style={headerSession}>

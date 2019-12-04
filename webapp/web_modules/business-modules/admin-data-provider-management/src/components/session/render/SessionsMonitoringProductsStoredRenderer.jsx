@@ -148,6 +148,7 @@ class SessionsMonitoringProductsStored extends React.Component {
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
+        isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={cellContainer}>
           { !entity.content.lifeCycle.oais ? (
