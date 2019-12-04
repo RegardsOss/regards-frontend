@@ -38,6 +38,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgr
   it('should render correctly', () => {
     const props = {
       isInError: true,
+      isDeleted: false,
       children: <div />,
     }
     shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
