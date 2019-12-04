@@ -127,6 +127,7 @@ class SessionsMonitoringProductsStored extends React.Component {
     const items = []
     if (storagePending + stored > 0) {
       items.push(<MenuItem
+        key="listaips"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
         onClick={this.onClickListAIP}
       />)

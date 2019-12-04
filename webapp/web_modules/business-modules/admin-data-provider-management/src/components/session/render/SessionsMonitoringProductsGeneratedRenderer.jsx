@@ -55,9 +55,8 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
   getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const submitted = get(entity, 'content.lifeCycle.dataprovider.submitted', 0)
-    const ingested = get(entity, 'content.lifeCycle.dataprovider.ingested', 0)
-    return formatNumber(parseInt(submitted, 10) + parseInt(ingested, 10))
+    const generated = get(entity, 'content.lifeCycle.dataprovider.generated', 0)
+    return formatNumber(parseInt(generated, 10))
   }
 
   getIncompletes = (entity) => {
