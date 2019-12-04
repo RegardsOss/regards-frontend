@@ -145,18 +145,20 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   <div style={three}>{this.getErrors(entity)}</div>
                   <div style={four}>{this.getFilesAcquired(entity)}</div>
                 </div>
-                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                  <DropDownButton
-                    title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                    style={menuDropDown}
-                    icon={<Menu />}
-                  >
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-                      onClick={this.onClickRelaunchProducts}
-                    />
-                  </DropDownButton>
-                </div>
+                {this.getErrors(entity) > 0
+                  ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                    <DropDownButton
+                      title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                      style={menuDropDown}
+                      icon={<Menu />}
+                    >
+                      <MenuItem
+                        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+                        onClick={this.onClickRelaunchProducts}
+                      />
+                    </DropDownButton>
+                  </div> : null
+                }
               </div>
             </div>
           )}

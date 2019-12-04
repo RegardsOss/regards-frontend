@@ -156,7 +156,7 @@ const messages = Object.assign({
 
   //3.3 Products states
   'acquisition-sessions.states.complet': 'Generated',
-  'acquisition-sessions.states.incomplete': 'Incomplet',
+  'acquisition-sessions.states.incomplete': 'Incomplete',
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',

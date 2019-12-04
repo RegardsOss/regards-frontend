@@ -164,8 +164,9 @@ export class SessionsMonitoringComponent extends React.Component {
   onConfirmDelete = () => {
     const { sessionToDelete } = this.state
     const { onDeleteSession } = this.props
+    const force = get(sessionToDelete, 'content.state', 'undefined') === 'DELETED'
     if (get(sessionToDelete, 'content.id')) {
-      onDeleteSession(sessionToDelete.content.id)
+      onDeleteSession(sessionToDelete.content.id, force)
     }
     this.onCloseDeleteConfirm()
   }
