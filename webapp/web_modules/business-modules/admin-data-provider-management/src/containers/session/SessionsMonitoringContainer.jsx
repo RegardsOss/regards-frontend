@@ -132,7 +132,7 @@ export class SessionsMonitoringContainer extends React.Component {
    * Initial state
    */
   state = {
-    columnsSorting: [],
+    columnsSorting: [{ columnKey: SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE, order: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER }],
     initialFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
