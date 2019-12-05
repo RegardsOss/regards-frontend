@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class SessionsRelaunchActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/products/{sessionOwner}/{sessionName}/relaunch`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains/{sessionOwner}/{sessionName}/relaunch`,
       namespace,
     })
   }
