@@ -174,11 +174,20 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.dialog.title': 'Delete session <{source} - {name}> products',
   'acquisition-sessions.menus.session.delete.dialog.message': 'The session deletion will delete all acquired products. If associated storage location is configured to allow deletion, so files will also be deleted.',
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
+  'acquisition-sessions.menus.products.show.errors': 'Display error products',
+  'acquisition-sessions.menus.products.show.incomplete': 'Display incomplete products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
   'acquisition-sessions.menus.archives': 'Archive ready products',
   'acquisition-sessions.menus.archives.relaunch': 'Relaunch Processing in error',
   'acquisition-sessions.menus.archives.list': 'List products',
   'acquisition-sessions.menus.archives.list.error': 'List Processing in error',
+
+  'acquisition-sessions.menus.products.list.name': 'Product',
+  'acquisition-sessions.menus.products.list.error': 'Error cause',
+  'acquisition-sessions.menus.products.list.title.error': 'Error products for session {source}:{session}',
+  'acquisition-sessions.menus.products.list.title.incomplete': 'Incomplete products for session {source}:{session}',
+  'acquisition-sessions.menus.products.list.help.error': 'After resolving products issues, you can relaunch acquisition of those products.',
+  'acquisition-sessions.menus.products.list.help.incomplete': 'An incomplete product, is a product with a missing file from the madatory ones. Maybe files were missing during directory scan. If files are now there, you can relaunch session to acquire those new files and complete products',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

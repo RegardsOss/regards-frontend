@@ -130,6 +130,7 @@ class SessionsMonitoringProductsStored extends React.Component {
         key="listaips"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
         onClick={this.onClickListAIP}
+        value="listaips"
       />)
     }
     if (errors > 0) {
@@ -137,11 +138,13 @@ class SessionsMonitoringProductsStored extends React.Component {
         key="listerrors"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
         onClick={this.onClickListRequestErrors}
+        value="listerrors"
       />)
       items.push(<MenuItem
         key="relauncherrors"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
         onClick={this.onClickRelaunch}
+        value="relauncherrors"
       />)
     }
 

@@ -174,11 +174,20 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.dialog.title': 'Supprimer les produits de la session <{source} - {name}>',
   'acquisition-sessions.menus.session.delete.dialog.message': 'La suppression de cette session entrainera la suppression de tous les produits acquis. Si les fichiers sont sockés sur un espace de stockage configuré pour autoriser la suppression, alors les fichiers seront également supprimés.',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.products.show.errors': 'Voir les produits en erreur',
+  'acquisition-sessions.menus.products.show.incomplete': 'Voir les produits incomplets',
   'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
   'acquisition-sessions.menus.archives': 'Produits pour archivage',
   'acquisition-sessions.menus.archives.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.archives.list': 'Visualiser les Produits',
   'acquisition-sessions.menus.archives.list.error': 'Visualiser les Traitements en erreur',
+
+  'acquisition-sessions.menus.products.list.name': 'Produit',
+  'acquisition-sessions.menus.products.list.error': 'Cause de l\'erreur',
+  'acquisition-sessions.menus.products.list.title.error': 'Liste des produits en erreur pour la session {source}:{session}',
+  'acquisition-sessions.menus.products.list.title.incomplete': 'Liste des produits incomplets pour la session {source}:{session}',
+  'acquisition-sessions.menus.products.list.help.error': 'Liste des produits en erreurs sur la session courante. Après avoir corriger les problèmes rencontrés, vous pouveze relancer l\'acquisition des produis en erreur',
+  'acquisition-sessions.menus.products.list.help.incomplete': 'Un produit incompet est un produit auquel il manque au moins un type de fichier obligatoire. Il se peut que le fichier n\'était pas présent lors du scan du répertoire. Vous pouvez relancer la chaîne d\'acquisition pour compléter ces produits si les fichiers sont désormais présents.',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

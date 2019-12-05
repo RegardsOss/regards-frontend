@@ -35,6 +35,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onRelaunchProducts: PropTypes.func.isRequired,
+    onShowProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -72,6 +73,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     return formatNumber(parseInt(error, 10) + parseInt(ingFailed, 10))
   }
 
+  onShowErrors = () => {
+    this.props.onShowProducts(this.props.entity)
+  }
+
+  onShowIncompletes = () => {
+    this.props.onShowProducts(this.props.entity, false, true)
+  }
+
   render() {
     const {
       intl: { formatMessage },
@@ -93,6 +102,30 @@ class SessionsMonitoringProductsGenerated extends React.Component {
       },
     } = this.context
     const { entity } = this.props
+
+    const actions = []
+    if (this.getErrors(entity) > 0) {
+      actions.push(<MenuItem
+        key="relaunch"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+        onClick={this.onClickRelaunchProducts}
+        value="relaunch"
+      />)
+      actions.push(<MenuItem
+        key="show-errors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.errors' })}
+        onClick={this.onShowErrors}
+        value="show-errors"
+      />)
+    }
+    if (this.getIncompletes(entity) > 0) {
+      actions.push(<MenuItem
+        key="show-incomplete"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.incomplete' })}
+        onClick={this.onShowIncompletes}
+        value="show-incomplete"
+      />)
+    }
 
     return (
       <SessionsMonitoringTableBackgroundComponent
@@ -145,17 +178,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   <div style={three}>{this.getErrors(entity)}</div>
                   <div style={four}>{this.getFilesAcquired(entity)}</div>
                 </div>
-                {this.getErrors(entity) > 0
+                {actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                     <DropDownButton
                       title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
                       style={menuDropDown}
                       icon={<Menu />}
                     >
-                      <MenuItem
-                        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-                        onClick={this.onClickRelaunchProducts}
-                      />
+                      {actions}
                     </DropDownButton>
                   </div> : null
                 }

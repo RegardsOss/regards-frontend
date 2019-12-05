@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import FlatButton from 'material-ui/FlatButton'
 import get from 'lodash/get'
 import {
   Card, CardTitle, CardText, CardActions,
@@ -30,6 +30,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, NoContentComponent,
   ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
+  PositionedDialog,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
@@ -41,6 +42,7 @@ import SessionsMonitoringProductsStoredRenderer from './render/SessionsMonitorin
 import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIndexedRenderer'
 import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersComponent'
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
+import ProductsComponent from '../product/ProductsComponent'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
@@ -119,6 +121,11 @@ export class SessionsMonitoringComponent extends React.Component {
   state = {
     sessionToAcknowledge: null,
     sessionToDelete: null,
+    sessionToDisplayProducts: {
+      session: null,
+      isError: true,
+      isIncomplete: false,
+    },
   }
 
   renderBreadCrump = () => {
@@ -183,6 +190,44 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
+  onSwitchProductsDialog = (entity = null, isError = true, isIncomplet = false) => this.setState({ sessionToDisplayProducts: { session: entity, isError, isIncomplet } })
+
+  renderShowProductsDialog() {
+    const { intl: { formatMessage } } = this.context
+    const { sessionToDisplayProducts: { session, isError, isIncomplet } } = this.state
+    const sipStates = isError ? ProductsComponent.ERROR_SIP_STATES : []
+    const productStates = isIncomplet ? ProductsComponent.INCOMPLETE_STATES : []
+    const values = {
+      source: get(session, 'content.source'),
+      session: get(session, 'content.name'),
+    }
+    const title = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.title.error' }, values) : formatMessage({ id: 'acquisition-sessions.menus.products.list.title.incomplete' }, values)
+    const helpMessage = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.help.error' }) : formatMessage({ id: 'acquisition-sessions.menus.products.list.help.incomplete' })
+    const actions = [
+      <FlatButton
+        key="close"
+        label="close"
+        onClick={() => this.onSwitchProductsDialog(null)}
+      />]
+    return (
+      <PositionedDialog
+        title={title}
+        open={!!session}
+        actions={actions}
+        dialogHeightPercent={75}
+        dialogWidthPercent={75}
+      >
+        <ProductsComponent
+          session={session}
+          sipStates={sipStates}
+          productStates={productStates}
+          title={title}
+          helpMessage={helpMessage}
+        />
+      </PositionedDialog>
+    )
+  }
+
   renderDeleteDialog() {
     const { intl: { formatMessage } } = this.context
     const { sessionToDelete } = this.state
@@ -245,7 +290,7 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onRelaunchProducts } })
+        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onRelaunchProducts, onShowProducts: this.onSwitchProductsDialog } })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
@@ -271,6 +316,8 @@ export class SessionsMonitoringComponent extends React.Component {
     ]
     return (
       <Card>
+        {this.renderDeleteDialog()}
+        {this.renderShowProductsDialog()}
         <CardTitle
           title={this.renderBreadCrump()}
           subtitle={formatMessage({ id: 'acquisition-sessions.subtitle' })}
@@ -283,7 +330,6 @@ export class SessionsMonitoringComponent extends React.Component {
             onClose={this.onCloseAcknowledge}
             open={!!sessionToAcknowledge}
           />
-          {this.renderDeleteDialog()}
           <RaisedButton
             label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}
             onClick={this.props.onRefresh}

@@ -16,19 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CardMedia } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { storageRequestActions, storageRequestSelectors } from '../clients/StorageRequestClient'
+import messages from '../i18n'
 
 /**
 * Comment Here
 * @author Sébastien Binda
 */
-export class StorageRequestListComponent extends React.Component {
+class StorageRequestListComponent extends React.Component {
   static propTypes = {
     storageLocation: PropTypes.string.isRequired,
     requestsType: PropTypes.string.isRequired,
@@ -43,7 +43,7 @@ export class StorageRequestListComponent extends React.Component {
   render() {
     const pageSize = 100
     const minRowCount = 5
-    const maxRowCount = 20
+    const maxRowCount = 8
 
     const pathParams = {
       storage: this.props.storageLocation,
@@ -53,27 +53,31 @@ export class StorageRequestListComponent extends React.Component {
       status: this.props.requestsStatus,
     }
 
+    const { intl: { formatMessage } } = this.context
+
     const columns = [
-      new TableColumnBuilder('column.error').titleHeaderCell().propertyRenderCell('content.errorCause').build()]
+      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.label' })).propertyRenderCell('content.errorCause')
+        .fixedSizing(300)
+        .build(),
+      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.error' })).propertyRenderCell('content.errorCause')
+        .build()]
 
     return (
-      <CardMedia>
-        <TableLayout>
-          <PageableInfiniteTableContainer
-            name="request-list"
-            pageActions={storageRequestActions}
-            pageSelectors={storageRequestSelectors}
-            pageSize={pageSize}
-            minRowCount={minRowCount}
-            maxRowCount={maxRowCount}
-            columns={columns}
-            pathParams={pathParams}
-            requestParams={requestParameters}
-          />
-        </TableLayout>
-      </CardMedia>
+      <TableLayout>
+        <PageableInfiniteTableContainer
+          name="request-list"
+          pageActions={storageRequestActions}
+          pageSelectors={storageRequestSelectors}
+          queryPageSize={pageSize}
+          minRowCount={minRowCount}
+          maxRowCount={maxRowCount}
+          columns={columns}
+          pathParams={pathParams}
+          requestParams={requestParameters}
+        />
+      </TableLayout>
     )
   }
 }
 
-export default StorageRequestListComponent
+export default withI18n(messages)(StorageRequestListComponent)

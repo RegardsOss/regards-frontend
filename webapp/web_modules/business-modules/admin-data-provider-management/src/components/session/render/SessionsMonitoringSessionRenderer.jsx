@@ -78,12 +78,14 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
                 <MenuItem
                   primaryText={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}
                   onClick={this.onShowAcknowledgeDialog}
+                  value="acknolegde"
                 />) : (
                   <div />
               )}
               <MenuItem
                 primaryText={deleteButtonTitle}
                 onClick={this.onDeleteSession}
+                value="onDelete"
               />
             </DropDownButton>
           </div>
