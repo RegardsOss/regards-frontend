@@ -54,7 +54,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       onFilter: () => { },
     }
 
-    const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context })
     const form = enzymeWrapper.find(AccessRightFormComponent)
     const confirmDeleteDialog = enzymeWrapper.find(ConfirmDialogComponent)
     const table = enzymeWrapper.find(PageableInfiniteTableContainer)

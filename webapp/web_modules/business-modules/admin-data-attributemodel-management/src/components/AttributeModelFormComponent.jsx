@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import includes from 'lodash/includes'
 import map from 'lodash/map'
 import {
   Card, CardActions, CardTitle, CardText,
@@ -35,6 +34,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
+import { DamDomain } from '@regardsoss/domain'
 import { fragmentSelectors } from '../clients/FragmentClient'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
@@ -86,18 +86,41 @@ export class AttributeModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static isTypeHavingUnit = type => includes(['INTEGER', 'DOUBLE', 'INTEGER_ARRAY', 'DOUBLE_ARRAY', 'INTEGER_INTERVAL', 'DOUBLE_INTERVAL', 'LONG', 'LONG_INTERVAL', 'LONG_ARRAY'], type)
+  /** Types allowing a unit */
+  static TYPES_WITH_UNIT = [
+    DamDomain.MODEL_ATTR_TYPES.INTEGER,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE,
+    DamDomain.MODEL_ATTR_TYPES.INTEGER_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE_INTERVAL,
+    DamDomain.MODEL_ATTR_TYPES.LONG,
+    DamDomain.MODEL_ATTR_TYPES.LONG_INTERVAL,
+    DamDomain.MODEL_ATTR_TYPES.LONG_ARRAY,
+  ]
 
-  static isTypeImprecise = type => includes(['DOUBLE', 'DOUBLE_ARRAY', 'DOUBLE_INTERVAL'], type)
+  /** Types allowing a precision */
+  static TYPES_WITH_PRECISION = [
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE_INTERVAL,
+  ]
 
-  static isTypeArray = type => includes(['INTEGER_ARRAY', 'DOUBLE_ARRAY', 'LONG_ARRAY', 'DATE_ARRAY', 'STRING_ARRAY'], type)
+  /** Array types */
+  static ARRAY_TYPES = [
+    DamDomain.MODEL_ATTR_TYPES.INTEGER_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.LONG_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY,
+    DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY,
+  ]
 
   constructor(props) {
     super(props)
     const isCreating = props.currentAttrModel === undefined
-    const shouldShowUnits = !isCreating && AttributeModelFormComponent.isTypeHavingUnit(props.currentAttrModel.content.type)
-    const shouldShowPrecision = !isCreating && AttributeModelFormComponent.isTypeImprecise(props.currentAttrModel.content.type)
-    const shouldShowArraySize = !isCreating && AttributeModelFormComponent.isTypeArray(props.currentAttrModel.content.type)
+    const shouldShowUnits = !isCreating && AttributeModelFormComponent.TYPES_WITH_UNIT.includes(props.currentAttrModel.content.type)
+    const shouldShowPrecision = !isCreating && AttributeModelFormComponent.TYPES_WITH_PRECISION.includes(props.currentAttrModel.content.type)
+    const shouldShowArraySize = !isCreating && AttributeModelFormComponent.ARRAY_TYPES.includes(props.currentAttrModel.content.type)
 
     this.state = {
       isCreating,
@@ -191,9 +214,9 @@ export class AttributeModelFormComponent extends React.Component {
    * @param input
    */
   handleChange = (event, index, value, input) => {
-    const shouldShowUnits = AttributeModelFormComponent.isTypeHavingUnit(value)
-    const shouldShowPrecision = AttributeModelFormComponent.isTypeImprecise(value)
-    const shouldShowArraySize = AttributeModelFormComponent.isTypeArray(value)
+    const shouldShowUnits = AttributeModelFormComponent.TYPES_WITH_UNIT.includes(value)
+    const shouldShowPrecision = AttributeModelFormComponent.TYPES_WITH_PRECISION.includes(value)
+    const shouldShowArraySize = AttributeModelFormComponent.ARRAY_TYPES.includes(value)
     this.setState({
       shouldShowUnits,
       shouldShowPrecision,

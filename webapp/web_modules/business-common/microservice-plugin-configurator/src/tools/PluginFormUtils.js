@@ -87,7 +87,7 @@ class PluginFormUtils {
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
     switch (parameterMetadata.type) {
-      case 'OBJECT': {
+      case CommonDomain.PluginParameterTypes.POJO: {
         if (parameterMetadata.unconfigurable) {
           return {}
         }
@@ -99,34 +99,31 @@ class PluginFormUtils {
         }
         return parameterConf
       }
-      case 'INTEGER':
-      case 'BYTE':
-      case 'SHORT':
-      case 'LONG':
-      case 'FLOAT':
-      case 'DOUBLE':
-      case 'BOOLEAN':
-      case 'STRING': {
+      case CommonDomain.PluginParameterTypes.STRING:
+      case CommonDomain.PluginParameterTypes.BYTE:
+      case CommonDomain.PluginParameterTypes.SHORT:
+      case CommonDomain.PluginParameterTypes.INTEGER:
+      case CommonDomain.PluginParameterTypes.LONG:
+      case CommonDomain.PluginParameterTypes.FLOAT:
+      case CommonDomain.PluginParameterTypes.DOUBLE:
+      case CommonDomain.PluginParameterTypes.BOOLEAN: {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
         let defaultValue = ''
-        if (parameterMetadata.type === 'BOOLEAN') {
+        if (parameterMetadata.type === CommonDomain.PluginParameterTypes.BOOLEAN) {
           defaultValue = parameterMetadata.defaultValue === 'true'
         }
         return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, defaultValue) : undefined
       }
-      case 'COLLECTION':
-        if (parameterMetadata.unconfigurable) {
-          return []
-        }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, []) : []
-      case 'PLUGIN':
-      case 'MAP':
+      case CommonDomain.PluginParameterTypes.COLLECTION:
+        return parameterMetadata.unconfigurable || !complex ? [] : PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, [])
+      case CommonDomain.PluginParameterTypes.PLUGIN:
+      case CommonDomain.PluginParameterTypes.MAP:
         if (parameterMetadata.unconfigurable) {
           return {}
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {}) : {}
+        return parameterMetadata.unconfigurable || !complex ? {} : PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {})
       default:
         throw new Error('Unexpected type of parameter')
     }

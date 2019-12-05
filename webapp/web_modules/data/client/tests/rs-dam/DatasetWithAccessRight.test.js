@@ -19,24 +19,27 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { DataManagementShapes } from '@regardsoss/shape'
 
-import AccessRightActions from '../../src/rs-dam/accessRight/AccessRightActions'
-import getAccessRightReducer from '../../src/rs-dam/accessRight/AccessRightReducer'
-import getAccessRightSelectors from '../../src/rs-dam/accessRight/AccessRightSelectors'
-import AccessRightDump from './AccessRight.dump'
+import DatasetWithAccessRightActions from '../../src/rs-dam/accessRight/DatasetWithAccessRightActions'
+import getDatasetWithAccessRightReducer from '../../src/rs-dam/accessRight/DatasetWithAccessRightReducer'
+import getDatasetWithAccessRightSelectors from '../../src/rs-dam/accessRight/DatasetWithAccessRightSelectors'
+import DatasetWithAccessRightDump from './DatasetWithAccessRight.dump'
 
-const backendServerResultList = AccessRightDump
+const backendServerResultList = DatasetWithAccessRightDump
 
 const options = {
+  pathParams: {
+    accessGroupName: 'group2georges',
+  },
 }
 
-const accessRightActions = new AccessRightActions('test/action')
-const accessRightReducer = getAccessRightReducer('test/action')
-const accessRightSelectors = getAccessRightSelectors(['test', 'modules'])
+const datasetWithAccessRightActions = new DatasetWithAccessRightActions('test/action')
+const datasetWithAccessRightReducer = getDatasetWithAccessRightReducer('test/action')
+const datasetWithAccessRightSelectors = getDatasetWithAccessRightSelectors(['test', 'modules'])
 
 
-const entityTester = new ReduxEntityTester(accessRightActions, accessRightReducer, accessRightSelectors, DataManagementShapes.AccessRightList.isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(datasetWithAccessRightActions, datasetWithAccessRightReducer, datasetWithAccessRightSelectors, DataManagementShapes.DatasetWithAccessRightList.isRequired, backendServerResultList, options)
 
-describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model AccessRight', () => {
+describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model DatasetWithAccessRight', () => {
   before(() => {
     entityTester.beforeAll()
   })

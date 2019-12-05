@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -44,8 +43,7 @@ class AccessRightsTableEditAction extends React.Component {
 
   onEdit = () => {
     const { entity, onEdit } = this.props
-    const accessRightToEdit = get(entity, 'content.accessRight', null)
-    onEdit(accessRightToEdit, entity)
+    onEdit(entity)
   }
 
   render() {

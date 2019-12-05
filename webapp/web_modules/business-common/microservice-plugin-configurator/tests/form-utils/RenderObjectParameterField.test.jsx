@@ -24,6 +24,7 @@ import { Field } from '@regardsoss/form-utils'
 import {
   buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
 } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderObjectParameterField } from '../../src/form-utils/RenderObjectParameterField'
 import { RenderPluginParameterField } from '../../src/form-utils/RenderPluginParameterField'
 import styles from '../../src/styles/styles'
@@ -41,10 +42,10 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
   it('should exists', () => {
     assert.isDefined(RenderObjectParameterField)
   })
-  it('should render correctly an OBECT Plugin parameter', () => {
+  it('should render correctly a POJO Plugin parameter', () => {
     const pluginConf = DumpProvider.getEntityContentBy('CommonClient', 'PluginConfiguration', 'content.id', 202)
     assert.isDefined(pluginConf)
-    const parameters = filter(pluginConf.parameters, p => p.type === 'OBJECT')
+    const parameters = filter(pluginConf.parameters, p => p.type === CommonDomain.PluginParameterTypes.POJO)
     assert.isDefined(parameters)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
