@@ -109,6 +109,13 @@ class DescriptionConfigurationFormComponent extends React.Component {
               component={RenderCheckbox}
               fullWidth
             />
+            {/* Hide empty attribute values */}
+            <Field
+              name={`${currentNamespace}.${entityType}.hideEmptyAttributes`}
+              label={formatMessage({ id: 'module.description.configuration.hide.empty.attributes' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
             {/* Show tags field */}
             <Field
               name={`${currentNamespace}.${entityType}.showTags`}

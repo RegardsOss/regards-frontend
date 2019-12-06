@@ -33,6 +33,7 @@ const messages = {
 
   'module.description.configuration.general': 'Main configuration',
   'module.description.configuration.show.description': 'Allow description',
+  'module.description.configuration.hide.empty.attributes': 'Hide attributes with undefined or empty value',
   'module.description.configuration.show.tags': 'Display related tags',
   'module.description.configuration.show.coupling': 'Display related coupling',
   'module.description.configuration.show.linked.documents': 'Display linked documents',

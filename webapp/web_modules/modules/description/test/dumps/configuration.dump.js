@@ -50,6 +50,7 @@ export const fullModuleConf = {
   allowSearching: true,
   [DamDomain.ENTITY_TYPES_ENUM.COLLECTION]: {
     showDescription: false,
+    hideEmptyAttributes: false,
     showTags: false,
     showCoupling: false,
     showLinkedDocuments: false,
@@ -60,6 +61,7 @@ export const fullModuleConf = {
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: {
     showDescription: false,
+    hideEmptyAttributes: false,
     showTags: false,
     showCoupling: false,
     showLinkedDocuments: false,
@@ -70,6 +72,7 @@ export const fullModuleConf = {
   },
   [UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT]: {
     showDescription: false,
+    hideEmptyAttributes: false,
     showTags: false,
     showCoupling: false,
     showLinkedDocuments: false,
@@ -80,6 +83,7 @@ export const fullModuleConf = {
   },
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
     showDescription: true,
+    hideEmptyAttributes: false,
     showTags: false,
     showCoupling: false,
     showLinkedDocuments: false,

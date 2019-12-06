@@ -39,6 +39,7 @@ export const DescriptionGroup = PropTypes.shape({
  */
 export const DescriptionConfiguration = PropTypes.shape({
   showDescription: PropTypes.bool.isRequired,
+  hideEmptyAttributes: PropTypes.bool.isRequired, // when true, attributes are hidden when empty, even if they are part of the data model
   showTags: PropTypes.bool.isRequired,
   showCoupling: PropTypes.bool.isRequired,
   showLinkedDocuments: PropTypes.bool.isRequired,
