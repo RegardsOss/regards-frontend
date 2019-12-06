@@ -56,6 +56,8 @@ const messages = Object.assign({
   'storage.location.copy.confirm.path-source': 'Source folder to copy (optional)',
 
   'storage.location.errors.view.title': 'Requests errors on <{name}>',
+  'storage.location.errors.view.table.label': 'File',
+  'storage.location.errors.view.table.error': 'Error cause',
 
   'storage.data-storage.monitoring.button': 'Recalculate occupations',
   'storage.data-storage.refresh.button': 'Refresh',

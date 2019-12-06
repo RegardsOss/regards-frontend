@@ -19,28 +19,32 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { SessionsMonitoringTableBackgroundComponent } from '../../../../src/components/session/render/SessionsMonitoringTableBackgroundComponent'
-import styles from '../../../../src/styles'
+import { PageableInfiniteTableContainer, TableLayout } from '@regardsoss/components'
+import { ProductsComponent } from '../../../src/components/product/ProductsComponent'
+import { dumpSessions } from '../../dumps/sessions.dump'
+import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test SessionsMonitoringTableBackgroundComponent
- * @author Kévin Picart
+ * Test ProductsComponent
+ * @author Sébastien Binda
  */
-describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringTableBackgroundComponent', () => {
+describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing ProductsComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(SessionsMonitoringTableBackgroundComponent)
+    assert.isDefined(ProductsComponent)
   })
   it('should render correctly', () => {
     const props = {
-      isInError: true,
-      isDeleted: false,
-      children: <div />,
+      session: dumpSessions[0],
     }
-    shallow(<SessionsMonitoringTableBackgroundComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<ProductsComponent {...props} />, { context })
+    const tableLayout = enzymeWrapper.find(TableLayout)
+    assert.lengthOf(tableLayout, 1, 'There should be 1 tableLayout')
+    const pageableInfiniteTableContainer = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(pageableInfiniteTableContainer, 1, 'There should be 1 pageableInfiniteTableContainer')
   })
 })

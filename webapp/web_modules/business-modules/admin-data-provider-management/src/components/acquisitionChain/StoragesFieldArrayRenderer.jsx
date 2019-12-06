@@ -30,7 +30,9 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export const DATA_TYPES_ENUM = {
   RAWDATA: 'RAWDATA',
-  QUICKLOOK: 'QUICKLOOK',
+  QUICKLOOK_SD: 'QUICKLOOK_SD',
+  QUICKLOOK_MD: 'QUICKLOOK_MD',
+  QUICKLOOK_HD: 'QUICKLOOK_HD',
   DOCUMENT: 'DOCUMENT',
   THUMBNAIL: 'THUMBNAIL',
   OTHER: 'OTHER',

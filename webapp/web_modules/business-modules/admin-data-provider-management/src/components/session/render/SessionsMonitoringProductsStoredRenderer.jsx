@@ -124,9 +124,34 @@ class SessionsMonitoringProductsStored extends React.Component {
       pendingPlusWidth = { ...pending, width: `${pendingWidth}%` }
     }
 
+    const items = []
+    if (storagePending + stored > 0) {
+      items.push(<MenuItem
+        key="listaips"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
+        onClick={this.onClickListAIP}
+        value="listaips"
+      />)
+    }
+    if (errors > 0) {
+      items.push(<MenuItem
+        key="listerrors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
+        onClick={this.onClickListRequestErrors}
+        value="listerrors"
+      />)
+      items.push(<MenuItem
+        key="relauncherrors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
+        onClick={this.onClickRelaunch}
+        value="relauncherrors"
+      />)
+    }
+
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
+        isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={cellContainer}>
           { !entity.content.lifeCycle.oais ? (
@@ -169,26 +194,16 @@ class SessionsMonitoringProductsStored extends React.Component {
                   <div style={three}>{formatNumber(storagePending)}</div>
                   <div style={four}>{formatNumber(errors)}</div>
                 </div>
-                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                  <DropDownButton
-                    title={formatMessage({ id: 'acquisition-sessions.menus.archives' })}
-                    style={menuDropDown}
-                    icon={<Menu />}
-                  >
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
-                      onClick={this.onClickRelaunch}
-                    />
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
-                      onClick={this.onClickListAIP}
-                    />
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
-                      onClick={this.onClickListRequestErrors}
-                    />
-                  </DropDownButton>
-                </div>
+                {items.length > 0
+                  ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                    <DropDownButton
+                      title={formatMessage({ id: 'acquisition-sessions.menus.archives' })}
+                      style={menuDropDown}
+                      icon={<Menu />}
+                    >
+                      {items}
+                    </DropDownButton>
+                  </div> : null }
               </div>
             </div>
           )}

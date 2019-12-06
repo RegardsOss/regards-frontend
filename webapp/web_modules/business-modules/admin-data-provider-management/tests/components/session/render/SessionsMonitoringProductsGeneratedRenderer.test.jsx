@@ -71,13 +71,14 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         links: [],
       },
       onDeleteProducts: () => {},
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
+      onShowProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)
     assert.lengthOf(play, 0, 'There should be 0 Play button if not running')
     const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
+    assert.lengthOf(dropDownButton, 0, 'There should be 0 DropDownButton')
   })
   it('should render correctly without products', () => {
     const props = {
@@ -108,8 +109,9 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         },
         links: [],
       },
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
       onDeleteProducts: () => {},
+      onShowProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)

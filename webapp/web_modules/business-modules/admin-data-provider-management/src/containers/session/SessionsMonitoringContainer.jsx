@@ -36,7 +36,7 @@ import styles from '../../styles'
 export class SessionsMonitoringContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
-    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { source: force })),
+    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
     relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
     relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
     relaunchSIP: (source, name) => dispatch(sessionsRelaunchSIPActions.relaunchProducts(source, name)),
@@ -132,7 +132,7 @@ export class SessionsMonitoringContainer extends React.Component {
    * Initial state
    */
   state = {
-    columnsSorting: [],
+    columnsSorting: [{ columnKey: SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE, order: CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER }],
     initialFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     editionFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
     applyingFiltersState: SessionsMonitoringContainer.DEFAULT_FILTERS_STATE,
@@ -150,10 +150,14 @@ export class SessionsMonitoringContainer extends React.Component {
   initializeFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
     if (values(query).length > 0) {
+      const newState = {
+        ...this.state.initialFiltersState,
+        ...query,
+      }
       this.setState({
-        initialFiltersState: query,
-        editionFiltersState: query,
-        applyingFiltersState: query,
+        initialFiltersState: newState,
+        editionFiltersState: newState,
+        applyingFiltersState: newState,
       })
     }
   }

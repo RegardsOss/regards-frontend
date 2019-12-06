@@ -38,8 +38,8 @@ import { searchSessionsActions, searchSessionsSelectors } from '../../clients/se
 export class SessionsMonitoringFiltersComponent extends React.Component {
   static propTypes = {
     initialFilters: PropTypes.shape({
-      source: PropTypes.string.isRequired,
-      session: PropTypes.string.isRequired,
+      source: PropTypes.string,
+      session: PropTypes.string,
       lastSessionOnly: PropTypes.bool.isRequired,
       errorsOnly: PropTypes.bool.isRequired,
       from: PropTypes.instanceOf(Date),

@@ -34,7 +34,8 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 class SessionsMonitoringProductsGenerated extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickRelaunchProducts: PropTypes.func.isRequired,
+    onRelaunchProducts: PropTypes.func.isRequired,
+    onShowProducts: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,8 +44,8 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   }
 
   onClickRelaunchProducts = () => {
-    const { entity, onClickRelaunchProducts } = this.props
-    onClickRelaunchProducts(entity.content.source, entity.content.name)
+    const { entity, onRelaunchProducts } = this.props
+    onRelaunchProducts(entity.content.source, entity.content.name)
   }
 
   getFilesAcquired = (entity) => {
@@ -55,9 +56,12 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
   getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
-    const submitted = get(entity, 'content.lifeCycle.dataprovider.submitted', 0)
+    const generated = get(entity, 'content.lifeCycle.dataprovider.generated', 0)
     const ingested = get(entity, 'content.lifeCycle.dataprovider.ingested', 0)
-    return formatNumber(parseInt(submitted, 10) + parseInt(ingested, 10))
+    // Do not handle ingestion errors in dataprovider section. Ingestion errors will be handled with ingest microservice
+    // ingestion failed means that te SIP is well generated.
+    const ingFailed = get(entity, 'content.lifeCycle.dataprovider.ingestion_failed', 0)
+    return formatNumber(parseInt(generated, 10) + parseInt(ingested, 10) + parseInt(ingFailed, 10))
   }
 
   getIncompletes = (entity) => {
@@ -69,8 +73,15 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   getErrors = (entity) => {
     const { intl: { formatNumber } } = this.context
     const error = get(entity, 'content.lifeCycle.dataprovider.generation_error', 0)
-    const ingFailed = get(entity, 'content.lifeCycle.dataprovider.ingestion_failed', 0)
-    return formatNumber(parseInt(error, 10) + parseInt(ingFailed, 10))
+    return formatNumber(parseInt(error, 10))
+  }
+
+  onShowErrors = () => {
+    this.props.onShowProducts(this.props.entity)
+  }
+
+  onShowIncompletes = () => {
+    this.props.onShowProducts(this.props.entity, false, true)
   }
 
   render() {
@@ -95,9 +106,34 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     } = this.context
     const { entity } = this.props
 
+    const actions = []
+    if (this.getErrors(entity) > 0) {
+      actions.push(<MenuItem
+        key="relaunch"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+        onClick={this.onClickRelaunchProducts}
+        value="relaunch"
+      />)
+      actions.push(<MenuItem
+        key="show-errors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.errors' })}
+        onClick={this.onShowErrors}
+        value="show-errors"
+      />)
+    }
+    if (this.getIncompletes(entity) > 0) {
+      actions.push(<MenuItem
+        key="show-incomplete"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.incomplete' })}
+        onClick={this.onShowIncompletes}
+        value="show-incomplete"
+      />)
+    }
+
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
+        isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={cellContainer}>
           { !entity.content.lifeCycle.dataprovider ? (
@@ -145,18 +181,17 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   <div style={three}>{this.getErrors(entity)}</div>
                   <div style={four}>{this.getFilesAcquired(entity)}</div>
                 </div>
-                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                  <DropDownButton
-                    title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                    style={menuDropDown}
-                    icon={<Menu />}
-                  >
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-                      onClick={this.onClickRelaunchProducts}
-                    />
-                  </DropDownButton>
-                </div>
+                {actions.length > 0
+                  ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                    <DropDownButton
+                      title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                      style={menuDropDown}
+                      icon={<Menu />}
+                    >
+                      {actions}
+                    </DropDownButton>
+                  </div> : null
+                }
               </div>
             </div>
           )}

@@ -135,7 +135,9 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
     }
     if (storage.quicklook) {
-      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_SD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_MD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_HD)
     }
     if (storage.thumbnail) {
       targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)

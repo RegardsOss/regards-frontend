@@ -181,7 +181,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           document: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DOCUMENT),
           description: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DESCRIPTION),
           thumbnail: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.THUMBNAIL),
-          quicklook: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.QUICKLOOK),
+          quicklook: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.QUICKLOOK_SD),
           other: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.OTHER),
         }
       }).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
