@@ -57,10 +57,11 @@ class SessionsMonitoringProductsGenerated extends React.Component {
   getGenerated = (entity) => {
     const { intl: { formatNumber } } = this.context
     const generated = get(entity, 'content.lifeCycle.dataprovider.generated', 0)
+    const ingested = get(entity, 'content.lifeCycle.dataprovider.ingested', 0)
     // Do not handle ingestion errors in dataprovider section. Ingestion errors will be handled with ingest microservice
     // ingestion failed means that te SIP is well generated.
     const ingFailed = get(entity, 'content.lifeCycle.dataprovider.ingestion_failed', 0)
-    return formatNumber(parseInt(generated, 10) + parseInt(ingFailed, 10))
+    return formatNumber(parseInt(generated, 10) + parseInt(ingested, 10) + parseInt(ingFailed, 10))
   }
 
   getIncompletes = (entity) => {
