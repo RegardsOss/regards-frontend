@@ -20,11 +20,13 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { processingChainActions, processingChainSelectors } from '../../clients/ProcessingChainClient'
+import { IngestShapes } from '@regardsoss/shape'
+import { processingChainActions } from '../../clients/ProcessingChainClient'
 import { aipSelectors, aipActions } from '../../clients/AIPClient'
-import { aipSignalActions } from '../../clients/AIPSignalClient'
-import { aipTableSelectors, aipTableActions } from '../../clients/AIPTableClient'
-import { aipTagActions } from '../../clients/AIPTagClient'
+import { aipStorageSearchSelectors, aipStorageSearchActions } from '../../clients/AIPStorageSearchClient'
+import { aipDeleteActions } from '../../clients/AIPDeleteClient'
+import { aipTableActions, aipTableSelectors } from '../../clients/AIPTableClient'
+import { aipUpdateActions } from '../../clients/AIPUpdateClient'
 import OAISPackageManagerComponent from '../../components/packages/OAISPackageManagerComponent'
 import OAISCriterionShape from '../../shapes/OAISCriterionShape'
 
@@ -42,6 +44,9 @@ class OAISPackageManagerContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       meta: aipSelectors.getMetaData(state),
+      storages: aipStorageSearchSelectors.getArray(state),
+      tableSelection: aipTableSelectors.getToggledElementsAsList(state),
+      selectionMode: aipTableSelectors.getSelectionMode(state),
     }
   }
 
@@ -54,8 +59,11 @@ class OAISPackageManagerContainer extends React.Component {
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
+    fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(bodyParams, pathParams)),
     clearSelection: () => dispatch(aipTableActions.unselectAll()),
-    onRetry: aip => dispatch(aipTagActions.storeRetry(aip.aip.id)),
+    fetchSip: () => dispatch(),
+    deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams, {}, {})),
+    modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams, {}, {})),
   })
 
   static propTypes = {
@@ -65,18 +73,24 @@ class OAISPackageManagerContainer extends React.Component {
       session: PropTypes.string,
       aip: PropTypes.string,
     }),
+    featureManagerFilters: OAISCriterionShape,
+    // from mapDistpathToProps
+    fetchProcessingChains: PropTypes.func.isRequired,
+    fetchPage: PropTypes.func.isRequired,
+    fetchStorages: PropTypes.func.isRequired,
+    clearSelection: PropTypes.func.isRequired,
+    deleteAips: PropTypes.func.isRequired,
+    modifyAips: PropTypes.func.isRequired,
+    // from mapStateToProps
     meta: PropTypes.shape({ // use only in onPropertiesUpdate
       number: PropTypes.number,
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
-    // from mapDistpathToProps
-    fetchProcessingChains: PropTypes.func.isRequired,
-    fetchPage: PropTypes.func.isRequired,
-    clearSelection: PropTypes.func.isRequired,
-    onRetry: PropTypes.func.isRequired,
-    // from mapStateToProps
-    featureManagerFilters: OAISCriterionShape,
+    storages: PropTypes.arrayOf(PropTypes.string),
+    tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
+    selectionMode: PropTypes.string.isRequired,
+    fetchSip: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -88,8 +102,8 @@ class OAISPackageManagerContainer extends React.Component {
   static PAGE_SIZE = 20
 
   state = {
-    contextFilters: {},
-    urlFilters: {},
+    // contextFilters: {},
+    // urlFilters: {},
   }
 
   componentWillMount() {
@@ -99,6 +113,7 @@ class OAISPackageManagerContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchProcessingChains()
+    this.props.fetchStorages({}, {})
   }
 
   componentWillReceiveProps(nextProps) {
@@ -114,19 +129,16 @@ class OAISPackageManagerContainer extends React.Component {
     if (aip) {
       contextFilters.providerId = aip
     }
-    this.setState({ contextFilters })
+    // this.setState({ contextFilters })
   }
 
   initializeFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
     if (values(query).length > 0) {
-      this.setState({ urlFilters: query })
+      // this.setState({ urlFilters: query })
     }
   }
 
-  /**
-   * Callback: on refresh AIP table
-   */
   onRefresh = () => {
     const { meta, fetchPage, clearSelection } = this.props
     const { currentFilters } = this.state
@@ -135,30 +147,28 @@ class OAISPackageManagerContainer extends React.Component {
     fetchPage(0, OAISPackageManagerContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
-  /**
-   * User callback: retry AIP sroage
-   */
-  onRetryAIPStorage = (aip) => {
-    const { onRetry } = this.props
-    Promise.resolve(onRetry(aip)).then((results) => {
-      if (!results.error) {
-        this.onRefresh()
-      }
-    })
-  }
-
   render() {
-    const { urlFilters, contextFilters } = this.state
-    const { featureManagerFilters } = this.props
+    const {
+      featureManagerFilters,
+      tableSelection,
+      storages,
+      deleteAips,
+      selectionMode,
+      modifyAips,
+      fetchSip,
+    } = this.props
 
     return (
       <OAISPackageManagerComponent
         pageSize={OAISPackageManagerContainer.PAGE_SIZE}
-        contextFilters={contextFilters}
-        initialFilters={urlFilters}
         featureManagerFilters={featureManagerFilters}
-        onRetryAIPStorage={this.onRetryAIPStorage}
+        storages={storages}
         onRefresh={this.onRefresh}
+        deleteAips={deleteAips}
+        tableSelection={tableSelection}
+        selectionMode={selectionMode}
+        modifyAips={modifyAips}
+        fetchSip={fetchSip}
       />
     )
   }

@@ -21,8 +21,8 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, TableHeaderAutoCompleteFilterContainer, DatePickerField, TableHeaderTextField,
 } from '@regardsoss/components'
-import { searchSourcesActions, searchSourcesSelectors } from '../clients/session/SearchSourcesClient'
-import { searchSessionsActions, searchSessionsSelectors } from '../clients/session/SearchSessionsClient'
+import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
 import OAISCriterionShape from '../shapes/OAISCriterionShape'
 
 /**
@@ -64,14 +64,18 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
   changeFrom = (newValue) => {
     const finalNewValue = newValue && newValue !== '' ? newValue : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      from: finalNewValue,
+      lastUpdate: {
+        from: finalNewValue,
+      },
     })
   }
 
   changeTo = (newValue) => {
     const finalNewValue = newValue && newValue !== '' ? newValue : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      to: finalNewValue,
+      lastUpdate: {
+        to: finalNewValue,
+      },
     })
   }
 

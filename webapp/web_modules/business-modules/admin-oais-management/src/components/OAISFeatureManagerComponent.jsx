@@ -71,12 +71,16 @@ class OAISFeatureManagerComponent extends React.Component {
     )
   }
 
-  updateStateFromFeatureManagerFilters = (newFilters) => {
+  updateStateFromFeatureManagerFilters = ({ lastUpdate, ...newFilters }) => {
     //TODO SAVE IN URL
     this.setState({
       featureManagerFilters: {
         ...this.state.featureManagerFilters,
         ...newFilters,
+        lastUpdate: {
+          ...this.state.featureManagerFilters.lastUpdate,
+          ...lastUpdate,
+        },
       },
     })
   }

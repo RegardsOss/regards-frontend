@@ -21,6 +21,7 @@ export { AIPSession } from '../rs-ingest/AIPSession'
 export { AIP } from '../rs-ingest/AIP'
 export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
 export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
+export { Request, RequestEntity } from '../rs-ingest/Request'
 export {
   StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
 } from './StorageMonitoring'

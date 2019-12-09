@@ -71,7 +71,6 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // we provide a disabled to be used by subcomponent - if you provide too the prop we respect it
       const disabled = !isDisplayed || get(otherProps, 'disabled', false)
       const decoratedComponentElement = React.createElement(DecoratedComponent, omit({ ...otherProps, disabled }, ['theme', 'i18n', 'dispatch']))
-
       if (!hideDisabled) {
         return decoratedComponentElement
       }

@@ -24,13 +24,14 @@ import PropertiesShape from '../rs-common/IP'
  */
 export const AIP = PropTypes.shape({
   aip: PropTypes.shape({
-    providerId: PropTypes.string.isRequired,
-    sipId: PropTypes.string, // Not required as datasets, collections and documents are not produced by SIP sessions
-    ipType: PropTypes.string,
-    id: PropTypes.string.isRequired,
     geometry: PropTypes.any,
+    id: PropTypes.string.isRequired,
+    ipType: PropTypes.string,
     normalizedGeometry: PropTypes.any,
     properties: PropertiesShape,
+    providerId: PropTypes.string.isRequired,
+    sipId: PropTypes.string, // Not required as datasets, collections and documents are not produced by SIP sessions
     type: PropTypes.string,
+    version: PropTypes.number.isRequired,
   }).isRequired,
 })

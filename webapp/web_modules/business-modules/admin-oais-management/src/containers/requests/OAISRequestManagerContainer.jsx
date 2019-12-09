@@ -17,16 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
-import { browserHistory } from 'react-router'
-import { processingChainActions, processingChainSelectors } from '../../clients/ProcessingChainClient'
-import { aipSelectors, aipActions } from '../../clients/AIPClient'
-import { aipSignalActions } from '../../clients/AIPSignalClient'
-import { aipTableSelectors, aipTableActions } from '../../clients/AIPTableClient'
-import { aipTagActions } from '../../clients/AIPTagClient'
-import OAISPackageManagerComponent from '../../components/packages/OAISPackageManagerComponent'
+import { processingChainActions } from '../../clients/ProcessingChainClient'
+import { requestSelectors, requestActions } from '../../clients/RequestClient'
+import { requestTableActions, requestTableSelectors } from '../../clients/RequestTableClient'
 import OAISCriterionShape from '../../shapes/OAISCriterionShape'
+import OAISRequestManagerComponent from '../../components/requests/OAISRequestManagerComponent'
 
 /**
  * Displays the list of OAIS packages
@@ -41,7 +37,9 @@ class OAISRequestManagerContainer extends React.Component {
   */
   static mapStateToProps(state) {
     return {
-      meta: aipSelectors.getMetaData(state),
+      meta: requestSelectors.getMetaData(state),
+      tableSelection: requestTableSelectors.getToggledElementsAsList(state),
+      selectionMode: requestTableSelectors.getSelectionMode(state),
     }
   }
 
@@ -53,9 +51,8 @@ class OAISRequestManagerContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
-    clearSelection: () => dispatch(aipTableActions.unselectAll()),
-    onRetry: aip => dispatch(aipTagActions.storeRetry(aip.aip.id)),
+    fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
+    clearSelection: () => dispatch(requestTableActions.unselectAll()),
   })
 
   static propTypes = {
@@ -70,13 +67,14 @@ class OAISRequestManagerContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    featureManagerFilters: OAISCriterionShape,
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     clearSelection: PropTypes.func.isRequired,
-    onRetry: PropTypes.func.isRequired,
     // from mapStateToProps
-    featureManagerFilters: OAISCriterionShape,
+    // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
+    selectionMode: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
@@ -87,41 +85,8 @@ class OAISRequestManagerContainer extends React.Component {
 
   static PAGE_SIZE = 20
 
-  state = {
-    contextFilters: {},
-    urlFilters: {},
-  }
-
-  componentWillMount() {
-    this.initializeFiltersFromURL()
-    this.initializeContextFilters(this.props)
-  }
-
   componentDidMount() {
     this.props.fetchProcessingChains()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.params.aip !== this.props.params.aip) {
-      this.initializeFiltersFromURL()
-      this.initializeContextFilters(nextProps)
-    }
-  }
-
-  initializeContextFilters = (props) => {
-    const { params: { aip } } = props
-    const contextFilters = {}
-    if (aip) {
-      contextFilters.providerId = aip
-    }
-    this.setState({ contextFilters })
-  }
-
-  initializeFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    if (values(query).length > 0) {
-      this.setState({ urlFilters: query })
-    }
   }
 
   /**
@@ -135,30 +100,15 @@ class OAISRequestManagerContainer extends React.Component {
     fetchPage(0, OAISRequestManagerContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
   }
 
-  /**
-   * User callback: retry AIP sroage
-   */
-  onRetryAIPStorage = (aip) => {
-    const { onRetry } = this.props
-    Promise.resolve(onRetry(aip)).then((results) => {
-      if (!results.error) {
-        this.onRefresh()
-      }
-    })
-  }
-
   render() {
-    const { urlFilters, contextFilters } = this.state
-    const { featureManagerFilters } = this.props
+    const { featureManagerFilters, selectionMode } = this.props
 
     return (
-      <OAISPackageManagerComponent
+      <OAISRequestManagerComponent
         pageSize={OAISRequestManagerContainer.PAGE_SIZE}
-        contextFilters={contextFilters}
-        initialFilters={urlFilters}
         featureManagerFilters={featureManagerFilters}
-        onRetryAIPStorage={this.onRetryAIPStorage}
         onRefresh={this.onRefresh}
+        selectionMode={selectionMode}
       />
     )
   }

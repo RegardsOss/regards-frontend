@@ -18,29 +18,43 @@
  **/
 import { combineReducers } from 'redux'
 import { aipReducer } from './clients/AIPClient'
-import { aipTagReducer } from './clients/AIPTagClient'
-import { relaunchSIPsReducer } from './clients/RelaunchSIPClient'
-import { tableReducer } from './clients/TableClient'
+import { aipCategorySearchReducer } from './clients/AIPCategorySearchClient'
+import { aipStorageSearchReducer } from './clients/AIPStorageSearchClient'
+import { aipTagSearchReducer } from './clients/AIPTagSearchClient'
 import { sipTableReducer } from './clients/SIPTableClient'
-import { deleteSIPsReducer } from './clients/DeleteSIPClient'
-import { searchSessionsReducer } from './clients/session/SearchSessionsClient'
-import { searchSourcesReducer } from './clients/session/SearchSourcesClient'
+import { aipTableReducer } from './clients/AIPTableClient'
+import { searchSessionsReducer } from './clients/SearchSessionsClient'
+import { searchSourcesReducer } from './clients/SearchSourcesClient'
 import { sipReducer } from './clients/SIPClient'
-import { sipSignalReducer } from './clients/SIPSignalClient'
 import { sipImportReducer } from './clients/SIPImportClient'
 import { processingChainReducer } from './clients/ProcessingChainClient'
+import { aipCountReducer } from './clients/AIPCountClient'
+import { requestCountReducer } from './clients/RequestCountClient'
+import { requestReducer } from './clients/RequestClient'
+import { requestTableReducer } from './clients/RequestTableClient'
+import { aipDeleteReducer } from './clients/AIPDeleteClient'
+import { requestValidateReducer } from './clients/RequestValidateClient'
+import { requestRelaunchReducer } from './clients/RequestRelaunchClient'
+import { requestDeleteReducer } from './clients/RequestDeleteClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
-  'aip-tag': aipTagReducer,
-  'aip-table': tableReducer,
-  'sip-table': sipTableReducer,
-  'delete-sip': deleteSIPsReducer,
+  'aip-count': aipCountReducer,
+  'aip-table': aipTableReducer,
+  'aip-search-category': aipCategorySearchReducer,
+  'aip-search-storage': aipStorageSearchReducer,
+  'aip-search-tag': aipTagSearchReducer,
+  request: requestReducer,
+  'request-count': requestCountReducer,
+  'request-table': requestTableReducer,
+  'request-validate': requestValidateReducer,
+  'request-relaunch': requestRelaunchReducer,
+  'request-delete': requestDeleteReducer,
   sip: sipReducer,
+  'sip-table': sipTableReducer,
+  'aip-delete': aipDeleteReducer,
   sipImport: sipImportReducer,
-  sipSignal: sipSignalReducer,
   chain: processingChainReducer,
-  'relaunch-sip': relaunchSIPsReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
 })

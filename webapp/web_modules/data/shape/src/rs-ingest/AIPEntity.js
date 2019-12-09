@@ -17,30 +17,33 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AIP } from './AIP'
-import { AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
 import { SIPEntity } from './SIPEntity'
 
 /**
  * Describes an AIP Entity shape and related sub objects
  * @author Simon MILHAU
  */
-
 export const AIPEntityContent = PropTypes.shape({
   content: {
-    id: PropTypes.number,
+    aip: PropTypes.oneOf(AIP),
     aipId: PropTypes.string,
-    state: PropTypes.string,
-    sip: SIPEntity,
-    aip: AIP,
-    ingestMetadata: AIPEntityIngestMetadata,
-    providerId: PropTypes.string.isRequired,
-    tags: PropTypes.array,
+    categories: PropTypes.arrayOf(PropTypes.string),
+    checksum: PropTypes.string.isRequired,
     creationDate: PropTypes.string,
+    id: PropTypes.number,
     lastUpdate: PropTypes.string,
+    manifestLocations: PropTypes.any,
+    providerId: PropTypes.string.isRequired,
+    session: PropTypes.string.isRequired,
+    sessionOwner: PropTypes.string.isRequired,
+    sip: SIPEntity,
+    state: PropTypes.string,
+    storages: PropTypes.arrayOf(PropTypes.string),
+    tags: PropTypes.array,
   },
 })
 
 export const AIPEntity = PropTypes.shape({
-  content: PropTypes.arrayOf(AIPEntityContent).isRequired,
+  content: PropTypes.oneOf(AIPEntityContent).isRequired,
   links: PropTypes.array,
 })

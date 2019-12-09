@@ -32,7 +32,7 @@ export const AIPEntityIngestMetadata = PropTypes.shape({
     sessionOwner: PropTypes.string.isRequired,
     session: PropTypes.string.isRequired,
     ingestChain: PropTypes.string.isRequired,
-    storages: PropTypes.arrayOf(AIPEntityIngestMetadataStorages),
+    storages: PropTypes.arrayOf(PropTypes.string),
     categories: PropTypes.array.isRequired,
   }).isRequired,
 })

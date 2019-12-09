@@ -18,12 +18,11 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { IngestShapes } from '@regardsoss/shape'
 import { StringArrayValueRender } from '@regardsoss/components'
 
 class StorageArrayRender extends React.Component {
   static propTypes = {
-    value: PropTypes.arrayOf(IngestShapes.AIPEntityIngestMetadataStorages).isRequired,
+    value: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
   static contextTypes = {
@@ -34,7 +33,7 @@ class StorageArrayRender extends React.Component {
   render() {
     const { value } = this.props
     return (
-      <StringArrayValueRender value={value.map(storage => storage.pluginBusinessId)} />
+      <StringArrayValueRender value={value.map(storage => storage)} />
     )
   }
 }

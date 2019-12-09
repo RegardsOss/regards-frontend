@@ -52,6 +52,25 @@ class BasicArrayActions extends BasicActions {
     }
   }
 
+
+  fetchEntityListByPost(bodyParams, pathParams) {
+    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, {})
+    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    return {
+      [RSAA]: {
+        types: [
+          this.ENTITY_LIST_REQUEST,
+          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
+        ],
+        endpoint,
+        headers: this.headers,
+        method: 'POST',
+        body: JSON.stringify(bodyParams),
+      },
+    }
+  }
+
   /**
   * Allows to send multiple objects on the same time
   * Requires that the API send back new entities
