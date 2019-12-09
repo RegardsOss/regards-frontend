@@ -38,6 +38,7 @@ describe('[Search Graph] Testing AdminModuleContainer', () => {
         isCreating: true,
         isDuplicating: false,
         isEditing: false,
+        isPage: true,
         changeField: () => { },
         form: {},
       },

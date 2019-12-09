@@ -46,6 +46,7 @@ describe('[Description] Testing AdminContainer', () => {
       adminForm: {
         currentNamespace: 'test',
         isCreating: false,
+        isPage: false,
         changeField: () => { },
         form: {
           test: fullModuleConf,
