@@ -58,24 +58,17 @@ export class AccessRightListContainer extends React.Component {
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
     const { accessGroup } = this.props
     // Create new access rights
-    const dataAccessRight = {
-      dataAccessLevel: formValues.dataAccess,
-    }
-    if (formValues) {
-      dataAccessRight.pluginConfiguration = formValues.checkAccessPlugin
-    }
-    const qualityFilter = {
-      maxScore: formValues.quality.max,
-      minScore: formValues.quality.min,
-      qualityLevel: formValues.quality.level,
-    }
     const newAccessRightList = map(selectedDatasetsWithAccessright, datasetWithAR => ({
       id: get(datasetWithAR, 'content.accessRight.id', null),
-      qualityFilter,
-      dataAccessRight,
+      qualityFilter: { // XXX-workaround: backend refuses missing quality filter (clear when correctly coded on backend)
+        maxScore: undefined,
+        minScore: undefined,
+        qualityLevel: undefined,
+      },
       dataAccessPlugin: formValues.dataAccessPlugin,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
+      dataAccessLevel: formValues.dataAccess,
       dataset: {
         id: get(datasetWithAR, 'content.dataset.id', null),
         type: get(datasetWithAR, 'content.dataset.type', null),

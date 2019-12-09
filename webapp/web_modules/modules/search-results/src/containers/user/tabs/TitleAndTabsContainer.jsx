@@ -19,7 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
-import { UIDomain } from '@regardsoss/domain'
+import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { resultsContextActions, resultsContextSelectors } from '../../../clients/ResultsContextClient'
 import TitleAndTabsComponent from '../../../components/user/tabs/TitleAndTabsComponent'
 
@@ -120,6 +120,10 @@ export class TitleAndTabsContainer extends React.Component {
           // visible when there is root context tag
           tabVisible = contextTags.length > 0
           tabName = contextTags.length > 0 ? contextTags[0].label : null
+          if (tabName && CatalogDomain.TagsHelper.isCouplingTag(tabName)) {
+            // specific case of coupling tags: use only coupling label
+            tabName = CatalogDomain.TagsHelper.parseCouplingTag(tabName).label
+          }
           break
         }
         default:

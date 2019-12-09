@@ -245,7 +245,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   onConfirmDelete = () => {
     this.closeDeleteDialog()
     if (this.state.chainToDelete) {
-      this.props.onDelete(this.state.chainToDelete)
+      this.props.onDelete(this.state.chainToDelete, this.props.onRefresh)
     }
   }
 
@@ -281,7 +281,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          title={this.context.intl.formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.label })}
+          title={this.context.intl.formatMessage({ id: 'acquisition-chain.list.delete.confirm.title' }, { label: this.state.chainToDelete.content.chain.label })}
           onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
         />
@@ -471,6 +471,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
             secondaryButtonClick={onBack}
           />
         </CardActions>
+        {this.renderDeleteConfirmDialog()}
       </Card>
     )
   }

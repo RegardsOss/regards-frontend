@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
 import root from 'window-or-global'
 import reduce from 'lodash/reduce'
@@ -217,7 +220,7 @@ export class DescriptionEntityHelper {
     // for each group: convert and filter attributes. If at least one can be retrieved, keep the group, remove it otherwise
     return typeConfiguration.groups.reduce((acc, { showTitle, title, elements }, index) => {
       // 1 - retain attributes that can be found in model attributes list
-      const convertedElements = DescriptionEntityHelper.filterAndConvertElements(elements, attributes, entity)
+      const convertedElements = DescriptionEntityHelper.filterAndConvertElements(elements, typeConfiguration.hideEmptyAttributes, attributes, entity)
       if (convertedElements.length) { // that group has available attributes for current model, show it
         return [...acc, {
           key: `group.${index}`,
@@ -233,13 +236,14 @@ export class DescriptionEntityHelper {
   /**
    * Converts and filter group rows: when attributes could be retrieve, provided elements resolved for runtime. Filter them otherwise
    * @param {*} elements group rows, from module configuration
+    * @param {boolean} hideEmptyAttributes should hide empty value attributes?
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} entity matching CatalogShapes.Entity
    * @return {[*]} filtered group elements as an array of NavigationTree.AttributeGroup
    */
-  static filterAndConvertElements(elements, attributes, entity) {
+  static filterAndConvertElements(elements, hideEmptyAttributes, attributes, entity) {
     return elements.reduce((acc, element, index) => {
-      const convertedElement = DescriptionEntityHelper.filterOrConvertElement(element, attributes, entity, index)
+      const convertedElement = DescriptionEntityHelper.filterOrConvertElement(element, hideEmptyAttributes, attributes, entity, index)
       return convertedElement
         ? [...acc, convertedElement] // some attributes in that group row could be retrieved, retain it
         : acc // no attribute in that group row could be retrieve, remove it
@@ -250,25 +254,44 @@ export class DescriptionEntityHelper {
   /**
    * Filters or convert a single group row: when some attributes can be retrieved,
    *  converts the element into runtime displayable attributes row. Filters the row otherwise
-   * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} element group row, from module configuration
+   * @param {boolean} hideEmptyAttributes should hide empty value attributes?
+   * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} entity matching CatalogShapes.Entity
    * @param {number} index group row index (used to build key)
    * @return {*} A displayable row as NavigationTree.DisplayableGroupRow
    */
-  static filterOrConvertElement({ label, attributes: confAttributes }, attributes, entity, index) {
+  static filterOrConvertElement({ label, attributes: confAttributes }, hideEmptyAttributes, attributes, entity, index) {
     // A - retrieve all attributes and their render data
     const convertedAttributes = confAttributes.reduce((acc, attribute) => {
       const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attribute.name, attributes)
+      // 1- retrieve attribute model
       if (model) {
-        const { content: { type, jsonPath, unit } } = model
-        // the attribute model could be retrieved in current model attributes: resolve its render for current entity
-        return [...acc, {
-          key: jsonPath,
-          Renderer: getTypeRender(type),
-          renderValue: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
-          renderUnit: unit, // unit if any
-        }]
+        // attribute model is part of the current entity model
+        const {
+          content: {
+            type, jsonPath, precision, unit,
+          },
+        } = model
+        // 2. retrieve value
+        const value = DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath)
+        // Return that value displayer if, by configuration, empty values should be shown OR if its value is not empty
+        const isEmptyValue = isNil(value) || ((isString(value) || isArray(value)) && isEmpty(value))
+        if (!hideEmptyAttributes || !isEmptyValue) {
+          // both model and value OK, return render-ready attribute
+          return [...acc, {
+            key: jsonPath,
+            render: {
+              Constructor: getTypeRender(type),
+              props: {
+                value: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
+                precision,
+                unit,
+              },
+            },
+          }]
+        }
+        // other cases: that attribute value should not be shown
       }
       // filter that attribute as it has no available model
       return acc

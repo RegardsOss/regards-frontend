@@ -68,7 +68,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       onBack: wrapperInstance.onBack,
       onAcknowledge: wrapperInstance.acknowledgeSessionState,
       onSort: wrapperInstance.onSort,
-      columnsSorting: [],
+      columnsSorting: [{ columnKey: 'column.lastUpdateDate', order: 'DESCENDING_ORDER' }],
       columnsVisibility: {},
       requestParameters: { sort: [], state: ['ERROR'] },
       initialFilters: {
@@ -96,7 +96,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       onClickListSIP: wrapperInstance.onClickListSIP,
       onClickRelaunchAIP: wrapperInstance.onClickRelaunchAIP,
       onClickRelaunchSIP: wrapperInstance.onClickRelaunchSIP,
-      onClickRelaunchProducts: wrapperInstance.onClickRelaunchProducts,
+      onRelaunchProducts: wrapperInstance.onRelaunchProducts,
     }, 'Component should define the expected properties')
   })
 })

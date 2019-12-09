@@ -86,20 +86,17 @@ export class AccessRightListComponent extends React.Component {
   static PAGE_SIZE = 10
 
   state = {
-    // Define if the confirm delete dialog is opened
-    deleteDialogOpened: false,
-    // Define it the AccessRight configuration dialog is opened
+    // Edit dialog management
     editAccessDialogOpened: false,
-    // Set the AccessRight to edit into the AccessRight configuration dialog.
-    // If this accessRight is not set, then the AccessRight configuration dialog configure
-    // access for multiples accessRights at a time and the selectedDatasets is used to define which ones.
-    accessRightToEdit: null,
-    // Set to define a new AccessRight for the given dataset into the AccessRight configuration dialog.
-    datasetAccessRightToEdit: null,
-    submitError: false,
-    entityToDelete: null,
-  }
+    datasetAccessRightsToEdit: null, // Array of access rights to edit
 
+    // Delete dialog management
+    deleteDialogOpened: false,
+    entityToDelete: null,
+
+    // common: submission error
+    submitError: false,
+  }
 
   onDelete = () => {
     this.props.deleteAccessRight(this.state.entityToDelete)
@@ -121,8 +118,7 @@ export class AccessRightListComponent extends React.Component {
   closeEditDialog = () => {
     this.setState({
       editAccessDialogOpened: false,
-      accessRightToEdit: null,
-      datasetAccessRightToEdit: null,
+      datasetAccessRightsToEdit: null,
       submitError: false,
     })
   }
@@ -140,19 +136,19 @@ export class AccessRightListComponent extends React.Component {
 
   /**
    * Callback to open the AccessRight configuration dialog.
-   * If an AccessRight is given, then the edition is set for an existing AccessRight
-   * If a dataset is given, then the edition is set to create a new AccessRight for the given dataset.
-   *
-   * @param accessRight Entity to edit
-   * @param dataset Entity to edit.
+   * @param {*} dataset to edit, matching Data
    */
-  openEditDialog = (accessRight, dataset) => {
+  openEditDialog = (dataset) => {
     this.setState({
       editAccessDialogOpened: true,
-      accessRightToEdit: accessRight,
-      datasetAccessRightToEdit: dataset,
+      datasetAccessRightsToEdit: dataset ? [dataset] : this.props.selectedDatasetsWithAccessright,
     })
   }
+
+  /**
+   * Callback: opens edit dialog for current selection
+   */
+  openEditSelectionDialog = () => this.openEditDialog()
 
   handleSubmitResult = (result) => {
     if (!result.error) {
@@ -165,28 +161,23 @@ export class AccessRightListComponent extends React.Component {
   }
 
   /**
-   * Submit access rights modification for all selected datasets with the given accessRightValues
-   *
-   * @param accessRightValues
+   * Submit access rights
+   * @param {[*]} datasetAccessRightsToEdit edited dataset access rights array, each element matching DataManagementShapes.DatasetWithAccessRight shape
+   * @param {*} accessRightValues edited access rights values, from corresponding form
    */
-  handleSubmitAccessRights = (accessRightValues) => {
-    if (this.state.datasetAccessRightToEdit) {
-      // Only one accessRight to submit for the given dataset
-      this.props.submitAccessRights([this.state.datasetAccessRightToEdit], accessRightValues).then(this.handleSubmitResult)
-    } else {
-      // Many accessRight to submit. One for each selected datasets.
-      this.props.submitAccessRights(values(this.props.selectedDatasetsWithAccessright), accessRightValues).then(this.handleSubmitResult)
-    }
-  }
+  handleSubmitAccessRights = (datasetAccessRightsToEdit, accessRightValues) => this.props.submitAccessRights(datasetAccessRightsToEdit, accessRightValues)
+    .then(this.handleSubmitResult)
+
 
   /**
-   * Render the dialog containing the AccessRight Configuration form.
+   * Render the dialog containing the AccessRight Configuration form
+   * @return {React.ReactElement} render element
    */
   renderAccessRightFormDialog = () => {
-    const selectedDatasetsWithAccessright = this.state.datasetAccessRightToEdit ? [this.state.datasetAccessRightToEdit] : values(this.props.selectedDatasetsWithAccessright)
+    const { editAccessDialogOpened, datasetAccessRightsToEdit } = this.state
     return (
       <ShowableAtRender
-        show={this.state.editAccessDialogOpened}
+        show={editAccessDialogOpened}
       >
         <Dialog
           title={this.context.intl.formatMessage({ id: 'accessright.form.title' })}
@@ -196,11 +187,10 @@ export class AccessRightListComponent extends React.Component {
           autoScrollBodyContent
         >
           <AccessRightFormComponent
+            datasetAccessRightsToEdit={datasetAccessRightsToEdit}
             onCancel={this.closeEditDialog}
             onSubmit={this.handleSubmitAccessRights}
             errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
-            selectedDatasetsWithAccessright={selectedDatasetsWithAccessright}
-            currentAccessRight={this.state.accessRightToEdit}
           />
         </Dialog>
       </ShowableAtRender>
@@ -238,7 +228,7 @@ export class AccessRightListComponent extends React.Component {
           icon={<Edit />}
           disabled={values(selectedDatasetsWithAccessright).length === 0}
           label={formatMessage({ id: 'accessright.edit.multiples.button.label' })}
-          onClick={() => this.openEditDialog()}
+          onClick={this.openEditSelectionDialog}
         />
       )
     }

@@ -54,10 +54,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       // from mapDispatchToProps
       fetchAccessGroup: fetchAccessGroupSpy,
     }
-    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
+    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
 
     assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetch AccessGroup method should be fetch once.')
@@ -80,10 +77,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessGroupAccessRightsContaine
       fetchAccessGroup: fetchAccessGroupSpy,
     }
 
-    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
+    const enzymeWrapper = shallow(<AccessGroupAccessRightsContainer {...props} />, { context })
 
     // Simulate loading end
     enzymeWrapper.setState({

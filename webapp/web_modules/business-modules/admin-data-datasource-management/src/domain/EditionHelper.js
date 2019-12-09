@@ -18,6 +18,13 @@
  **/
 import { DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
 
+/** Available database related datasources plugins */
+const DB_DATASOURCE_PUGINS = [
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_ORACLE,
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES,
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE,
+]
+
 export class EditionHelper {
   static getDatasourcePluginType(datasource) {
     let type = ''
@@ -25,8 +32,7 @@ export class EditionHelper {
       type = 'aip'
     } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
       type = 'opensearch'
-    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_ORACLE
-      || datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES) {
+    } else if (DB_DATASOURCE_PUGINS.includes(datasource.content.pluginId)) {
       type = 'db'
     } else {
       throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginId)

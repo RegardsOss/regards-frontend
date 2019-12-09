@@ -33,6 +33,7 @@ const messages = {
 
   'module.description.configuration.general': 'Configuration principale',
   'module.description.configuration.show.description': 'Proposer la description',
+  'module.description.configuration.hide.empty.attributes': 'Cacher les attributs ayant une valeur indéfinie ou vide',
   'module.description.configuration.show.tags': 'Afficher les mot-clés liés',
   'module.description.configuration.show.coupling': 'Afficher les couplages liés',
   'module.description.configuration.show.linked.documents': 'Afficher les documents liés',

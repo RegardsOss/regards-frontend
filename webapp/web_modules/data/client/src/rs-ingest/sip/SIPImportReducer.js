@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
-import { BasicArrayReducers } from '@regardsoss/store-utils'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
 import SIPImportActions from './SIPImportActions'
 /**
  * Redux store reducer for
@@ -26,28 +25,9 @@ import SIPImportActions from './SIPImportActions'
  * Redux Reducer for SIP entities
  * @author Maxime Bouveron
  */
-class SIPImportReducer extends BasicArrayReducers {
+class SIPImportReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(new SIPImportActions(namespace))
-  }
-
-  reduce(state, action) {
-    const newState = super.reduce(state, action)
-    if (this.isCancelled(newState, action)) {
-      return newState
-    }
-    if (!get(action, 'payload.response', null)) {
-      return newState
-    }
-    switch (action.type) {
-      case this.basicArrayActionInstance.CREATE_ENTITIES_FAILURE:
-        return {
-          ...newState,
-          items: action.payload.response,
-        }
-      default:
-        return newState
-    }
+    super(new SIPImportActions(namespace), null)
   }
 }
 

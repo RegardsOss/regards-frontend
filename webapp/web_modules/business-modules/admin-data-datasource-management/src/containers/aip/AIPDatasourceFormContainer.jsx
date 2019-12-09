@@ -28,6 +28,7 @@ import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import { CommonDomain } from '@regardsoss/domain'
 import AIPDatasourceFormComponent from '../../components/aip/AIPDatasourceFormComponent'
 import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../../clients/ModelClient'
@@ -223,35 +224,35 @@ export class AIPDatasourceFormContainer extends React.Component {
     const parameters = [
       {
         name: IAIPDatasourceParamsEnum.BINDMAP_MAP,
-        type: 'MAP',
+        type: CommonDomain.PluginParameterTypes.MAP,
         clazz: 'java.lang.String',
         value: mappings,
       },
       {
         name: IAIPDatasourceParamsEnum.MODEL,
-        type: 'STRING',
+        type: CommonDomain.PluginParameterTypes.STRING,
         value: values.model,
       },
       {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
-        type: 'INTEGER',
+        type: CommonDomain.PluginParameterTypes.INTEGER,
         value: parseInt(values.refreshRate, 10),
       },
       {
         name: IAIPDatasourceParamsEnum.TAGS,
-        type: 'COLLECTION',
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
         clazz: 'java.lang.String',
         value: values.tags,
       },
       {
         name: IAIPDatasourceParamsEnum.SUBSETTING_TAGS,
-        type: 'COLLECTION',
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
         clazz: 'java.lang.String',
         value: values.subsettingTags,
       },
       {
         name: IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES,
-        type: 'COLLECTION',
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
         clazz: 'java.lang.String',
         value: values.subsettingCategories,
       },
@@ -260,7 +261,7 @@ export class AIPDatasourceFormContainer extends React.Component {
       parameters.push(
         {
           name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
-          type: 'LONG',
+          type: 'STRING',
           value: values.attributeFileSize,
         },
       )
@@ -268,7 +269,6 @@ export class AIPDatasourceFormContainer extends React.Component {
     if (isCreating) {
       const datasource = {
         pluginId: 'aip-storage-datasource',
-        businessId: values.label.replace(/[` ~!@#$%^&*()_|+\-=?;:'",.<>{}[\]\\/]/gi, ''),
         label: values.label,
         parameters,
       }

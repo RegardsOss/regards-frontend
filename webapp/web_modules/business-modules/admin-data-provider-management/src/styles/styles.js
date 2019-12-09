@@ -36,6 +36,9 @@ const styles = theme => ({
     cellErrorBackground: {
       backgroundColor: 'rgba(255,0,0,0.2)',
     },
+    cellDeletedBackground: {
+      backgroundColor: 'rgba(102, 73, 4)',
+    },
     filters: {
       autocomplete: {
         marginRight: '10px',

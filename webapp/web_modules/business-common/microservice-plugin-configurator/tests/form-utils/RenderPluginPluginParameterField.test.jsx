@@ -25,6 +25,7 @@ import MenuItem from 'material-ui/MenuItem'
 import {
   buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper,
 } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderPluginPluginParameterField } from '../../src/form-utils/RenderPluginPluginParameterField'
 import styles from '../../src/styles/styles'
 
@@ -47,7 +48,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginPluginParameter
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameter = find(pluginMetaData.parameters, p => p.type === 'PLUGIN')
+    const parameter = find(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.PLUGIN)
     assert.isDefined(parameter)
     const input = ReduxFormTestHelper.getInputFieldProps('conf', parameter)
     const props = {

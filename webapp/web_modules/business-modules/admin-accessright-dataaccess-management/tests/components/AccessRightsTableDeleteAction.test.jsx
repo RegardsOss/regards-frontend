@@ -37,7 +37,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableDeleteAction',
   })
   it('should render correctly', () => {
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
+    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'DatasetWithAccessRight')
 
     // Create an accessRight
     accessRight.content.dataset.id = dataset.content.id

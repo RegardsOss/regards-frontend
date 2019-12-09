@@ -103,7 +103,7 @@ export class InfiniteGalleryContainer extends React.Component {
   static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'pageMetadata']
 
   /** Root div style to span all */
-  static SPAN_ALL_STYLE = { flexGrow: 1, flexShrink: 1 }
+  static SPAN_ALL_STYLE = { minHeight: 0, flexGrow: 1, flexShrink: 1 }
 
   static DEFAULT_STATE = {
     entities: [],
@@ -181,8 +181,6 @@ export class InfiniteGalleryContainer extends React.Component {
   }
 
 
-  getItemState = () => ({})
-
   /**
    * Fetches an entity page (prevents fetching multiple times the same entity)
    * @param {fetchEntities:{func}, requestParams:{}} props component props to use
@@ -227,7 +225,6 @@ export class InfiniteGalleryContainer extends React.Component {
           emptyComponent={emptyComponent}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
-          getState={this.getItemState}
 
           width={width}
           height={height}

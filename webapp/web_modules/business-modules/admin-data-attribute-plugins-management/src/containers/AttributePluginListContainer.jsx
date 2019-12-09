@@ -53,8 +53,8 @@ export class AttributePluginListContainer extends React.Component {
     return {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
       update: conf => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
-        conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
-      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.id, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+        conf.businessId, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.businessId })),
     }
   }
 
@@ -77,12 +77,12 @@ export class AttributePluginListContainer extends React.Component {
 
   onEdit = (pluginConfToEdit) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToEdit.id}/edit`)
+    browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToEdit.businessId}/edit`)
   }
 
   onDuplicate = (pluginConfToDuplicate) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToDuplicate.id}/copy`)
+    browserHistory.push(`/admin/${project}/data/models/calculationplugins/${pluginConfToDuplicate.businessId}/copy`)
   }
 
   onActivateToggle = (entity) => {

@@ -26,6 +26,7 @@ export const PluginMetaDataContent = PropTypes.shape({
   description: PropTypes.string,
   markdown: PropTypes.string,
   version: PropTypes.string.isRequired,
+  url: PropTypes.string,
   parameters: PropTypes.arrayOf(PluginParameterType),
 })
 

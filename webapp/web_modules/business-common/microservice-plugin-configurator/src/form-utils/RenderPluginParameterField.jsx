@@ -35,6 +35,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
   Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers,
 } from '@regardsoss/form-utils'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
@@ -77,7 +78,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   static getFieldValidators(pluginParameterType) {
     const validators = []
     // 1 - By type validator
-    if (pluginParameterType.type === 'STRING') {
+    if (pluginParameterType.type === CommonDomain.PluginParameterTypes.STRING) {
       const typeValidator = getPrimitiveJavaTypeValidator(pluginParameterType.type)
       if (typeValidator) {
         validators.push(typeValidator)
@@ -87,22 +88,22 @@ export class RenderPluginParameterField extends React.PureComponent {
     const isRequired = !pluginParameterType.optional && !pluginParameterType.defaultValue
     if (isRequired) {
       switch (pluginParameterType.type) {
-        case 'STRING':
-        case 'INTEGER':
-        case 'BYTE':
-        case 'SHORT':
-        case 'LONG':
-        case 'FLOAT':
-        case 'DOUBLE':
-        case 'BOOLEAN':
-        case 'PLUGIN':
-        case 'OBJECT':
+        case CommonDomain.PluginParameterTypes.STRING:
+        case CommonDomain.PluginParameterTypes.BYTE:
+        case CommonDomain.PluginParameterTypes.SHORT:
+        case CommonDomain.PluginParameterTypes.INTEGER:
+        case CommonDomain.PluginParameterTypes.LONG:
+        case CommonDomain.PluginParameterTypes.FLOAT:
+        case CommonDomain.PluginParameterTypes.DOUBLE:
+        case CommonDomain.PluginParameterTypes.BOOLEAN:
+        case CommonDomain.PluginParameterTypes.POJO:
+        case CommonDomain.PluginParameterTypes.PLUGIN:
           validators.push(ValidationHelpers.required)
           break
-        case 'COLLECTION':
+        case CommonDomain.PluginParameterTypes.COLLECTION:
           validators.push(ValidationHelpers.arrayRequired)
           break
-        case 'MAP':
+        case CommonDomain.PluginParameterTypes.MAP:
           validators.push(ValidationHelpers.mapRequired)
           break
         default: // No validator
@@ -118,7 +119,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   componentWillMount() {
     // Format plugin parameter conf for initialization with the given metadatas
     const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
-    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(pluginParameterType, value, true) : value
+    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(value, pluginParameterType, true) : value
     if (!isEqual(formatedParam, value)) {
       onChange(formatedParam)
     }
@@ -410,22 +411,22 @@ export class RenderPluginParameterField extends React.PureComponent {
 
     const validators = RenderPluginParameterField.getFieldValidators(pluginParameterType)
     switch (pluginParameterType.type) {
-      case 'BYTE':
-      case 'SHORT':
-      case 'INTEGER':
-      case 'LONG':
-      case 'FLOAT':
-      case 'DOUBLE':
-      case 'BOOLEAN':
-      case 'STRING':
+      case CommonDomain.PluginParameterTypes.STRING:
+      case CommonDomain.PluginParameterTypes.BYTE:
+      case CommonDomain.PluginParameterTypes.SHORT:
+      case CommonDomain.PluginParameterTypes.INTEGER:
+      case CommonDomain.PluginParameterTypes.LONG:
+      case CommonDomain.PluginParameterTypes.FLOAT:
+      case CommonDomain.PluginParameterTypes.DOUBLE:
+      case CommonDomain.PluginParameterTypes.BOOLEAN:
         return this.renderPrimitiveParameter(label, validators)
-      case 'PLUGIN':
+      case CommonDomain.PluginParameterTypes.PLUGIN:
         return this.renderPluginParameter(label, validators)
-      case 'OBJECT':
+      case CommonDomain.PluginParameterTypes.POJO:
         return this.renderObjectParameter(label, validators)
-      case 'COLLECTION':
+      case CommonDomain.PluginParameterTypes.COLLECTION:
         return this.renderCollectionParameter(label, validators)
-      case 'MAP':
+      case CommonDomain.PluginParameterTypes.MAP:
         return this.renderMapParameter(label, validators)
       default:
         return null

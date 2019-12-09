@@ -73,16 +73,15 @@ class AttributesGroupComponent extends React.Component {
               <div style={attributesGroupsContainer.valueStyle}>
                 { /** Render attributes values */
                   flatMap(displayedAttributes, (({
-                    key: attributeKey, Renderer, renderValue, renderUnit,
+                    key: attributeKey, render: { Constructor, props },
                   }, index) => [
                     index
                     // append next value separator, when not first element
                       ? <div key={`separator.${attributeKey}`} style={attributesGroupsContainer.valuesSeparator} />
                       : null,
-                    <Renderer
+                    <Constructor
                       key={`value.${attributeKey}`}
-                      value={renderValue}
-                      unit={renderUnit}
+                      {...props}
                       multilineDisplay
                     />]))
                 }

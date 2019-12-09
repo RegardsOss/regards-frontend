@@ -29,6 +29,7 @@ import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { CommonDomain } from '@regardsoss/domain'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 import { fragmentSelectors } from '../../clients/FragmentClient'
@@ -66,6 +67,7 @@ export class DBDatasourceFormContainer extends React.Component {
 
   constructor(props) {
     super(props)
+
     const isCreating = props.params.datasourceId === undefined
     this.state = {
       isCreating,
@@ -103,9 +105,7 @@ export class DBDatasourceFormContainer extends React.Component {
   getCurrentPluginMetaData = () => {
     const { currentDatasource } = this.state
     const { pluginMetaDataList } = this.props
-    return find(pluginMetaDataList, pluginMetaData => (
-      pluginMetaData.content.pluginClassName === currentDatasource.content.pluginClassName
-    ))
+    return find(pluginMetaDataList, pluginMetaData => pluginMetaData.content.pluginId === currentDatasource.content.pluginId)
   }
 
   getFormAttributeBackUrl = () => {
@@ -169,33 +169,29 @@ export class DBDatasourceFormContainer extends React.Component {
   saveAttributes = (values) => {
     const { isCreating, currentDatasource } = this.state
     if (isCreating) {
-      const { pluginId } = find(this.props.pluginMetaDataList, pluginMetaData => pluginMetaData.content.pluginClassName === values.pluginClassName,
-      ).content
       const newValues = {
         content: {
           label: values.label,
-          pluginClassName: values.pluginClassName,
-          pluginId,
-          interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'],
+          pluginId: values.pluginId,
           parameters: [
             {
               name: IDBDatasourceParamsEnum.CONNECTION,
-              TYPE: 'PLUGIN',
+              type: CommonDomain.PluginParameterTypes.PLUGIN,
               value: this.props.params.connectionId,
             },
             {
               name: IDBDatasourceParamsEnum.MODEL,
-              TYPE: 'STRING',
+              type: CommonDomain.PluginParameterTypes.STRING,
               value: values.model,
             },
             {
               name: IDBDatasourceParamsEnum.REFRESH_RATE,
-              TYPE: 'INTEGER',
+              type: CommonDomain.PluginParameterTypes.INTEGER,
               value: parseInt(values.refreshRate, 10),
             },
             {
               name: IDBDatasourceParamsEnum.TAGS,
-              TYPE: 'COLLECTION',
+              type: CommonDomain.PluginParameterTypes.COLLECTION,
               clazz: 'java.lang.String',
               value: values.tags,
             },
@@ -214,11 +210,13 @@ export class DBDatasourceFormContainer extends React.Component {
       // Add the refresh rate
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.REFRESH_RATE,
+        type: CommonDomain.PluginParameterTypes.INTEGER,
         value: parseInt(values.refreshRate, 10),
       })
       // Add tags list
       parametersWithNewRefreshRate.push({
         name: IDBDatasourceParamsEnum.TAGS,
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
         value: values.tags,
       })
       this.setState({
@@ -270,6 +268,7 @@ export class DBDatasourceFormContainer extends React.Component {
     if (formValuesSubset.table) {
       newParameters.push({
         name: IDBDatasourceParamsEnum.TABLE,
+        type: CommonDomain.PluginParameterTypes.STRING,
         value: formValuesSubset.table,
         dynamic: false,
         dynamicsValues: [],
@@ -277,6 +276,7 @@ export class DBDatasourceFormContainer extends React.Component {
     } else if (formValuesSubset.fromClause) {
       newParameters.push({
         name: IDBDatasourceParamsEnum.FROM_CLAUSE,
+        type: CommonDomain.PluginParameterTypes.STRING,
         value: formValuesSubset.fromClause,
         dynamic: false,
         dynamicsValues: [],
@@ -284,6 +284,7 @@ export class DBDatasourceFormContainer extends React.Component {
     }
     newParameters.push({
       name: IDBDatasourceParamsEnum.MAPPING,
+      type: CommonDomain.PluginParameterTypes.COLLECTION,
       value: attributesMapping,
       dynamic: false,
       dynamicsValues: [],
@@ -317,7 +318,7 @@ export class DBDatasourceFormContainer extends React.Component {
         return (<DBDatasourceFormAttributesContainer
           pluginMetaDataList={pluginMetaDataList}
           currentDatasource={currentDatasource}
-          currentConnectionId={isCreating ? parseInt(connectionId, 10) : get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')}
+          currentConnectionId={isCreating ? connectionId : get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'value')}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
         />)
@@ -350,7 +351,7 @@ export class DBDatasourceFormContainer extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getById(state, ownProps.params.datasourceId) : null,
+  currentDatasource: ownProps.params.datasourceId ? datasourceSelectors.getByBusinessId(state, ownProps.params.datasourceId) : null,
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 

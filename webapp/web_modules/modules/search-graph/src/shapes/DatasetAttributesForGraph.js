@@ -28,6 +28,8 @@ export const DatasetAttributeForGraph = PropTypes.shape({
   ...commonAttributeForGraph,
   // access path to attribute value in entity
   attributePath: PropTypes.string.isRequired,
+  // precision if any
+  precision: PropTypes.number,
   // attribute unit if any ("unitless" constant may also be found here)
   unit: PropTypes.string,
 })

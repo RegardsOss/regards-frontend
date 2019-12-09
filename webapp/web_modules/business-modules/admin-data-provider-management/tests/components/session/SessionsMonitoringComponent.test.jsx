@@ -72,14 +72,11 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringComponent',
       onChangeSession: () => {},
       onChangeColumnsVisibility: () => {},
       columnsVisibility: {},
-      onDeleteProducts: () => {},
       onDeleteSession: () => {},
-      onClickListIndexed: () => {},
-      onClickListSIP: () => {},
-      onClickListAIP: () => {},
-      onClickRelaunchAIP: () => {},
-      onClickRelaunchSIP: () => {},
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
+      onViewProductsOAIS: () => {},
+      onViewRequestsOAIS: () => {},
+      onRelaunchProductsOAIS: () => {},
       onRefresh: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringComponent {...props} />, { context })
@@ -98,14 +95,20 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringComponent',
     assert.lengthOf(pageableInfiniteTableContainer, 1, 'There should be 1 pageableInfiniteTableContainer')
     const tableLayout = enzymeWrapper.find(TableLayout)
     assert.lengthOf(tableLayout, 1, 'There should be 1 tableLayout')
-    const confirmDialogComponent = enzymeWrapper.find(ConfirmDialogComponent)
-    assert.lengthOf(confirmDialogComponent, 1, 'There should be 1 confirmDialogComponent')
-    testSuiteHelpers.assertWrapperProperties(confirmDialogComponent, {
+    const confirmDialogComponents = enzymeWrapper.find(ConfirmDialogComponent)
+    assert.lengthOf(confirmDialogComponents, 2, 'There should be 2 confirmDialogComponent')
+    testSuiteHelpers.assertWrapperProperties(confirmDialogComponents.at(1), {
       dialogType: { messageId: 'confirm.dialog.confirm' },
       onConfirm: wrapperInstance.onConfirmAcknowledge,
       onClose: wrapperInstance.onCloseAcknowledge,
       open: false,
-    }, 'The confirmDialogComponent should be correctly configured')
+    }, 'The delete confirmDialogComponent should be correctly configured')
+    testSuiteHelpers.assertWrapperProperties(confirmDialogComponents.at(0), {
+      dialogType: { messageId: 'confirm.dialog.confirm' },
+      onConfirm: wrapperInstance.onConfirmDelete,
+      onClose: wrapperInstance.onCloseDeleteConfirm,
+      open: false,
+    }, 'The ack confirmDialogComponent should be correctly configured')
     const cardActionsComponent = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsComponent, 1, 'There should be 1 cardActionsComponent')
     const sessionsMonitoringFiltersComponent = enzymeWrapper.find(SessionsMonitoringFiltersComponent)

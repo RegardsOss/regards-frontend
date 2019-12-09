@@ -94,8 +94,10 @@ class TabComponent extends React.Component {
         },
       },
     } = this.context
+
     const { labelKey, IconConstructor } = TabComponent.RENDER_DATA_BY_TYPE[tabType]
-    const labelText = formatMessage({ id: labelKey }, { tabName })
+
+    const labelText = formatMessage({ id: labelKey }, { tabLabel: tabName })
     return (
       <div style={selected ? selectedContainer : unselectedContainer}>
         {/* Icon and text group */}

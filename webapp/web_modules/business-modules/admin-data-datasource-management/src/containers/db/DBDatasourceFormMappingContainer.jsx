@@ -69,7 +69,7 @@ export class DBDatasourceFormMappingContainer extends React.Component {
 
   componentDidMount() {
     const { isEditing, currentDatasource } = this.props
-    const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')
+    const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'value')
     const modelName = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
     const tasks = [
       this.props.fetchTable(pluginConfConnectionId),
@@ -110,7 +110,7 @@ export class DBDatasourceFormMappingContainer extends React.Component {
     const { currentDatasource } = this.props
     // Do not fetch table attributes if table is empty
     if (tableName.length > 0) {
-      const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'pluginConfiguration.id')
+      const pluginConfConnectionId = get(findParam(currentDatasource, IDBDatasourceParamsEnum.CONNECTION), 'value')
 
       this.props.flushTableAttributes()
       this.props.fetchTableAttributes(pluginConfConnectionId, tableName)

@@ -30,7 +30,9 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export const DATA_TYPES_ENUM = {
   RAWDATA: 'RAWDATA',
-  QUICKLOOK: 'QUICKLOOK',
+  QUICKLOOK_SD: 'QUICKLOOK_SD',
+  QUICKLOOK_MD: 'QUICKLOOK_MD',
+  QUICKLOOK_HD: 'QUICKLOOK_HD',
   DOCUMENT: 'DOCUMENT',
   THUMBNAIL: 'THUMBNAIL',
   OTHER: 'OTHER',
@@ -44,11 +46,22 @@ export class StoragesFieldArrayRenderer extends React.Component {
       push: PropTypes.func.isRequired,
       remove: PropTypes.func.isRequired,
     }),
+    changeField: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  switchActive = (member, newValue) => {
+    this.props.changeField(`${member}.rawdata`, newValue)
+    this.props.changeField(`${member}.quicklook`, newValue)
+    this.props.changeField(`${member}.document`, newValue)
+    this.props.changeField(`${member}.thumbnail`, newValue)
+    this.props.changeField(`${member}.aip`, newValue)
+    this.props.changeField(`${member}.description`, newValue)
+    this.props.changeField(`${member}.other`, newValue)
   }
 
   renderStorageCheckbox = (member, index, fields) => {
@@ -66,6 +79,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
           name={`${member}.active`}
           component={RenderCheckbox}
           label={fields.get(index).label}
+          onChange={(event, newValue, previousValue, name) => this.switchActive(member, newValue)}
         />
         <Field
           name={`${member}.storePath`}

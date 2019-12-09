@@ -20,6 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
 import { modelAttributesActions, modelAttributesSelectors } from '../clients/ModelAttributesClient'
 import DatasetFormSubsettingComponent from '../components/DatasetFormSubsettingComponent'
 import { datasetValidSubsettingTestActions } from '../clients/DatasetValidSubsettingTest'
@@ -30,7 +31,7 @@ import messages from '../i18n'
  */
 export class DatasetFormSubsettingContainer extends React.Component {
   static propTypes = {
-    currentDataset: DataManagementShapes.Dataset,
+    currentDataset: SubsettingEditionDataset.isRequired,
     handleBack: PropTypes.func.isRequired,
     handleSave: PropTypes.func.isRequired,
     isEditing: PropTypes.bool.isRequired,

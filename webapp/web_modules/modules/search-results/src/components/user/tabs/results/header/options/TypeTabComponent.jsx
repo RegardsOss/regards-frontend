@@ -49,7 +49,7 @@ class TypeTabComponent extends React.Component {
     return (
       <FlatButton
         // label from configuration when provided, default otherwise
-        label={get(tab.types[type], `label.${locale}`, formatMessage({ id: `search.results.default.tab.label.for.${type}` }))}
+        label={get(tab.types[type], `label.${locale}`) || formatMessage({ id: `search.results.default.tab.label.for.${type}` })}
         onClick={onTypeSelected}
         icon={<IconConstructor />}
         secondary={type === selectedType}

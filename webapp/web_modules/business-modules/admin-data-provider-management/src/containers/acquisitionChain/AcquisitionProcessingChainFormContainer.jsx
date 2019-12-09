@@ -19,6 +19,7 @@
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
+import { change } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -60,6 +61,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       create: values => dispatch(AcquisitionProcessingChainEditActions.createEntity(values)),
       update: (id, values) => dispatch(AcquisitionProcessingChainEditActions.updateEntity(id, values)),
       getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
+      changeField: (field, value) => dispatch(change('acquisition-chain-form', field, value)),
     }
   }
 
@@ -77,6 +79,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     getStorages: PropTypes.func.isRequired,
+    changeField: PropTypes.func.isRequired,
   }
 
   constructor(props) {
@@ -132,7 +135,9 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       targetTypes.push(DATA_TYPES_ENUM.DOCUMENT)
     }
     if (storage.quicklook) {
-      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_SD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_MD)
+      targetTypes.push(DATA_TYPES_ENUM.QUICKLOOK_HD)
     }
     if (storage.thumbnail) {
       targetTypes.push(DATA_TYPES_ENUM.THUMBNAIL)
@@ -198,6 +203,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
           onSubmit={this.onSubmit}
           onBack={this.onBack}
           storages={storages}
+          changeField={this.props.changeField}
         />
       </LoadableContentDisplayDecorator>
     )

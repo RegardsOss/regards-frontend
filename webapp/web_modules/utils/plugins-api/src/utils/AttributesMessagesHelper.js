@@ -19,8 +19,7 @@
 import isNaN from 'lodash/isNaN'
 import isNil from 'lodash/isNil'
 import { DamDomain } from '@regardsoss/domain'
-import { storage } from '@regardsoss/units'
-import { isNumber } from 'util'
+import { NumberValueRender } from '@regardsoss/components'
 
 /**
  * Helper to format bounds messages according with attribute type and bounds state
@@ -39,9 +38,6 @@ export const BOUND_TYPE = {
   // This bound should not display range hints
   NONE: 'NONE',
 }
-
-/** Explicit unitless attribute constant */
-const UNITLESS = 'unitless'
 
 /**
  * Returns text for attribute type
@@ -73,35 +69,6 @@ export function formatBoundsStateHint(intl, attribute) {
     return formatMessage({ id: 'criterion.attribute.bounds.none' }, { typeText: getTypeText(intl, attribute) })
   }
   return null
-}
-
-/**
- * Formats a number bound value
- * Pre: value is not null nor empty
- * @param {*} intl intl context (holds format* methods from intl context)
- * @param {*} attribute an AttributeModelWithBounds
- * @param {string|number} value bound value
- * @return {string} bound value text
- * @throws Error when formatting failed
- */
-export function formatNumberBound(intl, attribute, value) {
-  const { formatMessage, formatNumber } = intl
-  const { unit } = attribute
-  if (!isNumber(value)) {
-    throw new Error(`Attribute ${attribute.name} value is not a number`)
-  }
-  if (!unit || unit === UNITLESS) {
-    // no unit, render the number as text using JS auto formatting
-    return value
-  }
-  // unit: is it a scalable unit?
-  const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
-  if (storageUnit) { // yes: return it scaled
-    const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
-    return storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
-  }
-  // no: simply append it in intl message
-  return formatMessage({ id: 'criterion.attribute.bounds.value.with.unit' }, { value, unit })
 }
 
 /**
@@ -141,7 +108,8 @@ export function formatBoundValue(intl, attribute, value) {
     case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
     case DamDomain.MODEL_ATTR_TYPES.INTEGER:
     case DamDomain.MODEL_ATTR_TYPES.LONG:
-      return formatNumberBound(intl, attribute, value)
+      // Delegate onto number value render
+      return NumberValueRender.formatValue(intl, value, attribute.precision, attribute.unit)
     case DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601:
       return formatDateBound(intl, attribute, value)
     default:

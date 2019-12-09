@@ -133,10 +133,10 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * @param scrollEvent scroll event
    */
   onScroll = (scrollEvent) => {
-    if (!this.node) {
+    if (!this.node || !scrollEvent || !scrollEvent.topPosition) {
       return
     }
-    this.scrollBottom = get(scrollEvent, 'topPosition', 0) + get(scrollEvent, 'containerHeight', 0)
+    this.scrollBottom = scrollEvent.topPosition + get(scrollEvent, 'containerHeight', 0)
     this.onScrollUpdate()
   }
 
@@ -288,7 +288,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     if (!this.node) {
       return
     }
-
     const {
       columnWidth,
       columnGutter,
@@ -477,7 +476,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    */
   checkVisibility() {
     let isChanged = false
-
     const pages = this.state.pages.map((page) => {
       const visible = InfiniteGalleryComponent.isPageVisible(
         page.start, page.stop, this.scrollBottom, this.props.componentSize.height)
@@ -509,7 +507,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     const contentHeight = this.node.getBoundingClientRect().height
     // Update when content height > 0 (initialization of graphics constraints not respected)
     if (!!contentHeight && this.scrollBottom >= contentHeight * threshold) {
-      onInfiniteLoad() // TODO-V1: dispatch is very laggy! find out a way to improve
+      onInfiniteLoad()
     }
   }
 
@@ -531,19 +529,18 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       >
         {page.items.map(({
           props, left, top, width, columnSpan,
-        }, itemIndex) => (
-          <Item
-              // eslint-disable-next-line react/no-array-index-key
-            key={`page-${index}-item-${itemIndex}`}
-            columnSpan={columnSpan}
-            left={left}
-            top={top}
-            width={width}
-            entity={props}
-            columnGutter={columnGutter}
-            gridWidth={columnWidth}
-            {...this.props.itemProps}
-          />
+        }, itemIndex) => (<Item
+          // eslint-disable-next-line react/no-array-index-key
+          key={`page-${index}-item-${itemIndex}`}
+          columnSpan={columnSpan}
+          left={left}
+          top={top}
+          width={width}
+          entity={props}
+          columnGutter={columnGutter}
+          gridWidth={columnWidth}
+          {...this.props.itemProps}
+        />
         ))}
       </div>
     )

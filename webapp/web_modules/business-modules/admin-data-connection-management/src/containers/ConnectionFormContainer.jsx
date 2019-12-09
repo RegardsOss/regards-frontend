@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import find from 'lodash/find'
 import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -49,6 +50,41 @@ export class ConnectionFormContainer extends React.Component {
 
   static PLUGIN_ATTRS = ['user', 'password', 'dbHost', 'dbPort', 'dbName']
 
+  /**
+   * Generates parameter values to publish on server
+   * @param {*} values form values
+   * @param {*} correspondingPluginMeta matching PluginMetaData shape
+   * @return {[*]} list of parameters (matching PluginParameterType)
+   */
+  static toParameters = (editedValues, correspondingPluginMeta) => map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
+    name: attr,
+    type: correspondingPluginMeta.content.parameters.find(p => p.name === attr).type,
+    value: editedValues[attr],
+    dynamic: false,
+    dynamicsValues: [],
+  }))
+
+  /**
+   * Converts edited form values into corresponding plugin configuration DTO
+   * @param {*} editedValues edited form values
+   * @param {*} pluginMetaDataList known plugin metadata
+   * @param {*} confId configuration ID (keep null / undefined for a new connection)
+   * @return {*} converted configuration, matching expected server object shape
+   */
+  static toConnectionPlugin(editedValues, pluginMetaDataList, confId = null) {
+    // retrieve the selected plugin data (necessary found, as it is mandatory and comes from server list)
+    const selectedPluginClassName = editedValues.pluginClassName
+    const correspondingPluginMeta = find(pluginMetaDataList,
+      ({ content: { pluginClassName } }) => pluginClassName === selectedPluginClassName)
+    return {
+      id: confId,
+      pluginId: correspondingPluginMeta.content.pluginId,
+      label: editedValues.label,
+      pluginClassName: editedValues.pluginClassName,
+      parameters: ConnectionFormContainer.toParameters(editedValues, correspondingPluginMeta),
+    }
+  }
+
   constructor(props) {
     super(props)
     const isCreating = props.params.connectionId === undefined
@@ -78,22 +114,9 @@ export class ConnectionFormContainer extends React.Component {
     return `/admin/${project}/data/acquisition/connection/list`
   }
 
-  generateParameters = values => map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
-    name: attr,
-    value: values[attr],
-    dynamic: false,
-    dynamicsValues: [],
-  }))
-
-
   handleCreate = (values) => {
-    const parameters = this.generateParameters(values)
-    const newConnection = {
-      label: values.label,
-      pluginClassName: values.pluginClassName,
-      parameters,
-    }
-    Promise.resolve(this.props.createConnection(newConnection))
+    const { pluginMetaDataList } = this.props
+    Promise.resolve(this.props.createConnection(ConnectionFormContainer.toConnectionPlugin(values, pluginMetaDataList)))
       .then((actionResult) => {
         if (!actionResult.error) {
           const url = this.getBackUrl()
@@ -103,14 +126,9 @@ export class ConnectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const parameters = this.generateParameters(values)
-    const updatedConnection = Object.assign({}, {
-      id: this.props.params.connectionId,
-      label: values.label,
-      pluginClassName: values.pluginClassName,
-      parameters,
-    })
-    Promise.resolve(this.props.updateConnection(this.props.params.connectionId, updatedConnection))
+    const { pluginMetaDataList, params: { connectionId } } = this.props
+    Promise.resolve(this.props.updateConnection(connectionId,
+      ConnectionFormContainer.toConnectionPlugin(values, pluginMetaDataList, connectionId)))
       .then((actionResult) => {
         if (!actionResult.error) {
           const url = this.getBackUrl()

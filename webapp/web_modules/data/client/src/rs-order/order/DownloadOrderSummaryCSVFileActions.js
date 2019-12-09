@@ -35,7 +35,7 @@ class DownloadOrderMetalinkFileAtions extends BasicActions {
    * @return {string} csv download URL
    */
   getFileDownloadLink(token) {
-    return this.handleRequestQueryParams(this.entityEndpoint, { token })
+    return BasicActions.buildURL(this.entityEndpoint, null, { token })
   }
 }
 

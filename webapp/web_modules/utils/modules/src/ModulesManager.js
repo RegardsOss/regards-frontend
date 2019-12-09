@@ -42,7 +42,6 @@ const VisibleModuleTypes = {
   SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
-  STORAGE_MONITORING: 'storage-monitoring',
 }
 
 /**

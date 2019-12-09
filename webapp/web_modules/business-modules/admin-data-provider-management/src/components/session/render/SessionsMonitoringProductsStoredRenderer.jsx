@@ -33,8 +33,9 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 class SessionsMonitoringProductsStored extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickRelaunchAIP: PropTypes.func.isRequired,
-    onClickListAIP: PropTypes.func.isRequired,
+    onRelaunchProductsOAIS: PropTypes.func.isRequired,
+    onViewProductsOAIS: PropTypes.func.isRequired,
+    onViewRequestsOAIS: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -43,46 +44,43 @@ class SessionsMonitoringProductsStored extends React.Component {
   }
 
   onClickRelaunch = () => {
-    // TODO
-    const { entity, onClickRelaunchAIP } = this.props
-    onClickRelaunchAIP(entity.content.name, entity.content.source)
+    const { entity, onRelaunchProductsOAIS } = this.props
+    onRelaunchProductsOAIS(entity.content.name, entity.content.source)
   }
 
   onClickListAIP = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name)
+    const { entity, onViewProductsOAIS } = this.props
+    onViewProductsOAIS(entity.content.source, entity.content.name)
   }
 
   onClickListRequestErrors = () => {
-    // TODO
-    const { entity, onClickListAIP } = this.props
-    onClickListAIP(entity.content.source, entity.content.name, true)
+    const { entity, onViewRequestsOAIS } = this.props
+    onViewRequestsOAIS(entity.content.source, entity.content.name, true)
   }
 
   getStored = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.aip_stored', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products_stored', 0)
     return parseInt(stored, 10)
   }
 
   getStoragePending = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.aip_generated', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_store_pending', 0)
     return parseInt(pending, 10)
   }
 
   getGenerating = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.OAIS.sip_ingesting', 0)
+    const pending = get(entity, 'content.lifeCycle.oais.products_gen_pending', 0)
     return parseInt(pending, 10)
   }
 
   getErrors = (entity) => {
-    const errorSip = get(entity, 'content.lifeCycle.OAIS.sip_error', 0)
-    const errorAip = get(entity, 'content.lifeCycle.OAIS.aip_error', 0)
+    const errorSip = get(entity, 'content.lifeCycle.oais.products_gen_error', 0)
+    const errorAip = get(entity, 'content.lifeCycle.oais.products_store_error', 0)
     return parseInt(errorSip, 10) + parseInt(errorAip, 10)
   }
 
   getTotal = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.OAIS.sip_total', 0)
+    const stored = get(entity, 'content.lifeCycle.oais.products', 0)
     return parseInt(stored, 10)
   }
 
@@ -114,24 +112,49 @@ class SessionsMonitoringProductsStored extends React.Component {
     const generating = this.getGenerating(entity)
     const pendings = storagePending + generating
     const errors = this.getErrors(entity)
-    const total = errors + pendings + stored
+    const total = this.getTotal(entity)
 
-    if (entity.content.lifeCycle.OAIS) {
+    if (entity.content.lifeCycle.oais) {
       const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
       const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
-      const processedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
+      const storedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
 
-      donePlusWidth = { ...done, width: `${processedWidth}%` }
+      donePlusWidth = { ...done, width: `${storedWidth}%` }
       errorPlusWidth = { ...error, width: `${errorWidth}%` }
       pendingPlusWidth = { ...pending, width: `${pendingWidth}%` }
+    }
+
+    const items = []
+    if (storagePending + stored > 0) {
+      items.push(<MenuItem
+        key="listaips"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
+        onClick={this.onClickListAIP}
+        value="listaips"
+      />)
+    }
+    if (errors > 0) {
+      items.push(<MenuItem
+        key="listerrors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
+        onClick={this.onClickListRequestErrors}
+        value="listerrors"
+      />)
+      items.push(<MenuItem
+        key="relauncherrors"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
+        onClick={this.onClickRelaunch}
+        value="relauncherrors"
+      />)
     }
 
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
+        isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.OAIS ? (
+          { !entity.content.lifeCycle.oais ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
             -
@@ -141,7 +164,7 @@ class SessionsMonitoringProductsStored extends React.Component {
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
                 <div style={barGraphContainer}>
-                  <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.processed' })}`} />
+                  <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
                   <div style={errorPlusWidth} title={`${errors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
                   <div style={pendingPlusWidth} title={`${pendings} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
                 </div>
@@ -171,26 +194,16 @@ class SessionsMonitoringProductsStored extends React.Component {
                   <div style={three}>{formatNumber(storagePending)}</div>
                   <div style={four}>{formatNumber(errors)}</div>
                 </div>
-                <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
-                  <DropDownButton
-                    title={formatMessage({ id: 'acquisition-sessions.table.aip-generated' })}
-                    style={menuDropDown}
-                    icon={<Menu />}
-                  >
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
-                      onClick={this.onClickRelaunch}
-                    />
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
-                      onClick={this.onClickListAIP}
-                    />
-                    <MenuItem
-                      primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
-                      onClick={this.onClickListRequestErrors}
-                    />
-                  </DropDownButton>
-                </div>
+                {items.length > 0
+                  ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                    <DropDownButton
+                      title={formatMessage({ id: 'acquisition-sessions.menus.archives' })}
+                      style={menuDropDown}
+                      icon={<Menu />}
+                    >
+                      {items}
+                    </DropDownButton>
+                  </div> : null }
               </div>
             </div>
           )}

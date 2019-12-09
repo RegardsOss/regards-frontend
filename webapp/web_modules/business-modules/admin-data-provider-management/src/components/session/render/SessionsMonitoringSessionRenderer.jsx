@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import { MenuItem } from 'material-ui'
 import { DropDownButton } from '@regardsoss/components'
@@ -25,14 +26,14 @@ import { themeContextType } from '@regardsoss/theme'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
- * Comment Here
+ * SessionsMonitoringSessionRenderer
  * @author Kevin Picart
  */
 export class SessionsMonitoringSessionRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
     onShowAcknowledge: PropTypes.func.isRequired,
-    onDeleteSession: PropTypes.func.isRequired,
+    onShowDeleteConfirm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -41,13 +42,8 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
   }
 
   onDeleteSession = () => {
-    const { entity, onDeleteSession } = this.props
-    onDeleteSession(entity.content.id, false)
-  }
-
-  onDeleteSessionForce = () => {
-    const { entity, onDeleteSession } = this.props
-    onDeleteSession(entity.content.id, true)
+    const { entity, onShowDeleteConfirm } = this.props
+    onShowDeleteConfirm(entity)
   }
 
   onShowAcknowledgeDialog = () => {
@@ -55,20 +51,22 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
     onShowAcknowledge(entity)
   }
 
-  nothing = () => {
-    //
-  }
-
   render() {
     const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
     const { entity } = this.props
+    const state = get(entity, 'content.state', null)
+    const name = get(entity, 'content.name', null)
+    const deleteButtonTitle = state === 'DELETED'
+      ? formatMessage({ id: 'acquisition-sessions.menus.session.delete.force.button' })
+      : formatMessage({ id: 'acquisition-sessions.menus.session.delete.button' })
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
+        isInError={state === 'ERROR'}
+        isDeleted={state === 'DELETED'}
       >
         <div style={gridSessionContainer}>
           <div style={headerSession}>
-            {entity.content.name}
+            {name}
           </div>
           <div style={infosSession}>
             <DropDownButton
@@ -76,27 +74,18 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
               style={menuDropDown}
               icon={<Menu />}
             >
-              { entity.content.state === 'ERROR' ? (
+              { state === 'ERROR' ? (
                 <MenuItem
                   primaryText={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}
                   onClick={this.onShowAcknowledgeDialog}
-                  value={null}
+                  value="acknolegde"
                 />) : (
                   <div />
               )}
-              { entity.content.state !== 'DELETED' ? (
-                <MenuItem
-                  primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete' })}
-                  onClick={this.onDeleteSession}
-                  value={null}
-                />
-              ) : (
-                <div />
-              )}
               <MenuItem
-                primaryText={formatMessage({ id: 'acquisition-sessions.menus.session.delete.definitely' })}
-                onClick={this.onDeleteSessionForce}
-                value={null}
+                primaryText={deleteButtonTitle}
+                onClick={this.onDeleteSession}
+                value="onDelete"
               />
             </DropDownButton>
           </div>

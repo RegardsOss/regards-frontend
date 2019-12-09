@@ -21,32 +21,31 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Formats a date using intl and date text
- * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
- * formatDate and formatTime
- * @param dateText date text
- * @return formatted date text if valid or null if invalid
- */
-export const getFormattedDate = ({
-  formatMessage, formatRelative, formatDate, formatTime,
-}, dateText, displayOnlyFutureDate) => {
-  if (!dateText) {
-    return null
-  }
-  const dateWrapper = new Date(dateText)
-  if (!isNaN(dateWrapper.getDate()) && (!displayOnlyFutureDate || (dateWrapper > Date.now()))) {
-    return formatRelative(dateWrapper, { style: 'numeric' })
-  }
-  return null
-}
-
-/**
  * Component to display Date values group value
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
  *
  * @author Sébastien binda
  */
 class DateRelativeValueRender extends React.Component {
+  /**
+   * Formats a date using intl and date text
+   * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
+   * formatDate and formatTime
+   * @param dateText date text
+   * @return formatted date text if valid or null if invalid
+   */
+  static getFormattedDate({ formatMessage, formatRelative }, dateText, displayOnlyFutureDate) {
+    if (!dateText) {
+      return null
+    }
+    const dateWrapper = new Date(dateText)
+    if (!isNaN(dateWrapper.getDate()) && (!displayOnlyFutureDate || (dateWrapper > Date.now()))) {
+      return formatRelative(dateWrapper, { style: 'numeric' })
+    }
+    return null
+  }
+
+
   static propTypes = {
     value: PropTypes.string,
     // should diplay using multiple lines? (false by default)
@@ -75,7 +74,9 @@ class DateRelativeValueRender extends React.Component {
   updateRelativeDate = () => {
     const { value, displayOnlyFutureDate } = this.props
     const { intl } = this.context
-    this.setState({ toDisplay: getFormattedDate(intl, value, displayOnlyFutureDate) || intl.formatMessage({ id: 'value.render.no.value.label' }) }, this.setTimeOut)
+    this.setState({
+      toDisplay: DateRelativeValueRender.getFormattedDate(intl, value, displayOnlyFutureDate) || intl.formatMessage({ id: 'value.render.no.value.label' }),
+    }, this.setTimeOut)
   }
 
   componentWillMount = () => {

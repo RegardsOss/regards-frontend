@@ -77,7 +77,7 @@ class ConnectionTesterIconButton extends React.Component {
       snackBarOpen: false,
     })
     const { handleTestConnection, connection } = this.props
-    Promise.resolve(handleTestConnection(connection.content.id))
+    Promise.resolve(handleTestConnection(connection.content.businessId))
       .then((resultingAction) => {
         if (resultingAction.error) {
           this.setState({

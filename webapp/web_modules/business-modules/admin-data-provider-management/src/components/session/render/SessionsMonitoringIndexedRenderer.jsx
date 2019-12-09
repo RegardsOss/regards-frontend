@@ -17,9 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import Menu from 'material-ui/svg-icons/navigation/more-vert'
-import { MenuItem } from 'material-ui'
-import { DropDownButton } from '@regardsoss/components'
+import get from 'lodash/get'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -32,7 +30,6 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 export class SessionsMonitoringIndexedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
-    onClickListIndexed: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,41 +37,62 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
     ...i18nContextType,
   }
 
-  onClickListIndexed = () => {
-    const { entity, onClickListIndexed } = this.props
-    onClickListIndexed(entity.content.source, entity.content.session)
+  getIndexed = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const indexed = get(entity, 'content.lifeCycle.catalog.indexed', 0)
+    return formatNumber(parseInt(indexed, 10))
+  }
+
+  getErrors = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    const indexed = get(entity, 'content.lifeCycle.catalog.indexedError', 0)
+    return formatNumber(parseInt(indexed, 10))
   }
 
   render() {
-    const { intl: { formatMessage, formatNumber }, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession }, gridCell: { cellContainer } } } } = this.context
+    const {
+      intl: { formatMessage },
+      moduleTheme: {
+        sessionsStyles: {
+          gridCell: {
+            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
+            lines: {
+              one, two,
+            },
+          },
+        },
+      },
+    } = this.context
     const { entity } = this.props
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
+        isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.aip ? (
-            <div style={gridSessionContainer}>
-              <div style={headerSession}>
+          { !entity.content.lifeCycle.oais ? (
+            <div style={gridContainer}>
+              <div style={gridHeaderContainer}>
             -
               </div>
             </div>
           ) : (
-            <div style={gridSessionContainer}>
-              <div style={headerSession}>
-                {formatNumber((entity.content.lifeCycle.aip.indexed ? entity.content.lifeCycle.aip.indexed : 0))}
-              </div>
-              <div style={infosSession}>
-                <DropDownButton
-                  title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-                  style={menuDropDown}
-                  icon={<Menu />}
-                >
-                  <MenuItem
-                    primaryText={formatMessage({ id: 'acquisition-sessions.menus.indexed.list' })}
-                    onClick={this.onClickListIndexed}
-                  />
-                </DropDownButton>
+            <div style={gridContainer}>
+              <div style={infosContainer}>
+                <div style={lineContainer}>
+                  <div style={one}>
+                    {formatMessage({ id: 'acquisition-sessions.states.indexed' })}
+                    :
+                  </div>
+                  <div style={two}>
+                    {formatMessage({ id: 'acquisition-sessions.states.index.errors' })}
+                    :
+                  </div>
+                </div>
+                <div style={listValues}>
+                  <div style={one}>{this.getIndexed(entity)}</div>
+                  <div style={two}>{this.getErrors(entity)}</div>
+                </div>
               </div>
             </div>
           )}

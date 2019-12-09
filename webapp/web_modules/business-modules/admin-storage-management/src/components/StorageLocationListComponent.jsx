@@ -214,11 +214,11 @@ export class StorageLocationListComponent extends React.Component {
         ]
         return (
           <PositionedDialog
-            dialogType={ConfirmDialogComponentTypes.DELETE}
             title={this.context.intl.formatMessage({ id: title }, { name })}
             open={!!dialogType}
             actions={actions}
             dialogWidthPercent={75}
+            dialogHeightPercent={75}
           >
             <StorageRequestListComponent
               storageLocation={name}

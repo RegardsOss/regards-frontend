@@ -28,7 +28,7 @@ export default [{
       id: 59,
       name: 'connection',
       value: 'toulouse',
-      TYPE: 'PLUGIN',
+      type: 'PLUGIN',
     }, {
       id: 60,
       name: 'table',

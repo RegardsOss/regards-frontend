@@ -31,14 +31,9 @@ class BasicArrayActions extends BasicActions {
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
-    this.CREATE_ENTITIES_SUCCESS = `${options.namespace}/CREATE_ENTITIES_SUCCESS`
-    this.CREATE_ENTITIES_REQUEST = `${options.namespace}/CREATE_ENTITIES_REQUEST`
-    this.CREATE_ENTITIES_FAILURE = `${options.namespace}/CREATE_ENTITIES_FAILURE`
   }
 
   fetchEntityList(pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     return {
       [RSAA]: {
         types: [
@@ -46,7 +41,7 @@ class BasicArrayActions extends BasicActions {
           this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
-        endpoint,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
         method: 'GET',
       },
     }

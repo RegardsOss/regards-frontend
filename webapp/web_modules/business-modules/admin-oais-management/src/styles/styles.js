@@ -101,6 +101,41 @@ const aipManagementStyles = theme => ({
       },
     },
   },
+  summary: {
+    granted: {
+      mainMessage: {
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 500,
+      },
+      icon: {
+        valid: {
+          color: theme.formsExtensions.validation.validColor,
+          marginRight: 10,
+        },
+        info: {
+          color: theme.formsExtensions.validation.infoColor,
+          marginRight: 10,
+        },
+      },
+    },
+    denied: {
+      mainMessage: {
+        marginTop: 15,
+        display: 'flex',
+        alignItems: 'center',
+        fontWeight: 500,
+      },
+      icon: {
+        color: theme.formsExtensions.validation.errorColor,
+        marginRight: 10,
+      },
+      featureErrorMessage: {
+        marginLeft: theme.spacing.iconSize + 10,
+        marginBottom: 5,
+      },
+    },
+  },
 })
 
 export default aipManagementStyles

@@ -35,8 +35,7 @@ class DownloadOrderFileActions extends BasicActions {
    * @return {string} file download URL
    */
   getFileDownloadLink(dataFileId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { dataFileId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+    return BasicActions.buildURL(this.entityEndpoint, { dataFileId }, { token })
   }
 }
 

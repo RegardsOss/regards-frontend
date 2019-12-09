@@ -32,3 +32,4 @@ export {
 } from './AIPEntity'
 export { AIP } from './AIP'
 export { AIPEntityIngestMetadataStorages, AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
+export { SIPSubmissionResponse } from './SIPSubmissionResponse'

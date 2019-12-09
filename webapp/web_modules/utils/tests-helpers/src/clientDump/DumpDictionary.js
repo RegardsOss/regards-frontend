@@ -43,7 +43,8 @@ import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
 import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
-import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
+import DatasetWithAccessRightDump from '@regardsoss/client/tests/rs-dam/DatasetWithAccessRight.dump'
+
 import DocumentDump from '@regardsoss/client/tests/rs-dam/Document.dump'
 
 import DatasetEntityDump from '@regardsoss/client/tests/rs-access-project/DatasetEntity.dump'
@@ -56,7 +57,6 @@ import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprov
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
 import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
-import StorageMonitoringDump from '@regardsoss/client/tests/rs-storage/StorageMonitoring.dump'
 
 import {
 
@@ -75,8 +75,8 @@ import {
   ACCESS_GROUP_ARRAY,
   AccessGroupConfiguration,
 
-  ACCESS_RIGHT_ARRAY,
-  AccessRightConfiguration,
+  DATASET_WITH_ACCESS_RIGHT_ARRAY,
+  DatasetWithAccessRightConfiguration,
 
   // UIPluginConfiguration
   UI_PLUGIN_CONFIGURATION_ARRAY,
@@ -148,9 +148,6 @@ import {
   STORAGE_LOCATION_ARRAY,
   StorageLocationConfiguration,
 
-  STORAGE_MONITORING_ARRAY,
-  StorageMonitoringConfiguration,
-
   THEME_ARRAY,
   ThemeConfiguration,
 
@@ -170,12 +167,6 @@ export default {
       dump: StorageLocationDump,
       ENTITY_ARRAY: STORAGE_LOCATION_ARRAY,
       normalizrKey: StorageLocationConfiguration.normalizrKey,
-    },
-    StorageMonitoring: {
-      isPageable: false,
-      dump: StorageMonitoringDump,
-      ENTITY_ARRAY: STORAGE_MONITORING_ARRAY,
-      normalizrKey: StorageMonitoringConfiguration.normalizrKey,
     },
   },
   AccessProjectClient: {
@@ -275,11 +266,11 @@ export default {
       ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
       normalizrKey: AccessGroupConfiguration.normalizrKey,
     },
-    AccessRight: {
+    DatasetWithAccessRight: {
       isPageable: true,
-      dump: AccessRightDump,
-      ENTITY_ARRAY: ACCESS_RIGHT_ARRAY,
-      normalizrKey: AccessRightConfiguration.normalizrKey,
+      dump: DatasetWithAccessRightDump,
+      ENTITY_ARRAY: DATASET_WITH_ACCESS_RIGHT_ARRAY,
+      normalizrKey: DatasetWithAccessRightConfiguration.normalizrKey,
     },
     UserGroup: {
       isPageable: false,

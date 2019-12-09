@@ -63,6 +63,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     const enzymeWrapper = shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
     assert.isTrue(enzymeWrapper.children().length > 0, 'There should be children (shown)')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showDescription'), 1, 'there should be the showDescription field')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.hideEmptyAttributes'), 1, 'There should be hide empty attributes field for current namespace')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showTags'), 1, 'there should be the showTags field')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showCoupling'), 1, 'there should be the showCoupling field')
     assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')

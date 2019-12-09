@@ -49,20 +49,18 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            aip: {
+            oais: {
               done: 599450,
               total: 599450,
               errors: 0,
               indexed: 599450,
               pending: 0,
             },
-            sip: {
-              total: 600000,
-              errors: 1,
-              invalid: 0,
-              generatedAIP: 65,
+            catalog: {
+              indexed: 0,
+              indexedError: 0,
             },
-            PRODUCTS: {
+            dataprovider: {
               generated: 5054876,
               generation_error: 0,
               state: 'DONE',
@@ -73,13 +71,14 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         links: [],
       },
       onDeleteProducts: () => {},
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
+      onShowProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)
     assert.lengthOf(play, 0, 'There should be 0 Play button if not running')
     const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
+    assert.lengthOf(dropDownButton, 0, 'There should be 0 DropDownButton')
   })
   it('should render correctly without products', () => {
     const props = {
@@ -110,8 +109,9 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
         },
         links: [],
       },
-      onClickRelaunchProducts: () => {},
+      onRelaunchProducts: () => {},
       onDeleteProducts: () => {},
+      onShowProducts: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsGeneratedRenderer {...props} />, { context })
     const play = enzymeWrapper.find(Play)

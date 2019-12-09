@@ -21,11 +21,12 @@ import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
-import { getTypeRender } from '@regardsoss/attributes-common'
+import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 
 
 /**
  * Renders the list of attributes in a quicklook cell
+ * @author Raphaël Mechali
  */
 class QuicklookCellParametersComponent extends React.PureComponent {
   static propTypes = {
@@ -58,15 +59,19 @@ class QuicklookCellParametersComponent extends React.PureComponent {
         </div>
         <div style={valueColumnStyles}>
           { /* Show value on second column */
-            map(presentationModels, (attributePresentationModel) => {
-              const firstAttributeDisplayed = attributePresentationModel.attributes[0].content
-              const AttributeConstructor = getTypeRender(firstAttributeDisplayed.type)
-              const value = get(this.props.entity, `content.${firstAttributeDisplayed.jsonPath}`)
-              return (
-                <div style={valueCellStyle} key={firstAttributeDisplayed.name}>
-                  <AttributeConstructor value={value} />
-                </div>)
-            })
+            map(presentationModels, attributePresentationModel => (
+              <div style={valueCellStyle} key={attributePresentationModel.key}>
+                {
+                    AttributeColumnBuilder.buildRenderDelegates(attributePresentationModel.attributes).map(({
+                      path, RenderConstructor, props,
+                    }) => (
+                      <RenderConstructor
+                        key={path}
+                        value={get(this.props.entity, path)}
+                        {...props}
+                      />))
+                  }
+              </div>))
           }
         </div>
       </div>

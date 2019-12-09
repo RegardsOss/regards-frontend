@@ -123,6 +123,7 @@ export default baseTheme => ({
       showLineNumbers: true,
     },
     validation: {
+      infoColor: baseTheme.palette.primary1Color,
       validColor: '#4CAF50',
       warningColor: '#FF9800',
       errorColor: baseTheme.textField.errorColor,

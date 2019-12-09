@@ -52,7 +52,7 @@ export class AttributePluginFormContainer extends React.Component {
     return {
       fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
       create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
-      update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
+      update: (entity, microserviceName, pluginId, pluginConfBusinessId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfBusinessId, entity, { microserviceName, pluginId })),
     }
   }
 

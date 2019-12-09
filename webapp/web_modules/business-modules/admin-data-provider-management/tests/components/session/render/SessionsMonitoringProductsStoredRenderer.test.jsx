@@ -48,22 +48,24 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
           isLatest: true,
           state: 'ERROR',
           lifeCycle: {
-            OAIS: {
-              sip_ingesting: 0,
-              sip_deleting: 0,
-              sip_total: 51234,
-              sip_error: 0,
-              generated_aip: 51234,
-              aip_stored: 51234,
-              aip_deleting: 0,
-              aip_error: 0,
+            oais: {
+              products: 51234,
+              products_gen_error: 0,
+              products_gen_pending: 0,
+              products_store_pending: 0,
+              products_stored: 51234,
+              products_store_error: 0,
+              products_meta_store_pending: 0,
+              products_meta_stored: 0,
+              products_meta_store_error: 0,
             },
           },
         },
         links: [],
       },
-      onClickRelaunchAIP: () => {},
-      onClickListAIP: () => {},
+      onRelaunchProductsOAIS: () => {},
+      onViewProductsOAIS: () => {},
+      onViewRequestsOAIS: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)
@@ -84,8 +86,9 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
         },
         links: [],
       },
-      onClickRelaunchAIP: () => {},
-      onClickListAIP: () => {},
+      onRelaunchProductsOAIS: () => {},
+      onViewProductsOAIS: () => {},
+      onViewRequestsOAIS: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringProductsStoredRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)

@@ -23,12 +23,8 @@ export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
 export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
 export { Request, RequestEntity } from '../rs-ingest/Request'
 export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  StorageLocation, StorageLocationContent, StorageLocationList, StorageLocationArray,
-}
-  from './StorageLocation'
+  StorageLocation, StorageLocationContent, StorageLocationConfiguration, StorageLocationList, StorageLocationArray,
+} from './StorageLocation'
 export {
   DataObject, DataObjectContent, DataObjectList, DataObjectArray,
 } from './DataObject'

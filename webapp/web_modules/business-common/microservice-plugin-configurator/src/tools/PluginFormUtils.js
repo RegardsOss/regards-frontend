@@ -87,7 +87,7 @@ class PluginFormUtils {
    */
   static createNewParameterConf(parameterMetadata, complex = true) {
     switch (parameterMetadata.type) {
-      case 'OBJECT': {
+      case CommonDomain.PluginParameterTypes.POJO: {
         if (parameterMetadata.unconfigurable) {
           return {}
         }
@@ -99,34 +99,31 @@ class PluginFormUtils {
         }
         return parameterConf
       }
-      case 'INTEGER':
-      case 'BYTE':
-      case 'SHORT':
-      case 'LONG':
-      case 'FLOAT':
-      case 'DOUBLE':
-      case 'BOOLEAN':
-      case 'STRING': {
+      case CommonDomain.PluginParameterTypes.STRING:
+      case CommonDomain.PluginParameterTypes.BYTE:
+      case CommonDomain.PluginParameterTypes.SHORT:
+      case CommonDomain.PluginParameterTypes.INTEGER:
+      case CommonDomain.PluginParameterTypes.LONG:
+      case CommonDomain.PluginParameterTypes.FLOAT:
+      case CommonDomain.PluginParameterTypes.DOUBLE:
+      case CommonDomain.PluginParameterTypes.BOOLEAN: {
         if (parameterMetadata.unconfigurable) {
           return ''
         }
         let defaultValue = ''
-        if (parameterMetadata.type === 'BOOLEAN') {
+        if (parameterMetadata.type === CommonDomain.PluginParameterTypes.BOOLEAN) {
           defaultValue = parameterMetadata.defaultValue === 'true'
         }
         return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, defaultValue) : undefined
       }
-      case 'COLLECTION':
-        if (parameterMetadata.unconfigurable) {
-          return []
-        }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, []) : []
-      case 'PLUGIN':
-      case 'MAP':
+      case CommonDomain.PluginParameterTypes.COLLECTION:
+        return parameterMetadata.unconfigurable || !complex ? [] : PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, [])
+      case CommonDomain.PluginParameterTypes.PLUGIN:
+      case CommonDomain.PluginParameterTypes.MAP:
         if (parameterMetadata.unconfigurable) {
           return {}
         }
-        return complex ? PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {}) : {}
+        return parameterMetadata.unconfigurable || !complex ? {} : PluginFormUtils.createComplexParameterConf(parameterMetadata.name, parameterMetadata.type, {})
       default:
         throw new Error('Unexpected type of parameter')
     }
@@ -162,7 +159,11 @@ class PluginFormUtils {
     return formatedConf
   }
 
-  static formatPluginParameterConf(parameterMetaData, parameterConf, forInit = false) {
+  static formatPluginParameterConf(parameterConf, parameterMetaData, forInit = false) {
+    if (!parameterMetaData) {
+      // Only remove null values from parameters
+      return isNil(parameterConf.value) ? null : parameterConf
+    }
     if (parameterMetaData.unconfigurable) {
       return null
     }
@@ -198,19 +199,22 @@ class PluginFormUtils {
       let configurableParameters = pluginConfiguration.parameters
       if (pluginMetaData && pluginMetaData.parameters) {
         formatedConf.parameters = []
-        configurableParameters = filter(pluginMetaData.parameters, ['unconfigurable', false])
+        configurableParameters = filter(pluginConfiguration.parameters, p => find(pluginMetaData.parameters, { unconfigurable: false }))
+        formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, pluginMetaData, forInit)
+      } else {
+        formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, null, forInit)
       }
-      formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, forInit)
+
       return formatedConf
     }
     return pluginConfiguration
   }
 
-  static formatPluginConfParameters(parameters, forInit) {
+  static formatPluginConfParameters(parameters, pluginMetaData, forInit) {
     const parametersWithoutEmpty = []
     forEach(parameters, (p) => {
-      const parameterConf = find(parameters, { name: p.name })
-      const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterConf, forInit)
+      const parameterMetaData = pluginMetaData ? find(pluginMetaData.parameters, { name: p.name }) : null
+      const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterMetaData, forInit)
       if (formatedParameter !== null) {
         if (forInit || (formatedParameter.value !== null && formatedParameter.value.length !== 0)) {
           parametersWithoutEmpty.push(formatedParameter)

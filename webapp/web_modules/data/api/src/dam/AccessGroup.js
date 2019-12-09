@@ -26,7 +26,6 @@ export const AccessGroupConfiguration = {
 }
 
 export const ACCESS_GROUP = new Schema(AccessGroupConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey],
 })
 export const ACCESS_GROUP_ARRAY = arrayOf(ACCESS_GROUP)
