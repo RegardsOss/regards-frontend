@@ -386,6 +386,10 @@ export class SessionsMonitoringContainer extends React.Component {
     this.setState(nextState)
   }
 
+  onGoToDatasources = () => {
+    browserHistory.push(`/admin/${this.props.params.project}/data/acquisition/datasource/monitor`)
+  }
+
   render = () => {
     const {
       columnsSorting, requestParameters, filtersEdited, canEmptyFilters, editionFiltersState, columnsVisibility,
@@ -417,6 +421,7 @@ export class SessionsMonitoringContainer extends React.Component {
         onViewRequestsOAIS={this.onViewRequestsOAIS}
         onRelaunchProductsOAIS={this.onRelaunchProductsOAIS}
         onRefresh={this.onRefresh}
+        onGoToDatasources={this.onGoToDatasources}
       />
     )
   }

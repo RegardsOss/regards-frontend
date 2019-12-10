@@ -79,6 +79,7 @@ export { ORDER_FILE, ORDER_FILE_ARRAY, OrderFileConfiguration } from './order/Or
 export { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY, ProcessingChainConfiguration } from './ingest/ProcessingChain'
 export { SIP, SIP_ARRAY, SIPConfiguration } from './ingest/SIP'
 export { AIPConfiguration, AIP, AIP_ARRAY } from './ingest/AIP'
+export { RequestConfiguration, REQUEST, REQUEST_ARRAY } from './ingest/Request'
 // Data Provider
 export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, AcquisitionProcessingChainConfiguration } from './data-provider/AcquisitionProcessingChain'
 export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'

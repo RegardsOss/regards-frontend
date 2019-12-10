@@ -17,19 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { sipActions } from './clients/SIPClient'
+import { aipActions } from './clients/AIPClient'
 import { sipImportActions } from './clients/SIPImportClient'
 
 /**
  * Module hateoas depencies
- * @author Kévin Picart
+ * @author Simon MILHAU
  */
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
  */
 const listDependencies = [
-  sipActions.getDependency(RequestVerbEnum.POST),
+  // sipActions.getDependency(RequestVerbEnum.POST),
+  aipActions.getDependency(RequestVerbEnum.POST),
 ]
 
 /**

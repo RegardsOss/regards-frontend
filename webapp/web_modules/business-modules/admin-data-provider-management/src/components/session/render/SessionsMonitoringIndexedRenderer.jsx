@@ -17,7 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+
 import get from 'lodash/get'
+import Menu from 'material-ui/svg-icons/navigation/more-vert'
+import { MenuItem } from 'material-ui'
+import { DropDownButton } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -30,6 +34,7 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 export class SessionsMonitoringIndexedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    onGoToDatasources: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -54,16 +59,25 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
       intl: { formatMessage },
       moduleTheme: {
         sessionsStyles: {
+          menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineContainer, listValues, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, cellContainer,
             lines: {
-              one, two,
+              one, two, three, four,
             },
           },
         },
       },
     } = this.context
     const { entity } = this.props
+
+    const actions = []
+    actions.push(<MenuItem
+      key="indexation"
+      primaryText={formatMessage({ id: 'acquisition-sessions.menus.index.view' })}
+      onClick={this.props.onGoToDatasources}
+      value="indexation"
+    />)
     return (
       <SessionsMonitoringTableBackgroundComponent
         isInError={entity.content.state === 'ERROR'}
@@ -79,20 +93,35 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={infosContainer}>
-                <div style={lineContainer}>
-                  <div style={one}>
+                <div style={lineFourContainer}>
+                  <div style={one} />
+                  <div style={two}>
                     {formatMessage({ id: 'acquisition-sessions.states.indexed' })}
                     :
                   </div>
-                  <div style={two}>
+                  <div style={three} />
+                  <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.index.errors' })}
                     :
                   </div>
                 </div>
-                <div style={listValues}>
-                  <div style={one}>{this.getIndexed(entity)}</div>
-                  <div style={two}>{this.getErrors(entity)}</div>
+                <div style={listFourValues}>
+                  <div style={one} />
+                  <div style={two}>{this.getIndexed(entity)}</div>
+                  <div style={three} />
+                  <div style={four}>{this.getErrors(entity)}</div>
                 </div>
+                {actions.length > 0
+                  ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
+                    <DropDownButton
+                      title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                      style={menuDropDown}
+                      icon={<Menu />}
+                    >
+                      {actions}
+                    </DropDownButton>
+                  </div> : null
+                }
               </div>
             </div>
           )}

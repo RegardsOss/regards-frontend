@@ -19,8 +19,6 @@
 import { AIP, AIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
-const { RSAA } = require('redux-api-middleware')
-
 /**
  * Redux actions to handle AIP entities from backend server.
  * @author Léo Mieulet
@@ -41,18 +39,8 @@ export default class AIPActions extends BasicPageableActions {
     })
   }
 
-  /**
-   * Fetches AIP pages as POST request
-   * @param {number} pageNumber page number
-   * @param {number} size page size
-   * @param {*} contextFilters search context fiters
-   */
-  fetchPagedEntityList(pageNumber, size, contextFilters = {}) {
-    // modify parent request to use POST and body
-    const parentRequest = super.fetchPagedEntityList(pageNumber, size, {}, contextFilters.sort ? { sort: contextFilters.sort } : {})
-    parentRequest[RSAA].method = 'GET'
-    parentRequest[RSAA].body = JSON.stringify(contextFilters)
-    return parentRequest
+  fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
+    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams)
   }
 
   /**

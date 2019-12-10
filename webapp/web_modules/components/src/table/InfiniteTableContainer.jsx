@@ -300,7 +300,6 @@ class InfiniteTableContainer extends React.Component {
                 <Table
                   displayColumnsHeader={displayColumnsHeader}
                   lineHeight={this.getTableLineHeight()}
-
                   entities={entities}
                   entitiesCount={entitiesCount}
                   onScrollEnd={this.onScrollEnd}
