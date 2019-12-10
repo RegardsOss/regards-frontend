@@ -393,7 +393,7 @@ class OAISRequestManagerComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
         .build(),
-      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.id')
+      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.providerId')
         .label(intl.formatMessage({ id: 'oais.requests.list.filters.providerId' }))
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.dtype')
