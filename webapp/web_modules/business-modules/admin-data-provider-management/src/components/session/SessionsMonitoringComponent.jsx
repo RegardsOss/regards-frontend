@@ -74,6 +74,7 @@ export class SessionsMonitoringComponent extends React.Component {
     onChangeSession: PropTypes.func.isRequired,
     onChangeColumnsVisibility: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onGoToDatasources: PropTypes.func.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
 
@@ -252,7 +253,7 @@ export class SessionsMonitoringComponent extends React.Component {
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
-      onDeleteSession, onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts,
+      onDeleteSession, onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts, onGoToDatasources,
     } = this.props
     const { sessionToAcknowledge } = this.state
     const iconStyle = {
@@ -301,9 +302,8 @@ export class SessionsMonitoringComponent extends React.Component {
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED, true))
-        .optionsSizing(3)
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer })
+        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer, props: { onGoToDatasources } })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.CREATION_DATE)

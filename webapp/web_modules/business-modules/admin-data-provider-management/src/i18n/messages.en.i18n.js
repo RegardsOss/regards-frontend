@@ -160,7 +160,6 @@ const messages = Object.assign({
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',
-  'acquisition-sessions.states.generating': 'Generation ...',
   'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
   'acquisition-sessions.states.running': 'Running',
@@ -188,6 +187,8 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.list.title.incomplete': 'Incomplete products for session {source}:{session}',
   'acquisition-sessions.menus.products.list.help.error': 'After resolving products issues, you can relaunch acquisition of those products.',
   'acquisition-sessions.menus.products.list.help.incomplete': 'An incomplete product, is a product with a missing file from the madatory ones. Maybe files were missing during directory scan. If files are now there, you can relaunch session to acquire those new files and complete products',
+
+  'acquisition-sessions.menus.index.view': 'View data crawlers',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',
