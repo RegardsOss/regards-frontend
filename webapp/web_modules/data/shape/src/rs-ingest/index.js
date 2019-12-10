@@ -25,4 +25,11 @@ export {
 export {
   IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
 } from './IngestSession'
+export { SIP, SIPEntity } from './SIPEntity'
+// export { SIPSubmited } from './SIPSubmited'
+export {
+  AIPEntityContent, AIPEntity,
+} from './AIPEntity'
+export { AIP } from './AIP'
+export { AIPEntityIngestMetadataStorages, AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
 export { SIPSubmissionResponse } from './SIPSubmissionResponse'

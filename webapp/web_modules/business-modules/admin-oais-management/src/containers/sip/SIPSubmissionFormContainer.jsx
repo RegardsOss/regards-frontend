@@ -23,7 +23,7 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import messages from '../../i18n'
 import styles from '../../styles/styles'
 import { sipImportActions } from '../../clients/SIPImportClient'
-import SIPsubmissionFormComponent from '../../components/sip/submission/SIPSubmissionFormComponent'
+import SIPsubmissionFormComponent from '../../components/submission/SIPSubmissionFormComponent'
 
 /**
 * Displays the SIPsubmissionForm

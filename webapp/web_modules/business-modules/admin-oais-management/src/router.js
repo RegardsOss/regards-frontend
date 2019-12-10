@@ -17,47 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export const aipFullListRoute = {
-  path: 'aip/list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/aip/AIPListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const sipFullListRoute = {
-  path: 'sip/list',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/sip/SIPListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const sipHistoryListRoute = {
-  path: 'sip/:sip/history',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/sip/SIPListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
 export const sipSumitionRoute = {
   path: 'sip/submission',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/sip/SIPSubmissionFormContainer')
+      const container = require('./containers/submission/SIPSubmissionFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -65,11 +29,23 @@ export const sipSumitionRoute = {
   },
 }
 
-export const sipSumitionSummaryRoute = {
-  path: 'sip/submission-summary',
+// export const sipSumitionSummaryRoute = {
+//   path: 'sip/submission-summary',
+//   getComponents(nextState, cb) {
+//     require.ensure([], (require) => {
+//       const container = require('./containers/submission/SIPSubmissionSummaryContainer')
+//       cb(null, {
+//         content: container.default,
+//       })
+//     })
+//   },
+// }
+
+export const oaisFeatureManagerRoute = {
+  path: 'featureManager',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/sip/SIPSubmissionSummaryContainer')
+      const container = require('../src/containers/OAISFeatureManagerContainer')
       cb(null, {
         content: container.default,
       })
@@ -79,11 +55,8 @@ export const sipSumitionSummaryRoute = {
 
 const aipManagementRouter = {
   childRoutes: [
-    aipFullListRoute,
-    sipFullListRoute,
-    sipHistoryListRoute,
     sipSumitionRoute,
-    sipSumitionSummaryRoute,
+    oaisFeatureManagerRoute,
   ],
 }
 

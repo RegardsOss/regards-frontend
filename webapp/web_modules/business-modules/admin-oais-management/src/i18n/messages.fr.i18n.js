@@ -22,6 +22,56 @@ import { Locales } from '@regardsoss/form-utils'
 export default {
   ...Locales.fr,
   ...IngestDomain.frMessages,
+
+  'oais.packages.list.filters.providerId': 'Identifiant',
+  'oais.packages.list.filters.type': 'Type',
+  'oais.packages.list.filters.state': 'État',
+  'oais.packages.list.filters.session': 'Session',
+  'oais.packages.list.filters.storage': 'Storage',
+  'oais.packages.list.filters.actions': 'Actions',
+  'oais.packages.list.filters.version': 'Version',
+  'oais.packages.list.filters.source': 'Source',
+  'oais.packages.list.filters.lastUpdate': 'Modifié le',
+  'oais.packages.list.filters.buttons.apply': 'Appliquer les filtres',
+  'oais.packages.list.filters.buttons.modify': 'Modifier la sélection',
+  'oais.packages.list.filters.buttons.delete': 'Supprimer la sélection',
+  'oais.packages.list.filters.buttons.dropdown.aip': 'AIP',
+  'oais.packages.list.filters.buttons.dropdown.sip': 'SIP',
+  'oais.packages.confirm.delete.close': 'Fermer',
+  'oais.packages.confirm.delete.irrevocably': 'Supprimer définitivement',
+  'oais.packages.confirm.delete.by_state': 'Marquer comme supprimé',
+  'oais.packages.confirm.delete.title': 'Supprimer les AIP sélectionnés et leurs fichiers sur le stockage',
+  'oais.packages.confirm.delete.message': 'Voulez-vous supprimer totalement les AIP sélectionnés et leur SIP associés ?',
+  'oais.packages.confirm.modify.close': 'Fermer',
+  'oais.packages.confirm.modify.tags': 'Ajouter un nouveau tag',
+  'oais.packages.confirm.modify.categories': 'Ajouter une nouvelle catégorie',
+  'oais.packages.confirm.modify.by_state': 'Modifier les AIP',
+  'oais.packages.confirm.modify.title': 'Modify selected AIP',
+  'oais.packages.confirm.modify.storages': 'Modifier les stockages',
+  'oais.packages.confirm.modify.message': 'Confirmez vous la modification ?',
+
+  'oais.requests.list.filters.providerId': 'Identifiant',
+  'oais.requests.list.filters.type': 'Type',
+  'oais.requests.list.filters.state': 'État',
+  'oais.requests.list.filters.actions': 'Actions',
+  'oais.requests.list.filters.lastSubmission': 'Soumis le',
+  'oais.requests.list.filters.buttons.validate': 'Valider la sélection',
+  'oais.requests.list.filters.buttons.relaunch': 'Relancer la sélection',
+  'oais.requests.list.filters.buttons.delete': 'Supprimer la sélection',
+  'oais.requests.confirm.delete': 'Supprimer',
+  'oais.requests.confirm.delete.close': 'Fermer',
+  'oais.requests.confirm.delete.title': 'Supprimer les requêtes sélectionnées',
+  'oais.requests.confirm.delete.message': 'Voulez vous supprimer les requêtes sélectionnées ?',
+  'oais.requests.confirm.relaunch': 'Relancer',
+  'oais.requests.confirm.relaunch.close': 'Fermer',
+  'oais.requests.confirm.relaunch.title': 'Relancer les requêtes sélectionnées',
+  'oais.requests.confirm.relaunch.message': 'Voulez vous relancer les requêtes sélectionnées ?',
+  'oais.requests.confirm.validate': 'Relancer',
+  'oais.requests.confirm.validate.close': 'Fermer',
+  'oais.requests.confirm.validate.title': 'Valider les requêtes sélectionnées',
+  'oais.requests.confirm.validate.message': 'Voulez-vous valider les requêtes sélectionnées ?',
+  'oais.request.details.button.close': 'Fermer',
+
   'oais.aips.list.subtitle': 'Liste des AIPS pour la session sélectionnée',
   'oais.aips.list.filters.data.storage.label': 'Stocké sur',
   'oais.aips.list.filters.status.label': 'État',
@@ -37,6 +87,7 @@ export default {
   'oais.aips.list.table.headers.data.storages': 'Stocké sur',
   'oais.aips.list.table.headers.lastUpdate': 'Modifié le',
   'oais.aips.list.table.headers.nbFiles': 'Nombre de fichier',
+  'oais.aips.list.table.headers.version': 'Version',
   'oais.aips.list.aip-details.title': 'Détails de l\'AIP',
   'oais.aips.list.aip-retry.title': 'Relancer le stockage de l\'AIP',
   'oais.aips.list.delete.files.on.all.storages.label': 'Suppression complète',
@@ -156,6 +207,7 @@ export default {
 
   'oais.filters.session.title': 'Session',
   'oais.filters.source.title': 'Source',
+  'oais.filters.id.title': 'Identifiant',
   'oais.button.relaunch-all.label': 'Relancer tout',
   'oais.button.relaunch-all.title': 'Relancer tous les AIPs selectionnés',
   'oais.session.title': 'Liste des paquets OAIS',
@@ -163,6 +215,10 @@ export default {
   'oais.button.switch-to.AIP-title': 'Ouvre le panneau des AIPs',
   'oais.button.switch-to.SIP': 'Voir les SIPs',
   'oais.button.switch-to.SIP-title': 'Ouvre le panneau des SIPs',
+  'oais.button.switch-to.requests': 'Voir les requêtes',
+  'oais.button.switch-to.requests-title': 'Ouvre le panneau des requêtes OAIS',
+  'oais.button.switch-to.packages': 'Voir les packages',
+  'oais.button.switch-to.packages-title': 'Ouvre le panneau des packages OAIS',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',
@@ -174,13 +230,13 @@ export default {
 
   'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
   'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
-  'sips.submission-summary.granted.count.message': `{count, plural, 
-    =0 {Aucune entité n'a été soumise.} 
-    one {# entité a été soumise.} 
+  'sips.submission-summary.granted.count.message': `{count, plural,
+    =0 {Aucune entité n'a été soumise.}
+    one {# entité a été soumise.}
     other {# entités ont été soumises.}
   }`,
-  'sips.submission-summary.denied.count.message': `{count, plural, 
-    one {L'entité suivante a été rejetée:} 
+  'sips.submission-summary.denied.count.message': `{count, plural,
+    one {L'entité suivante a été rejetée:}
     other {Les # entités suivantes ont été rejetées:}
   }`,
   'sip.submission-summary.denied.feature.message': '- {label}: {reason}',
