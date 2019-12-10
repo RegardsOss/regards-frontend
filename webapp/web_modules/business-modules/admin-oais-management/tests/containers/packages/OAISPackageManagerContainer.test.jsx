@@ -81,7 +81,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
 
     }
     const enzymeWrapper = shallow(<OAISPackageManagerContainer {...props} />, { context })
-    const state = enzymeWrapper.state()
     const wrapperInstance = enzymeWrapper.instance()
     const componentWrapper = enzymeWrapper.find(OAISPackageManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')

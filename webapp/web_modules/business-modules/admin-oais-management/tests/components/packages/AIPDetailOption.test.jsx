@@ -17,13 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import IconButton from 'material-ui/IconButton'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import MenuItem from 'material-ui/MenuItem/MenuItem'
 import AIPDetailOption from '../../../src/components/packages/AIPDetailOption'
 import styles from '../../../src/styles'
 import { storedAIP } from '../../dumps/AIPWithStorages.dump'
-import MenuItem from 'material-ui/MenuItem/MenuItem'
 
 const context = buildTestContext(styles)
 

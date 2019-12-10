@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AIPDeleteDialog }  from '../../../src/components/packages/AIPDeleteDialog'
+import { AIPDeleteDialog } from '../../../src/components/packages/AIPDeleteDialog'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
