@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import IconButton from 'material-ui/IconButton'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageShapes } from '@regardsoss/shape'
 import AIPDetailOption from '../../../src/components/packages/AIPDetailOption'
 import styles from '../../../src/styles'
+import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import MenuItem from 'material-ui/MenuItem/MenuItem'
 
 const context = buildTestContext(styles)
 
@@ -40,20 +41,24 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailOption', () => {
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: null,
+      parameterValue: storedAIP,
     }
     const props = {
-      entity: StorageShapes.AIPEntity,
-      onViewDetail: () => {},
+      entity: storedAIP,
+      onViewDetail: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPDetailOption {...props} />, { context })
-    const iconButtonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconButtonWrapper, 1, 'There should be icon button')
-    assert.equal(iconButtonWrapper.props().onClick, enzymeWrapper.instance().onClick, 'Callback should be correctly set')
+    const iconButtonWrapper = enzymeWrapper.find(MenuItem)
+    // const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
+    assert.lengthOf(iconButtonWrapper, 2, 'There should be 2 menu item')
+    assert.equal(iconButtonWrapper.at(0).props().onClick, enzymeWrapper.instance().onViewAipDetail, 'Callback should be correctly set')
+    assert.equal(iconButtonWrapper.at(1).props().onClick, enzymeWrapper.instance().onViewSipDetail, 'Callback should be correctly set')
     // check callback calls props callback
     assert.equal(spiedCallbackData.count, 0, 'Callback should not have been invoked yet')
-    enzymeWrapper.instance().onClick()
-    assert.equal(spiedCallbackData.count, 1, 'Callback should have been invoked once')
-    assert.equal(spiedCallbackData.parameterValue, props.entity.content, 'Callback parameter should be valid')
+    iconButtonWrapper.at(0).props().onClick()
+    iconButtonWrapper.at(1).props().onClick()
+
+    assert.equal(spiedCallbackData.count, 2, 'Callback should have been invoked once')
+    assert.equal(spiedCallbackData.parameterValue, props.entity, 'Callback parameter should be valid')
   })
 })

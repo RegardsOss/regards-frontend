@@ -46,7 +46,6 @@ class RequestRelaunchOption extends React.Component {
    */
   onClick = () => {
     const { entity, onRelaunch } = this.props
-    console.error('entity', entity)
     onRelaunch(entity)
   }
 

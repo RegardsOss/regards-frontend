@@ -87,6 +87,7 @@ export default {
   'oais.aips.list.table.headers.data.storages': 'Stocké sur',
   'oais.aips.list.table.headers.lastUpdate': 'Modifié le',
   'oais.aips.list.table.headers.nbFiles': 'Nombre de fichier',
+  'oais.aips.list.table.headers.version': 'Version',
   'oais.aips.list.aip-details.title': 'Détails de l\'AIP',
   'oais.aips.list.aip-retry.title': 'Relancer le stockage de l\'AIP',
   'oais.aips.list.delete.files.on.all.storages.label': 'Suppression complète',
@@ -206,6 +207,7 @@ export default {
 
   'oais.filters.session.title': 'Session',
   'oais.filters.source.title': 'Source',
+  'oais.filters.id.title': 'Identifiant',
   'oais.button.relaunch-all.label': 'Relancer tout',
   'oais.button.relaunch-all.title': 'Relancer tous les AIPs selectionnés',
   'oais.session.title': 'Liste des paquets OAIS',
@@ -213,9 +215,10 @@ export default {
   'oais.button.switch-to.AIP-title': 'Ouvre le panneau des AIPs',
   'oais.button.switch-to.SIP': 'Voir les SIPs',
   'oais.button.switch-to.SIP-title': 'Ouvre le panneau des SIPs',
-  'oais.button.switch-to.Processes': 'Voir les traitements',
-  'oais.button.switch-to.Processes-title': 'Ouvre le panneau des traitements',
-
+  'oais.button.switch-to.requests': 'Voir les requêtes',
+  'oais.button.switch-to.requests-title': 'Ouvre le panneau des requêtes OAIS',
+  'oais.button.switch-to.packages': 'Voir les packages',
+  'oais.button.switch-to.packages-title': 'Ouvre le panneau des packages OAIS',
 
   'sips.submit.title': 'Soumission de données',
   'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',
@@ -227,13 +230,13 @@ export default {
 
   'sips.submission-summary.title': 'Compte-rendu de soumission de vos données',
   'sips.submission-summary.subtitle': 'Ce compte-rendu affiche l\'état de prise en compte de vos données par le système. Si vos données sont acceptées alors elles seront prises en compte prochainement pour être stockées',
-  'sips.submission-summary.granted.count.message': `{count, plural, 
-    =0 {Aucune entité n'a été soumise.} 
-    one {# entité a été soumise.} 
+  'sips.submission-summary.granted.count.message': `{count, plural,
+    =0 {Aucune entité n'a été soumise.}
+    one {# entité a été soumise.}
     other {# entités ont été soumises.}
   }`,
-  'sips.submission-summary.denied.count.message': `{count, plural, 
-    one {L'entité suivante a été rejetée:} 
+  'sips.submission-summary.denied.count.message': `{count, plural,
+    one {L'entité suivante a été rejetée:}
     other {Les # entités suivantes ont été rejetées:}
   }`,
   'sip.submission-summary.denied.feature.message': '- {label}: {reason}',

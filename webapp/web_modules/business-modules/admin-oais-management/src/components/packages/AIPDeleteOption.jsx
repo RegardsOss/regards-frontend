@@ -50,7 +50,6 @@ class AIPDeleteOption extends React.Component {
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    console.error('entity', entity)
     onDelete(entity)
   }
 

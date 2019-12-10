@@ -19,8 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import OAISPackageManagerContainer from '../../../src/containers/packages/OAISPackageManagerContainer'
+import { OAISPackageManagerContainer } from '../../../src/containers/packages/OAISPackageManagerContainer'
 import styles from '../../../src/styles'
+import OAISPackageManagerComponent from '../../../src/components/packages/OAISPackageManagerComponent'
 
 const context = buildTestContext(styles)
 const router = require('react-router')
@@ -61,46 +62,39 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
       fetchPage: () => {},
       fetchStorages: () => {},
       clearSelection: () => {},
-      onRetry: () => {},
-      deleteSIPBySipId: () => {},
+      fetchSip: () => {},
+      deleteAips: () => {},
+      modifyAips: () => {},
 
       featureManagerFilters: {
         state: '',
         from: '',
         to: '',
-        tags: '',
+        tags: [],
         providerId: '',
         sessionOwner: '',
         session: '',
-        categories: '',
-
-        storages: '',
+        categories: [],
+        storages: [],
       },
+      selectionMode: '',
+
     }
     const enzymeWrapper = shallow(<OAISPackageManagerContainer {...props} />, { context })
     const state = enzymeWrapper.state()
     const wrapperInstance = enzymeWrapper.instance()
-    const componentWrapper = enzymeWrapper.find(OAISPackageManagerContainer)
+    const componentWrapper = enzymeWrapper.find(OAISPackageManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       pageSize: OAISPackageManagerContainer.PAGE_SIZE,
-      resultsCount: props.meta.totalElements,
-      entitiesLoading: props.entitiesLoading,
-      isEmptySelection: props.isEmptySelection,
-      tags: state.tags,
-      searchingTags: state.searchingTags,
-      sessionTags: state.sessionTags,
-      searchingSessionTags: state.searchingSessionTags,
-      currentFilters: state.currentFilters,
-      dataStorages: props.dataStorages,
-      onGoBack: wrapperInstance.onGoBack,
+      featureManagerFilters: props.featureManagerFilters,
+      storages: props.storages,
       onRefresh: wrapperInstance.onRefresh,
-      onRetryAIPStorage: wrapperInstance.onRetryAIPStorage,
-      onApplyFilters: wrapperInstance.onApplyFilters,
-      goToAipFiles: wrapperInstance.goToAipFiles,
-      fetchCommonTags: wrapperInstance.fetchCommonTags,
-      addTags: wrapperInstance.addTags,
-      removeTags: wrapperInstance.removeTags,
+      deleteAips: props.deleteAips,
+      tableSelection: props.tableSelection,
+      selectionMode: props.selectionMode,
+      modifyAips: props.modifyAips,
+      fetchSip: props.fetchSip,
     }, 'Component should define the expected properties and callbacks')
   })
 })

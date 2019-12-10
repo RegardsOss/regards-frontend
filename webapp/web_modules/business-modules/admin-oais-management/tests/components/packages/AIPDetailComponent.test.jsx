@@ -37,9 +37,10 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailComponent', () => {
   it('should exists', () => {
     assert.isDefined(AIPDetailComponent)
   })
+
   it('should render correctly', () => {
     const props = {
-      aip: storedAIP.content,
+      entity: storedAIP,
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<AIPDetailComponent {...props} />, { context })

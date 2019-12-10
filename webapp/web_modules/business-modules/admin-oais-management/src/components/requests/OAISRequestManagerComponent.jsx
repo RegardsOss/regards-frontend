@@ -205,7 +205,6 @@ class OAISRequestManagerComponent extends React.Component {
   onValidateSelection = () => {
     const { selectionMode } = this.props
 
-    console.error('selectionMode', selectionMode)
     switch (selectionMode) {
       case TableSelectionModes.includeSelected:
         this.setState({

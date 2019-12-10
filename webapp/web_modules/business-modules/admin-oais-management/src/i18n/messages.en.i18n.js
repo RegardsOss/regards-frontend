@@ -230,13 +230,13 @@ export default {
 
   'sips.submission-summary.title': 'Data submission summary',
   'sips.submission-summary.subtitle': 'This summary allows you to know accepted entities by the system. If yours data are accepted, so they will be handled for storage soon.',
-  'sips.submission-summary.granted.count.message': `{count, plural, 
-    =0 {No feature was submitted.} 
-    one {# feature was submitted.} 
+  'sips.submission-summary.granted.count.message': `{count, plural,
+    =0 {No feature was submitted.}
+    one {# feature was submitted.}
     other {# features were submitted.}
   }`,
-  'sips.submission-summary.denied.count.message': `{count, plural, 
-    one {The following feature was refused:} 
+  'sips.submission-summary.denied.count.message': `{count, plural,
+    one {The following feature was refused:}
     other {The # following features were refused:}
   }`,
   'sip.submission-summary.denied.feature.message': '- {label}: {reason}',

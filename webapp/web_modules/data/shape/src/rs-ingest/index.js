@@ -26,7 +26,7 @@ export {
   IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
 } from './IngestSession'
 export { SIP, SIPEntity } from './SIPEntity'
-export { SIPSubmited } from './SIPSubmited'
+// export { SIPSubmited } from './SIPSubmited'
 export {
   AIPEntityContent, AIPEntity,
 } from './AIPEntity'

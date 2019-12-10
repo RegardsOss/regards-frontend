@@ -24,7 +24,7 @@ import messages from '../../i18n'
 /**
  * Confirm action dialog component. Switches dialog mode,
  */
-class AIPDeleteDialog extends React.Component {
+export class AIPDeleteDialog extends React.Component {
   static propTypes = {
     onConfirmDelete: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,

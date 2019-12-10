@@ -49,8 +49,7 @@ class BasicArrayActions extends BasicActions {
 
 
   fetchEntityListByPost(bodyParams, pathParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, {})
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    const endpoint = BasicActions.handleRequestPathParameters(this.entityEndpoint, pathParams)
     return {
       [RSAA]: {
         types: [

@@ -37,24 +37,34 @@ class AIPDetailOption extends React.Component {
     ...i18nContextType,
   }
 
+  onViewAipDetail = () => {
+    const { entity, onViewDetail } = this.props
+    onViewDetail(entity.content.aip)
+  }
+
+  onViewSipDetail = () => {
+    const { entity, onViewDetail } = this.props
+    onViewDetail(entity.content.sip)
+  }
+
   render() {
     const { intl: { formatMessage } } = this.context
-    const { onViewDetail, entity } = this.props
     const button = <IconButton><MoreVertIcon /></IconButton>
     return (
       <div>
         <IconMenu iconButtonElement={button}>
           <MenuItem
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.aip' })}
-            onClick={() => { onViewDetail(entity.content.aip) }}
+            onClick={this.onViewAipDetail}
           />
           <MenuItem
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.sip' })}
-            onClick={() => { onViewDetail(entity.content.sip) }}
+            onClick={this.onViewSipDetail}
           />
         </IconMenu>
       </div>
     )
   }
 }
+
 export default AIPDetailOption

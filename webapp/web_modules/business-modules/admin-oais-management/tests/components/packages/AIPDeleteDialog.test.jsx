@@ -20,8 +20,7 @@ import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import AIPDeleteDialog from '../../../src/components/packages/AIPDeleteDialog'
+import { AIPDeleteDialog }  from '../../../src/components/packages/AIPDeleteDialog'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -46,9 +45,6 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteDialog', () => {
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be dialog wrapper')
     assert.isTrue(dialogWrapper.props().open, 'It should be opened')
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be loader wrapper')
-    assert.isTrue(loaderWrapper.props().isLoading, 'It should hide content (marked loading)')
   })
   it('should render correctly in edition', () => {
     const props = {
@@ -59,8 +55,5 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteDialog', () => {
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be dialog wrapper')
     assert.isTrue(dialogWrapper.props().open, 'It should be opened')
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be loader wrapper')
-    assert.isFalse(loaderWrapper.props().isLoading, 'It should show content (marked loaded)')
   })
 })

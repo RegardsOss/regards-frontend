@@ -30,15 +30,15 @@ describe('[OAIS MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(1)
-    expect(Routes.childRoutes[0].path).to.eq('aip/list')
+    expect(Routes.childRoutes).to.have.length(2)
+    expect(Routes.childRoutes[0].path).to.eq('sip/submission')
+    expect(Routes.childRoutes[1].path).to.eq('featureManager')
     // expect(Routes.childRoutes[1].path).to.eq('sip/list')
     // expect(Routes.childRoutes[2].path).to.eq('sip/:sip/history')
-    // expect(Routes.childRoutes[3].path).to.eq('sip/submission')
     // expect(Routes.childRoutes[4].path).to.eq('sip/submission-summary')
   })
-  it('aip/list should return OAISFeatureManagerContainer', (done) => {
-    Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
+  it('featureManager should return OAISFeatureManagerContainer', (done) => {
+    Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(OAISFeatureManagerContainer)
       done()
     })

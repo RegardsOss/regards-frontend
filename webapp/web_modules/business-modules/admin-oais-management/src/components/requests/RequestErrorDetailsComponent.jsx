@@ -43,7 +43,6 @@ class RequestErrorDetailsComponent extends React.Component {
   render() {
     const { entity } = this.props
     const { intl, moduleTheme } = this.context
-    console.error('errors', entity)
     return (
       <Card>
         <CardMedia>

@@ -34,7 +34,7 @@ import OAISCriterionShape from '../../shapes/OAISCriterionShape'
  * Displays the list of OAIS packages
  * @author Simon MILHAU
  */
-class OAISPackageManagerContainer extends React.Component {
+export class OAISPackageManagerContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

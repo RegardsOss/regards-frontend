@@ -39,7 +39,6 @@ class RequestStatusRenderCell extends React.Component {
 
   render() {
     const { entity, onViewRequestErrors } = this.props
-    console.error('entity', entity)
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
         <StringValueRender value={entity.content.state} />

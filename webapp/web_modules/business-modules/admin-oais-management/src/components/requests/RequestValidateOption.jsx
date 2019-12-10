@@ -46,7 +46,6 @@ class RequestValidateOption extends React.Component {
    */
   onClick = () => {
     const { entity, onValidate } = this.props
-    console.error('entity', entity)
     onValidate(entity)
   }
 
