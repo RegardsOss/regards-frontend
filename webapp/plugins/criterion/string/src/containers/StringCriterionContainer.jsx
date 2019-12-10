@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
+import { CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
@@ -30,15 +30,12 @@ import StringCriterionComponent from '../components/StringCriterionComponent'
  * @author Xavier-Alexandre Brochard
  */
 export class StringCriterionContainer extends React.Component {
-  /** Attribute model types for which full word option is available */
-  static FULL_WORD_AVAILABLE_TYPES = [DamDomain.MODEL_ATTR_TYPES.STRING]
-
   /**
    * Specifying the default state expected by this component (see propTypes for types)
    */
   static DEFAULT_STATE = {
     searchText: '',
-    searchFullWords: false,
+    strictEqual: false,
   }
 
 
@@ -78,7 +75,7 @@ export class StringCriterionContainer extends React.Component {
     // From mapStateToProps...
     state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
       searchText: PropTypes.string,
-      searchFullWords: PropTypes.bool,
+      strictEqual: PropTypes.bool,
     }).isRequired,
     // From mapDispatchToProps...
     publishState: PropTypes.func.isRequired,
@@ -86,39 +83,37 @@ export class StringCriterionContainer extends React.Component {
 
   /**
    * Converts state as parameter into OpenSearch request parameters
-   * @param {{searchText: string, searchFullWords: bool}} state
+   * @param {{searchText: string, strictEqual: bool}} state
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ searchText, searchFullWords }, attribute) {
-    let q = null
+  static convertToRequestParameters({ searchText, strictEqual }, attribute) {
     const trimedText = (searchText || '').trim()
+    let parameterValue = null
     if (trimedText && attribute.jsonPath) {
-      let parameterValue = null
-      if (searchFullWords) {
+      if (strictEqual) {
         // searching for attributes values strictly equal to text
-        parameterValue = `"${trimedText}"`
+        parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
       } else {
         // searching for all parts of text (separated by a blank char) to be included in attributes values
         const values = trimedText.split(' ') || []
-        // clear empty values (2 blank chars for instance)
-        const meaningfulValues = values.filter(value => !!value)
         // join values as Open search parameters
-        parameterValue = `(${meaningfulValues.map(value => `*${value}*`).join(' AND ')})`
+        parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringContained(values, CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR)
       }
-      q = `${attribute.jsonPath}:${parameterValue}`
     } // else: no query
-    return { q }
+    return {
+      q: new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath, parameterValue).toQueryString(),
+    }
   }
 
   /**
    * User callback: full word option was checked / unchecked
    */
-  onCheckFullWord = () => {
+  onCheckStrictEqual = () => {
     const { state, attributes: { searchField }, publishState } = this.props
     const nextState = {
       ...state,
-      searchFullWords: !state.searchFullWords, // check / uncheck
+      strictEqual: !state.strictEqual, // check / uncheck
     }
     // update criterion state and query
     publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
@@ -138,15 +133,14 @@ export class StringCriterionContainer extends React.Component {
   }
 
   render() {
-    const { state: { searchText, searchFullWords }, attributes: { searchField } } = this.props
+    const { state: { searchText, strictEqual }, attributes: { searchField } } = this.props
     return (
       <StringCriterionComponent
         searchAttribute={searchField}
         searchText={searchText}
-        searchFullWords={searchFullWords}
+        strictEqual={strictEqual}
         onTextInput={this.onTextInput}
-        onCheckFullWord={this.onCheckFullWord}
-        allowFullword={StringCriterionContainer.FULL_WORD_AVAILABLE_TYPES.includes(searchField.type)}
+        onCheckStrictEqual={this.onCheckStrictEqual}
       />)
   }
 }

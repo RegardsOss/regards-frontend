@@ -159,7 +159,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
           comparator2: EnumNumericalComparator.GE,
         },
         testCaseMsg: '4) Component should return no URL when user entered no value',
-        expectedQuery: null,
+        expectedQuery: '',
       }]
     urlComputingTests.forEach(({
       state, testCaseMsg, expectedQuery,

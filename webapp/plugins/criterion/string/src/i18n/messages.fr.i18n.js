@@ -22,7 +22,7 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.word.checkbox.title': 'Rechercher un mot entier',
+  'criterion.search.field.strict.checkbox.title': 'Egalité stricte',
 }
 
 export default messages

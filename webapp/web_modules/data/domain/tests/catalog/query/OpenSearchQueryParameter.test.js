@@ -20,7 +20,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import OpenSearchQueryParameter from '../../../catalog/query/OpenSearchQueryParameter'
 
-describe('[Domain] Testing Open search query parameter', () => {
+describe('[Domain] Testing OpenSearchQueryParameter', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -28,30 +28,59 @@ describe('[Domain] Testing Open search query parameter', () => {
     const queryParameter = new OpenSearchQueryParameter('myName', 'myValue')
     assert.equal(queryParameter.toQueryString(), 'myName:myValue', 'The parameter is not correctly displayed')
   })
-  it('Should escape values with special characters', () => {
-    const queryParameter = new OpenSearchQueryParameter('myName', 'my Value:')
-    assert.equal(queryParameter.toQueryString(), 'myName:"my Value:"', 'The parameter is not correctly displayed')
-  })
-  it('Should merge possible values array into an OR joined string', () => {
-    const queryParameter = new OpenSearchQueryParameter('value', ['v1', 'v2'])
-    assert.equal(queryParameter.toQueryString(), 'value:(v1 OR v2)', 'The parameter is not correctly displayed')
-  })
-  it('Should negate its own value on demand', () => {
-    const queryParameter = new OpenSearchQueryParameter('value', 'v1', true)
-    assert.equal(queryParameter.toQueryString(), 'value:(NOT v1)', 'The parameter is not correctly displayed')
-  })
-  it('Should combine negation, multiple values and special characters', () => {
-    const queryParameter = new OpenSearchQueryParameter('value', ['v:v1', 'z:z1'], true)
-    assert.equal(queryParameter.toQueryString(), 'value:(NOT "v:v1" AND NOT "z:z1")', 'The parameter is not correctly displayed')
-  })
-  it('Should hide when empty', () => {
-    const emptyParameters = [
-      new OpenSearchQueryParameter('myName', null),
-      new OpenSearchQueryParameter('myName', undefined),
-      new OpenSearchQueryParameter('myName', ''),
-      new OpenSearchQueryParameter('myName', [])]
-    emptyParameters.forEach((qp, index) => {
-      assert.isNotOk(qp.toQueryString(), `The parameter at ${index} should be hidden`)
-    })
-  })
+  const testCases = [{
+    label: 'a single value for strict equality',
+    value: 'ab cd ef',
+    expected: '"ab cd ef"',
+    method: OpenSearchQueryParameter.toStrictStringEqual,
+  }, {
+    label: 'a single value for strict equality (with espaced chars)',
+    value: 'ab"c"1.56\\def(){}[]$$||+-',
+    expected: '"ab\\"c\\"1.56\\def(){}[]$$||+-"',
+    method: OpenSearchQueryParameter.toStrictStringEqual,
+  }, {
+    label: 'mutliple values for strict equality (with espaced chars)',
+    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]$$||+-', ''],
+    expected: '("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-")',
+    method: OpenSearchQueryParameter.toStrictStringEqual,
+    separator: OpenSearchQueryParameter.OR_SEPARATOR,
+    negate: false,
+  }, {
+    label: 'mutliple values for strict equality (with espaced chars and negated)',
+    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]$$||+-', ''],
+    expected: 'NOT ("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-")',
+    method: OpenSearchQueryParameter.toStrictStringEqual,
+    separator: OpenSearchQueryParameter.AND_SEPARATOR,
+    negate: true,
+  }, {
+    label: 'a single value for containing test',
+    value: 'abcdef',
+    expected: 'abcdef',
+    method: OpenSearchQueryParameter.toStringContained,
+  }, {
+    label: 'a single value for containing test (with espaced chars)',
+    value: 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x',
+    expected: 'ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x',
+    method: OpenSearchQueryParameter.toStringContained,
+  }, {
+    label: 'mutliple values for containing test (with espaced chars)',
+    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
+    expected: '(a\\+ AND b\\" AND ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
+    method: OpenSearchQueryParameter.toStringContained,
+    separator: OpenSearchQueryParameter.AND_SEPARATOR,
+    negate: false,
+  }, {
+    label: 'mutliple values for strict equality (with espaced chars)',
+    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
+    expected: 'NOT (a\\+ AND b\\" AND ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
+    method: OpenSearchQueryParameter.toStringContained,
+    separator: OpenSearchQueryParameter.OR_SEPARATOR,
+    negate: true,
+  }]
+
+  testCases.forEach(({
+    label, value, expected, method, separator, negate,
+  }) => it(`Should correct correctly ${label}`, () => {
+    assert.equal(method(value, separator, negate), expected)
+  }))
 })
