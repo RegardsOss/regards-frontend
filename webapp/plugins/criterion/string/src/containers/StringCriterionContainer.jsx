@@ -22,6 +22,7 @@ import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
 import StringCriterionComponent from '../components/StringCriterionComponent'
+import { SEARCH_MODES, SEARCH_MODES_ENUM } from '../domain/SearchMode'
 
 /**
  * Main criterion container: it handles state for a simple text search box with 'full words research' checkbox.
@@ -35,7 +36,7 @@ export class StringCriterionContainer extends React.Component {
    */
   static DEFAULT_STATE = {
     searchText: '',
-    strictEqual: false,
+    searchMode: SEARCH_MODES_ENUM.CONTAINS,
   }
 
 
@@ -75,7 +76,7 @@ export class StringCriterionContainer extends React.Component {
     // From mapStateToProps...
     state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
       searchText: PropTypes.string,
-      strictEqual: PropTypes.bool,
+      searchMode: PropTypes.oneOf(SEARCH_MODES).isRequired,
     }).isRequired,
     // From mapDispatchToProps...
     publishState: PropTypes.func.isRequired,
@@ -83,22 +84,31 @@ export class StringCriterionContainer extends React.Component {
 
   /**
    * Converts state as parameter into OpenSearch request parameters
-   * @param {{searchText: string, strictEqual: bool}} state
+   * @param {{searchText: string, searchMode: string}} state
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ searchText, strictEqual }, attribute) {
+  static convertToRequestParameters({ searchText, searchMode }, attribute) {
     const trimedText = (searchText || '').trim()
     let parameterValue = null
     if (trimedText && attribute.jsonPath) {
-      if (strictEqual) {
-        // searching for attributes values strictly equal to text
-        parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
-      } else {
-        // searching for all parts of text (separated by a blank char) to be included in attributes values
-        const values = trimedText.split(' ') || []
-        // join values as Open search parameters
-        parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringContained(values, CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR)
+      switch (searchMode) {
+        case SEARCH_MODES_ENUM.CONTAINS: {
+          // Searching for elements containing each words (separated in input by blank characters)
+          const values = trimedText.split(' ') || []
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringContained(values, CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR)
+          break
+        }
+        case SEARCH_MODES_ENUM.EQUALS:
+          // searching for attributes values strictly equal to text
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
+          break
+        case SEARCH_MODES_ENUM.REGEXP:
+          // free search text to avoid escaping regexp characters (set in parenthesis to avoid most conflicts)
+          parameterValue = `(${searchText})`
+          break
+        default:
+          throw new Error('Unknown search mode', searchMode)
       }
     } // else: no query
     return {
@@ -107,40 +117,55 @@ export class StringCriterionContainer extends React.Component {
   }
 
   /**
-   * User callback: full word option was checked / unchecked
+   * Callback: user selected contains mode
    */
-  onCheckStrictEqual = () => {
+  onSelectContainsMode = () => this.onSelectMode(SEARCH_MODES_ENUM.CONTAINS)
+
+  /**
+   * Callback: user selected strict equal mode
+   */
+  onSelectStrictEqualMode = () => this.onSelectMode(SEARCH_MODES_ENUM.EQUALS)
+
+  /**
+   * Callback: user selected regexp mode
+   */
+  onSelectRegexpMode = () => this.onSelectMode(SEARCH_MODES_ENUM.REGEXP)
+
+  /**
+   * Inner callback: new mode selected. Updates state and query
+   * @param {string} searchMode selected, from SEARCH_MODES_ENUM
+   */
+  onSelectMode = (searchMode) => {
     const { state, attributes: { searchField }, publishState } = this.props
-    const nextState = {
-      ...state,
-      strictEqual: !state.strictEqual, // check / uncheck
+    if (searchMode === state.searchMode) {
+      return // avoid resetting state without change
     }
-    // update criterion state and query
+    const nextState = { ...state, searchMode }
     publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   /**
    * User callback: user set an input
+   * @param {*} event
+   * @param {string} searchText input text
    */
-  onTextInput = (event, value) => {
+  onTextInput = (event, searchText) => {
     const { state, attributes: { searchField }, publishState } = this.props
-    const nextState = {
-      ...state,
-      searchText: value,
-    }
-    // update criterion state and query
+    const nextState = { ...state, searchText }
     publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {
-    const { state: { searchText, strictEqual }, attributes: { searchField } } = this.props
+    const { state: { searchText, searchMode }, attributes: { searchField } } = this.props
     return (
       <StringCriterionComponent
         searchAttribute={searchField}
         searchText={searchText}
-        strictEqual={strictEqual}
+        searchMode={searchMode}
+        onSelectContainsMode={this.onSelectContainsMode}
+        onSelectStrictEqualMode={this.onSelectStrictEqualMode}
+        onSelectRegexpMode={this.onSelectRegexpMode}
         onTextInput={this.onTextInput}
-        onCheckStrictEqual={this.onCheckStrictEqual}
       />)
   }
 }

@@ -349,6 +349,9 @@ export default baseTheme => ({
         tabBottomLineSize: 1,
       },
     },
+    searchForm: {
+      selectorButtonPadding: 6,
+    },
     // storage plugins module
     storagePlugins: {
       usedSpaceColor: '#133e63',
