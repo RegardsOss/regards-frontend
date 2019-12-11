@@ -72,7 +72,7 @@ export default {
   'oais.requests.confirm.validate.title': 'Validate selected Request',
   'oais.requests.confirm.validate.message': 'Do you want to validate selected Request',
   'oais.request.details.button.close': 'Close',
-  'oais.request.empty.results': 'No requests found',
+  'oais.requests.empty.results': 'No requests found',
 
   'oais.aips.list.subtitle': 'List of AIPs for selected session',
   'oais.aips.list.filters.data.storage.label': 'Stored on',
