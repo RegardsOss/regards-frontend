@@ -24,6 +24,7 @@ import { connect } from '@regardsoss/redux'
 import { UIClient } from '@regardsoss/client'
 import { HorizontalAreasSeparator } from '@regardsoss/components'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
+import { OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
 import { SelectionPath } from '../../shapes/SelectionShape'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import { resultsContextActions } from '../../clients/ResultsContextClient'
@@ -144,7 +145,8 @@ export class NavigableSearchResultsContainer extends React.Component {
                     // restrict using q tag param
                     [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
                       new CatalogDomain.OpenSearchQueryParameter(
-                        CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, newSelectedDatasetElt.id).toQueryString(),
+                        CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+                        OpenSearchQueryParameter.toStrictStringEqual(newSelectedDatasetElt.id)).toQueryString(),
                   },
                 }],
               },

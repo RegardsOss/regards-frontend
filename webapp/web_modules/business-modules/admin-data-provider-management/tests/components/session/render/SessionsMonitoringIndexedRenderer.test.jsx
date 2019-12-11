@@ -81,6 +81,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringIndexedRend
         ],
       },
       onClickListIndexed: () => {},
+      onGoToDatasources: () => {},
     }
     shallow(<SessionsMonitoringIndexedRenderer {...props} />, { context })
   })
@@ -110,6 +111,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringIndexedRend
         ],
       },
       onClickListIndexed: () => {},
+      onGoToDatasources: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringIndexedRenderer {...props} />, { context })
     const dropDownButton = enzymeWrapper.find(DropDownButton)

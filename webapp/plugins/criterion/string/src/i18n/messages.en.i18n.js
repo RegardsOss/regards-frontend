@@ -22,7 +22,7 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.word.checkbox.title': 'Search full word',
+  'criterion.search.field.strict.checkbox.title': 'Strict equal',
 }
 
 export default messages

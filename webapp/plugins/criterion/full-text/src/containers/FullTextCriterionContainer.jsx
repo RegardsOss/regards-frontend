@@ -20,6 +20,7 @@ import { connect } from '@regardsoss/redux'
 import {
   pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
+import { CatalogDomain } from '@regardsoss/domain'
 import FullTextCriterionComponent from '../components/FullTextCriterionComponent'
 
 
@@ -76,7 +77,7 @@ export class FullTextCriterionContainer extends React.Component {
    */
   static convertToRequestParameters({ searchText = '' }) {
     const trimedText = searchText.trim()
-    return { q: trimedText ? `"${trimedText}"` : null }
+    return { q: trimedText ? CatalogDomain.OpenSearchQueryParameter.toStringContained(trimedText) : null }
   }
 
   /**

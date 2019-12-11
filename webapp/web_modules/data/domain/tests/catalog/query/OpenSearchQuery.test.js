@@ -35,15 +35,24 @@ describe('[Domain] Testing OpenSearchQuery', () => {
     assert.equal(query.toQueryString(), 'hello/world', 'Query should display basiss and only basis')
   })
 
-  it('Should display correclty with parameters and basis', () => {
+  it('Should display correctly with parameters and basis', () => {
     const query = new OpenSearchQuery('bitmasks:less%20please', [
-      new OpenSearchQueryParameter('simple', ['yes', 'no']),
-      new OpenSearchQueryParameter('sucky', 'yes'),
-      new OpenSearchQueryParameter('hidden', ''), // should be filtered
-      new OpenSearchQueryParameter('', 'hidden'), // should be filtered
-      new OpenSearchQueryParameter('hidden', []), // should be filtered
-      new OpenSearchQueryParameter('hidden', ['', '', null, undefined]), // should be filtered
+      new OpenSearchQueryParameter('simple',
+        OpenSearchQueryParameter.toStrictStringEqual(['yes', 'no'],
+          OpenSearchQueryParameter.OR_SEPARATOR, false)),
+      new OpenSearchQueryParameter('sucky', OpenSearchQueryParameter.toStringContained('yes+')),
+      new OpenSearchQueryParameter('cranky',
+        OpenSearchQueryParameter.toStrictStringEqual([
+          'why', null], OpenSearchQueryParameter.AND_SEPARATOR, true)),
+      new OpenSearchQueryParameter('hidden1', OpenSearchQueryParameter.toStrictStringEqual('')), // should be filtered
+      new OpenSearchQueryParameter('', OpenSearchQueryParameter.toStringContained('hidden2')), // should be filtered
+      new OpenSearchQueryParameter('hidden3', OpenSearchQueryParameter.toStrictStringEqual([])), // should be filtered
+      new OpenSearchQueryParameter('hidden4', OpenSearchQueryParameter.toStringContained(
+        ['', '', null, undefined])), // should be filtered
+      new OpenSearchQueryParameter('hidden5',
+        OpenSearchQueryParameter.toStringContained(
+          ['', '', null, undefined], OpenSearchQueryParameter.OR_SEPARATOR, true)), // should be filtered
     ])
-    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:(yes OR no) AND sucky:yes', 'Wrong generated URL')
+    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:("yes" OR "no") AND sucky:yes\\+ AND cranky:NOT ("why")', 'Wrong generated URL')
   })
 })

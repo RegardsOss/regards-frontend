@@ -193,22 +193,25 @@ export class SessionsMonitoringContainer extends React.Component {
   onViewProductsOAIS = (source, session) => {
     const { params: { project } } = this.props
     const urlParams = {
+      display: 'products',
       source,
       session,
     }
     const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
-    const url = `/admin/${project}/data/acquisition/oais/aip/list?${queryString}`
+    const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`
     browserHistory.push(url)
   }
 
   onViewRequestsOAIS = (source, session, error = false) => {
     const { params: { project } } = this.props
     const urlParams = {
+      display: 'requests',
       source,
       session,
+      status: error ? 'ERROR' : undefined,
     }
     const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
-    const url = `/admin/${project}/data/acquisition/oais/requests/list?${queryString}`
+    const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`
     browserHistory.push(url)
   }
 
@@ -386,6 +389,10 @@ export class SessionsMonitoringContainer extends React.Component {
     this.setState(nextState)
   }
 
+  onGoToDatasources = () => {
+    browserHistory.push(`/admin/${this.props.params.project}/data/acquisition/datasource/monitor`)
+  }
+
   render = () => {
     const {
       columnsSorting, requestParameters, filtersEdited, canEmptyFilters, editionFiltersState, columnsVisibility,
@@ -417,6 +424,7 @@ export class SessionsMonitoringContainer extends React.Component {
         onViewRequestsOAIS={this.onViewRequestsOAIS}
         onRelaunchProductsOAIS={this.onRelaunchProductsOAIS}
         onRefresh={this.onRefresh}
+        onGoToDatasources={this.onGoToDatasources}
       />
     )
   }

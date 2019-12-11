@@ -19,7 +19,7 @@
 import isUndefined from 'lodash/isUndefined'
 import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
 import { ValidationHelpers } from '@regardsoss/form-utils'
 import { CommonDomain } from '@regardsoss/domain'
 import { Parameter } from './parameters/Parameter'
@@ -126,8 +126,12 @@ export function packTargetParameters(target) {
     case RuntimeTargetTypes.QUERY:
       return {
         entityType: target.entityType,
-        q: new OpenSearchQuery(target.requestParameters.q,
-          [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString(),
+        q: new OpenSearchQuery(target.requestParameters.q, target.excludedIDs[
+          new OpenSearchQueryParameter(
+            OpenSearchQuery.ID_PARAM_NAME,
+            OpenSearchQueryParameter.toStrictStringEqual(
+              target.excludedIDs, OpenSearchQueryParameter.AND_SEPARATOR, true))])
+          .toQueryString(),
       }
     default:
       throw new Error('Invalid target') // development error only

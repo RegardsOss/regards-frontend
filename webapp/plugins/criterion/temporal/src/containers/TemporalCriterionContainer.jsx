@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
@@ -116,7 +116,7 @@ export class TemporalCriterionContainer extends React.Component {
         default:
           throw new Error(`Invalid comparator type ${operator}`)
       }
-      q = `${attribute.jsonPath}:${rangeAsQuery}`
+      q = new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath, rangeAsQuery).toQueryString()
     } // else: no query
     return { q }
   }

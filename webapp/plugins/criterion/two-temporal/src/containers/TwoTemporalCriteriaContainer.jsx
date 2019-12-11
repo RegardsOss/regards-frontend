@@ -18,6 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AttributeModelWithBounds, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins-api'
+import { CatalogDomain } from '@regardsoss/domain'
 import TwoTemporalCriteriaComponent from '../components/TwoTemporalCriteriaComponent'
 
 /**
@@ -83,8 +84,9 @@ export class TwoTemporalCriteriaContainer extends React.Component {
    * @param {*} attribute corresponding data attribute
    * @return {string} corresponding query or null if it should not be available for that range
    */
-  static convertRangeToQuery(value1, value2, attribute) {
-    return attribute.jsonPath && (value1 || value2) ? `${attribute.jsonPath}:[${value1 || '*'} TO ${value2 || '*'}]` : null
+  static convertRangeToQueryParam(value1, value2, attribute) {
+    return new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath,
+      attribute.jsonPath && (value1 || value2) ? `[${value1 || '*'} TO ${value2 || '*'}]` : null)
   }
 
   /**
@@ -94,10 +96,10 @@ export class TwoTemporalCriteriaContainer extends React.Component {
    * @return {string} corresponding search query or null if there should be none in current state
    */
   static convertToSingleAttributeQuery({ value1, value2 }, attribute) {
-    return TwoTemporalCriteriaContainer.convertRangeToQuery(
+    return TwoTemporalCriteriaContainer.convertRangeToQueryParam(
       TwoTemporalCriteriaContainer.removeTimeZone(value1),
       TwoTemporalCriteriaContainer.removeTimeZone(value2),
-      attribute)
+      attribute).toQueryString()
   }
 
   /**
@@ -128,12 +130,10 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     // Attr1: PERIOD_START = 01/01/2010
     // attr2: PERIOD_END = 31/01/2010
     // PERDIOD_END >= 01/01/2010 AND PERIOD_START <= 31/01/2010
-    return [
-      TwoTemporalCriteriaContainer.convertRangeToQuery(TwoTemporalCriteriaContainer.removeTimeZone(value1), null, secondAttribute),
-      TwoTemporalCriteriaContainer.convertRangeToQuery(null, TwoTemporalCriteriaContainer.removeTimeZone(value2), firstAttribute),
-    ]
-      .filter(query => !!query)// clear empty queries
-      .join(' AND ') || null // Join all parts with open search instruction, return null if string is empty
+    return new CatalogDomain.OpenSearchQuery('', [
+      TwoTemporalCriteriaContainer.convertRangeToQueryParam(TwoTemporalCriteriaContainer.removeTimeZone(value1), null, secondAttribute),
+      TwoTemporalCriteriaContainer.convertRangeToQueryParam(null, TwoTemporalCriteriaContainer.removeTimeZone(value2), firstAttribute),
+    ]).toQueryString()
   }
 
   /**

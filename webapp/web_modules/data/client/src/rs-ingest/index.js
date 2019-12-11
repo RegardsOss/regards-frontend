@@ -21,10 +21,6 @@ export { default as ProcessingChainReducer } from './processingChain/ProcessingC
 export { default as ProcessingChainSelectors } from './processingChain/ProcessingChainSelectors'
 export { default as ProcessingChainImportActions } from './processingChain/ProcessingChainImportActions'
 
-export { default as SIPImportActions } from './sip/SIPImportActions'
-export { default as getSIPImportReducer } from './sip/SIPImportReducer'
-export { default as getSIPImportSelectors } from './sip/SIPImportSelectors'
-
 export { default as SessionActions } from './session/SessionActions'
 export { default as getSessionReducer } from './session/SessionReducer'
 export { default as getSessionSelectors } from './session/SessionSelectors'
@@ -56,6 +52,10 @@ export { default as getAIPUpdateSelectors } from './aip/AIPUpdateSelectors'
 export { default as SIPActions } from './sip/SIPActions'
 export { default as getSIPReducer } from './sip/SIPReducer'
 export { default as getSIPSelectors } from './sip/SIPSelectors'
+
+export { default as SIPImportActions } from './sipImport/SIPImportActions'
+export { default as getSIPImportReducer } from './sipImport/SIPImportReducer'
+export { default as getSIPImportSelectors } from './sipImport/SIPImportSelectors'
 
 export { default as RequestActions } from './request/RequestActions'
 export { default as getRequestReducer } from './request/RequestReducer'

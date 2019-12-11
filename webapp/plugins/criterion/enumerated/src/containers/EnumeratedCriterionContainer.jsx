@@ -18,6 +18,7 @@
  **/
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
+import { CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, PluginsClientsMap,
 } from '@regardsoss/plugins-api'
@@ -116,8 +117,10 @@ export class EnumeratedCriterionContainer extends React.Component {
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({ searchText = '' }, attribute) {
-    const trimedText = searchText.trim()
-    return { q: trimedText ? `${attribute.jsonPath}:"${trimedText}"` : null }
+    return {
+      q: new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath,
+        CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(searchText.trim())).toQueryString(),
+    }
   }
 
   /**

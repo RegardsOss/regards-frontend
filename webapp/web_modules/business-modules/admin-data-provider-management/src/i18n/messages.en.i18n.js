@@ -160,7 +160,6 @@ const messages = Object.assign({
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',
-  'acquisition-sessions.states.generating': 'Generation ...',
   'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
   'acquisition-sessions.states.running': 'Running',
@@ -172,7 +171,11 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.button': 'Delete session products',
   'acquisition-sessions.menus.session.delete.force.button': 'Delete session',
   'acquisition-sessions.menus.session.delete.dialog.title': 'Delete session <{source} - {name}> products',
-  'acquisition-sessions.menus.session.delete.dialog.message': 'The session deletion will delete all acquired products. If associated storage location is configured to allow deletion, so files will also be deleted.',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'You are going to delete acquired products. If associated storage location is configured to allow deletion, so files will also be deleted.',
+  'acquisition-sessions.menus.session.delete.dialog.cancel.button': 'Cancel',
+  'acquisition-sessions.menus.session.delete.dialog.delete.button': 'Delete products',
+  'acquisition-sessions.menus.session.delete.dialog.force.button': 'Delete session',
+  'acquisition-sessions.menus.session.delete.dialog.deletion.error': 'Unknown error occured during deletion. Please retry later.',
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
   'acquisition-sessions.menus.products.show.errors': 'Display error products',
   'acquisition-sessions.menus.products.show.incomplete': 'Display incomplete products',
@@ -188,6 +191,8 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.list.title.incomplete': 'Incomplete products for session {source}:{session}',
   'acquisition-sessions.menus.products.list.help.error': 'After resolving products issues, you can relaunch acquisition of those products.',
   'acquisition-sessions.menus.products.list.help.incomplete': 'An incomplete product, is a product with a missing file from the madatory ones. Maybe files were missing during directory scan. If files are now there, you can relaunch session to acquire those new files and complete products',
+
+  'acquisition-sessions.menus.index.view': 'View data crawlers',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

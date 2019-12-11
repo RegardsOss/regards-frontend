@@ -146,7 +146,7 @@ const messages = Object.assign({
   'acquisition-sessions.table.state': 'Etat',
   'acquisition-sessions.table.sip-generated': 'Acquisition',
   'acquisition-sessions.table.aip-stored': 'Archivage',
-  'acquisition-sessions.table.indexed': 'Cataloguage',
+  'acquisition-sessions.table.indexed': 'Catalogage',
   'acquisition-sessions.table.last-modification': 'Dernière modification',
 
   //3.2 Table Headers tooltip
@@ -155,16 +155,15 @@ const messages = Object.assign({
   'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
   //3.3 Products states
-  'acquisition-sessions.states.complet': 'Générés',
-  'acquisition-sessions.states.incomplete': 'incomplets',
+  'acquisition-sessions.states.complet': 'Produits générés',
+  'acquisition-sessions.states.incomplete': 'Prod. incomplets',
   'acquisition-sessions.states.files_acquired': 'Fichiers détectés',
   'acquisition-sessions.states.error': 'Erreurs',
   'acquisition-sessions.states.pending': 'En cours',
-  'acquisition-sessions.states.generating': 'Génération ...',
-  'acquisition-sessions.states.storing': 'Archivages ...',
-  'acquisition-sessions.states.stored': 'Archivés',
+  'acquisition-sessions.states.storing': 'Archivages en cours',
+  'acquisition-sessions.states.stored': 'Produits Archivés',
   'acquisition-sessions.states.running': 'En cours',
-  'acquisition-sessions.states.indexed': 'Indexés',
+  'acquisition-sessions.states.indexed': 'Produits indexés',
   'acquisition-sessions.states.index.errors': 'Erreurs',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
@@ -172,7 +171,11 @@ const messages = Object.assign({
   'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
   'acquisition-sessions.menus.session.delete.force.button': 'Supprimer la session',
   'acquisition-sessions.menus.session.delete.dialog.title': 'Supprimer les produits de la session <{source} - {name}>',
-  'acquisition-sessions.menus.session.delete.dialog.message': 'La suppression de cette session entrainera la suppression de tous les produits acquis. Si les fichiers sont sockés sur un espace de stockage configuré pour autoriser la suppression, alors les fichiers seront également supprimés.',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'Etes vous sûr de vouloir supprimer tous les produits de cette session ? Si les fichiers sont sockés sur un espace de stockage configuré pour autoriser la suppression, alors les fichiers seront également supprimés physiquement.',
+  'acquisition-sessions.menus.session.delete.dialog.cancel.button': 'Annuler',
+  'acquisition-sessions.menus.session.delete.dialog.delete.button': 'Supprimer les produits',
+  'acquisition-sessions.menus.session.delete.dialog.force.button': 'Supprimer la session',
+  'acquisition-sessions.menus.session.delete.dialog.deletion.error': 'Une erreur innatendue c\'est produite durant la demande de suppression. Veuillez réessayer ultérieurement',
   'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.products.show.errors': 'Voir les produits en erreur',
   'acquisition-sessions.menus.products.show.incomplete': 'Voir les produits incomplets',
@@ -188,6 +191,8 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.list.title.incomplete': 'Liste des produits incomplets pour la session {source}:{session}',
   'acquisition-sessions.menus.products.list.help.error': 'Liste des produits en erreurs sur la session courante. Après avoir corriger les problèmes rencontrés, vous pouveze relancer l\'acquisition des produis en erreur',
   'acquisition-sessions.menus.products.list.help.incomplete': 'Un produit incompet est un produit auquel il manque au moins un type de fichier obligatoire. Il se peut que le fichier n\'était pas présent lors du scan du répertoire. Vous pouvez relancer la chaîne d\'acquisition pour compléter ces produits si les fichiers sont désormais présents.',
+
+  'acquisition-sessions.menus.index.view': 'Visualiser les aspirations',
 
   //3.5 Filters
   'acquisition-sessions.filters.source': 'Source',

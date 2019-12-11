@@ -19,7 +19,7 @@
 import last from 'lodash/last'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
-import { OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { CatalogDomain } from '@regardsoss/domain'
 
 /**
  * Parent actions to fetch graph entities at a given graph level
@@ -64,16 +64,26 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
         throw new Error('At least one parent should be provided when fetching non root graph level!')
       }
       // parent Id as tag
+      openSearchParameters.push(
+
+      )
       parentEntityIds.forEach((parentEntityId) => {
-        openSearchParameters.push(OpenSearchQuery.buildTagParameter(parentEntityId))
+        openSearchParameters.push(
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(parentEntityIds),
+            CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR))
       })
     }
 
     if (levelModelName) {
-      openSearchParameters.push(OpenSearchQuery.buildModelParameter(levelModelName))
+      openSearchParameters.push(
+        new CatalogDomain.OpenSearchQueryParameter(
+          CatalogDomain.OpenSearchQuery.MODEL_PARAM_NAME,
+          CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(levelModelName)))
     }
     // build search query and fetch server data (keep invocation context for action metadata)
-    const searchQuery = new OpenSearchQuery(null, openSearchParameters).toQueryString()
+    const searchQuery = new CatalogDomain.OpenSearchQuery(null, openSearchParameters).toQueryString()
     this.levelIndex = levelIndex
     this.parentEntityId = parentEntityIds.length ? last(parentEntityIds) : null
     return this.fetchPagedEntityList(0, 0, { levelModelName }, { q: searchQuery })

@@ -593,7 +593,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       get(spyUpdateResultsContext.contextToCommit, `tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`),
       [{
         requestParameters: {
-          q: 'datasetModelNames:(myModel1 OR myModelTartempion)',
+          q: 'datasetModelNames:("myModel1" OR "myModelTartempion")',
         },
       }], 'Configuration criteria should have been correctly initialized')
   })

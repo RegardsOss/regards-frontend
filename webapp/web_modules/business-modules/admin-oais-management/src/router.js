@@ -29,17 +29,17 @@ export const sipSumitionRoute = {
   },
 }
 
-// export const sipSumitionSummaryRoute = {
-//   path: 'sip/submission-summary',
-//   getComponents(nextState, cb) {
-//     require.ensure([], (require) => {
-//       const container = require('./containers/submission/SIPSubmissionSummaryContainer')
-//       cb(null, {
-//         content: container.default,
-//       })
-//     })
-//   },
-// }
+export const sipSumitionSummaryRoute = {
+  path: 'sip/submission-summary',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/submission/SIPSubmissionSummaryContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
 
 export const oaisFeatureManagerRoute = {
   path: 'featureManager',
@@ -56,6 +56,7 @@ export const oaisFeatureManagerRoute = {
 const aipManagementRouter = {
   childRoutes: [
     sipSumitionRoute,
+    sipSumitionSummaryRoute,
     oaisFeatureManagerRoute,
   ],
 }

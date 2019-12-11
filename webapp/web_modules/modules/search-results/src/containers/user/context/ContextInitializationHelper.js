@@ -171,13 +171,17 @@ export class ContextInitializationHelper {
       case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
         return [{
           requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, selection).toQueryString(),
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
+              CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+              CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
         }]
       case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
         return [{
           requestParameters: {
-            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.DATASET_MODEL_NAMES_PARAM, selection).toQueryString(),
+            [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
+              CatalogDomain.OpenSearchQuery.DATASET_MODEL_NAMES_PARAM,
+              CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
         }]
       default: // no restriction

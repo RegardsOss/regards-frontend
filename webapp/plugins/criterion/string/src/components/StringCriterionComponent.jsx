@@ -18,7 +18,7 @@
  **/
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
-import FullwordIcon from 'mdi-material-ui/Contain'
+import StrictEqualIcon from 'mdi-material-ui/EqualBox'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -30,64 +30,58 @@ import {
  * @author Raphaël Mechali
  */
 class StringCriterionComponent extends React.Component {
-static propTypes = {
-  // attribute currently searched
-  searchAttribute: AttributeModelWithBounds.isRequired,
-  // current search text
-  searchText: PropTypes.string.isRequired,
-  // Is currently searching full words?
-  searchFullWords: PropTypes.bool.isRequired,
-  // Callback: user input some text. (event, text) => ()
-  onTextInput: PropTypes.func.isRequired,
-  // Callback: user toggled full words search state. () => ()
-  onCheckFullWord: PropTypes.func.isRequired,
-  // Is fullword search allowed?
-  allowFullword: PropTypes.bool.isRequired,
-}
+  static propTypes = {
+    // attribute currently searched
+    searchAttribute: AttributeModelWithBounds.isRequired,
+    // current search text
+    searchText: PropTypes.string.isRequired,
+    // Is currently searching full words?
+    strictEqual: PropTypes.bool.isRequired,
+    // Callback: user input some text. (event, text) => ()
+    onTextInput: PropTypes.func.isRequired,
+    // Callback: user toggled full words search state. () => ()
+    onCheckStrictEqual: PropTypes.func.isRequired,
+  }
 
-static contextTypes = {
-  ...i18nContextType,
-  ...themeContextType,
-}
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
 
-render() {
-  const {
-    searchText, searchFullWords, searchAttribute, allowFullword,
-    onTextInput, onCheckFullWord,
-  } = this.props
-  const {
-    intl,
-    moduleTheme: {
-      rootStyle, labelSpanStyle, textFieldStyle,
-      uncheckIconStyle, checkedIconStyle,
-    },
-  } = this.context
-  return (
-    <div style={rootStyle}>
-      <span style={labelSpanStyle}>
-        {searchAttribute.label}
-      </span>
-      <TextField
-        id="search"
+  render() {
+    const {
+      searchText, strictEqual, searchAttribute,
+      onTextInput, onCheckStrictEqual,
+    } = this.props
+    const {
+      intl,
+      moduleTheme: {
+        rootStyle, labelSpanStyle, textFieldStyle,
+        uncheckIconStyle, checkedIconStyle,
+      },
+    } = this.context
+    return (
+      <div style={rootStyle}>
+        <span style={labelSpanStyle}>
+          {searchAttribute.label}
+        </span>
+        <TextField
+          id="search"
           // Genererate type label as floating text
-        floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
-        title={formatTooltip(intl, searchAttribute)}
-        value={searchText}
-        onChange={onTextInput}
-        style={textFieldStyle}
-      />
-      { // Full word search toggle, when available
-        allowFullword ? (
-          <IconButton
-            iconStyle={searchFullWords ? checkedIconStyle : uncheckIconStyle}
-            title={intl.formatMessage({ id: 'criterion.search.field.word.checkbox.title' })}
-            onClick={onCheckFullWord}
-          >
-            <FullwordIcon />
-          </IconButton>) : null
-      }
-    </div>
-  )
-}
+          floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
+          title={formatTooltip(intl, searchAttribute)}
+          value={searchText}
+          onChange={onTextInput}
+          style={textFieldStyle}
+        />
+        <IconButton
+          iconStyle={strictEqual ? checkedIconStyle : uncheckIconStyle}
+          title={intl.formatMessage({ id: 'criterion.search.field.strict.checkbox.title' })}
+          onClick={onCheckStrictEqual}
+        >
+          <StrictEqualIcon />
+        </IconButton>
+      </div>)
+  }
 }
 export default StringCriterionComponent
