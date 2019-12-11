@@ -49,6 +49,7 @@ export default {
   'oais.packages.confirm.modify.title': 'Modify selected AIP',
   'oais.packages.confirm.modify.storages': 'Modifier les stockages',
   'oais.packages.confirm.modify.message': 'Confirmez vous la modification ?',
+  'oais.packages.empty.results': 'Aucun produit trouvé',
 
   'oais.requests.list.filters.providerId': 'Identifiant',
   'oais.requests.list.filters.type': 'Type',
@@ -71,6 +72,7 @@ export default {
   'oais.requests.confirm.validate.title': 'Valider les requêtes sélectionnées',
   'oais.requests.confirm.validate.message': 'Voulez-vous valider les requêtes sélectionnées ?',
   'oais.request.details.button.close': 'Fermer',
+  'oais.request.empty.results': 'Aucune requête trouvée',
 
   'oais.aips.list.subtitle': 'Liste des AIPS pour la session sélectionnée',
   'oais.aips.list.filters.data.storage.label': 'Stocké sur',

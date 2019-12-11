@@ -28,6 +28,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringComponent } from '../../../src/components/session/SessionsMonitoringComponent'
 import styles from '../../../src/styles'
 import { SessionsMonitoringFiltersComponent } from '../../../src/components/session/SessionsMonitoringFiltersComponent'
+import SessionDeleteDialogComponent from '../../../src/components/session/SessionDeleteDialogComponent'
 
 const context = buildTestContext(styles)
 
@@ -96,20 +97,16 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringComponent',
     assert.lengthOf(pageableInfiniteTableContainer, 1, 'There should be 1 pageableInfiniteTableContainer')
     const tableLayout = enzymeWrapper.find(TableLayout)
     assert.lengthOf(tableLayout, 1, 'There should be 1 tableLayout')
+    const deleteDialogComponents = enzymeWrapper.find(SessionDeleteDialogComponent)
+    assert.lengthOf(deleteDialogComponents, 1, 'There should be 1 SessionDeleteDialogComponent')
     const confirmDialogComponents = enzymeWrapper.find(ConfirmDialogComponent)
-    assert.lengthOf(confirmDialogComponents, 2, 'There should be 2 confirmDialogComponent')
-    testSuiteHelpers.assertWrapperProperties(confirmDialogComponents.at(1), {
+    assert.lengthOf(confirmDialogComponents, 1, 'There should be 1 confirmDialogComponent')
+    testSuiteHelpers.assertWrapperProperties(confirmDialogComponents.at(0), {
       dialogType: { messageId: 'confirm.dialog.confirm' },
       onConfirm: wrapperInstance.onConfirmAcknowledge,
       onClose: wrapperInstance.onCloseAcknowledge,
       open: false,
     }, 'The delete confirmDialogComponent should be correctly configured')
-    testSuiteHelpers.assertWrapperProperties(confirmDialogComponents.at(0), {
-      dialogType: { messageId: 'confirm.dialog.confirm' },
-      onConfirm: wrapperInstance.onConfirmDelete,
-      onClose: wrapperInstance.onCloseDeleteConfirm,
-      open: false,
-    }, 'The ack confirmDialogComponent should be correctly configured')
     const cardActionsComponent = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsComponent, 1, 'There should be 1 cardActionsComponent')
     const sessionsMonitoringFiltersComponent = enzymeWrapper.find(SessionsMonitoringFiltersComponent)

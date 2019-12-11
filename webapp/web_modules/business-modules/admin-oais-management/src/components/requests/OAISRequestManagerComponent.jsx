@@ -21,10 +21,11 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
-  TableSelectionModes,
+  TableSelectionModes, NoContentComponent,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -62,6 +63,11 @@ class OAISRequestManagerComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="oais.requests.empty.results"
+    Icon={NoContentIcon}
+  />
 
   static DELETION_SELECTION_MODE = {
     INCLUDE: 'INCLUDE',
@@ -486,6 +492,7 @@ class OAISRequestManagerComponent extends React.Component {
             maxRowCount={maxRowCount}
             columns={columns}
             requestParams={requestParameters}
+            emptyComponent={OAISRequestManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>
         {this.renderRequestErrorsDetail()}
