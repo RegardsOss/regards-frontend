@@ -104,12 +104,14 @@ class OAISFeatureManagerComponent extends React.Component {
           <div>
             <div style={isPackageManagerVisible ? displayBlock : displayNone}>
               <OAISPackageManagerContainer
+                key={`package-manager-${isPackageManagerVisible}`}
                 featureManagerFilters={featureManagerFilters}
                 params={params}
               />
             </div>
             <div style={isPackageManagerVisible ? displayNone : displayBlock}>
               <OAISRequestManagerContainer
+                key={`request-manager-${isPackageManagerVisible}`}
                 featureManagerFilters={featureManagerFilters}
                 params={params}
               />

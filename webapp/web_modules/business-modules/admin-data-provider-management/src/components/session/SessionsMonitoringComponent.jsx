@@ -28,9 +28,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import {
-  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, NoContentComponent,
-  ConfirmDialogComponentTypes, ConfirmDialogComponent, CardActionsComponent, Breadcrumb,
-  PositionedDialog,
+  PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, NoContentComponent, CardActionsComponent, Breadcrumb,
+  PositionedDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
 } from '@regardsoss/components'
 import { sessionsActions, sessionsSelectors } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringSourceRenderer } from './render/SessionsMonitoringSourceRenderer'
@@ -43,6 +42,7 @@ import { SessionsMonitoringIndexedRenderer } from './render/SessionsMonitoringIn
 import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersComponent'
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
 import ProductsComponent from '../product/ProductsComponent'
+import SessionDeleteDialogComponent from './SessionDeleteDialogComponent'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
@@ -172,9 +172,17 @@ export class SessionsMonitoringComponent extends React.Component {
   onConfirmDelete = () => {
     const { sessionToDelete } = this.state
     const { onDeleteSession } = this.props
-    const force = get(sessionToDelete, 'content.state', 'undefined') === 'DELETED'
     if (get(sessionToDelete, 'content.id')) {
-      onDeleteSession(sessionToDelete.content.id, force)
+      onDeleteSession(sessionToDelete.content.id, false)
+    }
+    this.onCloseDeleteConfirm()
+  }
+
+  onConfirmDeleteForce = () => {
+    const { sessionToDelete } = this.state
+    const { onDeleteSession } = this.props
+    if (get(sessionToDelete, 'content.id')) {
+      onDeleteSession(sessionToDelete.content.id, true)
     }
     this.onCloseDeleteConfirm()
   }
@@ -238,11 +246,13 @@ export class SessionsMonitoringComponent extends React.Component {
     }
     const title = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.title' }, titleParameters)
     const message = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.message' })
-    return (<ConfirmDialogComponent
-      dialogType={ConfirmDialogComponentTypes.CONFIRM}
+    const allowForceOption = get(sessionToDelete, 'content.state', 'undefined') === 'DELETED'
+    return (<SessionDeleteDialogComponent
       title={title}
       message={message}
-      onConfirm={this.onConfirmDelete}
+      allowForceOption={allowForceOption}
+      onDelete={this.onConfirmDelete}
+      onForceDelete={this.onConfirmDeleteForce}
       onClose={this.onCloseDeleteConfirm}
       open={!!sessionToDelete}
     />)

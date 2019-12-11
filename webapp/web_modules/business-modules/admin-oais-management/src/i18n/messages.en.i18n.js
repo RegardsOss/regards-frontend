@@ -49,6 +49,7 @@ export default {
   'oais.packages.confirm.modify.title': 'Modify selected AIP',
   'oais.packages.confirm.modify.storages': 'Modify storages',
   'oais.packages.confirm.modify.message': 'Do you want to fully delete selected AIP and related SIPs on all storage spaces?',
+  'oais.packages.empty.results': 'No product found',
 
   'oais.requests.list.filters.providerId': 'Identifier',
   'oais.requests.list.filters.type': 'Type',
@@ -71,6 +72,7 @@ export default {
   'oais.requests.confirm.validate.title': 'Validate selected Request',
   'oais.requests.confirm.validate.message': 'Do you want to validate selected Request',
   'oais.request.details.button.close': 'Close',
+  'oais.requests.empty.results': 'No requests found',
 
   'oais.aips.list.subtitle': 'List of AIPs for selected session',
   'oais.aips.list.filters.data.storage.label': 'Stored on',
