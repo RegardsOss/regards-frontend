@@ -18,12 +18,15 @@
  **/
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
+import ContainsIcon from 'mdi-material-ui/CodeArray'
 import StrictEqualIcon from 'mdi-material-ui/EqualBox'
+import RegexpIcon from 'mdi-material-ui/MultiplicationBox'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
   AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip,
 } from '@regardsoss/plugins-api'
+import { SEARCH_MODES_ENUM, SEARCH_MODES } from '../domain/SearchMode'
 
 /**
  * Main plugin component
@@ -35,12 +38,16 @@ class StringCriterionComponent extends React.Component {
     searchAttribute: AttributeModelWithBounds.isRequired,
     // current search text
     searchText: PropTypes.string.isRequired,
-    // Is currently searching full words?
-    strictEqual: PropTypes.bool.isRequired,
+    // current search mode
+    searchMode: PropTypes.oneOf(SEARCH_MODES).isRequired,
     // Callback: user input some text. (event, text) => ()
     onTextInput: PropTypes.func.isRequired,
-    // Callback: user toggled full words search state. () => ()
-    onCheckStrictEqual: PropTypes.func.isRequired,
+    // Callback: user selected contains mode. () => ()
+    onSelectContainsMode: PropTypes.func.isRequired,
+    // Callback: user selected strict equal mode. () => ()
+    onSelectStrictEqualMode: PropTypes.func.isRequired,
+    // Callback: user selected regexp mode. () => ()
+    onSelectRegexpMode: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,21 +57,23 @@ class StringCriterionComponent extends React.Component {
 
   render() {
     const {
-      searchText, strictEqual, searchAttribute,
-      onTextInput, onCheckStrictEqual,
+      searchText, searchMode, searchAttribute,
+      onTextInput, onSelectContainsMode, onSelectStrictEqualMode, onSelectRegexpMode,
     } = this.props
     const {
       intl,
       moduleTheme: {
         rootStyle, labelSpanStyle, textFieldStyle,
-        uncheckIconStyle, checkedIconStyle,
+        selectorButtonStyle, defaultIconStyle, selectedIconStyle,
       },
     } = this.context
     return (
       <div style={rootStyle}>
+        {/* 1. Label */}
         <span style={labelSpanStyle}>
           {searchAttribute.label}
         </span>
+        {/* 2. Input */}
         <TextField
           id="search"
           // Genererate type label as floating text
@@ -74,12 +83,32 @@ class StringCriterionComponent extends React.Component {
           onChange={onTextInput}
           style={textFieldStyle}
         />
+        {/* 3. Contains mode selector */}
         <IconButton
-          iconStyle={strictEqual ? checkedIconStyle : uncheckIconStyle}
-          title={intl.formatMessage({ id: 'criterion.search.field.strict.checkbox.title' })}
-          onClick={onCheckStrictEqual}
+          style={selectorButtonStyle}
+          iconStyle={searchMode === SEARCH_MODES_ENUM.CONTAINS ? selectedIconStyle : defaultIconStyle}
+          title={intl.formatMessage({ id: 'criterion.search.field.contains.selector.title' })}
+          onClick={onSelectContainsMode}
+        >
+          <ContainsIcon />
+        </IconButton>
+        {/* 4. Strict equal mode selector */}
+        <IconButton
+          style={selectorButtonStyle}
+          iconStyle={searchMode === SEARCH_MODES_ENUM.EQUALS ? selectedIconStyle : defaultIconStyle}
+          title={intl.formatMessage({ id: 'criterion.search.field.equals.selector.title' })}
+          onClick={onSelectStrictEqualMode}
         >
           <StrictEqualIcon />
+        </IconButton>
+        {/* 5. Regexp mode selector */}
+        <IconButton
+          style={selectorButtonStyle}
+          iconStyle={searchMode === SEARCH_MODES_ENUM.REGEXP ? selectedIconStyle : defaultIconStyle}
+          title={intl.formatMessage({ id: 'criterion.search.field.regexp.selector.title' })}
+          onClick={onSelectRegexpMode}
+        >
+          <RegexpIcon />
         </IconButton>
       </div>)
   }

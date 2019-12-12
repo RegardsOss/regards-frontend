@@ -16,15 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 
 /**
- * i18n messages French language
- * @type {*}
+ * Possible search modes
+ * @author Raphaël Mechali
  */
-const messages = {
-  'criterion.search.field.contains.selector.title': 'Contient le texte',
-  'criterion.search.field.equals.selector.title': 'Texte strictement égal',
-  'criterion.search.field.regexp.selector.title': 'Expression régulière',
+export const SEARCH_MODES_ENUM = { // nota: we use here small values as they will be serialized in URL
+  CONTAINS: 'C',
+  EQUALS: 'E',
+  REGEXP: 'R',
 }
 
-export default messages
+export const SEARCH_MODES = values(SEARCH_MODES_ENUM)
