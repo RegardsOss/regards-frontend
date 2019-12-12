@@ -25,7 +25,7 @@ const messages = Object.assign({
   'connection.form.label': 'Nom de la connexion',
   'connection.form.version': 'Version',
   'connection.form.priorityOrder': 'Priorité de la connexion',
-  'connection.form.pluginClassName': 'Plugin de connexion',
+  'connection.form.pluginId': 'Plugin de connexion',
   'connection.form.user': 'Utilisateur de la connexion à la base de données',
   'connection.form.password': 'Mot de passe de la connexion à la base de données',
   'connection.form.dbProtocol': 'Protocole de communication (ex: jdbc:postgresql)',

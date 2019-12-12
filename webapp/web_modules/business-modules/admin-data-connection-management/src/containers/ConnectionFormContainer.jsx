@@ -68,19 +68,17 @@ export class ConnectionFormContainer extends React.Component {
    * Converts edited form values into corresponding plugin configuration DTO
    * @param {*} editedValues edited form values
    * @param {*} pluginMetaDataList known plugin metadata
-   * @param {*} confId configuration ID (keep null / undefined for a new connection)
+   * @param {*} businessId configuration ID (keep null / undefined for a new connection)
    * @return {*} converted configuration, matching expected server object shape
    */
-  static toConnectionPlugin(editedValues, pluginMetaDataList, confId = null) {
+  static toConnectionPlugin(editedValues, pluginMetaDataList, businessId = null) {
     // retrieve the selected plugin data (necessary found, as it is mandatory and comes from server list)
-    const selectedPluginClassName = editedValues.pluginClassName
     const correspondingPluginMeta = find(pluginMetaDataList,
-      ({ content: { pluginClassName } }) => pluginClassName === selectedPluginClassName)
+      ({ content: { pluginId } }) => editedValues.pluginId === pluginId)
     return {
-      id: confId,
-      pluginId: correspondingPluginMeta.content.pluginId,
+      businessId,
+      pluginId: editedValues.pluginId,
       label: editedValues.label,
-      pluginClassName: editedValues.pluginClassName,
       parameters: ConnectionFormContainer.toParameters(editedValues, correspondingPluginMeta),
     }
   }
@@ -126,9 +124,9 @@ export class ConnectionFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const { pluginMetaDataList, params: { connectionId } } = this.props
+    const { pluginMetaDataList, params: { connectionId }, currentConnection } = this.props
     Promise.resolve(this.props.updateConnection(connectionId,
-      ConnectionFormContainer.toConnectionPlugin(values, pluginMetaDataList, connectionId)))
+      ConnectionFormContainer.toConnectionPlugin(values, pluginMetaDataList, currentConnection.content.businessId)))
       .then((actionResult) => {
         if (!actionResult.error) {
           const url = this.getBackUrl()

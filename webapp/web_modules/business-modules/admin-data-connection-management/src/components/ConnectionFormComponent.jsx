@@ -18,14 +18,13 @@
  **/
 import map from 'lodash/map'
 import forEach from 'lodash/forEach'
-import keys from 'lodash/keys'
 import trim from 'lodash/trim'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import {
-  reduxForm, RenderTextField, RenderSelectField, Field, ErrorTypes, ValidationHelpers,
+  reduxForm, RenderTextField, RenderSelectField, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
@@ -46,6 +45,7 @@ export class ConnectionFormComponent extends React.Component {
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -75,14 +75,21 @@ export class ConnectionFormComponent extends React.Component {
   handleInitialize = () => {
     let initialValues = {}
     if (this.props.isEditing) {
-      const { currentConnection } = this.props
+      const {
+        currentConnection: {
+          content: {
+            label, version, priorityOrder, pluginId,
+            parameters,
+          },
+        },
+      } = this.props
       initialValues = {
-        label: currentConnection.content.label,
-        version: currentConnection.content.version,
-        priorityOrder: currentConnection.content.priorityOrder,
-        pluginClassName: currentConnection.content.pluginClassName,
+        label,
+        version,
+        priorityOrder,
+        pluginId,
       }
-      forEach(currentConnection.content.parameters, (parameter) => {
+      forEach(parameters, (parameter) => {
         switch (parameter.name) {
           case 'user':
             initialValues.user = parameter.value
@@ -116,7 +123,7 @@ export class ConnectionFormComponent extends React.Component {
 
   render() {
     const {
-      pluginMetaDataList, submitting, invalid, backUrl,
+      pluginMetaDataList, pristine, submitting, invalid, backUrl,
     } = this.props
     const title = this.getTitle()
     return (
@@ -135,20 +142,20 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.label' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={ValidationHelpers.required}
             />
             <Field
-              name="pluginClassName"
+              name="pluginId"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'connection.form.pluginClassName' })}
+              label={this.context.intl.formatMessage({ id: 'connection.form.pluginId' })}
               disabled={this.props.isEditing}
               validate={ValidationHelpers.required}
             >
-              {map(pluginMetaDataList, (pluginMetaData, id) => (
+              {map(pluginMetaDataList, ({ content: { pluginId, version } }, id) => (
                 <MenuItem
-                  value={pluginMetaData.content.pluginClassName}
-                  primaryText={`${pluginMetaData.content.pluginId} (${pluginMetaData.content.version})`}
+                  value={pluginId}
+                  primaryText={`${pluginId} (${version})`}
                   key={id}
                 />
               ))}
@@ -159,7 +166,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.user' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={ValidationHelpers.required}
               normalize={trim}
             />
             <Field
@@ -168,7 +175,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="password"
               label={this.context.intl.formatMessage({ id: 'connection.form.password' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={ValidationHelpers.required}
               normalize={trim}
             />
             <Field
@@ -177,7 +184,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbHost' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={ValidationHelpers.required}
               normalize={trim}
             />
             <Field
@@ -195,7 +202,7 @@ export class ConnectionFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={this.context.intl.formatMessage({ id: 'connection.form.dbName' })}
-              validate={ValidationHelpers.validRequiredString}
+              validate={ValidationHelpers.required}
               normalize={trim}
             />
           </CardText>
@@ -203,7 +210,7 @@ export class ConnectionFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={this.context.intl.formatMessage({ id: 'connection.form.action.save' })}
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
+              isMainButtonDisabled={submitting || invalid || pristine}
               secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
@@ -214,25 +221,6 @@ export class ConnectionFormComponent extends React.Component {
   }
 }
 
-/**
- * Form validation
- * @param values
- * @returns {{}} i18n keys
- */
-function validate(values) {
-  const errors = {}
-  if (!keys(values).length) {
-    // Workaround for redux form bug initial validation:
-    // Do not return anything when fields are not yet initialized (first render invalid state is wrong otherwise)...
-    return errors
-  }
-  if (!values.pluginClassName) {
-    errors.pluginClassName = ErrorTypes.REQUIRED
-  }
-  return errors
-}
-
 export default reduxForm({
   form: 'connection-form',
-  validate,
 })(ConnectionFormComponent)
