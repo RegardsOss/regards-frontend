@@ -93,7 +93,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
       tableSelection: props.tableSelection,
       selectionMode: props.selectionMode,
       modifyAips: props.modifyAips,
-      fetchSip: props.fetchSip,
+      // fetchSip: props.fetchSip,
     }, 'Component should define the expected properties and callbacks')
   })
 })

@@ -250,4 +250,5 @@ export default {
   }`,
   'sip.submission-summary.denied.feature.message': '- {label}: {reason}',
   'sips.submission-summary.back.button': 'Retour',
+  'sips.submission-summary.go.to.session': 'Suivre la session {sessionOwner}/{session}',
 }

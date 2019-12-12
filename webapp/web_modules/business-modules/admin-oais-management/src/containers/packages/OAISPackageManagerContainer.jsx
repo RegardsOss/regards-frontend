@@ -87,7 +87,6 @@ export class OAISPackageManagerContainer extends React.Component {
     storages: PropTypes.arrayOf(PropTypes.string),
     tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
     selectionMode: PropTypes.string.isRequired,
-    fetchSip: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -152,7 +151,6 @@ export class OAISPackageManagerContainer extends React.Component {
       deleteAips,
       selectionMode,
       modifyAips,
-      fetchSip,
     } = this.props
 
     return (
@@ -165,7 +163,6 @@ export class OAISPackageManagerContainer extends React.Component {
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         modifyAips={modifyAips}
-        fetchSip={fetchSip}
       />
     )
   }

@@ -16,17 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { SIPConfiguration } from '@regardsoss/api'
 import SIPActions from './SIPActions'
 
-class SIPReducer extends BasicSignalReducers {
-  constructor(namespace, instance) {
-    super(new SIPActions(namespace, instance))
+class SIPReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(SIPConfiguration, new SIPActions(namespace))
   }
 }
 
-/** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new SIPReducer(namespace, instance)
-  return (state, action) => reducerInstance.reduce(state, action)
+export default (namespace) => {
+  const instance = new SIPReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

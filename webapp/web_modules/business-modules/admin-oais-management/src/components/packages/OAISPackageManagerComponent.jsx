@@ -211,12 +211,6 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   onViewAIPHistory = (entity) => {
-    this.setState({
-      requestParameters: {
-        ...this.state.requestParameters,
-        providerId: entity.content.providerId,
-      },
-    })
   }
 
   onViewAIPDetail = (aipToView) => {
