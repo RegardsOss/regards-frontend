@@ -47,6 +47,7 @@ import AIPDeleteOption from './AIPDeleteOption'
 import AIPDetailComponent from './AIPDetailComponent'
 import AIPModifyDialogContainer from '../../containers/packages/AIPModifyDialogContainer'
 import AIPDeleteDialog from './AIPDeleteDialog'
+import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
 
 /**
  * Displays the list of OAIS packages
@@ -134,6 +135,7 @@ class OAISPackageManagerComponent extends React.Component {
     componentFilters: {},
     requestParameters: {},
     aipToView: null,
+    aipToFetchSipFrom: null,
     deletionPayload: {},
     // deletionErrors: [],
     // modifySelection: [],
@@ -223,9 +225,21 @@ class OAISPackageManagerComponent extends React.Component {
     })
   }
 
-  onCloseDetails = () => {
+  onViewSIPDetail = (aipToFetchSipFrom) => {
+    this.setState({
+      aipToFetchSipFrom: aipToFetchSipFrom || null,
+    })
+  }
+
+  onCloseAIPDetail = () => {
     this.setState({
       aipToView: null,
+    })
+  }
+
+  onCloseSIPDetail = () => {
+    this.setState({
+      aipToFetchSipFrom: null,
     })
   }
 
@@ -237,13 +251,25 @@ class OAISPackageManagerComponent extends React.Component {
         <Dialog
           title={intl.formatMessage({ id: 'oais.aips.list.aip-details.title' })}
           open
-          onRequestClose={this.handleaipToView}
         >
           <AIPDetailComponent
-            aip={this.state.aipToView}
-            onClose={this.onCloseDetails}
+            aip={aipToView}
+            onClose={this.onCloseAIPDetail}
           />
         </Dialog>
+      )
+    }
+    return null
+  }
+
+  renderSIPDetail = () => {
+    const { aipToFetchSipFrom } = this.state
+    if (aipToFetchSipFrom) {
+      return (
+        <SIPDetailContainer
+          sipId={aipToFetchSipFrom.content.aip.sipId}
+          onClose={this.onCloseSIPDetail}
+        />
       )
     }
     return null
@@ -485,7 +511,10 @@ class OAISPackageManagerComponent extends React.Component {
           optionProps: { onViewAIPHistory: this.onViewAIPHistory },
         }, {
           OptionConstructor: AIPDetailOption,
-          optionProps: { onViewDetail: this.onViewAIPDetail },
+          optionProps: {
+            onViewAIPDetail: this.onViewAIPDetail,
+            onViewSIPDetail: this.onViewSIPDetail,
+          },
         }, {
           OptionConstructor: AIPModifyOption,
           optionProps: { onModify: this.onModify },
@@ -568,6 +597,7 @@ class OAISPackageManagerComponent extends React.Component {
           />
         </TableLayout>
         {this.renderAIPDetail()}
+        {this.renderSIPDetail()}
         {this.renderDeleteConfirmDialog()}
         {this.renderDeleteSelectionConfirmDialog()}
         {this.renderModifyDialog()}

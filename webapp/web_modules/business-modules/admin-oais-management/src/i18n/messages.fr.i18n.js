@@ -23,6 +23,8 @@ export default {
   ...Locales.fr,
   ...IngestDomain.frMessages,
 
+  'oais.packages.switch-to.requests.label': 'Traitements',
+  'oais.packages.switch-to.requests.title': 'Voir les traitements',
   'oais.packages.list.filters.providerId': 'Identifiant',
   'oais.packages.list.filters.type': 'Type',
   'oais.packages.list.filters.state': 'État',
@@ -50,7 +52,12 @@ export default {
   'oais.packages.confirm.modify.storages': 'Modifier les stockages',
   'oais.packages.confirm.modify.message': 'Confirmez vous la modification ?',
   'oais.packages.empty.results': 'Aucun produit trouvé',
+  'oais.packages.details.button.close': 'Fermer',
+  'oais.packages.details.sip.title': 'Détails du SIP',
+  'oais.packages.details.aip.title': 'Détails de l\'AIP',
 
+  'oais.requests.switch-to.products.label': 'Produits',
+  'oais.requests.switch-to.products.title': 'Voir les produits',
   'oais.requests.list.filters.providerId': 'Identifiant',
   'oais.requests.list.filters.type': 'Type',
   'oais.requests.list.filters.state': 'État',

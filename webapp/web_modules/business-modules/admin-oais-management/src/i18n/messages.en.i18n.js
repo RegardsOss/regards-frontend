@@ -23,6 +23,8 @@ export default {
   ...Locales.en,
   ...IngestDomain.enMessages,
 
+  'oais.packages.switch-to.requests.label': 'Treatments',
+  'oais.packages.switch-to.requests.title': 'See treatments',
   'oais.packages.list.filters.providerId': 'Identifier',
   'oais.packages.list.filters.type': 'Type',
   'oais.packages.list.filters.state': 'State',
@@ -50,7 +52,12 @@ export default {
   'oais.packages.confirm.modify.storages': 'Modify storages',
   'oais.packages.confirm.modify.message': 'Do you want to fully delete selected AIP and related SIPs on all storage spaces?',
   'oais.packages.empty.results': 'No product found',
+  'oais.packages.details.button.close': 'Close',
+  'oais.packages.details.sip.title': 'SIP Details',
+  'oais.packages.details.aip.title': 'AIP Details',
 
+  'oais.requests.switch-to.products.label': 'Products',
+  'oais.requests.switch-to.products.title': 'See products',
   'oais.requests.list.filters.providerId': 'Identifier',
   'oais.requests.list.filters.type': 'Type',
   'oais.requests.list.filters.state': 'State',

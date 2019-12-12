@@ -41,14 +41,12 @@ export class OAISPackageManagerContainer extends React.Component {
   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
   * @return {*} list of component properties extracted from redux state
   */
-  static mapStateToProps(state) {
-    return {
-      meta: aipSelectors.getMetaData(state),
-      storages: aipStorageSearchSelectors.getArray(state),
-      tableSelection: aipTableSelectors.getToggledElementsAsList(state),
-      selectionMode: aipTableSelectors.getSelectionMode(state),
-    }
-  }
+  static mapStateToProps = state => ({
+    meta: aipSelectors.getMetaData(state),
+    storages: aipStorageSearchSelectors.getArray(state),
+    tableSelection: aipTableSelectors.getToggledElementsAsList(state),
+    selectionMode: aipTableSelectors.getSelectionMode(state),
+  })
 
   /**
    * Redux: map dispatch to props function
@@ -61,7 +59,6 @@ export class OAISPackageManagerContainer extends React.Component {
     fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
     fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(bodyParams, pathParams)),
     clearSelection: () => dispatch(aipTableActions.unselectAll()),
-    fetchSip: () => dispatch(),
     deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams, {}, {})),
     modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams, {}, {})),
   })

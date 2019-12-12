@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { SIP, SIP_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
  * Actions to send a request to delete a SIP
  */
-export default class SIPActions extends BasicSignalActions {
+export default class SIPActions extends BasicPageableActions {
   constructor(namespace, instance = false) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/sips/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/sips`,
       namespace,
-      bypassErrorMiddleware: false,
+      entityPathVariable: 'sipId',
+      schemaTypes: {
+        ENTITY: SIP,
+        ENTITY_ARRAY: SIP_ARRAY,
+      },
     })
   }
 }

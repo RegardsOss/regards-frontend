@@ -86,15 +86,15 @@ class OAISSwitchTables extends React.Component {
       <React.Fragment>
         <FlatButtonWithNotifications
           notificationsCount={aipsMeta ? aipsMeta.totalElements : 0}
-          label={formatMessage({ id: 'oais.button.switch-to.packages' })}
-          title={formatMessage({ id: 'oais.button.switch-to.packages-title' })}
+          label={formatMessage({ id: 'oais.requests.switch-to.products.label' })}
+          title={formatMessage({ id: 'oais.requests.switch-to.products.title' })}
           onClick={onSwitch}
           disabled={isPackageManagerVisible}
         />
         <FlatButtonWithNotifications
           notificationsCount={requestsMeta ? requestsMeta.totalElements : 0}
-          label={formatMessage({ id: 'oais.button.switch-to.requests' })}
-          title={formatMessage({ id: 'oais.button.switch-to.requests-title' })}
+          label={formatMessage({ id: 'oais.packages.switch-to.requests.label' })}
+          title={formatMessage({ id: 'oais.packages.switch-to.requests.title' })}
           onClick={onSwitch}
           disabled={!isPackageManagerVisible}
         />

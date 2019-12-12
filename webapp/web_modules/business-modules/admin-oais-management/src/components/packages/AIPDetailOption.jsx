@@ -30,21 +30,22 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 class AIPDetailOption extends React.Component {
   static propTypes = {
     entity: StorageShapes.AIPEntity,
-    onViewDetail: PropTypes.func.isRequired,
+    onViewAIPDetail: PropTypes.func.isRequired,
+    onViewSIPDetail: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  onViewAipDetail = () => {
-    const { entity, onViewDetail } = this.props
-    onViewDetail(entity.content.aip)
+  onViewAIPDetail = () => {
+    const { entity, onViewAIPDetail } = this.props
+    onViewAIPDetail(entity)
   }
 
-  onViewSipDetail = () => {
-    const { entity, onViewDetail } = this.props
-    onViewDetail(entity.content.sip)
+  onViewSIPDetail = () => {
+    const { entity, onViewSIPDetail } = this.props
+    onViewSIPDetail(entity)
   }
 
   render() {
@@ -55,11 +56,11 @@ class AIPDetailOption extends React.Component {
         <IconMenu iconButtonElement={button}>
           <MenuItem
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.aip' })}
-            onClick={this.onViewAipDetail}
+            onClick={this.onViewAIPDetail}
           />
           <MenuItem
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.sip' })}
-            onClick={this.onViewSipDetail}
+            onClick={this.onViewSIPDetail}
           />
         </IconMenu>
       </div>

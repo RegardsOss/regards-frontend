@@ -17,19 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardActions, CardMedia } from 'material-ui/Card'
-import { StorageShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { IngestShapes } from '@regardsoss/shape'
+import Dialog from 'material-ui/Dialog'
 import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
 
 /**
- * AIPDetailComponent
- * @author Léo Mieulet
+ * SIPDetailComponent
+ * @author Simon MILHAU
  */
-class AIPDetailComponent extends React.Component {
+class SIPDetailComponent extends React.Component {
   static propTypes = {
-    aip: StorageShapes.AIPEntity.isRequired,
+    sip: IngestShapes.SIPEntity.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -41,25 +42,32 @@ class AIPDetailComponent extends React.Component {
   }
 
   render() {
-    const { aip } = this.props
+    const { sip } = this.props
     const { intl, moduleTheme } = this.context
     return (
-      <Card>
-        <CardMedia>
-          <CodeFileDisplayer
-            content={JSON.stringify(aip, null, '\t')}
-            contentType={MIME_TYPES.JSON_MIME_TYPE}
-            style={moduleTheme.aipDetailsStyle}
-          />
-        </CardMedia>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonLabel={intl.formatMessage({ id: 'oais.packages.details.button.close' })}
-            mainButtonClick={this.props.onClose}
-          />
-        </CardActions>
-      </Card>
+      <Dialog
+        title={intl.formatMessage({ id: 'oais.packages.details.sip.title' })}
+        open
+      >
+        <Card>
+          <CardMedia>
+            <CodeFileDisplayer
+              content={JSON.stringify(sip, null, '\t')}
+              contentType={MIME_TYPES.JSON_MIME_TYPE}
+              style={moduleTheme.aipDetailsStyle}
+            />
+          </CardMedia>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={intl.formatMessage({ id: 'oais.packages.details.button.close' })}
+              mainButtonClick={this.props.onClose}
+            />
+          </CardActions>
+        </Card>
+
+      </Dialog>
     )
   }
 }
-export default AIPDetailComponent
+
+export default SIPDetailComponent

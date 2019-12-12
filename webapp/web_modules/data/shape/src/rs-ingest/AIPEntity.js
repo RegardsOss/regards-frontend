@@ -25,7 +25,7 @@ import { SIPEntity } from './SIPEntity'
  */
 export const AIPEntityContent = PropTypes.shape({
   content: {
-    aip: PropTypes.oneOf(AIP),
+    aip: AIP,
     aipId: PropTypes.string,
     categories: PropTypes.arrayOf(PropTypes.string),
     checksum: PropTypes.string.isRequired,
@@ -44,6 +44,6 @@ export const AIPEntityContent = PropTypes.shape({
 })
 
 export const AIPEntity = PropTypes.shape({
-  content: PropTypes.oneOf(AIPEntityContent).isRequired,
+  content: AIPEntityContent.isRequired,
   links: PropTypes.array,
 })

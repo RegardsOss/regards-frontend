@@ -20,7 +20,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const SIPConfiguration = {
-  entityKey: 'id',
+  entityKey: 'sipId',
   normalizrKey: 'sip',
 }
 
