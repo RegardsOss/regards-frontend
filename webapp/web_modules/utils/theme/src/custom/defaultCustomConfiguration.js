@@ -331,6 +331,7 @@ export default baseTheme => ({
         },
         resizerSeparator: {
           backgroundColor: baseTheme.palette.borderColor,
+          halfSize: 6,
         },
       },
       tabs: {
