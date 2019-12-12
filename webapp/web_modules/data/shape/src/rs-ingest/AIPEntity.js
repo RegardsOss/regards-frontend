@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AIP } from './AIP'
-import { SIPEntity } from './SIPEntity'
 
 /**
  * Describes an AIP Entity shape and related sub objects
  * @author Simon MILHAU
  */
 export const AIPEntityContent = PropTypes.shape({
-  content: {
+  content: PropTypes.shape({
     aip: AIP,
     aipId: PropTypes.string,
     categories: PropTypes.arrayOf(PropTypes.string),
@@ -32,15 +31,13 @@ export const AIPEntityContent = PropTypes.shape({
     creationDate: PropTypes.string,
     id: PropTypes.number,
     lastUpdate: PropTypes.string,
-    manifestLocations: PropTypes.any,
     providerId: PropTypes.string.isRequired,
     session: PropTypes.string.isRequired,
     sessionOwner: PropTypes.string.isRequired,
-    sip: SIPEntity,
     state: PropTypes.string,
     storages: PropTypes.arrayOf(PropTypes.string),
     tags: PropTypes.array,
-  },
+  }),
 })
 
 export const AIPEntity = PropTypes.shape({

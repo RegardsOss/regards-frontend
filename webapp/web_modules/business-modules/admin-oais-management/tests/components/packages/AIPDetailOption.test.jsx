@@ -44,14 +44,15 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailOption', () => {
     }
     const props = {
       entity: storedAIP,
-      onViewDetail: () => { spiedCallbackData.count += 1 },
+      onViewAIPDetail: () => { spiedCallbackData.count += 1 },
+      onViewSIPDetail: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPDetailOption {...props} />, { context })
     const iconButtonWrapper = enzymeWrapper.find(MenuItem)
     // const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
     assert.lengthOf(iconButtonWrapper, 2, 'There should be 2 menu item')
-    assert.equal(iconButtonWrapper.at(0).props().onClick, enzymeWrapper.instance().onViewAipDetail, 'Callback should be correctly set')
-    assert.equal(iconButtonWrapper.at(1).props().onClick, enzymeWrapper.instance().onViewSipDetail, 'Callback should be correctly set')
+    assert.equal(iconButtonWrapper.at(0).props().onClick, enzymeWrapper.instance().onViewAIPDetail, 'Callback should be correctly set')
+    assert.equal(iconButtonWrapper.at(1).props().onClick, enzymeWrapper.instance().onViewSIPDetail, 'Callback should be correctly set')
     // check callback calls props callback
     assert.equal(spiedCallbackData.count, 0, 'Callback should not have been invoked yet')
     iconButtonWrapper.at(0).props().onClick()

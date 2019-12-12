@@ -23,7 +23,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * Redux store Actions for Layout entities
  * @author Sébastien Binda
  */
-class LayoutActions extends BasicListActions {
+export default class LayoutActions extends BasicListActions {
   constructor() {
     super({
       namespace: 'portal/layout',
@@ -34,6 +34,3 @@ class LayoutActions extends BasicListActions {
     })
   }
 }
-
-const instance = new LayoutActions()
-export default instance

@@ -36,6 +36,7 @@ export class SIPDetailContainer extends React.Component {
     sip: props.sipId ? sipSelectors.getById(state, props.sipId) : null,
   })
 
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -62,7 +63,6 @@ export class SIPDetailContainer extends React.Component {
 
   render() {
     const { sip, onClose } = this.props
-    console.error('sip', sip)
     return (
       <SIPDetailComponent
         sip={sip}

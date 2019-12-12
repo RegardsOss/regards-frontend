@@ -87,7 +87,6 @@ export class OAISPackageManagerContainer extends React.Component {
     storages: PropTypes.arrayOf(PropTypes.string),
     tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
     selectionMode: PropTypes.string.isRequired,
-    fetchSip: PropTypes.func.isRequired,
   }
 
   static defaultProps = {

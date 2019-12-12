@@ -25,19 +25,12 @@ import LayoutActions from './LayoutActions'
  * @author Sébastien Binda
  */
 class LayoutsReducer extends BasicPageableReducers {
-  constructor() {
-    super(LayoutConfiguration, LayoutActions)
+  constructor(namespace) {
+    super(LayoutConfiguration, new LayoutActions(namespace))
   }
 }
 
-const instance = new LayoutsReducer()
-
-/**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
- */
-const getLayoutReducer = (state, action) => instance.reduce(state, action)
-
-export default getLayoutReducer
+export default (namespace) => {
+  const instance = new LayoutsReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}
