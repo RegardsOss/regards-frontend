@@ -151,7 +151,6 @@ export class OAISPackageManagerContainer extends React.Component {
       deleteAips,
       selectionMode,
       modifyAips,
-      fetchSip,
     } = this.props
 
     return (
@@ -164,7 +163,6 @@ export class OAISPackageManagerContainer extends React.Component {
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         modifyAips={modifyAips}
-        fetchSip={fetchSip}
       />
     )
   }
