@@ -105,7 +105,7 @@ export class StringCriterionContainer extends React.Component {
           break
         case SEARCH_MODES_ENUM.REGEXP:
           // free search text to avoid escaping regexp characters (set in parenthesis to avoid most conflicts)
-          parameterValue = `(${searchText})`
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringRegexpMatch(trimedText)
           break
         default:
           throw new Error('Unknown search mode', searchMode)

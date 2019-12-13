@@ -64,7 +64,6 @@ class MapViewComponent extends React.Component {
     height: undefined, // leave undefined to use a default value
   }
 
-
   /**
    * Split pane was dragged: store new position
    * @param {number} split position
