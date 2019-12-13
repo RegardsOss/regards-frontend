@@ -52,20 +52,16 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     { exp: /</g, rep: '\\<' },
     { exp: />/g, rep: '\\>' },
     { exp: /@/g, rep: '\\@' },
-    { exp: /&/g, rep: '\\&' },
-
-    // Luscene reseved character
-    { exp: /:/g, rep: '\\:' }]
+    { exp: /&/g, rep: '\\&' }]
 
   /** Regexp of element to replace and corresponding replacement when building a value in strict equal mode  */
   static STRICT_STRING_EQUAL_ESCAPED = [{ exp: /"/g, rep: '\\"' }]
 
-  /** Regexp of element to replace and corresponding replacement when building a value in regexp match mode  */
-  static REGEXP_STRING_MATCH_ESCAPED = [
-    // TODO: probably remove that escaping for regexp sake
-    // Luscene reseved character
-    { exp: /:/g, rep: '\\:' },
-  ]
+  /**
+   * Regexp of element to replace and corresponding replacement when building a value in regexp match mode
+   * (none as user is allowed to use any regexp character)
+   */
+  static REGEXP_STRING_MATCH_ESCAPED = []
 
   /** OR values separator */
   static OR_SEPARATOR = ' OR '
@@ -151,7 +147,8 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
    */
   static toStringContained(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
-    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED)
+    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED,
+      escapedValue => `(.*${escapedValue}.*)`)
   }
 
   /**

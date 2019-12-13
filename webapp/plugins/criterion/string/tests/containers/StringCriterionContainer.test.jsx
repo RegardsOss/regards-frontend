@@ -127,9 +127,9 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
 
     // 3 - Contains queries
     assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word"+', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute),
-      { q: 'attr.path.x1:FULL_word\\"\\+' })
+      { q: 'attr.path.x1:(.*FULL_word\\"\\+.*)' })
     assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL- word *', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute),
-      { q: 'attr.path.x1:(FULL\\- AND word AND \\*)' })
+      { q: 'attr.path.x1:((.*FULL\\-.*) AND (.*word.*) AND (.*\\*.*))' })
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '          ', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)

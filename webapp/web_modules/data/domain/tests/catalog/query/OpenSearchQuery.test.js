@@ -53,6 +53,6 @@ describe('[Domain] Testing OpenSearchQuery', () => {
         OpenSearchQueryParameter.toStringContained(
           ['', '', null, undefined], OpenSearchQueryParameter.OR_SEPARATOR, true)), // should be filtered
     ])
-    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:("yes" OR "no") AND sucky:yes\\+ AND cranky:NOT ("why")', 'Wrong generated URL')
+    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:("yes" OR "no") AND sucky:(.*yes\\+.*) AND cranky:NOT ("why")', 'Wrong generated URL')
   })
 })
