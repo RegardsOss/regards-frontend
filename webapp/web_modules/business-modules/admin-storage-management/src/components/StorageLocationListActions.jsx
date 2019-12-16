@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import DeleteFiles from 'mdi-material-ui/FileExcel'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -62,6 +63,10 @@ class StorageLocationListActions extends React.Component {
       hoverButtonBindAttribute: this.context.muiTheme.palette.primary3Color,
       hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
     }
+    const storageRunning = get(entity, 'content.storageRunning', false)
+    const deletionRunning = get(entity, 'content.deletionRunning', false)
+    const copyRunning = get(entity, 'content.copyRunning', false)
+
     return (
       <ActionsMenuCell breakpoints={actionsBreakpoints}>
         <HateoasIconAction
@@ -79,6 +84,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="copy"
           disableInsteadOfHide
+          disabled={storageRunning || deletionRunning || copyRunning}
           onClick={() => onCopyFiles(entity)}
           title={intl.formatMessage({ id: 'storage.location.list.copy.button' })}
         >
@@ -109,6 +115,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="deleteFiles"
           disableInsteadOfHide
+          disabled={storageRunning || deletionRunning || copyRunning}
           onClick={() => onDeleteFiles(entity)}
           title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
         >
