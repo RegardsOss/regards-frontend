@@ -39,7 +39,6 @@ const messages = Object.assign({
   'model.type.dataset': 'Jeu de données',
   'model.type.data': 'Données',
   'model.type.collection': 'Collection',
-  'model.type.document': 'Document',
 
   'model.edit.title': 'Éditer le modèle {name}',
   'model.create.title': 'Ajouter un modèle',

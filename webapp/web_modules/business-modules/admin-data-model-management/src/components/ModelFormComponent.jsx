@@ -167,7 +167,6 @@ export class ModelFormComponent extends React.Component {
               <MenuItem value="COLLECTION" primaryText={formatMessage({ id: 'model.type.collection' })} />
               <MenuItem value="DATA" primaryText={formatMessage({ id: 'model.type.data' })} />
               <MenuItem value="DATASET" primaryText={formatMessage({ id: 'model.type.dataset' })} />
-              <MenuItem value="DOCUMENT" primaryText={formatMessage({ id: 'model.type.document' })} />
             </Field>
             <ShowableAtRender show={isCreating}>
               <hr />
