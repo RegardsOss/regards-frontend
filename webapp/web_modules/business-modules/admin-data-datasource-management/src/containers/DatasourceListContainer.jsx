@@ -51,7 +51,7 @@ export class DatasourceListContainer extends React.Component {
   onToggleState = (datasource) => {
     const updatedDatasource = Object.assign({}, datasource)
     updatedDatasource.content.active = !updatedDatasource.content.active
-    this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content)
+    this.props.updateDatasource(updatedDatasource.content.businessId, updatedDatasource.content)
   }
 
   getCreateUrl = () => {
