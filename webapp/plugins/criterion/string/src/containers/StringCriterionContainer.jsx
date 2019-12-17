@@ -103,10 +103,6 @@ export class StringCriterionContainer extends React.Component {
           // searching for attributes values strictly equal to text
           parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
           break
-        case SEARCH_MODES_ENUM.REGEXP:
-          // free search text to avoid escaping regexp characters (set in parenthesis to avoid most conflicts)
-          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringRegexpMatch(trimedText)
-          break
         default:
           throw new Error('Unknown search mode', searchMode)
       }
@@ -125,11 +121,6 @@ export class StringCriterionContainer extends React.Component {
    * Callback: user selected strict equal mode
    */
   onSelectStrictEqualMode = () => this.onSelectMode(SEARCH_MODES_ENUM.EQUALS)
-
-  /**
-   * Callback: user selected regexp mode
-   */
-  onSelectRegexpMode = () => this.onSelectMode(SEARCH_MODES_ENUM.REGEXP)
 
   /**
    * Inner callback: new mode selected. Updates state and query
@@ -164,7 +155,6 @@ export class StringCriterionContainer extends React.Component {
         searchMode={searchMode}
         onSelectContainsMode={this.onSelectContainsMode}
         onSelectStrictEqualMode={this.onSelectStrictEqualMode}
-        onSelectRegexpMode={this.onSelectRegexpMode}
         onTextInput={this.onTextInput}
       />)
   }

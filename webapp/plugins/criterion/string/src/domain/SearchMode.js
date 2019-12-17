@@ -25,7 +25,6 @@ import values from 'lodash/values'
 export const SEARCH_MODES_ENUM = { // nota: we use here small values as they will be serialized in URL
   CONTAINS: 'C',
   EQUALS: 'E',
-  REGEXP: 'R',
 }
 
 export const SEARCH_MODES = values(SEARCH_MODES_ENUM)

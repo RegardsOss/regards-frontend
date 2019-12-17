@@ -89,6 +89,6 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     assert.deepEqual(spiedPublishData.state, {
       searchText: '   Toto:"$++  ',
     }, '2 - State should match with text')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: '(Toto:"$++)' }, '2 - Query should match with text, triming white spaces')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: '(Toto\\:\\"$\\+\\+)' }, '2 - Query should match with text, triming white spaces')
   })
 })

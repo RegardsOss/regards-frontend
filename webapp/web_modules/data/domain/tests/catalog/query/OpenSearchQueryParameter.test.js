@@ -55,49 +55,25 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
   }, {
     label: 'a single value for containing test',
     value: 'abcdef',
-    expected: '(.*abcdef.*)',
+    expected: '(abcdef)',
     method: OpenSearchQueryParameter.toStringContained,
   }, {
     label: 'a single value for containing test (with espaced chars)',
     value: 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x',
-    expected: '(.*ab\\"c\\"1\\.56\\\\def\\\\(\\\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-!\\^\\~\\*zz\\?\\: x.*)',
+    expected: '(ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
     method: OpenSearchQueryParameter.toStringContained,
   }, {
     label: 'multiple values for containing test (with espaced chars)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: '((.*a\\+.*) AND (.*b\\".*) AND (.*ab\\"c\\"1\\.56\\\\def\\\\(\\\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-!\\^\\~\\*zz\\?\\: x.*))',
+    expected: '((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x))',
     method: OpenSearchQueryParameter.toStringContained,
     separator: OpenSearchQueryParameter.AND_SEPARATOR,
     negate: false,
   }, {
     label: 'multiple values for containing test (with espaced chars and negated)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: 'NOT ((.*a\\+.*) AND (.*b\\".*) AND (.*ab\\"c\\"1\\.56\\\\def\\\\(\\\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-!\\^\\~\\*zz\\?\\: x.*))',
+    expected: 'NOT ((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x))',
     method: OpenSearchQueryParameter.toStringContained,
-    separator: OpenSearchQueryParameter.OR_SEPARATOR,
-    negate: true,
-  }, {
-    label: 'a single value for regexp test',
-    value: 'abcdef',
-    expected: '(abcdef)',
-    method: OpenSearchQueryParameter.toStringRegexpMatch,
-  }, {
-    label: 'a single value for regexp test (with espaced chars)',
-    value: 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x',
-    expected: '(ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x)',
-    method: OpenSearchQueryParameter.toStringRegexpMatch,
-  }, {
-    label: 'multiple values for regexp test (with espaced chars)',
-    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: '((a+) AND (b") AND (ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x))',
-    method: OpenSearchQueryParameter.toStringRegexpMatch,
-    separator: OpenSearchQueryParameter.AND_SEPARATOR,
-    negate: false,
-  }, {
-    label: 'multiple values for regexp test (with espaced chars and negated)',
-    value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: 'NOT ((a+) AND (b") AND (ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x))',
-    method: OpenSearchQueryParameter.toStringRegexpMatch,
     separator: OpenSearchQueryParameter.OR_SEPARATOR,
     negate: true,
   }]

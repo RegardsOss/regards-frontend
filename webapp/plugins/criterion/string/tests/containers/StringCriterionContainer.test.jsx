@@ -87,16 +87,8 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
     }, 'State should be correctly updated when user selects strict equal mode')
     assert.isDefined(spiedPublishStateData.requestParameters, 'Equal mode selection: query should be computed')
 
-    enzymeWrapper.instance().onSelectRegexpMode()
-    assert.equal(spiedPublishStateData.count, 3, 'publish state should have been called on strict regexp mode selection')
-    assert.deepEqual(spiedPublishStateData.state, {
-      searchText: 'xxx',
-      searchMode: SEARCH_MODES_ENUM.REGEXP,
-    }, 'State should be correctly updated when user selects regexp mode')
-    assert.isDefined(spiedPublishStateData.requestParameters, 'Regexp mode selection: query should be computed')
-
     enzymeWrapper.instance().onSelectContainsMode()
-    assert.equal(spiedPublishStateData.count, 3, 'publish state should not have been called on contains selection (already selected)')
+    assert.equal(spiedPublishStateData.count, 2, 'publish state should not have been called on contains selection (already selected)')
   })
   it('should convert correctly into a query', () => {
     const attribute = {
@@ -114,22 +106,11 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: undefined, searchMode: SEARCH_MODES_ENUM.EQUALS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchMode: SEARCH_MODES_ENUM.EQUALS }, attribute).q)
 
-    // 2 - Regexp queries
-    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word"+', searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute),
-      { q: 'attr.path.x1:(FULL_word"+)' })
-    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL word *', searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute),
-      { q: 'attr.path.x1:(FULL word *)' })
-    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute).q)
-    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute).q)
-    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '          ', searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute).q)
-    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: undefined, searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute).q)
-    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchMode: SEARCH_MODES_ENUM.REGEXP }, attribute).q)
-
-    // 3 - Contains queries
+    // 2 - Contains queries
     assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word"+', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute),
-      { q: 'attr.path.x1:(.*FULL_word\\"\\+.*)' })
+      { q: 'attr.path.x1:(FULL_word\\"\\+)' })
     assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL- word *', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute),
-      { q: 'attr.path.x1:((.*FULL\\-.*) AND (.*word.*) AND (.*\\*.*))' })
+      { q: 'attr.path.x1:((FULL\\-) AND (word) AND (\\*))' })
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '          ', searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)

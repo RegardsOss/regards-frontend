@@ -30,39 +30,28 @@ export default class OpenSearchQueryParameter extends QueryParameter {
 
   /** Regexp of element to replace and corresponding replacement when building a value in contain mode  */
   static CONTAINS_STRING_ESCAPED = [
-    // elastic search regexp reserved characters,
-    // see search-api documents (based on https://www.elastic.co/guide/en/elasticsearch/reference/current/regexp-syntax.html)
-    { exp: /\\/g, rep: '\\\\' },
+    { exp: /\\/g, rep: '\\\\' }, // first to not replace after next expressions
     { exp: /\+/g, rep: '\\+' },
     { exp: /-/g, rep: '\\-' },
-    { exp: /\./g, rep: '\\.' },
-    { exp: /\?/g, rep: '\\?' },
-    { exp: /\*/g, rep: '\\*' },
-    { exp: /\|/g, rep: '\\|' },
+    { exp: /&&/g, rep: '\\&&' },
+    { exp: /\|\|/g, rep: '\\||' },
+    { exp: /!/g, rep: '\\!' },
+    { exp: /\(/g, rep: '\\(' },
+    { exp: /\)/g, rep: '\\)' },
     { exp: /\{/g, rep: '\\{' },
     { exp: /\}/g, rep: '\\}' },
     { exp: /\[/g, rep: '\\[' },
     { exp: /\]/g, rep: '\\]' },
-    { exp: /\(/g, rep: '\\\\(' }, // regards luscene adapter
-    { exp: /\)/g, rep: '\\\\)' }, // regards luscene adapter
-    { exp: /:/g, rep: '\\:' }, // regards luscene adapter
     { exp: /\^/g, rep: '\\^' },
-    { exp: /~/g, rep: '\\~' },
-    { exp: /\$/g, rep: '\\$' },
     { exp: /"/g, rep: '\\"' },
-    { exp: /</g, rep: '\\<' },
-    { exp: />/g, rep: '\\>' },
-    { exp: /@/g, rep: '\\@' },
-    { exp: /&/g, rep: '\\&' }]
+    { exp: /~/g, rep: '\\~' },
+    { exp: /\*/g, rep: '\\*' },
+    { exp: /\?/g, rep: '\\?' },
+    { exp: /:/g, rep: '\\:' },
+    { exp: /\s/g, rep: '\\ ' }]
 
   /** Regexp of element to replace and corresponding replacement when building a value in strict equal mode  */
   static STRICT_STRING_EQUAL_ESCAPED = [{ exp: /"/g, rep: '\\"' }]
-
-  /**
-   * Regexp of element to replace and corresponding replacement when building a value in regexp match mode
-   * (none as user is allowed to use any regexp character)
-   */
-  static REGEXP_STRING_MATCH_ESCAPED = []
 
   /** OR values separator */
   static OR_SEPARATOR = ' OR '
@@ -149,18 +138,6 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    */
   static toStringContained(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
     return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED,
-      escapedValue => `(.*${escapedValue}.*)`)
-  }
-
-  /**
-   * Computes parameter value for value / values as parameter to get results matching regexp values
-   * @param {string | [string]} values value or values for the parameter.
-   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
-   * @param {boolean} negate is negated value?
-   * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
-   */
-  static toStringRegexpMatch(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
-    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.REGEXP_STRING_MATCH_ESCAPED,
       escapedValue => `(${escapedValue})`)
   }
 
