@@ -31,7 +31,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   /** Regexp of element to replace and corresponding replacement when building a value in contain mode  */
   static CONTAINS_STRING_ESCAPED = [
     // elastic search regexp reserved characters,
-    // see https://www.elastic.co/guide/en/elasticsearch/reference/current/regexp-syntax.html
+    // see search-api documents (based on https://www.elastic.co/guide/en/elasticsearch/reference/current/regexp-syntax.html)
     { exp: /\\/g, rep: '\\\\' },
     { exp: /\+/g, rep: '\\+' },
     { exp: /-/g, rep: '\\-' },
@@ -43,8 +43,9 @@ export default class OpenSearchQueryParameter extends QueryParameter {
     { exp: /\}/g, rep: '\\}' },
     { exp: /\[/g, rep: '\\[' },
     { exp: /\]/g, rep: '\\]' },
-    { exp: /\(/g, rep: '\\(' },
-    { exp: /\)/g, rep: '\\)' },
+    { exp: /\(/g, rep: '\\\\(' }, // regards luscene adapter
+    { exp: /\)/g, rep: '\\\\)' }, // regards luscene adapter
+    { exp: /:/g, rep: '\\:' }, // regards luscene adapter
     { exp: /\^/g, rep: '\\^' },
     { exp: /~/g, rep: '\\~' },
     { exp: /\$/g, rep: '\\$' },
