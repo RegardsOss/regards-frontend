@@ -77,7 +77,8 @@ class SessionsMonitoringProductsStored extends React.Component {
   getErrors = (entity) => {
     const errorSip = get(entity, 'content.lifeCycle.oais.products_gen_error', 0)
     const errorAip = get(entity, 'content.lifeCycle.oais.products_store_error', 0)
-    return parseInt(errorSip, 10) + parseInt(errorAip, 10)
+    const errorMetaAip = get(entity, 'content.lifeCycle.oais.products_meta_store_error', 0)
+    return parseInt(errorSip, 10) + parseInt(errorAip, 10) + parseInt(errorMetaAip, 10)
   }
 
   getTotal = (entity) => {
