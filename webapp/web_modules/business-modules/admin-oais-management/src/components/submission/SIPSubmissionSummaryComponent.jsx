@@ -24,6 +24,7 @@ import {
 } from 'material-ui/Card'
 import RaisedButton from 'material-ui/RaisedButton'
 import DeviceIcon from 'material-ui/svg-icons/device/dvr'
+import AddIcon from 'material-ui/svg-icons/content/add-circle-outline'
 import ValidIcon from 'material-ui/svg-icons/navigation/check'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import ErrorIcon from 'material-ui/svg-icons/alert/error-outline'
@@ -41,6 +42,7 @@ class SIPsubmissionSummaryComponent extends React.Component {
     submissionResponse: IngestShapes.SIPSubmissionResponse,
     onBack: PropTypes.func.isRequired,
     goToSessionMonitoring: PropTypes.func.isRequired,
+    goToSumissionForm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -66,6 +68,8 @@ class SIPsubmissionSummaryComponent extends React.Component {
 
     const sessionOwner = get(submissionResponse, 'sessionOwner')
     const session = get(submissionResponse, 'session')
+
+    const iconStyle = { marginLeft: 20 }
     return (
       <Card>
         <CardTitle
@@ -118,6 +122,13 @@ class SIPsubmissionSummaryComponent extends React.Component {
                     />
                     : null
                 }
+                <RaisedButton
+                  onClick={this.props.goToSumissionForm}
+                  label={formatMessage({ id: 'sips.submission-summary.go.to.submission' })}
+                  secondary
+                  icon={<AddIcon />}
+                  style={iconStyle}
+                />
               </div>
             </React.Fragment>
           }
