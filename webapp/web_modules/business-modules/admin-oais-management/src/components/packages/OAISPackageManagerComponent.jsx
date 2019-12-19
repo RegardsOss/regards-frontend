@@ -111,7 +111,7 @@ class OAISPackageManagerComponent extends React.Component {
       newFilters.name = session
     }
     if (providerId) {
-      newFilters.providerIds = providerId
+      newFilters.providerIds = [providerId]
     }
     if (from) {
       newFilters.lastUpdate.from = from.toISOString()
@@ -126,12 +126,13 @@ class OAISPackageManagerComponent extends React.Component {
       newFilters.state = state
     }
     if (storage) {
-      newFilters.storages = storage
+      newFilters.storages = [storage]
     }
     const requestParameters = {
       sort: columnsSorting.map(({ columnKey, order }) => `${OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY[columnKey]},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`),
       ...newFilters,
     }
+    console.error('requestParameters', requestParameters)
     return requestParameters
   }
 
@@ -166,24 +167,16 @@ class OAISPackageManagerComponent extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-      console.error('MERDE')
       this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.columnsSorting)
     }
   }
 
   onRequestStateUpdated = (featureManagerFilters, appliedFilters, columnsSorting) => {
-    console.error('featureManagerFilters', featureManagerFilters)
     this.setState({
       columnsSorting,
       appliedFilters,
-      contextRequestParameters: {
-        ...featureManagerFilters,
-        ...OAISPackageManagerComponent.buildRequestParameters([], appliedFilters),
-      },
-      tableRequestParameters: {
-        ...featureManagerFilters,
-        ...OAISPackageManagerComponent.buildRequestParameters(columnsSorting, appliedFilters),
-      },
+      contextRequestParameters: OAISPackageManagerComponent.buildRequestParameters([], { ...featureManagerFilters, ...appliedFilters }),
+      tableRequestParameters: OAISPackageManagerComponent.buildRequestParameters(columnsSorting, { ...featureManagerFilters, ...appliedFilters }),
     })
   }
 
@@ -218,12 +211,12 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   changeStorageFilter = (event, index, values) => {
-    this.onFilterUpdated({ storage: [values] })
+    this.onFilterUpdated({ storage: values })
   }
 
   onViewAIPHistory = (entity) => {
     const { updateStateFromFeatureManagerFilters } = this.props
-    updateStateFromFeatureManagerFilters({ providerIds: [entity.content.providerId] })
+    updateStateFromFeatureManagerFilters({ providerId: entity.content.providerId })
   }
 
   onViewAIPDetail = (aipToView) => {
@@ -533,6 +526,7 @@ class OAISPackageManagerComponent extends React.Component {
         }])
         .build(),
     ]
+    console.error('tableRequestParameters', tableRequestParameters)
     return (
       <div>
         <TableLayout>
@@ -572,7 +566,7 @@ class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.storage',
                 })}
-                value={appliedFilters.storage ? appliedFilters.storage[0] : ''}
+                value={appliedFilters.storage || ''}
                 onChange={this.changeStorageFilter}
               >
                 {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}

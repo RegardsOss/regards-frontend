@@ -55,9 +55,9 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
   }
 
   changeProviderIdFilter = (event, text) => {
-    const finalNewValue = text && text !== '' ? text : undefined
+    const finalNewValue = text
     this.props.updateStateFromFeatureManagerFilters({
-      providerIds: [finalNewValue],
+      providerId: finalNewValue,
     })
   }
 

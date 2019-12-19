@@ -92,9 +92,6 @@ class OAISFeatureManagerComponent extends React.Component {
     })
   }
 
-  onChangeProviderId = () => {
-  }
-
   render() {
     const { moduleTheme: { displayBlock, displayNone } } = this.context
     const { params } = this.props
