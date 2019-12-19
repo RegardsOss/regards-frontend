@@ -55,6 +55,7 @@ import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
  */
 class OAISPackageManagerComponent extends React.Component {
   static propTypes = {
+    updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     storages: PropTypes.arrayOf(PropTypes.string),
@@ -165,11 +166,13 @@ class OAISPackageManagerComponent extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
+      console.error('MERDE')
       this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.columnsSorting)
     }
   }
 
   onRequestStateUpdated = (featureManagerFilters, appliedFilters, columnsSorting) => {
+    console.error('featureManagerFilters', featureManagerFilters)
     this.setState({
       columnsSorting,
       appliedFilters,
@@ -219,7 +222,8 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   onViewAIPHistory = (entity) => {
-    this.onFilterUpdated({ providerId: [entity.content.providerId] })
+    const { updateStateFromFeatureManagerFilters } = this.props
+    updateStateFromFeatureManagerFilters({ providerIds: [entity.content.providerId] })
   }
 
   onViewAIPDetail = (aipToView) => {

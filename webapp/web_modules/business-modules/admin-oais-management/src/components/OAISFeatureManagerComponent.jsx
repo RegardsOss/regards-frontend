@@ -93,7 +93,6 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   onChangeProviderId = () => {
-
   }
 
   render() {
@@ -115,6 +114,7 @@ class OAISFeatureManagerComponent extends React.Component {
             <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.PACKAGES ? displayBlock : displayNone}>
               <OAISPackageManagerContainer
                 key={`package-manager-${openedPane}`}
+                updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
                 featureManagerFilters={featureManagerFilters}
                 params={params}
               />
