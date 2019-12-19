@@ -39,6 +39,7 @@ import StorageLocationStorageErrorRenderer from './StorageLocationStorageErrorRe
 import StorageLocationDeletionErrorRenderer from './StorageLocationDeletionErrorRenderer'
 import StorageLocationListActions from './StorageLocationListActions'
 import StorageRequestListComponent from './StorageRequestListComponent'
+import StorageLocationActivityRenderer from './StorageLocationActivityRenderer'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -88,6 +89,23 @@ export class StorageLocationListComponent extends React.Component {
     deleteFilesForce: false,
     dialogType: null,
     errorsType: null,
+  }
+
+  timerId = null
+
+  componentDidMount() {
+    this.autoRefresh()
+  }
+
+  componentWillUnmount() {
+    if (this.timerId) {
+      clearTimeout(this.timerId)
+    }
+  }
+
+  autoRefresh = () => {
+    this.props.onRefresh()
+    this.timerId = setTimeout(this.autoRefresh, 10000)
   }
 
   onConfirmSimpleDialog = () => {
@@ -443,6 +461,11 @@ export class StorageLocationListComponent extends React.Component {
         .rowCellDefinition({ Constructor: StorageLocationDeletionErrorRenderer, props: { onDeletionErrors: this.onDeletionErrors } })
         .fixedSizing(110)
         .label(formatMessage({ id: 'storage.location.list.header.deletion-error.label' }))
+        .build(),
+      new TableColumnBuilder('column.activity').titleHeaderCell()
+        .label(formatMessage({ id: 'storage.location.list.header.activity' }))
+        .rowCellDefinition({ Constructor: StorageLocationActivityRenderer })
+        .fixedSizing(60)
         .build(),
       new TableColumnBuilder('column.customActions').titleHeaderCell()
         .rowCellDefinition({

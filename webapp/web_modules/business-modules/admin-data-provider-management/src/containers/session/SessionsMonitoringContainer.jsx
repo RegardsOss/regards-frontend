@@ -153,6 +153,7 @@ export class SessionsMonitoringContainer extends React.Component {
       const newState = {
         ...this.state.initialFiltersState,
         ...query,
+        errorsOnly: false,
       }
       this.setState({
         initialFiltersState: newState,

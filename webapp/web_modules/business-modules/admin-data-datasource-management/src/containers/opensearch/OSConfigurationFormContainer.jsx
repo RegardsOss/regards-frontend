@@ -110,13 +110,13 @@ export class OSConfigurationFormContainer extends React.Component {
 
   /**
    * Computes resulting plugin model from edited values
-   * @param {number} id edited plugin id (leave undefined when creating)
+   * @param {number} businessId edited plugin business id (leave undefined when creating)
    * @param {{crawler, query, results}} editedValues
    * @return {*} plugin model for edited values
    */
-  static getPluginModelFromEdition({ crawler, query, results }, id) {
+  static getPluginModelFromEdition({ crawler, query, results }, businessId) {
     return {
-      id,
+      businessId,
       pluginId: 'webservice-datasource',
       label: crawler.label,
       priorityOrder: 0,

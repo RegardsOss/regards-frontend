@@ -59,11 +59,26 @@ export class SIPSubmissionSummaryContainer extends React.Component {
     browserHistory.push(url)
   }
 
+
+  goToSessionMonitoring = (sessionOwner, session) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/dataprovider/sessions?source=${sessionOwner}&session=${session}`
+    browserHistory.push(url)
+  }
+
+  goToSumissionForm = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/oais.sip.submission`
+    browserHistory.push(url)
+  }
+
   render() {
     return (
       <SIPsubmissionSummaryComponent
         submissionResponse={this.props.submissionResponse}
         onBack={this.onBack}
+        goToSessionMonitoring={this.goToSessionMonitoring}
+        goToSumissionForm={this.goToSumissionForm}
       />
     )
   }

@@ -176,10 +176,10 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   </div>
                 </div>
                 <div style={listFourValues}>
-                  <div style={four}>{this.getFilesAcquired(entity)}</div>
-                  <div style={one}>{this.getGenerated(entity)}</div>
-                  <div style={two}>{this.getIncompletes(entity)}</div>
-                  <div style={three}>{this.getErrors(entity)}</div>
+                  <div style={one}>{this.getFilesAcquired(entity)}</div>
+                  <div style={two}>{this.getGenerated(entity)}</div>
+                  <div style={three}>{this.getIncompletes(entity)}</div>
+                  <div style={four}>{this.getErrors(entity)}</div>
                 </div>
                 {actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>

@@ -22,6 +22,9 @@ import size from 'lodash/size'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import DeviceIcon from 'material-ui/svg-icons/device/dvr'
+import AddIcon from 'material-ui/svg-icons/content/add-circle-outline'
 import ValidIcon from 'material-ui/svg-icons/navigation/check'
 import InfoIcon from 'material-ui/svg-icons/action/info-outline'
 import ErrorIcon from 'material-ui/svg-icons/alert/error-outline'
@@ -38,11 +41,19 @@ class SIPsubmissionSummaryComponent extends React.Component {
   static propTypes = {
     submissionResponse: IngestShapes.SIPSubmissionResponse,
     onBack: PropTypes.func.isRequired,
+    goToSessionMonitoring: PropTypes.func.isRequired,
+    goToSumissionForm: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  goToSessionMonitoring = () => {
+    const sessionOwner = get(this.props.submissionResponse, 'sessionOwner')
+    const session = get(this.props.submissionResponse, 'session')
+    this.props.goToSessionMonitoring(sessionOwner, session)
   }
 
   render() {
@@ -54,6 +65,11 @@ class SIPsubmissionSummaryComponent extends React.Component {
 
     const denied = get(submissionResponse, 'denied', {})
     const deniedCount = size(denied)
+
+    const sessionOwner = get(submissionResponse, 'sessionOwner')
+    const session = get(submissionResponse, 'session')
+
+    const iconStyle = { marginLeft: 20 }
     return (
       <Card>
         <CardTitle
@@ -94,6 +110,26 @@ class SIPsubmissionSummaryComponent extends React.Component {
                   </React.Fragment>
                 ) : null
               }
+              <div>
+                <br />
+                {
+                  grantedCount
+                    ? <RaisedButton
+                      onClick={this.goToSessionMonitoring}
+                      label={formatMessage({ id: 'sips.submission-summary.go.to.session' }, { sessionOwner, session })}
+                      primary
+                      icon={<DeviceIcon />}
+                    />
+                    : null
+                }
+                <RaisedButton
+                  onClick={this.props.goToSumissionForm}
+                  label={formatMessage({ id: 'sips.submission-summary.go.to.submission' })}
+                  secondary
+                  icon={<AddIcon />}
+                  style={iconStyle}
+                />
+              </div>
             </React.Fragment>
           }
         </CardText>

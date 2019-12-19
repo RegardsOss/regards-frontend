@@ -26,10 +26,6 @@ import { Measure } from '@regardsoss/adapters'
 import MapContainer from '../../../../../containers/user/tabs/results/map/MapContainer'
 import QuicklooksViewContainer from '../../../../../containers/user/tabs/results/quickooks/QuicklooksViewContainer'
 
-// provide split pane styles
-import '../../../../../styles/split-pane-resizer.css'
-
-
 /**
  * Map view display component. It shows map on left and quicklooks on right
  *
@@ -67,7 +63,6 @@ class MapViewComponent extends React.Component {
     width: null,
     height: undefined, // leave undefined to use a default value
   }
-
 
   /**
    * Split pane was dragged: store new position

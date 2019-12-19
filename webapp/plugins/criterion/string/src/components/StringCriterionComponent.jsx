@@ -20,7 +20,6 @@ import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
 import ContainsIcon from 'mdi-material-ui/CodeArray'
 import StrictEqualIcon from 'mdi-material-ui/EqualBox'
-import RegexpIcon from 'mdi-material-ui/MultiplicationBox'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -46,8 +45,6 @@ class StringCriterionComponent extends React.Component {
     onSelectContainsMode: PropTypes.func.isRequired,
     // Callback: user selected strict equal mode. () => ()
     onSelectStrictEqualMode: PropTypes.func.isRequired,
-    // Callback: user selected regexp mode. () => ()
-    onSelectRegexpMode: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -58,7 +55,7 @@ class StringCriterionComponent extends React.Component {
   render() {
     const {
       searchText, searchMode, searchAttribute,
-      onTextInput, onSelectContainsMode, onSelectStrictEqualMode, onSelectRegexpMode,
+      onTextInput, onSelectContainsMode, onSelectStrictEqualMode,
     } = this.props
     const {
       intl,
@@ -100,15 +97,6 @@ class StringCriterionComponent extends React.Component {
           onClick={onSelectStrictEqualMode}
         >
           <StrictEqualIcon />
-        </IconButton>
-        {/* 5. Regexp mode selector */}
-        <IconButton
-          style={selectorButtonStyle}
-          iconStyle={searchMode === SEARCH_MODES_ENUM.REGEXP ? selectedIconStyle : defaultIconStyle}
-          title={intl.formatMessage({ id: 'criterion.search.field.regexp.selector.title' })}
-          onClick={onSelectRegexpMode}
-        >
-          <RegexpIcon />
         </IconButton>
       </div>)
   }

@@ -39,14 +39,14 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
     expected: '"ab\\"c\\"1.56\\def(){}[]$$||+-"',
     method: OpenSearchQueryParameter.toStrictStringEqual,
   }, {
-    label: 'mutliple values for strict equality (with espaced chars)',
+    label: 'multiple values for strict equality (with espaced chars)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]$$||+-', ''],
     expected: '("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-")',
     method: OpenSearchQueryParameter.toStrictStringEqual,
     separator: OpenSearchQueryParameter.OR_SEPARATOR,
     negate: false,
   }, {
-    label: 'mutliple values for strict equality (with espaced chars and negated)',
+    label: 'multiple values for strict equality (with espaced chars and negated)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]$$||+-', ''],
     expected: 'NOT ("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-")',
     method: OpenSearchQueryParameter.toStrictStringEqual,
@@ -55,24 +55,24 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
   }, {
     label: 'a single value for containing test',
     value: 'abcdef',
-    expected: 'abcdef',
+    expected: '(abcdef)',
     method: OpenSearchQueryParameter.toStringContained,
   }, {
     label: 'a single value for containing test (with espaced chars)',
     value: 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x',
-    expected: 'ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x',
+    expected: '(ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
     method: OpenSearchQueryParameter.toStringContained,
   }, {
-    label: 'mutliple values for containing test (with espaced chars)',
+    label: 'multiple values for containing test (with espaced chars)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: '(a\\+ AND b\\" AND ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
+    expected: '((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x))',
     method: OpenSearchQueryParameter.toStringContained,
     separator: OpenSearchQueryParameter.AND_SEPARATOR,
     negate: false,
   }, {
-    label: 'mutliple values for strict equality (with espaced chars)',
+    label: 'multiple values for containing test (with espaced chars and negated)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: 'NOT (a\\+ AND b\\" AND ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&\\&\\|\\|\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)',
+    expected: 'NOT ((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x))',
     method: OpenSearchQueryParameter.toStringContained,
     separator: OpenSearchQueryParameter.OR_SEPARATOR,
     negate: true,
@@ -80,7 +80,7 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
 
   testCases.forEach(({
     label, value, expected, method, separator, negate,
-  }) => it(`Should correct correctly ${label}`, () => {
+  }) => it(`Should compute correctly ${label}`, () => {
     assert.equal(method(value, separator, negate), expected)
   }))
 })

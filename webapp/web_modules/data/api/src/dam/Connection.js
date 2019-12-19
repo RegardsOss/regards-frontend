@@ -19,7 +19,7 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const ConnectionConfiguration = {
-  entityKey: 'id',
+  entityKey: 'businessId',
   normalizrKey: 'connection',
 }
 

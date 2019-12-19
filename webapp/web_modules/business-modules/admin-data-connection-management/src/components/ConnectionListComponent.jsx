@@ -97,7 +97,7 @@ export class ConnectionListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.content.businessId)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -155,7 +155,7 @@ export class ConnectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(connection.content.id)}
+                        onClick={() => handleEdit(connection.content.businessId)}
                         title={intl.formatMessage({ id: 'connection.list.action.edit' })}
                         className="selenium-editButton"
                       >
