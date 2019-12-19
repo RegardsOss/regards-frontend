@@ -59,18 +59,18 @@ export class OAISPackageManagerContainer extends React.Component {
     fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
     fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(bodyParams, pathParams)),
     clearSelection: () => dispatch(aipTableActions.unselectAll()),
-    deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams, {}, {})),
-    modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams, {}, {})),
+    deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams)),
+    modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams)),
   })
 
   static propTypes = {
+    featureManagerFilters: OAISCriterionShape,
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
       aip: PropTypes.string,
     }),
-    featureManagerFilters: OAISCriterionShape,
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
@@ -135,6 +135,12 @@ export class OAISPackageManagerContainer extends React.Component {
     }
   }
 
+  onBack = () => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/oais/featureManager`
+    browserHistory.push(url)
+  }
+
   onRefresh = () => {
     const { meta, fetchPage, clearSelection } = this.props
     const { currentFilters } = this.state
@@ -163,6 +169,7 @@ export class OAISPackageManagerContainer extends React.Component {
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         modifyAips={modifyAips}
+        onBack={this.onBack}
       />
     )
   }

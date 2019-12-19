@@ -18,8 +18,9 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FlatButtonWithNotifications } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
+import { FlatButton } from 'material-ui'
 import {
   aipCountSelectors,
   aipCountActions,
@@ -61,13 +62,15 @@ class OAISSwitchTables extends React.Component {
   static propTypes = {
     aipsMeta: CommonShapes.PageMetadata,
     requestsMeta: CommonShapes.PageMetadata,
-    onSwitch: PropTypes.func.isRequired,
-    isPackageManagerVisible: PropTypes.bool.isRequired,
+    onSwitchToRequests: PropTypes.func.isRequired,
+    onSwitchToPackages: PropTypes.func.isRequired,
+    openedPane: PropTypes.string,
     fetchAipPage: PropTypes.func.isRequired,
     fetchRequestPage: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
+    ...themeContextType,
     ...i18nContextType,
   }
 
@@ -77,26 +80,35 @@ class OAISSwitchTables extends React.Component {
     fetchRequestPage(0, 20, {}, {})
   }
 
-  render() {
-    const { intl: { formatMessage } } = this.context
-    const { isPackageManagerVisible, onSwitch } = this.props
-    const { aipsMeta, requestsMeta } = this.props
+  changeToPackages = () => {
+    const { onSwitchToPackages } = this.props
+    onSwitchToPackages()
+  }
 
+  changeToRequests = () => {
+    const { onSwitchToRequests } = this.props
+    onSwitchToRequests()
+  }
+
+  render() {
+    const { intl: { formatMessage }, moduleTheme: { switchButton } } = this.context
+    const { openedPane } = this.props
+    const { aipsMeta, requestsMeta } = this.props
     return (
       <React.Fragment>
-        <FlatButtonWithNotifications
-          notificationsCount={aipsMeta ? aipsMeta.totalElements : 0}
-          label={formatMessage({ id: 'oais.requests.switch-to.products.label' })}
+        <FlatButton
+          label={formatMessage({ id: 'oais.requests.switch-to.products.label' }, { productsNb: aipsMeta ? aipsMeta.totalElements : 0 })}
           title={formatMessage({ id: 'oais.requests.switch-to.products.title' })}
-          onClick={onSwitch}
-          disabled={isPackageManagerVisible}
+          onClick={this.changeToPackages}
+          style={openedPane === 'PACKAGES' ? switchButton : null}
+          disabled={openedPane === 'PACKAGES'}
         />
-        <FlatButtonWithNotifications
-          notificationsCount={requestsMeta ? requestsMeta.totalElements : 0}
-          label={formatMessage({ id: 'oais.packages.switch-to.requests.label' })}
+        <FlatButton
+          label={formatMessage({ id: 'oais.packages.switch-to.requests.label' }, { requestsNb: requestsMeta ? requestsMeta.totalElements : 0 })}
           title={formatMessage({ id: 'oais.packages.switch-to.requests.title' })}
-          onClick={onSwitch}
-          disabled={!isPackageManagerVisible}
+          onClick={this.changeToRequests}
+          style={openedPane === 'REQUESTS' ? switchButton : null}
+          disabled={openedPane === 'REQUESTS'}
         />
       </React.Fragment>
     )

@@ -35,7 +35,7 @@ export const ResourceIconAction = withResourceDisplayControl(IconButton)
 class RequestDeleteOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.RequestEntity.isRequired,
+    // entity: StorageShapes.RequestEntity.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
 

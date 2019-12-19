@@ -31,7 +31,7 @@ import { requestValidateActions } from '../../clients/RequestValidateClient'
 class RequestValidateOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.RequestEntity.isRequired,
+    // entity: StorageShapes.RequestEntity.isRequired,
     onValidate: PropTypes.func.isRequired,
   }
 

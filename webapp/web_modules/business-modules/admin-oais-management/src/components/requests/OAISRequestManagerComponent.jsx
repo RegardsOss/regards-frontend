@@ -445,6 +445,7 @@ class OAISRequestManagerComponent extends React.Component {
                 onChange={this.changeTypeFilter}
               >
                 {map(types, type => <MenuItem key={type} value={type} primaryText={type} />)}
+                <MenuItem key="" value="" primaryText="" />
               </SelectField>
               <SelectField
                 autoWidth
@@ -456,6 +457,7 @@ class OAISRequestManagerComponent extends React.Component {
                 onChange={this.changeStateFilter}
               >
                 {map(states, state => <MenuItem key={state} value={state} primaryText={state} />)}
+                <MenuItem key="" value="" primaryText="" />
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>

@@ -81,11 +81,10 @@ class OAISPackageManagerComponent extends React.Component {
     EXCLUDE: 'EXCLUDE',
   }
 
-  static SORTABLE_COLUMNS = {
+  static COLUMN_KEY_TO_QUERY = {
     PROVIDER_ID: 'column.providerId',
-    TYPE: 'column.type',
     STATE: 'column.state',
-    ACTIVE: 'column.active',
+    LASTUPDATE: 'column.lastUpdate',
     VERSION: 'column.version',
   }
 
@@ -101,28 +100,32 @@ class OAISPackageManagerComponent extends React.Component {
 
   static buildRequestParameters(columnsSorting, appliedFilters) {
     const {
-      processing, from, state, providerId, source, session,
+      sessionOwner, session, providerId, from, to, ipType, state, storage,
     } = appliedFilters
-
     const newFilters = {}
-    if (processing) {
-      newFilters.processing = processing
-    }
-    if (from) {
-      newFilters.from = from.toISOString()
-    }
-    if (state) {
-      newFilters.state = state
-    }
-    if (source) {
-      newFilters.source = source
+    if (sessionOwner) {
+      newFilters.sessionOwner = sessionOwner
     }
     if (session) {
       newFilters.name = session
     }
     if (providerId) {
-      // Add '%' caracter at starts and ends of the string to search for matching pattern and not strict value.
-      newFilters.providerId = `%${providerId}%`
+      newFilters.providerIds = providerId
+    }
+    if (from) {
+      newFilters.lastUpdate.from = from.toISOString()
+    }
+    if (to) {
+      newFilters.lastUpdate.to = to.toISOString()
+    }
+    if (ipType) {
+      newFilters.ipType = ipType
+    }
+    if (state) {
+      newFilters.state = state
+    }
+    if (storage) {
+      newFilters.storages = storage
     }
     const requestParameters = {
       sort: columnsSorting.map(({ columnKey, order }) => `${OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY[columnKey]},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`),
@@ -132,8 +135,9 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   state = {
-    componentFilters: {},
-    requestParameters: {},
+    tableRequestParameters: {},
+    appliedFilters: {},
+    columnsSorting: [],
     aipToView: null,
     aipToFetchSipFrom: null,
     deletionPayload: {},
@@ -141,61 +145,65 @@ class OAISPackageManagerComponent extends React.Component {
     // modifySelection: [],
     isDeleteDialogOpened: false,
     isDeleteSelectionDialogOpened: false,
-    columnsSorting: [],
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { featureManagerFilters } = this.state
-    if (!isEqual(nextProps.featureManagerFilters, featureManagerFilters)) {
-      this.setState({
-        requestParameters: {
-          ...this.state.requestParameters,
-          ...nextProps.featureManagerFilters,
-        },
-      })
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
+      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.columnsSorting)
     }
   }
 
-  onStateUpdated = (stateDiff) => {
-    // const nextState = { ...this.state, ...stateDiff }
-    // nextState.requestParameters = OAISPackageManagerComponent.buildRequestParameters(nextState.columnsSorting, nextState.appliedFilters)
-    // this.setState(nextState)
+  onRequestStateUpdated = (featureManagerFilters, appliedFilters, columnsSorting) => {
+    this.setState({
+      columnsSorting,
+      appliedFilters,
+      contextRequestParameters: {
+        ...featureManagerFilters,
+        ...OAISPackageManagerComponent.buildRequestParameters([], appliedFilters),
+      },
+      tableRequestParameters: {
+        ...featureManagerFilters,
+        ...OAISPackageManagerComponent.buildRequestParameters(columnsSorting, appliedFilters),
+      },
+    })
   }
 
   onSort = (columnKey, order) => {
     const { columnsSorting } = this.state
-    const newOrder = columnsSorting
-    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    const newColumnSorting = columnsSorting
+    const columnIndex = newColumnSorting.findIndex(columnArray => columnArray.columnKey === columnKey)
     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
-      newOrder.splice(columnIndex, 1)
+      newColumnSorting.splice(columnIndex, 1)
     } else if (columnIndex === -1) {
-      newOrder.push({ columnKey, order })
+      newColumnSorting.push({ columnKey, order })
     } else {
-      newOrder.splice(columnIndex, 1)
-      newOrder.push({ columnKey, order })
+      newColumnSorting.splice(columnIndex, 1, { columnKey, order })
     }
-    this.onStateUpdated({ columnsSorting: newOrder })
-  }
-
-  onApplyFilters = () => {
-    const { componentFilters, requestParameters } = this.state
-    this.setState({
-      componentFilters,
-      requestParameters: {
-        ...requestParameters,
-        ...componentFilters,
-      },
-    })
+    this.onRequestStateUpdated(this.props.featureManagerFilters, this.state.appliedFilters, newColumnSorting)
   }
 
   onFilterUpdated = (newFilterValue) => {
-    const { componentFilters } = this.state
-    this.setState({
-      componentFilters: {
-        ...componentFilters,
-        ...newFilterValue,
-      },
-    })
+    const newAppliedFilters = {
+      ...this.state.appliedFilters,
+      ...newFilterValue,
+    }
+    this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.columnsSorting)
   }
 
   changeStateFilter = (event, index, values) => {
@@ -203,14 +211,15 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   changeTypeFilter = (event, index, values) => {
-    this.onFilterUpdated({ type: values })
+    this.onFilterUpdated({ ipType: values })
   }
 
   changeStorageFilter = (event, index, values) => {
-    this.onFilterUpdated({ storage: values })
+    this.onFilterUpdated({ storage: [values] })
   }
 
   onViewAIPHistory = (entity) => {
+    this.onFilterUpdated({ providerId: [entity.content.providerId] })
   }
 
   onViewAIPDetail = (aipToView) => {
@@ -238,12 +247,12 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   renderAIPDetail = () => {
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
     const { aipToView } = this.state
     if (aipToView) {
       return (
         <Dialog
-          title={intl.formatMessage({ id: 'oais.aips.list.aip-details.title' })}
+          title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
           open
         >
           <AIPDetailComponent
@@ -272,11 +281,10 @@ class OAISPackageManagerComponent extends React.Component {
   onConfirmDelete = (deletionMode) => {
     this.onCloseDeleteDialog()
     this.onCloseDeleteSelectionDialog()
-    const { deletionPayload, requestParameters, componentFilters } = this.state
+    const { deletionPayload, tableRequestParameters } = this.state
     const { deleteAips } = this.props
     const finalDeletionPayload = {
-      ...requestParameters,
-      ...componentFilters,
+      ...tableRequestParameters,
       ...deletionPayload,
       deletionMode,
     }
@@ -363,8 +371,9 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   renderDeleteSelectionConfirmDialog = () => {
-    const { isDeleteSelectionDialogOpened, tableSelection } = this.state
-    if (isDeleteSelectionDialogOpened && !isEmpty(tableSelection)) {
+    const { isDeleteSelectionDialogOpened } = this.state
+
+    if (isDeleteSelectionDialogOpened) {
       return (
         <AIPDeleteDialog
           onConfirmDelete={this.onConfirmDelete}
@@ -379,11 +388,11 @@ class OAISPackageManagerComponent extends React.Component {
     this.onCloseModifyDialog()
     this.onCloseModifySelectionDialog()
     // const { intl: { formatMessage } } = this.context
-    const { requestParameters, componentFilters } = this.state
+    const { requestParameters, appliedFilters } = this.state
     const { modifyAips } = this.props
     const finalModifyPayload = {
       ...requestParameters,
-      ...componentFilters,
+      ...appliedFilters,
       ...params,
     }
     modifyAips(finalModifyPayload).then((actionResult) => {
@@ -426,7 +435,8 @@ class OAISPackageManagerComponent extends React.Component {
     if (this.state.isModifyDialogOpened) {
       return (
         <AIPModifyDialogContainer
-          selection={this.props.tableSelection}
+          onConfirmModify={this.onConfirmModify}
+          contextRequestParameters={this.state.contextRequestParameters}
           onClose={this.onCloseModifyDialog}
         />
       )
@@ -447,14 +457,13 @@ class OAISPackageManagerComponent extends React.Component {
   }
 
   renderModifySelectionDialog = () => {
-    const { isModifySelectionDialogOpened, tableSelection } = this.state
+    const { isModifySelectionDialogOpened } = this.state
 
-    if (isModifySelectionDialogOpened && !isEmpty(tableSelection)) {
+    if (isModifySelectionDialogOpened) {
       return (
         <AIPModifyDialogContainer
-          featureManagerFilters={this.props.featureManagerFilters}
           onConfirmModify={this.onConfirmModify}
-          requestParameters={this.state.requestParameters}
+          contextRequestParameters={this.state.contextRequestParameters}
           onClose={this.onCloseModifySelectionDialog}
         />
       )
@@ -462,12 +471,11 @@ class OAISPackageManagerComponent extends React.Component {
     return null
   }
 
-
   render() {
-    const { intl, muiTheme, moduleTheme: { filter } } = this.context
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const { pageSize, storages } = this.props
-    const { componentFilters, requestParameters, columnsSorting } = this.state
+    const { pageSize, storages, tableSelection } = this.props
+    const { appliedFilters, tableRequestParameters, columnsSorting } = this.state
 
     const columns = [
       // checkbox
@@ -475,31 +483,34 @@ class OAISPackageManagerComponent extends React.Component {
         .selectionColumn(true, aipSelectors, aipTableActions, aipTableSelectors)
         .build(),
       new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.aip.providerId')
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
         .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.providerId'), this.onSort)
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.aip.ipType')
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.type' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.type'), this.onSort)
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.type' }))
+        .fixedSizing(150)
         .build(),
       new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state')
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.state' }))
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.state' }))
         .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.state'), this.onSort)
+        .fixedSizing(150)
         .build(),
       new TableColumnBuilder('column.lastUpdate').titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
         .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.lastUpdate'), this.onSort)
+        .fixedSizing(200)
         .build(),
       new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.aip.version')
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.version' }))
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.version' }))
         .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.version'), this.onSort)
+        .fixedSizing(100)
         .build(),
       new TableColumnBuilder('column.storages').titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
-        .label(intl.formatMessage({ id: 'oais.aips.list.table.headers.data.storages' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.storages'), this.onSort)
+        .label(formatMessage({ id: 'oais.aips.list.table.headers.data.storages' }))
+        .fixedSizing(300)
         .build(),
       new TableColumnBuilder('column.actions').titleHeaderCell()
-        .label(intl.formatMessage({ id: 'oais.packages.list.filters.actions' }))
+        .label(formatMessage({ id: 'oais.packages.list.filters.actions' }))
         .optionsColumn([{
           OptionConstructor: AIPHistoryOption,
           optionProps: { onViewAIPHistory: this.onViewAIPHistory },
@@ -525,56 +536,61 @@ class OAISPackageManagerComponent extends React.Component {
             <TableHeaderOptionGroup key="first">
               <SelectField
                 autoWidth
+                title={formatMessage({ id: 'oais.packages.tooltip.type' })}
                 style={filter.fieldStyle}
-                hintText={intl.formatMessage({
+                hintText={formatMessage({
                   id: 'oais.packages.list.filters.type',
                 })}
-                value={componentFilters.type}
+                value={appliedFilters.ipType}
                 onChange={this.changeTypeFilter}
               >
                 {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={type} />)}
+                <MenuItem key="" value="" primaryText="" />
               </SelectField>
               <SelectField
                 autoWidth
+                title={formatMessage({ id: 'oais.packages.tooltip.state' })}
                 style={filter.fieldStyle}
-                hintText={intl.formatMessage({
+                hintText={formatMessage({
                   id: 'oais.packages.list.filters.state',
                 })}
-                value={componentFilters.state}
+                value={appliedFilters.state}
                 onChange={this.changeStateFilter}
               >
                 {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={state} />)}
+                <MenuItem key="" value="" primaryText="" />
               </SelectField>
               <SelectField
                 autoWidth
+                title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
+                disabled={isEmpty(storages)}
                 style={filter.fieldStyle}
-                hintText={intl.formatMessage({
+                hintText={formatMessage({
                   id: 'oais.packages.list.filters.storage',
                 })}
-                value={componentFilters.storage}
+                value={appliedFilters.storage ? appliedFilters.storage[0] : ''}
                 onChange={this.changeStorageFilter}
               >
                 {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
+                <MenuItem key="" value="" primaryText="" />
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
               <FlatButton
-                key="applyFilters"
-                label={this.context.intl.formatMessage({ id: 'oais.packages.list.filters.buttons.apply' })}
-                icon={<Filter />}
-                onClick={this.onApplyFilters}
-              />
-              <FlatButton
                 key="modifySelection"
-                label={this.context.intl.formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
+                title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
+                label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
                 icon={<Filter />}
                 onClick={this.onModifySelection}
+                disabled={isEmpty(tableSelection)}
               />
               <FlatButton
                 key="deleteSelection"
-                label={this.context.intl.formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
+                title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
+                label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
                 icon={<Filter />}
                 onClick={this.onDeleteSelection}
+                disabled={isEmpty(tableSelection)}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>
@@ -586,7 +602,7 @@ class OAISPackageManagerComponent extends React.Component {
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            requestParams={requestParameters}
+            requestParams={tableRequestParameters}
             emptyComponent={OAISPackageManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>

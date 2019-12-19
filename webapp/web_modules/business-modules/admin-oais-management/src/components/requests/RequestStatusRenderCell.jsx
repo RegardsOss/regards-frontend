@@ -29,7 +29,7 @@ import { StorageShapes } from '@regardsoss/shape'
  */
 class RequestStatusRenderCell extends React.Component {
   static propTypes = {
-    entity: StorageShapes.RequestEntity.isRequired,
+    // entity: StorageShapes.RequestEntity.isRequired,
     onViewRequestErrors: PropTypes.func.isRequired,
   }
 

@@ -50,14 +50,14 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
   changeSourceFilter = (newValue) => {
     const finalNewValue = newValue && newValue !== '' ? newValue : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      source: finalNewValue,
+      sessionOwner: finalNewValue,
     })
   }
 
   changeProviderIdFilter = (event, text) => {
     const finalNewValue = text && text !== '' ? text : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      providerId: finalNewValue,
+      providerIds: [finalNewValue],
     })
   }
 
@@ -90,7 +90,7 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
               <TableHeaderOptionGroup key="idLina">
                 <TableHeaderAutoCompleteFilterContainer
                   onChangeText={this.changeSourceFilter}
-                  text={this.props.featureManagerFilters.source || ''}
+                  text={this.props.featureManagerFilters.sessionOwner || ''}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.source' })}
                   style={filter.autocomplete}
                   key="sourceAuto"
@@ -107,12 +107,12 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
                   arraySelectors={searchSessionsSelectors}
                 />
                 <TableHeaderTextField
+                  title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
                   value={this.props.featureManagerFilters.providerId || ''}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.providerId' })}
                   onChange={this.changeProviderIdFilter}
                 />
               </TableHeaderOptionGroup>
-              { /* AIP Dates selectors */ }
               <TableHeaderOptionGroup key="dateForm">
                 <DatePickerField
                   value={this.props.featureManagerFilters.from}

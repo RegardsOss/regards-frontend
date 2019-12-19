@@ -38,8 +38,7 @@ class OAISFeatureManagerContainer extends React.Component {
     }),
   }
 
-  /** User callback: back operation (through breadcrumb) */
-  onGoBack = (level) => {
+  onBack = (level) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/oais/featureManager`
     browserHistory.push(url)
@@ -51,6 +50,7 @@ class OAISFeatureManagerContainer extends React.Component {
     return (
       <OAISFeatureManagerComponent
         params={params}
+        onBack={this.onBack}
       />
     )
   }

@@ -40,9 +40,16 @@ class AIPHistoryOption extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     return (
       <div>
-        <IconButton onClick={this.onClick}><ActionHistory /></IconButton>
+        <IconButton
+          onClick={this.onClick}
+          title={formatMessage({ id: 'oais.packages.tooltip.history' })}
+        >
+          <ActionHistory />
+        </IconButton>
       </div>
     )
   }

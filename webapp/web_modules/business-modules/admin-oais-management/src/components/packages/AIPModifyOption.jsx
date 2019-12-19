@@ -41,10 +41,12 @@ class AIPModifyOption extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     return (
       <div>
         <IconButton
           onClick={this.onClick}
+          title={formatMessage({ id: 'oais.packages.tooltip.modify' })}
         >
           <ModeEdit />
         </IconButton>

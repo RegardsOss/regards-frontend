@@ -31,7 +31,7 @@ import { requestRelaunchActions } from '../../clients/RequestRelaunchClient'
 class RequestRelaunchOption extends React.Component {
   static propTypes = {
     // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.RequestEntity.isRequired,
+    // entity: StorageShapes.RequestEntity.isRequired,
     onRelaunch: PropTypes.func.isRequired,
   }
 

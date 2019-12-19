@@ -44,14 +44,25 @@ class OAISFeatureManagerComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static OPEN_PANE = {
+    PACKAGES: 'PACKAGES',
+    REQUESTS: 'REQUESTS',
+  }
+
   state = {
-    isPackageManagerVisible: true,
+    openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
     featureManagerFilters: {},
   }
 
-  onSwitch = () => {
+  onSwitchToPackages = () => {
     this.setState({
-      isPackageManagerVisible: !this.state.isPackageManagerVisible,
+      openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
+    })
+  }
+
+  onSwitchToRequests = () => {
+    this.setState({
+      openedPane: OAISFeatureManagerComponent.OPEN_PANE.REQUESTS,
     })
   }
 
@@ -71,25 +82,24 @@ class OAISFeatureManagerComponent extends React.Component {
     )
   }
 
-  updateStateFromFeatureManagerFilters = ({ lastUpdate, ...newFilters }) => {
+  updateStateFromFeatureManagerFilters = (newFilters) => {
     //TODO SAVE IN URL
     this.setState({
       featureManagerFilters: {
         ...this.state.featureManagerFilters,
         ...newFilters,
-        lastUpdate: {
-          ...this.state.featureManagerFilters.lastUpdate,
-          ...lastUpdate,
-        },
       },
     })
+  }
+
+  onChangeProviderId = () => {
+
   }
 
   render() {
     const { moduleTheme: { displayBlock, displayNone } } = this.context
     const { params } = this.props
-    const { isPackageManagerVisible, featureManagerFilters } = this.state
-
+    const { openedPane, featureManagerFilters } = this.state
     return (
       <div>
         <Card>
@@ -100,18 +110,18 @@ class OAISFeatureManagerComponent extends React.Component {
             featureManagerFilters={featureManagerFilters}
             updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
           />
-          <OAISSwitchTables onSwitch={this.onSwitch} isPackageManagerVisible={isPackageManagerVisible} />
+          <OAISSwitchTables onSwitchToRequests={this.onSwitchToRequests} onSwitchToPackages={this.onSwitchToPackages} openedPane={openedPane} />
           <div>
-            <div style={isPackageManagerVisible ? displayBlock : displayNone}>
+            <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.PACKAGES ? displayBlock : displayNone}>
               <OAISPackageManagerContainer
-                key={`package-manager-${isPackageManagerVisible}`}
+                key={`package-manager-${openedPane}`}
                 featureManagerFilters={featureManagerFilters}
                 params={params}
               />
             </div>
-            <div style={isPackageManagerVisible ? displayNone : displayBlock}>
+            <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.REQUESTS ? displayBlock : displayNone}>
               <OAISRequestManagerContainer
-                key={`request-manager-${isPackageManagerVisible}`}
+                key={`request-manager-${openedPane}`}
                 featureManagerFilters={featureManagerFilters}
                 params={params}
               />

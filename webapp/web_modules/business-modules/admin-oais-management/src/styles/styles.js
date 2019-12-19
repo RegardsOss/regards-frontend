@@ -136,6 +136,43 @@ const aipManagementStyles = theme => ({
       },
     },
   },
+  switchButton: {
+    color: theme.palette.accent1Color,
+  },
+  aipModifyDialog: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'stretch',
+  },
+  aipModifyDialogList: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexShrink: 1,
+    flexGrow: 1,
+    flexBasis: 0,
+    minWidth: 0,
+  },
+  aipModifyDialogSectionTable: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: 0,
+    minWidth: 0,
+  },
+  aipModifyDialogSectionTableSeparator: {
+    margin: '0 20px 0 20px',
+    background: theme.toolbar.separatorColor,
+    flexGrow: 0,
+    flexShrink: 0,
+    flexBasis: 1,
+  },
+  aipModifyDialogAddButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: '10px',
+  },
 })
 
 export default aipManagementStyles

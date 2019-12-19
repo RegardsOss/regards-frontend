@@ -33,7 +33,6 @@ export { default as BaseBoardItemComponent } from './board/BaseBoardItemComponen
 export { default as ClearFieldButton } from './buttons/ClearFieldButton'
 export { default as DownloadButton } from './buttons/DownloadButton'
 export { default as DropDownButton } from './buttons/DropDownButton'
-export { default as FlatButtonWithNotifications } from './buttons/FlatButtonWithNotifications'
 export { default as OnHoverSwitchFlatButton } from './buttons/OnHoverSwitchFlatButton'
 export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconButton'
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'

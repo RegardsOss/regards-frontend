@@ -30,12 +30,4 @@ export default theme => ({
       color: theme.palette.secondaryTextColor,
     },
   },
-  flatButtonWithNotifications: {
-    flatButtonStyles: {
-      marginLeft: -5,
-    },
-    badgeStyles: {
-      marginTop: 4,
-    },
-  },
 })

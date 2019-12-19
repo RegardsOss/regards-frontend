@@ -19,7 +19,6 @@
 import { connect } from '@regardsoss/redux'
 
 import AIPModifyDialogComponent from '../../components/packages/AIPModifyDialogComponent'
-import { aipTableSelectors } from '../../clients/AIPTableClient'
 import { aipTagSearchActions, aipTagSearchSelectors } from '../../clients/AIPTagSearchClient'
 import { aipStorageSearchActions, aipStorageSearchSelectors } from '../../clients/AIPStorageSearchClient'
 import { aipCategorySearchActions, aipCategorySearchSelectors } from '../../clients/AIPCategorySearchClient'
@@ -37,8 +36,6 @@ class AIPModifyDialogContainer extends React.Component {
   */
   static mapStateToProps(state) {
     return {
-      tableSelection: aipTableSelectors.getToggledElementsAsList(state),
-      selectionMode: aipTableSelectors.getSelectionMode(state),
       selectionStorages: aipStorageSearchSelectors.getArray(state),
       selectionTags: aipTagSearchSelectors.getArray(state),
       selectionCategories: aipCategorySearchSelectors.getArray(state),
@@ -59,29 +56,26 @@ class AIPModifyDialogContainer extends React.Component {
 
   static propTypes = {
     onConfirmModify: PropTypes.func.isRequired,
-    requestParameters: OAISCriterionShape,
-    // tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
-    // selectionMode: PropTypes.string.isRequired,
-    // featureManagerFilters: OAISCriterionShape,
+    contextRequestParameters: OAISCriterionShape,
     onClose: PropTypes.func.isRequired,
     fetchSelectionStorages: PropTypes.func.isRequired,
     fetchSelectionTags: PropTypes.func.isRequired,
     fetchSelectionCategories: PropTypes.func.isRequired,
-    selectionStorages: PropTypes.arrayOf(),
-    selectionTags: PropTypes.arrayOf(),
-    selectionCategories: PropTypes.arrayOf(),
+    selectionStorages: PropTypes.arrayOf(PropTypes.string),
+    selectionTags: PropTypes.arrayOf(PropTypes.string),
+    selectionCategories: PropTypes.arrayOf(PropTypes.string),
   }
 
   componentDidMount() {
     const {
-      requestParameters,
+      contextRequestParameters,
       fetchSelectionStorages,
       fetchSelectionTags,
       fetchSelectionCategories,
     } = this.props
-    fetchSelectionStorages(requestParameters)
-    fetchSelectionTags(requestParameters)
-    fetchSelectionCategories(requestParameters)
+    fetchSelectionStorages(contextRequestParameters)
+    fetchSelectionTags(contextRequestParameters)
+    fetchSelectionCategories(contextRequestParameters)
   }
 
 

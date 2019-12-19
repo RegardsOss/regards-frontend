@@ -57,9 +57,9 @@ class AIPDeleteOption extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <ResourceIconAction
+        title={formatMessage({ id: 'oais.packages.tooltip.delete' })}
         resourceDependencies={AIPDeleteOption.DELETE_DEPENDENCIES}
         onClick={this.onClick}
-        title={formatMessage({ id: 'oais.aips.list.delete.files.on.all.storages.title' })}
       >
         <DeleteOnAllIcon className="selenium-deleteButton" />
       </ResourceIconAction>

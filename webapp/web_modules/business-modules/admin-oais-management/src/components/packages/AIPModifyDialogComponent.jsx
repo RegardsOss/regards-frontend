@@ -16,17 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import filter from 'lodash/filter'
+import startCase from 'lodash/startCase'
 import identity from 'lodash/identity'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
-import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
+import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
+import StoragesIcon from 'mdi-material-ui/Database'
+import TagsIcon from 'mdi-material-ui/Tag'
+import CategoriesIcon from 'mdi-material-ui/Pound'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import ContentSend from 'material-ui/svg-icons/content/send'
 import {
-  TableLayout, TableColumnBuilder, InfiniteTableContainer,
+  TableLayout, TableColumnBuilder, InfiniteTableContainer, NoContentComponent, PositionedDialog,
+  TableHeaderLine, TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
 import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import TextField from 'material-ui/TextField'
@@ -34,7 +39,6 @@ import messages from '../../i18n'
 import AIPModifyDeleteOption from './AIPModifyDeleteOption'
 import AIPModifyUndoOption from './AIPModifyUndoOption'
 import AIPModifyAddOption from './AIPModifyAddOption'
-
 
 /**
  * Confirm action dialog component. Switches dialog mode,
@@ -53,10 +57,15 @@ class AIPModifyDialogComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="oais.packages.empty.results"
+    Icon={NoContentIcon}
+  />
+
   static SECTIONS = {
-    STORAGE: 'STORAGE',
-    TAG: 'TAG',
-    CATEGORY: 'CATEGORY',
+    STORAGE: 'storage',
+    TAG: 'tag',
+    CATEGORY: 'category',
   }
 
   state = {
@@ -142,7 +151,7 @@ class AIPModifyDialogComponent extends React.Component {
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          list: this.state[toggledSection].list.filter(e => e !== entity),
+          list: filter(this.state[toggledSection].list, e => e !== entity),
           toDelete: [
             ...this.state[toggledSection].toDelete,
             entity,
@@ -157,11 +166,12 @@ class AIPModifyDialogComponent extends React.Component {
     if (toggledSection) {
       this.setState({
         [toggledSection]: {
-          toDelete: this.state[toggledSection].toDelete.filter(e => e !== entity),
+          ...this.state[toggledSection],
           list: [
             ...this.state[toggledSection].list,
             entity,
           ],
+          toDelete: filter(this.state[toggledSection].toDelete, e => e !== entity),
         },
       })
     }
@@ -173,7 +183,7 @@ class AIPModifyDialogComponent extends React.Component {
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          toAdd: this.state[toggledSection].toAdd.filter(e => e !== entity),
+          toAdd: filter(this.state[toggledSection].toAdd, e => e !== entity),
         },
       })
     }
@@ -207,7 +217,12 @@ class AIPModifyDialogComponent extends React.Component {
   }
 
   renderPane = (pane) => {
-    const { muiTheme } = this.context
+    const {
+      moduleTheme: {
+        aipModifyDialogSectionTable, aipModifyDialogSectionTableSeparator, aipModifyDialogAddButton,
+      },
+      muiTheme, intl: { formatMessage },
+    } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const paneObject = this.state[pane]
     const listColumns = [
@@ -238,63 +253,75 @@ class AIPModifyDialogComponent extends React.Component {
         .build(),
     ]
     return (
-      <div style={{ display: 'inline' }}>
-        <div style={{
-          width: '33%', display: 'inline-block', padding: 1, float: 'left',
-        }}
-        >
+      <React.Fragment>
+        <div style={aipModifyDialogSectionTable}>
           <TableLayout>
+            <TableHeaderLine>
+              <TableHeaderContentBox>
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane })} />
+              </TableHeaderContentBox>
+            </TableHeaderLine>
             <InfiniteTableContainer
               displayColumnsHeader={false}
               columns={listColumns}
               entities={paneObject.list}
-              minRowCount={minRowCount} // let the table grow and shrink with list elements count
+              minRowCount={minRowCount}
               maxRowCount={maxRowCount}
+              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
             />
           </TableLayout>
         </div>
-        <div style={{
-          width: '33%', display: 'inline-block', padding: 1,
-        }}
-        >
+        <div style={aipModifyDialogSectionTableSeparator} />
+        <div style={aipModifyDialogSectionTable}>
           <TableLayout>
+            <TableHeaderLine>
+              <TableHeaderContentBox>
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete' }, { pane: startCase(pane) })} />
+              </TableHeaderContentBox>
+            </TableHeaderLine>
             <InfiniteTableContainer
               displayColumnsHeader={false}
               columns={deleteColumns}
               entities={paneObject.toDelete}
-              minRowCount={minRowCount} // let the table grow and shrink with list elements count
+              minRowCount={minRowCount}
               maxRowCount={maxRowCount}
+              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
             />
           </TableLayout>
         </div>
-        {pane !== AIPModifyDialogComponent.SECTIONS.STORAGE
-          && <div style={{
-            width: '33%', display: 'inline-block', padding: 1,
-          }}
-          >
-            <TextField
-              name="toto"
-              type="text"
-              value={paneObject.textFieldValue}
-              onChange={this.onTextFieldChange}
-              label="tutu"
-            />
-            <FlatButton
-              onClick={this.onAdd}
-              secondary
-              icon={<Add />}
-            />
+        {pane !== AIPModifyDialogComponent.SECTIONS.STORAGE ? ([<div key="lastSeparator" style={aipModifyDialogSectionTableSeparator} />,
+          <div key="lastTable" style={aipModifyDialogSectionTable}>
             <TableLayout>
+              <TableHeaderLine>
+                <TableHeaderContentBox>
+                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: startCase(pane) })} />
+                </TableHeaderContentBox>
+              </TableHeaderLine>
               <InfiniteTableContainer
                 displayColumnsHeader={false}
                 columns={addColumns}
                 entities={paneObject.toAdd}
-                minRowCount={minRowCount} // let the table grow and shrink with list elements count
+                minRowCount={minRowCount}
                 maxRowCount={maxRowCount}
+                emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
               />
             </TableLayout>
-          </div>}
-      </div>
+            <div style={aipModifyDialogAddButton}>
+              <TextField
+                name={`add-${pane}`}
+                hintText={`Add ${pane}`}
+                type="text"
+                value={paneObject.textFieldValue}
+                onChange={this.onTextFieldChange}
+              />
+              <FlatButton
+                onClick={this.onAdd}
+                secondary
+                icon={<Add />}
+              />
+            </div>
+          </div>]) : null}
+      </React.Fragment>
     )
   }
 
@@ -341,29 +368,26 @@ class AIPModifyDialogComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-    const dialogStyle = { display: 'inline', width: '100%' }
+    const { moduleTheme: { aipModifyDialog, aipModifyDialogList }, intl: { formatMessage } } = this.context
+
     return (
-      <Dialog
+      <PositionedDialog
+        dialogWidthPercent={90}
+        dialogHeightPercent={90}
+        title={formatMessage({ id: 'oais.packages.modify.title' })}
         actions={this.renderActions()}
-        modal={false}
+        modal
         open
-        contentStyle={dialogStyle}
       >
-        {formatMessage({ id: 'oais.packages.confirm.modify.title' })}
-        <div style={{ display: 'inline' }}>
-          <div style={{ width: '19%', display: 'inline-block', float: 'left' }}>
-            <List>
-              <ListItem primaryText="storages" leftIcon={<ContentSend />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
-              <ListItem primaryText="categories" leftIcon={<ContentSend />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
-              <ListItem primaryText="tags" leftIcon={<ContentSend />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
-            </List>
-          </div>
-          <div style={{ width: '80%', display: 'inline-block' }}>
-            {this.renderSection()}
-          </div>
+        <div style={aipModifyDialog}>
+          <List style={aipModifyDialogList}>
+            <ListItem primaryText="storages" leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
+            <ListItem primaryText="categories" leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
+            <ListItem primaryText="tags" leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
+          </List>
+          {this.renderSection()}
         </div>
-      </Dialog>
+      </PositionedDialog>
     )
   }
 }

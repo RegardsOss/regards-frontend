@@ -50,15 +50,18 @@ class AIPDetailOption extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const button = <IconButton><MoreVertIcon /></IconButton>
     return (
       <div>
-        <IconMenu iconButtonElement={button}>
+        <IconMenu
+          iconButtonElement={<IconButton title={formatMessage({ id: 'oais.packages.tooltip.details' })}><MoreVertIcon /></IconButton>}
+        >
           <MenuItem
+            title={formatMessage({ id: 'oais.packages.tooltip.details.aip' })}
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.aip' })}
             onClick={this.onViewAIPDetail}
           />
           <MenuItem
+            title={formatMessage({ id: 'oais.packages.tooltip.details.sip' })}
             primaryText={formatMessage({ id: 'oais.packages.list.filters.buttons.dropdown.sip' })}
             onClick={this.onViewSIPDetail}
           />

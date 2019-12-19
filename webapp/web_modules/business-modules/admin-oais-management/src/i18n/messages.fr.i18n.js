@@ -23,6 +23,8 @@ export default {
   ...Locales.fr,
   ...IngestDomain.frMessages,
 
+  'oais.button.back': 'Retour',
+
   'oais.packages.switch-to.requests.label': 'Traitements',
   'oais.packages.switch-to.requests.title': 'Voir les traitements',
   'oais.packages.list.filters.providerId': 'Identifiant',
