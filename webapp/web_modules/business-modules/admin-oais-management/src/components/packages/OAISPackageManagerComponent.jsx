@@ -132,7 +132,6 @@ class OAISPackageManagerComponent extends React.Component {
       sort: columnsSorting.map(({ columnKey, order }) => `${OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY[columnKey]},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`),
       ...newFilters,
     }
-    console.error('requestParameters', requestParameters)
     return requestParameters
   }
 
@@ -526,7 +525,6 @@ class OAISPackageManagerComponent extends React.Component {
         }])
         .build(),
     ]
-    console.error('tableRequestParameters', tableRequestParameters)
     return (
       <div>
         <TableLayout>
