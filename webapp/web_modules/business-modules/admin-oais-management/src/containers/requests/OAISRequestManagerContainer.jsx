@@ -23,6 +23,8 @@ import { requestSelectors, requestActions } from '../../clients/RequestClient'
 import { requestTableActions, requestTableSelectors } from '../../clients/RequestTableClient'
 import OAISCriterionShape from '../../shapes/OAISCriterionShape'
 import OAISRequestManagerComponent from '../../components/requests/OAISRequestManagerComponent'
+import { requestDeleteActions } from '../../clients/RequestDeleteClient'
+import { requestRetryActions } from '../../clients/RequestRetryClient'
 
 /**
  * Displays the list of OAIS packages
@@ -53,6 +55,8 @@ class OAISRequestManagerContainer extends React.Component {
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
     clearSelection: () => dispatch(requestTableActions.unselectAll()),
+    deleteRequests: bodyParams => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
+    retryRequests: bodyParams => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
   })
 
   static propTypes = {
@@ -72,6 +76,8 @@ class OAISRequestManagerContainer extends React.Component {
     fetchProcessingChains: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
     clearSelection: PropTypes.func.isRequired,
+    deleteRequests: PropTypes.func.isRequired,
+    retryRequests: PropTypes.func.isRequired,
     // from mapStateToProps
     // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
@@ -101,7 +107,9 @@ class OAISRequestManagerContainer extends React.Component {
   }
 
   render() {
-    const { featureManagerFilters, selectionMode } = this.props
+    const {
+      featureManagerFilters, selectionMode, deleteRequests, retryRequests,
+    } = this.props
 
     return (
       <OAISRequestManagerComponent
@@ -109,6 +117,8 @@ class OAISRequestManagerContainer extends React.Component {
         featureManagerFilters={featureManagerFilters}
         onRefresh={this.onRefresh}
         selectionMode={selectionMode}
+        deleteRequests={deleteRequests}
+        retryRequests={retryRequests}
       />
     )
   }

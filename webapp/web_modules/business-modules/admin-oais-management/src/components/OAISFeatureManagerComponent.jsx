@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { browserHistory } from 'react-router'
 import { Card, CardTitle } from 'material-ui/Card'
 import { Breadcrumb } from '@regardsoss/components'
 import PageView from 'material-ui/svg-icons/action/pageview'
@@ -54,6 +56,51 @@ class OAISFeatureManagerComponent extends React.Component {
     featureManagerFilters: {},
   }
 
+  componentWillMount = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      const {
+        sessionOwner, session, providerId, from, to, ipType, state, storage,
+      } = query
+      const urlFilters = {}
+      if (sessionOwner) {
+        urlFilters.sessionOwner = sessionOwner
+      }
+      if (session) {
+        urlFilters.session = session
+      }
+      if (providerId) {
+        urlFilters.providerId = providerId
+      }
+      if (from) {
+        urlFilters.lastUpdate.from = from.toISOString()
+      }
+      if (to) {
+        urlFilters.lastUpdate.to = to.toISOString()
+      }
+      if (ipType) {
+        urlFilters.ipType = ipType
+      }
+      if (state) {
+        urlFilters.state = state
+      }
+      if (storage) {
+        urlFilters.storage = storage
+      }
+      this.setState({
+        featureManagerFilters: {
+          ...urlFilters,
+        },
+      })
+    }
+  }
+
+  // onBack = (level) => {
+  //   const { params: { project } } = this.props
+  //   const url = `/admin/${project}/data/acquisition/oais/featureManager`
+  //   browserHistory.push(url)
+  // }
+
   onSwitchToPackages = () => {
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
@@ -83,7 +130,6 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   updateStateFromFeatureManagerFilters = (newFilters) => {
-    //TODO SAVE IN URL
     this.setState({
       featureManagerFilters: {
         ...this.state.featureManagerFilters,

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
@@ -27,7 +27,7 @@ import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 */
 class AIPModifyOption extends React.Component {
   static propTypes = {
-    entity: StorageShapes.AIPEntity,
+    entity: IngestShapes.AIPEntity,
     onModify: PropTypes.func.isRequired,
   }
 

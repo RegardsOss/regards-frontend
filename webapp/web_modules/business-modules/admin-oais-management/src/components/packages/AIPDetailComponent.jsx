@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { Card, CardActions, CardMedia } from 'material-ui/Card'
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -29,7 +29,7 @@ import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
  */
 class AIPDetailComponent extends React.Component {
   static propTypes = {
-    aip: StorageShapes.AIPEntity.isRequired,
+    aip: IngestShapes.AIPEntity.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 

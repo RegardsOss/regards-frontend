@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { IngestShapes } from '@regardsoss/shape'
@@ -104,7 +103,7 @@ export class OAISPackageManagerContainer extends React.Component {
   }
 
   componentWillMount() {
-    this.initializeFiltersFromURL()
+    // this.initializeFiltersFromURL()
     this.initializeContextFilters(this.props)
   }
 
@@ -114,26 +113,19 @@ export class OAISPackageManagerContainer extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.params.aip !== this.props.params.aip) {
-      this.initializeFiltersFromURL()
-      this.initializeContextFilters(nextProps)
-    }
+    // if (nextProps.params.aip !== this.props.params.aip) {
+    // this.initializeFiltersFromURL()
+    // this.initializeContextFilters(nextProps)
+    // }
   }
 
   initializeContextFilters = (props) => {
-    const { params: { aip } } = props
-    const contextFilters = {}
-    if (aip) {
-      contextFilters.providerId = aip
-    }
+    // const { params: { aip } } = props
+    // const contextFilters = {}
+    // if (aip) {
+    //   contextFilters.providerId = aip
+    // }
     // this.setState({ contextFilters })
-  }
-
-  initializeFiltersFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    if (values(query).length > 0) {
-      // this.setState({ urlFilters: query })
-    }
   }
 
   onBack = () => {
@@ -151,6 +143,7 @@ export class OAISPackageManagerContainer extends React.Component {
   }
 
   render() {
+    const { urlFilters } = this.state
     const {
       updateStateFromFeatureManagerFilters,
       featureManagerFilters,
@@ -164,6 +157,7 @@ export class OAISPackageManagerContainer extends React.Component {
     return (
       <OAISPackageManagerComponent
         updateStateFromFeatureManagerFilters={updateStateFromFeatureManagerFilters}
+        urlFilters={urlFilters}
         pageSize={OAISPackageManagerContainer.PAGE_SIZE}
         featureManagerFilters={featureManagerFilters}
         storages={storages}

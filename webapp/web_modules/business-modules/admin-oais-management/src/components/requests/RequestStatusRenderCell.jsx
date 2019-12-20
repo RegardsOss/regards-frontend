@@ -21,7 +21,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { StringValueRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
 import AlertError from 'material-ui/svg-icons/alert/error'
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 
 /**
  * Renders aip request status
@@ -29,7 +29,7 @@ import { StorageShapes } from '@regardsoss/shape'
  */
 class RequestStatusRenderCell extends React.Component {
   static propTypes = {
-    // entity: StorageShapes.RequestEntity.isRequired,
+    entity: IngestShapes.RequestEntity.isRequired,
     onViewRequestErrors: PropTypes.func.isRequired,
   }
 

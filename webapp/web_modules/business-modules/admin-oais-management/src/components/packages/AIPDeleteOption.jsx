@@ -19,7 +19,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import DeleteOnAllIcon from 'material-ui/svg-icons/action/delete-forever'
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -34,8 +34,7 @@ export const ResourceIconAction = withResourceDisplayControl(IconButton)
  */
 class AIPDeleteOption extends React.Component {
   static propTypes = {
-    // Entity. Note: when used in options column, this is provided by the table cell API
-    entity: StorageShapes.AIPEntity.isRequired,
+    entity: IngestShapes.AIPEntity.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
 

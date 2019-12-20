@@ -33,8 +33,7 @@ import { requestCountReducer } from './clients/RequestCountClient'
 import { requestReducer } from './clients/RequestClient'
 import { requestTableReducer } from './clients/RequestTableClient'
 import { aipDeleteReducer } from './clients/AIPDeleteClient'
-import { requestValidateReducer } from './clients/RequestValidateClient'
-import { requestRelaunchReducer } from './clients/RequestRelaunchClient'
+import { requestRetryReducer } from './clients/RequestRetryClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
 
 const oaisManagementReducer = combineReducers({
@@ -47,8 +46,7 @@ const oaisManagementReducer = combineReducers({
   request: requestReducer,
   'request-count': requestCountReducer,
   'request-table': requestTableReducer,
-  'request-validate': requestValidateReducer,
-  'request-relaunch': requestRelaunchReducer,
+  'request-retry': requestRetryReducer,
   'request-delete': requestDeleteReducer,
   sip: sipReducer,
   'sip-table': sipTableReducer,

@@ -101,7 +101,7 @@ class OAISPackageManagerComponent extends React.Component {
 
   static buildRequestParameters(columnsSorting, appliedFilters) {
     const {
-      sessionOwner, session, providerId, from, to, ipType, state, storage,
+      sessionOwner, session, providerId, from, to, type, state, lastUpdated, storage,
     } = appliedFilters
     const newFilters = {}
     if (sessionOwner) {
@@ -119,11 +119,14 @@ class OAISPackageManagerComponent extends React.Component {
     if (to) {
       newFilters.lastUpdate.to = to.toISOString()
     }
-    if (ipType) {
-      newFilters.ipType = ipType
+    if (type) {
+      newFilters.ipType = type
     }
     if (state) {
       newFilters.state = state
+    }
+    if (lastUpdated) {
+      newFilters.lastUpdated = lastUpdated
     }
     if (storage) {
       newFilters.storages = [storage]
@@ -380,16 +383,15 @@ class OAISPackageManagerComponent extends React.Component {
     return null
   }
 
-  onConfirmModify = (params) => {
+  onConfirmModify = () => {
     this.onCloseModifyDialog()
     this.onCloseModifySelectionDialog()
     // const { intl: { formatMessage } } = this.context
-    const { requestParameters, appliedFilters } = this.state
+    const { tableRequestParameters, modifyPayload } = this.state
     const { modifyAips } = this.props
     const finalModifyPayload = {
-      ...requestParameters,
-      ...appliedFilters,
-      ...params,
+      ...tableRequestParameters,
+      ...modifyPayload,
     }
     modifyAips(finalModifyPayload).then((actionResult) => {
       if (actionResult.error) {
@@ -412,12 +414,12 @@ class OAISPackageManagerComponent extends React.Component {
   onModify = (aipToModify) => {
     this.setState({
       isModifyDialogOpened: true,
-      // modifyPayload: {
-      //   selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-      //   sipIds: [
-      //     aipToModify.content.aipId,
-      //   ],
-      // },
+      modifyPayload: {
+        selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
+        sipIds: [
+          aipToModify.content.aipId,
+        ],
+      },
     })
   }
 
@@ -478,27 +480,27 @@ class OAISPackageManagerComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, aipTableActions, aipTableSelectors)
         .build(),
-      new TableColumnBuilder('column.providerId').titleHeaderCell().propertyRenderCell('content.aip.providerId')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.providerId'), this.onSort)
+        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.PROVIDER_ID), this.onSort)
         .build(),
       new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.aip.ipType')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.type' }))
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder('column.state').titleHeaderCell().propertyRenderCell('content.state')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.STATE).titleHeaderCell().propertyRenderCell('content.state')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.state' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.state'), this.onSort)
+        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.STATE), this.onSort)
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder('column.lastUpdate').titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.lastUpdate'), this.onSort)
+        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.LASTUPDATE), this.onSort)
         .fixedSizing(200)
         .build(),
-      new TableColumnBuilder('column.version').titleHeaderCell().propertyRenderCell('content.aip.version')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.VERSION).titleHeaderCell().propertyRenderCell('content.aip.version')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.version' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, 'column.version'), this.onSort)
+        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.VERSION), this.onSort)
         .fixedSizing(100)
         .build(),
       new TableColumnBuilder('column.storages').titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
@@ -537,7 +539,7 @@ class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.type',
                 })}
-                value={appliedFilters.ipType}
+                value={appliedFilters.type}
                 onChange={this.changeTypeFilter}
               >
                 {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={type} />)}

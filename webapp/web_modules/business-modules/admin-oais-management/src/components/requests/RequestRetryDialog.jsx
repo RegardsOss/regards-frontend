@@ -24,9 +24,9 @@ import messages from '../../i18n'
 /**
  * Confirm action dialog component. Switches dialog mode,
  */
-class RequestValidateDialog extends React.Component {
+class RequestRetryDialog extends React.Component {
   static propTypes = {
-    onConfirmValidate: PropTypes.func.isRequired,
+    onConfirmRetry: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -34,24 +34,23 @@ class RequestValidateDialog extends React.Component {
     ...i18nContextType,
   }
 
-
   renderActions = () => {
-    const { onConfirmValidate, onClose } = this.props
+    const { onConfirmRetry, onClose } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.requests.confirm.validate.close' })}
+        label={formatMessage({ id: 'oais.requests.confirm.retry.close' })}
         primary
         keyboardFocused
         onClick={onClose}
       />,
       <FlatButton
-        key="validateRequestsIrrevocably"
+        key="retryRequestsIrrevocably"
         className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.requests.confirm.validate' })}
-        onClick={() => onConfirmValidate()}
+        label={formatMessage({ id: 'oais.requests.confirm.retry' })}
+        onClick={() => onConfirmRetry()}
       />,
     ]
   }
@@ -61,15 +60,15 @@ class RequestValidateDialog extends React.Component {
 
     return (
       <Dialog
-        title={formatMessage({ id: 'oais.requests.confirm.validate.title' })}
+        title={formatMessage({ id: 'oais.requests.confirm.retry.title' })}
         actions={this.renderActions()}
         modal={false}
         open
       >
-        {formatMessage({ id: 'oais.requests.confirm.validate.message' })}
+        {formatMessage({ id: 'oais.requests.confirm.retry.message' })}
       </Dialog>
     )
   }
 }
 
-export default withI18n(messages)(RequestValidateDialog)
+export default withI18n(messages)(RequestRetryDialog)

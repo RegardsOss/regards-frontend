@@ -15,35 +15,44 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ import IconButton from 'material-ui/IconButton'
  **/
-import IconMenu from 'material-ui/IconMenu'
-import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
-import Redo from 'material-ui/svg-icons/content/redo'
+import AvReplay from 'material-ui/svg-icons/av/replay'
+import { IngestShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { requestRetryActions } from '../../clients/RequestRetryClient'
 
 /**
-* Detail option cell for the infinite table used to display the contents of an aip
+ * Table option to delete Request files on every local storage
  * @author Simon MILHAU
-*/
-class AIPHistoryOption extends React.Component {
+ */
+class RequestRetryOption extends React.Component {
   static propTypes = {
-    // entity: StorageShapes.AIPEntity,
-    // onViewDetail: PropTypes.func.isRequired,
+    entity: IngestShapes.RequestEntity.isRequired,
+    onRetry: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  static DELETE_DEPENDENCIES = requestRetryActions.getDependency(RequestVerbEnum.POST)
+
+  /**
+   * On button clicked callback
+   */
+  onClick = () => {
+    const { entity, onRetry } = this.props
+    onRetry(entity)
+  }
+
   render() {
-    // const { intl: { formatMessage } } = this.context
-    // const { onViewDetail, entity } = this.props
-    const button = <IconButton><Redo /></IconButton>
     return (
-      <div>
-        <IconMenu iconButtonElement={button} />
-      </div>
+      <IconButton onClick={this.onClick}><AvReplay /></IconButton>
     )
   }
 }
-export default AIPHistoryOption
+
+export default RequestRetryOption

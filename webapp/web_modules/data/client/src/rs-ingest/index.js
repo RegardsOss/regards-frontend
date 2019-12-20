@@ -65,10 +65,6 @@ export { default as RequestDeleteActions } from './request/RequestDeleteActions'
 export { default as getRequestDeleteReducer } from './request/RequestDeleteReducer'
 export { default as getRequestDeleteSelectors } from './request/RequestDeleteSelectors'
 
-export { default as RequestRelaunchActions } from './request/RequestRelaunchActions'
-export { default as getRequestRelaunchReducer } from './request/RequestRelaunchReducer'
-export { default as getRequestRelaunchSelectors } from './request/RequestRelaunchSelectors'
-
-export { default as RequestValidateActions } from './request/RequestValidateActions'
-export { default as getRequestValidateReducer } from './request/RequestValidateReducer'
-export { default as getRequestValidateSelectors } from './request/RequestValidateSelectors'
+export { default as RequestRetryActions } from './request/RequestRetryActions'
+export { default as getRequestRetryReducer } from './request/RequestRetryReducer'
+export { default as getRequestRetrySelectors } from './request/RequestRetrySelectors'

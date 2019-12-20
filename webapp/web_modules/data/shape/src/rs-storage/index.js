@@ -16,12 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from '../rs-ingest/AIPStatus'
-export { AIPSession } from '../rs-ingest/AIPSession'
-export { AIP } from '../rs-ingest/AIP'
-export { AIPEntity, AIPEntityContent } from '../rs-ingest/AIPEntity'
-export { AIPDeletionError, AIPDeletionErrorsArray } from '../rs-ingest/AIPDeletionError'
-export { Request, RequestEntity } from '../rs-ingest/Request'
 export {
   StorageLocation, StorageLocationContent, StorageLocationConfiguration, StorageLocationList, StorageLocationArray,
 } from './StorageLocation'

@@ -22,14 +22,13 @@
  * @author Simon MILHAU
  */
 export const Request = PropTypes.shape({
-  creationDate: PropTypes.string,
-  dtype: PropTypes.string,
-  errors: PropTypes.arrayOf(PropTypes.string),
   id: PropTypes.number,
-  providerId: PropTypes.string.isRequired,
-  remoteStepDeadline: PropTypes.string,
-  session: PropTypes.string,
+  errors: PropTypes.arrayOf(PropTypes.string),
+  creationDate: PropTypes.string,
   sessionOwner: PropTypes.string,
+  session: PropTypes.string,
+  providerId: PropTypes.string.isRequired,
+  dtype: PropTypes.string,
   state: PropTypes.string,
 })
 

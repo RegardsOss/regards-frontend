@@ -18,7 +18,7 @@
  **/
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
@@ -29,7 +29,7 @@ import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
 */
 class AIPDetailOption extends React.Component {
   static propTypes = {
-    entity: StorageShapes.AIPEntity,
+    entity: IngestShapes.AIPEntity,
     onViewAIPDetail: PropTypes.func.isRequired,
     onViewSIPDetail: PropTypes.func.isRequired,
   }

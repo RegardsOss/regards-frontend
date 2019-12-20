@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,16 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { IngestClient } from '@regardsoss/client'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import RequestRetryActions from './RequestRetryActions'
 
-/**
- * Model attributes entities client.
- *
- * @author Simon MILHAU
- */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'request-validate']
-const REDUX_ACTION_NAMESPACE = 'admin-oais-management/request-validate'
+class RequestRetryReducer extends BasicSignalReducers {
+  constructor(namespace, instance) {
+    super(new RequestRetryActions(namespace, instance))
+  }
+}
 
-export const requestValidateActions = new IngestClient.RequestValidateActions(REDUX_ACTION_NAMESPACE)
-export const requestValidateReducer = IngestClient.getRequestValidateReducer(REDUX_ACTION_NAMESPACE)
-export const requestValidateSelectors = IngestClient.getRequestValidateSelectors(ENTITIES_STORE_PATH)
+/** Closure builder for reducer function */
+export default (namespace, instance = false) => {
+  const reducerInstance = new RequestRetryReducer(namespace, instance)
+  return (state, action) => reducerInstance.reduce(state, action)
+}

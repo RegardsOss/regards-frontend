@@ -15,18 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
+
+/**
+ * Actions to send a request to delete a request
  */
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import RequestRelaunchActions from './RequestRelaunchActions'
-
-class RequestRelaunchReducer extends BasicSignalReducers {
-  constructor(namespace, instance) {
-    super(new RequestRelaunchActions(namespace, instance))
+export default class RequestRetryActions extends BasicSignalActions {
+  constructor(namespace, instance = false) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/requests/retry`,
+      namespace,
+      bypassErrorMiddleware: false,
+    })
   }
-}
-
-/** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new RequestRelaunchReducer(namespace, instance)
-  return (state, action) => reducerInstance.reduce(state, action)
 }

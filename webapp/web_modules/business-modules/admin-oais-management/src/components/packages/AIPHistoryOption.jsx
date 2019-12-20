@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { StorageShapes } from '@regardsoss/shape'
+import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import ActionHistory from 'material-ui/svg-icons/action/history'
@@ -26,7 +26,7 @@ import ActionHistory from 'material-ui/svg-icons/action/history'
 */
 class AIPHistoryOption extends React.Component {
   static propTypes = {
-    entity: StorageShapes.AIPEntity,
+    entity: IngestShapes.AIPEntity,
     onViewAIPHistory: PropTypes.func.isRequired,
   }
 

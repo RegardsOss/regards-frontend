@@ -19,7 +19,6 @@
 import compose from 'lodash/fp/compose'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import { browserHistory } from 'react-router'
 import messages from '../i18n'
 import styles from '../styles'
 import OAISFeatureManagerComponent from '../components/OAISFeatureManagerComponent'
@@ -38,19 +37,12 @@ class OAISFeatureManagerContainer extends React.Component {
     }),
   }
 
-  onBack = (level) => {
-    const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/oais/featureManager`
-    browserHistory.push(url)
-  }
 
   render() {
     const { params } = this.props
-
     return (
       <OAISFeatureManagerComponent
         params={params}
-        onBack={this.onBack}
       />
     )
   }

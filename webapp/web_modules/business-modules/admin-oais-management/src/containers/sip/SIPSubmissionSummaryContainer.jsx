@@ -23,7 +23,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { sipImportSelectors } from '../../clients/SIPImportClient'
-import SIPsubmissionSummaryComponent from '../../components/sip/submission/SIPSubmissionSummaryComponent'
+import SIPsubmissionSummaryComponent from '../../components/submission/SIPSubmissionSummaryComponent'
 import messages from '../../i18n'
 import styles from '../../styles'
 
