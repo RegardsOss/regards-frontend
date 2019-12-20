@@ -46,7 +46,7 @@ class SessionsMonitoringProductsStored extends React.Component {
 
   onClickRelaunch = () => {
     const { entity, onRelaunchProductsOAIS } = this.props
-    onRelaunchProductsOAIS(entity.content.name, entity.content.source)
+    onRelaunchProductsOAIS(entity.content.source, entity.content.name)
   }
 
   onClickListAIP = () => {
