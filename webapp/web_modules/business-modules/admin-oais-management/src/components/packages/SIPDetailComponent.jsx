@@ -30,7 +30,7 @@ import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
  */
 class SIPDetailComponent extends React.Component {
   static propTypes = {
-    sip: IngestShapes.SIPEntity.isRequired,
+    sip: IngestShapes.SIPEntity,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -59,7 +59,7 @@ class SIPDetailComponent extends React.Component {
           </CardMedia>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={intl.formatMessage({ id: 'oais.packages.details.button.close' })}
+              mainButtonLabel={intl.formatMessage({ id: 'oais.packages.close' })}
               mainButtonClick={this.props.onClose}
             />
           </CardActions>

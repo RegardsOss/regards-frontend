@@ -46,7 +46,7 @@ export class AIPDeleteDialog extends React.Component {
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.packages.confirm.delete.close' })}
+        label={formatMessage({ id: 'oais.packages.close' })}
         primary
         keyboardFocused
         onClick={onClose}
@@ -54,13 +54,13 @@ export class AIPDeleteDialog extends React.Component {
       <FlatButton
         key="deleteSipsIrrevocably"
         className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.packages.confirm.delete.irrevocably' })}
+        label={formatMessage({ id: 'oais.packages.delete.irrevocably' })}
         onClick={() => onConfirmDelete(AIPDeleteDialog.DELETION_MODE.IRREVOCABLY)}
       />,
       <FlatButton
         key="deleteSipsByState"
         className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.packages.confirm.delete.by_state' })}
+        label={formatMessage({ id: 'oais.packages.delete.by_state' })}
         onClick={() => onConfirmDelete(AIPDeleteDialog.DELETION_MODE.BY_STATE)}
       />,
     ]
@@ -71,7 +71,7 @@ export class AIPDeleteDialog extends React.Component {
 
     return (
       <Dialog
-        title={formatMessage({ id: 'oais.packages.confirm.delete.title' })}
+        title={formatMessage({ id: 'oais.packages.delete.title' })}
         actions={this.renderActions()}
         modal={false}
         open

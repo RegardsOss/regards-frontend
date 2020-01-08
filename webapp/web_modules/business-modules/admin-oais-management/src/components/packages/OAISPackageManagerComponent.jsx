@@ -20,6 +20,7 @@ import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
+import { browserHistory } from 'react-router'
 import SelectField from 'material-ui/SelectField'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
@@ -101,14 +102,14 @@ class OAISPackageManagerComponent extends React.Component {
 
   static buildRequestParameters(columnsSorting, appliedFilters) {
     const {
-      sessionOwner, session, providerId, from, to, type, state, lastUpdated, storage,
+      sessionOwner, session, providerId, from, to, type, state, storage,
     } = appliedFilters
     const newFilters = {}
     if (sessionOwner) {
       newFilters.sessionOwner = sessionOwner
     }
     if (session) {
-      newFilters.name = session
+      newFilters.session = session
     }
     if (providerId) {
       newFilters.providerIds = [providerId]
@@ -119,14 +120,12 @@ class OAISPackageManagerComponent extends React.Component {
     if (to) {
       newFilters.lastUpdate.to = to.toISOString()
     }
+
     if (type) {
       newFilters.ipType = type
     }
     if (state) {
       newFilters.state = state
-    }
-    if (lastUpdated) {
-      newFilters.lastUpdated = lastUpdated
     }
     if (storage) {
       newFilters.storages = [storage]
@@ -154,13 +153,19 @@ class OAISPackageManagerComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  componentWillMount = () => {
+    const { query = {} } = browserHistory.getCurrentLocation()
+    const { ipType, state, storage } = query
+    this.onRequestStateUpdated(this.props.featureManagerFilters, { ipType, state, storage }, this.state.columnsSorting)
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  componentWillReceiveProps = (nextProps) => {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
   /**
    * Properties change detected: update local state
@@ -310,7 +315,7 @@ class OAISPackageManagerComponent extends React.Component {
       isDeleteDialogOpened: true,
       deletionPayload: {
         selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-        sipIds: [
+        aipIds: [
           aipToDelete.content.aipId,
         ],
       },
@@ -345,7 +350,7 @@ class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            sipIds: map(tableSelection, entity => entity.content.sip.sipId),
+            aipIds: map(tableSelection, entity => entity.content.sip.sipId),
           },
         })
         break
@@ -354,7 +359,7 @@ class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            sipIds: map(tableSelection, entity => entity.content.sip.sipId),
+            aipIds: map(tableSelection, entity => entity.content.sip.sipId),
           },
         })
         break
@@ -416,7 +421,7 @@ class OAISPackageManagerComponent extends React.Component {
       isModifyDialogOpened: true,
       modifyPayload: {
         selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-        sipIds: [
+        aipIds: [
           aipToModify.content.aipId,
         ],
       },

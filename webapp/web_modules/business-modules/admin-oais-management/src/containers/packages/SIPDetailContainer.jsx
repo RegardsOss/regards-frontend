@@ -51,7 +51,7 @@ export class SIPDetailContainer extends React.Component {
     sipId: PropTypes.string.isRequired,
     onClose: PropTypes.func.isRequired,
     // from mapStateToProps
-    sip: IngestShapes.SIPEntity.isRequired,
+    sip: IngestShapes.SIPEntity,
     // from mapDispatchToProps
     fetchSip: PropTypes.func.isRequired,
   }

@@ -54,7 +54,7 @@ class AIPDetailComponent extends React.Component {
         </CardMedia>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={intl.formatMessage({ id: 'oais.packages.details.button.close' })}
+            mainButtonLabel={intl.formatMessage({ id: 'oais.packages.close' })}
             mainButtonClick={this.props.onClose}
           />
         </CardActions>

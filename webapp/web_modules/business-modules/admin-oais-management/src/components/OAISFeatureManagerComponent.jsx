@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
+import lowerCase from 'lodash/lowerCase'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle } from 'material-ui/Card'
 import { Breadcrumb } from '@regardsoss/components'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import OAISFeatureManagerFiltersComponent from './OAISFeatureManagerFiltersComponent'
+import OAISFeatureManagerFiltersContainer from '../containers/OAISFeatureManagerFiltersContainer'
 import OAISPackageManagerContainer from '../containers/packages/OAISPackageManagerContainer'
 import OAISRequestManagerContainer from '../containers/requests/OAISRequestManagerContainer'
 import OAISSwitchTables from './OAISSwitchTables'
@@ -60,9 +61,10 @@ class OAISFeatureManagerComponent extends React.Component {
     const { query } = browserHistory.getCurrentLocation()
     if (values(query).length > 0) {
       const {
-        sessionOwner, session, providerId, from, to, ipType, state, storage,
+        sessionOwner, session, providerId, from, to, display,
       } = query
       const urlFilters = {}
+      let openedPane
       if (sessionOwner) {
         urlFilters.sessionOwner = sessionOwner
       }
@@ -73,21 +75,25 @@ class OAISFeatureManagerComponent extends React.Component {
         urlFilters.providerId = providerId
       }
       if (from) {
-        urlFilters.lastUpdate.from = from.toISOString()
+        urlFilters.lastUpdate.from = from.fromISOString()
       }
       if (to) {
-        urlFilters.lastUpdate.to = to.toISOString()
+        urlFilters.lastUpdate.to = to.fromISOString()
       }
-      if (ipType) {
-        urlFilters.ipType = ipType
-      }
-      if (state) {
-        urlFilters.state = state
-      }
-      if (storage) {
-        urlFilters.storage = storage
+      if (display) {
+        switch (display) {
+          case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.PACKAGES):
+            openedPane = OAISFeatureManagerComponent.OPEN_PANE.PACKAGES
+            break
+          case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.REQUESTS):
+            openedPane = OAISFeatureManagerComponent.OPEN_PANE.REQUESTS
+            break
+          default:
+            break
+        }
       }
       this.setState({
+        openedPane,
         featureManagerFilters: {
           ...urlFilters,
         },
@@ -148,7 +154,7 @@ class OAISFeatureManagerComponent extends React.Component {
           <CardTitle
             title={this.renderBreadCrumb()}
           />
-          <OAISFeatureManagerFiltersComponent
+          <OAISFeatureManagerFiltersContainer
             featureManagerFilters={featureManagerFilters}
             updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
           />

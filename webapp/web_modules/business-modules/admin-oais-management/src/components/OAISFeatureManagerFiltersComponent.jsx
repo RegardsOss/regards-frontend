@@ -31,8 +31,12 @@ import OAISCriterionShape from '../shapes/OAISCriterionShape'
  */
 export class OAISFeatureManagerFiltersComponent extends React.Component {
   static propTypes = {
-    updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     featureManagerFilters: OAISCriterionShape,
+    changeSessionFilter: PropTypes.func.isRequired,
+    changeSourceFilter: PropTypes.func.isRequired,
+    changeProviderIdFilter: PropTypes.func.isRequired,
+    changeFrom: PropTypes.func.isRequired,
+    changeTo: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -40,48 +44,11 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
-  changeSessionFilter = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      session: finalNewValue,
-    })
-  }
-
-  changeSourceFilter = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      sessionOwner: finalNewValue,
-    })
-  }
-
-  changeProviderIdFilter = (event, text) => {
-    const finalNewValue = text
-    this.props.updateStateFromFeatureManagerFilters({
-      providerId: finalNewValue,
-    })
-  }
-
-  changeFrom = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      lastUpdate: {
-        from: finalNewValue,
-      },
-    })
-  }
-
-  changeTo = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      lastUpdate: {
-        to: finalNewValue,
-      },
-    })
-  }
-
   render() {
     const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
-
+    const {
+      featureManagerFilters, changeSessionFilter, changeSourceFilter, changeProviderIdFilter, changeFrom, changeTo,
+    } = this.props
     return (
       <React.Fragment key="imLine">
         <TableLayout>
@@ -89,8 +56,8 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
             <TableHeaderOptionsArea key="idLini" reducible alignLeft>
               <TableHeaderOptionGroup key="idLina">
                 <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={this.changeSourceFilter}
-                  text={this.props.featureManagerFilters.sessionOwner || ''}
+                  onChangeText={changeSourceFilter}
+                  text={featureManagerFilters.sessionOwner || ''}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.source' })}
                   style={filter.autocomplete}
                   key="sourceAuto"
@@ -98,8 +65,8 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
                   arraySelectors={searchSourcesSelectors}
                 />
                 <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={this.changeSessionFilter}
-                  text={this.props.featureManagerFilters.session || ''}
+                  onChangeText={changeSessionFilter}
+                  text={featureManagerFilters.session || ''}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.session' })}
                   style={filter.autocomplete}
                   key="sessionAuto"
@@ -108,26 +75,26 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
                 />
                 <TableHeaderTextField
                   title={formatMessage({ id: 'oais.packages.tooltip.providerId' })}
-                  value={this.props.featureManagerFilters.providerId || ''}
+                  value={featureManagerFilters.providerId || ''}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.providerId' })}
-                  onChange={this.changeProviderIdFilter}
+                  onChange={changeProviderIdFilter}
                 />
               </TableHeaderOptionGroup>
               <TableHeaderOptionGroup key="dateForm">
                 <DatePickerField
-                  value={this.props.featureManagerFilters.from}
+                  value={featureManagerFilters.from}
                   dateHintText={formatMessage({
                     id: 'oais.aips.list.filters.from.label',
                   })}
-                  onChange={this.changeFrom}
+                  onChange={changeFrom}
                   locale={locale}
                   key="datefrom"
                 />
                 <DatePickerField
-                  value={this.props.featureManagerFilters.to}
+                  value={featureManagerFilters.to}
                   defaultTime="23:59:59"
                   dateHintText={formatMessage({ id: 'oais.aips.list.filters.to.label' })}
-                  onChange={this.changeTo}
+                  onChange={changeTo}
                   locale={locale}
                   key="dateto"
                 />

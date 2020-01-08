@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import { IngestShapes } from '@regardsoss/shape'
@@ -99,11 +100,11 @@ export class OAISPackageManagerContainer extends React.Component {
 
   state = {
     // contextFilters: {},
-    // urlFilters: {},
+    urlFilters: {},
   }
 
   componentWillMount() {
-    // this.initializeFiltersFromURL()
+    this.initializeFiltersFromURL()
     this.initializeContextFilters(this.props)
   }
 
@@ -117,6 +118,28 @@ export class OAISPackageManagerContainer extends React.Component {
     // this.initializeFiltersFromURL()
     // this.initializeContextFilters(nextProps)
     // }
+  }
+
+  initializeFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    if (values(query).length > 0) {
+      const {
+        type, status, storage,
+      } = query
+      const urlFilters = {}
+      if (type) {
+        urlFilters.type = type
+      }
+      if (status) {
+        urlFilters.state = status
+      }
+      if (storage) {
+        urlFilters.storage = storage
+      }
+      this.setState({
+        urlFilters,
+      })
+    }
   }
 
   initializeContextFilters = (props) => {

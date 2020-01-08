@@ -43,7 +43,7 @@ import AIPModifyAddOption from './AIPModifyAddOption'
 /**
  * Confirm action dialog component. Switches dialog mode,
  */
-class AIPModifyDialogComponent extends React.Component {
+export class AIPModifyDialogComponent extends React.Component {
   static propTypes = {
     onConfirmModify: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
