@@ -188,7 +188,7 @@ class ListCellComponent extends React.Component {
     return flatMap(renderers, ({ path, RenderConstructor, props = {} }, index) => [
       // insert separator if mutilple values
       index > 0 ? (<div key={`separator.${key}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
-      <RenderConstructor key={key} value={get(entity, path)} {...props} />])
+      <RenderConstructor key={`render:${key}#${index}`} value={get(entity, path)} {...props} />])
   }
 
 
@@ -223,8 +223,8 @@ class ListCellComponent extends React.Component {
     const { rowsByColumnCount } = muiTheme.module.searchResults.list
     return gridAttributeModels.reduce((columnsAcc, model, index) => {
       // 1 - Render label and value
-      const labelCell = <div key={model.key} style={labelCellStyle}>{model.label[locale]}</div>
-      const valueCell = <div key={model.key} style={valueCellStyle}>{this.renderAttributeValue(model)}</div>
+      const labelCell = <div key={`label.${model.key}`} style={labelCellStyle}>{model.label[locale]}</div>
+      const valueCell = <div key={`value.${model.key}`} style={valueCellStyle}>{this.renderAttributeValue(model)}</div>
       // 2 assign them to the current columns (or new columns if required), knowing we build two columns for one attribute
       const columnIndex = (index / rowsByColumnCount) * 2
       if (columnIndex >= columnsAcc.length) {

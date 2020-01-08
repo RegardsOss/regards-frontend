@@ -63,7 +63,7 @@ export class QuicklookHelper {
    * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
    */
   static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName) {
-    // A - Group quickloks y group name in map (update URI to use token project name when internal data files)
+    // A - Group quicklooks by group name in map (update URI to use token project name when internal data files)
     const groupsMap = QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
       const files = get(entity, `content.files.${type}`, [])
       return files.reduce((acc2, file) => {
