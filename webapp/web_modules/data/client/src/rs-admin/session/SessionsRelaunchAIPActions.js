@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class SessionsRelaunchAIPActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aip/{sessionOwner}/{sessionName}/relaunch`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/requests/retry`,
       namespace,
     })
   }
@@ -30,7 +30,7 @@ export default class SessionsRelaunchAIPActions extends BasicSignalActions {
    * Send license updated notification accepted licenses
    * @param project project
    */
-  relaunchProducts(sessionOwner, sessionName) {
-    return this.sendSignal('GET', null, { sessionOwner, sessionName })
+  relaunchProducts(sessionOwner, session) {
+    return this.sendSignal('POST', { sessionOwner, session })
   }
 }

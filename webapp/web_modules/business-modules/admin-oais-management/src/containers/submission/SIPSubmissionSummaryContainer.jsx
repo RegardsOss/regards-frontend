@@ -68,7 +68,7 @@ export class SIPSubmissionSummaryContainer extends React.Component {
 
   goToSumissionForm = () => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/oais.sip.submission`
+    const url = `/admin/${project}/data/acquisition/oais/sip/submission`
     browserHistory.push(url)
   }
 
