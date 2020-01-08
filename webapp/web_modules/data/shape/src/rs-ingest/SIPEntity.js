@@ -18,7 +18,6 @@
  **/
 import { IngestDomain } from '@regardsoss/domain'
 import PropertiesShape from '../rs-common/IP'
-import { AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
 
 /**
  * Describes an SIP Entity shape and related sub objects
@@ -35,18 +34,26 @@ export const SIP = PropTypes.shape({
   }),
 })
 
-export const SIPEntity = PropTypes.shape({
-  sip: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    sipId: PropTypes.string, // Not required as datasets, collections and documents are not produced by SIP sessions
-    version: PropTypes.number.isRequired,
+export const SIPEntityContent = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    sipId: PropTypes.string,
+    version: PropTypes.number,
     state: IngestDomain.AIP_STATUS,
     checksum: PropTypes.string.isRequired,
     sip: SIP,
-    ingestMetadata: AIPEntityIngestMetadata,
+    sessionOwner: PropTypes.string.isRequired,
+    session: PropTypes.string.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string),
     providerId: PropTypes.string.isRequired,
-    tags: PropTypes.array.isRequired,
+    tags: PropTypes.arrayOf(PropTypes.string),
     creationDate: PropTypes.string.isRequired,
-    lastUpdateDate: PropTypes.string.isRequired,
-  }).isRequired,
+    lastUpdate: PropTypes.string.isRequired,
+    ipType: PropTypes.string.isRequired,
+  }),
+})
+
+export const SIPEntity = PropTypes.shape({
+  content: SIPEntityContent.isRequired,
+  links: PropTypes.array,
 })

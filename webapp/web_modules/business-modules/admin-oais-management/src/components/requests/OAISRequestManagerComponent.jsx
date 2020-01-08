@@ -19,6 +19,7 @@
 import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import { browserHistory } from 'react-router'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
@@ -118,7 +119,7 @@ class OAISRequestManagerComponent extends React.Component {
       newFilters.sessionOwner = sessionOwner
     }
     if (session) {
-      newFilters.name = session
+      newFilters.session = session
     }
     if (providerId) {
       newFilters.providerIds = [providerId]
@@ -162,13 +163,19 @@ class OAISRequestManagerComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-    componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+    componentWillMount = () => {
+      const { query = {} } = browserHistory.getCurrentLocation()
+      const { state } = query
+      this.onRequestStateUpdated(this.props.featureManagerFilters, { state }, this.state.columnsSorting)
+    }
 
    /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+   componentWillReceiveProps = (nextProps) => {
+     this.onPropertiesUpdated(this.props, nextProps)
+   }
 
    /**
     * Properties change detected: update local state
@@ -208,7 +215,6 @@ class OAISRequestManagerComponent extends React.Component {
       ...this.state.appliedFilters,
       ...newFilterValue,
     }
-    console.error('newAppliedFilters', newAppliedFilters)
     this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.columnsSorting)
   }
 

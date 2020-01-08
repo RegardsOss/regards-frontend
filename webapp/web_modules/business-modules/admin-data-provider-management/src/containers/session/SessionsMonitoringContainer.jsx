@@ -194,7 +194,7 @@ export class SessionsMonitoringContainer extends React.Component {
   onViewProductsOAIS = (source, session) => {
     const { params: { project } } = this.props
     const urlParams = {
-      display: 'products',
+      display: 'packages',
       source,
       session,
     }
@@ -209,7 +209,7 @@ export class SessionsMonitoringContainer extends React.Component {
       display: 'requests',
       source,
       session,
-      status: error ? 'ERROR' : undefined,
+      state: error ? 'ERROR' : undefined,
     }
     const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
     const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`
