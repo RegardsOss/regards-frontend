@@ -16,21 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { LayoutConfiguration } from '@regardsoss/api'
-import LayoutActions from './LayoutActions'
+import { AccessInstanceClient } from '@regardsoss/client'
 
-/**
- * Redux store reducers for Layout entities
- * @author Sébastien Binda
- */
-class LayoutsReducer extends BasicPageableReducers {
-  constructor(namespace) {
-    super(LayoutConfiguration, new LayoutActions(namespace))
-  }
-}
-
-export default (namespace) => {
-  const instance = new LayoutsReducer(namespace)
-  return (state, action) => instance.reduce(state, action)
-}
+const namespace = 'portal/layout'
+export const layoutActions = new AccessInstanceClient.LayoutActions(namespace)
+export const layoutReducer = AccessInstanceClient.getLayoutReducer(namespace)
+export const layoutSelectors = AccessInstanceClient.getLayoutSelectors(['portal', 'layout'])

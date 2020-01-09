@@ -29,9 +29,9 @@ import { DescriptionHelper } from '@regardsoss/entities-common'
 import { resultsContextActions } from '../../clients/ResultsContextClient'
 
 // get default layout client selectors - required to check that containers are or not dynamic
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
+const layoutSelectors = AccessProjectClient.getLayoutSelectors()
 // get default modules client selectors - required to check that a description module exist and is not dynamic
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 /** Module pane state actions default instance */
 const moduleExpandedStateActions = new UIClient.ModuleExpandedStateActions()
 

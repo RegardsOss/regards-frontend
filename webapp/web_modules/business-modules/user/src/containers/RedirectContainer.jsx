@@ -25,7 +25,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { ErrorCardComponent } from '@regardsoss/components'
 import { modulesManager } from '@regardsoss/modules'
 
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 
 /**
  * Render a component that redirects the user to a module using its type

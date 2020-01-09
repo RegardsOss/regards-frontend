@@ -25,8 +25,8 @@ const backendServerResultList = LayoutListDump
 const options = {}
 
 const LayoutActions = new AccessProjectClient.LayoutActions('test/action')
-const LayoutReducer = AccessProjectClient.LayoutReducers('test/action')
-const LayoutSelector = AccessProjectClient.LayoutSelectors(['test', 'modules'])
+const LayoutReducer = AccessProjectClient.getLayoutReducer('test/action')
+const LayoutSelector = AccessProjectClient.getLayoutSelectors(['test', 'modules'])
 
 const entityTester = new ReduxEntityTester(LayoutActions, LayoutReducer, LayoutSelector, AccessShapes.LayoutList.isRequired, backendServerResultList, options)
 

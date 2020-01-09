@@ -27,8 +27,8 @@ const options = {
 }
 
 const ModulesActions = new AccessProjectClient.ModuleActions('test/action')
-const ModulesReducer = AccessProjectClient.ModuleReducers('test/action')
-const ModulesSelector = AccessProjectClient.ModuleSelectors(['test', 'modules'])
+const ModulesReducer = AccessProjectClient.getModuleReducer('test/action')
+const ModulesSelector = AccessProjectClient.getModuleSelectors(['test', 'modules'])
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, AccessShapes.ModuleList.isRequired, backendServerResultList, options)
 
 /**

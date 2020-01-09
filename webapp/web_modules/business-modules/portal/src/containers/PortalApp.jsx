@@ -24,16 +24,47 @@ import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/f
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeProvider } from '@regardsoss/theme'
 import { BrowserCheckerDialog } from '@regardsoss/components'
-import LayoutSelector from '../model/layout/LayoutSelector'
-import LayoutActions from '../model/layout/LayoutActions'
-import ModulesSelector from '../model/modules/ModulesSelector'
-import ModulesActions from '../model/modules/ModulesActions'
+import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
+import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 
 /**
  * Provides the theme to sub containers
  * @author Sébastien Binda
  */
 export class PortalApp extends React.Component {
+  /** ID for portal layout */
+  static PORTAL_LAYOUT_ID = 'portal'
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      layout: layoutSelectors.getById(state, PortalApp.PORTAL_LAYOUT_ID),
+      modules: moduleSelectors.getList(state),
+      layoutIsFetching: layoutSelectors.isFetching(state),
+      modulesIsFetching: moduleSelectors.isFetching(state),
+      project: AuthenticationParametersSelectors.getProject(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+      fetchLayout: () => dispatch(layoutActions.fetchEntity(PortalApp.PORTAL_LAYOUT_ID)),
+      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: PortalApp.PORTAL_LAYOUT_ID })),
+    }
+  }
+
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -53,7 +84,6 @@ export class PortalApp extends React.Component {
     // Set by mapDispatchToProps
     fetchLayout: PropTypes.func,
     fetchModules: PropTypes.func,
-    // fetchEndpoints: PropTypes.func,
     initializeApplication: PropTypes.func.isRequired,
   }
 
@@ -93,7 +123,7 @@ export class PortalApp extends React.Component {
           <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
           {/* Render main tree */}
           <ApplicationLayout
-            appName="portal"
+            appName={PortalApp.PORTAL_LAYOUT_ID}
             layout={this.props.layout.content.layout}
             modules={values(this.props.modules)}
             project={project}
@@ -104,19 +134,6 @@ export class PortalApp extends React.Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => ({
-  layout: LayoutSelector.getById(state, 'portal'),
-  modules: ModulesSelector.getList(state),
-  layoutIsFetching: LayoutSelector.isFetching(state),
-  modulesIsFetching: ModulesSelector.isFetching(state),
-  project: AuthenticationParametersSelectors.getProject(state),
-})
 
-const mapDispatchToProps = dispatch => ({
-  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-  fetchLayout: () => dispatch(LayoutActions.fetchEntity('portal')),
-  fetchModules: () => dispatch(ModulesActions.fetchPagedEntityList(0, 100, { applicationId: 'portal' })),
-  // fetchEndpoints: () => dispatch(EndpointActions.fetchPagedEntityList(0, 10000)),
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(PortalApp)
+export default connect(PortalApp.mapStateToProps, PortalApp.mapDispatchToProps)(PortalApp)

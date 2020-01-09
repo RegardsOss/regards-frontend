@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import { BasicPageableReducers } from '@regardsoss/store-utils'
-import { LayoutConfiguration } from '@regardsoss/api'
-import LayoutActions from './LayoutActions'
+import { ModuleConfiguration } from '@regardsoss/api'
+import ModuleActions from './ModuleActions'
 
 /**
- * Redux Reducer for LayoutActions actions.
+ * Redux Reducer for ProjectActions actions.
  *
  * To use those actions, you need to pass the <namespace> parameter
  *
@@ -29,13 +29,21 @@ import LayoutActions from './LayoutActions'
  *
  * @author Sébastien Binda
  */
-class LayoutReducers extends BasicPageableReducers {
-  constructor(namespace) {
-    super(LayoutConfiguration, new LayoutActions(namespace))
+class ModuleReducer extends BasicPageableReducers {
+  /**
+  * Constructor
+  * @param {string} namespace namespace, leave empty for default client reducer
+  */
+  constructor(namespace = 'user/layout/modules') {
+    super(ModuleConfiguration, new ModuleActions(namespace))
   }
 }
 
+/**
+ * Builds reducer function instance
+ * @param {string} namespace namespace, leave empty for default client reducer
+ */
 export default (namespace) => {
-  const instance = new LayoutReducers(namespace)
+  const instance = new ModuleReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }
