@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { FieldArray, Field, RenderTextField } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -65,7 +66,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
   }]
   testCases.forEach(({
     label, submitting, pristine, invalid, expectedDisabled,
-  }) => it(`should render correctly when ${label}`, () => {
+  }) => it(`should render correctly in edition when ${label}`, () => {
     const props = {
       settings: {
         documentModels: ['model3'],
@@ -108,4 +109,22 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
       secondaryButtonClick: props.onBack,
     })
   }))
+  it('should initialize correctly in creation mode', () => {
+    const spyInitialize = {}
+    const props = {
+      settings: null,
+      dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
+      onBack: () => {},
+      onSubmit: () => {},
+      // from redux form
+      submitting: false,
+      pristine: true,
+      invalid: false,
+      initialize: (values) => { spyInitialize.values = values },
+      handleSubmit: () => {},
+    }
+    shallow(<EditSettingsComponent {...props} />, { context })
+    assert.deepEqual(spyInitialize.values, UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
+      'Default settings should be used when there is no saved settings (lifecycle initialization)')
+  })
 })

@@ -49,7 +49,8 @@ export class EditSettingsContainer extends React.Component {
       fetchingModels: modelSelectors.isFetching(state),
       dataModels: modelSelectors.getList(state),
       fetchingSettings: uiSettingsSelectors.isFetching(state),
-      settings: uiSettingsSelectors.getSettings(state),
+      // retrieve results, avoiding to default values to know if the object is unexisting
+      settings: uiSettingsSelectors.getResult(state),
     }
   }
 
