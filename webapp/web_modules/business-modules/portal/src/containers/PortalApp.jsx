@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
+import { UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
@@ -32,9 +33,6 @@ import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
  * @author Sébastien Binda
  */
 export class PortalApp extends React.Component {
-  /** ID for portal layout */
-  static PORTAL_LAYOUT_ID = 'portal'
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -43,7 +41,7 @@ export class PortalApp extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      layout: layoutSelectors.getById(state, PortalApp.PORTAL_LAYOUT_ID),
+      layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.PORTAL),
       modules: moduleSelectors.getList(state),
       layoutIsFetching: layoutSelectors.isFetching(state),
       modulesIsFetching: moduleSelectors.isFetching(state),
@@ -60,8 +58,8 @@ export class PortalApp extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-      fetchLayout: () => dispatch(layoutActions.fetchEntity(PortalApp.PORTAL_LAYOUT_ID)),
-      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: PortalApp.PORTAL_LAYOUT_ID })),
+      fetchLayout: () => dispatch(layoutActions.fetchEntity(UIDomain.APPLICATIONS_ENUM.PORTAL)),
+      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: UIDomain.APPLICATIONS_ENUM.PORTAL })),
     }
   }
 
@@ -123,7 +121,7 @@ export class PortalApp extends React.Component {
           <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
           {/* Render main tree */}
           <ApplicationLayout
-            appName={PortalApp.PORTAL_LAYOUT_ID}
+            appName={UIDomain.APPLICATIONS_ENUM.PORTAL}
             layout={this.props.layout.content.layout}
             modules={values(this.props.modules)}
             project={project}

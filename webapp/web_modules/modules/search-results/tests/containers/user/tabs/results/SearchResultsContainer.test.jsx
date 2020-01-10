@@ -50,7 +50,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       project: 'p1',
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }
@@ -101,7 +101,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       moduleId: 1,
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
       project: 'p1',
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       resultsContext: dataContext,
       updateResultsContext: () => {},
     }

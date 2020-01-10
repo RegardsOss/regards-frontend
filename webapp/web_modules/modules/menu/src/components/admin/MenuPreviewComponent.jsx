@@ -78,15 +78,16 @@ class MenuPreviewComponent extends React.Component {
     }
     return (
       <div>
-        {/* 1. Preview role selector */}
-        <div style={previewRoleStyle}>
-          <SelectField
-            floatingLabelText={formatMessage({ id: 'user.menu.form.preview.role.field' })}
-            value={previewRole}
-            onChange={this.onPreviewRoleChanged}
-            autoWidth
-          >
-            { /** Retrieved possible roles */
+        {/* 1. Preview role selector, when not in portal mode */
+        appName === UIDomain.APPLICATIONS_ENUM.PORTAL ? null : (
+          <div style={previewRoleStyle}>
+            <SelectField
+              floatingLabelText={formatMessage({ id: 'user.menu.form.preview.role.field' })}
+              value={previewRole}
+              onChange={this.onPreviewRoleChanged}
+              autoWidth
+            >
+              { /** Retrieved possible roles */
               map(roleList, ({ content: { name } }) => (
                 <MenuItem
                   key={name}
@@ -94,8 +95,9 @@ class MenuPreviewComponent extends React.Component {
                   value={name}
                 />))
             }
-          </SelectField>
-        </div>
+            </SelectField>
+          </div>)
+          }
         <div style={previewStyle}>
           <LazyModuleComponent
             project={project}

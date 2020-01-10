@@ -25,6 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   RenderTextField, RenderCheckbox, RenderRadio, Field, FieldArray, ValidationHelpers,
 } from '@regardsoss/form-utils'
+import { UIDomain } from '@regardsoss/domain'
 import { HOME_ICON_TYPES_ENUM } from '../../domain/HomeIconType'
 import NavigationArrayFieldRender from './navigation/NavigationArrayFieldRender'
 import MenuPreviewComponent from './MenuPreviewComponent'
@@ -110,11 +111,13 @@ class ModuleFormComponent extends React.Component {
       appName, project, adminForm, dynamicModules, roleList,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
+    const portal = appName === UIDomain.APPLICATIONS_ENUM.PORTAL
     return (
       <div>
         <Subheader style={firstSubheaderStyle}>
           {formatMessage({ id: 'user.menu.form.options.title' })}
         </Subheader>
+        {/* Contact: always available */}
         <Field
           name={this.CONF_CONTACTS}
           fullWidth
@@ -123,6 +126,7 @@ class ModuleFormComponent extends React.Component {
           label={formatMessage({ id: 'menu.form.contacts' })}
           validate={ModuleFormComponent.validateOptionalEmail}
         />
+        {/* About page: always available */}
         <Field
           name={this.CONF_ABOUT_PAGE}
           fullWidth
@@ -130,106 +134,119 @@ class ModuleFormComponent extends React.Component {
           label={formatMessage({ id: 'menu.form.projectpage' })}
           validate={ModuleFormComponent.validateOptionalUrl}
         />
-        <Field
-          name={this.CONF_AUTH}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'menu.form.displayauthentication' })}
-        />
-        <Field
-          name={this.CONF_CART}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'menu.form.displaycart' })}
-          noSpacing
-        />
-        <Field
-          name={this.CONF_NOTIF}
-          component={RenderCheckbox}
-          label={formatMessage({ id: 'menu.form.displaynotifications' })}
-          noSpacing
-        />
+        { /** Authentication, basket and notifications: any but portal */
+          portal ? null : (
+            <React.Fragment>
+              <Field
+                name={this.CONF_AUTH}
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'menu.form.displayauthentication' })}
+              />
+              <Field
+                name={this.CONF_CART}
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'menu.form.displaycart' })}
+                noSpacing
+              />
+              <Field
+                name={this.CONF_NOTIF}
+                component={RenderCheckbox}
+                label={formatMessage({ id: 'menu.form.displaynotifications' })}
+                noSpacing
+              />
+            </React.Fragment>)
+        }
+        {/* Locale: always available */}
         <Field
           name={this.CONF_LOCALE}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaylocale' })}
           noSpacing
         />
+        {/* Theme: always available */}
         <Field
           name={this.CONF_THEME}
           component={RenderCheckbox}
           label={formatMessage({ id: 'menu.form.displaytheme' })}
           noSpacing
         />
-        <Subheader style={subheaderStyle}>
-          {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
-        </Subheader>
-        {/* Home icon type */}
-        <div style={radioButtonGroupLabelStyle}>
-          {formatMessage({ id: 'menu.form.home.page.icon.type.label' })}
-        </div>
-        <Field
-          name={this.CONF_HOME_ICON_TYPE}
-          component={RenderRadio}
-          defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
-        >
-          <RadioButton
-            value={HOME_ICON_TYPES_ENUM.NONE}
-            label={formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
-          />
-          <RadioButton
-            value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
-            label={formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
-          />
-          <RadioButton
-            value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
-            label={formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
-          />
-          <RadioButton
-            value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
-            label={formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
-          />
-        </Field>
-        {/* Home icon URL */}
-        <Field
-          name={this.CONF_HOME_ICON_URL}
-          disabled={
+        {/* Home page and navigation: any but portal */
+        portal ? null : (
+          <React.Fragment>
+            <Subheader style={subheaderStyle}>
+              {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
+            </Subheader>
+            {/* Home icon type */}
+            <div style={radioButtonGroupLabelStyle}>
+              {formatMessage({ id: 'menu.form.home.page.icon.type.label' })}
+            </div>
+            <Field
+              name={this.CONF_HOME_ICON_TYPE}
+              component={RenderRadio}
+              defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+            >
+              <RadioButton
+                value={HOME_ICON_TYPES_ENUM.NONE}
+                label={formatMessage({ id: 'menu.form.home.page.icon.type.none' })}
+              />
+              <RadioButton
+                value={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+                label={formatMessage({ id: 'menu.form.home.page.icon.type.default' })}
+              />
+              <RadioButton
+                value={HOME_ICON_TYPES_ENUM.MODULE_ICON}
+                label={formatMessage({ id: 'menu.form.home.page.icon.type.module' })}
+              />
+              <RadioButton
+                value={HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
+                label={formatMessage({ id: 'menu.form.home.page.icon.type.custom' })}
+              />
+            </Field>
+            {/* Home icon URL */}
+            <Field
+              name={this.CONF_HOME_ICON_URL}
+              disabled={
             // enabled only when in custom URL mode
             get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
-          component={RenderTextField}
-          fullWidth
-          type="text"
-          label={formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
-          validate={this.validateCustomHomeIcon}
-        />
-        {/* Home titles by locale */}
-        <Field
-          name={this.CONF_HOME_TITLE_EN}
-          component={RenderTextField}
-          fullWidth
-          type="text"
-          label={formatMessage({ id: 'menu.form.home.page.title.en' })}
-          validate={ValidationHelpers.required}
-        />
-        <Field
-          name={this.CONF_HOME_TITLE_FR}
-          component={RenderTextField}
-          fullWidth
-          type="text"
-          label={formatMessage({ id: 'menu.form.home.page.title.fr' })}
-          validate={ValidationHelpers.required}
-        />
-        <Subheader style={subheaderStyle}>
-          {formatMessage({ id: 'user.menu.form.navigation.layout.title' })}
-        </Subheader>
-        {/* Navigation configuration */}
-        <FieldArray
-          name={this.CONF_NAVIGATION}
-          component={NavigationArrayFieldRender}
-          dynamicModules={dynamicModules}
-          roleList={roleList}
-          homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
-          navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
-          changeNavigationFieldValue={this.changeNavigationFieldValue}
-        />
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'menu.form.home.page.icon.custom.url' })}
+              validate={this.validateCustomHomeIcon}
+            />
+            {/* Home titles by locale */}
+            <Field
+              name={this.CONF_HOME_TITLE_EN}
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'menu.form.home.page.title.en' })}
+              validate={ValidationHelpers.required}
+            />
+            <Field
+              name={this.CONF_HOME_TITLE_FR}
+              component={RenderTextField}
+              fullWidth
+              type="text"
+              label={formatMessage({ id: 'menu.form.home.page.title.fr' })}
+              validate={ValidationHelpers.required}
+            />
+            <Subheader style={subheaderStyle}>
+              {formatMessage({ id: 'user.menu.form.navigation.layout.title' })}
+            </Subheader>
+            {/* Navigation configuration */}
+            <FieldArray
+              name={this.CONF_NAVIGATION}
+              component={NavigationArrayFieldRender}
+              dynamicModules={dynamicModules}
+              roleList={roleList}
+              homeConfiguration={get(adminForm, `form.${this.HOME_CONFIGURATION_ROOT}`)}
+              navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
+              changeNavigationFieldValue={this.changeNavigationFieldValue}
+            />
+          </React.Fragment>)
+        }
+        {/* Preview: always available */}
         <Subheader style={subheaderStyle}>
           {formatMessage({ id: 'user.menu.form.preview.title' })}
         </Subheader>

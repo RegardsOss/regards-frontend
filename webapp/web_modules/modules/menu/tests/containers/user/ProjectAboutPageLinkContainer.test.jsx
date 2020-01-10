@@ -40,7 +40,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
   })
   it('should render empty with project page, in display mode USER', () => {
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'hello-world',
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
     }
@@ -51,7 +51,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
   })
   it('should render correctly, showing project page, when in real use modes', () => {
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'hello-world',
       projectAboutPage: 'gg-bg/pmu.fr',
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.USER,
@@ -63,7 +63,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
     const componentWrapper = enzymeWrapper.find(ProjectAboutPageLinkComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'hello-world',
       projectAboutPage: 'gg-bg/pmu.fr',
       hidePage: false,
@@ -71,7 +71,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
   })
   it('should render correctly, hiding project page, when in preview mode', () => {
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'hello-world',
       projectAboutPage: 'gg-bg/pmu.fr',
       displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
@@ -83,7 +83,7 @@ describe('[Menu] Testing ProjectAboutPageLinkContainer', () => {
     const componentWrapper = enzymeWrapper.find(ProjectAboutPageLinkComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'hello-world',
       projectAboutPage: 'gg-bg/pmu.fr',
       hidePage: true,

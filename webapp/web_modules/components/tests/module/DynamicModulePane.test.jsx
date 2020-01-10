@@ -41,7 +41,7 @@ describe('[Components] Testing DynamicModulePane', () => {
   })
   it('should render correctly expanded, in user app', () => {
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'y',
       type: 'any',
       description: 'any module',
@@ -207,7 +207,7 @@ describe('[Components] Testing DynamicModulePane', () => {
   it('should attempt initializing its own state in redux store from module configuration when in user app', () => {
     let spiedInitialization = {}
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'y',
       type: 'any',
       description: 'any',

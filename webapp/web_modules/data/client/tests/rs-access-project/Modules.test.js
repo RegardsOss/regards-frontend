@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '../../src/main'
@@ -23,7 +24,7 @@ import ModulesListDump from './ModulesList.dump'
 
 const backendServerResultList = ModulesListDump
 const options = {
-  pathParams: { applicationId: 'user' },
+  pathParams: { applicationId: UIDomain.APPLICATIONS_ENUM.USER },
 }
 
 const ModulesActions = new AccessProjectClient.ModuleActions('test/action')

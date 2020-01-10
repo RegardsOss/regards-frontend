@@ -56,7 +56,7 @@ export class UserApp extends React.Component {
       || moduleSelectors.isFetching(state)
       || attributeModelSelectors.isFetching(state)
       || uiSettingsSelectors.isFetching(state),
-      layout: layoutSelectors.getById(state, 'user'),
+      layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
       modules: moduleSelectors.getList(state),
     }
   }
@@ -71,8 +71,8 @@ export class UserApp extends React.Component {
     return {
       initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
       fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
-      fetchLayout: () => dispatch(layoutActions.fetchEntity('user')),
-      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: 'user' })),
+      fetchLayout: () => dispatch(layoutActions.fetchEntity(UIDomain.APPLICATIONS_ENUM.USER)),
+      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: UIDomain.APPLICATIONS_ENUM.USER })),
       flushModules: () => dispatch(moduleActions.flush(true)),
       fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
       fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
@@ -185,9 +185,9 @@ export class UserApp extends React.Component {
    */
   fetchEndpoints() {
     Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
-      if (actionResult.error && UIDomain.LocalStorageUser.retrieve(this.props.params.project, 'user')) {
+      if (actionResult.error && UIDomain.LocalStorageUser.retrieve(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)) {
         // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
-        UIDomain.LocalStorageUser.delete(this.props.params.project, 'user')
+        UIDomain.LocalStorageUser.delete(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)
         throw new Error('Failed to retrieve endpoint list, which is required on the user dashboard')
       }
     })
