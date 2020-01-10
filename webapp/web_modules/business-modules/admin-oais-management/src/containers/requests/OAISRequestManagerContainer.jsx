@@ -53,7 +53,7 @@ class OAISRequestManagerContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
+    fetchPage: (pageIndex, pageSize, pathParams, requestParam, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, requestParam, bodyParams)),
     clearSelection: () => dispatch(requestTableActions.unselectAll()),
     deleteRequests: bodyParams => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
     retryRequests: bodyParams => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
@@ -103,7 +103,8 @@ class OAISRequestManagerContainer extends React.Component {
     const { currentFilters } = this.state
     const curentPage = get(meta, 'number', 0)
     clearSelection()
-    fetchPage(0, OAISRequestManagerContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
+    // TODO add request parameters (sort), make sure body is valid (currentFilters)
+    fetchPage(0, OAISRequestManagerContainer.PAGE_SIZE * (curentPage + 1), null, null, currentFilters)
   }
 
   render() {

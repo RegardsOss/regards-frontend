@@ -55,8 +55,8 @@ class OAISSwitchTables extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = dispatch => ({
-    fetchAipPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
-    fetchRequestPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
+    fetchAipPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, null, bodyParams)),
+    fetchRequestPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, null, bodyParams)),
   })
 
   static propTypes = {

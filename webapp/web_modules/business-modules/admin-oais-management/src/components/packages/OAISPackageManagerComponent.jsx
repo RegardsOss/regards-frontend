@@ -605,8 +605,10 @@ class OAISPackageManagerComponent extends React.Component {
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            requestParams={tableRequestParameters}
+            // requestParams={tableRequestParameters} TODO Simon: uniquement le sort ici
+            bodyParams={tableRequestParameters} // TODO Simon: uniquement les filtres ici
             emptyComponent={OAISPackageManagerComponent.EMPTY_COMPONENT}
+            fetchUsingPostMethod
           />
         </TableLayout>
         {this.renderAIPDetail()}
