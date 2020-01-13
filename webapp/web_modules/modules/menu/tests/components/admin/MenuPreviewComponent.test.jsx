@@ -39,9 +39,9 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
   it('should exists', () => {
     assert.isDefined(MenuPreviewComponent)
   })
-  it('should render correctly with a minimal configuration', () => {
+  it('should render correctly with a minimal configuration (user app)', () => {
     const props = {
-      appName: 'any',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'any',
       roleList: {},
       moduleConfiguration: {},
@@ -65,9 +65,9 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
       },
     }, 'It should provide right properties and configuration to loader, setting the module in PREVIEW display mode')
   })
-  it('should render correctly with a complete configuration', () => {
+  it('should render correctly with a complete configuration (user)', () => {
     const props = {
-      appName: 'any',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'any',
       roleList: {
         1: {
@@ -104,5 +104,31 @@ describe('[Menu] Testing MenuPreviewComponent', () => {
     enzymeWrapper.update()
     moduleLoader = enzymeWrapper.find(LazyModuleComponent)
     assert.equal(moduleLoader.props().module.conf.previewRole, 'ROLE1')
+  })
+  it('should render correctly in portal configuration mode, hiding role selector', () => {
+    const props = {
+      appName: UIDomain.APPLICATIONS_ENUM.PORTAL,
+      project: 'any',
+      roleList: {},
+      moduleConfiguration: {},
+    }
+    const enzymeWrapper = shallow(<MenuPreviewComponent {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(SelectField), 0, 'Role selector should be hidden for portal')
+    const moduleLoader = enzymeWrapper.find(LazyModuleComponent)
+    assert.lengthOf(moduleLoader, 1, 'There should be the menu module loader')
+    testSuiteHelpers.assertWrapperProperties(moduleLoader, {
+      appName: props.appName,
+      project: props.project,
+      admin: false,
+      module: {
+        type: modulesManager.VisibleModuleTypes.MENU,
+        active: true,
+        conf: {
+          displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
+          roleList: props.roleList,
+          previewRole: enzymeWrapper.state().previewRole,
+        },
+      },
+    }, 'It should provide right properties and configuration to loader, setting the module in PREVIEW display mode')
   })
 })

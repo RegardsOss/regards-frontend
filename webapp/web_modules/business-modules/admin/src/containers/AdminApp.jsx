@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { AuthenticationParametersActions, AuthenticationParametersSelectors, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -23,7 +24,6 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
-import { UIDomain } from '@regardsoss/domain'
 import { BrowserCheckerDialog } from '@regardsoss/components'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
@@ -90,9 +90,9 @@ class AdminApp extends React.Component {
               this.setState({
                 isLoadingEndpoints: false,
               })
-            } else if (UIDomain.LocalStorageUser.retrieve(this.props.params.project, 'admin')) {
+            } else if (UIDomain.LocalStorageUser.retrieve(this.props.params.project, UIDomain.APPLICATIONS_ENUM.ADMIN)) {
               // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
-              UIDomain.LocalStorageUser.delete(this.props.params.project, 'admin')
+              UIDomain.LocalStorageUser.delete(this.props.params.project, UIDomain.APPLICATIONS_ENUM.ADMIN)
               throw new Error('Failed to retrieve endpoint list, which is required on the admin dashboard')
             }
           })

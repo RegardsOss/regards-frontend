@@ -39,8 +39,9 @@ export default class AIPActions extends BasicPageableActions {
     })
   }
 
-  fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
-    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams)
+  // TODO: Remove when table is plugged onto new system
+  fetchPagedEntityList(pageNumber, size, pathParams, bodyParams) {
+    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, null, bodyParams)
   }
 
   /**

@@ -88,9 +88,9 @@ class BasicPageableActions extends BasicListActions {
     }
   }
 
-  fetchPagedEntityListByPost(pageNumber, size, pathParams, bodyParams) {
+  fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams, bodyParams) {
     // Compute the endpoint URI
-    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, {})
+    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
     return {
       [RSAA]: {
         types: [

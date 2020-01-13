@@ -16,25 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { MODULE, MODULE_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+import { AccessInstanceClient } from '@regardsoss/client'
 
-/**
- * Redux store Actions for Module entities.
- * @author Sébastien Binda
- */
-class ModulesActions extends BasicPageableActions {
-  constructor() {
-    super({
-      namespace: 'portal/layout/modules',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ACCESS_INSTANCE}/applications/{applicationId}/modules`,
-      schemaTypes: {
-        ENTITY: MODULE,
-        ENTITY_ARRAY: MODULE_ARRAY,
-      },
-    })
-  }
-}
-
-const instance = new ModulesActions()
-export default instance
+const namespace = 'portal/modules'
+export const moduleActions = new AccessInstanceClient.ModuleActions(namespace)
+export const moduleReducer = AccessInstanceClient.getModuleReducer(namespace)
+export const moduleSelectors = AccessInstanceClient.getModuleSelectors(['portal', 'modules'])

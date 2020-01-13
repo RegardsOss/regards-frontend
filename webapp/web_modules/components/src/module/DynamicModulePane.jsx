@@ -40,9 +40,6 @@ import messages from './i18n'
 import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
 
-/** User app name */
-const userAppName = 'user'
-
 /**
  * This module is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
@@ -250,7 +247,7 @@ export class DynamicModulePane extends React.Component {
   /**
    * @return true if layout options should be shown
    */
-  showLayoutOptions = () => this.props.appName === userAppName
+  showLayoutOptions = () => this.props.appName === UIDomain.APPLICATIONS_ENUM.USER
 
   render() {
     const {

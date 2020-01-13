@@ -19,6 +19,7 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
+import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -36,7 +37,7 @@ import DocumentModelsFieldArrayComponent from './DocumentModelsFieldArrayCompone
  */
 export class EditSettingsComponent extends React.Component {
   static propTypes = {
-    settings: UIShapes.UISettings.isRequired,
+    settings: UIShapes.UISettings, // not provided when creating
     dataModelNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -64,10 +65,11 @@ export class EditSettingsComponent extends React.Component {
    */
   componentWillMount() {
     const { initialize, settings, dataModelNames } = this.props
+    const editionSettings = settings || UIDomain.UISettingsConstants.DEFAULT_SETTINGS
     // remove previously selected data model that do not exist any longer
     const editedSettings = {
-      ...settings,
-      documentModels: settings.documentModels.filter(model => dataModelNames.includes(model)),
+      ...editionSettings,
+      documentModels: editionSettings.documentModels.filter(model => dataModelNames.includes(model)),
     }
     initialize(editedSettings)
   }

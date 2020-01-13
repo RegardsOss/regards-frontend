@@ -29,7 +29,7 @@ import LayoutActions from './LayoutActions'
  *
  * @author Sébastien Binda
  */
-class LayoutReducers extends BasicPageableReducers {
+class LayoutReducer extends BasicPageableReducers {
   /**
    * Constructor
    * @param {string} namespace namespace, leave empty for default client reducer
@@ -44,6 +44,6 @@ class LayoutReducers extends BasicPageableReducers {
  * @param {string} namespace namespace, leave empty for default client reducer
  */
 export default (namespace) => {
-  const instance = new LayoutReducers(namespace)
+  const instance = new LayoutReducer(namespace)
   return (state, action) => instance.reduce(state, action)
 }

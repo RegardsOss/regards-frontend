@@ -35,7 +35,7 @@ import { getTableClient } from '../../../../clients/TableClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 
 // build default basket actions and extract common dependencies on it
 const defaultBasketActions = new OrderClient.OrderBasketActions()

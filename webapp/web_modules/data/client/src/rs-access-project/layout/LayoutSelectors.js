@@ -18,19 +18,18 @@
  */
 import find from 'lodash/find'
 import get from 'lodash/get'
+import { UIDomain } from '@regardsoss/domain'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { createSelector } from 'reselect'
 
 const EMPTY_ARRAY = []
 
 class LayoutSelectors extends BasicPageableSelectors {
-  static USER_LAYOUT_ID = 'user'
-
   /**
    * @param state redux state
    * @return user layout
    */
-  getUserLayout = state => this.getById(state, LayoutSelectors.USER_LAYOUT_ID)
+  getUserLayout = state => this.getById(state, UIDomain.APPLICATIONS_ENUM.USER)
 
 
   /**

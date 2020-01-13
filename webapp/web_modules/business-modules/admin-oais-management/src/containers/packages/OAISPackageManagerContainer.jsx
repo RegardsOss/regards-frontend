@@ -56,8 +56,8 @@ export class OAISPackageManagerContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    fetchPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, bodyParams)),
-    fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(bodyParams, pathParams)),
+    fetchPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
+    fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
     clearSelection: () => dispatch(aipTableActions.unselectAll()),
     deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams)),
     modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams)),
@@ -162,7 +162,8 @@ export class OAISPackageManagerContainer extends React.Component {
     const { currentFilters } = this.state
     const curentPage = get(meta, 'number', 0)
     clearSelection()
-    fetchPage(0, OAISPackageManagerContainer.PAGE_SIZE * (curentPage + 1), currentFilters)
+    // TODO add request parameters (sort), make sure body is valid (currentFilters)
+    fetchPage(0, OAISPackageManagerContainer.PAGE_SIZE * (curentPage + 1), null, null, currentFilters)
   }
 
   render() {

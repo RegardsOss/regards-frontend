@@ -20,5 +20,5 @@ import { AccessProjectClient } from '@regardsoss/client'
 
 const namespace = 'ADMIN/MENU/LAYOUT'
 export const adminLayoutActions = new AccessProjectClient.LayoutActions(namespace)
-export const adminLayoutReducer = AccessProjectClient.LayoutReducers(namespace)
-export const adminLayoutSelectors = AccessProjectClient.LayoutSelectors(['modules.menu', 'adminLayout'])
+export const adminLayoutReducer = AccessProjectClient.getLayoutReducer(namespace)
+export const adminLayoutSelectors = AccessProjectClient.getLayoutSelectors(['modules.menu', 'adminLayout'])

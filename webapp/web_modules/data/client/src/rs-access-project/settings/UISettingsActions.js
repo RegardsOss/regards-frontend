@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { getJSON } from 'redux-api-middleware'
+import { UIDomain } from '@regardsoss/domain'
 import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
 /**
@@ -25,9 +26,6 @@ import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
  * By default, those actions are provided with a namespace to be shared accros UI modules, in user app.
  */
 export class UISettingsActions extends BasicSignalActions {
-  /** User app id */
-  static USER_APP_ID = 'user'
-
   /**
    * Constructor
    * @param {string} namespace leave empty to get defaut one
@@ -43,7 +41,7 @@ export class UISettingsActions extends BasicSignalActions {
    * @return {*} redux action to dispatch to get settings
    */
   getSettings() {
-    return this.sendSignal(RequestVerbEnum.GET, null, { applicationId: UISettingsActions.USER_APP_ID })
+    return this.sendSignal(RequestVerbEnum.GET, null, { applicationId: UIDomain.APPLICATIONS_ENUM.USER })
   }
 
   /**
@@ -51,7 +49,7 @@ export class UISettingsActions extends BasicSignalActions {
    * @param {*} settings values to set, matching UIShapes.settings
    */
   getSettingsOperation(verb, settings) {
-    return this.sendSignal(verb, { configuration: JSON.stringify(settings) }, { applicationId: UISettingsActions.USER_APP_ID })
+    return this.sendSignal(verb, { configuration: JSON.stringify(settings) }, { applicationId: UIDomain.APPLICATIONS_ENUM.USER })
   }
 
   /**

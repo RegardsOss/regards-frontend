@@ -58,8 +58,8 @@ export class AdminContainer extends React.Component {
     return {
       // Function to retrieve all available criterion plugins
       fetchCriterion: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 1000, {}, { type: 'CRITERIA' })),
-      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
-      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
+      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
+      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
     }
   }
 

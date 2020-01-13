@@ -69,8 +69,8 @@ export class AdminContainer extends React.Component {
       fetchDatasets: () => dispatch(datasetActions.fetchPagedEntityList(0, 10000)),
       fetchDatasetModels: () => dispatch(datasetModelActions.fetchEntityList(null, { type: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
       /** Fetch attributes based on current dataset IDs / model names restrictions */
-      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
-      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, { modelNames, datasetIds })),
+      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
+      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
     }
   }
 

@@ -31,10 +31,10 @@ import { ShowableAtRender, allMatchHateoasDisplayLogic } from '@regardsoss/displ
 import CartSelectorComponent from '../../components/user/CartSelectorComponent'
 
 // get default layout client actions and reducers instances - required to check that containers are or not dynamic
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
+const layoutSelectors = AccessProjectClient.getLayoutSelectors()
 
 // get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 
 // get selectors and actions instances on default path (reduced by user module)
 const basketSelector = OrderClient.getOrderBasketSelectors()

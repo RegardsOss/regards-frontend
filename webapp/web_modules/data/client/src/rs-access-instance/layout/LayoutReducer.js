@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,18 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+ */
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { LayoutConfiguration } from '@regardsoss/api'
+import LayoutActions from './LayoutActions'
 
 /**
- * Redux store selectors for Module Entities
+ * Redux Reducer for LayoutActions actions.
+ *
+ * To use those actions, you need to pass the <namespace> parameter
+ *
+ * namespace : String, must be the same namespace defined in the associated Reducer.
+ *
  * @author Sébastien Binda
  */
-class ModulesSelector extends BasicPageableSelectors {
-  constructor() {
-    super(['portal', 'layout.modules'])
+class LayoutReducer extends BasicPageableReducers {
+  constructor(namespace) {
+    super(LayoutConfiguration, new LayoutActions(namespace))
   }
 }
 
-const instance = new ModulesSelector()
-export default instance
+export default (namespace) => {
+  const instance = new LayoutReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

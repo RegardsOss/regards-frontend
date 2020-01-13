@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 
 /**
  * @type {{path: string, getChildRoutes: ((nextState, cb))}}
@@ -179,7 +180,7 @@ export const commandsRouter = {
  * Main Routes for administration application
  */
 export default {
-  path: 'admin',
+  path: UIDomain.APPLICATIONS_ENUM.ADMIN,
   childRoutes: [
     projectRouter,
     accountRouter,

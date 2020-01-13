@@ -30,10 +30,10 @@ import { LOCALES } from '../../../../data/domain/ui'
 import messages from '../i18n'
 
 // get default layout client actions and reducers instances - required to check that containers are or not dynamic
-const layoutSelectors = AccessProjectClient.LayoutSelectors()
+const layoutSelectors = AccessProjectClient.getLayoutSelectors()
 
 // get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 
 /**
  * Main component of module menu

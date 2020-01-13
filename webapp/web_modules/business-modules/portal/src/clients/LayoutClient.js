@@ -16,21 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { LAYOUT } from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { AccessInstanceClient } from '@regardsoss/client'
 
-/**
- * Redux store Actions for Layout entities
- * @author Sébastien Binda
- */
-export default class LayoutActions extends BasicListActions {
-  constructor() {
-    super({
-      namespace: 'portal/layout',
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ACCESS_INSTANCE}/layouts`,
-      schemaTypes: {
-        ENTITY: LAYOUT,
-      },
-    })
-  }
-}
+const namespace = 'portal/layout'
+export const layoutActions = new AccessInstanceClient.LayoutActions(namespace)
+export const layoutReducer = AccessInstanceClient.getLayoutReducer(namespace)
+export const layoutSelectors = AccessInstanceClient.getLayoutSelectors(['portal', 'layout'])

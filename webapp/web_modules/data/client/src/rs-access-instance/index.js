@@ -17,12 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { default as ModuleActions } from './module/ModuleActions'
-export { default as ModuleReducers } from './module/ModuleReducers'
-export { default as ModuleSelectors } from './module/ModuleSelectors'
+export { default as getModuleReducer } from './module/ModuleReducer'
+export { default as getModuleSelectors } from './module/ModuleSelectors'
 
 export { default as LayoutActions } from './layout/LayoutActions'
-export { default as LayoutReducers } from './layout/LayoutReducers'
-export { default as LayoutSelectors } from './layout/LayoutSelectors'
+export { default as getLayoutReducer } from './layout/LayoutReducer'
+export { default as getLayoutSelectors } from './layout/LayoutSelectors'
 
 export { default as ThemeActions } from './theme/ThemeActions'
 export { default as ThemeReducers } from './theme/ThemeReducers'
