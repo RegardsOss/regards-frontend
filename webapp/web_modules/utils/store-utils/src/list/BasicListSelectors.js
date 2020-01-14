@@ -38,7 +38,8 @@ class BasicListSelectors extends BasicSelector {
   )
 
   getById(state, id) {
-    return get(this.uncombineStore(state), `items.${id}`)
+    const { items } = this.uncombineStore(state)
+    return items ? items[id] : null
   }
 
   getContentById(state, id) {
