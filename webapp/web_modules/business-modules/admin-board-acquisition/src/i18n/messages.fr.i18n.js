@@ -34,7 +34,7 @@ const messages = {
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations de données',
-  'ingest.board.action.connection.list.tooltip': 'Configurer les sources de données externes',
+  'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
 
   'data.board.storage.title': 'Stockage',

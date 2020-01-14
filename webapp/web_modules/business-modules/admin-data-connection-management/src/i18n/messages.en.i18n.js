@@ -36,7 +36,7 @@ const messages = Object.assign({
   'connection.form.isActive': 'Connection is active',
   'connection.form.action.save': 'Save',
   'connection.form.action.cancel': 'Cancel',
-  'connection.list.title': 'External databases',
+  'connection.list.title': 'Connections to external databases',
   'connection.list.subtitle': 'Connection to an external database allows the REGARDS server to connect to the datasource to crawl data from it',
   'connection.list.table.label': 'Connection name',
   'connection.list.table.isActive': 'Connection status',
