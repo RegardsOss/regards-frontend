@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import map from 'lodash/map'
 import size from 'lodash/size'
 import { createSelector } from 'reselect'
@@ -38,7 +37,8 @@ class BasicListSelectors extends BasicSelector {
   )
 
   getById(state, id) {
-    return get(this.uncombineStore(state), `items.${id}`)
+    const { items } = this.uncombineStore(state)
+    return items ? items[id] : null
   }
 
   getContentById(state, id) {

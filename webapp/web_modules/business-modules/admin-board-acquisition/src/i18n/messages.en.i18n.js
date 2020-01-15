@@ -34,7 +34,7 @@ const messages = {
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding data through external data sources.',
   'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
-  'ingest.board.action.connection.list.tooltip': 'External datasources',
+  'ingest.board.action.connection.list.tooltip': 'Configure connection to external databases',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',
 
   'data.board.storage.title': 'Storage',
