@@ -54,49 +54,47 @@ class OAISFeatureManagerComponent extends React.Component {
 
   state = {
     openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
-    featureManagerFilters: {},
+    featureManagerFilters: OAISFeatureManagerFiltersContainer.extractStateFromURL(),
+    productFilters: OAISPackageManagerContainer.extractStateFromURL(),
+    requestFilters: OAISRequestManagerContainer.extractStateFromURL(),
+  }
+
+  onFiltersUpdated = (groupName, newValues) => {
+    this.setState({
+      [groupName]: {
+        ...this.state[groupName],
+        ...newValues,
+      },
+    })
   }
 
   componentWillMount = () => {
     const { query } = browserHistory.getCurrentLocation()
     if (values(query).length > 0) {
-      const {
-        sessionOwner, session, providerId, from, to, display,
-      } = query
-      const urlFilters = {}
+      const { display } = query
       let openedPane
-      if (sessionOwner) {
-        urlFilters.sessionOwner = sessionOwner
-      }
-      if (session) {
-        urlFilters.session = session
-      }
-      if (providerId) {
-        urlFilters.providerId = providerId
-      }
-      if (from) {
-        urlFilters.lastUpdate.from = from.fromISOString()
-      }
-      if (to) {
-        urlFilters.lastUpdate.to = to.fromISOString()
-      }
+      let productFilters = {}
+      let requestFilters = {}
       if (display) {
         switch (display) {
           case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.PACKAGES):
             openedPane = OAISFeatureManagerComponent.OPEN_PANE.PACKAGES
+            productFilters = OAISPackageManagerContainer.extractStateFromURL()
             break
           case lowerCase(OAISFeatureManagerComponent.OPEN_PANE.REQUESTS):
             openedPane = OAISFeatureManagerComponent.OPEN_PANE.REQUESTS
+            requestFilters = OAISRequestManagerContainer.extractStateFromURL()
             break
           default:
+            productFilters = OAISPackageManagerContainer.extractStateFromURL()
+            requestFilters = OAISRequestManagerContainer.extractStateFromURL()
             break
         }
       }
       this.setState({
         openedPane,
-        featureManagerFilters: {
-          ...urlFilters,
-        },
+        productFilters,
+        requestFilters,
       })
     }
   }
@@ -110,12 +108,14 @@ class OAISFeatureManagerComponent extends React.Component {
   onSwitchToPackages = () => {
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
+      // productFilters: {},
     })
   }
 
   onSwitchToRequests = () => {
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.REQUESTS,
+      // requestFilters: {},
     })
   }
 
@@ -147,7 +147,9 @@ class OAISFeatureManagerComponent extends React.Component {
   render() {
     const { moduleTheme: { displayBlock, displayNone } } = this.context
     const { params } = this.props
-    const { openedPane, featureManagerFilters } = this.state
+    const {
+      openedPane, featureManagerFilters, productFilters, requestFilters,
+    } = this.state
     return (
       <div>
         <Card>
@@ -158,13 +160,21 @@ class OAISFeatureManagerComponent extends React.Component {
             featureManagerFilters={featureManagerFilters}
             updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
           />
-          <OAISSwitchTables onSwitchToRequests={this.onSwitchToRequests} onSwitchToPackages={this.onSwitchToPackages} openedPane={openedPane} />
+          <OAISSwitchTables
+            onSwitchToRequests={this.onSwitchToRequests}
+            onSwitchToPackages={this.onSwitchToPackages}
+            openedPane={openedPane}
+            featureManagerFilters={featureManagerFilters}
+            productFilters={productFilters}
+            requestFilters={requestFilters}
+          />
           <div>
             <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.PACKAGES ? displayBlock : displayNone}>
               <OAISPackageManagerContainer
                 key={`package-manager-${openedPane}`}
                 updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
                 featureManagerFilters={featureManagerFilters}
+                productFilters={productFilters}
                 params={params}
               />
             </div>
@@ -172,6 +182,7 @@ class OAISFeatureManagerComponent extends React.Component {
               <OAISRequestManagerContainer
                 key={`request-manager-${openedPane}`}
                 featureManagerFilters={featureManagerFilters}
+                requestFilters={requestFilters}
                 params={params}
               />
             </div>

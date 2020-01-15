@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
-import { browserHistory } from 'react-router'
 import SelectField from 'material-ui/SelectField'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
@@ -54,11 +54,12 @@ import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
  * Displays the list of OAIS packages
  * @author Simon MILHAU
  */
-class OAISPackageManagerComponent extends React.Component {
+export class OAISPackageManagerComponent extends React.Component {
   static propTypes = {
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
+    productFilters: OAISCriterionShape,
     storages: PropTypes.arrayOf(PropTypes.string),
     // onRefresh: PropTypes.func.isRequired,
     deleteAips: PropTypes.func.isRequired,
@@ -83,11 +84,14 @@ class OAISPackageManagerComponent extends React.Component {
     EXCLUDE: 'EXCLUDE',
   }
 
-  static COLUMN_KEY_TO_QUERY = {
-    PROVIDER_ID: 'column.providerId',
-    STATE: 'column.state',
-    LASTUPDATE: 'column.lastUpdate',
-    VERSION: 'column.version',
+  static COLUMN_KEYS = {
+    PROVIDER_ID: 'providerId',
+    STATE: 'state',
+    LASTUPDATE: 'lastUpdate',
+    VERSION: 'version',
+    STORAGES: 'storages',
+    TYPE: 'type',
+    ACTIONS: 'actions',
   }
 
   static COLUMN_ORDER_TO_QUERY = {
@@ -95,50 +99,41 @@ class OAISPackageManagerComponent extends React.Component {
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
   }
 
-  static getColumnSortingData(columnsSorting, columnKey) {
-    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
-    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
-  }
-
-  static buildRequestParameters(columnsSorting, appliedFilters) {
+  static buildContextRequestBody(appliedFilters) {
     const {
       sessionOwner, session, providerId, from, to, type, state, storage,
     } = appliedFilters
-    const newFilters = {}
+    let contextRequestBodyParameters = {}
     if (sessionOwner) {
-      newFilters.sessionOwner = sessionOwner
+      contextRequestBodyParameters.sessionOwner = sessionOwner
     }
     if (session) {
-      newFilters.session = session
+      contextRequestBodyParameters.session = session
     }
     if (providerId) {
-      newFilters.providerIds = [providerId]
+      contextRequestBodyParameters.providerIds = [providerId]
     }
     if (from) {
-      newFilters.lastUpdate.from = from.toISOString()
+      contextRequestBodyParameters = { ...contextRequestBodyParameters, lastUpdate: { ...contextRequestBodyParameters.lastUpdate, from } }
     }
     if (to) {
-      newFilters.lastUpdate.to = to.toISOString()
+      contextRequestBodyParameters = { ...contextRequestBodyParameters, lastUpdate: { ...contextRequestBodyParameters.lastUpdate, to } }
     }
-
     if (type) {
-      newFilters.ipType = type
+      contextRequestBodyParameters.ipType = type
     }
     if (state) {
-      newFilters.state = state
+      contextRequestBodyParameters.state = state
     }
     if (storage) {
-      newFilters.storages = [storage]
+      contextRequestBodyParameters.storages = [storage]
     }
-    const requestParameters = {
-      sort: columnsSorting.map(({ columnKey, order }) => `${OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY[columnKey]},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`),
-      ...newFilters,
-    }
-    return requestParameters
+    return contextRequestBodyParameters
   }
 
   state = {
-    tableRequestParameters: {},
+    contextRequestBodyParameters: {},
+    contextRequestURLParameters: {},
     appliedFilters: {},
     columnsSorting: [],
     aipToView: null,
@@ -154,9 +149,7 @@ class OAISPackageManagerComponent extends React.Component {
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
   componentWillMount = () => {
-    const { query = {} } = browserHistory.getCurrentLocation()
-    const { ipType, state, storage } = query
-    this.onRequestStateUpdated(this.props.featureManagerFilters, { ipType, state, storage }, this.state.columnsSorting)
+    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.productFilters || {}, this.state.contextRequestURLParameters)
   }
 
   /**
@@ -174,31 +167,44 @@ class OAISPackageManagerComponent extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.columnsSorting)
+      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
     }
   }
 
-  onRequestStateUpdated = (featureManagerFilters, appliedFilters, columnsSorting) => {
+  onRequestStateUpdated = (featureManagerFilters, appliedFilters, contextRequestURLParameters) => {
     this.setState({
-      columnsSorting,
+      contextRequestURLParameters,
       appliedFilters,
-      contextRequestParameters: OAISPackageManagerComponent.buildRequestParameters([], { ...featureManagerFilters, ...appliedFilters }),
-      tableRequestParameters: OAISPackageManagerComponent.buildRequestParameters(columnsSorting, { ...featureManagerFilters, ...appliedFilters }),
+      contextRequestBodyParameters: OAISPackageManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
     })
   }
 
-  onSort = (columnKey, order) => {
+  getColumnSortingData = (sortKey) => {
     const { columnsSorting } = this.state
-    const newColumnSorting = columnsSorting
-    const columnIndex = newColumnSorting.findIndex(columnArray => columnArray.columnKey === columnKey)
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
+  }
+
+  buildSortURL = columnsSorting => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+
+  onSort = (columnSortKey, order) => {
+    const { columnsSorting } = this.state
+
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
+    const newColumnSorting = clone(columnsSorting)
     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
       newColumnSorting.splice(columnIndex, 1)
     } else if (columnIndex === -1) {
-      newColumnSorting.push({ columnKey, order })
+      newColumnSorting.push({ columnKey: columnSortKey, order })
     } else {
-      newColumnSorting.splice(columnIndex, 1, { columnKey, order })
+      newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
     }
-    this.onRequestStateUpdated(this.props.featureManagerFilters, this.state.appliedFilters, newColumnSorting)
+    this.setState({
+      columnsSorting: newColumnSorting,
+      contextRequestURLParameters: {
+        sort: this.buildSortURL(newColumnSorting),
+      },
+    })
   }
 
   onFilterUpdated = (newFilterValue) => {
@@ -206,7 +212,7 @@ class OAISPackageManagerComponent extends React.Component {
       ...this.state.appliedFilters,
       ...newFilterValue,
     }
-    this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.columnsSorting)
+    this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.contextRequestURLParameters)
   }
 
   changeStateFilter = (event, index, values) => {
@@ -391,7 +397,6 @@ class OAISPackageManagerComponent extends React.Component {
   onConfirmModify = () => {
     this.onCloseModifyDialog()
     this.onCloseModifySelectionDialog()
-    // const { intl: { formatMessage } } = this.context
     const { tableRequestParameters, modifyPayload } = this.state
     const { modifyAips } = this.props
     const finalModifyPayload = {
@@ -478,41 +483,42 @@ class OAISPackageManagerComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const { pageSize, storages, tableSelection } = this.props
-    const { appliedFilters, tableRequestParameters, columnsSorting } = this.state
-
+    const {
+      appliedFilters, contextRequestURLParameters, contextRequestBodyParameters,
+    } = this.state
     const columns = [
       // checkbox
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, aipTableActions, aipTableSelectors)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell('content.aip.providerId')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.PROVIDER_ID), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.PROVIDER_ID), this.onSort)
         .build(),
-      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.aip.ipType')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.aip.ipType')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.type' }))
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.STATE).titleHeaderCell().propertyRenderCell('content.state')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell().propertyRenderCell('content.state')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.state' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.STATE), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.STATE), this.onSort)
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.LASTUPDATE).titleHeaderCell().propertyRenderCell('content.lastUpdate', DateValueRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.lastUpdate' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.LASTUPDATE), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.LASTUPDATE), this.onSort)
         .fixedSizing(200)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.VERSION).titleHeaderCell().propertyRenderCell('content.aip.version')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.aip.version')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.version' }))
-        .sortableHeaderCell(...OAISPackageManagerComponent.getColumnSortingData(columnsSorting, OAISPackageManagerComponent.COLUMN_KEY_TO_QUERY.VERSION), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.VERSION), this.onSort)
         .fixedSizing(100)
         .build(),
-      new TableColumnBuilder('column.storages').titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STORAGES).titleHeaderCell().propertyRenderCell('content.storages', StorageArrayRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.data.storages' }))
         .fixedSizing(300)
         .build(),
-      new TableColumnBuilder('column.actions').titleHeaderCell()
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
         .label(formatMessage({ id: 'oais.packages.list.filters.actions' }))
         .optionsColumn([{
           OptionConstructor: AIPHistoryOption,
@@ -605,8 +611,8 @@ class OAISPackageManagerComponent extends React.Component {
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            // requestParams={tableRequestParameters} TODO Simon: uniquement le sort ici
-            bodyParams={tableRequestParameters} // TODO Simon: uniquement les filtres ici
+            requestParams={contextRequestURLParameters}
+            bodyParams={contextRequestBodyParameters}
             emptyComponent={OAISPackageManagerComponent.EMPTY_COMPONENT}
             fetchUsingPostMethod
           />

@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { processingChainActions } from '../../clients/ProcessingChainClient'
 import { requestSelectors, requestActions } from '../../clients/RequestClient'
@@ -72,6 +74,7 @@ class OAISRequestManagerContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     featureManagerFilters: OAISCriterionShape,
+    requestFilters: OAISCriterionShape,
     // from mapDistpathToProps
     fetchProcessingChains: PropTypes.func.isRequired,
     fetchPage: PropTypes.func.isRequired,
@@ -81,6 +84,21 @@ class OAISRequestManagerContainer extends React.Component {
     // from mapStateToProps
     // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
+  }
+
+  static extractStateFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    const urlFilters = {}
+    if (values(query).length > 0) {
+      const { type, state } = query
+      if (type) {
+        urlFilters.type = type
+      }
+      if (state) {
+        urlFilters.state = state
+      }
+    }
+    return urlFilters
   }
 
   static defaultProps = {
@@ -109,13 +127,14 @@ class OAISRequestManagerContainer extends React.Component {
 
   render() {
     const {
-      featureManagerFilters, selectionMode, deleteRequests, retryRequests,
+      featureManagerFilters, requestFilters, selectionMode, deleteRequests, retryRequests,
     } = this.props
 
     return (
       <OAISRequestManagerComponent
         pageSize={OAISRequestManagerContainer.PAGE_SIZE}
         featureManagerFilters={featureManagerFilters}
+        requestFilters={requestFilters}
         onRefresh={this.onRefresh}
         selectionMode={selectionMode}
         deleteRequests={deleteRequests}

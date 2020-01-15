@@ -80,7 +80,7 @@ class InfiniteTableContainer extends React.Component {
     // [Optional] server request end path parameters (sends undefined if not provided)
     pathParams: CommonShapes.RequestParameters,
     requestParams: CommonShapes.RequestParameters,
-    //bodyParams: CommonShapes.JSONObject,
+    bodyParams: CommonShapes.JSONObject,
 
     // INNER TABLE API (will be provided by adequate parents)
 

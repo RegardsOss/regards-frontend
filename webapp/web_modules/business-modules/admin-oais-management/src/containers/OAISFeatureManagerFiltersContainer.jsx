@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { browserHistory } from 'react-router'
 import OAISCriterionShape from '../shapes/OAISCriterionShape'
 import OAISFeatureManagerFiltersComponent from '../components/OAISFeatureManagerFiltersComponent'
 
@@ -27,6 +29,32 @@ export class OAISFeatureManagerFiltersContainer extends React.Component {
   static propTypes = {
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     featureManagerFilters: OAISCriterionShape,
+  }
+
+  static extractStateFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    const urlFilters = {}
+    if (values(query).length > 0) {
+      const {
+        sessionOwner, session, providerId, from, to,
+      } = query
+      if (sessionOwner) {
+        urlFilters.sessionOwner = sessionOwner
+      }
+      if (session) {
+        urlFilters.session = session
+      }
+      if (providerId) {
+        urlFilters.providerId = providerId
+      }
+      if (from) {
+        urlFilters.lastUpdate.from = from.fromISOString()
+      }
+      if (to) {
+        urlFilters.lastUpdate.to = to.fromISOString()
+      }
+    }
+    return urlFilters
   }
 
   changeSessionFilter = (newValue) => {
@@ -51,20 +79,16 @@ export class OAISFeatureManagerFiltersContainer extends React.Component {
   }
 
   changeFrom = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
+    const finalNewValue = newValue && newValue !== '' ? newValue.toISOString() : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      lastUpdate: {
-        from: finalNewValue,
-      },
+      from: finalNewValue,
     })
   }
 
   changeTo = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue : undefined
+    const finalNewValue = newValue && newValue !== '' ? newValue.toISOString() : undefined
     this.props.updateStateFromFeatureManagerFilters({
-      lastUpdate: {
-        to: finalNewValue,
-      },
+      to: finalNewValue,
     })
   }
 

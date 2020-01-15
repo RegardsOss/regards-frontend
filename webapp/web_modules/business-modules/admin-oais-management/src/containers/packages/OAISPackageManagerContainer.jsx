@@ -65,6 +65,7 @@ export class OAISPackageManagerContainer extends React.Component {
 
   static propTypes = {
     featureManagerFilters: OAISCriterionShape,
+    productFilters: OAISCriterionShape,
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     // from router
     params: PropTypes.shape({
@@ -97,6 +98,26 @@ export class OAISPackageManagerContainer extends React.Component {
   }
 
   static PAGE_SIZE = 20
+
+  static extractStateFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    const urlFilters = {}
+    if (values(query).length > 0) {
+      const {
+        type, state, storage,
+      } = query
+      if (type) {
+        urlFilters.type = type
+      }
+      if (state) {
+        urlFilters.state = state
+      }
+      if (storage) {
+        urlFilters.storage = storage
+      }
+    }
+    return urlFilters
+  }
 
   state = {
     // contextFilters: {},
@@ -171,6 +192,7 @@ export class OAISPackageManagerContainer extends React.Component {
     const {
       updateStateFromFeatureManagerFilters,
       featureManagerFilters,
+      productFilters,
       tableSelection,
       storages,
       deleteAips,
@@ -184,6 +206,7 @@ export class OAISPackageManagerContainer extends React.Component {
         urlFilters={urlFilters}
         pageSize={OAISPackageManagerContainer.PAGE_SIZE}
         featureManagerFilters={featureManagerFilters}
+        productFilters={productFilters}
         storages={storages}
         onRefresh={this.onRefresh}
         deleteAips={deleteAips}
