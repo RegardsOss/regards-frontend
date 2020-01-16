@@ -56,7 +56,7 @@ class StorageRequestListComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
 
     const columns = [
-      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.label' })).propertyRenderCell('content.errorCause')
+      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.label' })).propertyRenderCell('content.fileName')
         .fixedSizing(300)
         .build(),
       new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.error' })).propertyRenderCell('content.errorCause')
