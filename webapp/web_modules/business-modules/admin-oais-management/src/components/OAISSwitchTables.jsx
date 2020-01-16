@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -29,7 +30,6 @@ import {
   requestCountSelectors,
   requestCountActions,
 } from '../clients/RequestCountClient'
-import OAISCriterionShape from '../shapes/OAISCriterionShape'
 
 /**
  * Switch between the two tables
@@ -66,11 +66,6 @@ class OAISSwitchTables extends React.Component {
     onSwitchToRequests: PropTypes.func.isRequired,
     onSwitchToPackages: PropTypes.func.isRequired,
     openedPane: PropTypes.string,
-    fetchAipPage: PropTypes.func.isRequired,
-    fetchRequestPage: PropTypes.func.isRequired,
-    featureManagerFilters: OAISCriterionShape,
-    productFilters: OAISCriterionShape,
-    requestFilters: OAISCriterionShape,
   }
 
   static contextTypes = {
@@ -78,12 +73,40 @@ class OAISSwitchTables extends React.Component {
     ...i18nContextType,
   }
 
-  componentDidMount = () => {
-    const {
-      fetchAipPage, fetchRequestPage, featureManagerFilters, productFilters, requestFilters,
-    } = this.props
-    fetchAipPage(0, 20, {}, { ...featureManagerFilters, ...productFilters })
-    fetchRequestPage(0, 20, {}, { ...featureManagerFilters, ...requestFilters })
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => {
+    this.onPropertiesUpdated({}, this.props)
+  }
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = (nextProps) => {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (!isEqual(oldProps.featureManagerFilters, newProps.featureManagerFilters)) {
+      const { fetchAipPage, fetchRequestPage } = newProps
+      fetchAipPage(0, 20, {}, {
+        ...newProps.featureManagerFilters,
+        ...newProps.productFilters,
+        providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
+      })
+      fetchRequestPage(0, 20, {}, {
+        ...newProps.featureManagerFilters,
+        ...newProps.productFilters,
+        providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
+      })
+    }
   }
 
   changeToPackages = () => {

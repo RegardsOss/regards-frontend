@@ -220,7 +220,7 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   changeTypeFilter = (event, index, values) => {
-    this.onFilterUpdated({ ipType: values })
+    this.onFilterUpdated({ type: values })
   }
 
   changeStorageFilter = (event, index, values) => {
@@ -394,14 +394,18 @@ export class OAISPackageManagerComponent extends React.Component {
     return null
   }
 
-  onConfirmModify = () => {
+  onConfirmModify = (modifyParameters) => {
     this.onCloseModifyDialog()
     this.onCloseModifySelectionDialog()
-    const { tableRequestParameters, modifyPayload } = this.state
+    const { contextRequestBodyParameters, modifyPayload } = this.state
     const { modifyAips } = this.props
     const finalModifyPayload = {
-      ...tableRequestParameters,
-      ...modifyPayload,
+      addTags: modifyParameters.tags.toAdd,
+      removeTags: modifyParameters.tags.toDelete,
+      addCategories: modifyParameters.categories.toAdd,
+      removeCategories: modifyParameters.categories.toDelete,
+      removeStorages: modifyParameters.storages.toDelete,
+      criteria: { ...modifyPayload, ...contextRequestBodyParameters },
     }
     modifyAips(finalModifyPayload).then((actionResult) => {
       if (actionResult.error) {
@@ -444,7 +448,7 @@ export class OAISPackageManagerComponent extends React.Component {
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}
-          contextRequestParameters={this.state.contextRequestParameters}
+          contextRequestBodyParameters={this.state.contextRequestBodyParameters}
           onClose={this.onCloseModifyDialog}
         />
       )
@@ -453,9 +457,30 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   onModifySelection = () => {
-    this.setState({
-      isModifySelectionDialogOpened: true,
-    })
+    const { tableSelection, selectionMode } = this.props
+
+    switch (selectionMode) {
+      case TableSelectionModes.includeSelected:
+        this.setState({
+          isModifySelectionDialogOpened: true,
+          modifyPayload: {
+            selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
+            aipIds: map(tableSelection, entity => entity.content.aip.sipId),
+          },
+        })
+        break
+      case TableSelectionModes.excludeSelected:
+        this.setState({
+          isModifySelectionDialogOpened: true,
+          modifyPayload: {
+            selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
+            aipIds: map(tableSelection, entity => entity.content.aipId),
+          },
+        })
+        break
+      default:
+        break
+    }
   }
 
   onCloseModifySelectionDialog = () => {
@@ -471,7 +496,7 @@ export class OAISPackageManagerComponent extends React.Component {
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}
-          contextRequestParameters={this.state.contextRequestParameters}
+          contextRequestBodyParameters={this.state.contextRequestBodyParameters}
           onClose={this.onCloseModifySelectionDialog}
         />
       )

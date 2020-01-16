@@ -18,23 +18,24 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AIPDeleteOption from '../../../src/components/packages/AIPDeleteOption'
+import AIPHistoryOption from '../../../src/components/packages/AIPHistoryOption'
 import styles from '../../../src/styles'
 import { storedAIP } from '../../dumps/AIPWithStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPDeleteOption
+ * Test AIPHistoryOption
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteOption', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPHistoryOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AIPDeleteOption)
+    assert.isDefined(AIPHistoryOption)
   })
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
@@ -43,13 +44,12 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteOption', () => {
     }
     const props = {
       entity: storedAIP,
-      onDelete: () => { spiedCallbackData.count += 1 },
+      onViewAIPHistory: () => { spiedCallbackData.count += 1 },
     }
-    const enzymeWrapper = shallow(<AIPDeleteOption {...props} />, { context })
-
-    const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
-    assert.lengthOf(confirmButton, 1, 'There should be icon button')
-    assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onDelete, 'Callback should be correctly set')
+    const enzymeWrapper = shallow(<AIPHistoryOption {...props} />, { context })
+    const iconButtonWrapper = enzymeWrapper.find(IconButton)
+    assert.lengthOf(iconButtonWrapper, 1, 'There should be icon button')
+    assert.equal(iconButtonWrapper.props().onClick, enzymeWrapper.instance().onClick, 'Callback should be correctly set')
     // check callback calls props callback
     assert.equal(spiedCallbackData.count, 0, 'Callback should not have been invoked yet')
     enzymeWrapper.instance().onClick()

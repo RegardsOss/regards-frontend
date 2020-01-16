@@ -31,5 +31,6 @@ export const JSONObject = PropTypes.objectOf(
     PropTypes.bool,
     // recursive structure cannot be implemented in proptypes
     PropTypes.object,
+    PropTypes.array,
   ]),
 )

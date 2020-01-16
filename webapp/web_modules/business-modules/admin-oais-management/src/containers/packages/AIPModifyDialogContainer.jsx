@@ -56,7 +56,7 @@ class AIPModifyDialogContainer extends React.Component {
 
   static propTypes = {
     onConfirmModify: PropTypes.func.isRequired,
-    contextRequestParameters: OAISCriterionShape,
+    contextRequestBodyParameters: OAISCriterionShape,
     onClose: PropTypes.func.isRequired,
     fetchSelectionStorages: PropTypes.func.isRequired,
     fetchSelectionTags: PropTypes.func.isRequired,
@@ -68,14 +68,14 @@ class AIPModifyDialogContainer extends React.Component {
 
   componentDidMount() {
     const {
-      contextRequestParameters,
+      contextRequestBodyParameters,
       fetchSelectionStorages,
       fetchSelectionTags,
       fetchSelectionCategories,
     } = this.props
-    fetchSelectionStorages(contextRequestParameters)
-    fetchSelectionTags(contextRequestParameters)
-    fetchSelectionCategories(contextRequestParameters)
+    fetchSelectionStorages(contextRequestBodyParameters)
+    fetchSelectionTags(contextRequestBodyParameters)
+    fetchSelectionCategories(contextRequestBodyParameters)
   }
 
 

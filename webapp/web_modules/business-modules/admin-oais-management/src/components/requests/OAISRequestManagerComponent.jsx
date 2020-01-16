@@ -355,9 +355,18 @@ class OAISRequestManagerComponent extends React.Component {
     }
     deleteRequests(finalDeletionPayload).then((actionResult) => {
       if (actionResult.error) {
-        console.error('retryError')
+        // const errors = []
+        // errors.push({
+        //   providerId,
+        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
+        // })
+        // this.displayDeletionErrors(providerId, errors)
       } else {
-        console.error('noRetryError')
+        // Display error dialogs if errors are raised by the service.
+        // A 200 OK response is sent by the backend. So we check errors into the response payload.
+        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
+        // Refresh view
+        // this.props.onRefresh(appliedFilters)
       }
     })
   }
@@ -445,7 +454,6 @@ class OAISRequestManagerComponent extends React.Component {
     const types = OAISRequestManagerComponent.REQUEST_TYPES
     const states = OAISRequestManagerComponent.REQUEST_STATES
     const columns = [
-      // checkbox
       new TableColumnBuilder()
         .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
         .build(),

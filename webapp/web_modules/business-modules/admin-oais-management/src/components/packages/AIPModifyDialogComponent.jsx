@@ -210,9 +210,9 @@ export class AIPModifyDialogComponent extends React.Component {
     const { onConfirmModify } = this.props
 
     onConfirmModify({
-      storages: this.state[AIPModifyDialogComponent.SECTIONS.STORAGE].list,
-      tags: this.state[AIPModifyDialogComponent.SECTIONS.TAG].list,
-      categories: this.state[AIPModifyDialogComponent.SECTIONS.CATEGORY].list,
+      storages: this.state[AIPModifyDialogComponent.SECTIONS.STORAGE],
+      tags: this.state[AIPModifyDialogComponent.SECTIONS.TAG],
+      categories: this.state[AIPModifyDialogComponent.SECTIONS.CATEGORY],
     })
   }
 

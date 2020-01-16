@@ -18,21 +18,21 @@
  **/
 
 /**
- * Exports some AIP
+ * Exports some SIP
  * @author Simon MILHAU
  */
 
-export const storedAIP = {
+export const storedSIP = {
   content: {
     id: 13002,
-    aipId: 'URN:AIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
+    aipId: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
     state: 'STORED',
     aip: {
       providerId: 'regards-2290-data-1-1',
       sipId: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
       version: 1,
       ipType: 'DATA',
-      id: 'URN:AIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
+      id: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
       geometry: null,
       normalizedGeometry: null,
       properties: {
@@ -111,17 +111,17 @@ export const storedAIP = {
   links: [],
 }
 
-export const deletedAIP = {
+export const deletedSIP = {
   content: {
     id: 13002,
-    aipId: 'URN:AIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
+    aipId: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
     state: 'STORED',
     aip: {
       providerId: 'regards-2290-data-1-1',
       sipId: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
       version: 1,
       ipType: 'DATA',
-      id: 'URN:AIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
+      id: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',
       geometry: null,
       normalizedGeometry: null,
       properties: {

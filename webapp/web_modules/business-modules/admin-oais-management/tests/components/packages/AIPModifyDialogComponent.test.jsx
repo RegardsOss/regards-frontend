@@ -19,8 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout } from '@regardsoss/components'
-import { OAISPackageManagerComponent } from '../../../src/components/packages/OAISPackageManagerComponent'
+import { PositionedDialog } from '@regardsoss/components'
+import { List } from 'material-ui/List'
+import { AIPModifyDialogComponent } from '../../../src/components/packages/AIPModifyDialogComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -29,24 +30,27 @@ const context = buildTestContext(styles)
  * Test AIPModifyDialogComponent
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPModifyDialogComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OAISPackageManagerComponent)
+    assert.isDefined(AIPModifyDialogComponent)
   })
 
   it('should render correctly', () => {
     const props = {
-      updateStateFromFeatureManagerFilters: () => {},
-      pageSize: 1,
-      deleteAips: () => {},
-      modifyAips: () => {},
-      selectionMode: '',
+      onConfirmModify: () => {},
+      onClose: () => {},
     }
-    const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
-    const tableLayoutWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableLayoutWrapper, 1, 'There should be AIP as JSON render')
+
+    const enzymeWrapper = shallow(<AIPModifyDialogComponent {...props} />, { context })
+
+    const positionedDialogWrapper = enzymeWrapper.find(PositionedDialog)
+    assert.lengthOf(positionedDialogWrapper, 1, 'There should be AIP as JSON render')
+    assert.isOk(positionedDialogWrapper.props().actions, 'Actions should be found')
+
+    const listWrapper = enzymeWrapper.find(List)
+    assert.lengthOf(listWrapper, 1, 'There should be a list')
   })
 })

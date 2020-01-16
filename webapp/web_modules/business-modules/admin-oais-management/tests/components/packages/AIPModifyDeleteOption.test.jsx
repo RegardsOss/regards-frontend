@@ -19,34 +19,32 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AIPDeleteOption from '../../../src/components/packages/AIPDeleteOption'
+import AIPModifyDeleteOption from '../../../src/components/packages/AIPModifyDeleteOption'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPDeleteOption
+ * Test AIPModifyDeleteOption
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteOption', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPModifyDeleteOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AIPDeleteOption)
+    assert.isDefined(AIPModifyDeleteOption)
   })
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: storedAIP,
+      parameterValue: '',
     }
     const props = {
-      entity: storedAIP,
+      entity: '',
       onDelete: () => { spiedCallbackData.count += 1 },
     }
-    const enzymeWrapper = shallow(<AIPDeleteOption {...props} />, { context })
-
+    const enzymeWrapper = shallow(<AIPModifyDeleteOption {...props} />, { context })
     const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
     assert.lengthOf(confirmButton, 1, 'There should be icon button')
     assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onDelete, 'Callback should be correctly set')

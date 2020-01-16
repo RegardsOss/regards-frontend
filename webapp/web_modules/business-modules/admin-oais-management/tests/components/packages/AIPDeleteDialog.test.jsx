@@ -36,24 +36,18 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteDialog', () => {
   it('should exists', () => {
     assert.isDefined(AIPDeleteDialog)
   })
-  it('should render correctly loading', () => {
-    const props = {
-      onConfirmDelete: () => {},
-      onClose: () => {},
-    }
-    const enzymeWrapper = shallow(<AIPDeleteDialog {...props} />, { context })
-    const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be dialog wrapper')
-    assert.isTrue(dialogWrapper.props().open, 'It should be opened')
-  })
   it('should render correctly in edition', () => {
     const props = {
       onConfirmDelete: () => {},
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<AIPDeleteDialog {...props} />, { context })
+
     const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be dialog wrapper')
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog wrapper')
     assert.isTrue(dialogWrapper.props().open, 'It should be opened')
+
+    assert.equal(dialogWrapper.props().onConfirmDelete, enzymeWrapper.instance().onConfirmDelete, 'onConfirmDelete callback should be correctly set')
+    assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')
   })
 })

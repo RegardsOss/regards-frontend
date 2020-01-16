@@ -19,34 +19,36 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout } from '@regardsoss/components'
-import { OAISPackageManagerComponent } from '../../../src/components/packages/OAISPackageManagerComponent'
+import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
+import SIPDetailComponent from '../../../src/components/packages/SIPDetailComponent'
 import styles from '../../../src/styles'
+import { storedSIP } from '../../dumps/SIPWithStorages.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPModifyDialogComponent
+ * Test SIPDetailComponent
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
+describe('[OAIS SIP MANAGEMENT] Testing SIPDetailComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OAISPackageManagerComponent)
+    assert.isDefined(SIPDetailComponent)
   })
 
   it('should render correctly', () => {
     const props = {
-      updateStateFromFeatureManagerFilters: () => {},
-      pageSize: 1,
-      deleteAips: () => {},
-      modifyAips: () => {},
-      selectionMode: '',
+      sip: storedSIP,
+      onClose: () => {},
     }
-    const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
-    const tableLayoutWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableLayoutWrapper, 1, 'There should be AIP as JSON render')
+    const enzymeWrapper = shallow(<SIPDetailComponent {...props} />, { context })
+    const jsonPreviewWrapper = enzymeWrapper.find(CodeFileDisplayer)
+    assert.lengthOf(jsonPreviewWrapper, 1, 'There should be SIP as JSON render')
+    assert.isOk(jsonPreviewWrapper.props().content, 'SIP JSON value should be found')
+    const closeButtonWrapper = enzymeWrapper.find(CardActionsComponent)
+    assert.lengthOf(closeButtonWrapper, 1, 'There should be the close button')
+    assert.equal(closeButtonWrapper.props().mainButtonClick, props.onClose, 'Close callback should be correctly reported')
   })
 })
