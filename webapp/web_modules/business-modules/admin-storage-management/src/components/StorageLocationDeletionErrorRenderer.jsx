@@ -54,7 +54,8 @@ class StorageLocationDeletionErrorRenderer extends React.Component {
   }
 
   onViewDeletionErrors = () => {
-
+    const { entity } = this.props
+    this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
   }
 
   render() {
