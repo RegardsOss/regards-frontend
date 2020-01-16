@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
-import { browserHistory } from 'react-router'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
@@ -54,6 +54,7 @@ class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
+    requestFilters: OAISCriterionShape,
     // onRefresh: PropTypes.func.isRequired,
     // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
@@ -93,11 +94,13 @@ class OAISRequestManagerComponent extends React.Component {
     EXCLUDE: 'EXCLUDE',
   }
 
-  static COLUMN_KEY_TO_QUERY = {
-    ID: 'column.id',
-    TYPE: 'column.type',
-    STATE: 'column.state',
-    LASTSUBMITTED: 'column.lastSubmitted',
+  static COLUMN_KEYS = {
+    ID: 'id',
+    TYPE: 'type',
+    STATE: 'state',
+    LASTSUBMITTED: 'lastSubmitted',
+    ACTIONS: 'actions',
+
   }
 
   static COLUMN_ORDER_TO_QUERY = {
@@ -105,49 +108,38 @@ class OAISRequestManagerComponent extends React.Component {
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
   }
 
-  static getColumnSortingData(columnsSorting, columnKey) {
-    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
-    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
-  }
-
-  static buildRequestParameters(columnsSorting, appliedFilters) {
+  static buildContextRequestBody(appliedFilters) {
     const {
-      sessionOwner, session, providerId, from, to, type, state, lastUpdated,
+      sessionOwner, session, providerId, from, to, type, state,
     } = appliedFilters
-    const newFilters = {}
+    let contextRequestBodyParameters = {}
     if (sessionOwner) {
-      newFilters.sessionOwner = sessionOwner
+      contextRequestBodyParameters.sessionOwner = sessionOwner
     }
     if (session) {
-      newFilters.session = session
+      contextRequestBodyParameters.session = session
     }
     if (providerId) {
-      newFilters.providerIds = [providerId]
+      contextRequestBodyParameters.providerIds = [providerId]
     }
     if (from) {
-      newFilters.lastUpdate.from = from.toISOString()
+      contextRequestBodyParameters = { ...contextRequestBodyParameters, creationDate: { ...contextRequestBodyParameters.creationDate, from } }
     }
     if (to) {
-      newFilters.lastUpdate.to = to.toISOString()
+      contextRequestBodyParameters = { ...contextRequestBodyParameters, creationDate: { ...contextRequestBodyParameters.creationDate, to } }
     }
     if (type) {
-      newFilters.dType = type
+      contextRequestBodyParameters.dType = type
     }
     if (state) {
-      newFilters.state = state
+      contextRequestBodyParameters.state = state
     }
-    if (lastUpdated) {
-      newFilters.lastUpdated = lastUpdated
-    }
-    const requestParameters = {
-      sort: columnsSorting.map(({ columnKey, order }) => `${OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY[columnKey]},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`),
-      ...newFilters,
-    }
-    return requestParameters
+    return contextRequestBodyParameters
   }
 
   state = {
-    tableRequestParameters: {},
+    contextRequestBodyParameters: {},
+    contextRequestURLParameters: {},
     appliedFilters: {},
     columnsSorting: [],
     // retryPayload: {},
@@ -164,9 +156,7 @@ class OAISRequestManagerComponent extends React.Component {
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
     componentWillMount = () => {
-      const { query = {} } = browserHistory.getCurrentLocation()
-      const { state } = query
-      this.onRequestStateUpdated(this.props.featureManagerFilters, { state }, this.state.columnsSorting)
+      this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {}, this.state.contextRequestURLParameters)
     }
 
    /**
@@ -184,30 +174,44 @@ class OAISRequestManagerComponent extends React.Component {
     */
    onPropertiesUpdated = (oldProps, newProps) => {
      if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-       this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.columnsSorting)
+       this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
      }
    }
 
-   onRequestStateUpdated = (featureManagerFilters, appliedFilters, columnsSorting) => {
+   onRequestStateUpdated = (featureManagerFilters, appliedFilters, contextRequestURLParameters) => {
      this.setState({
-       columnsSorting,
+       contextRequestURLParameters,
        appliedFilters,
-       tableRequestParameters: OAISRequestManagerComponent.buildRequestParameters(columnsSorting, { ...featureManagerFilters, ...appliedFilters }),
+       contextRequestBodyParameters: OAISRequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
      })
    }
 
-   onSort = (columnKey, order) => {
+   getColumnSortingData = (sortKey) => {
      const { columnsSorting } = this.state
-     const newColumnSorting = columnsSorting
-     const columnIndex = newColumnSorting.findIndex(columnArray => columnArray.columnKey === columnKey)
+     const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+     return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
+   }
+
+  buildSortURL = columnsSorting => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+
+   onSort = (columnSortKey, order) => {
+     const { columnsSorting } = this.state
+
+     const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
+     const newColumnSorting = clone(columnsSorting)
      if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
        newColumnSorting.splice(columnIndex, 1)
      } else if (columnIndex === -1) {
-       newColumnSorting.push({ columnKey, order })
+       newColumnSorting.push({ columnKey: columnSortKey, order })
      } else {
-       newColumnSorting.splice(columnIndex, 1, { columnKey, order })
+       newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
      }
-     this.onRequestStateUpdated(this.props.featureManagerFilters, this.state.appliedFilters, newColumnSorting)
+     this.setState({
+       columnsSorting: newColumnSorting,
+       contextRequestURLParameters: {
+         sort: this.buildSortURL(newColumnSorting),
+       },
+     })
    }
 
   onFilterUpdated = (newFilterValue) => {
@@ -219,7 +223,6 @@ class OAISRequestManagerComponent extends React.Component {
   }
 
   changeStateFilter = (event, index, values) => {
-    console.error('values', values)
     this.onFilterUpdated({ state: values })
   }
 
@@ -269,9 +272,18 @@ class OAISRequestManagerComponent extends React.Component {
     }
     retryRequests(finalRetryPayload).then((actionResult) => {
       if (actionResult.error) {
-        console.error('retryError')
+        // const errors = []
+        // errors.push({
+        //   providerId,
+        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
+        // })
+        // this.displayDeletionErrors(providerId, errors)
       } else {
-        console.error('noRetryError')
+        // Display error dialogs if errors are raised by the service.
+        // A 200 OK response is sent by the backend. So we check errors into the response payload.
+        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
+        // Refresh view
+        // this.props.onRefresh(appliedFilters)
       }
     })
   }
@@ -429,7 +441,7 @@ class OAISRequestManagerComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const { pageSize } = this.props
-    const { appliedFilters, tableRequestParameters, columnsSorting } = this.state
+    const { appliedFilters, contextRequestURLParameters, contextRequestBodyParameters } = this.state
     const types = OAISRequestManagerComponent.REQUEST_TYPES
     const states = OAISRequestManagerComponent.REQUEST_STATES
     const columns = [
@@ -437,24 +449,24 @@ class OAISRequestManagerComponent extends React.Component {
       new TableColumnBuilder()
         .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
         .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.ID).titleHeaderCell().propertyRenderCell('content.providerId')
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ID).titleHeaderCell().propertyRenderCell('content.providerId')
         .label(formatMessage({ id: 'oais.requests.list.filters.providerId' }))
-        .sortableHeaderCell(...OAISRequestManagerComponent.getColumnSortingData(columnsSorting, OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.ID), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.ID), this.onSort)
         .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.TYPE).titleHeaderCell().propertyRenderCell('content.dtype')
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.dtype')
         .label(formatMessage({ id: 'oais.requests.list.filters.type' }))
-        .sortableHeaderCell(...OAISRequestManagerComponent.getColumnSortingData(columnsSorting, OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.TYPE), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), this.onSort)
         .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.STATE).titleHeaderCell()
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell()
         .rowCellDefinition({ Constructor: RequestStatusRenderCell, props: { onViewRequestErrors: this.onViewRequestErrors } })
         .label(formatMessage({ id: 'oais.requests.list.filters.state' }))
-        .sortableHeaderCell(...OAISRequestManagerComponent.getColumnSortingData(columnsSorting, OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.STATE), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.STATE), this.onSort)
         .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
         .label(formatMessage({ id: 'oais.requests.list.filters.lastSubmission' }))
-        .sortableHeaderCell(...OAISRequestManagerComponent.getColumnSortingData(columnsSorting, OAISRequestManagerComponent.COLUMN_KEY_TO_QUERY.LASTSUBMITTED), this.onSort)
+        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED), this.onSort)
         .build(),
-      new TableColumnBuilder('column.actions').titleHeaderCell()
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
         .label(formatMessage({ id: 'oais.requests.list.filters.actions' }))
         .optionsColumn([
           {
@@ -467,7 +479,6 @@ class OAISRequestManagerComponent extends React.Component {
           }])
         .build(),
     ]
-
     return (
       <div>
         <TableLayout>
@@ -519,8 +530,8 @@ class OAISRequestManagerComponent extends React.Component {
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
-            // requestParams={tableRequestParameters} TODO Simon: uniquement le sort ici
-            bodyParams={tableRequestParameters} // TODO Simon: uniquement les filtres ici
+            requestParams={contextRequestURLParameters}
+            bodyParams={contextRequestBodyParameters}
             emptyComponent={OAISRequestManagerComponent.EMPTY_COMPONENT}
             fetchUsingPostMethod
           />

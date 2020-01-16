@@ -22,15 +22,6 @@
  * @author Raphaël Mechali
  */
 
-/**
- * Source code from:https://github.com/facebook/react/issues/5676  (workaround for recursive structures)
- */
-function lazyFunction(f, ...args) {
-  return function () {
-    return f().apply(this, args)
-  }
-}
-
 /** Recursive JSON definition */
 export const JSONObject = PropTypes.objectOf(
   PropTypes.oneOfType([
@@ -38,7 +29,7 @@ export const JSONObject = PropTypes.objectOf(
     PropTypes.number,
     PropTypes.string,
     PropTypes.bool,
-    // lazy evaluated recursive structure
-    lazyFunction(() => JSONObject),
+    // recursive structure cannot be implemented in proptypes
+    PropTypes.object,
   ]),
 )

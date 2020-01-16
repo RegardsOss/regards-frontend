@@ -29,6 +29,7 @@ import {
   requestCountSelectors,
   requestCountActions,
 } from '../clients/RequestCountClient'
+import OAISCriterionShape from '../shapes/OAISCriterionShape'
 
 /**
  * Switch between the two tables
@@ -67,6 +68,9 @@ class OAISSwitchTables extends React.Component {
     openedPane: PropTypes.string,
     fetchAipPage: PropTypes.func.isRequired,
     fetchRequestPage: PropTypes.func.isRequired,
+    featureManagerFilters: OAISCriterionShape,
+    productFilters: OAISCriterionShape,
+    requestFilters: OAISCriterionShape,
   }
 
   static contextTypes = {
@@ -75,9 +79,11 @@ class OAISSwitchTables extends React.Component {
   }
 
   componentDidMount = () => {
-    const { fetchAipPage, fetchRequestPage } = this.props
-    fetchAipPage(0, 20, {}, {})
-    fetchRequestPage(0, 20, {}, {})
+    const {
+      fetchAipPage, fetchRequestPage, featureManagerFilters, productFilters, requestFilters,
+    } = this.props
+    fetchAipPage(0, 20, {}, { ...featureManagerFilters, ...productFilters })
+    fetchRequestPage(0, 20, {}, { ...featureManagerFilters, ...requestFilters })
   }
 
   changeToPackages = () => {
