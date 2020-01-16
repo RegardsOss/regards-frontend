@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Pause / resume order table option
  * @author Raphaël Mechali
  */
-class PauseResultOrderComponent extends React.Component {
+class PauseResumeOrderComponent extends React.Component {
   static propTypes = {
     canUpdate: PropTypes.bool.isRequired,
     isPaused: PropTypes.bool.isRequired,
@@ -60,4 +60,4 @@ class PauseResultOrderComponent extends React.Component {
     )
   }
 }
-export default PauseResultOrderComponent
+export default PauseResumeOrderComponent
