@@ -22,7 +22,7 @@ import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AIPHistoryOption from '../../../src/components/packages/AIPHistoryOption'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,10 +40,10 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPHistoryOption', () => {
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: storedAIP,
+      parameterValue: AIP,
     }
     const props = {
-      entity: storedAIP,
+      entity: AIP,
       onViewAIPHistory: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPHistoryOption {...props} />, { context })

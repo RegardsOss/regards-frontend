@@ -50,7 +50,7 @@ import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
  * Displays the list of OAIS packages
  * @author Simon MILHAU
  */
-class OAISRequestManagerComponent extends React.Component {
+export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,

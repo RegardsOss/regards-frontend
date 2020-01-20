@@ -27,7 +27,7 @@ import OAISFeatureManagerComponent from '../components/OAISFeatureManagerCompone
  * OAIS Feature manager container.
  * @author Simon MILHAU
  */
-class OAISFeatureManagerContainer extends React.Component {
+export class OAISFeatureManagerContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({

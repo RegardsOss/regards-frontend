@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
 import AIPDetailComponent from '../../../src/components/packages/AIPDetailComponent'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,7 +40,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailComponent', () => {
 
   it('should render correctly', () => {
     const props = {
-      aip: storedAIP,
+      aip: AIP,
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<AIPDetailComponent {...props} />, { context })

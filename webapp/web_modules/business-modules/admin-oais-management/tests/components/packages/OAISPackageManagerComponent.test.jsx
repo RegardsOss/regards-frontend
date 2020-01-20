@@ -47,6 +47,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
     }
     const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
     const tableLayoutWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableLayoutWrapper, 1, 'There should be AIP as JSON render')
+    assert.lengthOf(tableLayoutWrapper, 1, 'There should be a TableLayout')
   })
 })

@@ -27,7 +27,7 @@ import OAISCriterionShape from '../../shapes/OAISCriterionShape'
 /**
  * Confirm action dialog component. Switches dialog mode,
  */
-class AIPModifyDialogContainer extends React.Component {
+export class AIPModifyDialogContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

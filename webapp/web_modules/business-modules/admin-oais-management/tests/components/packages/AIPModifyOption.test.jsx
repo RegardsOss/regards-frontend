@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/IconButton'
 import AIPModifyOption from '../../../src/components/packages/AIPModifyOption'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,10 +40,10 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPModifyOption', () => {
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: storedAIP,
+      parameterValue: AIP,
     }
     const props = {
-      entity: storedAIP,
+      entity: AIP,
       onModify: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPModifyOption {...props} />, { context })

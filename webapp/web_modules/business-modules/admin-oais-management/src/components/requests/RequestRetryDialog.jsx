@@ -24,7 +24,7 @@ import messages from '../../i18n'
 /**
  * Confirm action dialog component. Switches dialog mode,
  */
-class RequestRetryDialog extends React.Component {
+export class RequestRetryDialog extends React.Component {
   static propTypes = {
     onConfirmRetry: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,

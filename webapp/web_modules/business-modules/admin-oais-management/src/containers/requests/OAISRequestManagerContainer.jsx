@@ -32,7 +32,7 @@ import { requestRetryActions } from '../../clients/RequestRetryClient'
  * Displays the list of OAIS packages
  * @author Simon MILHAU
  */
-class OAISRequestManagerContainer extends React.Component {
+export class OAISRequestManagerContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state

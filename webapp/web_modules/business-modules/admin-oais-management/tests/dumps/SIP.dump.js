@@ -22,7 +22,7 @@
  * @author Simon MILHAU
  */
 
-export const storedSIP = {
+export const SIP = {
   content: {
     id: 13002,
     aipId: 'URN:SIP:DATA:project1:2b11955d-383d-37b0-a555-0da59aab882d:V1',

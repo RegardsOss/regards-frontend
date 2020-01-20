@@ -35,7 +35,7 @@ import {
  * Switch between the two tables
  * @author Simon MILHAU
  */
-class OAISSwitchTables extends React.Component {
+export class OAISSwitchTables extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
