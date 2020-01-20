@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableLayout } from '@regardsoss/components'
 import OAISFeatureManagerFiltersComponent from '../../src/components/OAISFeatureManagerFiltersComponent'
 import styles from '../../src/styles'
-import OAISCriterionShape from '../../src/shapes/OAISCriterionShape'
 
 // mock router
 const router = require('react-router')
