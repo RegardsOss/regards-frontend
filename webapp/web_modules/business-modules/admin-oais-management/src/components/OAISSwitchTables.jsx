@@ -99,19 +99,19 @@ export class OAISSwitchTables extends React.Component {
       fetchAipPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
         ...newProps.productFilters,
-        // lastUpdate: (newProps.featureManagerFilters.from || newProps.featureManagerFilters.to) ? {
-        //   from: newProps.featureManagerFilters.from || null,
-        //   to: newProps.featureManagerFilters.to || null,
-        // } : null,
+        lastUpdate: {
+          from: newProps.featureManagerFilters.from || null,
+          to: newProps.featureManagerFilters.to || null,
+        },
         providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
       })
       fetchRequestPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
         ...newProps.productFilters,
-        // creationDate: (newProps.featureManagerFilters.from || newProps.featureManagerFilters.to) ? {
-        //   from: newProps.featureManagerFilters.from || null,
-        //   to: newProps.featureManagerFilters.to || null,
-        // } : null,
+        creationDate: {
+          from: newProps.featureManagerFilters.from || null,
+          to: newProps.featureManagerFilters.to || null,
+        },
         providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
       })
     }
