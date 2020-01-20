@@ -34,6 +34,7 @@ import { CommonDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
 import Filter from 'mdi-material-ui/Filter'
 import Dialog from 'material-ui/Dialog'
+import { IngestShapes } from '@regardsoss/shape'
 import { requestActions, requestSelectors } from '../../clients/RequestClient'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -55,9 +56,9 @@ export class OAISRequestManagerComponent extends React.Component {
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
-    // onRefresh: PropTypes.func.isRequired,
     // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
+    tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
   }
@@ -129,7 +130,7 @@ export class OAISRequestManagerComponent extends React.Component {
       contextRequestBodyParameters = { ...contextRequestBodyParameters, creationDate: { ...contextRequestBodyParameters.creationDate, to } }
     }
     if (type) {
-      contextRequestBodyParameters.dType = type
+      contextRequestBodyParameters.requestType = type
     }
     if (state) {
       contextRequestBodyParameters.state = state
@@ -155,64 +156,64 @@ export class OAISRequestManagerComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-    componentWillMount = () => {
-      this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {}, this.state.contextRequestURLParameters)
-    }
+  componentWillMount = () => {
+    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {}, this.state.contextRequestURLParameters)
+  }
 
-   /**
+  /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-   componentWillReceiveProps = (nextProps) => {
-     this.onPropertiesUpdated(this.props, nextProps)
-   }
+  componentWillReceiveProps = (nextProps) => {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
 
-   /**
+  /**
     * Properties change detected: update local state
     * @param oldProps previous component properties
     * @param newProps next component properties
     */
-   onPropertiesUpdated = (oldProps, newProps) => {
-     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-       this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
-     }
-   }
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
+      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
+    }
+  }
 
-   onRequestStateUpdated = (featureManagerFilters, appliedFilters, contextRequestURLParameters) => {
-     this.setState({
-       contextRequestURLParameters,
-       appliedFilters,
-       contextRequestBodyParameters: OAISRequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
-     })
-   }
+  onRequestStateUpdated = (featureManagerFilters, appliedFilters, contextRequestURLParameters) => {
+    this.setState({
+      contextRequestURLParameters,
+      appliedFilters,
+      contextRequestBodyParameters: OAISRequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
+    })
+  }
 
-   getColumnSortingData = (sortKey) => {
-     const { columnsSorting } = this.state
-     const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
-     return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
-   }
+  getColumnSortingData = (sortKey) => {
+    const { columnsSorting } = this.state
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
+  }
 
   buildSortURL = columnsSorting => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
-   onSort = (columnSortKey, order) => {
-     const { columnsSorting } = this.state
+  onSort = (columnSortKey, order) => {
+    const { columnsSorting } = this.state
 
-     const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
-     const newColumnSorting = clone(columnsSorting)
-     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
-       newColumnSorting.splice(columnIndex, 1)
-     } else if (columnIndex === -1) {
-       newColumnSorting.push({ columnKey: columnSortKey, order })
-     } else {
-       newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
-     }
-     this.setState({
-       columnsSorting: newColumnSorting,
-       contextRequestURLParameters: {
-         sort: this.buildSortURL(newColumnSorting),
-       },
-     })
-   }
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
+    const newColumnSorting = clone(columnsSorting)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newColumnSorting.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newColumnSorting.push({ columnKey: columnSortKey, order })
+    } else {
+      newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
+    }
+    this.setState({
+      columnsSorting: newColumnSorting,
+      contextRequestURLParameters: {
+        sort: this.buildSortURL(newColumnSorting),
+      },
+    })
+  }
 
   onFilterUpdated = (newFilterValue) => {
     const newAppliedFilters = {
@@ -264,10 +265,10 @@ export class OAISRequestManagerComponent extends React.Component {
   onConfirmRetry = () => {
     this.onCloseRetryDialog()
     this.onCloseRetrySelectionDialog()
-    const { retryPayload, tableRequestParameters } = this.state
+    const { retryPayload, contextRequestBodyParameters } = this.state
     const { retryRequests } = this.props
     const finalRetryPayload = {
-      ...tableRequestParameters,
+      ...contextRequestBodyParameters,
       ...retryPayload,
     }
     retryRequests(finalRetryPayload).then((actionResult) => {
@@ -320,9 +321,30 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   onRetrySelection = () => {
-    this.setState({
-      isRetrySelectionDialogOpened: true,
-    })
+    const { tableSelection, selectionMode } = this.props
+
+    switch (selectionMode) {
+      case TableSelectionModes.includeSelected:
+        this.setState({
+          isRetrySelectionDialogOpened: true,
+          retryPayload: {
+            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
+            requestIds: map(tableSelection, entity => entity.content.id),
+          },
+        })
+        break
+      case TableSelectionModes.excludeSelected:
+        this.setState({
+          isRetrySelectionDialogOpened: true,
+          retryPayload: {
+            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
+            requestIds: map(tableSelection, entity => entity.content.id),
+          },
+        })
+        break
+      default:
+        break
+    }
   }
 
   onCloseRetrySelectionDialog = () => {
@@ -332,8 +354,9 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   renderRetrySelectionConfirmDialog = () => {
-    const { isRetrySelectionDialogOpened, tableSelection } = this.state
-    if (isRetrySelectionDialogOpened && !isEmpty(tableSelection)) {
+    const { isRetrySelectionDialogOpened } = this.state
+
+    if (isRetrySelectionDialogOpened) {
       return (
         <RequestRetryDialog
           onConfirmRetry={this.onConfirmRetry}
@@ -347,10 +370,10 @@ export class OAISRequestManagerComponent extends React.Component {
   onConfirmDelete = () => {
     this.onCloseDeleteDialog()
     this.onCloseDeleteSelectionDialog()
-    const { deletionPayload, tableRequestParameters } = this.state
+    const { deletionPayload, contextRequestBodyParameters } = this.state
     const { deleteRequests } = this.props
     const finalDeletionPayload = {
-      ...tableRequestParameters,
+      ...contextRequestBodyParameters,
       ...deletionPayload,
     }
     deleteRequests(finalDeletionPayload).then((actionResult) => {
@@ -410,7 +433,7 @@ export class OAISRequestManagerComponent extends React.Component {
         this.setState({
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
-            selectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
+            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
           },
         })
         break
@@ -418,7 +441,7 @@ export class OAISRequestManagerComponent extends React.Component {
         this.setState({
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
-            selectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
+            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
           },
         })
         break
@@ -434,8 +457,8 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   renderDeleteSelectionConfirmDialog = () => {
-    const { isDeleteSelectionDialogOpened, tableSelection } = this.state
-    if (isDeleteSelectionDialogOpened && !isEmpty(tableSelection)) {
+    const { isDeleteSelectionDialogOpened } = this.state
+    if (isDeleteSelectionDialogOpened) {
       return (
         <RequestDeleteDialog
           onConfirmDelete={this.onConfirmDelete}
@@ -449,7 +472,7 @@ export class OAISRequestManagerComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const { pageSize } = this.props
+    const { pageSize, tableSelection } = this.props
     const { appliedFilters, contextRequestURLParameters, contextRequestBodyParameters } = this.state
     const types = OAISRequestManagerComponent.REQUEST_TYPES
     const states = OAISRequestManagerComponent.REQUEST_STATES
@@ -519,6 +542,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.retry' })}
                 icon={<Filter />}
                 onClick={this.onRetrySelection}
+                disabled={isEmpty(tableSelection)}
               />
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
@@ -527,6 +551,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
                 icon={<Filter />}
                 onClick={this.onDeleteSelection}
+                disabled={isEmpty(tableSelection)}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>
