@@ -22,13 +22,12 @@ import Card from 'material-ui/Card/Card'
 import CardText from 'material-ui/Card/CardText'
 import isEqual from 'lodash/isEqual'
 import ImageOff from 'mdi-material-ui/ImageOff'
-import ImageBroken from 'mdi-material-ui/ImageBroken'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import { QuicklookHelper } from '@regardsoss/domain/ui'
-import { CommonDomain } from '@regardsoss/domain'
+import { ThumbnailHelper } from '@regardsoss/domain/ui'
 import OneElementServicesContainer from '../../../../../containers/user/tabs/results/common/options/OneElementServicesContainer'
 import AddElementToCartContainer from '../../../../../containers/user/tabs/results/common/options/AddElementToCartContainer'
 import QuicklookCellAttributesComponent from './QuicklookCellAttributesComponent'
@@ -93,18 +92,34 @@ class QuicklookCellComponent extends React.PureComponent {
   static EXPECTED_ATTRIBUTES_PADDING = 20
 
   /**
-   * Computes the quicklook to show in entity as parameter
+   * Can picture file as parameter be displayed as quicklook
+   * @param {*} pictureFile picture file, matching DataManagementShapes.DataFile
+   * @return {boolean} true when picture is available and has valid dimensions
+   */
+  static canDisplayAsQuicklook(pictureFile) {
+    return DamDomain.DataFileController.isAvailableNow(pictureFile) && get(pictureFile, 'imageWidth', 0) > 0 && get(pictureFile, 'imageHeight', 0) > 0
+  }
+
+  /**
+   * Computes the picture to show in entity as parameter (avoids returning pictures with missing dimensions)
    * @param {*} entity matching AccessShapes.EntityWithServices.isRequired
    * @param {string} primaryQuicklookGroup primary quicklook group key, from UI settings
    * @param {string} accessToken user access token
    * @param {string} projectName current project name
-   * @return {*} quicklook to show, matching DataManagementShapes.DataFile, or null
+   * @return {*} picture to show, matching DataManagementShapes.DataFile, with valid dimensions or null
    */
-  static getUsedQuicklook(entity, primaryQuicklookGroup, accessToken, projectName) {
+  static getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName) {
     // build groups with fallback
-    const groups = QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName)
-    // groups are ordered primary first and alphabetically: use first group small resolution
-    return groups.length ? groups[0][CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD] : null
+    const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName)
+    // 1 - Use thumbnail quicklook fallback system to compute the quicklook to use (primary group first, if it
+    // exists, then smaller dimension)
+    const preferredQuicklook = ThumbnailHelper.getQuicklookFallback(groups, QuicklookCellComponent.canDisplayAsQuicklook)
+    if (preferredQuicklook) {
+      // console.error('Selected', preferredQuicklook)
+      return preferredQuicklook // found: return immeditaly
+    }
+    // 2 - Attempt to replace by a thumbnail with dimensions when not found
+    return ThumbnailHelper.getThumbnail(get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName, QuicklookCellComponent.canDisplayAsQuicklook)
   }
 
   /** Used by Infinite gallery API */
@@ -131,11 +146,10 @@ class QuicklookCellComponent extends React.PureComponent {
       + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
     }
     // Get quicklook to display
-    const image = QuicklookCellComponent.getUsedQuicklook(entity, primaryQuicklookGroup, accessToken, projectName)
-    const hasIssueWithImage = !get(image, 'imageWidth') || !get(image, 'imageHeight')
+    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName)
 
     // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
-    if ((image && !hasIssueWithImage) || embedInMap) {
+    if (image || embedInMap) {
       let imageHeight
       if (embedInMap) {
         // A.1 - in map mode, use thumbnail height directly
@@ -244,8 +258,7 @@ class QuicklookCellComponent extends React.PureComponent {
     // select the actual image style
     const actualImageStyle = embedInMap ? quicklookImage : imageStyle
 
-    const image = QuicklookCellComponent.getUsedQuicklook(entity, primaryQuicklookGroup, accessToken, projectName)
-    const hasIssueWithImage = !get(image, 'imageWidth') || !get(image, 'imageHeight')
+    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName)
     return (
       <Card
         style={cardStyle}
@@ -255,23 +268,16 @@ class QuicklookCellComponent extends React.PureComponent {
         <div style={pictureAndAttributesContainer}>
           {/* 1.a - picture */}
           <div style={image ? quicklookContainerStyle : null}>
-            { /** IIFE to handle multiple possibilities */
-                (() => {
-                  if (!image) {
-                    return <ImageOff style={iconStyle} />
-                  } if (hasIssueWithImage) {
-                    return <ImageBroken style={iconStyle} />
-                  }
-                  return (
-                    <img
-                      src={image.uri}
-                      alt=""
-                      style={actualImageStyle}
-                      onClick={descriptionAvailable ? this.onShowDescription : null}
-                    />
-                  )
-                })()
-              }
+            { /** Swap picture or missing icon, depending on the case */
+              image ? (
+                <img
+                  src={image.uri}
+                  alt=""
+                  style={actualImageStyle}
+                  onClick={descriptionAvailable ? this.onShowDescription : null}
+                />)
+                : <ImageOff style={iconStyle} />
+            }
           </div>
           {/* 1.b - Render attributes */}
           <ShowableAtRender

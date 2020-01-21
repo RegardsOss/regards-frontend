@@ -23,7 +23,7 @@ import { resultsContextActions } from '../../../../../../clients/ResultsContextC
 import ToggleOnlyQuicklookComponent from '../../../../../../components/user/tabs/results/header/options/ToggleOnlyQuicklookComponent'
 
 /**
- * Container to toggle on/off filtering ot elements with quicklook only.
+ * Container to toggle on/off filtering ot elements with quicklook only (or thumbnail).
  *
  * @author Raphaël Mechali
  */
@@ -52,7 +52,7 @@ export class ToggleOnlyQuicklookContainer extends React.Component {
    * Criterion to set to get only elements with quicklook
    */
   static ONLY_QUICKLOOK_CRITERION = {
-    requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.EXISTS_PARAMETER_NAME]: 'feature.files.QUICKLOOK_SD' },
+    requestParameters: { [CatalogDomain.CatalogSearchQueryHelper.HAS_IMAGE_PARAMETER_NAME]: 'true' },
   }
 
   /**

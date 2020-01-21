@@ -54,6 +54,19 @@ export const dataEntity = {
     label: 'my data',
     model: '1',
     files: {
+      [CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]: [{
+        dataType: CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
+        reference: false,
+        uri: 'https://thumbnail.wide.com/willpaper.png',
+        mimeType: 'image/png',
+        imageWidth: 600,
+        imageHeight: 600,
+        online: true,
+        checksum: 'UUUU',
+        digestAlgorithm: 'very-wrongers',
+        filesize: 564564564,
+        filename: 'willpaper.png',
+      }],
       [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [{
         dataType: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD,
         reference: true,

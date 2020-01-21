@@ -55,45 +55,46 @@ export class QuicklookHelper {
   }
 
   /**
-   * Returns quicklooks found in entity compiled as an array of quicklook definitions
-   * @param {*} entity matching CatalogShapes.Entity
+   * Returns quicklooks found in files compiled as an array of quicklook definitions
+   * @param {*} files map of files (matching CatalogShapes.Entity files field)
+   * @param {string} primaryGroupKey primary quicklook group key
    * @param {string} accessToken current user access when there is one. Used to compute files access URI
    * @param {string} projectName current project (tenant) name. Used to compute files access URI
    * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been
    * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
    */
-  static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName) {
+  static getQuicklooks(files = {}, primaryGroupKey, accessToken, projectName) {
     // A - Group quicklooks by group name in map (update URI to use token project name when internal data files)
     const groupsMap = QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
-      const files = get(entity, `content.files.${type}`, [])
-      return files.reduce((acc2, file) => {
+      const typeFiles = files[type] || []
+      return typeFiles.reduce((acc2, file) => {
         // 0 - Ignore offline files
-        if (!file.reference && !file.online) {
-          return acc2
-        }
-        // 1 - identify file group and check if the file is part of primary group
-        const fileMetaTypes = get(file, 'types', [])
-        const groupName = fileMetaTypes.find(keyword => keyword !== primaryGroupKey)
-        const groupKey = groupName || QuicklookHelper.UNKNOWN_GROUPNAME
-        const primary = fileMetaTypes.some(keyword => keyword === primaryGroupKey)
-        // 2 - assemble group, re-using it from accumulator, as that group may have already found
-        const previouslyFoundGroup = acc2[groupKey] || { }
-        return {
-          ...acc2,
-          // Nota: undefined label (groupName) is allowed, but group key must have a value
-          [groupKey]: {
+        if (DataFileController.isAvailableNow(file)) {
+          // 1 - identify file group and check if the file is part of primary group
+          const fileMetaTypes = get(file, 'types', [])
+          const groupName = fileMetaTypes.find(keyword => keyword !== primaryGroupKey)
+          const groupKey = groupName || QuicklookHelper.UNKNOWN_GROUPNAME
+          const primary = fileMetaTypes.some(keyword => keyword === primaryGroupKey)
+          // 2 - assemble group, re-using it from accumulator, as that group may have already found
+          const previouslyFoundGroup = acc2[groupKey] || { }
+          return {
+            ...acc2,
+            // Nota: undefined label (groupName) is allowed, but group key must have a value
+            [groupKey]: {
             // report any previous encoutended group data (for previously encountered types)
-            ...previouslyFoundGroup,
-            // group def
-            label: groupName,
-            primary: previouslyFoundGroup.primary || primary,
-            // report the file in current type (override any previously known QL with same resolution)
-            [type]: {
-              ...file,
-              uri: DataFileController.getFileURI(file, accessToken, projectName),
+              ...previouslyFoundGroup,
+              // group def
+              label: groupName,
+              primary: previouslyFoundGroup.primary || primary,
+              // report the file in current type (override any previously known QL with same resolution)
+              [type]: {
+                ...file,
+                uri: DataFileController.getFileURI(file, accessToken, projectName),
+              },
             },
-          },
+          }
         }
+        return acc2
       }, acc)
     }, {})
     // B - complete each group to hold an SD/MD/HD file (with fallback mechanism), then sort on primary / group name
@@ -119,5 +120,18 @@ export class QuicklookHelper {
         const g2ComparisonLabel = group2.label ? group2.label.toLowerCase() : ''
         return g1ComparisonLabel.localeCompare(g2ComparisonLabel) // locale compare is OK here (as label will not change on locale)
       })
+  }
+
+  /**
+   * Returns quicklooks found in entity compiled as an array of quicklook definitions
+   * @param {*} entity matching CatalogShapes.Entity
+   * @param {string} primaryGroupKey primary quicklook group key
+   * @param {string} accessToken current user access when there is one. Used to compute files access URI
+   * @param {string} projectName current project (tenant) name. Used to compute files access URI
+   * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been
+   * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
+   */
+  static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName) {
+    return QuicklookHelper.getQuicklooks(get(entity, 'content.files'), primaryGroupKey, accessToken, projectName)
   }
 }

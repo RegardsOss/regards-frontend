@@ -20,7 +20,6 @@ import get from 'lodash/get'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import NoPictureIcon from 'mdi-material-ui/ImageOff'
-import BrokenPictureIcon from 'mdi-material-ui/ImageBroken'
 import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import QuicklookCellComponent from '../../../../../../src/components/user/tabs/results/quickooks/QuicklookCellComponent'
@@ -34,12 +33,6 @@ import { dataContext } from '../../../../../dumps/data.context.dump'
 import { dataEntityWithServices, dataEntity } from '../../../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
-
-const EXPECTED_PICTURE_STATE = {
-  NONE: 'NONE',
-  BROKEN: 'BROKEN',
-  VALID: 'VALID',
-}
 
 /**
  * Test QuicklookCellComponent
@@ -62,14 +55,15 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     enableDownload: true,
     embedInMap: false,
     locale: UIDomain.LOCALES_ENUM.en,
-    expectedPictureState: EXPECTED_PICTURE_STATE.VALID,
+    expectedPictureURI: 'http://russia.clearly.ru/one-more-forbidden-file.png', // Nota auth data is not added as file is a reference
   }, {
-    label: 'data with broken quicklook (without services, description, cart, download and search, in map)',
+    label: 'data with broken quicklook, fallbacking on thumbnail (without services, description, cart, download and search, in map)',
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: {
       content: {
         ...dataEntityWithServices.content,
         files: {
+          ...dataEntityWithServices.content.files,
           [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [{
             ...dataEntityWithServices.content.files[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD][0],
             imageWidth: null,
@@ -84,16 +78,14 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     enableDownload: false,
     embedInMap: true,
     locale: UIDomain.LOCALES_ENUM.fr,
-    expectedPictureState: EXPECTED_PICTURE_STATE.BROKEN,
+    expectedPictureURI: 'https://thumbnail.wide.com/willpaper.png?token=kikou',
   }, {
-    label: 'data without quicklook (services enabled but no entity service, description, cart and download, outside map)',
+    label: 'data without quicklook nor thumbnail (services enabled but no entity service, description, cart and download, outside map)',
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: {
       content: {
         ...dataEntity.content,
-        files: {
-          [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [],
-        },
+        files: {},
       },
     },
     enableServices: true,
@@ -102,7 +94,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     enableDownload: true,
     embedInMap: false,
     locale: UIDomain.LOCALES_ENUM.en,
-    expectedPictureState: EXPECTED_PICTURE_STATE.NONE,
+    expectedPictureURI: null,
   }]
 
   testCases.forEach(({
@@ -115,7 +107,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     descriptionAvailable,
     embedInMap,
     locale,
-    expectedPictureState,
+    expectedPictureURI,
   }) => it(`should render correctly for ${label}`, () => {
     const props = {
       top: 25,
@@ -138,26 +130,13 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     }
     const enzymeWrapper = shallow(<QuicklookCellComponent {...props} />, { context })
     const quicklookPicture = enzymeWrapper.find('img')
-    const brokenPictureIcon = enzymeWrapper.find(BrokenPictureIcon)
     const noPictureIcon = enzymeWrapper.find(NoPictureIcon)
 
     // 1 - Picture
-    switch (expectedPictureState) {
-      case EXPECTED_PICTURE_STATE.VALID:
-        assert.lengthOf(quicklookPicture, 1, 'There should be quicklook picture displayer')
-        assert.lengthOf(brokenPictureIcon, 0, 'There should not be broken picture icon')
-        assert.lengthOf(noPictureIcon, 0, 'There should not be no picture icon')
-        break
-      case EXPECTED_PICTURE_STATE.BROKEN:
-        assert.lengthOf(quicklookPicture, 0, 'There should not be quicklook picture displayer')
-        assert.lengthOf(brokenPictureIcon, 1, 'There should be broken picture icon')
-        assert.lengthOf(noPictureIcon, 0, 'There should not be no picture icon')
-        break
-      case EXPECTED_PICTURE_STATE.NONE:
-      default:
-        assert.lengthOf(quicklookPicture, 0, 'There should not be quicklook picture displayer')
-        assert.lengthOf(brokenPictureIcon, 0, 'There should not be broken picture icon')
-        assert.lengthOf(noPictureIcon, 1, 'There should not be picture icon')
+    if (expectedPictureURI) {
+      assert.lengthOf(quicklookPicture, 1, 'There should be quicklook picture displayer')
+      assert.equal(quicklookPicture.props().src, expectedPictureURI, 'It should show the right picture with access information parameters')
+      assert.lengthOf(noPictureIcon, 0, 'There shouldn\'t be no picture icon')
     }
 
     // 2 - Description
