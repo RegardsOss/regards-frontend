@@ -19,20 +19,18 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Card } from 'material-ui/Card'
-import OAISFeatureManagerComponent from '../../src/components/OAISFeatureManagerComponent'
+import { OAISFeatureManagerFiltersContainer } from '../../src/containers/OAISFeatureManagerFiltersContainer'
 import styles from '../../src/styles'
-
-// mock router
-const router = require('react-router')
+import OAISFeatureManagerFiltersComponent from '../../src/components/OAISFeatureManagerFiltersComponent'
 
 const context = buildTestContext(styles)
+const router = require('react-router')
 
 /**
- * Test OAISFeatureManagerComponent
+ * Test OAISFeatureManagerFiltersContainer
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
+describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerFiltersContainer', () => {
   before(() => {
     // mock browser history for container
     router.browserHistory = {
@@ -45,20 +43,33 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
     delete router.browserHistory
     testSuiteHelpers.after()
   })
-  it('should exists', () => {
-    assert.isDefined(OAISFeatureManagerComponent)
-  })
 
+  it('should exists', () => {
+    assert.isDefined(OAISFeatureManagerFiltersContainer)
+  })
   it('should render correctly', () => {
     const props = {
-      params: {
-        project: '',
+
+      updateStateFromFeatureManagerFilters: () => {},
+
+      featureManagerFilters: {
+        state: '',
+        from: '',
+        to: '',
+        tags: [],
+        providerId: '',
+        sessionOwner: '',
         session: '',
-        aip: '',
+        categories: [],
+        storages: [],
       },
+
     }
-    const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
+    const enzymeWrapper = shallow(<OAISFeatureManagerFiltersContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(OAISFeatureManagerFiltersComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      featureManagerFilters: props.featureManagerFilters,
+    }, 'Component should define the expected properties and callbacks')
   })
 })

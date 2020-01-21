@@ -61,12 +61,10 @@ export class OAISPackageManagerComponent extends React.Component {
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
     storages: PropTypes.arrayOf(PropTypes.string),
-    // onRefresh: PropTypes.func.isRequired,
     deleteAips: PropTypes.func.isRequired,
     modifyAips: PropTypes.func.isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
     selectionMode: PropTypes.string.isRequired,
-    // fetchSip: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

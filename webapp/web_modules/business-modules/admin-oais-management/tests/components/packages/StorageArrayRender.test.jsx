@@ -44,7 +44,6 @@ describe('[OAIS AIP MANAGEMENT] Testing StorageArrayRender', () => {
         '2',
       ],
     }
-
     const enzymeWrapper = shallow(<StorageArrayRender {...props} />, { context })
     const stringArrayValueRenderWrapper = enzymeWrapper.find(StringArrayValueRender)
     assert.lengthOf(stringArrayValueRenderWrapper, 1, 'There should be a StringArrayValueRender')

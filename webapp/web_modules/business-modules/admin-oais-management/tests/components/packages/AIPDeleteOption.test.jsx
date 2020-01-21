@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AIPDeleteOption from '../../../src/components/packages/AIPDeleteOption'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -36,21 +36,21 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteOption', () => {
   it('should exists', () => {
     assert.isDefined(AIPDeleteOption)
   })
-  it('should render and invoke callback correctly', () => {
+  it('should render correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: storedAIP,
+      parameterValue: AIP,
     }
     const props = {
-      entity: storedAIP,
+      entity: AIP,
       onDelete: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPDeleteOption {...props} />, { context })
 
-    const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
+    const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(confirmButton, 1, 'There should be icon button')
-    assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onDelete, 'Callback should be correctly set')
-    // check callback calls props callback
+
+    assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onClick, 'onClick callback should be correctly set')
     assert.equal(spiedCallbackData.count, 0, 'Callback should not have been invoked yet')
     enzymeWrapper.instance().onClick()
     assert.equal(spiedCallbackData.count, 1, 'Callback should have been invoked once')

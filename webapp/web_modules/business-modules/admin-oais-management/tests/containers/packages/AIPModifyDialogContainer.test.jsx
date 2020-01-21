@@ -17,37 +17,36 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import Dialog from 'material-ui/Dialog'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AIPDeleteDialog } from '../../../src/components/packages/AIPDeleteDialog'
+import { AIPModifyDialogContainer } from '../../../src/containers/packages/AIPModifyDialogContainer'
+import AIPModifyDialogComponent from '../../../src/components/packages/AIPModifyDialogComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPDeleteDialog
+ * Test AIPModifyDialogContainer
  * @author Simon MILHAU
  */
-describe('[OAIS AIP MANAGEMENT] Testing AIPDeleteDialog', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AIPModifyDialogContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(AIPDeleteDialog)
+    assert.isDefined(AIPModifyDialogContainer)
   })
-  it('should render correctly in edition', () => {
+
+  it('should render correctly', () => {
     const props = {
-      onConfirmDelete: () => {},
+      onConfirmModify: () => {},
       onClose: () => {},
+      fetchSelectionStorages: () => {},
+      fetchSelectionTags: () => {},
+      fetchSelectionCategories: () => {},
     }
-    const enzymeWrapper = shallow(<AIPDeleteDialog {...props} />, { context })
-
-    const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isTrue(dialogWrapper.props().open, 'The dialog should be opened')
-
-    assert.equal(dialogWrapper.props().onConfirmDelete, enzymeWrapper.instance().onConfirmDelete, 'onConfirmDelete callback should be correctly set')
-    assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')
+    const enzymeWrapper = shallow(<AIPModifyDialogContainer {...props} />, { context })
+    const flatButtonWrapper = enzymeWrapper.find(AIPModifyDialogComponent)
+    assert.lengthOf(flatButtonWrapper, 1, 'There should a AIPModifyDialogComponent')
   })
 })

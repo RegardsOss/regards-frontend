@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MenuItem from 'material-ui/MenuItem/MenuItem'
 import AIPDetailOption from '../../../src/components/packages/AIPDetailOption'
 import styles from '../../../src/styles'
-import { storedAIP } from '../../dumps/AIPWithStorages.dump'
+import { AIP } from '../../dumps/AIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,10 +40,10 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailOption', () => {
   it('should render and invoke callback correctly', () => {
     const spiedCallbackData = {
       count: 0,
-      parameterValue: storedAIP,
+      parameterValue: AIP,
     }
     const props = {
-      entity: storedAIP,
+      entity: AIP,
       onViewAIPDetail: () => { spiedCallbackData.count += 1 },
       onViewSIPDetail: () => { spiedCallbackData.count += 1 },
     }
@@ -58,7 +58,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPDetailOption', () => {
     iconButtonWrapper.at(0).props().onClick()
     iconButtonWrapper.at(1).props().onClick()
 
-    assert.equal(spiedCallbackData.count, 2, 'Callback should have been invoked once')
+    assert.equal(spiedCallbackData.count, 2, 'Callback should have been invoked twice')
     assert.equal(spiedCallbackData.parameterValue, props.entity, 'Callback parameter should be valid')
   })
 })

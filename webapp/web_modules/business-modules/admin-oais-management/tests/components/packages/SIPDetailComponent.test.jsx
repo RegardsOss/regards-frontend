@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
 import SIPDetailComponent from '../../../src/components/packages/SIPDetailComponent'
 import styles from '../../../src/styles'
-import { storedSIP } from '../../dumps/SIPWithStorages.dump'
+import { SIP } from '../../dumps/SIP.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,7 +40,7 @@ describe('[OAIS SIP MANAGEMENT] Testing SIPDetailComponent', () => {
 
   it('should render correctly', () => {
     const props = {
-      sip: storedSIP,
+      sip: SIP,
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<SIPDetailComponent {...props} />, { context })

@@ -20,6 +20,7 @@ import get from 'lodash/get'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
+import { IngestShapes } from '@regardsoss/shape'
 import { processingChainActions } from '../../clients/ProcessingChainClient'
 import { requestSelectors, requestActions } from '../../clients/RequestClient'
 import { requestTableActions, requestTableSelectors } from '../../clients/RequestTableClient'
@@ -32,7 +33,7 @@ import { requestRetryActions } from '../../clients/RequestRetryClient'
  * Displays the list of OAIS packages
  * @author Simon MILHAU
  */
-class OAISRequestManagerContainer extends React.Component {
+export class OAISRequestManagerContainer extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
@@ -82,7 +83,7 @@ class OAISRequestManagerContainer extends React.Component {
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     // from mapStateToProps
-    // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
+    tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
   }
 
@@ -127,7 +128,7 @@ class OAISRequestManagerContainer extends React.Component {
 
   render() {
     const {
-      featureManagerFilters, requestFilters, selectionMode, deleteRequests, retryRequests,
+      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests,
     } = this.props
 
     return (
@@ -136,6 +137,7 @@ class OAISRequestManagerContainer extends React.Component {
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}
         onRefresh={this.onRefresh}
+        tableSelection={tableSelection}
         selectionMode={selectionMode}
         deleteRequests={deleteRequests}
         retryRequests={retryRequests}

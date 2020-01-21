@@ -35,7 +35,7 @@ import {
  * Switch between the two tables
  * @author Simon MILHAU
  */
-class OAISSwitchTables extends React.Component {
+export class OAISSwitchTables extends React.Component {
   /**
   * Redux: map state to props function
   * @param {*} state: current redux state
@@ -99,11 +99,19 @@ class OAISSwitchTables extends React.Component {
       fetchAipPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
         ...newProps.productFilters,
+        lastUpdate: {
+          from: newProps.featureManagerFilters.from || null,
+          to: newProps.featureManagerFilters.to || null,
+        },
         providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
       })
       fetchRequestPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
         ...newProps.productFilters,
+        creationDate: {
+          from: newProps.featureManagerFilters.from || null,
+          to: newProps.featureManagerFilters.to || null,
+        },
         providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
       })
     }
