@@ -19,13 +19,10 @@
 import { IngestClient } from '@regardsoss/client'
 
 /**
- * AIP Tags client.
+ * Model attributes entities client.
  *
- * @author Léo Mieulet
+ * @author Simon MILHAU
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'aipSignal']
-const REDUX_ACTION_NAMESPACE = 'admin-oais-management/aips/signals'
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/requests-abort'
 
-export const aipSignalActions = new IngestClient.SIPSignalActions(REDUX_ACTION_NAMESPACE)
-export const apSignalReducer = IngestClient.getAIPSignalReducer(REDUX_ACTION_NAMESPACE)
-export const aipSignalSelectors = IngestClient.getAIPSignalSelectors(ENTITIES_STORE_PATH)
+export const requestAbortActions = new IngestClient.RequestAbortActions(REDUX_ACTION_NAMESPACE)

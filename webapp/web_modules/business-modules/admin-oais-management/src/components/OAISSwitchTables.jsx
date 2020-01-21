@@ -94,7 +94,7 @@ export class OAISSwitchTables extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(oldProps.featureManagerFilters, newProps.featureManagerFilters)) {
+    if (!isEqual(oldProps.featureManagerFilters, newProps.featureManagerFilters) || !isEqual(oldProps.productFilters, newProps.productFilters) || !isEqual(oldProps.requestFilters, newProps.requestFilters)) {
       const { fetchAipPage, fetchRequestPage } = newProps
       fetchAipPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
@@ -107,7 +107,7 @@ export class OAISSwitchTables extends React.Component {
       })
       fetchRequestPage(0, 20, {}, {
         ...newProps.featureManagerFilters,
-        ...newProps.productFilters,
+        ...newProps.requestFilters,
         creationDate: {
           from: newProps.featureManagerFilters.from || null,
           to: newProps.featureManagerFilters.to || null,

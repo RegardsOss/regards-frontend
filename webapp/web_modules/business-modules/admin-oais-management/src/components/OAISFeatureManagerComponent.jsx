@@ -19,8 +19,8 @@
 import values from 'lodash/values'
 import lowerCase from 'lodash/lowerCase'
 import { browserHistory } from 'react-router'
-import { Card, CardTitle } from 'material-ui/Card'
-import { Breadcrumb } from '@regardsoss/components'
+import { Card, CardTitle, CardActions } from 'material-ui/Card'
+import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
 import PageView from 'material-ui/svg-icons/action/pageview'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -99,27 +99,22 @@ class OAISFeatureManagerComponent extends React.Component {
     }
   }
 
-  // onBack = (level) => {
-  //   const { params: { project } } = this.props
-  //   const url = `/admin/${project}/data/acquisition/oais/featureManager`
-  //   browserHistory.push(url)
-  // }
+  onBack = (level) => {
+    const { params: { project } } = this.props
+    const url = `/admin/${project}/data/acquisition/board`
+    browserHistory.push(url)
+  }
 
   onSwitchToPackages = () => {
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
-      // productFilters: {},
     })
   }
 
   onSwitchToRequests = () => {
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.REQUESTS,
-      // requestFilters: {},
     })
-  }
-
-  onBreadcrumbAction = (element, index) => {
   }
 
   renderBreadCrumb = () => {
@@ -130,7 +125,7 @@ class OAISFeatureManagerComponent extends React.Component {
         rootIcon={<PageView />}
         elements={elements}
         labelGenerator={label => label}
-        onAction={this.onBreadcrumbAction}
+        onAction={this.onBack}
       />
     )
   }
@@ -144,8 +139,26 @@ class OAISFeatureManagerComponent extends React.Component {
     })
   }
 
+  updateStateFromPackageManager = (newFilters) => {
+    this.setState({
+      productFilters: {
+        ...this.state.productFilters,
+        ...newFilters,
+      },
+    })
+  }
+
+  updateStateFromRequestManager = (newFilters) => {
+    this.setState({
+      requestFilters: {
+        ...this.state.requestFilters,
+        ...newFilters,
+      },
+    })
+  }
+
   render() {
-    const { moduleTheme: { displayBlock, displayNone } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { displayBlock, displayNone } } = this.context
     const { params } = this.props
     const {
       openedPane, featureManagerFilters, productFilters, requestFilters,
@@ -173,6 +186,7 @@ class OAISFeatureManagerComponent extends React.Component {
               <OAISPackageManagerContainer
                 key={`package-manager-${openedPane}`}
                 updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
+                updateStateFromPackageManager={this.updateStateFromPackageManager}
                 featureManagerFilters={featureManagerFilters}
                 productFilters={productFilters}
                 params={params}
@@ -181,12 +195,19 @@ class OAISFeatureManagerComponent extends React.Component {
             <div style={openedPane === OAISFeatureManagerComponent.OPEN_PANE.REQUESTS ? displayBlock : displayNone}>
               <OAISRequestManagerContainer
                 key={`request-manager-${openedPane}`}
+                updateStateFromRequestManager={this.updateStateFromRequestManager}
                 featureManagerFilters={featureManagerFilters}
                 requestFilters={requestFilters}
                 params={params}
               />
             </div>
           </div>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={formatMessage({ id: 'oais.button.back' })}
+              mainButtonClick={this.onBack}
+            />
+          </CardActions>
         </Card>
       </div>
     )

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { IngestClient } from '@regardsoss/client'
+ **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * AIP Tags client.
- *
- * @author Léo Mieulet
+ * Actions to send a request to delete a request
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'sipSignal']
-const REDUX_ACTION_NAMESPACE = 'admin-oais-management/sips/signals'
-
-export const sipSignalActions = new IngestClient.SIPSignalActions(REDUX_ACTION_NAMESPACE)
-export const sipSignalReducer = IngestClient.getSipSignalReducer(REDUX_ACTION_NAMESPACE)
-export const sipSignalSelectors = IngestClient.getSipSignalSelectors(ENTITIES_STORE_PATH)
+export default class RequestAbortActions extends BasicSignalActions {
+  constructor(namespace, instance = false) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/requests/abort`,
+      namespace,
+      bypassErrorMiddleware: false,
+    })
+  }
+}

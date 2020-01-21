@@ -40,6 +40,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
   it('should render correctly', () => {
     const props = {
       updateStateFromFeatureManagerFilters: () => {},
+      updateStateFromPackageManager: () => {},
       pageSize: 1,
       deleteAips: () => {},
       modifyAips: () => {},
