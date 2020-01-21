@@ -32,6 +32,10 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
 import Filter from 'mdi-material-ui/Filter'
+import AvReplay from 'material-ui/svg-icons/av/replay'
+import Stop from 'mdi-material-ui/Stop'
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import Delete from 'mdi-material-ui/Delete'
 import { CommonDomain, DamDomain, IngestDomain } from '@regardsoss/domain'
 import Dialog from 'material-ui/Dialog'
 import { IngestShapes } from '@regardsoss/shape'
@@ -621,7 +625,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 key="modifySelection"
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
-                icon={<Filter />}
+                icon={<ModeEdit />}
                 onClick={this.onModifySelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
@@ -629,7 +633,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 key="deleteSelection"
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
-                icon={<Filter />}
+                icon={<Delete />}
                 onClick={this.onDeleteSelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />

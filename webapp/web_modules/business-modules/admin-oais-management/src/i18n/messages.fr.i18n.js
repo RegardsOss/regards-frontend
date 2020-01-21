@@ -79,7 +79,7 @@ export default {
   'oais.requests.list.filters.lastSubmission': 'Soumis le',
   'oais.requests.list.filters.buttons.validate': 'Valider la sélection',
   'oais.requests.list.filters.buttons.retry': 'Relancer la sélection',
-  'oais.requests.list.filters.buttons.abort': 'Annuler la selection',
+  'oais.requests.list.filters.buttons.abort': 'Annuler les traitements en cours',
   'oais.requests.list.filters.buttons.delete': 'Supprimer la sélection',
   'oais.requests.confirm.delete': 'Supprimer',
   'oais.requests.confirm.delete.close': 'Fermer',

@@ -32,7 +32,9 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
-import Filter from 'mdi-material-ui/Filter'
+import AvReplay from 'material-ui/svg-icons/av/replay'
+import Stop from 'mdi-material-ui/Stop'
+import Delete from 'mdi-material-ui/Delete'
 import Dialog from 'material-ui/Dialog'
 import { IngestShapes } from '@regardsoss/shape'
 import { requestActions, requestSelectors } from '../../clients/RequestClient'
@@ -552,7 +554,7 @@ export class OAISRequestManagerComponent extends React.Component {
               <FlatButton
                 key="retry"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.retry' })}
-                icon={<Filter />}
+                icon={<AvReplay />}
                 onClick={this.onRetrySelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
@@ -561,7 +563,7 @@ export class OAISRequestManagerComponent extends React.Component {
               <FlatButton
                 key="delete"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
-                icon={<Filter />}
+                icon={<Delete />}
                 onClick={this.onDeleteSelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
@@ -570,7 +572,7 @@ export class OAISRequestManagerComponent extends React.Component {
               <FlatButton
                 key="abort"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.abort' })}
-                icon={<Filter />}
+                icon={<Stop />}
                 onClick={this.onAbortSelection}
               />
             </TableHeaderOptionGroup>

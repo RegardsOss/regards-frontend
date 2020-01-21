@@ -79,7 +79,7 @@ export default {
   'oais.requests.list.filters.lastSubmission': 'Last submitted',
   'oais.requests.list.filters.buttons.validate': 'Validate selection',
   'oais.requests.list.filters.buttons.retry': 'Retry selection',
-  'oais.requests.list.filters.buttons.abort': 'Abort selection',
+  'oais.requests.list.filters.buttons.abort': 'Abort running treatments',
   'oais.requests.list.filters.buttons.delete': 'Delete selection',
   'oais.requests.confirm.delete': 'Delete',
   'oais.requests.confirm.delete.close': 'Close',
