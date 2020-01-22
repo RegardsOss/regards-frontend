@@ -30,6 +30,7 @@ export class MarkdownFileContentDisplayer extends React.Component {
    */
   static SUPPORTED_MIME_TYPES = [
     MIME_TYPES.MARKDOWN_MIME_TYPE,
+    'text/x-markdown', // XXX This is a workaround for the wrong description MIME types provided at collections / dataset level
   ]
 
   /**
