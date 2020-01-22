@@ -28,6 +28,7 @@ import OAISCriterionShape from '../../shapes/OAISCriterionShape'
 import OAISRequestManagerComponent from '../../components/requests/OAISRequestManagerComponent'
 import { requestDeleteActions } from '../../clients/RequestDeleteClient'
 import { requestRetryActions } from '../../clients/RequestRetryClient'
+import { requestAbortActions } from '../../clients/RequestAbortClient'
 
 /**
  * Displays the list of OAIS packages
@@ -60,10 +61,12 @@ export class OAISRequestManagerContainer extends React.Component {
     clearSelection: () => dispatch(requestTableActions.unselectAll()),
     deleteRequests: bodyParams => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
     retryRequests: bodyParams => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
+    abortRequests: () => dispatch(requestAbortActions.sendSignal('PUT')),
   })
 
   static propTypes = {
     // from router
+    updateStateFromRequestManager: PropTypes.func.isRequired,
     params: PropTypes.shape({
       project: PropTypes.string,
       session: PropTypes.string,
@@ -82,6 +85,7 @@ export class OAISRequestManagerContainer extends React.Component {
     clearSelection: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
+    abortRequests: PropTypes.func.isRequired,
     // from mapStateToProps
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
@@ -128,11 +132,12 @@ export class OAISRequestManagerContainer extends React.Component {
 
   render() {
     const {
-      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests,
+      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests, abortRequests, updateStateFromRequestManager,
     } = this.props
 
     return (
       <OAISRequestManagerComponent
+        updateStateFromRequestManager={updateStateFromRequestManager}
         pageSize={OAISRequestManagerContainer.PAGE_SIZE}
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}
@@ -141,6 +146,7 @@ export class OAISRequestManagerContainer extends React.Component {
         selectionMode={selectionMode}
         deleteRequests={deleteRequests}
         retryRequests={retryRequests}
+        abortRequests={abortRequests}
       />
     )
   }

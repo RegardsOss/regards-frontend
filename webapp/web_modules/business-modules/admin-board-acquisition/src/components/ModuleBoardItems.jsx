@@ -65,13 +65,13 @@ const items = (projectName, intl, onResetIndex) => [
       {
         path: `/admin/${projectName}/data/acquisition/chain/list`,
         icon: <Build />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.chain.list.tooltip' }),
+        tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.configure' }),
         hateoasDependencies: processingChainDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/data/acquisition/oais/sip/submission`,
         icon: <AddIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'ingest.board.action.sumition.tooltip' }),
+        tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.submition' }),
         hateoasDependencies: oaisDependencies.addDependencies,
       },
       {
@@ -107,9 +107,9 @@ const items = (projectName, intl, onResetIndex) => [
       },
       {
         icon: <DeleteIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.index.delete' }),
-        confirmMessage: intl.formatMessage({ id: 'data.board.index.delete.confirm' }),
-        errorMessage: intl.formatMessage({ id: 'data.board.index.delete.error.message' }),
+        tooltipMsg: intl.formatMessage({ id: 'ingest.board.index.delete' }),
+        confirmMessage: intl.formatMessage({ id: 'ingest.board.index.delete.confirm' }),
+        errorMessage: intl.formatMessage({ id: 'ingest.board.index.delete.error.message' }),
         touchTapAction: onResetIndex,
         hateoasDependencies: [
           indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),

@@ -67,6 +67,7 @@ export class OAISPackageManagerContainer extends React.Component {
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
+    updateStateFromPackageManager: PropTypes.func.isRequired,
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
@@ -191,6 +192,7 @@ export class OAISPackageManagerContainer extends React.Component {
     const { urlFilters } = this.state
     const {
       updateStateFromFeatureManagerFilters,
+      updateStateFromPackageManager,
       featureManagerFilters,
       productFilters,
       tableSelection,
@@ -203,6 +205,7 @@ export class OAISPackageManagerContainer extends React.Component {
     return (
       <OAISPackageManagerComponent
         updateStateFromFeatureManagerFilters={updateStateFromFeatureManagerFilters}
+        updateStateFromPackageManager={updateStateFromPackageManager}
         urlFilters={urlFilters}
         pageSize={OAISPackageManagerContainer.PAGE_SIZE}
         featureManagerFilters={featureManagerFilters}

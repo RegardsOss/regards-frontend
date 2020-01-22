@@ -63,6 +63,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
       clearSelection: () => {},
       deleteRequests: () => {},
       retryRequests: () => {},
+      abortRequests: () => {},
+      updateStateFromRequestManager: () => {},
 
       featureManagerFilters: {
         state: '',
@@ -93,3 +95,4 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
     }, 'Component should define the expected properties and callbacks')
   })
 })
+

@@ -57,7 +57,7 @@ const messages = Object.assign({
   'acquisition-chain.form.fileInfos.list.add.button': 'Ajouter',
   'acquisition-chain.form.fileInfos.list.delete.button': 'Supprimer',
   'acquisition-chain.form.fileInfos.list.duplicate.button': 'Dupliquer',
-  'acquisition-chain.form.fileInfo.comment': 'Name',
+  'acquisition-chain.form.fileInfo.comment': 'Nom',
   'acquisition-chain.form.fileInfo.plugin.scan.label': 'Plugin de détection des données (*)',
   'acquisition-chain.form.fileInfo.mandatory': 'Obligatoire à la construction du produit',
   'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',

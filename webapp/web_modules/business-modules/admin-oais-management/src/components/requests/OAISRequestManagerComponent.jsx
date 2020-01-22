@@ -32,7 +32,9 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
-import Filter from 'mdi-material-ui/Filter'
+import AvReplay from 'material-ui/svg-icons/av/replay'
+import Stop from 'mdi-material-ui/Stop'
+import Delete from 'mdi-material-ui/Delete'
 import Dialog from 'material-ui/Dialog'
 import { IngestShapes } from '@regardsoss/shape'
 import { requestActions, requestSelectors } from '../../clients/RequestClient'
@@ -53,14 +55,15 @@ import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
  */
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
+    updateStateFromRequestManager: PropTypes.func.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
-    // tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
+    abortRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -174,8 +177,8 @@ export class OAISRequestManagerComponent extends React.Component {
     * @param newProps next component properties
     */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters) || !isEqual(newProps.requestFilters, this.props.requestFilters)) {
+      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.requestFilters, this.state.contextRequestURLParameters)
     }
   }
 
@@ -224,11 +227,15 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   changeStateFilter = (event, index, values) => {
-    this.onFilterUpdated({ state: values })
+    const { updateStateFromRequestManager } = this.props
+    const finalNewValue = values && values !== '' ? values : undefined
+    updateStateFromRequestManager({ state: finalNewValue })
   }
 
   changeTypeFilter = (event, index, values) => {
-    this.onFilterUpdated({ type: values })
+    const { updateStateFromRequestManager } = this.props
+    const finalNewValue = values && values !== '' ? values : undefined
+    updateStateFromRequestManager({ type: finalNewValue })
   }
 
   onViewRequestErrors = (requestErrorsToView) => {
@@ -469,11 +476,18 @@ export class OAISRequestManagerComponent extends React.Component {
     return null
   }
 
+  onAbortSelection = () => {
+    const { abortRequests } = this.props
+    abortRequests()
+  }
+
   render() {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const { pageSize, tableSelection } = this.props
-    const { appliedFilters, contextRequestURLParameters, contextRequestBodyParameters } = this.state
+    const {
+      pageSize, tableSelection, selectionMode, requestFilters,
+    } = this.props
+    const { contextRequestURLParameters, contextRequestBodyParameters } = this.state
     const types = OAISRequestManagerComponent.REQUEST_TYPES
     const states = OAISRequestManagerComponent.REQUEST_STATES
     const columns = [
@@ -519,7 +533,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 autoWidth
                 style={filter.fieldStyle}
                 hintText={formatMessage({ id: 'oais.requests.list.filters.type' })}
-                value={appliedFilters.type}
+                value={requestFilters ? requestFilters.type : ''}
                 onChange={this.changeTypeFilter}
               >
                 {map(types, type => <MenuItem key={type} value={type} primaryText={type} />)}
@@ -529,8 +543,8 @@ export class OAISRequestManagerComponent extends React.Component {
                 autoWidth
                 style={filter.fieldStyle}
                 hintText={formatMessage({ id: 'oais.packages.list.filters.state' })}
-                value={appliedFilters.state}
-                onChange={this.changeStateFilter}
+                value={requestFilters ? requestFilters.state : ''}
+                onChange={this.changeStateFilter || ''}
               >
                 {map(states, state => <MenuItem key={state} value={state} primaryText={state} />)}
                 <MenuItem key="" value="" primaryText="" />
@@ -540,18 +554,26 @@ export class OAISRequestManagerComponent extends React.Component {
               <FlatButton
                 key="retry"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.retry' })}
-                icon={<Filter />}
+                icon={<AvReplay />}
                 onClick={this.onRetrySelection}
-                disabled={isEmpty(tableSelection)}
+                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
               <FlatButton
                 key="delete"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
-                icon={<Filter />}
+                icon={<Delete />}
                 onClick={this.onDeleteSelection}
-                disabled={isEmpty(tableSelection)}
+                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
+              />
+            </TableHeaderOptionGroup>
+            <TableHeaderOptionGroup>
+              <FlatButton
+                key="abort"
+                label={formatMessage({ id: 'oais.requests.list.filters.buttons.abort' })}
+                icon={<Stop />}
+                onClick={this.onAbortSelection}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>

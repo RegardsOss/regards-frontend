@@ -59,6 +59,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
       },
 
       updateStateFromFeatureManagerFilters: () => {},
+      updateStateFromPackageManager: () => {},
       fetchProcessingChains: () => {},
       fetchPage: () => {},
       fetchStorages: () => {},

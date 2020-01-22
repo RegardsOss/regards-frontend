@@ -40,9 +40,11 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
   it('should render correctly', () => {
     const props = {
       updateStateFromFeatureManagerFilters: () => {},
+      updateStateFromRequestManager: () => {},
       pageSize: 1,
       deleteRequests: () => {},
       retryRequests: () => {},
+      abortRequests: () => {},
       selectionMode: '',
     }
     const enzymeWrapper = shallow(<OAISRequestManagerComponent {...props} />, { context })

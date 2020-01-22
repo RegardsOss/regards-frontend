@@ -32,6 +32,10 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
 import Filter from 'mdi-material-ui/Filter'
+import AvReplay from 'material-ui/svg-icons/av/replay'
+import Stop from 'mdi-material-ui/Stop'
+import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import Delete from 'mdi-material-ui/Delete'
 import { CommonDomain, DamDomain, IngestDomain } from '@regardsoss/domain'
 import Dialog from 'material-ui/Dialog'
 import { IngestShapes } from '@regardsoss/shape'
@@ -57,6 +61,7 @@ import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
 export class OAISPackageManagerComponent extends React.Component {
   static propTypes = {
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
+    updateStateFromPackageManager: PropTypes.func.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
@@ -164,8 +169,8 @@ export class OAISPackageManagerComponent extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters, this.state.appliedFilters, this.state.contextRequestURLParameters)
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters) || !isEqual(newProps.productFilters, this.props.productFilters)) {
+      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.productFilters, this.state.contextRequestURLParameters)
     }
   }
 
@@ -214,15 +219,21 @@ export class OAISPackageManagerComponent extends React.Component {
   }
 
   changeStateFilter = (event, index, values) => {
-    this.onFilterUpdated({ state: values })
+    const { updateStateFromPackageManager } = this.props
+    const finalNewValue = values && values !== '' ? values : undefined
+    updateStateFromPackageManager({ state: finalNewValue })
   }
 
   changeTypeFilter = (event, index, values) => {
-    this.onFilterUpdated({ type: values })
+    const { updateStateFromPackageManager } = this.props
+    const finalNewValue = values && values !== '' ? values : undefined
+    updateStateFromPackageManager({ type: finalNewValue })
   }
 
   changeStorageFilter = (event, index, values) => {
-    this.onFilterUpdated({ storage: values })
+    const { updateStateFromPackageManager } = this.props
+    const finalNewValue = values && values !== '' ? values : undefined
+    updateStateFromPackageManager({ storage: finalNewValue })
   }
 
   onViewAIPHistory = (entity) => {
@@ -289,10 +300,10 @@ export class OAISPackageManagerComponent extends React.Component {
   onConfirmDelete = (deletionMode) => {
     this.onCloseDeleteDialog()
     this.onCloseDeleteSelectionDialog()
-    const { deletionPayload, tableRequestParameters } = this.state
+    const { deletionPayload, contextRequestBodyParameters } = this.state
     const { deleteAips } = this.props
     const finalDeletionPayload = {
-      ...tableRequestParameters,
+      ...contextRequestBodyParameters,
       ...deletionPayload,
       deletionMode,
     }
@@ -505,9 +516,11 @@ export class OAISPackageManagerComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const { pageSize, storages, tableSelection } = this.props
     const {
-      appliedFilters, contextRequestURLParameters, contextRequestBodyParameters,
+      pageSize, storages, tableSelection, selectionMode, productFilters,
+    } = this.props
+    const {
+      contextRequestURLParameters, contextRequestBodyParameters,
     } = this.state
     const columns = [
       // checkbox
@@ -573,7 +586,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.type',
                 })}
-                value={appliedFilters.type}
+                value={productFilters ? productFilters.type : ''}
                 onChange={this.changeTypeFilter}
               >
                 {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={type} />)}
@@ -586,7 +599,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.state',
                 })}
-                value={appliedFilters.state}
+                value={productFilters ? productFilters.state : ''}
                 onChange={this.changeStateFilter}
               >
                 {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={state} />)}
@@ -600,7 +613,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.storage',
                 })}
-                value={appliedFilters.storage || ''}
+                value={productFilters ? productFilters.storage : ''}
                 onChange={this.changeStorageFilter}
               >
                 {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
@@ -612,17 +625,17 @@ export class OAISPackageManagerComponent extends React.Component {
                 key="modifySelection"
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
-                icon={<Filter />}
+                icon={<ModeEdit />}
                 onClick={this.onModifySelection}
-                disabled={isEmpty(tableSelection)}
+                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
               <FlatButton
                 key="deleteSelection"
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
-                icon={<Filter />}
+                icon={<Delete />}
                 onClick={this.onDeleteSelection}
-                disabled={isEmpty(tableSelection)}
+                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>
