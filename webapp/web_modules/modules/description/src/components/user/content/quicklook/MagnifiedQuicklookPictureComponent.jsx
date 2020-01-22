@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -52,13 +52,14 @@ class MagnifiedQuicklookPictureComponent extends React.Component {
         },
       },
     } = this.context
+    const displayedQL = UIDomain.QuicklookHelper.getQLDimensionOrFallback(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, quicklookFile)
     return (
       <div
         style={magnified.container}
         onClick={onToggleMagnified}
       >
         <img
-          src={quicklookFile[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD].uri}
+          src={displayedQL.uri}
           alt={formatMessage({ id: 'module.description.content.quicklook.alt.message' })}
           style={magnified.img}
         />

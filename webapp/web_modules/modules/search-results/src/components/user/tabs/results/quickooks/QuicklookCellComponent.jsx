@@ -110,16 +110,18 @@ class QuicklookCellComponent extends React.PureComponent {
    */
   static getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName) {
     // build groups with fallback
-    const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName)
+    const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName,
+      QuicklookCellComponent.canDisplayAsQuicklook)
     // 1 - Use thumbnail quicklook fallback system to compute the quicklook to use (primary group first, if it
-    // exists, then smaller dimension)
-    const preferredQuicklook = ThumbnailHelper.getQuicklookFallback(groups, QuicklookCellComponent.canDisplayAsQuicklook)
+    // exists, then smaller dimension first)
+    const preferredQuicklook = ThumbnailHelper.getQuicklookFallback(groups)
     if (preferredQuicklook) {
-      // console.error('Selected', preferredQuicklook)
       return preferredQuicklook // found: return immeditaly
     }
     // 2 - Attempt to replace by a thumbnail with dimensions when not found
-    return ThumbnailHelper.getThumbnail(get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName, QuicklookCellComponent.canDisplayAsQuicklook)
+    return ThumbnailHelper.getThumbnail(
+      get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName,
+      QuicklookCellComponent.canDisplayAsQuicklook)
   }
 
   /** Used by Infinite gallery API */

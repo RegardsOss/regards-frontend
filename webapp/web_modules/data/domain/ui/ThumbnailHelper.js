@@ -34,10 +34,10 @@ export class ThumbnailHelper {
    * @return {*} found file, matching DataManagementShapes.DataFile shape, or null (nota: file URI takes authentication in account)
    */
   static getThumbnail(thumbnailFiles = [], accessToken, projectName, canDisplay = DataFileController.isAvailableNow) {
-    return thumbnailFiles.reduce((foundFile, currentFile) => foundFile || canDisplay(currentFile) ? {
+    return thumbnailFiles.reduce((foundFile, currentFile) => foundFile || (canDisplay(currentFile) ? {
       ...currentFile,
       uri: DataFileController.getFileURI(currentFile, accessToken, projectName), // take auth information in account
-    } : null, null)
+    } : null), null)
   }
 
   /** Preferred quicklook dimension order when searching to a thumbnail replacement */
@@ -50,11 +50,10 @@ export class ThumbnailHelper {
 
   /**
    * Search for a fallback in quicklook definitions (preferes small dimensions, except if there is a primary group)
-   * @param {[*]} quicklookDefinitions array of UIShapes.QuicklookDefinition
-   * @param {function} canDisplay data file validity predicate like (dataFile) => (boolean)
-   * @return {*} found file, matching DataManagementShapes.DataFile shape, or null
+   * @param {[*]} quicklookDefinitions array of UIShapes.QuicklookDefinition (nota: the 'canDisplay' filter must
+   * have been already applied, thus the groups contains only displayable elements)
    */
-  static getQuicklookFallback(quicklookDefinitions, canDisplay = DataFileController.isAvailableNow) {
+  static getQuicklookFallback(quicklookDefinitions) {
     if (quicklookDefinitions.length > 0) {
       const firstGroup = quicklookDefinitions[0]
       if (firstGroup.primary) {
@@ -65,7 +64,7 @@ export class ThumbnailHelper {
               return foundFile
             }
             const currentFile = firstGroup[fileType]
-            return canDisplay(currentFile) ? currentFile : null
+            return currentFile
           }, null)
         if (primaryQL) {
           // exit case A : a primary group quicklook was found, use it on top of others
@@ -80,7 +79,7 @@ export class ThumbnailHelper {
         // skip first group if it was primary but failed providing a fallback in (A)
         for (let j = (firstGroup.primary ? 1 : 0); j < quicklookDefinitions.length; j += 1) {
           const currentFile = quicklookDefinitions[j][currentDimType]
-          if (canDisplay(currentFile)) {
+          if (currentFile) {
             // exit case B: found the first available quicklook as thumbnail replacement matching preference order
             return currentFile
           }

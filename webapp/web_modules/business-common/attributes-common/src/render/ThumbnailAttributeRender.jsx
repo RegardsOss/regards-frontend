@@ -97,7 +97,8 @@ export class ThumbnailAttributeRender extends React.Component {
     const {
       value: entityFiles, accessToken, projectName, settings: { primaryQuicklookGroup },
     } = this.props
-    const thumbnailFile = UIDomain.ThumbnailHelper.getThumbnail(get(entityFiles, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL), accessToken, projectName)
+    const thumbnailFile = UIDomain.ThumbnailHelper.getThumbnail(
+      get(entityFiles, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL), accessToken, projectName)
     if (thumbnailFile) {
       // case A: thumbnail available
       return thumbnailFile

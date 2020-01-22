@@ -48,7 +48,7 @@ export class QuicklookHelper {
    * @return {*} found quicklook or fallback, as a DataManagementShapes.DataFile, granted to be defined
    * if at least one quicklook in group as parameter is defined.
    */
-  static getQuicklookOrFallback(quicklookType, group) {
+  static getQLDimensionOrFallback(quicklookType, group) {
     // search the first defined quicklook file by preference order
     return QuicklookHelper.QUICKLOOK_FALLBACK_PREFERENCE[quicklookType].reduce(
       (acc, nextType) => acc || group[nextType], null)
@@ -60,16 +60,21 @@ export class QuicklookHelper {
    * @param {string} primaryGroupKey primary quicklook group key
    * @param {string} accessToken current user access when there is one. Used to compute files access URI
    * @param {string} projectName current project (tenant) name. Used to compute files access URI
+   * @param {function} canDisplay data file validity predicate like (dataFile) => (boolean)
    * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been
-   * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
+   * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label.
+   * Missing SD / MD / HD files are left empty
    */
-  static getQuicklooks(files = {}, primaryGroupKey, accessToken, projectName) {
+  static getQuicklooks(files, primaryGroupKey, accessToken, projectName, canDisplay = DataFileController.isAvailableNow) {
+    if (!files) {
+      return []
+    }
     // A - Group quicklooks by group name in map (update URI to use token project name when internal data files)
     const groupsMap = QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => {
       const typeFiles = files[type] || []
       return typeFiles.reduce((acc2, file) => {
-        // 0 - Ignore offline files
-        if (DataFileController.isAvailableNow(file)) {
+        // 0 - Ignore files that cannot be displayed
+        if (canDisplay(file)) {
           // 1 - identify file group and check if the file is part of primary group
           const fileMetaTypes = get(file, 'types', [])
           const groupName = fileMetaTypes.find(keyword => keyword !== primaryGroupKey)
@@ -99,15 +104,6 @@ export class QuicklookHelper {
     }, {})
     // B - complete each group to hold an SD/MD/HD file (with fallback mechanism), then sort on primary / group name
     return values(groupsMap)
-      .map(group => ({
-      // report main group definition (label / primary)
-        ...group,
-        // complete SD/MD/HD quicklooks if not present
-        ...QuicklookHelper.ALL_QUICKLOOK_TYPES.reduce((acc, type) => ({
-          ...acc,
-          [type]: QuicklookHelper.getQuicklookOrFallback(type, group),
-        }), {}),
-      }))
       .sort((group1, group2) => {
         if (group1.primary && !group2.primary) {
           return -1 // primary first
@@ -128,10 +124,11 @@ export class QuicklookHelper {
    * @param {string} primaryGroupKey primary quicklook group key
    * @param {string} accessToken current user access when there is one. Used to compute files access URI
    * @param {string} projectName current project (tenant) name. Used to compute files access URI
+   * @param {function} canDisplay data file validity predicate like (dataFile) => (boolean)
    * @return {[*]} entity quicklook definitions, as an array of UIShapes.QuicklookDefinition where data file URI has been
    * computed with access token and project name. Groups are ordered primary first, then, in sub partitions, by group label
    */
-  static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName) {
-    return QuicklookHelper.getQuicklooks(get(entity, 'content.files'), primaryGroupKey, accessToken, projectName)
+  static getQuicklooksIn(entity, primaryGroupKey, accessToken, projectName, canDisplay = DataFileController.isAvailableNow) {
+    return QuicklookHelper.getQuicklooks(get(entity, 'content.files'), primaryGroupKey, accessToken, projectName, canDisplay)
   }
 }
