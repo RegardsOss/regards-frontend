@@ -20,34 +20,29 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
-  'ingest.board.title': 'Ingestion (SIP)',
-  'ingest.board.description': 'Permet d\'ingérer des données qui sont déjà sous la forme de SIP. Un paquet de soumission ou SIP contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés.',
-  'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
-  'ingest.board.action.monitor.tooltip': 'Visualiser les ingestions',
-  'ingest.board.action.sumition.tooltip': 'Ingérer des SIP',
-
   'data-provider.board.title': 'Acquisition de données',
   'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
   'data-provider.board.action.configure.tooltip': 'Configurer les chaînes d\'acquisition',
   'data-provider.board.action.sessions.tooltip': 'Suivre les sessions d\'acquisition',
+
+  'data.board.oais.title': 'Manager de paquets (OAIS)',
+  'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
+  'data.board.oais.tooltip.see': 'Suivre les ingestions',
+  'data.board.oais.tooltip.configure': 'Configurer',
+  'data.board.oais.tooltip.sumition': 'Soumettre des SIPs',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations de données',
   'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
+  'ingest.board.index.delete': 'Réinitialiser le catalogue',
+  'ingest.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
+  'ingest.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 
   'data.board.storage.title': 'Stockage',
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
-
-  'data.board.oais.title': 'Manager de paquets (OAIS)',
-  'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
-  'data.board.oais.tooltip.see': 'Suivre les ingestions',
-
-  'data.board.index.delete': 'Réinitialiser le catalogue',
-  'data.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
-  'data.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 
 }
 
