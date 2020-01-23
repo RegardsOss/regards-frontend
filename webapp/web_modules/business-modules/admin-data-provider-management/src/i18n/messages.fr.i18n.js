@@ -37,7 +37,6 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.title': 'Général',
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
-  'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
   'acquisition-chain.form.general.section.periodicity': 'Cron d\'activation.',
   'acquisition-chain.form.general.section.cron.description.title': 'Format des expressions Cron acceptées.',
   'acquisition-chain.form.general.section.cron.description.tooltip': 'Format des expressions Cron acceptées.',

@@ -86,7 +86,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
 
   static getNewIntialValues = () => ({
     active: true,
-    generationRetryEnabled: false,
     fileInfos: [{
       mandatory: true,
     }],
@@ -338,12 +337,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   fullWidth
                   component={RenderCheckbox}
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.active' })}
-                />
-                <Field
-                  name="generationRetryEnabled"
-                  fullWidth
-                  component={RenderCheckbox}
-                  label={formatMessage({ id: 'acquisition-chain.form.general.generationRetryEnabled' })}
                 />
                 <Field
                   key="mode"
