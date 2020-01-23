@@ -189,7 +189,11 @@ export class DescriptionEntityHelper {
     uiSettings, moduleConfiguration, attributes, descriptionEntity,
     tags, accessToken, projectName, modelRetrievalFailed) {
     const { entity, displayModel: initialDisplayModel } = descriptionEntity
-    const typeConfiguration = moduleConfiguration[entity.content.entityType]
+    const typeConfiguration = moduleConfiguration[
+      UIDomain.isDocumentEntity(uiSettings, entity)
+        ? UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT // use document pseudo type configuration
+        : entity.content.entityType // use entity type configuration
+    ]
     const hasValidConfiguration = get(typeConfiguration, 'showDescription', false)
     return {
       ...descriptionEntity,
