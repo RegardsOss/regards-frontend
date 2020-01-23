@@ -22,8 +22,10 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
 import some from 'lodash/some'
+import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
+import IconButton from 'material-ui/IconButton'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
@@ -45,6 +47,7 @@ import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcess
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
 import { StoragesFieldArrayRenderer, DATA_TYPES_ENUM } from './StoragesFieldArrayRenderer'
 import { CategoriesFieldArrayRenderer } from './CategoriesFieldArrayRenderer'
+import CronDescriptionDialog from './CronDescriptionDialog'
 import styles from '../../styles'
 import messages from '../../i18n'
 
@@ -52,7 +55,7 @@ const {
   required, validStringSize,
 } = ValidationHelpers
 const validRequiredString255 = [required, validStringSize(1, 255)]
-const validateCron = value => value && !/^0 \* ((\*|\?|\d+((\/|-){0,1}(\d+))*)\s*){4}$/i.test(value)
+const validateCron = value => value && !/^0 [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*$/i.test(value)
   ? 'invalid.cron.expression' : undefined
 
 /**
@@ -163,6 +166,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return true
   }
 
+  state = {
+    cronDescOpened: false,
+  }
+
   componentWillMount() {
     const {
       chain, mode, storages, initialize,
@@ -236,6 +243,13 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     input.onChange(value)
   }
 
+  switchCronDialog = () => {
+    this.setState({
+      cronDescOpened: !this.state.cronDescOpened,
+    })
+  }
+
+
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
     const {
@@ -263,7 +277,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     const {
       chain, onSubmit, handleSubmit, mode, hasModeAuto,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { periodicity } } = this.context
 
     const infoMessage = (
       <span>
@@ -350,14 +364,26 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   ))}
                 </Field>
                 {hasModeAuto ? (
-                  <Field
-                    name="periodicity"
-                    fullWidth
-                    component={RenderTextField}
-                    type="text"
-                    label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
-                    validate={validateCron}
-                  />
+                  <div style={periodicity.layout}>
+                    <div style={periodicity.field}>
+                      <Field
+                        name="periodicity"
+                        fullWidth
+                        component={RenderTextField}
+                        type="text"
+                        label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
+                        validate={validateCron}
+                      />
+                    </div>
+                    <div style={periodicity.help}>
+                      <IconButton
+                        tooltip={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.tooltip' })}
+                        onClick={this.switchCronDialog}
+                      >
+                        <HelpCircle />
+                      </IconButton>
+                    </div>
+                  </div>
                 ) : (<div />)}
                 <Field
                   name="ingestChain"
@@ -414,6 +440,10 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
             </Tabs>
           </CardText>
           {this.renderActionButtons()}
+          <CronDescriptionDialog
+            opened={this.state.cronDescOpened}
+            onClose={this.switchCronDialog}
+          />
         </Card>
       </form>
     )
