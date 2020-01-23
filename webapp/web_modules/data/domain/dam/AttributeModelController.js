@@ -22,8 +22,7 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import isString from 'lodash/isString'
 
-import { DATA_TYPES_ENUM } from '../common/DataTypes'
-import MODEL_ATTR_TYPES from './ModelAttrTypes'
+import { MODEL_ATTR_TYPES } from './ModelAttrTypes'
 
 /**
  * Enumeration and controller for AttributeModel entities
@@ -87,7 +86,7 @@ const standardAttributes = {
     id: -6,
     label: 'Thumbnail',
     type: MODEL_ATTR_TYPES.URL,
-    jsonPath: `files.${DATA_TYPES_ENUM.THUMBNAIL}[0]`,
+    jsonPath: 'files', // render using file to be able fallbacking onto quicklooks if required
   },
   [standardAttributesKeys.geometry]: {
     key: standardAttributesKeys.geometry,

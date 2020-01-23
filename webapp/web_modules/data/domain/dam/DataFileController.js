@@ -57,8 +57,17 @@ function getFileURI(dataFile, accessToken, projectName) {
   return getURI(dataFile.uri, dataFile.reference, accessToken, projectName)
 }
 
+/**
+ * Is file immediately available?
+ * @param {*} dataFile data file
+ */
+function isAvailableNow(dataFile) {
+  return !!dataFile && (dataFile.reference || dataFile.online)
+}
+
 
 export default {
   getFileURI,
   getURI,
+  isAvailableNow,
 }

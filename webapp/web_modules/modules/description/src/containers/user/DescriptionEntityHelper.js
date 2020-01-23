@@ -198,11 +198,12 @@ export class DescriptionEntityHelper {
       modelRetrievalFailed,
       displayModel: hasValidConfiguration ? {
         // compile to display model when configuration is valid
-        thumbnail: DescriptionEntityHelper.packThumbnail(typeConfiguration, entity, accessToken, projectName),
         attributesGroups: DescriptionEntityHelper.filterAndConvertGroups(typeConfiguration, attributes, entity),
         descriptionFiles: DescriptionEntityHelper.packDescriptionFiles(typeConfiguration, attributes, entity, accessToken, projectName),
-        quicklookFiles: DescriptionEntityHelper.packQuicklooks(entity, uiSettings.primaryQuicklookGroup, accessToken, projectName),
         otherFiles: DescriptionEntityHelper.packOtherFiles(entity, accessToken, projectName),
+        // pack images (thumbnail and quicklook files) in corresponding fields
+        ...DescriptionEntityHelper.packPictures(typeConfiguration, uiSettings.primaryQuicklookGroup, entity, accessToken, projectName),
+        // packs tags in corresponding fields
         ...DescriptionEntityHelper.splitAndSortTags(uiSettings, typeConfiguration, tags),
       } : initialDisplayModel, // default to initial display model
     }
@@ -315,29 +316,44 @@ export class DescriptionEntityHelper {
     const uriOriginParam = `&origin=${root.location.protocol}//${root.location.host}`
     return get(entity.content, `files.${fileDataType}`, []).map(dataFile => ({
       label: dataFile.filename,
-      available: dataFile.online || dataFile.reference,
+      available: DamDomain.DataFileController.isAvailableNow(dataFile),
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
       uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
     }))
   }
 
   /**
-   * Packs thumbnail file for display model when it should be displayed (returns null otherwise)
+   * Packs thumbnail and quicklooks files for display model when it should be displayed
    * @param {*} typeConfiguration entity type configuration (see ModuleConfiguration.DescriptionConfiguration)
+   * @param {string} primaryQLGroupKey primary quicklooks group key
    * @param {*} entity matching CatalogShapes.Entity
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {string} accessToken when there is one
    * @param {string} projectName current project (tenant) name
-   * @return {*} thumbnail as DescriptionState.FileData or null
+   * @return {{thumbnail: *, quicklookFiles: [*]}} entity picture file fields: thumbnail as DataManagementShapes.DataFile
+   * and quicklookFiles as an array of UIShapes.QuicklookDefinition
    */
-  static packThumbnail(typeConfiguration, entity, accessToken, projectName) {
+  static packPictures(typeConfiguration, primaryQuicklookGroup, entity, accessToken, projectName) {
+    // Compute quicklook
+    const quicklookFiles = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName)
+    let thumbnailFile = null
     if (typeConfiguration.showThumbnail) {
-      const thumbnails = DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL, accessToken, projectName)
-      if (thumbnails.length) {
-        return thumbnails[0]
+      // A - try to find a direct thumbnail file
+      thumbnailFile = UIDomain.ThumbnailHelper.getThumbnail(
+        get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName)
+      if (!thumbnailFile) {
+        // B - Fallback onto a quicklook
+        thumbnailFile = UIDomain.ThumbnailHelper.getQuicklookFallback(quicklookFiles)
       }
     }
-    return null
+    return {
+      thumbnail: thumbnailFile ? {
+        label: thumbnailFile.filename,
+        available: true, // selected file is always available
+        uri: thumbnailFile.uri,
+      } : null,
+      quicklookFiles,
+    }
   }
 
   /**
@@ -378,18 +394,6 @@ export class DescriptionEntityHelper {
       // map entity native description files
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, accessToken, projectName),
     ]
-  }
-
-  /**
-   * Packs entity quicklook definitions
-   * @param {*} entity matching CatalogShapes.Entity
-   * @param {string} primaryQLGroupKey primary quicklooks group key
-   * @param {string} accessToken when there is one
-   * @param {string} projectName current project (tenant) name
-   * @return {[*]} quicklook definitions as an array of UIShapes.QuicklookDefinition
-   */
-  static packQuicklooks(entity, primaryQLGroupKey, accessToken, projectName) {
-    return UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQLGroupKey, accessToken, projectName)
   }
 
   /**

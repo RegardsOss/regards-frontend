@@ -22,7 +22,6 @@ import { CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MagnifiedQuicklookPictureComponent from '../../../../../src/components/user/content/quicklook/MagnifiedQuicklookPictureComponent'
 import styles from '../../../../../src/styles'
-import { buildQuicklookGroupFor } from '../../../../dumps/quicklook.dumps'
 
 const context = buildTestContext(styles)
 
@@ -37,9 +36,69 @@ describe('[Description] Testing MagnifiedQuicklookPictureComponent', () => {
   it('should exists', () => {
     assert.isDefined(MagnifiedQuicklookPictureComponent)
   })
-  it('should render correctly', () => {
+
+  function buildImgDataFile(dataType, {
+    name, reference = false, online = true, size, groupName,
+  }) {
+    return {
+      dataType,
+      reference,
+      uri: `http://mydomain.com/myURI/${name}.png`,
+      mimeType: 'image/png',
+      imageWidth: size,
+      imageHeight: size,
+      online,
+      checksum: name,
+      digestAlgorithm: 'potatoes-digest',
+      filesize: 25,
+      filename: name,
+      types: groupName ? [groupName] : [],
+    }
+  }
+
+  const testCases = [{
+    title: 'should render correctly using HD file by default',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: true,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, {
+        name: 'small', reference: true, online: true, size: 16, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, {
+        name: 'medium', reference: true, online: true, size: 256, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, {
+        name: 'high', reference: true, online: true, size: 2048, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/high.png',
+  }, {
+    title: 'should render correctly fallbacking on MD when HD is not available',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: false,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, {
+        name: 'small', reference: true, online: true, size: 16, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, {
+        name: 'medium', reference: true, online: true, size: 256, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/medium.png',
+  }, {
+    title: 'should render correctly fallbacking on SD when both HD and MD are not available',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: false,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, {
+        name: 'small', reference: true, online: true, size: 16, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/small.png',
+  }]
+  testCases.forEach(({ title, quicklookFile, expectedURI }) => it(title, () => {
     const props = {
-      quicklookFile: buildQuicklookGroupFor('any', true),
+      quicklookFile,
       onToggleMagnified: () => {},
     }
     const enzymeWrapper = shallow(<MagnifiedQuicklookPictureComponent {...props} />, { context })
@@ -49,8 +108,8 @@ describe('[Description] Testing MagnifiedQuicklookPictureComponent', () => {
     const pictureWrapper = enzymeWrapper.find('img')
     assert.lengthOf(pictureWrapper, 1, 'There should be picture wrapper')
     testSuiteHelpers.assertWrapperProperties(pictureWrapper, {
-      src: props.quicklookFile[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD].uri,
+      src: expectedURI,
       alt: 'module.description.content.quicklook.alt.message',
     }, 'Picture wrapper should show the right picture and an alternative internationalized message')
-  })
+  }))
 })

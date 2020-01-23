@@ -27,7 +27,8 @@ import { DataFile } from '../rs-dam/DataFile'
 export const QuicklookDefinition = PropTypes.shape({
   label: PropTypes.string, // when missing, it is an unknown group
   primary: PropTypes.bool.isRequired,
-  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: DataFile.isRequired,
-  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: DataFile.isRequired,
-  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: DataFile.isRequired,
+  // each file is not required separately, but one file is granted to be provided
+  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: DataFile,
+  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: DataFile,
+  [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: DataFile,
 })

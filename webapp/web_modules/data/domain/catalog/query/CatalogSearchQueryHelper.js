@@ -38,6 +38,9 @@ export default class CatalogSearchQueryHelper {
   /** Existence check parameter */
   static EXISTS_PARAMETER_NAME = 'exists'
 
+  /** Check entity image existence */
+  static HAS_IMAGE_PARAMETER_NAME = 'hasImage'
+
   /** Cone search parameters group: latitude */
   static LATITUDE_PARAMETER_NAME = 'lat'
 

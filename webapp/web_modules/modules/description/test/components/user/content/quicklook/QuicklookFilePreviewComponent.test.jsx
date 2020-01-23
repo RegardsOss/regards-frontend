@@ -99,4 +99,80 @@ describe('[Description] Testing QuicklookFilePreviewComponent', () => {
     rootDivWrapper.props().onClick()
     assert.equal(spyOnSelectGroup.groupIndex, props.groupIndex, 'Callback should have invoked on click with the right index')
   })
+
+  function buildImgDataFile(dataType, {
+    name, reference = false, online = true, size, groupName,
+  }) {
+    return {
+      dataType,
+      reference,
+      uri: `http://mydomain.com/myURI/${name}.png`,
+      mimeType: 'image/png',
+      imageWidth: size,
+      imageHeight: size,
+      online,
+      checksum: name,
+      digestAlgorithm: 'potatoes-digest',
+      filesize: 25,
+      filename: name,
+      types: groupName ? [groupName] : [],
+    }
+  }
+  const testCases = [{
+    title: 'should use SD file when available',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: true,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, {
+        name: 'small', reference: true, online: true, size: 16, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, {
+        name: 'medium', reference: true, online: true, size: 256, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, {
+        name: 'high', reference: true, online: true, size: 2048, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/small.png',
+  }, {
+    title: 'should fallback on MD file when SD is not available',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: false,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, {
+        name: 'medium', reference: true, online: true, size: 256, groupName: 'any',
+      }),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, {
+        name: 'high', reference: true, online: true, size: 2048, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/medium.png',
+  }, {
+    title: 'should fallback on HD file when both MD and SD are not available',
+    quicklookFile: {
+      label: 'aGroup',
+      primary: false,
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, {
+        name: 'high', reference: true, online: true, size: 2048, groupName: 'any',
+      }),
+    },
+    expectedURI: 'http://mydomain.com/myURI/high.png',
+  }]
+
+  testCases.forEach(({ title, quicklookFile, expectedURI }) => it(title, () => {
+    const props = {
+      groupIndex: 5,
+      selected: false,
+      quicklookFile,
+      onSelectGroup: () => {},
+    }
+    const enzymeWrapper = shallow(<QuicklookFilePreviewComponent {...props} />, { context })
+    const pictureWrapper = enzymeWrapper.find('img')
+    assert.lengthOf(pictureWrapper, 1, 'There should be the picture')
+    testSuiteHelpers.assertWrapperProperties(pictureWrapper, {
+      src: expectedURI,
+      alt: 'aGroup',
+      title: 'aGroup',
+    })
+  }))
 })

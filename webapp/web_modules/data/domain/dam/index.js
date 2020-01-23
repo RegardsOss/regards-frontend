@@ -21,7 +21,7 @@ export { default as getAbstractEntityDescription } from './getAbstractEntityDesc
 export { default as getFullQualifiedAttributeName } from './getFullQualifiedAttributeName'
 export { ENTITY_TYPES, ENTITY_TYPES_ENUM } from './EntityTypes'
 
-export { default as MODEL_ATTR_TYPES } from './ModelAttrTypes'
+export { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES, THUMBNAIL_PSEUDO_TYPE } from './ModelAttrTypes'
 export { default as FRAGMENT_NONE, default as DEFAULT_FRAGMENT } from './FragmentNone'
 export { default as AttributeModelController } from './AttributeModelController'
 export {
