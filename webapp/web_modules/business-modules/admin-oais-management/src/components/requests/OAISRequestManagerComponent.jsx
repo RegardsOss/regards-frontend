@@ -99,7 +99,7 @@ export class OAISRequestManagerComponent extends React.Component {
   }
 
   static COLUMN_KEYS = {
-    ID: 'id',
+    ID: 'providerId',
     TYPE: 'type',
     STATE: 'state',
     LASTSUBMITTED: 'lastSubmitted',
@@ -160,7 +160,7 @@ export class OAISRequestManagerComponent extends React.Component {
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
   componentWillMount = () => {
-    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {}, this.state.contextRequestURLParameters)
+    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {})
   }
 
   /**
@@ -178,13 +178,12 @@ export class OAISRequestManagerComponent extends React.Component {
     */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters) || !isEqual(newProps.requestFilters, this.props.requestFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.requestFilters, this.state.contextRequestURLParameters)
+      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.requestFilters)
     }
   }
 
-  onRequestStateUpdated = (featureManagerFilters, appliedFilters, contextRequestURLParameters) => {
+  onRequestStateUpdated = (featureManagerFilters, appliedFilters) => {
     this.setState({
-      contextRequestURLParameters,
       appliedFilters,
       contextRequestBodyParameters: OAISRequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
     })
@@ -223,7 +222,7 @@ export class OAISRequestManagerComponent extends React.Component {
       ...this.state.appliedFilters,
       ...newFilterValue,
     }
-    this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.columnsSorting)
+    this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters)
   }
 
   changeStateFilter = (event, index, values) => {
