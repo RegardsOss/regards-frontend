@@ -136,7 +136,7 @@ export class OAISRequestManagerComponent extends React.Component {
       contextRequestBodyParameters.requestType = type
     }
     if (state) {
-      contextRequestBodyParameters.state = state
+      contextRequestBodyParameters.states = [state] // handled as a muti-choice list on back
     }
     return contextRequestBodyParameters
   }

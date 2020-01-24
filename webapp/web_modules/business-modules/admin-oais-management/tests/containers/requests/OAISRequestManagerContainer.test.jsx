@@ -95,4 +95,3 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
     }, 'Component should define the expected properties and callbacks')
   })
 })
-
