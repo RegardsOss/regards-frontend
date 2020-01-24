@@ -29,7 +29,7 @@ const messages = {
   'data.board.oais.description': 'Products Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show products',
   'data.board.oais.tooltip.configure': 'Configure',
-  'data.board.oais.tooltip.sumition': 'Submit SIPs',
+  'data.board.oais.tooltip.submition': 'Submit SIPs',
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding data through external data sources.',

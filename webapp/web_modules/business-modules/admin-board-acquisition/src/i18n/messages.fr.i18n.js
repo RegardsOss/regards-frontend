@@ -29,7 +29,7 @@ const messages = {
   'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Consulter les produits',
   'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
-  'data.board.oais.tooltip.sumition': 'Soumettre des SIPs',
+  'data.board.oais.tooltip.submition': 'Soumettre des SIPs',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
