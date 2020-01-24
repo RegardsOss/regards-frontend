@@ -22,11 +22,11 @@ const messages = {
 
   'data-provider.board.title': 'Data acquisition',
   'data-provider.board.description': 'Configure data acquisition chains allowing to acquire new detected data (detection method is configurable). These processes generate Submission Information Package (SIP) to be provided to the system for ingestion.',
-  'data-provider.board.action.configure.tooltip': 'Configure acquisition chains',
-  'data-provider.board.action.sessions.tooltip': 'Monitor aquisition sessions',
+  'data-provider.board.action.configure.tooltip': 'Acquisition chains',
+  'data-provider.board.action.sessions.tooltip': 'Acquisition sessions',
 
-  'data.board.oais.title': 'Package Manager (OAIS)',
-  'data.board.oais.description': 'Package Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
+  'data.board.oais.title': 'Products Manager (OAIS)',
+  'data.board.oais.description': 'Products Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show products',
   'data.board.oais.tooltip.configure': 'Configure',
   'data.board.oais.tooltip.sumition': 'Submit SIPs',

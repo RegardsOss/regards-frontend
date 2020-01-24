@@ -22,13 +22,13 @@ const messages = {
 
   'data-provider.board.title': 'Acquisition de données',
   'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
-  'data-provider.board.action.configure.tooltip': 'Configurer les chaînes d\'acquisition',
-  'data-provider.board.action.sessions.tooltip': 'Suivre les sessions d\'acquisition',
+  'data-provider.board.action.configure.tooltip': 'Chaînes d\'acquisition',
+  'data-provider.board.action.sessions.tooltip': 'Sessions d\'acquisition',
 
-  'data.board.oais.title': 'Manager de paquets (OAIS)',
-  'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
+  'data.board.oais.title': 'Gestionnaire de produits (OAIS)',
+  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Consulter les produits',
-  'data.board.oais.tooltip.configure': 'Configurer',
+  'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
   'data.board.oais.tooltip.sumition': 'Soumettre des SIPs',
 
   'ingest.board.external.datasources.title': 'Aspiration',
