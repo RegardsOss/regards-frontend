@@ -27,7 +27,7 @@ const messages = {
 
   'data.board.oais.title': 'Package Manager (OAIS)',
   'data.board.oais.description': 'Package Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
-  'data.board.oais.tooltip.see': 'Show ingest and storage',
+  'data.board.oais.tooltip.see': 'Show products',
   'data.board.oais.tooltip.configure': 'Configure',
   'data.board.oais.tooltip.sumition': 'Submit SIPs',
 

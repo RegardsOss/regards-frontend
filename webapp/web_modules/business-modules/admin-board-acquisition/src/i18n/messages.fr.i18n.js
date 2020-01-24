@@ -27,7 +27,7 @@ const messages = {
 
   'data.board.oais.title': 'Manager de paquets (OAIS)',
   'data.board.oais.description': 'Manager de paquets (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
-  'data.board.oais.tooltip.see': 'Suivre les ingestions',
+  'data.board.oais.tooltip.see': 'Consulter les produits',
   'data.board.oais.tooltip.configure': 'Configurer',
   'data.board.oais.tooltip.sumition': 'Soumettre des SIPs',
 
