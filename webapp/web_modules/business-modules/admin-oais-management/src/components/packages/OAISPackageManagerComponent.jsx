@@ -383,7 +383,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.sip.sipId),
+            aipIds: map(tableSelection, entity => entity.content.aipId),
           },
         })
         break
@@ -392,7 +392,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.sip.sipId),
+            aipIds: map(tableSelection, entity => entity.content.aipId),
           },
         })
         break
@@ -492,7 +492,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isModifySelectionDialogOpened: true,
           modifyPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.aip.sipId),
+            aipIds: map(tableSelection, entity => entity.content.aipId),
           },
         })
         break
