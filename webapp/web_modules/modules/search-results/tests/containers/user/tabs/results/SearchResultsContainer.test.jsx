@@ -193,7 +193,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       q: 'tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"coffee" AND my.attr.1=coffee AND tags:"URN:AIP:DATASET:project1:XXXX2:V1"',
       sort: ['my.attr.1,DESC', 'my.attr.2,ASC'], // sort
       facets: ['my.attr.1'], // requested facets
-      exists: ['feature.files.QUICKLOOK_SD'], // quicklook exists filter
+      hasImage: ['true'], // has image filter
     }, '(3) Request parameters should be correctly computed for DATA with query')
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDataobjectsActions, '(3) Search actions should be correctly computed for DATA with query')
   })

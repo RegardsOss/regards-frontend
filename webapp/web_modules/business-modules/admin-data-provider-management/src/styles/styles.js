@@ -373,6 +373,37 @@ const styles = theme => ({
       background: 'red',
     },
   },
+  markdownDialog: {
+    dialogRoot: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingTop: 0,
+    },
+    dialogContent: {
+      position: 'relative',
+      width: '80vw',
+      transform: '',
+    },
+    bodyStyle: {
+      padding: 0,
+    },
+    markdownView: {
+      width: '100%',
+      height: 450,
+    },
+  },
+  periodicity: {
+    layout: {
+      display: 'flex',
+    },
+    field: {
+      flexGrow: 1,
+    },
+    help: {
+      width: '150px',
+    },
+  },
 })
 
 export default styles

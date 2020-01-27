@@ -29,7 +29,7 @@ export const attributeModelFields = {
   jsonPath: PropTypes.string,
   description: PropTypes.string,
   defaultValue: PropTypes.string,
-  type: PropTypes.oneOf(values(DamDomain.MODEL_ATTR_TYPES)).isRequired,
+  type: PropTypes.oneOf(values(DamDomain.PSEUDO_ATTR_TYPES)).isRequired,
   unit: PropTypes.string,
   precision: PropTypes.number,
   arraysize: PropTypes.number,

@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 
 /**
@@ -67,13 +67,14 @@ class QuicklookFilePreviewComponent extends React.Component {
       },
     } = this.context
     const groupLabel = quicklookFile.label || formatMessage({ id: 'module.description.content.quicklook.group.unknown' })
+    const displayedQL = UIDomain.QuicklookHelper.getQLDimensionOrFallback(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, quicklookFile)
     return (
       <div
         style={selected ? pictureContainer.selected : pictureContainer.unselected}
         onClick={this.onSelectGroup}
       >
         <img
-          src={quicklookFile[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD].uri}
+          src={displayedQL.uri}
           alt={groupLabel}
           title={groupLabel}
           style={picture}

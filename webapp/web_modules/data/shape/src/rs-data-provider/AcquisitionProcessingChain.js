@@ -31,7 +31,6 @@ export const AcquisitionProcessingChainContent = PropTypes.shape({
   label: PropTypes.string.isRequired,
   active: PropTypes.bool.isRequired,
   categories: PropTypes.arrayOf(PropTypes.string),
-  generationRetryEnabled: PropTypes.bool.isRequired,
   mode: PropTypes.oneOf(DataProviderDomain.AcquisitionProcessingChainModes).isRequired,
   locked: PropTypes.bool,
   lastDateActivation: PropTypes.string,

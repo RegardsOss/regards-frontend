@@ -51,7 +51,7 @@ export const configuration = {
         TABLE: {
           enabled: true,
           attributes: [
-            { attributes: [{ name: 'files.THUMBNAIL[0]' }], label: { en: 'Thumbnail', fr: 'Vignette' } },
+            { attributes: [{ name: 'files' }], label: { en: 'Thumbnail', fr: 'Vignette' } },
             { attributes: [{ name: 'label' }], label: { en: 'Label', fr: 'Libellé' } },
             { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
             { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } }],
