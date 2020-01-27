@@ -31,7 +31,7 @@ export const dataFileFields = {
   mimeType: PropTypes.string.isRequired,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,
-  online: PropTypes.bool.isRequired, // Does the file is directly accessible ? If not online, file is not downloadable.
+  online: PropTypes.bool.isRequired, // Is the file directly accessible ? If not online, file is not downloadable.
   checksum: PropTypes.string,
   digestAlgorithm: PropTypes.string,
   filesize: PropTypes.number,
