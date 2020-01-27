@@ -42,6 +42,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
       updateStateFromFeatureManagerFilters: () => {},
       updateStateFromPackageManager: () => {},
       pageSize: 1,
+      fetchPage: () => {},
+      clearSelection: () => {},
       deleteAips: () => {},
       modifyAips: () => {},
       selectionMode: '',

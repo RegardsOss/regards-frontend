@@ -42,6 +42,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
       updateStateFromFeatureManagerFilters: () => {},
       updateStateFromRequestManager: () => {},
       pageSize: 1,
+      fetchPage: () => {},
+      clearSelection: () => {},
       deleteRequests: () => {},
       retryRequests: () => {},
       abortRequests: () => {},

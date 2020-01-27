@@ -81,14 +81,12 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
 
     }
     const enzymeWrapper = shallow(<OAISRequestManagerContainer {...props} />, { context })
-    const wrapperInstance = enzymeWrapper.instance()
     const componentWrapper = enzymeWrapper.find(OAISRequestManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       pageSize: OAISRequestManagerContainer.PAGE_SIZE,
       featureManagerFilters: props.featureManagerFilters,
       requestFilters: props.requestFilters,
-      onRefresh: wrapperInstance.onRefresh,
       selectionMode: props.selectionMode,
       deleteRequests: props.deleteRequests,
       retryRequests: props.retryRequests,

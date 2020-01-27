@@ -132,16 +132,18 @@ export class OAISRequestManagerContainer extends React.Component {
 
   render() {
     const {
-      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests, abortRequests, updateStateFromRequestManager,
+      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests, abortRequests, updateStateFromRequestManager, meta, fetchPage, clearSelection,
     } = this.props
 
     return (
       <OAISRequestManagerComponent
         updateStateFromRequestManager={updateStateFromRequestManager}
         pageSize={OAISRequestManagerContainer.PAGE_SIZE}
+        pageMeta={meta}
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}
-        onRefresh={this.onRefresh}
+        fetchPage={fetchPage}
+        clearSelection={clearSelection}
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         deleteRequests={deleteRequests}

@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
@@ -179,20 +178,12 @@ export class OAISPackageManagerContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onRefresh = () => {
-    const { meta, fetchPage, clearSelection } = this.props
-    const { currentFilters } = this.state
-    const curentPage = get(meta, 'number', 0)
-    clearSelection()
-    // TODO add request parameters (sort), make sure body is valid (currentFilters)
-    fetchPage(0, OAISPackageManagerContainer.PAGE_SIZE * (curentPage + 1), null, null, currentFilters)
-  }
-
   render() {
     const { urlFilters } = this.state
     const {
       updateStateFromFeatureManagerFilters,
       updateStateFromPackageManager,
+      meta,
       featureManagerFilters,
       productFilters,
       tableSelection,
@@ -200,6 +191,8 @@ export class OAISPackageManagerContainer extends React.Component {
       deleteAips,
       selectionMode,
       modifyAips,
+      fetchPage,
+      clearSelection,
     } = this.props
 
     return (
@@ -208,10 +201,12 @@ export class OAISPackageManagerContainer extends React.Component {
         updateStateFromPackageManager={updateStateFromPackageManager}
         urlFilters={urlFilters}
         pageSize={OAISPackageManagerContainer.PAGE_SIZE}
+        pageMeta={meta}
         featureManagerFilters={featureManagerFilters}
         productFilters={productFilters}
         storages={storages}
-        onRefresh={this.onRefresh}
+        fetchPage={fetchPage}
+        clearSelection={clearSelection}
         deleteAips={deleteAips}
         tableSelection={tableSelection}
         selectionMode={selectionMode}

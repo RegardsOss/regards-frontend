@@ -346,7 +346,7 @@ export class AIPModifyDialogComponent extends React.Component {
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.sip.cancel.delete' })}
+        label={formatMessage({ id: 'oais.packages.modify.cancel' })}
         primary
         keyboardFocused
         onClick={onClose}
@@ -354,7 +354,7 @@ export class AIPModifyDialogComponent extends React.Component {
       <FlatButton
         key="confirmModify"
         id="confirm.dialog.cancel"
-        label="modify"
+        label={formatMessage({ id: 'oais.packages.modify.confirm' })}
         keyboardFocused
         onClick={this.onConfirmModify}
       />,
@@ -381,9 +381,9 @@ export class AIPModifyDialogComponent extends React.Component {
       >
         <div style={aipModifyDialog}>
           <List style={aipModifyDialogList}>
-            <ListItem primaryText="storages" leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
-            <ListItem primaryText="categories" leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
-            <ListItem primaryText="tags" leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storages' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.categories' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tags' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
           </List>
           {this.renderSection()}
         </div>

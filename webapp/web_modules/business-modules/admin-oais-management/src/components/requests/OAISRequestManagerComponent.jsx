@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
@@ -56,9 +57,16 @@ import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
     updateStateFromRequestManager: PropTypes.func.isRequired,
+    pageMeta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
+    fetchPage: PropTypes.func.isRequired,
+    clearSelection: PropTypes.func.isRequired,
     selectionMode: PropTypes.string.isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     deleteRequests: PropTypes.func.isRequired,
@@ -82,6 +90,7 @@ export class OAISRequestManagerComponent extends React.Component {
     BLOCKED: 'BLOCKED',
     RUNNING: 'RUNNING',
     ERROR: 'ERROR',
+    ABORTED: 'ABORTED',
   }
 
   static REQUEST_TYPES = {
@@ -187,6 +196,19 @@ export class OAISRequestManagerComponent extends React.Component {
       appliedFilters,
       contextRequestBodyParameters: OAISRequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
     })
+  }
+
+  onRefresh = () => {
+    const {
+      pageMeta, pageSize, clearSelection, fetchPage,
+    } = this.props
+    const { contextRequestBodyParameters, contextRequestURLParameters, columnsSorting } = this.state
+    let fetchPageSize = pageSize
+    // compute page size to refresh all current entities in the table
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    fetchPageSize = pageSize * (lastPage + 1)
+    clearSelection()
+    fetchPage(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
   }
 
   getColumnSortingData = (sortKey) => {
@@ -557,8 +579,6 @@ export class OAISRequestManagerComponent extends React.Component {
                 onClick={this.onRetrySelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
-            </TableHeaderOptionGroup>
-            <TableHeaderOptionGroup>
               <FlatButton
                 key="delete"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
@@ -566,13 +586,16 @@ export class OAISRequestManagerComponent extends React.Component {
                 onClick={this.onDeleteSelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
-            </TableHeaderOptionGroup>
-            <TableHeaderOptionGroup>
               <FlatButton
                 key="abort"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.abort' })}
                 icon={<Stop />}
                 onClick={this.onAbortSelection}
+              />
+              <FlatButton
+                label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
+                icon={<Refresh />}
+                onClick={this.onRefresh}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>

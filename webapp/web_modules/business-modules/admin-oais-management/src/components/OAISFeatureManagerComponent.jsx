@@ -174,6 +174,7 @@ class OAISFeatureManagerComponent extends React.Component {
             updateStateFromFeatureManagerFilters={this.updateStateFromFeatureManagerFilters}
           />
           <OAISSwitchTables
+            params={params}
             onSwitchToRequests={this.onSwitchToRequests}
             onSwitchToPackages={this.onSwitchToPackages}
             openedPane={openedPane}

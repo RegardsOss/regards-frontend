@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
+import Refresh from 'material-ui/svg-icons/navigation/refresh'
 import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
@@ -31,9 +32,6 @@ import {
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
-import Filter from 'mdi-material-ui/Filter'
-import AvReplay from 'material-ui/svg-icons/av/replay'
-import Stop from 'mdi-material-ui/Stop'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
 import Delete from 'mdi-material-ui/Delete'
 import { CommonDomain, DamDomain, IngestDomain } from '@regardsoss/domain'
@@ -62,10 +60,17 @@ export class OAISPackageManagerComponent extends React.Component {
   static propTypes = {
     updateStateFromFeatureManagerFilters: PropTypes.func.isRequired,
     updateStateFromPackageManager: PropTypes.func.isRequired,
+    pageMeta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
     storages: PropTypes.arrayOf(PropTypes.string),
+    fetchPage: PropTypes.func.isRequired,
+    clearSelection: PropTypes.func.isRequired,
     deleteAips: PropTypes.func.isRequired,
     modifyAips: PropTypes.func.isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
@@ -180,6 +185,19 @@ export class OAISPackageManagerComponent extends React.Component {
       appliedFilters,
       contextRequestBodyParameters: OAISPackageManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
     })
+  }
+
+  onRefresh = () => {
+    const {
+      pageMeta, pageSize, clearSelection, fetchPage,
+    } = this.props
+    const { contextRequestBodyParameters, contextRequestURLParameters, columnsSorting } = this.state
+    let fetchPageSize = pageSize
+    // compute page size to refresh all current entities in the table
+    const lastPage = (pageMeta && pageMeta.number) || 0
+    fetchPageSize = pageSize * (lastPage + 1)
+    clearSelection()
+    fetchPage(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
   }
 
   getColumnSortingData = (sortKey) => {
@@ -636,6 +654,11 @@ export class OAISPackageManagerComponent extends React.Component {
                 icon={<Delete />}
                 onClick={this.onDeleteSelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
+              />
+              <FlatButton
+                label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
+                icon={<Refresh />}
+                onClick={this.onRefresh}
               />
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>

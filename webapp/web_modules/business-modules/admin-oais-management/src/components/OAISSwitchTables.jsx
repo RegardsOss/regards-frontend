@@ -61,6 +61,12 @@ export class OAISSwitchTables extends React.Component {
   })
 
   static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+      session: PropTypes.string,
+      aip: PropTypes.string,
+    }),
     aipsMeta: CommonShapes.PageMetadata,
     requestsMeta: CommonShapes.PageMetadata,
     onSwitchToRequests: PropTypes.func.isRequired,
@@ -129,8 +135,7 @@ export class OAISSwitchTables extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { switchButton } } = this.context
-    const { openedPane } = this.props
-    const { aipsMeta, requestsMeta } = this.props
+    const { aipsMeta, requestsMeta, openedPane } = this.props
     return (
       <React.Fragment>
         <FlatButton
@@ -147,6 +152,7 @@ export class OAISSwitchTables extends React.Component {
           style={openedPane === 'REQUESTS' ? switchButton : null}
           disabled={openedPane === 'REQUESTS'}
         />
+
       </React.Fragment>
     )
   }
