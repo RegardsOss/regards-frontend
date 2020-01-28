@@ -38,9 +38,4 @@ export default class RequestActions extends BasicPageableActions {
       },
     })
   }
-
-  // TODO: Remove when table is plugged onto new system
-  fetchPagedEntityList(pageNumber, size, pathParams, bodyParams) {
-    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, null, bodyParams)
-  }
 }

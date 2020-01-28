@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEmpty from 'lodash/isEmpty'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import OAISCriterionShape from '../shapes/OAISCriterionShape'
@@ -59,40 +58,23 @@ export class OAISFeatureManagerFiltersContainer extends React.Component {
   }
 
   changeSessionFilter = (newValue) => {
-    if (!isEmpty(newValue)) {
-      this.props.updateStateFromFeatureManagerFilters({
-        session: newValue,
-      })
-    }
+    this.props.updateStateFromFeatureManagerFilters('session', newValue)
   }
 
   changeSourceFilter = (newValue) => {
-    if (!isEmpty(newValue)) {
-      this.props.updateStateFromFeatureManagerFilters({
-        sessionOwner: newValue,
-      })
-    }
+    this.props.updateStateFromFeatureManagerFilters('sessionOwner', newValue)
   }
 
   changeProviderIdFilter = (event, text) => {
-    const finalNewValue = text
-    this.props.updateStateFromFeatureManagerFilters({
-      providerId: finalNewValue,
-    })
+    this.props.updateStateFromFeatureManagerFilters('providerId', text)
   }
 
   changeFrom = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue.toISOString() : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      from: finalNewValue,
-    })
+    this.props.updateStateFromFeatureManagerFilters('from', newValue)
   }
 
   changeTo = (newValue) => {
-    const finalNewValue = newValue && newValue !== '' ? newValue.toISOString() : undefined
-    this.props.updateStateFromFeatureManagerFilters({
-      to: finalNewValue,
-    })
+    this.props.updateStateFromFeatureManagerFilters('to', newValue)
   }
 
   render() {

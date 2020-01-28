@@ -256,7 +256,7 @@ export class OAISPackageManagerComponent extends React.Component {
 
   onViewAIPHistory = (entity) => {
     const { updateStateFromFeatureManagerFilters } = this.props
-    updateStateFromFeatureManagerFilters({ providerId: entity.content.providerId })
+    updateStateFromFeatureManagerFilters('providerId', entity.content.providerId)
   }
 
   onViewAIPDetail = (aipToView) => {

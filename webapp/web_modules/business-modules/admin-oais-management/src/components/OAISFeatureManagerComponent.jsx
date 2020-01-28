@@ -130,11 +130,11 @@ class OAISFeatureManagerComponent extends React.Component {
     )
   }
 
-  updateStateFromFeatureManagerFilters = (newFilters) => {
+  updateStateFromFeatureManagerFilters = (filterKey, filterValue) => {
     this.setState({
       featureManagerFilters: {
         ...this.state.featureManagerFilters,
-        ...newFilters,
+        [filterKey]: filterValue,
       },
     })
   }

@@ -45,7 +45,7 @@ export default {
   'oais.packages.delete.title': 'Supprimer les AIP sélectionnés et leurs fichiers sur le stockage',
   'oais.packages.delete.irrevocably': 'Supprimer définitivement',
   'oais.packages.delete.by_state': 'Marquer comme supprimé',
-  'oais.packages.confirm.delete.message': 'Voulez-vous supprimer totalement les AIP sélectionnés et leur SIP associés ?',
+  'oais.packages.confirm.delete.message': 'Voulez-vous supprimer le/les produits sélectionné(s): Vous pouvez marquer les produits comme supprimés, dans ce cas les produits seront toujours visible dans l\'état supprimé\nVous pouvez également supprimer définitivement les produits',
   'oais.packages.modify.confirm': 'Modifier',
   'oais.packages.modify.cancel': 'Annuler',
   'oais.packages.modify.add.tags': 'Ajouter un nouveau tag',

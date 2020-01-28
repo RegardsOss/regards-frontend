@@ -47,7 +47,7 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
   render() {
     const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
     const {
-      featureManagerFilters, changeSessionFilter, changeSourceFilter, changeProviderIdFilter, changeFrom, changeTo,
+      featureManagerFilters, changeSourceFilter, changeSessionFilter, changeProviderIdFilter, changeFrom, changeTo,
     } = this.props
     return (
       <React.Fragment key="imLine">

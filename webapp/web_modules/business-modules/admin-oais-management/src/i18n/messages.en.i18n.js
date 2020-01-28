@@ -45,7 +45,7 @@ export default {
   'oais.packages.delete.title': 'Delete selected AIP and its files on all storages',
   'oais.packages.delete.irrevocably': 'Delete irrevocably',
   'oais.packages.delete.by_state': 'Mark as deleted',
-  'oais.packages.confirm.delete.message': 'Do you want to fully delete selected AIP and related SIPs on all storage spaces?',
+  'oais.packages.confirm.delete.message': 'Do you want to delete the selected product(s): You can mark the product(s) as deleted, in this case they will still be visible with a DELETED state. You can also delete irrevocably the product(s)',
   'oais.packages.modify.confirm': 'Modify',
   'oais.packages.modify.cancel': 'Cancel',
   'oais.packages.modify.add.tags': 'Add new tag',

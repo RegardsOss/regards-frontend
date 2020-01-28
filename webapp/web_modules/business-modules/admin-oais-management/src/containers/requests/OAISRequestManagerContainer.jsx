@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -116,18 +115,6 @@ export class OAISRequestManagerContainer extends React.Component {
 
   componentDidMount() {
     this.props.fetchProcessingChains()
-  }
-
-  /**
-   * Callback: on refresh AIP table
-   */
-  onRefresh = () => {
-    const { meta, fetchPage, clearSelection } = this.props
-    const { currentFilters } = this.state
-    const curentPage = get(meta, 'number', 0)
-    clearSelection()
-    // TODO add request parameters (sort), make sure body is valid (currentFilters)
-    fetchPage(0, OAISRequestManagerContainer.PAGE_SIZE * (curentPage + 1), null, null, currentFilters)
   }
 
   render() {

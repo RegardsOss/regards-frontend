@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { FlatButton } from 'material-ui'
-import {
-  aipCountSelectors,
-  aipCountActions,
-} from '../clients/AIPCountClient'
-import {
-  requestCountSelectors,
-  requestCountActions,
-} from '../clients/RequestCountClient'
+import { aipSelectors } from '../clients/AIPClient'
+import { requestSelectors } from '../clients/RequestClient'
 
 /**
  * Switch between the two tables
@@ -44,21 +37,10 @@ export class OAISSwitchTables extends React.Component {
   */
   static mapStateToProps(state) {
     return {
-      aipsMeta: aipCountSelectors.getMetaData(state),
-      requestsMeta: requestCountSelectors.getMetaData(state),
+      aipsMeta: aipSelectors.getMetaData(state),
+      requestsMeta: requestSelectors.getMetaData(state),
     }
   }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps = dispatch => ({
-    fetchAipPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(aipCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, null, bodyParams)),
-    fetchRequestPage: (pageIndex, pageSize, pathParams, bodyParams) => dispatch(requestCountActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, null, bodyParams)),
-  })
 
   static propTypes = {
     // from router
@@ -77,50 +59,6 @@ export class OAISSwitchTables extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => {
-    this.onPropertiesUpdated({}, this.props)
-  }
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  componentWillReceiveProps = (nextProps) => {
-    this.onPropertiesUpdated(this.props, nextProps)
-  }
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(oldProps.featureManagerFilters, newProps.featureManagerFilters) || !isEqual(oldProps.productFilters, newProps.productFilters) || !isEqual(oldProps.requestFilters, newProps.requestFilters)) {
-      const { fetchAipPage, fetchRequestPage } = newProps
-      fetchAipPage(0, 20, {}, {
-        ...newProps.featureManagerFilters,
-        ...newProps.productFilters,
-        lastUpdate: {
-          from: newProps.featureManagerFilters.from || null,
-          to: newProps.featureManagerFilters.to || null,
-        },
-        providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
-      })
-      fetchRequestPage(0, 20, {}, {
-        ...newProps.featureManagerFilters,
-        ...newProps.requestFilters,
-        creationDate: {
-          from: newProps.featureManagerFilters.from || null,
-          to: newProps.featureManagerFilters.to || null,
-        },
-        providerIds: newProps.featureManagerFilters.providerId ? [newProps.featureManagerFilters.providerId] : [],
-      })
-    }
   }
 
   changeToPackages = () => {
@@ -158,4 +96,4 @@ export class OAISSwitchTables extends React.Component {
   }
 }
 
-export default connect(OAISSwitchTables.mapStateToProps, OAISSwitchTables.mapDispatchToProps)(OAISSwitchTables)
+export default connect(OAISSwitchTables.mapStateToProps, null)(OAISSwitchTables)
