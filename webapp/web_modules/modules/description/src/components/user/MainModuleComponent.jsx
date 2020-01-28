@@ -63,7 +63,6 @@ class MainModuleComponent extends React.Component {
       selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
     } = this.props
     const { moduleTheme: { user: { main: { root } } } } = this.context
-
     return (
       <TableLayout>
         <HeaderBarComponent

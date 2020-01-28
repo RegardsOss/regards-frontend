@@ -61,13 +61,11 @@ class NormalQuicklookPictureComponent extends React.Component {
         onClick={onToggleMagnified}
       >
         {/* Center picture and let it scale down only */}
-        <div style={normal.imgContainer}>
-          <img
-            src={displayedQL.uri}
-            alt={formatMessage({ id: 'module.description.content.quicklook.alt.message' })}
-            style={normal.img}
-          />
-        </div>
+        <img
+          src={displayedQL.uri}
+          alt={formatMessage({ id: 'module.description.content.quicklook.alt.message' })}
+          style={normal.img}
+        />
         { /** Show picture caption when there are other quicklooks */
           hasOtherQuicklooks ? (
             <div style={normal.caption}>
