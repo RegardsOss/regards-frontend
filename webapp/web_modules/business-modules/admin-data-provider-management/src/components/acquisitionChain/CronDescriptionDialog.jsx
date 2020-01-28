@@ -34,7 +34,6 @@ class CronDescriptionDialog extends React.Component {
     onClose: PropTypes.func.isRequired,
   }
 
-  // eslint-disable-next-line no-multi-str
   static markdown = `
   # Format : 
     ss mm hh dd MMM JJJ 
@@ -47,9 +46,9 @@ class CronDescriptionDialog extends React.Component {
     
   Note : seconds can not be other value than 0.
   # Special caracters :
-  - \\\* : Any value. * for mm means every minute.
+  - \\* : Any value. \\* for mm means every minute.
   - / : Create steps. Exemple */5 = every 5
-  - \\\- : Create a range of values. 0,5 means 0 or 5.
+  - \\- : Create a range of values. 0,5 means 0 or 5.
   # Some exemples :
   ## Every day, 5 minutes after midnight
   0 5 0 * * *

@@ -412,13 +412,10 @@ const styles = theme => ({
                 alignItems: 'center',
                 cursor: 'zoom-in',
               },
-              imgContainer: {
-                minHeight: 0,
-                flexShrink: 1,
-                textAlign: 'center',
-              },
               img: {
-                // fitContent: 'contain',
+                flexShrink: 1,
+                minWidth: 0,
+                minHeight: 0,
                 maxWidth: '100%',
                 maxHeight: '100%',
               },
