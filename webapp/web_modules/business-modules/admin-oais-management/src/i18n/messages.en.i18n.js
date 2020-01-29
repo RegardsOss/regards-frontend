@@ -248,6 +248,7 @@ export default {
 
   'sips.submit.title': 'Data submission',
   'sips.submit.subtitle': 'This section allows you to run a data submission thought a local file (geoson format) containing entities to submit',
+  'sips.submit.oais.format.description.link': 'A description of the required GeoJson format is accessible here',
   'sips.submit.error.message': 'An error occured during submission of your data. Please check the format of your provided entities.',
   'sips.submit.select.file.button': 'Select file containing data to submit (SIPs)',
   'sips.submit.change.file.button': 'Change selected file',
