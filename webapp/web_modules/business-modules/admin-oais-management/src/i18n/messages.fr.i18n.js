@@ -246,8 +246,9 @@ export default {
   'oais.button.switch-to.packages': 'Voir les packages',
   'oais.button.switch-to.packages-title': 'Ouvre le panneau des packages OAIS',
 
-  'sips.submit.title': 'Soumission de données',
-  'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les entités',
+  'sips.submit.title': 'Soumission de produits',
+  'sips.submit.subtitle': 'Vous pouvez ici lancer une ingestion de données au travers d\'un fichier au format GeoJSON contenant le ou les produits.',
+  'sips.submit.oais.format.description.link': 'Vous pouvez consulter ici la documentation concernant le format du fichier GeoJson à fournir',
   'sips.submit.error.message': 'Une erreur est survenue lors de la soumission de vos données. Merci de vérifier le format des entités.',
   'sips.submit.select.file.button': 'Sélectionner le fichier contenant les données (SIPs)',
   'sips.submit.change.file.button': 'Changer le fichier sélectionné',

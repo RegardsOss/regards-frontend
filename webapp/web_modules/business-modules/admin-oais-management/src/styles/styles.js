@@ -101,6 +101,11 @@ const aipManagementStyles = theme => ({
       },
     },
   },
+  sipSubmition: {
+    link: {
+      color: theme.palette.accent1Color,
+    },
+  },
   summary: {
     granted: {
       mainMessage: {

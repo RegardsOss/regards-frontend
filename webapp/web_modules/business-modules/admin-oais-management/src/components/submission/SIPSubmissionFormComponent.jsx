@@ -25,7 +25,9 @@ import {
 import {
   CardActionsComponent,
   FormErrorMessage,
+  HelpMessageComponent,
 } from '@regardsoss/components'
+import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -47,13 +49,16 @@ export class SIPSubmissionFormComponent extends React.Component {
   static contextTypes = {
     // enable i18n access trhough this.context
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
     const { intl } = this.context
+    const { moduleTheme: { sipSubmition } } = this.context
     const {
       isLoading, invalid, handleSubmit, submitSips, isError, onBack,
     } = this.props
+    const helpMessage = intl.formatMessage({ id: 'sips.submit.oais.format.description.link' })
     return (
       <form onSubmit={handleSubmit(submitSips)}>
         <LoadableContentDisplayDecorator
@@ -65,6 +70,7 @@ export class SIPSubmissionFormComponent extends React.Component {
               subtitle={intl.formatMessage({ id: 'sips.submit.subtitle' })}
             />
             <CardText>
+              <HelpMessageComponent message={<a style={sipSubmition.link} href="https://regardsoss.github.io/appendices/oais/" target="_blank">{helpMessage}</a>} />
               {isError
                 ? <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
                 : null

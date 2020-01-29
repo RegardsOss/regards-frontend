@@ -26,10 +26,10 @@ const messages = {
   'data-provider.board.action.sessions.tooltip': 'Acquisition sessions',
 
   'data.board.oais.title': 'Products Manager (OAIS)',
-  'data.board.oais.description': 'Products Manager (OAIS) allows you to manage SIP (Submission Information Package) and AIP (Archive Information Package).',
+  'data.board.oais.description': 'Products Manager (OAIS) allows you to manage products. A product is the package associating a SIP (Submission Information Package) and an AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show products',
   'data.board.oais.tooltip.configure': 'Configure',
-  'data.board.oais.tooltip.submition': 'Submit SIPs',
+  'data.board.oais.tooltip.submition': 'Submit products',
 
   'ingest.board.external.datasources.title': 'Crawling',
   'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding data through external data sources.',

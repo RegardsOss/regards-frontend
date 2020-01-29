@@ -26,10 +26,10 @@ const messages = {
   'data-provider.board.action.sessions.tooltip': 'Sessions d\'acquisition',
 
   'data.board.oais.title': 'Gestionnaire de produits (OAIS)',
-  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les SIP (Submission Information Package) et AIP (Archive Information Package).',
+  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les produits. Un produit est une association entre un SIP (Submission Information Package) et un AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Consulter les produits',
   'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
-  'data.board.oais.tooltip.submition': 'Soumettre des SIPs',
+  'data.board.oais.tooltip.submition': 'Soumettre des produits',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
