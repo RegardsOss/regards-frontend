@@ -56,6 +56,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
         session: '',
         aip: '',
       },
+      clearAIPSelection: () => {},
+      clearRequestSelection: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)

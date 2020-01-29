@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'
 import styles from '../styles'
+import { aipTableActions } from '../clients/AIPTableClient'
+import { requestTableActions } from '../clients/RequestTableClient'
 import OAISFeatureManagerComponent from '../components/OAISFeatureManagerComponent'
 
 /**
@@ -28,6 +31,17 @@ import OAISFeatureManagerComponent from '../components/OAISFeatureManagerCompone
  * @author Simon MILHAU
  */
 export class OAISFeatureManagerContainer extends React.Component {
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps = dispatch => ({
+    clearAIPSelection: () => dispatch(aipTableActions.unselectAll()),
+    clearRequestSelection: () => dispatch(requestTableActions.unselectAll()),
+  })
+
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -35,17 +49,21 @@ export class OAISFeatureManagerContainer extends React.Component {
       session: PropTypes.string,
       aip: PropTypes.string,
     }),
+    clearAIPSelection: PropTypes.func.isRequired,
+    clearRequestSelection: PropTypes.func.isRequired,
   }
 
 
   render() {
-    const { params } = this.props
+    const { params, clearAIPSelection, clearRequestSelection } = this.props
     return (
       <OAISFeatureManagerComponent
         params={params}
+        clearAIPSelection={clearAIPSelection}
+        clearRequestSelection={clearRequestSelection}
       />
     )
   }
 }
 
-export default compose(withI18n(messages), withModuleStyle(styles))(OAISFeatureManagerContainer)
+export default compose(withI18n(messages), withModuleStyle(styles), connect(null, OAISFeatureManagerContainer.mapDispatchToProps))(OAISFeatureManagerContainer)
