@@ -49,10 +49,9 @@ export class TagsHelper {
   /**
  * Parses a coupling tag
  * @param {string} tag tag
- * @param {number} partIndex requested part index
  * @return {string} found part or null
  */
-  static parseCouplingTag(tag, partIndex) {
+  static parseCouplingTag(tag) {
     if (isString(tag)) {
       const foundParts = tag.match(TagsHelper.COUPLING_PATTERN)
       // is valid coupling tag?
