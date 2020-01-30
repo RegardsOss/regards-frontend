@@ -41,6 +41,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerContainer', () => {
       params: {
         project: 'any',
       },
+      clearAIPSelection: () => {},
+      clearRequestSelection: () => {},
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(OAISFeatureManagerComponent)

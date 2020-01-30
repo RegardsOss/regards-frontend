@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import map from 'lodash/map'
 import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
@@ -51,6 +52,7 @@ import AIPDetailComponent from './AIPDetailComponent'
 import AIPModifyDialogContainer from '../../containers/packages/AIPModifyDialogContainer'
 import AIPDeleteDialog from './AIPDeleteDialog'
 import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
+import AIPPostRequestDialog from './AIPPostRequestDialog'
 
 /**
  * Displays the list of OAIS packages
@@ -147,8 +149,8 @@ export class OAISPackageManagerComponent extends React.Component {
     aipToView: null,
     aipToFetchSipFrom: null,
     deletionPayload: {},
-    // deletionErrors: [],
-    // modifySelection: [],
+    deletionErrors: [],
+    modifyErrors: [],
     isDeleteDialogOpened: false,
     isDeleteSelectionDialogOpened: false,
   }
@@ -327,15 +329,12 @@ export class OAISPackageManagerComponent extends React.Component {
     }
     deleteAips(finalDeletionPayload).then((actionResult) => {
       if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
+        console.error('delete actionResult.error', actionResult.error)
+        this.setState({
+          deletionErrors: actionResult.error,
+        })
       } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
+        console.error('delete actionResult.error', get(actionResult, 'payload', []))
         // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
         // Refresh view
         // this.props.onRefresh(appliedFilters)
@@ -343,7 +342,7 @@ export class OAISPackageManagerComponent extends React.Component {
     })
   }
 
-  onDelete = (aipToDelete) => { // note: we ignore here the table callback (refresh will be performed locally)
+  onDelete = (aipToDelete) => {
     this.setState({
       isDeleteDialogOpened: true,
       deletionPayload: {
@@ -421,6 +420,27 @@ export class OAISPackageManagerComponent extends React.Component {
     return null
   }
 
+  onClosePostRequestDialog = () => {
+    this.setState({
+      deletionErrors: [],
+      modifyErrors: [],
+    })
+  }
+
+  renderPostRequestDialog = () => {
+    const { deletionErrors, modifyErrors } = this.state
+    if (!isEmpty(deletionErrors) || !isEmpty(deletionErrors)) {
+      return (
+        <AIPPostRequestDialog
+          onClose={this.onClosePostRequestDialog}
+          deletionErrors={deletionErrors}
+          modifyErrors={modifyErrors}
+        />
+      )
+    }
+    return null
+  }
+
   onConfirmModify = (modifyParameters) => {
     this.onCloseModifyDialog()
     this.onCloseModifySelectionDialog()
@@ -436,15 +456,12 @@ export class OAISPackageManagerComponent extends React.Component {
     }
     modifyAips(finalModifyPayload).then((actionResult) => {
       if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
+        console.error('modify actionResult.error', actionResult.error)
+        this.setState({
+          modifyErrors: actionResult.error,
+        })
       } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
+        console.error('modify actionResult.error', get(actionResult, 'payload', []))
         // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
         // Refresh view
         // this.props.onRefresh(appliedFilters)
@@ -682,6 +699,7 @@ export class OAISPackageManagerComponent extends React.Component {
         {this.renderDeleteSelectionConfirmDialog()}
         {this.renderModifyDialog()}
         {this.renderModifySelectionDialog()}
+        {this.renderPostRequestDialog()}
       </div>
     )
   }

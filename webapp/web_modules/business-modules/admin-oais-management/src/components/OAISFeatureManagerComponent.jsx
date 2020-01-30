@@ -40,6 +40,8 @@ class OAISFeatureManagerComponent extends React.Component {
       session: PropTypes.string,
       aip: PropTypes.string,
     }),
+    clearAIPSelection: PropTypes.func.isRequired,
+    clearRequestSelection: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -57,15 +59,6 @@ class OAISFeatureManagerComponent extends React.Component {
     featureManagerFilters: OAISFeatureManagerFiltersContainer.extractStateFromURL(),
     productFilters: OAISPackageManagerContainer.extractStateFromURL(),
     requestFilters: OAISRequestManagerContainer.extractStateFromURL(),
-  }
-
-  onFiltersUpdated = (groupName, newValues) => {
-    this.setState({
-      [groupName]: {
-        ...this.state[groupName],
-        ...newValues,
-      },
-    })
   }
 
   componentWillMount = () => {
@@ -106,12 +99,16 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   onSwitchToPackages = () => {
+    const { clearRequestSelection } = this.props
+    clearRequestSelection()
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.PACKAGES,
     })
   }
 
   onSwitchToRequests = () => {
+    const { clearAIPSelection } = this.props
+    clearAIPSelection()
     this.setState({
       openedPane: OAISFeatureManagerComponent.OPEN_PANE.REQUESTS,
     })
@@ -131,6 +128,9 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   updateStateFromFeatureManagerFilters = (filterKey, filterValue) => {
+    const { clearAIPSelection, clearRequestSelection } = this.props
+    clearAIPSelection()
+    clearRequestSelection()
     this.setState({
       featureManagerFilters: {
         ...this.state.featureManagerFilters,
@@ -140,6 +140,8 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   updateStateFromPackageManager = (newFilters) => {
+    const { clearAIPSelection } = this.props
+    clearAIPSelection()
     this.setState({
       productFilters: {
         ...this.state.productFilters,
@@ -149,6 +151,8 @@ class OAISFeatureManagerComponent extends React.Component {
   }
 
   updateStateFromRequestManager = (newFilters) => {
+    const { clearRequestSelection } = this.props
+    clearRequestSelection()
     this.setState({
       requestFilters: {
         ...this.state.requestFilters,
