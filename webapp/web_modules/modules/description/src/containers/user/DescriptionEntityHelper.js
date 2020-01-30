@@ -412,6 +412,7 @@ export class DescriptionEntityHelper {
     return [
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.RAWDATA, accessToken, projectName),
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DOCUMENT, accessToken, projectName),
+      ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.OTHER, accessToken, projectName),
     ].sort((f1, f2) => StringComparison.compare(f1.label, f2.label))
   }
 

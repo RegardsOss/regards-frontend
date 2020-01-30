@@ -97,8 +97,6 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     } = this.props
     const pluginId = this.props.input.value
 
-    console.error('pluginType', pluginParameterType.pluginType)
-
     if (pluginParameterType.pluginType) {
       // 1. Retrieve pluginMetadatas for the microservice.
       fetchPluginMetadataList(microserviceName, pluginParameterType.pluginType).then((actionResults) => {
