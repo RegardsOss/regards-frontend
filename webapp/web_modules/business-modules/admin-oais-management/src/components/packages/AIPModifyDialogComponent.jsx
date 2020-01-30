@@ -18,6 +18,7 @@
  **/
 import filter from 'lodash/filter'
 import startCase from 'lodash/startCase'
+import toLower from 'lodash/toLower'
 import identity from 'lodash/identity'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
@@ -258,7 +259,7 @@ export class AIPModifyDialogComponent extends React.Component {
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderContentBox>
-                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane })} />
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane: toLower(formatMessage({ id: `oais.packages.modify.${pane}` })) })} />
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer
@@ -276,7 +277,7 @@ export class AIPModifyDialogComponent extends React.Component {
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderContentBox>
-                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete' }, { pane: startCase(pane) })} />
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete' }, { pane: formatMessage({ id: `oais.packages.modify.${pane}` }) })} />
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer
@@ -294,7 +295,7 @@ export class AIPModifyDialogComponent extends React.Component {
             <TableLayout>
               <TableHeaderLine>
                 <TableHeaderContentBox>
-                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: startCase(pane) })} />
+                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: formatMessage({ id: `oais.packages.modify.${pane}` }) })} />
                 </TableHeaderContentBox>
               </TableHeaderLine>
               <InfiniteTableContainer
@@ -381,9 +382,9 @@ export class AIPModifyDialogComponent extends React.Component {
       >
         <div style={aipModifyDialog}>
           <List style={aipModifyDialogList}>
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storages' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.categories' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tags' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
           </List>
           {this.renderSection()}
         </div>
