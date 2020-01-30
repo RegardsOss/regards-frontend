@@ -24,6 +24,7 @@ const PluginParameterType = PropTypes.shape({
   keyLabel: PropTypes.string, // Label of the parameterized type if any
   description: PropTypes.string, // Description of the parameter
   type: PropTypes.oneOf(PluginParamType).isRequired, // type of parameter
+  pluginType: PropTypes.string, // If type is PLUGIN this field define de type of plugin
   parameterizedSubTypes: PropTypes.arrayOf(PropTypes.string),
   optional: PropTypes.bool,
   unconfigurable: PropTypes.bool,
