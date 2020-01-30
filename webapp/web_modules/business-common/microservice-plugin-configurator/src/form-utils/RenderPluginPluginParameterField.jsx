@@ -97,16 +97,18 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     } = this.props
     const pluginId = this.props.input.value
 
-    if (pluginParameterType.type) {
+    console.error('pluginType', pluginParameterType.pluginType)
+
+    if (pluginParameterType.pluginType) {
       // 1. Retrieve pluginMetadatas for the microservice.
-      fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
+      fetchPluginMetadataList(microserviceName, pluginParameterType.pluginType).then((actionResults) => {
         this.setState({
           pluginMetaDataList: values(get(actionResults, 'payload.entities.pluginMetaData', {})),
         })
       })
 
       // 2. Retrieve all plugin configuration available for the plugin type.
-      fetchPluginConfigurationList(pluginParameterType.type, microserviceName).then((actionResults) => {
+      fetchPluginConfigurationList(pluginParameterType.pluginType, microserviceName).then((actionResults) => {
         const pluginConfigurationList = values(get(actionResults, 'payload.entities.pluginConfiguration', {}))
         const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === parseInt(pluginId, 10))
         this.setState({

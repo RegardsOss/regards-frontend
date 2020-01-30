@@ -412,7 +412,7 @@ export class DescriptionEntityHelper {
     return [
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.RAWDATA, accessToken, projectName),
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DOCUMENT, accessToken, projectName),
-    ].sort((f1, f2) => StringComparison.compare(f1.filename, f2.filename))
+    ].sort((f1, f2) => StringComparison.compare(f1.label, f2.label))
   }
 
   /**
@@ -453,7 +453,11 @@ export class DescriptionEntityHelper {
     })
     return {
       wordTags: wordTags.sort(StringComparison.compare),
-      couplingTags: couplingTags.sort(StringComparison.compare),
+      couplingTags: couplingTags.sort((cT1, cT2) => {
+        const { label: l1 } = CatalogDomain.TagsHelper.parseCouplingTag(cT1)
+        const { label: l2 } = CatalogDomain.TagsHelper.parseCouplingTag(cT2)
+        return StringComparison.compare(l1, l2)
+      }),
       linkedEntities: linkedEntities.sort((e1, e2) => StringComparison.compare(e1.content.label, e2.content.label)),
       linkedDocuments: linkedDocuments.sort((e1, e2) => StringComparison.compare(e1.content.label, e2.content.label)),
     }
