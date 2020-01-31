@@ -50,6 +50,7 @@ export class SessionsMonitoringStateRenderer extends React.Component {
 
   render() {
     const {
+      intl: { formatMessage },
       moduleTheme: {
         sessionsStyles: {
           iconColor,
@@ -69,7 +70,7 @@ export class SessionsMonitoringStateRenderer extends React.Component {
         isDeleted={entity.content.state === 'DELETED'}
       >
         <div style={gridSessionContainer}>
-          <div style={headerSession} title={entity.content.state}>
+          <div style={headerSession} title={formatMessage({ id: `acquisition-sessions.state.${entity.content.state}` })}>
             <IconConstructor color={iconColor[entity.content.state]} />
           </div>
         </div>

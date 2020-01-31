@@ -209,6 +209,12 @@ const messages = Object.assign({
   'acquisition-sessions.filters.sources-hint': 'Sources',
   'acquisition-sessions.filters.sessions-hint': 'Sessions',
 
+  // 3.6 Sessions states
+  'acquisition-sessions.state.OK': 'No error',
+  'acquisition-sessions.state.DELETED': 'Deleted',
+  'acquisition-sessions.state.ACKNOWLEDGED': 'Error acknowledged',
+  'acquisition-sessions.state.ERROR': 'Error',
+
   //4 Run Confirm Dialog
   'acquisition-product.run.dialog.title': 'Would you like to rename this session?',
   'acquisition-product.run.dialog.message': 'You can directly confirm if you don\'t need to rename it.',
