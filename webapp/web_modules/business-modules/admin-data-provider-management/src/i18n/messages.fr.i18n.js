@@ -169,6 +169,7 @@ const messages = Object.assign({
   'acquisition-sessions.states.index.errors': 'Erreurs',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
+
   //3.4 Cell's Menus
   'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
   'acquisition-sessions.menus.session.delete.force.button': 'Supprimer la session',
@@ -208,6 +209,12 @@ const messages = Object.assign({
   'acquisition-sessions.filters.column-selector': 'Selectionnez les colonnes à afficher',
   'acquisition-sessions.filters.sources-hint': 'Sources',
   'acquisition-sessions.filters.sessions-hint': 'Sessions',
+
+  // 3.6 Sessions states
+  'acquisition-sessions.state.OK': 'Aucune erreur',
+  'acquisition-sessions.state.DELETED': 'Supprimée',
+  'acquisition-sessions.state.ACKNOWLEDGED': 'Erreur acquittée',
+  'acquisition-sessions.state.ERROR': 'En erreur',
 
   //4 Run Confirm Dialog
   'acquisition-product.run.dialog.title': 'Souhaitez-vous renommer cette session ?',

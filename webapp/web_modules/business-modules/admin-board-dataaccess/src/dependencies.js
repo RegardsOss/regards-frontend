@@ -27,11 +27,11 @@ import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
  * @type {Array}
  */
 export default [
-  ...servicesManagementDependencies.listDependencies,
-  ...servicesManagementDependencies.addDependencies,
-  ...searchEnginesDependencies.listDependencies,
-  ...searchEnginesDependencies.addDependencies,
-  ...accessGroupDependencies.addDependencies,
-  ...accessGroupDependencies.listDependencies,
-  indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
+  servicesManagementDependencies.listDependencies,
+  servicesManagementDependencies.addDependencies,
+  searchEnginesDependencies.listDependencies,
+  searchEnginesDependencies.addDependencies,
+  accessGroupDependencies.addDependencies,
+  accessGroupDependencies.listDependencies,
+  [indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE)],
 ]
