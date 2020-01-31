@@ -24,8 +24,8 @@ import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
  * @type {Array}
  */
 export default [
-  ...collectionDependencies.listDependencies,
-  ...collectionDependencies.addDependencies,
-  ...datasetDependencies.listDependencies,
-  ...datasetDependencies.addDependencies,
+  collectionDependencies.listDependencies,
+  collectionDependencies.addDependencies,
+  datasetDependencies.listDependencies,
+  datasetDependencies.addDependencies,
 ]

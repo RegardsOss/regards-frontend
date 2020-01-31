@@ -27,11 +27,11 @@ import { orderDependencies } from '@regardsoss/admin-order-management'
  */
 
 export default [
-  ...projectUserDependencies.listDependencies,
-  ...projectUserDependencies.addDependencies,
-  ...roleDependencies.addDependencies,
-  ...roleDependencies.listDependencies,
-  ...roleResourceAccessDependencies.addDependencies,
-  ...roleResourceAccessDependencies.listDependencies,
-  ...orderDependencies.listDependencies,
+  projectUserDependencies.listDependencies,
+  projectUserDependencies.addDependencies,
+  roleDependencies.addDependencies,
+  roleDependencies.listDependencies,
+  roleResourceAccessDependencies.addDependencies,
+  roleResourceAccessDependencies.listDependencies,
+  orderDependencies.listDependencies,
 ]

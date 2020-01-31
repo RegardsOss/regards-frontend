@@ -39,7 +39,9 @@ import { acquisitionDependencies } from '@regardsoss/admin-board-acquisition'
 import { commandsDependencies } from '@regardsoss/admin-board-commands'
 import { dataAccessDependencies } from '@regardsoss/admin-board-dataaccess'
 import { microserviceDependencies } from '@regardsoss/admin-microservice-management'
-import { ShowableAtRender, someMatchHateoasDisplayLogic, withResourceDisplayControl } from '@regardsoss/display-control'
+import {
+  ShowableAtRender, someMatchHateoasDisplayLogic, someListMatchHateoasDisplayLogic, withResourceDisplayControl,
+} from '@regardsoss/display-control'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
@@ -94,7 +96,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="1"
           resourceDependencies={userDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/user/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.users' })}
@@ -106,7 +108,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="2"
           resourceDependencies={modelsDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/data/models/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.datamodels' })}
@@ -117,7 +119,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="3"
           resourceDependencies={collectionsDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/data/collections/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.collections' })}
@@ -128,7 +130,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="4"
           resourceDependencies={acquisitionDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/data/acquisition/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.dataacquisition' })}
@@ -139,7 +141,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="5"
           resourceDependencies={dataAccessDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/dataaccess/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.dataaccess' })}
@@ -161,7 +163,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="7"
           resourceDependencies={uiManagementDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/ui/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.ui.configuration' })}

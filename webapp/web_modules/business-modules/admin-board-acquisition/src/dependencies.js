@@ -28,9 +28,13 @@ import { storageManagementDependencies } from '@regardsoss/admin-storage-managem
  * @type {Array}
  */
 export default [
-  ...connectionDependencies.addDependencies,
-  ...datasourceDependencies.addDependencies,
-  ...dataProviderDependencies.addDependencies,
-  ...processingChainDependencies.addDependencies,
-  ...storageManagementDependencies.addDependencies,
+  connectionDependencies.listDependencies,
+  connectionDependencies.addDependencies,
+  datasourceDependencies.listDependencies,
+  datasourceDependencies.addDependencies,
+  dataProviderDependencies.listDependencies,
+  dataProviderDependencies.addDependencies,
+  processingChainDependencies.listDependencies,
+  storageManagementDependencies.listDependencies,
+  storageManagementDependencies.addDependencies,
 ]
