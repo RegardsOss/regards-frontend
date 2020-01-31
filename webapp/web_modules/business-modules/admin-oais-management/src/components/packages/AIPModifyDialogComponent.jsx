@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import filter from 'lodash/filter'
-import startCase from 'lodash/startCase'
+import size from 'lodash/size'
 import toLower from 'lodash/toLower'
 import identity from 'lodash/identity'
 import includes from 'lodash/includes'
@@ -149,16 +149,22 @@ export class AIPModifyDialogComponent extends React.Component {
   onDelete = (entity) => {
     const { toggledSection } = this.state
     if (toggledSection) {
-      this.setState({
-        [toggledSection]: {
-          ...this.state[toggledSection],
-          list: filter(this.state[toggledSection].list, e => e !== entity),
-          toDelete: [
-            ...this.state[toggledSection].toDelete,
-            entity,
-          ],
-        },
-      })
+      if (toggledSection === AIPModifyDialogComponent.SECTIONS.STORAGE && size(this.state[toggledSection].list) < 2) {
+        this.setState({
+          deleteStorageError: true,
+        })
+      } else {
+        this.setState({
+          [toggledSection]: {
+            ...this.state[toggledSection],
+            list: filter(this.state[toggledSection].list, e => e !== entity),
+            toDelete: [
+              ...this.state[toggledSection].toDelete,
+              entity,
+            ],
+          },
+        })
+      }
     }
   }
 
@@ -226,6 +232,7 @@ export class AIPModifyDialogComponent extends React.Component {
     } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const paneObject = this.state[pane]
+    const { deleteStorageError } = this.state
     const listColumns = [
       new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
         .build(),
@@ -260,6 +267,7 @@ export class AIPModifyDialogComponent extends React.Component {
             <TableHeaderLine>
               <TableHeaderContentBox>
                 <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane: toLower(formatMessage({ id: `oais.packages.modify.${pane}` })) })} />
+                {pane === AIPModifyDialogComponent.SECTIONS.STORAGE && deleteStorageError ? <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete.storages.error' })} /> : null }
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer

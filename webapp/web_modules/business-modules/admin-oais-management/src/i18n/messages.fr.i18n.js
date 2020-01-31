@@ -54,6 +54,7 @@ export default {
   'oais.packages.modify.title': 'Modifier le produit sélectionné',
   'oais.packages.modify.list': 'Liste des {pane}',
   'oais.packages.modify.delete': '{pane} à supprimer',
+  'oais.packages.modify.delete.storages.error': '(Vous ne pouvez pas supprimer tous les espaces de stockage)',
   'oais.packages.modify.add': '{pane} à ajouter',
   'oais.packages.modify.storage': 'Stockages',
   'oais.packages.modify.category': 'Catégories',

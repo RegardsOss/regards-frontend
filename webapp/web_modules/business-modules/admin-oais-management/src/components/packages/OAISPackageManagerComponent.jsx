@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import map from 'lodash/map'
 import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
@@ -329,15 +328,9 @@ export class OAISPackageManagerComponent extends React.Component {
     }
     deleteAips(finalDeletionPayload).then((actionResult) => {
       if (actionResult.error) {
-        console.error('delete actionResult.error', actionResult.error)
         this.setState({
           deletionErrors: actionResult.error,
         })
-      } else {
-        console.error('delete actionResult.error', get(actionResult, 'payload', []))
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
       }
     })
   }
@@ -456,15 +449,9 @@ export class OAISPackageManagerComponent extends React.Component {
     }
     modifyAips(finalModifyPayload).then((actionResult) => {
       if (actionResult.error) {
-        console.error('modify actionResult.error', actionResult.error)
         this.setState({
           modifyErrors: actionResult.error,
         })
-      } else {
-        console.error('modify actionResult.error', get(actionResult, 'payload', []))
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
       }
     })
   }
