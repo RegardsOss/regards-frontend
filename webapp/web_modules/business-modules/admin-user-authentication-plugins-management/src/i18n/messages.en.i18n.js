@@ -46,6 +46,8 @@ const messages = Object.assign({
   'user.authentication.plugins.form.invalid.id': 'Authentication system plugin configuration selected does not exist anymore.',
   'user.authentication.plugins.form.back.button': 'Cancel',
 
+  'user.authentication.plugins.list.confirm.delete.title': 'Delete selected authentication system?',
+
 }, Locales.en)
 
 export default messages

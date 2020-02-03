@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AppBar from 'material-ui/AppBar'
-import PluginMetaDataListComponent from '../../../src/components/plugin/PluginMetaDataListComponent'
+import PluginMetaDataListComponent from '../../src/components/PluginMetaDataListComponent'
 
 const context = buildTestContext()
 

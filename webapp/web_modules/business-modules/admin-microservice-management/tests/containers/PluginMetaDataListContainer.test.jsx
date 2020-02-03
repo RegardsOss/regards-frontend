@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { PluginMetaDataListContainer } from '../../../src/containers/plugin/PluginMetaDataListContainer'
+import { PluginMetaDataListContainer } from '../../src/containers/PluginMetaDataListContainer'
 
 const context = buildTestContext()
 

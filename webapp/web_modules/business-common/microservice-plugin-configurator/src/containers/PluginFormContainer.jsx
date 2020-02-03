@@ -55,10 +55,11 @@ export class PluginFormContainer extends React.Component {
       microserviceName,
       pluginId,
     })),
-    createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(vals, {
-      microserviceName,
-      pluginId,
-    })),
+    createPluginConfiguration: (vals, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity({
+      ...vals,
+      businessId: null, // duplicate case: remove origin ID
+    }, { microserviceName, pluginId },
+    )),
     updatePluginConfiguration: (vals, microserviceName, pluginId, pluginConfBusinessId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfBusinessId, vals, {
       microserviceName,
       pluginId,
