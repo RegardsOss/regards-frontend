@@ -98,6 +98,8 @@ export default {
   'oais.requests.confirm.retry.message': 'Do you want to retry the selected request',
   'oais.request.details.button.close': 'Close',
   'oais.requests.empty.results': 'No requests found',
+  'oais.requests.retry.title': 'Retry request',
+  'oais.requests.delete.title': 'Delete request',
 
   'oais.aips.list.subtitle': 'List of AIPs for selected session',
   'oais.aips.list.filters.data.storage.label': 'Stored on',
@@ -116,7 +118,6 @@ export default {
   'oais.aips.list.table.headers.nbFiles': 'Number of files',
   'oais.aips.list.table.headers.version': 'Version',
   'oais.aips.list.aip-details.title': 'AIP details',
-  'oais.aips.list.aip-retry.title': 'Retry AIP storage',
   'oais.aips.list.delete.files.on.all.storages.label': 'Full delete',
   'oais.aips.list.delete.files.on.all.storages.title': 'Delete selected AIP and its files on all storages',
   'oais.aips.list.delete.files.on.some.storages.label': 'Partial delete',

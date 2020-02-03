@@ -19,7 +19,6 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import IconButton from 'material-ui/IconButton'
 import AIPModifyOption from '../../../src/components/packages/AIPModifyOption'
 import styles from '../../../src/styles'
 import { AIP } from '../../dumps/AIP.dump'
@@ -48,11 +47,6 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPModifyOption', () => {
     }
     const enzymeWrapper = shallow(<AIPModifyOption {...props} />, { context })
 
-    const iconButtonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(iconButtonWrapper, 1, 'There should be icon button')
-    assert.equal(iconButtonWrapper.props().onClick, enzymeWrapper.instance().onClick, 'Callback should be correctly set')
-    // check callback calls props callback
-    assert.equal(spiedCallbackData.count, 0, 'Callback should not have been invoked yet')
     enzymeWrapper.instance().onClick()
     assert.equal(spiedCallbackData.count, 1, 'Callback should have been invoked once')
     assert.equal(spiedCallbackData.parameterValue, props.entity, 'Callback parameter should be valid')

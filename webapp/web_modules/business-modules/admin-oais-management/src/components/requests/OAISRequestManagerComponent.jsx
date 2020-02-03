@@ -29,6 +29,7 @@ import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
   TableSelectionModes, NoContentComponent,
 } from '@regardsoss/components'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
@@ -49,6 +50,9 @@ import RequestDeleteOption from './RequestDeleteOption'
 import RequestRetryOption from './RequestRetryOption'
 import RequestStatusRenderCell from './RequestStatusRenderCell'
 import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
+import dependencies from '../../dependencies'
+
+const ResourceFlatButton = withResourceDisplayControl(FlatButton)
 
 /**
  * Displays the list of OAIS packages
@@ -572,14 +576,18 @@ export class OAISRequestManagerComponent extends React.Component {
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
-              <FlatButton
+              <ResourceFlatButton
+                resourceDependencies={dependencies.retryRequestDependency}
+                hideDisabled
                 key="retry"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.retry' })}
                 icon={<AvReplay />}
                 onClick={this.onRetrySelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
-              <FlatButton
+              <ResourceFlatButton
+                resourceDependencies={dependencies.deleteRequestDependency}
+                hideDisabled
                 key="delete"
                 label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
                 icon={<Delete />}

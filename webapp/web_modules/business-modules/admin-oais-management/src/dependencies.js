@@ -20,6 +20,8 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { aipActions } from './clients/AIPClient'
 import { aipUpdateActions } from './clients/AIPUpdateClient'
 import { sipImportActions } from './clients/SIPImportClient'
+import { requestRetryActions } from './clients/RequestRetryClient'
+import { requestDeleteActions } from './clients/RequestDeleteClient'
 
 /**
  * Module hateoas depencies
@@ -48,9 +50,14 @@ const deleteDependency = [
 
 const updateDependency = aipUpdateActions.getDependency(RequestVerbEnum.POST)
 
+const retryRequestDependency = requestRetryActions.getDependency(RequestVerbEnum.POST)
+const deleteRequestDependency = requestDeleteActions.getDependency(RequestVerbEnum.POST)
+
 export default {
   listDependencies,
   addDependencies,
   updateDependency,
   deleteDependency,
+  retryRequestDependency,
+  deleteRequestDependency,
 }

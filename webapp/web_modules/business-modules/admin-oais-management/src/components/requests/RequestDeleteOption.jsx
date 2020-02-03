@@ -22,8 +22,7 @@ import DeleteOnAllIcon from 'material-ui/svg-icons/action/delete-forever'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { requestDeleteActions } from '../../clients/RequestDeleteClient'
+import dependencies from '../../dependencies'
 
 /** HATEOAS-able button, exported for tests */
 export const ResourceIconAction = withResourceDisplayControl(IconButton)
@@ -42,8 +41,6 @@ class RequestDeleteOption extends React.Component {
     ...i18nContextType,
   }
 
-  static DELETE_DEPENDENCIES = requestDeleteActions.getDependency(RequestVerbEnum.POST)
-
   /**
    * On button clicked callback
    */
@@ -53,17 +50,16 @@ class RequestDeleteOption extends React.Component {
   }
 
   render() {
-    // const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
-      <IconButton onClick={this.onClick}><DeleteOnAllIcon /></IconButton>
-      // <ResourceIconAction
-      //   resourceDependencies={RequestDeleteOption.DELETE_DEPENDENCIES}
-      //   onClick={this.onClick}
-      //   title={formatMessage({ id: 'oais.aips.list.delete.files.on.all.storages.title' })}
-      // >
-      //   <DeleteOnAllIcon className="selenium-deleteButton" />
-      // </ResourceIconAction>
+      <ResourceIconAction
+        resourceDependencies={dependencies.deleteRequestDependency}
+        onClick={this.onClick}
+        title={formatMessage({ id: 'oais.requests.delete.title' })}
+      >
+        <DeleteOnAllIcon className="selenium-deleteButton" />
+      </ResourceIconAction>
     )
   }
 }

@@ -21,6 +21,10 @@ import Edit from 'material-ui/svg-icons/editor/mode-edit'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { AcquisitionProcessingChainEditActions } from '../../clients/AcquisitionProcessingChainClient'
+
+export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
@@ -43,6 +47,8 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
+  static editDependency = AcquisitionProcessingChainEditActions.getDependency('PUT')
+
   isEditable = () => {
     const { links } = this.props.entity
     return find(links, l => l.rel === 'update', false) !== false
@@ -52,7 +58,9 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
-      <IconButton
+      <ResourceIconAction
+        resourceDependencies={AcquisitionProcessingChainTableEditAction.editDependency}
+        hideDisabled={false}
         className={`selenium-edit-${chain.chainId}`}
         title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}
@@ -61,7 +69,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
         disabled={!this.isEditable()}
       >
         <Edit />
-      </IconButton>
+      </ResourceIconAction>
     )
   }
 }

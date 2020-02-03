@@ -98,6 +98,8 @@ export default {
   'oais.requests.confirm.retry.message': 'Voulez vous relancer les requêtes sélectionnées ?',
   'oais.request.details.button.close': 'Fermer',
   'oais.requests.empty.results': 'Aucune requête trouvée',
+  'oais.requests.retry.title': 'Relancer le traitement',
+  'oais.requests.delete.title': 'Supprimer le traitement',
 
   'oais.aips.list.subtitle': 'Liste des AIPS pour la session sélectionnée',
   'oais.aips.list.filters.data.storage.label': 'Stocké sur',
@@ -116,7 +118,6 @@ export default {
   'oais.aips.list.table.headers.nbFiles': 'Nombre de fichier',
   'oais.aips.list.table.headers.version': 'Version',
   'oais.aips.list.aip-details.title': 'Détails de l\'AIP',
-  'oais.aips.list.aip-retry.title': 'Relancer le stockage de l\'AIP',
   'oais.aips.list.delete.files.on.all.storages.label': 'Suppression complète',
   'oais.aips.list.delete.files.on.all.storages.title': 'Supprimer les AIP sélectionnés et leurs fichiers sur tous les espaces de stockage',
   'oais.aips.list.delete.files.on.some.storages.label': 'Suppression partielle',

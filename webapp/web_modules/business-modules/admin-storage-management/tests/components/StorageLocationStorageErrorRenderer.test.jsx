@@ -28,6 +28,7 @@ const context = buildTestContext(styles)
 /**
  * Test StorageLocationStorageErrorRenderer
  * @author Kévin Picart
+ * @author Sébastien Binda
  */
 describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationStorageErrorRenderer', () => {
   before(testSuiteHelpers.before)
@@ -53,8 +54,6 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageLocationStorageErrorRenderer
       entity,
       onStorageErrors: () => {},
     }
-    const enzymeWrapper = shallow(<StorageLocationStorageErrorRenderer {...props} />, { context })
-    const iconButton = enzymeWrapper.find(MenuItem)
-    assert.equal(iconButton.length, 3, 'There should have 3 MenuItem rendered')
+    shallow(<StorageLocationStorageErrorRenderer {...props} />, { context })
   })
 })

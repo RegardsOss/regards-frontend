@@ -21,8 +21,11 @@ import IconButton from 'material-ui/IconButton'
 import AvReplay from 'material-ui/svg-icons/av/replay'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { requestRetryActions } from '../../clients/RequestRetryClient'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import dependencies from '../../dependencies'
+
+/** HATEOAS-able button, exported for tests */
+export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Table option to delete Request files on every local storage
@@ -38,8 +41,6 @@ class RequestRetryOption extends React.Component {
     ...i18nContextType,
   }
 
-  static DELETE_DEPENDENCIES = requestRetryActions.getDependency(RequestVerbEnum.POST)
-
   /**
    * On button clicked callback
    */
@@ -49,8 +50,15 @@ class RequestRetryOption extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     return (
-      <IconButton onClick={this.onClick}><AvReplay /></IconButton>
+      <ResourceIconAction
+        resourceDependencies={dependencies.retryRequestDependency}
+        onClick={this.onClick}
+        title={formatMessage({ id: 'oais.requests.retry.title' })}
+      >
+        <AvReplay />
+      </ResourceIconAction>
     )
   }
 }
