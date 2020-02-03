@@ -25,13 +25,13 @@ import { pluginMetaDataActions } from './clients/PluginMetadataClient'
  * Module hateoas depencies
  * @author Sébastien binda
  */
-const dependencies = {}
+const dependencies = []
 forEach(STATIC_CONF.MSERVICES, (microservice) => {
   const msDep = []
   msDep.push(MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET))
   msDep.push(SetMaintenanceModeActions(microservice).getActivateDependency())
   msDep.push(SetMaintenanceModeActions(microservice).getDesactivateDependency())
   msDep.push(pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice))
-  dependencies[microservice] = msDep
+  dependencies.push(msDep)
 })
 export default dependencies
