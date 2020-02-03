@@ -179,7 +179,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
       new webpack.PrefetchPlugin('./web_modules/utils/modules/src/components/LazyModuleComponent.jsx'),
-      new webpack.PrefetchPlugin('./web_modules/business-modules/admin-microservice-management/src/containers/plugin/PluginConfigurationListContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/business-modules/admin-user-role-resource-access-management/src/containers/ResourceAccessFormContainer.jsx'),
       new webpack.PrefetchPlugin('./web_modules/components/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/components/src/content/preview/MarkdownFileContentDisplayer.jsx'),

@@ -46,8 +46,8 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { PluginDescriptionDialog } from '@regardsoss/microservice-plugin-configurator'
-import moduleStyles from '../../styles/styles'
-import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from '../../clients/PluginConfigurationClient'
+import moduleStyles from '../styles/styles'
+import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
 
 const ResourceLink = withResourceDisplayControl(Link)
 

@@ -50,7 +50,10 @@ export class ServiceFormContainer extends React.Component {
   static mapDispatchToProps(dispatch, ownProps) {
     return {
       fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity(entity, { microserviceName, pluginId })),
+      create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity({
+        ...entity,
+        businessId: null, // clear source entity business ID for duplication case
+      }, { microserviceName, pluginId })),
       update: (entity, microserviceName, pluginId, pluginConfId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfId, entity, { microserviceName, pluginId })),
     }
   }

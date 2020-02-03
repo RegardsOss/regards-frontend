@@ -54,7 +54,7 @@ export class ServiceListContainer extends React.Component {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
       update: conf => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
         conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
-      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.id, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
     }
   }
 
@@ -77,12 +77,12 @@ export class ServiceListContainer extends React.Component {
 
   onEdit = (pluginConfToEdit) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.id}/edit`)
+    browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.businessId}/edit`)
   }
 
   onDuplicate = (pluginConfToEdit) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.id}/copy`)
+    browserHistory.push(`/admin/${project}/dataaccess/services/${pluginConfToEdit.businessId}/copy`)
   }
 
   onActivateToggle = (entity) => {

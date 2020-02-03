@@ -46,6 +46,8 @@ const messages = Object.assign({
   'user.authentication.plugins.form.invalid.id': 'La configuration sélectionnée n\'existe plus',
   'user.authentication.plugins.form.back.button': 'Annuler',
 
+  'user.authentication.plugins.list.confirm.delete.title': 'Supprimer le système d\'authentification sélectionné?',
+
 }, Locales.fr)
 
 export default messages

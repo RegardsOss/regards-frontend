@@ -21,11 +21,11 @@ import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import PluginMetaDataListComponent from '../../components/plugin/PluginMetaDataListComponent'
-import { pluginTypeSelectors, pluginTypeActions } from '../../clients/PluginTypeClient'
-import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetadataClient'
-import { clearPluginCacheActions, clearPluginCacheSelectors } from '../../clients/ClearPluginCacheClient'
-import messages from '../../i18n'
+import PluginMetaDataListComponent from '../components/PluginMetaDataListComponent'
+import { pluginTypeSelectors, pluginTypeActions } from '../clients/PluginTypeClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetadataClient'
+import { clearPluginCacheActions, clearPluginCacheSelectors } from '../clients/ClearPluginCacheClient'
+import messages from '../i18n'
 
 /**
  * Displays the list of plugins for the current microservice (in route) as a {@link GridList} of {@link Card}s sorted by

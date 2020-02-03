@@ -69,6 +69,8 @@ const messages = Object.assign({
 
   'plugin.configuration.form.description.more': 'Voir la description détaillée du protocole',
 
+  'dataaccess.searchengines.list.confirm.delete.title': 'Supprimer le protocole sélectionné?',
+
 }, Locales.fr)
 
 export default messages

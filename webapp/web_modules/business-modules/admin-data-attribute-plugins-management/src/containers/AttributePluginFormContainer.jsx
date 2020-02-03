@@ -44,16 +44,16 @@ export class AttributePluginFormContainer extends React.Component {
 
   /**
    * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
+   * @param {*} dispatch redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { mode }) {
+  static mapDispatchToProps(dispatch, props) {
     return {
       fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
       create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity({
         ...entity,
-        businessId: null,
+        businessId: null, // clear source entity business ID for duplication case
       }, { microserviceName, pluginId })),
       update: (entity, microserviceName, pluginId, pluginConfBusinessId) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(pluginConfBusinessId, entity, { microserviceName, pluginId })),
     }

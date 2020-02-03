@@ -20,9 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import MicroserviceBoardContainer from '../src/containers/MicroserviceBoardContainer'
-import PluginMetaDataListContainer from '../src/containers/plugin/PluginMetaDataListContainer'
-import PluginConfigurationListContainer from '../src/containers/plugin/PluginConfigurationListContainer'
-import PluginConfigurationFormContainer from '../src/containers/plugin/PluginConfigurationFormContainer'
+import PluginMetaDataListContainer from '../src/containers/PluginMetaDataListContainer'
 import MicroserviceConfBackupContainer from '../src/containers/MicroserviceConfBackupContainer'
 
 describe('[ADMIN MICROSERVICE MANAGEMENT] Testing data board router', () => {
@@ -31,13 +29,10 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing data board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(6)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq(':microserviceName/plugin/list')
-    expect(Routes.childRoutes[2].path).to.eq(':microserviceName/plugin/:pluginId/configuration/list')
-    expect(Routes.childRoutes[3].path).to.eq(':microserviceName/plugin/:pluginId/configuration/:formMode')
-    expect(Routes.childRoutes[4].path).to.eq(':microserviceName/plugin/:pluginId/configuration/:pluginConfigurationId/:formMode')
-    expect(Routes.childRoutes[5].path).to.eq(':microserviceName/conf-backup')
+    expect(Routes.childRoutes[2].path).to.eq(':microserviceName/conf-backup')
   })
   it('board should return MicroserviceBoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -51,26 +46,8 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing data board router', () => {
       done()
     })
   })
-  it(':microserviceName/plugin/:pluginId/configuration/list should return PluginConfigurationListContainer', (done) => {
-    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginConfigurationListContainer)
-      done()
-    })
-  })
-  it(':microserviceName/plugin/:pluginId/configuration/:formMode should return PluginConfigurationFormContainer', (done) => {
-    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginConfigurationFormContainer)
-      done()
-    })
-  })
-  it(':microserviceName/plugin/:pluginId/configuration/:pluginConfigurationId/:formMode should return PluginConfigurationFormContainer', (done) => {
-    Routes.childRoutes[4].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(PluginConfigurationFormContainer)
-      done()
-    })
-  })
   it(':microserviceName/conf-backup should return MicroserviceConfBackupContainer', (done) => {
-    Routes.childRoutes[5].getComponents(undefined, (smth, component) => {
+    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(MicroserviceConfBackupContainer)
       done()
     })
