@@ -23,7 +23,13 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { storageLocationErrorsRetryActions } from '../clients/StorageLocationClient'
+import { storageRequestActions } from '../clients/StorageRequestClient'
 import StorageLocationListComponent from './StorageLocationListComponent'
+
+const ResourcesIconMenu = withResourceDisplayControl(IconMenu)
+const ResourcesMenuItem = withResourceDisplayControl(MenuItem)
 /**
  * Show storage errors and a relauch button
  * @author Kévin Picart
@@ -42,6 +48,14 @@ class StorageLocationStorageErrorRenderer extends React.Component {
   static iconStyle = { height: 23, width: 23 }
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
+
+  static retryResource = storageLocationErrorsRetryActions.getDependency('GET')
+
+  static deleteResource = storageRequestActions.getDependency('DELETE')
+
+  static viewResource = storageRequestActions.getDependency('GET')
+
+  static resources = [StorageLocationStorageErrorRenderer.retryResource, StorageLocationStorageErrorRenderer.deleteResource, StorageLocationStorageErrorRenderer.viewResource]
 
   onRelaunchStoragesErrors = () => {
     const { entity } = this.props
@@ -66,22 +80,30 @@ class StorageLocationStorageErrorRenderer extends React.Component {
       <div style={container}>
         { entity.content.nbStorageError ? entity.content.nbStorageError : '-' }
         { entity.content.nbStorageError > 0 ? (
-          <IconMenu
+          <ResourcesIconMenu
+            displayLogic={someMatchHateoasDisplayLogic}
+            resourceDependencies={StorageLocationStorageErrorRenderer.resources}
             iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
           >
-            <MenuItem
+            <ResourcesMenuItem
+              displayLogic={someMatchHateoasDisplayLogic}
+              resourceDependencies={StorageLocationStorageErrorRenderer.retryResource}
               primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
               onClick={this.onRelaunchStoragesErrors}
             />
-            <MenuItem
+            <ResourcesMenuItem
+              displayLogic={someMatchHateoasDisplayLogic}
+              resourceDependencies={StorageLocationStorageErrorRenderer.deleteResource}
               primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
               onClick={this.onDeleteStoragesErrors}
             />
-            <MenuItem
+            <ResourcesMenuItem
+              displayLogic={someMatchHateoasDisplayLogic}
+              resourceDependencies={StorageLocationStorageErrorRenderer.viewResource}
               primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
               onClick={this.onViewStorageErrors}
             />
-          </IconMenu>
+          </ResourcesIconMenu>
         ) : null }
       </div>
     )

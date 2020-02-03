@@ -26,11 +26,11 @@ class StorageLocationErrorsRetryActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{name}/files/retry/{type}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/{id}/files/retry/{type}`,
     })
   }
 
-  retryErrors = (name, type) => this.sendSignal(RequestVerbEnum.GET, {}, { name, type }, {})
+  retryErrors = (id, type) => this.sendSignal(RequestVerbEnum.GET, {}, { id, type }, {})
 }
 
 export default StorageLocationErrorsRetryActions

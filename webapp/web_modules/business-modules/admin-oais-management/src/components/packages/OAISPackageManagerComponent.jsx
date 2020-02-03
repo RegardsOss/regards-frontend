@@ -29,6 +29,7 @@ import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
   DateValueRender, NoContentComponent,
 } from '@regardsoss/components'
+import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
@@ -52,7 +53,9 @@ import AIPModifyDialogContainer from '../../containers/packages/AIPModifyDialogC
 import AIPDeleteDialog from './AIPDeleteDialog'
 import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
 import AIPPostRequestDialog from './AIPPostRequestDialog'
+import dependencies from '../../dependencies'
 
+const ResourceFlatButton = withResourceDisplayControl(FlatButton)
 /**
  * Displays the list of OAIS packages
  * @author Simon MILHAU
@@ -643,7 +646,10 @@ export class OAISPackageManagerComponent extends React.Component {
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
-              <FlatButton
+              <ResourceFlatButton
+                displayLogic={someMatchHateoasDisplayLogic}
+                resourceDependencies={dependencies.updateDependency}
+                hideDisabled
                 key="modifySelection"
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
@@ -651,8 +657,11 @@ export class OAISPackageManagerComponent extends React.Component {
                 onClick={this.onModifySelection}
                 disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
               />
-              <FlatButton
+              <ResourceFlatButton
                 key="deleteSelection"
+                displayLogic={someMatchHateoasDisplayLogic}
+                resourceDependencies={dependencies.deleteDependency}
+                hideDisabled
                 title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
                 label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
                 icon={<Delete />}

@@ -152,7 +152,7 @@ class ProjectSidebarComponent extends React.Component {
         <SidebarElementWithResourceDisplayControl
           key="6"
           resourceDependencies={microserviceDependencies}
-          displayLogic={someMatchHateoasDisplayLogic}
+          displayLogic={someListMatchHateoasDisplayLogic}
           to={`/admin/${projectName}/microservice/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.microservices' })}

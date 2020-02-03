@@ -18,8 +18,12 @@
  **/
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import IconButton from 'material-ui/IconButton'
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import dependencies from '../../dependencies'
+
+const ResourceIconButton = withResourceDisplayControl(IconButton)
 
 /**
 * Detail option cell for the infinite table used to display the contents of an aip
@@ -45,13 +49,15 @@ class AIPModifyOption extends React.Component {
     const { entity } = this.props
     return (
       <div>
-        <IconButton
+        <ResourceIconButton
+          displayLogic={someMatchHateoasDisplayLogic}
+          resourceDependencies={dependencies.updateDependency}
           onClick={this.onClick}
           title={formatMessage({ id: 'oais.packages.tooltip.modify' })}
           disabled={entity.content.state === 'DELETED'}
         >
           <ModeEdit />
-        </IconButton>
+        </ResourceIconButton>
       </div>
     )
   }

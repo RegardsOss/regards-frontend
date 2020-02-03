@@ -18,6 +18,7 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { aipActions } from './clients/AIPClient'
+import { aipUpdateActions } from './clients/AIPUpdateClient'
 import { sipImportActions } from './clients/SIPImportClient'
 
 /**
@@ -41,7 +42,15 @@ const addDependencies = [
   sipImportActions.getDependency(RequestVerbEnum.POST),
 ]
 
+const deleteDependency = [
+  aipActions.getDependency(RequestVerbEnum.DELETE),
+]
+
+const updateDependency = aipUpdateActions.getDependency(RequestVerbEnum.POST)
+
 export default {
   listDependencies,
   addDependencies,
+  updateDependency,
+  deleteDependency,
 }

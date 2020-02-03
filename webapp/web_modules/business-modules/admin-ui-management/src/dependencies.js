@@ -35,15 +35,10 @@ import { uiSettingsDependencies } from '@regardsoss/admin-ui-settings-management
  * @type {Array}
  */
 export default [
-  themeUIDependencies.boardAddRequiredDependencies,
-  themeUIDependencies.boardListRequiredDependencies,
-  pluginUIDependencies.boardAddRequiredDependencies,
-  pluginUIDependencies.boardListRequiredDependencies,
-  moduleUIDependencies.boardAddRequiredDependencies,
-  moduleUIDependencies.boardListRequiredDependencies,
-  layoutUIDependencies.boardAddRequiredDependencies,
-  layoutUIDependencies.boardSeeRequiredDependencies,
-  serviceUIDependencies.boardListRequiredDependencies,
-  serviceUIDependencies.boardAddRequiredDependencies,
+  [...themeUIDependencies.boardAddRequiredDependencies, ...themeUIDependencies.boardListRequiredDependencies],
+  [...pluginUIDependencies.boardAddRequiredDependencies, ...pluginUIDependencies.boardListRequiredDependencies],
+  [...moduleUIDependencies.boardAddRequiredDependencies, ...moduleUIDependencies.boardListRequiredDependencies],
+  [...layoutUIDependencies.boardAddRequiredDependencies, ...layoutUIDependencies.boardSeeRequiredDependencies],
+  [...serviceUIDependencies.boardListRequiredDependencies, ...serviceUIDependencies.boardAddRequiredDependencies],
   uiSettingsDependencies.editSettingsDependencies,
 ]

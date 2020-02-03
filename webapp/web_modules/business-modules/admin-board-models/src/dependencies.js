@@ -26,12 +26,8 @@ import { attributePluginDependencies } from '@regardsoss/admin-data-attribute-pl
  * @type {Array}
  */
 export default [
-  modelDependencies.listDependencies,
-  modelDependencies.addDependencies,
-  fragmentDependencies.listDependencies,
-  fragmentDependencies.addDependencies,
-  attributeModelDependencies.listDependencies,
-  attributeModelDependencies.addDependencies,
-  attributePluginDependencies.addDependencies,
-  attributePluginDependencies.listDependencies,
+  [...modelDependencies.listDependencies, ...modelDependencies.addDependencies],
+  [...fragmentDependencies.listDependencies, ...fragmentDependencies.addDependencies],
+  [...attributeModelDependencies.listDependencies, ...attributeModelDependencies.addDependencies],
+  [...attributePluginDependencies.addDependencies, ...attributePluginDependencies.listDependencies],
 ]
