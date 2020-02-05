@@ -37,12 +37,24 @@ class RequestStatusRenderCell extends React.Component {
     ...i18nContextType,
   }
 
-  render() {
+  /** Root div styles */
+  static ROOT_STYLES = { display: 'flex', justifyContent: 'center', alignItems: 'center' }
+
+  /**
+   * Callback : shows errors using parent callback
+   */
+  onViewRequestErrors = () => {
     const { entity, onViewRequestErrors } = this.props
+    onViewRequestErrors(entity)
+  }
+
+  render() {
+    const { entity } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-        <StringValueRender value={entity.content.state} />
-        {!isEmpty(entity.content.errors) && <IconButton onClick={() => onViewRequestErrors(entity)}><AlertError /></IconButton>}
+      <div style={RequestStatusRenderCell.ROOT_STYLES}>
+        <StringValueRender value={formatMessage({ id: `oais.requests.status.${entity.content.state}` })} />
+        {isEmpty(entity.content.errors) ? null : <IconButton onClick={this.onViewRequestErrors}><AlertError /></IconButton>}
       </div>
     )
   }

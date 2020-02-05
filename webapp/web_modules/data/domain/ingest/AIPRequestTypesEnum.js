@@ -16,8 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
 
-export const enMessages = en
-export const frMessages = fr
+import values from 'lodash/values'
+
+/**
+ * Possible AIP request types
+ * @author Raphaël Mechali
+ */
+export const AIP_REQUEST_TYPES_ENUM = {
+  STORAGE_DELETION: 'STORAGE_DELETION',
+  STORE_METADATA: 'STORE_METADATA',
+  UPDATE: 'UPDATE',
+  AIP_UPDATES_CREATOR: 'AIP_UPDATES_CREATOR',
+  INGEST: 'INGEST',
+  OAIS_DELETION_CREATOR: 'OAIS_DELETION_CREATOR',
+  OAIS_DELETION: 'OAIS_DELETION',
+}
+
+export const AIP_REQUEST_TYPES = values(AIP_REQUEST_TYPES_ENUM)

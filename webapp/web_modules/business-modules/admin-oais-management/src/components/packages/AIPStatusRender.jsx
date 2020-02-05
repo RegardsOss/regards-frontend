@@ -16,8 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+import { IngestDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { StringValueRender } from '@regardsoss/components'
 
-export const enMessages = en
-export const frMessages = fr
+/**
+ * Renders AIP Status
+ * @author Raphaël Mechali
+ */
+class AIPStatusRender extends React.Component {
+  static propTypes = {
+    value: PropTypes.oneOf(IngestDomain.AIP_STATUS).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+
+  render() {
+    const { value: state } = this.props
+    const { intl: { formatMessage } } = this.context
+    return <StringValueRender value={formatMessage({ id: `oais.package.state.${state}` })} />
+  }
+}
+
+export default AIPStatusRender

@@ -16,18 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const catIngest = 'Ingest - '
-const messages = {
-  // -- SIP
-  'sip.state.INGESTED': `${catIngest}Ingested`,
-  'sip.state.STORED': `${catIngest}Stored`,
-  'sip.state.DELETED': `${catIngest}Deleted`,
-  'sip.state.ERROR': `${catIngest}Error`,
-  // -- AIP
-  'aip.state.GENERATED': `${catIngest}Generated`,
-  'aip.state.STORED': `${catIngest}Stored`,
-  'aip.state.DELETED': `${catIngest}Deleted`,
-  'aip.state.ERROR': `${catIngest}Error`,
+
+import values from 'lodash/values'
+
+/**
+ * Possible AIP request status
+ * @author Raphaël Mechali
+ */
+export const AIP_REQUEST_STATUS_ENUM = {
+  TO_SCHEDULE: 'TO_SCHEDULE',
+  CREATED: 'CREATED',
+  BLOCKED: 'BLOCKED',
+  RUNNING: 'RUNNING',
+  ERROR: 'ERROR',
+  ABORTED: 'ABORTED',
 }
 
-export default messages
+export const AIP_REQUEST_STATUS = values(AIP_REQUEST_STATUS_ENUM)

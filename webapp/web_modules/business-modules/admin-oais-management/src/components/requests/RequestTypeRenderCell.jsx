@@ -16,19 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import { IngestDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { StringValueRender } from '@regardsoss/components'
 
 /**
- * Possible acqisition file status
- * @author Sébastien Binda
+ * Renders AIP request type
+ * @author Raphaël Mechali
  */
-export const AcquisitionFileStateEnum = {
-  IN_PROGRESS: 'IN_PROGRESS',
-  VALID: 'VALID',
-  INVALID: 'INVALID',
-  ACQUIRED: 'ACQUIRED',
-  SUPERSEDED: 'SUPERSEDED',
-  SUPERSEDED_AFTER_ERROR: 'SUPERSEDED_AFTER_ERROR',
-  ERROR: 'ERROR',
+class RequestTypeRenderCell extends React.Component {
+  static propTypes = {
+    value: PropTypes.oneOf(IngestDomain.AIP_REQUEST_TYPES).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+
+  render() {
+    const { value: type } = this.props
+    const { intl: { formatMessage } } = this.context
+    return <StringValueRender value={formatMessage({ id: `oais.requests.type.${type}` })} />
+  }
 }
-export const AcquisitionFileStateValues = values(AcquisitionFileStateEnum)
+
+export default RequestTypeRenderCell

@@ -58,30 +58,33 @@ export class AIPModifyDialogComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static EMPTY_COMPONENT = <NoContentComponent
-    titleKey="oais.packages.empty.results"
-    Icon={NoContentIcon}
-  />
-
-  static SECTIONS = {
+  /** Possible section types */
+  static SECTION_TYPES = {
+    CATEGORY: 'category',
     STORAGE: 'storage',
     TAG: 'tag',
-    CATEGORY: 'category',
+  }
+
+  /** Empty component by section type */
+  static EMPTY_COMPONENTS = {
+    [AIPModifyDialogComponent.SECTION_TYPES.CATEGORY]: <NoContentComponent titleKey="oais.packages.modify.no.category" Icon={NoContentIcon} />,
+    [AIPModifyDialogComponent.SECTION_TYPES.STORAGE]: <NoContentComponent titleKey="oais.packages.modify.no.storage" Icon={NoContentIcon} />,
+    [AIPModifyDialogComponent.SECTION_TYPES.TAG]: <NoContentComponent titleKey="oais.packages.modify.no.tag" Icon={NoContentIcon} />,
   }
 
   state = {
-    toggledSection: AIPModifyDialogComponent.SECTIONS.STORAGE,
-    [AIPModifyDialogComponent.SECTIONS.STORAGE]: {
+    toggledSection: AIPModifyDialogComponent.SECTION_TYPES.STORAGE,
+    [AIPModifyDialogComponent.SECTION_TYPES.STORAGE]: {
       list: [],
       toDelete: [],
     },
-    [AIPModifyDialogComponent.SECTIONS.TAG]: {
+    [AIPModifyDialogComponent.SECTION_TYPES.TAG]: {
       list: [],
       toDelete: [],
       toAdd: [],
       textFieldValue: '',
     },
-    [AIPModifyDialogComponent.SECTIONS.CATEGORY]: {
+    [AIPModifyDialogComponent.SECTION_TYPES.CATEGORY]: {
       list: [],
       toDelete: [],
       toAdd: [],
@@ -108,13 +111,13 @@ export class AIPModifyDialogComponent extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const nextState = { ...this.state }
     if (!isEqual(oldProps.selectionStorages, newProps.selectionStorages)) {
-      nextState[AIPModifyDialogComponent.SECTIONS.STORAGE] = {
+      nextState[AIPModifyDialogComponent.SECTION_TYPES.STORAGE] = {
         list: [...newProps.selectionStorages],
         toDelete: [],
       }
     }
     if (!isEqual(oldProps.selectionTags, newProps.selectionTags)) {
-      nextState[AIPModifyDialogComponent.SECTIONS.TAG] = {
+      nextState[AIPModifyDialogComponent.SECTION_TYPES.TAG] = {
         list: [...newProps.selectionTags],
         toAdd: [],
         toDelete: [],
@@ -122,7 +125,7 @@ export class AIPModifyDialogComponent extends React.Component {
       }
     }
     if (!isEqual(oldProps.selectionCategories, newProps.selectionCategories)) {
-      nextState[AIPModifyDialogComponent.SECTIONS.CATEGORY] = {
+      nextState[AIPModifyDialogComponent.SECTION_TYPES.CATEGORY] = {
         list: [...newProps.selectionCategories],
         toAdd: [],
         toDelete: [],
@@ -136,7 +139,7 @@ export class AIPModifyDialogComponent extends React.Component {
 
   onTextFieldChange = (event) => {
     const { toggledSection } = this.state
-    if (toggledSection !== AIPModifyDialogComponent.SECTIONS.STORAGE) {
+    if (toggledSection !== AIPModifyDialogComponent.SECTION_TYPES.STORAGE) {
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
@@ -149,7 +152,7 @@ export class AIPModifyDialogComponent extends React.Component {
   onDelete = (entity) => {
     const { toggledSection } = this.state
     if (toggledSection) {
-      if (toggledSection === AIPModifyDialogComponent.SECTIONS.STORAGE && size(this.state[toggledSection].list) < 2) {
+      if (toggledSection === AIPModifyDialogComponent.SECTION_TYPES.STORAGE && size(this.state[toggledSection].list) < 2) {
         this.setState({
           deleteStorageError: true,
         })
@@ -198,7 +201,7 @@ export class AIPModifyDialogComponent extends React.Component {
 
   onAdd = () => {
     const { toggledSection } = this.state
-    if (toggledSection !== AIPModifyDialogComponent.SECTIONS.STORAGE
+    if (toggledSection !== AIPModifyDialogComponent.SECTION_TYPES.STORAGE
       && this.state[toggledSection].textFieldValue !== ''
       && !includes(this.state[toggledSection].toAdd, this.state[toggledSection].textFieldValue)) {
       this.setState({
@@ -217,13 +220,13 @@ export class AIPModifyDialogComponent extends React.Component {
     const { onConfirmModify } = this.props
 
     onConfirmModify({
-      storages: this.state[AIPModifyDialogComponent.SECTIONS.STORAGE],
-      tags: this.state[AIPModifyDialogComponent.SECTIONS.TAG],
-      categories: this.state[AIPModifyDialogComponent.SECTIONS.CATEGORY],
+      storages: this.state[AIPModifyDialogComponent.SECTION_TYPES.STORAGE],
+      tags: this.state[AIPModifyDialogComponent.SECTION_TYPES.TAG],
+      categories: this.state[AIPModifyDialogComponent.SECTION_TYPES.CATEGORY],
     })
   }
 
-  renderPane = (pane) => {
+  renderPane = (sectionType) => {
     const {
       moduleTheme: {
         aipModifyDialogSectionTable, aipModifyDialogSectionTableSeparator, aipModifyDialogAddButton,
@@ -231,7 +234,7 @@ export class AIPModifyDialogComponent extends React.Component {
       muiTheme, intl: { formatMessage },
     } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const paneObject = this.state[pane]
+    const paneObject = this.state[sectionType]
     const { deleteStorageError } = this.state
     const listColumns = [
       new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
@@ -266,8 +269,8 @@ export class AIPModifyDialogComponent extends React.Component {
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderContentBox>
-                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane: toLower(formatMessage({ id: `oais.packages.modify.${pane}` })) })} />
-                {pane === AIPModifyDialogComponent.SECTIONS.STORAGE && deleteStorageError ? <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete.storages.error' })} /> : null }
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.list' }, { pane: toLower(formatMessage({ id: `oais.packages.modify.${sectionType}` })) })} />
+                {sectionType === AIPModifyDialogComponent.SECTION_TYPES.STORAGE && deleteStorageError ? <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete.storages.error' })} /> : null }
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer
@@ -276,7 +279,7 @@ export class AIPModifyDialogComponent extends React.Component {
               entities={paneObject.list}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
-              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
+              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENTS[sectionType]}
             />
           </TableLayout>
         </div>
@@ -285,7 +288,7 @@ export class AIPModifyDialogComponent extends React.Component {
           <TableLayout>
             <TableHeaderLine>
               <TableHeaderContentBox>
-                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete' }, { pane: formatMessage({ id: `oais.packages.modify.${pane}` }) })} />
+                <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.delete' }, { pane: formatMessage({ id: `oais.packages.modify.${sectionType}` }) })} />
               </TableHeaderContentBox>
             </TableHeaderLine>
             <InfiniteTableContainer
@@ -294,16 +297,16 @@ export class AIPModifyDialogComponent extends React.Component {
               entities={paneObject.toDelete}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
-              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
+              emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENTS[sectionType]}
             />
           </TableLayout>
         </div>
-        {pane !== AIPModifyDialogComponent.SECTIONS.STORAGE ? ([<div key="lastSeparator" style={aipModifyDialogSectionTableSeparator} />,
+        {sectionType !== AIPModifyDialogComponent.SECTION_TYPES.STORAGE ? ([<div key="lastSeparator" style={aipModifyDialogSectionTableSeparator} />,
           <div key="lastTable" style={aipModifyDialogSectionTable}>
             <TableLayout>
               <TableHeaderLine>
                 <TableHeaderContentBox>
-                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: formatMessage({ id: `oais.packages.modify.${pane}` }) })} />
+                  <TableHeaderText text={formatMessage({ id: 'oais.packages.modify.add' }, { pane: formatMessage({ id: `oais.packages.modify.${sectionType}` }) })} />
                 </TableHeaderContentBox>
               </TableHeaderLine>
               <InfiniteTableContainer
@@ -312,13 +315,13 @@ export class AIPModifyDialogComponent extends React.Component {
                 entities={paneObject.toAdd}
                 minRowCount={minRowCount}
                 maxRowCount={maxRowCount}
-                emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENT}
+                emptyComponent={AIPModifyDialogComponent.EMPTY_COMPONENTS[sectionType]}
               />
             </TableLayout>
             <div style={aipModifyDialogAddButton}>
               <TextField
-                name={`add-${pane}`}
-                hintText={`Add ${pane}`}
+                name={`add-${sectionType}`}
+                hintText={`Add ${sectionType}`}
                 type="text"
                 value={paneObject.textFieldValue}
                 onChange={this.onTextFieldChange}
@@ -332,20 +335,6 @@ export class AIPModifyDialogComponent extends React.Component {
           </div>]) : null}
       </React.Fragment>
     )
-  }
-
-  renderSection = () => {
-    const { toggledSection } = this.state
-    switch (toggledSection) {
-      case AIPModifyDialogComponent.SECTIONS.STORAGE:
-        return this.renderPane(AIPModifyDialogComponent.SECTIONS.STORAGE)
-      case AIPModifyDialogComponent.SECTIONS.TAG:
-        return this.renderPane(AIPModifyDialogComponent.SECTIONS.TAG)
-      case AIPModifyDialogComponent.SECTIONS.CATEGORY:
-        return this.renderPane(AIPModifyDialogComponent.SECTIONS.CATEGORY)
-      default:
-        return null
-    }
   }
 
   renderActions = () => {
@@ -378,6 +367,7 @@ export class AIPModifyDialogComponent extends React.Component {
 
   render() {
     const { moduleTheme: { aipModifyDialog, aipModifyDialogList }, intl: { formatMessage } } = this.context
+    const { toggledSection } = this.state
 
     return (
       <PositionedDialog
@@ -390,11 +380,11 @@ export class AIPModifyDialogComponent extends React.Component {
       >
         <div style={aipModifyDialog}>
           <List style={aipModifyDialogList}>
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.STORAGE)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.CATEGORY)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTIONS.TAG)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.STORAGE)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.CATEGORY)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.TAG)} />
           </List>
-          {this.renderSection()}
+          { this.renderPane(toggledSection) }
         </div>
       </PositionedDialog>
     )

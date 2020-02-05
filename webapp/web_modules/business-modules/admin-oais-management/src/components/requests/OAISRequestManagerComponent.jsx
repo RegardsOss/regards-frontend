@@ -32,7 +32,7 @@ import {
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, IngestDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
 import AvReplay from 'material-ui/svg-icons/av/replay'
 import Stop from 'mdi-material-ui/Stop'
@@ -50,6 +50,7 @@ import RequestDeleteOption from './RequestDeleteOption'
 import RequestRetryOption from './RequestRetryOption'
 import RequestStatusRenderCell from './RequestStatusRenderCell'
 import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
+import RequestTypeRenderCell from './RequestTypeRenderCell'
 import dependencies from '../../dependencies'
 
 const ResourceFlatButton = withResourceDisplayControl(FlatButton)
@@ -87,24 +88,6 @@ export class OAISRequestManagerComponent extends React.Component {
     titleKey="oais.requests.empty.results"
     Icon={NoContentIcon}
   />
-
-  static REQUEST_STATES = {
-    TO_SCHEDULE: 'TO_SCHEDULE',
-    CREATED: 'CREATED',
-    BLOCKED: 'BLOCKED',
-    RUNNING: 'RUNNING',
-    ERROR: 'ERROR',
-    ABORTED: 'ABORTED',
-  }
-
-  static REQUEST_TYPES = {
-    STORE_METADATA: 'STORE_METADATA',
-    UPDATE: 'UPDATE',
-    AIP_UPDATES_CREATOR: 'AIP_UPDATES_CREATOR',
-    INGEST: 'INGEST',
-    STORAGE_DELETION: 'STORAGE_DELETION',
-    OAIS_DELETION: 'OAIS_DELETION',
-  }
 
   static DELETION_SELECTION_MODE = {
     INCLUDE: 'INCLUDE',
@@ -303,22 +286,7 @@ export class OAISRequestManagerComponent extends React.Component {
       ...contextRequestBodyParameters,
       ...retryPayload,
     }
-    retryRequests(finalRetryPayload).then((actionResult) => {
-      if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
-      } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
-      }
-    })
+    retryRequests(finalRetryPayload)
   }
 
   onRetry = (requestToRetry) => {
@@ -408,22 +376,7 @@ export class OAISRequestManagerComponent extends React.Component {
       ...contextRequestBodyParameters,
       ...deletionPayload,
     }
-    deleteRequests(finalDeletionPayload).then((actionResult) => {
-      if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
-      } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
-      }
-    })
+    deleteRequests(finalDeletionPayload)
   }
 
   onDelete = (requestToDelete) => {
@@ -513,8 +466,6 @@ export class OAISRequestManagerComponent extends React.Component {
       pageSize, tableSelection, selectionMode, requestFilters,
     } = this.props
     const { contextRequestURLParameters, contextRequestBodyParameters } = this.state
-    const types = OAISRequestManagerComponent.REQUEST_TYPES
-    const states = OAISRequestManagerComponent.REQUEST_STATES
     const columns = [
       new TableColumnBuilder()
         .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
@@ -523,7 +474,8 @@ export class OAISRequestManagerComponent extends React.Component {
         .label(formatMessage({ id: 'oais.requests.list.filters.providerId' }))
         .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.ID), this.onSort)
         .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.dtype')
+      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell()
+        .propertyRenderCell('content.dtype', RequestTypeRenderCell)
         .label(formatMessage({ id: 'oais.requests.list.filters.type' }))
         .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), this.onSort)
         .build(),
@@ -558,21 +510,21 @@ export class OAISRequestManagerComponent extends React.Component {
                 autoWidth
                 style={filter.fieldStyle}
                 hintText={formatMessage({ id: 'oais.requests.list.filters.type' })}
-                value={requestFilters ? requestFilters.type : ''}
+                value={requestFilters ? requestFilters.type : null}
                 onChange={this.changeTypeFilter}
               >
-                {map(types, type => <MenuItem key={type} value={type} primaryText={type} />)}
-                <MenuItem key="" value="" primaryText="" />
+                <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.type.any' })} />
+                {IngestDomain.AIP_REQUEST_TYPES.map(type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.type.${type}` })} />)}
               </SelectField>
               <SelectField
                 autoWidth
                 style={filter.fieldStyle}
                 hintText={formatMessage({ id: 'oais.packages.list.filters.state' })}
-                value={requestFilters ? requestFilters.state : ''}
+                value={requestFilters ? requestFilters.state : null}
                 onChange={this.changeStateFilter || ''}
               >
-                {map(states, state => <MenuItem key={state} value={state} primaryText={state} />)}
-                <MenuItem key="" value="" primaryText="" />
+                <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.status.any' })} />
+                {IngestDomain.AIP_REQUEST_STATUS.map(status => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>

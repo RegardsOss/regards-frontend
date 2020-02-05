@@ -53,6 +53,8 @@ import AIPModifyDialogContainer from '../../containers/packages/AIPModifyDialogC
 import AIPDeleteDialog from './AIPDeleteDialog'
 import SIPDetailContainer from '../../containers/packages/SIPDetailContainer'
 import AIPPostRequestDialog from './AIPPostRequestDialog'
+import AIPTypeRender from './AIPTypeRender'
+import AIPStatusRender from './AIPStatusRender'
 import dependencies from '../../dependencies'
 
 const ResourceFlatButton = withResourceDisplayControl(FlatButton)
@@ -556,11 +558,11 @@ export class OAISPackageManagerComponent extends React.Component {
         .label(formatMessage({ id: 'oais.aips.list.table.headers.providerId' }))
         .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.PROVIDER_ID), this.onSort)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.aip.ipType')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell().propertyRenderCell('content.aip.ipType', AIPTypeRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.type' }))
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell().propertyRenderCell('content.state')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell().propertyRenderCell('content.state', AIPStatusRender)
         .label(formatMessage({ id: 'oais.aips.list.table.headers.state' }))
         .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.STATE), this.onSort)
         .fixedSizing(150)
@@ -611,11 +613,11 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.type',
                 })}
-                value={productFilters ? productFilters.type : ''}
+                value={productFilters ? productFilters.type : null}
                 onChange={this.changeTypeFilter}
               >
-                {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={type} />)}
-                <MenuItem key="" value="" primaryText="" />
+                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.type.any' })} />
+                {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.package.type.${type}` })} />)}
               </SelectField>
               <SelectField
                 autoWidth
@@ -624,11 +626,11 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.state',
                 })}
-                value={productFilters ? productFilters.state : ''}
+                value={productFilters ? productFilters.state : null}
                 onChange={this.changeStateFilter}
               >
-                {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={state} />)}
-                <MenuItem key="" value="" primaryText="" />
+                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.state.any' })} />
+                {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.package.state.${state}` })} />)}
               </SelectField>
               <SelectField
                 autoWidth
@@ -638,11 +640,11 @@ export class OAISPackageManagerComponent extends React.Component {
                 hintText={formatMessage({
                   id: 'oais.packages.list.filters.storage',
                 })}
-                value={productFilters ? productFilters.storage : ''}
+                value={productFilters ? productFilters.storage : null}
                 onChange={this.changeStorageFilter}
               >
+                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.storage.any' })} />
                 {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
-                <MenuItem key="" value="" primaryText="" />
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>
