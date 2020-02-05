@@ -286,23 +286,7 @@ export class OAISRequestManagerComponent extends React.Component {
       ...contextRequestBodyParameters,
       ...retryPayload,
     }
-    retryRequests(finalRetryPayload).then((actionResult) => {
-      // TODO: seems weird! (RMI)
-      if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
-      } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
-      }
-    })
+    retryRequests(finalRetryPayload)
   }
 
   onRetry = (requestToRetry) => {
@@ -392,23 +376,7 @@ export class OAISRequestManagerComponent extends React.Component {
       ...contextRequestBodyParameters,
       ...deletionPayload,
     }
-    deleteRequests(finalDeletionPayload).then((actionResult) => {
-      // TODO same clearly! (RMI)
-      if (actionResult.error) {
-        // const errors = []
-        // errors.push({
-        //   providerId,
-        //   reason: formatMessage({ id: 'oais.sip.delete.error.title' }, { id: providerId }),
-        // })
-        // this.displayDeletionErrors(providerId, errors)
-      } else {
-        // Display error dialogs if errors are raised by the service.
-        // A 200 OK response is sent by the backend. So we check errors into the response payload.
-        // this.displayDeletionErrors(providerId, get(actionResult, 'payload', []))
-        // Refresh view
-        // this.props.onRefresh(appliedFilters)
-      }
-    })
+    deleteRequests(finalDeletionPayload)
   }
 
   onDelete = (requestToDelete) => {
