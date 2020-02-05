@@ -16,18 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const catIngest = 'Ingestion - '
-const messages = {
-  // -- SIP
-  'sip.state.INGESTED': `${catIngest}Ingéré`,
-  'sip.state.STORED': `${catIngest}Stocké`,
-  'sip.state.DELETED': `${catIngest}Supprimé`,
-  'sip.state.ERROR': `${catIngest}Erreur`,
-  // -- AIP
-  'aip.state.GENERATED': `${catIngest}Généré`,
-  'aip.state.STORED': `${catIngest}Stocké`,
-  'aip.state.DELETED': `${catIngest}Supprimé`,
-  'aip.state.ERROR': `${catIngest}Erreur`,
+import { DamDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { StringValueRender } from '@regardsoss/components'
+
+/**
+ * Renders AIP type
+ * @author Raphaël Mechali
+ */
+class AIPTypeRender extends React.Component {
+  static propTypes = {
+    value: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+
+  render() {
+    const { value: type } = this.props
+    const { intl: { formatMessage } } = this.context
+    return <StringValueRender value={formatMessage({ id: `oais.package.type.${type}` })} />
+  }
 }
 
-export default messages
+export default AIPTypeRender

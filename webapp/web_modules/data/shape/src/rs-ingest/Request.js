@@ -1,3 +1,5 @@
+import { IngestDomain } from '@regardsoss/domain'
+
 /**
  * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -28,8 +30,8 @@ export const Request = PropTypes.shape({
   sessionOwner: PropTypes.string,
   session: PropTypes.string,
   providerId: PropTypes.string.isRequired,
-  dtype: PropTypes.string,
-  state: PropTypes.string,
+  dtype: PropTypes.oneOf(IngestDomain.AIP_REQUEST_TYPES).isRequired,
+  state: PropTypes.oneOf(IngestDomain.AIP_REQUEST_STATUS).isRequired,
 })
 
 export const RequestEntity = PropTypes.shape({
