@@ -119,9 +119,10 @@ pipeline {
                       sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
                       sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
                         docker run --rm \
-                        --entrypoint /opt/sonar-runner-2.4/bin/sonar-runner \
-                        -v ${WORKSPACE}/webapp:/data \
+                        -w /root/src \
+                        -v ${WORKSPACE}/webapp::/root/src \
                         skilldlabs/sonar-scanner:3.3 \
+                        sonar-scanner \
                         -Dsonar.projectVersion=${TAG} \
                         -Dsonar.branch.name=${BRANCH_NAME} \
                         -Dsonar.host.url=http://172.26.47.129:9000/'
