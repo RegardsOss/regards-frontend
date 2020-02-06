@@ -125,6 +125,7 @@ pipeline {
                         sonar-scanner \
                         -Dsonar.projectVersion=${TAG} \
                         -Dsonar.branch.name=${BRANCH_NAME} \
+                        -Dsonar.projectBaseDir=/data \
                         -Dsonar.host.url=http://172.26.47.129:9000/'
                       sh 'chmod -R 0777 webapp/.sonar || true'
                       sh 'rm -rf webapp/.sonar || true'
