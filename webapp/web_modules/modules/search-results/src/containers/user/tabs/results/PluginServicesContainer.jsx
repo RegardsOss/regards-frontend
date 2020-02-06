@@ -29,7 +29,7 @@ import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/ent
 import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
-import { pluginServiceActions, pluginServiceSelectors } from '../../../../clients/PluginServiceClient'
+import { getServicesClient } from '../../../../clients/PluginServiceClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 import { getTableClient } from '../../../../clients/TableClient'
 import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
@@ -127,6 +127,7 @@ export class PluginServicesContainer extends React.Component {
   static mapStateToProps(state, { tabType }) {
     const { tableSelectors } = getTableClient(tabType)
     const { searchSelectors } = getSearchCatalogClient(tabType)
+    const { servicesSelector } = getServicesClient(tabType)
     return {
       // seletion related
       selectionMode: tableSelectors.getSelectionMode(state),
@@ -134,7 +135,7 @@ export class PluginServicesContainer extends React.Component {
       emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
       pageMetadata: searchSelectors.getMetaData(state),
       // fetched service related
-      contextSelectionServices: pluginServiceSelectors.getResult(state),
+      contextSelectionServices: servicesSelector.getResult(state),
       // running service related
       serviceRunModel: runPluginServiceSelectors.getServiceRunModel(state),
       // logged user state related
@@ -148,9 +149,10 @@ export class PluginServicesContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { servicesActions } = getServicesClient(tabType)
     return {
-      dispatchFetchPluginServices: datasetIds => dispatch(pluginServiceActions.fetchPluginServices(datasetIds)),
+      dispatchFetchPluginServices: datasetIds => dispatch(servicesActions.fetchPluginServices(datasetIds)),
       dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
       dispatchCloseService: () => dispatch(runPluginServiceActions.closeService()),
     }

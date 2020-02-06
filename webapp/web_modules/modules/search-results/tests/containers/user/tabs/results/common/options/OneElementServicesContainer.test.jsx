@@ -59,7 +59,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
           ...dataEntity.content,
           services: [{ // this service should always be returned
             content: {
-              configId: 1,
+              configId: '1',
               label: 'test1',
               applicationModes: [
                 'ONE',
@@ -73,7 +73,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
             links: [],
           }, { // this service should never be returned
             content: {
-              configId: 2,
+              configId: '2',
               label: 'test2',
               applicationModes: [
                 'MANY',
@@ -87,7 +87,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
             links: [],
           }, { // this service should be returned for DATA
             content: {
-              configId: 3,
+              configId: '3',
               label: 'test3',
               applicationModes: [
                 'ONE',
@@ -100,7 +100,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
             links: [],
           }, { // this service should not be returned for DATA
             content: {
-              configId: 4,
+              configId: '4',
               label: 'test4',
               applicationModes: [
                 'ONE',

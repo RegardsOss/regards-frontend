@@ -30,7 +30,7 @@ import URL from '../rs-common/URL'
  */
 export const PluginService = PropTypes.shape({
   // config Id, used to retrieve config when running that service
-  configId: PropTypes.number.isRequired,
+  configId: PropTypes.string.isRequired,
   // label
   label: PropTypes.string.isRequired,
   // optional URL

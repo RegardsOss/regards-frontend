@@ -110,7 +110,7 @@ export const dataEntityWithServices = {
     ...dataEntity.content,
     services: [{
       content: {
-        configId: 1,
+        configId: '1',
         label: 'service1',
         icon: 'any.png',
         applicationModes: [AccessDomain.applicationModes.ONE],
@@ -119,7 +119,7 @@ export const dataEntityWithServices = {
       },
     }, {
       content: {
-        configId: 2,
+        configId: '2',
         label: 'service2',
         icon: 'any2.png',
         applicationModes: [AccessDomain.applicationModes.ONE],

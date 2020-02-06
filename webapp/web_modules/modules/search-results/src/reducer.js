@@ -22,7 +22,7 @@ import { datasetModelReducer } from './clients/DatasetModelClient'
 import { dataSetAttributesReducer } from './clients/DataSetAttributesClient'
 import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClient'
 import { mainTableReducer, tagTableReducer } from './clients/TableClient'
-import { pluginServiceReducer } from './clients/PluginServiceClient'
+import { mainPluginServicesReducer, tagPluginServicesReducer } from './clients/PluginServiceClient'
 import runPluginServiceReducer from './models/services/RunPluginServiceReducer'
 
 /**
@@ -39,8 +39,9 @@ const searchResultsReducers = {
   mainResultsTable: mainTableReducer,
   tagResultsTable: tagTableReducer,
   // services
+  mainPluginServices: mainPluginServicesReducer,
+  tagPluginServices: tagPluginServicesReducer,
   runPluginService: runPluginServiceReducer,
-  pluginServices: pluginServiceReducer,
 }
 
 export default searchResultsReducers

@@ -30,7 +30,7 @@ import styles from '../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const serviceConfiguration = {
-  configId: 1,
+  configId: '1',
   label: 'service1',
   icon: 'hellfire.png',
   applicationModes: [],

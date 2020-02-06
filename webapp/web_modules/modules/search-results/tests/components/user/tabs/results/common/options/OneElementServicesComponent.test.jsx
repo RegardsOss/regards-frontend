@@ -55,7 +55,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesComponent', () => {
     const props = {
       services: [{
         content: {
-          configId: 0,
+          configId: '0',
           label: 'ui-service-0',
           iconUrl: null,
           applicationModes: [AccessDomain.applicationModes.ONE],
@@ -64,7 +64,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesComponent', () => {
         },
       }, {
         content: {
-          configId: 0,
+          configId: '0',
           label: 'catalog-service-0',
           iconUrl: 'http://my-little-poney/ponatator.gif',
           applicationModes: [AccessDomain.applicationModes.ONE],

@@ -31,7 +31,7 @@ export default class CatalogPluginServiceResultActions extends DownloadFileActio
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{pluginConfigurationId}/apply`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{pluginConfigurationBusinessId}/apply`,
       headers: { Accept: '*/*' },
     })
   }

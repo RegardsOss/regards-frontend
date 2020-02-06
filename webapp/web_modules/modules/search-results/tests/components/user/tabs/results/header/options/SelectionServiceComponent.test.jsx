@@ -43,7 +43,7 @@ describe('[SEARCH RESULTS] Testing SelectionServiceComponent', () => {
       onRunService: (service) => { spyServiceToRun = service },
       service: {
         content: {
-          configId: 0,
+          configId: '0',
           label: 'ui-service-0',
           iconUrl: null,
           applicationModes: [AccessDomain.applicationModes.ONE],
@@ -68,7 +68,7 @@ describe('[SEARCH RESULTS] Testing SelectionServiceComponent', () => {
       onRunService: () => { },
       service: {
         content: {
-          configId: 0,
+          configId: '0',
           label: 'ui-service-0',
           iconUrl: 'http://action-man.org/after-work/beer.png',
           applicationModes: [AccessDomain.applicationModes.ONE],

@@ -116,7 +116,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
       viewObjectType: DamDomain.ENTITY_TYPES_ENUM.DATA,
       contextSelectionServices: [{
         content: {
-          configId: 1, // common-service-1: should remain in final list when in data mode
+          configId: '1', // common-service-1: should remain in final list when in data mode
           label: 'common-service-1',
           applicationModes: [AccessDomain.applicationModes.MANY],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA],
@@ -124,7 +124,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
         },
       }, {
         content: {
-          configId: 2, // common-service-2: should remain in final list when in dataset mode
+          configId: '2', // common-service-2: should remain in final list when in dataset mode
           label: 'common-service-2',
           applicationModes: [AccessDomain.applicationModes.MANY],
           entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATASET],
@@ -142,7 +142,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
             tags: [],
             services: [{
               content: {
-                configId: 3, // entity-service-3: should remain in final list in both data and dataset modes as it shared by both entities
+                configId: '3', // entity-service-3: should remain in final list in both data and dataset modes as it shared by both entities
                 label: 'entity-service-3',
                 applicationModes: [AccessDomain.applicationModes.MANY],
                 entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
@@ -161,7 +161,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
             tags: [],
             services: [{
               content: {
-                configId: 3, // entity-service-3: should remain in final list in both data and dataset modes as it shared by both entities
+                configId: '3', // entity-service-4: should remain in final list in both data and dataset modes as it shared by both entities
                 label: 'entity-service-3',
                 applicationModes: [AccessDomain.applicationModes.MANY],
                 entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
@@ -169,7 +169,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
               },
             }, {
               content: {
-                configId: 4, // entity-service-4 should be excluded as it is not common to both entity
+                configId: '4', // entity-service-4 should be excluded as it is not common to both entity
                 label: 'entity-service-4',
                 applicationModes: [AccessDomain.applicationModes.MANY],
                 entityTypes: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
@@ -191,7 +191,7 @@ describe('[SEARCH RESULTS] Testing PluginServicesContainer', () => {
     // provide user rights for catalog plugins and check catalog services have been added
     const propsWithRights = {
       ...props,
-      availableDependencies: ['rs-catalog@/services/{pluginConfigurationId}/apply@POST'], // specific endpoint rights
+      availableDependencies: ['rs-catalog@/services/{pluginConfigurationBusinessId}/apply@POST'], // specific endpoint rights
     }
     render = shallow(
       <PluginServicesContainer {...propsWithRights}>

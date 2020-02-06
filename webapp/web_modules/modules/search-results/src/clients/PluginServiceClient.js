@@ -16,14 +16,58 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
 
 /**
  * Defines plugin services client for results context
+ * @author Raphaël Mechali
  */
-const ENTITIES_STORE_PATH = ['modules.search-results', 'pluginServices']
-const REDUX_ACTION_NAMESPACE = 'search-results/plugin-services'
 
-export const pluginServiceActions = new AccessProjectClient.PluginServiceActions(REDUX_ACTION_NAMESPACE)
-export const pluginServiceReducer = AccessProjectClient.getPluginServiceReducer(REDUX_ACTION_NAMESPACE)
-export const pluginServiceSelectors = AccessProjectClient.getPluginServiceSelectors(ENTITIES_STORE_PATH)
+/**
+ * Client to search services for main results tab
+ */
+const MAIN_SERVICES_STORE_PATH = ['modules.search-results', 'mainPluginServices']
+const MAIN_REDUX_ACTION_NAMESPACE = 'search-results/main-results/plugin-services'
+export const mainPluginServicesActions = new AccessProjectClient.PluginServiceActions(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(MAIN_REDUX_ACTION_NAMESPACE)
+export const mainPluginServicesSelectors = AccessProjectClient.getPluginServiceSelectors(MAIN_SERVICES_STORE_PATH)
+const mainServicesCatalogClient = {
+  servicesActions: mainPluginServicesActions,
+  servicesReducer: mainPluginServicesReducer,
+  servicesSelector: mainPluginServicesSelectors,
+}
+
+/**
+ * Client to search services for tag results tab
+ */
+const TAG_SERVICES_STORE_PATH = ['modules.search-results', 'tagPluginServices']
+const TAG_REDUX_ACTION_NAMESPACE = 'search-results/tag-results/plugin-services'
+export const tagPluginServicesActions = new AccessProjectClient.PluginServiceActions(TAG_REDUX_ACTION_NAMESPACE)
+export const tagPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(TAG_REDUX_ACTION_NAMESPACE)
+export const tagPluginServicesSelectors = AccessProjectClient.getPluginServiceSelectors(TAG_SERVICES_STORE_PATH)
+const tagServicesCatalogClient = {
+  servicesActions: tagPluginServicesActions,
+  servicesReducer: tagPluginServicesReducer,
+  servicesSelector: tagPluginServicesSelectors,
+}
+
+/**
+ * Returns client to use for tab type
+ * @param {*} tabType tab type
+ * @return {{
+ * servicesActions: *,
+ * servicesReducer: Function,
+ * servicesSelector: *,
+ * }} results client to use for current tab
+ */
+export function getServicesClient(tabType) {
+  switch (tabType) {
+    case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
+      return mainServicesCatalogClient
+    case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
+      return tagServicesCatalogClient
+    default:
+      throw new Error(`Cannot get table client for tab ${tabType}`)
+  }
+}
