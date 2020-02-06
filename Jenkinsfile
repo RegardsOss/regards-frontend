@@ -119,8 +119,8 @@ pipeline {
                       sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
                       sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
                         docker run --rm \
-                        -w /root/src \
-                        -v ${WORKSPACE}/webapp::/root/src \
+                        -w /data \
+                        -v ${WORKSPACE}/webapp:/data \
                         skilldlabs/sonar-scanner:3.3 \
                         sonar-scanner \
                         -Dsonar.projectVersion=${TAG} \
