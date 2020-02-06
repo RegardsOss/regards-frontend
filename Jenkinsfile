@@ -127,8 +127,8 @@ pipeline {
                         -Dsonar.branch.name=${BRANCH_NAME} \
                         -Dsonar.projectBaseDir=/data \
                         -Dsonar.host.url=http://172.26.47.129:9000/'
-                      sh 'chmod -R 0777 webapp/.sonar || true'
-                      sh 'rm -rf webapp/.sonar || true'
+                      sh 'chmod -R 0777 webapp/.scannerwork || true'
+                      sh 'rm -rf webapp/.scannerwork || true'
                     },
                     maven: {
                         sh 'docker run --rm -i \
