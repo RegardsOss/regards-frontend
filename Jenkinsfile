@@ -122,7 +122,7 @@ pipeline {
                         -w /data \
                         -v ${WORKSPACE}/webapp:/data \
                         skilldlabs/sonar-scanner:3.3 \
-                        sonar-scanner \
+                        sonar-scanner \
                         -Dsonar.projectVersion=${TAG} \
                         -Dsonar.branch.name=${BRANCH_NAME} \
                         -Dsonar.host.url=http://172.26.47.129:9000/'
