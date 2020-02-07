@@ -120,6 +120,7 @@ pipeline {
                       sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
                         docker run --rm \
                         -w /data \
+                        --user 987:982 \
                         -v ${WORKSPACE}/webapp:/data \
                         skilldlabs/sonar-scanner:3.3 \
                         sonar-scanner \
