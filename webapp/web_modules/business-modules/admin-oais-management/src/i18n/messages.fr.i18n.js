@@ -265,7 +265,7 @@ export default {
   'oais.filters.id.title': 'Identifiant',
   'oais.button.retry-all.label': 'Relancer tout',
   'oais.button.retry-all.title': 'Relancer tous les AIPs selectionnés',
-  'oais.session.title': 'Liste des produits OAIS',
+  'oais.session.title': 'Produits OAIS',
   'oais.button.switch-to.AIP': 'Voir les AIPs',
   'oais.button.switch-to.AIP-title': 'Ouvre le panneau des AIPs',
   'oais.button.switch-to.SIP': 'Voir les SIPs',
