@@ -27,12 +27,20 @@ import { MeasureResultProvider } from '../../../../utils/display-control/src/mai
  */
 export class IFrameURLContentDisplayer extends React.Component {
   /**
-   * Maps MIME type to editor mode
+   * Supported MIME types
    */
   static SUPPORTED_MIME_TYPES = [
     MIME_TYPES.TEXT,
     MIME_TYPES.HTML_MIME_TYPE,
     MIME_TYPES.PDF_MIME_TYPE,
+    MIME_TYPES.XHTML_MIME_TYPE,
+  ]
+
+  /**
+   * MIME types that support relative links
+   */
+  static RELATIVE_LINKS_MIME_TYPES = [
+    MIME_TYPES.HTML_MIME_TYPE,
     MIME_TYPES.XHTML_MIME_TYPE,
   ]
 
@@ -48,6 +56,16 @@ export class IFrameURLContentDisplayer extends React.Component {
   static isSupportedContentType(contentType) {
     const lowerContentType = contentType.toLowerCase()
     return IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+  }
+
+  /**
+   * Does content type as parameter allow relative links (in such case, source should be server URL, and not local content)
+   * @param {string} contentType to test
+   * @return {boolean} true if content type is supported, false otherwise
+   */
+  static isContentTypeWithRelativeLinks(contentType) {
+    const lowerContentType = contentType.toLowerCase()
+    return IFrameURLContentDisplayer.RELATIVE_LINKS_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
   }
 
   static propTypes = {
@@ -112,5 +130,6 @@ const WithContext = withModuleStyle(styles)(IFrameURLContentDisplayer)
 WithContext.SUPPORTED_MIME_TYPES = IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES
 WithContext.getSupportedMIMETypes = IFrameURLContentDisplayer.getSupportedMIMETypes
 WithContext.isSupportedContentType = IFrameURLContentDisplayer.isSupportedContentType
+WithContext.isContentTypeWithRelativeLinks = IFrameURLContentDisplayer.isContentTypeWithRelativeLinks
 
 export default WithContext

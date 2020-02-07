@@ -71,6 +71,7 @@ export class FileContentDisplayer extends React.Component {
       content: PropTypes.instanceOf(root.Blob || Object).isRequired,
       contentType: PropTypes.string.isRequired,
     }),
+    fileURI: PropTypes.string, // corresponding URI for MIME types that require initial URI context (like HTML)
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
     style: PropTypes.objectOf(PropTypes.any),
     // Component to display when loading
@@ -106,7 +107,7 @@ export class FileContentDisplayer extends React.Component {
 
   render() {
     const {
-      loading, error, file, style,
+      loading, error, file, style, fileURI,
       loadingComponent, errorComponent, noPreviewComponent,
     } = this.props
 
@@ -137,6 +138,12 @@ export class FileContentDisplayer extends React.Component {
               }
               // 3 - render through an iFrame, using access URL
               if (IFrameURLContentDisplayer.isSupportedContentType(contentType)) {
+                // 3.1 - HTML content, that must support relative links, is rendered by
+                // downloading again from server (using browser cache normally)
+                if (IFrameURLContentDisplayer.isContentTypeWithRelativeLinks(contentType)) {
+                  return <IFrameURLContentDisplayer source={fileURI} />
+                }
+                // 3.2 - Other content types are rendered using local browser resource
                 return (
                   <LocalURLProvider blob={content} targetPropertyName="source">
                     <IFrameURLContentDisplayer />

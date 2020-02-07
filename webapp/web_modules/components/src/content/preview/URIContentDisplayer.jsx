@@ -73,6 +73,7 @@ export class URIContentDisplayer extends React.Component {
     loading: false,
     error: false,
     resolvedFile: null,
+    fileURI: null,
   }
 
   /**
@@ -115,7 +116,9 @@ export class URIContentDisplayer extends React.Component {
     // 1 - store URI in instance (concurrency management)
     this.currentFileURI = uri
     // 2 - mark loading
-    this.setState({ loading: true, error: false, resolvedFile: null })
+    this.setState({
+      loading: true, error: false, resolvedFile: null, fileURI: null,
+    })
     // 3 - start loading
     downloadFile(uri).then((results) => {
       // 3.A : loading successful
@@ -137,7 +140,9 @@ export class URIContentDisplayer extends React.Component {
   onDownloadSuccess = (downloadedURI, resolvedFile) => {
     // prevent updating when component was unmounted OR another file download was triggered
     if (!this.wasUnmounted && this.currentFileURI === downloadedURI) {
-      this.setState({ loading: false, error: false, resolvedFile })
+      this.setState({
+        loading: false, error: false, resolvedFile, fileURI: downloadedURI,
+      })
       this.currentFileURI = null
     }
   }
@@ -149,7 +154,9 @@ export class URIContentDisplayer extends React.Component {
   onDownloadError = (downloadedURI) => {
     // prevent updating when component was unmounted OR another file download was triggered
     if (!this.wasUnmounted && this.currentFileURI === downloadedURI) {
-      this.setState({ loading: false, error: true, resolvedFile: null })
+      this.setState({
+        loading: false, error: true, resolvedFile: null, fileURI: null,
+      })
       this.currentFileURI = null
     }
   }
@@ -158,13 +165,15 @@ export class URIContentDisplayer extends React.Component {
     const {
       style, loadingComponent, errorComponent, noPreviewComponent,
     } = this.props
-    const { loading, error, resolvedFile } = this.state
-
+    const {
+      loading, error, resolvedFile, fileURI,
+    } = this.state
     return (
       <FileContentDisplayer
         loading={loading}
         error={error}
         file={resolvedFile}
+        fileURI={fileURI}
         style={style}
         loadingComponent={loadingComponent}
         errorComponent={errorComponent}

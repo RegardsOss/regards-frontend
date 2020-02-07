@@ -56,6 +56,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
     assert.deepEqual(enzymeWrapper.state(), {
       loading: true,
       error: false,
+      fileURI: null,
       resolvedFile: null,
     })
     let fileDisplayer = enzymeWrapper.find(FileContentDisplayer)
@@ -64,6 +65,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: true,
       error: false,
       file: null,
+      fileURI: null,
       style: props.style,
       loadingComponent: props.loadingComponent,
       errorComponent: props.errorComponent,
@@ -75,6 +77,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
     assert.deepEqual(enzymeWrapper.state(), {
       loading: false,
       error: true,
+      fileURI: null,
       resolvedFile: null,
     })
     fileDisplayer = enzymeWrapper.find(FileContentDisplayer)
@@ -83,6 +86,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: false,
       error: true,
       file: null,
+      fileURI: null,
       style: props.style,
       loadingComponent: props.loadingComponent,
       errorComponent: props.errorComponent,
@@ -96,6 +100,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: true,
       error: false,
       resolvedFile: null,
+      fileURI: null,
     })
     fileDisplayer = enzymeWrapper.find(FileContentDisplayer)
     assert.lengthOf(fileDisplayer, 1, '(2a) There should be file displayer')
@@ -103,6 +108,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: true,
       error: false,
       file: null,
+      fileURI: null,
       style: props.style,
       loadingComponent: props.loadingComponent,
       errorComponent: props.errorComponent,
@@ -118,6 +124,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: false,
       error: false,
       resolvedFile: testResolvedFile,
+      fileURI: 'http://blablabus.com/what',
     })
     fileDisplayer = enzymeWrapper.find(FileContentDisplayer)
     assert.lengthOf(fileDisplayer, 1, '(2b) There should be file displayer')
@@ -125,6 +132,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       loading: false,
       error: false,
       file: testResolvedFile,
+      fileURI: 'http://blablabus.com/what',
       style: props.style,
       loadingComponent: props.loadingComponent,
       errorComponent: props.errorComponent,
