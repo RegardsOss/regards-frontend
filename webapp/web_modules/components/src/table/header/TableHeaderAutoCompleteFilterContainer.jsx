@@ -27,7 +27,7 @@ import TableHeaderAutoCompleteFilter from './TableHeaderAutoCompleteFilter'
 const THROTTLE_DELAY_MS = 300
 
 /**
- * Session Filter Autocomplete
+ * Table header auto complete field wrapper
  * @author Kévin Picart
  * Every action using this container must have a autoCompleteActionDispatch function which will be called by the dispatch (eg: SearchSourceAction)
  */

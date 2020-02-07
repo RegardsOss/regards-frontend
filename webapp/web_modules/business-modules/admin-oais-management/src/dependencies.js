@@ -22,6 +22,7 @@ import { aipUpdateActions } from './clients/AIPUpdateClient'
 import { sipImportActions } from './clients/SIPImportClient'
 import { requestRetryActions } from './clients/RequestRetryClient'
 import { requestDeleteActions } from './clients/RequestDeleteClient'
+import { aipDeleteActions } from './clients/AIPDeleteClient'
 
 /**
  * Module hateoas depencies
@@ -45,7 +46,7 @@ const addDependencies = [
 ]
 
 const deleteDependency = [
-  aipActions.getDependency(RequestVerbEnum.DELETE),
+  aipDeleteActions.getDependency(RequestVerbEnum.POST),
 ]
 
 const updateDependency = aipUpdateActions.getDependency(RequestVerbEnum.POST)

@@ -27,9 +27,9 @@ import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
-  DateValueRender, NoContentComponent,
+  DateValueRender, NoContentComponent, TableHeaderLine,
 } from '@regardsoss/components'
-import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
@@ -604,79 +604,82 @@ export class OAISPackageManagerComponent extends React.Component {
     return (
       <div>
         <TableLayout>
-          <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
-            <TableHeaderOptionGroup key="first">
-              <SelectField
-                autoWidth
-                title={formatMessage({ id: 'oais.packages.tooltip.type' })}
-                style={filter.fieldStyle}
-                hintText={formatMessage({
-                  id: 'oais.packages.list.filters.type',
-                })}
-                value={productFilters ? productFilters.type : null}
-                onChange={this.changeTypeFilter}
-              >
-                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.type.any' })} />
-                {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.package.type.${type}` })} />)}
-              </SelectField>
-              <SelectField
-                autoWidth
-                title={formatMessage({ id: 'oais.packages.tooltip.state' })}
-                style={filter.fieldStyle}
-                hintText={formatMessage({
-                  id: 'oais.packages.list.filters.state',
-                })}
-                value={productFilters ? productFilters.state : null}
-                onChange={this.changeStateFilter}
-              >
-                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.state.any' })} />
-                {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.package.state.${state}` })} />)}
-              </SelectField>
-              <SelectField
-                autoWidth
-                title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
-                disabled={isEmpty(storages)}
-                style={filter.fieldStyle}
-                hintText={formatMessage({
-                  id: 'oais.packages.list.filters.storage',
-                })}
-                value={productFilters ? productFilters.storage : null}
-                onChange={this.changeStorageFilter}
-              >
-                <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.storage.any' })} />
-                {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
-              </SelectField>
-            </TableHeaderOptionGroup>
-            <TableHeaderOptionGroup>
-              <ResourceFlatButton
-                displayLogic={someMatchHateoasDisplayLogic}
-                resourceDependencies={dependencies.updateDependency}
-                hideDisabled
-                key="modifySelection"
-                title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
-                label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
-                icon={<ModeEdit />}
-                onClick={this.onModifySelection}
-                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
-              />
-              <ResourceFlatButton
-                key="deleteSelection"
-                displayLogic={someMatchHateoasDisplayLogic}
-                resourceDependencies={dependencies.deleteDependency}
-                hideDisabled
-                title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
-                label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
-                icon={<Delete />}
-                onClick={this.onDeleteSelection}
-                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
-              />
-              <FlatButton
-                label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
-                icon={<Refresh />}
-                onClick={this.onRefresh}
-              />
-            </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea>
+          <TableHeaderLine>
+            <TableHeaderOptionsArea reducible>
+              <TableHeaderOptionGroup>
+                <SelectField
+                  title={formatMessage({ id: 'oais.packages.tooltip.type' })}
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({
+                    id: 'oais.packages.list.filters.type',
+                  })}
+                  value={productFilters ? productFilters.type : null}
+                  onChange={this.changeTypeFilter}
+                >
+                  <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.type.any' })} />
+                  {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.package.type.${type}` })} />)}
+                </SelectField>
+                <SelectField
+                  title={formatMessage({ id: 'oais.packages.tooltip.state' })}
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({
+                    id: 'oais.packages.list.filters.state',
+                  })}
+                  value={productFilters ? productFilters.state : null}
+                  onChange={this.changeStateFilter}
+                >
+                  <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.state.any' })} />
+                  {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.package.state.${state}` })} />)}
+                </SelectField>
+                <SelectField
+                  title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
+                  disabled={isEmpty(storages)}
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({
+                    id: 'oais.packages.list.filters.storage',
+                  })}
+                  value={productFilters ? productFilters.storage : null}
+                  onChange={this.changeStorageFilter}
+                >
+                  <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.storage.any' })} />
+                  {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
+                </SelectField>
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+            <TableHeaderOptionsArea reducible>
+              <TableHeaderOptionGroup>
+                <ResourceFlatButton
+                  displayLogic={allMatchHateoasDisplayLogic}
+                  resourceDependencies={dependencies.updateDependency}
+                  hideDisabled
+                  key="modifySelection"
+                  title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
+                  label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
+                  icon={<ModeEdit />}
+                  onClick={this.onModifySelection}
+                  disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
+                />
+                <ResourceFlatButton
+                  key="deleteSelection"
+                  displayLogic={allMatchHateoasDisplayLogic}
+                  resourceDependencies={dependencies.deleteDependency[0]}
+                  hideDisabled
+                  title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
+                  label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
+                  icon={<Delete />}
+                  onClick={this.onDeleteSelection}
+                  disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
+                />
+              </TableHeaderOptionGroup>
+              <TableHeaderOptionGroup>
+                <FlatButton
+                  label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
+                  icon={<Refresh />}
+                  onClick={this.onRefresh}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
           <PageableInfiniteTableContainer
             name="package-management-table"
             pageActions={aipActions}
