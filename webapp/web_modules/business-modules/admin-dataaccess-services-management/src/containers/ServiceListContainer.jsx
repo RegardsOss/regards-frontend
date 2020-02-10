@@ -53,7 +53,7 @@ export class ServiceListContainer extends React.Component {
     return {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
       update: conf => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
-        conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+        conf.businessId, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
       delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
     }
   }
