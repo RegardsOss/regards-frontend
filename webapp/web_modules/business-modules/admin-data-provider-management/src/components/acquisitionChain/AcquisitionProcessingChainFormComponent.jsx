@@ -30,7 +30,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { formValueSelector } from 'redux-form'
-import { connect } from 'react-redux'
+import { connect } from '@regardsoss/redux'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
