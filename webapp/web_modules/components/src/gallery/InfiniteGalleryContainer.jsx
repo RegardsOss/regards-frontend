@@ -55,6 +55,7 @@ export class InfiniteGalleryContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { pageActions }) {
     return {
+      flush: () => dispatch(pageActions.flush()),
       fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
     }
   }
@@ -94,6 +95,8 @@ export class InfiniteGalleryContainer extends React.Component {
     // from map dispatch to props
 
     // eslint-disable-next-line react/no-unused-prop-types
+    flush: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
@@ -117,8 +120,6 @@ export class InfiniteGalleryContainer extends React.Component {
 
   /** Initialize state */
   componentWillMount = () => this.setState({
-    width: 0,
-    height: 0,
     ...InfiniteGalleryContainer.DEFAULT_STATE,
   })
 
@@ -142,9 +143,8 @@ export class InfiniteGalleryContainer extends React.Component {
     if (!isEqual(nextProps.requestParams, previousProps.requestParams)
       || !isEqual(nextProps.pathParams, previousProps.pathParams)
       || !isEqual(nextProps.authentication, previousProps.authentication)) {
-      // remove any previously fetched data
-      nextState.entities = []
-      // Fetch new ones
+      // Fetch new ones (clear store first)
+      this.flush(nextProps)
       this.fetchEntityPage(nextProps)
     } else if (!isEqual(previousProps.entities, nextProps.entities) || nextState.entities.length < get(nextProps, 'entities.length', 0)) {
       // update row entities (add new one to previously known ones)
@@ -161,24 +161,18 @@ export class InfiniteGalleryContainer extends React.Component {
   }
 
   /**
-   * On component resized event
-   */
-  onComponentResized = ({ measureDiv: { width, height } }) => {
-    // XXX-WORKAROUND see InfiniteTableContainer for more explanation (in this case, the component will simply not resize when
-    // size is lower)
-    this.setState({
-      width,
-      height: this.state.height >= height ? Math.min(height - 100, 1) : height,
-    })
-  }
-
-  /**
    * @return the number of entities to consider (subset of total or total itself)
    */
   getCurrentTotalEntities = () => {
     const entitiesCount = get(this.props.pageMetadata, 'totalElements', 0)
     return Math.max(entitiesCount || 0, (this.props.entities || []).length)
   }
+
+  /**
+   * Flushes current entities
+   * @param {*} props -
+   */
+  flush = ({ flush }) => flush()
 
 
   /**
@@ -205,7 +199,7 @@ export class InfiniteGalleryContainer extends React.Component {
 
   render() {
     // except actions / selectors, we need all properties through
-    const { entities, width, height } = this.state
+    const { entities } = this.state
     const {
       itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps,
     } = this.props
@@ -225,9 +219,6 @@ export class InfiniteGalleryContainer extends React.Component {
           emptyComponent={emptyComponent}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
-
-          width={width}
-          height={height}
         />
       </MeasureResultProvider>
     )

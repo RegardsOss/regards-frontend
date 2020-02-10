@@ -20,6 +20,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNaN from 'lodash/isNaN'
+import isNil from 'lodash/isNil'
 import { ScrollArea } from '@regardsoss/adapters'
 import { ShowableAtRender, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
@@ -133,7 +134,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * @param scrollEvent scroll event
    */
   onScroll = (scrollEvent) => {
-    if (!this.node || !scrollEvent || !scrollEvent.topPosition) {
+    if (!this.node || !scrollEvent || isNil(scrollEvent.topPosition)) {
       return
     }
     this.scrollBottom = scrollEvent.topPosition + get(scrollEvent, 'containerHeight', 0)
