@@ -31,9 +31,9 @@ class ErrorDecoratorComponent extends React.Component {
       color: this.context.muiTheme.textField.errorColor,
     }
     return (
-      <span className="selenium-errorMessage" style={errorStyle}>
+      <div className="selenium-errorMessage" style={errorStyle}>
         { this.props.children }
-      </span>
+      </div>
     )
   }
 }
