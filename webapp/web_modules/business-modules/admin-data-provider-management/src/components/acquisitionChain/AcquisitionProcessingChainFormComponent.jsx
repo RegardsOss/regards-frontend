@@ -91,7 +91,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     }],
     categories: [],
     mode: 'MANUAL',
-    periodicity: '0 * ',
+    periodicity: '0 * * * * *',
   })
 
   /**

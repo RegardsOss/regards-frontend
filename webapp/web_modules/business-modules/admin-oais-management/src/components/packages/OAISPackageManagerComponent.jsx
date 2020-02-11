@@ -662,7 +662,7 @@ export class OAISPackageManagerComponent extends React.Component {
                 <ResourceFlatButton
                   key="deleteSelection"
                   displayLogic={allMatchHateoasDisplayLogic}
-                  resourceDependencies={dependencies.deleteDependency[0]}
+                  resourceDependencies={dependencies.deleteDependency}
                   hideDisabled
                   title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
                   label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
