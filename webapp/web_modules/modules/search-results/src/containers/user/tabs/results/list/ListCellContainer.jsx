@@ -58,7 +58,6 @@ export class ListCellContainer extends React.Component {
   }
 
   static propTypes = {
-    // eslint-disable-next-line react/no-unused-prop-types
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps and mapDispatchToProps
     // From table cell API
     rowIndex: PropTypes.number.isRequired,
@@ -108,18 +107,20 @@ export class ListCellContainer extends React.Component {
       || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
+
   render() {
     const {
-      entity, thumbnailRenderData, gridAttributesRenderData,
+      tabType, entity,
+      thumbnailRenderData, gridAttributesRenderData,
       descriptionAvailable, onShowDescription,
       enableDownload, accessToken, projectName,
       onAddElementToCart, enableServices, enableSearchEntity,
       enableSelection, onSelect,
 
     } = this.props
-
     return (
       <ListCellComponent
+        tabType={tabType}
         entity={entity}
 
         thumbnailRenderData={thumbnailRenderData}

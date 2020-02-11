@@ -35,6 +35,7 @@ import EntityDescriptionComponent from '../common/options/EntityDescriptionCompo
 import DownloadEntityFileComponent from '../common/options/DownloadEntityFileComponent'
 
 export const specificCellPropertiesFields = {
+  tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
   presentationModels: PropTypes.arrayOf(UIShapes.AttributePresentationModel).isRequired,
   // Services management
   enableServices: PropTypes.bool.isRequired,
@@ -240,9 +241,10 @@ class QuicklookCellComponent extends React.PureComponent {
       cardStyle, iconStyle,
     } = this.state
     const {
-      entity, presentationModels, enableServices,
+      tabType, entity, presentationModels,
       enableDownload, accessToken, projectName,
       descriptionAvailable, onAddElementToCart,
+      enableServices,
       primaryQuicklookGroup,
       embedInMap, locale,
     } = this.props
@@ -309,6 +311,7 @@ class QuicklookCellComponent extends React.PureComponent {
           {/* 2.b - services, when enabled */}
           <ShowableAtRender show={enableServices && get(entity, 'content.services.length', 0) > 0}>
             <OneElementServicesContainer
+              tabType={tabType}
               entity={entity}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}

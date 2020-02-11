@@ -19,9 +19,9 @@
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import { assert } from 'chai'
-import datasetServicesActions from '../../../src/models/services/RunPluginServiceActions'
+import RunPluginServiceActions from '../../../src/ui/results/RunPluginServiceActions'
 
-
+const actions = new RunPluginServiceActions('test-namespace')
 const middlewares = [thunk]
 const buildMockStore = configureStore(middlewares)
 
@@ -35,16 +35,16 @@ function dispatchAndCheck(action, expectedAction, store) {
 describe('[Search Results] Test RunPluginServiceActions', () => {
   it('It should dispatch run service action', () => {
     const expectedAction = {
-      type: datasetServicesActions.RUN_SERVICE,
+      type: actions.RUN_SERVICE,
       serviceRunModel: { id: 'I am a service' },
     }
-    dispatchAndCheck(datasetServicesActions.runService({ id: 'I am a service' }), expectedAction, buildMockStore({}))
+    dispatchAndCheck(actions.runService({ id: 'I am a service' }), expectedAction, buildMockStore({}))
   })
 
   it('It should dispatch close service action', () => {
     const expectedAction = {
-      type: datasetServicesActions.CLOSE_SERVICE,
+      type: actions.CLOSE_SERVICE,
     }
-    dispatchAndCheck(datasetServicesActions.closeService(), expectedAction, buildMockStore({}))
+    dispatchAndCheck(actions.closeService(), expectedAction, buildMockStore({}))
   })
 })

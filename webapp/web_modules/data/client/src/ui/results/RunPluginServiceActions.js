@@ -18,13 +18,17 @@
  **/
 
 /**
- * Actions to handle running a plugin service
+ * Actions to handle running a plugin service in results context
  * @author Raphaël Mechali
  */
-class RunPluginServiceActions {
-  constructor() {
-    this.RUN_SERVICE = 'search-results/run-plugin-service/RUN_SERVICE'
-    this.CLOSE_SERVICE = 'search-results/run-plugin-service/CLOSE_SERVICE'
+export default class RunPluginServiceActions {
+  /**
+   * Constructor
+   * @param {string} namespace actions namespace
+   */
+  constructor(namespace) {
+    this.RUN_SERVICE = `${namespace}/RUN_SERVICE`
+    this.CLOSE_SERVICE = `${namespace}/CLOSE_SERVICE`
   }
 
   /**
@@ -49,5 +53,3 @@ class RunPluginServiceActions {
     }
   }
 }
-
-export default new RunPluginServiceActions()

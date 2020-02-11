@@ -46,6 +46,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       cellProperties: {
+        tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         presentationModels: [],
         enableServices: true,
         descriptionAvailable: true,
@@ -82,6 +83,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
       requestParameters: {},
       searchActions: searchDataobjectsActions,
       cellProperties: {
+        tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
         presentationModels: [],
         enableServices: false,
         descriptionAvailable: false,

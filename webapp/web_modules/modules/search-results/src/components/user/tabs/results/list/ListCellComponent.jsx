@@ -19,6 +19,7 @@
 import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
 import Checkbox from 'material-ui/Checkbox'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -59,6 +60,8 @@ export const ListAttributeRenderData = PropTypes.shape({
  */
 class ListCellComponent extends React.Component {
   static propTypes = {
+    // tab type
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     // Entity to display
     entity: AccessShapes.EntityWithServices.isRequired,
     // Runtime display data for attributes
@@ -102,8 +105,9 @@ class ListCellComponent extends React.Component {
    */
   renderTitle = () => {
     const {
-      entity, enableSelection, enableServices, enableDownload, selected, projectName, accessToken,
-      descriptionAvailable, onSelect, enableSearchEntity, onSearchEntity, onAddElementToCart,
+      tabType, entity, enableSelection, enableServices, enableDownload, selected,
+      projectName, accessToken, descriptionAvailable,
+      onSelect, enableSearchEntity, onSearchEntity, onAddElementToCart,
     } = this.props
     const { moduleTheme } = this.context
     const {
@@ -159,6 +163,7 @@ class ListCellComponent extends React.Component {
           <ShowableAtRender show={enableServices && !!services.length}>
             <OneElementServicesContainer
               entity={entity}
+              tabType={tabType}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
             />

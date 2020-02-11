@@ -28,28 +28,28 @@ import { AccessProjectClient } from '@regardsoss/client'
  * Client to search services for main results tab
  */
 const MAIN_SERVICES_STORE_PATH = ['modules.search-results', 'mainPluginServices']
-const MAIN_REDUX_ACTION_NAMESPACE = 'search-results/main-results/plugin-services'
-export const mainPluginServicesActions = new AccessProjectClient.PluginServiceActions(MAIN_REDUX_ACTION_NAMESPACE)
-export const mainPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(MAIN_REDUX_ACTION_NAMESPACE)
+const MAIN_SERVICES_NAMESPACE = 'search-results/main-results/plugin-services'
+export const mainPluginServicesActions = new AccessProjectClient.PluginServiceActions(MAIN_SERVICES_NAMESPACE)
+export const mainPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(MAIN_SERVICES_NAMESPACE)
 export const mainPluginServicesSelectors = AccessProjectClient.getPluginServiceSelectors(MAIN_SERVICES_STORE_PATH)
 const mainServicesCatalogClient = {
   servicesActions: mainPluginServicesActions,
   servicesReducer: mainPluginServicesReducer,
-  servicesSelector: mainPluginServicesSelectors,
+  servicesSelectors: mainPluginServicesSelectors,
 }
 
 /**
  * Client to search services for tag results tab
  */
 const TAG_SERVICES_STORE_PATH = ['modules.search-results', 'tagPluginServices']
-const TAG_REDUX_ACTION_NAMESPACE = 'search-results/tag-results/plugin-services'
-export const tagPluginServicesActions = new AccessProjectClient.PluginServiceActions(TAG_REDUX_ACTION_NAMESPACE)
-export const tagPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(TAG_REDUX_ACTION_NAMESPACE)
+const TAG_SERVICES_NAMESPACE = 'search-results/tag-results/plugin-services'
+export const tagPluginServicesActions = new AccessProjectClient.PluginServiceActions(TAG_SERVICES_NAMESPACE)
+export const tagPluginServicesReducer = AccessProjectClient.getPluginServiceReducer(TAG_SERVICES_NAMESPACE)
 export const tagPluginServicesSelectors = AccessProjectClient.getPluginServiceSelectors(TAG_SERVICES_STORE_PATH)
 const tagServicesCatalogClient = {
   servicesActions: tagPluginServicesActions,
   servicesReducer: tagPluginServicesReducer,
-  servicesSelector: tagPluginServicesSelectors,
+  servicesSelectors: tagPluginServicesSelectors,
 }
 
 /**
@@ -58,7 +58,7 @@ const tagServicesCatalogClient = {
  * @return {{
  * servicesActions: *,
  * servicesReducer: Function,
- * servicesSelector: *,
+ * servicesSelectors: *,
  * }} results client to use for current tab
  */
 export function getServicesClient(tabType) {
@@ -68,6 +68,6 @@ export function getServicesClient(tabType) {
     case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
       return tagServicesCatalogClient
     default:
-      throw new Error(`Cannot get table client for tab ${tabType}`)
+      throw new Error(`Cannot get services client for tab ${tabType}`)
   }
 }

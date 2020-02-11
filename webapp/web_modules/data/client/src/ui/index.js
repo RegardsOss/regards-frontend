@@ -29,3 +29,6 @@ export { default as getSelectedDynamicModuleSelectors, SelectedDynamicModuleSele
 export { default as ResultsContextActions } from './results/ResultsContextActions'
 export { default as getResultsContextReducer } from './results/ResultsContextReducer'
 export { default as getResultsContextSelectors, ResultsContextSelectors } from './results/ResultsContextSelectors'
+export { default as RunPluginServiceActions } from './results/RunPluginServiceActions'
+export { default as getRunPluginServiceReducer } from './results/RunPluginServiceReducer'
+export { default as getRunPluginServiceSelectors, RunPluginServiceSelectors } from './results/RunPluginServiceSelectors'

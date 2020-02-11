@@ -126,7 +126,7 @@ class TableViewComponent extends React.Component {
               // Search by tag
               enableSearchEntity ? { OptionConstructor: SearchRelatedEntitiesComponent, optionProps: { onSearchEntity } } : null,
               // Services
-              enableServices ? { OptionConstructor: OneElementServicesContainer } : null,
+              enableServices ? { OptionConstructor: OneElementServicesContainer, optionProps: { tabType } } : null,
               // Add to cart
               onAddElementToCart ? { OptionConstructor: AddElementToCartContainer, optionProps: { onAddElementToCart } } : null,
             ])

@@ -18,11 +18,11 @@
  **/
 import get from 'lodash/get'
 import omit from 'lodash/omit'
+import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
-import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
-import runPluginServiceActions from '../../../../../../models/services/RunPluginServiceActions'
+import { getRunServiceClient } from '../../../../../../clients/RunPluginServiceClient'
 import OneElementServicesComponent from '../../../../../../components/user/tabs/results/common/options/OneElementServicesComponent'
 
 /**
@@ -36,14 +36,17 @@ export class OneElementServicesContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { runServiceActions } = getRunServiceClient(tabType)
     return {
-      dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
+      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
     }
   }
 
   static propTypes = {
-    // from table cell API, mentionned here only to be excluded from children properties
+    // tab type
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps and mapDispatchToProps
+    // from table cell API
     rowIndex: PropTypes.number,
     // Entity. Note: when used in options column, this is provided by the table cell API
     entity: AccessShapes.EntityWithServices.isRequired,
@@ -52,7 +55,7 @@ export class OneElementServicesContainer extends React.Component {
   }
 
   /** Properties that will not be reported to sub component */
-  static NON_REPORTED_PROPS = ['entity', 'rowIndex', 'dispatchRunService']
+  static NON_REPORTED_PROPS = ['tabType', 'entity', 'rowIndex', 'dispatchRunService']
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -108,7 +111,4 @@ export class OneElementServicesContainer extends React.Component {
     )
   }
 }
-export default connect(
-  OneElementServicesContainer.mapStateToProps,
-  OneElementServicesContainer.mapDispatchToProps,
-)(OneElementServicesContainer)
+export default connect(null, OneElementServicesContainer.mapDispatchToProps)(OneElementServicesContainer)

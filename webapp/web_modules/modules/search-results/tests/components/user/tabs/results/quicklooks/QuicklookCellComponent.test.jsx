@@ -47,6 +47,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
   })
   const testCases = [{
     label: 'data with valid quicklook (with services, description, cart and download, outside map)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: dataEntityWithServices,
     enableServices: true,
@@ -58,6 +59,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     expectedPictureURI: 'http://russia.clearly.ru/one-more-forbidden-file.png', // Nota auth data is not added as file is a reference
   }, {
     label: 'data with broken quicklook, fallbacking on thumbnail (without services, description, cart, download and search, in map)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: {
       content: {
@@ -81,6 +83,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     expectedPictureURI: 'https://thumbnail.wide.com/willpaper.png?token=kikou',
   }, {
     label: 'data without quicklook nor thumbnail (services enabled but no entity service, description, cart and download, outside map)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: {
       content: {
@@ -99,6 +102,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
 
   testCases.forEach(({
     label,
+    tabType,
     presentationModels,
     entity,
     enableServices,
@@ -115,6 +119,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       width: 300,
       gridWidth: 350,
       entity,
+      tabType,
       presentationModels,
       enableServices,
       descriptionAvailable,
@@ -153,6 +158,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     const servicesComponent = enzymeWrapper.find(OneElementServicesContainer)
     assert.lengthOf(servicesComponent, 1, 'There should be services component')
     testSuiteHelpers.assertWrapperProperties(servicesComponent, {
+      tabType,
       entity,
     }, 'Services component properties should be correctly set')
     assert.equal(servicesComponent.parent().props().show, enableServices && get(entity.content, 'services.length', 0) > 0,

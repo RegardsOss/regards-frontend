@@ -48,6 +48,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
   })
   const testCases = [{
     label: 'data (selected, with services, description, cart and download, without search)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     entity: dataEntityWithServices,
     enableServices: true,
@@ -60,6 +61,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
     expectThumbnail: true,
   }, {
     label: 'data (unselected, services enabled but empty, description, cart, download and search)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     entity: dataEntity,
     enableServices: true,
@@ -72,6 +74,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
     expectThumbnail: true,
   }, {
     label: 'dataset (with description, search, cart and download, without selection and service)',
+    tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATASET].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST].presentationModels,
     entity: datasetEntity,
     enableServices: false,
@@ -86,6 +89,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
 
   testCases.forEach(({
     label,
+    tabType,
     presentationModels,
     entity,
     enableServices,
@@ -98,6 +102,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
     expectThumbnail,
   }) => it(`should render correctly for ${label}`, () => {
     const props = {
+      tabType,
       entity,
       thumbnailRenderData: ListViewContainer.buildThumbnailRenderData(presentationModels),
       gridAttributesRenderData: ListViewContainer.buildGridAttributesRenderData(presentationModels),
@@ -165,6 +170,7 @@ describe('[SEARCH RESULTS] Testing ListCellComponent', () => {
     const servicesComponent = enzymeWrapper.find(OneElementServicesContainer)
     assert.lengthOf(servicesComponent, 1, 'There should be services component')
     testSuiteHelpers.assertWrapperProperties(servicesComponent, {
+      tabType,
       entity,
     }, 'Services component properties should be correctly set')
     assert.equal(servicesComponent.parent().props().show, enableServices && get(entity.content, 'services.length', 0) > 0,

@@ -29,11 +29,11 @@ import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/ent
 import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
-import { getServicesClient } from '../../../../clients/PluginServiceClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 import { getTableClient } from '../../../../clients/TableClient'
-import runPluginServiceActions from '../../../../models/services/RunPluginServiceActions'
-import runPluginServiceSelectors from '../../../../models/services/RunPluginServiceSelectors'
+import { getServicesClient } from '../../../../clients/PluginServiceClient'
+import { getRunServiceClient } from '../../../../clients/RunPluginServiceClient'
+
 
 // Determinate the required resource name to apply catalog plugins
 const tempActions = new CatalogClient.CatalogPluginServiceResultActions('entities-common/apply-catalog-service')
@@ -127,7 +127,8 @@ export class PluginServicesContainer extends React.Component {
   static mapStateToProps(state, { tabType }) {
     const { tableSelectors } = getTableClient(tabType)
     const { searchSelectors } = getSearchCatalogClient(tabType)
-    const { servicesSelector } = getServicesClient(tabType)
+    const { servicesSelectors } = getServicesClient(tabType)
+    const { runServiceSelectors } = getRunServiceClient(tabType)
     return {
       // seletion related
       selectionMode: tableSelectors.getSelectionMode(state),
@@ -135,9 +136,9 @@ export class PluginServicesContainer extends React.Component {
       emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
       pageMetadata: searchSelectors.getMetaData(state),
       // fetched service related
-      contextSelectionServices: servicesSelector.getResult(state),
+      contextSelectionServices: servicesSelectors.getResult(state),
       // running service related
-      serviceRunModel: runPluginServiceSelectors.getServiceRunModel(state),
+      serviceRunModel: runServiceSelectors.getServiceRunModel(state),
       // logged user state related
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
@@ -151,10 +152,11 @@ export class PluginServicesContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { tabType }) {
     const { servicesActions } = getServicesClient(tabType)
+    const { runServiceActions } = getRunServiceClient(tabType)
     return {
       dispatchFetchPluginServices: datasetIds => dispatch(servicesActions.fetchPluginServices(datasetIds)),
-      dispatchRunService: (service, serviceTarget) => dispatch(runPluginServiceActions.runService(service, serviceTarget)),
-      dispatchCloseService: () => dispatch(runPluginServiceActions.closeService()),
+      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
+      dispatchCloseService: () => dispatch(runServiceActions.closeService()),
     }
   }
 

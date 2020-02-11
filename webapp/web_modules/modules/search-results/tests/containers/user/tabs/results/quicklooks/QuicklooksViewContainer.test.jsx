@@ -87,6 +87,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       searchActions: searchDataobjectsActions,
       embedInMap: false,
       cellProperties: {
+        tabType: props.tabType,
         presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
         enableServices: true,
         descriptionAvailable: true,
@@ -151,6 +152,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       searchActions: searchDataobjectsActions,
       embedInMap: true,
       cellProperties: {
+        tabType: props.tabType,
         presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
         enableServices: true,
         descriptionAvailable: false,

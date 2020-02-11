@@ -122,7 +122,8 @@ export class QuicklooksViewContainer extends React.Component {
       selectedModeState: {},
     }
 
-    if (!isEqual(oldPresentationModels, presentationModels)
+    if (!isEqual(tabType, oldTabType)
+      || !isEqual(oldPresentationModels, presentationModels)
       || !isEqual(oldProps.descriptionAvailable, descriptionAvailable)
       || !isEqual(oldProps.onAddElementToCart, onAddElementToCart)
       || !isEqual(oldProps.onShowDescription, onShowDescription)
@@ -138,6 +139,7 @@ export class QuicklooksViewContainer extends React.Component {
     ) {
       this.setState({
         cellProperties: {
+          tabType,
           presentationModels,
           enableServices,
           descriptionAvailable,
