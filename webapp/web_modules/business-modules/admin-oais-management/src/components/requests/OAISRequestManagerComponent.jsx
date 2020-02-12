@@ -98,7 +98,7 @@ export class OAISRequestManagerComponent extends React.Component {
     ID: 'providerId',
     TYPE: 'type',
     STATE: 'state',
-    LASTSUBMITTED: 'lastSubmitted',
+    LASTSUBMITTED: 'creationDate',
     ACTIONS: 'actions',
 
   }
