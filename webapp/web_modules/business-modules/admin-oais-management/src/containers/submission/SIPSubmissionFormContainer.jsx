@@ -38,6 +38,7 @@ export class SIPSubmissionFormContainer extends React.Component {
    */
   static mapDispatchToProps = dispatch => ({
     submitSips: file => dispatch(sipImportActions.importSIPFeaturesCollection(file)),
+    flushSips: () => dispatch(sipImportActions.flush()),
   })
 
   static propTypes = {
@@ -47,6 +48,7 @@ export class SIPSubmissionFormContainer extends React.Component {
     }).isRequired,
     // from mapDispatchToProps
     submitSips: PropTypes.func.isRequired,
+    flushSips: PropTypes.func.isRequired,
   }
 
   state = {
@@ -88,6 +90,7 @@ export class SIPSubmissionFormContainer extends React.Component {
     this.setState({
       isLoading: true,
     })
+    this.props.flushSips()
     this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
