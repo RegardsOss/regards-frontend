@@ -91,7 +91,6 @@ export class DeleteOrderContainer extends React.Component {
 
   /** States in which the order can be superficially deleted */
   static SUPERFICIALLY_DELETABLE_STATES = [
-    OrderDomain.ORDER_STATUS_ENUM.PENDING,
     OrderDomain.ORDER_STATUS_ENUM.PAUSED,
   ]
 

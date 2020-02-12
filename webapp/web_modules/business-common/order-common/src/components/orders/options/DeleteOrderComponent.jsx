@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DeleteSuperficiallyIcon from 'material-ui/svg-icons/action/delete'
+import CancelIcon from 'material-ui/svg-icons/navigation/cancel'
 import DeleteCompletelyIcon from 'material-ui/svg-icons/action/delete-forever'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -52,7 +52,7 @@ class DeleteSuperficiallyOrderComponent extends React.Component {
         {
           isCompleteDelete
             ? <DeleteCompletelyIcon />
-            : <DeleteSuperficiallyIcon />
+            : <CancelIcon />
         }
       </IconButton>
     )
