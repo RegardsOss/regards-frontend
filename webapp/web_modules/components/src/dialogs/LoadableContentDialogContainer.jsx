@@ -52,6 +52,7 @@ export class LoadableContentDialogContainer extends React.Component {
       <PositionedDialog
         dialogHeightPercent={dialogHeightPercent}
         dialogWidthPercent={dialogWidthPercent}
+        autoScrollBodyContent
         {...dialogProperties}
       >
         {
