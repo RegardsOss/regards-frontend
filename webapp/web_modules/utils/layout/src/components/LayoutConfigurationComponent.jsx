@@ -44,7 +44,9 @@ class LayoutConfigurationComponent extends React.Component {
 
   state = {
     editorOpened: false,
-    containerToEdit: null,
+    // Nota: we use undefined when the editior is closed, null when creating a new container.
+    // Thus we ensure the edition form receives changes notifications
+    containerToEdit: undefined,
   }
 
   /**
@@ -75,7 +77,7 @@ class LayoutConfigurationComponent extends React.Component {
    * Close container edition dialog
    */
   handleClose = () => {
-    this.setState({ editorOpened: false })
+    this.setState({ containerToEdit: undefined, editorOpened: false })
   }
 
   /**
@@ -128,7 +130,6 @@ class LayoutConfigurationComponent extends React.Component {
           mainContainer
         />
         <ContainerConfigurationProvider
-          key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
           container={this.state.containerToEdit}
           hideDynamicContentOption={this.props.hideDynamicContentOption}
           open={this.state.editorOpened}
