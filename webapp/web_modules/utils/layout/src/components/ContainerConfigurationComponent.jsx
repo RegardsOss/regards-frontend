@@ -103,9 +103,9 @@ class ContainerConfigurationComponent extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { change, container } = newProps
-    // detects form model changed, report to form values
-    if (!isEqual(oldProps.container, container)) {
+    const { change, container, open } = newProps
+    // Detect form opening
+    if (!isEqual(oldProps.open, open) && open) {
       // for each form initial field, set value from edited container, or default to initial value
       forEach(ContainerConfigurationComponent.INITIAL_CONTAINER_VALUES,
         (initialValue, key) => change(key, container ? container[key] : initialValue))
