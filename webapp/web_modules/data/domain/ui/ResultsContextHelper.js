@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
+import keys from 'lodash/keys'
+import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
 import isPlainObject from 'lodash/isPlainObject'
-import keys from 'lodash/keys'
 import { RESULTS_TABS } from './ResultsTabs'
 import ResultsContextConstants from './ResultsContextConstants'
 import { CatalogSearchQueryHelper } from '../catalog'
@@ -117,5 +118,22 @@ export class ResultsContextHelper {
       requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
     }
     return requestParameters
+  }
+
+  /**
+   * Computes if the context as parameter is complete or partial (related with partial update from external controller)
+   * @param {*} resultsContext context
+   * @return {boolean}
+   */
+  static isFullContext(resultsContext) {
+    function checkSubTree(testedTree, modelTree) {
+      if (!isPlainObject(testedTree)) {
+        // break case: simple value, it should be null / undefined
+        return !isNil(testedTree)
+      }
+      // Recursive case: handle each property as a sub tree
+      return keys(modelTree).reduce((acc, key) => acc && checkSubTree(testedTree[key], modelTree[key]), true)
+    }
+    return checkSubTree(resultsContext, ResultsContextConstants.DEFAULT_RESULTS_CONTEXT)
   }
 }

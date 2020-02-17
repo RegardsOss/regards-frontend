@@ -106,19 +106,14 @@ export class ContextManager extends React.Component {
    * When results context changes, report new type, mode and tags into URL
    */
   componentWillReceiveProps = (nextProps) => {
-    if (!this.state.initialized) {
-      // cannot handle it yet (also cuts the initial URL update wich is useless)
-      return
-    }
     const { authentication: { result: newAuthResults }, resultsContext: newResultsContext } = nextProps
     const { authentication: { result: oldAuthResults }, resultsContext: oldResultsContext } = this.props
     if (get(oldAuthResults, 'sub') !== get(newAuthResults, 'sub')) {
       // A - Manage specific case of tags with authentication rights: attempt restoring them
       this.onAuthenticationChanged()
-    } else
-    if (!isEqual(oldResultsContext, newResultsContext)) {
-      // B  - Manage any results context change: let helper update URL when required
-      URLContextHelper.updateURLForContext(oldResultsContext, newResultsContext)
+    } else if (!isEqual(oldResultsContext, newResultsContext) || !this.state.initialized) {
+      // B  - Manage any results context change: let helper update URL when context changes or at initialization
+      URLContextHelper.updateURLForContext(newResultsContext)
     }
   }
 
@@ -152,7 +147,6 @@ export class ContextManager extends React.Component {
       && !get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags.length`, 0)) {
       contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
     }
-
     updateResultsContext(moduleId, contextToCommit)
     this.setState({ initialized: true })
   }

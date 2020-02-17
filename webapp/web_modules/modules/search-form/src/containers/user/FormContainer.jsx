@@ -104,6 +104,35 @@ export class FormContainer extends React.Component {
     return JSON.parse(root.atob(serializedState))
   }
 
+  /**
+   * Stores plugins state in URL and / or in local storage, according with parameters
+   * @param {string} appName application name
+   * @param {string} project project name
+   * @param {number} moduleId -
+   * @param {*} pluginsState plugins state to store
+   * @param {boolean} inURL should store in URL?
+   * @param {boolean} inLocalStorage should store in brwoser local storage
+   */
+  static storeState(appName, project, moduleId, pluginsState, inURL = true, inLocalStorage = true) {
+    // compute serialized state
+    const serializedState = FormContainer.serializePluginsState(pluginsState)
+
+    if (inURL) {
+      // Update browser URL so it can be shared with other users
+      const { pathname, query = {} } = browserHistory.getCurrentLocation()
+      const nextQuery = {
+        ...query,
+        [FormContainer.PLUGINS_STATE_PARAMETER]: serializedState,
+      }
+      browserHistory.replace({ pathname, query: nextQuery })
+    }
+
+    if (inLocalStorage) {
+    // Update local storage update (so user can retrieve form content when browsing through menu)
+      UIDomain.LocalStorageData.saveData(appName, project, moduleId, FormContainer.FORM_STORAGE_KEY, serializedState)
+    }
+  }
+
   state = {
     configurationQuery: '',
     pluginsProps: { initialQuery: '' },
@@ -141,6 +170,8 @@ export class FormContainer extends React.Component {
     } else if (psFromLocalStorage) { // case 2.
       searchImmediately = true
       initialPluginsState = FormContainer.deserializePluginState(psFromLocalStorage)
+      // When restoring from local storage, update URL immediately to ensure URL can be shared
+      FormContainer.storeState(appName, project, id, initialPluginsState, true, false)
     } // else: empty initial state (3)
 
     // B. Dispatch Redux plugins state initialization
@@ -178,6 +209,7 @@ export class FormContainer extends React.Component {
     }
   }
 
+
   /**
    * On search callback
    */
@@ -192,19 +224,8 @@ export class FormContainer extends React.Component {
       return
     }
 
-    // compute serialized state
-    const serializedState = FormContainer.serializePluginsState(pluginsState)
-
-    // Update browser URL so it can be shared with other users
-    const { pathname, query = {} } = browserHistory.getCurrentLocation()
-    const nextQuery = {
-      ...query,
-      [FormContainer.PLUGINS_STATE_PARAMETER]: serializedState,
-    }
-    browserHistory.replace({ pathname, query: nextQuery })
-
-    // Update local storage update (so user can retrieve form content when browsing through menu)
-    UIDomain.LocalStorageData.saveData(appName, project, id, FormContainer.FORM_STORAGE_KEY, serializedState)
+    // store state in URL and local storage
+    FormContainer.storeState(appName, project, id, pluginsState)
 
     // let parent handle objects research
     onSearch(pluginsState)

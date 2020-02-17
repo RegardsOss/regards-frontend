@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
 import { browserHistory } from 'react-router'
@@ -241,30 +240,31 @@ export class URLContextHelper {
   /**
    * Builds query parameters for results context as parameter
    * @param {*} resultsContext results context
+   * @param {*} currentQuery current query, to report parameters that are not handled by search-results module
    * @return {*} query parameters built for context
    */
-  static buildURLQuery(resultsContext) {
-    return URLContextHelper.MODULE_URL_PARAMETERS.reduce((acc, { name, toParameterValue }) => {
+  static buildURLQuery(resultsContext, currentQuery) {
+    const contextQuery = { ...currentQuery }
+    URLContextHelper.MODULE_URL_PARAMETERS.forEach(({ name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
-      return isNil(parameterValue) ? acc : {
-        ...acc,
-        [name]: parameterValue,
+      if (isNil(parameterValue)) {
+        delete contextQuery[name]
+      } else {
+        contextQuery[name] = parameterValue
       }
-    }, {})
+    })
+    return contextQuery
   }
 
 
   /**
-   * Updates browser URL, **when required**, to match new results context
-   * @param {*} oldContext old results context (must be present and fully completed)
-   * @param {*} newContext new results context (must be present and fully completed)
+   * Updates browser URL, to match new results context
+   * @param {*} newContext new results context (ignored when incomplete)
    */
-  static updateURLForContext(oldContext, newContext) {
-    const { pathname } = browserHistory.getCurrentLocation()
-    const previousQuery = URLContextHelper.buildURLQuery(oldContext)
-    const nextQuery = URLContextHelper.buildURLQuery(newContext)
-    if (!isEqual(previousQuery, nextQuery)) {
-      browserHistory.replace({ pathname, query: nextQuery })
+  static updateURLForContext(newContext) {
+    if (UIDomain.ResultsContextHelper.isFullContext(newContext)) {
+      const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
+      browserHistory.replace({ pathname, query: URLContextHelper.buildURLQuery(newContext, currentQuery) })
     }
   }
 }
