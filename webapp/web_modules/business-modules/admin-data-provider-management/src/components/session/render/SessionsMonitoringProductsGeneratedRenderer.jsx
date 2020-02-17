@@ -64,16 +64,22 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     return formatNumber(parseInt(generated, 10) + parseInt(ingested, 10) + parseInt(ingFailed, 10))
   }
 
-  getIncompletes = (entity) => {
+  getIncompletes = (entity, formated = true) => {
     const { intl: { formatNumber } } = this.context
     const incompletes = get(entity, 'content.lifeCycle.dataprovider.incomplete', 0)
-    return formatNumber(parseInt(incompletes, 10))
+    if (formated) {
+      return formatNumber(parseInt(incompletes, 10))
+    }
+    return parseInt(incompletes, 10)
   }
 
-  getErrors = (entity) => {
+  getErrors = (entity, formated = true) => {
     const { intl: { formatNumber } } = this.context
     const error = get(entity, 'content.lifeCycle.dataprovider.generation_error', 0)
-    return formatNumber(parseInt(error, 10))
+    if (formated) {
+      return formatNumber(parseInt(error, 10))
+    }
+    return parseInt(error, 10)
   }
 
   onShowErrors = () => {
@@ -107,7 +113,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     const { entity } = this.props
 
     const actions = []
-    if (this.getErrors(entity) > 0) {
+    if (this.getErrors(entity, false) > 0) {
       actions.push(<MenuItem
         key="relaunch"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
@@ -121,7 +127,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         value="show-errors"
       />)
     }
-    if (this.getIncompletes(entity) > 0) {
+    if (this.getIncompletes(entity, false) > 0) {
       actions.push(<MenuItem
         key="show-incomplete"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.incomplete' })}
