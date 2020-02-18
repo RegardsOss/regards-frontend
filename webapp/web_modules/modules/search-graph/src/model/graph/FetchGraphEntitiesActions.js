@@ -71,7 +71,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
         openSearchParameters.push(
           new CatalogDomain.OpenSearchQueryParameter(
             CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
-            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(parentEntityIds),
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(parentEntityId),
             CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR))
       })
     }
