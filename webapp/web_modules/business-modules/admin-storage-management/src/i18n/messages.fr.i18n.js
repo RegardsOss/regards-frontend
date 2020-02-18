@@ -65,7 +65,7 @@ const messages = Object.assign({
   'storage.location.errors.view.table.error': 'Cause de l\'erreur',
 
   'storage.data-storage.monitoring.button': 'Recalculer les occupations',
-  'storage.data-storage.refresh.button': 'Raffraîchir',
+  'storage.data-storage.refresh.button': 'Rafraîchir',
   'storage.data-storage.monitoring.dialog.title': 'Lancer la supervision des espaces de stockages',
   'storage.data-storage.monitoring.dialog.checkbox': 'La supervision des espace de stockage permet de calculer pour chaque espace le nombre de fichiers stockés et la taille occupée ',
 
