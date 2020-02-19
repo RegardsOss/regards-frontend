@@ -199,13 +199,24 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
-  onSwitchProductsDialog = (entity = null, isError = true, isIncomplet = false) => this.setState({ sessionToDisplayProducts: { session: entity, isError, isIncomplet } })
+  onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => this.setState({
+    sessionToDisplayProducts: {
+      session: entity, isError, isInvalid, isIncomplet,
+    },
+  })
 
   renderShowProductsDialog() {
     const { intl: { formatMessage } } = this.context
-    const { sessionToDisplayProducts: { session, isError, isIncomplet } } = this.state
+    const {
+      sessionToDisplayProducts: {
+        session, isError, isInvalid, isIncomplet,
+      },
+    } = this.state
     const sipStates = isError ? ProductsComponent.ERROR_SIP_STATES : []
     const productStates = isIncomplet ? ProductsComponent.INCOMPLETE_STATES : []
+    if (isInvalid) {
+      productStates.push(ProductsComponent.PRODUCT_INVALID_STATES)
+    }
     const values = {
       source: get(session, 'content.source'),
       session: get(session, 'content.name'),
@@ -259,7 +270,7 @@ export class SessionsMonitoringComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount, maxRowCount } } } } } = this.context
+    const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount } } } } } = this.context
     const {
       onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
       initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
@@ -370,7 +381,7 @@ export class SessionsMonitoringComponent extends React.Component {
               columns={columns}
               emptyComponent={SessionsMonitoringComponent.EMPTY_COMPONENT}
               minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
+              maxRowCount={4}
               queryPageSize={SessionsMonitoringComponent.PAGE_SIZE}
               lineHeight={rowHeight}
             />

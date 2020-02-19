@@ -369,7 +369,7 @@ export default baseTheme => ({
     minHeight: 72,
   },
   sessionsMonitoring: {
-    rowHeight: 110,
+    rowHeight: 120,
     sessionState: {
       errorColor: baseTheme.textField.errorColor,
     },

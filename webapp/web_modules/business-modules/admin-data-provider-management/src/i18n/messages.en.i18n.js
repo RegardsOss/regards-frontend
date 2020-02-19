@@ -158,7 +158,8 @@ const messages = Object.assign({
 
   //3.3 Products states
   'acquisition-sessions.states.complet': 'Generated',
-  'acquisition-sessions.states.incomplete': 'Incomplete',
+  'acquisition-sessions.states.incomplete': 'Prod. incompletes',
+  'acquisition-sessions.states.invalid': 'Prod. invalids',
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',
@@ -181,6 +182,7 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.relaunch': 'Relaunch errored products',
   'acquisition-sessions.menus.products.show.errors': 'Display error products',
   'acquisition-sessions.menus.products.show.incomplete': 'Display incomplete products',
+  'acquisition-sessions.menus.products.show.invalids': 'Display invalid products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
   'acquisition-sessions.menus.archives': 'Archive ready products',
   'acquisition-sessions.menus.archives.relaunch': 'Relaunch Processing in error',

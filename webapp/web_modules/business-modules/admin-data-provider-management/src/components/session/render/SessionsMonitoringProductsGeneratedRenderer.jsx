@@ -73,6 +73,15 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     return parseInt(incompletes, 10)
   }
 
+  getInvalids = (entity, formated = true) => {
+    const { intl: { formatNumber } } = this.context
+    const invalid = get(entity, 'content.lifeCycle.dataprovider.invalid', 0)
+    if (formated) {
+      return formatNumber(parseInt(invalid, 10))
+    }
+    return parseInt(invalid, 10)
+  }
+
   getErrors = (entity, formated = true) => {
     const { intl: { formatNumber } } = this.context
     const error = get(entity, 'content.lifeCycle.dataprovider.generation_error', 0)
@@ -82,12 +91,21 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     return parseInt(error, 10)
   }
 
+  getAllerrors = (entity) => {
+    const { intl: { formatNumber } } = this.context
+    return formatNumber(parseInt(this.getErrors(entity, false), 10) + parseInt(this.getInvalids(entity, false), 10))
+  }
+
   onShowErrors = () => {
     this.props.onShowProducts(this.props.entity)
   }
 
   onShowIncompletes = () => {
-    this.props.onShowProducts(this.props.entity, false, true)
+    this.props.onShowProducts(this.props.entity, false, false, true)
+  }
+
+  onShowInvalids = () => {
+    this.props.onShowProducts(this.props.entity, false, true, false)
   }
 
   render() {
@@ -97,14 +115,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         sessionsStyles: {
           menuDropDown,
           gridCell: {
-            gridContainer, gridHeaderContainer, infosContainer, lineFourContainer, listFourValues, cellContainer,
+            gridContainer, gridHeaderContainer, infosContainer, lineFiveContainer, listFiveValues, cellContainer,
             acquiredProductState: {
               runningContainer,
               runningIconColor,
               running,
             },
             lines: {
-              one, two, three, four,
+              one, two, three, four, five,
             },
           },
         },
@@ -125,6 +143,14 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.errors' })}
         onClick={this.onShowErrors}
         value="show-errors"
+      />)
+    }
+    if (this.getInvalids(entity, false) > 0) {
+      actions.push(<MenuItem
+        key="show-incomplete"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.invalids' })}
+        onClick={this.onShowInvalids}
+        value="show-incomplete"
       />)
     }
     if (this.getIncompletes(entity, false) > 0) {
@@ -163,7 +189,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                 ) }
               </div>
               <div style={infosContainer}>
-                <div style={lineFourContainer}>
+                <div style={lineFiveContainer}>
                   <div style={one}>
                     {formatMessage({ id: 'acquisition-sessions.states.files_acquired' })}
                   :
@@ -177,15 +203,20 @@ class SessionsMonitoringProductsGenerated extends React.Component {
                   :
                   </div>
                   <div style={four}>
+                    {formatMessage({ id: 'acquisition-sessions.states.invalid' })}
+                  :
+                  </div>
+                  <div style={five}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
                   :
                   </div>
                 </div>
-                <div style={listFourValues}>
+                <div style={listFiveValues}>
                   <div style={one}>{this.getFilesAcquired(entity)}</div>
                   <div style={two}>{this.getGenerated(entity)}</div>
                   <div style={three}>{this.getIncompletes(entity)}</div>
-                  <div style={four}>{this.getErrors(entity)}</div>
+                  <div style={four}>{this.getInvalids(entity)}</div>
+                  <div style={five}>{this.getErrors(entity)}</div>
                 </div>
                 {actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>

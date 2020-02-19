@@ -25,6 +25,8 @@ export class ProductsComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static INVALID_PRODUCT_STATES = ['INVALID']
+
   static ERROR_SIP_STATES = ['GENERATION_ERROR', 'INGESTION_FAILED']
 
   static INCOMPLETE_STATES = ['ACQUIRING']
@@ -70,4 +72,5 @@ export class ProductsComponent extends React.Component {
 const toExport = withI18n(messages)(ProductsComponent)
 toExport.ERROR_SIP_STATES = ProductsComponent.ERROR_SIP_STATES
 toExport.INCOMPLETE_STATES = ProductsComponent.INCOMPLETE_STATES
+toExport.INVALID_PRODUCT_STATES = ProductsComponent.INVALID_PRODUCT_STATES
 export default toExport

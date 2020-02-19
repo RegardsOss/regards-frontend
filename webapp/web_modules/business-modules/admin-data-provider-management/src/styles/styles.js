@@ -147,6 +147,14 @@ const styles = theme => ({
         gridArea: 'listValues',
         textAlign: 'left',
       },
+      listFiveValues: {
+        display: 'grid',
+        gridTemplateColumns: '100%',
+        gridTemplateRows: '20% 20% 20% 20% 20%',
+        gridTemplateAreas: '"one" "two" "three" "four" "five"',
+        gridArea: 'listValues',
+        textAlign: 'left',
+      },
       lineContainer: {
         display: 'grid',
         gridTemplateColumns: '100%',
@@ -160,6 +168,14 @@ const styles = theme => ({
         gridTemplateColumns: '100%',
         gridTemplateRows: '25% 25% 25% 25%',
         gridTemplateAreas: '"one" "two" "three" "four"',
+        gridArea: 'list',
+        textAlign: 'left',
+      },
+      lineFiveContainer: {
+        display: 'grid',
+        gridTemplateColumns: '100%',
+        gridTemplateRows: '20% 20% 20% 20% 20%',
+        gridTemplateAreas: '"one" "two" "three" "four" "five"',
         gridArea: 'list',
         textAlign: 'left',
       },
@@ -182,6 +198,11 @@ const styles = theme => ({
         four: {
           alignSelf: 'center',
           gridArea: 'four',
+          paddingLeft: '5px',
+        },
+        five: {
+          alignSelf: 'center',
+          gridArea: 'five',
           paddingLeft: '5px',
         },
       },
