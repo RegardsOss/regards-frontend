@@ -20,7 +20,17 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'role.list.title': 'Role list',
-  'role.list.subtitle': 'User roles for the project',
+  'role.list.subtitle': 'User roles for the project. You can create new roles that inherit of a selected default role.',
+  'role.list.public.name': 'Public : ',
+  'role.list.public.description': 'Role for not connected visitor. Only allow to consult public data. No administration fonctionalities granted',
+  'role.list.registered.user.name': 'Registered user : ',
+  'role.list.registered.user.description': 'Role for connected users. Inherit of public role. Allow to consult, download and order data. No administration fonctionalities granted',
+  'role.list.exploit.name': 'Operator : ',
+  'role.list.exploit.description': 'Role for project data opertors. Inherit of registered user role. Limited access to administration fonctionalities to manage data catalog.',
+  'role.list.admin.name': 'Administrator : ',
+  'role.list.admin.description': 'Role for project administrator. Inherit or operator role. Expanded access to administration fonctionalities',
+  'role.list.admin.project.name': 'Super Administrator : ',
+  'role.list.admin.project.description': 'Super user. No restricted access to any fonctionality',
   'role.list.table.name': 'Name',
   'role.list.table.parentRole': 'Parent role',
   'role.list.table.actions': 'Actions',
@@ -32,6 +42,13 @@ const messages = Object.assign({
   'role.edit.resource.action.title': 'Configure resources access',
   'role.edit.action.title': 'Edit',
   'role.delete.action.title': 'Delete',
+
+  'role.name.PUBLIC': 'Public',
+  'role.name.REGISTERED_USER': 'Registered user',
+  'role.name.EXPLOIT': 'Operator',
+  'role.name.ADMIN': 'Administrator',
+  'role.name.PROJECT_ADMIN': 'Super Administrator',
+  'role.name.empty': ' - ',
 
   'role.edit.title': 'Edit the role {name}',
   'role.create.title': 'Add a role',

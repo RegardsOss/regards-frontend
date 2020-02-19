@@ -20,7 +20,17 @@ import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
   'role.list.title': 'Liste des rôles',
-  'role.list.subtitle': 'Rôles utilisateurs sur le projet',
+  'role.list.subtitle': 'Rôles utilisateurs sur le projet. Vous pouvez créer de nouveau rôle en choisissant un rôle à partir duquel hériter des droits existants.',
+  'role.list.public.name': 'Publique : ',
+  'role.list.public.description': 'Rôle pour les visiteurs non connectés. Permet essentiellement de consulter les données public. Aucun accès aux fonctionalités d\'administration.',
+  'role.list.registered.user.name': 'Utilisateur enregistré : ',
+  'role.list.registered.user.description': 'Rôle pour les utilisateurs connectés. Hérite des droits du rôle Publique. Permet de consulter, de télécharger et de commander les données. Aucun accès aux fonctionalités d\'administration.',
+  'role.list.exploit.name': 'Exploitant : ',
+  'role.list.exploit.description': 'Rôle pour les exploitants de données du projet. Hérite des droits du rôle Utilisateur enregistré. Accès limité aux fonctionnalités d\'administration pour la gestion des données du catalogue.',
+  'role.list.admin.name': 'Administrateur : ',
+  'role.list.admin.description': 'Rôle pour les administrateur du projet. Hérite des droits du rôle exploitant. Accès étendu aux fonctionnalités d\'administration pour la gestion du projet.',
+  'role.list.admin.project.name': 'Super Administrateur : ',
+  'role.list.admin.project.description': 'Rôle pour les super administrateur du projet. Aucune limite de droits.',
   'role.list.table.name': 'Nom',
   'role.list.table.parentRole': 'Rôle parent',
   'role.list.table.actions': 'Actions',
@@ -33,6 +43,12 @@ const messages = Object.assign({
   'role.edit.action.title': 'Éditer',
   'role.delete.action.title': 'Supprimer',
 
+  'role.name.PUBLIC': 'Publique',
+  'role.name.REGISTERED_USER': 'Utilisateur enregistré',
+  'role.name.EXPLOIT': 'Exploitant',
+  'role.name.ADMIN': 'Administrateur',
+  'role.name.PROJECT_ADMIN': 'Super Administrateur',
+  'role.name.empty': ' - ',
 
   'role.edit.title': 'Éditer le rôle {name}',
   'role.create.title': 'Ajouter un rôle',
