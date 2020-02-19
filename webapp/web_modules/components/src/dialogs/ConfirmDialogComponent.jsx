@@ -50,6 +50,7 @@ class ConfirmDialogComponent extends React.Component {
     message: PropTypes.string, // optional
     errorMessage: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
+    confirmMessageKey: PropTypes.string,
     // onClose is always called whether the popup is closed or submitted
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool,
@@ -90,18 +91,18 @@ class ConfirmDialogComponent extends React.Component {
   renderActions = () => {
     const { dialogType, onClose } = this.props
     const { intl: { formatMessage } } = this.context
-    const confirmMessageKey = dialogType.messageId
+    const confirmMessageKey = this.props.confirmMessageKey || dialogType.messageId
     return [
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
         label={formatMessage({ id: 'confirm.dialog.cancel' })}
-        primary
-        keyboardFocused
         onClick={onClose}
       />,
       <FlatButton
         key={confirmMessageKey}
+        primary
+        keyboardFocused
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: confirmMessageKey })}
         onClick={this.handleConfirm}

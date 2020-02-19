@@ -34,6 +34,8 @@ const messages = Object.assign({
   'attrmodel.list.action.edit': 'Edit',
   'attrmodel.list.action.delete': 'Delete',
   'attrmodel.list.delete.title': 'Delete the attribute {name} ?',
+  'attrmodel.list.empty.title': 'No attribute model defined',
+  'attrmodel.list.filter.name': 'Filter by attribute name',
 
   'attrmodel.edit.title': 'Edit the attribute model {name}',
   'attrmodel.create.title': 'Create a model',
