@@ -123,6 +123,14 @@ export class ProjectUserFormComponent extends React.Component {
     return currentUserGroups
   }
 
+  getRoleName = (name = 'empty') => {
+    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formated !== `role.name.${name}`) {
+      return formated
+    }
+    return name
+  }
+
   handleInitialize = () => {
     const { currentUser, userMetadata, initialize } = this.props
     let initialFormValues = {}
@@ -316,7 +324,7 @@ export class ProjectUserFormComponent extends React.Component {
                 <MenuItem
                   value={role.content.name}
                   key={id}
-                  primaryText={role.content.name}
+                  primaryText={this.getRoleName(role.content.name)}
                 />
               ))}
             </Field>

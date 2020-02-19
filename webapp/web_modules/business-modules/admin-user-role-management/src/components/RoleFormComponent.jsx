@@ -84,6 +84,14 @@ export class RoleFormComponent extends React.Component {
     }
   }
 
+  getRoleName = (name = 'empty') => {
+    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formated !== `role.name.${name}`) {
+      return formated
+    }
+    return name
+  }
+
 
   render() {
     const {
@@ -121,7 +129,7 @@ export class RoleFormComponent extends React.Component {
                 <MenuItem
                   value={role.content.name}
                   key={id}
-                  primaryText={role.content.name}
+                  primaryText={this.getRoleName(role.content.name)}
                 />
               ))}
             </Field>

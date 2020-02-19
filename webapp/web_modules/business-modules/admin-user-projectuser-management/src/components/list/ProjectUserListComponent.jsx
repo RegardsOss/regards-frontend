@@ -37,6 +37,7 @@ import NoUserComponent from './NoUserComponent'
 import ProjectUserStatusRenderCell from './ProjectUserStatusRenderCell'
 import AllowAccessComponent from './options/AllowAccessComponent'
 import DenyAccessComponent from './options/DenyAccessComponent'
+import RoleRenderer from './RoleRenderer'
 
 
 const MainActionButtonWithResourceDisplayControl = withResourceDisplayControl(MainActionButtonComponent)
@@ -119,8 +120,11 @@ export class ProjectUserListComponent extends React.Component {
         .propertyRenderCell('content.email', StringValueRender)
         .build(),
       // 2 - Role column
-      new TableColumnBuilder('role').label(formatMessage({ id: 'projectUser.list.table.role' })).titleHeaderCell()
-        .propertyRenderCell('content.role.name')
+      new TableColumnBuilder('role').titleHeaderCell()
+        .label(formatMessage({ id: 'projectUser.list.table.role' }))
+        .rowCellDefinition({
+          Constructor: RoleRenderer,
+        })
         .build(),
       // 3 - status column
       new TableColumnBuilder('status').label(formatMessage({ id: 'projectUser.list.table.status' })).titleHeaderCell()

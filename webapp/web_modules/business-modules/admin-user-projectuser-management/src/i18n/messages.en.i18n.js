@@ -87,6 +87,13 @@ const messages = {
   'project.user.settings.action.confirm': 'Confirm',
   'project.user.settings.action.cancel': 'Cancel',
 
+  'role.name.PUBLIC': 'Public',
+  'role.name.REGISTERED_USER': 'Registered user',
+  'role.name.EXPLOIT': 'Operator',
+  'role.name.ADMIN': 'Administrator',
+  'role.name.PROJECT_ADMIN': 'Super Administrator',
+  'role.name.empty': ' - ',
+
   ...Locales.en,
   ...MetadataLocales.en,
 }
