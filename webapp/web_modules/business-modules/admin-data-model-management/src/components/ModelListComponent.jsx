@@ -162,6 +162,8 @@ export class ModelListComponent extends React.Component {
       />
     )
 
+    const filteredModelList = filter(modelList, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
+
     return (
       <Card>
         <CardTitle
@@ -172,12 +174,12 @@ export class ModelListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <ModelListFiltersComponent onFilter={this.onFilter} />
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={modelList.length} />
+            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredModelList.length} />
             <InfiniteTableContainer
               columns={columns}
-              entities={filter(modelList, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))}
+              entities={filteredModelList}
               emptyComponent={emptyComponent}
-              entitiesCount={modelList.length}
+              entitiesCount={filteredModelList.length}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
             />

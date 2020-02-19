@@ -150,6 +150,8 @@ export class AttributeModelListComponent extends React.Component {
       />
     )
 
+    const filteredList = filter(attrModelArray, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
+
     return (
       <Card>
         <CardTitle
@@ -160,12 +162,12 @@ export class AttributeModelListComponent extends React.Component {
           {this.renderDeleteConfirmDialog()}
           <TableLayout>
             <AttributeModelListFiltersComponent onFilter={this.onFilter} />
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={attrModelArray.length} />
+            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredList.length} />
             <InfiniteTableContainer
               columns={columns}
-              entities={filter(attrModelArray, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))}
+              entities={filteredList}
               emptyComponent={emptyComponent}
-              entitiesCount={attrModelArray.length}
+              entitiesCount={filteredList.length}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
             />
