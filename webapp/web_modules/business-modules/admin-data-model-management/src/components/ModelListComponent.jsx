@@ -16,36 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import lowerCase from 'lodash/lowerCase'
 import isEmpty from 'lodash/isEmpty'
-import map from 'lodash/map'
-import find from 'lodash/find'
+import startsWith from 'lodash/startsWith'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
+import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import {
-  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
-} from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
-import Settings from 'material-ui/svg-icons/action/settings-input-composite'
-import Download from 'material-ui/svg-icons/file/file-download'
+
 import {
-  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, NoContentMessageInfo,
+  CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+  TableLayout, InfiniteTableContainer, TableColumnBuilder,
+  NoContentComponent, TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, withResourceDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from '../clients/ModelClient'
-import { modelAttributesActions } from '../clients/ModelAttributesClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
-const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
+import ModelListFiltersComponent from './ModelListFiltersComponent'
+import ModelListActionsRenderer from './ModelListActionsRenderer'
 
 /**
  * React components to list project.
@@ -60,6 +53,7 @@ export class ModelListComponent extends React.Component {
     createUrl: PropTypes.string.isRequired,
     backUrl: PropTypes.string.isRequired,
     accessToken: PropTypes.string.isRequired,
+    isLoading: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -72,14 +66,7 @@ export class ModelListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
-  }
-
-  getExportUrlFromHateoas = (modelLinks) => {
-    const { accessToken } = this.props
-    const exportLink = find(modelLinks, link => (
-      link.rel === 'export'
-    ))
-    return `${exportLink.href}?token=${accessToken}` || ''
+    nameFilter: null,
   }
 
   getType = (type) => {
@@ -130,123 +117,72 @@ export class ModelListComponent extends React.Component {
     )
   }
 
+  onFilter = (event, value) => {
+    this.setState({
+      nameFilter: value,
+    })
+  }
+
   render() {
     const {
-      modelList, handleEdit, handleDuplicate, createUrl, handleBindAttributes, backUrl,
+      modelList, accessToken, handleEdit, handleDuplicate, createUrl, handleBindAttributes, backUrl, isLoading,
     } = this.props
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonBindAttribute: this.context.muiTheme.palette.primary3Color,
-      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
-    }
-    const { intl } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    // Table columns to display
+    const columns = [
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+        .label(formatMessage({ id: 'model.list.table.name' }))
+        .build(),
+      new TableColumnBuilder('column.description').titleHeaderCell().propertyRenderCell('content.description')
+        .label(formatMessage({ id: 'model.list.table.description' }))
+        .build(),
+      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.type')
+        .label(formatMessage({ id: 'model.list.table.type' }))
+        .build(),
+      new TableColumnBuilder('column.actions').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: ModelListActionsRenderer,
+          props: {
+            accessToken,
+            openDeleteDialog: this.openDeleteDialog,
+            handleEdit,
+            handleDuplicate,
+            handleBindAttributes,
+          },
+        })
+        .label(formatMessage({ id: 'model.list.table.actions' }))
+        .build(),
+    ]
+
+    const emptyComponent = (
+      <NoContentComponent
+        titleKey="model.list.no.content.message"
+        Icon={AddToPhotos}
+      />
+    )
+
     return (
       <Card>
         <CardTitle
           title={this.context.intl.formatMessage({ id: 'model.list.title' })}
           subtitle={this.context.intl.formatMessage({ id: 'model.list.subtitle' })}
         />
-        <NoContentMessageInfo
-          noContent={isEmpty(modelList)}
-          titleKey="model.list.table.no.content.title"
-          messageKey="model.list.no.content.message"
-        >
-          <CardText>
-            {this.renderDeleteConfirmDialog()}
-            <Table
-              selectable={false}
-            >
-              <TableHeader
-                enableSelectAll={false}
-                adjustForCheckbox={false}
-                displaySelectAll={false}
-              >
-                <TableRow>
-                  <TableHeaderColumn><FormattedMessage id="model.list.table.name" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="model.list.table.description" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="model.list.table.type" /></TableHeaderColumn>
-                  <TableHeaderColumn><FormattedMessage id="model.list.table.actions" /></TableHeaderColumn>
-                </TableRow>
-              </TableHeader>
-              <TableBody
-                displayRowCheckbox={false}
-                preScanRows={false}
-                showRowHover
-              >
-                {map(modelList, (model, i) => (
-                  <TableRow key={i} className={`selenium-${model.content.name}`}>
-                    <TableRowColumn
-                      title={model.content.name}
-                    >
-                      {model.content.name}
-                    </TableRowColumn>
-                    <TableRowColumn
-                      title={model.content.description}
-                    >
-                      {model.content.description}
-                    </TableRowColumn>
-                    <TableRowColumn
-                      title={model.content.type}
-                    >
-                      {this.getType(model.content.type)}
-                    </TableRowColumn>
-                    <TableRowColumn>
-                      <ActionsMenuCell
-                        breakpoints={actionsBreakpoints}
-                      >
-                        <HateoasIconAction
-                          entityLinks={model.links}
-                          hateoasKey="export"
-                          href={this.getExportUrlFromHateoas(model.links)}
-                          title={intl.formatMessage({ id: 'model.list.action.export' })}
-                        >
-                          <Download hoverColor={style.hoverButtonEdit} />
-                        </HateoasIconAction>
-
-                        <ResourceIconAction
-                          resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
-                          onClick={() => handleBindAttributes(model.content.name)}
-                          title={intl.formatMessage({ id: 'model.list.action.bind' })}
-                        >
-                          <Settings hoverColor={style.hoverButtonBindAttribute} />
-                        </ResourceIconAction>
-
-                        <HateoasIconAction
-                          entityLinks={model.links}
-                          hateoasKey={HateoasKeys.UPDATE}
-                          onClick={() => handleEdit(model.content.name)}
-                          title={intl.formatMessage({ id: 'model.list.action.edit' })}
-                          className="selenium-editButton"
-                        >
-                          <Edit hoverColor={style.hoverButtonEdit} />
-                        </HateoasIconAction>
-
-                        <ResourceIconAction
-                          resourceDependencies={modelActions.getDependency(RequestVerbEnum.POST)}
-                          onClick={() => handleDuplicate(model.content.name)}
-                          title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
-                        >
-                          <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                        </ResourceIconAction>
-
-                        <HateoasIconAction
-                          entityLinks={model.links}
-                          hateoasKey={HateoasKeys.DELETE}
-                          onClick={() => this.openDeleteDialog(model)}
-                          title={intl.formatMessage({ id: 'model.list.action.delete' })}
-                          className="selenium-deleteButton"
-                        >
-                          <Delete hoverColor={style.hoverButtonDelete} />
-                        </HateoasIconAction>
-                      </ActionsMenuCell>
-                    </TableRowColumn>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </CardText>
-        </NoContentMessageInfo>
+        <CardText>
+          {this.renderDeleteConfirmDialog()}
+          <TableLayout>
+            <ModelListFiltersComponent onFilter={this.onFilter} />
+            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={modelList.length} />
+            <InfiniteTableContainer
+              columns={columns}
+              entities={filter(modelList, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))}
+              emptyComponent={emptyComponent}
+              entitiesCount={modelList.length}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+            />
+          </TableLayout>
+        </CardText>
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}

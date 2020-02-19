@@ -19,7 +19,6 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { modelActions, modelSelectors } from '../clients/ModelClient'
 import ModelListComponent from '../components/ModelListComponent'
@@ -68,20 +67,6 @@ export class ModelListContainer extends React.Component {
     return `/admin/${project}/data/models/board`
   }
 
-  getSubComponent = () => {
-    const { modelList, accessToken } = this.props
-    return (<ModelListComponent
-      modelList={modelList}
-      accessToken={accessToken}
-      createUrl={this.getCreateUrl()}
-      backUrl={this.getBackUrl()}
-      handleDelete={this.handleDelete}
-      handleEdit={this.handleEdit}
-      handleDuplicate={this.handleDuplicate}
-      handleBindAttributes={this.handleBindAttributes}
-    />)
-  }
-
   handleEdit = (modelName) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/models/model/${modelName}/edit`
@@ -105,14 +90,20 @@ export class ModelListContainer extends React.Component {
   }
 
   render() {
-    const { isLoading } = this.state
+    const { modelList, accessToken } = this.props
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          {this.getSubComponent}
-        </LoadableContentDisplayDecorator>
+        <ModelListComponent
+          modelList={modelList}
+          accessToken={accessToken}
+          createUrl={this.getCreateUrl()}
+          backUrl={this.getBackUrl()}
+          handleDelete={this.handleDelete}
+          handleEdit={this.handleEdit}
+          handleDuplicate={this.handleDuplicate}
+          handleBindAttributes={this.handleBindAttributes}
+          isLoading={this.state.isLoading}
+        />
       </I18nProvider>
     )
   }

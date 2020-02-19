@@ -21,6 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'model.list.title': 'Models',
   'model.list.subtitle': 'All data models of the project',
+  'model.list.table.filter.name': 'Filter on model name',
   'model.list.table.name': 'Name',
   'model.list.table.description': 'Description',
   'model.list.table.type': 'Type',
