@@ -57,7 +57,7 @@ const messages = Object.assign({
   'role.form.authorizedAdresses': 'Définir la liste des adresses IP autorisées (si non spécifié, le filtre est désactivé)',
   'role.form.action.cancel': 'Annuler',
   'role.form.action.submit': 'Sauvegarder',
-  'role.form.parentRole': 'Rôle parent',
+  'role.form.parentRole': 'Hérite de',
 
   'form-utils.enumform.authorizedAddresses.addvalue': 'Ajouter une valeur',
   'form-utils.enumform.addinput': 'Nouvelle adresse IP',
