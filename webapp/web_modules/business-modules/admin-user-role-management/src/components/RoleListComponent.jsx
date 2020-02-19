@@ -151,6 +151,7 @@ export class RoleListComponent extends React.Component {
     const roleStyle = {
       color: this.context.muiTheme.palette.accent1Color,
     }
+    const roleListStyle = { marginLeft: '20px' }
     const linkRoleResourceIconTitle = this.context.intl.formatMessage({ id: 'role.edit.resource.action.title' })
     const editRoleIconTitle = this.context.intl.formatMessage({ id: 'role.edit.action.title' })
     const deleteRoleIconTitle = this.context.intl.formatMessage({ id: 'role.delete.action.title' })
@@ -161,7 +162,7 @@ export class RoleListComponent extends React.Component {
           subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
-          <div style={{ marginLeft: '20px' }}>
+          <div style={roleListStyle}>
             <ul>
               <li>
                 <span style={roleStyle}><FormattedMessage id="role.list.public.name" /></span>
