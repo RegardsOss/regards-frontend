@@ -57,19 +57,32 @@ class StorageLocationStorageErrorRenderer extends React.Component {
 
   static resources = [StorageLocationStorageErrorRenderer.retryResource, StorageLocationStorageErrorRenderer.deleteResource, StorageLocationStorageErrorRenderer.viewResource]
 
+  state = {
+    menuOpened: false,
+  }
+
   onRelaunchStoragesErrors = () => {
     const { entity } = this.props
+    this.swithMenu()
     this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
   }
 
   onDeleteStoragesErrors = () => {
     const { entity } = this.props
+    this.swithMenu()
     this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
   onViewStorageErrors = () => {
     const { entity } = this.props
+    this.swithMenu()
     this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
+  }
+
+  swithMenu = () => {
+    this.setState({
+      menuOpened: !this.state.menuOpened,
+    })
   }
 
   render() {
@@ -82,6 +95,8 @@ class StorageLocationStorageErrorRenderer extends React.Component {
         { entity.content.nbStorageError > 0 ? (
           <ResourcesIconMenu
             displayLogic={someMatchHateoasDisplayLogic}
+            open={this.state.menuOpened}
+            onClick={this.swithMenu}
             resourceDependencies={StorageLocationStorageErrorRenderer.resources}
             iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
           >
@@ -90,18 +105,24 @@ class StorageLocationStorageErrorRenderer extends React.Component {
               resourceDependencies={StorageLocationStorageErrorRenderer.retryResource}
               primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
               onClick={this.onRelaunchStoragesErrors}
+              value="relaunch"
+              key="delete"
             />
             <ResourcesMenuItem
               displayLogic={someMatchHateoasDisplayLogic}
               resourceDependencies={StorageLocationStorageErrorRenderer.deleteResource}
               primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
               onClick={this.onDeleteStoragesErrors}
+              value="delete"
+              key="delete"
             />
             <ResourcesMenuItem
               displayLogic={someMatchHateoasDisplayLogic}
               resourceDependencies={StorageLocationStorageErrorRenderer.viewResource}
               primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
               onClick={this.onViewStorageErrors}
+              value="view"
+              key="view"
             />
           </ResourcesIconMenu>
         ) : null }
