@@ -32,7 +32,7 @@ const messages = Object.assign({
   'role.list.admin.project.name': 'Super Administrator : ',
   'role.list.admin.project.description': 'Super user. No restricted access to any fonctionality',
   'role.list.table.name': 'Name',
-  'role.list.table.parentRole': 'Parent role',
+  'role.list.table.parentRole': 'Inherits from',
   'role.list.table.actions': 'Actions',
   'role.list.action.add': 'Add',
   'role.list.action.cancel': 'Cancel',
@@ -57,7 +57,7 @@ const messages = Object.assign({
   'role.form.authorizedAdresses': 'Define the IP adresses list autorized',
   'role.form.action.cancel': 'Cancel',
   'role.form.action.submit': 'Save',
-  'role.form.parentRole': 'Parent role',
+  'role.form.parentRole': 'Inherits from',
 
   'form-utils.enumform.authorizedAddresses.addvalue': 'Add a value',
   'form-utils.enumform.addinput': 'New IP address',
