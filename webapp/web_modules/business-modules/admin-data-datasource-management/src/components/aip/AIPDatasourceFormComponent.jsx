@@ -24,6 +24,7 @@ import filter from 'lodash/filter'
 import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 import flow from 'lodash/flow'
+import find from 'lodash/find'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
 import {
@@ -167,7 +168,7 @@ export class AIPDatasourceFormComponent extends React.Component {
    * Initialize form fields
    */
   handleInitialize = () => {
-    const { isCreating, currentDatasource } = this.props
+    const { isCreating, currentDatasource, modelAttributeList } = this.props
 
     if (!isCreating) {
       const refreshRate = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.REFRESH_RATE), 'value')
@@ -177,10 +178,16 @@ export class AIPDatasourceFormComponent extends React.Component {
       const subsettingCategories = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES), 'value', [])
       const attributeFileSize = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE), 'value', '')
       const mappingRaw = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.BINDMAP_MAP), 'value', [])
+      const mappableAttributs = this.getMappableAttributes(modelAttributeList)
+      const staticMappableAttributs = this.getMappingAttributes(StaticAttributeListAIP)
       // Replace the caracter . inside the binding into the caracter @
       const mapping = {}
       forEach(mappingRaw, (value, key) => {
-        mapping[key.replace(/\./g, '@')] = value
+        if (!find(staticMappableAttributs, ['key', key]) && !find(mappableAttributs, a => a.content.attribute.jsonPath === key)) {
+          console.error('unmappable attribute remove from conf', mappableAttributs, key)
+        } else {
+          mapping[key.replace(/\./g, '@')] = value
+        }
       })
       const initialValues = {
         label: currentDatasource.content.label,
