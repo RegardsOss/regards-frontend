@@ -24,7 +24,7 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, FormattedHTMLMessage } from 'react-intl'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'material-ui/svg-icons/editor/mode-edit'
@@ -131,6 +131,14 @@ export class RoleListComponent extends React.Component {
     )
   }
 
+  getRoleName = (name = 'empty') => {
+    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formated !== `role.name.${name}`) {
+      return formated
+    }
+    return name
+  }
+
   render() {
     const {
       roleList, handleEdit, createUrl, handleEditResourceAccess,
@@ -140,6 +148,9 @@ export class RoleListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
+    const roleStyle = {
+      color: this.context.muiTheme.palette.accent1Color,
+    }
     const linkRoleResourceIconTitle = this.context.intl.formatMessage({ id: 'role.edit.resource.action.title' })
     const editRoleIconTitle = this.context.intl.formatMessage({ id: 'role.edit.action.title' })
     const deleteRoleIconTitle = this.context.intl.formatMessage({ id: 'role.delete.action.title' })
@@ -147,9 +158,33 @@ export class RoleListComponent extends React.Component {
       <Card>
         <CardTitle
           title={this.context.intl.formatMessage({ id: 'role.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
+          subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
+          <div style={{ marginLeft: '20px' }}>
+            <ul>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.public.name" /></span>
+                <FormattedMessage id="role.list.public.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.registered.user.name" /></span>
+                <FormattedMessage id="role.list.registered.user.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.exploit.name" /></span>
+                <FormattedMessage id="role.list.exploit.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.admin.name" /></span>
+                <FormattedMessage id="role.list.admin.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.admin.project.name" /></span>
+                <FormattedMessage id="role.list.admin.project.description" />
+              </li>
+            </ul>
+          </div>
           {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
@@ -172,8 +207,8 @@ export class RoleListComponent extends React.Component {
             >
               {map(roleList, (role, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{role.content.name}</TableRowColumn>
-                  <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
+                  <TableRowColumn>{this.getRoleName(role.content.name || 'empty')}</TableRowColumn>
+                  <TableRowColumn>{this.getRoleName(this.getParentRoleName(role.content.parentRole) || 'empty') }</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={role.links}
