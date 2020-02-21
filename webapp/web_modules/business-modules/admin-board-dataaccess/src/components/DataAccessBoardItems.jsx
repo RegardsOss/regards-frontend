@@ -20,6 +20,7 @@ import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
 import AddIcon from 'material-ui/svg-icons/content/add-circle'
 
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
+import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
 
 /**
  * BoardItems configuration for data access module
@@ -36,13 +37,13 @@ const items = (projectName, intl) => [
         path: `/admin/${projectName}/dataaccess/searchengines/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.list.tooltip' }),
-        hateoasDependencies: servicesManagementDependencies.listDependencies,
+        hateoasDependencies: searchEnginesDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/dataaccess/searchengines/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.add.tooltip' }),
-        hateoasDependencies: servicesManagementDependencies.addDependencies,
+        hateoasDependencies: searchEnginesDependencies.addDependencies,
       },
     ],
   },

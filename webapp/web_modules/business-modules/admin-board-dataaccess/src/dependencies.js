@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
-import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
 
 /**
@@ -29,6 +28,5 @@ import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
 export default [
   [...servicesManagementDependencies.listDependencies, ...servicesManagementDependencies.addDependencies],
   [...searchEnginesDependencies.listDependencies, ...searchEnginesDependencies.addDependencies],
-  [...accessGroupDependencies.addDependencies, ...accessGroupDependencies.listDependencies],
   [indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE)],
 ]
