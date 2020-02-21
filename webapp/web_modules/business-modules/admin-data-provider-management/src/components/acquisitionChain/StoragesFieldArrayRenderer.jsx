@@ -68,66 +68,102 @@ export class StoragesFieldArrayRenderer extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         chainForm: {
-          papers, paperContainer,
+          papers, storageRepository,
+          storageTitleBar, storageTitle,
         },
       },
     } = this.context
     return (
       <Paper style={papers} zDepth={3} key={`${member}-paper`}>
-        <div style={{ position: 'absolute', top: '10px', right: '10px' }}><Storage /></div>
-        <Field
-          name={`${member}.active`}
-          component={RenderCheckbox}
-          label={fields.get(index).label}
-          onChange={(event, newValue, previousValue, name) => this.switchActive(member, newValue)}
-        />
-        <Field
-          name={`${member}.storePath`}
-          component={RenderTextField}
-          type="text"
-          label={`${formatMessage({ id: 'acquisition-chain.form.general.section.path' })}`}
-          fullWidth
-        />
-        <div
-          style={paperContainer}
-          key={`${member}type`}
-        >
+        <div style={storageTitleBar}>
+          <div style={storageTitle}>
+            <Field
+              name={`${member}.active`}
+              style={storageTitle}
+              component={RenderCheckbox}
+              label={fields.get(index).label}
+              onChange={(event, newValue, previousValue, name) => this.switchActive(member, newValue)}
+            />
+          </div>
+          <Storage />
+        </div>
+        <div style={storageRepository}>
           <Field
-            name={`${member}.rawdata`}
-            component={RenderCheckbox}
-            label="Rawdata"
-          />
-          <Field
-            name={`${member}.quicklook`}
-            component={RenderCheckbox}
-            label="Quicklook"
-          />
-          <Field
-            name={`${member}.document`}
-            component={RenderCheckbox}
-            label="Document"
-          />
-          <Field
-            name={`${member}.thumbnail`}
-            component={RenderCheckbox}
-            label="Thumbnail"
-          />
-          <Field
-            name={`${member}.aip`}
-            component={RenderCheckbox}
-            label="Aip"
-          />
-          <Field
-            name={`${member}.description`}
-            component={RenderCheckbox}
-            label="Description"
-          />
-          <Field
-            name={`${member}.other`}
-            component={RenderCheckbox}
-            label="Other"
+            name={`${member}.storePath`}
+            component={RenderTextField}
+            type="text"
+            label={`${formatMessage({ id: 'acquisition-chain.form.general.section.path' })}`}
+            fullWidth
           />
         </div>
+        <table>
+          <tbody>
+            <tr>
+              <td>
+                <Field
+                  name={`${member}.rawdata`}
+                  component={RenderCheckbox}
+                  label="Rawdata"
+                  noSpacing
+                />
+              </td>
+              <td>
+                <Field
+                  name={`${member}.quicklook`}
+                  component={RenderCheckbox}
+                  label="Quicklook"
+                  noSpacing
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Field
+                  name={`${member}.document`}
+                  component={RenderCheckbox}
+                  label="Document"
+                  noSpacing
+                />
+              </td>
+              <td>
+                <Field
+                  name={`${member}.thumbnail`}
+                  component={RenderCheckbox}
+                  label="Thumbnail"
+                  noSpacing
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Field
+                  name={`${member}.aip`}
+                  component={RenderCheckbox}
+                  label="Aip"
+                  noSpacing
+                />
+              </td>
+              <td>
+                <Field
+                  name={`${member}.description`}
+                  component={RenderCheckbox}
+                  label="Description"
+                  noSpacing
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <Field
+                  name={`${member}.other`}
+                  component={RenderCheckbox}
+                  label="Other"
+                  noSpacing
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </Paper>
     )
   }

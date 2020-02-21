@@ -17,7 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Chip from 'material-ui/Chip'
-import { TextField } from 'material-ui'
+import TextField from 'material-ui/TextField'
+import IconButton from 'material-ui/IconButton'
+import AddIcon from 'material-ui/svg-icons/content/add-circle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 /**
@@ -47,15 +49,20 @@ export class CategoriesFieldArrayRenderer extends React.Component {
     fields.remove(index)
   }
 
-  onAddCategory = (ev) => {
-    const { fields } = this.props
-    const { categoryField } = this.state
+  onKeyPressed = (ev) => {
     if (ev.key === 'Enter') {
       ev.preventDefault()
-      if (!fields.getAll().find(category => category === categoryField) && categoryField !== '') {
-        fields.push(categoryField)
-        this.setState({ categoryField: '' })
-      }
+      this.onAddCategory()
+    }
+  }
+
+  onAddCategory = () => {
+    const { fields } = this.props
+    const { categoryField } = this.state
+    const categoryToAdd = categoryField.trim()
+    if (categoryToAdd && !fields.getAll().find(category => category === categoryToAdd)) {
+      fields.push(categoryField)
+      this.setState({ categoryField: '' })
     }
   }
 
@@ -90,22 +97,28 @@ export class CategoriesFieldArrayRenderer extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         chainForm: {
-          chipWrapper, info,
+          categoriesField, chipSeparator, info, warnMessage,
         },
       },
     } = this.context
     return (
       <React.Fragment>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.category' })}</p>
-        <TextField
-          hintText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
-          floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
-          fullWidth
-          onKeyPress={this.onAddCategory}
-          value={categoryField}
-          onChange={this.onChangeValue}
-        />
-        <div style={chipWrapper}>
+        <div style={categoriesField}>
+          <TextField
+            floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.category-hint' })}
+            onKeyPress={this.onKeyPressed}
+            value={categoryField}
+            onChange={this.onChangeValue}
+            // Warn the user while he has not clicked on add
+            errorText={categoryField ? formatMessage({ id: 'acquisition-chain.form.general.section.click.category.add.warn' }) : null}
+            errorStyle={warnMessage}
+            floatingLabelFocusStyle={categoryField ? warnMessage : null}
+          />
+          <IconButton onClick={this.onAddCategory}>
+            <AddIcon />
+          </IconButton>
+          <div style={chipSeparator} />
           {fields.map(this.renderChip)}
         </div>
       </React.Fragment>

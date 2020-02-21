@@ -364,16 +364,23 @@ const styles = theme => ({
       flexWrap: 'wrap',
     },
     papers: {
-      flex: 1,
-      maxWidth: '300px',
-      padding: '0 20px 20px 20px',
+      padding: 10,
       margin: '20px',
-      minWidth: '300px',
     },
-    paperContainer: {
+    storageTitleBar: {
       display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
       justifyContent: 'space-between',
-      flexWrap: 'wrap',
+    },
+    storageTitle: {
+      marginTop: -24,
+      marginRight: 25,
+      fontSize: '1.5em',
+    },
+    storageRepository: {
+      marginTop: -15,
+      marginBottom: 15,
     },
     info: {
       marginTop: '26px',
@@ -383,12 +390,24 @@ const styles = theme => ({
       minWidth: '400px',
       margin: '-7px 0 0 0',
     },
-    chip: {
-      margin: 4,
-    },
-    chipWrapper: {
+    categoriesField: {
       display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-end',
       flexWrap: 'wrap',
+      marginBottom: 20,
+    },
+    chip: {
+      margin: '8px 20px 8px 0',
+    },
+    chipSeparator: {
+      height: 24,
+      width: 1,
+      background: theme.toolbar.separatorColor,
+      margin: '12px 25px 12px 10px',
+    },
+    warnMessage: {
+      color: theme.formsExtensions.validation.warningColor,
     },
     checkboxesInline: {
       background: 'red',

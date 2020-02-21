@@ -50,7 +50,8 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
   'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers. Pour chaque espace de stockage, veuillez selectionner les types de fichiers à stocker.',
   'acquisition-chain.form.general.section.info.category': 'Les catégories permettent de filtrer les AIPs à aspirer par les sources de données',
-  'acquisition-chain.form.general.section.category-hint': 'Ajouter une ou plusieurs catégories (Presser Entrer pour valider)',
+  'acquisition-chain.form.general.section.category-hint': 'Nouvelle categorie',
+  'acquisition-chain.form.general.section.click.category.add.warn': 'Confirmer l\'ajout de la categorie',
 
   // 1.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',

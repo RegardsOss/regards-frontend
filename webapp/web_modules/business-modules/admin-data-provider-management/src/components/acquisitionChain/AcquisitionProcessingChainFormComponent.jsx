@@ -73,6 +73,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     // from reduxForm
     initialize: PropTypes.func,
     invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
     submitting: PropTypes.bool,
     handleSubmit: PropTypes.func,
     hasModeAuto: PropTypes.bool,
@@ -252,7 +253,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
   renderActionButtons = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      invalid, submitting, onBack, mode,
+      invalid, pristine, submitting, onBack, mode,
     } = this.props
     const label = mode === 'create' || mode === 'duplicate'
       ? formatMessage({ id: 'acquisition-chain.form.create.button' })
@@ -262,7 +263,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
         <CardActionsComponent
           mainButtonLabel={label}
           mainButtonType="submit"
-          isMainButtonDisabled={submitting || invalid}
+          isMainButtonDisabled={submitting || pristine || invalid}
           secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
           secondaryButtonClick={onBack}
         />
