@@ -88,6 +88,11 @@ const messages = Object.assign({
   'storage.locations.configuration.subtitle': 'Cette section vous permet de configurer les espaces de stockage utilisés par le système pour stocker les données soumises. Ci-dessous sont listés les types d\'espaces de stockage que vous pouvez utiliser. Pour chaque type, vous pouvez lister les configurations existantes ou en ajouter une nouvelle. Une fois vos espaces de stockage configurés, veuillez configurer une stratégie de répartition des données depuis l\'écran précédent',
 
   'storage.back.button': 'Retour',
+
+  'storage.type.ONLINE': 'Online',
+  'storage.type.OFFLINE': 'Offline',
+  'storage.type.NEARLINE': 'Nearline',
+  'storage.type.CACHE': 'Cache',
 }, Locales.fr)
 
 export default messages

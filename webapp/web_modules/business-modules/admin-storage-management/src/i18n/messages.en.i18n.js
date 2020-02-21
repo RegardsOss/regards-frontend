@@ -88,6 +88,11 @@ const messages = Object.assign({
   'storage.locations.configuration.subtitle': 'This section allows you to configure storage locations',
 
   'storage.back.button': 'Back',
+
+  'storage.type.ONLINE': 'Online',
+  'storage.type.OFFLINE': 'Offline',
+  'storage.type.NEARLINE': 'Nearline',
+  'storage.type.CACHE': 'Cache',
 }, Locales.en)
 
 export default messages

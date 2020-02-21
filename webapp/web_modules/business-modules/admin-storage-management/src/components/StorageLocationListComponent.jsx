@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
@@ -426,6 +427,8 @@ export class StorageLocationListComponent extends React.Component {
     return null
   }
 
+  formatType = entity => this.context.intl.formatMessage({ id: `storage.type.${get(entity, 'content.configuration.storageType', 'NONE')}` })
+
   render() {
     const {
       entities, isLoading, onUpPriority, onDownPriority,
@@ -439,7 +442,8 @@ export class StorageLocationListComponent extends React.Component {
         .label(formatMessage({ id: 'storage.location.list.header.name.label' }))
         .fixedSizing(150)
         .build(),
-      new TableColumnBuilder('column.storageType').titleHeaderCell().propertyRenderCell('content.configuration.storageType')
+      new TableColumnBuilder('column.storageType').titleHeaderCell()
+        .valuesRenderCell([{ getValue: this.formatType }])
         .label(formatMessage({ id: 'storage.location.list.header.type.label' }))
         .fixedSizing(100)
         .build(),
