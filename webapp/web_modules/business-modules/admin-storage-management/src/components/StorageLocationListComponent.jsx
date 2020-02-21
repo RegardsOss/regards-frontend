@@ -492,7 +492,9 @@ export class StorageLocationListComponent extends React.Component {
     const iconStyle = {
       margin: 5,
     }
-    const orderTypes = { ONLINE: 1, NEARLINE: 2, OFFLINE: 3 }
+    const orderTypes = {
+      ONLINE: 1, NEARLINE: 2, OFFLINE: 3, CACHE: 4,
+    }
     const sortedEntities = entities.sort(
       (entityA, entityB) => {
         const storageTypeA = entityA.content.configuration ? entityA.content.configuration.storageType : 'OFFLINE'
