@@ -66,6 +66,9 @@ const messages = Object.assign({
 
   'storage.data-storage.monitoring.button': 'Recalculer les occupations',
   'storage.data-storage.refresh.button': 'Rafraîchir',
+  'storage.data-storage.stop.button': 'Forcer l\'arrêt des traitements',
+  'storage.location.stop.confirm.title': 'Forcer l\'arrêt de tout les traitements',
+  'storage.location.stop.confirm.message': 'Cette action va arrêter tous les traitements en cours et les passer en erreur.',
   'storage.data-storage.monitoring.dialog.title': 'Lancer la supervision des espaces de stockages',
   'storage.data-storage.monitoring.dialog.checkbox': 'La supervision des espace de stockage permet de calculer pour chaque espace le nombre de fichiers stockés et la taille occupée ',
 

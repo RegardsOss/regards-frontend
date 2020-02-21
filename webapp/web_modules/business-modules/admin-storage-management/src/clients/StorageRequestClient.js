@@ -23,11 +23,16 @@ import { StorageClient } from '@regardsoss/client'
  *
  * @author Sébastien Binda
  */
-const { StorageRequestActions, getStorageRequestReducers, getStorageRequestSelectors } = StorageClient
+const {
+  StorageRequestActions, StorageRequestStopActions, getStorageRequestReducers, getStorageRequestSelectors,
+} = StorageClient
 
 const STORAGE_REQUEST_NAMESPACE = 'admin-storage/storageRequest'
+const STORAGE_STOP_REQUEST_NAMESPACE = 'admin-storage/storageRequest/stop'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'storage', 'storage-request']
 
 export const storageRequestActions = new StorageRequestActions(STORAGE_REQUEST_NAMESPACE)
 export const storageRequestReducers = getStorageRequestReducers(STORAGE_REQUEST_NAMESPACE)
 export const storageRequestSelectors = getStorageRequestSelectors(ENTITIES_STORE_PATH)
+
+export const storageRequestStopActions = new StorageRequestStopActions(STORAGE_STOP_REQUEST_NAMESPACE)

@@ -24,7 +24,7 @@ import {
   storageLocationDeleteFilesActions, storageLocationCopyFilesActions, storageLocationErrorsRetryActions,
   storageLocationMonitoringActions,
 } from '../clients/StorageLocationClient'
-import { storageRequestActions } from '../clients/StorageRequestClient'
+import { storageRequestActions, storageRequestStopActions } from '../clients/StorageRequestClient'
 import StorageLocationListComponent from '../components/StorageLocationListComponent'
 
 /**
@@ -64,6 +64,7 @@ export class StorageLocationListContainer extends React.Component {
       deleteErrors: (storage, type) => dispatch(storageRequestActions.deleteEntity(null, { storage, type })),
       fetchErrors: (storage, type) => dispatch(storageRequestActions.fetchPagedEntityList(0, 100, { storage, type }, { status: 'ERROR' })),
       relaunchMonitoring: reset => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
+      onStop: () => dispatch(storageRequestStopActions.stop()),
     }
   }
 
@@ -84,6 +85,7 @@ export class StorageLocationListContainer extends React.Component {
     fetchErrors: PropTypes.func.isRequired,
     deleteErrors: PropTypes.func.isRequired,
     relaunchMonitoring: PropTypes.func.isRequired,
+    onStop: PropTypes.func.isRequired,
   }
 
   componentWillMount() {
@@ -139,6 +141,7 @@ export class StorageLocationListContainer extends React.Component {
         onCopyFiles={this.props.copyFiles}
         onActivateToggle={this.onActivateToggle}
         onRefresh={this.props.fetch}
+        onStop={this.props.onStop}
         entities={this.props.entities}
         isLoading={this.props.isLoading}
         onRelaunchMonitoring={this.props.relaunchMonitoring}

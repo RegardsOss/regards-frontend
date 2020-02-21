@@ -66,6 +66,9 @@ const messages = Object.assign({
 
   'storage.data-storage.monitoring.button': 'Recalculate occupations',
   'storage.data-storage.refresh.button': 'Refresh',
+  'storage.data-storage.stop.button': 'Force stop all pending requests',
+  'storage.location.stop.confirm.title': 'Force stop all pending requests ?',
+  'storage.location.stop.confirm.message': 'This action will stop all running process and set them in error status.',
   'storage.data-storage.monitoring.dialog.title': 'Launch storage\'s supervision',
   'storage.data-storage.monitoring.dialog.checkbox': 'Storage supervision allow to calculate the size occupied and the number of files for each storage',
 

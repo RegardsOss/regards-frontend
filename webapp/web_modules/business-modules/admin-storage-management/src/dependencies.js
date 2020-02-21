@@ -36,7 +36,12 @@ const addDependencies = [
   pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
 ]
 
+const stopDependencies = [
+  new StorageClient.StorageRequestStopActions().getDependency(RequestVerbEnum.GET),
+]
+
 export default {
+  stopDependencies,
   listDependencies,
   addDependencies,
 }

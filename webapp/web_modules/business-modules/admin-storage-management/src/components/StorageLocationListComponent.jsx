@@ -27,6 +27,7 @@ import TextField from 'material-ui/TextField'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup,
   NoContentComponent, TableHeaderLineLoadingAndResults, ConfirmDialogComponent,
@@ -43,6 +44,9 @@ import StorageRequestListComponent from './StorageRequestListComponent'
 import StorageLocationActivityRenderer from './StorageLocationActivityRenderer'
 import messages from '../i18n'
 import styles from '../styles'
+import dependencies from '../dependencies'
+
+const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
 
 /**
 * Comment Here
@@ -61,6 +65,7 @@ export class StorageLocationListComponent extends React.Component {
     onDeleteFiles: PropTypes.func.isRequired,
     onCopyFiles: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onStop: PropTypes.func.isRequired,
     entities: StorageShapes.StorageLocationArray,
     isLoading: PropTypes.bool.isRequired,
     onRelaunchMonitoring: PropTypes.func.isRequired,
@@ -90,6 +95,7 @@ export class StorageLocationListComponent extends React.Component {
     deleteFilesForce: false,
     dialogType: null,
     errorsType: null,
+    confirmStop: false,
   }
 
   timerId = null
@@ -201,6 +207,12 @@ export class StorageLocationListComponent extends React.Component {
     this.setState({ relaunchMonitoringDialog: true })
   }
 
+  onSwitchConfirmStopDialog = () => {
+    this.setState({
+      confirmStop: !this.state.confirmStop,
+    })
+  }
+
   /**
    * Close all dialogs
    */
@@ -266,6 +278,40 @@ export class StorageLocationListComponent extends React.Component {
     this.setState({ deleteFilesForce: !this.state.deleteFilesForce })
   }
 
+  onStop = () => {
+    this.onSwitchConfirmStopDialog()
+    this.props.onStop()
+  }
+
+  rendeStopConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+    const actions = [
+      <FlatButton
+        key="close"
+        label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
+        onClick={this.onSwitchConfirmStopDialog}
+      />,
+      <FlatButton
+        key="confirm"
+        label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
+        primary
+        onClick={this.onStop}
+      />,
+    ]
+    return (
+      <PositionedDialog
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        title={formatMessage({ id: 'storage.location.stop.confirm.title' })}
+        open={this.state.confirmStop}
+        actions={actions}
+        dialogHeightPercent={20}
+        dialogWidthPercent={50}
+      >
+        <span>{formatMessage({ id: 'storage.location.stop.confirm.message' })}</span>
+      </PositionedDialog>
+    )
+  }
+
   renderDeleteFilesConfirmDialog = () => {
     const { entitytoDeleteFiles, deleteFilesForce } = this.state
     const { intl: { formatMessage } } = this.context
@@ -290,6 +336,7 @@ export class StorageLocationListComponent extends React.Component {
           title={formatMessage({ id: 'storage.location.delete.confirm.title' }, { name })}
           open={!!entitytoDeleteFiles}
           actions={actions}
+          dialogHeightPercent={20}
           dialogWidthPercent={50}
         >
           <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })} />
@@ -381,6 +428,7 @@ export class StorageLocationListComponent extends React.Component {
           title={formatMessage({ id: 'storage.location.copy.confirm.title' }, { name })}
           open={!!entitytoCopyFiles}
           actions={actions}
+          dialogHeightPercent={20}
           dialogWidthPercent={50}
         >
           <div>
@@ -514,6 +562,7 @@ export class StorageLocationListComponent extends React.Component {
         {this.renderRequestsDialog(ConfirmDialogComponentTypes.DELETE, 'storage.location.errors.delete.confirm.title', StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)}
         {this.renderRequestsDialog(null, 'storage.location.errors.view.title', StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)}
         {this.renderDeleteFilesConfirmDialog()}
+        {this.rendeStopConfirmDialog()}
         {this.renderCopyFilesConfirmDialog()}
         {this.renderRelaunchMonitoringConfirmDialog()}
         <TableLayout>
@@ -524,6 +573,13 @@ export class StorageLocationListComponent extends React.Component {
                 <RaisedButton
                   label={formatMessage({ id: 'storage.data-storage.monitoring.button' })}
                   onClick={this.onRelaunchMonitoring}
+                  primary
+                  style={iconStyle}
+                />
+                <RaisedButtonWithResourceDisplayControl
+                  resourceDependencies={dependencies.stopDependencies}
+                  label={formatMessage({ id: 'storage.data-storage.stop.button' })}
+                  onClick={this.onSwitchConfirmStopDialog}
                   primary
                   style={iconStyle}
                 />

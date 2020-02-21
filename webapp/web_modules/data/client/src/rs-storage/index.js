@@ -31,3 +31,4 @@ export { default as StorageLocationPriorityUpActions } from './location/StorageL
 export { default as StorageRequestActions } from './requests/StorageRequestActions'
 export { default as getStorageRequestReducers } from './requests/StorageRequestReducers'
 export { default as getStorageRequestSelectors } from './requests/SotrageRequestSelectors'
+export { default as StorageRequestStopActions } from './requests/StorageRequestStopActions'
