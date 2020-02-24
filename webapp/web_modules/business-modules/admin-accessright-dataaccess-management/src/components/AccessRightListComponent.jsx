@@ -76,6 +76,7 @@ export class AccessRightListComponent extends React.Component {
     backURL: PropTypes.string.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onFilter: PropTypes.func.isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -190,6 +191,7 @@ export class AccessRightListComponent extends React.Component {
             datasetAccessRightsToEdit={datasetAccessRightsToEdit}
             onCancel={this.closeEditDialog}
             onSubmit={this.handleSubmitAccessRights}
+            isSubmitting={this.props.isSubmitting}
             errorMessage={this.state.submitError ? this.context.intl.formatMessage({ id: 'accessright.form.error.message' }) : null}
           />
         </Dialog>

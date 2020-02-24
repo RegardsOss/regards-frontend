@@ -100,6 +100,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
         datasetAccessRightsToEdit,
         // from reduxForm
         submitting: false,
+        isSubmitting: false,
         invalid: false,
         handleSubmit: () => { },
         initialize: (values) => { spyInitialize.values = values },

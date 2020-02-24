@@ -50,6 +50,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       backURL: '#test',
       setFilters: () => { },
       isFetching: false,
+      isSubmitting: false,
       onRefresh: () => { },
       onFilter: () => { },
     }

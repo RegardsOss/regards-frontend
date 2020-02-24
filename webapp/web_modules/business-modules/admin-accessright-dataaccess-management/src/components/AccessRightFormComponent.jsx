@@ -19,6 +19,7 @@
 import map from 'lodash/map'
 import values from 'lodash/values'
 import { formValueSelector } from 'redux-form'
+import CircularProgress from 'material-ui/CircularProgress'
 import { CardActions, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
@@ -47,6 +48,7 @@ export class AccessRightFormComponent extends React.Component {
     onCancel: PropTypes.func.isRequired,
     errorMessage: PropTypes.string,
     datasetAccessRightsToEdit: PropTypes.arrayOf(DataManagementShapes.DatasetWithAccessRight).isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
@@ -95,13 +97,20 @@ export class AccessRightFormComponent extends React.Component {
     onSubmit(datasetAccessRightsToEdit, formValues)
   }
 
+  isSubmitable = () => {
+    const {
+      submitting, isSubmitting, invalid, pristine, datasetAccessRightsToEdit,
+    } = this.props
+    return !isSubmitting && !submitting && !invalid && (datasetAccessRightsToEdit.length > 1 || !pristine)
+  }
+
 
   render() {
     const {
-      submitting, invalid, pristine, selectedAccessLevel,
-      errorMessage, handleSubmit, onCancel,
+      selectedAccessLevel, errorMessage, handleSubmit, onCancel, submitting, isSubmitting,
     } = this.props
     const { intl: { formatMessage } } = this.context
+    const submitDisabled = !this.isSubmitable()
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
@@ -172,9 +181,9 @@ export class AccessRightFormComponent extends React.Component {
           {/* 5. Form actions */}
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'accessright.form.action.save' })}
+              mainButtonLabel={submitting || isSubmitting ? <CircularProgress size={30} /> : formatMessage({ id: 'accessright.form.action.save' })}
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid || pristine}
+              isMainButtonDisabled={submitDisabled}
               secondaryButtonLabel={formatMessage({ id: 'accessright.form.action.cancel' })}
               secondaryButtonClick={onCancel}
             />

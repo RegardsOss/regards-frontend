@@ -53,6 +53,7 @@ export class AccessRightListContainer extends React.Component {
 
   state ={
     filters: {},
+    isSubmitting: false,
   }
 
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
@@ -83,11 +84,17 @@ export class AccessRightListContainer extends React.Component {
         requests.push(this.props.createAccessRight(newAccessRight))
       }
     })
+    this.setState({
+      isSubmitting: true,
+    })
     // Run all promises together and wait the end to refresh the current access group
     return Promise.all(requests)
       .then((actionsResults) => {
         const errors = filter(actionsResults, ar => ar.error)
         this.refresh()
+        this.setState({
+          isSubmitting: false,
+        })
         return {
           error: errors && errors.length > 0,
         }
@@ -145,6 +152,7 @@ export class AccessRightListContainer extends React.Component {
         onFilter={this.filter}
         filters={this.state.filters}
         isFetching={this.props.isFetching}
+        isSubmitting={this.state.isSubmitting}
       />
     )
   }
