@@ -119,6 +119,7 @@ export default {
   'oais.requests.confirm.delete.close': 'Fermer',
   'oais.requests.confirm.delete.title': 'Supprimer les requêtes sélectionnées',
   'oais.requests.confirm.delete.message': 'Voulez vous supprimer les requêtes sélectionnées ?',
+  'oais.requests.confirm.delete.note': 'Attention, les requêtes en cours de traitement ne peuvent pas être supprimées.',
   'oais.requests.confirm.retry': 'Relancer',
   'oais.requests.confirm.retry.close': 'Fermer',
   'oais.requests.confirm.retry.title': 'Relancer les requêtes sélectionnées',

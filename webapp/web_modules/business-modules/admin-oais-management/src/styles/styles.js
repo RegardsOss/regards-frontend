@@ -106,6 +106,9 @@ const aipManagementStyles = theme => ({
       color: theme.palette.accent1Color,
     },
   },
+  noteStyle: {
+    color: theme.palette.accent1Color,
+  },
   summary: {
     granted: {
       mainMessage: {

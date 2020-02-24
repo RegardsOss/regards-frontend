@@ -19,6 +19,7 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
 /**
@@ -32,6 +33,7 @@ export class RequestDeleteDialog extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
 
@@ -57,7 +59,7 @@ export class RequestDeleteDialog extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
 
     return (
       <Dialog
@@ -66,7 +68,8 @@ export class RequestDeleteDialog extends React.Component {
         modal={false}
         open
       >
-        {formatMessage({ id: 'oais.requests.confirm.delete.message' })}
+        <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' })}</div>
+        <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>
       </Dialog>
     )
   }

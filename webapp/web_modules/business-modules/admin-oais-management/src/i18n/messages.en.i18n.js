@@ -119,6 +119,7 @@ export default {
   'oais.requests.confirm.delete.close': 'Close',
   'oais.requests.confirm.delete.title': 'Delete the selected request',
   'oais.requests.confirm.delete.message': 'Do you want to delete the selected request',
+  'oais.requests.confirm.delete.note': 'Note, requests in running status can not be deleted.',
   'oais.requests.confirm.retry': 'Retry',
   'oais.requests.confirm.retry.close': 'Close',
   'oais.requests.confirm.retry.title': 'Retry the selected request',
