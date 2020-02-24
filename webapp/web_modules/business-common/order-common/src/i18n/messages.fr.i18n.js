@@ -74,7 +74,7 @@ const messages = {
   'order.list.option.cell.download.metalink.tooltip': 'Télécharger le fichier metalink de la commande',
   'order.list.option.cell.delete.superficially.order.tooltip': 'Annuler la commande',
   'order.list.option.cell.delete.superficially.confirmation.title': 'Annuler la commande',
-  'order.list.option.cell.delete.superficially.confirmation.message': 'Etes-vous sûr de vouloir annuler la commabde sélectionnée ?',
+  'order.list.option.cell.delete.superficially.confirmation.message': 'Etes-vous sûr de vouloir annuler la commande sélectionnée ?',
   'order.list.option.cell.delete.superficially.confirmation.button': 'Confirmer',
   'order.list.option.cell.delete.completely.order.tooltip': 'Effacer complètement la commande et les données liées',
   'order.list.option.cell.delete.completely.confirmation.title': 'Suppression complète',
