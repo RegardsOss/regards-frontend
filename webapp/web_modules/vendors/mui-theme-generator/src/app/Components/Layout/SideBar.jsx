@@ -4,14 +4,25 @@ import concat from 'lodash/concat'
 import omit from 'lodash/omit'
 import { List, ListItem } from 'material-ui/List'
 import PaletteIcon from 'material-ui/svg-icons/image/palette'
-import ComponentIcon from 'material-ui/svg-icons/action/view-quilt'
-
+import MUIComponentsIcon from 'material-ui/svg-icons/action/view-quilt'
+import RegardsComponentsIcon from 'material-ui/svg-icons/image/remove-red-eye'
+import ModulesThemeIcon from 'mdi-material-ui/Puzzle'
 import { createAttributes } from '../ThemeSelector/Attribute'
 
+import { i18nContextType } from '@regardsoss/i18n'
 
-export const SideBar = ({
-  overwrites, theme, customConfigurationKeys, addToOverwrites, removeFromOverwrites, handleResetOverwrite
-}) => {
+export class SideBar extends React.Component {
+
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render(){
+  const {
+    overwrites, theme, customConfigurationKeys, addToOverwrites, 
+    removeFromOverwrites, handleResetOverwrite,
+  } = this.props
+ 
   const {
     alternativeTheme,
     mainTheme: {
@@ -19,6 +30,8 @@ export const SideBar = ({
       ...otherMainThemes
     }
   } = theme
+  const { intl: { formatMessage } } = this.context 
+
   const materialUIProps = omit(otherMainThemes, concat(customConfigurationKeys, 'rawTheme', 'baseTheme', 'themeName'))
   const regardsCustomComp = pick(otherMainThemes, customConfigurationKeys)
   const paletteItems = createAttributes(palette, overwrites, addToOverwrites, removeFromOverwrites, handleResetOverwrite, ['mainTheme', 'palette'], false, true)
@@ -30,30 +43,30 @@ export const SideBar = ({
     <div>
       <List>
         <ListItem
-          primaryText="Palette"
+          primaryText={formatMessage({id : 'palette.label'})}
           leftIcon={<PaletteIcon />}
           primaryTogglesNestedList
           nestedItems={paletteItems}
         />
         <ListItem
-          primaryText="Material components"
-          leftIcon={<ComponentIcon />}
+          primaryText={formatMessage({id : 'material.components.label'})}
+          leftIcon={<MUIComponentsIcon />}
           primaryTogglesNestedList
           nestedItems={materialItems}
         />
         <ListItem
-          primaryText="Regards components"
-          leftIcon={<ComponentIcon />}
+          primaryText={formatMessage({id : 'regards.components.label'})}
+          leftIcon={<RegardsComponentsIcon />}
           primaryTogglesNestedList
           nestedItems={regardsItems}
         />
         <ListItem
-          primaryText="Secondary theme"
-          leftIcon={<ComponentIcon />}
+          primaryText={formatMessage({id : 'secondary.theme.label'})}
+          leftIcon={<ModulesThemeIcon />}
           primaryTogglesNestedList
           nestedItems={alternativeItems}
         />
       </List>
-    </div>
-  )
+    </div>)
+  }
 }

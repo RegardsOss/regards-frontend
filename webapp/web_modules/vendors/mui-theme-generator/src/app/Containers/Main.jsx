@@ -3,10 +3,11 @@ import merge from 'lodash/merge'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme'
 import { getAlternativeThemeConfSubset, ThemeBuilder } from '@regardsoss/theme'
-
+import { withI18n } from '@regardsoss/i18n'
 import { Layout } from './Layout'
 import Components from '../Components/Components'
-import { SideBar } from '../Components/Layout/sidebar'
+import { SideBar } from '../Components/Layout/SideBar'
+import messages from '../i18n'
 
 
 const styles = {
@@ -29,7 +30,7 @@ const styles = {
 }
 
 
-export default class Main extends React.Component {
+class Main extends React.Component {
     static propTypes = {
       // theme stored on the server
       overwrites: PropTypes.shape({
@@ -73,3 +74,6 @@ export default class Main extends React.Component {
       )
     }
 }
+
+// export with intl context
+export default withI18n(messages)(Main)

@@ -5,6 +5,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 const styles = {
   container: {
+    marginTop: 25,
     display: 'flex',
     flexDirection: 'row',
   },
@@ -18,7 +19,7 @@ const styles = {
     overflow: 'auto',
   },
   left: {
-    width: 500,
+    width: 400,
     flexShrink: 0,
   },
   leftFixed: {
