@@ -44,28 +44,28 @@ class StorageLocationDeletionErrorRenderer extends React.Component {
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
   onRelaunchDeletingErrors = () => {
-    const { entity } = this.props
-    this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+    const { entity, onDeletionErrors } = this.props
+    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
   }
 
   onDeleteDeletingErrors = () => {
-    const { entity } = this.props
-    this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
+    const { entity, onDeletionErrors } = this.props
+    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
   onViewDeletionErrors = () => {
-    const { entity } = this.props
-    this.props.onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
+    const { entity, onDeletionErrors } = this.props
+    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
   }
 
   render() {
-    const { entity } = this.props
+    const { entity: { content: { nbDeletionError: errorsCount = 0 } } } = this.props
     const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, icon } } } } = this.context
 
     return (
       <div style={container}>
-        { entity.content.nbDeletionError ? entity.content.nbDeletionError : '-' }
-        { entity.content.nbDeletionError > 0 ? (
+        { formatMessage({ id: 'storage.location.list.errors.count' }, { errorsCount }) }
+        { errorsCount > 0 ? (
           <IconMenu
             iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
           >

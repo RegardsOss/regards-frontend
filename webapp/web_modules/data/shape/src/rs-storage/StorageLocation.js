@@ -20,11 +20,11 @@ import { StorageDomain } from '@regardsoss/domain'
 import { PluginConfigurationContent } from '../rs-common'
 
 export const StorageLocationConfiguration = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  id: PropTypes.number, // not mandatory due to emulated "internal-cache" configuration, that has no ID
+  priority: PropTypes.number, // not mandatory due to emulated "internal-cache"
   name: PropTypes.string.isRequired,
   pluginConfiguration: PluginConfigurationContent,
   storageType: PropTypes.oneOf(StorageDomain.DataStorageTypeEnumValues).isRequired,
-  priority: PropTypes.number.isRequired,
   allocatedSizeInKo: PropTypes.number,
 })
 

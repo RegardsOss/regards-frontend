@@ -25,6 +25,7 @@ export const DataStorageTypeEnum = {
   ONLINE: 'ONLINE',
   NEARLINE: 'NEARLINE',
   OFFLINE: 'OFFLINE',
+  CACHE: 'CACHE',
 }
 
 export const DataStorageTypeEnumValues = values(DataStorageTypeEnum)

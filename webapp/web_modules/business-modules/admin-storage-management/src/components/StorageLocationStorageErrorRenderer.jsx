@@ -23,13 +23,11 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
-import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { storageLocationErrorsRetryActions } from '../clients/StorageLocationClient'
 import { storageRequestActions } from '../clients/StorageRequestClient'
 import StorageLocationListComponent from './StorageLocationListComponent'
 
-const ResourcesIconMenu = withResourceDisplayControl(IconMenu)
-const ResourcesMenuItem = withResourceDisplayControl(MenuItem)
 /**
  * Show storage errors and a relauch button
  * @author Kévin Picart
@@ -37,6 +35,7 @@ const ResourcesMenuItem = withResourceDisplayControl(MenuItem)
 class StorageLocationStorageErrorRenderer extends React.Component {
   static propTypes = {
     entity: StorageShapes.StorageLocation,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onStorageErrors: PropTypes.func.isRequired,
   }
 
@@ -49,82 +48,67 @@ class StorageLocationStorageErrorRenderer extends React.Component {
 
   static buttonStyle = { padding: 0, height: 30, width: 30 }
 
-  static retryResource = storageLocationErrorsRetryActions.getDependency('GET')
+  static retryResource = [storageLocationErrorsRetryActions.getDependency('GET')]
 
-  static deleteResource = storageRequestActions.getDependency('DELETE')
+  static deleteResource = [storageRequestActions.getDependency('DELETE')]
 
-  static viewResource = storageRequestActions.getDependency('GET')
-
-  static resources = [StorageLocationStorageErrorRenderer.retryResource, StorageLocationStorageErrorRenderer.deleteResource, StorageLocationStorageErrorRenderer.viewResource]
-
-  state = {
-    menuOpened: false,
-  }
+  static viewResource = [storageRequestActions.getDependency('GET')]
 
   onRelaunchStoragesErrors = () => {
-    const { entity } = this.props
-    this.swithMenu()
-    this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+    const { entity, onStorageErrors } = this.props
+    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
   }
 
   onDeleteStoragesErrors = () => {
-    const { entity } = this.props
-    this.swithMenu()
-    this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
+    const { entity, onStorageErrors } = this.props
+    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
   }
 
   onViewStorageErrors = () => {
-    const { entity } = this.props
-    this.swithMenu()
-    this.props.onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
-  }
-
-  swithMenu = () => {
-    this.setState({
-      menuOpened: !this.state.menuOpened,
-    })
+    const { entity, onStorageErrors } = this.props
+    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
   }
 
   render() {
-    const { entity } = this.props
+    const { entity: { content: { nbStorageError: errorsCount = 0 } }, availableDependencies } = this.props
     const { intl: { formatMessage }, moduleTheme: { storageTable: { errorColumn: { container, icon } } } } = this.context
+    // compute allowed operations (lazy resources access computing)
+    const hasErrors = errorsCount > 0
+    const canRetry = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.retryResource, availableDependencies)
+    const canDelete = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.deleteResource, availableDependencies)
+    const canView = hasErrors && allMatchHateoasDisplayLogic(StorageLocationStorageErrorRenderer.viewResource, availableDependencies)
 
     return (
       <div style={container}>
-        { entity.content.nbStorageError ? entity.content.nbStorageError : '-' }
-        { entity.content.nbStorageError > 0 ? (
-          <ResourcesIconMenu
-            displayLogic={someMatchHateoasDisplayLogic}
-            open={this.state.menuOpened}
-            onClick={this.swithMenu}
-            resourceDependencies={StorageLocationStorageErrorRenderer.resources}
+        { formatMessage({ id: 'storage.location.list.errors.count' }, { errorsCount }) }
+        { canRetry || canDelete || canView ? (
+          <IconMenu
             iconButtonElement={<IconButton style={icon}><MoreVertIcon /></IconButton>}
           >
-            <ResourcesMenuItem
-              displayLogic={someMatchHateoasDisplayLogic}
-              resourceDependencies={StorageLocationStorageErrorRenderer.retryResource}
-              primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
-              onClick={this.onRelaunchStoragesErrors}
-              value="relaunch"
-              key="delete"
-            />
-            <ResourcesMenuItem
-              displayLogic={someMatchHateoasDisplayLogic}
-              resourceDependencies={StorageLocationStorageErrorRenderer.deleteResource}
-              primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
-              onClick={this.onDeleteStoragesErrors}
-              value="delete"
-              key="delete"
-            />
-            <ResourcesMenuItem
-              displayLogic={someMatchHateoasDisplayLogic}
-              resourceDependencies={StorageLocationStorageErrorRenderer.viewResource}
-              primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
-              onClick={this.onViewStorageErrors}
-              value="view"
-              key="view"
-            />
-          </ResourcesIconMenu>
+            { canRetry ? (
+              <MenuItem
+                primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
+                onClick={this.onRelaunchStoragesErrors}
+                key="relaunch"
+              />) : null
+            }
+            { canDelete ? (
+              <MenuItem
+                primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
+                onClick={this.onDeleteStoragesErrors}
+                key="delete"
+              />
+            ) : null
+            }
+            { canView ? (
+              <MenuItem
+                primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
+                onClick={this.onViewStorageErrors}
+                key="view"
+              />
+            ) : null
+            }
+          </IconMenu>
         ) : null }
       </div>
     )

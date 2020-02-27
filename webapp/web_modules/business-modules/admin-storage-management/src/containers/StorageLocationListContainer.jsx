@@ -19,6 +19,7 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { StorageShapes } from '@regardsoss/shape'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import {
   storageLocationActions, storageLocationSelectors, storageLocationPriorityDownActions, storageLocationPriorityUpActions,
   storageLocationDeleteFilesActions, storageLocationCopyFilesActions, storageLocationErrorsRetryActions,
@@ -42,6 +43,7 @@ export class StorageLocationListContainer extends React.Component {
     return {
       entities: storageLocationSelectors.getOrderedList(state),
       isLoading: storageLocationSelectors.isFetching(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
@@ -73,6 +75,7 @@ export class StorageLocationListContainer extends React.Component {
     // from mapStateToProps
     entities: StorageShapes.StorageLocationArray,
     isLoading: PropTypes.bool.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
@@ -129,6 +132,9 @@ export class StorageLocationListContainer extends React.Component {
   render() {
     return (
       <StorageLocationListComponent
+        entities={this.props.entities}
+        isLoading={this.props.isLoading}
+        availableDependencies={this.props.availableDependencies}
         onEdit={this.onEdit}
         onUpPriority={this.onUpPriority}
         onDownPriority={this.onDownPriority}
@@ -142,8 +148,6 @@ export class StorageLocationListContainer extends React.Component {
         onActivateToggle={this.onActivateToggle}
         onRefresh={this.props.fetch}
         onStop={this.props.onStop}
-        entities={this.props.entities}
-        isLoading={this.props.isLoading}
         onRelaunchMonitoring={this.props.relaunchMonitoring}
       />
     )

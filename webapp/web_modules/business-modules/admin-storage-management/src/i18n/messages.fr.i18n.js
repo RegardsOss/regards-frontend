@@ -35,6 +35,10 @@ const messages = Object.assign({
   'storage.location.list.activity.storing': 'Stockages en cours ...',
   'storage.location.list.activity.deleting': 'Suppressions en cours ...',
   'storage.location.list.activity.copying': 'Copies en cours ...',
+  'storage.location.list.errors.count': `{errorsCount, plural, 
+    =0 {-} 
+    other {#}
+  }`,
   'storage.location.list.edit.button': 'Éditer la configuration',
   'storage.location.list.copy.button': 'Copier les fichiers vers un autre storage',
   'storage.location.list.delete-files.button': 'Effacer les fichiers du storage',

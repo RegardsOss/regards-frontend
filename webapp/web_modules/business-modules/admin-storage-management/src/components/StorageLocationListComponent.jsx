@@ -56,6 +56,9 @@ export class StorageLocationListComponent extends React.Component {
   static addDependencies = [storageLocationActions.getDependency(RequestVerbEnum.POST)]
 
   static propTypes = {
+    entities: StorageShapes.StorageLocationArray,
+    isLoading: PropTypes.bool.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onEdit: PropTypes.func.isRequired,
     onUpPriority: PropTypes.func.isRequired,
     onDownPriority: PropTypes.func.isRequired,
@@ -66,8 +69,6 @@ export class StorageLocationListComponent extends React.Component {
     onCopyFiles: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onStop: PropTypes.func.isRequired,
-    entities: StorageShapes.StorageLocationArray,
-    isLoading: PropTypes.bool.isRequired,
     onRelaunchMonitoring: PropTypes.func.isRequired,
   }
 
@@ -479,8 +480,8 @@ export class StorageLocationListComponent extends React.Component {
 
   render() {
     const {
-      entities, isLoading, onUpPriority, onDownPriority,
-      onEdit, onRefresh,
+      entities, isLoading, availableDependencies,
+      onUpPriority, onDownPriority, onEdit, onRefresh,
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -505,7 +506,13 @@ export class StorageLocationListComponent extends React.Component {
         .label(formatMessage({ id: 'storage.location.list.header.total-size.label' }))
         .build(),
       new TableColumnBuilder('column.nbStorageError').titleHeaderCell()
-        .rowCellDefinition({ Constructor: StorageLocationStorageErrorRenderer, props: { onStorageErrors: this.onStorageErrors } })
+        .rowCellDefinition({
+          Constructor: StorageLocationStorageErrorRenderer,
+          props: {
+            availableDependencies,
+            onStorageErrors: this.onStorageErrors,
+          },
+        })
         .fixedSizing(110)
         .label(formatMessage({ id: 'storage.location.list.header.storage-error.label' }))
         .build(),
