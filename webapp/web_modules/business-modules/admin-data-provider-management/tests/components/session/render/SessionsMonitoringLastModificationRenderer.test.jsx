@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AccessDomain } from '@regardsoss/domain'
 import { DateValueRender } from '@regardsoss/components'
 import { SessionsMonitoringLastModificationRenderer } from '../../../../src/components/session/render/SessionsMonitoringLastModificationRenderer'
 import styles from '../../../../src/styles'
@@ -46,7 +47,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringLastModific
           creationDate: '2019-07-30T08:38:27.177Z',
           lastUpdateDate: '2019-07-30T08:38:27.184Z',
           isLatest: true,
-          state: 'ERROR',
+          state: AccessDomain.SESSION_STATUS_ENUM.ERROR,
           lifeCycle: {},
         },
         links: [

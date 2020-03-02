@@ -18,9 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import OkIcon from 'material-ui/svg-icons/action/done'
-import DeletedIcon from 'material-ui/svg-icons/action/delete-forever'
-import ErrorIcon from 'material-ui/svg-icons/alert/error'
+import { AccessDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringStateRenderer } from '../../../../src/components/session/render/SessionsMonitoringStateRenderer'
 import styles from '../../../../src/styles'
@@ -38,7 +36,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringStateRender
   it('should exists', () => {
     assert.isDefined(SessionsMonitoringStateRenderer)
   })
-  it('should render correctly OK state', () => {
+  AccessDomain.SESSION_STATUS.forEach(state => it(`should render correctly in state ${state}`, () => {
     const props = {
       entity: {
         content: {
@@ -48,54 +46,15 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringStateRender
           creationDate: '2019-07-30T08:38:27.177Z',
           lastUpdateDate: '2019-07-30T08:38:27.184Z',
           isLatest: true,
-          state: 'OK',
+          state,
           lifeCycle: {},
         },
         links: [],
       },
     }
     const enzymeWrapper = shallow(<SessionsMonitoringStateRenderer {...props} />, { context })
-    const okIcon = enzymeWrapper.find(OkIcon)
-    assert.lengthOf(okIcon, 1, 'There should be 1 OkIcon')
-  })
-  it('should render correctly ERROR state', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'ERROR',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-    }
-    const enzymeWrapper = shallow(<SessionsMonitoringStateRenderer {...props} />, { context })
-    const errorIcon = enzymeWrapper.find(ErrorIcon)
-    assert.lengthOf(errorIcon, 1, 'There should be 1 ErrorIcon')
-  })
-  it('should render correctly DELETED state', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'DELETED',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-    }
-    const enzymeWrapper = shallow(<SessionsMonitoringStateRenderer {...props} />, { context })
-    const deletedIcon = enzymeWrapper.find(DeletedIcon)
-    assert.lengthOf(deletedIcon, 1, 'There should be 1 DeletedIcon')
-  })
+    assert.lengthOf(enzymeWrapper.find(SessionsMonitoringStateRenderer.STATUS_ICON_CONSTRUCTOR[state]), 1, 'There should be status icon')
+    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === `acquisition-sessions.state.${state}`), 1,
+      'State should be rendered as internationalized tooltip')
+  }))
 })

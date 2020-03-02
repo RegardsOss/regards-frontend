@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -40,8 +41,8 @@ export class SessionsMonitoringCreationDateRenderer extends React.Component {
     const { entity } = this.props
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
-        isDeleted={entity.content.state === 'DELETED'}
+        isInError={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.ERROR}
+        isDeleted={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={gridSessionContainer}>
           <div style={headerSession}>

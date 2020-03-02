@@ -23,17 +23,22 @@
  */
 import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
-import Play from 'material-ui/svg-icons/av/play-arrow'
-import { MenuItem } from 'material-ui'
-import { DropDownButton } from '@regardsoss/components'
+import RunningIcon from 'material-ui/svg-icons/av/play-arrow'
+import MenuItem from 'material-ui/MenuItem'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { DropDownButton } from '@regardsoss/components'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
+import { sessionsRelaunchProductActions } from '../../../clients/session/SessionsClient'
 
-class SessionsMonitoringProductsGenerated extends React.Component {
+class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onRelaunchProducts: PropTypes.func.isRequired,
     onShowProducts: PropTypes.func.isRequired,
   }
@@ -42,6 +47,9 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  /** Dependencies for relaunch action */
+  static RELAUNCH_DEPENCIES = [sessionsRelaunchProductActions.getDependency(RequestVerbEnum.GET)]
 
   onClickRelaunchProducts = () => {
     const { entity, onRelaunchProducts } = this.props
@@ -91,11 +99,6 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     return parseInt(error, 10)
   }
 
-  getAllerrors = (entity) => {
-    const { intl: { formatNumber } } = this.context
-    return formatNumber(parseInt(this.getErrors(entity, false), 10) + parseInt(this.getInvalids(entity, false), 10))
-  }
-
   onShowErrors = () => {
     this.props.onShowProducts(this.props.entity)
   }
@@ -128,16 +131,18 @@ class SessionsMonitoringProductsGenerated extends React.Component {
         },
       },
     } = this.context
-    const { entity } = this.props
+    const { entity, availableDependencies } = this.props
 
     const actions = []
     if (this.getErrors(entity, false) > 0) {
-      actions.push(<MenuItem
-        key="relaunch"
-        primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
-        onClick={this.onClickRelaunchProducts}
-        value="relaunch"
-      />)
+      if (allMatchHateoasDisplayLogic(SessionsMonitoringProductsGeneratedRenderer.RELAUNCH_DEPENCIES, availableDependencies)) {
+        actions.push(<MenuItem
+          key="relaunch"
+          primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.relaunch' })}
+          onClick={this.onClickRelaunchProducts}
+          value="relaunch"
+        />)
+      }
       actions.push(<MenuItem
         key="show-errors"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.errors' })}
@@ -147,10 +152,10 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     }
     if (this.getInvalids(entity, false) > 0) {
       actions.push(<MenuItem
-        key="show-incomplete"
+        key="show-invalids"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.invalids' })}
         onClick={this.onShowInvalids}
-        value="show-incomplete"
+        value="show-invalids"
       />)
     }
     if (this.getIncompletes(entity, false) > 0) {
@@ -164,8 +169,8 @@ class SessionsMonitoringProductsGenerated extends React.Component {
 
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
-        isDeleted={entity.content.state === 'DELETED'}
+        isInError={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.ERROR}
+        isDeleted={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={cellContainer}>
           { !entity.content.lifeCycle.dataprovider ? (
@@ -179,7 +184,7 @@ class SessionsMonitoringProductsGenerated extends React.Component {
               <div style={gridHeaderContainer}>
                 { entity.content.lifeCycle.dataprovider.state === 'RUNNING' ? (
                   <div style={runningContainer}>
-                    <Play color={runningIconColor} />
+                    <RunningIcon color={runningIconColor} />
                     <div style={running}>
                       {formatMessage({ id: 'acquisition-sessions.states.running' })}
                     </div>
@@ -237,4 +242,4 @@ class SessionsMonitoringProductsGenerated extends React.Component {
     )
   }
 }
-export default SessionsMonitoringProductsGenerated
+export default SessionsMonitoringProductsGeneratedRenderer

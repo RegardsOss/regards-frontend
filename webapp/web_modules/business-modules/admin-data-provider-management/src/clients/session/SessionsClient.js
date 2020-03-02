@@ -30,7 +30,6 @@ export const sessionsReducer = AdminClient.getSessionsReducer(REDUX_ACTION_NAMES
 export const sessionsSelectors = AdminClient.getSessionsSelectors(ENTITIES_STORE_PATH)
 
 export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchProductActions(REDUX_ACTION_NAMESPACE)
-export const sessionsRelaunchSIPActions = new AdminClient.SessionsRelaunchSIPActions(REDUX_ACTION_NAMESPACE)
 export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(REDUX_ACTION_NAMESPACE)
 
 export const SESSION_ENDPOINT = AdminClient.SessionsActions.ENDPOINT

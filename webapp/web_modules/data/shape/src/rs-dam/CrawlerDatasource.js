@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export const CrawlerDatasourceContent = PropTypes.shape({
-  id: PropTypes.number,
+  id: PropTypes.string,
   label: PropTypes.string,
   savedObjectsCount: PropTypes.number,
   stackTrace: PropTypes.string,

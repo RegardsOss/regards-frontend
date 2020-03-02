@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { AccessDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringComponent } from '../../../src/components/session/SessionsMonitoringComponent'
 import { SessionsMonitoringContainer } from '../../../src/containers/session/SessionsMonitoringContainer'
@@ -52,6 +53,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       params: {
         project: 'test1',
       },
+      availableDependencies: [],
       deleteSession: () => {},
       relaunchProducts: () => {},
       relaunchAIP: () => {},
@@ -70,7 +72,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
       onSort: wrapperInstance.onSort,
       columnsSorting: [{ columnKey: 'column.lastUpdateDate', order: 'DESCENDING_ORDER' }],
       columnsVisibility: {},
-      requestParameters: { sort: [], state: ['ERROR'] },
+      requestParameters: { sort: [], state: [AccessDomain.SESSION_STATUS_ENUM.ERROR] },
       initialFilters: {
         source: '',
         session: '',

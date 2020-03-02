@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { AccessDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringSourceRenderer } from '../../../../src/components/session/render/SessionsMonitoringSourceRenderer'
 import styles from '../../../../src/styles'
@@ -45,12 +46,13 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringSourceRende
           creationDate: '2019-07-30T08:38:27.177Z',
           lastUpdateDate: '2019-07-30T08:38:27.184Z',
           isLatest: true,
-          state: 'ERROR',
+          state: AccessDomain.SESSION_STATUS_ENUM.ERROR,
           lifeCycle: {},
         },
         links: [],
       },
     }
-    shallow(<SessionsMonitoringSourceRenderer {...props} />, { context })
+    const enzymeWrapper = shallow(<SessionsMonitoringSourceRenderer {...props} />, { context })
+    assert.include(enzymeWrapper.debug(), props.entity.content.source, 'Source should be rendered')
   })
 })

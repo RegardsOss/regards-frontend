@@ -32,29 +32,10 @@ export const Session = PropTypes.shape({
     lastUpdateDate: PropTypes.string.isRequired,
     state: PropTypes.oneOf(AccessDomain.SESSION_STATUS).isRequired,
     lifeCycle: PropTypes.shape({
-      products: PropTypes.shape({
-        running: PropTypes.bool,
-        done: PropTypes.number,
-        errors: PropTypes.number,
-        incomplete: PropTypes.number,
-      }),
-      sip: PropTypes.shape({
-        done: PropTypes.number,
-        total: PropTypes.number,
-        pending: PropTypes.number,
-        invalid: PropTypes.number,
-        refused: PropTypes.number,
-        errors: PropTypes.number,
-        generatedAIP: PropTypes.number,
-      }),
-      aip: PropTypes.shape({
-        done: PropTypes.number,
-        total: PropTypes.number,
-        pending: PropTypes.number,
-        errors: PropTypes.number,
-        indexed: PropTypes.number,
-      }),
-    }).isRequired,
+      dataprovider: PropTypes.object,
+      oais: PropTypes.object,
+      catalog: PropTypes.object,
+    }),
   }).isRequired,
   links: PropTypes.arrayOf(HateOASLink).isRequired,
 })

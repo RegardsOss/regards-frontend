@@ -23,17 +23,24 @@
  */
 import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
-import Play from 'material-ui/svg-icons/av/play-arrow'
-import { MenuItem } from 'material-ui'
-import { DropDownButton } from '@regardsoss/components'
+import MenuItem from 'material-ui/MenuItem'
+import RunningIcon from 'material-ui/svg-icons/av/play-arrow'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
+import { IngestClient } from '@regardsoss/client'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { DropDownButton } from '@regardsoss/components'
+import { sessionsRelaunchAIPActions } from '../../../clients/session/SessionsClient'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
-class SessionsMonitoringProductsStored extends React.Component {
+
+class SessionsMonitoringProductsStoredRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onRelaunchProductsOAIS: PropTypes.func.isRequired,
     onViewProductsOAIS: PropTypes.func.isRequired,
     onViewRequestsOAIS: PropTypes.func.isRequired,
@@ -43,6 +50,15 @@ class SessionsMonitoringProductsStored extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  /** Dependencies for relaunch action */
+  static RELAUNCH_DEPENCIES = [sessionsRelaunchAIPActions.getDependency(RequestVerbEnum.POST)]
+
+  /** Depencies for AIP list displaying */
+  static AIP_LIST_DEPENDENCIES = [new IngestClient.AIPActions('any').getDependency(RequestVerbEnum.POST)]
+
+  /** Depencies for AIP list displaying */
+  static REQUEST_LIST_DEPENDENCIES = [new IngestClient.RequestActions('any').getDependency(RequestVerbEnum.POST)]
 
   onClickRelaunch = () => {
     const { entity, onRelaunchProductsOAIS } = this.props
@@ -81,12 +97,7 @@ class SessionsMonitoringProductsStored extends React.Component {
     return parseInt(errorSip, 10) + parseInt(errorAip, 10) + parseInt(errorMetaAip, 10)
   }
 
-  getTotal = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.oais.products', 0)
-    return parseInt(stored, 10)
-  }
-
-  renderRunning = (stored, storagePending, generating, errors) => {
+  renderRunning = (storagePending, generating) => {
     if (storagePending > 0 || generating > 0) {
       const {
         intl: { formatMessage },
@@ -104,7 +115,7 @@ class SessionsMonitoringProductsStored extends React.Component {
       } = this.context
       return (
         <div style={runningContainer}>
-          <Play color={runningIconColor} />
+          <RunningIcon color={runningIconColor} />
           <div style={running}>
             {formatMessage({ id: 'acquisition-sessions.states.running' })}
           </div>
@@ -112,48 +123,6 @@ class SessionsMonitoringProductsStored extends React.Component {
       )
     }
     return null
-  }
-
-  renderProgressBar = (stored, storagePending, generating, errors) => {
-    const {
-      intl: { formatMessage },
-      moduleTheme: {
-        sessionsStyles: {
-          gridCell: {
-            barGraphContainer,
-            barGraph: {
-              done, pending, error,
-            },
-          },
-        },
-      },
-    } = this.context
-    const { entity } = this.props
-
-    const pendings = storagePending + generating
-    const total = this.getTotal(entity)
-
-    let donePlusWidth
-    let errorPlusWidth
-    let pendingPlusWidth
-
-    if (entity.content.lifeCycle.oais) {
-      const errorWidth = errors > 0 ? Math.round(errors * 100 / total) : 0
-      const pendingWidth = pendings > 0 ? Math.round(pendings * 100 / total) : 0
-      const storedWidth = stored > 0 ? Math.round(stored * 100 / total) : 0
-
-      donePlusWidth = { ...done, width: `${storedWidth}%` }
-      errorPlusWidth = { ...error, width: `${errorWidth}%` }
-      pendingPlusWidth = { ...pending, width: `${pendingWidth}%` }
-    }
-
-    return (
-      <div style={barGraphContainer}>
-        <div style={donePlusWidth} title={`${stored} ${formatMessage({ id: 'acquisition-sessions.states.stored' })}`} />
-        <div style={errorPlusWidth} title={`${errors} ${formatMessage({ id: 'acquisition-sessions.states.error' })}`} />
-        <div style={pendingPlusWidth} title={`${pendings} ${formatMessage({ id: 'acquisition-sessions.states.pending' })}`} />
-      </div>
-    )
   }
 
   render() {
@@ -171,7 +140,7 @@ class SessionsMonitoringProductsStored extends React.Component {
         },
       },
     } = this.context
-    const { entity } = this.props
+    const { entity, availableDependencies } = this.props
 
     const generating = this.getGenerating(entity)
     const stored = this.getStored(entity)
@@ -180,7 +149,26 @@ class SessionsMonitoringProductsStored extends React.Component {
 
 
     const items = []
-    if (storagePending + stored > 0) {
+    if (errors > 0) {
+      if (allMatchHateoasDisplayLogic(SessionsMonitoringProductsStoredRenderer.RELAUNCH_DEPENCIES, availableDependencies)) {
+        items.push(<MenuItem
+          key="relauncherrors"
+          primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
+          onClick={this.onClickRelaunch}
+          value="relauncherrors"
+        />)
+      }
+      if (allMatchHateoasDisplayLogic(SessionsMonitoringProductsStoredRenderer.REQUEST_LIST_DEPENDENCIES, availableDependencies)) {
+        items.push(<MenuItem
+          key="listerrors"
+          primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
+          onClick={this.onClickListRequestErrors}
+          value="listerrors"
+        />)
+      }
+    }
+    if (storagePending + stored > 0
+      && allMatchHateoasDisplayLogic(SessionsMonitoringProductsStoredRenderer.AIP_LIST_DEPENDENCIES, availableDependencies)) {
       items.push(<MenuItem
         key="listaips"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list' })}
@@ -188,25 +176,11 @@ class SessionsMonitoringProductsStored extends React.Component {
         value="listaips"
       />)
     }
-    if (errors > 0) {
-      items.push(<MenuItem
-        key="listerrors"
-        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.list.error' })}
-        onClick={this.onClickListRequestErrors}
-        value="listerrors"
-      />)
-      items.push(<MenuItem
-        key="relauncherrors"
-        primaryText={formatMessage({ id: 'acquisition-sessions.menus.archives.relaunch' })}
-        onClick={this.onClickRelaunch}
-        value="relauncherrors"
-      />)
-    }
 
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
-        isDeleted={entity.content.state === 'DELETED'}
+        isInError={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.ERROR}
+        isDeleted={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={cellContainer}>
           { !entity.content.lifeCycle.oais ? (
@@ -218,7 +192,7 @@ class SessionsMonitoringProductsStored extends React.Component {
           ) : (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-                {this.renderRunning(stored, storagePending, generating, errors)}
+                {this.renderRunning(storagePending, generating)}
               </div>
               <div style={infosContainer}>
                 <div style={lineFourContainer}>
@@ -260,4 +234,4 @@ class SessionsMonitoringProductsStored extends React.Component {
     )
   }
 }
-export default SessionsMonitoringProductsStored
+export default SessionsMonitoringProductsStoredRenderer

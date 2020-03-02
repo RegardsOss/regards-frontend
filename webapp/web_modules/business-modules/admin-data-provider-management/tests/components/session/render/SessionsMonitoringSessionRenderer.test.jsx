@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { MenuItem } from 'material-ui'
+import { AccessDomain } from '@regardsoss/domain'
 import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringSessionRenderer } from '../../../../src/components/session/render/SessionsMonitoringSessionRenderer'
@@ -37,76 +38,81 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
   it('should exists', () => {
     assert.isDefined(SessionsMonitoringSessionRenderer)
   })
-  it('should render correctly', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'ERROR',
-          lifeCycle: {},
-        },
-        links: [],
+  function createEntity(name, state = AccessDomain.SESSION_STATUS_ENUM.OK) {
+    return {
+      content: {
+        id: 9,
+        name: 'Name',
+        source: 'Source 3',
+        creationDate: '2019-07-30T08:38:27.177Z',
+        lastUpdateDate: '2019-07-30T08:38:27.184Z',
+        isLatest: true,
+        state,
+        lifeCycle: {},
       },
+      links: [],
+    }
+  }
+  const testCases = [{
+    testLabel: 'without option (no dependency)',
+    entity: createEntity('session1', AccessDomain.SESSION_STATUS_ENUM.DELETED),
+    hasAck: false,
+    hasDelete: false,
+    dependencies: [],
+  }, {
+    testLabel: 'with delete option',
+    entity: createEntity('session2', AccessDomain.SESSION_STATUS_ENUM.OK),
+    hasAck: false,
+    hasDelete: true,
+    dependencies: [...SessionsMonitoringSessionRenderer.DELETE_DEPENDENCIES],
+  }, {
+    testLabel: 'with ack option',
+    entity: createEntity('session1', AccessDomain.SESSION_STATUS_ENUM.ERROR),
+    hasAck: true,
+    hasDelete: false,
+    dependencies: [...SessionsMonitoringSessionRenderer.ACK_DEPENDENCIES],
+  }, {
+    testLabel: 'with all options',
+    entity: createEntity('session1', AccessDomain.SESSION_STATUS_ENUM.ERROR),
+    hasAck: true,
+    hasDelete: true,
+    dependencies: [...SessionsMonitoringSessionRenderer.ACK_DEPENDENCIES, ...SessionsMonitoringSessionRenderer.DELETE_DEPENDENCIES],
+  }]
+  testCases.forEach(({
+    testLabel, entity,
+    hasAck, hasDelete,
+    dependencies,
+  }) => it(`should render correctly ${testLabel}`, () => {
+    const props = {
+      entity,
+      availableDependencies: dependencies,
       onShowAcknowledge: () => {},
       onShowDeleteConfirm: () => {},
     }
     const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 2, 'There should be 2 MenuItem')
-  })
-  it('should render correctly DELETED', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'DELETED',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-      onShowAcknowledge: () => {},
-      onShowDeleteConfirm: () => {},
+    // 1 - Check options
+    const dropDownMenu = enzymeWrapper.find(DropDownButton)
+    if (hasAck || hasDelete) {
+      // 1.a - Check menu then options in menu
+      assert.lengthOf(dropDownMenu, 1, 'Menu should be shown')
+      const menuItems = dropDownMenu.find(MenuItem)
+      const instance = enzymeWrapper.instance()
+      if (hasAck) {
+        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowAcknowledgeDialog), 1, 'There should be ACK option')
+      } else {
+        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowAcknowledgeDialog), 0, 'There should not be ACK option')
+      }
+      if (hasDelete) {
+        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onDeleteSession), 1, 'There should be delete option')
+      } else {
+        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onDeleteSession), 0, 'There should not be delete option')
+      }
+    } else {
+      // 1.b - Check menu is not displayed
+      assert.lengthOf(dropDownMenu, 0, 'Menu should not be shown')
     }
-    const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 1, 'There should be 1 MenuItem')
-  })
-  it('should render correctly OK', () => {
-    const props = {
-      entity: {
-        content: {
-          id: 9,
-          name: 'Name',
-          source: 'Source 3',
-          creationDate: '2019-07-30T08:38:27.177Z',
-          lastUpdateDate: '2019-07-30T08:38:27.184Z',
-          isLatest: true,
-          state: 'OK',
-          lifeCycle: {},
-        },
-        links: [],
-      },
-      onShowAcknowledge: () => {},
-      onShowDeleteConfirm: () => {},
-    }
-    const enzymeWrapper = shallow(<SessionsMonitoringSessionRenderer {...props} />, { context })
-    const dropDownButton = enzymeWrapper.find(DropDownButton)
-    assert.lengthOf(dropDownButton, 1, 'There should be 1 DropDownButton')
-    const menuItem = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItem, 1, 'There should be 1 MenuItem')
-  })
+    // 2 - Check session name is rendered
+    const asText = enzymeWrapper.debug()
+    assert.include(asText, entity.content.name)
+  }))
 })

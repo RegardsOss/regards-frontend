@@ -66,8 +66,8 @@ export class SessionsMonitoringStateRenderer extends React.Component {
 
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
-        isDeleted={entity.content.state === 'DELETED'}
+        isInError={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.ERROR}
+        isDeleted={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={gridSessionContainer}>
           <div style={headerSession} title={formatMessage({ id: `acquisition-sessions.state.${entity.content.state}` })}>

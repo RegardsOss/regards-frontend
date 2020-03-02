@@ -22,12 +22,14 @@ import values from 'lodash/values'
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, AccessDomain } from '@regardsoss/domain'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { RefreshPageableTableOption } from '@regardsoss/components'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
-  sessionsActions, sessionsSelectors, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchProductActions, sessionsRelaunchSIPActions, sessionsRelaunchAIPActions,
+  sessionsActions, sessionsSelectors, SESSION_ENDPOINT, SESSION_ENTITY_ID, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
 } from '../../clients/session/SessionsClient'
 import { SessionsMonitoringComponent } from '../../components/session/SessionsMonitoringComponent'
 import messages from '../../i18n'
@@ -39,11 +41,13 @@ export class SessionsMonitoringContainer extends React.Component {
     deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
     relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
     relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
-    relaunchSIP: (source, name) => dispatch(sessionsRelaunchSIPActions.relaunchProducts(source, name)),
-    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, verb)),
+    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, RequestVerbEnum.PATCH)),
   })
 
-  static mapStateToProps = state => RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors })
+  static mapStateToProps = state => ({
+    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    ...RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors }),
+  })
 
   static propTypes = {
     // from router
@@ -55,6 +59,7 @@ export class SessionsMonitoringContainer extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     acknowledgeSessionState: PropTypes.func.isRequired,
     // From mapstate to props
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     fetchSessions: PropTypes.func.isRequired,
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
@@ -111,7 +116,7 @@ export class SessionsMonitoringContainer extends React.Component {
       requestParameters.name = [applyingFiltersState.session]
     }
     if (applyingFiltersState.errorsOnly) {
-      requestParameters.state = ['ERROR']
+      requestParameters.state = [AccessDomain.SESSION_STATUS_ENUM.ERROR]
     }
     if (applyingFiltersState.lastSessionOnly) {
       requestParameters.onlyLastSession = [true]
@@ -168,7 +173,7 @@ export class SessionsMonitoringContainer extends React.Component {
    */
   acknowledgeSessionState = (id) => {
     const { acknowledgeSessionState } = this.props
-    acknowledgeSessionState(id, { state: 'ACKNOWLEDGED' }, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}`, 'PATCH')
+    acknowledgeSessionState(id, { state: AccessDomain.SESSION_STATUS_ENUM.ACKNOWLEDGED }, `${SESSION_ENDPOINT}/{${SESSION_ENTITY_ID}}`)
   }
 
   /**
@@ -395,12 +400,14 @@ export class SessionsMonitoringContainer extends React.Component {
   }
 
   render = () => {
+    const { availableDependencies } = this.props
     const {
       columnsSorting, requestParameters, filtersEdited, canEmptyFilters, editionFiltersState, columnsVisibility,
     } = this.state
 
     return (
       <SessionsMonitoringComponent
+        availableDependencies={availableDependencies}
         onBack={this.onBack}
         onAcknowledge={this.acknowledgeSessionState}
         onSort={this.onSort}

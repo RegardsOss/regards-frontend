@@ -20,11 +20,15 @@
 
 import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
-import { MenuItem } from 'material-ui'
-import { DropDownButton } from '@regardsoss/components'
+import MenuItem from 'material-ui/MenuItem'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
+import { DropDownButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { DataManagementClient } from '@regardsoss/client'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
@@ -34,6 +38,7 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 export class SessionsMonitoringIndexedRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onGoToDatasources: PropTypes.func.isRequired,
   }
 
@@ -42,16 +47,19 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
     ...i18nContextType,
   }
 
+  /** Dependencies to display crawler list */
+  static DATASOURCES_LIST_DEPENDENCIES = [new DataManagementClient.CrawlerDatasourceActions('').getDependency(RequestVerbEnum.GET_LIST)]
+
   getIndexed = (entity) => {
     const { intl: { formatNumber } } = this.context
     const indexed = get(entity, 'content.lifeCycle.catalog.indexed', 0)
-    return formatNumber(parseInt(indexed, 10))
+    return formatNumber(indexed)
   }
 
   getErrors = (entity) => {
     const { intl: { formatNumber } } = this.context
     const indexed = get(entity, 'content.lifeCycle.catalog.indexedError', 0)
-    return formatNumber(parseInt(indexed, 10))
+    return formatNumber(indexed)
   }
 
   render() {
@@ -69,22 +77,24 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
         },
       },
     } = this.context
-    const { entity } = this.props
+    const { entity, availableDependencies } = this.props
 
     const actions = []
-    actions.push(<MenuItem
-      key="indexation"
-      primaryText={formatMessage({ id: 'acquisition-sessions.menus.index.view' })}
-      onClick={this.props.onGoToDatasources}
-      value="indexation"
-    />)
+    if (allMatchHateoasDisplayLogic(SessionsMonitoringIndexedRenderer.DATASOURCES_LIST_DEPENDENCIES, availableDependencies)) {
+      actions.push(<MenuItem
+        key="indexation"
+        primaryText={formatMessage({ id: 'acquisition-sessions.menus.index.view' })}
+        onClick={this.props.onGoToDatasources}
+        value="indexation"
+      />)
+    }
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={entity.content.state === 'ERROR'}
-        isDeleted={entity.content.state === 'DELETED'}
+        isInError={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.ERROR}
+        isDeleted={entity.content.state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={cellContainer}>
-          { !entity.content.lifeCycle.oais ? (
+          { !entity.content.lifeCycle.catalog ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
             -
@@ -111,7 +121,7 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
                   <div style={three} />
                   <div style={four}>{this.getErrors(entity)}</div>
                 </div>
-                {actions.length > 0
+                { actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
                     <DropDownButton
                       title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}

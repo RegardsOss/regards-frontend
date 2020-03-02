@@ -24,9 +24,9 @@ import {
 import PageView from 'material-ui/svg-icons/action/pageview'
 import NoSessionIcon from 'material-ui/svg-icons/image/crop-free'
 import RaisedButton from 'material-ui/RaisedButton'
+import { CommonDomain, AccessDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, NoContentComponent, CardActionsComponent, Breadcrumb,
   PositionedDialog, ConfirmDialogComponent, ConfirmDialogComponentTypes,
@@ -46,6 +46,7 @@ import SessionDeleteDialogComponent from './SessionDeleteDialogComponent'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     columnsSorting: PropTypes.arrayOf(PropTypes.shape({
       columnKey: PropTypes.string,
       order: PropTypes.oneOf(CommonDomain.SORT_ORDERS),
@@ -257,7 +258,7 @@ export class SessionsMonitoringComponent extends React.Component {
     }
     const title = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.title' }, titleParameters)
     const message = formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.message' })
-    const allowForceOption = get(sessionToDelete, 'content.state', 'undefined') === 'DELETED'
+    const allowForceOption = get(sessionToDelete, 'content.state', 'undefined') === AccessDomain.SESSION_STATUS_ENUM.DELETED
     return (<SessionDeleteDialogComponent
       title={title}
       message={message}
@@ -272,9 +273,13 @@ export class SessionsMonitoringComponent extends React.Component {
   render() {
     const { intl: { formatMessage }, muiTheme: { sessionsMonitoring: { rowHeight }, components: { infiniteTable: { admin: { minRowCount } } } } } = this.context
     const {
-      onBack, onSort, columnsSorting, requestParameters, onApplyFilters, onClearFilters, filtersEdited, canEmptyFilters, onToggleErrorsOnly, onToggleLastSession,
-      initialFilters, onChangeFrom, onChangeTo, onChangeSource, onChangeSession, onChangeColumnsVisibility, columnsVisibility,
-      onDeleteSession, onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts, onGoToDatasources,
+      availableDependencies, columnsSorting, initialFilters, filtersEdited,
+      requestParameters, columnsVisibility, canEmptyFilters,
+      onBack, onSort, onApplyFilters, onClearFilters,
+      onToggleErrorsOnly, onToggleLastSession, onChangeFrom, onChangeTo,
+      onChangeSource, onChangeSession, onChangeColumnsVisibility, onDeleteSession,
+      onViewProductsOAIS, onRelaunchProductsOAIS, onViewRequestsOAIS, onRelaunchProducts,
+      onGoToDatasources,
     } = this.props
     const { sessionToAcknowledge } = this.state
     const iconStyle = {
@@ -291,7 +296,15 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.NAME), onSort)
-        .rowCellDefinition({ Constructor: SessionsMonitoringSessionRenderer, props: { onDeleteSession, onShowAcknowledge: this.onShowAcknowledge, onShowDeleteConfirm: this.onShowDeleteConfirm } })
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringSessionRenderer,
+          props: {
+            availableDependencies,
+            onDeleteSession,
+            onShowAcknowledge: this.onShowAcknowledge,
+            onShowDeleteConfirm: this.onShowDeleteConfirm,
+          },
+        })
         .label(formatMessage({ id: 'acquisition-sessions.table.name' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.LAST_UPDATE)
@@ -312,19 +325,40 @@ export class SessionsMonitoringComponent extends React.Component {
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.PRODUCTS, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.sip-generated.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsGeneratedRenderer, props: { onRelaunchProducts, onShowProducts: this.onSwitchProductsDialog } })
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringProductsGeneratedRenderer,
+          props: {
+            availableDependencies,
+            onRelaunchProducts,
+            onShowProducts: this.onSwitchProductsDialog,
+          },
+        })
         .label(formatMessage({ id: 'acquisition-sessions.table.sip-generated' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringProductsStoredRenderer, props: { onRelaunchProductsOAIS, onViewProductsOAIS, onViewRequestsOAIS } })
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringProductsStoredRenderer,
+          props: {
+            availableDependencies,
+            onRelaunchProductsOAIS,
+            onViewProductsOAIS,
+            onViewRequestsOAIS,
+          },
+        })
         .label(formatMessage({ id: 'acquisition-sessions.table.aip-stored' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.INDEXED, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.indexed.tooltip' }))
-        .rowCellDefinition({ Constructor: SessionsMonitoringIndexedRenderer, props: { onGoToDatasources } })
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringIndexedRenderer,
+          props: {
+            availableDependencies,
+            onGoToDatasources,
+          },
+        })
         .label(formatMessage({ id: 'acquisition-sessions.table.indexed' }))
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.CREATION_DATE)

@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AccessDomain } from '@regardsoss/domain'
 import { DateValueRender } from '@regardsoss/components'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SessionsMonitoringTableBackgroundComponent } from '../../../../src/components/session/render/SessionsMonitoringTableBackgroundComponent'
 import { SessionsMonitoringCreationDateRenderer } from '../../../../src/components/session/render/SessionsMonitoringCreationDateRenderer'
 import styles from '../../../../src/styles'
@@ -47,7 +48,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringCreationDat
           creationDate: '2019-07-30T08:38:27.177Z',
           lastUpdateDate: '2019-07-30T08:38:27.184Z',
           isLatest: true,
-          state: 'ERROR',
+          state: AccessDomain.SESSION_STATUS_ENUM.ERROR,
           lifeCycle: {
             key: {
               property: 1,

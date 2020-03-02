@@ -19,10 +19,14 @@
 import get from 'lodash/get'
 import Menu from 'material-ui/svg-icons/navigation/more-vert'
 import { MenuItem } from 'material-ui'
-import { DropDownButton } from '@regardsoss/components'
+import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { DropDownButton } from '@regardsoss/components'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { sessionsActions } from '../../../clients/session/SessionsClient'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
 /**
@@ -32,6 +36,7 @@ import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoring
 export class SessionsMonitoringSessionRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     onShowAcknowledge: PropTypes.func.isRequired,
     onShowDeleteConfirm: PropTypes.func.isRequired,
   }
@@ -40,6 +45,12 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  /** Dependencies to send session errors ACK */
+  static ACK_DEPENDENCIES = [sessionsActions.getDependency(RequestVerbEnum.PATCH)]
+
+  /** Dependencies to delete session */
+  static DELETE_DEPENDENCIES = [sessionsActions.getDependency(RequestVerbEnum.DELETE)]
 
   onDeleteSession = () => {
     const { entity, onShowDeleteConfirm } = this.props
@@ -53,42 +64,49 @@ export class SessionsMonitoringSessionRenderer extends React.Component {
 
   render() {
     const { intl: { formatMessage }, moduleTheme: { sessionsStyles: { menuDropDown, gridSessionCell: { gridSessionContainer, headerSession, infosSession } } } } = this.context
-    const { entity } = this.props
+    const { entity, availableDependencies } = this.props
     const state = get(entity, 'content.state', null)
     const name = get(entity, 'content.name', null)
-    const deleteButtonTitle = state === 'DELETED'
+    const deleteButtonTitle = state === AccessDomain.SESSION_STATUS_ENUM.DELETED
       ? formatMessage({ id: 'acquisition-sessions.menus.session.delete.force.button' })
       : formatMessage({ id: 'acquisition-sessions.menus.session.delete.button' })
+    const error = state === AccessDomain.SESSION_STATUS_ENUM.ERROR
+    const hasErrorOption = error && allMatchHateoasDisplayLogic(SessionsMonitoringSessionRenderer.ACK_DEPENDENCIES, availableDependencies)
+    const hasDeleteOption = allMatchHateoasDisplayLogic(SessionsMonitoringSessionRenderer.DELETE_DEPENDENCIES, availableDependencies)
     return (
       <SessionsMonitoringTableBackgroundComponent
-        isInError={state === 'ERROR'}
-        isDeleted={state === 'DELETED'}
+        isInError={error}
+        isDeleted={state === AccessDomain.SESSION_STATUS_ENUM.DELETED}
       >
         <div style={gridSessionContainer}>
           <div style={headerSession}>
             {name}
           </div>
-          <div style={infosSession}>
-            <DropDownButton
-              title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
-              style={menuDropDown}
-              icon={<Menu />}
-            >
-              { state === 'ERROR' ? (
-                <MenuItem
-                  primaryText={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}
-                  onClick={this.onShowAcknowledgeDialog}
-                  value="acknolegde"
-                />) : (
-                  <div />
-              )}
-              <MenuItem
-                primaryText={deleteButtonTitle}
-                onClick={this.onDeleteSession}
-                value="onDelete"
-              />
-            </DropDownButton>
-          </div>
+          { hasErrorOption || hasDeleteOption ? (
+            <div style={infosSession}>
+              <DropDownButton
+                title={formatMessage({ id: 'acquisition-sessions.table.sip-generated' })}
+                style={menuDropDown}
+                icon={<Menu />}
+              >
+                { hasErrorOption ? (
+                  <MenuItem
+                    primaryText={formatMessage({ id: 'acquisition-sessions.states.acknowledge' })}
+                    onClick={this.onShowAcknowledgeDialog}
+                    value="acknowlegde"
+                  />) : null
+                }
+                { hasDeleteOption ? (
+                  <MenuItem
+                    primaryText={deleteButtonTitle}
+                    onClick={this.onDeleteSession}
+                    value="onDelete"
+                  />
+                ) : null
+                }
+              </DropDownButton>
+            </div>) : null
+          }
         </div>
       </SessionsMonitoringTableBackgroundComponent>
     )
