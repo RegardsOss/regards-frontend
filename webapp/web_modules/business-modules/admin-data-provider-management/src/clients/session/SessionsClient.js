@@ -29,8 +29,9 @@ export const sessionsActions = new AdminClient.SessionsActions(REDUX_ACTION_NAME
 export const sessionsReducer = AdminClient.getSessionsReducer(REDUX_ACTION_NAMESPACE)
 export const sessionsSelectors = AdminClient.getSessionsSelectors(ENTITIES_STORE_PATH)
 
-export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchProductActions(REDUX_ACTION_NAMESPACE)
-export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(REDUX_ACTION_NAMESPACE)
+/** Specific operations */
+export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchProductActions(`${REDUX_ACTION_NAMESPACE}/relaunch-products`)
+export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(`${REDUX_ACTION_NAMESPACE}/relaunch-aip`)
 
 export const SESSION_ENDPOINT = AdminClient.SessionsActions.ENDPOINT
 export const SESSION_ENTITY_ID = AdminClient.SessionsActions.ENTITY_ID
