@@ -17,14 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import map from 'lodash/map'
-import MenuItem from 'material-ui/MenuItem'
 import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { Checkbox } from 'material-ui'
-import TextField from 'material-ui/TextField'
-import DropDownMenu from 'material-ui/DropDownMenu'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
@@ -42,6 +38,7 @@ import StorageLocationDeletionErrorRenderer from './StorageLocationDeletionError
 import StorageLocationListActions from './StorageLocationListActions'
 import StorageRequestListComponent from './StorageRequestListComponent'
 import StorageLocationActivityRenderer from './StorageLocationActivityRenderer'
+import StorageCopyForm from './StorageCopyForm'
 import messages from '../i18n'
 import styles from '../styles'
 import dependencies from '../dependencies'
@@ -90,9 +87,6 @@ export class StorageLocationListComponent extends React.Component {
     entitytoDeleteFiles: null,
     relaunchMonitoringDialog: null,
     entitytoCopyFiles: null,
-    copyPathSource: '',
-    copyPathTarget: '',
-    copyStorageTarget: null,
     deleteFilesForce: false,
     dialogType: null,
     errorsType: null,
@@ -160,13 +154,6 @@ export class StorageLocationListComponent extends React.Component {
     onRelaunchMonitoring(resetMode)
   }
 
-  onConfirmCopyFiles = () => {
-    const { copyPathSource, copyPathTarget, copyStorageTarget } = this.state
-    this.closeDialogs()
-    if (this.state.entitytoCopyFiles) {
-      this.props.onCopyFiles(this.state.entitytoCopyFiles.content.configuration.name, copyPathSource, copyStorageTarget, copyPathTarget)
-    }
-  }
 
   onDelete = (entityTargeted) => {
     this.setState({
@@ -386,94 +373,24 @@ export class StorageLocationListComponent extends React.Component {
     return null
   }
 
-  /**
-   * Dialog for Copy Files
-   */
-  handleStorageSelect = (event, key) => {
-    const { entities } = this.props
-    this.setState({ copyStorageTarget: entities[key].content.name })
-  }
-
-  handlePathSource = (event, value) => {
-    this.setState({ copyPathSource: value })
-  }
-
-  handlePathDestination = (event, value) => {
-    this.setState({ copyPathTarget: value })
-  }
-
   renderCopyFilesConfirmDialog = () => {
-    const {
-      entitytoCopyFiles, copyPathSource, copyPathTarget, copyStorageTarget,
-    } = this.state
-    const { intl: { formatMessage }, moduleTheme: { dropdown } } = this.context
-    if (entitytoCopyFiles) {
-      const { name } = entitytoCopyFiles.content.configuration
-      const actions = [
-        <FlatButton
-          key="close"
-          label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
-          onClick={this.closeDialogs}
-        />,
-        <FlatButton
-          key="confirm"
-          label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
-          primary
-          onClick={this.onConfirmCopyFiles}
-          disabled={!copyStorageTarget}
-        />,
-      ]
-      return (
-        <PositionedDialog
-          dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'storage.location.copy.confirm.title' }, { name })}
-          open={!!entitytoCopyFiles}
-          actions={actions}
-          dialogHeightPercent={20}
-          dialogWidthPercent={50}
-        >
-          <div>
-            <div>
-              De :
-              {' '}
-              {name}
-            </div>
-            <TextField
-              hintText={formatMessage({ id: 'storage.location.copy.confirm.path-source' })}
-              value={copyPathSource}
-              onChange={this.handlePathSource}
-              fullWidth
-            />
-          </div>
-          <div>
-            <span>
-              <b>Vers :</b>
-              <DropDownMenu
-                value={copyStorageTarget}
-                onChange={this.handleStorageSelect}
-                style={dropdown}
-              >
-                {map(this.props.entities, entity => (
-                  <MenuItem
-                    value={entity.content.name}
-                    key={entity.content.name}
-                    primaryText={entity.content.name}
-                    disabled={entity.content.name === name}
-                  />
-                ))}
-              </DropDownMenu>
-            </span>
-            <TextField
-              hintText={formatMessage({ id: 'storage.location.copy.confirm.path-destination' })}
-              value={copyPathTarget}
-              onChange={this.handlePathDestination}
-              fullWidth
-            />
-          </div>
-        </PositionedDialog>
-      )
-    }
-    return null
+    const { entitytoCopyFiles } = this.state
+    const { intl: { formatMessage } } = this.context
+    return (
+      <PositionedDialog
+        title={formatMessage({ id: 'storage.location.copy.confirm.title' }, { name: get(entitytoCopyFiles, 'content.name', null) })}
+        open={!!entitytoCopyFiles}
+        dialogHeightPercent={20}
+        dialogWidthPercent={50}
+      >
+        <StorageCopyForm
+          storageLocation={entitytoCopyFiles}
+          availablableDestinations={this.props.entities}
+          onSubmit={this.props.onCopyFiles}
+          onClose={this.closeDialogs}
+        />
+      </PositionedDialog>
+    )
   }
 
   formatType = entity => this.context.intl.formatMessage({ id: `storage.type.${get(entity, 'content.configuration.storageType', 'NONE')}` })

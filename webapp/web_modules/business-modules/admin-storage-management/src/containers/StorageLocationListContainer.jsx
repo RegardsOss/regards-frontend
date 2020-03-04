@@ -59,7 +59,7 @@ export class StorageLocationListContainer extends React.Component {
       update: storageLocation => dispatch(storageLocationActions.updateEntity(storageLocation.id, storageLocation)),
       delete: name => dispatch(storageLocationActions.deleteEntity(name)),
       deleteFiles: (name, force) => dispatch(storageLocationDeleteFilesActions.deleteFiles(name, force)),
-      copyFiles: (nameSource, pathSource, nameTarget, pathTarget) => dispatch(storageLocationCopyFilesActions.copyFiles(nameSource, pathSource, nameTarget, pathTarget)),
+      copyFiles: (nameSource, pathSource, nameTarget, pathTarget, types) => dispatch(storageLocationCopyFilesActions.copyFiles(nameSource, pathSource, nameTarget, pathTarget, types)),
       upPriority: (name, conf) => dispatch(storageLocationPriorityUpActions.upPriority(name, conf)),
       downPriority: (name, conf) => dispatch(storageLocationPriorityDownActions.downPriority(name, conf)),
       retryErrors: (id, type) => dispatch(storageLocationErrorsRetryActions.retryErrors(id, type)),
