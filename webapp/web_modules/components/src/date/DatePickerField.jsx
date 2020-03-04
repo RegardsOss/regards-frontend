@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import {
-  DatePicker, TimePicker, IconButton, TextField,
-} from 'material-ui'
+import DatePicker from 'material-ui/DatePicker'
+import TimePicker from 'material-ui/TimePicker'
+import IconButton from 'material-ui/IconButton'
+import TextField from 'material-ui/TextField'
 import isNaN from 'lodash/isNaN'
 import isEmpty from 'lodash/isEmpty'
 import isDate from 'lodash/isDate'
-import TimeIcon from 'material-ui/svg-icons/device/access-time'
-import ActionDateRange from 'material-ui/svg-icons/action/date-range'
+import TimeIcon from 'mdi-material-ui/ClockOutline'
+import ActionDateRange from 'mdi-material-ui/CalendarRange'
 import format from 'date-fns/format'
 import parse from 'date-fns/parse'
 import { UIDomain } from '@regardsoss/domain'

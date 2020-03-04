@@ -18,8 +18,8 @@
  **/
 import { CardHeader } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import ExpandedIcon from 'mdi-material-ui/ChevronUp'
+import CollapsedIcon from 'mdi-material-ui/ChevronDown'
 import MaximizeIcon from 'mdi-material-ui/Fullscreen'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'

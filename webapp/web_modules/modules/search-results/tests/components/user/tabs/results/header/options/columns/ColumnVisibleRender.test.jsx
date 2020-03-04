@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import CheckedIcon from 'material-ui/svg-icons/toggle/check-box'
-import UncheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import CheckedIcon from 'mdi-material-ui/CheckboxMarked'
+import UncheckedIcon from 'mdi-material-ui/CheckboxBlankOutline'
 import { DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { TableColumnBuilder } from '@regardsoss/components'

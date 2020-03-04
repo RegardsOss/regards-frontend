@@ -21,8 +21,8 @@ import get from 'lodash/get'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import PageView from 'material-ui/svg-icons/action/pageview'
-import NoSessionIcon from 'material-ui/svg-icons/image/crop-free'
+import PageView from 'mdi-material-ui/CardSearch'
+import NoSessionIcon from 'mdi-material-ui/CropFree'
 import RaisedButton from 'material-ui/RaisedButton'
 import { CommonDomain, AccessDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'

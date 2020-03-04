@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Chip from 'material-ui/Chip'
-import { TextField } from 'material-ui'
+import TextField from 'material-ui/TextField'
 import { CategoriesFieldArrayRenderer } from '../../../src/components/acquisitionChain/CategoriesFieldArrayRenderer'
 import styles from '../../../src/styles'
 

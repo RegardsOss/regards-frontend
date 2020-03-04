@@ -18,8 +18,8 @@
  **/
 import Avatar from 'material-ui/Avatar'
 import Info from 'mdi-material-ui/InformationVariant'
-import Warning from 'material-ui/svg-icons/alert/warning'
-import Error from 'material-ui/svg-icons/alert/error'
+import Warning from 'mdi-material-ui/Alert'
+import Error from 'mdi-material-ui/AlertCircle'
 import Skull from 'mdi-material-ui/Skull'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'

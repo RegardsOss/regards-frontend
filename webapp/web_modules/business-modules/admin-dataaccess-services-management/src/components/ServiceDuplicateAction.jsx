@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Copy from 'material-ui/svg-icons/content/content-copy'
+import Copy from 'mdi-material-ui/ContentCopy'
 import IconButton from 'material-ui/IconButton'
 import { CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

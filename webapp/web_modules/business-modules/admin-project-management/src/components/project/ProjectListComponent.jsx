@@ -26,11 +26,11 @@ import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Settings from 'material-ui/svg-icons/action/settings-input-component'
-import Open from 'material-ui/svg-icons/action/open-in-new'
-import Delete from 'material-ui/svg-icons/action/delete'
-import ResetLicences from 'material-ui/svg-icons/action/assignment-late'
+import Edit from 'mdi-material-ui/Pencil'
+import Settings from 'mdi-material-ui/VideoInputComponent'
+import Open from 'mdi-material-ui/OpenInNew'
+import Delete from 'mdi-material-ui/Delete'
+import ResetLicences from 'mdi-material-ui/ClipboardAlert'
 import {
   ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent,
 } from '@regardsoss/components'

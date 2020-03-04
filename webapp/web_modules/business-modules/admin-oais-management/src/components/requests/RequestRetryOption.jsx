@@ -18,7 +18,7 @@
  import IconButton from 'material-ui/IconButton'
  **/
 import IconButton from 'material-ui/IconButton'
-import AvReplay from 'material-ui/svg-icons/av/replay'
+import AvReplay from 'mdi-material-ui/Replay'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'

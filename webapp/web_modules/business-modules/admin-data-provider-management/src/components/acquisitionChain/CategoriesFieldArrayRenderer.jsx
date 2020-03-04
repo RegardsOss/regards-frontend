@@ -19,7 +19,7 @@
 import Chip from 'material-ui/Chip'
 import TextField from 'material-ui/TextField'
 import IconButton from 'material-ui/IconButton'
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import AddIcon from 'mdi-material-ui/PlusCircle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 /**

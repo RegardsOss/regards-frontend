@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import LockIcon from 'material-ui/svg-icons/action/lock'
-import InformationIcon from 'material-ui/svg-icons/action/info-outline'
+import LockIcon from 'mdi-material-ui/Lock'
+import InformationIcon from 'mdi-material-ui/InformationOutline'
 import IconButton from 'material-ui/IconButton'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

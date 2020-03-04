@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'

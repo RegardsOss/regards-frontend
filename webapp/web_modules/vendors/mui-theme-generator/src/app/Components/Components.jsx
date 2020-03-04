@@ -27,12 +27,12 @@ import TextField from 'material-ui/TextField'
 import TimePicker from 'material-ui/TimePicker'
 import Toggle from 'material-ui/Toggle'
 
-import ContentAdd from 'material-ui/svg-icons/content/add'
-import FavoriteIcon from 'material-ui/svg-icons/action/favorite'
-import LocationOnIcon from 'material-ui/svg-icons/communication/location-on'
-import NotificationsIcon from 'material-ui/svg-icons/social/notifications'
-import MenuIcon from 'material-ui/svg-icons/navigation/menu'
-import RestoreIcon from 'material-ui/svg-icons/action/restore'
+import ContentAdd from 'mdi-material-ui/Plus'
+import FavoriteIcon from 'mdi-material-ui/Heart'
+import LocationOnIcon from 'mdi-material-ui/MapMarker'
+import NotificationsIcon from 'mdi-material-ui/Bell'
+import MenuIcon from 'mdi-material-ui/Menu'
+import RestoreIcon from 'mdi-material-ui/History'
 
 import { orange500 } from 'material-ui/styles/colors'
 

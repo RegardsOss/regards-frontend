@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import Download from 'material-ui/svg-icons/file/file-download'
+import Download from 'mdi-material-ui/Download'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

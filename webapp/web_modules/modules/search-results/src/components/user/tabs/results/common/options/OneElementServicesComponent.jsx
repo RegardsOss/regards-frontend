@@ -19,7 +19,7 @@
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
-import OptionsIcon from 'material-ui/svg-icons/action/settings'
+import OptionsIcon from 'mdi-material-ui/Settings'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

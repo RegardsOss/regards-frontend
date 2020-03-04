@@ -20,7 +20,7 @@ import {
   RenderTextField, RenderCheckbox, Field,
 } from '@regardsoss/form-utils'
 import Paper from 'material-ui/Paper'
-import Storage from 'material-ui/svg-icons/device/storage'
+import Storage from 'mdi-material-ui/Database'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 

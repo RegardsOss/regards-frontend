@@ -18,7 +18,7 @@
  **/
 import { ActionIconWithNotifications } from '@regardsoss/components'
 import { connect } from '@regardsoss/redux'
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
 import { waitingAccessUsersEntitiesSelectors } from '../clients/WaitingAccessUsersEntitiesClient'
 
 /**

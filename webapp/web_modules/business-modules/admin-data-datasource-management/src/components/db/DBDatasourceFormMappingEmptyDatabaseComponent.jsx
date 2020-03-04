@@ -18,7 +18,7 @@
  **/
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
-import DissatisfiedIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import DissatisfiedIcon from 'mdi-material-ui/EmoticonSadOutline'
 import { i18nContextType } from '@regardsoss/i18n'
 import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 

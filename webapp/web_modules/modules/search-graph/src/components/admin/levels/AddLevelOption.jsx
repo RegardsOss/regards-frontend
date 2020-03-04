@@ -18,7 +18,7 @@
  **/
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
-import AddItemIcon from 'material-ui/svg-icons/av/playlist-add'
+import AddItemIcon from 'mdi-material-ui/PlaylistPlus'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton } from '@regardsoss/components'

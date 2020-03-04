@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import compose from 'lodash/fp/compose'
-import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
+import NoDataIcon from 'mdi-material-ui/Wallpaper'
 import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'

@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Build from 'material-ui/svg-icons/action/build'
-import PageView from 'material-ui/svg-icons/action/pageview'
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import Build from 'mdi-material-ui/Wrench'
+import PageView from 'mdi-material-ui/CardSearch'
+import AddIcon from 'mdi-material-ui/PlusCircle'
+import DeleteIcon from 'mdi-material-ui/Delete'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
 

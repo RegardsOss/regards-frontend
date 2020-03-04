@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import IconButton from 'material-ui/RaisedButton'
-import DownloadIcon from 'material-ui/svg-icons/file/cloud-download'
+import DownloadIcon from 'mdi-material-ui/CloudDownload'
 import DownloadButton from '../../src/buttons/DownloadButton'
 
 const context = buildTestContext()

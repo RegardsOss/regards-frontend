@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ActionDelete from 'material-ui/svg-icons/action/delete'
+import ActionDelete from 'mdi-material-ui/Delete'
 import Table from 'material-ui/Table/Table'
 import TableHeader from 'material-ui/Table/TableHeader'
 import TableRow from 'material-ui/Table/TableRow'
@@ -26,7 +26,7 @@ import TableRowColumn from 'material-ui/Table/TableRowColumn'
 import IconButton from 'material-ui/IconButton'
 import FlatButton from 'material-ui/FlatButton'
 import AddFilterIcon from 'mdi-material-ui/Filter'
-import TestRequestIcon from 'material-ui/svg-icons/action/open-in-new'
+import TestRequestIcon from 'mdi-material-ui/OpenInNew'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

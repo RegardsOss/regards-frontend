@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import MoodIcon from 'material-ui/svg-icons/social/mood'
+import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'

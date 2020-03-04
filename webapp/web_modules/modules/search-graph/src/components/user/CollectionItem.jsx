@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import ArrowDown from 'mdi-material-ui/MenuDown'
 import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'

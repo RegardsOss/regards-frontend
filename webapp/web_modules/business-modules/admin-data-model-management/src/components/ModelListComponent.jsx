@@ -21,7 +21,7 @@ import isEmpty from 'lodash/isEmpty'
 import startsWith from 'lodash/startsWith'
 import get from 'lodash/get'
 import filter from 'lodash/filter'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'

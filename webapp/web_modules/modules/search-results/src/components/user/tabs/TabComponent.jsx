@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ResultsIcon from 'mdi-material-ui/ViewSequential'
-import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import DescriptionIcon from 'mdi-material-ui/InformationOutline'
+import CloseIcon from 'mdi-material-ui/Close'
 import IconButton from 'material-ui/IconButton'
 import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'

@@ -18,7 +18,7 @@
  **/
 import root from 'window-or-global'
 import compose from 'lodash/fp/compose'
-import DownloadErrorIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import DownloadErrorIcon from 'mdi-material-ui/EmoticonSadOutline'
 import NoPreviewIcon from 'mdi-material-ui/MonitorOff'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'

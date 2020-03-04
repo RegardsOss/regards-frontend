@@ -18,7 +18,7 @@
  **/
 import size from 'lodash/size'
 import FlatButton from 'material-ui/FlatButton'
-import AddManyIcon from 'material-ui/svg-icons/av/playlist-add'
+import AddManyIcon from 'mdi-material-ui/PlaylistPlus'
 import AddOneIcon from 'mdi-material-ui/Plus'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RaisedButton from 'material-ui/RaisedButton'
-import FileUpload from 'material-ui/svg-icons/file/file-upload'
+import FileUpload from 'mdi-material-ui/Upload'
 import CircularProgress from 'material-ui/CircularProgress'
 import Dialog from 'material-ui/Dialog'
 import { Field, RenderFileFieldWithMui, reduxForm } from '@regardsoss/form-utils'

@@ -19,7 +19,7 @@
 import noop from 'lodash/noop'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
-import MoveIcon from 'material-ui/svg-icons/content/redo'
+import MoveIcon from 'mdi-material-ui/Redo'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton, TableColumnBuilder } from '@regardsoss/components'

@@ -16,11 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
-import ExtensionIcon from 'material-ui/svg-icons/action/extension'
-import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import SettingsIcon from 'mdi-material-ui/Settings'
+import ExtensionIcon from 'mdi-material-ui/Puzzle'
+import ViewQuilt from 'mdi-material-ui/ViewQuilt'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import AddIcon from 'mdi-material-ui/PlusCircle'
 import { uiSettingsDependencies } from '@regardsoss/admin-ui-settings-management'
 import { themeUIDependencies } from '@regardsoss/admin-ui-theme-management'
 import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'

@@ -20,7 +20,7 @@ import isArray from 'lodash/isArray'
 import FlatButton from 'material-ui/FlatButton'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import DrowDownIcon from 'mdi-material-ui/MenuDown'
 
 /** No value label stub function (drop down button is not neccessarily used with values) */
 const noLabelStubFunction = () => {}

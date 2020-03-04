@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import TestIcon from 'material-ui/svg-icons/device/airplanemode-active'
+import TestIcon from 'mdi-material-ui/Airplane'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BreadcrumbElement from '../../src/links/BreadcrumbElement'
 import styles from '../../src/links/styles/styles'

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FileIcon from 'mdi-material-ui/FileImage'
-import DownloadIcon from 'material-ui/svg-icons/action/get-app'
+import DownloadIcon from 'mdi-material-ui/Download'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DownloadButton } from '@regardsoss/components'

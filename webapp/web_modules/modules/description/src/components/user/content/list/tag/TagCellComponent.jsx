@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SearchIcon from 'material-ui/svg-icons/action/search'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import PageTextCellComponent from '../common/PageTextCellComponent'

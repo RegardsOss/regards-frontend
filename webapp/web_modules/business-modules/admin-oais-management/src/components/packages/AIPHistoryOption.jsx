@@ -19,7 +19,7 @@
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
-import ActionHistory from 'material-ui/svg-icons/action/history'
+import ActionHistory from 'mdi-material-ui/History'
 /**
 * Detail option cell for the infinite table used to display the contents of an aip
  * @author Simon MILHAU

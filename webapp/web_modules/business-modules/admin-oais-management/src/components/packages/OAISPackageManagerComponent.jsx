@@ -22,8 +22,8 @@ import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
+import Refresh from 'mdi-material-ui/Refresh'
+import NoContentIcon from 'mdi-material-ui/CropFree'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
@@ -33,7 +33,7 @@ import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regard
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'
-import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import ModeEdit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import { CommonDomain, DamDomain, IngestDomain } from '@regardsoss/domain'
 import Dialog from 'material-ui/Dialog'

@@ -2,7 +2,7 @@ import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
   TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
-import Dollar from 'material-ui/svg-icons/editor/monetization-on'
+import Dollar from 'mdi-material-ui/CurrencyUsd'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 

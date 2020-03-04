@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/Menu'
-import ClearFilter from 'material-ui/svg-icons/content/backspace'
+import ClearFilter from 'mdi-material-ui/Backspace'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

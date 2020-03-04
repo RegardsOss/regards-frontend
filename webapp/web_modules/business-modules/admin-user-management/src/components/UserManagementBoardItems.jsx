@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
+import AddIcon from 'mdi-material-ui/PlusCircle'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import SettingsIcon from 'mdi-material-ui/Settings'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'

@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SearchIcon from 'material-ui/svg-icons/action/search'
-import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
+import SearchIcon from 'mdi-material-ui/Magnify'
+import DescriptionIcon from 'mdi-material-ui/InformationOutline'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'

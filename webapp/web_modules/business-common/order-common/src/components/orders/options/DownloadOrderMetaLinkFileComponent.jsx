@@ -18,7 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
-import DownloadMetalinkIcon from 'material-ui/svg-icons/content/link'
+import DownloadMetalinkIcon from 'mdi-material-ui/Link'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

@@ -18,7 +18,7 @@
  import IconButton from 'material-ui/IconButton'
  **/
 import IconButton from 'material-ui/IconButton'
-import ContentUndo from 'material-ui/svg-icons/content/undo'
+import ContentUndo from 'mdi-material-ui/Undo'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**

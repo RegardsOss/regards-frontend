@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import CheckedIcon from 'material-ui/svg-icons/toggle/check-box'
-import UncheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import CheckedIcon from 'mdi-material-ui/CheckboxMarked'
+import UncheckedIcon from 'mdi-material-ui/CheckboxBlankOutline'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

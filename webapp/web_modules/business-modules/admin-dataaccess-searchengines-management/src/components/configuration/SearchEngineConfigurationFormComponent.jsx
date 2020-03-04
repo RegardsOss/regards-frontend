@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import MoodIcon from 'material-ui/svg-icons/social/mood'
+import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import { FormattedMessage } from 'react-intl'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import {

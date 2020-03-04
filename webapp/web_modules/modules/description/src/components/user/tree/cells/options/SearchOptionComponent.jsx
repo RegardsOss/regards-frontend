@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import SearchIcon from 'material-ui/svg-icons/action/search'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import { themeContextType } from '@regardsoss/theme'
 
 /**

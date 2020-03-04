@@ -19,7 +19,7 @@
 import { Link } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import Avatar from 'material-ui/Avatar'
-import Lock from 'material-ui/svg-icons/action/lock-outline'
+import Lock from 'mdi-material-ui/Lock'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'

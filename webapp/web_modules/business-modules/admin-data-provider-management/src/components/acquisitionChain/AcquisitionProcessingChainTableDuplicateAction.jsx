@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
+import ContentCopy from 'mdi-material-ui/ContentCopy'
 import IconButton from 'material-ui/IconButton'
 import { IngestShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'

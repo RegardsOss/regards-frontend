@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Delete from 'mdi-material-ui/Delete'
 import IconButton from 'material-ui/IconButton'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

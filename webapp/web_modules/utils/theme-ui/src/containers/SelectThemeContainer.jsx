@@ -19,7 +19,7 @@
 import compose from 'lodash/fp/compose'
 import map from 'lodash/map'
 import IconButton from 'material-ui/IconButton'
-import Palette from 'material-ui/svg-icons/image/palette'
+import Palette from 'mdi-material-ui/Palette'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 // cannot import our connect method here, cyclic dependencies

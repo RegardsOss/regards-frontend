@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
-import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
+import DefaultIcon from 'mdi-material-ui/EmoticonOutline'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import messages from '../i18n'

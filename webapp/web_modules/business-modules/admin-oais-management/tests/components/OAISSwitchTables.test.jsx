@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { FlatButton } from 'material-ui'
+import FlatButton from 'material-ui/FlatButton'
 import { OAISSwitchTables } from '../../src/components/OAISSwitchTables'
 import styles from '../../src/styles'
 

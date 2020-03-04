@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import MessageIcon from 'material-ui/svg-icons/action/help'
+import MessageIcon from 'mdi-material-ui/HelpCircle'
 import { themeContextType } from '@regardsoss/theme'
 
 /**

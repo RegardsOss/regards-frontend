@@ -20,7 +20,7 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl, someMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import IconButton from 'material-ui/IconButton'
-import ModeEdit from 'material-ui/svg-icons/editor/mode-edit'
+import ModeEdit from 'mdi-material-ui/Pencil'
 import dependencies from '../../dependencies'
 
 const ResourceIconButton = withResourceDisplayControl(IconButton)

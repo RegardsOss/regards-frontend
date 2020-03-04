@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
+import NoDataIcon from 'mdi-material-ui/Wallpaper'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'

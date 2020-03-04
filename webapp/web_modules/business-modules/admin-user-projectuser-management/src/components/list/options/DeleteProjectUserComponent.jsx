@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import DeleteIcon from 'mdi-material-ui/Delete'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'

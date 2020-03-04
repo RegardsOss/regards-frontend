@@ -18,8 +18,8 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import NextLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import TestIcon from 'material-ui/svg-icons/device/airplanemode-active'
+import NextLevelIcon from 'mdi-material-ui/ChevronRight'
+import TestIcon from 'mdi-material-ui/Airplane'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '../../src/links/Breadcrumb'
 import BreadcrumbElement from '../../src/links/BreadcrumbElement'

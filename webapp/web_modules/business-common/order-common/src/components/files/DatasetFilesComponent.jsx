@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import NoFileIcon from 'material-ui/svg-icons/file/folder-open'
+import NoFileIcon from 'mdi-material-ui/FolderOutline'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'

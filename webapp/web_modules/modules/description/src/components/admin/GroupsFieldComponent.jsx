@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RaisedButton from 'material-ui/RaisedButton'
-import AddIcon from 'material-ui/svg-icons/content/add'
+import AddIcon from 'mdi-material-ui/Plus'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

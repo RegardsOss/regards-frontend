@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
-import Cart from 'material-ui/svg-icons/action/shopping-cart'
+import Cart from 'mdi-material-ui/Cart'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'

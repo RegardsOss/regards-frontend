@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import ExpandIcon from 'material-ui/svg-icons/navigation/expand-more'
-import CollapseIcon from 'material-ui/svg-icons/navigation/expand-less'
+import ExpandIcon from 'mdi-material-ui/ChevronDown'
+import CollapseIcon from 'mdi-material-ui/ChevronUp'
 import { themeContextType } from '@regardsoss/theme'
 import TreeTableRow from './TreeTableRow'
 

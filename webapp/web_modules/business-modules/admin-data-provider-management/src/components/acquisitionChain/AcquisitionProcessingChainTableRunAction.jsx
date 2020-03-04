@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import RunIcon from 'material-ui/svg-icons/av/play-circle-outline'
+import RunIcon from 'mdi-material-ui/PlayCircleOutline'
 import IconButton from 'material-ui/IconButton'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

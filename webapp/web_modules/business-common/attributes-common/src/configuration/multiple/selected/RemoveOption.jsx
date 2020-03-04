@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import RemoveIcon from 'material-ui/svg-icons/action/delete'
+import RemoveIcon from 'mdi-material-ui/Delete'
 
 /**
  * Remove selected attribute option

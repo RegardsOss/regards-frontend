@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType } from '@regardsoss/theme'
-import SeparatorIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+import SeparatorIcon from 'mdi-material-ui/ChevronRight'
 
 /**
  * Breadcrumb Separator displayer

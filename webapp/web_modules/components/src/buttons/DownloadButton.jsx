@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import DownloadIcon from 'mdi-material-ui/Download'
 
 /**
 * A download button, can be used with any material UI button types

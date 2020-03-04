@@ -20,12 +20,9 @@ import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
 import isPlainObject from 'lodash/isPlainObject'
 import {
-  CardActions,
-  CardTitle,
-  Card,
-  CardText,
-  MenuItem,
-} from 'material-ui'
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
+import MenuItem from 'material-ui/MenuItem'
 import map from 'lodash/map'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'

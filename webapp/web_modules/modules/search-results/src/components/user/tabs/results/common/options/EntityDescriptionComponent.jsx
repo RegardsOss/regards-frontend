@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
-import IconButton from 'material-ui/IconButton'
-import DescriptionIcon from 'material-ui/svg-icons/action/info-outline'
+import IconButton from 'material-ui/IconButton/IconButton'
+import DescriptionIcon from 'mdi-material-ui/InformationOutline'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -54,8 +54,8 @@ class EntityDescriptionComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <IconButton
-        title={formatMessage({ id: 'show.description.tooltip' })}
         onClick={this.onShowDescription}
+        title={formatMessage({ id: 'show.description.tooltip' })}
         {...omit(this.props, EntityDescriptionComponent.NON_REPORTED_PROPS)}
       >
         <DescriptionIcon />

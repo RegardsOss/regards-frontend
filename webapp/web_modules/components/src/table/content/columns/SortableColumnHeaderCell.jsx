@@ -18,9 +18,9 @@
  **/
 import isNumber from 'lodash/isNumber'
 import IconButton from 'material-ui/IconButton'
-import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
-import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
-import Sort from 'material-ui/svg-icons/action/swap-vert'
+import SortDesc from 'mdi-material-ui/MenuUp'
+import SortAsc from 'mdi-material-ui/MenuDown'
+import Sort from 'mdi-material-ui/SwapVertical'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 

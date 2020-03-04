@@ -22,8 +22,8 @@
  * @author Kevin Picart
  */
 import get from 'lodash/get'
-import Menu from 'material-ui/svg-icons/navigation/more-vert'
-import RunningIcon from 'material-ui/svg-icons/av/play-arrow'
+import Menu from 'mdi-material-ui/DotsVertical'
+import RunningIcon from 'mdi-material-ui/Play'
 import MenuItem from 'material-ui/MenuItem'
 import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'

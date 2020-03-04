@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import KeyboardArrowUp from 'mdi-material-ui/ChevronUp'
+import KeyboardArrowDown from 'mdi-material-ui/ChevronDown'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 

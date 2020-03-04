@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import flatMap from 'lodash/flatMap'
-import DefaultRootIcon from 'material-ui/svg-icons/communication/location-on'
-import NextLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+import DefaultRootIcon from 'mdi-material-ui/MapMarker'
+import NextLevelIcon from 'mdi-material-ui/ChevronRight'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import BreadcrumbElement from './BreadcrumbElement'
 import styles from './styles'

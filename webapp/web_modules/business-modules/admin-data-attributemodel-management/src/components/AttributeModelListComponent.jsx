@@ -24,7 +24,7 @@ import filter from 'lodash/filter'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { FormattedMessage } from 'react-intl'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'

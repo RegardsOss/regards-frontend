@@ -18,7 +18,7 @@
  **/
 import {
   Card, CardTitle, CardText, CardActions,
-} from 'material-ui'
+} from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'

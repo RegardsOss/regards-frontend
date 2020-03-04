@@ -18,8 +18,8 @@
  **/
 import { AccessShapes } from '@regardsoss/shape'
 import RaisedButton from 'material-ui/RaisedButton'
-import SearchIcon from 'material-ui/svg-icons/action/search'
-import Reset from 'material-ui/svg-icons/action/settings-backup-restore'
+import SearchIcon from 'mdi-material-ui/Magnify'
+import Reset from 'mdi-material-ui/BackupRestore'
 import { Container } from '@regardsoss/layout'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

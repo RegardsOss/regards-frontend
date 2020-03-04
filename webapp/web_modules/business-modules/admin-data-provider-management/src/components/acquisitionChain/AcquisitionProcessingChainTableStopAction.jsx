@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import StopIcon from 'material-ui/svg-icons/av/stop'
+import StopIcon from 'mdi-material-ui/Stop'
 import IconButton from 'material-ui/IconButton'
 import { DataProviderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

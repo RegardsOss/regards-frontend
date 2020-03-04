@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'

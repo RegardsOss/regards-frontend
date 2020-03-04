@@ -19,16 +19,16 @@
 import merge from 'lodash/merge'
 import PackageVariant from 'mdi-material-ui/PackageVariant'
 import Drawer from 'material-ui/Drawer'
-import Widgets from 'material-ui/svg-icons/device/widgets'
-import AddBox from 'material-ui/svg-icons/content/add-box'
-import CloudQueue from 'material-ui/svg-icons/file/cloud-queue'
-import Brush from 'material-ui/svg-icons/image/brush'
+import Widgets from 'mdi-material-ui/Widgets'
+import AddBox from 'mdi-material-ui/PlusBox'
+import CloudQueue from 'mdi-material-ui/CloudOutline'
+import Brush from 'mdi-material-ui/Brush'
 import Divider from 'material-ui/Divider'
-import GroupWork from 'material-ui/svg-icons/action/group-work'
-import Commands from 'material-ui/svg-icons/action/shopping-cart'
-import Back from 'material-ui/svg-icons/navigation/arrow-back'
+import GroupWork from 'mdi-material-ui/GoogleCirclesCommunities'
+import Commands from 'mdi-material-ui/Cart'
+import Back from 'mdi-material-ui/ArrowLeft'
+import SupervisorAccount from 'mdi-material-ui/AccountSupervisor'
 import MenuItem from 'material-ui/MenuItem'
-import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { uiManagementDependencies } from '@regardsoss/admin-ui-management'
@@ -100,9 +100,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/user/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.users' })}
-          leftIcon={<SupervisorAccount
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<SupervisorAccount color={this.context.muiTheme.svgIcon.color} />}
           rightIcon={<WaitingAccessNotificationContainer />}
         />
         <SidebarElementWithResourceDisplayControl
@@ -112,9 +110,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/data/models/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.datamodels' })}
-          leftIcon={<Widgets
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<Widgets color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="3"
@@ -123,9 +119,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/data/collections/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.collections' })}
-          leftIcon={<GroupWork
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<GroupWork color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="4"
@@ -134,9 +128,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/data/acquisition/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.dataacquisition' })}
-          leftIcon={<AddBox
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<AddBox color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="5"
@@ -145,9 +137,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/dataaccess/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.dataaccess' })}
-          leftIcon={<PackageVariant
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<PackageVariant color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="6"
@@ -156,9 +146,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/microservice/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.microservices' })}
-          leftIcon={<CloudQueue
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<CloudQueue color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="7"
@@ -167,9 +155,7 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/ui/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.ui.configuration' })}
-          leftIcon={<Brush
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<Brush color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElementWithResourceDisplayControl
           key="8"
@@ -178,17 +164,13 @@ class ProjectSidebarComponent extends React.Component {
           to={`/admin/${projectName}/commands/board`}
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.commands' })}
-          leftIcon={<Commands
-            color={this.context.muiTheme.svgIcon.color}
-          />}
+          leftIcon={<Commands color={this.context.muiTheme.svgIcon.color} />}
         />
         <ShowableAtRender show={isInstance}>
           <Divider />
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
-            leftIcon={<Back
-              color={this.context.muiTheme.svgIcon.color}
-            />}
+            leftIcon={<Back color={this.context.muiTheme.svgIcon.color} />}
             onClick={this.handleRedirectToInstanceAdminDashboard}
           />
         </ShowableAtRender>

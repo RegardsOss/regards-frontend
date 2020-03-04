@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SelectAllIcon from 'material-ui/svg-icons/toggle/check-box'
-import UnselectAllIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import SelectAllIcon from 'mdi-material-ui/CheckboxMarked'
+import UnselectAllIcon from 'mdi-material-ui/CheckboxBlankOutline'
 import compose from 'lodash/fp/compose'
 import FlatButton from 'material-ui/FlatButton'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'

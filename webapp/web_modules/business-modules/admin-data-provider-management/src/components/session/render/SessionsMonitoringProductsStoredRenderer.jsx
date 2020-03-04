@@ -22,9 +22,9 @@
  * @author Kevin Picart
  */
 import get from 'lodash/get'
-import Menu from 'material-ui/svg-icons/navigation/more-vert'
+import Menu from 'mdi-material-ui/DotsVertical'
 import MenuItem from 'material-ui/MenuItem'
-import RunningIcon from 'material-ui/svg-icons/av/play-arrow'
+import RunningIcon from 'mdi-material-ui/Play'
 import { AccessDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { IngestClient } from '@regardsoss/client'

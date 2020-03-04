@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import ErrorMessageIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import ErrorMessageIcon from 'mdi-material-ui/EmoticonSadOutline'
 import { themeContextType } from '@regardsoss/theme'
 import { ContentLoadingComponent, URIContentDisplayer, NoContentComponent } from '@regardsoss/components'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'

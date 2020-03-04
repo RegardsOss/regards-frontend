@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import IconButton from 'material-ui/IconButton'
 import MenuItem from 'material-ui/MenuItem'
-import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import DownloadIcon from 'mdi-material-ui/Download'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'

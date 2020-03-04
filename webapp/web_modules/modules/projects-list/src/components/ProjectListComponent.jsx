@@ -45,7 +45,6 @@ class ProjectListComponent extends React.Component {
   render() {
     // const { projects } = this.props
     const { moduleTheme } = this.context
-
     return (
       <div>
         {map(this.props.projects, (project, id) => (

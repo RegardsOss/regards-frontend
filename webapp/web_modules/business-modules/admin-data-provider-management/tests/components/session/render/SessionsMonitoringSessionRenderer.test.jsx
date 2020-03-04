@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { MenuItem } from 'material-ui'
+import MenuItem from 'material-ui/MenuItem'
 import { AccessDomain } from '@regardsoss/domain'
 import { DropDownButton } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'

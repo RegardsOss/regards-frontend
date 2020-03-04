@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import AddIcon from 'material-ui/svg-icons/action/add-shopping-cart'
+import AddIcon from 'mdi-material-ui/CartPlus'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**

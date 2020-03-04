@@ -21,7 +21,7 @@ import Subheader from 'material-ui/Subheader'
 import map from 'lodash/map'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import MoreVertIcon from 'mdi-material-ui/DotsVertical'
 import { grey400 } from 'material-ui/styles/colors'
 /*
 

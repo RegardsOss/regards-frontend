@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import PauseIcon from 'material-ui/svg-icons/av/pause'
-import ResumeIcon from 'material-ui/svg-icons/av/play-arrow'
+import PauseIcon from 'mdi-material-ui/Pause'
+import ResumeIcon from 'mdi-material-ui/Play'
 import { i18nContextType } from '@regardsoss/i18n'
 
 

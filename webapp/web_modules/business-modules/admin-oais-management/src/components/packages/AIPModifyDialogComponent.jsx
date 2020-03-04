@@ -23,7 +23,7 @@ import identity from 'lodash/identity'
 import includes from 'lodash/includes'
 import isEqual from 'lodash/isEqual'
 import FlatButton from 'material-ui/FlatButton'
-import NoContentIcon from 'material-ui/svg-icons/image/crop-free'
+import NoContentIcon from 'mdi-material-ui/CropFree'
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import StoragesIcon from 'mdi-material-ui/Database'
@@ -34,7 +34,7 @@ import {
   TableLayout, TableColumnBuilder, InfiniteTableContainer, NoContentComponent, PositionedDialog,
   TableHeaderLine, TableHeaderContentBox, TableHeaderText,
 } from '@regardsoss/components'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
+import Add from 'mdi-material-ui/PlusCircleOutline'
 import TextField from 'material-ui/TextField'
 import messages from '../../i18n'
 import AIPModifyDeleteOption from './AIPModifyDeleteOption'

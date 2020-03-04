@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType } from '@regardsoss/theme'
-import Icon from 'material-ui/svg-icons/content/report'
+import Icon from 'mdi-material-ui/AlertOctagon'
 
 /**
  *

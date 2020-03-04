@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import SearchIcon from 'material-ui/svg-icons/action/search'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'

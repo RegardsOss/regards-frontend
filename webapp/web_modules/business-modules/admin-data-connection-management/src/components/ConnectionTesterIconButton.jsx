@@ -18,9 +18,9 @@
  */
 import React from 'react'
 import IconButton from 'material-ui/IconButton'
-import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import Check from 'material-ui/svg-icons/navigation/check'
-import Error from 'material-ui/svg-icons/alert/error'
+import PlayArrow from 'mdi-material-ui/Play'
+import Check from 'mdi-material-ui/Check'
+import Error from 'mdi-material-ui/AlertCircle'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

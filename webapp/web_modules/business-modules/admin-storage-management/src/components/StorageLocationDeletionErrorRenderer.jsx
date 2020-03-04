@@ -22,7 +22,7 @@ import { themeContextType } from '@regardsoss/theme'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import MoreVertIcon from 'mdi-material-ui/MenuDown'
 import StorageLocationListComponent from './StorageLocationListComponent'
 /**
  * Show Deletion Errors and a button to relauch

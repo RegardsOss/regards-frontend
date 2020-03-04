@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import React from 'react'
-import OkIcon from 'material-ui/svg-icons/action/done'
-import DeletedIcon from 'material-ui/svg-icons/action/delete-forever'
-import ErrorIcon from 'material-ui/svg-icons/alert/error'
+import OkIcon from 'mdi-material-ui/Check'
+import DeletedIcon from 'mdi-material-ui/DeleteForever'
+import ErrorIcon from 'mdi-material-ui/AlertCircle'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
 import { orderDependencies } from '@regardsoss/admin-order-management'
 
 /**

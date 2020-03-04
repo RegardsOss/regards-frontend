@@ -18,7 +18,7 @@
  **/
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
-import MessageIcon from 'material-ui/svg-icons/action/info-outline'
+import MessageIcon from 'mdi-material-ui/InformationOutline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton } from '@regardsoss/components'

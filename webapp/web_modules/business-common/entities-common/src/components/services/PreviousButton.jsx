@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import PreviousIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-left'
+import PreviousIcon from 'mdi-material-ui/ChevronLeft'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**

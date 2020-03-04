@@ -24,8 +24,8 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
 import { FormattedMessage } from 'react-intl'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,

@@ -27,9 +27,9 @@ import {
 import { FormattedMessage } from 'react-intl'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Settings from 'material-ui/svg-icons/action/settings-input-component'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
+import Settings from 'mdi-material-ui/VideoInputComponent'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'

@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
-import MoodIcon from 'material-ui/svg-icons/social/mood'
+import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import MenuItem from 'material-ui/MenuItem'
 import { browserHistory } from 'react-router'

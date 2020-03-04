@@ -18,7 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
-import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import DownloadIcon from 'mdi-material-ui/Download'
 import Chip from 'material-ui/Chip'
 import { DownloadButton, ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'

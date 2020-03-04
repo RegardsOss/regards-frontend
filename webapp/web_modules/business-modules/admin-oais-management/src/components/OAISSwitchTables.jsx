@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import { FlatButton } from 'material-ui'
+import FlatButton from 'material-ui/FlatButton'
 import { aipSelectors } from '../clients/AIPClient'
 import { requestSelectors } from '../clients/RequestClient'
 

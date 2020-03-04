@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import ClearCartIcon from 'material-ui/svg-icons/action/delete'
+import ClearCartIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withConfirmDialog } from '@regardsoss/components'
 

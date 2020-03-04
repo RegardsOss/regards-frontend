@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import flattenDeep from 'lodash/flattenDeep'
-import TestIcon from 'material-ui/svg-icons/action/accessibility'
+import TestIcon from 'mdi-material-ui/Human'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'

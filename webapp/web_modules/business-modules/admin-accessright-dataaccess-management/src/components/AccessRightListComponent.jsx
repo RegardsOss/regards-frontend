@@ -16,13 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Refresh from 'mdi-material-ui/Refresh'
+import Edit from 'mdi-material-ui/Pencil'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import FlatButton from 'material-ui/FlatButton'
 import values from 'lodash/values'
 import get from 'lodash/get'

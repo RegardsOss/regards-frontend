@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
-import Check from 'material-ui/svg-icons/navigation/check'
-import Error from 'material-ui/svg-icons/alert/error'
+import Check from 'mdi-material-ui/Check'
+import Error from 'mdi-material-ui/AlertCircle'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

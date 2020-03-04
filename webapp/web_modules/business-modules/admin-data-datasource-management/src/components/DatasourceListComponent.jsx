@@ -31,7 +31,7 @@ import {
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
 import DatasourceListEditAction from './DatasourceListEditAction'

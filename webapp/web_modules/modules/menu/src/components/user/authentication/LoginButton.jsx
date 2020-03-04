@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import LoginIcon from 'material-ui/svg-icons/action/account-circle'
+import LoginIcon from 'mdi-material-ui/AccountCircle'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 

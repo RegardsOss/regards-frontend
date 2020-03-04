@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import BigIcon from 'material-ui/svg-icons/action/pregnant-woman'
+import BigIcon from 'mdi-material-ui/HumanPregnant'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import OrdersNavigationComponent from '../../src/components/navigation/OrdersNavigationComponent'
 import { OrdersNavigationActions } from '../../src/model/OrdersNavigationActions'

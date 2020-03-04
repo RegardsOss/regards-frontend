@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
-import ValidateAllIcon from 'material-ui/svg-icons/av/playlist-add-check'
+import ValidateAllIcon from 'mdi-material-ui/PlaylistCheck'
 import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

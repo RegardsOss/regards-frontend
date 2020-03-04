@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
+import DefaultIcon from 'mdi-material-ui/EmoticonOutline'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import NoContentComponent from '../content/feedback/NoContentComponent'
 import styles from './styles'

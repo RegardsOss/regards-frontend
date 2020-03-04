@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import ColumnsSettingsIcon from 'material-ui/svg-icons/action/view-column'
+import ColumnsSettingsIcon from 'mdi-material-ui/ViewColumn'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import ColumnsSettingsComponent from './ColumnsSettingsComponent'

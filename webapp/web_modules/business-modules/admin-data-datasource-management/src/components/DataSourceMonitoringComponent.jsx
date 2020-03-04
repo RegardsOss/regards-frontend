@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
+import Refresh from 'mdi-material-ui/Refresh'
 import FlatButton from 'material-ui/FlatButton'
 import {
   Card, CardTitle, CardText, CardActions,

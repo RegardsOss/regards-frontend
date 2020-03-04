@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Drawer from 'material-ui/Drawer'
-import Settings from 'material-ui/svg-icons/action/settings'
-import Brush from 'material-ui/svg-icons/image/brush'
-import SupervisorAccount from 'material-ui/svg-icons/action/supervisor-account'
+import Settings from 'mdi-material-ui/Settings'
+import Brush from 'mdi-material-ui/Brush'
+import SupervisorAccount from 'mdi-material-ui/AccountSupervisor'
 import { } from '@regardsoss/admin-user-management'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -65,14 +65,14 @@ class InstanceSidebarComponent extends React.Component {
           to="/admin/projects/list"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.projects' })}
-          leftIcon={<Settings />}
+          leftIcon={<Settings color={this.context.muiTheme.svgIcon.color} />}
         />
         <SidebarElement
           key="1"
           to="/admin/accounts/board"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.accounts' })}
-          leftIcon={<SupervisorAccount />}
+          leftIcon={<SupervisorAccount color={this.context.muiTheme.svgIcon.color} />}
           rightIcon={<WaitingAccountsNotificationContainer />}
         />
         <SidebarElement
@@ -80,7 +80,7 @@ class InstanceSidebarComponent extends React.Component {
           to="/admin/ui/board"
           currentPath={this.props.currentPath}
           primaryText={this.context.intl.formatMessage({ id: 'menu.instance.ui.configuration' })}
-          leftIcon={<Brush />}
+          leftIcon={<Brush color={this.context.muiTheme.svgIcon.color} />}
         />
       </Drawer>
     )

@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import ErrorIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
-import MessageIcon from 'material-ui/svg-icons/social/sentiment-satisfied'
-import CloseIcon from 'material-ui/svg-icons/navigation/close'
+import ErrorIcon from 'mdi-material-ui/EmoticonSadOutline'
+import MessageIcon from 'mdi-material-ui/EmoticonHappyOutline'
+import CloseIcon from 'mdi-material-ui/Close'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsoss/components'

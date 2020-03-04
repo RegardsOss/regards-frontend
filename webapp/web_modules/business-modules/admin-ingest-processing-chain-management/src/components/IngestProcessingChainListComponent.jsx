@@ -19,7 +19,7 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   TableDeleteOption,
   TableColumnBuilder,

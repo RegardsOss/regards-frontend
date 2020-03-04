@@ -18,7 +18,7 @@
  **/
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
-import { FlatButton } from 'material-ui'
+import FlatButton from 'material-ui/FlatButton'
 import { FormattedMessage } from 'react-intl'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'

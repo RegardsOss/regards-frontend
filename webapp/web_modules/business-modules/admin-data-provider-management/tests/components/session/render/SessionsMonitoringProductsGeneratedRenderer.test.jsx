@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import RunningIcon from 'material-ui/svg-icons/av/play-arrow'
+import RunningIcon from 'mdi-material-ui/Play'
 import MenuItem from 'material-ui/MenuItem'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'

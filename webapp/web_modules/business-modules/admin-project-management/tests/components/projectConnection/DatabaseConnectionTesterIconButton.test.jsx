@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import IconButton from 'material-ui/IconButton'
-import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
+import PlayArrow from 'mdi-material-ui/Play'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { EnumConnectivity } from '@regardsoss/domain/admin'
 import DatabaseConnectionTesterIconButton from '../../../src/components/projectConnection/DatabaseConnectionTesterIconButton'

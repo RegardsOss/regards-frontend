@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import HandySport from 'material-ui/svg-icons/action/accessibility'
+import HandySport from 'mdi-material-ui/Human'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '@regardsoss/components'
 import OrdersNavigationComponent from '../../../src/components/navigation/OrdersNavigationComponent'

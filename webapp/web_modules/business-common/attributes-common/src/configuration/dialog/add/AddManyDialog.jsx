@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import SelectAllIcon from 'material-ui/svg-icons/toggle/check-box'
-import UnselectAllIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import SelectAllIcon from 'mdi-material-ui/CheckboxMarked'
+import UnselectAllIcon from 'mdi-material-ui/CheckboxBlankOutline'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'

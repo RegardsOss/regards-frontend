@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DownloadIcon from 'material-ui/svg-icons/action/get-app'
+import DownloadIcon from 'mdi-material-ui/Download'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'

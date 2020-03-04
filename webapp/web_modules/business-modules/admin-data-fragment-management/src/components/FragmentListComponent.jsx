@@ -26,9 +26,9 @@ import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Download from 'material-ui/svg-icons/file/file-download'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
+import Download from 'mdi-material-ui/Download'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, HelpMessageComponent,

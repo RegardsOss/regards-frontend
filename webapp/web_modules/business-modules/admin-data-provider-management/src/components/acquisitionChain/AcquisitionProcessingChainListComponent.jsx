@@ -19,8 +19,8 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
-import PageView from 'material-ui/svg-icons/action/pageview'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
+import PageView from 'mdi-material-ui/CardSearch'
 import { CommonDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'

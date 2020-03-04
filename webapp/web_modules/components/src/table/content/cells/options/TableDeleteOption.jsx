@@ -18,7 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
+import DeleteIcon from 'mdi-material-ui/Delete'
 import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'

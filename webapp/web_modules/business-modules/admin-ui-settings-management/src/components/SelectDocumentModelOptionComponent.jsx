@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import SelectIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
+import SelectIcon from 'mdi-material-ui/ChevronRight'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**

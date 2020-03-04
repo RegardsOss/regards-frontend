@@ -18,11 +18,11 @@
  **/
 import ListViewIcon from 'mdi-material-ui/ViewSequential'
 import QuicklookViewIcon from 'mdi-material-ui/ImageAlbum'
-import MapViewIcon from 'material-ui/svg-icons/maps/map'
+import MapViewIcon from 'mdi-material-ui/Map'
 import SortIcon from 'mdi-material-ui/SortDescending'
 import FiltersIcon from 'mdi-material-ui/Filter'
 import RestrictionIcon from 'mdi-material-ui/FocusFieldHorizontal'
-import MainSettingIcon from 'material-ui/svg-icons/action/settings'
+import MainSettingIcon from 'mdi-material-ui/Settings'
 import ViewSettingIcon from 'mdi-material-ui/TableSettings'
 import { DamDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'

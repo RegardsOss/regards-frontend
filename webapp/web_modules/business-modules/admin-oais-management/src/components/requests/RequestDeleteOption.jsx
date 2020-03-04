@@ -18,7 +18,7 @@
  import IconButton from 'material-ui/IconButton'
  **/
 import IconButton from 'material-ui/IconButton'
-import DeleteOnAllIcon from 'material-ui/svg-icons/action/delete-forever'
+import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'

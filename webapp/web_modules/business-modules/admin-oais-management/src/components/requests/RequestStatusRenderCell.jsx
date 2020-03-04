@@ -20,7 +20,7 @@ import isEmpty from 'lodash/isEmpty'
 import { i18nContextType } from '@regardsoss/i18n'
 import { StringValueRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'
-import AlertError from 'material-ui/svg-icons/alert/error'
+import AlertError from 'mdi-material-ui/AlertCircle'
 import { IngestShapes } from '@regardsoss/shape'
 
 /**

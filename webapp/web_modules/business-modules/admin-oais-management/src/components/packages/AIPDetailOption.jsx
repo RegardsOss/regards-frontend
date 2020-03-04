@@ -21,7 +21,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import MoreVertIcon from 'mdi-material-ui/MenuDown'
 
 /**
 * Detail option cell for the infinite table used to display the contents of an aip

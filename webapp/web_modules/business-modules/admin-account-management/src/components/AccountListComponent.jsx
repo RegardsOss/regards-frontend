@@ -28,8 +28,8 @@ import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import EditAccountIcon from 'material-ui/svg-icons/editor/mode-edit'
-import DeleteAccountIcon from 'material-ui/svg-icons/action/delete'
+import EditAccountIcon from 'mdi-material-ui/Pencil'
+import DeleteAccountIcon from 'mdi-material-ui/Delete'
 import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
 import RefuseAccountIcon from 'mdi-material-ui/AccountRemove'
 import EnabledAccountIcon from 'mdi-material-ui/AccountConvert'

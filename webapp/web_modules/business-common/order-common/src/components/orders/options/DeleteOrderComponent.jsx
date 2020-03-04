@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import CancelIcon from 'material-ui/svg-icons/navigation/cancel'
-import DeleteCompletelyIcon from 'material-ui/svg-icons/action/delete-forever'
+import CancelIcon from 'mdi-material-ui/CloseCircle'
+import DeleteCompletelyIcon from 'mdi-material-ui/DeleteForever'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
