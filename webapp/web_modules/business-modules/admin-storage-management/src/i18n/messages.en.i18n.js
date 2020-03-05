@@ -90,6 +90,11 @@ const messages = Object.assign({
   'storage.location.form.submit.edit.button': 'Modify',
   'invalid.name.expression': 'Name invalid, only alphanumeric, - and _ characters are allowed',
 
+  'storage.location.copy.from.label': 'From : ',
+  'storage.location.copy.to.label': 'To : ',
+  'storage.location.copy.submit': 'Copy data files',
+  'storage.location.copy.submit.manifest': 'Copy manifests',
+
   'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',
   'storage.locations.configuration.subtitle': 'This section allows you to configure storage locations',

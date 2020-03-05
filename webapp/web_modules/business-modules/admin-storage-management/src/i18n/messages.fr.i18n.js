@@ -40,8 +40,8 @@ const messages = Object.assign({
     other {#}
   }`,
   'storage.location.list.edit.button': 'Éditer la configuration',
-  'storage.location.list.copy.button': 'Copier les fichiers vers un autre storage',
-  'storage.location.list.delete-files.button': 'Effacer les fichiers du storage',
+  'storage.location.list.copy.button': 'Copier les fichiers',
+  'storage.location.list.delete-files.button': 'Effacer les fichiers de l\'espace de stockage',
   'storage.location.list.up.priority.button': 'Augmenter la priorité de la configuration',
   'storage.location.list.down.priority.button': 'Diminuer la priorité de la configuration',
   'storage.location.list.confirm.title': 'Suppression du stockage {name} ?',
@@ -60,7 +60,7 @@ const messages = Object.assign({
   'storage.location.delete.confirm.option': 'Ignorer les erreurs de suppression des fichiers physiques ?',
   'storage.location.dialogs.confirm': 'Confirmer',
   'storage.location.dialogs.cancel': 'Annuler',
-  'storage.location.copy.confirm.title': 'Copier les fichiers du storage {name} vers...',
+  'storage.location.copy.confirm.title': 'Copier les fichiers de l\' espace de stockage {name} vers...',
   'storage.location.copy.confirm.path-destination': 'Répertoire de destination (optionnel)',
   'storage.location.copy.confirm.path-source': 'Répertoire d\'origine à copier (optionnel)',
 
@@ -89,6 +89,11 @@ const messages = Object.assign({
   'storage.location.form.submit.button': 'Créer',
   'storage.location.form.submit.edit.button': 'Modifier',
   'invalid.name.expression': 'Nom invalide, seul les caractères alphanumérique, - et _ sont acceptés',
+
+  'storage.location.copy.from.label': 'De : ',
+  'storage.location.copy.to.label': 'Vers : ',
+  'storage.location.copy.submit': 'Copier les fichiers de données',
+  'storage.location.copy.submit.manifest': 'Copier les manifestes',
 
   'storage.locations.size.title': 'Taux d\'utilisation des espaces de stockage',
   'storage.locations.configuration.title': 'Configuration des espaces de stockage',

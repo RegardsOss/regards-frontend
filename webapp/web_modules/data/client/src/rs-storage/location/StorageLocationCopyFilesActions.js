@@ -30,7 +30,7 @@ class StorageLocationCopyFilesActions extends BasicSignalActions {
     })
   }
 
-  copyFiles = (nameSource, pathSource, nameTarget, pathTarget) => this.sendSignal(RequestVerbEnum.POST, {
+  copyFiles = (nameSource, pathSource, nameTarget, pathTarget, types = []) => this.sendSignal(RequestVerbEnum.POST, {
     from: {
       storage: nameSource,
       url: pathSource,
@@ -39,6 +39,7 @@ class StorageLocationCopyFilesActions extends BasicSignalActions {
       storage: nameTarget,
       url: pathTarget,
     },
+    types,
   }, {}, {})
 }
 
