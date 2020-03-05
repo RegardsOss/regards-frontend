@@ -19,6 +19,7 @@
 import {
   RenderTextField, RenderCheckbox, Field,
 } from '@regardsoss/form-utils'
+import ErrorIcon from 'mdi-material-ui/Alert'
 import Paper from 'material-ui/Paper'
 import Storage from 'mdi-material-ui/Database'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -170,13 +171,27 @@ export class StoragesFieldArrayRenderer extends React.Component {
 
   render() {
     const { fields } = this.props
-    const { intl: { formatMessage }, moduleTheme: { chainForm: { info, paperFlexContainer } } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        chainForm: {
+          info, paperFlexContainer, errorMessage, errorIcon,
+        },
+      },
+    } = this.context
     return (
       <React.Fragment>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
-        <div style={paperFlexContainer}>
-          {fields.map(this.renderStorageCheckbox)}
-        </div>
+        { /** Storages list or error message */
+        fields.length ? (
+          <div style={paperFlexContainer}>
+            {fields.map(this.renderStorageCheckbox)}
+          </div>
+        ) : (
+          <div style={errorMessage}>
+            <ErrorIcon style={errorIcon} />
+            {formatMessage({ id: 'acquisition-chain.form.general.section.info.storage.no.data' })}
+          </div>)
+        }
       </React.Fragment>
     )
   }

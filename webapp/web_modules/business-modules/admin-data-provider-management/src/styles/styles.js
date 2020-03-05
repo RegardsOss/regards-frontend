@@ -359,6 +359,15 @@ const styles = theme => ({
     },
   },
   chainForm: {
+    errorIcon: {
+      color: theme.formsExtensions.validation.errorColor,
+      marginRight: 10,
+    },
+    errorMessage: {
+      color: theme.formsExtensions.validation.errorColor,
+      display: 'flex',
+      alignItems: 'center',
+    },
     paperFlexContainer: {
       display: 'flex',
       flexWrap: 'wrap',

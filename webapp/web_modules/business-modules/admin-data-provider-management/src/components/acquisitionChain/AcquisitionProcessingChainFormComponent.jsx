@@ -235,7 +235,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       default:
         throw new Error(`Unknown mode : ${mode}`)
     }
-
     initialize(initialValues)
   }
 
@@ -249,33 +248,12 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     })
   }
 
-
-  renderActionButtons = () => {
-    const { intl: { formatMessage } } = this.context
-    const {
-      invalid, pristine, submitting, onBack, mode,
-    } = this.props
-    const label = mode === 'create' || mode === 'duplicate'
-      ? formatMessage({ id: 'acquisition-chain.form.create.button' })
-      : formatMessage({ id: 'acquisition-chain.form.update.button' })
-    return (
-      <CardActions>
-        <CardActionsComponent
-          mainButtonLabel={label}
-          mainButtonType="submit"
-          isMainButtonDisabled={submitting || pristine || invalid}
-          secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
-          secondaryButtonClick={onBack}
-        />
-      </CardActions>
-    )
-  }
-
   renderFileInfoItemLabel = item => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
 
   render() {
     const {
       chain, onSubmit, handleSubmit, mode, hasModeAuto,
+      invalid, pristine, submitting, onBack,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { periodicity } } = this.context
 
@@ -433,7 +411,17 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
               </Tab>
             </Tabs>
           </CardText>
-          {this.renderActionButtons()}
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={mode === 'create' || mode === 'duplicate'
+                ? formatMessage({ id: 'acquisition-chain.form.create.button' })
+                : formatMessage({ id: 'acquisition-chain.form.update.button' })}
+              mainButtonType="submit"
+              isMainButtonDisabled={submitting || pristine || invalid}
+              secondaryButtonLabel={formatMessage({ id: 'acquisition-chain.form.cancel.button' })}
+              secondaryButtonClick={onBack}
+            />
+          </CardActions>
           <CronDescriptionDialog
             opened={this.state.cronDescOpened}
             onClose={this.switchCronDialog}

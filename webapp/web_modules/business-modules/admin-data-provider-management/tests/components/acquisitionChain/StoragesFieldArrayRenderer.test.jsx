@@ -57,31 +57,35 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
     const props = {
       changeField: () => {},
       fields: {
-        getAll: () => [
-          {
-            active: true,
-            label: 'LocalDataStorage',
-            path: '/machin/chose',
-          },
-          {
-            active: true,
-            label: 'Sacoche Infini',
-            path: '',
-          },
-          {
-            active: false,
-            label: 'Turkmenistan',
-            path: '',
-          },
-        ],
+        getAll: () => fieldValues,
         push: () => { },
         remove: () => { },
-        map: f => fieldValues.map((member, index, fields) => f(member, index, props.fields)),
+        map: f => fieldValues.map((member, index) => f(member, index, props.fields)),
         get: i => fieldValues[i],
+        length: fieldValues.length,
       },
     }
     const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
     const fields = enzymeWrapper.find(Field)
     assert.equal(fields.length, 27, 'There should be 27 parameter Field rendered in this form')
+    assert.notInclude(enzymeWrapper.debug(), 'acquisition-chain.form.general.section.info.storage.no.data', 'Error message should be displayed')
+  })
+  it('should render error when there is no storage', () => {
+    const fieldValues = []
+    const props = {
+      changeField: () => {},
+      fields: {
+        getAll: () => fieldValues,
+        push: () => { },
+        remove: () => { },
+        map: f => fieldValues.map((member, index) => f(member, index, props.fields)),
+        get: i => fieldValues[i],
+        length: fieldValues.length,
+      },
+    }
+    const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
+    const fields = enzymeWrapper.find(Field)
+    assert.equal(fields.length, 0, 'There should be no field')
+    assert.include(enzymeWrapper.debug(), 'acquisition-chain.form.general.section.info.storage.no.data', 'Error message should be displayed')
   })
 })
