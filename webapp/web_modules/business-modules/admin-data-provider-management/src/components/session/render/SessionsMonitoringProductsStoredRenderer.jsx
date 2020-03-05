@@ -60,6 +60,16 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
   /** Depencies for AIP list displaying */
   static REQUEST_LIST_DEPENDENCIES = [new IngestClient.RequestActions('any').getDependency(RequestVerbEnum.POST)]
 
+  /**
+   * Extract values sum in catalog lifecycle fields
+   * @param {*} entity matching AccessShapes.Session
+   * @param {...string} fields fields in oais objet
+   * @return {string|number} field value
+   */
+  static getValue(entity, ...fields) {
+    return fields.reduce((acc, field) => acc + get(entity, `content.lifeCycle.oais.${field}`, 0), 0)
+  }
+
   onClickRelaunch = () => {
     const { entity, onRelaunchProductsOAIS } = this.props
     onRelaunchProductsOAIS(entity.content.source, entity.content.name)
@@ -73,21 +83,6 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
   onClickListRequestErrors = () => {
     const { entity, onViewRequestsOAIS } = this.props
     onViewRequestsOAIS(entity.content.source, entity.content.name, true)
-  }
-
-  getStored = (entity) => {
-    const stored = get(entity, 'content.lifeCycle.oais.products_stored', 0)
-    return parseInt(stored, 10)
-  }
-
-  getStoragePending = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.oais.products_store_pending', 0)
-    return parseInt(pending, 10)
-  }
-
-  getGenerating = (entity) => {
-    const pending = get(entity, 'content.lifeCycle.oais.products_gen_pending', 0)
-    return parseInt(pending, 10)
   }
 
   getErrors = (entity) => {
@@ -142,10 +137,10 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
     } = this.context
     const { entity, availableDependencies } = this.props
 
-    const generating = this.getGenerating(entity)
-    const stored = this.getStored(entity)
-    const storagePending = this.getStoragePending(entity)
-    const errors = this.getErrors(entity)
+    const generating = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_gen_pending')
+    const stored = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_stored')
+    const storagePending = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_store_pending')
+    const errors = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_gen_error', 'products_store_error', 'products_meta_store_error')
 
 
     const items = []

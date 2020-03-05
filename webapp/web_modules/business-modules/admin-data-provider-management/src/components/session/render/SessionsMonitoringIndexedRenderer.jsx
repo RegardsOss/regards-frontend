@@ -50,16 +50,16 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
   /** Dependencies to display crawler list */
   static DATASOURCES_LIST_DEPENDENCIES = [new DataManagementClient.CrawlerDatasourceActions('').getDependency(RequestVerbEnum.GET_LIST)]
 
-  getIndexed = (entity) => {
+  /**
+   * Extract and format number in catalog lifecycle field
+   * @param {*} entity matching AccessShapes.Session
+   * @param {string} field field in catalog objet
+   * @return {string} formatted number value
+   */
+  formatNumber = (entity, field) => {
     const { intl: { formatNumber } } = this.context
-    const indexed = get(entity, 'content.lifeCycle.catalog.indexed', 0)
-    return formatNumber(indexed)
-  }
-
-  getErrors = (entity) => {
-    const { intl: { formatNumber } } = this.context
-    const indexed = get(entity, 'content.lifeCycle.catalog.indexedError', 0)
-    return formatNumber(indexed)
+    const value = get(entity, `content.lifeCycle.catalog.${field}`, 0)
+    return formatNumber(value)
   }
 
   render() {
@@ -117,9 +117,9 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
                 </div>
                 <div style={listFourValues}>
                   <div style={one} />
-                  <div style={two}>{this.getIndexed(entity)}</div>
+                  <div style={two}>{this.formatNumber(entity, 'indexed')}</div>
                   <div style={three} />
-                  <div style={four}>{this.getErrors(entity)}</div>
+                  <div style={four}>{this.formatNumber(entity, 'indexedError')}</div>
                 </div>
                 { actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>

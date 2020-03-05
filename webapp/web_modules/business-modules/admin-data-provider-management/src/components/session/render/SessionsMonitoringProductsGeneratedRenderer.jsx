@@ -51,52 +51,31 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
   /** Dependencies for relaunch action */
   static RELAUNCH_DEPENCIES = [sessionsRelaunchProductActions.getDependency(RequestVerbEnum.GET)]
 
+  /**
+   * Extract value in dataprovider lifecycle field
+   * @param {*} entity matching AccessShapes.Session
+   * @param {string} field field in dataprovider objet
+   * @return {string|number} field value
+   */
+  static getValue(entity, field) {
+    return get(entity, `content.lifeCycle.dataprovider.${field}`, 0)
+  }
+
+  /**
+   * Extract and format numbers in dataprovider lifecycle field
+   * @param {*} entity matching AccessShapes.Session
+   * @param {...string} fields fields in dataprovider objet
+   * @return {string} formatted numbers sum
+   */
+  formatNumber = (entity, ...fields) => {
+    const { intl: { formatNumber } } = this.context
+    const value = fields.reduce((acc, field) => acc + SessionsMonitoringProductsGeneratedRenderer.getValue(entity, field), 0)
+    return formatNumber(value)
+  }
+
   onClickRelaunchProducts = () => {
     const { entity, onRelaunchProducts } = this.props
     onRelaunchProducts(entity.content.source, entity.content.name)
-  }
-
-  getFilesAcquired = (entity) => {
-    const { intl: { formatNumber } } = this.context
-    const acquired = get(entity, 'content.lifeCycle.dataprovider.files_acquired', 0)
-    return formatNumber(parseInt(acquired, 10))
-  }
-
-  getGenerated = (entity) => {
-    const { intl: { formatNumber } } = this.context
-    const generated = get(entity, 'content.lifeCycle.dataprovider.generated', 0)
-    const ingested = get(entity, 'content.lifeCycle.dataprovider.ingested', 0)
-    // Do not handle ingestion errors in dataprovider section. Ingestion errors will be handled with ingest microservice
-    // ingestion failed means that te SIP is well generated.
-    const ingFailed = get(entity, 'content.lifeCycle.dataprovider.ingestion_failed', 0)
-    return formatNumber(parseInt(generated, 10) + parseInt(ingested, 10) + parseInt(ingFailed, 10))
-  }
-
-  getIncompletes = (entity, formated = true) => {
-    const { intl: { formatNumber } } = this.context
-    const incompletes = get(entity, 'content.lifeCycle.dataprovider.incomplete', 0)
-    if (formated) {
-      return formatNumber(parseInt(incompletes, 10))
-    }
-    return parseInt(incompletes, 10)
-  }
-
-  getInvalids = (entity, formated = true) => {
-    const { intl: { formatNumber } } = this.context
-    const invalid = get(entity, 'content.lifeCycle.dataprovider.invalid', 0)
-    if (formated) {
-      return formatNumber(parseInt(invalid, 10))
-    }
-    return parseInt(invalid, 10)
-  }
-
-  getErrors = (entity, formated = true) => {
-    const { intl: { formatNumber } } = this.context
-    const error = get(entity, 'content.lifeCycle.dataprovider.generation_error', 0)
-    if (formated) {
-      return formatNumber(parseInt(error, 10))
-    }
-    return parseInt(error, 10)
   }
 
   onShowErrors = () => {
@@ -134,7 +113,7 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
     const { entity, availableDependencies } = this.props
 
     const actions = []
-    if (this.getErrors(entity, false) > 0) {
+    if (SessionsMonitoringProductsGeneratedRenderer.getValue(entity, 'generation_error') > 0) {
       if (allMatchHateoasDisplayLogic(SessionsMonitoringProductsGeneratedRenderer.RELAUNCH_DEPENCIES, availableDependencies)) {
         actions.push(<MenuItem
           key="relaunch"
@@ -150,7 +129,7 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
         value="show-errors"
       />)
     }
-    if (this.getInvalids(entity, false) > 0) {
+    if (SessionsMonitoringProductsGeneratedRenderer.getValue(entity, 'invalid') > 0) {
       actions.push(<MenuItem
         key="show-invalids"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.invalids' })}
@@ -158,7 +137,7 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
         value="show-invalids"
       />)
     }
-    if (this.getIncompletes(entity, false) > 0) {
+    if (SessionsMonitoringProductsGeneratedRenderer.getValue(entity, 'incomplete') > 0) {
       actions.push(<MenuItem
         key="show-incomplete"
         primaryText={formatMessage({ id: 'acquisition-sessions.menus.products.show.incomplete' })}
@@ -217,11 +196,11 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
                   </div>
                 </div>
                 <div style={listFiveValues}>
-                  <div style={one}>{this.getFilesAcquired(entity)}</div>
-                  <div style={two}>{this.getGenerated(entity)}</div>
-                  <div style={three}>{this.getIncompletes(entity)}</div>
-                  <div style={four}>{this.getInvalids(entity)}</div>
-                  <div style={five}>{this.getErrors(entity)}</div>
+                  <div style={one}>{this.formatNumber(entity, 'files_acquired')}</div>
+                  <div style={two}>{this.formatNumber(entity, 'generated', 'ingested', 'ingestion_failed')}</div>
+                  <div style={three}>{this.formatNumber(entity, 'incomplete')}</div>
+                  <div style={four}>{this.formatNumber(entity, 'invalid')}</div>
+                  <div style={five}>{this.formatNumber(entity, 'generation_error')}</div>
                 </div>
                 {actions.length > 0
                   ? <div style={{ gridArea: 'menu', alignSelf: 'end' }}>
