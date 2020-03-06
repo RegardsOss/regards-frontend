@@ -42,6 +42,7 @@ import { microserviceDependencies } from '@regardsoss/admin-microservice-managem
 import {
   ShowableAtRender, someMatchHateoasDisplayLogic, someListMatchHateoasDisplayLogic, withResourceDisplayControl,
 } from '@regardsoss/display-control'
+import { AdminDomain } from '@regardsoss/domain'
 import getModuleStyles from '../../styles/styles'
 import SidebarElement from './SidebarElement'
 import WaitingAccessNotificationContainer from '../containers/WaitingAccessNotificationContainer'
@@ -67,15 +68,18 @@ class ProjectSidebarComponent extends React.Component {
   static propTypes = {
     projectName: PropTypes.string.isRequired,
     currentPath: PropTypes.string,
-    isInstance: PropTypes.bool,
+    role: PropTypes.string,
   }
+
+  /** Roles allowed to see instance administration link */
+  static INSTANCE_ADMINISTRATION_LINK_ROLES = [AdminDomain.DEFAULT_ROLES_ENUM.INSTANCE_ADMIN, AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN]
 
   handleRedirectToInstanceAdminDashboard = () => {
     window.open(/admin/, '_blank')
   }
 
   render() {
-    const { projectName, isInstance } = this.props
+    const { projectName, role } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
     const style = {
       sidebarContainer: {
@@ -166,7 +170,7 @@ class ProjectSidebarComponent extends React.Component {
           primaryText={this.context.intl.formatMessage({ id: 'menu.commands' })}
           leftIcon={<Commands color={this.context.muiTheme.svgIcon.color} />}
         />
-        <ShowableAtRender show={isInstance}>
+        <ShowableAtRender show={ProjectSidebarComponent.INSTANCE_ADMINISTRATION_LINK_ROLES.includes(role)}>
           <Divider />
           <MenuItem
             primaryText={this.context.intl.formatMessage({ id: 'menu.instance' })}
