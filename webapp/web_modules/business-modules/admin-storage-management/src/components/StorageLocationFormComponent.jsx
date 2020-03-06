@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import DropDownMenu from 'material-ui/DropDownMenu'
@@ -29,7 +30,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import {
-  RenderTextField, reduxForm, Field,
+  RenderTextField, reduxForm, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
 import { StorageDomain } from '@regardsoss/domain'
@@ -53,6 +54,8 @@ class StorageLocationFormComponent extends React.Component {
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     // from redux form
+    pristine: PropTypes.bool.isRequired,
+    invalid: PropTypes.bool.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
   }
@@ -83,16 +86,24 @@ class StorageLocationFormComponent extends React.Component {
     }
   }
 
-  getAllocatedSizeInKo = value => value ? new storage.StorageCapacity(value, this.state.unit).convert(StorageLocationFormComponent.kbUnit).value
-    : null
+  getAllocatedSizeInKo = (value) => {
+    if (isNil(value)) {
+      return null
+    }
+    const kbValue = new storage.StorageCapacity(parseFloat(value), this.state.unit).convert(StorageLocationFormComponent.kbUnit).value
+    // truncate value at 3 decimal then round value
+    return Math.round(kbValue)
+  }
 
   calculateUnitAndReturnValue = (value) => {
-    if (value) {
-      const capacity = new storage.StorageCapacity(value, StorageLocationFormComponent.kbUnit).scaleAndConvert(storage.StorageUnitScale.bytesScale)
-      this.setState({ unit: capacity.unit })
-      return capacity.value
+    if (isNil(value)) {
+      return null
     }
-    return null
+    const capacity = new storage.StorageCapacity(value, StorageLocationFormComponent.kbUnit).scaleAndConvert(storage.StorageUnitScale.bytesScale)
+    this.setState({ unit: capacity.unit })
+    const floatValue = capacity.value
+    // truncate value at 3 decimal
+    return Math.round(floatValue * 1000) / 1000
   }
 
   onBack = () => {
@@ -188,8 +199,8 @@ class StorageLocationFormComponent extends React.Component {
           <Field
             name="allocatedSize"
             component={RenderTextField}
-            type="number"
             label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
+            validate={ValidationHelpers.javaDoubleValidator}
             style={allocatedSizeStyle}
           />
           <div style={unitsStyle}>
@@ -214,6 +225,7 @@ class StorageLocationFormComponent extends React.Component {
   render() {
     const {
       backUrl, handleSubmit, entity, mode,
+      pristine, invalid,
     } = this.props
 
     let onSubmitAction
@@ -245,6 +257,7 @@ class StorageLocationFormComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={buttonTitle}
               mainButtonType="submit"
+              isMainButtonDisabled={pristine || invalid}
               secondaryButtonLabel={formatMessage({ id: 'storage.location.form.back.button' })}
               secondaryButtonUrl={backUrl}
             />
