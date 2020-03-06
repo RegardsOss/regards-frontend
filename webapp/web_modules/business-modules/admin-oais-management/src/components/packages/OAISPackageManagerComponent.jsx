@@ -572,7 +572,7 @@ export class OAISPackageManagerComponent extends React.Component {
         .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.LASTUPDATE), this.onSort)
         .fixedSizing(200)
         .build(),
-      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.aip.version')
+      new TableColumnBuilder(OAISPackageManagerComponent.COLUMN_KEYS.VERSION).titleHeaderCell().propertyRenderCell('content.version')
         .label(formatMessage({ id: 'oais.aips.list.table.headers.version' }))
         .sortableHeaderCell(...this.getColumnSortingData(OAISPackageManagerComponent.COLUMN_KEYS.VERSION), this.onSort)
         .fixedSizing(100)
