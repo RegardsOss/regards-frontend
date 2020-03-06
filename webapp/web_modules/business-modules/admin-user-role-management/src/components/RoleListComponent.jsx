@@ -24,12 +24,13 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import Settings from 'mdi-material-ui/VideoInputComponent'
+import { FormattedMessage } from 'react-intl'
+import { AdminDomain } from '@regardsoss/domain'
+import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'
@@ -75,16 +76,29 @@ export class RoleListComponent extends React.Component {
   }
 
   /**
-   * Return the parent role as string
-   * @param parentRole Role
-   * @returns {string}
+   * Returns role label for role name as parameter
+   * @param {string}  name (may be undefined)
+   * @return {string} label to use
    */
-  getParentRoleName = (parentRole) => {
-    if (parentRole) {
-      return parentRole.name
+  getRoleLabel = (name) => {
+    const { intl: { formatMessage } } = this.context
+    if (name) {
+      if (AdminDomain.DEFAULT_ROLES.includes(name)) {
+        // format a default role
+        return formatMessage({ id: `role.name.${name}` })
+      }
+      // custom role: return its name
+      return name
     }
-    return ''
+    return formatMessage({ id: 'role.name.empty' })
   }
+
+  /**
+   * Return the parent role label
+   * @param {*} parentRole optionnal parent role
+   * @returns {string} label to use
+   */
+  getParentRoleLabel = parentRole => this.getRoleLabel(parentRole ? parentRole.name : null)
 
   /**
    *
@@ -129,14 +143,6 @@ export class RoleListComponent extends React.Component {
         />
       </ShowableAtRender>
     )
-  }
-
-  getRoleName = (name = 'empty') => {
-    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formated !== `role.name.${name}`) {
-      return formated
-    }
-    return name
   }
 
   render() {
@@ -208,8 +214,8 @@ export class RoleListComponent extends React.Component {
             >
               {map(roleList, (role, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{this.getRoleName(role.content.name || 'empty')}</TableRowColumn>
-                  <TableRowColumn>{this.getRoleName(this.getParentRoleName(role.content.parentRole) || 'empty') }</TableRowColumn>
+                  <TableRowColumn>{this.getRoleLabel(role.content.name)}</TableRowColumn>
+                  <TableRowColumn>{this.getParentRoleLabel(role.content.parentRole) }</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={role.links}

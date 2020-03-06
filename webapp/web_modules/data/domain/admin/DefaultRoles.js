@@ -17,10 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { DEFAULT_ROLES, DEFAULT_ROLES_ENUM } from './DefaultRoles'
-export { default as EnumConnectivity } from './EnumConnectivity'
-export { default as EnumJavaPrimitiveType } from './EnumJavaPrimitiveType'
-export { default as ProjectConnectionStateEnum } from './ProjectConnectionStateEnum'
-export { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './ProjectUserSettingsMode'
-export { PROJECT_USER_STATUS, PROJECT_USER_STATUS_ENUM } from './ProjectUserStatus'
-export { PROJECT_CRS, PROJECT_CRS_ENUM } from './ProjectCrsEnum'
+import values from 'lodash/values'
+
+/**
+ * Default user roles enumeration
+ * @author Raphaël Mechali
+ */
+
+export const DEFAULT_ROLES_ENUM = {
+  PUBLIC: 'PUBLIC',
+  REGISTERED_USER: 'REGISTERED_USER',
+  EXPLOIT: 'EXPLOIT',
+  ADMIN: 'ADMIN',
+  PROJECT_ADMIN: 'PROJECT_ADMIN',
+}
+
+export const DEFAULT_ROLES = values(DEFAULT_ROLES_ENUM)

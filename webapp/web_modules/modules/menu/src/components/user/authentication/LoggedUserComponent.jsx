@@ -26,10 +26,11 @@ import AccountMenuIcon from 'mdi-material-ui/AccountBox'
 import ActionExitToApp from 'mdi-material-ui/ExitToApp'
 import ChangeRole from 'mdi-material-ui/Run'
 import ArrowDropRight from 'mdi-material-ui/MenuRight'
-import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
+import { AdminDomain } from '@regardsoss/domain'
+import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AdminShapes } from '@regardsoss/shape'
+import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
 
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
 
@@ -108,7 +109,7 @@ class LoggedUserComponent extends React.Component {
                     return (<MenuItem
                       onClick={() => onBorrowRole(roleName)}
                       key={roleName}
-                      primaryText={roleName}
+                      primaryText={AdminDomain.DEFAULT_ROLES.includes(roleName) ? this.context.intl.formatMessage({ id: `role.name.${roleName}` }) : roleName}
                       checked={roleName === currentRole}
                       insetChildren
                     />)

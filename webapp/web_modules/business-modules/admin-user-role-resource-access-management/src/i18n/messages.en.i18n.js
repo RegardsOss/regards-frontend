@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = Object.assign({
-  'role.list.title': 'Authorized resources for {role} : ',
+  'role.list.title': 'Authorized resources for {role} role',
   'role.list.subtitle': 'All system\'s functionalities. You can choose current role\'s accessibility for each one of them',
   'role.list.action.back': 'Back',
   'role.form.info': 'More information',
@@ -27,6 +27,11 @@ const messages = Object.assign({
   'role.form.moreinfo': 'More information',
   'role.modal.title': 'Resource {name}',
   'role.modal.action.back': 'Back',
+  'role.name.PUBLIC': 'Public',
+  'role.name.REGISTERED_USER': 'Registered user',
+  'role.name.EXPLOIT': 'Operator',
+  'role.name.ADMIN': 'Administrator',
+  'role.name.PROJECT_ADMIN': 'Super Administrator',
 }, Locales.en)
 
 export default messages
