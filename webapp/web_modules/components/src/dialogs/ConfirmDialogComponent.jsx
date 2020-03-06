@@ -137,4 +137,4 @@ class ConfirmDialogComponent extends React.Component {
   }
 }
 
-export default withI18n(messages)(ConfirmDialogComponent)
+export default withI18n(messages, true)(ConfirmDialogComponent)

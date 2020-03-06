@@ -20,6 +20,7 @@ import compose from 'lodash/fp/compose'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
+import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { OrdersNavigationActions } from '../model/OrdersNavigationActions'
@@ -41,6 +42,7 @@ export class OrdersNavigationContainer extends React.Component {
    */
   static mapStateToProps(state, { navigationSelectors }) {
     return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
       navigationPath: navigationSelectors.getNavigationPath(state),
     }
   }
@@ -67,6 +69,8 @@ export class OrdersNavigationContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired, // used in mapStateToProps
     // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    authentication: AuthenticateShape.isRequired, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     navigationPath: PropTypes.arrayOf(PropTypes.oneOfType([ // used in onPropertiesUpdated
       OrderShapes.OrderWithContent, // context level 1
@@ -98,6 +102,10 @@ export class OrdersNavigationContainer extends React.Component {
       this.setState({
         navigationPath: [OrdersNavigationComponent.ROOT_MARKER, ...newProps.navigationPath],
       })
+    }
+    // when authentication changes, reset navigation levels to prevent another connected user seeing current detail
+    if (!isEqual(oldProps.authentication, newProps.authentication)) {
+      newProps.dispatchResetToLevel(0)
     }
   }
 

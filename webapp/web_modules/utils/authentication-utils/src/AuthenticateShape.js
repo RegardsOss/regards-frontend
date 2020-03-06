@@ -16,7 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-export default PropTypes.shape({
+/** Authentication result shape */
+export const AuthenticateResultShape = PropTypes.shape({
+  project: PropTypes.string,
+  scope: PropTypes.string.isRequired,
+  sub: PropTypes.string.isRequired,
+  role: PropTypes.string.isRequired,
+  access_token: PropTypes.string.isRequired,
+  token_type: PropTypes.string,
+  expires_in: PropTypes.number.isRequired,
+  jti: PropTypes.string,
+})
+
+export const AuthenticateShape = PropTypes.shape({
   error: PropTypes.shape({
     loginError: PropTypes.string,
     hasError: PropTypes.bool,
@@ -28,16 +40,7 @@ export default PropTypes.shape({
   authenticateDate: PropTypes.number,
   authenticateExpirationDate: PropTypes.number,
   sessionLocked: PropTypes.bool,
-  result: PropTypes.shape({
-    project: PropTypes.string,
-    scope: PropTypes.string.isRequired,
-    sub: PropTypes.string.isRequired,
-    role: PropTypes.string.isRequired,
-    access_token: PropTypes.string.isRequired,
-    token_type: PropTypes.string,
-    expires_in: PropTypes.number.isRequired,
-    jti: PropTypes.string,
-  }),
+  result: AuthenticateResultShape,
 })
 
 export const errorTypes = [

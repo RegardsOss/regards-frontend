@@ -62,7 +62,7 @@ class DeleteOrderConfirmationComponent extends React.Component {
         title={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.title` })}
         message={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.message` })}
         onConfirm={this.onDeleteConfirmed}
-        confirmMessageKey={formatMessage({ id: `order.list.option.cell.delete.${displayModeKey}.confirmation.button` })}
+        confirmMessageKey={`order.list.option.cell.delete.${displayModeKey}.confirmation.button`}
         onClose={onClose}
         open={visible}
       />)
