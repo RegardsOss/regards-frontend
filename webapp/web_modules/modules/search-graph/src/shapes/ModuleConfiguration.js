@@ -25,7 +25,8 @@ const ModuleConfiguration = PropTypes.shape({
   graphLevels: PropTypes.arrayOf(PropTypes.string),
   // array of attributes to display on datasets in graph
   graphDatasetAttributes: AccessShapes.AttributeListConfigurationModel,
-  // searchResults field: holds search results configuration (cannot type it here as modules don't export that object)
+  // Save a search-result configuration
+  searchResult: PropTypes.object,
 })
 
 export default ModuleConfiguration

@@ -196,7 +196,7 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.list.error': 'Cause de l\'erreur',
   'acquisition-sessions.menus.products.list.title.error': 'Liste des produits en erreur pour la session {source}:{session}',
   'acquisition-sessions.menus.products.list.title.incomplete': 'Liste des produits incomplets pour la session {source}:{session}',
-  'acquisition-sessions.menus.products.list.help.error': 'Liste des produits en erreurs sur la session courante. Après avoir corriger les problèmes rencontrés, vous pouveze relancer l\'acquisition des produis en erreur',
+  'acquisition-sessions.menus.products.list.help.error': 'Liste des produits en erreurs sur la session courante. Après avoir corrigé les problèmes rencontrés, vous pouvez relancer l\'acquisition des produits en erreur',
   'acquisition-sessions.menus.products.list.help.incomplete': 'Un produit incompet est un produit auquel il manque au moins un type de fichier obligatoire. Il se peut que le fichier n\'était pas présent lors du scan du répertoire. Vous pouvez relancer la chaîne d\'acquisition pour compléter ces produits si les fichiers sont désormais présents.',
 
   'acquisition-sessions.menus.index.view': 'Visualiser les aspirations',

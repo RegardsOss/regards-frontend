@@ -94,7 +94,7 @@ export class SIPSubmissionFormContainer extends React.Component {
     this.props.submitSips(values.sips)
       .then((actionResult) => {
         // We receive here the action
-        if (!actionResult.error || actionResult.meta.status === 422) {
+        if (!actionResult.error) {
           this.onSucceed()
         } else {
           this.setState({
