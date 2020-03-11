@@ -31,7 +31,7 @@ const messages = Object.assign({
   'storage.location.type.online.description': 'Espace de stockage accessible de manière synchrone. Les fichiers stockés sur ces espaces de stockage peuvent être téléchargés directement.',
   'storage.location.type.nearline.description': 'Espace de stockage distant. Les fichiers stockés sur ces espaces de stockage doivent être rappatriés dans le cache avant d\'être accessibles.',
   'storage.location.type.offline.description': 'Espace de stockage deconnecté. Les fichiers ne sont pas accessibles.',
-  'storage.location.type.cache.description': 'Espace de stockage unique et dedié aux fichiers rappatriés provenant des espaces de stockage Nearline. La seule action possible sur cet espace de stockage est la demande de suppression des fichiers dont la date de validité à expirée.',
+  'storage.location.type.cache.description': 'Espace de stockage unique et dedié aux fichiers rappatriés provenant des espaces de stockage Nearline. La seule action possible sur cet espace de stockage est la demande de suppression des fichiers dont la date de validité a expirée.',
   'storage.location.list.header.stored-file.label': 'Fichiers stockés',
   'storage.location.list.header.total-size.label': 'Taille Totale',
   'storage.location.list.header.deletion-error.label': 'Erreurs de suppression',
