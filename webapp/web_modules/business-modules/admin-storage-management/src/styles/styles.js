@@ -25,6 +25,12 @@ const storageManagementStyles = theme => ({
     position: 'relative',
     paddingBottom: 20,
   },
+  storageTypeListStyle: {
+    marginLeft: '20px',
+  },
+  typeStyle: {
+    color: theme.palette.accent1Color,
+  },
   securityTester: {
     style: {
       display: 'flex',

@@ -20,6 +20,7 @@ import { browserHistory } from 'react-router'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -58,14 +59,34 @@ class StorageLocationListComponent extends React.Component {
 
   render() {
     const { params: { project } } = this.props
-    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { intl: { formatMessage }, moduleTheme: { root, storageTypeListStyle, typeStyle } } = this.context
     return (
       <Card>
         <CardTitle
           title={formatMessage({ id: 'storage.location.list.title' })}
           subtitle={formatMessage({ id: 'storage.location.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root}>
+        <CardText style={root}>
+          <div style={storageTypeListStyle}>
+            <ul>
+              <li>
+                <span style={typeStyle}><FormattedMessage id="storage.location.type.online.name" /></span>
+                <FormattedMessage id="storage.location.type.online.description" />
+              </li>
+              <li>
+                <span style={typeStyle}><FormattedMessage id="storage.location.type.nearline.name" /></span>
+                <FormattedMessage id="storage.location.type.nearline.description" />
+              </li>
+              <li>
+                <span style={typeStyle}><FormattedMessage id="storage.location.type.offline.name" /></span>
+                <FormattedMessage id="storage.location.type.offline.description" />
+              </li>
+              <li>
+                <span style={typeStyle}><FormattedMessage id="storage.location.type.cache.name" /></span>
+                <FormattedMessage id="storage.location.type.cache.description" />
+              </li>
+            </ul>
+          </div>
           <StorageLocationListContainer
             project={project}
           />
