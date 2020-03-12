@@ -129,7 +129,7 @@ export class ResultsContextHelper {
     function checkSubTree(testedTree, modelTree) {
       if (!isPlainObject(testedTree)) {
         // break case: simple value, it should be null / undefined
-        return !isNil(testedTree)
+        return isNil(modelTree) || !isNil(testedTree) // accept nil values only when model worth nil too
       }
       // Recursive case: handle each property as a sub tree
       return keys(modelTree).reduce((acc, key) => acc && checkSubTree(testedTree[key], modelTree[key]), true)

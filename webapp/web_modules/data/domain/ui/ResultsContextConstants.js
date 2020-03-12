@@ -101,10 +101,10 @@ const DEFAULT_RESULTS_CONTEXT = {
         requestFacets: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
-      types: PropTypes.shape({
+      types: {
         [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
-      }).isRequired,
+      },
     },
     [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
@@ -124,10 +124,10 @@ const DEFAULT_RESULTS_CONTEXT = {
         requestFacets: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
-      types: PropTypes.shape({
+      types: {
         [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
-      }).isRequired,
+      },
     },
   },
 }
