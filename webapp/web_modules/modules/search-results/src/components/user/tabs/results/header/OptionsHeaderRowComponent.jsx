@@ -27,6 +27,7 @@ import SelectAllContainer from '../../../../../containers/user/tabs/results/head
 import SingleSortingContainer from '../../../../../containers/user/tabs/results/header/options/SingleSortingContainer'
 import ToggleOnlyQuicklookContainer from '../../../../../containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
+import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 
@@ -191,6 +192,10 @@ class OptionsHeaderRowComponent extends React.Component {
                   mode={aMode}
                 />) : null)
           }
+          </TableHeaderOptionGroup>
+          {/* 2.6 - Search option, when it is available*/}
+          <TableHeaderOptionGroup show={tab.search.enabled}>
+            <SearchOptionContainer moduleId={moduleId} tabType={tabType} open={tab.search.open} />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
       </TableHeaderLine>

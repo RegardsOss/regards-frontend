@@ -89,10 +89,15 @@ const DEFAULT_RESULTS_CONTEXT = {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
-        otherFilters: [],
+        searchTags: [],
         quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],
@@ -112,10 +117,15 @@ const DEFAULT_RESULTS_CONTEXT = {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
-        otherFilters: [],
+        searchTags: [],
         quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],

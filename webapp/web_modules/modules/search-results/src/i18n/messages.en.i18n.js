@@ -121,6 +121,8 @@ const messages = {
   'view.type.selector.tooltip.for.TABLE': 'Display results in table',
   'view.type.selector.tooltip.for.MAP': 'Display results over map',
   'view.type.selector.tooltip.for.QUICKLOOK': 'Display results as pictures quicklooks',
+  'search.results.show.search.pane.label': 'Search',
+  'search.results.show.search.pane.title': 'Show search pane',
   'download.tooltip': 'Download',
   'no.download.tooltip': 'No file or insufficient user rights',
   'download.no.online.file.tooltip': 'All files are offline',

@@ -23,7 +23,6 @@ import { RequestParameters } from '../../rs-common/RequestParameters'
 import { AttributeModel } from '../../rs-dam/AttributeModel'
 import { EntityWithServices } from '../../rs-access/EntityWithServices'
 
-
 /**
  * Defines results module context definition
  * @author Raphaël Mechali
@@ -236,18 +235,50 @@ export const ViewsGroupState = PropTypes.shape({
   }).isRequired,
 })
 
+/** Criterion configuration and runtime */
+export const Criterion = PropTypes.shape({
+  label: PropTypes.shape({
+    en: PropTypes.string, // english group label, optional
+    fr: PropTypes.string, // french group label, optional
+  }).isRequired,
+  pluginId: PropTypes.number.isRequired, // TODO would be better resolved on string no? for migration purposes
+  pluginInstanceId: PropTypes.string.isRequired,
+  conf: PropTypes.shape({ // configuration
+    attributes: PropTypes.arrayOf(AttributeModel).isRequired,
+  }),
+  state: PropTypes.object, // current plugin state
+  requestParameters: RequestParameters, // current plugin parameters
+})
+
+/**
+ * A criteria group for search pane
+ */
+export const CriteriaGroup = PropTypes.shape({
+  showTitle: PropTypes.bool.isRequired,
+  title: PropTypes.shape({
+    en: PropTypes.string, // english group label, optional
+    fr: PropTypes.string, // french group label, optional
+  }).isRequired, // labels dictionnary, required
+  criteria: PropTypes.arrayOf(Criterion).isRequired,
+})
+
 /**
  * Common to all results views
  */
-const ResultsTab = PropTypes.shape({
+export const ResultsTab = PropTypes.shape({
   facets: PropTypes.shape({
     enabled: PropTypes.bool.isRequired,
     list: PropTypes.arrayOf(RequestFacetCriterion).isRequired,
   }).isRequired,
+  search: PropTypes.shape({
+    enabled: PropTypes.bool.isRequired, // search enabled for that tab?
+    open: PropTypes.bool.isRequired, // is currently open?
+    groups: PropTypes.arrayOf(CriteriaGroup).isRequired,
+  }),
   criteria: PropTypes.shape({
     configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
     contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
-    otherFilters: PropTypes.arrayOf(BasicCriterion).isRequired, // Other restrictions (usually used by a parent controller)
+    searchTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Current search applying criteria
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria

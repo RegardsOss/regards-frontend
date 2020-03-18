@@ -114,6 +114,7 @@ export class ContextManager extends React.Component {
     } else if (!isEqual(oldResultsContext, newResultsContext) || !this.state.initialized) {
       // B  - Manage any results context change: let helper update URL when context changes or at initialization
       URLContextHelper.updateURLForContext(newResultsContext)
+      // TODO : here, we need to serialize the module context into local storage (pick only elements that can not be retrieved from configuration)
     }
   }
 
@@ -160,9 +161,11 @@ export class ContextManager extends React.Component {
     } = this.props
     // 1 - Convert module configuration into results context
     const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
-    // 2 - Report any parent control already added in resolved context
+    // 2 - Report any parent control already added in resolved context. XXX - Comes from the last parent controller (search-graph)
     const contextWithParentControl = UIDomain.ResultsContextHelper.deepMerge(contextFromConfiguration, resultsContext)
     // 3 - Resolve context from URL then commit it to module state
+    // TODO: restore criteria context too! when URL is empty, use redux context
+    // TODO 2: we will need here to make sure configuration parts (label / title / deleted / added elements) is never overriden!
     URLContextHelper.resolveContextFromURL(contextWithParentControl, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
   }
 

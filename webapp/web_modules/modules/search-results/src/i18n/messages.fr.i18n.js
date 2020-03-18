@@ -125,6 +125,8 @@ const messages = {
   'view.type.selector.tooltip.for.TABLE': 'Afficher les résultats dans un tableau',
   'view.type.selector.tooltip.for.MAP': 'Afficher les résultats sur une carte',
   'view.type.selector.tooltip.for.QUICKLOOK': 'Afficher les résultats en image',
+  'search.results.show.search.pane.label': 'Rechercher',
+  'search.results.show.search.pane.title': 'Afficher le panneau de recherche',
   'download.tooltip': 'Télécharger',
   'no.download.tooltip': 'Aucun fichier ou droits utilisateurs insuffisant',
   'download.no.online.file.tooltip': 'Tous les fichiers sont hors ligne',

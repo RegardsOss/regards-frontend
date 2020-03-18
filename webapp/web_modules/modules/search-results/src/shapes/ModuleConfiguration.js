@@ -122,6 +122,28 @@ export const RestrictionsConfiguration = PropTypes.shape({
   byDataset: DatasetRestriction,
 })
 
+/** A criterion configuration, with internationalized labels */
+export const CriterionConfiguration = PropTypes.shape({
+  label: PropTypes.shape({
+    en: PropTypes.string, // english group label, optional
+    fr: PropTypes.string, // french group label, optional
+  }).isRequired,
+  pluginInstanceId: PropTypes.string.isRequired,
+  pluginId: PropTypes.number.isRequired, // TODO raph check, but it seems to be the plugin ==> better use a business ID
+  active: PropTypes.bool.isRequired, // TODO make editable
+  conf: PropTypes.object.isRequired, // configuration
+})
+
+/** A criteria group, with optional title */
+export const CriteriaGroup = PropTypes.shape({
+  showTitle: PropTypes.bool.isRequired,
+  title: PropTypes.shape({
+    en: PropTypes.string, // english group label, optional
+    fr: PropTypes.string, // french group label, optional
+  }).isRequired, // labels dictionnary, required
+  criteria: PropTypes.arrayOf(CriterionConfiguration).isRequired,
+})
+
 /**
  * Module configuration
  */
@@ -130,13 +152,15 @@ const ModuleConfiguration = PropTypes.shape({
   selectableAttributes: DataManagementShapes.AttributeModelList,
   // Results facets configuration
   facets: FacetsConfiguration,
-  // Results restricitons
+  // Results restrictions
   restrictions: RestrictionsConfiguration,
   // Views configurations (by their entities type)
   viewsGroups: PropTypes.shape({
     [ENTITY_TYPES_ENUM.DATA]: DataViewsConfiguration,
     [ENTITY_TYPES_ENUM.DATASET]: DatasetViewsConfiguration,
   }),
+  // Criteria groups configuration
+  criteriaGroups: PropTypes.arrayOf(CriteriaGroup),
 })
 
 export default ModuleConfiguration

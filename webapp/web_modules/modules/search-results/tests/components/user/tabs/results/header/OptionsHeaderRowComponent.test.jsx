@@ -185,4 +185,9 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
       }
     })
   })
+
+  it('should show / hide search option according with search configuration', () => {
+    // TODO: one test to check search is shown / hidden (SearchOptionContainer)
+    assert.fail('Implement me!')
+  })
 })

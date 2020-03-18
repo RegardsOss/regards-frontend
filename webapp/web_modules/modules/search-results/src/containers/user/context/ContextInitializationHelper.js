@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import values from 'lodash/values'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 import { PresentationHelper } from './PresentationHelper'
@@ -190,6 +191,53 @@ export class ContextInitializationHelper {
   }
 
   /**
+   * Builds initial search state based on criteria groups
+   * @param {[*]} criteriaGroups criteria groups
+   * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
+   */
+  static buildSearchState(criteriaGroups = [], attributeModels) {
+    // convert each group when at least one criterion is active and has valid configuration...
+    const groups = criteriaGroups.reduce((accGroups, { showTitle, title, criteria: confCriteria }) => {
+      // convert each criterion that is active and has valid configuration
+      const criteria = confCriteria.reduce((accCrit, {
+        label, pluginInstanceId, pluginId, active, conf,
+      }) => {
+        if (active) {
+          const confAttributes = get(conf, 'attributes', {})
+          const attributesPath = values(confAttributes)
+          // resolve all attributes
+          const attributes = attributesPath.reduce((accAttributes, attrPath) => {
+            const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
+            return resolvedAttribute ? [...accAttributes, resolvedAttribute] : accAttributes
+          }, [])
+          if (attributesPath.length === attributes.length) { // all could be converted
+            return [...accCrit, {
+              label,
+              pluginInstanceId,
+              pluginId,
+              state: null,
+              requestParameters: null,
+              conf: { attributes },
+            }]
+          }
+        }
+        return accCrit
+      }, [])
+      return criteria.length ? [...accGroups, {
+        showTitle,
+        title,
+        criteria,
+      }] : accGroups
+    }, [])
+
+    return {
+      enabled: groups.length > 0,
+      open: false,
+      groups,
+    }
+  }
+
+  /**
    * Builds default state based on module configuration
    * @param {*} configuration module configuration matching ModuleConfiguration shape
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
@@ -200,7 +248,9 @@ export class ContextInitializationHelper {
     const dataType = ContextInitializationHelper.buildDefaultTypeState(configuration, attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
     // 2 - Compute initial facets state
     const facets = ContextInitializationHelper.buildFacetsState(configuration, attributeModels)
-    // 3 - complete default state to provide data and dataset type in results views
+    // 3 - Compute initial search state
+    const search = ContextInitializationHelper.buildSearchState(configuration.criteriaGroups, attributeModels)
+    // 4 - complete default state to provide data and dataset type in results views
     const defaultContext = {
       ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT,
       tabs: {
@@ -208,6 +258,7 @@ export class ContextInitializationHelper {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
           facets,
+          search,
           criteria: {
             ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria,
             configurationRestrictions: ContextInitializationHelper.buildConfigurationCriteria(configuration.restrictions),
@@ -222,6 +273,7 @@ export class ContextInitializationHelper {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS],
           facets,
+          search,
           criteria: {
             ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria,
             requestFacets: facets.enabled ? facets.list : [],
