@@ -30,6 +30,8 @@ export default class MizarAdapter extends React.Component {
     crsContext: PropTypes.string,
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    backgroundLayerConf: PropTypes.object,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
     // selection management: when drawing selection is true, user draws a rectangle
@@ -112,6 +114,8 @@ export default class MizarAdapter extends React.Component {
     drawnAreas: [],
     featuresColor: 'Orange',
     drawColor: 'Yellow',
+    backgroundLayerConf: {
+    },
   }
 
   /** Mizar library */
@@ -190,7 +194,7 @@ export default class MizarAdapter extends React.Component {
     // 1 - Create Mizar
     const {
       crsContext, backgroundLayerUrl, backgroundLayerType,
-      featuresColor, drawColor, drawingSelection,
+      featuresColor, drawColor, drawingSelection, backgroundLayerConf,
     } = this.props
     const mizarDiv = document.getElementById('MizarCanvas')
 
@@ -210,13 +214,17 @@ export default class MizarAdapter extends React.Component {
     this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.onLayerRelativeMouseUp)
     this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mousedown', this.onLayerRelativeMouseDown)
 
-    // 3 - Set up background layer
-    this.mizar.instance.addLayer({
+    const baseLayer = {
+      ...backgroundLayerConf,
       name: 'Background layer',
       baseUrl: backgroundLayerUrl,
       type: backgroundLayerType,
       background: true,
-    })
+      visible: true,
+    }
+
+    // 3 - Set up background layer
+    this.mizar.instance.addLayer(baseLayer)
 
     // 4 - Set up features collection layer and store its reference
     this.mizar.instance.addLayer({
