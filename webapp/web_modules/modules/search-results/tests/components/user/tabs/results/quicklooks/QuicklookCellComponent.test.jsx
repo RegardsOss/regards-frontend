@@ -80,7 +80,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     enableDownload: false,
     embedInMap: true,
     locale: UIDomain.LOCALES_ENUM.fr,
-    expectedPictureURI: 'https://thumbnail.wide.com/willpaper.png?token=kikou',
+    expectedPictureURI: 'http://russia.clearly.ru/one-more-forbidden-file.png',
   }, {
     label: 'data without quicklook nor thumbnail (services enabled but no entity service, description, cart and download, outside map)',
     tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
