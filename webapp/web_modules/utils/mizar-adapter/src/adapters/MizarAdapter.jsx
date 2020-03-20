@@ -223,8 +223,17 @@ export default class MizarAdapter extends React.Component {
       visible: true,
     }
 
+    const worldcoverLayer = {
+      name: 'Worldcover layer',
+      baseUrl: 'http://172.26.47.52:6280/map/tiles/1.0.0/landcover/EPSG3857',
+      type: 'OSM',
+      background: false,
+      visible: true,
+    }
+
     // 3 - Set up background layer
     this.mizar.instance.addLayer(baseLayer)
+    this.mizar.instance.addLayer(worldcoverLayer)
 
     // 4 - Set up features collection layer and store its reference
     this.mizar.instance.addLayer({
