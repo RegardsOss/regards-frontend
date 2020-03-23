@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isUndefined from 'lodash/isUndefined'
+import get from 'lodash/get'
 import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
 import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
@@ -118,6 +119,10 @@ export function resolveParametersWithTypes(pluginConfiguration, metadata) {
  * @return usable target parameters
  */
 export function packTargetParameters(target) {
+  let g = get(target, 'requestParameters.g', null)
+  if (Array.isArray(g)) {
+    g = g[0]
+  }
   switch (target.type) {
     case RuntimeTargetTypes.ONE:
       return { entityId: target.entity }
@@ -132,6 +137,7 @@ export function packTargetParameters(target) {
             OpenSearchQueryParameter.toStrictStringEqual(
               target.excludedIDs, OpenSearchQueryParameter.AND_SEPARATOR, true))])
           .toQueryString(),
+        g,
       }
     default:
       throw new Error('Invalid target') // development error only

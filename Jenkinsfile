@@ -107,7 +107,7 @@ pipeline {
         }
         stage('Deploy Maven artifact') {
             when {
-		expression { BRANCH_NAME ==~ /(master|develop.*|release.*|feature.*)/ }
+		expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
             }
             steps {
                 parallel(
