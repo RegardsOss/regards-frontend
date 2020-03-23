@@ -50,7 +50,7 @@ class MapComponent extends React.Component {
   }
 
   /** Number of items by page for map (used by correlated quicklooks fetcher) */
-  static MAP_PAGE_SIZE = 100
+  static MAP_PAGE_SIZE = 1000
 
   render() {
     const {

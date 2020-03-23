@@ -26,7 +26,7 @@ import EmptyTableComponent from '../common/EmptyTableComponent'
 import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellComponent'
 
 /** Page size for quicklooks */
-const QUICKLOOK_PAGE_SIZE = 100
+const QUICKLOOK_PAGE_SIZE = 1000
 
 /**
  * Component displaying search results as quicklook list
