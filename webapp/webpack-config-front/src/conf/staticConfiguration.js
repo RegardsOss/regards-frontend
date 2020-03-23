@@ -69,4 +69,5 @@ STATIC_CONF = {
     safari: '11.1',
     edge: '16.0',
   },
+  PAGE_SIZE_MAP: 400,
 }
