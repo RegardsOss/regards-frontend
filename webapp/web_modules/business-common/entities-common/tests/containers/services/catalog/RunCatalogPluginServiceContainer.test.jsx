@@ -447,7 +447,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Query target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
     assert.deepEqual(
-      lastFetchParams.targetParameter, { q: 'model.age=22', entityType: DamDomain.ENTITY_TYPES_ENUM.DATA },
+      lastFetchParams.targetParameter, { q: 'model.age=22', entityType: DamDomain.ENTITY_TYPES_ENUM.DATA, g: null },
       'Query target - target should be corretly sent',
     )
   })
