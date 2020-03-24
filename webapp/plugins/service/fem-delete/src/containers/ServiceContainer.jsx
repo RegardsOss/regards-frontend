@@ -76,6 +76,7 @@ export class ServiceContainer extends React.Component {
   }
 
   static propTypes = {
+    onClose: PropTypes.func.isRequired,
     pluginInstanceId: PropTypes.string.isRequired,
     runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
@@ -105,6 +106,7 @@ export class ServiceContainer extends React.Component {
 
   notifyFem = () => {
     console.error("let's notify")
+    this.props.onClose()
   }
 
   render() {

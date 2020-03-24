@@ -161,3 +161,22 @@ export function packRuntimeConfiguration(uiPluginConf, pluginInstance, configure
     dynamic: ensureTypes(configuredDynamicValues, get(pluginInstance, 'info.conf.dynamic', {})),
   }
 }
+
+/**
+ * Enhance plugin handlers based on the plugin definition
+ * @param {uiPluginConf} pluginInstance UI plugin instance information
+ * @param {*} handlers callback function to propagate plugin events
+ * @return {Array<Parameter>} handlers and props for plugin react component
+ */
+export function packPluginProps(pluginInstance, handlers = {}) {
+  // Define available expected in the plugin-info.json
+  // SHOW_BUTTONS_BAR - when false, delegate the close mecanism to the popup
+  const PROPERTY_SHOW_BUTTONS_BAR = 'info.conf.showButtonsBar'
+  const DEFAULT_SHOW_BUTTONS_BAR = true
+
+  const pluginProps = {}
+  if (!get(pluginInstance, PROPERTY_SHOW_BUTTONS_BAR, DEFAULT_SHOW_BUTTONS_BAR)) {
+    pluginProps.onClose = handlers.onClose
+  }
+  return pluginProps
+}

@@ -42,14 +42,17 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
   const testCases = [{
     testMessage: 'should render plugin component with ONE ELEMENT target and dynamic properties',
     localTarget: buildOneElementTarget('a'),
+    addOnCloseProps: true,
   }, {
     testMessage: 'should render plugin component with MANY ELEMENTS target and dynamic properties',
     localTarget: buildManyElementsTarget(['a', 'b', 'd']),
+    addOnCloseProps: false,
   }, {
     testMessage: 'should render plugin component with QUERY target and dynamic properties',
     localTarget: buildQueryTarget({ q: 'a=a&b=b' }, ENTITY_TYPES_ENUM.DATA, 15, []),
+    addOnCloseProps: true,
   }]
-  testCases.forEach(({ testMessage, localTarget }) => it(testMessage, () => {
+  testCases.forEach(({ testMessage, localTarget, addOnCloseProps }) => it(testMessage, () => {
     const FakePluginComponent = () => <div />
     // check that plugin is correctly rendered
     const props = {
@@ -96,12 +99,23 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
             e: 5.6,
           },
         },
-      },
+      }
+    }
+    // if required, set plugin props onClose
+    if (addOnCloseProps) {
+      props.pluginProps = {
+        onClose: () => ({}),
+      }
     }
     const enzymeWrapper = shallow(<PluginDisplayerContainer {...props} />, { context })
     const renderedComponent = enzymeWrapper.find(FakePluginComponent)
     assert.lengthOf(renderedComponent, 1, 'There should be the plugin rendering component')
     assert.deepEqual(renderedComponent.props().configuration, props.pluginConf.configuration, 'configuration should be reported correctly')
     assert.deepEqual(renderedComponent.props().runtimeTarget, props.pluginConf.runtimeTarget, 'target should be reported correctly')
+
+    // check plugin props onClose
+    if (addOnCloseProps) {
+      assert.deepEqual(renderedComponent.props().onClose, props.pluginProps.onClose, 'onClose should be reported correctly')
+    }
   }))
 })

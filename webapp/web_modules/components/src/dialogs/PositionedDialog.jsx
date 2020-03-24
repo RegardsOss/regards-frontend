@@ -23,6 +23,8 @@ import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles'
+import forEach from 'lodash/forEach'
+import isEmpty from 'lodash/isEmpty'
 
 
 /**
@@ -47,6 +49,7 @@ class PositionedDialog extends React.Component {
     contentStyle: PropTypes.object, // allows locally overriding the styles
     // eslint-disable-next-line react/forbid-prop-types
     actionsContainerStyle: PropTypes.object, // allows locally overriding the styles
+    actions: PropTypes.arrayOf(PropTypes.node),
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -63,6 +66,8 @@ class PositionedDialog extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
+
+  static BORDER_REGEX = new RegExp('^border', 'i');
 
   componentWillMount = () => this.updateDimensions()
 
@@ -123,7 +128,7 @@ class PositionedDialog extends React.Component {
 
   render() {
     const {
-      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, ...dialogProperties
+      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, actions, ...dialogProperties
     } = this.props
     const { layoutStyle } = this.state
     const { positionedDialog, dialogCommon } = this.context.moduleTheme
@@ -131,6 +136,17 @@ class PositionedDialog extends React.Component {
     // merge user and local styles
     const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
     const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
+
+    //TODO raph ça te plait ? 
+    //Ou tu veux dupliquer le style dialogCommon.actionsContainerStyle en dialogCommon.actionsContainerNoActionsStyle ?
+    if (isEmpty(actions)) {
+      // apply all border properties to body style
+      forEach(actionsContainerStyle, (value, property) => {
+        if (PositionedDialog.BORDER_REGEX.test(property)) {
+          bodyStyle[property] = value
+        }
+      })
+    }
 
     return (
       <SwitchThemeDecorator
@@ -141,6 +157,7 @@ class PositionedDialog extends React.Component {
           contentStyle={layoutStyle}
           bodyStyle={bodyStyle}
           actionsContainerStyle={actionsContainerStyle}
+          actions={actions}
           {...dialogProperties}
         >
           {HOCUtils.renderChildren(children)}
