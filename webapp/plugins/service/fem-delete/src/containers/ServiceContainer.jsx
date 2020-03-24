@@ -87,6 +87,7 @@ export class ServiceContainer extends React.Component {
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
+    deleteFeatures: PropTypes.func.isRequired,
   }
 
   static contextTypes = {

@@ -44,6 +44,7 @@ describe('[fem-delete] Testing ServiceContainer', () => {
       // user is optional, let's not provide it here
       // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux
       getReducePromise: () => new Promise(() => { }),
+      deleteFeatures: () => new Promise(() => { }),
       fetchSelectionThroughAction: () => new Promise(() => { }),
       onClose: ()=>({}),
     }
