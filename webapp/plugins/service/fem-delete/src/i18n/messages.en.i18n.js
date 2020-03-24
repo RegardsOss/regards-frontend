@@ -24,5 +24,6 @@
 export default {
   'plugin.title': 'Confirm suppresion',
   'plugin.message': 'By clicking on the button, all selected entities will be removed.',
-  'plugin.button': 'Delete'
+  'plugin.valid': 'Delete',
+  'plugin.cancel': 'Cancel',
 }

@@ -39,6 +39,7 @@ import * as CommonCl from './rs-common'
 import * as DataManagementCl from './rs-dam'
 import * as DataProviderCl from './rs-data-provider'
 import * as IngestCl from './rs-ingest'
+import * as FemCl from './rs-fem'
 import * as OrderCl from './rs-order'
 import * as StorageCl from './rs-storage'
 import * as UICl from './ui'
@@ -54,6 +55,7 @@ export const CommonClient = CommonCl
 export const DataManagementClient = DataManagementCl
 export const DataProviderClient = DataProviderCl
 export const IngestClient = IngestCl
+export const FemClient = FemCl
 export const OrderClient = OrderCl
 export const StorageClient = StorageCl
 export const UIClient = UICl

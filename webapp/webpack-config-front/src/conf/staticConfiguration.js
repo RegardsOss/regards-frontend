@@ -43,6 +43,7 @@ STATIC_CONF = {
     ORDER: 'rs-order',
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',
+    FEM: 'rs-fem',
   },
   IMSERVICES: {
     ADMIN_INSTANCE: 'rs-admin-instance',

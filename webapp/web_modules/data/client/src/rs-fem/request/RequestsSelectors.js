@@ -16,16 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicSignalsSelectors } from '@regardsoss/store-utils'
 
 /**
- * Actions to send a request to delete a request
+ * Store selector on fem requests.
+ * @author Léo Mieulet
  */
-export default class RequestAbortActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/requests/abort`,
-      namespace,
-    })
-  }
-}
+export default storePath => new BasicSignalsSelectors(storePath)

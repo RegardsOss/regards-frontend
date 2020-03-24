@@ -24,7 +24,7 @@ import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
-
+import { requestsActions } from '../clients/RequestsClient'
 /**
  * Main fem-delete plugin container
  * @author C-S
@@ -47,8 +47,12 @@ export class ServiceContainer extends React.Component {
     flexDirection: 'column'
   }
 
-  static BUTTON_STYLE = {
+  static BUTTONS_STYLES = {
     paddingTop: '25px',
+    display: 'flex',
+  }
+
+  static BUTTON_STYLE = {
   }
   /**
    * Redux: map state to props function
@@ -72,6 +76,7 @@ export class ServiceContainer extends React.Component {
     return {
       // we apply partially the method getReducePromise to ignore dispatch reference at runtime
       getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
+      deleteFeatures: (searchContext) => dispatch(requestsActions.delete(searchContext)),
     }
   }
 
@@ -106,6 +111,13 @@ export class ServiceContainer extends React.Component {
 
   notifyFem = () => {
     console.error("let's notify")
+    this.props.deleteFeatures().then(() => {
+      this.props.onClose()
+    })
+    
+  }
+  cancel = () => {
+
     this.props.onClose()
   }
 
@@ -113,19 +125,25 @@ export class ServiceContainer extends React.Component {
     const { intl: { formatMessage } } = this.context
 
     const { runtimeObjects } = this.state
-    console.error("yoyoyo", this.props, this.state)
     return (
       <div style={ServiceContainer.DOCUMENT_STYLES}>
         <Subheader><FormattedMessage id="plugin.title" /></Subheader>
         <div style={ServiceContainer.CONTENT_STYLES}>
           <FormattedMessage id="plugin.message" />
-          <RaisedButton
-              label={formatMessage({ id: 'plugin.button' })}
+          <div style={ServiceContainer.BUTTONS_STYLES}>
+            <RaisedButton
+              label={formatMessage({ id: 'plugin.cancel' })}
               style={ServiceContainer.BUTTON_STYLE}
-              secondary
+              onClick={this.cancel}
+            />
+            <RaisedButton
+              label={formatMessage({ id: 'plugin.valid' })}
+              style={ServiceContainer.BUTTON_STYLE}
+              primary
               onClick={this.notifyFem}
               icon={<DeleteIcon />}
             />
+          </div>
         </div>
       </div>
     )

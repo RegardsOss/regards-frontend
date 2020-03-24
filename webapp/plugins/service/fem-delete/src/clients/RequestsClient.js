@@ -1,4 +1,5 @@
-/**
+
+/*
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,17 +16,15 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+ */
+import { FemClient } from '@regardsoss/client'
 
 /**
- * Actions to send a request to delete a request
+ * Requests client.
+ *
+ * @author Léo Mieulet
  */
-export default class RequestAbortActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/requests/abort`,
-      namespace,
-    })
-  }
-}
+const NAMESPACE = 'fem-delete/requests'
+
+// Signal not reduced
+export const requestsActions = new FemClient.RequestsActions(NAMESPACE)

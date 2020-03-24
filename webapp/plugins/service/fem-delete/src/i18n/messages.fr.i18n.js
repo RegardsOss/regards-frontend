@@ -24,5 +24,6 @@
 export default {
   'plugin.title': 'Confirmer la suppresion',
   'plugin.message': 'En appuyant sur le bouton ci-dessous, les entités sélectionnés seront supprimées.',
-  'plugin.button': 'Supprimer',
+  'plugin.valid': 'Supprimer',
+  'plugin.cancel': 'Annuler',
 }

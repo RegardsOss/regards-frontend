@@ -16,16 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import RequestsActions from './RequestsActions'
 
 /**
- * Actions to send a request to delete a request
+ * Redux Reducer on fem requests
+ * @author Léo Mieulet
  */
-export default class RequestAbortActions extends BasicSignalActions {
-  constructor(namespace) {
-    super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/requests/abort`,
-      namespace,
-    })
-  }
+export default function getAipSignalReducer(namespace) {
+  const instance = new BasicSignalsReducers(new RequestsActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }
