@@ -70,6 +70,7 @@
     "mocha": "~7.1.1",
     "mocha-loader": "~4.0.2",
     "mocha-sonar-reporter": "~0.1.6",
+    "mochapack": "^1.1.13",
     "mochawesome": "^5.0.0",
     "nodemon": "^1.19.0",
     "nyc": "15.0.0",
