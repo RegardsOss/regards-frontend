@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,15 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 /**
- * Styles for plugin
- * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ * Component showing criterion loading
+ * @author Raphaël Mechali
  */
-const pluginStyles = theme => ({
-  menuStyle: {
-    marginRight: 20,
-  },
-})
-
-export default pluginStyles
+class CriterionLoadingComponent extends React.Component {
+  render() {
+    // TODO Improve rendering with definitive layout
+    return (
+      <tr>
+        <td colSpan="3">
+          <LoadableContentDisplayDecorator isLoading />
+        </td>
+      </tr>)
+  }
+}
+export default CriterionLoadingComponent

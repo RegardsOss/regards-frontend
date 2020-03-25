@@ -19,9 +19,10 @@
 import isNil from 'lodash/isNil'
 import TextField from 'material-ui/TextField'
 import { CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { NumericalComparator } from '@regardsoss/components'
+import { NumericalComparatorSelector } from '@regardsoss/components'
 import {
   AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip, numberRangeHelper,
 } from '@regardsoss/plugins-api'
@@ -32,7 +33,7 @@ import {
  */
 class NumericalCriterionComponent extends React.Component {
   static propTypes = {
-    // attribute currently searched
+    label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
     value: PropTypes.number,
     operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
@@ -68,38 +69,46 @@ class NumericalCriterionComponent extends React.Component {
 
 
   render() {
-    const { intl, moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle } } = this.context
     const {
-      searchAttribute, value, operator, availableComparators,
+      label, searchAttribute,
+      value, operator, availableComparators,
       onTextInput, onOperatorSelected,
     } = this.props
+    const { intl, muiTheme } = this.context
 
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNovalue = isNil(lowerBound) && isNil(upperBound)
 
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>
-          {searchAttribute.label}
-        </span>
-        <NumericalComparator
-          value={operator}
-          onChange={onOperatorSelected}
-          comparators={availableComparators}
-          disabled={hasNovalue} // disable if there is no value for this attribute
-        />
-        <TextField
-          id="search"
-          type="number"
-          floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.ANY_BOUND)}
-          title={formatTooltip(intl, searchAttribute)}
-          value={NumericalCriterionComponent.toText(value)}
-          onChange={onTextInput}
-          style={textFieldStyle}
-          disabled={hasNovalue} // disable if there is no value for this attribute
-        />
-      </div>
+      <tr>
+        {/* 1. label */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[intl.locale] || searchAttribute.label}
+        </td>
+        {/* 2. Comparison selector */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <NumericalComparatorSelector
+            operator={operator}
+            operators={availableComparators}
+            onSelect={onOperatorSelected}
+            disabled={hasNovalue}
+          />
+        </td>
+        {/* 3. input box */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <TextField
+            id="search"
+            type="number" // TODO NO NO NO NO NO, never!
+            hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.ANY_BOUND)}
+            title={formatTooltip(intl, searchAttribute)}
+            value={NumericalCriterionComponent.toText(value)}
+            onChange={onTextInput}
+            disabled={hasNovalue}
+            fullWidth
+          />
+        </td>
+      </tr>
     )
   }
 }

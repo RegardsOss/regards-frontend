@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { MenuItem } from 'material-ui/IconMenu'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -29,6 +30,7 @@ import { AutoCompleteTextField } from '@regardsoss/components'
  */
 export class EnumeratedCriterionComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     // attribute currently searched
     searchAttribute: AttributeModelWithBounds.isRequired,
     // current field text
@@ -83,35 +85,35 @@ export class EnumeratedCriterionComponent extends React.Component {
 
   render() {
     const {
-      searchAttribute, text, inError, isFetching,
+      label, searchAttribute, text,
+      inError, isFetching,
       onUpdateTextFilter, onFilterSelected,
     } = this.props
     const { currentHints } = this.state
-    const {
-      intl, moduleTheme: {
-        rootStyle, labelSpanStyle, textFieldStyle, menuStyle,
-      },
-    } = this.context
+    const { intl, muiTheme, moduleTheme: { menuStyle } } = this.context
     return (
-      <div style={rootStyle}>
-        {/* attribute label */}
-        <span style={labelSpanStyle}>
-          {searchAttribute.label}
-        </span>
-        {/* Autocomplete text field */}
-        <AutoCompleteTextField
-          title={formatTooltip(intl, searchAttribute)}
-          hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
-          currentHintText={text}
-          currentHints={currentHints}
-          isFetching={isFetching}
-          isInError={inError}
-          onUpdateInput={onUpdateTextFilter}
-          onFilterSelected={onFilterSelected}
-          textFieldStyle={textFieldStyle}
-          menuStyle={menuStyle}
-        />
-      </div>
+      <tr>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[intl.locale] || searchAttribute.label}
+        </td>
+        {/* empty cell (use first cell style) */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
+        {/* consume operators column (unused by this plugin) */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <AutoCompleteTextField
+            title={formatTooltip(intl, searchAttribute)}
+            hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
+            currentHintText={text}
+            currentHints={currentHints}
+            isFetching={isFetching}
+            isInError={inError}
+            onUpdateInput={onUpdateTextFilter}
+            onFilterSelected={onFilterSelected}
+            menuStyle={menuStyle}
+            fullWidth
+          />
+        </td>
+      </tr>
     )
   }
 }

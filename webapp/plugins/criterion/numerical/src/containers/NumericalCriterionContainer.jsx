@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
 import { DamDomain, CommonDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, numberRangeHelper } from '@regardsoss/plugins-api'
 import NumericalCriterionComponent from '../components/NumericalCriterionComponent'
 
 /**
@@ -49,15 +47,15 @@ export class NumericalCriterionContainer extends React.Component {
 
   /** Available comparison operators for integer attributes */
   static AVAILABLE_INT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.LE,
     CommonDomain.EnumNumericalComparator.EQ,
     CommonDomain.EnumNumericalComparator.GE,
-    CommonDomain.EnumNumericalComparator.LE,
   ]
 
   /** Available comparison operators for floating attributes*/
   static AVAILABLE_FLOAT_COMPARATORS = [
-    CommonDomain.EnumNumericalComparator.GE,
     CommonDomain.EnumNumericalComparator.LE,
+    CommonDomain.EnumNumericalComparator.GE,
   ]
 
   /** Default state for integer attributes (equal operator has higher priority) */
@@ -72,46 +70,19 @@ export class NumericalCriterionContainer extends React.Component {
     operator: CommonDomain.EnumNumericalComparator.GE,
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId, attributes: { searchField } }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId)
-      || NumericalCriterionContainer.selectForType(searchField.type, NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE, NumericalCriterionContainer.DEFAULT_FLOATING_TYPE_STATE),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       searchField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
       value: PropTypes.number,
       operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    }).isRequired,
-    // From mapDispatchToProps...
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
   }
 
@@ -130,6 +101,14 @@ export class NumericalCriterionContainer extends React.Component {
   }
 
   /**
+   * @returns {*} current state or default state for attribute type when current state is not set
+   */
+  getState = () => {
+    const { state, attributes: { searchField } } = this.props
+    return state || NumericalCriterionContainer.selectForType(searchField.type, NumericalCriterionContainer.DEFAULT_INTEGER_TYPE_STATE, NumericalCriterionContainer.DEFAULT_FLOATING_TYPE_STATE)
+  }
+
+  /**
    * Callback function: user input some text
    *
    * @param {Object} event Change event targeting the text field.
@@ -137,8 +116,8 @@ export class NumericalCriterionContainer extends React.Component {
    */
   onTextInput = (event, newValue) => {
     // update state value and publish new state with query
-    const { state, publishState, attributes: { searchField } } = this.props
-    const nextState = { ...state, value: parseFloat(newValue) }
+    const { publishState, attributes: { searchField } } = this.props
+    const nextState = { ...this.getState(), value: parseFloat(newValue) }
     publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
@@ -148,15 +127,17 @@ export class NumericalCriterionContainer extends React.Component {
    */
   onOperatorSelected = (operator) => {
     // update state opetarator and publish new state with query
-    const { state, publishState, attributes: { searchField } } = this.props
-    const nextState = { ...state, operator }
+    const { publishState, attributes: { searchField } } = this.props
+    const nextState = { ...this.getState(), operator }
     publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {
-    const { state: { value, operator }, attributes: { searchField } } = this.props
+    const { label, attributes: { searchField } } = this.props
+    const { value, operator } = this.getState()
     return (
       <NumericalCriterionComponent
+        label={label}
         searchAttribute={searchField}
         value={value}
         operator={operator}
@@ -169,6 +150,4 @@ export class NumericalCriterionContainer extends React.Component {
   }
 }
 
-export default connect(
-  NumericalCriterionContainer.mapStateToProps,
-  NumericalCriterionContainer.mapDispatchToProps)(NumericalCriterionContainer)
+export default NumericalCriterionContainer

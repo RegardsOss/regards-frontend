@@ -51,10 +51,16 @@ class PluginProvider extends React.Component {
     pluginProps: PropTypes.object,
     displayPlugin: PropTypes.bool,
     onErrorCallback: PropTypes.func,
+    loadingComponent: PropTypes.element,
+    errorComponent: PropTypes.element,
     children: PropTypes.element,
     // Set by mapstatetoprops
     pluginToLoad: AccessShapes.UIPluginDefinition,
     fetchPlugin: PropTypes.func,
+  }
+
+  static defaultProps = {
+    loadingComponent: <LoadableContentDisplayDecorator isLoading />,
   }
 
   componentWillMount() {
@@ -63,33 +69,28 @@ class PluginProvider extends React.Component {
     }
   }
 
-  renderPlugin() {
-    if (this.props.pluginToLoad) {
-      return (
-        <PluginLoader
-          pluginInstanceId={this.props.pluginInstanceId}
-          pluginName={this.props.pluginToLoad.content.name}
-          pluginPath={this.props.pluginToLoad.content.sourcePath}
-          displayPlugin={this.props.displayPlugin}
-          pluginConf={this.props.pluginConf}
-          pluginProps={this.props.pluginProps}
-          onErrorCallback={this.props.onErrorCallback}
-        >
-          {this.props.children}
-        </PluginLoader>
-      )
-    }
-    return null
-  }
-
   render() {
-    return (
-      <LoadableContentDisplayDecorator
-        isLoading={!this.props.pluginToLoad}
+    const {
+      pluginInstanceId, pluginProps,
+      pluginToLoad, pluginConf, displayPlugin,
+      onErrorCallback, loadingComponent, errorComponent,
+    } = this.props
+    // return loading component while retrieving configuration,
+    // plugin loader, using configuration otherwise
+    return pluginToLoad ? (
+      <PluginLoader
+        pluginInstanceId={pluginInstanceId}
+        pluginName={pluginToLoad.content.name}
+        pluginPath={pluginToLoad.content.sourcePath}
+        displayPlugin={displayPlugin}
+        pluginConf={pluginConf}
+        pluginProps={pluginProps}
+        onErrorCallback={onErrorCallback}
+        loadingComponent={loadingComponent}
+        errorComponent={errorComponent}
       >
-        {this.renderPlugin()}
-      </LoadableContentDisplayDecorator>
-    )
+        {this.props.children}
+      </PluginLoader>) : loadingComponent
   }
 }
 

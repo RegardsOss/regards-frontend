@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import { AttributeModelWithBounds, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins-api'
 import { CatalogDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import TwoTemporalCriteriaComponent from '../components/TwoTemporalCriteriaComponent'
 
 /**
@@ -34,47 +34,26 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     value2: undefined, // second attribute value (or range value when working with single attribute)
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || TwoTemporalCriteriaContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       firstField: AttributeModelWithBounds.isRequired,
       secondField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
       value1: PropTypes.string, // note: the dates are defined as ISO date string to avoid growing the state size on URLs
       value2: PropTypes.string,
-    }).isRequired,
-    // From mapDispatchToProps...
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
+  }
+
+  /** Using default props to ensure a default plugin state */
+  static defaultProps = {
+    state: TwoTemporalCriteriaContainer.DEFAULT_STATE,
   }
 
   /**
@@ -161,9 +140,10 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   onDate2Changed = date => this.onUpdateState({ ...this.props.state, value2: date ? date.toISOString() : null })
 
   render() {
-    const { state: { value1, value2 }, attributes: { firstField, secondField } } = this.props
+    const { label, state: { value1, value2 }, attributes: { firstField, secondField } } = this.props
     return (
       <TwoTemporalCriteriaComponent
+        label={label}
         attribute1={firstField}
         attribute2={secondField}
         value1={value1 && new Date(value1)} // provide value as date to components below
@@ -175,6 +155,4 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   }
 }
 
-export default connect(
-  TwoTemporalCriteriaContainer.mapStateToProps,
-  TwoTemporalCriteriaContainer.mapDispatchToProps)(TwoTemporalCriteriaContainer)
+export default TwoTemporalCriteriaContainer

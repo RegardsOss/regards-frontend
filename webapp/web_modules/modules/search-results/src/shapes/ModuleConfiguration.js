@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain, DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { DataManagementShapes, AccessShapes, UIShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
 /**
@@ -124,10 +124,7 @@ export const RestrictionsConfiguration = PropTypes.shape({
 
 /** A criterion configuration, with internationalized labels */
 export const CriterionConfiguration = PropTypes.shape({
-  label: PropTypes.shape({
-    en: PropTypes.string, // english group label, optional
-    fr: PropTypes.string, // french group label, optional
-  }).isRequired,
+  label: UIShapes.IntlMessage.isRequired,
   pluginInstanceId: PropTypes.string.isRequired,
   pluginId: PropTypes.number.isRequired, // TODO raph check, but it seems to be the plugin ==> better use a business ID
   active: PropTypes.bool.isRequired, // TODO make editable
@@ -137,10 +134,7 @@ export const CriterionConfiguration = PropTypes.shape({
 /** A criteria group, with optional title */
 export const CriteriaGroup = PropTypes.shape({
   showTitle: PropTypes.bool.isRequired,
-  title: PropTypes.shape({
-    en: PropTypes.string, // english group label, optional
-    fr: PropTypes.string, // french group label, optional
-  }).isRequired, // labels dictionnary, required
+  title: UIShapes.IntlMessage.isRequired,
   criteria: PropTypes.arrayOf(CriterionConfiguration).isRequired,
 })
 

@@ -23,31 +23,7 @@
  * @author Raphaël Mechali
  */
 const pluginStyles = theme => ({
-  rootStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    minHeight: theme.criterion.minHeight,
-  },
-  labelSpanStyle: {
-    margin: '0px 10px',
-  },
-  textFieldStyle: {
-    top: -18,
-    width: 180,
-    margin: '0px 10px',
-  },
-  defaultIconStyle: {
-    color: theme.palette.textColor,
-  },
-  selectedIconStyle: {
-    color: theme.palette.accent1Color,
-  },
-  selectorButtonStyle: {
-    padding: theme.module.searchForm.selectorButtonPadding,
-    width: undefined,
-    height: undefined,
-  },
+  // no specific styles
 })
 
 export default pluginStyles

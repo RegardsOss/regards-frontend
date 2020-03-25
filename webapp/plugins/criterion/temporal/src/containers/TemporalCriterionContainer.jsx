@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
 import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import TemporalCriterionComponent from '../components/TemporalCriterionComponent'
 
 /**
@@ -37,46 +35,25 @@ export class TemporalCriterionContainer extends React.Component {
     operator: CommonDomain.EnumNumericalComparator.LE,
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId, attributes: { searchField } }) {
-    return {
-      // current state from redux store, defaults to a static JS objects (avoids constant re-render issues)
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || TemporalCriterionContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       searchField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
       value: PropTypes.string, // note: the date is defined as ISO date string to avoid growing the state size on URLs
       operator: PropTypes.oneOf([CommonDomain.EnumNumericalComparator.GE, CommonDomain.EnumNumericalComparator.LE]), // only accepts >= and <=
-    }).isRequired,
-    // From mapDispatchToProps...
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
+  }
+
+  /** Using default props to ensure a default plugin state */
+  static defaultProps = {
+    state: TemporalCriterionContainer.DEFAULT_STATE,
   }
 
   /**
@@ -146,9 +123,10 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   render() {
-    const { state: { value, operator }, attributes: { searchField } } = this.props
+    const { label, state: { value, operator }, attributes: { searchField } } = this.props
     return (
       <TemporalCriterionComponent
+        label={label}
         searchAttribute={searchField}
         value={value ? new Date(value) : null} // provide value as date to components below
         operator={operator}
@@ -160,6 +138,4 @@ export class TemporalCriterionContainer extends React.Component {
   }
 }
 
-export default connect(
-  TemporalCriterionContainer.mapStateToProps,
-  TemporalCriterionContainer.mapDispatchToProps)(TemporalCriterionContainer)
+export default TemporalCriterionContainer

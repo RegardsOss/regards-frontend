@@ -244,7 +244,7 @@ export const Criterion = PropTypes.shape({
   pluginId: PropTypes.number.isRequired, // TODO would be better resolved on string no? for migration purposes
   pluginInstanceId: PropTypes.string.isRequired,
   conf: PropTypes.shape({ // configuration
-    attributes: PropTypes.arrayOf(AttributeModel).isRequired,
+    attributes: PropTypes.objectOf(AttributeModel).isRequired,
   }),
   state: PropTypes.object, // current plugin state
   requestParameters: RequestParameters, // current plugin parameters

@@ -157,6 +157,66 @@ const styles = theme => ({
         },
       },
     },
+    searchPane: {
+      rootContainer: {
+        ...theme.module.searchResults.searchPane.root,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      },
+      title: {
+        container: {
+          height: theme.module.searchResults.searchPane.titleBar.height,
+          borderColor: theme.module.searchResults.searchPane.titleBar.borderColor,
+          borderWidth: theme.module.searchResults.searchPane.titleBar.borderWidth,
+          borderStyle: theme.module.searchResults.searchPane.titleBar.borderStyle,
+          backgroundColor: theme.module.searchResults.searchPane.titleBar.backgroundColor,
+          flexGrow: 0,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+        },
+        icon: {
+          width: theme.spacing.iconSize,
+          height: theme.spacing.iconSize,
+          margin: theme.module.searchResults.searchPane.titleBar.iconMargin,
+        },
+        text: {
+          fontSize: theme.module.searchResults.searchPane.titleBar.fontSize,
+          fontWeight: theme.module.searchResults.searchPane.titleBar.fontWeight,
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+      },
+      criteria: {
+        container: {
+          margin: theme.module.searchResults.searchPane.criteria.containerMargin,
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+        scrollableContent: {
+          padding: theme.module.searchResults.searchPane.criteria.innerListMargin,
+        },
+        table: {
+          width: '100%',
+        },
+        groupTitle: {
+          ...theme.module.searchResults.searchPane.groupTitle,
+        },
+      },
+      buttons: {
+        container: {
+          display: 'flex',
+          justifyContent: 'center',
+          flexGrow: 0,
+          flexShrink: 0,
+          borderColor: theme.module.searchResults.searchPane.buttonsBar.borderColor,
+          borderWidth: theme.module.searchResults.searchPane.buttonsBar.borderWidth,
+          borderStyle: theme.module.searchResults.searchPane.buttonsBar.borderStyle,
+          padding: theme.module.searchResults.searchPane.buttonsBar.padding,
+        },
+      },
+    },
     rootModuleContainer: {
       flexGrow: 1,
       flexShrink: 1,

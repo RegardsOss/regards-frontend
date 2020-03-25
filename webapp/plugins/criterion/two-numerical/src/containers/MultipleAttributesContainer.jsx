@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
 import { CommonDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, numberRangeHelper } from '@regardsoss/plugins-api'
 import MultipleAttributesComponent from '../components/MultipleAttributesComponent'
 
 /**
@@ -37,62 +35,38 @@ export class MultipleAttributesContainer extends React.Component {
     comparator2: CommonDomain.EnumNumericalComparator.LE,
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || MultipleAttributesContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
+  /** Shape for this subtype of criterion */
+  static STATE_SHAPE = PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    value1: PropTypes.number,
+    comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+    value2: PropTypes.number,
+    comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+  })
 
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** First configured field attribute */
     firstField: AttributeModelWithBounds.isRequired,
     /** Second configured field attribute */
     secondField: AttributeModelWithBounds.isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-      value1: PropTypes.number,
-      comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-      value2: PropTypes.number,
-      comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    }).isRequired,
-    // From mapDispatchToProps...
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: MultipleAttributesContainer.STATE_SHAPE.isRequired,
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
   }
 
   /** Available comparison operators for integer numbers */
   static AVAILABLE_INT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.LE,
     CommonDomain.EnumNumericalComparator.EQ,
     CommonDomain.EnumNumericalComparator.GE,
-    CommonDomain.EnumNumericalComparator.LE,
   ]
 
   /** Available comparison operators for floatting numbers */
   static AVAILABLE_FLOAT_COMPARATORS = [
-    CommonDomain.EnumNumericalComparator.GE,
     CommonDomain.EnumNumericalComparator.LE,
+    CommonDomain.EnumNumericalComparator.GE,
   ]
 
   /**
@@ -164,6 +138,7 @@ export class MultipleAttributesContainer extends React.Component {
 
   render() {
     const {
+      label,
       firstField, secondField,
       state: {
         value1, comparator1, value2, comparator2,
@@ -171,6 +146,7 @@ export class MultipleAttributesContainer extends React.Component {
     } = this.props
     return (
       <MultipleAttributesComponent
+        label={label}
         attribute1={firstField}
         value1={value1}
         comparator1={comparator1}
@@ -186,6 +162,4 @@ export class MultipleAttributesContainer extends React.Component {
   }
 }
 
-export default connect(
-  MultipleAttributesContainer.mapStateToProps,
-  MultipleAttributesContainer.mapDispatchToProps)(MultipleAttributesContainer)
+export default MultipleAttributesContainer

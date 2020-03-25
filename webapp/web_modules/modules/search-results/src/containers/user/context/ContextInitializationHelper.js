@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import values from 'lodash/values'
+import reduce from 'lodash/reduce'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 import { PresentationHelper } from './PresentationHelper'
@@ -204,13 +204,15 @@ export class ContextInitializationHelper {
       }) => {
         if (active) {
           const confAttributes = get(conf, 'attributes', {})
-          const attributesPath = values(confAttributes)
           // resolve all attributes
-          const attributes = attributesPath.reduce((accAttributes, attrPath) => {
+          const attributes = reduce(confAttributes, (accAttributes, attrPath, attrKey) => {
             const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
-            return resolvedAttribute ? [...accAttributes, resolvedAttribute] : accAttributes
-          }, [])
-          if (attributesPath.length === attributes.length) { // all could be converted
+            return accAttributes && resolvedAttribute ? {
+              ...accAttributes,
+              [attrKey]: resolvedAttribute,
+            } : null // set acc to null when first missing attribute is not found (or any previous attribute was not)
+          }, {})
+          if (attributes) { // all attributes could be retrieved
             return [...accCrit, {
               label,
               pluginInstanceId,

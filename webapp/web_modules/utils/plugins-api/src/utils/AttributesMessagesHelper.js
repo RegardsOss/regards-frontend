@@ -225,7 +225,7 @@ export function formatHintText(intl, attribute, boundType = BOUND_TYPE.ANY_BOUND
  * @return {string} text to show as criterion field tooltip
  */
 export function formatTooltip(intl, attribute) {
-  // A -
+  // A - Loading / error / unexisting bounds
   const { formatMessage } = intl
   const typeText = getTypeText(intl, attribute)
   const { boundsInformation } = attribute
@@ -239,6 +239,6 @@ export function formatTooltip(intl, attribute) {
     return formatMessage({ id: 'criterion.attribute.tooltip.valueable.with.bounds' }, { typeText, range })
   }
 
-  // C -
+  // C - Unboundable type
   return formatMessage({ id: 'criterion.attribute.tooltip.valueable.without.bound' }, { typeText })
 }

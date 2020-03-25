@@ -70,8 +70,6 @@ describe('[Two numerical criteria] Testing MultipleAttributesComponent', () => {
       comparator: props.comparator1,
       availableComparators: props.availableComparators1,
       onChange: props.onChangeValue1,
-      showAttributeLabel: true,
-      showComparator: true,
     }, 'First numerical component properties should be correctly set')
     testSuiteHelpers.assertWrapperProperties(criterionComponents.at(1), {
       searchAttribute: props.attribute2,
@@ -80,8 +78,6 @@ describe('[Two numerical criteria] Testing MultipleAttributesComponent', () => {
       comparator: props.comparator2,
       availableComparators: props.availableComparators2,
       onChange: props.onChangeValue2,
-      showAttributeLabel: true,
-      showComparator: true,
     }, 'Second numerical component properties should be correctly set')
   })
 })

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
-import isEmpty from 'lodash/isEmpty'
 import reduce from 'lodash/reduce'
 import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
@@ -57,17 +56,13 @@ export class SearchPaneContainer extends React.Component {
    */
   static collectRequestParameters(groups) {
     // accumulute for each group...
-    return groups.reduce((groupsParamsAcc, { criteria }) => ({
+    return groups.reduce((groupsParamsAcc, group) => ([
       ...groupsParamsAcc,
-      // ... and each criterion in a group...
-      ...criteria.reduce((groupParamsAcc, { requestParameters }) => ({
-        ...groupParamsAcc,
-        // each non null nor empty request parameter
-        ...reduce(requestParameters, (requestAcc, value, key) => isNil(value) || isEmpty(value)
-          ? requestAcc
-          : { ...requestAcc, [key]: value }, {}),
+      // ... and each criterion in a group as a context filtering criterion...
+      ...group.criteria.map(({ requestParameters }) => ({
+        requestParameters: isNil(requestParameters) ? {} : requestParameters,
       })),
-    }), {})
+    ]), [])
   }
 
   /**
@@ -95,9 +90,53 @@ export class SearchPaneContainer extends React.Component {
   componentWillMount = () => {
     const { tabType, resultsContext } = this.props
     const { tab: { search: { groups = [] } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // TODO
+    // conf: {
+    //   ...plugin.conf,
+    //   attributes: reduce(plugin.conf.attributes || {}, (acc, attribute, key) => ({
+    //     ...acc,
+    //     [key]: addBoundsState(attribute),
+    //   }), {}),
+    // },
+    //  {
+    //   ...attributeModel,
+    //   boundsInformation: {
+    //     exists: true,
+    //     loading: false,
+    //     error: false,
+    //     // might be undefined, for an optional attribute for instance
+    //     lowerBound: get(bounds, 'content.lowerBound'),
+    //     upperBound: get(bounds, 'content.upperBound'),
+    //   },
+    // }
+
+    // TODO restore that too! nextState.pluginsProps = { initialQuery: nextState.configurationQuery } for enumerated
+    // TODO add here, and everywhere else, bound management by criterion/attribute (this is temporary equivalent)
+
     this.setState({
       // duplicate criteria list to remove link with original references
-      groups: SearchPaneContainer.duplicateGroups(groups),
+      groups: groups.map(g => ({
+        ...g,
+        criteria: g.criteria.map(c => ({
+          ...c,
+          conf: {
+            ...c.conf,
+            // TODO better use here an attribute pool to be replaced while iterating the list in duplicateGroups
+            // TODO: whole mechanism to recover from: PluginsConfigurationProvider
+            attributes: reduce(c.conf.attributes || {}, (acc, attribute, key) => ({
+              ...acc,
+              [key]: {
+                ...attribute.content,
+                boundsInformation: {
+                  exists: false,
+                  loading: false,
+                  error: false,
+                },
+              },
+            }), {}),
+          },
+        })),
+      })),
     })
   }
 
@@ -108,7 +147,7 @@ export class SearchPaneContainer extends React.Component {
    * @param {*} newState new state for criterion
    * @param {*} newRequestParameters new request parameters for criterion
    */
-  onUpdatePluginState(groupIndex, criterionIndex, newState, newRequestParameters) {
+  onUpdatePluginState = (groupIndex, criterionIndex, newState, newRequestParameters) => {
     this.setState({
       groups: this.state.groups.map((group, gI) => gI === groupIndex ? {
         ...group,
@@ -147,11 +186,28 @@ export class SearchPaneContainer extends React.Component {
       tabs: {
         [tabType]: {
           search: {
-            groups: SearchPaneContainer.duplicateGroups(groups),
+            open: false, // close pane
+            groups: SearchPaneContainer.duplicateGroups(groups), // commit criteria state
           },
           criteria: {
             // collect newly applying criteria
             searchTags: SearchPaneContainer.collectRequestParameters(groups),
+          },
+        },
+      },
+    })
+  }
+
+  /**
+   * Use callback: close search pane
+   */
+  onClose = () => {
+    const { moduleId, tabType, updateResultsContext } = this.props
+    updateResultsContext(moduleId, {
+      tabs: {
+        [tabType]: {
+          search: {
+            open: false,
           },
         },
       },
@@ -163,7 +219,14 @@ export class SearchPaneContainer extends React.Component {
     const { groups } = this.state
     const { tab: { search: { open } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
-      <SearchPaneComponent open={open} groups={groups} />
+      <SearchPaneComponent
+        open={open}
+        groups={groups}
+        onUpdatePluginState={this.onUpdatePluginState}
+        onResetPluginsStates={this.onResetPluginsStates}
+        onSearch={this.onSearch}
+        onClose={this.onClose}
+      />
     )
   }
 }

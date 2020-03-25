@@ -18,6 +18,8 @@
  **/
 import { DataManagementShapes } from '@regardsoss/shape'
 
+// TODO possibly a rework here, depending on what is used by search graoh
+
 /**
  * Search results admin conf (adminForm.conf)
  * Used by other modules that depends on search-results

@@ -22,7 +22,7 @@ import TextField from 'material-ui/TextField'
 import { CommonDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { NumericalComparator } from '@regardsoss/components'
+import { NumericalComparatorSelector } from '@regardsoss/components'
 import {
   AttributeModelWithBounds, BOUND_TYPE, numberRangeHelper,
   formatHintText, formatTooltip,
@@ -39,18 +39,9 @@ export class NumericalCriterionComponent extends React.Component {
     fieldBoundType: PropTypes.oneOf(values(BOUND_TYPE)).isRequired,
     value: PropTypes.number,
     comparator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)),
+    availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
     /** Callback to change the current criteria values in form: (value:number, operator:EnumNumicalComparators) => () */
     onChange: PropTypes.func.isRequired,
-    /** Should show attribute label? */
-    showAttributeLabel: PropTypes.bool,
-    /** Should show comparator? */
-    showComparator: PropTypes.bool,
-  }
-
-  static defaultProps = {
-    showAttributeLabel: false,
-    showComparator: false,
   }
 
   static contextTypes = {
@@ -102,45 +93,37 @@ export class NumericalCriterionComponent extends React.Component {
   render() {
     const {
       searchAttribute, comparator, value, availableComparators,
-      fieldBoundType, showAttributeLabel, showComparator,
+      fieldBoundType,
     } = this.props
-    const { moduleTheme: { labelSpanStyle, textFieldStyle }, intl } = this.context
+    const { intl, muiTheme } = this.context
 
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
-    const hasNovalue = isNil(lowerBound) && isNil(upperBound)
+    const hasNoValue = isNil(lowerBound) && isNil(upperBound)
     return (
       <React.Fragment>
-        { // Show attribute label if enabled
-        showAttributeLabel ? (
-          <span key="label" style={labelSpanStyle}>
-            {searchAttribute.label}
-          </span>
-        ) : null
-      }
-        { // Show comparator if enabled
-        showComparator ? (
-          <NumericalComparator
-            key="comparator"
-            value={comparator}
-            onChange={this.onComparatorSelected}
-            comparators={availableComparators}
-            disabled={hasNovalue} // disable if there is no value for this attribute
-          />) : null
-      }
-        <TextField
-          id="search"
-          key="field"
-          type="number"
-          floatingLabelText={formatHintText(intl, searchAttribute, fieldBoundType)}
-          title={formatTooltip(intl, searchAttribute)}
-          value={NumericalCriterionComponent.toText(value)}
-          style={textFieldStyle}
-          onChange={this.onTextInput}
-          disabled={hasNovalue} // disable if there is no value for this attribute
-        />
-      </React.Fragment>
-    )
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <NumericalComparatorSelector
+            operator={comparator}
+            operators={availableComparators}
+            onSelect={this.onComparatorSelected}
+            disabled={hasNoValue}
+          />
+        </td>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <TextField
+            id="search"
+            key="field"
+            type="number" // TODO no!
+            hintText={formatHintText(intl, searchAttribute, fieldBoundType)}
+            title={formatTooltip(intl, searchAttribute)}
+            value={NumericalCriterionComponent.toText(value)}
+            fullWidth
+            onChange={this.onTextInput}
+            disabled={hasNoValue}
+          />
+        </td>
+      </React.Fragment>)
   }
 }
 

@@ -93,6 +93,8 @@ export class PluginLoader extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: PropTypes.object,
     displayPlugin: PropTypes.bool,
+    loadingComponent: PropTypes.element,
+    errorComponent: PropTypes.element,
     children: PropTypes.element,
     // eslint-disable-next-line react/no-unused-prop-types
     onErrorCallback: PropTypes.func,
@@ -104,6 +106,11 @@ export class PluginLoader extends React.Component {
     doLoadPlugin: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     doInitPlugin: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    loadingComponent: <LoadableContentDisplayDecorator isLoading />,
+    errorComponent: <ErrorCardComponent message="Error loading plugin" />,
   }
 
   /**
@@ -180,25 +187,17 @@ export class PluginLoader extends React.Component {
   }
 
   render() {
-    const { loadedPlugin, pluginPath } = this.props
+    const { loadedPlugin, errorComponent, loadingComponent } = this.props
     // loading when plugin is not loaded and has not failed
     const loadError = !isNil(loadedPlugin) && loadedPlugin.loadError
-    const errorCause = loadedPlugin && loadedPlugin.errorCause ? loadedPlugin.errorCause : 'Unknown'
     const isLoading = !loadError && isNil(this.props.loadedPlugin)
     if (loadError) {
-      return (
-        <ErrorCardComponent
-          message={`Error loading plugin ${pluginPath}. Cause: ${errorCause}`}
-        />
-      )
+      return errorComponent
     }
-    return (
-      <LoadableContentDisplayDecorator
-        isLoading={isLoading}
-      >
-        {this.renderPlugin()}
-      </LoadableContentDisplayDecorator>
-    )
+    if (isLoading) {
+      return loadingComponent
+    }
+    return this.renderPlugin()
   }
 }
 

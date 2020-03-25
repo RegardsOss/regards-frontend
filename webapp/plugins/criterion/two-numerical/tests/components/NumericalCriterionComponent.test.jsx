@@ -48,8 +48,6 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
       comparator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
       onChange: () => {},
-      showAttributeLabel: true,
-      showComparator: true,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const comparator = enzymeWrapper.find(NumericalComparator)
@@ -80,8 +78,6 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
       comparator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
       onChange: () => {},
-      showAttributeLabel: true,
-      showComparator: true,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     const comparator = enzymeWrapper.find(NumericalComparator)
@@ -112,8 +108,6 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
       comparator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
       onChange: () => {},
-      showAttributeLabel: false,
-      showComparator: false,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NumericalComparator), 0, 'Comparator selector should be hidden')

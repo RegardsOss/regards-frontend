@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DatePickerField } from '@regardsoss/components'
+import noop from 'lodash/noop'
+import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DatePickerField, NumericalComparatorSelector } from '@regardsoss/components'
 import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
@@ -29,6 +31,7 @@ export class TemporalCriterionComponent extends React.Component {
   static propTypes = {
     searchAttribute: AttributeModelWithBounds.isRequired, // attribute
     value: PropTypes.instanceOf(Date), // selected date
+    lowerBound: PropTypes.bool.isRequired, // is this part the range lower bound or is it upper bound?
     hintDate: PropTypes.string, // bound hint
     isStopDate: PropTypes.bool.isRequired, // is it range stop date (allows for 23:59:59 auto selection instead of 00:00:00)
     onDateChanged: PropTypes.func.isRequired, // on date selected callback, like (date:Date, operator:string) => ()
@@ -47,33 +50,49 @@ export class TemporalCriterionComponent extends React.Component {
   /** Default time to set up when a stop date is selected */
   static DEFAULT_STOP_TIME = '23:59:59'
 
+  /** Lower bound comparators */
+  static LOWER_BOUND_COMPARATORS = [CommonDomain.EnumNumericalComparator.GE]
+
+  /** Upper bound comparators */
+  static UPPER_BOUND_COMPARATORS = [CommonDomain.EnumNumericalComparator.LE]
+
   render() {
     const {
-      searchAttribute, value, hintDate,
-      isStopDate, onDateChanged,
+      searchAttribute, value, lowerBound: isLowerBound,
+      hintDate, isStopDate, onDateChanged,
     } = this.props
-    const { intl, moduleTheme } = this.context
+    const { intl, muiTheme, moduleTheme: { datePickerCell } } = this.context
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
+    const operators = isLowerBound ? TemporalCriterionComponent.LOWER_BOUND_COMPARATORS : TemporalCriterionComponent.UPPER_BOUND_COMPARATORS
     return (
-      <div style={moduleTheme.datePickerContainerStyle}>
-        <DatePickerField
-          value={value}
-          onChange={onDateChanged}
-          style={moduleTheme.datePickerSelectorStyle}
-          locale={intl.locale}
-          dateHintText={hintDate ? intl.formatDate(hintDate) : intl.formatMessage({ id: 'criterion.date.field.label' })}
-          timeHintText={hintDate ? intl.formatTime(hintDate) : intl.formatMessage({ id: 'criterion.time.field.label' })}
-          tooltip={formatTooltip(intl, searchAttribute)}
-          okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
-          cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}
-          defaultTime={isStopDate ? TemporalCriterionComponent.DEFAULT_STOP_TIME : TemporalCriterionComponent.DEFAULT_START_TIME}
-          disabled={hasNoValue} // disable field if attribute has no value
-          displayTime
-        />
-      </div>
-    )
+      <>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <NumericalComparatorSelector
+            operator={operators[0]}
+            operators={operators}
+            onSelect={noop}
+            disabled={hasNoValue}
+          />
+        </td>
+        <td style={datePickerCell}>
+          <DatePickerField
+            value={value}
+            onChange={onDateChanged}
+            locale={intl.locale}
+            dateHintText={hintDate ? intl.formatDate(hintDate) : intl.formatMessage({ id: 'criterion.date.field.label' })}
+            timeHintText={hintDate ? intl.formatTime(hintDate) : intl.formatMessage({ id: 'criterion.time.field.label' })}
+            tooltip={formatTooltip(intl, searchAttribute)}
+            okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
+            cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}
+            defaultTime={isStopDate ? TemporalCriterionComponent.DEFAULT_STOP_TIME : TemporalCriterionComponent.DEFAULT_START_TIME}
+            disabled={hasNoValue} // disable field if attribute has no value
+            displayTime
+            fullWidth
+          />
+        </td>
+      </>)
   }
 }
 

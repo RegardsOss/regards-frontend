@@ -59,8 +59,6 @@ describe('[Two numerical criteria] Testing SingleAttributeComponent', () => {
       value: props.value1,
       comparator: CommonDomain.EnumNumericalComparator.GE,
       onChange: props.onChangeValue1,
-      showAttributeLabel: false,
-      showComparator: false,
     }, 'First numerical component properties should be correctly set')
     testSuiteHelpers.assertWrapperProperties(criterionComponents.at(1), {
       searchAttribute: props.searchAttribute,
@@ -68,8 +66,6 @@ describe('[Two numerical criteria] Testing SingleAttributeComponent', () => {
       value: props.value2,
       comparator: CommonDomain.EnumNumericalComparator.LE,
       onChange: props.onChangeValue2,
-      showAttributeLabel: false,
-      showComparator: false,
     }, 'Second numerical component properties should be correctly set')
   })
 })

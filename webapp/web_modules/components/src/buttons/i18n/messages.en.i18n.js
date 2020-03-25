@@ -19,12 +19,14 @@
 
 const messages = {
   'clear.button.tooltip': 'Clear field content',
-  'numerical.comparator.EQ': '=',
-  'numerical.comparator.LE': '≤',
-  'numerical.comparator.GE': '≥',
-  'numerical.comparator.NE': '≠',
   'components.buttons.select.all': 'Select all',
   'components.buttons.unselect.all': 'Unselect all',
+  'numerical.comparator.selector.EQ.label': 'Equals',
+  'numerical.comparator.selector.EQ.tooltip': 'Results must be strictly equal to value',
+  'numerical.comparator.selector.GE.label': 'Is greater than',
+  'numerical.comparator.selector.GE.tooltip': 'Results must be greater than or equal to value',
+  'numerical.comparator.selector.LE.label': 'Is lesser than',
+  'numerical.comparator.selector.LE.tooltip': 'Results must be lesser than or equal to value',
 }
 
 export default messages

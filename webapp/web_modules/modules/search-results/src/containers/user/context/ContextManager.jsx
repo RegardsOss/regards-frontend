@@ -161,6 +161,8 @@ export class ContextManager extends React.Component {
     } = this.props
     // 1 - Convert module configuration into results context
     const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
+
+    contextFromConfiguration.tabs.MAIN_RESULTS.search = { ...contextFromConfiguration.tabs.MAIN_RESULTS.search, open: true } // TODO RM
     // 2 - Report any parent control already added in resolved context. XXX - Comes from the last parent controller (search-graph)
     const contextWithParentControl = UIDomain.ResultsContextHelper.deepMerge(contextFromConfiguration, resultsContext)
     // 3 - Resolve context from URL then commit it to module state

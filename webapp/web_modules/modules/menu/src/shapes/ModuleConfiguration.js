@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
-import { AdminShapes, CommonShapes } from '@regardsoss/shape'
+import { AdminShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 import { VISIBILITY_MODES } from '../domain/VisibilityModes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'
@@ -47,7 +47,7 @@ const basicEditionSectionFields = {
     type: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
     url: PropTypes.string,
   }).isRequired,
-  title: PropTypes.objectOf(PropTypes.string).isRequired, // title, where key are locales
+  title: UIShapes.IntlMessage.isRequired,
 }
 
 export const EditionSection = PropTypes.shape({
@@ -68,7 +68,7 @@ export const HomeConfigurationShape = PropTypes.shape({
     url: PropTypes.string,
   }),
   // title as a map of locale to label
-  title: PropTypes.objectOf(PropTypes.string),
+  title: UIShapes.IntlMessage,
 })
 
 export const ModuleConfiguration = PropTypes.shape({

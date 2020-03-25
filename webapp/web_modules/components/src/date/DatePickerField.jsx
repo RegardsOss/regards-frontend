@@ -74,12 +74,6 @@ export default class DatePickerField extends React.Component {
     opacity: '0.65',
   }
 
-  /** Default text container style */
-  static textContainerStyle = {
-    display: 'flex',
-    flexGrow: 1,
-  }
-
   /** Default date text field style */
   static defaultDateTextFieldStyle = {
     width: '90px',
@@ -94,12 +88,14 @@ export default class DatePickerField extends React.Component {
   static fullWithDateTextFieldStyle = {
     flexGrow: 1,
     flexShrink: 1,
+    width: undefined,
   }
 
   /** Full width time text field style */
   static fullWidthTimeTextFieldStyle = {
     flexGrow: 1,
     flexShrink: 1,
+    width: undefined,
   }
 
 

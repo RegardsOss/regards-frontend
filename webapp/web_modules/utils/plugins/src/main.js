@@ -26,5 +26,6 @@ export { default as PluginLoader } from './containers/PluginLoader'
 export { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
 export { default as pluginReducerHelper } from './helpers/PluginReducerHelper'
 export { default as PluginReducer } from './reducer'
+// TODO client and shape should no longer be used! Delete!
 export { pluginStateActions, pluginStateSelectors } from './clients/PluginStateClient'
 export { CriterionData, AllCriteriaData } from './shapes/CriterionShapes'

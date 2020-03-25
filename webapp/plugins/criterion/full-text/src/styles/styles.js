@@ -23,17 +23,7 @@
  * @author Raphaël Mechali
  */
 const pluginStyles = theme => ({
-  rootStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'nowrap',
-    minHeight: theme.criterion.minHeight,
-  },
-  textFieldStyle: {
-    top: -13,
-    width: 360,
-    margin: '0px 10px',
-  },
+  // no specific style
 })
 
 export default pluginStyles

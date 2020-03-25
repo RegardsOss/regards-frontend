@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { CatalogDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, PluginsClientsMap,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, PluginsClientsMap } from '@regardsoss/plugins-api'
 import buildClient from '../clients/EnumeratedDOPropertyValuesClient'
 import EnumeratedCriterionComponent from '../components/EnumeratedCriterionComponent'
 
@@ -60,8 +60,6 @@ export class EnumeratedCriterionContainer extends React.Component {
     // get selectors for this plugin instance ID
     const enumeratedValuesSelectors = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).selectors
     return {
-      // current state from redux store, defaults to a static JS objects (avoids constant re-render issues)
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || EnumeratedCriterionContainer.DEFAULT_STATE,
       // we select here the current or last fetching state of dispatchGetParameterValues request
       isFetching: enumeratedValuesSelectors.isFetching(state),
       // we select here the results from last dispatchGetParameterValues request
@@ -78,7 +76,6 @@ export class EnumeratedCriterionContainer extends React.Component {
   static mapDispatchToProps(dispatch, { pluginInstanceId, initialQuery }) {
     const enumeratedValuesActions = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
       // dispatches a request to get property values
       dispatchGetPropertyValues:
         // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
@@ -98,16 +95,25 @@ export class EnumeratedCriterionContainer extends React.Component {
     /** Search form context query */
     // eslint-disable-next-line react/no-unused-prop-types
     initialQuery: PropTypes.string, // used in mapDispatchToProps
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
+      searchText: PropTypes.string,
+      searchFullWords: PropTypes.bool,
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
+    publishState: PropTypes.func.isRequired,
     // from map state to props
     isFetching: PropTypes.bool.isRequired,
     availablePropertyValues: PropTypes.arrayOf(PropTypes.string).isRequired,
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-      searchText: PropTypes.string,
-      searchFullWords: PropTypes.bool,
-    }).isRequired,
     // from map dispatch to props
-    publishState: PropTypes.func.isRequired,
     dispatchGetPropertyValues: PropTypes.func.isRequired,
+  }
+
+  /** Using default props to ensure a default plugin state */
+  static defaultProps = {
+    state: EnumeratedCriterionContainer.DEFAULT_STATE,
   }
 
   /**
@@ -136,8 +142,10 @@ export class EnumeratedCriterionContainer extends React.Component {
       ...state,
       searchText,
     }
-    // A - update redux state and query
-    publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
+    // A - update redux state and query when it is not initialization event (check state changes)
+    if (!isEqual(nextState, state)) {
+      publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
+    }
     // B - dipatch get values for that filter text
     dispatchGetPropertyValues(searchField.jsonPath, searchText)
   }
@@ -161,10 +169,12 @@ export class EnumeratedCriterionContainer extends React.Component {
    */
   render() {
     const {
-      attributes: { searchField }, state: { searchText, inError }, isFetching, availablePropertyValues,
+      label, attributes: { searchField }, state: { searchText, inError },
+      isFetching, availablePropertyValues,
     } = this.props
     return (
       <EnumeratedCriterionComponent
+        label={label}
         searchAttribute={searchField}
         text={searchText}
         availablePropertyValues={availablePropertyValues}

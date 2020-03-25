@@ -16,28 +16,101 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIShapes } from '@regardsoss/shape'
 import Drawer from 'material-ui/Drawer'
+import FlatButton from 'material-ui/FlatButton'
+import IconButton from 'material-ui/IconButton'
+import PaneIcon from 'mdi-material-ui/Filter'
+import CloseIcon from 'mdi-material-ui/Close'
+import SearchIcon from 'mdi-material-ui/Magnify'
+import ClearIcon from 'mdi-material-ui/Eraser'
+import { UIShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import CriteriaListComponent from './CriteriaListComponent'
 
 /**
  * Search pane component
  * @author Raphaël Mechali
  */
 class SearchPaneComponent extends React.Component {
-static propTypes = {
-  open: PropTypes.bool.isRequired,
-  groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
-}
+  static propTypes = {
+    open: PropTypes.bool.isRequired,
+    groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
+    onUpdatePluginState: PropTypes.func.isRequired,
+    onResetPluginsStates: PropTypes.func.isRequired,
+    onSearch: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+  }
 
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-render() {
-  const { open } = this.props
-  // TODO width in styles
-  return (
-    <Drawer width={400} open={open} openSecondary>
-      <div>COUCOU</div>
-    </Drawer>
-  )
-}
+  render() {
+    const {
+      open, groups, onUpdatePluginState,
+      onResetPluginsStates, onSearch, onClose,
+    } = this.props
+    const {
+      intl: { formatMessage },
+      muiTheme: { module: { searchResults: { searchPane: { width } } } },
+      moduleTheme: {
+        user: {
+          searchPane: {
+            rootContainer,
+            title,
+            buttons,
+          },
+        },
+      },
+    } = this.context
+    // TODO handle ENTER pressed on focused or elements below to perform search
+    return (
+      <Drawer
+        width={width}
+        containerStyle={rootContainer}
+        open={open}
+        openSecondary
+      >
+        {/* 1. Title bar */}
+        <div style={title.container}>
+          {/* 1.a Icon and title */}
+          <PaneIcon style={title.icon} />
+          <div style={title.text}>{formatMessage({ id: 'search.results.search.pane.title' })}</div>
+          {/* 1.b close button */}
+          <IconButton
+            title={formatMessage({ id: 'search.results.search.pane.close.tooltip' })}
+            onClick={onClose}
+          >
+            <CloseIcon />
+          </IconButton>
+        </div>
+        {/* 2. Criteria list display in scrollable area */}
+        <CriteriaListComponent
+          groups={groups}
+          onSearch={onSearch}
+          onUpdatePluginState={onUpdatePluginState}
+        />
+        {/* 3. Buttons bar */}
+        <div style={buttons.container}>
+          {/* 3.a clear inputs */}
+          <FlatButton
+            icon={<ClearIcon />}
+            label={formatMessage({ id: 'search.results.search.pane.reset.label' })}
+            title={formatMessage({ id: 'search.results.search.pane.reset.title' })}
+            onClick={onResetPluginsStates}
+          />
+          {/* 3.b search */}
+          <FlatButton
+            icon={<SearchIcon />}
+            label={formatMessage({ id: 'search.results.search.pane.search.label' })}
+            title={formatMessage({ id: 'search.results.search.pane.search.title' })}
+            onClick={onSearch}
+          />
+        </div>
+      </Drawer>
+    )
+  }
 }
 export default SearchPaneComponent

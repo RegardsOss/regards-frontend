@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds, BOUND_TYPE } from '@regardsoss/plugins-api'
 import NumericalCriterionComponent from './NumericalCriterionComponent'
@@ -27,6 +29,7 @@ import NumericalCriterionComponent from './NumericalCriterionComponent'
  */
 class MultipleAttributesComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     // first attribute, corresponding state elements and callback
     attribute1: AttributeModelWithBounds.isRequired,
     value1: PropTypes.number,
@@ -46,36 +49,49 @@ class MultipleAttributesComponent extends React.Component {
     ...themeContextType,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
   render() {
     const {
+      label,
       attribute1, value1, comparator1, availableComparators1, onChangeValue1,
       attribute2, value2, comparator2, availableComparators2, onChangeValue2,
     } = this.props
-    const { moduleTheme: { rootStyle } } = this.context
+    const { intl: { locale }, muiTheme } = this.context
     return (
-      <div style={rootStyle}>
-        <NumericalCriterionComponent
-          searchAttribute={attribute1}
-          fieldBoundType={BOUND_TYPE.ANY_BOUND}
-          value={value1}
-          comparator={comparator1}
-          availableComparators={availableComparators1}
-          onChange={onChangeValue1}
-          showAttributeLabel
-          showComparator
-        />
-        <NumericalCriterionComponent
-          searchAttribute={attribute2}
-          fieldBoundType={BOUND_TYPE.ANY_BOUND}
-          value={value2}
-          comparator={comparator2}
-          availableComparators={availableComparators2}
-          onChange={onChangeValue2}
-          showAttributeLabel
-          showComparator
-        />
-      </div>
-    )
+      <>
+        <tr>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            { label[locale] || attribute1.label }
+          </td>
+          <NumericalCriterionComponent
+            searchAttribute={attribute1}
+            fieldBoundType={BOUND_TYPE.ANY_BOUND}
+            value={value1}
+            comparator={comparator1}
+            availableComparators={availableComparators1}
+            onChange={onChangeValue1}
+          />
+        </tr>
+        <tr>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            { // When label is provided, show empty cell. Show second attribute label otherwise
+            label[locale] ? null : attribute2.label
+          }
+          </td>
+          <NumericalCriterionComponent
+            searchAttribute={attribute2}
+            fieldBoundType={BOUND_TYPE.ANY_BOUND}
+            value={value2}
+            comparator={comparator2}
+            availableComparators={availableComparators2}
+            onChange={onChangeValue2}
+          />
+        </tr>
+      </>)
   }
 }
 export default MultipleAttributesComponent

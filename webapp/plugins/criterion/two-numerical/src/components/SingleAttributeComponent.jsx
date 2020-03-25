@@ -1,5 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -19,6 +17,7 @@ import { FormattedMessage } from 'react-intl'
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds, BOUND_TYPE } from '@regardsoss/plugins-api'
@@ -30,6 +29,7 @@ import NumericalCriterionComponent from './NumericalCriterionComponent'
  */
 class SingleAttributeComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
     value1: PropTypes.number,
     value2: PropTypes.number,
@@ -42,46 +42,53 @@ class SingleAttributeComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Available comparison operators lower bound (greater than) */
+  static LOWER_BOUND_OPERATORS = [CommonDomain.EnumNumericalComparator.GE]
+
+  /** Available comparison operators lower bound (lesser than) */
+  static UPPER_BOUND_OPERATORS = [CommonDomain.EnumNumericalComparator.LE]
+
   render() {
     const {
-      searchAttribute, value1, value2, onChangeValue1, onChangeValue2,
+      label, searchAttribute, value1, value2,
+      onChangeValue1, onChangeValue2,
     } = this.props
-    const {
-      moduleTheme: { rootStyle, labelSpanStyle },
-      intl: { formatMessage },
-    } = this.context
+    const { intl: { locale, formatMessage }, muiTheme } = this.context
 
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>
-          {formatMessage(
-            { id: 'criterion.aggregator.between' },
-            { label: searchAttribute.label },
-          )}
-        </span>
-        <NumericalCriterionComponent
-          searchAttribute={searchAttribute}
-          fieldBoundType={BOUND_TYPE.LOWER_BOUND}
-          value={value1}
-          comparator={CommonDomain.EnumNumericalComparator.GE}
-          onChange={onChangeValue1}
-          showAttributeLabel={false}
-          showComparator={false}
-        />
-        <span style={{ marginRight: 10 }}>
-          <FormattedMessage id="criterion.aggregator.and" />
-        </span>
-        <NumericalCriterionComponent
-          searchAttribute={searchAttribute}
-          fieldBoundType={BOUND_TYPE.UPPER_BOUND}
-          value={value2}
-          comparator={CommonDomain.EnumNumericalComparator.LE}
-          onChange={onChangeValue2}
-          showAttributeLabel={false}
-          showComparator={false}
-        />
-      </div>
-    )
+      <>
+        <tr>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            {formatMessage(
+              { id: 'criterion.aggregator.between' },
+              { label: label[locale] || searchAttribute.label })
+              }
+          </td>
+          <NumericalCriterionComponent
+            searchAttribute={searchAttribute}
+            fieldBoundType={BOUND_TYPE.LOWER_BOUND}
+            value={value1}
+            comparator={CommonDomain.EnumNumericalComparator.GE}
+            availableComparators={SingleAttributeComponent.LOWER_BOUND_OPERATORS}
+            onChange={onChangeValue1}
+            showComparator
+          />
+        </tr>
+        <tr>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            {formatMessage({ id: 'criterion.aggregator.and' })}
+          </td>
+          <NumericalCriterionComponent
+            searchAttribute={searchAttribute}
+            fieldBoundType={BOUND_TYPE.UPPER_BOUND}
+            value={value2}
+            comparator={CommonDomain.EnumNumericalComparator.LE}
+            availableComparators={SingleAttributeComponent.UPPER_BOUND_OPERATORS}
+            onChange={onChangeValue2}
+            showComparator
+          />
+        </tr>
+      </>)
   }
 }
 export default SingleAttributeComponent

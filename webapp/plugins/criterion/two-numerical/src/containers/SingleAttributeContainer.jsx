@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, numberRangeHelper } from '@regardsoss/plugins-api'
 import SingleAttributeComponent from '../components/SingleAttributeComponent'
 
 /**
@@ -34,43 +32,20 @@ export class SingleAttributeContainer extends React.Component {
     value2: undefined, // second range value
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || SingleAttributeContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
+  /** Shape for this subtype of criterion */
+  static STATE_SHAPE = PropTypes.shape({
+    value1: PropTypes.number,
+    value2: PropTypes.number,
+  })
 
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** Configured field attribute */
     searchField: AttributeModelWithBounds.isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-      value1: PropTypes.number,
-      value2: PropTypes.number,
-    }).isRequired,
-    // From mapDispatchToProps...
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: SingleAttributeContainer.STATE_SHAPE.isRequired,
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
   }
 
@@ -109,11 +84,10 @@ export class SingleAttributeContainer extends React.Component {
   }
 
   render() {
-    const { state: { value1, value2 }, searchField } = this.props
-
-
+    const { label, state: { value1, value2 }, searchField } = this.props
     return (
       <SingleAttributeComponent
+        label={label}
         searchAttribute={searchField}
         value1={value1}
         value2={value2}
@@ -124,6 +98,4 @@ export class SingleAttributeContainer extends React.Component {
   }
 }
 
-export default connect(
-  SingleAttributeContainer.mapStateToProps,
-  SingleAttributeContainer.mapDispatchToProps)(SingleAttributeContainer)
+export default SingleAttributeContainer
