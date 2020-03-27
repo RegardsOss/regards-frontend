@@ -29,6 +29,7 @@ import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api
  */
 export class TemporalCriterionComponent extends React.Component {
   static propTypes = {
+    id: PropTypes.string.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired, // attribute
     value: PropTypes.instanceOf(Date), // selected date
     lowerBound: PropTypes.bool.isRequired, // is this part the range lower bound or is it upper bound?
@@ -58,7 +59,7 @@ export class TemporalCriterionComponent extends React.Component {
 
   render() {
     const {
-      searchAttribute, value, lowerBound: isLowerBound,
+      id, searchAttribute, value, lowerBound: isLowerBound,
       hintDate, isStopDate, onDateChanged,
     } = this.props
     const { intl, muiTheme, moduleTheme: { datePickerCell } } = this.context
@@ -78,6 +79,7 @@ export class TemporalCriterionComponent extends React.Component {
         </td>
         <td style={datePickerCell}>
           <DatePickerField
+            id={id}
             value={value}
             onChange={onDateChanged}
             locale={intl.locale}

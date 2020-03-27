@@ -53,16 +53,13 @@ class SingleAttributeComponent extends React.Component {
       label, searchAttribute, value1, value2,
       onChangeValue1, onChangeValue2,
     } = this.props
-    const { intl: { locale, formatMessage }, muiTheme } = this.context
+    const { intl: { locale }, muiTheme } = this.context
 
     return (
       <>
         <tr>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-            {formatMessage(
-              { id: 'criterion.aggregator.between' },
-              { label: label[locale] || searchAttribute.label })
-              }
+            {label[locale] || searchAttribute.label}
           </td>
           <NumericalCriterionComponent
             searchAttribute={searchAttribute}
@@ -75,9 +72,7 @@ class SingleAttributeComponent extends React.Component {
           />
         </tr>
         <tr>
-          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-            {formatMessage({ id: 'criterion.aggregator.and' })}
-          </td>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
           <NumericalCriterionComponent
             searchAttribute={searchAttribute}
             fieldBoundType={BOUND_TYPE.UPPER_BOUND}

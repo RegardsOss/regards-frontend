@@ -122,6 +122,7 @@ export class RenderDateTimeField extends React.Component {
     return (
       <div style={dateFieldStyles.fieldsLine}>
         <DatePickerField
+          id={input.name}
           value={dateValue}
           defaultTime="00:00:00"
           dateHintText={intl.formatMessage({ id: 'form.datetimepicker.date.label' }, { label })}

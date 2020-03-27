@@ -35,6 +35,8 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   }
 
   static propTypes = {
+    /** Plugin identifier */
+    pluginInstanceId: PropTypes.string.isRequired,
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       firstField: AttributeModelWithBounds.isRequired,
@@ -140,9 +142,14 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   onDate2Changed = date => this.onUpdateState({ ...this.props.state, value2: date ? date.toISOString() : null })
 
   render() {
-    const { label, state: { value1, value2 }, attributes: { firstField, secondField } } = this.props
+    const {
+      pluginInstanceId, label,
+      state: { value1, value2 },
+      attributes: { firstField, secondField },
+    } = this.props
     return (
       <TwoTemporalCriteriaComponent
+        pluginInstanceId={pluginInstanceId}
         label={label}
         attribute1={firstField}
         attribute2={secondField}

@@ -21,7 +21,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { MeasureResultProvider } from '@regardsoss/display-control'
 import { ScrollArea } from '@regardsoss/adapters'
 import GroupTitleComponent from './GroupTitleComponent'
-import CriterionWrapperComponent from './CriterionWrapperComponent'
+import CriterionWrapperContainer from '../../../../../containers/user/tabs/results/search/CriterionWrapperContainer'
 
 /**
  * Displays criteria list, applying external style then showing each group and criterion in a wrapper that adapts parent callback
@@ -31,7 +31,8 @@ import CriterionWrapperComponent from './CriterionWrapperComponent'
 class CriteriaListComponent extends React.Component {
   static propTypes = {
     groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
-    onSearch: PropTypes.func.isRequired,
+    criterionBaseId: PropTypes.string.isRequired,
+    rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
   }
 
@@ -39,19 +40,10 @@ class CriteriaListComponent extends React.Component {
     ...themeContextType,
   }
 
-  /** User callback: key pressed. If it is enter key, start search immediately */
-  onKeyPress = (e) => {
-    const { onSearch } = this.props
-    console.error('THERE THERE THERE!', e.key)
-    // TODO: get me working!!!
-    if (e.charCode === 13) { // seach on enter key pressed
-      onSearch()
-    }
-  }
-
-  // TODO that should something like ==>  onKeyPress={this.onKeyPress}
   render() {
-    const { groups, onUpdatePluginState } = this.props
+    const {
+      groups, criterionBaseId, rootContextCriteria, onUpdatePluginState,
+    } = this.props
     const { moduleTheme: { user: { searchPane: { criteria } } } } = this.context
     return (
       // Use measure results provider to compute scrollable content area style (width and height)
@@ -68,12 +60,15 @@ class CriteriaListComponent extends React.Component {
                 // immutable at runtime
                 // eslint-disable-next-line react/no-array-index-key
                 <GroupTitleComponent key={`group.title.${groupIndex}`} group={group} />,
-                group.criteria.map((criterion, criterionIndex) => <CriterionWrapperComponent
+                group.criteria.map((criterion, criterionIndex) => <CriterionWrapperContainer
                   // eslint-disable-next-line react/no-array-index-key
                   key={`criterion.${groupIndex}.${criterionIndex}`}
                   groupIndex={groupIndex}
                   criterionIndex={criterionIndex}
+                  criterionBaseId={criterionBaseId}
                   criterion={criterion}
+                  groups={groups}
+                  rootContextCriteria={rootContextCriteria}
                   onUpdatePluginState={onUpdatePluginState}
                 />),
               ], [])

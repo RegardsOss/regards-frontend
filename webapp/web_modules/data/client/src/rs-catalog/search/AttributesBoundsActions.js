@@ -46,12 +46,12 @@ export default class AttributesBoundsActions extends BasicListActions {
    * @param {string} q query
    * @return {*} dispatchable redux action
    */
-  fetchAttributesBounds(attributesPath, q) {
+  fetchAttributesBounds(attributesPath, requestParameters) {
     return this.fetchEntityList({
       engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
     }, {
       properties: attributesPath.join(','),
-      q,
+      ...requestParameters,
     })
   }
 }

@@ -100,6 +100,7 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   it('should exists', () => {
     assert.isDefined(ApplyingCriteriaHeaderRowComponent)
   })
+  // TODO new test for search crit
   it('should render hidden when no criterion is applying', () => {
     const props = {
       tagsFiltering: [],

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,36 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { DatePickerField } from '@regardsoss/components'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import { i18nContextType } from '@regardsoss/i18n'
+import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
 /**
- * To Date Filter
- * @author Kévin Picart
+ * Displays feedback when user has made a search, from search pane
+ *
+ * @author Raphaël Mechali
  */
-export class SessionsMonitoringFilterToComponent extends React.Component {
+class SearchCriteriaComponent extends React.Component {
   static propTypes = {
-    onChangeTo: PropTypes.func.isRequired,
-    to: PropTypes.instanceOf(Date),
+    onUnselectSearchCriteria: PropTypes.func.isRequired,
   }
+
 
   static contextTypes = {
     ...i18nContextType,
   }
 
+  /** Icon for selected geometry criterion */
+  static ICON = <SearchIcon />
+
   render() {
-    const { onChangeTo, to } = this.props
-    const { intl: { formatMessage, locale } } = this.context
+    const { onUnselectSearchCriteria } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
-      <DatePickerField
-        id="filter.to"
-        value={to}
-        defaultTime="23:59:59"
-        dateHintText={formatMessage({ id: 'acquisition-sessions.filters.to.label' })}
-        onChange={onChangeTo}
-        locale={locale}
+      <ApplyingCriterionComponent
+        label={formatMessage({ id: 'search.filter.search.criteria.label' })}
+        onUnselectCriterion={onUnselectSearchCriteria}
+        filterIcon={SearchCriteriaComponent.ICON}
       />
     )
   }
 }
+export default SearchCriteriaComponent

@@ -20,7 +20,7 @@ import isEqual from 'lodash/isEqual'
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { CatalogDomain } from '@regardsoss/domain'
-import { UIShapes } from '@regardsoss/shape'
+import { UIShapes, CommonShapes } from '@regardsoss/shape'
 import { AttributeModelWithBounds, PluginsClientsMap } from '@regardsoss/plugins-api'
 import buildClient from '../clients/EnumeratedDOPropertyValuesClient'
 import EnumeratedCriterionComponent from '../components/EnumeratedCriterionComponent'
@@ -73,13 +73,13 @@ export class EnumeratedCriterionContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { pluginInstanceId, initialQuery }) {
+  static mapDispatchToProps(dispatch, { pluginInstanceId, contextParameters }) {
     const enumeratedValuesActions = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
       // dispatches a request to get property values
       dispatchGetPropertyValues:
         // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
-        throttle((name, filterText = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, initialQuery)),
+        throttle((name, filterText = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, contextParameters)),
           THROTTLE_DELAY_MS, { leading: true }),
     }
   }
@@ -92,15 +92,15 @@ export class EnumeratedCriterionContainer extends React.Component {
     attributes: PropTypes.shape({
       searchField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    /** Search form context query */
+    /** Search form context request parameters */
     // eslint-disable-next-line react/no-unused-prop-types
-    initialQuery: PropTypes.string, // used in mapDispatchToProps
+    contextParameters: CommonShapes.RequestParameters.isRequired,
     // configured plugin label, where object key is locale and object value message
     label: UIShapes.IntlMessage.isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
       searchText: PropTypes.string,
-      searchFullWords: PropTypes.bool,
+      inError: PropTypes.bool,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
@@ -130,6 +130,39 @@ export class EnumeratedCriterionContainer extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update current options on context change and selected option on list change
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { attributes: { searchField }, state: { searchText } } = newProps
+    if (!isEqual(oldProps.contextParameters, newProps.contextParameters)) {
+      // parameters changed: available choices list requires an update
+      if (newProps.pluginInstanceId.includes('MAIN')) {
+        console.error('Props changed fetch', oldProps.contextParameters, newProps.contextParameters)
+      }
+      newProps.dispatchGetPropertyValues(searchField.jsonPath, searchText)
+    }
+    if (!isEqual(oldProps.availablePropertyValues, newProps.availablePropertyValues)) {
+      if (newProps.pluginInstanceId.includes('MAIN')) {
+        console.error('THO I CHANGED', oldProps.availablePropertyValues, newProps.availablePropertyValues)
+        //  EnumeratedCriterionContainer.DEFAULT_STATE
+      }
+    }
+  }
+
+  /**
    * User updated the text field
    * @param {string} value text field value
    */
@@ -142,12 +175,16 @@ export class EnumeratedCriterionContainer extends React.Component {
       ...state,
       searchText,
     }
-    // A - update redux state and query when it is not initialization event (check state changes)
+
     if (!isEqual(nextState, state)) {
+      if (this.props.pluginInstanceId.includes('MAIN')) {
+        console.error('TEXT update fetch', this.props.pluginInstanceId)
+      }
+      // update redux state and query
       publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
+      // fetch available choices
+      dispatchGetPropertyValues(searchField.jsonPath, searchText)
     }
-    // B - dipatch get values for that filter text
-    dispatchGetPropertyValues(searchField.jsonPath, searchText)
   }
 
   /**

@@ -17,9 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
-import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
@@ -68,16 +66,6 @@ export class SearchResultsContainer extends React.Component {
     }
   }
 
-  /**
-   * Flattens all criteria arrays in map into a single criteria array
-   * @param {*} criteriaMap criteria holder (with field named 'criteria' and matching ResultsContext#Criteria field)
-   * @return {[*]} array of applying criteria in that holder
-   */
-  static getCriteriaMapAsArray(criteriaMap) {
-    return (isEmpty(criteriaMap) ? [] : values(criteriaMap))
-      .reduce((acc, criteriaForKey) => [...acc, ...(criteriaForKey || [])], [])
-  }
-
   static propTypes = {
     moduleId: PropTypes.number.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
@@ -120,8 +108,8 @@ export class SearchResultsContainer extends React.Component {
     const { tab, selectedType, selectedTypeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     newState.applyingCriteria = [
-      ...SearchResultsContainer.getCriteriaMapAsArray(tab.criteria),
-      ...SearchResultsContainer.getCriteriaMapAsArray(selectedTypeState.criteria),
+      ...UIDomain.ResultsContextHelper.getCriteriaMapAsArray(tab.criteria),
+      ...UIDomain.ResultsContextHelper.getCriteriaMapAsArray(selectedTypeState.criteria),
     ]
 
     // 2 - Recompute request parameters based on criteria  (dataset restrictions, request parameters, sorting ... )

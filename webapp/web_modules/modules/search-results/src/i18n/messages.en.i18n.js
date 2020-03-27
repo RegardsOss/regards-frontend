@@ -174,6 +174,7 @@ const messages = {
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
   'search.filter.geometry.label': 'Area',
   'search.filter.entities.selection.label': 'Entities ({count})',
+  'search.filter.search.criteria.label': 'Search',
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',

@@ -25,6 +25,7 @@ import { mainTableReducer, tagTableReducer } from './clients/TableClient'
 import { mainPluginServicesReducer, tagPluginServicesReducer } from './clients/PluginServiceClient'
 import { mainRunPluginServiceReducer, tagRunPluginServiceReducer } from './clients/RunPluginServiceClient'
 
+
 /**
  * Reducers for search-results module
  * @author Sébastien binda

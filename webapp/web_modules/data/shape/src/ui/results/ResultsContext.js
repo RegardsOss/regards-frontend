@@ -20,7 +20,7 @@ import {
   CommonDomain, DamDomain, UIDomain, CatalogDomain,
 } from '@regardsoss/domain'
 import { RequestParameters } from '../../rs-common/RequestParameters'
-import { AttributeModel } from '../../rs-dam/AttributeModel'
+import { AttributeModel, AttributeModelContent } from '../../rs-dam/AttributeModel'
 import { EntityWithServices } from '../../rs-access/EntityWithServices'
 
 /**
@@ -242,12 +242,11 @@ export const Criterion = PropTypes.shape({
     fr: PropTypes.string, // french group label, optional
   }).isRequired,
   pluginId: PropTypes.number.isRequired, // TODO would be better resolved on string no? for migration purposes
-  pluginInstanceId: PropTypes.string.isRequired,
   conf: PropTypes.shape({ // configuration
-    attributes: PropTypes.objectOf(AttributeModel).isRequired,
+    attributes: PropTypes.objectOf(AttributeModelContent).isRequired,
   }),
   state: PropTypes.object, // current plugin state
-  requestParameters: RequestParameters, // current plugin parameters
+  ...commonCriterionFields, // current plugin parameters
 })
 
 /**
@@ -279,6 +278,7 @@ export const ResultsTab = PropTypes.shape({
     configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
     contextTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Other filters (especially used by tag results tab)
     searchTags: PropTypes.arrayOf(BasicCriterion).isRequired, // Current search applying criteria
+    // TODO delete that one (requires search everywhere!)
     quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria

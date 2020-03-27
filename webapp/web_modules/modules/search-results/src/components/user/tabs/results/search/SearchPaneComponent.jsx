@@ -19,13 +19,13 @@
 import Drawer from 'material-ui/Drawer'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
-import PaneIcon from 'mdi-material-ui/Filter'
 import CloseIcon from 'mdi-material-ui/Close'
 import SearchIcon from 'mdi-material-ui/Magnify'
 import ClearIcon from 'mdi-material-ui/Eraser'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { UIDomain } from '@regardsoss/domain'
 import CriteriaListComponent from './CriteriaListComponent'
 
 /**
@@ -34,8 +34,10 @@ import CriteriaListComponent from './CriteriaListComponent'
  */
 class SearchPaneComponent extends React.Component {
   static propTypes = {
+    criterionBaseId: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
     groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
+    rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
     onResetPluginsStates: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
@@ -47,10 +49,43 @@ class SearchPaneComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Lifecyle method: component did mount. Used  here to register keyboard listener in order to manage document level events */
+  componentDidMount() {
+    document.addEventListener('keydown', this.onKeyPressed, false)
+  }
+
+  /**
+   * Lifecycle method: component will unmount. Used here to unregister keyboard lister
+   */
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKeyPressed, false)
+  }
+
+  /**
+   * Callback user pressed keyboard key: handle event for specific combinations:
+   * - ESCAPE: Close pane
+   * - CTRL+BACKSPACE: Clear pane
+   * - ENTER / CTRL + ENTRE: Start search
+   */
+  onKeyPressed = (event) => {
+    const {
+      open, onSearch, onClose, onResetPluginsStates,
+    } = this.props
+    if (open) {
+      if (UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.runSearch)) {
+        onSearch()
+      } else if (UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.closeSearch)) {
+        onClose()
+      } else if (UIDomain.KeyboardShortcuts.matchEvent(event, UIDomain.KeyboardShortcuts.ALL.clearSearch)) {
+        onResetPluginsStates()
+      }
+    }
+  }
+
   render() {
     const {
-      open, groups, onUpdatePluginState,
-      onResetPluginsStates, onSearch, onClose,
+      open, groups, rootContextCriteria, criterionBaseId,
+      onUpdatePluginState, onResetPluginsStates, onSearch, onClose,
     } = this.props
     const {
       intl: { formatMessage },
@@ -65,18 +100,18 @@ class SearchPaneComponent extends React.Component {
         },
       },
     } = this.context
-    // TODO handle ENTER pressed on focused or elements below to perform search
     return (
       <Drawer
         width={width}
         containerStyle={rootContainer}
         open={open}
+        disableSwipeToOpen
         openSecondary
       >
         {/* 1. Title bar */}
         <div style={title.container}>
           {/* 1.a Icon and title */}
-          <PaneIcon style={title.icon} />
+          <SearchIcon style={title.icon} />
           <div style={title.text}>{formatMessage({ id: 'search.results.search.pane.title' })}</div>
           {/* 1.b close button */}
           <IconButton
@@ -88,8 +123,9 @@ class SearchPaneComponent extends React.Component {
         </div>
         {/* 2. Criteria list display in scrollable area */}
         <CriteriaListComponent
+          criterionBaseId={criterionBaseId}
+          rootContextCriteria={rootContextCriteria}
           groups={groups}
-          onSearch={onSearch}
           onUpdatePluginState={onUpdatePluginState}
         />
         {/* 3. Buttons bar */}

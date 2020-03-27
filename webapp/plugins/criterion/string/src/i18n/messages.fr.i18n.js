@@ -22,9 +22,9 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.contains.selector.label': 'Contient',
+  'criterion.search.field.contains.selector.label': 'contenant',
   'criterion.search.field.contains.selector.title': 'Les résultats contiennent le texte saisi',
-  'criterion.search.field.equals.selector.label': 'Strictement égal',
+  'criterion.search.field.equals.selector.label': 'strictement égal(e) à',
   'criterion.search.field.equals.selector.title': 'Les résultats sont strictement égaux au texte saisi',
 }
 

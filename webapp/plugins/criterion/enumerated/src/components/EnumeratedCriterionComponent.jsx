@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import noop from 'lodash/noop'
+import EqualIcon from 'mdi-material-ui/EqualBox'
 import { MenuItem } from 'material-ui/IconMenu'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -23,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip,
 } from '@regardsoss/plugins-api'
-import { AutoCompleteTextField } from '@regardsoss/components'
+import { AutoCompleteTextField, IconElementSelector } from '@regardsoss/components'
 
 /**
  * Main view component of the enumerated criteria
@@ -53,6 +55,20 @@ export class EnumeratedCriterionComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Equals operator (emulates multiple operators for graphics)  */
+  static EQUAL_OPERATOR = 'equals'
+
+  /** Operators (emulates multiple operators for graphics) */
+  static OPERATORS = [EnumeratedCriterionComponent.EQUAL_OPERATOR]
+
+  /** Operators graphics definition */
+  static OPERATORS_DEFINITION = {
+    [EnumeratedCriterionComponent.EQUAL_OPERATOR]: {
+      IconConstructor: EqualIcon,
+      labelKey: 'criterion.enumerated.equal.label',
+      tooltipKey: 'criterion.enumerated.equal.tooltip',
+    },
+  }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -96,8 +112,17 @@ export class EnumeratedCriterionComponent extends React.Component {
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
           {label[intl.locale] || searchAttribute.label}
         </td>
-        {/* empty cell (use first cell style) */}
-        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
+        {/* Show single operator */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
+            <IconElementSelector
+              value={EnumeratedCriterionComponent.EQUAL_OPERATOR}
+              choices={EnumeratedCriterionComponent.OPERATORS}
+              choiceGraphics={EnumeratedCriterionComponent.OPERATORS_DEFINITION}
+              onChange={noop}
+            />
+          </div>
+        </td>
         {/* consume operators column (unused by this plugin) */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <AutoCompleteTextField

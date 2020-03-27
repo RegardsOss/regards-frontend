@@ -35,6 +35,7 @@ import { UIDomain } from '@regardsoss/domain'
  */
 export default class DatePickerField extends React.Component {
   static propTypes = {
+    id: PropTypes.string.isRequired, // used as base ID for elements ID
     value: PropTypes.instanceOf(Date),
     displayTime: PropTypes.bool,
     dateHintText: PropTypes.string,
@@ -133,6 +134,7 @@ export default class DatePickerField extends React.Component {
   constructor(props) {
     super(props)
 
+    // compute initial state
     const date = isDate(props.defaultValue) ? props.defaultValue : props.value
     const defaultDate = date
       || parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${props.defaultTime}`,
@@ -287,14 +289,14 @@ export default class DatePickerField extends React.Component {
    */
   renderTimePicker() {
     const {
-      fullWidth, timeHintText, disabled, tooltip,
+      id, fullWidth, timeHintText, disabled, tooltip,
     } = this.props
 
     return [
       // 1 - hidden time picker (just for it to show the dialog)
       <div key="hidden.time.field" style={DatePickerField.datePickerContainerStyle}>
         <TimePicker
-          id="timePicker"
+          id={`${id}-timePicker`}
           floatingLabelText=""
           value={this.props.value}
           errorText=""
@@ -339,13 +341,13 @@ export default class DatePickerField extends React.Component {
    */
   renderDate() {
     const {
-      fullWidth, dateHintText, disabled, tooltip,
+      id, fullWidth, dateHintText, disabled, tooltip,
     } = this.props
     return [
       // 1 - hidden date picker (just for it to show the dialog)
       <div key="hidden.date.field" style={DatePickerField.datePickerContainerStyle}>
         <DatePicker
-          id="dataPicker"
+          id={`${id}-datePicker`}
           floatingLabelText=""
           value={this.props.value}
           errorText=""

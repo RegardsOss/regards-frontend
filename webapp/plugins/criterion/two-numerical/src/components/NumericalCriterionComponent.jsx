@@ -112,7 +112,6 @@ export class NumericalCriterionComponent extends React.Component {
         </td>
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <TextField
-            id="search"
             key="field"
             type="number" // TODO no!
             hintText={formatHintText(intl, searchAttribute, fieldBoundType)}

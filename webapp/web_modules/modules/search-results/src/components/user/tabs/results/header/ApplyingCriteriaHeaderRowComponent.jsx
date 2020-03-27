@@ -29,6 +29,7 @@ import SelectedStringFacetComponent from './filter/facets/SelectedStringFacetCom
 import GeometryCriterionComponent from './filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from './filter/EntitiesSelectionCriterionComponent'
 import TagCriterionComponent from './filter/TagCriterionComponent'
+import SearchCriteriaComponent from './filter/SearchCriteriaComponent'
 
 /**
  * Header line to show (and delete) currently applying criteria
@@ -40,10 +41,12 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
     facetValues: PropTypes.arrayOf(UIShapes.SelectedFacetCriterion).isRequired,
     geometries: PropTypes.arrayOf(UIShapes.GeometryCriterion).isRequired,
     entitiesSelections: PropTypes.arrayOf(UIShapes.EntitiesSelectionCriterion).isRequired,
+    searchTags: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUnselectTagFilter: PropTypes.func.isRequired,
     onUnselectFacetValue: PropTypes.func.isRequired,
     onUnselectGeometry: PropTypes.func.isRequired,
     onUnselectEntitiesSelection: PropTypes.func.isRequired,
+    onUnselectSearchCriteria: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -53,11 +56,18 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
 
   render() {
     const {
-      tagsFiltering, facetValues, geometries, entitiesSelections,
-      onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry, onUnselectEntitiesSelection,
+      tagsFiltering, facetValues, geometries,
+      entitiesSelections, searchTags,
+      onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry,
+      onUnselectEntitiesSelection, onUnselectSearchCriteria,
     } = this.props
     return (
-      <ShowableAtRender show={tagsFiltering.length > 0 || facetValues.length > 0 || geometries.length > 0 || entitiesSelections.length > 0}>
+      <ShowableAtRender show={tagsFiltering.length > 0
+      || facetValues.length > 0
+      || geometries.length > 0
+      || entitiesSelections.length > 0
+      || searchTags.length > 0}
+      >
         <TableHeaderLine>
           <TableHeaderContentBox>
             {
@@ -98,6 +108,11 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                     entitiesSelectionCriterion={entitiesSelectionCriterion}
                     onUnselectEntitiesSelection={onUnselectEntitiesSelection}
                   />),
+                  // 5 - Current search
+                  searchTags.length
+                    ? <SearchCriteriaComponent key="search.criteria" onUnselectSearchCriteria={onUnselectSearchCriteria} />
+                    : null,
+
                 ]
             }
           </TableHeaderContentBox>

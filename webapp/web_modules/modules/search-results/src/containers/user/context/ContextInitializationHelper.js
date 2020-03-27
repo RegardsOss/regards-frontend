@@ -200,7 +200,7 @@ export class ContextInitializationHelper {
     const groups = criteriaGroups.reduce((accGroups, { showTitle, title, criteria: confCriteria }) => {
       // convert each criterion that is active and has valid configuration
       const criteria = confCriteria.reduce((accCrit, {
-        label, pluginInstanceId, pluginId, active, conf,
+        label, pluginId, active, conf,
       }) => {
         if (active) {
           const confAttributes = get(conf, 'attributes', {})
@@ -209,16 +209,15 @@ export class ContextInitializationHelper {
             const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
             return accAttributes && resolvedAttribute ? {
               ...accAttributes,
-              [attrKey]: resolvedAttribute,
+              [attrKey]: resolvedAttribute.content,
             } : null // set acc to null when first missing attribute is not found (or any previous attribute was not)
           }, {})
           if (attributes) { // all attributes could be retrieved
             return [...accCrit, {
               label,
-              pluginInstanceId,
               pluginId,
               state: null,
-              requestParameters: null,
+              requestParameters: {},
               conf: { attributes },
             }]
           }

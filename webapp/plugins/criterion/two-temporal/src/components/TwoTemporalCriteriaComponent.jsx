@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Arrow from 'mdi-material-ui/ArrowRight'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
@@ -29,6 +28,7 @@ import TemporalCriterionComponent from './TemporalCriterionComponent'
  */
 class TwoTemporalCriteriaComponent extends React.Component {
   static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
     label: UIShapes.IntlMessage.isRequired,
     attribute1: AttributeModelWithBounds.isRequired,
     attribute2: AttributeModelWithBounds.isRequired, // provide here the same reference than attribute 1 if same attribute
@@ -45,7 +45,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      label,
+      pluginInstanceId, label,
       attribute1, value1, onDate1Changed,
       attribute2, value2, onDate2Changed,
     } = this.props
@@ -74,6 +74,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
             })()}
           </td>
           <TemporalCriterionComponent
+            id={`${pluginInstanceId}-lower-bound`}
             searchAttribute={attribute1}
             value={value1}
             hintDate={attribute1.boundsInformation.lowerBound}
@@ -83,10 +84,10 @@ class TwoTemporalCriteriaComponent extends React.Component {
           />
         </tr>
         <tr>
-          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-            <Arrow />
-          </td>
+          {/* empty cell */}
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
           <TemporalCriterionComponent
+            id={`${pluginInstanceId}-upper-bound`}
             searchAttribute={attribute2}
             value={value2}
             hintDate={attribute2.boundsInformation.upperBound}

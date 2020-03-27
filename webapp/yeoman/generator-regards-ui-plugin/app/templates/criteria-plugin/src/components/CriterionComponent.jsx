@@ -54,7 +54,6 @@ render() {
         {searchAttribute.label}
       </span>
       <TextField
-        id="search"
           // Genererate type label as floating text
         floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
         title={formatTooltip(intl, searchAttribute)}

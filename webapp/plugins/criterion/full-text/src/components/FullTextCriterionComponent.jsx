@@ -49,7 +49,6 @@ class FullTextCriterionComponent extends React.Component {
       <tr>
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} colSpan="3">
           <TextField
-            id="search"
             fullWidth
             hintText={label[locale] || formatMessage({ id: 'criterion.search.field.label' })}
             value={searchText}

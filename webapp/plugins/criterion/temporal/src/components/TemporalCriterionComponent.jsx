@@ -29,6 +29,7 @@ import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api
  */
 class TemporalCriterionComponent extends React.Component {
   static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
     label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
     value: PropTypes.instanceOf(Date),
@@ -48,7 +49,8 @@ class TemporalCriterionComponent extends React.Component {
   render() {
     const { muiTheme, intl, moduleTheme: { datePickerCell } } = this.context
     const {
-      label, searchAttribute, value,
+      pluginInstanceId, label,
+      searchAttribute, value,
       operator, availableComparators,
       onDateChanged, onOperatorSelected,
     } = this.props
@@ -75,6 +77,7 @@ class TemporalCriterionComponent extends React.Component {
         {/* 3. Date selection */}
         <td style={datePickerCell}>
           <DatePickerField
+            id={pluginInstanceId}
             value={value}
             onChange={onDateChanged}
             locale={intl.locale}

@@ -36,6 +36,8 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   static propTypes = {
+    /** Plugin identifier */
+    pluginInstanceId: PropTypes.string.isRequired,
     // configured plugin label, where object key is locale and object value message
     label: UIShapes.IntlMessage.isRequired,
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
@@ -123,9 +125,12 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   render() {
-    const { label, state: { value, operator }, attributes: { searchField } } = this.props
+    const {
+      pluginInstanceId, label, state: { value, operator }, attributes: { searchField },
+    } = this.props
     return (
       <TemporalCriterionComponent
+        pluginInstanceId={pluginInstanceId}
         label={label}
         searchAttribute={searchField}
         value={value ? new Date(value) : null} // provide value as date to components below

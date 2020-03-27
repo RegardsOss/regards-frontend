@@ -92,7 +92,6 @@ class StringCriterionComponent extends React.Component {
         {/* 3. Input */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <TextField
-            id="search"
             hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
             title={formatTooltip(intl, searchAttribute)}
             value={searchText}

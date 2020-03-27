@@ -22,10 +22,8 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.contains.selector.label': 'containing',
-  'criterion.search.field.contains.selector.title': 'Results must contain input text',
-  'criterion.search.field.equals.selector.label': 'strictly equal to',
-  'criterion.search.field.equals.selector.title': 'Results must be strictly equal to input text',
+  'criterion.enumerated.equal.label': 'equal to',
+  'criterion.enumerated.equal.tooltip': 'Results are strictly equal to input text',
 }
 
 export default messages

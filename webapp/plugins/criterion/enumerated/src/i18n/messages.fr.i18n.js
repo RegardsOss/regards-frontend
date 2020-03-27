@@ -18,14 +18,12 @@
  **/
 
 /**
- * i18n messages english language
+ * i18n messages French language
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.contains.selector.label': 'containing',
-  'criterion.search.field.contains.selector.title': 'Results must contain input text',
-  'criterion.search.field.equals.selector.label': 'strictly equal to',
-  'criterion.search.field.equals.selector.title': 'Results must be strictly equal to input text',
+  'criterion.enumerated.equal.label': 'égal(e) à',
+  'criterion.enumerated.equal.tooltip': 'Les résultats sont strictement égaux au texte saisi',
 }
 
 export default messages

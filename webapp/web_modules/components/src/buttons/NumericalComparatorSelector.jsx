@@ -59,13 +59,13 @@ export class NumericalComparatorSelector extends React.Component {
     },
     [CommonDomain.EnumNumericalComparator.LE]: {
       IconConstructor: LesserThanIcon,
-      labelKey: 'numerical.comparator.selector.GE.label',
-      tooltipKey: 'numerical.comparator.selector.GE.tooltip',
+      labelKey: 'numerical.comparator.selector.LE.label',
+      tooltipKey: 'numerical.comparator.selector.LE.tooltip',
     },
     [CommonDomain.EnumNumericalComparator.GE]: {
       IconConstructor: GreaterThanIcon,
-      labelKey: 'numerical.comparator.selector.LE.label',
-      tooltipKey: 'numerical.comparator.selector.LE.tooltip',
+      labelKey: 'numerical.comparator.selector.GE.label',
+      tooltipKey: 'numerical.comparator.selector.GE.tooltip',
     },
   }
 

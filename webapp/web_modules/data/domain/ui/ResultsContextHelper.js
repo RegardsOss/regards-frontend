@@ -18,9 +18,11 @@
  **/
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
-import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import isPlainObject from 'lodash/isPlainObject'
+import values from 'lodash/values'
 import { RESULTS_TABS } from './ResultsTabs'
 import ResultsContextConstants from './ResultsContextConstants'
 import { CatalogSearchQueryHelper } from '../catalog'
@@ -86,6 +88,16 @@ export class ResultsContextHelper {
       selectedTypeState,
       selectedModeState: selectedTypeState.modes[selectedTypeState.selectedMode],
     }
+  }
+
+  /**
+   * Flattens all criteria arrays in map into a single criteria array
+   * @param {*} criteriaMap criteria holder (with field named 'criteria' and matching ResultsContext#Criteria field)
+   * @return {[*]} array of applying criteria in that holder
+   */
+  static getCriteriaMapAsArray(criteriaMap) {
+    return (isEmpty(criteriaMap) ? [] : values(criteriaMap))
+      .reduce((acc, criteriaForKey) => [...acc, ...(criteriaForKey || [])], [])
   }
 
   /**

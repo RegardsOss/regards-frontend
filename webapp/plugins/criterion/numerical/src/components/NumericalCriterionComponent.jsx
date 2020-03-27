@@ -98,7 +98,6 @@ class NumericalCriterionComponent extends React.Component {
         {/* 3. input box */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <TextField
-            id="search"
             type="number" // TODO NO NO NO NO NO, never!
             hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.ANY_BOUND)}
             title={formatTooltip(intl, searchAttribute)}

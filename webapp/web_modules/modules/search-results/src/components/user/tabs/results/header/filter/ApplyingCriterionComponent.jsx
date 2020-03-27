@@ -28,8 +28,9 @@ import { themeContextType } from '@regardsoss/theme'
 class ApplyingCriterionComponent extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
-    // assert basic criterion  only(other field are specific to each criterion type)
-    selectedCriterion: UIShapes.BasicCriterion.isRequired,
+    // assert basic criterion only (other field are specific to each criterion type).
+    // Not mandatory as some feedback elements may use none
+    selectedCriterion: UIShapes.BasicCriterion,
     // on delete selected facet value criterion callback: SelectedFacetCriterion => ()
     onUnselectCriterion: PropTypes.func.isRequired,
     // node to show as filter icon

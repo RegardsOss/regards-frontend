@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,15 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * i18n messages english language
- * @type {*}
- */
-const messages = {
-  'criterion.search.field.contains.selector.label': 'containing',
-  'criterion.search.field.contains.selector.title': 'Results must contain input text',
-  'criterion.search.field.equals.selector.label': 'strictly equal to',
-  'criterion.search.field.equals.selector.title': 'Results must be strictly equal to input text',
-}
+import { UIShapes } from '@regardsoss/shape'
 
-export default messages
+/**
+ * Defines expected criterion properties
+ * @author Raphaël Mechali
+ */
+export const CriterionProperties = PropTypes.shape({
+  label: UIShapes.IntlMessage.isRequired, // configuration label, internationalized
+  state: PropTypes.object, // currently shared plugin state
+  publishState: PropTypes.func.isRequired, // publish state callback like (state, requestParameters) => ()
+})

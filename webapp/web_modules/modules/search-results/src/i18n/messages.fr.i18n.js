@@ -178,6 +178,7 @@ const messages = {
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
   'search.filter.geometry.label': 'Zone',
   'search.filter.entities.selection.label': 'Entités ({count})',
+  'search.filter.search.criteria.label': 'Recherche',
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Sélectionner des entités',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Dessiner une zone de recherche',

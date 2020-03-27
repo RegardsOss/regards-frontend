@@ -16,16 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-/**
- * i18n messages english language
- * @type {*}
- */
-const messages = {
-  'criterion.search.field.contains.selector.label': 'containing',
-  'criterion.search.field.contains.selector.title': 'Results must contain input text',
-  'criterion.search.field.equals.selector.label': 'strictly equal to',
-  'criterion.search.field.equals.selector.title': 'Results must be strictly equal to input text',
+export default {
+  en,
+  fr,
 }
-
-export default messages

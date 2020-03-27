@@ -21,12 +21,12 @@ const messages = {
   'clear.button.tooltip': 'Effacer le contenu du champ',
   'components.buttons.select.all': 'Tout sélectionner',
   'components.buttons.unselect.all': 'Tout désélectionner',
-  'numerical.comparator.selector.EQ.label': 'Est égal à',
-  'numerical.comparator.selector.EQ.tooltip': 'Les résultats doivent être strictement égaux à la valeur',
-  'numerical.comparator.selector.GE.label': 'Est supérieur à',
-  'numerical.comparator.selector.GE.tooltip': 'Les résultats doivent être supérieurs ou égaux à la valeur',
-  'numerical.comparator.selector.LE.label': 'Est inférieur à',
-  'numerical.comparator.selector.LE.tooltip': 'Les résultats doivent être inférieurs ou égaux à la valeur',
+  'numerical.comparator.selector.EQ.label': 'égal(e) à',
+  'numerical.comparator.selector.EQ.tooltip': 'Les résultats sont strictement égaux à la valeur',
+  'numerical.comparator.selector.GE.label': 'supérieur(e) ou égal à',
+  'numerical.comparator.selector.GE.tooltip': 'Les résultats sont supérieurs ou égaux à la valeur',
+  'numerical.comparator.selector.LE.label': 'inférieur(e) ou égal à',
+  'numerical.comparator.selector.LE.tooltip': 'Les résultats sont inférieurs ou égaux à la valeur',
 }
 
 export default messages
