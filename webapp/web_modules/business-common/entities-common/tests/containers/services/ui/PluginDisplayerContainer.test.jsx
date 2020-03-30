@@ -23,7 +23,7 @@ import { applicationModes } from '@regardsoss/domain/access'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PluginDisplayerContainer } from '../../../../src/containers/services/ui/PluginDisplayerContainer'
 import { packRuntimeTarget } from '../../../../src/definitions/UIPluginServiceHelper'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/ServiceTarget'
+import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/TargetHelper'
 
 const context = buildTestContext()
 

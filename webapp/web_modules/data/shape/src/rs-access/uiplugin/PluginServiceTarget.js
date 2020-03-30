@@ -18,35 +18,39 @@
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { CommonShapes } from '@regardsoss/shape'
+import { RequestParameters } from '../../rs-common/RequestParameters'
+import { Entity } from '../../rs-catalog/entity/Entity'
 
 /**
- * Service target shape definition
+ * Plugin service target shape
  * @author Raphaël Mechali
  */
-
-const ONE_ELEMENT_TARGET = PropTypes.shape({
+export const OneElementTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired, // enumerated type
-  entity: PropTypes.string.isRequired, // entity IP ID
+  requestParameters: RequestParameters, // open search request parameters
   entitiesCount: PropTypes.number.isRequired,
-})
-
-const MANY_ELEMENTS_TARGET = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.MANY]), // enumerated type
-  entities: PropTypes.arrayOf(PropTypes.string).isRequired, // entities list
-  entitiesCount: PropTypes.number.isRequired,
-})
-
-const QUERY_ELEMENTS_TARGET = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
-  requestParameters: CommonShapes.RequestParameters, // open search request parameters
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
-  entitiesCount: PropTypes.number.isRequired,
-  excludedIDs: PropTypes.arrayOf(PropTypes.string).isRequired, // excluded entities list
+  entity: Entity.isRequired,
 })
 
-export const ServiceTargetShape = PropTypes.oneOfType([
-  ONE_ELEMENT_TARGET,
-  MANY_ELEMENTS_TARGET,
-  QUERY_ELEMENTS_TARGET,
+export const SelectionTarget = PropTypes.shape({
+  type: PropTypes.oneOf([RuntimeTargetTypes.MANY]), // enumerated type
+  requestParameters: RequestParameters, // open search request parameters
+  entitiesCount: PropTypes.number.isRequired,
+  entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  entities: PropTypes.arrayOf(Entity).isRequired, // entities list
+})
+
+export const QueryTarget = PropTypes.shape({
+  type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
+  requestParameters: RequestParameters, // open search request parameters
+  entitiesCount: PropTypes.number.isRequired,
+  entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  excludedEntities: PropTypes.arrayOf(Entity).isRequired, // excluded entities list
+})
+
+export const PluginServiceTarget = PropTypes.oneOfType([
+  OneElementTarget,
+  SelectionTarget,
+  QueryTarget,
 ])

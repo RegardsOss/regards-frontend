@@ -124,7 +124,7 @@ export class MultipleAttributesContainer extends React.Component {
   }, firstAttribute, secondAttribute) {
     // Using common toolbox to build range query
     return {
-      q: new CatalogDomain.OpenSearchQuery('', [
+      q: new CatalogDomain.OpenSearchQuery([
         // first attribute
         numberRangeHelper.getNumberQueryParameter(firstAttribute.jsonPath,
           numberRangeHelper.convertToRange(value1, comparator1)),

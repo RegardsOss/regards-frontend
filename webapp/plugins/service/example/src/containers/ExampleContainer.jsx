@@ -63,7 +63,7 @@ export class ExampleContainer extends React.Component {
    * @param {*} dispatch redux dispatch function
    * @param {*} props this properties (non redux injected)
    */
-  static mapDispatchToProps = (dispatch, { runtimeTarget }) => ({
+  static mapDispatchToProps = (dispatch, { target }) => ({
     // we apply partially the method getReducePromise to ignore dispatch reference at runtime
     getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
     // We also demonstrate here how to use the fetch action directly. However, that method should not be priviledged

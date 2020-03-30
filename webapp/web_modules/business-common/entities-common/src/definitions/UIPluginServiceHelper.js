@@ -81,6 +81,8 @@ const typesToRuntimeHelpMap = {
   [RuntimeTargetTypes.QUERY]: QueryRuntimeHelpersBuilder,
 }
 
+// TODO change that code!
+
 /**
  * Builds service runtime helpers, to be stored in runtime target
  * @param {*} serviceTarget service target
@@ -95,18 +97,6 @@ function buildServiceRuntimeHelpers(serviceTarget) {
   return {
     getFetchAction: runtimeHelpersBuilder.buildGetFetchAction(),
     getReducePromise: runtimeHelpersBuilder.buildGetReducePromise(),
-  }
-}
-
-/**
- * Packs runtime plugin service target
- * @param serviceTarget service target as ServiceTarget shape
- * @return runtimeTarget as RuntimeTarget shape (shape expected by the plugin service at execution)
- */
-export function packRuntimeTarget(serviceTarget) {
-  return {
-    ...serviceTarget,
-    ...buildServiceRuntimeHelpers(serviceTarget),
   }
 }
 

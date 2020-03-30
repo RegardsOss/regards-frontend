@@ -20,14 +20,26 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
-import { PluginServiceRunModel } from '../../../src/definitions/PluginServiceRunModel'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../src/definitions/ServiceTarget'
+import { TargetHelper } from '../../../src/definitions/TargetHelper'
 import ServiceContainer from '../../../src/containers/services/ServiceContainer'
 import RunCatalogPluginServiceContainer from '../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from '../../../src/containers/services/ui/RunUIPluginServiceContainer'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
+
+function makeFakeEntity(label, index) {
+  return {
+    content: {
+      id: `URN:DATA:${index}IDK:V1`,
+      model: 'anyModel',
+      providerId: `providerData#${index}`,
+      label,
+      entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
+      tags: [],
+    },
+  }
+}
 
 /**
 * Test ServiceContainer
@@ -61,14 +73,14 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.CATALOG,
     }
     const targets = [
-      buildOneElementTarget('n'),
-      buildManyElementsTarget(['x1', 'x2']),
-      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
+      TargetHelper.buildOneElementTarget(['n'].map(makeFakeEntity)),
+      TargetHelper.buildManyElementsTarget(['x1', 'x2'].map(makeFakeEntity)),
+      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]
     targets.forEach((target) => {
       const propsForTarget = {
         ...props,
-        serviceRunModel: new PluginServiceRunModel(fakeServiceConfiguration, target),
+        serviceRunModel: { serviceConfiguration: fakeServiceConfiguration, target },
       }
       enzymeWrapper.setProps(propsForTarget)
       // check: there is a rendered catalog plugin service runner, with right service conf and target
@@ -93,14 +105,14 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.UI,
     }
     const targets = [
-      buildOneElementTarget('n'),
-      buildManyElementsTarget(['x1', 'x2']),
-      buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
+      TargetHelper.buildOneElementTarget(['n'].map(makeFakeEntity)),
+      TargetHelper.buildManyElementsTarget(['x1', 'x2'].map(makeFakeEntity)),
+      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
     ]
     targets.forEach((target) => {
       const propsForTarget = {
         ...props,
-        serviceRunModel: new PluginServiceRunModel(fakeServiceConfiguration, target),
+        serviceRunModel: { serviceConfiguration: fakeServiceConfiguration, target },
       }
       enzymeWrapper.setProps(propsForTarget)
       // check: there is a rendered UI plugin service runner, with right service conf and target

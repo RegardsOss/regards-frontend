@@ -17,8 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { buildManyElementsTarget } from '../../../src/definitions/ServiceTarget'
+import { buildManyElementsTarget } from '../../../src/definitions/TargetHelper'
 import { ManyEntitiesRuntimeHelpersBuilder } from '../../../src/definitions/runtime/ManyEntitiesRuntimeHelpersBuilder'
+
+// TODO move that folder!!!!!! each test requires entity builder so add it as dump
 
 /**
 * Test ManyEntitiesRuntimeHelpersBuilder

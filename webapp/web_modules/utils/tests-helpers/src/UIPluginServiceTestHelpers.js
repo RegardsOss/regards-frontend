@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import ServiceTarget from '@regardsoss/entities-common/src/definitions/ServiceTarget'
+import { TargetHelper } from '@regardsoss/entities-common'
 import { packRuntimeTarget } from '@regardsoss/entities-common/src/definitions/UIPluginServiceHelper'
 
 
@@ -40,15 +40,15 @@ function buildConfiguration(staticProperties = {}, dynamicProperties = {}) {
 }
 
 function buildOneElementTarget(ipID = 'a.test.IPID', type = RuntimeTargetTypes.DATA) {
-  return packRuntimeTarget(ServiceTarget.buildOneElementTarget(ipID, type))
+  return packRuntimeTarget(TargetHelper.buildOneElementTarget(ipID, type))
 }
 
 function buildManyElementsTarget(ipIDs = ['test.IPID.1', 'test.IPID.2'], type = RuntimeTargetTypes.DATA) {
-  return packRuntimeTarget(ServiceTarget.buildManyElementsTarget(ipIDs, type))
+  return packRuntimeTarget(TargetHelper.buildManyElementsTarget(ipIDs, type))
 }
 
 function buildQueryTarget(query = 'test=true', count = 5, type = RuntimeTargetTypes.DATA, excludedIpIDs = []) {
-  return packRuntimeTarget(ServiceTarget.buildQueryTarget({ q: query }, type, count, excludedIpIDs))
+  return packRuntimeTarget(TargetHelper.buildQueryTarget({ q: query }, type, count, excludedIpIDs))
 }
 
 export default {

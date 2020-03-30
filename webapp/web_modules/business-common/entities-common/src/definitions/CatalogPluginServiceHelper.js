@@ -19,9 +19,8 @@
 import isUndefined from 'lodash/isUndefined'
 import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
+import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
 import { ValidationHelpers } from '@regardsoss/form-utils'
-import { CommonDomain } from '@regardsoss/domain'
 import { Parameter } from './parameters/Parameter'
 
 /**
@@ -111,10 +110,11 @@ export function resolveParametersWithTypes(pluginConfiguration, metadata) {
     })
 }
 
+// TODO delete the pack sh*****!!!
 
 /**
  * Packs the service target
- * @param {ServiceTarget} target target as provided by plugin run model
+ * @param {*} target target as provided by plugin run model (matching AccessShapes.PluginServiceTarget)
  * @return usable target parameters
  */
 export function packTargetParameters(target) {
@@ -126,11 +126,12 @@ export function packTargetParameters(target) {
     case RuntimeTargetTypes.QUERY:
       return {
         entityType: target.entityType,
-        q: new OpenSearchQuery(target.requestParameters.q, target.excludedIDs[
-          new OpenSearchQueryParameter(
-            OpenSearchQuery.ID_PARAM_NAME,
-            OpenSearchQueryParameter.toStrictStringEqual(
-              target.excludedIDs, OpenSearchQueryParameter.AND_SEPARATOR, true))])
+        q: new CatalogDomain.OpenSearchQuery(target.excludedIDs[
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
+              target.excludedIDs, CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR, true))],
+        target.requestParameters.q)
           .toQueryString(),
       }
     default:

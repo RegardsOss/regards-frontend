@@ -22,7 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { AccessDomain } from '@regardsoss/domain'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
-import { buildOneElementTarget } from '../../../../src/definitions/ServiceTarget'
+import { buildOneElementTarget } from '../../../../src/definitions/TargetHelper'
 import { RunUIPluginServiceContainer } from '../../../../src/containers/services/ui/RunUIPluginServiceContainer'
 import styles from '../../../../src/styles/styles'
 

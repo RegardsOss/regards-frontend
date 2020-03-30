@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { assert } from 'chai'
-import { buildOneElementTarget } from '../../../src/definitions/ServiceTarget'
+import { buildOneElementTarget } from '../../../src/definitions/TargetHelper'
 import { OneEntityRuntimeHelpersBuilder } from '../../../src/definitions/runtime/OneEntityRuntimeHelpersBuilder'
 
 /**

@@ -26,7 +26,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessShapes } from '@regardsoss/shape'
-import { PluginServiceRunModel, target } from '@regardsoss/entities-common'
+import { TargetHelper } from '@regardsoss/entities-common'
 import { getRunServiceClient } from '../../../../../../clients/RunPluginServiceClient'
 import { getServicesClient } from '../../../../../../clients/PluginServiceClient'
 import OneElementServicesComponent from '../../../../../../components/user/tabs/results/common/options/OneElementServicesComponent'
@@ -146,10 +146,10 @@ export class OneElementServicesContainer extends React.Component {
    */
   onServiceStarted = ({ content: service }) => {
     const { entity, dispatchRunService } = this.props
-    dispatchRunService(new PluginServiceRunModel(
-      service,
-      target.buildOneElementTarget(entity.content.id),
-    ))
+    dispatchRunService({
+      serviceConfiguration: service,
+      target: TargetHelper.buildOneElementTarget(entity),
+    })
   }
 
   render() {

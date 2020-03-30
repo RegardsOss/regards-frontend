@@ -22,9 +22,8 @@ import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { loadPlugin } from '@regardsoss/plugins'
-import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import {
-  resolveParameters, packRuntimeTarget, packRuntimeConfiguration, packPluginProps,
+  resolveParameters, packRuntimeConfiguration, packPluginProps,
 } from '../../../definitions/UIPluginServiceHelper'
 import PluginDisplayerContainer from './PluginDisplayerContainer'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
@@ -58,10 +57,9 @@ export class RunUIPluginServiceContainer extends React.Component {
     // service to run
     service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: ServiceTargetShape.isRequired,
+    target: AccessShapes.PluginServiceTarget.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
-
     // from map dispatch to props
     dispatchFetchPluginConfiguration: PropTypes.func.isRequired,
   }
@@ -155,13 +153,11 @@ export class RunUIPluginServiceContainer extends React.Component {
    */
   onConfigurationDone = (userParametersValues = {}) => {
     const { target, onQuit } = this.props
-    // 1 - prepare plugin runtime target
-    const runtimeTarget = packRuntimeTarget(target)
-    // 2 - prepare plugin runtime configuration, using plugin data from this directly, see onInitializationDone
+    // 1 - prepare plugin runtime configuration, using plugin data from this directly, see onInitializationDone
     const configuration = packRuntimeConfiguration(this.pluginConfiguration, this.pluginInstance, userParametersValues)
-    const pluginConf = { runtimeTarget, configuration }
+    const pluginConf = { target, configuration }
     // 3 - prepare plugin props
-    const pluginProps = packPluginProps(this.pluginInstance, {onClose: onQuit})
+    const pluginProps = packPluginProps(this.pluginInstance, { onClose: onQuit })
     // 4 - enter running state (keep user values to be able reloading the plugin)
     this.setState({
       step: RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
@@ -176,9 +172,7 @@ export class RunUIPluginServiceContainer extends React.Component {
   /** @return {function} previous handler if it should be displayed, nothing otherwise */
   hasPreviousStep = () => !!this.state.resolvedParameters.length
 
-  getPluginConfShowButtonsBar = () => {
-    return get(this.pluginInstance, "info.conf.showButtonsBar", true)
-  }
+  getPluginConfShowButtonsBar = () => get(this.pluginInstance, 'info.conf.showButtonsBar', true)
 
   /** Renders previous option if any */
   renderPreviousOption = () => this.hasPreviousStep()

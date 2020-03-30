@@ -18,7 +18,7 @@
  **/
 import { assert } from 'chai'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { buildQueryTarget } from '../../../src/definitions/ServiceTarget'
+import { buildQueryTarget } from '../../../src/definitions/TargetHelper'
 import { QueryRuntimeHelpersBuilder } from '../../../src/definitions/runtime/QueryRuntimeHelpersBuilder'
 
 

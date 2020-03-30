@@ -92,6 +92,6 @@ export default class CatalogSearchQueryHelper {
    */
   static mergeQueryParameter(parts) {
     const nonEmptyParts = (parts || []).filter(part => !!part)
-    return nonEmptyParts.length ? new OpenSearchQuery('', nonEmptyParts.map(part => new StaticParameter(part))).toQueryString() : null
+    return nonEmptyParts.length ? new OpenSearchQuery(nonEmptyParts.map(part => new StaticParameter(part))).toQueryString() : null
   }
 }

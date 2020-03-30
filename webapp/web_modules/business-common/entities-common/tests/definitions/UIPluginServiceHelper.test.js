@@ -20,7 +20,7 @@ import { assert } from 'chai'
 import isDate from 'lodash/isDate'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM } from '@regardsoss/domain/access'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../src/definitions/ServiceTarget'
+import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../src/definitions/TargetHelper'
 import {
   resolveParameter, resolveParameters, packRuntimeTarget, packRuntimeConfiguration,
 } from '../../src/definitions/UIPluginServiceHelper'

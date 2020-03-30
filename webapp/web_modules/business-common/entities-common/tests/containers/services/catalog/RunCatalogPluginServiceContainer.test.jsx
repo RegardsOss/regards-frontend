@@ -23,7 +23,7 @@ import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguratio
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/ServiceTarget'
+import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/TargetHelper'
 import { RunCatalogPluginServiceContainer } from '../../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
 import styles from '../../../../src/styles/styles'
 

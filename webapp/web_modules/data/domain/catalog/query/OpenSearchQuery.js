@@ -39,7 +39,12 @@ export default class OpenSearchQuery extends Query {
   /** Open search query parameter name: Entity parent dataset model Ids */
   static DATASET_MODEL_NAMES_PARAM = 'datasetModelNames'
 
-  constructor(rootQuery, parameters) {
+  /**
+   * Constructor
+   * @param {[*]} parameters array of QueryParameter
+   * @param {String} rootQuery any root query, to be added before parameters
+   */
+  constructor(parameters = [], rootQuery = '') {
     super(rootQuery, OpenSearchQuery.PARAMETERS_SEPARATOR, parameters)
   }
 }

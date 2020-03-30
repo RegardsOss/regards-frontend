@@ -280,7 +280,7 @@ export class MapContainer extends React.Component {
               entitiesCount: selectedFeatures.length,
               requestParameters: {
                 [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-                  new CatalogDomain.OpenSearchQuery('', [ // q: id=({selected ID 1} OR {selected ID 2} OR...)
+                  new CatalogDomain.OpenSearchQuery([ // q: id=({selected ID 1} OR {selected ID 2} OR...)
                     new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
                       CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
                         selectedFeatures.map(selectedFeature => selectedFeature.feature.id)))])

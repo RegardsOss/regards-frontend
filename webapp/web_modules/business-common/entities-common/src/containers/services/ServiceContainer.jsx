@@ -19,7 +19,7 @@
 import { pluginTypes } from '@regardsoss/domain/access'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { PluginServiceRunModel } from '../../definitions/PluginServiceRunModel'
+import { PluginServiceRunModel } from '../../shapes/PluginServiceRunModel'
 import RunCatalogPluginServiceContainer from './catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from './ui/RunUIPluginServiceContainer'
 import messages from '../../i18n'
@@ -32,7 +32,7 @@ import styles from '../../styles'
 class ServiceContainer extends React.Component {
   static propTypes = {
     // running service model (null when none)
-    serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
+    serviceRunModel: PluginServiceRunModel,
     // on close callback
     onQuit: PropTypes.func.isRequired,
   }
