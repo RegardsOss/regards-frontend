@@ -22,9 +22,10 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { AccessDomain } from '@regardsoss/domain'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
-import { buildOneElementTarget } from '../../../../src/definitions/TargetHelper'
+import { TargetHelper } from '../../../../src/definitions/TargetHelper'
 import { RunUIPluginServiceContainer } from '../../../../src/containers/services/ui/RunUIPluginServiceContainer'
 import styles from '../../../../src/styles/styles'
+import { entity2 } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -39,7 +40,7 @@ const serviceConfiguration = {
 
 const commonProps = {
   service: serviceConfiguration,
-  target: buildOneElementTarget('x'),
+  target: TargetHelper.buildOneElementTarget(entity2),
   onQuit: () => { },
   dispatchFetchPluginConfiguration: () => new Promise((resolve, reject) => { }),
 }

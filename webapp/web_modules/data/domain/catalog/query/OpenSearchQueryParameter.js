@@ -79,7 +79,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
    * @param {boolean} negate is negated value?
    * @param {[{exp: RegExp, rep: string}]} escapedRegexps regexp of element to replace
-   * @param {Function} toValueString function to apply to generate parameter value, like (excapedValue: string)  => (queryValue: string)
+   * @param {Function} toValue String function to apply to generate parameter value, like (excapedValue: string)  => (queryValue: string)
    * @return {string} parameter value
    */
   static toStringParameterValue(values, separator, negate, escapedRegexps, toValueString = identity) {

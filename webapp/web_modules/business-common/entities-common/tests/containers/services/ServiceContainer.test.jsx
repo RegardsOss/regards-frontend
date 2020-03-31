@@ -25,26 +25,14 @@ import ServiceContainer from '../../../src/containers/services/ServiceContainer'
 import RunCatalogPluginServiceContainer from '../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
 import RunUIPluginServiceContainer from '../../../src/containers/services/ui/RunUIPluginServiceContainer'
 import styles from '../../../src/styles/styles'
+import { entity1, entity2, entity3 } from '../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
-function makeFakeEntity(label, index) {
-  return {
-    content: {
-      id: `URN:DATA:${index}IDK:V1`,
-      model: 'anyModel',
-      providerId: `providerData#${index}`,
-      label,
-      entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      tags: [],
-    },
-  }
-}
-
 /**
-* Test ServiceContainer
-* @author Raphaël Mechali
-*/
+ * Test ServiceContainer
+ * @author Raphaël Mechali
+ */
 describe('[Entities Common] Testing ServiceContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -65,7 +53,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
     const enzymeWrapper = shallow(<ServiceContainer {...props} />, { context })
 
     const fakeServiceConfiguration = {
-      configId: 1,
+      configId: 'serv1',
       label: 'service1',
       icon: 'hellfire.png',
       applicationModes: [],
@@ -73,9 +61,9 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.CATALOG,
     }
     const targets = [
-      TargetHelper.buildOneElementTarget(['n'].map(makeFakeEntity)),
-      TargetHelper.buildManyElementsTarget(['x1', 'x2'].map(makeFakeEntity)),
-      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
+      TargetHelper.buildOneElementTarget(entity2),
+      TargetHelper.buildManyElementsTarget([entity1, entity3]),
+      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, [entity1, entity2]),
     ]
     targets.forEach((target) => {
       const propsForTarget = {
@@ -97,7 +85,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
     const enzymeWrapper = shallow(<ServiceContainer {...props} />, { context })
 
     const fakeServiceConfiguration = {
-      configId: 1,
+      configId: 'serv1',
       label: 'service1',
       icon: 'hellfire.png',
       applicationModes: [],
@@ -105,9 +93,9 @@ describe('[Entities Common] Testing ServiceContainer', () => {
       type: AccessDomain.pluginTypes.UI,
     }
     const targets = [
-      TargetHelper.buildOneElementTarget(['n'].map(makeFakeEntity)),
-      TargetHelper.buildManyElementsTarget(['x1', 'x2'].map(makeFakeEntity)),
-      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, []),
+      TargetHelper.buildOneElementTarget(entity2),
+      TargetHelper.buildManyElementsTarget([entity1, entity3]),
+      TargetHelper.buildQueryTarget('model.baskets=nike', DamDomain.ENTITY_TYPES_ENUM.DATA, 12, [entity1, entity2]),
     ]
     targets.forEach((target) => {
       const propsForTarget = {

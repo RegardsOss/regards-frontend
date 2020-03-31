@@ -22,8 +22,8 @@ import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { applicationModes } from '@regardsoss/domain/access'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { PluginDisplayerContainer } from '../../../../src/containers/services/ui/PluginDisplayerContainer'
-import { packRuntimeTarget } from '../../../../src/definitions/UIPluginServiceHelper'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/TargetHelper'
+import { TargetHelper } from '../../../../src/definitions/TargetHelper'
+import { entity1, entity2, entity3 } from '../../../dumps/entities.dump'
 
 const context = buildTestContext()
 
@@ -41,15 +41,15 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
 
   const testCases = [{
     testMessage: 'should render plugin component with ONE ELEMENT target and dynamic properties',
-    localTarget: buildOneElementTarget('a'),
+    localTarget: TargetHelper.buildOneElementTarget(entity1),
     addOnCloseProps: true,
   }, {
     testMessage: 'should render plugin component with MANY ELEMENTS target and dynamic properties',
-    localTarget: buildManyElementsTarget(['a', 'b', 'd']),
+    localTarget: TargetHelper.buildManyElementsTarget([entity2, entity3]),
     addOnCloseProps: false,
   }, {
     testMessage: 'should render plugin component with QUERY target and dynamic properties',
-    localTarget: buildQueryTarget({ q: 'a=a&b=b' }, ENTITY_TYPES_ENUM.DATA, 15, []),
+    localTarget: TargetHelper.buildQueryTarget({ q: 'a=a&b=b' }, ENTITY_TYPES_ENUM.DATA, 15, [entity1, entity3]),
     addOnCloseProps: true,
   }]
   testCases.forEach(({ testMessage, localTarget, addOnCloseProps }) => it(testMessage, () => {
@@ -87,7 +87,7 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
         },
       },
       pluginConf: {
-        runtimeTarget: packRuntimeTarget(localTarget),
+        target: localTarget,
         configuration: {
           static: {
             a: 1,
