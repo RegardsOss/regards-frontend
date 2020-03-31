@@ -17,8 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import filter from 'lodash/filter'
-import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { CatalogClient } from '@regardsoss/client'
@@ -135,7 +133,7 @@ export class OneElementServicesContainer extends React.Component {
     if (!isEqual(oldProps.entity, entity)
       || !isEqual(oldProps.contextSelectionServices, contextSelectionServices)
       || !isEqual(oldProps.availableDependencies, availableDependencies)) {
-      /* TODO Leo: revert les modifications pour la gestion des services de contexte: c'est normalement le back qui
+      /* TODO-LEO: revert les modifications pour la gestion des services de contexte: c'est normalement le back qui
        les ajoute aux entités, ce qui fait que tu ne peux avoir que des doublons ici normalement: ie --> le code
        dessous test les doublons */
       const newServices = [

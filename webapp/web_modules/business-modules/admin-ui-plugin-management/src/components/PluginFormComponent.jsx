@@ -35,7 +35,7 @@ import {
 import { formValueSelector } from 'redux-form'
 import MenuItem from 'material-ui/MenuItem'
 import { PluginLoader } from '@regardsoss/plugins'
-import { ShowableAtRender } from '@regardsoss/display-control'
+import { ShowableAtRender } from '@regardsoss/display-control'
 import { AccessDomain } from '@regardsoss/domain'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 

@@ -18,7 +18,7 @@
  **/
 import { combineReducers } from 'redux'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
-import { roleReducer } from './clients/RoleClient'
+import { roleReducer } from './clients/RoleClient'
 
 const pluginReducer = combineReducers({
   plugin: uiPluginDefinitionReducers,

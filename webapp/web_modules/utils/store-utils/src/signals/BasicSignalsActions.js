@@ -52,7 +52,6 @@ export default class BasicSignalsActions {
     return this.subActionKeys
   }
 
-
   /**
    * Generates the main [microservice@resource@verb] string necessary for displaying the module from the entityEndpoint.
    * For example:
@@ -63,7 +62,5 @@ export default class BasicSignalsActions {
    * @param verb
    * @returns {string}
    */
-  getDependency = (actionKey, verb) => {
-    return this.getSubAction(actionKey).getDependency(verb)
-  }
+  getDependency = (actionKey, verb) => this.getSubAction(actionKey).getDependency(verb)
 }

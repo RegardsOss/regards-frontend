@@ -49,8 +49,9 @@ export class PluginDisplayerContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pluginProps: PropTypes.shape({
       onClose: PropTypes.function,
-    }).isRequired,
+    }),
   }
+
   static defaultProps = {
     pluginProps: {},
   }

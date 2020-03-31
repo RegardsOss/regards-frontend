@@ -19,6 +19,7 @@
 import map from 'lodash/map'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { TargetHelper } from '@regardsoss/entities-common/src/definitions/TargetHelper'
+import { DamDomain } from '@regardsoss/domain'
 
 
 /**
@@ -38,13 +39,17 @@ function buildConfiguration(staticProperties = {}, dynamicProperties = {}) {
     dynamic: dynamicProperties,
   }
 }
-//TODO improve
-function getFakeEntity(ipID, type) {
+//TODO-LEO improve? (déjà édité pour matcher CatalogShapes.Entity)
+function getFakeEntity(ipID, type = DamDomain.ENTITY_TYPES_ENUM.DATA, label = 'any') {
   return {
     content: {
       id: ipID,
+      model: 'm1',
+      label,
+      providerId: label,
       entityType: type,
-    }
+      tags: [],
+    },
   }
 }
 function getFakeEntitities(ipIDs, type) {

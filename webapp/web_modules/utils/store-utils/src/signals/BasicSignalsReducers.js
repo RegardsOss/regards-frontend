@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import BasicSignalReducers from '../signal/BasicSignalReducers'
 import reduce from 'lodash/reduce'
+import BasicSignalReducers from '../signal/BasicSignalReducers'
 /**
  * reduce action from several Actions saved in a BasicSignalsActions instance
  * @author Léo Mieulet
@@ -32,8 +32,8 @@ export default class BasicSignalsReducers {
     // iterates over all Signals Actions
     this.internalReducers = reduce(subActionsKeys, (accumulatedResult, actionKey) => {
       const subReducer = new BasicSignalReducers(basicSignalsActionInstance.getSubAction(actionKey))
-      const { 
-        SIGNAL_REQUEST, SIGNAL_SUCCESS, SIGNAL_FAILURE, FLUSH
+      const {
+        SIGNAL_REQUEST, SIGNAL_SUCCESS, SIGNAL_FAILURE, FLUSH,
       } = subReducer.basicSignalActionInstance
       return {
         ...accumulatedResult,

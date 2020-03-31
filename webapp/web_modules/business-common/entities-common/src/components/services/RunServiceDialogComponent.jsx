@@ -188,6 +188,8 @@ export class RunServiceDialogComponent extends React.Component {
           ]
         }
         break
+      default:
+        // nothing to do
     }
     return actionsResult
   }

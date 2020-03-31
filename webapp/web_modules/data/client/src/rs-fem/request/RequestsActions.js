@@ -79,8 +79,8 @@ export default class RequestsActions extends BasicSignalsActions {
    * @returns list of dependencies as ressources endpoints
    */
   getDependencies() {
-    return map([RequestsActions.NOTIFY, RequestsActions.DELETE, RequestsActions.UPDATE], 
-      subAction => this.getDependency(subAction, 'POST')
+    return map([RequestsActions.NOTIFY, RequestsActions.DELETE, RequestsActions.UPDATE],
+      subAction => this.getDependency(subAction, 'POST'),
     )
   }
 }
