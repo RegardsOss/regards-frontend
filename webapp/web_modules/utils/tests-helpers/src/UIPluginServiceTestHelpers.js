@@ -40,7 +40,7 @@ function buildConfiguration(staticProperties = {}, dynamicProperties = {}) {
   }
 }
 //TODO-LEO improve? (déjà édité pour matcher CatalogShapes.Entity)
-function getFakeEntity(ipID, type = DamDomain.ENTITY_TYPES_ENUM.DATA, label = 'any') {
+function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALIDATION_DATA_MODEL_1', label = 'Toulouse France') {
   return {
     content: {
       id: ipID,
@@ -48,8 +48,36 @@ function getFakeEntity(ipID, type = DamDomain.ENTITY_TYPES_ENUM.DATA, label = 'a
       label,
       providerId: label,
       entityType: type,
-      tags: [],
+      model,
+      label,
+      providerId,
+      entityType: 'DATA',
+      model: 'VALIDATION_DATA_MODEL_1',
+      files: {
+        QUICKLOOK_MD: [{
+          dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
+        }],
+        QUICKLOOK_HD: [{
+          dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
+        }],
+        QUICKLOOK_SD: [{
+          dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
+        }],
+        RAWDATA: [{
+          dataType: 'RAWDATA', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
+        }],
+      },
+      tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
+      id: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
+      geometry: null,
+      normalizedGeometry: null,
+      properties: {
+        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
+      },
+      type: 'Feature',
+      crs: 'WGS_84',
     },
+    links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/dataobjects/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1' }],
   }
 }
 function getFakeEntitities(ipIDs, type) {

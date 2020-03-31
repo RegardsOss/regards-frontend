@@ -23,6 +23,9 @@ import { Entity } from '../../rs-catalog/entity/Entity'
 
 /**
  * Plugin service target shape
+ * Note: if the entity passed is invalid, the error 
+ *      Error: Warning: Failed prop type: Invalid prop `target` supplied to `ExampleContainer`
+ * would mean one subkey is failing validation
  * @author Raphaël Mechali
  */
 export const OneElementTarget = PropTypes.shape({

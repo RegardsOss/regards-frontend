@@ -37,7 +37,6 @@ describe('[fem-delete] Testing DeleteContainer', () => {
     assert.isDefined(DeleteContainer)
   })
   it('should render self and sub components', () => {
-    console.log(uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'))
     const props = {
       pluginInstanceId: 'stub.id',
       // stub runtime configuration

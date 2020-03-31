@@ -61,8 +61,7 @@ export class DeleteContainer extends React.Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    // target: AccessShapes.PluginServiceTarget.isRequired,
-    target: PropTypes.any,
+    target: AccessShapes.PluginServiceTarget.isRequired,
     // Connected client to use to delete features on fem
     deleteClient: PropTypes.shape({
       actions: PropTypes.instanceOf(FemClient.RequestsActions),
