@@ -17,9 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
-import ServiceContainer from './containers/ServiceContainer'
+import DeleteContainer from './containers/DeleteContainer'
+import withClient from './containers/withClient'
+import getReducer from './reducer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(ServiceContainer, pluginInfo, null, messages, styles)
+initPlugin(withClient(DeleteContainer), pluginInfo, getReducer, messages, styles)

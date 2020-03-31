@@ -29,7 +29,6 @@ const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
 
-
 const DOMAIN = 'http://stackoverflow.com'
 const PROJECTS_API = '/api/v1/projects'
 const projectListActions = new BasicListActions({

@@ -172,7 +172,7 @@ export class RunServiceDialogComponent extends React.Component {
             type="submit"
             onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
           />,
-          ...actionsResult
+          ...actionsResult,
         ]
         break
       // previous options (should be used after parameters configuration)

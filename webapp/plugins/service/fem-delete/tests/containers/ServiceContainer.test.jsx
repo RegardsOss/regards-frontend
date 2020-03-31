@@ -19,35 +19,46 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, uiPluginServiceTestHelpers } from '@regardsoss/tests-helpers'
-import { ServiceContainer } from '../../src/containers/ServiceContainer'
+import { FemClient } from '@regardsoss/client'
+import { DeleteContainer } from '../../src/containers/DeleteContainer'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test case for {@link ServiceContainer}
+ * Test case for {@link DeleteContainer}
  *
  * @author C-S
  */
-describe('[fem-delete] Testing ServiceContainer', () => {
+describe('[fem-delete] Testing DeleteContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
   it('should exists', () => {
-    assert.isDefined(ServiceContainer)
+    assert.isDefined(DeleteContainer)
   })
   it('should render self and sub components', () => {
+    console.log(uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'))
     const props = {
       pluginInstanceId: 'stub.id',
       // stub runtime configuration
-      runtimeTarget: uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'),
+      target: uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'),
       configuration: uiPluginServiceTestHelpers.buildConfiguration(),
+      onClose: () => ({}),
       // user is optional, let's not provide it here
       // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux
-      getReducePromise: () => new Promise(() => { }),
       deleteFeatures: () => new Promise(() => { }),
-      fetchSelectionThroughAction: () => new Promise(() => { }),
-      onClose: ()=>({}),
+      // mock map state to props
+      error: {
+        hasError: false,
+      },
+      isFetching: false,
+      // Client stub expected by the container
+      deleteClient: {
+        actions: new FemClient.RequestsActions('stub.namespace'),
+        reducer: () => ({}),
+        selectors: () => ({}),
+      },
     }
-    shallow(<ServiceContainer {...props} />, { context })
+    shallow(<DeleteContainer {...props} />, { context })
   })
 })

@@ -16,33 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import React from 'react'
+import getRequestsClient from '../clients/RequestsClient'
 
 /**
- * Styles for plugin
- * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
- * @author C-S
+ * This component wires clients required by this plugin,
+ * Indeed, plugin clients needs the pluginInstanceId to be ready to use,
+ * On UI Plugin we're connected to client asynchronously
+ * whereas we do it synchroniously in REGARDS
+ * @param React component
+ * @returns React class that injects clients
+ * @author Léo Mieulet
  */
-export default function buildServiceStyles(theme) {
-  return {
-    // the document styles
-    body: {
-      padding: '5px 15px 5px 5px',
-      // Material UI look and feel
-      fontSize: '14px',
-      fontFamily: 'Roboto, sans-serif',
-    },
-
-    contentWrapper: {
-      paddingTop: '25px',
-      color: 'rgba(255, 255, 255, 0.85)',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-
-    buttonsWrapper: {
-      paddingTop: '25px',
-      display: 'flex',
-    },
+const withClient = Component => class WithClient extends React.Component {
+  render() {
+    const { pluginInstanceId } = this.props
+    const deleteClient = getRequestsClient(pluginInstanceId)
+    return (
+      <Component {...this.props} deleteClient={deleteClient} />
+    )
   }
 }
+
+export default withClient

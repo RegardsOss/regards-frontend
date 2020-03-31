@@ -24,45 +24,26 @@ import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
-import { requestsActions } from '../clients/RequestsClient'
+import { FemClient } from '@regardsoss/client'
+import { themeContextType } from '@regardsoss/theme'
+
 /**
  * Main fem-delete plugin container
- * @author C-S
+ * This container also contains the view, as the plugin is quite simple
+ * @author Léo Mieulet
  */
-export class ServiceContainer extends React.Component {
-  // the document styles
-  static DOCUMENT_STYLES = {
-    padding: '5px 15px 5px 5px',
-    // Material UI look and feel
-    fontSize: '14px',
-    fontFamily: 'Roboto, sans-serif',
-  }
-
-  // any content styles
-  static CONTENT_STYLES = {
-    paddingTop: '25px',
-    color: 'rgba(255, 255, 255, 0.85)',
-    display: 'flex',
-    alignItems: 'center',
-    flexDirection: 'column'
-  }
-
-  static BUTTONS_STYLES = {
-    paddingTop: '25px',
-    display: 'flex',
-  }
-
-  static BUTTON_STYLE = {
-  }
+export class DeleteContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { deleteClient }) {
     return {
-      // TODO use or DELETE
+      // we select here the results from last dispatchGetParameterValues request
+      error: deleteClient.selectors.getError(state),
+      isFetching: deleteClient.selectors.isFetching(state),
     }
   }
 
@@ -72,74 +53,81 @@ export class ServiceContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { runtimeTarget }) {
+  static mapDispatchToProps(dispatch, { runtimeTarget, deleteClient }) {
     return {
-      // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-      getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
-      deleteFeatures: (searchContext) => dispatch(requestsActions.delete(searchContext)),
+      deleteFeatures: searchContext => dispatch(deleteClient.actions.delete(searchContext)),
     }
   }
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    pluginInstanceId: PropTypes.string.isRequired,
-    runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
-    configuration: AccessShapes.RuntimeConfiguration.isRequired,
+    // target: AccessShapes.PluginServiceTarget.isRequired,
+    target: PropTypes.any,
+    // Connected client to use to delete features on fem
+    deleteClient: PropTypes.shape({
+      actions: PropTypes.instanceOf(FemClient.RequestsActions),
+      reducer: PropTypes.func.isRequired,
+      selectors: PropTypes.func.isRequired,
+    }).isRequired,
     // From mapDispatchToProps
-    getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
     deleteFeatures: PropTypes.func.isRequired,
+    // form mapStatesToprops
+    error: PropTypes.shape({
+      hasError: PropTypes.bool.isRequired,
+    }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
-    // enable i18n access trhough this.context
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access through this.context
     ...i18nContextType,
   }
 
-  state = {
-    runtimeObjects: [],
+  componentDidUpdate(previousProps) {
+    // detect change
+    if (this.props.error.hasError !== previousProps.error.hasError || this.props.isFetching !== previousProps.isFetching) {
+      // close the popup when the fetch is done and there is no error
+      if (!this.props.error && !this.props.isFetching) {
+        this.props.onClose()
+      }
+    }
   }
 
-  componentDidMount() {
-    // Start fetching and converting entities: append each new entity in array
-    // Note: It isn't a good pratice to keep complete entities in memory as it result
-    // in heavy memory load (just demonstrated here)
-    const { getReducePromise } = this.props
-
-    getReducePromise((previouslyRetrieved, entity) => [...previouslyRetrieved, entity], [])
-      .then(runtimeObjects => this.setState({ runtimeObjects }))
-      .catch(err => console.error('Could not retrieve service runtime entities', err))
+  buildSearchContext = () => {
+    const { requestParameters } = this.props.target
+    return {
+      searchParameters: requestParameters,
+    }
   }
 
   notifyFem = () => {
-    console.error("let's notify")
-    this.props.deleteFeatures().then(() => {
-      this.props.onClose()
-    })
-    
+    const searchContext = this.buildSearchContext()
+    this.props.deleteFeatures(searchContext)
   }
-  cancel = () => {
 
+  cancel = () => {
     this.props.onClose()
   }
 
   render() {
-    const { intl: { formatMessage } } = this.context
-
-    const { runtimeObjects } = this.state
+    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { entitiesCount } = this.props.target
+    const msgValues = { nbElement: entitiesCount }
     return (
-      <div style={ServiceContainer.DOCUMENT_STYLES}>
+      <div style={moduleTheme.body}>
         <Subheader><FormattedMessage id="plugin.title" /></Subheader>
-        <div style={ServiceContainer.CONTENT_STYLES}>
-          <FormattedMessage id="plugin.message" />
-          <div style={ServiceContainer.BUTTONS_STYLES}>
+        <div style={moduleTheme.contentWrapper}>
+          <FormattedMessage id="plugin.message" values={msgValues} />
+          <FormattedMessage id="plugin.question" />
+          <div style={moduleTheme.buttonsWrapper}>
             <RaisedButton
               label={formatMessage({ id: 'plugin.cancel' })}
-              style={ServiceContainer.BUTTON_STYLE}
               onClick={this.cancel}
             />
             <RaisedButton
               label={formatMessage({ id: 'plugin.valid' })}
-              style={ServiceContainer.BUTTON_STYLE}
               primary
               onClick={this.notifyFem}
               icon={<DeleteIcon />}
@@ -153,5 +141,5 @@ export class ServiceContainer extends React.Component {
 
 // export REDUX connected container
 export default connect(
-  ServiceContainer.mapStateToProps,
-  ServiceContainer.mapDispatchToProps)(ServiceContainer)
+  DeleteContainer.mapStateToProps,
+  DeleteContainer.mapDispatchToProps)(DeleteContainer)

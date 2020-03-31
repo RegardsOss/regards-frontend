@@ -23,7 +23,8 @@
  */
 export default {
   'plugin.title': 'Confirm suppresion',
-  'plugin.message': 'By clicking on the button, all selected entities will be removed.',
+  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be removed.',
+  'plugin.question': 'Do you want to continue?',
   'plugin.valid': 'Delete',
   'plugin.cancel': 'Cancel',
 }

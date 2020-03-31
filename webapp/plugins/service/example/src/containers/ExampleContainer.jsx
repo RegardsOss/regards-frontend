@@ -85,7 +85,7 @@ export class ExampleContainer extends React.Component {
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
+    // enable i18n access through this.context
     ...i18nContextType,
   }
 

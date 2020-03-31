@@ -22,9 +22,9 @@ import Dialog from 'material-ui/Dialog'
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
-import styles from './styles'
 import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
+import styles from './styles'
 
 
 /**
@@ -137,7 +137,7 @@ class PositionedDialog extends React.Component {
     const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
     const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
 
-    //TODO raph ça te plait ? 
+    //TODO raph ça te plait ?
     //Ou tu veux dupliquer le style dialogCommon.actionsContainerStyle en dialogCommon.actionsContainerNoActionsStyle ?
     if (isEmpty(actions)) {
       // apply all border properties to body style

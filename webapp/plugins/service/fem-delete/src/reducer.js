@@ -16,33 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import getRequestsClient from './clients/RequestsClient'
+
 
 /**
- * Styles for plugin
- * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
- * @author C-S
+ * Plugin reducer builder function.
+ * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
+ * @return {*} reducers configuration for plugin instance
  */
-export default function buildServiceStyles(theme) {
+export default function getReducer(pluginInstanceId) {
   return {
-    // the document styles
-    body: {
-      padding: '5px 15px 5px 5px',
-      // Material UI look and feel
-      fontSize: '14px',
-      fontFamily: 'Roboto, sans-serif',
-    },
-
-    contentWrapper: {
-      paddingTop: '25px',
-      color: 'rgba(255, 255, 255, 0.85)',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-    },
-
-    buttonsWrapper: {
-      paddingTop: '25px',
-      display: 'flex',
-    },
+    requests: getRequestsClient(pluginInstanceId).reducer,
   }
 }

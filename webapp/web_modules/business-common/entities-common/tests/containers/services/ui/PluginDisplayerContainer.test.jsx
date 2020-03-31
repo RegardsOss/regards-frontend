@@ -99,7 +99,7 @@ describe('[Entities Common] Testing PluginDisplayerContainer', () => {
             e: 5.6,
           },
         },
-      }
+      },
     }
     // if required, set plugin props onClose
     if (addOnCloseProps) {

@@ -23,7 +23,7 @@ import { AdminClient } from '@regardsoss/client'
  *
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['admin', 'ui', 'plugin','role']
+const ENTITIES_STORE_PATH = ['admin', 'ui', 'plugin', 'role']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-plugins-management/roles'
 export const roleActions = new AdminClient.RoleActions(REDUX_ACTION_NAMESPACE)
 export const roleReducer = AdminClient.getRoleReducer(REDUX_ACTION_NAMESPACE)

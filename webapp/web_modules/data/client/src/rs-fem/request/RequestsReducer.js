@@ -23,7 +23,7 @@ import RequestsActions from './RequestsActions'
  * Redux Reducer on fem requests
  * @author Léo Mieulet
  */
-export default function getAipSignalReducer(namespace) {
+export default function getRequestsReducer(namespace) {
   const instance = new BasicSignalsReducers(new RequestsActions(namespace))
   return (state, action) => instance.reduce(state, action)
 }

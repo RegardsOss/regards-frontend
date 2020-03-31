@@ -99,7 +99,7 @@ class PluginFormComponent extends React.Component {
     const defaultValues = {
       // Set default role to PUBLIC
       roleName: 'PUBLIC',
-      ...get(plugin, 'content', {})
+      ...get(plugin, 'content', {}),
     }
     initialize(defaultValues)
   }
@@ -117,7 +117,6 @@ class PluginFormComponent extends React.Component {
 
   shouldRenderRoleField = () => {
     const { pluginIsValid, pluginInfo } = this.state
-    console.error("fdgdfg", pluginIsValid, pluginInfo)
     return pluginIsValid && pluginInfo.type === AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.SERVICE
   }
 

@@ -22,7 +22,7 @@ import { roleReducer } from './clients/RoleClient'
 
 const pluginReducer = combineReducers({
   plugin: uiPluginDefinitionReducers,
-  role:  roleReducer,
+  role: roleReducer,
 })
 
 

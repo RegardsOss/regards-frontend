@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import map from 'lodash/map'
 import { BasicSignalsActions } from '@regardsoss/store-utils'
 
 /**
@@ -40,7 +41,7 @@ export default class RequestsActions extends BasicSignalsActions {
     super({
       [RequestsActions.NOTIFY]: {
         entityEndpoint: `${RequestsActions.ROOT_ENDPOINT}/requests/notify`,
-        namespace: `${namespace}/notify`,
+        namespace: `${namespace}/NOTIFY`,
       },
       [RequestsActions.DELETE]: {
         entityEndpoint: `${RequestsActions.ROOT_ENDPOINT}/requests/delete`,
@@ -57,20 +58,29 @@ export default class RequestsActions extends BasicSignalsActions {
    * Build an action that (re)notify features using the provided search context
    */
   notify(searchContext) {
-    return this.getSubAction(RequestsActions.NOTIFY).sendSignal('POST', null, searchContext)
+    return this.getSubAction(RequestsActions.NOTIFY).sendSignal('POST', searchContext)
   }
 
   /**
    * Build an action that delete features using the provided search context
    */
   delete(searchContext) {
-    return this.getSubAction(RequestsActions.DELETE).sendSignal('POST', null, searchContext)
+    return this.getSubAction(RequestsActions.DELETE).sendSignal('POST', searchContext)
   }
 
   /**
    * Build an action that update features using formValues
    */
   update(formValues) {
-    return this.getSubAction(RequestsActions.UPDATE).sendSignal('POST', null, formValues)
+    return this.getSubAction(RequestsActions.UPDATE).sendSignal('POST', formValues)
+  }
+
+  /**
+   * @returns list of dependencies as ressources endpoints
+   */
+  getDependencies() {
+    return map([RequestsActions.NOTIFY, RequestsActions.DELETE, RequestsActions.UPDATE], 
+      subAction => this.getDependency(subAction, 'POST')
+    )
   }
 }
