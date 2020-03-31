@@ -31,7 +31,7 @@ import { themeContextType } from '@regardsoss/theme'
  * Main fem-notify plugin container
  * @author C-S
  */
-export class NotifyContainer extends React.Component {
+export class EditContainer extends React.Component {
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -137,5 +137,5 @@ export class NotifyContainer extends React.Component {
 
 // export REDUX connected container
 export default connect(
-  NotifyContainer.mapStateToProps,
-  NotifyContainer.mapDispatchToProps)(NotifyContainer)
+  EditContainer.mapStateToProps,
+  EditContainer.mapDispatchToProps)(EditContainer)
