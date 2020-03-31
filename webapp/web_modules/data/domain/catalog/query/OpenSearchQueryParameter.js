@@ -60,7 +60,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static AND_SEPARATOR = ' AND '
 
   /** NEGATE value operator */
-  static NEGATE_OPERATOR = 'NOT '
+  static NEGATE_OPERATOR = '!'
 
 
   /**
@@ -70,7 +70,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    *
    */
   static negateParameterValue(parameterValue) {
-    return `${this.NEGATE_OPERATOR}(${parameterValue})`
+    return `(${this.NEGATE_OPERATOR}(${parameterValue}))`
   }
 
   /**

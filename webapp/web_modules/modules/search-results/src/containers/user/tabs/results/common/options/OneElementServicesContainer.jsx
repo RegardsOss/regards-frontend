@@ -27,6 +27,8 @@ import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { AccessShapes } from '@regardsoss/shape'
 import { TargetHelper } from '@regardsoss/entities-common'
+import { StringComparison } from '@regardsoss/form-utils'
+import isEqual from 'lodash/isEqual'
 import { getRunServiceClient } from '../../../../../../clients/RunPluginServiceClient'
 import { getServicesClient } from '../../../../../../clients/PluginServiceClient'
 import OneElementServicesComponent from '../../../../../../components/user/tabs/results/common/options/OneElementServicesComponent'
@@ -86,6 +88,11 @@ export class OneElementServicesContainer extends React.Component {
     dispatchRunService: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    contextSelectionServices: [],
+    availableDependencies: [],
+  }
+
   /** Properties that will not be reported to sub component */
   static NON_REPORTED_PROPS = ['tabType', 'entity', 'rowIndex', 'dispatchRunService', 'contextSelectionServices', 'availableDependencies']
 
@@ -95,11 +102,15 @@ export class OneElementServicesContainer extends React.Component {
    * @param currentEntityType current entity type
    * @param availableDependencies available dependencies for current user
    */
-  static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, currentEntityType, availableDependencies) {
+  static isUsableService({ content: { applicationModes, entityTypes, type } }, currentEntityType, availableDependencies = []) {
     return applicationModes.includes(AccessDomain.applicationModes.ONE)
       && entityTypes.includes(currentEntityType)
       // For catalog service only: the user must be allowed to run catalog plugin service
       && (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
+  }
+
+  state = {
+    services: [],
   }
 
   /**
@@ -120,23 +131,25 @@ export class OneElementServicesContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     // detect entity change to update the available services (the service that can be applied to one entity)
-    if (oldProps.entity !== newProps.entity || oldProps.contextSelectionServices !== newProps.contextSelectionServices) {
-      const entityType = get(newProps.entity, 'content.entityType')
-      let services = get(newProps.entity, 'content.services', [])
-          // keep only services that have one element application mode and
-          // entity type as target
-          .filter(({ content: { applicationModes, entityTypes } }) => applicationModes.includes(AccessDomain.applicationModes.ONE)
-            && entityTypes.includes(entityType))
-      // Retrieve the list of context selection services plugin list to add them in the list
-      if (!isEmpty(newProps.contextSelectionServices)) {
-        const selectionServices = filter(newProps.contextSelectionServices, service => 
-          OneElementServicesContainer.isUsableSelectionService(service, entityType, newProps.availableDependencies)
-        )
-        services = services.concat(selectionServices)
+    const { entity, contextSelectionServices, availableDependencies } = newProps
+    if (!isEqual(oldProps.entity, entity)
+      || !isEqual(oldProps.contextSelectionServices, contextSelectionServices)
+      || !isEqual(oldProps.availableDependencies, availableDependencies)) {
+      /* TODO Leo: revert les modifications pour la gestion des services de contexte: c'est normalement le back qui
+       les ajoute aux entités, ce qui fait que tu ne peux avoir que des doublons ici normalement */
+      const newServices = [
+        ...get(entity.content, 'services', []),
+        ...contextSelectionServices,
+      ].reduce((services, service) => OneElementServicesContainer.isUsableService(service, entity.content.entityType, availableDependencies)
+        && !services.find(({ content: { type, configId } }) => type === service.content.type && configId === service.content.configId)
+        ? [...services, service]
+        : services, [])
+        .sort((s1, s2) => StringComparison.compare(s1.content.label, s2.content.label))
+      if (!isEqual(this.state.services, newServices)) {
+        this.setState({
+          services: newServices,
+        })
       }
-      this.setState({
-        services,
-      })
     }
   }
 

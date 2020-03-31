@@ -23,12 +23,9 @@ import isDate from 'lodash/isDate'
 import isNumber from 'lodash/isNumber'
 import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
-import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, RuntimeTargetTypes } from '@regardsoss/domain/access'
+import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM } from '@regardsoss/domain/access'
 import { ValidationHelpers } from '@regardsoss/form-utils'
 import { Parameter } from './parameters/Parameter'
-import { ManyEntitiesRuntimeHelpersBuilder } from './runtime/ManyEntitiesRuntimeHelpersBuilder'
-import { OneEntityRuntimeHelpersBuilder } from './runtime/OneEntityRuntimeHelpersBuilder'
-import { QueryRuntimeHelpersBuilder } from './runtime/QueryRuntimeHelpersBuilder'
 
 /**
 * Tools to convert an UI plugin service configuration into common form parameter models
@@ -73,31 +70,6 @@ export function resolveParameters(uiPluginConf, pluginInstance) {
   // note: We resolve from definition to configuration, to make sure the plugin version that will be used
   // will have all parameters it requires (we ignore the parameters that could have been removed)
   return map(dynamicParameters, (parameter, key) => resolveParameter(key, adminDynamicConfiguration[key], parameter))
-}
-
-const typesToRuntimeHelpMap = {
-  [RuntimeTargetTypes.ONE]: OneEntityRuntimeHelpersBuilder,
-  [RuntimeTargetTypes.MANY]: ManyEntitiesRuntimeHelpersBuilder,
-  [RuntimeTargetTypes.QUERY]: QueryRuntimeHelpersBuilder,
-}
-
-// TODO change that code!
-
-/**
- * Builds service runtime helpers, to be stored in runtime target
- * @param {*} serviceTarget service target
- * @return {dispatchableFetchMethod:{function}, applyOnEntity:{function} } plugin service runtime helper
- */
-function buildServiceRuntimeHelpers(serviceTarget) {
-  const RuntimeHelpersBuilderConstructor = typesToRuntimeHelpMap[serviceTarget.type]
-  if (RuntimeHelpersBuilderConstructor === null) {
-    throw new Error('Invalid target type', serviceTarget.type) // should be a development error only
-  }
-  const runtimeHelpersBuilder = new RuntimeHelpersBuilderConstructor(serviceTarget)
-  return {
-    getFetchAction: runtimeHelpersBuilder.buildGetFetchAction(),
-    getReducePromise: runtimeHelpersBuilder.buildGetReducePromise(),
-  }
 }
 
 /**
