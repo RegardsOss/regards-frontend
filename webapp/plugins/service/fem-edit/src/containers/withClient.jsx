@@ -16,15 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import React from 'react'
+import { getRequestsClient } from '../clients/RequestsClient'
 
 /**
- * i18n messages for French language
- * @author C-S
+ * This component wires clients required by this plugin,
+ * Indeed, plugin clients needs the pluginInstanceId to be ready to use,
+ * On UI Plugin we're connected to client asynchronously
+ * whereas we do it synchroniously in REGARDS
+ * @param React component
+ * @returns React class that injects clients
+ * @author Léo Mieulet
  */
-export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
+const withClient = Component => class WithClient extends React.Component {
+  render() {
+    const { pluginInstanceId } = this.props
+    const editClient = getRequestsClient(pluginInstanceId)
+    return (
+      <Component {...this.props} editClient={editClient} />
+    )
+  }
 }
+
+export default withClient

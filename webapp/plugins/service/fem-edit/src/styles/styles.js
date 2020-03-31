@@ -18,13 +18,31 @@
  **/
 
 /**
- * i18n messages for French language
+ * Styles for plugin
+ * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
  * @author C-S
  */
-export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
+export default function buildServiceStyles(theme) {
+  return {
+    // the document styles
+    body: {
+      padding: '5px 15px 5px 5px',
+      // Material UI look and feel
+      fontSize: '14px',
+      fontFamily: 'Roboto, sans-serif',
+    },
+
+    contentWrapper: {
+      paddingTop: '25px',
+      color: 'rgba(255, 255, 255, 0.85)',
+      display: 'flex',
+      alignItems: 'center',
+      flexDirection: 'column',
+    },
+
+    buttonsWrapper: {
+      paddingTop: '25px',
+      display: 'flex',
+    },
+  }
 }

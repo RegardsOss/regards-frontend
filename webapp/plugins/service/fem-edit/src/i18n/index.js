@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-/**
- * i18n messages for French language
- * @author C-S
- */
 export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
+  en,
+  fr,
 }

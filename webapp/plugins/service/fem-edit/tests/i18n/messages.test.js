@@ -15,16 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-/**
- * i18n messages for French language
- * @author C-S
  */
-export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
-}
+import { assert } from 'chai'
+import keys from 'lodash/keys'
+import MessagesFr from '../../src/i18n/messages.fr.i18n'
+import MessagesEn from '../../src/i18n/messages.en.i18n'
+
+describe('[fem-edit] Testing i18n', () => {
+  it('should exist', () => {
+    assert.isNotNull(MessagesFr)
+    assert.isNotNull(MessagesEn)
+  })
+  it('should define same sentences', () => {
+    assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
+  })
+})

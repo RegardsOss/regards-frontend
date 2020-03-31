@@ -16,15 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { initPlugin } from '@regardsoss/plugins-api'
+import EditContainer from './containers/EditContainer'
+import withClient from './containers/withClient'
+import getReducer from './reducer'
+import messages from './i18n'
+import styles from './styles'
+import pluginInfo from './plugin-info.json'
 
-/**
- * i18n messages for French language
- * @author C-S
- */
-export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
-}
+initPlugin(withClient(EditContainer), pluginInfo, getReducer, messages, styles)

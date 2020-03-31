@@ -18,13 +18,13 @@
  **/
 
 /**
- * i18n messages for French language
+ * i18n messages for English language
  * @author C-S
  */
 export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
+  'plugin.title': 'Edition',
+  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be removed.',
+  'plugin.question': 'Do you want to continue?',
+  'plugin.valid': 'EDIT',
+  'plugin.cancel': 'Cancel',
 }

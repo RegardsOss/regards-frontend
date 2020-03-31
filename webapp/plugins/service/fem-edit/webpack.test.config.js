@@ -16,15 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
-/**
- * i18n messages for French language
- * @author C-S
- */
-export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
-  'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
-  'plugin.cancel': 'Annuler',
-}
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'pkg_test',
+    projectContextPath: __dirname,
+  })
+  .get()
+
+module.exports = conf

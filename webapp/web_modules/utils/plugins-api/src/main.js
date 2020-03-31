@@ -17,10 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * Main interface to write modules
- * @author Sébastien Binda
- */
 export { default as PluginsClientsMap } from './client/PluginsClientsMap'
 export { default as numberRangeHelper } from './utils/NumberRangeHelper'
 export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
@@ -29,3 +25,4 @@ export { initPlugin } from './utils/InitPlugin'
 // re-export parts of plugins module here to avoid plugin developper importing them from plugins util
 export { CriterionData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 export { TargetEntitiesResolver } from './utils/TargetEntitiesResolver'
+export { default as ClientConfBuilder } from './utils/ClientConfBuilder'

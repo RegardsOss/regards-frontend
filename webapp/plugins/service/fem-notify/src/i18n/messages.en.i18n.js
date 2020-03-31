@@ -22,9 +22,9 @@
  * @author C-S
  */
 export default {
-  'plugin.title': 'Confirm suppresion',
-  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be removed.',
+  'plugin.title': 'Confirm notification',
+  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be renotificated.',
   'plugin.question': 'Do you want to continue?',
-  'plugin.valid': 'Delete',
+  'plugin.valid': 'Notify',
   'plugin.cancel': 'Cancel',
 }

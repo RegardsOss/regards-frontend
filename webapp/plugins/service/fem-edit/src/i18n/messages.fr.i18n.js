@@ -22,9 +22,9 @@
  * @author C-S
  */
 export default {
-  'plugin.title': 'Confirmer la notification',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera renotifié} other {les # éléments sélectionnés seront renotifiés}}.',
+  'plugin.title': 'Edition',
+  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera édité} other {les # éléments sélectionnés seront édités}}.',
   'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'Renotifier',
+  'plugin.valid': 'EDIT',
   'plugin.cancel': 'Annuler',
 }
