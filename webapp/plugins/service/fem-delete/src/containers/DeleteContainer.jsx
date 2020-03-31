@@ -41,7 +41,6 @@ export class DeleteContainer extends React.Component {
    */
   static mapStateToProps(state, { deleteClient }) {
     return {
-      // we select here the results from last dispatchGetParameterValues request
       error: deleteClient.selectors.getError(state),
       isFetching: deleteClient.selectors.isFetching(state),
     }
@@ -53,7 +52,7 @@ export class DeleteContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { runtimeTarget, deleteClient }) {
+  static mapDispatchToProps(dispatch, { deleteClient }) {
     return {
       deleteFeatures: searchContext => dispatch(deleteClient.actions.delete(searchContext)),
     }
