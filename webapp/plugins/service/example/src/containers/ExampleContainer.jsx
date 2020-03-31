@@ -32,8 +32,8 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ScrollArea } from '@regardsoss/adapters'
+import { TargetEntitiesResolver } from '@regardsoss/plugins-api'
 import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
-import { TargetEntitiesResolver } from '../../../../../web_modules/utils/plugins-api/src/main'
 
 /**
  * An example service plugin container
