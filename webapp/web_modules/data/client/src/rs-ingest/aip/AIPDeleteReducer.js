@@ -20,13 +20,13 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import AIPDeleteActions from './AIPDeleteActions'
 
 class AIPDeleteReducer extends BasicSignalReducers {
-  constructor(namespace, instance) {
-    super(new AIPDeleteActions(namespace, instance))
+  constructor(namespace) {
+    super(new AIPDeleteActions(namespace))
   }
 }
 
 /** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new AIPDeleteReducer(namespace, instance)
+export default (namespace) => {
+  const reducerInstance = new AIPDeleteReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }

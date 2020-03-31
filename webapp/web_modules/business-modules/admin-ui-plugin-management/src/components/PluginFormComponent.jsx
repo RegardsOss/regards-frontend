@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import map from 'lodash/map'
 import isNil from 'lodash/isNil'
 import {
   Card, CardActions, CardTitle, CardText,
@@ -27,12 +28,15 @@ import { themeContextType } from '@regardsoss/theme'
 import { connect } from '@regardsoss/redux'
 import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import {
-  RenderTextField, Field, ErrorTypes, reduxForm,
+  RenderTextField, RenderSelectField, Field, ErrorTypes, reduxForm,
 } from '@regardsoss/form-utils'
 import { formValueSelector } from 'redux-form'
+import MenuItem from 'material-ui/MenuItem'
 import { PluginLoader } from '@regardsoss/plugins'
+import { ShowableAtRender } from '@regardsoss/display-control'
+import { AccessDomain } from '@regardsoss/domain'
 import PluginDefinitionComponent from './PluginDefinitionComponent'
 
 /**
@@ -42,6 +46,7 @@ import PluginDefinitionComponent from './PluginDefinitionComponent'
 class PluginFormComponent extends React.Component {
   static propTypes = {
     plugin: AccessShapes.UIPluginDefinition,
+    roleList: AdminShapes.RoleList,
     onSubmit: PropTypes.func.isRequired,
     onBack: PropTypes.func.isRequired,
     submitError: PropTypes.string,
@@ -58,6 +63,11 @@ class PluginFormComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  static SEPARATOR_STYLE = {
+    display: 'flex',
+    alignItems: 'flex-end',
   }
 
   /**
@@ -86,7 +96,12 @@ class PluginFormComponent extends React.Component {
       creation: isNil(plugin),
     })
     // initialize form values
-    initialize(get(plugin, 'content', {}))
+    const defaultValues = {
+      // Set default role to PUBLIC
+      roleName: 'PUBLIC',
+      ...get(plugin, 'content', {}),
+    }
+    initialize(defaultValues)
   }
 
   /**
@@ -98,6 +113,19 @@ class PluginFormComponent extends React.Component {
       this.searchPlugin(get(plugin, 'content.sourcePath'))
       this.loadIcon(get(plugin, 'content.iconUrl'))
     }
+  }
+
+  shouldRenderRoleField = () => {
+    const { pluginIsValid, pluginInfo } = this.state
+    return pluginIsValid && pluginInfo.type === AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.SERVICE
+  }
+
+  getRoleName = (name = 'empty') => {
+    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formated !== `role.name.${name}`) {
+      return formated
+    }
+    return name
   }
 
   /**
@@ -133,6 +161,7 @@ class PluginFormComponent extends React.Component {
       }
       this.setState({
         pluginIsValid: true,
+        pluginInfo: plugin.info,
       })
     }
   }
@@ -203,12 +232,14 @@ class PluginFormComponent extends React.Component {
   }
 
   render() {
-    const { pristine, submitting } = this.props
+    const { roleList, pristine, submitting } = this.props
+    const { intl: { formatMessage } } = this.context
+
     let title
     if (this.state.creation) {
-      title = this.context.intl.formatMessage({ id: 'plugin.form.title.create' })
+      title = formatMessage({ id: 'plugin.form.title.create' })
     } else {
-      title = this.context.intl.formatMessage({ id: 'plugin.form.title.update' }, { name: this.props.plugin.content.name })
+      title = formatMessage({ id: 'plugin.form.title.update' }, { name: this.props.plugin.content.name })
     }
 
     return (
@@ -219,7 +250,7 @@ class PluginFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={title}
-              subtitle={this.context.intl.formatMessage({ id: 'plugin.form.subtitle' })}
+              subtitle={formatMessage({ id: 'plugin.form.subtitle' })}
             />
             <CardText>
               {this.renderErrorMessage()}
@@ -229,17 +260,14 @@ class PluginFormComponent extends React.Component {
                 {this.renderIcon()}
               </div>
               <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                }}
+                style={PluginFormComponent.SEPARATOR_STYLE}
               >
                 <Field
                   name="sourcePath"
                   component={RenderTextField}
                   fullWidth
                   type="text"
-                  label={this.context.intl.formatMessage({ id: 'plugin.form.sourcesPath' })}
+                  label={formatMessage({ id: 'plugin.form.sourcesPath' })}
                   validate={PluginFormComponent.validatePluginField}
                 />
                 <IconButton
@@ -251,17 +279,14 @@ class PluginFormComponent extends React.Component {
                 </IconButton>
               </div>
               <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'flex-end',
-                }}
+                style={PluginFormComponent.SEPARATOR_STYLE}
               >
                 <Field
                   name="iconUrl"
                   component={RenderTextField}
                   fullWidth
                   type="text"
-                  label={this.context.intl.formatMessage({ id: 'plugin.form.icon' })}
+                  label={formatMessage({ id: 'plugin.form.icon' })}
                 />
                 <IconButton
                   tooltip="Display icon"
@@ -270,6 +295,22 @@ class PluginFormComponent extends React.Component {
                   <SearchIcon />
                 </IconButton>
               </div>
+              <ShowableAtRender show={this.shouldRenderRoleField()}>
+                <Field
+                  name="roleName"
+                  fullWidth
+                  component={RenderSelectField}
+                  label={formatMessage({ id: 'plugin.form.role' })}
+                >
+                  {map(roleList, (role, id) => (
+                    <MenuItem
+                      value={role.content.name}
+                      key={id}
+                      primaryText={this.getRoleName(role.content.name)}
+                    />
+                  ))}
+                </Field>
+              </ShowableAtRender>
             </CardText>
           </Card>
 
@@ -278,10 +319,10 @@ class PluginFormComponent extends React.Component {
           <Card>
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={this.context.intl.formatMessage({ id: this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button' })}
+                mainButtonLabel={formatMessage({ id: this.state.creation ? 'plugin.form.submit.button' : 'plugin.form.update.button' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || !this.state.pluginIsValid || this.state.path !== this.props.pathField}
-                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugin.form.cancel.button' })}
+                secondaryButtonLabel={formatMessage({ id: 'plugin.form.cancel.button' })}
                 secondaryButtonClick={this.props.onBack}
               />
             </CardActions>

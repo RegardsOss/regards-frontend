@@ -43,16 +43,16 @@ export class ServiceContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { runtimeTarget }) {
+  static mapDispatchToProps(dispatch, { target }) {
     return {
       // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-      getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
+      getReducePromise: (reducer, initialValue) => target.getReducePromise(dispatch, reducer, initialValue),
     }
   }
 
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
-    runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
+    target: AccessShapes.PluginServiceTarget.isRequired,
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo

@@ -18,14 +18,13 @@
  **/
 import filter from 'lodash/filter'
 import isEqual from 'lodash/isEqual'
-import map from 'lodash/map'
 import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { TableSelectionModes } from '@regardsoss/components'
 import { CatalogClient } from '@regardsoss/client'
 import { AccessDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { ServiceContainer, PluginServiceRunModel, target } from '@regardsoss/entities-common'
+import { ServiceContainer, PluginServiceRunModel, TargetHelper } from '@regardsoss/entities-common'
 import { AccessShapes, CommonShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { HOCUtils } from '@regardsoss/display-control'
@@ -193,7 +192,7 @@ export class PluginServicesContainer extends React.Component {
       totalElements: PropTypes.number,
     }),
     // service related
-    serviceRunModel: PropTypes.instanceOf(PluginServiceRunModel),
+    serviceRunModel: PluginServiceRunModel,
     // eslint-disable-next-line react/no-unused-prop-types
     contextSelectionServices: AccessShapes.PluginServiceWithContentArray,
     // eslint-disable-next-line react/no-unused-prop-types
@@ -278,14 +277,13 @@ export class PluginServicesContainer extends React.Component {
     const {
       dispatchRunService, selectionMode, toggledElements, requestParameters, viewObjectType, pageMetadata,
     } = this.props
-    // pack ip ID array
-    const idArray = map(toggledElements, elt => elt.content.id)
-    // pack query
-    const serviceTarget = selectionMode === TableSelectionModes.includeSelected
-      ? target.buildManyElementsTarget(idArray)
-      : target.buildQueryTarget(requestParameters, viewObjectType, pageMetadata.totalElements, idArray)
+    const entities = values(toggledElements)
+    // pack service target
+    const target = selectionMode === TableSelectionModes.includeSelected
+      ? TargetHelper.buildManyElementsTarget(entities)
+      : TargetHelper.buildQueryTarget(requestParameters, viewObjectType, pageMetadata.totalElements, entities)
     // note : only service content is dipatched (see top methods conversion)
-    dispatchRunService(new PluginServiceRunModel(service, serviceTarget))
+    dispatchRunService({ serviceConfiguration: service, target })
   }
 
   render() {

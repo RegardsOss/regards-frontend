@@ -20,8 +20,9 @@ import { browserHistory } from 'react-router'
 import { I18nProvider } from '@regardsoss/i18n'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { connect } from '@regardsoss/redux'
-import { AccessShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { uiPluginDefinitionActions, uiPluginDefinitionSelectors } from '../clients/UIPluginDefinitionClient'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
 import PluginFormComponent from '../components/PluginFormComponent'
 import messages from '../i18n'
 
@@ -40,9 +41,11 @@ export class PluginFormContainer extends React.Component {
     updatePlugin: PropTypes.func,
     createPlugin: PropTypes.func,
     fetchPlugin: PropTypes.func,
+    fetchRoleList: PropTypes.func,
     // Set by mapStateToProps
     isFetching: PropTypes.bool,
     plugin: AccessShapes.UIPluginDefinition,
+    roleList: AdminShapes.RoleList,
   }
 
   state = {
@@ -50,6 +53,7 @@ export class PluginFormContainer extends React.Component {
   }
 
   componentWillMount() {
+    this.props.fetchRoleList()
     if (this.props.params.plugin_id && !this.props.plugin) {
       this.props.fetchPlugin(this.props.params.plugin_id)
     }
@@ -119,6 +123,7 @@ export class PluginFormContainer extends React.Component {
           onSubmit={this.handleSubmit}
           onBack={this.handleBack}
           plugin={this.props.plugin}
+          roleList={this.props.roleList}
           submitError={this.state.submitError}
         />
       </I18nProvider>
@@ -128,6 +133,7 @@ export class PluginFormContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   plugin: ownProps.params.plugin_id ? uiPluginDefinitionSelectors.getById(state, ownProps.params.plugin_id) : null,
+  roleList: roleSelectors.getList(state),
   isFetching: uiPluginDefinitionSelectors.isFetching(state),
 })
 
@@ -135,6 +141,7 @@ const mapDispatchToProps = dispatch => ({
   fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
   updatePlugin: plugin => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
   createPlugin: plugin => dispatch(uiPluginDefinitionActions.createEntity(plugin)),
+  fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginFormContainer)

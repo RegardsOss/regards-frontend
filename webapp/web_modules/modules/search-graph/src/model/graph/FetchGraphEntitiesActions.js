@@ -83,7 +83,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
           CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(levelModelName)))
     }
     // build search query and fetch server data (keep invocation context for action metadata)
-    const searchQuery = new CatalogDomain.OpenSearchQuery(null, openSearchParameters).toQueryString()
+    const searchQuery = new CatalogDomain.OpenSearchQuery(openSearchParameters).toQueryString()
     this.levelIndex = levelIndex
     this.parentEntityId = parentEntityIds.length ? last(parentEntityIds) : null
     return this.fetchPagedEntityList(0, 0, { levelModelName }, { q: searchQuery })

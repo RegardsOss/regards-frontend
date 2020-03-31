@@ -23,9 +23,9 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * Actions to send a request to delete a SIP
  */
 export default class SIPActions extends BasicPageableActions {
-  constructor(namespace, instance = false) {
+  constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/sips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
       entityPathVariable: 'sipId',
       schemaTypes: {
         ENTITY: SIP,

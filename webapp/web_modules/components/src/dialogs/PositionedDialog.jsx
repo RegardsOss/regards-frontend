@@ -18,6 +18,8 @@
  **/
 import root from 'window-or-global'
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import Dialog from 'material-ui/Dialog'
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
@@ -47,6 +49,7 @@ class PositionedDialog extends React.Component {
     contentStyle: PropTypes.object, // allows locally overriding the styles
     // eslint-disable-next-line react/forbid-prop-types
     actionsContainerStyle: PropTypes.object, // allows locally overriding the styles
+    actions: PropTypes.arrayOf(PropTypes.node),
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -123,14 +126,23 @@ class PositionedDialog extends React.Component {
 
   render() {
     const {
-      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, ...dialogProperties
+      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, actions, ...dialogProperties
     } = this.props
     const { layoutStyle } = this.state
     const { positionedDialog, dialogCommon } = this.context.moduleTheme
 
-    // merge user and local styles
-    const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
-    const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
+    // merge user and local styles (avoid creating new objects when user styles are not defined)
+    const bodyStyle = isNil(userBodyStyle) ? positionedDialog.bodyStyle : { ...userBodyStyle, ...positionedDialog.bodyStyle }
+    let actionsContainerStyle // no action: undefined
+    if (!isEmpty(actions)) {
+      actionsContainerStyle = dialogCommon.actionsContainerStyle // default style
+      if (!isNil(userActionsContainerStyle)) {
+        actionsContainerStyle = {
+          ...actionsContainerStyle, // default style
+          ...userActionsContainerStyle, // API user overwriting
+        }
+      }
+    }
 
     return (
       <SwitchThemeDecorator
@@ -141,6 +153,7 @@ class PositionedDialog extends React.Component {
           contentStyle={layoutStyle}
           bodyStyle={bodyStyle}
           actionsContainerStyle={actionsContainerStyle}
+          actions={actions}
           {...dialogProperties}
         >
           {HOCUtils.renderChildren(children)}

@@ -20,13 +20,13 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import RequestRetryActions from './RequestRetryActions'
 
 class RequestRetryReducer extends BasicSignalReducers {
-  constructor(namespace, instance) {
-    super(new RequestRetryActions(namespace, instance))
+  constructor(namespace) {
+    super(new RequestRetryActions(namespace))
   }
 }
 
 /** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new RequestRetryReducer(namespace, instance)
+export default (namespace) => {
+  const reducerInstance = new RequestRetryReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
+import size from 'lodash/size'
 import { expect, assert } from 'chai'
 import { TableRow } from 'material-ui/Table'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
@@ -88,6 +89,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionListComponent', ()
       backUrl: '#',
     }
     const enzymeWrapper = shallow(<ProjectConnectionListComponent {...props} />, options)
-    expect(enzymeWrapper.find(TableRow)).to.have.length(10)
+    const NB_ROW = 1 + size(STATIC_CONF.MSERVICES)
+    expect(enzymeWrapper.find(TableRow)).to.have.length(NB_ROW)
   })
 })
