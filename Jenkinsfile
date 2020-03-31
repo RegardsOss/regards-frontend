@@ -95,6 +95,11 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh service/fem-delete'
+                    },
+                    plugin_service_fem_notify: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh service/fem-notify'
                     }
                 )
             }
