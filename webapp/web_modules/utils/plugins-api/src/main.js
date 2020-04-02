@@ -25,4 +25,4 @@ export { initPlugin } from './utils/InitPlugin'
 // re-export parts of plugins module here to avoid plugin developper importing them from plugins util
 export { CriterionData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 export { TargetEntitiesResolver } from './utils/TargetEntitiesResolver'
-export { default as ClientConfBuilder } from './utils/ClientConfBuilder'
+export { default as ClientConfBuilder } from './utils/ClientConfBuilder'

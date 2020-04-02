@@ -122,6 +122,7 @@ const messages = Object.assign({
   'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GeoJSON',
   'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une source de données externe',
   'datasource.form.create.pick-interface.description.opensearch': "Ce mode permet d'aspirer une source OpenSearch",
+  'datasource.form.create.pick-interface.description.feature': 'Ce mode permet d\'aspirer des features du feature manager',
   'datasource.form.create.pick-interface.action.select': 'Sélectionner',
   'datasource.form.create.pick-interface.action.cancel': 'Annuler',
   'aip.datasource.create.title': 'Création d\'une source de données d\'AIPs',
@@ -134,6 +135,10 @@ const messages = Object.assign({
   'aip.datasource.form.table.input': 'Valeur',
   'aip.datasource.form.table.lowerBound': 'Borne inférieure',
   'aip.datasource.form.table.upperBound': 'Borne supérieure',
+
+  'fem.datasource.create.title': 'Création d\'une source de données de features',
+  'fem.datasource.edit.title': 'Cet écran vous permet de configurer la façon dont les features stockés par le microservice FEM vont être indexés dans le catalogue.',
+  'fem.datasource.form.subtitle': 'Édition de la source de données {name}',
 
   'opensearch.crawler.stepper.crawler': "Configuration de l'aspiration",
   'opensearch.crawler.stepper.query': 'Configuration de la requête',

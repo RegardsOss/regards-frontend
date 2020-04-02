@@ -137,6 +137,31 @@ export const monitorDatasourcesRoute = {
 }
 
 
+export const editFEMDatasourceRoute = {
+  path: 'fem/:datasourceId/edit',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const FEMDatasourceFormContainer = require('./containers/fem/FemDatasourceFormContainer')
+      cb(null, {
+        content: FEMDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+export const createFEMDatasourceRoute = {
+  path: 'fem/create',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const FemDatasourceFormContainer = require('./containers/fem/FemDatasourceFormContainer')
+      cb(null, {
+        content: FemDatasourceFormContainer.default,
+      })
+    })
+  },
+}
+
+
 const datasourceDataManagementRouter = {
   childRoutes: [
     listDatasourceRoute,
@@ -149,6 +174,8 @@ const datasourceDataManagementRouter = {
     createAIPDatasourceRoute,
     createOSDatasourceRoute,
     editOSDatasourceRoute,
+    editFEMDatasourceRoute,
+    createFEMDatasourceRoute,
   ],
 }
 

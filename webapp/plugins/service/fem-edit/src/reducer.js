@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { getRequestsReducer } from './clients/RequestsClient'
-
+import { getModelAttributesReducer } from './clients/ModelAttributesClient'
 
 /**
  * Plugin reducer builder function.
@@ -27,5 +27,6 @@ import { getRequestsReducer } from './clients/RequestsClient'
 export default function getReducer(pluginInstanceId) {
   return {
     requests: getRequestsReducer(pluginInstanceId),
+    attributes: getModelAttributesReducer(pluginInstanceId),
   }
 }

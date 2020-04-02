@@ -18,8 +18,11 @@
  **/
 import { I18nProvider } from '@regardsoss/i18n'
 import DatasouceCreatePickInterfaceComponent from '../components/DatasouceCreatePickInterfaceComponent'
+import { withModuleStyle } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import messages from '../i18n'
-
+import styles from '../styles'
 /**
  * Pick the datasource if existing or ask the user to create a new one
  */
@@ -29,6 +32,10 @@ export class DatasoucePickInterfaceContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
+  }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
   }
 
   getBackUrl = () => {
@@ -51,6 +58,11 @@ export class DatasoucePickInterfaceContainer extends React.Component {
     return `/admin/${project}/data/acquisition/datasource/opensearch/create`
   }
 
+  getCreateFeatureDatasourceUrl = () => {
+    const { params: { project } } = this.props
+    return `/admin/${project}/data/acquisition/datasource/fem/create`
+  }
+
   render() {
     return (
       <I18nProvider messages={messages}>
@@ -58,6 +70,7 @@ export class DatasoucePickInterfaceContainer extends React.Component {
           createDBDasourceUrl={this.getCreateDBDatasourceUrl()}
           createAIPDasourceUrl={this.getCreateAIPDatasourceUrl()}
           createOpenSearchCrawlerUrl={this.getCreateOSCrawlerUrl()}
+          createFeatureDatasourceUrl={this.getCreateFeatureDatasourceUrl()}
           backUrl={this.getBackUrl()}
         />
       </I18nProvider>
@@ -66,4 +79,4 @@ export class DatasoucePickInterfaceContainer extends React.Component {
 }
 
 
-export default DatasoucePickInterfaceContainer
+export default withModuleStyle(styles)(DatasoucePickInterfaceContainer)

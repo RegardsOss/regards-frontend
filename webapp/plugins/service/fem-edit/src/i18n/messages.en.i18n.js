@@ -23,8 +23,10 @@
  */
 export default {
   'plugin.title': 'Edition',
-  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be removed.',
+  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be edited with provided values.',
   'plugin.question': 'Do you want to continue?',
-  'plugin.valid': 'EDIT',
+  'plugin.valid': 'Send',
   'plugin.cancel': 'Cancel',
+  'plugin.list.editable': 'Editable attribute list:',
+  'plugin.list.editing': 'Editing attribute list:',
 }

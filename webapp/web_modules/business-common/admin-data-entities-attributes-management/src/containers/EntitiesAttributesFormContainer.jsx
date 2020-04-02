@@ -29,7 +29,9 @@ import messages from '../i18n'
 export class EntitiesAttributesFormContainer extends React.Component {
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
+    // When false, hide the component
     isDisplayAttributeValue: PropTypes.bool.isRequired,
+    // When true and modelAttribute not alterable, mark the field as disabled
     isEditing: PropTypes.bool.isRequired,
   }
 

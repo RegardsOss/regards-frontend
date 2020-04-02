@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import Subheader from 'material-ui/Subheader'
@@ -26,6 +25,7 @@ import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FemClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
+import withClient from './withClient'
 
 /**
  * Main fem-delete plugin container
@@ -136,8 +136,8 @@ export class DeleteContainer extends React.Component {
     )
   }
 }
-
-// export REDUX connected container
-export default connect(
-  DeleteContainer.mapStateToProps,
-  DeleteContainer.mapDispatchToProps)(DeleteContainer)
+// Connect clients and retrieve them as props
+export default withClient(
+  // REDUX connected container
+  connect(DeleteContainer.mapStateToProps,DeleteContainer.mapDispatchToProps)(DeleteContainer)
+)

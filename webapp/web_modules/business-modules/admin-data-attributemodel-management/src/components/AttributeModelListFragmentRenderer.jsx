@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DataManagementShapes } from '@regardsoss/shape'
-import { fragmentSelectors } from '../clients/FragmentClient'
+import { DamDomain } from '@regardsoss/domain'
 
 /**
  * Display fragment name for an attribute model
@@ -29,7 +29,7 @@ class AttributeModelListFragmentRenderer extends React.Component {
   }
 
   render = () => {
-    if (this.props.entity.content.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (this.props.entity.content.fragment.name !== DamDomain.FRAGMENT_NONE) {
       return this.props.entity.content.fragment.name
     }
     return ''

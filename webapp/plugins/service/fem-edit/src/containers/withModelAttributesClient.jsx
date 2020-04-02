@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import getRequestsClient from '../clients/RequestsClient'
+import { getModelAttributesClient } from '../clients/ModelAttributesClient'
 
 /**
  * This component wires clients required by this plugin,
@@ -27,14 +27,16 @@ import getRequestsClient from '../clients/RequestsClient'
  * @returns React class that injects clients
  * @author Léo Mieulet
  */
-const withClient = Component => class WithClient extends React.Component {
+export default Component => class WithClient extends React.Component {
+  static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
+  }
+
   render() {
     const { pluginInstanceId } = this.props
-    const notifyClient = getRequestsClient(pluginInstanceId)
+    const modelAttributesClient = getModelAttributesClient(pluginInstanceId)
     return (
-      <Component {...this.props} notifyClient={notifyClient} />
+      <Component {...this.props} modelAttributesClient={modelAttributesClient} />
     )
   }
 }
-
-export default withClient

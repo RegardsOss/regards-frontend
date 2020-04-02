@@ -18,10 +18,9 @@
  **/
 import { initPlugin } from '@regardsoss/plugins-api'
 import DeleteContainer from './containers/DeleteContainer'
-import withClient from './containers/withClient'
 import getReducer from './reducer'
 import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-initPlugin(withClient(DeleteContainer), pluginInfo, getReducer, messages, styles)
+initPlugin(DeleteContainer, pluginInfo, getReducer, messages, styles)

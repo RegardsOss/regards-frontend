@@ -17,4 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+/**
+ * Name of the default fragment, which has a very different behavior than others fragments
+ * @type {string}
+ */
 export default 'default'

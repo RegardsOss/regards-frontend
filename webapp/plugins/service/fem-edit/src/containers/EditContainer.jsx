@@ -16,19 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { connect } from '@regardsoss/redux'
-import { AccessShapes } from '@regardsoss/shape'
-import Subheader from 'material-ui/Subheader'
-import { FormattedMessage } from 'react-intl'
-import RaisedButton from 'material-ui/RaisedButton'
-import DeleteIcon from 'mdi-material-ui/Delete'
+import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FemClient } from '@regardsoss/client'
+import { FemClient, CatalogClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { BasicSignalSelectors, BasicSignalsSelectors } from '@regardsoss/store-utils'
+import withRequestsClient from './withRequestsClient'
+import withModelAttributesClient from './withModelAttributesClient'
+import EditComponent from '../components/EditComponent'
 
 /**
- * Main fem-notify plugin container
+ * Main fem-edit plugin container
  * @author C-S
  */
 export class EditContainer extends React.Component {
@@ -38,8 +38,10 @@ export class EditContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { editClient }) {
+  static mapStateToProps(state, props) {
+    const { modelAttributesClient, editClient } = props
     return {
+      modelAttributes: modelAttributesClient.selectors.getResult(state),
       error: editClient.selectors.getError(state),
       isFetching: editClient.selectors.isFetching(state),
     }
@@ -49,29 +51,38 @@ export class EditContainer extends React.Component {
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * @return {*} list of component methods to interact with the store
    */
-  static mapDispatchToProps(dispatch, { editClient }) {
+  static mapDispatchToProps(dispatch, props) {
+    const { modelAttributesClient, editClient } = props
     return {
       editFeatures: searchContext => dispatch(editClient.actions.notify(searchContext)),
+      fetchModelAttributes: searchContext => dispatch(modelAttributesClient.actions.getCommonModelAttributes(searchContext)),
     }
   }
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
     target: AccessShapes.PluginServiceTarget.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired,
     // Connected client to use to delete features on fem
     editClient: PropTypes.shape({
       actions: PropTypes.instanceOf(FemClient.RequestsActions),
-      selectors: PropTypes.func.isRequired,
+      selectors: PropTypes.instanceOf(BasicSignalsSelectors),
+    }).isRequired,
+    modelAttributesClient: PropTypes.shape({
+      actions: PropTypes.instanceOf(CatalogClient.SearchEntitiesCommonModelAttributesActions),
+      selectors: PropTypes.instanceOf(BasicSignalSelectors),
     }).isRequired,
     // From mapDispatchToProps
     editFeatures: PropTypes.func.isRequired,
+    fetchModelAttributes: PropTypes.func.isRequired,
     // form mapStatesToprops
     error: PropTypes.shape({
       hasError: PropTypes.bool.isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
+    modelAttributeList: DataManagementShapes.ModelAttributeList,
   }
 
   static contextTypes = {
@@ -79,6 +90,20 @@ export class EditContainer extends React.Component {
     ...themeContextType,
     // enable i18n access through this.context
     ...i18nContextType,
+  }
+
+  state = {
+    isLoading: true,
+  }
+
+  componentDidMount() {
+    const searchContext = this.buildSearchContext()
+    this.props.fetchModelAttributes(searchContext).then(() => {
+      // Ignore error, just play attributes
+      this.setState({
+        isLoading: false,
+      })
+    })
   }
 
   componentDidUpdate(previousProps) {
@@ -98,44 +123,310 @@ export class EditContainer extends React.Component {
     }
   }
 
-  notifyFem = () => {
-    const searchContext = this.buildSearchContext()
-    this.props.editFeatures(searchContext)
-  }
-
   cancel = () => {
     this.props.onClose()
   }
 
+  onSubmit = ({ properties }) => {
+    const searchContext = this.buildSearchContext()
+    this.props.editFeatures({
+      ...searchContext,
+      propertiesToUpdate: properties,
+    })
+  }
+
+
+  getAttributeModelListStub() {
+    return {
+      22: {
+        content: {
+          id: 15,
+          name: 'Zodiac',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      23: {
+        content: {
+          id: 16,
+          name: 'Acronym',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+      24: {
+        content: {
+          id: 17,
+          name: 'Zodiac2',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      25: {
+        content: {
+          id: 18,
+          name: 'Acronym2',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+      26: {
+        content: {
+          id: 19,
+          name: 'Zodiac3',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      27: {
+        content: {
+          id: 20,
+          name: 'Acronym3',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+      28: {
+        content: {
+          id: 21,
+          name: 'Zodiac4',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      29: {
+        content: {
+          id: 22,
+          name: 'Acronym4',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+      33: {
+        content: {
+          id: 23,
+          name: 'Zodiac4',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      34: {
+        content: {
+          id: 24,
+          name: 'Acronym4',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+      30: {
+        content: {
+          id: 25,
+          name: 'Zodiac5',
+          description: 'Zodiac',
+          type: 'BOOLEAN',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Zodiac',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Zodiac',
+        },
+        links: [],
+      },
+      31: {
+        content: {
+          id: 26,
+          name: 'Acronym5',
+          description: 'Acronym of the constellation',
+          type: 'STRING',
+          unit: 'unitless',
+          fragment: {
+            id: 1,
+            name: 'default',
+            description: 'Default fragment',
+          },
+          alterable: true,
+          optional: false,
+          label: 'Acronym',
+          properties: [],
+          dynamic: true,
+          internal: false,
+          jsonPath: 'properties.Acronym',
+        },
+        links: [],
+      },
+    }
+  }
+
   render() {
-    const { intl: { formatMessage }, moduleTheme } = this.context
     const { entitiesCount } = this.props.target
-    const msgValues = { nbElement: entitiesCount }
+    const { isLoading } = this.state
     return (
-      <div style={moduleTheme.body}>
-        <Subheader><FormattedMessage id="plugin.title" /></Subheader>
-        <div style={moduleTheme.contentWrapper}>
-          <FormattedMessage id="plugin.message" values={msgValues} />
-          <FormattedMessage id="plugin.question" />
-          <div style={moduleTheme.buttonsWrapper}>
-            <RaisedButton
-              label={formatMessage({ id: 'plugin.cancel' })}
-              onClick={this.cancel}
-            />
-            <RaisedButton
-              label={formatMessage({ id: 'plugin.valid' })}
-              primary
-              onClick={this.notifyFem}
-              icon={<DeleteIcon />}
-            />
-          </div>
-        </div>
-      </div>
+
+      <LoadableContentDisplayDecorator
+        isLoading={isLoading}
+      >
+        <EditComponent
+          onSubmit={this.onSubmit}
+          attributeModelList={this.getAttributeModelListStub()}
+          onCancel={this.cancel}
+          pluginInstanceId={this.props.pluginInstanceId}
+          entitiesCount={entitiesCount}
+        />
+      </LoadableContentDisplayDecorator>
     )
   }
 }
 
-// export REDUX connected container
-export default connect(
-  EditContainer.mapStateToProps,
-  EditContainer.mapDispatchToProps)(EditContainer)
+// Connect clients to props and retrieve injected clients as props
+export default withModelAttributesClient(withRequestsClient(
+  // REDUX connected container
+  connect(EditContainer.mapStateToProps, EditContainer.mapDispatchToProps)(EditContainer),
+))

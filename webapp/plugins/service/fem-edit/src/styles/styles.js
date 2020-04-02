@@ -33,16 +33,43 @@ export default function buildServiceStyles(theme) {
     },
 
     contentWrapper: {
-      paddingTop: '25px',
       color: 'rgba(255, 255, 255, 0.85)',
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column',
     },
 
+    tableWrapper: {
+      paddingBottom: '20px',
+    },
+
+    attributesWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+
+    attributesChipsWrapper: {
+      display: 'flex',
+      paddingBottom: '5px',
+      paddingTop: '5px',
+      flexWrap: 'wrap',
+    },
+
     buttonsWrapper: {
       paddingTop: '25px',
       display: 'flex',
+    },
+
+    styleTableRow: {
+      height: '95px',
+    },
+
+    filters: {
+      iconColor: theme.palette.accent1Color,
+      style: {
+        margin: '5px',
+      },
     },
   }
 }
