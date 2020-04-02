@@ -44,6 +44,7 @@ STATIC_CONF = {
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',
     FEM: 'rs-fem',
+    NOTIFIEr: 'rs-notifier',
   },
   IMSERVICES: {
     ADMIN_INSTANCE: 'rs-admin-instance',

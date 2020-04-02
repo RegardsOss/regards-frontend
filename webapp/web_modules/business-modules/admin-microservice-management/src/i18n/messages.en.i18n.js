@@ -31,6 +31,8 @@ const messages = Object.assign({
   'microservice-management.rs-ingest.description': 'Configure the service that handle processing of new data through SIPs.',
   'microservice-management.rs-order.description': 'Configure the service that handle users orders.',
   'microservice-management.rs-dataprovider.description': 'Configure the data provider service. This service generate SIPs from new files scanned and sent them to the rs-ingest microservice.',
+  'microservice-management.rs-fem.description': 'GeoJSON feature catalog with optional data storage management',
+  'microservice-management.rs-notifier.description': ' Production ready notification service',
 
   'microservice-management.configuration.tooltip': 'Configure',
   'microservice-management.plugins.tooltip': 'Plugins',
