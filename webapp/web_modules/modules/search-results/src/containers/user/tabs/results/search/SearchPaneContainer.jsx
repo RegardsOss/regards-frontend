@@ -24,6 +24,7 @@ import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import isEmpty from 'lodash/isEmpty'
+import { StabilityDelayer } from '@regardsoss/display-control'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import SearchPaneComponent from '../../../../../components/user/tabs/results/search/SearchPaneComponent'
 
@@ -82,14 +83,20 @@ export class SearchPaneContainer extends React.Component {
   }
 
   /**
-   * Duplicate edited references in criteria groups and criteria (to avoid changes by reference)
+   * Applies any delayed request parameters in criteria of groups as parameters
    * @param {[*]} groups to duplicate, matching array of UIShapes.CriteriaGroup shape
-   * @return {[*]} duplicated groups and criteria
+   * @return {[*]} duplicated groups and criteria, with applied delayed request parameters (strict copy if there were none)
    */
-  static duplicateGroups(groups) {
-    return groups.map(({ criteria, ...groupFields }) => ({
-      criteria: criteria.map(c => ({ ...c })),
-      ...groupFields,
+  static applyDelayedParameters(groups) {
+    return groups.map(g => ({
+      ...g,
+      criteria: g.criteria.map(criterion => ({
+        ...criterion,
+        // 1 - report delayed request parameters is that criterion has some
+        requestParameters: isNil(criterion.delayedRequestParameters) ? criterion.requestParameters : criterion.delayedRequestParameters,
+        // 2  - clear any delayed request parameter
+        delayedRequestParameters: undefined,
+      })),
     }))
   }
 
@@ -97,6 +104,9 @@ export class SearchPaneContainer extends React.Component {
     groups: [],
     rootContextCriteria: [],
   }
+
+  /** Instance stability delayer, used to avoid publishing to much context updates while user inputs */
+  stabilityDelayer = new StabilityDelayer()
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
@@ -110,6 +120,16 @@ export class SearchPaneContainer extends React.Component {
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
+   * Performs this.setState, but prevents calling it if there is no change
+   * @param {*} nextState
+   */
+  onStateChange = (newState) => {
+    if (!isEqual(this.state, newState)) {
+      this.setState(newState)
+    }
+  }
+
+  /**
    * Properties change detected: update local state
    * @param oldProps previous component properties
    * @param newProps next component properties
@@ -121,7 +141,8 @@ export class SearchPaneContainer extends React.Component {
     const newState = { ...this.state }
     // 1 - Initialization case (create a local working copy of all criteria)
     if (isNil(oldProps)) {
-      newState.groups = SearchPaneContainer.duplicateGroups(groups)
+      // we use here the applyDelayed parameter to create a local copy (no delayed parameters) with new reference
+      newState.groups = SearchPaneContainer.applyDelayedParameters(groups)
     }
     // 2 - Collect root context criteria to check changes in them (nota: presentation parameters like sorting and
     // dynamic parameters in searchTags are ignored, as that value will be used by each criterion to compute its
@@ -130,9 +151,7 @@ export class SearchPaneContainer extends React.Component {
       omit(criteria, ['searchTags', 'requestFacets']))
 
     // 3 - Commit new state when any change is detected
-    if (!isEqual(this.state, newState)) {
-      this.setState(newState)
-    }
+    this.onStateChange(newState)
   }
 
   /**
@@ -143,15 +162,34 @@ export class SearchPaneContainer extends React.Component {
    * @param {*} newRequestParameters new request parameters for criterion
    */
   onUpdatePluginState = (groupIndex, criterionIndex, newState, newRequestParameters) => {
-    this.setState({
+    // As this method may be called on each user input, the local plugins state is immediately updated
+    // but request parameters are kept unchanged while receiving events
+    // the field is shared to be used in onSearch (if user starts search before new context were committed)
+    // 1 - Commit new state and store delayed update for criterion request parameters
+    this.onStateChange({
       groups: this.state.groups.map((group, gI) => gI === groupIndex ? {
         ...group,
         criteria: group.criteria.map((criterion, cI) => cI === criterionIndex ? {
           ...criterion,
           state: newState,
-          requestParameters: newRequestParameters,
+          // internally used field: stores last delayed update to be committed when stabilized (onSearch can also
+          // use it if user was very quick!)
+          delayedRequestParameters: newRequestParameters,
         } : criterion),
       } : group),
+    })
+    // 2 - Start / restart delay to wait before committing the delayed updates
+    this.stabilityDelayer.onEvent(this.onCommitRequestParameters)
+  }
+
+  /**
+   * After stabilization delay: commit new request parameters for each criterion
+   */
+  onCommitRequestParameters = () => {
+    // A - Apply all delayed criteria
+    const { groups } = this.state
+    this.onStateChange({
+      groups: SearchPaneContainer.applyDelayedParameters(groups),
     })
   }
 
@@ -159,13 +197,14 @@ export class SearchPaneContainer extends React.Component {
    * User callback: Resets all plugins state
    */
   onResetPluginsStates = () => {
-    this.setState({
+    this.onStateChange({
       groups: this.state.groups.map(group => ({
         ...group,
         criteria: group.criteria.map(criterion => ({
           ...criterion,
           state: null,
           requestParameters: {},
+          delayedRequestParameters: undefined, // clear any delayed update data
         })),
       })),
     })
@@ -176,19 +215,21 @@ export class SearchPaneContainer extends React.Component {
    */
   onSearch = () => {
     const { moduleId, tabType, updateResultsContext } = this.props
-    const { groups } = this.state
+    const { groups: editionGroups } = this.state
+    // 1 - Applying any pending update to the groups to commit
+    const groups = SearchPaneContainer.applyDelayedParameters(editionGroups)
+    // 2 - Collect criteria
     const newSearchCriteria = SearchPaneContainer.collectSearchCriteria(groups)
-    // perform search only when there are resulting criteria
+    // 3 - If there is any parameter, start search
     if (newSearchCriteria.length) {
       updateResultsContext(moduleId, {
         tabs: {
           [tabType]: {
             search: {
               open: false, // close pane
-              groups: SearchPaneContainer.duplicateGroups(groups), // commit criteria state
+              groups,
             },
             criteria: {
-            // collect newly applying criteria
               searchTags: newSearchCriteria,
             },
           },

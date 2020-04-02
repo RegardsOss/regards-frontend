@@ -17,19 +17,17 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import throttle from 'lodash/throttle'
-import { connect } from '@regardsoss/redux'
+import get from 'lodash/get'
 import { CatalogDomain } from '@regardsoss/domain'
 import { UIShapes, CommonShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
+import { StabilityDelayer } from '@regardsoss/display-control'
 import { AttributeModelWithBounds, PluginsClientsMap } from '@regardsoss/plugins-api'
 import buildClient from '../clients/EnumeratedDOPropertyValuesClient'
 import EnumeratedCriterionComponent from '../components/EnumeratedCriterionComponent'
 
 /** Max number of values shown to user at same time */
 const MAX_VALUES_COUNT = 100
-
-/** Throttle delay for values list queries (avoids flooding the network) */
-const THROTTLE_DELAY_MS = 300
 
 /**
  * Root container for enumerated criteria: it fetches parameter possible values, ensures the value selection is
@@ -41,7 +39,6 @@ export class EnumeratedCriterionContainer extends React.Component {
    */
   static DEFAULT_STATE = {
     searchText: '',
-    inError: false,
   }
 
   /**
@@ -73,14 +70,11 @@ export class EnumeratedCriterionContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { pluginInstanceId, contextParameters }) {
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     const enumeratedValuesActions = EnumeratedCriterionContainer.CLIENTS_MAP.getClient(buildClient, pluginInstanceId).actions
     return {
-      // dispatches a request to get property values
-      dispatchGetPropertyValues:
-        // Note: we throttle here the emitted network requests to avoid dispatching for each key user pressed
-        throttle((name, filterText = '') => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, contextParameters)),
-          THROTTLE_DELAY_MS, { leading: true }),
+      // dispatches a request to get property values.
+      dispatchGetPropertyValues: (name, filterText = '', contextParameters) => dispatch(enumeratedValuesActions.fetchValues(name, filterText, MAX_VALUES_COUNT, contextParameters)),
     }
   }
 
@@ -100,7 +94,6 @@ export class EnumeratedCriterionContainer extends React.Component {
     // state shared and consumed by this criterion
     state: PropTypes.shape({
       searchText: PropTypes.string,
-      inError: PropTypes.bool,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
@@ -108,7 +101,8 @@ export class EnumeratedCriterionContainer extends React.Component {
     isFetching: PropTypes.bool.isRequired,
     availablePropertyValues: PropTypes.arrayOf(PropTypes.string).isRequired,
     // from map dispatch to props
-    dispatchGetPropertyValues: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchGetPropertyValues: PropTypes.func.isRequired, // used only in onPropertiesUpdated
   }
 
   /** Using default props to ensure a default plugin state */
@@ -129,6 +123,9 @@ export class EnumeratedCriterionContainer extends React.Component {
     }
   }
 
+  /** Instance stability delayer, used to avoid fetching before user stopped typing for a given delay */
+  stabilityDelayer = new StabilityDelayer()
+
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
@@ -146,44 +143,35 @@ export class EnumeratedCriterionContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { attributes: { searchField }, state: { searchText } } = newProps
-    if (!isEqual(oldProps.contextParameters, newProps.contextParameters)) {
-      // parameters changed: available choices list requires an update
-      if (newProps.pluginInstanceId.includes('MAIN')) {
-        console.error('Props changed fetch', oldProps.contextParameters, newProps.contextParameters)
-      }
-      newProps.dispatchGetPropertyValues(searchField.jsonPath, searchText)
-    }
-    if (!isEqual(oldProps.availablePropertyValues, newProps.availablePropertyValues)) {
-      if (newProps.pluginInstanceId.includes('MAIN')) {
-        console.error('THO I CHANGED', oldProps.availablePropertyValues, newProps.availablePropertyValues)
-        //  EnumeratedCriterionContainer.DEFAULT_STATE
-      }
+    const {
+      attributes: { searchField }, state,
+      contextParameters, dispatchGetPropertyValues,
+    } = newProps
+
+    if (!isEqual(oldProps.contextParameters, contextParameters)) {
+      // Update immediately option on context change and...
+      dispatchGetPropertyValues(searchField.jsonPath, state.searchText, contextParameters)
+    } else if (!isEqual(get(oldProps, 'state.searchText', EnumeratedCriterionContainer.DEFAULT_STATE.searchText), state.searchText)) {
+      // when search text changes (user is type text), update options after an inactivity time ellapsed
+      this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, state.searchText, contextParameters))
     }
   }
+
 
   /**
    * User updated the text field
    * @param {string} value text field value
    */
   onUpdateTextFilter = (searchText = '') => {
-    const {
-      state, publishState, dispatchGetPropertyValues,
-      attributes: { searchField },
-    } = this.props
+    const { state, publishState, attributes: { searchField } } = this.props
     const nextState = {
       ...state,
       searchText,
     }
 
     if (!isEqual(nextState, state)) {
-      if (this.props.pluginInstanceId.includes('MAIN')) {
-        console.error('TEXT update fetch', this.props.pluginInstanceId)
-      }
       // update redux state and query
       publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
-      // fetch available choices
-      dispatchGetPropertyValues(searchField.jsonPath, searchText)
     }
   }
 
@@ -197,7 +185,7 @@ export class EnumeratedCriterionContainer extends React.Component {
       publishState,
       attributes: { searchField },
     } = this.props
-    const nextState = { searchText: text, inError: !isInList }
+    const nextState = { searchText: text }
     publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
@@ -206,7 +194,7 @@ export class EnumeratedCriterionContainer extends React.Component {
    */
   render() {
     const {
-      label, attributes: { searchField }, state: { searchText, inError },
+      label, attributes: { searchField }, state: { searchText },
       isFetching, availablePropertyValues,
     } = this.props
     return (
@@ -215,7 +203,8 @@ export class EnumeratedCriterionContainer extends React.Component {
         searchAttribute={searchField}
         text={searchText}
         availablePropertyValues={availablePropertyValues}
-        inError={inError}
+        // In error when there is some search but it is not strictly equal to one of the options
+        inError={!!searchText && !availablePropertyValues.includes(searchText)}
         isFetching={isFetching}
         onUpdateTextFilter={this.onUpdateTextFilter}
         onFilterSelected={this.onFilterSelected}

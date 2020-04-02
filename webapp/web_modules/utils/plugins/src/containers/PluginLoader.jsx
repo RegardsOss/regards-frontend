@@ -65,9 +65,9 @@ export class PluginLoader extends React.Component {
  * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
  * @return {*} list of component properties extracted from redux state
  */
-  static mapDispatchToProps(dispatch, { pluginPath, pluginInstanceId }) {
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      doLoadPlugin: errorCallback => loadPlugin(pluginPath, errorCallback, dispatch),
+      doLoadPlugin: (pluginPath, errorCallback) => loadPlugin(pluginPath, errorCallback, dispatch),
       doInitPlugin: (loadedPlugin) => {
         // 1 - Let helper initialize the plugin (especially plugin redux store space)
         pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
@@ -114,6 +114,12 @@ export class PluginLoader extends React.Component {
   }
 
   /**
+   * Keeps track of the fetched plugins ID (avoid multiple loading of the same
+   * plugin path). Possible as the redux context is static here
+   */
+  static FETCHED_PLUGINS_PATH = []
+
+  /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
@@ -123,6 +129,15 @@ export class PluginLoader extends React.Component {
    * @param {*} nextProps next component properties
    */
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+    onLoadPlugin = (doLoadPlugin, pluginPath) => {
+      if (!PluginLoader.FETCHED_PLUGINS_PATH.includes(pluginPath)) {
+        // light improvement and fix for the double mounting issue: avoid fetching
+        // multiple times the same plugin path (redux store is static here)
+        PluginLoader.FETCHED_PLUGINS_PATH.push(pluginPath)
+        doLoadPlugin(pluginPath, this.errorCallback)
+      }
+    }
 
   /**
    * Properties change detected: update local state
@@ -136,7 +151,7 @@ export class PluginLoader extends React.Component {
     } = newProps
     if (!loadedPlugin && oldProps.pluginPath !== pluginPath) {
       // Step 1: Load new plugin
-      doLoadPlugin(this.errorCallback)
+      this.onLoadPlugin(doLoadPlugin, pluginPath)
     } else if (loadedPlugin && loadedPlugin !== oldProps.loadedPlugin) {
       // Detected: new plugin loaded
       if (loadedPlugin.loadError) {
@@ -157,28 +172,36 @@ export class PluginLoader extends React.Component {
   }
 
   errorCallback = () => {
-    if (this.props.onErrorCallback) this.props.onErrorCallback()
+    const { onErrorCallback } = this.props
+    if (onErrorCallback) {
+      onErrorCallback()
+    }
   }
 
   renderPlugin() {
-    const { loadedPlugin, isInitialized } = this.props
+    const {
+      pluginInstanceId, isInitialized,
+      loadedPlugin,
+      displayPlugin, pluginConf, pluginProps,
+    } = this.props
     if (loadedPlugin && isInitialized) {
-      let element = null
-      if (this.props.displayPlugin) {
-        element = React.createElement(this.props.loadedPlugin.plugin, {
-          pluginInstanceId: this.props.pluginInstanceId,
-          ...this.props.pluginConf,
-          ...this.props.pluginProps,
-        })
+      if (this.props.children) {
+        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
+      }
+      if (displayPlugin) {
+        const { plugin: PluginRootComponent, messages, styles } = loadedPlugin
         return (
-          <I18nProvider messages={this.props.loadedPlugin.messages}>
-            <ModuleStyleProvider module={this.props.loadedPlugin.styles}>
-              {element}
+          <I18nProvider messages={messages}>
+            <ModuleStyleProvider module={styles}>
+              <PluginRootComponent
+                key={pluginInstanceId}
+                pluginInstanceId={pluginInstanceId}
+                {...pluginConf}
+                {...pluginProps}
+              />
             </ModuleStyleProvider>
           </I18nProvider>
         )
-      } if (this.props.children) {
-        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
       }
       console.warn('No children defined for plugin provider')
       return null

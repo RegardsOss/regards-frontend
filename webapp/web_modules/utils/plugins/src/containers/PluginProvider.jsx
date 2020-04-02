@@ -63,9 +63,18 @@ class PluginProvider extends React.Component {
     loadingComponent: <LoadableContentDisplayDecorator isLoading />,
   }
 
-  componentWillMount() {
-    if (!this.props.pluginToLoad) {
-      this.props.fetchPlugin(this.props.pluginId)
+  /**
+   * Keeps track of the fetched plugins ID (avoid multiple loading of the same
+   * configuration ID). Possible as the redux context is static here
+   */
+  static FETCHED_PLUGIN_IDS = []
+
+  componentDidMount() {
+    const { pluginToLoad, pluginId, fetchPlugin } = this.props
+    // light improvement: avoid fetching multiple times the same configuration (redux store is static here)
+    if (!pluginToLoad && !PluginProvider.FETCHED_PLUGIN_IDS.includes(pluginId)) {
+      PluginProvider.FETCHED_PLUGIN_IDS.push(pluginId)
+      fetchPlugin(pluginId)
     }
   }
 

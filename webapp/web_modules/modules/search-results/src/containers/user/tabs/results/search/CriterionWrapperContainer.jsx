@@ -99,9 +99,10 @@ export class CriterionWrapperContainer extends React.Component {
   /** Initial state */
   state = {
     pluginInstanceId: `${this.props.criterionBaseId}-${this.props.groupIndex}-${this.props.criterionIndex}`,
-    contextParameters: null,
     pluginConf: {},
-    pluginProps: {},
+    pluginProps: {
+      contextParameters: null,
+    },
   }
 
   /**
@@ -136,18 +137,18 @@ export class CriterionWrapperContainer extends React.Component {
           label,
           state: isNil(state) ? undefined : state, // leave state undefined instead of null, to let user set it through defaultProps system
           publishState: this.onUpdateState,
-          // nota: contextParameters will be initialized in (B), each time context changes
+          contextParameters: this.state.pluginProps.contextParameters, // Report previously known parameters, in case (B) is skipped
         },
       }
     }
     // B - Each time the context parameter changes (root context + parent criteria request), update attributes bounds
     // Nota: it also work for initialization as contextParameters are initially null
-    newState.contextParameters = CriterionWrapperContainer.getContextRequestParameters(rootContextCriteria, groups, groupIndex, criterionIndex)
-    if (!isEqual(this.state.contextParameters, newState.contextParameters)) {
+    const nextContextParameters = CriterionWrapperContainer.getContextRequestParameters(rootContextCriteria, groups, groupIndex, criterionIndex)
+    if (!isEqual(this.state.pluginProps.contextParameters, nextContextParameters)) {
       // B.1 - Store context parameters for criterion
       newState.pluginProps = {
         ...newState.pluginProps,
-        contextParameters: newState.contextParameters,
+        contextParameters: nextContextParameters,
       }
 
       // B.2 - Rebuild configuration: Mark bounds status in attributes and keep boundable ones in order to fetch them later on
@@ -176,7 +177,7 @@ export class CriterionWrapperContainer extends React.Component {
 
       // B.3 - start updating attributes bounds if there is any boundable attribute
       if (boundableAttributesPath.length) {
-        this.onBoundsUpdate(dispatchFetchBounds, boundableAttributesPath, newState.contextParameters)
+        this.onBoundsUpdate(dispatchFetchBounds, boundableAttributesPath, nextContextParameters)
       }
     }
 
