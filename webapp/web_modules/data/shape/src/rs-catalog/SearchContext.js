@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import { AccessShapes } from '@regardsoss/shape'
+import { RequestParameters } from '../rs-common/RequestParameters'
 
 /**
- * Shape of the plugin service run model: holds both configuration and runtime target
+ * Holds shape for search request context, as expected by the applications endpoints and as received
+ * by the services and criteria
  * @author Raphaël Mechali
  */
-export const PluginServiceRunModel = PropTypes.shape({
-  serviceConfiguration: AccessShapes.PluginService.isRequired,
-  target: AccessShapes.PluginTarget.isRequired,
+export const SearchContext = PropTypes.shape({
+  engineType: PropTypes.string.isRequired,
+  requestParameters: RequestParameters.isRequired,
 })

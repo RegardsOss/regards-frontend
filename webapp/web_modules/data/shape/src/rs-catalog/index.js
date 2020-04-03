@@ -29,4 +29,5 @@ export { default as Tag } from './entity/Tag'
 
 export { AttributeBoundsContent, AttributeBounds, AttributeBoundsMap } from './AttributesBounds'
 export { LinkPluginDataset, LinkPluginDatasetList } from './LinkPluginDataset'
+export { SearchContext } from './SearchContext'
 export { SearchEngineConfigurationContent, SearchEngineConfiguration, SearchEngineConfigurationList } from './SearchEngineConfiguration'

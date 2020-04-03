@@ -51,7 +51,7 @@ export class ServiceContainer extends React.Component {
 
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
