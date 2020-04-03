@@ -138,24 +138,24 @@ export const monitorDatasourcesRoute = {
 
 
 export const editFEMDatasourceRoute = {
-  path: 'fem/:datasourceId/edit',
+  path: 'feature/:datasourceId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const FEMDatasourceFormContainer = require('./containers/fem/FemDatasourceFormContainer')
+      const FeatureDatasourceFormContainer = require('./containers/feature/FeatureDatasourceFormContainer')
       cb(null, {
-        content: FEMDatasourceFormContainer.default,
+        content: FeatureDatasourceFormContainer.default,
       })
     })
   },
 }
 
 export const createFEMDatasourceRoute = {
-  path: 'fem/create',
+  path: 'feature/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const FemDatasourceFormContainer = require('./containers/fem/FemDatasourceFormContainer')
+      const FeatureDatasourceFormContainer = require('./containers/feature/FeatureDatasourceFormContainer')
       cb(null, {
-        content: FemDatasourceFormContainer.default,
+        content: FeatureDatasourceFormContainer.default,
       })
     })
   },

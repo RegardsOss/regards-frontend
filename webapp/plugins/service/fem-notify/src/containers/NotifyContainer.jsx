@@ -59,7 +59,7 @@ export class NotifyContainer extends React.Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // Connected client to use to delete features on fem
     notifyClient: PropTypes.shape({
       actions: PropTypes.instanceOf(FemClient.RequestsActions),

@@ -42,7 +42,7 @@ const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLes
 /**
  * React component to edit FEM datasource.
  */
-export class FemDatasourceFormComponent extends React.Component {
+export class FeatureDatasourceFormComponent extends React.Component {
   static propTypes = {
     currentDatasource: DataManagementShapes.Datasource,
     modelList: DataManagementShapes.ModelList,
@@ -148,4 +148,4 @@ export class FemDatasourceFormComponent extends React.Component {
 
 export default reduxForm({
   form: 'fem-datasource-form',
-})(FemDatasourceFormComponent)
+})(FeatureDatasourceFormComponent)

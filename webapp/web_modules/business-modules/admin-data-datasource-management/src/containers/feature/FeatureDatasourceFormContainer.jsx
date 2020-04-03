@@ -24,14 +24,14 @@ import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { CommonDomain } from '@regardsoss/domain'
-import FemDatasourceFormComponent from '../../components/fem/FemDatasourceFormComponent'
+import FeatureDatasourceFormComponent from '../../components/feature/FeatureDatasourceFormComponent'
 import { modelSelectors, modelActions } from '../../clients/ModelClient'
 import messages from '../../i18n'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
 /**
  * Show the AIP datasource form
  */
-export class FemDatasourceFormContainer extends React.Component {
+export class FeatureDatasourceFormContainer extends React.Component {
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -105,7 +105,7 @@ export class FemDatasourceFormContainer extends React.Component {
     const {
       isEditing, isCreating,
     } = this.state
-    return (<FemDatasourceFormComponent
+    return (<FeatureDatasourceFormComponent
       currentDatasource={currentDatasource}
       modelList={modelList}
       onSubmit={this.handleSave}
@@ -189,4 +189,4 @@ export class FemDatasourceFormContainer extends React.Component {
   }
 }
 
-export default connect(FemDatasourceFormContainer.mapStateToProps, FemDatasourceFormContainer.mapDispatchToProps)(FemDatasourceFormContainer)
+export default connect(FeatureDatasourceFormContainer.mapStateToProps, FeatureDatasourceFormContainer.mapDispatchToProps)(FeatureDatasourceFormContainer)

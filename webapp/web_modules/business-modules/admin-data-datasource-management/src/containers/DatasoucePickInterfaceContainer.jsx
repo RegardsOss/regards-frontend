@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { I18nProvider } from '@regardsoss/i18n'
+import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import DatasouceCreatePickInterfaceComponent from '../components/DatasouceCreatePickInterfaceComponent'
-import { withModuleStyle } from '@regardsoss/theme'
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import messages from '../i18n'
 import styles from '../styles'
 /**
@@ -33,6 +31,7 @@ export class DatasoucePickInterfaceContainer extends React.Component {
       project: PropTypes.string,
     }),
   }
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

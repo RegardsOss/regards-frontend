@@ -68,7 +68,7 @@ describe('[Entities Common] Testing ServiceContainer', () => {
     targets.forEach((target) => {
       const propsForTarget = {
         ...props,
-        serviceRunModel: { serviceConfiguration: fakeServiceConfiguration, target },
+        serviceRunModel: console.info('Me provide:', target) || { serviceConfiguration: fakeServiceConfiguration, target },
       }
       enzymeWrapper.setProps(propsForTarget)
       // check: there is a rendered catalog plugin service runner, with right service conf and target

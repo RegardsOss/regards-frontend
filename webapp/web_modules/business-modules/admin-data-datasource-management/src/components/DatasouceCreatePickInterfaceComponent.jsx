@@ -36,7 +36,7 @@ import PickIngestDatasourceComponent from './datasources/PickIngestDatasourceCom
 // Build endpoint for ressource
 const endpointAIP = new IngestClient.AIPActions('').getDependency(RequestVerbEnum.POST)
 // TODO: correler avec le vrai endpoint fem des features
-const endpointFeature = "rs-fem@/features@POST"
+const endpointFeature = 'rs-fem@/features@POST'
 
 /**
  * React component to pick the type of datasource
