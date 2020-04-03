@@ -26,7 +26,7 @@ import DataSourceMonitoringContainer from '../src/containers/DataSourceMonitorin
 import DatasoucePickInterfaceContainer from '../src/containers/DatasoucePickInterfaceContainer'
 import AIPDatasourceFormContainer from '../src/containers/aip/AIPDatasourceFormContainer'
 import OSConfigurationFormContainer from '../src/containers/opensearch/OSConfigurationFormContainer'
-import FemDatasourceFormContainer from '../src/containers/fem/FemDatasourceFormContainer'
+import FeatureDatasourceFormContainer from '../src/containers/feature/FeatureDatasourceFormContainer'
 
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
@@ -46,8 +46,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[7].path).to.eq('aip/create')
     expect(Routes.childRoutes[8].path).to.eq('opensearch/create')
     expect(Routes.childRoutes[9].path).to.eq('opensearch/:datasourceId/edit')
-    expect(Routes.childRoutes[10].path).to.eq('fem/:datasourceId/edit')
-    expect(Routes.childRoutes[11].path).to.eq('fem/create')
+    expect(Routes.childRoutes[10].path).to.eq('feature/:datasourceId/edit')
+    expect(Routes.childRoutes[11].path).to.eq('feature/create')
   })
   it('list should return DatasourceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -109,15 +109,15 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('edit should return FemDatasourceFormContainer', (done) => {
+  it('edit should return FeatureDatasourceFormContainer', (done) => {
     Routes.childRoutes[10].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(FemDatasourceFormContainer)
+      expect(component.content).to.eq(FeatureDatasourceFormContainer)
       done()
     })
   })
-  it('create should return FemDatasourceFormContainer', (done) => {
+  it('create should return FeatureDatasourceFormContainer', (done) => {
     Routes.childRoutes[11].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(FemDatasourceFormContainer)
+      expect(component.content).to.eq(FeatureDatasourceFormContainer)
       done()
     })
   })
