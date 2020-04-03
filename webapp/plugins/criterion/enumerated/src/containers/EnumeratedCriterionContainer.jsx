@@ -19,7 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { CatalogDomain } from '@regardsoss/domain'
-import { UIShapes, CommonShapes } from '@regardsoss/shape'
+import { UIShapes, CommonShapes, CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { StabilityDelayer } from '@regardsoss/display-control'
 import { AttributeModelWithBounds, PluginsClientsMap } from '@regardsoss/plugins-api'
@@ -86,9 +86,9 @@ export class EnumeratedCriterionContainer extends React.Component {
     attributes: PropTypes.shape({
       searchField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    /** Search form context request parameters */
+    /** Criterion search context */
     // eslint-disable-next-line react/no-unused-prop-types
-    contextParameters: CommonShapes.RequestParameters.isRequired,
+    searchContext: CatalogShapes.SearchContext.isRequired,
     // configured plugin label, where object key is locale and object value message
     label: UIShapes.IntlMessage.isRequired,
     // state shared and consumed by this criterion
@@ -145,15 +145,15 @@ export class EnumeratedCriterionContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       attributes: { searchField }, state,
-      contextParameters, dispatchGetPropertyValues,
+      searchContext, dispatchGetPropertyValues,
     } = newProps
 
-    if (!isEqual(oldProps.contextParameters, contextParameters)) {
+    if (!isEqual(oldProps.searchContext, searchContext)) {
       // Update immediately option on context change and...
-      dispatchGetPropertyValues(searchField.jsonPath, state.searchText, contextParameters)
+      dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters)
     } else if (!isEqual(get(oldProps, 'state.searchText', EnumeratedCriterionContainer.DEFAULT_STATE.searchText), state.searchText)) {
       // when search text changes (user is type text), update options after an inactivity time ellapsed
-      this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, state.searchText, contextParameters))
+      this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters))
     }
   }
 

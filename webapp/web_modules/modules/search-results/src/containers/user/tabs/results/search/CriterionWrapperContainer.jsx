@@ -20,7 +20,7 @@ import flatMap from 'lodash/flatMap'
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
-import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { AttributeBoundsConfiguration } from '@regardsoss/api'
 import { connect } from '@regardsoss/redux'
@@ -68,10 +68,9 @@ export class CriterionWrapperContainer extends React.Component {
    * @param {[*]} groups criteria groups as an array of UIShapes UIShapes.BasicCriterion
    * @param {number} rootContextCriteria considered criterion group index
    * @param {number} rootContextCriteria considered criterion index in group
-   * @return {*} built parameters, matching CommonShapes.RequestParameters
-   *
+   * @return {*} built search context, matching CatalogShapes.SearchContext
    */
-  static getContextRequestParameters(rootContextCriteria, groups, groupIndex, criterionIndex) {
+  static getSearchContext(rootContextCriteria, groups, groupIndex, criterionIndex) {
     // A - Build the array of BasicCriterion applying, up to this criterion (excluding itself)
     const contextCriteria = [
       // 1 - Root criteria
@@ -81,8 +80,11 @@ export class CriterionWrapperContainer extends React.Component {
       // 3 - This group criteria, up to this criterion (excluding itself)
       ...groups[groupIndex].criteria.slice(0, criterionIndex),
     ]
-    // B - Convert to a RequestParameters object
-    return UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(contextCriteria)
+    // B - Convert to a a search context object
+    return {
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+      searchParameters: UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(contextCriteria),
+    }
   }
 
   /** Types of attributes that accept bounds */
@@ -100,9 +102,7 @@ export class CriterionWrapperContainer extends React.Component {
   state = {
     pluginInstanceId: `${this.props.criterionBaseId}-${this.props.groupIndex}-${this.props.criterionIndex}`,
     pluginConf: {},
-    pluginProps: {
-      contextParameters: null,
-    },
+    pluginProps: {},
   }
 
   /**
@@ -137,18 +137,18 @@ export class CriterionWrapperContainer extends React.Component {
           label,
           state: isNil(state) ? undefined : state, // leave state undefined instead of null, to let user set it through defaultProps system
           publishState: this.onUpdateState,
-          contextParameters: this.state.pluginProps.contextParameters, // Report previously known parameters, in case (B) is skipped
+          searchContext: this.state.pluginProps.searchContext, // Report previously known parameters, in case (B) is skipped
         },
       }
     }
     // B - Each time the context parameter changes (root context + parent criteria request), update attributes bounds
     // Nota: it also work for initialization as contextParameters are initially null
-    const nextContextParameters = CriterionWrapperContainer.getContextRequestParameters(rootContextCriteria, groups, groupIndex, criterionIndex)
-    if (!isEqual(this.state.pluginProps.contextParameters, nextContextParameters)) {
+    const nextSearchContext = CriterionWrapperContainer.getSearchContext(rootContextCriteria, groups, groupIndex, criterionIndex)
+    if (!isEqual(this.state.pluginProps.searchContext, nextSearchContext)) {
       // B.1 - Store context parameters for criterion
       newState.pluginProps = {
         ...newState.pluginProps,
-        contextParameters: nextContextParameters,
+        searchContext: nextSearchContext,
       }
 
       // B.2 - Rebuild configuration: Mark bounds status in attributes and keep boundable ones in order to fetch them later on
@@ -177,7 +177,7 @@ export class CriterionWrapperContainer extends React.Component {
 
       // B.3 - start updating attributes bounds if there is any boundable attribute
       if (boundableAttributesPath.length) {
-        this.onBoundsUpdate(dispatchFetchBounds, boundableAttributesPath, nextContextParameters)
+        this.onBoundsUpdate(dispatchFetchBounds, boundableAttributesPath, nextSearchContext.searchParameters)
       }
     }
 
@@ -194,7 +194,6 @@ export class CriterionWrapperContainer extends React.Component {
    * @param {*} contextParameters matching CommonShapes.RequestParameters
    */
   onBoundsUpdate = (dispatchFetchBounds, boundableAttributesPath, contextParameters) => {
-    // TODO: start by time instead (retrigger until quiet for 1 second)
     this.currentRequestId += 1 // Reseve a request ID (concurrency management)
     this.fetchBounds(this.currentRequestId, dispatchFetchBounds, boundableAttributesPath, contextParameters)
   }
