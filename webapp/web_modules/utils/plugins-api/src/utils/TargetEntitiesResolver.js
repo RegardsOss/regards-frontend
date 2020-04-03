@@ -94,7 +94,7 @@ export class TargetEntitiesResolver {
     // build a promise that will resolve and reduce, page by page, and terminate on last page
     return new Promise((resolve, reject) => {
       function handleResultsPage(beforePageResult, pageIndex = 0) {
-        dispatch(actions.fetchPagedEntityList(pageIndex, TargetEntitiesResolver.PAGE_SIZE, null, target.searchContext.requestParameters))
+        dispatch(actions.fetchPagedEntityList(pageIndex, TargetEntitiesResolver.PAGE_SIZE, null, target.searchContext.searchParameters))
           .then(({ payload, error = false }) => {
             // reduce promise results (will be next then value) or throw error (will enter catch)
             const entities = get(payload, `entities.${EntityConfiguration.normalizrKey}`)

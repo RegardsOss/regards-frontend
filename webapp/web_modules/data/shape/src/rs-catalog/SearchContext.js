@@ -25,5 +25,5 @@ import { RequestParameters } from '../rs-common/RequestParameters'
  */
 export const SearchContext = PropTypes.shape({
   engineType: PropTypes.string.isRequired,
-  requestParameters: RequestParameters.isRequired,
+  searchParameters: RequestParameters.isRequired,
 })
