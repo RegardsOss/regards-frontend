@@ -22,8 +22,6 @@ import Dialog from 'material-ui/Dialog'
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
-import forEach from 'lodash/forEach'
-import isEmpty from 'lodash/isEmpty'
 import styles from './styles'
 
 
@@ -128,25 +126,16 @@ class PositionedDialog extends React.Component {
 
   render() {
     const {
-      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, actions, ...dialogProperties
+      children, bodyStyle: userBodyStyle, actionsContainerStyle: userActionsContainerStyle, actions, ...dialogProperties
     } = this.props
     const { layoutStyle } = this.state
     const { positionedDialog, dialogCommon } = this.context.moduleTheme
 
     // merge user and local styles
-    const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
-    const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
-
-    //TODO raph ça te plait ?
-    //Ou tu veux dupliquer le style dialogCommon.actionsContainerStyle en dialogCommon.actionsContainerNoActionsStyle ?
-    if (isEmpty(actions)) {
-      // apply all border properties to body style
-      forEach(actionsContainerStyle, (value, property) => {
-        if (PositionedDialog.BORDER_REGEX.test(property)) {
-          bodyStyle[property] = value
-        }
-      })
-    }
+    const bodyStyle = userBodyStyle ? { ...positionedDialog.bodyStyle, ...userBodyStyle } : positionedDialog.bodyStyle
+    const actionsContainerStyle = userActionsContainerStyle
+      ? { ...dialogCommon.actionsContainerStyle, ...userActionsContainerStyle }
+      : dialogCommon.actionsContainerStyle
 
     return (
       <SwitchThemeDecorator
