@@ -22,7 +22,5 @@ export { default as numberRangeHelper } from './utils/NumberRangeHelper'
 export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
 export { BOUND_TYPE, formatHintText, formatTooltip } from './utils/AttributesMessagesHelper'
 export { initPlugin } from './utils/InitPlugin'
-// re-export parts of plugins module here to avoid plugin developper importing them from plugins util
-export { CriterionData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 export { TargetEntitiesResolver } from './utils/TargetEntitiesResolver'
 export { default as ClientConfBuilder } from './utils/ClientConfBuilder'

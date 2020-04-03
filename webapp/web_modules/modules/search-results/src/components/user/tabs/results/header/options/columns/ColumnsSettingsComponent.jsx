@@ -194,34 +194,33 @@ class ColumnsSettingsComponent extends React.Component {
     const {
       valid, modified, allVisible, editionModels,
     } = this.state
+    const actions = [
+      <FlatButton
+        key="reset.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
+        title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
+        onClick={onResetColumns}
+      />,
+      <div key="actions.separator" style={columnsDialog.actionsSeparator} />,
+      <FlatButton
+        key="cancel.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
+        onClick={onClose}
+      />,
+      <FlatButton
+        key="confirm.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
+        disabled={!valid || !modified}
+        onClick={this.onDone}
+      />]
     return (
       <PositionedDialog
         dialogWidthPercent={columnsDialog.widthPercent}
         dialogHeightPercent={columnsDialog.heightPercent}
         open={open}
         modal
-        actions={// render dialog actions
-          <div style={columnsDialog.actionsContainer}>
-            <FlatButton
-              key="reset.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
-              title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
-              onClick={onResetColumns}
-            />
-            <div style={columnsDialog.actionsSeparator} />
-            <FlatButton
-              key="cancel.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
-              onClick={onClose}
-            />
-            <FlatButton
-              key="confirm.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
-              disabled={!valid || !modified}
-              onClick={this.onDone}
-            />
-          </div>
-        }
+        actions={actions}
+        actionsContainerStyle={columnsDialog.actionsContainer}
       >
         <TableLayout>
           <TableHeaderLine>
