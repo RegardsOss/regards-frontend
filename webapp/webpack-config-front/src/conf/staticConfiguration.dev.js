@@ -37,6 +37,8 @@ STATIC_CONF = {
     ORDER: 'rs-order',
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',
+    FEM: 'rs-fem',
+    NOTIFIER: 'rs-notifier',
   },
   IMSERVICES: {
     ADMIN_INSTANCE: 'rs-admin-instance',

@@ -167,6 +167,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         template: 'index.ejs',
         hash: true,
         isProduction: mode === 'prod',
+        chunksSortMode: 'none'
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({

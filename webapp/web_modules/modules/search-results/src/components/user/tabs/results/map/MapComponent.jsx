@@ -41,6 +41,8 @@ class MapComponent extends React.Component {
     // Map background
     backgroundLayerURL: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    backgroundLayerConf: PropTypes.object,
   }
 
   static contextTypes = {
@@ -54,7 +56,7 @@ class MapComponent extends React.Component {
     const {
       featuresCollection, displayedAreas,
       selectionMode, onSetSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
-      onFeaturesPicked, backgroundLayerURL, backgroundLayerType,
+      onFeaturesPicked, backgroundLayerURL, backgroundLayerType, backgroundLayerConf,
     } = this.props
     const { featureColor, drawColor } = this.context.muiTheme.module.searchResults.map.mizar
     return (
@@ -64,6 +66,7 @@ class MapComponent extends React.Component {
           key="mizarAdapter"
           backgroundLayerUrl={backgroundLayerURL}
           backgroundLayerType={backgroundLayerType}
+          backgroundLayerConf={backgroundLayerConf}
           featuresCollection={featuresCollection}
           drawnAreas={displayedAreas}
           onDrawingSelectionUpdated={onDrawingSelectionUpdated}

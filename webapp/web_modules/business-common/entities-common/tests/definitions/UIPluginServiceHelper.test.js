@@ -18,13 +18,12 @@
  **/
 import { assert } from 'chai'
 import isDate from 'lodash/isDate'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM } from '@regardsoss/domain/access'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../src/definitions/ServiceTarget'
+import { AccessDomain } from '@regardsoss/domain'
 import {
-  resolveParameter, resolveParameters, packRuntimeTarget, packRuntimeConfiguration,
+  resolveParameter, resolveParameters, packRuntimeConfiguration,
 } from '../../src/definitions/UIPluginServiceHelper'
 import { Parameter } from '../../src/definitions/parameters/Parameter'
+
 
 /**
 * Test  UIPluginServiceHelper
@@ -34,15 +33,15 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
   // test basic types without pre-entered choices and check field model
   const basicTypesTests = [
     {
-      type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', label: 'label 1',
+      type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', label: 'label 1',
     },
     {
-      type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true, label: 'label 2', required: true,
+      type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true, label: 'label 2', required: true,
     },
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, correspondingFieldType: Parameter.EditorTypes.DATE_SELECTOR, defaultValue: '1994-11-05T08:15:30-05:00 ' },
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD },
+    { type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, correspondingFieldType: Parameter.EditorTypes.DATE_SELECTOR, defaultValue: '1994-11-05T08:15:30-05:00 ' },
+    { type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD },
   ]
   basicTypesTests.map(({
     type, correspondingFieldType, validator = false, name = 'common.field', defaultValue = null, label = 'common.label', required = false,
@@ -73,12 +72,12 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
       info: {
         conf: {
           static: {
-            p1: { label: 'P1', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
-            p2: { label: 'P2', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
+            p1: { label: 'P1', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
+            p2: { label: 'P2', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
           },
           dynamic: { // those only shold be converted
-            p3: { label: 'P3', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
-            p4: { label: 'P4', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: true },
+            p3: { label: 'P3', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
+            p4: { label: 'P4', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: true },
           },
         },
       },
@@ -103,50 +102,30 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     assert.equal(resolvedP4.defaultValue, null, 'P4 default value should be specified')
   })
 
-  // local target to runtime targets (client API part)
-  const testCases = [{
-    testMessage: 'should build the right target fields for ONE ELEMENT target',
-    localTarget: buildOneElementTarget('a'),
-  }, {
-    testMessage: 'should build the right target fields for MANY ELEMENTS target',
-    localTarget: buildManyElementsTarget(['a', 'b', 'd']),
-  }, {
-    testMessage: 'should build the right target fields for QUERY target',
-    localTarget: buildQueryTarget('a=a&b=b', ENTITY_TYPES_ENUM.DATA, 15, []),
-  }]
-  testCases.map(({ testMessage, localTarget, count }) => it(testMessage, () => {
-    // 1 - convert to runtime target
-    const runtimeTarget = packRuntimeTarget(localTarget)
-    // Check all fields from local target are preserved
-    assert.include(runtimeTarget, localTarget, 'Some fields have not been reported to runtime target')
-    // Check API methods have been added
-    assert.isDefined(runtimeTarget.getReducePromise, 'The getReducePromise method should be defined')
-    assert.isDefined(runtimeTarget.getFetchAction, 'The getFetchAction method should be defined')
-  }))
   it('Should resolve runtime configuration, overriding the configuration values and ensuring types', () => {
     // light plugin instance
     const pluginInstance = {
       info: {
         conf: {
           static: { // admin configuration
-            pStatic1: { label: 'P1', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: false },
-            pStatic2: { label: 'P2', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, required: true },
-            pStatic3: { label: 'P3', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, required: true },
-            pStatic4: { label: 'P4', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, required: true },
-            pStatic5: { label: 'P5', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, required: true },
-            pStatic6: { label: 'P6', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
+            pStatic1: { label: 'P1', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: false },
+            pStatic2: { label: 'P2', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, required: true },
+            pStatic3: { label: 'P3', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, required: true },
+            pStatic4: { label: 'P4', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, required: true },
+            pStatic5: { label: 'P5', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, required: true },
+            pStatic6: { label: 'P6', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
             // that one will be undefined
-            pStatic7: { label: 'P7', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
+            pStatic7: { label: 'P7', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
           },
           dynamic: { // those only shold be converted
-            pDynamic1: { label: 'P1', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: false },
-            pDynamic2: { label: 'P2', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, required: true },
-            pDynamic3: { label: 'P3', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, required: true },
-            pDynamic4: { label: 'P4', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, required: true },
-            pDynamic5: { label: 'P5', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, required: true },
-            pDynamic6: { label: 'P6', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
+            pDynamic1: { label: 'P1', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.BOOL, required: false },
+            pDynamic2: { label: 'P2', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.CHAR, required: true },
+            pDynamic3: { label: 'P3', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.DATE, required: true },
+            pDynamic4: { label: 'P4', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.FLOAT, required: true },
+            pDynamic5: { label: 'P5', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.INT, required: true },
+            pDynamic6: { label: 'P6', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: true },
             // that one will be undefined
-            pDynamic7: { label: 'P7', type: UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
+            pDynamic7: { label: 'P7', type: AccessDomain.UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM.STRING, required: false },
           },
         },
       },

@@ -172,9 +172,9 @@ export class SessionManagementContainer extends React.Component {
   }
 
   unlockSession = (formValues) => {
-    const { fetchAuthenticate, authentication: { result: { scope, sub } } } = this.props
+    const { fetchAuthenticate, authentication: { result: { tenant, sub } } } = this.props
     // fetch authentication (will unlock session when it returns successfully )
-    fetchAuthenticate(sub, formValues.password, scope)
+    fetchAuthenticate(sub, formValues.password, tenant)
   }
 
   render() {

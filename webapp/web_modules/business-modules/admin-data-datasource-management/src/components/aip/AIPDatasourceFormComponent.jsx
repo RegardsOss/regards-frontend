@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import endsWith from 'lodash/endsWith'
+import replace from 'lodash/replace'
 import map from 'lodash/map'
 import reject from 'lodash/reject'
 import get from 'lodash/get'
@@ -47,7 +49,7 @@ import {
   getFullQualifiedAttributeName, IAIPDatasourceParamsEnum, DATASOURCE_REFRESH_RATE, MODEL_ATTR_TYPES,
 } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
-import { fragmentSelectors } from '../../clients/FragmentClient'
+import { DamDomain } from '@regardsoss/domain'
 import StaticAttributeListAIP from '../../domain/aip/StaticAttributeListAIP'
 import AIPDatasourceAttributeLineConfigurationComponent from './AIPDatasourceAttributeLineConfigurationComponent'
 
@@ -120,7 +122,7 @@ export class AIPDatasourceFormComponent extends React.Component {
    * Return the value expected by the server
    */
   getFullQualifiedAttributeValue = (attribute) => {
-    if (attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return `${attribute.fragment.name}.${attribute.name}`
     }
     return `${attribute.name}`
@@ -164,6 +166,24 @@ export class AIPDatasourceFormComponent extends React.Component {
     this.props.onModelSelected(value)
   }
 
+  isMappableAttributKey = (key, attributes) => {
+    if (find(attributes, ['key', key])) {
+      return true
+    }
+    if (find(attributes, a => a.content.attribute.jsonPath === key)) {
+      return true
+    }
+
+    // Special  case of range attributes add lowerBound and upperBound at the end of the jsonPath
+    if (endsWith(key, '.upperBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
+      return true
+    }
+    if (endsWith(key, '.lowerBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
+      return true
+    }
+    return false
+  }
+
   /**
    * Initialize form fields
    */
@@ -183,7 +203,7 @@ export class AIPDatasourceFormComponent extends React.Component {
       // Replace the caracter . inside the binding into the caracter @
       const mapping = {}
       forEach(mappingRaw, (value, key) => {
-        if (!find(staticMappableAttributs, ['key', key]) && !find(mappableAttributs, a => a.content.attribute.jsonPath === key)) {
+        if (!find(staticMappableAttributs, ['key', key]) && !this.isMappableAttributKey(key, mappableAttributs)) {
           console.error('unmappable attribute remove from conf', mappableAttributs, key)
         } else {
           mapping[key.replace(/\./g, '@')] = value

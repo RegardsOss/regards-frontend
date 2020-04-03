@@ -280,7 +280,7 @@ export class MapContainer extends React.Component {
               entitiesCount: selectedFeatures.length,
               requestParameters: {
                 [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-                  new CatalogDomain.OpenSearchQuery('', [ // q: id=({selected ID 1} OR {selected ID 2} OR...)
+                  new CatalogDomain.OpenSearchQuery([ // q: id=({selected ID 1} OR {selected ID 2} OR...)
                     new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
                       CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
                         selectedFeatures.map(selectedFeature => selectedFeature.feature.id)))])
@@ -299,6 +299,15 @@ export class MapContainer extends React.Component {
 
     // pre: respects necessarily MapViewModeState shapes
     const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
+    let backgroundLayerConf = {}
+    if (backgroundLayer.conf) {
+      try {
+        backgroundLayerConf = JSON.parse(backgroundLayer.conf)
+      } catch (error) {
+        console.error('error', error)
+      }
+    }
     return (
       <MapComponent
         featuresCollection={featuresCollection}
@@ -317,6 +326,7 @@ export class MapContainer extends React.Component {
 
         backgroundLayerURL={backgroundLayer.url}
         backgroundLayerType={backgroundLayer.type}
+        backgroundLayerConf={backgroundLayerConf}
       />
     )
   }

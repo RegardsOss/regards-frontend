@@ -29,10 +29,9 @@ import { IDBDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 import StaticAttributeListDB from '../../domain/db/StaticAttributeListDB'
 import { datasourceSelectors, datasourceActions } from '../../clients/DatasourceClient'
-import { fragmentSelectors } from '../../clients/FragmentClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../clients/PluginMetaDataClient'
 import DBDatasourceFormAttributesContainer from './DBDatasourceFormAttributesContainer'
 import DBDatasourceFormMappingContainer from './DBDatasourceFormMappingContainer'
@@ -121,7 +120,7 @@ export class DBDatasourceFormContainer extends React.Component {
    * Check if the fragment if the none one
    */
   getNamespaceUsingFragmentName = (modelAttr) => {
-    if (modelAttr.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (modelAttr.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return modelAttr.content.attribute.fragment.name
     }
     return ''

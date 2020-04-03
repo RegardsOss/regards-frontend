@@ -57,6 +57,7 @@ module.exports = class extends Generator {
       name: 'author',
       required: true,
       message: 'Plugin author name',
+      default: 'CNES (https://cnes.fr)',
     }, {
       type: 'input',
       name: 'email',
@@ -77,7 +78,7 @@ module.exports = class extends Generator {
       name: 'licence',
       required: true,
       message: 'Plugin license page url',
-      default: 'GPL-V3',
+      default: 'GPL-3.0',
     },
     ]).then((answers) => {
       this.answers = answers

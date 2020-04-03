@@ -23,12 +23,9 @@ import isDate from 'lodash/isDate'
 import isNumber from 'lodash/isNumber'
 import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
-import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, RuntimeTargetTypes } from '@regardsoss/domain/access'
+import { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM } from '@regardsoss/domain/access'
 import { ValidationHelpers } from '@regardsoss/form-utils'
 import { Parameter } from './parameters/Parameter'
-import { ManyEntitiesRuntimeHelpersBuilder } from './runtime/ManyEntitiesRuntimeHelpersBuilder'
-import { OneEntityRuntimeHelpersBuilder } from './runtime/OneEntityRuntimeHelpersBuilder'
-import { QueryRuntimeHelpersBuilder } from './runtime/QueryRuntimeHelpersBuilder'
 
 /**
 * Tools to convert an UI plugin service configuration into common form parameter models
@@ -73,41 +70,6 @@ export function resolveParameters(uiPluginConf, pluginInstance) {
   // note: We resolve from definition to configuration, to make sure the plugin version that will be used
   // will have all parameters it requires (we ignore the parameters that could have been removed)
   return map(dynamicParameters, (parameter, key) => resolveParameter(key, adminDynamicConfiguration[key], parameter))
-}
-
-const typesToRuntimeHelpMap = {
-  [RuntimeTargetTypes.ONE]: OneEntityRuntimeHelpersBuilder,
-  [RuntimeTargetTypes.MANY]: ManyEntitiesRuntimeHelpersBuilder,
-  [RuntimeTargetTypes.QUERY]: QueryRuntimeHelpersBuilder,
-}
-
-/**
- * Builds service runtime helpers, to be stored in runtime target
- * @param {*} serviceTarget service target
- * @return {dispatchableFetchMethod:{function}, applyOnEntity:{function} } plugin service runtime helper
- */
-function buildServiceRuntimeHelpers(serviceTarget) {
-  const RuntimeHelpersBuilderConstructor = typesToRuntimeHelpMap[serviceTarget.type]
-  if (RuntimeHelpersBuilderConstructor === null) {
-    throw new Error('Invalid target type', serviceTarget.type) // should be a development error only
-  }
-  const runtimeHelpersBuilder = new RuntimeHelpersBuilderConstructor(serviceTarget)
-  return {
-    getFetchAction: runtimeHelpersBuilder.buildGetFetchAction(),
-    getReducePromise: runtimeHelpersBuilder.buildGetReducePromise(),
-  }
-}
-
-/**
- * Packs runtime plugin service target
- * @param serviceTarget service target as ServiceTarget shape
- * @return runtimeTarget as RuntimeTarget shape (shape expected by the plugin service at execution)
- */
-export function packRuntimeTarget(serviceTarget) {
-  return {
-    ...serviceTarget,
-    ...buildServiceRuntimeHelpers(serviceTarget),
-  }
 }
 
 /**
@@ -160,4 +122,23 @@ export function packRuntimeConfiguration(uiPluginConf, pluginInstance, configure
     static: ensureTypes(adminStaticConfiguration, get(pluginInstance, 'info.conf.static', {})),
     dynamic: ensureTypes(configuredDynamicValues, get(pluginInstance, 'info.conf.dynamic', {})),
   }
+}
+
+/**
+ * Enhance plugin handlers based on the plugin definition
+ * @param {uiPluginConf} pluginInstance UI plugin instance information
+ * @param {*} handlers callback function to propagate plugin events
+ * @return {Array<Parameter>} handlers and props for plugin react component
+ */
+export function packPluginProps(pluginInstance, handlers = {}) {
+  // Define available expected in the plugin-info.json
+  // SHOW_BUTTONS_BAR - when false, delegate the close mecanism to the popup
+  const PROPERTY_SHOW_BUTTONS_BAR = 'info.conf.showButtonsBar'
+  const DEFAULT_SHOW_BUTTONS_BAR = true
+
+  const pluginProps = {}
+  if (!get(pluginInstance, PROPERTY_SHOW_BUTTONS_BAR, DEFAULT_SHOW_BUTTONS_BAR)) {
+    pluginProps.onClose = handlers.onClose
+  }
+  return pluginProps
 }

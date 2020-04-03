@@ -22,5 +22,5 @@
  * @author <%= author %>
  */
 export default {
-  // TODO FR messages or delete file
+  // TODO messages here
 }

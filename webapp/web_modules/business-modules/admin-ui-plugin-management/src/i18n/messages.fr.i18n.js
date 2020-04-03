@@ -28,6 +28,7 @@ const messages = Object.assign({
   'plugin.form.subtitle': 'Entrez le chemin d\'accès vers votre plugin et lancez la recherche pour le valider avant ajout',
   'plugin.form.name': 'Nom',
   'plugin.form.type': 'Type',
+  'plugin.form.role': 'Role',
   'plugin.form.sourcesPath': 'Chemin d\'accès au fichier JavaScript du plugin',
   'plugin.form.invalid.source.path': 'Le chemin du plugin doit désigner un fichier JavaScript (l\'extension .js est requise)',
   'plugin.form.icon': 'Icône de représentation du plugin (Lien https)',
@@ -46,6 +47,13 @@ const messages = Object.assign({
   'plugins.list.action.add': 'Ajouter un plugin',
   'plugins.list.action.cancel': 'Retour',
   'plugin.description.url': 'Visualiser la description du plugin',
+
+  'role.name.PUBLIC': 'Publique',
+  'role.name.REGISTERED_USER': 'Utilisateur enregistré',
+  'role.name.EXPLOIT': 'Exploitant',
+  'role.name.ADMIN': 'Administrateur',
+  'role.name.PROJECT_ADMIN': 'Super Administrateur',
+  'role.name.empty': ' - ',
 }, Locales.fr)
 
 export default messages

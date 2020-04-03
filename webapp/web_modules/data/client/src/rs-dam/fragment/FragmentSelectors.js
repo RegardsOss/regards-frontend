@@ -18,6 +18,7 @@
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
 import pickBy from 'lodash/pickBy'
+import { DamDomain } from '@regardsoss/domain'
 /**
  * Store selector to access fragment entities.
  *
@@ -31,15 +32,9 @@ import pickBy from 'lodash/pickBy'
  */
 
 class FragmentSelectors extends BasicListSelectors {
-  /**
-   * Store the name of the default fragment, which has a very different behavior than others fragments
-   * @type {string}
-   */
-  noneFragmentName = 'default'
-
   getListWithoutNoneFragment(state) {
     return pickBy(this.getList(state), fragment => (
-      fragment.content.name !== this.noneFragmentName
+      fragment.content.name !== DamDomain.DEFAULT_FRAGMENT
     ))
   }
 }

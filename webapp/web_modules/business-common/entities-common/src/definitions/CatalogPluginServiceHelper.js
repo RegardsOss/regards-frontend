@@ -18,10 +18,8 @@
  **/
 import isUndefined from 'lodash/isUndefined'
 import { PluginParameterTypes } from '@regardsoss/domain/common'
-import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
-import { ValidationHelpers } from '@regardsoss/form-utils'
 import { CommonDomain } from '@regardsoss/domain'
+import { ValidationHelpers } from '@regardsoss/form-utils'
 import { Parameter } from './parameters/Parameter'
 
 /**
@@ -109,31 +107,4 @@ export function resolveParametersWithTypes(pluginConfiguration, metadata) {
       }
       return convertParameter(configParam, metadataParam)
     })
-}
-
-
-/**
- * Packs the service target
- * @param {ServiceTarget} target target as provided by plugin run model
- * @return usable target parameters
- */
-export function packTargetParameters(target) {
-  switch (target.type) {
-    case RuntimeTargetTypes.ONE:
-      return { entityId: target.entity }
-    case RuntimeTargetTypes.MANY:
-      return { entitiesId: target.entities }
-    case RuntimeTargetTypes.QUERY:
-      return {
-        entityType: target.entityType,
-        q: new OpenSearchQuery(target.requestParameters.q, target.excludedIDs[
-          new OpenSearchQueryParameter(
-            OpenSearchQuery.ID_PARAM_NAME,
-            OpenSearchQueryParameter.toStrictStringEqual(
-              target.excludedIDs, OpenSearchQueryParameter.AND_SEPARATOR, true))])
-          .toQueryString(),
-      }
-    default:
-      throw new Error('Invalid target') // development error only
-  }
 }

@@ -46,6 +46,14 @@ export class PluginDisplayerContainer extends React.Component {
       runtimeTarget: AccessShapes.RuntimeTarget,
       configuration: AccessShapes.RuntimeConfiguration,
     }).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    pluginProps: PropTypes.shape({
+      onClose: PropTypes.function,
+    }),
+  }
+
+  static defaultProps = {
+    pluginProps: {},
   }
 
   componentWillMount = () => this.onPropertiesChange(this.props)
@@ -59,7 +67,7 @@ export class PluginDisplayerContainer extends React.Component {
     // prepare the plugin on new properties values
     let renderedPlugin = null
     if (newProps) {
-      const { pluginConf, pluginInstance } = newProps
+      const { pluginConf, pluginProps, pluginInstance } = newProps
 
       // 0 - generate new instance ID
       const pluginInstanceId = `service.instance.${PluginDisplayerContainer.PLUGIN_INSTANCE_ID}`
@@ -73,6 +81,7 @@ export class PluginDisplayerContainer extends React.Component {
       renderedPlugin = React.createElement(pluginInstance.plugin, {
         pluginInstanceId,
         ...pluginConf,
+        ...pluginProps,
       })
     }
     this.setState({

@@ -484,7 +484,7 @@ export class OAISPackageManagerComponent extends React.Component {
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}
-          contextRequestBodyParameters={this.state.contextRequestBodyParameters}
+          contextRequestBodyParameters={this.state.modifyPayload}
           onClose={this.onCloseModifyDialog}
         />
       )
@@ -529,10 +529,11 @@ export class OAISPackageManagerComponent extends React.Component {
     const { isModifySelectionDialogOpened } = this.state
 
     if (isModifySelectionDialogOpened) {
+      console.error('this.state.contextRequestBodyParameters', this.state.modifyPayload)
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}
-          contextRequestBodyParameters={this.state.contextRequestBodyParameters}
+          contextRequestBodyParameters={this.state.modifyPayload}
           onClose={this.onCloseModifySelectionDialog}
         />
       )

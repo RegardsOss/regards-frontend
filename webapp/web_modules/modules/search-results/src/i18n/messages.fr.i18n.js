@@ -91,6 +91,8 @@ const messages = {
   'search.results.form.configuration.result.MAP.background.title': 'Fond de carte',
   'search.results.form.configuration.result.MAP.background.layer.url': 'URL',
   'search.results.form.configuration.result.MAP.background.layer.type': 'Type',
+  'search.results.form.configuration.result.MAP.background.layer.conf': 'Configuration (optionelle)',
+  'search.results.form.configuration.result.MAP.background.layer.conf.invalid': 'Format JSON invalide',
 
   // User messages
   'search.results.tab.main.results': 'Résultats',

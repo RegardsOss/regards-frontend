@@ -28,7 +28,9 @@ import BasicListActions from '../../src/list/BasicListActions'
 const middlewares = [thunk, apiMiddleware]
 const mockStore = configureStore(middlewares)
 
-const PROJECTS_API = 'http://stackoverflow.com/api/v1/projects'
+
+const DOMAIN = 'http://stackoverflow.com'
+const PROJECTS_API = '/api/v1/projects'
 const projectListActions = new BasicListActions({
   namespace: 'admin-project-management',
   entityEndpoint: PROJECTS_API,
@@ -61,8 +63,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
   })
   describe('GET / calls', () => {
     it('should leverage a request action on fetch request', () => {
-      nock(PROJECTS_API)
-        .get('')
+      nock(DOMAIN)
+        .get(PROJECTS_API)
         .reply(500, 'Oops')
       const store = mockStore({ projects: [] })
 
@@ -74,8 +76,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
     })
 
     it('should leverage a failure action on fetch failure', (done) => {
-      nock(PROJECTS_API)
-        .get('')
+      nock(DOMAIN)
+        .get(PROJECTS_API)
         .reply(500, 'Oops')
       const store = mockStore({ projects: [] })
 
@@ -84,8 +86,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
   })
   describe('POST / calls', () => {
     it('should leverage a request action on create request', () => {
-      nock(PROJECTS_API)
-        .post('')
+      nock(DOMAIN)
+        .post(PROJECTS_API)
         .reply(500, 'Oops')
       const store = mockStore({ projects: [] })
 
@@ -97,8 +99,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
     })
 
     it('should leverage a failure action on create failure', (done) => {
-      nock(PROJECTS_API)
-        .post('')
+      nock(DOMAIN)
+        .post(PROJECTS_API)
         .reply(500, 'Oops')
       const store = mockStore({ projects: {} })
 
@@ -108,8 +110,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
   describe('DELETE /{id} calls', () => {
     it('should leverage a request action on delete request', () => {
       const id = 'project1'
-      nock(`${PROJECTS_API}/${id}`)
-        .delete('')
+      nock(DOMAIN)
+        .delete(`${PROJECTS_API}/${id}`)
         .reply(500, 'Oops')
       const store = mockStore({ projects: [] })
 
@@ -122,8 +124,8 @@ describe('[STORE UTILS] Testing BasicListActions', () => {
 
     it('should leverage a failure action on delete failure', (done) => {
       const id = 'project1'
-      nock(`${PROJECTS_API}/${id}`)
-        .delete('')
+      nock(DOMAIN)
+        .delete(`${PROJECTS_API}/${id}`)
         .reply(500, 'Oops')
       const store = mockStore({ projects: {} })
 

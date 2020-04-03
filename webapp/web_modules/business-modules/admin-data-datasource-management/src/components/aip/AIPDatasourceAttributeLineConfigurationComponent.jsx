@@ -26,7 +26,7 @@ import {
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/domain/dam'
-import { fragmentSelectors } from '../../clients/FragmentClient'
+import { DamDomain } from '@regardsoss/domain'
 
 const requiredString = [ValidationHelpers.required]
 /**
@@ -73,11 +73,11 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
 
   getFieldName = (modelAttribute) => {
     // Static attributes
-    if (!modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (!modelAttribute.content.attribute.fragment.name && modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return `mapping.${modelAttribute.content.attribute.name}`
     }
     // Dynamic attributes with fragment
-    if (modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return `mapping.properties@${modelAttribute.content.attribute.fragment.name}@${modelAttribute.content.attribute.name}`
     }
     // Dynamic attributes without fragment

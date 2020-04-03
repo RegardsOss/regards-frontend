@@ -2,7 +2,8 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
-
+// load the static configuration variables
+require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')

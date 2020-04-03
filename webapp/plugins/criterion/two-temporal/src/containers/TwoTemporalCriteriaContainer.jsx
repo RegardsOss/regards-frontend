@@ -111,7 +111,7 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     // Attr1: PERIOD_START = 01/01/2010
     // attr2: PERIOD_END = 31/01/2010
     // PERDIOD_END >= 01/01/2010 AND PERIOD_START <= 31/01/2010
-    return new CatalogDomain.OpenSearchQuery('', [
+    return new CatalogDomain.OpenSearchQuery([
       TwoTemporalCriteriaContainer.convertRangeToQueryParam(TwoTemporalCriteriaContainer.removeTimeZone(value1), null, secondAttribute),
       TwoTemporalCriteriaContainer.convertRangeToQueryParam(null, TwoTemporalCriteriaContainer.removeTimeZone(value2), firstAttribute),
     ]).toQueryString()
