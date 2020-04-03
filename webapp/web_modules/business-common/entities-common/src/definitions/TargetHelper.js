@@ -40,7 +40,7 @@ export class TargetHelper {
       type: RuntimeTargetTypes.ONE,
       searchContext: {
         ...TargetHelper.COMMON_CONTEXT,
-        requestParameters: {
+        searchParameters: {
           // query: the selected entity
           q: new CatalogDomain.OpenSearchQuery([
             new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
@@ -64,7 +64,7 @@ export class TargetHelper {
       type: RuntimeTargetTypes.MANY,
       searchContext: {
         ...TargetHelper.COMMON_CONTEXT,
-        requestParameters: {
+        searchParameters: {
           // query: any selected entity
           q: new CatalogDomain.OpenSearchQuery([
             new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
@@ -91,7 +91,7 @@ export class TargetHelper {
       type: RuntimeTargetTypes.QUERY,
       searchContext: {
         ...TargetHelper.COMMON_CONTEXT,
-        requestParameters: {
+        searchParameters: {
           ...requestParameters,
           // q : current context and excluded IDs
           q: new CatalogDomain.OpenSearchQuery([
