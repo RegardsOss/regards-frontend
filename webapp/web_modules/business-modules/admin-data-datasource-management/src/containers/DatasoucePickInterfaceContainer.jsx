@@ -59,7 +59,7 @@ export class DatasoucePickInterfaceContainer extends React.Component {
 
   getCreateFeatureDatasourceUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/datasource/fem/create`
+    return `/admin/${project}/data/acquisition/datasource/feature/create`
   }
 
   render() {
