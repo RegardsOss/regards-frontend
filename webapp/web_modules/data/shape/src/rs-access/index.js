@@ -24,7 +24,7 @@ export {
   UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray,
 } from './uiplugin/UIPluginConf'
 export { RuntimeConfiguration } from './uiplugin/RuntimeConfiguration'
-export { PluginServiceTarget } from './uiplugin/PluginServiceTarget'
+export { PluginTarget } from './uiplugin/PluginTarget'
 
 
 export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'

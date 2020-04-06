@@ -57,7 +57,7 @@ export class RunUIPluginServiceContainer extends React.Component {
     // service to run
     service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
     // from map dispatch to props

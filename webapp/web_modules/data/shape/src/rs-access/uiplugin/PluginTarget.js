@@ -18,7 +18,7 @@
  **/
 import { ENTITY_TYPES } from '@regardsoss/domain/dam'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { RequestParameters } from '../../rs-common/RequestParameters'
+import { SearchContext } from '../../rs-catalog/SearchContext'
 import { Entity } from '../../rs-catalog/entity/Entity'
 
 /**
@@ -30,7 +30,7 @@ import { Entity } from '../../rs-catalog/entity/Entity'
  */
 export const OneElementTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired, // enumerated type
-  requestParameters: RequestParameters, // open search request parameters
+  searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entity: Entity.isRequired,
@@ -38,7 +38,7 @@ export const OneElementTarget = PropTypes.shape({
 
 export const SelectionTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.MANY]), // enumerated type
-  requestParameters: RequestParameters, // open search request parameters
+  searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   entities: PropTypes.arrayOf(Entity).isRequired, // entities list
@@ -46,13 +46,13 @@ export const SelectionTarget = PropTypes.shape({
 
 export const QueryTarget = PropTypes.shape({
   type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
-  requestParameters: RequestParameters, // open search request parameters
+  searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
   entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
   excludedEntities: PropTypes.arrayOf(Entity).isRequired, // excluded entities list
 })
 
-export const PluginServiceTarget = PropTypes.oneOfType([
+export const PluginTarget = PropTypes.oneOfType([
   OneElementTarget,
   SelectionTarget,
   QueryTarget,

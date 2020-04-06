@@ -30,7 +30,7 @@ import { AccessProjectClient } from '@regardsoss/client'
 export class TargetEntitiesResolver {
   /**
    * @param {Function} dispatch dispatch method, from redux
-   * @param {*} target service target, matching AccessShapes.PluginServiceTarget
+   * @param {*} target service target, matching AccessShapes.PluginTarget
    * @param {Function} reducer like (acc:*, entity:CatalogShapes.Entity => nextAcc:*, index)
    * @param {*} initialValue reduction initial value (acc value when calling reducer for the first time)
    * @return {Promise} reduction promise
@@ -94,7 +94,7 @@ export class TargetEntitiesResolver {
     // build a promise that will resolve and reduce, page by page, and terminate on last page
     return new Promise((resolve, reject) => {
       function handleResultsPage(beforePageResult, pageIndex = 0) {
-        dispatch(actions.fetchPagedEntityList(pageIndex, TargetEntitiesResolver.PAGE_SIZE, null, target.requestParameters))
+        dispatch(actions.fetchPagedEntityList(pageIndex, TargetEntitiesResolver.PAGE_SIZE, null, target.searchContext.searchParameters))
           .then(({ payload, error = false }) => {
             // reduce promise results (will be next then value) or throw error (will enter catch)
             const entities = get(payload, `entities.${EntityConfiguration.normalizrKey}`)

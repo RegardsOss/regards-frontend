@@ -63,7 +63,7 @@ export class EditContainer extends React.Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     pluginInstanceId: PropTypes.string.isRequired,
     // Connected client to use to delete features on fem
     editClient: PropTypes.shape({
