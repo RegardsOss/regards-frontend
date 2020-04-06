@@ -225,7 +225,7 @@ export default class MizarAdapter extends React.Component {
     }
 
     // 3 - Set up background layer
-    const staticLayer =  get(STATIC_CONF,'MAP.STATIC_LAYER',null)
+    const staticLayer = get(STATIC_CONF, 'MAP.STATIC_LAYER', null)
     if (staticLayer) {
       this.mizar.instance.addLayer(staticLayer)
     }
