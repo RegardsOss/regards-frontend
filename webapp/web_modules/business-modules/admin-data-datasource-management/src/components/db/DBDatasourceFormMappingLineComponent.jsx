@@ -28,8 +28,8 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
+import { DamDomain } from '@regardsoss/domain'
 import states from '../../domain/db/FormMappingStates'
-import { fragmentSelectors } from '../../clients/FragmentClient'
 
 export class DBDatasourceFormMappingLineComponent extends React.Component {
   static propTypes = {
@@ -150,7 +150,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
 
   renderFragmentName = () => {
     const { isStaticAttribute, modelAttribute } = this.props
-    if (!isStaticAttribute && modelAttribute.content.attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (!isStaticAttribute && modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return (
         <div>
           <FormattedMessage id="datasource.form.mapping.table.fragment" />

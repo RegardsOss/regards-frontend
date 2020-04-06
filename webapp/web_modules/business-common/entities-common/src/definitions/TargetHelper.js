@@ -25,9 +25,9 @@ import { CatalogDomain } from '@regardsoss/domain'
  * @author Raphaël Mechali
  */
 export class TargetHelper {
-  /** Common context parameters */
-  static commonParameters = {
-    engineType: 'legacy',
+  /** Common search context */
+  static COMMON_CONTEXT = {
+    engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
   }
 
   /**
@@ -38,13 +38,15 @@ export class TargetHelper {
   static buildOneElementTarget(entity) {
     return {
       type: RuntimeTargetTypes.ONE,
-      requestParameters: {
-        ...TargetHelper.commonParameters,
-        // query: the selected entity
-        q: new CatalogDomain.OpenSearchQuery([
-          new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
-            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entity.content.id))])
-          .toQueryString(),
+      searchContext: {
+        ...TargetHelper.COMMON_CONTEXT,
+        searchParameters: {
+          // query: the selected entity
+          q: new CatalogDomain.OpenSearchQuery([
+            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
+              CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entity.content.id))])
+            .toQueryString(),
+        },
       },
       entityType: entity.content.entityType,
       entitiesCount: 1,
@@ -60,13 +62,15 @@ export class TargetHelper {
   static buildManyElementsTarget(entities) {
     return {
       type: RuntimeTargetTypes.MANY,
-      requestParameters: {
-        ...TargetHelper.commonParameters,
-        // query: any selected entity
-        q: new CatalogDomain.OpenSearchQuery([
-          new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
-            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entities.map(e => e.content.id)))])
-          .toQueryString(),
+      searchContext: {
+        ...TargetHelper.COMMON_CONTEXT,
+        searchParameters: {
+          // query: any selected entity
+          q: new CatalogDomain.OpenSearchQuery([
+            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
+              CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entities.map(e => e.content.id)))])
+            .toQueryString(),
+        },
       },
       entityType: entities[0].content.entityType,
       entitiesCount: entities.length,
@@ -85,17 +89,19 @@ export class TargetHelper {
   static buildQueryTarget(requestParameters, entityType, entitiesCount, excludedEntities) {
     return {
       type: RuntimeTargetTypes.QUERY,
-      requestParameters: {
-        ...TargetHelper.commonParameters,
-        ...requestParameters,
-        // q : current context and excluded IDs
-        q: new CatalogDomain.OpenSearchQuery([
-        // excluded IDs
-          new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
-            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
-              excludedEntities.map(e => e.content.id), CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR, true))],
-        // context query as base query
-        requestParameters.q || '').toQueryString(),
+      searchContext: {
+        ...TargetHelper.COMMON_CONTEXT,
+        searchParameters: {
+          ...requestParameters,
+          // q : current context and excluded IDs
+          q: new CatalogDomain.OpenSearchQuery([
+            // excluded IDs
+            new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
+              CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
+                excludedEntities.map(e => e.content.id), CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR, true))],
+          // context query as base query
+          requestParameters.q || '').toQueryString(),
+        },
       },
       entityType,
       entitiesCount: entitiesCount - excludedEntities.length,

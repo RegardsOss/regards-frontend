@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,14 +15,28 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { DataManagementClient } from '@regardsoss/client'
+ **/
+import { getRequestsClient } from '../clients/RequestsClient'
 
 /**
- * UI Plugin Configuration entities client.
- *
+ * This component wires clients required by this plugin,
+ * Indeed, plugin clients needs the pluginInstanceId to be ready to use,
+ * On UI Plugin we're connected to client asynchronously
+ * whereas we do it synchroniously in REGARDS
+ * @param React component
+ * @returns React class that injects clients
  * @author Léo Mieulet
  */
-const ENTITIES_STORE_PATH = ['not', 'used']
+export default Component => class WithClient extends React.Component {
+  static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
+  }
 
-export const fragmentSelectors = DataManagementClient.FragmentSelectors(ENTITIES_STORE_PATH)
+  render() {
+    const { pluginInstanceId } = this.props
+    const editClient = getRequestsClient(pluginInstanceId)
+    return (
+      <Component {...this.props} editClient={editClient} />
+    )
+  }
+}

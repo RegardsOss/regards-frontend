@@ -49,7 +49,7 @@ import {
   getFullQualifiedAttributeName, IAIPDatasourceParamsEnum, DATASOURCE_REFRESH_RATE, MODEL_ATTR_TYPES,
 } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
-import { fragmentSelectors } from '../../clients/FragmentClient'
+import { DamDomain } from '@regardsoss/domain'
 import StaticAttributeListAIP from '../../domain/aip/StaticAttributeListAIP'
 import AIPDatasourceAttributeLineConfigurationComponent from './AIPDatasourceAttributeLineConfigurationComponent'
 
@@ -122,7 +122,7 @@ export class AIPDatasourceFormComponent extends React.Component {
    * Return the value expected by the server
    */
   getFullQualifiedAttributeValue = (attribute) => {
-    if (attribute.fragment.name !== fragmentSelectors.noneFragmentName) {
+    if (attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return `${attribute.fragment.name}.${attribute.name}`
     }
     return `${attribute.name}`

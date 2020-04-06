@@ -16,26 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
-import { getRequestsClient } from '../clients/RequestsClient'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 /**
- * This component wires clients required by this plugin,
- * Indeed, plugin clients needs the pluginInstanceId to be ready to use,
- * On UI Plugin we're connected to client asynchronously
- * whereas we do it synchroniously in REGARDS
- * @param React component
- * @returns React class that injects clients
+ * Store selector on model attributes shared accross several object models
  * @author Léo Mieulet
  */
-const withClient = Component => class WithClient extends React.Component {
-  render() {
-    const { pluginInstanceId } = this.props
-    const editClient = getRequestsClient(pluginInstanceId)
-    return (
-      <Component {...this.props} editClient={editClient} />
-    )
-  }
-}
-
-export default withClient
+export default storePath => new BasicSignalSelectors(storePath)

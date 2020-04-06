@@ -47,7 +47,6 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
       label,
       model,
       providerId,
-      entityType: 'DATA',
       files: {
         QUICKLOOK_MD: [{
           dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
@@ -63,7 +62,6 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
         }],
       },
       tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
-      id: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
       geometry: null,
       normalizedGeometry: null,
       properties: {

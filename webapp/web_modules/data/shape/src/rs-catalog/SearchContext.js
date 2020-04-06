@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RequestParameters } from '../rs-common/RequestParameters'
 
-export { default as PluginsClientsMap } from './client/PluginsClientsMap'
-export { default as numberRangeHelper } from './utils/NumberRangeHelper'
-export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
-export { BOUND_TYPE, formatHintText, formatTooltip } from './utils/AttributesMessagesHelper'
-export { initPlugin } from './utils/InitPlugin'
-export { TargetEntitiesResolver } from './utils/TargetEntitiesResolver'
-export { default as ClientConfBuilder } from './utils/ClientConfBuilder'
+/**
+ * Holds shape for search request context, as expected by the applications endpoints and as received
+ * by the services and criteria
+ * @author Raphaël Mechali
+ */
+export const SearchContext = PropTypes.shape({
+  engineType: PropTypes.string.isRequired,
+  searchParameters: RequestParameters.isRequired,
+})

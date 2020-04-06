@@ -73,7 +73,7 @@ export class ExampleContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     pluginInstanceId: PropTypes.string.isRequired, // Plugin identifier (unused here)
     /** Runtime target: see regards documentation for more details */
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     /** Static and dynamic configurations: see regards documentation for more details */
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapStateToProps

@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, uiPluginServiceTestHelpers } from '@regardsoss/tests-helpers'
-import { FemClient } from '@regardsoss/client'
+import { FemClient, CatalogClient } from '@regardsoss/client'
+
+import { BasicSignalsSelectors, BasicSignalSelectors } from '@regardsoss/store-utils'
 import { EditContainer } from '../../src/containers/EditContainer'
 import styles from '../../src/styles/styles'
 
@@ -46,7 +48,9 @@ describe('[fem-delete] Testing EditContainer', () => {
       // user is optional, let's not provide it here
       // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux
       editFeatures: () => new Promise(() => { }),
+      fetchModelAttributes: () => new Promise(() => { }),
       // mock map state to props
+      modelAttributeList: {},
       error: {
         hasError: false,
       },
@@ -54,7 +58,11 @@ describe('[fem-delete] Testing EditContainer', () => {
       // Client stub expected by the container
       editClient: {
         actions: new FemClient.RequestsActions('stub.namespace'),
-        selectors: () => ({}),
+        selectors: new BasicSignalsSelectors([]),
+      },
+      modelAttributesClient: {
+        actions: new CatalogClient.SearchEntitiesCommonModelAttributesActions(),
+        selectors: new BasicSignalSelectors([]),
       },
     }
     shallow(<EditContainer {...props} />, { context })

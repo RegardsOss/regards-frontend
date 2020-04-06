@@ -26,6 +26,8 @@ import DataSourceMonitoringContainer from '../src/containers/DataSourceMonitorin
 import DatasoucePickInterfaceContainer from '../src/containers/DatasoucePickInterfaceContainer'
 import AIPDatasourceFormContainer from '../src/containers/aip/AIPDatasourceFormContainer'
 import OSConfigurationFormContainer from '../src/containers/opensearch/OSConfigurationFormContainer'
+import FeatureDatasourceFormContainer from '../src/containers/feature/FeatureDatasourceFormContainer'
+
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
@@ -33,7 +35,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(10)
+    expect(Routes.childRoutes).to.have.length(12)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create/interface')
     expect(Routes.childRoutes[2].path).to.eq('db/create/connection')
@@ -44,6 +46,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[7].path).to.eq('aip/create')
     expect(Routes.childRoutes[8].path).to.eq('opensearch/create')
     expect(Routes.childRoutes[9].path).to.eq('opensearch/:datasourceId/edit')
+    expect(Routes.childRoutes[10].path).to.eq('feature/:datasourceId/edit')
+    expect(Routes.childRoutes[11].path).to.eq('feature/create')
   })
   it('list should return DatasourceListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -102,6 +106,18 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   it('edit should return OSCrawlerConfigurationContainer', (done) => {
     Routes.childRoutes[9].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(OSConfigurationFormContainer)
+      done()
+    })
+  })
+  it('edit should return FeatureDatasourceFormContainer', (done) => {
+    Routes.childRoutes[10].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(FeatureDatasourceFormContainer)
+      done()
+    })
+  })
+  it('create should return FeatureDatasourceFormContainer', (done) => {
+    Routes.childRoutes[11].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(FeatureDatasourceFormContainer)
       done()
     })
   })

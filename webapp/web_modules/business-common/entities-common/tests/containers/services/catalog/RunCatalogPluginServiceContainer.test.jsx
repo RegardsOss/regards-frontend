@@ -419,7 +419,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { ...TargetHelper.commonParameters, q: `id:"${entity2.content.id}"` },
+    assert.deepEqual(lastFetchParams.targetParameter, { q: `id:"${entity2.content.id}"` },
       'One element target - target should be corretly sent')
     // 2 - test many elements target
     const props2 = {
@@ -434,7 +434,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { ...TargetHelper.commonParameters, q: `id:("${entity1.content.id}" OR "${entity3.content.id}")` },
+    assert.deepEqual(lastFetchParams.targetParameter, { q: `id:("${entity1.content.id}" OR "${entity3.content.id}")` },
       'Many elements target - target should be corretly sent')
     // 3 - test query target
     const props3 = {
@@ -451,7 +451,6 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
     assert.deepEqual(
       lastFetchParams.targetParameter, {
-        ...TargetHelper.commonParameters,
         geo: 'potatoesField',
         q: `model.age=22 AND id:(!("${entity2.content.id}" OR "${entity3.content.id}"))`,
       }, 'Query target - target should be corretly sent',

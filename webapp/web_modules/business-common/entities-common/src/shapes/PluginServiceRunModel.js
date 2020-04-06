@@ -25,5 +25,5 @@ import { AccessShapes } from '@regardsoss/shape'
  */
 export const PluginServiceRunModel = PropTypes.shape({
   serviceConfiguration: AccessShapes.PluginService.isRequired,
-  target: AccessShapes.PluginServiceTarget.isRequired,
+  target: AccessShapes.PluginTarget.isRequired,
 })

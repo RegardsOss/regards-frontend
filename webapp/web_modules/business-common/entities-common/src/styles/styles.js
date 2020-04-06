@@ -26,13 +26,13 @@ export default theme => ({
     widthPercent: 70,
     heightPercent: 68,
     commonBodyStyles: {
-      borderWidth: '1px 0 1px 0',
+      borderWidth: '1px 0 0 0',
       borderColor: theme.toolbar.separatorColor,
       borderStyle: 'solid',
       padding: '16px',
     },
     resultsBodyStyle: { // different style to enhance the available view area size
-      borderWidth: '1px 0 1px 0',
+      borderWidth: '1px 0 0 0',
       borderColor: theme.toolbar.separatorColor,
       borderStyle: 'solid',
       padding: '0',

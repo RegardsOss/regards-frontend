@@ -59,7 +59,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     // service to run
     service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
 
@@ -159,7 +159,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     // 2 - update state and dispatch
     const userParametersValues = formValues
     this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE, userParametersValues })
-    dispatchFetchPluginResult(service.configId, userParametersValues, target.requestParameters)
+    dispatchFetchPluginResult(service.configId, userParametersValues, target.searchContext.searchParameters)
       .then(this.onServiceResult)
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR))
   }

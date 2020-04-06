@@ -23,8 +23,10 @@
  */
 export default {
   'plugin.title': 'Edition',
-  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera édité} other {les # éléments sélectionnés seront édités}}.',
+  'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera édité} other {les # éléments sélectionnés seront édités}} avec les valeurs fournies.',
   'plugin.question': 'Voulez vous continuer?',
-  'plugin.valid': 'EDIT',
+  'plugin.valid': 'Envoyer',
   'plugin.cancel': 'Annuler',
+  'plugin.list.editable': 'Liste des attributs éditables :',
+  'plugin.list.editing': 'Liste des attributs à éditer :',
 }

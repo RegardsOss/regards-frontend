@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FemClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 import { ClientConfBuilder } from '@regardsoss/plugins-api'
 
 /**
@@ -29,10 +29,11 @@ const pluginName = 'fem-edit'
 /**
  * the store key used in reducer.js
  */
-const storeKey = 'requests'
-const actionsBuilder = namespace => new FemClient.RequestsActions(namespace)
-const selectorsBuilder = storePath => FemClient.getRequestsSelectors(storePath)
-const reducerBuilder = namespace => FemClient.getRequestsReducer(namespace)
+const storeKey = 'attributes'
+const actionsBuilder = namespace => new CatalogClient.SearchEntitiesCommonModelAttributesActions(namespace)
+const selectorsBuilder = storePath => CatalogClient.getSearchEntitiesCommonModelAttributesSelectors(storePath)
+const reducerBuilder = namespace => CatalogClient.getSearchEntitiesCommonModelAttributesReducer(namespace)
+
 
 // Provide to the ClientConfBuilder a way to create action, selector and reducer
 // These action, selector and reducer will be resolved on runtime with a local pluginInstanceId
@@ -41,11 +42,11 @@ const clientInfoBuilder = new ClientConfBuilder(pluginName, storeKey)
   .setSelectorsBuilder(selectorsBuilder)
   .setReducerBuilder(reducerBuilder)
 
-// Expose requests clients
-export function getRequestsClient(pluginInstanceId) {
+// Expose model attributes clients
+export function getModelAttributesClient(pluginInstanceId) {
   return clientInfoBuilder.getClient(pluginInstanceId)
 }
-// Expose requests reducer
-export function getRequestsReducer(pluginInstanceId) {
+// Expose model attributes reducer
+export function getModelAttributesReducer(pluginInstanceId) {
   return clientInfoBuilder.getReducer(pluginInstanceId)
 }

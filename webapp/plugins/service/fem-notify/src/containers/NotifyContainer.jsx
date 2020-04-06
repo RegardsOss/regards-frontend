@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import Subheader from 'material-ui/Subheader'
@@ -26,6 +25,7 @@ import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FemClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
+import withClient from './withClient'
 
 /**
  * Main fem-notify plugin container
@@ -59,7 +59,7 @@ export class NotifyContainer extends React.Component {
 
   static propTypes = {
     onClose: PropTypes.func.isRequired,
-    target: AccessShapes.PluginServiceTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // Connected client to use to delete features on fem
     notifyClient: PropTypes.shape({
       actions: PropTypes.instanceOf(FemClient.RequestsActions),
@@ -135,8 +135,8 @@ export class NotifyContainer extends React.Component {
     )
   }
 }
-
-// export REDUX connected container
-export default connect(
-  NotifyContainer.mapStateToProps,
-  NotifyContainer.mapDispatchToProps)(NotifyContainer)
+// Connect clients and retrieve them as props
+export default withClient(
+  // REDUX connected container
+  connect(NotifyContainer.mapStateToProps,NotifyContainer.mapDispatchToProps)(NotifyContainer)
+)
