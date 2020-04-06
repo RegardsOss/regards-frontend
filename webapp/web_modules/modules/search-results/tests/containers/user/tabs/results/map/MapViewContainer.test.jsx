@@ -69,6 +69,7 @@ describe('[SEARCH RESULTS] Testing MapViewContainer', () => {
         projectName: 'def',
         onAddElementToCart: enableCart ? () => {} : null,
         updateResultsContext: () => {},
+        dispatchSelectAll: () => {},
       }
       const enzymeWrapper = shallow(<MapViewContainer {...props} />, { context })
       const componentWrapper = enzymeWrapper.find(MapViewComponent)

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 import './MizarLoader'
@@ -224,6 +225,10 @@ export default class MizarAdapter extends React.Component {
     }
 
     // 3 - Set up background layer
+    const staticLayer =  get(STATIC_CONF,'MAP.STATIC_LAYER',null)
+    if (staticLayer) {
+      this.mizar.instance.addLayer(staticLayer)
+    }
     this.mizar.instance.addLayer(baseLayer)
 
     // 4 - Set up features collection layer and store its reference

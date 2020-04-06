@@ -22,6 +22,7 @@ import { connect } from '@regardsoss/redux'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapViewComponent from '../../../../../components/user/tabs/results/map/MapViewComponent'
+import { getTableClient } from '../../../../../clients/TableClient'
 
 /**
  * Container for map view
@@ -34,8 +35,10 @@ export class MapViewContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch) {
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { tableActions } = getTableClient(tabType)
     return {
+      dispatchSelectAll: () => dispatch(tableActions.selectAll()),
       updateResultsContext: (moduleId, newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),
     }
   }
@@ -56,6 +59,11 @@ export class MapViewContainer extends React.Component {
     onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
+    dispatchSelectAll: PropTypes.func.isRequired,
+  }
+
+  componentWillMount = () => {
+    this.props.dispatchSelectAll()
   }
 
   /**
