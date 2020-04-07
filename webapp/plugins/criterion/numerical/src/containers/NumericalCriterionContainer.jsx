@@ -18,7 +18,7 @@
  **/
 import { DamDomain, CommonDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { AttributeModelWithBounds, numberRangeHelper } from '@regardsoss/plugins-api'
+import { AttributeModelWithBounds, NumberRange } from '@regardsoss/plugins-api'
 import NumericalCriterionComponent from '../components/NumericalCriterionComponent'
 
 /**
@@ -60,13 +60,15 @@ export class NumericalCriterionContainer extends React.Component {
 
   /** Default state for integer attributes (equal operator has higher priority) */
   static DEFAULT_INTEGER_TYPE_STATE = {
-    value: null,
+    error: false,
+    value: '',
     operator: CommonDomain.EnumNumericalComparator.EQ,
   }
 
   /** Default state for floating types (equal operator is not available) */
   static DEFAULT_FLOATING_TYPE_STATE = {
-    value: null,
+    error: false,
+    value: '',
     operator: CommonDomain.EnumNumericalComparator.GE,
   }
 
@@ -79,11 +81,28 @@ export class NumericalCriterionContainer extends React.Component {
     label: UIShapes.IntlMessage.isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
-      value: PropTypes.number,
+      error: PropTypes.bool.isRequired,
+      value: PropTypes.string,
       operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
+  }
+
+  /**
+   * Is error state with text and operator as parameter? In error when:
+   * A - There is some some text but is cannot be parsed into a valid number value ()
+   * B - The number value is valid but outside attributes bounds
+   * Both cases are covered by NumberRange.isValidRestricionOn (tests NaN and bounds)
+   * @param {*} attribute matching AttributeModelWithBounds shape
+   * @param {string} text input text
+   * @param {string} operator selected operator, from CommonDomain.EnumNumericalComparator
+   */
+  static isInError(attribute, text, operator) {
+    return text && operator
+      // invalid if the input value is not a valid number or the range expressed does not cross attribute range
+      ? !NumberRange.isValidRestrictionOn(attribute, NumberRange.convertToRange(parseFloat(text), operator))
+      : false
   }
 
   /**
@@ -92,11 +111,10 @@ export class NumericalCriterionContainer extends React.Component {
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ value, operator }, attribute) {
-    // Using common toolbox to build range query
-    return {
-      q: numberRangeHelper.getNumberQueryParameter(attribute.jsonPath,
-        numberRangeHelper.convertToRange(value, operator)).toQueryString(),
+  static convertToRequestParameters({ error, value, operator }, attribute) {
+    return error || !value ? {} : {
+      q: NumberRange.getNumberQueryParameter(attribute.jsonPath,
+        NumberRange.convertToRange(parseFloat(value), operator)).toQueryString(),
     }
   }
 
@@ -109,15 +127,20 @@ export class NumericalCriterionContainer extends React.Component {
   }
 
   /**
-   * Callback function: user input some text
+   * Callback function: user input a new number value
    *
-   * @param {Object} event Change event targeting the text field.
-   * @param {String} newValue The new value of the text field.
+   * @param {*} event original event
+   * @param {string} value new input text
    */
-  onTextInput = (event, newValue) => {
+  onTextChange = (event, value) => {
     // update state value and publish new state with query
     const { publishState, attributes: { searchField } } = this.props
-    const nextState = { ...this.getState(), value: parseFloat(newValue) }
+    const { operator } = this.getState()
+    const nextState = {
+      error: NumericalCriterionContainer.isInError(searchField, value, operator),
+      value,
+      operator,
+    }
     publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
@@ -128,22 +151,28 @@ export class NumericalCriterionContainer extends React.Component {
   onOperatorSelected = (operator) => {
     // update state opetarator and publish new state with query
     const { publishState, attributes: { searchField } } = this.props
-    const nextState = { ...this.getState(), operator }
+    const { value } = this.getState()
+    const nextState = {
+      error: NumericalCriterionContainer.isInError(searchField, value, operator),
+      value,
+      operator,
+    }
     publishState(nextState, NumericalCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {
     const { label, attributes: { searchField } } = this.props
-    const { value, operator } = this.getState()
+    const { error, value, operator } = this.getState()
     return (
       <NumericalCriterionComponent
         label={label}
         searchAttribute={searchField}
+        error={error}
         value={value}
         operator={operator}
         availableComparators={NumericalCriterionContainer.selectForType(searchField.type,
           NumericalCriterionContainer.AVAILABLE_INT_COMPARATORS, NumericalCriterionContainer.AVAILABLE_FLOAT_COMPARATORS)}
-        onTextInput={this.onTextInput}
+        onTextChange={this.onTextChange}
         onOperatorSelected={this.onOperatorSelected}
       />
     )

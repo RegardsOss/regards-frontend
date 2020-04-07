@@ -30,19 +30,22 @@ import NumericalCriterionComponent from './NumericalCriterionComponent'
 class MultipleAttributesComponent extends React.Component {
   static propTypes = {
     label: UIShapes.IntlMessage.isRequired,
+
     // first attribute, corresponding state elements and callback
+    error1: PropTypes.bool.isRequired,
     attribute1: AttributeModelWithBounds.isRequired,
-    value1: PropTypes.number,
+    value1: PropTypes.string,
     comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
     availableComparators1: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
-    onChangeValue1: PropTypes.func.isRequired, // callback for attribute 1 updates, (number, comparator) => ()
+    onValue1Changed: PropTypes.func.isRequired, // callback for attribute 1 updates, (number, comparator) => ()
 
     // second attribute, corresponding state elements and callback
+    error2: PropTypes.bool.isRequired,
     attribute2: AttributeModelWithBounds.isRequired,
-    value2: PropTypes.number,
+    value2: PropTypes.string,
     comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
     availableComparators2: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
-    onChangeValue2: PropTypes.func.isRequired, // callback for attribute 2 updates, (number, comparator) => ()
+    onValue2Changed: PropTypes.func.isRequired, // callback for attribute 2 updates, (number, comparator) => ()
   }
 
   static contextTypes = {
@@ -57,8 +60,8 @@ class MultipleAttributesComponent extends React.Component {
   render() {
     const {
       label,
-      attribute1, value1, comparator1, availableComparators1, onChangeValue1,
-      attribute2, value2, comparator2, availableComparators2, onChangeValue2,
+      attribute1, error1, value1, comparator1, availableComparators1, onValue1Changed,
+      attribute2, error2, value2, comparator2, availableComparators2, onValue2Changed,
     } = this.props
     const { intl: { locale }, muiTheme } = this.context
     return (
@@ -70,10 +73,11 @@ class MultipleAttributesComponent extends React.Component {
           <NumericalCriterionComponent
             searchAttribute={attribute1}
             fieldBoundType={BOUND_TYPE.ANY_BOUND}
+            error={error1}
             value={value1}
             comparator={comparator1}
             availableComparators={availableComparators1}
-            onChange={onChangeValue1}
+            onChange={onValue1Changed}
           />
         </tr>
         <tr>
@@ -85,10 +89,11 @@ class MultipleAttributesComponent extends React.Component {
           <NumericalCriterionComponent
             searchAttribute={attribute2}
             fieldBoundType={BOUND_TYPE.ANY_BOUND}
+            error={error2}
             value={value2}
             comparator={comparator2}
             availableComparators={availableComparators2}
-            onChange={onChangeValue2}
+            onChange={onValue2Changed}
           />
         </tr>
       </>)

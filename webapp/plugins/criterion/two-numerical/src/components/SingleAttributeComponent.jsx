@@ -31,10 +31,11 @@ class SingleAttributeComponent extends React.Component {
   static propTypes = {
     label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
-    value1: PropTypes.number,
-    value2: PropTypes.number,
-    onChangeValue1: PropTypes.func.isRequired, // callback for value 1 updates, (number) => ()
-    onChangeValue2: PropTypes.func.isRequired, // callback for value 2 updates, (number) => ()
+    error: PropTypes.bool.isRequired,
+    min: PropTypes.string,
+    max: PropTypes.string,
+    onMinChanged: PropTypes.func.isRequired, // callback for value 1 updates, (number) => ()
+    onMaxChanged: PropTypes.func.isRequired, // callback for value 2 updates, (number) => ()
   }
 
   static contextTypes = {
@@ -50,11 +51,10 @@ class SingleAttributeComponent extends React.Component {
 
   render() {
     const {
-      label, searchAttribute, value1, value2,
-      onChangeValue1, onChangeValue2,
+      label, searchAttribute, error, min, max,
+      onMinChanged, onMaxChanged,
     } = this.props
     const { intl: { locale }, muiTheme } = this.context
-
     return (
       <>
         <tr>
@@ -64,11 +64,11 @@ class SingleAttributeComponent extends React.Component {
           <NumericalCriterionComponent
             searchAttribute={searchAttribute}
             fieldBoundType={BOUND_TYPE.LOWER_BOUND}
-            value={value1}
+            error={error}
+            value={min}
             comparator={CommonDomain.EnumNumericalComparator.GE}
             availableComparators={SingleAttributeComponent.LOWER_BOUND_OPERATORS}
-            onChange={onChangeValue1}
-            showComparator
+            onChange={onMinChanged}
           />
         </tr>
         <tr>
@@ -76,11 +76,11 @@ class SingleAttributeComponent extends React.Component {
           <NumericalCriterionComponent
             searchAttribute={searchAttribute}
             fieldBoundType={BOUND_TYPE.UPPER_BOUND}
-            value={value2}
+            error={error}
+            value={max}
             comparator={CommonDomain.EnumNumericalComparator.LE}
             availableComparators={SingleAttributeComponent.UPPER_BOUND_OPERATORS}
-            onChange={onChangeValue2}
-            showComparator
+            onChange={onMaxChanged}
           />
         </tr>
       </>)

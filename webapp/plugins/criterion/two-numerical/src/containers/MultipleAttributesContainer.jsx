@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { CommonDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { AttributeModelWithBounds, numberRangeHelper } from '@regardsoss/plugins-api'
+import { AttributeModelWithBounds, NumberRange } from '@regardsoss/plugins-api'
+import { NumberHelper } from './NumberHelper'
 import MultipleAttributesComponent from '../components/MultipleAttributesComponent'
 
 /**
@@ -29,17 +31,21 @@ import MultipleAttributesComponent from '../components/MultipleAttributesCompone
 export class MultipleAttributesContainer extends React.Component {
   /** Default container state */
   static DEFAULT_STATE = {
-    value1: null,
+    error1: false,
+    value1: '',
     comparator1: CommonDomain.EnumNumericalComparator.GE,
-    value2: null,
+    error2: false,
+    value2: '',
     comparator2: CommonDomain.EnumNumericalComparator.LE,
   }
 
   /** Shape for this subtype of criterion */
   static STATE_SHAPE = PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-    value1: PropTypes.number,
+    error1: PropTypes.bool.isRequired,
+    value1: PropTypes.string,
     comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    value2: PropTypes.number,
+    error2: PropTypes.bool.isRequired,
+    value2: PropTypes.string,
     comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
   })
 
@@ -94,17 +100,17 @@ export class MultipleAttributesContainer extends React.Component {
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({
-    value1, comparator1, value2, comparator2,
+    error1, value1, comparator1, error2, value2, comparator2,
   }, firstAttribute, secondAttribute) {
-    // Using common toolbox to build range query
-    return {
+    // No query when: any field is in error or there is no field value
+    return error1 || error2 || (!value1 && !value2) ? {} : {
       q: new CatalogDomain.OpenSearchQuery([
         // first attribute
-        numberRangeHelper.getNumberQueryParameter(firstAttribute.jsonPath,
-          numberRangeHelper.convertToRange(value1, comparator1)),
+        NumberRange.getNumberQueryParameter(firstAttribute.jsonPath,
+          NumberRange.convertToRange(NumberHelper.parse(value1).value, comparator1)),
         // second attribute
-        numberRangeHelper.getNumberQueryParameter(secondAttribute.jsonPath,
-          numberRangeHelper.convertToRange(value2, comparator2)),
+        NumberRange.getNumberQueryParameter(secondAttribute.jsonPath,
+          NumberRange.convertToRange(NumberHelper.parse(value2).value, comparator2)),
       ]).toQueryString(),
     }
   }
@@ -112,28 +118,45 @@ export class MultipleAttributesContainer extends React.Component {
 
   /**
    * Callback: user changed value 1 number and / or operator
-   * @param {number} value1 as parsed by NumericalCriteriaComponent
+   * @param {number} value1 user input text
    * @param {string} comparator1 comparator, one of EnumNumericalComparator values
    */
-  onChangeValue1 = (value1, comparator1) => {
+  onValue1Changed = (value1, comparator1) => {
     const {
       state, publishState, firstField, secondField,
     } = this.props
-    const newState = { ...state, value1, comparator1 }
-    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    const { error, value } = NumberHelper.parse(value1)
+    const newState = {
+      ...state,
+      error1: error || !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1)),
+      value1,
+      comparator1,
+    }
+    if (!isEqual(newState, state)) {
+      publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    }
   }
 
   /**
    * Callback: user changed value 2 number and / or operator
-   * @param {number} value2 as parsed by NumericalCriteriaComponent
+   * @param {string} value2 user input text
    * @param {string} comparator2 operator, one of EnumNumericalComparator values
    */
-  onChangeValue2 = (value2, comparator2) => {
+  onValue2Changed = (value2, comparator2) => {
     const {
       state, publishState, firstField, secondField,
     } = this.props
-    const newState = { ...state, value2, comparator2 }
-    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    const { error, value } = NumberHelper.parse(value2)
+    const newState = {
+      ...state,
+      // in error when text cannot be parsed or range is invalid
+      error2: error || !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2)),
+      value2,
+      comparator2,
+    }
+    if (!isEqual(newState, state)) {
+      publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    }
   }
 
   render() {
@@ -141,23 +164,26 @@ export class MultipleAttributesContainer extends React.Component {
       label,
       firstField, secondField,
       state: {
-        value1, comparator1, value2, comparator2,
+        error1, value1, comparator1, error2, value2, comparator2,
       },
     } = this.props
     return (
       <MultipleAttributesComponent
         label={label}
         attribute1={firstField}
+
+        error1={error1}
         value1={value1}
         comparator1={comparator1}
         availableComparators1={MultipleAttributesContainer.getAvailableComparators(firstField)}
-        onChangeValue1={this.onChangeValue1}
+        onValue1Changed={this.onValue1Changed}
 
+        error2={error2}
         attribute2={secondField}
         value2={value2}
         comparator2={comparator2}
         availableComparators2={MultipleAttributesContainer.getAvailableComparators(secondField)}
-        onChangeValue2={this.onChangeValue2}
+        onValue2Changed={this.onValue2Changed}
       />)
   }
 }

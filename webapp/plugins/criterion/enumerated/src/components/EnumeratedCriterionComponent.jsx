@@ -35,13 +35,13 @@ export class EnumeratedCriterionComponent extends React.Component {
     label: UIShapes.IntlMessage.isRequired,
     // attribute currently searched
     searchAttribute: AttributeModelWithBounds.isRequired,
+    // is currently in error
+    error: PropTypes.bool.isRequired,
     // current field text
     text: PropTypes.string.isRequired,
     // available hints for values (optional as it may currently be fetching)
     // eslint-disable-next-line react/no-unused-prop-types
     availablePropertyValues: PropTypes.arrayOf(PropTypes.string), // only used in onPropertiesUpdated
-    // is currently in error (optional, defaults to false)
-    inError: PropTypes.bool,
     // is currently fetching values hints (optional, defaults to false)
     isFetching: PropTypes.bool,
     // callback: user typed some new text
@@ -102,7 +102,7 @@ export class EnumeratedCriterionComponent extends React.Component {
   render() {
     const {
       label, searchAttribute, text,
-      inError, isFetching,
+      error, isFetching,
       onUpdateTextFilter, onFilterSelected,
     } = this.props
     const { currentHints } = this.state
@@ -131,7 +131,7 @@ export class EnumeratedCriterionComponent extends React.Component {
             currentHintText={text}
             currentHints={currentHints}
             isFetching={isFetching}
-            isInError={inError}
+            isInError={error}
             onUpdateInput={onUpdateTextFilter}
             onFilterSelected={onFilterSelected}
             menuStyle={menuStyle}

@@ -16,31 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { shallow } from 'enzyme'
-import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import SingleOperatorSelector from '../../src/buttons/SingleOperatorSelector'
-import styles from '../../src/buttons/styles'
-
-const context = buildTestContext(styles)
+import { NumberRange } from '@regardsoss/plugins-api'
 
 /**
- * Test SingleOperatorSelector
+ * Common tools to work with numbers in plugin (avoid code pasting)
  * @author Raphaël Mechali
  */
-describe('[Components] Testing SingleOperatorSelector', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
-
-  it('should exists', () => {
-    assert.isDefined(SingleOperatorSelector)
-  })
-  it('should render correctly', () => {
-    const props = {
-    //  TODO properties
+export class NumberHelper {
+  /**
+   * Parses a text value. Returns parsed value and parsing error state
+   * @param {string}  text
+   * @return {{error: boolean, value: number}}
+   */
+  static parse(text) {
+    if (!text) {
+      return { error: false, value: null }
     }
-    assert.fail('Implement me')
-    const enzymeWrapper = shallow(<SingleOperatorSelector {...props} />, { context })
-    // TODO test
-  })
-})
+    const value = parseFloat(text)
+    return NumberRange.isValidNumber(value) ? { error: false, value } : { error: true, value: null }
+  }
+}

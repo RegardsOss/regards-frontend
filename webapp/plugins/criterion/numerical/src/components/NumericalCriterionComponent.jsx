@@ -24,7 +24,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { NumericalComparatorSelector } from '@regardsoss/components'
 import {
-  AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip, numberRangeHelper,
+  AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip,
 } from '@regardsoss/plugins-api'
 
 /**
@@ -35,10 +35,11 @@ class NumericalCriterionComponent extends React.Component {
   static propTypes = {
     label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
-    value: PropTypes.number,
+    error: PropTypes.bool.isRequired,
+    value: PropTypes.string,
     operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
     availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
-    onTextInput: PropTypes.func.isRequired,
+    onTextChange: PropTypes.func.isRequired,
     onOperatorSelected: PropTypes.func.isRequired,
   }
 
@@ -49,37 +50,20 @@ class NumericalCriterionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-    * Parses the value given from the field input component.
-    * @param {string} text text
-    * @return {Number} parsed value (maybe null / undefined / Number.NaN)
-    */
-  static toValue(text) {
-    return parseFloat(text)
-  }
-
-  /**
-    * Formats the value before displaying in the field input component.
-    * @param {number} value value to format (maybe null / undefined / Number.NaN)
-    * @return {string} formatted value
-    */
-  static toText(value) {
-    return numberRangeHelper.isValidNumber(value) ? value : ''
-  }
-
+  /** Error text placeholder (used to display empty error on text field) */
+  static ERROR_TEXT_PLACEHOLDER = ' '
 
   render() {
     const {
       label, searchAttribute,
-      value, operator, availableComparators,
-      onTextInput, onOperatorSelected,
+      error, value, operator, availableComparators,
+      onTextChange, onOperatorSelected,
     } = this.props
     const { intl, muiTheme } = this.context
 
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNovalue = isNil(lowerBound) && isNil(upperBound)
-
     return (
       <tr>
         {/* 1. label */}
@@ -98,11 +82,11 @@ class NumericalCriterionComponent extends React.Component {
         {/* 3. input box */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <TextField
-            type="number" // TODO NO NO NO NO NO, never!
             hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.ANY_BOUND)}
             title={formatTooltip(intl, searchAttribute)}
-            value={NumericalCriterionComponent.toText(value)}
-            onChange={onTextInput}
+            errorText={error ? NumericalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
+            value={value}
+            onChange={onTextChange}
             disabled={hasNovalue}
             fullWidth
           />

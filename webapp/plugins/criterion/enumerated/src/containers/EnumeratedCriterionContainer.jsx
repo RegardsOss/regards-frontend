@@ -19,7 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import get from 'lodash/get'
 import { CatalogDomain } from '@regardsoss/domain'
-import { UIShapes, CommonShapes, CatalogShapes } from '@regardsoss/shape'
+import { UIShapes, CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { StabilityDelayer } from '@regardsoss/display-control'
 import { AttributeModelWithBounds, PluginsClientsMap } from '@regardsoss/plugins-api'
@@ -38,6 +38,7 @@ export class EnumeratedCriterionContainer extends React.Component {
    * This plugin default state when redux state is undefined
    */
   static DEFAULT_STATE = {
+    error: false,
     searchText: '',
   }
 
@@ -93,6 +94,7 @@ export class EnumeratedCriterionContainer extends React.Component {
     label: UIShapes.IntlMessage.isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
+      error: PropTypes.bool.isRequired,
       searchText: PropTypes.string,
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
@@ -116,8 +118,8 @@ export class EnumeratedCriterionContainer extends React.Component {
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ searchText = '' }, attribute) {
-    return {
+  static convertToRequestParameters({ searchText = '', error }, attribute) {
+    return error || !searchText ? {} : {
       q: new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath,
         CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(searchText.trim())).toQueryString(),
     }
@@ -144,28 +146,40 @@ export class EnumeratedCriterionContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      attributes: { searchField }, state,
+      attributes: { searchField }, availablePropertyValues,
+      state, publishState,
       searchContext, dispatchGetPropertyValues,
     } = newProps
 
     if (!isEqual(oldProps.searchContext, searchContext)) {
-      // Update immediately option on context change and...
+      // Update immediately available options on context change
       dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters)
     } else if (!isEqual(get(oldProps, 'state.searchText', EnumeratedCriterionContainer.DEFAULT_STATE.searchText), state.searchText)) {
-      // when search text changes (user is type text), update options after an inactivity time ellapsed
+      // when search text changes (user is typing text), update options after an inactivity time ellapsed
       this.stabilityDelayer.onEvent(() => dispatchGetPropertyValues(searchField.jsonPath, state.searchText, searchContext.searchParameters))
+    } else {
+      // compute if error status changed (happens when availablePropertyValues change)
+      const oldErrorState = get(oldProps, 'state.error', false)
+      const newErrorState = !!state.searchText && !availablePropertyValues.includes(state.searchText)
+      if (oldErrorState !== newErrorState) {
+        const newState = { ...state, error: newErrorState }
+        publishState(newState, EnumeratedCriterionContainer.convertToRequestParameters(newState, searchField))
+      }
     }
   }
 
 
   /**
-   * User updated the text field
-   * @param {string} value text field value
+   * Inner callback: updates state on user input
+   * @param {string} searchText search text
    */
-  onUpdateTextFilter = (searchText = '') => {
-    const { state, publishState, attributes: { searchField } } = this.props
+  onTextInput = (searchText = '') => {
+    const {
+      state, publishState,
+      attributes: { searchField }, availablePropertyValues,
+    } = this.props
     const nextState = {
-      ...state,
+      error: !!searchText && !availablePropertyValues.includes(searchText),
       searchText,
     }
 
@@ -176,35 +190,32 @@ export class EnumeratedCriterionContainer extends React.Component {
   }
 
   /**
-   * Callback: the user selected a value or typed in some text (validated with return key)
-   * @param {string} test selected parameter value or validated text field value
-   * @param {string} isInList did user select a strict value in list? (or did he type some unknown value)
+   * User updated the text field value
+   * @param {string} value text field value
    */
-  onFilterSelected = (text, isInList) => {
-    const {
-      publishState,
-      attributes: { searchField },
-    } = this.props
-    const nextState = { searchText: text }
-    publishState(nextState, EnumeratedCriterionContainer.convertToRequestParameters(nextState, searchField))
-  }
+  onUpdateTextFilter = (searchText = '') => this.onTextInput(searchText)
+
+  /**
+   * Callback: the user selected a value
+   * @param {string} test selected parameter value or validated text field value
+   */
+  onFilterSelected = text => this.onTextInput(text)
 
   /**
    * Method to display search criteria
    */
   render() {
     const {
-      label, attributes: { searchField }, state: { searchText },
+      label, attributes: { searchField }, state: { error, searchText },
       isFetching, availablePropertyValues,
     } = this.props
     return (
       <EnumeratedCriterionComponent
         label={label}
         searchAttribute={searchField}
+        error={error}
         text={searchText}
         availablePropertyValues={availablePropertyValues}
-        // In error when there is some search but it is not strictly equal to one of the options
-        inError={!!searchText && !availablePropertyValues.includes(searchText)}
         isFetching={isFetching}
         onUpdateTextFilter={this.onUpdateTextFilter}
         onFilterSelected={this.onFilterSelected}

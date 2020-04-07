@@ -24,8 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { NumericalComparatorSelector } from '@regardsoss/components'
 import {
-  AttributeModelWithBounds, BOUND_TYPE, numberRangeHelper,
-  formatHintText, formatTooltip,
+  AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip,
 } from '@regardsoss/plugins-api'
 
 /**
@@ -37,7 +36,8 @@ export class NumericalCriterionComponent extends React.Component {
   static propTypes = {
     searchAttribute: AttributeModelWithBounds.isRequired,
     fieldBoundType: PropTypes.oneOf(values(BOUND_TYPE)).isRequired,
-    value: PropTypes.number,
+    error: PropTypes.bool.isRequired,
+    value: PropTypes.string,
     comparator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
     availableComparators: PropTypes.arrayOf(PropTypes.oneOf(CommonDomain.EnumNumericalComparators)).isRequired,
     /** Callback to change the current criteria values in form: (value:number, operator:EnumNumicalComparators) => () */
@@ -51,23 +51,8 @@ export class NumericalCriterionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   * Parses the value given from the field input component.
-   * @param {String} text
-   * @return {number} parsed value (maybe null / undefined / Number.NaN)
-   */
-  static toValue(text) {
-    return parseFloat(text)
-  }
-
-  /**
-   * Returns text for current value
-   * @param {number} value
-   * @return {string} corresponding text
-   */
-  static toText(value) {
-    return numberRangeHelper.isValidNumber(value) ? value : ''
-  }
+  /** Error text placeholder (used to display empty error on text field) */
+  static ERROR_TEXT_PLACEHOLDER = ' '
 
   /**
    * Callback function that is fired when the textfield's value changes.
@@ -75,9 +60,9 @@ export class NumericalCriterionComponent extends React.Component {
    * @param {Object} event Change event targeting the text field.
    * @param {String} newText The new value of the text field.
    */
-  onTextInput = (event, newText) => {
+  onTextChange = (event, newText) => {
     const { onChange, comparator } = this.props
-    onChange(NumericalCriterionComponent.toValue(newText), comparator)
+    onChange(newText, comparator)
   }
 
   /**
@@ -92,7 +77,8 @@ export class NumericalCriterionComponent extends React.Component {
 
   render() {
     const {
-      searchAttribute, comparator, value, availableComparators,
+      searchAttribute, error, value,
+      comparator, availableComparators,
       fieldBoundType,
     } = this.props
     const { intl, muiTheme } = this.context
@@ -113,12 +99,12 @@ export class NumericalCriterionComponent extends React.Component {
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <TextField
             key="field"
-            type="number" // TODO no!
             hintText={formatHintText(intl, searchAttribute, fieldBoundType)}
             title={formatTooltip(intl, searchAttribute)}
-            value={NumericalCriterionComponent.toText(value)}
+            errorText={error ? NumericalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
+            value={value}
             fullWidth
-            onChange={this.onTextInput}
+            onChange={this.onTextChange}
             disabled={hasNoValue}
           />
         </td>

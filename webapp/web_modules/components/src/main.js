@@ -69,6 +69,8 @@ export { default as FormErrorMessage } from './error/FormErrorMessage'
 
 export { default as FeedbackDisplayer } from './feedback/FeedbackDisplayer'
 
+export { default as DatePickerField } from './fields/DatePickerField'
+
 export { default as HelpMessageComponent } from './help/HelpMessageComponent'
 
 export { default as Breadcrumb } from './links/Breadcrumb'
@@ -154,6 +156,3 @@ export { default as DurationValueRender } from './values/DurationValueRender'
 export { default as withValueRenderContext } from './values/withValueRenderContext'
 
 export { default as InfiniteGalleryContainer } from './gallery/InfiniteGalleryContainer'
-
-// Date
-export { default as DatePickerField } from './date/DatePickerField'

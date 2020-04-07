@@ -18,7 +18,7 @@
  **/
 
 export { default as PluginsClientsMap } from './client/PluginsClientsMap'
-export { default as numberRangeHelper } from './utils/NumberRangeHelper'
+export { NumberRange } from './utils/NumberRange'
 export { BOUND_TYPE, formatHintText, formatTooltip } from './utils/AttributesMessagesHelper'
 export { initPlugin } from './utils/InitPlugin'
 export { TargetEntitiesResolver } from './utils/TargetEntitiesResolver'
