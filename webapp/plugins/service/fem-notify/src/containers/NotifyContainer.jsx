@@ -85,7 +85,7 @@ export class NotifyContainer extends React.Component {
     // detect change
     if (this.props.error.hasError !== previousProps.error.hasError || this.props.isFetching !== previousProps.isFetching) {
       // close the popup when the fetch is done and there is no error
-      if (!this.props.error && !this.props.isFetching) {
+      if (!this.props.error.hasError && !this.props.isFetching) {
         this.props.onClose()
       }
     }
