@@ -50,7 +50,7 @@ describe('[fem-delete] Testing EditContainer', () => {
       editFeatures: () => new Promise(() => { }),
       fetchModelAttributes: () => new Promise(() => { }),
       // mock map state to props
-      modelAttributeList: {},
+      modelAttributeList: [],
       error: {
         hasError: false,
       },

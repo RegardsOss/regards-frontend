@@ -41,7 +41,7 @@ export class EditContainer extends React.Component {
   static mapStateToProps(state, props) {
     const { modelAttributesClient, editClient } = props
     return {
-      modelAttributes: modelAttributesClient.selectors.getResult(state),
+      modelAttributeList: modelAttributesClient.selectors.getResult(state),
       error: editClient.selectors.getError(state),
       isFetching: editClient.selectors.isFetching(state),
     }
@@ -82,7 +82,7 @@ export class EditContainer extends React.Component {
       hasError: PropTypes.bool.isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
-    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    modelAttributeList: DataManagementShapes.AttributeModelArray,
   }
 
   static contextTypes = {
