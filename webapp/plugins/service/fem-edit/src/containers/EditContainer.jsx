@@ -124,7 +124,7 @@ export class EditContainer extends React.Component {
     const { searchContext } = this.props.target
     this.props.editFeatures({
       searchRequest: searchContext,
-      values: properties,
+      values: { properties },
     })
   }
 
