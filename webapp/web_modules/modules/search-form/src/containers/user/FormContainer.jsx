@@ -135,7 +135,7 @@ export class FormContainer extends React.Component {
 
   state = {
     configurationQuery: '',
-    pluginsProps: { initialQuery: '' },
+    pluginsProps: { initialQuery: '' }, // temporary fix
   }
 
   /**
@@ -202,7 +202,7 @@ export class FormContainer extends React.Component {
     if (!isEqual(oldConfigurationRestrictions, newConfigurationRestrictions)) {
       const configurationParameters = UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(newConfigurationRestrictions)
       nextState.configurationQuery = configurationParameters[CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME] || ''
-      nextState.pluginsProps = { initialQuery: nextState.configurationQuery }
+      nextState.pluginsProps = { initialQuery: nextState.configurationQuery[0] } // temporary fix
     }
     if (!isEqual(this.state, nextState)) {
       this.setState(nextState)

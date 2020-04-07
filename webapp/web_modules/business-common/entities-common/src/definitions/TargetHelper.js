@@ -42,10 +42,10 @@ export class TargetHelper {
         ...TargetHelper.COMMON_CONTEXT,
         searchParameters: {
           // query: the selected entity
-          q: new CatalogDomain.OpenSearchQuery([
+          q: [new CatalogDomain.OpenSearchQuery([
             new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entity.content.id))])
-            .toQueryString(),
+            .toQueryString()],
         },
       },
       entityType: entity.content.entityType,
@@ -66,10 +66,10 @@ export class TargetHelper {
         ...TargetHelper.COMMON_CONTEXT,
         searchParameters: {
           // query: any selected entity
-          q: new CatalogDomain.OpenSearchQuery([
+          q: [new CatalogDomain.OpenSearchQuery([
             new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entities.map(e => e.content.id)))])
-            .toQueryString(),
+            .toQueryString()],
         },
       },
       entityType: entities[0].content.entityType,
@@ -94,13 +94,13 @@ export class TargetHelper {
         searchParameters: {
           ...requestParameters,
           // q : current context and excluded IDs
-          q: new CatalogDomain.OpenSearchQuery([
+          q: [new CatalogDomain.OpenSearchQuery([
             // excluded IDs
             new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
                 excludedEntities.map(e => e.content.id), CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR, true))],
           // context query as base query
-          requestParameters.q || '').toQueryString(),
+          requestParameters.q && requestParameters.q.length > 0 ? requestParameters.q[0] : '').toQueryString()],
         },
       },
       entityType,
