@@ -130,7 +130,7 @@ describe('[SEARCH FORM] Testing FormContainer', () => {
     // Check built configuration query (q parts from configurationRestrictions criteria )
     const expectedQuery = 'datasetModelIds:URN:DATASET:MyDataset:V1 AND tag:myTag'
     assert.deepEqual(enzymeWrapper.state(), {
-      configurationQuery: expectedQuery,
+      configurationQuery: [expectedQuery],
       pluginsProps: { initialQuery: expectedQuery },
     }, 'State should be correctly built for current results context')
 

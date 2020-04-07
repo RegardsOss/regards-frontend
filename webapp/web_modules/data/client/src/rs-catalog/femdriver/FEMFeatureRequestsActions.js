@@ -23,9 +23,9 @@ import { BasicSignalsActions } from '@regardsoss/store-utils'
  * Redux actions to create fem requests
  * @author Léo Mieulet
  */
-export default class RequestsActions extends BasicSignalsActions {
+export default class FEMFeatureRequestsActions extends BasicSignalsActions {
   /** Root endpoints for features microservice actions */
-  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}`
+  static ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/femdriver/features`
 
   static NOTIFY = 'NOTIFY'
 
@@ -39,16 +39,16 @@ export default class RequestsActions extends BasicSignalsActions {
    */
   constructor(namespace) {
     super({
-      [RequestsActions.NOTIFY]: {
-        entityEndpoint: `${RequestsActions.ROOT_ENDPOINT}/requests/notify`,
+      [FEMFeatureRequestsActions.NOTIFY]: {
+        entityEndpoint: `${FEMFeatureRequestsActions.ROOT_ENDPOINT}/notify`,
         namespace: `${namespace}/NOTIFY`,
       },
-      [RequestsActions.DELETE]: {
-        entityEndpoint: `${RequestsActions.ROOT_ENDPOINT}/requests/delete`,
+      [FEMFeatureRequestsActions.DELETE]: {
+        entityEndpoint: `${FEMFeatureRequestsActions.ROOT_ENDPOINT}/delete`,
         namespace: `${namespace}/DELETE`,
       },
-      [RequestsActions.UPDATE]: {
-        entityEndpoint: `${RequestsActions.ROOT_ENDPOINT}/requests/update`,
+      [FEMFeatureRequestsActions.UPDATE]: {
+        entityEndpoint: `${FEMFeatureRequestsActions.ROOT_ENDPOINT}/update`,
         namespace: `${namespace}/UPDATE`,
       },
     })
@@ -58,28 +58,28 @@ export default class RequestsActions extends BasicSignalsActions {
    * Build an action that (re)notify features using the provided search context
    */
   notify(searchContext) {
-    return this.getSubAction(RequestsActions.NOTIFY).sendSignal('POST', searchContext)
+    return this.getSubAction(FEMFeatureRequestsActions.NOTIFY).sendSignal('POST', searchContext)
   }
 
   /**
    * Build an action that delete features using the provided search context
    */
   delete(searchContext) {
-    return this.getSubAction(RequestsActions.DELETE).sendSignal('POST', searchContext)
+    return this.getSubAction(FEMFeatureRequestsActions.DELETE).sendSignal('POST', searchContext)
   }
 
   /**
    * Build an action that update features using formValues
    */
   update(formValues) {
-    return this.getSubAction(RequestsActions.UPDATE).sendSignal('POST', formValues)
+    return this.getSubAction(FEMFeatureRequestsActions.UPDATE).sendSignal('POST', formValues)
   }
 
   /**
    * @returns list of dependencies as ressources endpoints
    */
   getDependencies() {
-    return map([RequestsActions.NOTIFY, RequestsActions.DELETE, RequestsActions.UPDATE],
+    return map([FEMFeatureRequestsActions.NOTIFY, FEMFeatureRequestsActions.DELETE, FEMFeatureRequestsActions.UPDATE],
       subAction => this.getDependency(subAction, 'POST'),
     )
   }

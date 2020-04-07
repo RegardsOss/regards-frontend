@@ -126,9 +126,8 @@ export class ResultsContextHelper {
     }, {})
     // group q parts into a single string for value
     const qValue = CatalogSearchQueryHelper.mergeQueryParameter(requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME])
-    if (qValue) {
-      requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
-    }
+    // keep an array of queries for POST methods compatibility
+    requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue ? [qValue] : []
     return requestParameters
   }
 

@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FemClient, CatalogClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { BasicSignalSelectors, BasicSignalsSelectors } from '@regardsoss/store-utils'
@@ -41,7 +41,7 @@ export class EditContainer extends React.Component {
   static mapStateToProps(state, props) {
     const { modelAttributesClient, editClient } = props
     return {
-      modelAttributes: modelAttributesClient.selectors.getResult(state),
+      modelAttributeList: modelAttributesClient.selectors.getResult(state),
       error: editClient.selectors.getError(state),
       isFetching: editClient.selectors.isFetching(state),
     }
@@ -56,7 +56,7 @@ export class EditContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     const { modelAttributesClient, editClient } = props
     return {
-      editFeatures: searchContext => dispatch(editClient.actions.notify(searchContext)),
+      editFeatures: searchContext => dispatch(editClient.actions.update(searchContext)),
       fetchModelAttributes: searchContext => dispatch(modelAttributesClient.actions.getCommonModelAttributes(searchContext)),
     }
   }
@@ -67,7 +67,7 @@ export class EditContainer extends React.Component {
     pluginInstanceId: PropTypes.string.isRequired,
     // Connected client to use to delete features on fem
     editClient: PropTypes.shape({
-      actions: PropTypes.instanceOf(FemClient.RequestsActions),
+      actions: PropTypes.instanceOf(CatalogClient.FEMFeatureRequestsActions),
       selectors: PropTypes.instanceOf(BasicSignalsSelectors),
     }).isRequired,
     modelAttributesClient: PropTypes.shape({
@@ -82,7 +82,7 @@ export class EditContainer extends React.Component {
       hasError: PropTypes.bool.isRequired,
     }).isRequired,
     isFetching: PropTypes.bool.isRequired,
-    modelAttributeList: DataManagementShapes.ModelAttributeList,
+    modelAttributeList: DataManagementShapes.AttributeModelArray,
   }
 
   static contextTypes = {
@@ -97,7 +97,7 @@ export class EditContainer extends React.Component {
   }
 
   componentDidMount() {
-    const searchContext = this.buildSearchContext()
+    const { searchContext } = this.props.target
     this.props.fetchModelAttributes(searchContext).then(() => {
       // Ignore error, just play attributes
       this.setState({
@@ -116,297 +116,20 @@ export class EditContainer extends React.Component {
     }
   }
 
-  buildSearchContext = () => {
-    const { requestParameters } = this.props.target
-    return {
-      searchParameters: requestParameters,
-    }
-  }
-
   cancel = () => {
     this.props.onClose()
   }
 
   onSubmit = ({ properties }) => {
-    const searchContext = this.buildSearchContext()
+    const { searchContext } = this.props.target
     this.props.editFeatures({
-      ...searchContext,
-      propertiesToUpdate: properties,
+      searchRequest: searchContext,
+      values: { properties },
     })
   }
 
-
-  getAttributeModelListStub() {
-    return {
-      22: {
-        content: {
-          id: 15,
-          name: 'Zodiac',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      23: {
-        content: {
-          id: 16,
-          name: 'Acronym',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-      24: {
-        content: {
-          id: 17,
-          name: 'Zodiac2',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      25: {
-        content: {
-          id: 18,
-          name: 'Acronym2',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-      26: {
-        content: {
-          id: 19,
-          name: 'Zodiac3',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      27: {
-        content: {
-          id: 20,
-          name: 'Acronym3',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-      28: {
-        content: {
-          id: 21,
-          name: 'Zodiac4',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      29: {
-        content: {
-          id: 22,
-          name: 'Acronym4',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-      33: {
-        content: {
-          id: 23,
-          name: 'Zodiac4',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      34: {
-        content: {
-          id: 24,
-          name: 'Acronym4',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-      30: {
-        content: {
-          id: 25,
-          name: 'Zodiac5',
-          description: 'Zodiac',
-          type: 'BOOLEAN',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Zodiac',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Zodiac',
-        },
-        links: [],
-      },
-      31: {
-        content: {
-          id: 26,
-          name: 'Acronym5',
-          description: 'Acronym of the constellation',
-          type: 'STRING',
-          unit: 'unitless',
-          fragment: {
-            id: 1,
-            name: 'default',
-            description: 'Default fragment',
-          },
-          alterable: true,
-          optional: false,
-          label: 'Acronym',
-          properties: [],
-          dynamic: true,
-          internal: false,
-          jsonPath: 'properties.Acronym',
-        },
-        links: [],
-      },
-    }
-  }
-
   render() {
-    const { entitiesCount } = this.props.target
+    const { target: { entitiesCount }, modelAttributeList } = this.props
     const { isLoading } = this.state
     return (
 
@@ -415,7 +138,7 @@ export class EditContainer extends React.Component {
       >
         <EditComponent
           onSubmit={this.onSubmit}
-          attributeModelList={this.getAttributeModelListStub()}
+          attributeModelList={modelAttributeList }
           onCancel={this.cancel}
           pluginInstanceId={this.props.pluginInstanceId}
           entitiesCount={entitiesCount}

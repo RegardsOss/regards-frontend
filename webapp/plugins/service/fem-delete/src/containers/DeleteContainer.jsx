@@ -23,7 +23,7 @@ import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FemClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
 import withClient from './withClient'
 
@@ -63,8 +63,7 @@ export class DeleteContainer extends React.Component {
     target: AccessShapes.PluginTarget.isRequired,
     // Connected client to use to delete features on fem
     deleteClient: PropTypes.shape({
-      actions: PropTypes.instanceOf(FemClient.RequestsActions),
-      reducer: PropTypes.func.isRequired,
+      actions: PropTypes.instanceOf(CatalogClient.FEMFeatureRequestsActions),
       selectors: PropTypes.func.isRequired,
     }).isRequired,
     // From mapDispatchToProps
@@ -93,15 +92,8 @@ export class DeleteContainer extends React.Component {
     }
   }
 
-  buildSearchContext = () => {
-    const { requestParameters } = this.props.target
-    return {
-      searchParameters: requestParameters,
-    }
-  }
-
   notifyFem = () => {
-    const searchContext = this.buildSearchContext()
+    const { searchContext } = this.props.target
     this.props.deleteFeatures(searchContext)
   }
 
@@ -139,5 +131,5 @@ export class DeleteContainer extends React.Component {
 // Connect clients and retrieve them as props
 export default withClient(
   // REDUX connected container
-  connect(DeleteContainer.mapStateToProps,DeleteContainer.mapDispatchToProps)(DeleteContainer)
+  connect(DeleteContainer.mapStateToProps, DeleteContainer.mapDispatchToProps)(DeleteContainer),
 )
