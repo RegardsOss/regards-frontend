@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, uiPluginServiceTestHelpers } from '@regardsoss/tests-helpers'
-import { FemClient, CatalogClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 
 import { BasicSignalsSelectors, BasicSignalSelectors } from '@regardsoss/store-utils'
 import { EditContainer } from '../../src/containers/EditContainer'
@@ -57,7 +57,7 @@ describe('[fem-delete] Testing EditContainer', () => {
       isFetching: false,
       // Client stub expected by the container
       editClient: {
-        actions: new FemClient.RequestsActions('stub.namespace'),
+        actions: new CatalogClient.FEMFeatureRequestsActions('stub.namespace'),
         selectors: new BasicSignalsSelectors([]),
       },
       modelAttributesClient: {

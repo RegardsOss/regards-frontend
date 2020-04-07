@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, uiPluginServiceTestHelpers } from '@regardsoss/tests-helpers'
-import { FemClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 import { DeleteContainer } from '../../src/containers/DeleteContainer'
 import styles from '../../src/styles/styles'
 
@@ -53,8 +53,7 @@ describe('[fem-delete] Testing DeleteContainer', () => {
       isFetching: false,
       // Client stub expected by the container
       deleteClient: {
-        actions: new FemClient.RequestsActions('stub.namespace'),
-        reducer: () => ({}),
+        actions: new CatalogClient.FEMFeatureRequestsActions('stub.namespace'),
         selectors: () => ({}),
       },
     }

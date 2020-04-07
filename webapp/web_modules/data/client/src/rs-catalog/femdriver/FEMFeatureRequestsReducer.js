@@ -16,7 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { BasicSignalsReducers } from '@regardsoss/store-utils'
+import FEMFeatureRequestsActions from './FEMFeatureRequestsActions'
 
-export { default as RequestsActions } from './request/RequestsActions'
-export { default as getRequestsReducer } from './request/RequestsReducer'
-export { default as getRequestsSelectors } from './request/RequestsSelectors'
+/**
+ * Redux Reducer on fem requests
+ * @author Léo Mieulet
+ */
+export default function getFEMFeatureRequestsReducer(namespace) {
+  const instance = new BasicSignalsReducers(new FEMFeatureRequestsActions(namespace))
+  return (state, action) => instance.reduce(state, action)
+}

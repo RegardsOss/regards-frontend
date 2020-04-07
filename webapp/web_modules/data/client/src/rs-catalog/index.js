@@ -52,3 +52,7 @@ export { default as CatalogPluginServiceResultActions } from './services/Catalog
 export { default as SearchEngineConfigurationsActions } from './search-engines/SearchEngineConfigurationsActions'
 export { default as getSearchEngineConfigurationsReducer } from './search-engines/SearchEngineConfigurationsReducer'
 export { default as getSearchEngineConfigurationsSelectors } from './search-engines/SearchEngineConfigurationsSelectors'
+
+export { default as FEMFeatureRequestsActions } from './femdriver/FEMFeatureRequestsActions'
+export { default as getFEMFeatureRequestsReducer } from './femdriver/FEMFeatureRequestsReducer'
+export { default as getFEMFeatureRequestsSelectors } from './femdriver/FEMFeatureRequestsSelectors'

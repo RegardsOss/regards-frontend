@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FemClient, CatalogClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
 import { themeContextType } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { BasicSignalSelectors, BasicSignalsSelectors } from '@regardsoss/store-utils'
@@ -56,7 +56,7 @@ export class EditContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     const { modelAttributesClient, editClient } = props
     return {
-      editFeatures: searchContext => dispatch(editClient.actions.notify(searchContext)),
+      editFeatures: searchContext => dispatch(editClient.actions.update(searchContext)),
       fetchModelAttributes: searchContext => dispatch(modelAttributesClient.actions.getCommonModelAttributes(searchContext)),
     }
   }
@@ -67,7 +67,7 @@ export class EditContainer extends React.Component {
     pluginInstanceId: PropTypes.string.isRequired,
     // Connected client to use to delete features on fem
     editClient: PropTypes.shape({
-      actions: PropTypes.instanceOf(FemClient.RequestsActions),
+      actions: PropTypes.instanceOf(CatalogClient.FEMFeatureRequestsActions),
       selectors: PropTypes.instanceOf(BasicSignalsSelectors),
     }).isRequired,
     modelAttributesClient: PropTypes.shape({
@@ -97,7 +97,7 @@ export class EditContainer extends React.Component {
   }
 
   componentDidMount() {
-    const searchContext = this.buildSearchContext()
+    const { searchContext } = this.props.target
     this.props.fetchModelAttributes(searchContext).then(() => {
       // Ignore error, just play attributes
       this.setState({
@@ -116,22 +116,15 @@ export class EditContainer extends React.Component {
     }
   }
 
-  buildSearchContext = () => {
-    const { requestParameters } = this.props.target
-    return {
-      searchParameters: requestParameters,
-    }
-  }
-
   cancel = () => {
     this.props.onClose()
   }
 
   onSubmit = ({ properties }) => {
-    const searchContext = this.buildSearchContext()
+    const { searchContext } = this.props.target
     this.props.editFeatures({
-      ...searchContext,
-      propertiesToUpdate: properties,
+      searchRequest: searchContext,
+      values: properties,
     })
   }
 

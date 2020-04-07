@@ -28,15 +28,14 @@ import { i18nContextType } from '@regardsoss/i18n'
 import Database from 'mdi-material-ui/Database'
 import Search from 'mdi-material-ui/CloudSearch'
 import RaisedButton from 'material-ui/RaisedButton'
-import { IngestClient } from '@regardsoss/client'
+import { IngestClient, CatalogClient } from '@regardsoss/client'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import PickFemDatasourceComponent from './datasources/PickFemDatasourceComponent'
 import PickIngestDatasourceComponent from './datasources/PickIngestDatasourceComponent'
 
 // Build endpoint for ressource
 const endpointAIP = new IngestClient.AIPActions('').getDependency(RequestVerbEnum.POST)
-// TODO: correler avec le vrai endpoint fem des features
-const endpointFeature = 'rs-fem@/features@POST'
+const endpointFeature = new CatalogClient.FEMFeatureRequestsActions('').getDependency(CatalogClient.FEMFeatureRequestsActions.NOTIFY, RequestVerbEnum.POST)
 
 /**
  * React component to pick the type of datasource

@@ -17,32 +17,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FemClient } from '@regardsoss/client'
+import { CatalogClient } from '@regardsoss/client'
+import { ClientConfBuilder } from '@regardsoss/plugins-api'
 
 /**
  * Requests client.
  *
  * @author Léo Mieulet
  */
-
+const pluginName = 'fem-delete'
 /**
- * Redux client builder to fetch and consume REGARDS endpoints.
- * Note: namespace of these actions are build on runtime, to ensure each action
- *  will be reduced by only one reducer, yours.
- * @param {string} pluginInstanceId plugin instance ID
- * @return {actions, reduder, selectors} client of
+ * the store key used in reducer.js
  */
-export default function getRequestsClient(pluginInstanceId) {
-  // note: namespace are not shared between plugin instances to avoid reduction conflicts
-  const namespace = `fem-delete/requests/${pluginInstanceId}`
-  const requestsStorePath = [`plugins.fem-delete.${pluginInstanceId}`, 'requests']
+const storeKey = 'requests'
+const actionsBuilder = namespace => new CatalogClient.FEMFeatureRequestsActions(namespace)
+const reducerBuilder = namespace => CatalogClient.getFEMFeatureRequestsReducer(namespace)
+const selectorsBuilder = storePath => CatalogClient.getFEMFeatureRequestsSelectors(storePath)
 
-  const actions = new FemClient.RequestsActions(namespace)
-  const reducer = FemClient.getRequestsReducer(namespace)
-  const selectors = FemClient.getRequestsSelectors(requestsStorePath)
-  return {
-    actions,
-    reducer,
-    selectors,
-  }
+// Provide to the ClientConfBuilder a way to create action, selector and reducer
+// These action, selector and reducer will be resolved on runtime with a local pluginInstanceId
+const clientInfoBuilder = new ClientConfBuilder(pluginName, storeKey)
+  .setActionsBuilder(actionsBuilder)
+  .setSelectorsBuilder(selectorsBuilder)
+  .setReducerBuilder(reducerBuilder)
+
+// Expose requests clients
+export function getRequestsClient(pluginInstanceId) {
+  return clientInfoBuilder.getClient(pluginInstanceId)
+}
+// Expose requests reducer
+export function getRequestsReducer(pluginInstanceId) {
+  return clientInfoBuilder.getReducer(pluginInstanceId)
 }

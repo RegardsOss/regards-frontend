@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import getRequestsClient from '../clients/RequestsClient'
+import { getRequestsClient } from '../clients/RequestsClient'
 
 /**
  * This component wires clients required by this plugin,
