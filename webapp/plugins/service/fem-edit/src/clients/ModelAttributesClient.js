@@ -31,8 +31,8 @@ const pluginName = 'fem-edit'
  */
 const storeKey = 'attributes'
 const actionsBuilder = namespace => new CatalogClient.SearchEntitiesCommonModelAttributesActions(namespace)
-const selectorsBuilder = storePath => CatalogClient.getSearchEntitiesCommonModelAttributesSelectors(storePath)
 const reducerBuilder = namespace => CatalogClient.getSearchEntitiesCommonModelAttributesReducer(namespace)
+const selectorsBuilder = storePath => CatalogClient.getSearchEntitiesCommonModelAttributesSelectors(storePath)
 
 
 // Provide to the ClientConfBuilder a way to create action, selector and reducer

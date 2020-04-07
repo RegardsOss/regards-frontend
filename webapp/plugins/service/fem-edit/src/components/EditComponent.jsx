@@ -45,7 +45,7 @@ export class EditComponent extends React.Component {
   static propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
-    attributeModelList: DataManagementShapes.AttributeModelList,
+    attributeModelList: DataManagementShapes.AttributeModelArray,
     entitiesCount: PropTypes.number.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
@@ -91,9 +91,6 @@ export class EditComponent extends React.Component {
     hasSelectedAttributes: false,
     hasSelectedAllAttributes: false,
   }
-
-  // TODO:
-  // - pouvoir sélectionner les attributs à modifier (sinon beurk les checkbox)
   /**
    * Lifecycle hook: create attribute list
    */
