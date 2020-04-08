@@ -51,6 +51,7 @@ export class EditComponent extends React.Component {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
+    autofill: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -146,10 +147,14 @@ export class EditComponent extends React.Component {
 
   onDeselect = (attributeModel) => {
     const { modelAttributeSelected } = this.state
-    const { attributeModelList } = this.props
+    const { attributeModelList, autofill } = this.props
 
     const nextModelAttributeSelected = without(modelAttributeSelected, attributeModel.content.id)
     this.computeModelAttributes(attributeModelList, nextModelAttributeSelected)
+
+    // Clear the field 
+    // https://github.com/redux-form/redux-form/issues/2325#issuecomment-487162582
+    autofill(`properties.${attributeModel.content.fragment.name}.${attributeModel.content.name}`, undefined)
   }
 
   onSelect = (attributeModel) => {
