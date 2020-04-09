@@ -38,6 +38,7 @@ class SearchPaneComponent extends React.Component {
     open: PropTypes.bool.isRequired,
     groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
     rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
+    searchDisabled: PropTypes.bool.isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
     onResetPluginsStates: PropTypes.func.isRequired,
     onSearch: PropTypes.func.isRequired,
@@ -84,7 +85,7 @@ class SearchPaneComponent extends React.Component {
 
   render() {
     const {
-      open, groups, rootContextCriteria, criterionBaseId,
+      open, groups, rootContextCriteria, criterionBaseId, searchDisabled,
       onUpdatePluginState, onResetPluginsStates, onSearch, onClose,
     } = this.props
     const {
@@ -140,6 +141,7 @@ class SearchPaneComponent extends React.Component {
           {/* 3.b search */}
           <FlatButton
             icon={<SearchIcon />}
+            disabled={searchDisabled}
             label={formatMessage({ id: 'search.results.search.pane.search.label' })}
             title={formatMessage({ id: 'search.results.search.pane.search.title' })}
             onClick={onSearch}

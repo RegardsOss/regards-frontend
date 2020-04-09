@@ -44,10 +44,30 @@ export class StabilityDelayer {
    * @param {Function} callback to invoke when stabilized (only last one will be invoked)
    */
   onEvent(callback) {
+    this.cancel()
     this.callback = callback
+    this.currentTimer = setTimeout(this.onDelayWaited, this.delay)
+  }
+
+  /**
+   * Timer callback: calls the user callback and clears state
+   */
+  onDelayWaited = () => {
+    if (this.callback) {
+      this.callback()
+    }
+    this.currentTimer = null
+    this.callback = null
+  }
+
+  /**
+   * Cancels any waiting operation
+   */
+  cancel = () => {
     if (this.currentTimer) {
       root.clearTimeout(this.currentTimer)
+      this.currentTimer = null
+      this.callback = null
     }
-    this.currentTimer = setTimeout(this.callback, this.delay)
   }
 }

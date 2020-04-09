@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
@@ -103,6 +104,7 @@ export class SearchPaneContainer extends React.Component {
   state = {
     groups: [],
     rootContextCriteria: [],
+    searchDisabled: true, // internally computed parameter when state changes
   }
 
   /** Instance stability delayer, used to avoid publishing to much context updates while user inputs */
@@ -124,8 +126,16 @@ export class SearchPaneContainer extends React.Component {
    * @param {*} nextState
    */
   onStateChange = (newState) => {
-    if (!isEqual(this.state, newState)) {
-      this.setState(newState)
+    const nextState = {
+      ...this.state, // ensure the state is complete before computing anything
+      ...newState,
+    }
+    // disable search when there is no search criteria
+    // or when any criterion is in error
+    nextState.searchDisabled = !SearchPaneContainer.collectSearchCriteria(nextState.groups).length
+      || nextState.groups.some(({ criteria }) => criteria.some(criterion => get(criterion, 'state.error')))
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
     }
   }
 
@@ -197,6 +207,8 @@ export class SearchPaneContainer extends React.Component {
    * User callback: Resets all plugins state
    */
   onResetPluginsStates = () => {
+    this.stabilityDelayer.cancel() // remove any later changes commit
+    // reset all states
     this.onStateChange({
       groups: this.state.groups.map(group => ({
         ...group,
@@ -256,7 +268,7 @@ export class SearchPaneContainer extends React.Component {
 
   render() {
     const { moduleId, tabType, resultsContext } = this.props
-    const { groups, rootContextCriteria } = this.state
+    const { groups, rootContextCriteria, searchDisabled } = this.state
     const { tab: { search: { open } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <SearchPaneComponent
@@ -264,6 +276,7 @@ export class SearchPaneContainer extends React.Component {
         groups={groups}
         criterionBaseId={`${moduleId}:${tabType}`}
         rootContextCriteria={rootContextCriteria}
+        searchDisabled={searchDisabled}
         onUpdatePluginState={this.onUpdatePluginState}
         onResetPluginsStates={this.onResetPluginsStates}
         onSearch={this.onSearch}

@@ -62,7 +62,7 @@ export class CriterionWrapperContainer extends React.Component {
   }
 
   /**
-   * Builds context request parameters for this criterion, as the sum of root context parameters and previous criteria parameters
+   * Builds context request parameters for this criterion, as the sum of root context parameters and other criteria parameters
    *
    * @param {[*]} rootContextCriteria
    * @param {[*]} groups criteria groups as an array of UIShapes UIShapes.BasicCriterion
@@ -71,14 +71,11 @@ export class CriterionWrapperContainer extends React.Component {
    * @return {*} built search context, matching CatalogShapes.SearchContext
    */
   static getSearchContext(rootContextCriteria, groups, groupIndex, criterionIndex) {
-    // A - Build the array of BasicCriterion applying, up to this criterion (excluding itself)
+    // A - Build the array of BasicCriterion applying (excluding itself)
     const contextCriteria = [
-      // 1 - Root criteria
       ...rootContextCriteria,
-      // 2 - parent groups to criteria array (nota: group criteria are all matching BasicCriterion shape)
-      ...flatMap(groups.slice(0, groupIndex), g => g.criteria),
-      // 3 - This group criteria, up to this criterion (excluding itself)
-      ...groups[groupIndex].criteria.slice(0, criterionIndex),
+      ...flatMap(groups, ({ criteria }, gI) => gI !== groupIndex ? criteria : criteria.filter(
+        (c, cI) => cI !== criterionIndex)),
     ]
     // B - Convert to a a search context object
     return {
