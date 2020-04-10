@@ -28,7 +28,6 @@ import { TargetHelper } from '@regardsoss/entities-common'
 import { StringComparison } from '@regardsoss/form-utils'
 import isEqual from 'lodash/isEqual'
 import { getRunServiceClient } from '../../../../../../clients/RunPluginServiceClient'
-import { getServicesClient } from '../../../../../../clients/PluginServiceClient'
 import OneElementServicesComponent from '../../../../../../components/user/tabs/results/common/options/OneElementServicesComponent'
 
 // Determinate the required resource name to apply catalog plugins
@@ -60,11 +59,8 @@ export class OneElementServicesContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state, { tabType }) {
-    const { servicesSelectors } = getServicesClient(tabType)
+  static mapStateToProps(state) {
     return {
-      // fetched service related
-      contextSelectionServices: servicesSelectors.getResult(state),
       // logged user state related
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
@@ -79,20 +75,17 @@ export class OneElementServicesContainer extends React.Component {
     entity: AccessShapes.EntityWithServices.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
-    contextSelectionServices: AccessShapes.PluginServiceWithContentArray,
-    // eslint-disable-next-line react/no-unused-prop-types
     availableDependencies: PropTypes.arrayOf(PropTypes.string), // The full list of dependencies
     // from mapDispatchToProps
     dispatchRunService: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    contextSelectionServices: [],
     availableDependencies: [],
   }
 
   /** Properties that will not be reported to sub component */
-  static NON_REPORTED_PROPS = ['tabType', 'entity', 'rowIndex', 'dispatchRunService', 'contextSelectionServices', 'availableDependencies']
+  static NON_REPORTED_PROPS = ['tabType', 'entity', 'rowIndex', 'dispatchRunService', 'availableDependencies']
 
   /**
    * Is usable selection service in context?
@@ -129,20 +122,14 @@ export class OneElementServicesContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     // detect entity change to update the available services (the service that can be applied to one entity)
-    const { entity, contextSelectionServices, availableDependencies } = newProps
+    const { entity, availableDependencies } = newProps
     if (!isEqual(oldProps.entity, entity)
-      || !isEqual(oldProps.contextSelectionServices, contextSelectionServices)
       || !isEqual(oldProps.availableDependencies, availableDependencies)) {
-      /* TODO-LEO: revert les modifications pour la gestion des services de contexte: c'est normalement le back qui
-       les ajoute aux entités, ce qui fait que tu ne peux avoir que des doublons ici normalement: ie --> le code
-       dessous test les doublons */
-      const newServices = [
-        ...get(entity.content, 'services', []),
-        ...contextSelectionServices,
-      ].reduce((services, service) => OneElementServicesContainer.isUsableService(service, entity.content.entityType, availableDependencies)
+      const newServices = get(entity.content, 'services', [])
+        .reduce((services, service) => OneElementServicesContainer.isUsableService(service, entity.content.entityType, availableDependencies)
         && !services.find(({ content: { type, configId } }) => type === service.content.type && configId === service.content.configId)
-        ? [...services, service]
-        : services, [])
+          ? [...services, service]
+          : services, [])
         .sort((s1, s2) => StringComparison.compare(s1.content.label, s2.content.label))
       if (!isEqual(this.state.services, newServices)) {
         this.setState({

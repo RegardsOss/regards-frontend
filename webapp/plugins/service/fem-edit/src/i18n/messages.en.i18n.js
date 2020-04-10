@@ -24,6 +24,7 @@
 export default {
   'plugin.title': 'Edition',
   'plugin.message': 'By clicking on the button, {nbElement} selected entities will be edited with provided values.',
+  'plugin.error.no.attribute': 'No editable attribute',
   'plugin.question': 'Do you want to continue?',
   'plugin.valid': 'Send',
   'plugin.cancel': 'Cancel',

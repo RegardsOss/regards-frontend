@@ -129,7 +129,7 @@ export class EditContainer extends React.Component {
   }
 
   render() {
-    const { target: { entitiesCount }, modelAttributeList } = this.props
+    const { target: { entitiesCount }, modelAttributeList } = this.props
     const { isLoading } = this.state
     return (
 
@@ -138,7 +138,7 @@ export class EditContainer extends React.Component {
       >
         <EditComponent
           onSubmit={this.onSubmit}
-          attributeModelList={modelAttributeList }
+          attributeModelList={modelAttributeList}
           onCancel={this.cancel}
           pluginInstanceId={this.props.pluginInstanceId}
           entitiesCount={entitiesCount}
