@@ -38,6 +38,7 @@ export default class DatePickerField extends React.Component {
     id: PropTypes.string.isRequired, // used as base ID for elements ID
     value: PropTypes.instanceOf(Date),
     displayTime: PropTypes.bool,
+    errorText: PropTypes.string, // error message when in error
     dateHintText: PropTypes.string,
     timeHintText: PropTypes.string,
     defaultValue: PropTypes.instanceOf(Date), // Default date to use if value is null or undefined
@@ -289,7 +290,8 @@ export default class DatePickerField extends React.Component {
    */
   renderTimePicker() {
     const {
-      id, fullWidth, timeHintText, disabled, tooltip,
+      id, fullWidth, errorText,
+      timeHintText, disabled, tooltip,
     } = this.props
 
     return [
@@ -317,6 +319,7 @@ export default class DatePickerField extends React.Component {
         key="time.text"
         style={fullWidth ? DatePickerField.fullWidthTimeTextFieldStyle : DatePickerField.defaultTimeTextFieldStyle}
         value={this.state.timeText}
+        errorText={errorText}
         hintText={timeHintText}
         onChange={this.handleDatetimeInputChange}
         onBlur={event => this.handleDatetimeInputBlur(event.currentTarget.value)}
@@ -341,7 +344,8 @@ export default class DatePickerField extends React.Component {
    */
   renderDate() {
     const {
-      id, fullWidth, dateHintText, disabled, tooltip,
+      id, fullWidth, errorText,
+      dateHintText, disabled, tooltip,
     } = this.props
     return [
       // 1 - hidden date picker (just for it to show the dialog)
@@ -368,6 +372,7 @@ export default class DatePickerField extends React.Component {
         key="date.text"
         style={fullWidth ? DatePickerField.fullWithDateTextFieldStyle : DatePickerField.defaultDateTextFieldStyle}
         value={this.state.dateText}
+        errorText={errorText}
         hintText={dateHintText}
         onChange={this.handleDateInputChange}
         onBlur={event => this.handleDateInputBlur(event.currentTarget.value)}

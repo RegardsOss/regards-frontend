@@ -83,7 +83,7 @@ describe('[PLUGINS API] Testing NumberRange', () => {
     assert.equal(singleValueRange.upperBound, 1.25, 'single value range upper bound should worth 1.25')
     assert.isFalse(singleValueRange.isInfiniteLowerBound(), 'single value range lower bound should not be computed infinite')
     assert.isFalse(singleValueRange.isInfiniteUpperBound(), 'single value range upper bound should not be computed infinite')
-    assert.isFalse(singleValueRange.isFullyInifiniteRange(), 'single value range should not be computed fully infinite')
+    assert.isFalse(singleValueRange.isInfinite(), 'single value range should not be computed fully infinite')
     assert.isTrue(singleValueRange.isSingleValueRange(), 'single value range should be computed single value')
     // B - N to +inf
     const lowerToInfinityRange = new NumberRange.NumberRange(1.25, null)
@@ -91,7 +91,7 @@ describe('[PLUGINS API] Testing NumberRange', () => {
     assert.equal(lowerToInfinityRange.upperBound, Number.POSITIVE_INFINITY, 'lower to infinity range upper bound should worth +inf')
     assert.isFalse(lowerToInfinityRange.isInfiniteLowerBound(), 'lower to infinity range lower bound should not be computed infinite')
     assert.isTrue(lowerToInfinityRange.isInfiniteUpperBound(), 'lower to infinity range upper bound should be computed infinite')
-    assert.isFalse(lowerToInfinityRange.isFullyInifiniteRange(), 'lower to infinity range should not be computed fully infinite')
+    assert.isFalse(lowerToInfinityRange.isInfinite(), 'lower to infinity range should not be computed fully infinite')
     assert.isFalse(lowerToInfinityRange.isSingleValueRange(), 'lower to infinity range should not be computed single value')
     // C - -inf to N
     const infiniteToUpperRange = new NumberRange.NumberRange(undefined, -2.2)
@@ -99,7 +99,7 @@ describe('[PLUGINS API] Testing NumberRange', () => {
     assert.equal(infiniteToUpperRange.upperBound, -2.2, 'infinity to upper range lower bound should worth -2.2')
     assert.isTrue(infiniteToUpperRange.isInfiniteLowerBound(), 'infinity to upper range lower bound should be computed infinite')
     assert.isFalse(infiniteToUpperRange.isInfiniteUpperBound(), 'infinity to upper range upper bound should not be computed infinite')
-    assert.isFalse(infiniteToUpperRange.isFullyInifiniteRange(), 'infinity to upper range should not be computed fully infinite')
+    assert.isFalse(infiniteToUpperRange.isInfinite(), 'infinity to upper range should not be computed fully infinite')
     assert.isFalse(infiniteToUpperRange.isSingleValueRange(), 'infinity to upper range should not be computed single value')
     // D - M to N
     const mToNRange = new NumberRange.NumberRange(-5.6, 25.42)
@@ -107,7 +107,7 @@ describe('[PLUGINS API] Testing NumberRange', () => {
     assert.equal(mToNRange.upperBound, 25.42, 'fully defined range upper bound should worth 25.42')
     assert.isFalse(mToNRange.isInfiniteLowerBound(), 'fully defined range lower bound should not be computed infinite')
     assert.isFalse(mToNRange.isInfiniteUpperBound(), 'fully defined range upper bound should not be computed infinite')
-    assert.isFalse(mToNRange.isFullyInifiniteRange(), 'fully defined range should not be computed fully infinite')
+    assert.isFalse(mToNRange.isInfinite(), 'fully defined range should not be computed fully infinite')
     assert.isFalse(mToNRange.isSingleValueRange(), 'fully defined range should not be computed single value')
     // D - infinite range
     const infiniteRange = new NumberRange.NumberRange()
@@ -115,7 +115,7 @@ describe('[PLUGINS API] Testing NumberRange', () => {
     assert.equal(infiniteRange.upperBound, Number.POSITIVE_INFINITY, 'infinite range upper bound should worth +inf')
     assert.isTrue(infiniteRange.isInfiniteLowerBound(), 'infinite range lower bound should be computed infinite')
     assert.isTrue(infiniteRange.isInfiniteUpperBound(), 'infinite range upper bound should be computed infinite')
-    assert.isTrue(infiniteRange.isFullyInifiniteRange(), 'infinite range should be computed fully infinite')
+    assert.isTrue(infiniteRange.isInfinite(), 'infinite range should be computed fully infinite')
     assert.isFalse(infiniteRange.isSingleValueRange(), 'infinite range should not be computed single value')
   })
 

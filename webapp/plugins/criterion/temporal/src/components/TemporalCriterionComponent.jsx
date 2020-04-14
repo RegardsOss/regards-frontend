@@ -30,6 +30,7 @@ import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api
 class TemporalCriterionComponent extends React.Component {
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
+    error: PropTypes.bool.isRequired,
     label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
     value: PropTypes.instanceOf(Date),
@@ -46,10 +47,13 @@ class TemporalCriterionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Error placeholder */
+  static ERROR_TEXT_PLACEHOLDER = ' '
+
   render() {
     const { muiTheme, intl, moduleTheme: { datePickerCell } } = this.context
     const {
-      pluginInstanceId, label,
+      pluginInstanceId, error, label,
       searchAttribute, value,
       operator, availableComparators,
       onDateChanged, onOperatorSelected,
@@ -58,7 +62,6 @@ class TemporalCriterionComponent extends React.Component {
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
-
     return (
       <tr>
         {/* 1. Label */}
@@ -81,6 +84,7 @@ class TemporalCriterionComponent extends React.Component {
             value={value}
             onChange={onDateChanged}
             locale={intl.locale}
+            errorText={error ? TemporalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
             dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
             timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
             okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}

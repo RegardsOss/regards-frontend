@@ -91,7 +91,8 @@ export class NumericalCriterionContainer extends React.Component {
 
   /**
    * Is error state with text and operator as parameter? In error when:
-   * A - There is some some text but is cannot be parsed into a valid number value ()
+   * (pre) : there is an input text and selected operator AND
+   * A - There is some some text but is cannot be parsed into a valid number value (OR)
    * B - The number value is valid but outside attributes bounds
    * Both cases are covered by NumberRange.isValidRestricionOn (tests NaN and bounds)
    * @param {*} attribute matching AttributeModelWithBounds shape
@@ -99,10 +100,8 @@ export class NumericalCriterionContainer extends React.Component {
    * @param {string} operator selected operator, from CommonDomain.EnumNumericalComparator
    */
   static isInError(attribute, text, operator) {
-    return text && operator
-      // invalid if the input value is not a valid number or the range expressed does not cross attribute range
-      ? !NumberRange.isValidRestrictionOn(attribute, NumberRange.convertToRange(parseFloat(text), operator))
-      : false
+    return !!text && !!operator && !NumberRange.isValidRestrictionOn(
+      attribute, NumberRange.convertToRange(parseFloat(text), operator))
   }
 
   /**

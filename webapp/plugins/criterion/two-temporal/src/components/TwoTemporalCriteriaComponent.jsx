@@ -32,6 +32,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
     label: UIShapes.IntlMessage.isRequired,
     attribute1: AttributeModelWithBounds.isRequired,
     attribute2: AttributeModelWithBounds.isRequired, // provide here the same reference than attribute 1 if same attribute
+    error: PropTypes.bool.isRequired,
     value1: PropTypes.instanceOf(Date),
     value2: PropTypes.instanceOf(Date),
     onDate1Changed: PropTypes.func.isRequired, // value 1 update callback like: (Date) => ()
@@ -45,7 +46,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
 
   render() {
     const {
-      pluginInstanceId, label,
+      pluginInstanceId, label, error,
       attribute1, value1, onDate1Changed,
       attribute2, value2, onDate2Changed,
     } = this.props
@@ -76,6 +77,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
           <TemporalCriterionComponent
             id={`${pluginInstanceId}-lower-bound`}
             searchAttribute={attribute1}
+            error={error}
             value={value1}
             hintDate={attribute1.boundsInformation.lowerBound}
             onDateChanged={onDate1Changed}
@@ -89,6 +91,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
           <TemporalCriterionComponent
             id={`${pluginInstanceId}-upper-bound`}
             searchAttribute={attribute2}
+            error={error}
             value={value2}
             hintDate={attribute2.boundsInformation.upperBound}
             onDateChanged={onDate2Changed}

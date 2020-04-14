@@ -31,6 +31,7 @@ export class TemporalCriterionComponent extends React.Component {
   static propTypes = {
     id: PropTypes.string.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired, // attribute
+    error: PropTypes.bool.isRequired,
     value: PropTypes.instanceOf(Date), // selected date
     lowerBound: PropTypes.bool.isRequired, // is this part the range lower bound or is it upper bound?
     hintDate: PropTypes.string, // bound hint
@@ -44,6 +45,9 @@ export class TemporalCriterionComponent extends React.Component {
     // enable i18n access trhough this.context
     ...i18nContextType,
   }
+
+  /** Error placeholder */
+  static ERROR_TEXT_PLACEHOLDER = ' '
 
   /** Default time to set up when a start date is selected */
   static DEFAULT_START_TIME = '00:00:00'
@@ -59,7 +63,8 @@ export class TemporalCriterionComponent extends React.Component {
 
   render() {
     const {
-      id, searchAttribute, value, lowerBound: isLowerBound,
+      id, searchAttribute, error, value,
+      lowerBound: isLowerBound,
       hintDate, isStopDate, onDateChanged,
     } = this.props
     const { intl, muiTheme, moduleTheme: { datePickerCell } } = this.context
@@ -83,6 +88,7 @@ export class TemporalCriterionComponent extends React.Component {
             value={value}
             onChange={onDateChanged}
             locale={intl.locale}
+            errorText={error ? TemporalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
             dateHintText={hintDate ? intl.formatDate(hintDate) : intl.formatMessage({ id: 'criterion.date.field.label' })}
             timeHintText={hintDate ? intl.formatTime(hintDate) : intl.formatMessage({ id: 'criterion.time.field.label' })}
             tooltip={formatTooltip(intl, searchAttribute)}

@@ -16,9 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
+import isNil from 'lodash/isNil'
+import { CommonDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
+import { AttributeModelWithBounds, DateRange } from '@regardsoss/plugins-api'
 import TemporalCriterionComponent from '../components/TemporalCriterionComponent'
 
 /**
@@ -31,7 +32,8 @@ export class TemporalCriterionContainer extends React.Component {
 
   /** Default state for floating types (equal operator is not available) */
   static DEFAULT_STATE = {
-    value: null,
+    error: false,
+    time: null,
     operator: CommonDomain.EnumNumericalComparator.LE,
   }
 
@@ -46,7 +48,8 @@ export class TemporalCriterionContainer extends React.Component {
     }).isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
-      value: PropTypes.string, // note: the date is defined as ISO date string to avoid growing the state size on URLs
+      error: PropTypes.bool.isRequired,
+      time: PropTypes.number, // note: the date is stored as timestamp for serizalization
       operator: PropTypes.oneOf([CommonDomain.EnumNumericalComparator.GE, CommonDomain.EnumNumericalComparator.LE]), // only accepts >= and <=
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
@@ -59,57 +62,53 @@ export class TemporalCriterionContainer extends React.Component {
   }
 
   /**
-   * DatePicker returned dates with the local timeZone of the user browser.
-   * All date search request must be UTC dates. So we need to remove timeZone from picked dates.
-   * For exemple if the user as selected the date Wed Dec 07 2016 01:00:00 GMT+0100 then we should request with Wed Dec 07 2016 01:00:00 GMT
-   * @param {string} isoDateString date to remove timezone from (string date in ISO format)
-   * @return {string} converted date string in ISO format
+   * Is error state with time and operator as parameter? In error when there is an operator and a selected time but
+   * last one is out of attribute bounds
+   * @param {*} attribute matching AttributeModelWithBounds shape
+   * @param {number} time time
+   * @param {string} operator selected operator, from CommonDomain.EnumNumericalComparator
    */
-  static removeTimeZone = (isoDateString) => {
-    if (isoDateString) {
-      const dateWithTZ = new Date(Date.parse(isoDateString))
-      const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
-      return dateWithoutTZ.toISOString()
-    }
-    return null
+  static isInError(attribute, time, operator) {
+    return !isNil(time) && !!operator && !DateRange.isValidRestrictionOn(
+      attribute, DateRange.convertToRange(time, operator))
   }
 
   /**
    * Converts state as parameter into OpenSearch request parameters
-   * @param {{ value: string, operator: string }} state
+   * @param {{ error: boolean, time: string, operator: string }} state
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ value, operator }, attribute) {
-    let q = null
-    if (value && operator && attribute.jsonPath) {
-      const dateWithoutTZ = TemporalCriterionContainer.removeTimeZone(value)
-      let rangeAsQuery = ''
-      switch (operator) {
-        case CommonDomain.EnumNumericalComparator.LE:
-          rangeAsQuery = `[* TO ${dateWithoutTZ}]`
-          break
-        case CommonDomain.EnumNumericalComparator.GE:
-          rangeAsQuery = `[${dateWithoutTZ} TO *]`
-          break
-        default:
-          throw new Error(`Invalid comparator type ${operator}`)
-      }
-      q = new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath, rangeAsQuery).toQueryString()
-    } // else: no query
-    return { q }
+  static convertToRequestParameters({ error, time, operator }, attribute) {
+    return error || isNil(time) || !operator ? { } : {
+      q: DateRange.getDateQueryParameter(attribute.jsonPath,
+        DateRange.convertToRange(time, operator)).toQueryString(),
+    }
   }
 
+  /**
+   * Inner callback: update state
+   * @param {number} time selected date time
+   * @param {string} operator selected operator
+   * @param {{error: boolean, time: number, operator: string}} newState (matching state shape for this criterion)
+   */
+  onUpdateState = (time, operator) => {
+    const { publishState, attributes: { searchField } } = this.props
+    const newState = {
+      error: TemporalCriterionContainer.isInError(searchField, time, operator),
+      time,
+      operator,
+    }
+    publishState(newState, TemporalCriterionContainer.convertToRequestParameters(newState, searchField))
+  }
 
   /**
-   * Callback function that is fired when the date value changes.
+   * Callback function: user selected a date
    * @param {Date} date new selected date
    */
   onDateChanged = (date) => {
-    // update state value and publish new state with query
-    const { state, publishState, attributes: { searchField } } = this.props
-    const newState = { ...state, value: date ? date.toISOString() : null }
-    publishState(newState, TemporalCriterionContainer.convertToRequestParameters(newState, searchField))
+    const { state: { operator } } = this.props
+    this.onUpdateState(date ? date.getTime() : null, operator)
   }
 
   /**
@@ -118,22 +117,21 @@ export class TemporalCriterionContainer extends React.Component {
    * @param {String} comparator
    */
   onOperatorSelected = (operator) => {
-    // update state operator and publish new state with query
-    const { state, publishState, attributes: { searchField } } = this.props
-    const newState = { ...state, operator }
-    publishState(newState, TemporalCriterionContainer.convertToRequestParameters(newState, searchField))
+    const { state: { time } } = this.props
+    this.onUpdateState(time, operator)
   }
 
   render() {
     const {
-      pluginInstanceId, label, state: { value, operator }, attributes: { searchField },
+      pluginInstanceId, label, state: { error, time, operator }, attributes: { searchField },
     } = this.props
     return (
       <TemporalCriterionComponent
         pluginInstanceId={pluginInstanceId}
+        error={error}
         label={label}
         searchAttribute={searchField}
-        value={value ? new Date(value) : null} // provide value as date to components below
+        value={isNil(time) ? null : new Date(time)} // provide value as date to components below
         operator={operator}
         availableComparators={TemporalCriterionContainer.AVAILABLE_COMPARISON_OPERATORS}
         onDateChanged={this.onDateChanged}

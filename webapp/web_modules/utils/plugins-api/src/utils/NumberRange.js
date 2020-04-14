@@ -48,13 +48,13 @@ export class NumberRange {
   }
 
   /**
-   * Returns query parameter for attribute name and number or NumberRange as parameter
+   * Returns query parameter for attribute name and number range as parameter
    * @param {string} attributeName attribute name (optional, when not provided no query will be generated)
-   * @param {NumberRange} value a NumberRange (optional, when not number no query will be generated)
+   * @param {NumberRange} value a number range (optional, when not provided no query will be generated)
    * @return {CatalogDomain.OpenSearchQueryParameter} generated query parameter
    */
   static getNumberQueryParameter(attributeName, value) {
-    if (!value || value.isFullyInifiniteRange()) {
+    if (!value || value.isInfinite()) {
       // query part cannot be generated or is useless (full infinite range)
       return new CatalogDomain.OpenSearchQueryParameter(attributeName, null)
     }
@@ -128,7 +128,7 @@ export class NumberRange {
   }
 
   /** @return {boolean} true if range is defining full infinity */
-  isFullyInifiniteRange() {
+  isInfinite() {
     return this.isInfiniteLowerBound() && this.isInfiniteUpperBound()
   }
 

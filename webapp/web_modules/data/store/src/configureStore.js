@@ -43,7 +43,7 @@ function configureStore(rootReducer) {
     errorMiddleware,
   ]
 
-  if (process.env.NODE_ENV === 'development') {
+  if (process.env.NODE_ENV === 'xxx') {
     // Pass an options object for specific configuration
     const logger = createLogger({
       level: 'log',
