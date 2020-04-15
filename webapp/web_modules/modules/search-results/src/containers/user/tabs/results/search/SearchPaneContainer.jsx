@@ -55,37 +55,69 @@ export class SearchPaneContainer extends React.Component {
   }
 
   /**
+   * Pack groups models from configuration
+   * @param {[*]} groupsConfiguration arrays of groups configuration, as UIShapes.SearchCriteriaGroup
+   * @param {[*]} storedApplyingCriteria stored applying criteria values as array
+   * of ApplyingSearchCriterion.storedApplyingCriteria. Holds the states and request
+   * parameters to restore for each criteria (optionnal)
+   * @return {[*]} groups models matching SearchCriteriaGroupRuntime
+   */
+  static packGroupModels(groupsConfiguration, storedApplyingCriteria = []) {
+    // pack for each group...
+    return groupsConfiguration.map(g => ({
+      ...g,
+      // and each criteria...
+      criteria: g.criteria.map((criterion) => {
+        // A - The state and parameters to restore (undefined when not found)
+        const { state, requestParameters } = storedApplyingCriteria.find(c => c.pluginInstanceId === criterion.pluginInstanceId) || {}
+        // B - with the current configuration
+        return {
+        // report configuration
+          ...criterion,
+          // report state and request parameters when found
+          state,
+          requestParameters,
+          delayedRequestParameters: undefined, // put here for readibility sake only
+        }
+      }),
+    }))
+  }
+
+  /**
    * Filters empty parameters in request parameters
    * @param {*} requestParameters request parameters
    * @return {*} request parameters without empty keys
    */
   static filterEmptyParameters(requestParameters) {
-    return reduce(requestParameters, (acc, value, key) => isNil(value) || isEmpty(value) ? acc : { ...acc, [key]: value })
+    return reduce(requestParameters, (acc, value, key) => isNil(value) || isEmpty(value)
+      ? acc
+      : { ...(acc || {}), [key]: value },
+    null)
   }
 
   /**
-   * Collects search criteria from plugins
-   * @param {[*]} groups, matching array of UIShapes.CriteriaGroup shape
-   * @return {[*]} criteria list, as UIShapes.BasicCriterion array
+   * Collects search criteria from edited plugins
+   * @param {[*]} groups, matching array of UIShapes.SearchCriteriaGroup shape
+   * @return {[*]} criteria list, as UIShapes.ApplyingSearchCriterion array
    */
   static collectSearchCriteria(groups) {
     // accumulute for each group...
-    return groups.reduce((groupsParamsAcc, group) => ([
-      ...groupsParamsAcc,
+    return groups.reduce((groupsAcc, group) => ([
+      ...groupsAcc,
       // ... and each criterion in a group as a context filtering criterion...
-      ...group.criteria.reduce((criteriaParameters, { requestParameters }) => {
-        // the non empty parameters to be applied as resulting request
+      ...group.criteria.reduce((criteriaAcc, { pluginInstanceId, state, requestParameters }) => {
+        // the criteria with non empty parameters
         const filteredParameters = SearchPaneContainer.filterEmptyParameters(requestParameters)
         return isEmpty(filteredParameters)
-          ? criteriaParameters // all ignored
-          : [...criteriaParameters, { requestParameters }]
-      }, []),
+          ? criteriaAcc // criterion ignored as its parameters are empty
+          : [...criteriaAcc, { pluginInstanceId, state, requestParameters }]
+      }, groupsAcc),
     ]), [])
   }
 
   /**
    * Applies any delayed request parameters in criteria of groups as parameters
-   * @param {[*]} groups to duplicate, matching array of UIShapes.CriteriaGroup shape
+   * @param {[*]} groups to duplicate, matching array of SearchCriteriaGroupRuntime shape
    * @return {[*]} duplicated groups and criteria, with applied delayed request parameters (strict copy if there were none)
    */
   static applyDelayedParameters(groups) {
@@ -101,10 +133,11 @@ export class SearchPaneContainer extends React.Component {
     }))
   }
 
+  /** Initial state (never used) */
   state = {
     groups: [],
     rootContextCriteria: [],
-    searchDisabled: true, // internally computed parameter when state changes
+    searchDisabled: true,
   }
 
   /** Instance stability delayer, used to avoid publishing to much context updates while user inputs */
@@ -113,13 +146,30 @@ export class SearchPaneContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated(null, this.props)
+  componentWillMount = () => {
+    // Initialize from configuration and pack with runtime data
+    const { resultsContext, tabType } = this.props
+    const { tab: { criteria, search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    this.onStateChange({
+      groups: SearchPaneContainer.packGroupModels(groups, criteria.searchCriteria), // when mounting, restore values from applying criteria
+      rootContextCriteria: UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
+        omit(criteria, ['searchCriteria', 'requestFacets'])),
+    })
+  }
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  componentWillReceiveProps = (nextProps) => {
+    const { resultsContext, tabType } = nextProps
+    const { tab: { criteria } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // update root context criteria when it changes
+    this.onStateChange({
+      rootContextCriteria: UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
+        omit(criteria, ['searchCriteria', 'requestFacets'])),
+    })
+  }
 
   /**
    * Performs this.setState, but prevents calling it if there is no change
@@ -137,31 +187,6 @@ export class SearchPaneContainer extends React.Component {
     if (!isEqual(this.state, nextState)) {
       this.setState(nextState)
     }
-  }
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    const { resultsContext, tabType } = newProps
-    const { tab: { criteria, search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
-    const newState = { ...this.state }
-    // 1 - Initialization case (create a local working copy of all criteria)
-    if (isNil(oldProps)) {
-      // we use here the applyDelayed parameter to create a local copy (no delayed parameters) with new reference
-      newState.groups = SearchPaneContainer.applyDelayedParameters(groups)
-    }
-    // 2 - Collect root context criteria to check changes in them (nota: presentation parameters like sorting and
-    // dynamic parameters in searchTags are ignored, as that value will be used by each criterion to compute its
-    // own local request, based on it and previous criteria parameters)
-    newState.rootContextCriteria = UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
-      omit(criteria, ['searchTags', 'requestFacets']))
-
-    // 3 - Commit new state when any change is detected
-    this.onStateChange(newState)
   }
 
   /**
@@ -207,18 +232,12 @@ export class SearchPaneContainer extends React.Component {
    * User callback: Resets all plugins state
    */
   onResetPluginsStates = () => {
+    const { resultsContext, tabType } = this.props
+    const { tab: { search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     this.stabilityDelayer.cancel() // remove any later changes commit
-    // reset all states
+    // reset all states by packing groups grom configuration (no initial value for criteria)
     this.onStateChange({
-      groups: this.state.groups.map(group => ({
-        ...group,
-        criteria: group.criteria.map(criterion => ({
-          ...criterion,
-          state: null,
-          requestParameters: {},
-          delayedRequestParameters: undefined, // clear any delayed update data
-        })),
-      })),
+      groups: SearchPaneContainer.packGroupModels(groups),
     })
   }
 
@@ -242,7 +261,7 @@ export class SearchPaneContainer extends React.Component {
               groups,
             },
             criteria: {
-              searchTags: newSearchCriteria,
+              searchCriteria: newSearchCriteria,
             },
           },
         },
@@ -267,14 +286,13 @@ export class SearchPaneContainer extends React.Component {
   }
 
   render() {
-    const { moduleId, tabType, resultsContext } = this.props
+    const { tabType, resultsContext } = this.props
     const { groups, rootContextCriteria, searchDisabled } = this.state
     const { tab: { search: { open } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <SearchPaneComponent
         open={resultsContext.selectedTab === tabType && open} // show when open AND current tab is this one
         groups={groups}
-        criterionBaseId={`${moduleId}:${tabType}`}
         rootContextCriteria={rootContextCriteria}
         searchDisabled={searchDisabled}
         onUpdatePluginState={this.onUpdatePluginState}

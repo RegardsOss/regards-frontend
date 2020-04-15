@@ -289,6 +289,7 @@ const styles = theme => ({
     },
     filters: {
       iconColor: theme.palette.accent1Color,
+      errorColor: theme.textField.errorColor,
       style: {
         margin: '0 5px',
       },

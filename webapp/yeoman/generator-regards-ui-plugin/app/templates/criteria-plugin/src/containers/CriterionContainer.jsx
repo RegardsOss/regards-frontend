@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
-} from '@regardsoss/plugins-api'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import CriterionComponent from '../components/CriterionComponent'
 /**
   * TODO: this example is a simple String research criterion.
@@ -42,31 +39,6 @@ export class CriterionContainer extends React.Component {
   /** Default state expected by this component */
   static DEFAULT_STATE = {
     searchText: '',
-  }
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store, defaults to a static JS objects (avoids constant re-render issues)
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || CriterionContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, query) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, query)),
-    }
   }
 
   static propTypes = {
@@ -126,6 +98,4 @@ export class CriterionContainer extends React.Component {
   }
 }
 
-export default connect(
-  CriterionContainer.mapStateToProps,
-  CriterionContainer.mapDispatchToProps)(CriterionContainer)
+export default CriterionContainer

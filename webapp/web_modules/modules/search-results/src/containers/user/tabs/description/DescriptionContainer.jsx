@@ -164,6 +164,8 @@ export class DescriptionContainer extends React.Component {
     updateResultsContext(moduleId, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          // mute any previous value of unresolvedRootEntityId
+          unresolvedRootEntityId: null,
           descriptionPath: newPath,
           selectedIndex,
         },

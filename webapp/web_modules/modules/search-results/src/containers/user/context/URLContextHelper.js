@@ -22,6 +22,8 @@ import isString from 'lodash/isString'
 import { browserHistory } from 'react-router'
 import { UIDomain, CatalogDomain, DamDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
+import { SearchStateSerializationHelper } from './SearchStateSerializationHelper'
+
 
 /**
  * Helper to export / restore results context to / from
@@ -33,9 +35,7 @@ export class URLContextHelper {
    * 1. resolves the tag
    *   * a) resolves the tag when it is an entity tag
    *   * b) resolved promise immediately for any other value (jumps to 2a)
-   * 2. resolves next context by
-   *   * a) merging previous context with build context diff on resolution success
-   *   * b) OR returning previous context on resolution fail
+   * 2. resolves next context by merging previous context with built context diff on resolution success
    * @param {*} previousContext previous results context
    * @param {*} buildContext build next context (resolution results: *) => (results context diff: *)
    * @param {string} value value to resolve and set in context (mandatory)
@@ -52,13 +52,13 @@ export class URLContextHelper {
           .then(({ payload }) => {
             // Nota: payload can be the entity or the error holder here
             if (payload.error || !payload.content || !payload.content.id) { // retrieval failure
-              resolve(previousContext) // (2.b)
+              throw new Error('Loading failed') // (2.b)
             }
             // 2.a - successful entity resolution, complete context
             resolve(UIDomain.ResultsContextHelper.deepMerge(previousContext, buildContext(payload)))
           })
           // Entity resolution failed (2.b)
-          .catch(err => resolve(previousContext))
+          .catch(err => resolve(UIDomain.ResultsContextHelper.deepMerge(previousContext, buildContext(null))))
       } else {
         // 1.b -> 2.a : a simple value, resolve immediately
         resolve(UIDomain.ResultsContextHelper.deepMerge(previousContext, buildContext(value)))
@@ -68,11 +68,21 @@ export class URLContextHelper {
 
   /**
    * Builds a tag from its model: when model is an entity, build a word tag
-   * @param {string | {*}} tagModel tag model (either a string or an entity)
+   * @param {string | {*}} tagModel tag model (either a string or an entity, may be null when not resolved)
+   * @param {string} tagInitialValue tag initial value
    * @return {*} tag, matching ResultsContext.TagCriterion shape
    */
-  static buildTagFrom(tagModel) {
-    return isString(tagModel) ? CriterionBuilder.buildWordTagCriterion(tagModel) : CriterionBuilder.buildEntityTagCriterion(tagModel)
+  static buildTagFrom(tagModel, tagInitialValue) {
+    if (!tagModel) {
+      // unresolved entity tag
+      return CriterionBuilder.buildUnresolvedEntityTagCriterion(tagInitialValue)
+    }
+    if (isString(tagModel)) {
+      // simple string tag
+      return CriterionBuilder.buildWordTagCriterion(tagModel)
+    }
+    // resolved entity tag
+    return CriterionBuilder.buildEntityTagCriterion(tagModel)
   }
 
   /**
@@ -131,11 +141,47 @@ export class URLContextHelper {
           tabs: {
             [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
               criteria: {
-                tagsFiltering: [URLContextHelper.buildTagFrom(tagModel)],
+                tagsFiltering: [URLContextHelper.buildTagFrom(tagModel, value)],
               },
             },
           },
         })),
+    }, { // main tab: Search pane Open state
+      name: 'mso',
+      toParameterValue: (resultsContext) => {
+        const { search: { enabled, open } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return enabled && open ? open.toString() : null
+      },
+      fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity, () => {
+        const { search: { enabled } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return {
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+              search: {
+                open: enabled, // true when present, no need to read it from URL. Prevent opening it when disabled by configuration
+              },
+            },
+          },
+        }
+      }),
+    }, { // Main tab: Search State
+      name: 'mss',
+      toParameterValue: (resultsContext) => {
+        const { search: { enabled }, criteria: { searchCriteria } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return enabled ? SearchStateSerializationHelper.serialize(searchCriteria) : null
+      },
+      fromParameterValue: (resultsContext, value, fetchEntity) => URLContextHelper.resolveElementInContext(resultsContext, value, fetchEntity, () => {
+        const { search: { enabled } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return {
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+              criteria: {
+                searchCriteria: enabled ? SearchStateSerializationHelper.deserialize(value) : [],
+              },
+            },
+          },
+        }
+      }),
     }, { // description entity
       name: 'd',
       toParameterValue: (resultsContext) => {
@@ -147,7 +193,8 @@ export class URLContextHelper {
         entity => ({
           tabs: {
             [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-              descriptionPath: [entity],
+              unresolvedRootEntityId: !entity ? value : null, // store it for later restoration
+              descriptionPath: entity ? [entity] : [],
               selectedIndex: 0,
             },
           },
@@ -165,7 +212,7 @@ export class URLContextHelper {
           tabs: {
             [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
               criteria: { // restore context tag
-                contextTags: [URLContextHelper.buildTagFrom(tagModel)],
+                contextTags: [URLContextHelper.buildTagFrom(tagModel, value)],
               },
             },
           },
@@ -201,7 +248,7 @@ export class URLContextHelper {
           tabs: {
             [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
               criteria: { // restore as user tag
-                tagsFiltering: [URLContextHelper.buildTagFrom(tagModel)],
+                tagsFiltering: [URLContextHelper.buildTagFrom(tagModel, value)],
               },
             },
           },

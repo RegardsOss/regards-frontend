@@ -97,7 +97,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
-        searchTags: [],
+        searchCriteria: [],
         quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],
@@ -125,7 +125,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       criteria: {
         configurationRestrictions: [],
         contextTags: [],
-        searchTags: [],
+        searchCriteria: [],
         quicklookFiltering: [],
         appliedFacets: [],
         geometry: [],

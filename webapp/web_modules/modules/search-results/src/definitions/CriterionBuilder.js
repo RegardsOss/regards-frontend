@@ -85,4 +85,22 @@ export class CriterionBuilder {
       },
     }
   }
+
+  /**
+   * Builds an unresolved entity tag criterion
+   * @param {string} id entity ID
+   */
+  static buildUnresolvedEntityTagCriterion(id) {
+    return {
+      label: null,
+      type: CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED,
+      searchKey: id,
+      requestParameters: {
+        [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
+      },
+    }
+  }
 }

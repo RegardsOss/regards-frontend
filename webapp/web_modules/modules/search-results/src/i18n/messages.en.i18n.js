@@ -174,6 +174,7 @@ const messages = {
   'search.facets.filter.chip.number.value': '{facetLabel} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
+  'search.filter.geometry.entity.private': 'Private data',
   'search.filter.geometry.label': 'Area',
   'search.filter.entities.selection.label': 'Entities ({count})',
   'search.filter.search.criteria.label': 'Search',

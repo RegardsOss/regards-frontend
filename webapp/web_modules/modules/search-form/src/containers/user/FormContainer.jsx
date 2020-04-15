@@ -22,12 +22,16 @@ import { browserHistory } from 'react-router'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AllCriteriaData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { isEqual } from 'date-fns'
 import PluginsConfigurationProvider from './PluginsConfigurationProvider'
 import FormComponent from '../../components/user/FormComponent'
 import { resultsContextSelectors } from '../../clients/ResultsContextClient'
+
+
+const AllCriteriaData = PropTypes.arrayOf(PropTypes.array)
+const pluginStateActions = {}
+const pluginStateSelectors = {}
 
 /**
  * Container for module form. It handles:

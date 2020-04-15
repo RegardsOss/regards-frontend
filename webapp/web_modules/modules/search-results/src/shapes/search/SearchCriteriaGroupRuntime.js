@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,18 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonShapes } from '@regardsoss/shape'
+import { SearchCriterionRuntime } from './SearchCriterionRuntime'
 
 /**
- * Defines criterion state related shapes
+ * Defines search criteria group runtime shape, for edition (shared accross search area)
  * @author Raphaël Mechali
  */
-
-/** A criterion state and query */
-export const CriterionData = PropTypes.shape({
-  state: PropTypes.any,
-  requestParameters: CommonShapes.RequestParameters,
+export const SearchCriteriaGroupRuntime = PropTypes.shape({
+  showTitle: PropTypes.bool.isRequired,
+  title: PropTypes.shape({
+    en: PropTypes.string,
+    fr: PropTypes.string,
+  }).isRequired,
+  criteria: PropTypes.arrayOf(SearchCriterionRuntime).isRequired,
 })
-
-/** Map of all criteria states and queries */
-export const AllCriteriaData = PropTypes.objectOf(CriterionData)

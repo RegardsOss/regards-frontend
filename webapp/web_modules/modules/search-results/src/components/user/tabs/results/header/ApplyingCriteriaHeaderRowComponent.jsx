@@ -41,7 +41,7 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
     facetValues: PropTypes.arrayOf(UIShapes.SelectedFacetCriterion).isRequired,
     geometries: PropTypes.arrayOf(UIShapes.GeometryCriterion).isRequired,
     entitiesSelections: PropTypes.arrayOf(UIShapes.EntitiesSelectionCriterion).isRequired,
-    searchTags: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
+    searchCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUnselectTagFilter: PropTypes.func.isRequired,
     onUnselectFacetValue: PropTypes.func.isRequired,
     onUnselectGeometry: PropTypes.func.isRequired,
@@ -57,7 +57,7 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
   render() {
     const {
       tagsFiltering, facetValues, geometries,
-      entitiesSelections, searchTags,
+      entitiesSelections, searchCriteria,
       onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry,
       onUnselectEntitiesSelection, onUnselectSearchCriteria,
     } = this.props
@@ -66,7 +66,7 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
       || facetValues.length > 0
       || geometries.length > 0
       || entitiesSelections.length > 0
-      || searchTags.length > 0}
+      || searchCriteria.length > 0}
       >
         <TableHeaderLine>
           <TableHeaderContentBox>
@@ -109,7 +109,7 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                     onUnselectEntitiesSelection={onUnselectEntitiesSelection}
                   />),
                   // 5 - Current search
-                  searchTags.length
+                  searchCriteria.length
                     ? <SearchCriteriaComponent key="search.criteria" onUnselectSearchCriteria={onUnselectSearchCriteria} />
                     : null,
 

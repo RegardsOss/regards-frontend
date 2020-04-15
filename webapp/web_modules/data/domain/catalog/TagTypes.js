@@ -25,6 +25,7 @@ import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
  */
 export const TAG_TYPES_ENUM = {
   WORD: 'tag.word',
+  UNRESOLVED: 'tag.unresolved', // specific unresolved case
   ...ENTITY_TYPES_ENUM,
 }
 

@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { HOCUtils } from '@regardsoss/display-control'
@@ -28,6 +28,7 @@ import { actions as searchEntityActions } from '../../../clients/SearchEntityCli
 import { resultsContextActions, resultsContextSelectors } from '../../../clients/ResultsContextClient'
 import { ContextInitializationHelper } from './ContextInitializationHelper'
 import { URLContextHelper } from './URLContextHelper'
+import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 
 /**
  * Results context manager:
@@ -87,9 +88,10 @@ export class ContextManager extends React.Component {
     updateResultsContext: PropTypes.func.isRequired,
   }
 
-
   /** Initial state */
   state = {
+    // flag to avoid suppression of initial URL (may be used on later authentication).
+    // False while complete initialization has not been performed
     initialized: false,
   }
 
@@ -108,25 +110,14 @@ export class ContextManager extends React.Component {
   componentWillReceiveProps = (nextProps) => {
     const { authentication: { result: newAuthResults }, resultsContext: newResultsContext } = nextProps
     const { authentication: { result: oldAuthResults }, resultsContext: oldResultsContext } = this.props
-    if (get(oldAuthResults, 'sub') !== get(newAuthResults, 'sub')) {
-      // A - Manage specific case of tags with authentication rights: attempt restoring them
-      this.onAuthenticationChanged()
-    } else if (!isEqual(oldResultsContext, newResultsContext) || !this.state.initialized) {
+    if (!isEqual(get(oldAuthResults, 'sub'), get(newAuthResults, 'sub')) && this.state.initialized) {
+      // A - Authentication changed: update entities related elements (tags / description path)
+      this.onRightsChanged()
+    } else if (!isEqual(oldResultsContext, newResultsContext) && this.state.initialized) {
       // B  - Manage any results context change: let helper update URL when context changes or at initialization
       URLContextHelper.updateURLForContext(newResultsContext)
       // TODO : here, we need to serialize the module context into local storage (pick only elements that can not be retrieved from configuration)
     }
-  }
-
-  /**
-   * Authentication state changed: update context according with current URL
-   * tags (as some tag entities may not be available to all users)
-   **/
-  onAuthenticationChanged = () => {
-    const { fetchEntity } = this.props
-    // Attempt current context reolsution from URL (handles URL sharing cases with authentication required and context update on
-    // profile change). Nota: we use here an initial void state diff to avoid overriding parent control and user changes
-    URLContextHelper.resolveContextFromURL({}, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
   }
 
   /**
@@ -144,9 +135,12 @@ export class ContextManager extends React.Component {
       contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
     }
     // Is tag results with context tag?
-    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS
-      && !get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags.length`, 0)) {
-      contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS) {
+      const contextTags = get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags`, [])
+      if (!contextTags.length || contextTags[0].type === CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED) {
+        // no context tag or unresolved entity
+        contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+      }
     }
     updateResultsContext(moduleId, contextToCommit)
     this.setState({ initialized: true })
@@ -155,20 +149,128 @@ export class ContextManager extends React.Component {
   /**
    * Initializes results context from current URL
    */
-  initializeFromURL() {
+  initializeFromURL = () => {
     const {
-      configuration, resultsContext, attributeModels, fetchEntity,
+      moduleId, configuration, resultsContext,
+      attributeModels, fetchEntity,
     } = this.props
-    // 1 - Convert module configuration into results context
-    const contextFromConfiguration = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributeModels)
-
-    contextFromConfiguration.tabs.MAIN_RESULTS.search = { ...contextFromConfiguration.tabs.MAIN_RESULTS.search, open: true } // TODO RM
-    // 2 - Report any parent control already added in resolved context. XXX - Comes from the last parent controller (search-graph)
-    const contextWithParentControl = UIDomain.ResultsContextHelper.deepMerge(contextFromConfiguration, resultsContext)
+    // 1 - Convert root context from configuration
+    const configurationContext = ContextInitializationHelper.buildDefaultResultsContext(moduleId, configuration, attributeModels)
+    // 2 - Apply any parent control on it (XXX only search graph may still use that mechanism)
+    const contextWithControl = UIDomain.ResultsContextHelper.deepMerge(configurationContext, resultsContext)
     // 3 - Resolve context from URL then commit it to module state
-    // TODO: restore criteria context too! when URL is empty, use redux context
-    // TODO 2: we will need here to make sure configuration parts (label / title / deleted / added elements) is never overriden!
-    URLContextHelper.resolveContextFromURL(contextWithParentControl, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
+    // TODO: consider also local storage, when not in auth change case
+    URLContextHelper.resolveContextFromURL(contextWithControl, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
+  }
+
+
+  /**
+   * Resolves entity with id as parameter
+   * @param {string} id entity ID (URN)
+   * @return {Promise} resolution promise, resolving null when it fails (never entering catch clause)
+   */
+  resolveEntity = (id) => {
+    const { fetchEntity } = this.props
+    return new Promise(resolve => fetchEntity(id)
+      .then(({ payload }) => {
+        if (payload.error || !payload.content || !payload.content.id) {
+          throw new Error('Loading failed') // retrieval failure, get in catch clause
+        }
+        resolve(payload) // resolved OK
+      })
+      .catch(() => resolve(null)), // resolution failed
+    )
+  }
+
+  /**
+   * Updates a tag
+   * @param {*} tag matching UIShapes.TagCriterion
+   * @return {Promise} update promise, never entering catch clause
+   */
+  updateTag = tag => tag.type === CatalogDomain.TAG_TYPES_ENUM.WORD
+  // Word tag: immediately resolved
+    ? new Promise(resolve => resolve(tag))
+  // Entities: requires a rights checking
+    : this.resolveEntity(tag.searchKey)
+      .then(e => e
+        ? CriterionBuilder.buildEntityTagCriterion(e)
+        : CriterionBuilder.buildUnresolvedEntityTagCriterion(tag.searchKey))
+
+  /**
+   * Updates a tag list
+   * @param [*] tags list, matching UIShapes.TagsArray
+   * @return {Promise} update promise, never going though catch clause
+   */
+  updateTagsList = tagsList => Promise.all(tagsList.map(this.updateTag))
+
+  /**
+   * Updates description Tab
+   * @param {*} descriptionState matching UIShapes.DescriptionTabModel
+   * @return {Promise} update promise, never going though catch clause
+   */
+  updateDescriptionTab = ({ unresolvedRootEntityId, descriptionPath, selectedIndex }) => {
+    // Case 1: there is an old unresolved description entity: resolve it and update state
+    if (unresolvedRootEntityId) {
+      return this.resolveEntity(unresolvedRootEntityId)
+        .then(e => e ? { unresolvedRootEntityId: null, descriptionPath: [e], selectedIndex: 0 } : {
+          unresolvedRootEntityId, // still not resolved
+          descriptionPath: [],
+          selectedIndex: 0,
+        })
+    }
+    // Case 2: Check rights on each entity
+    const previouslySelectedEntityId = descriptionPath.length ? descriptionPath[selectedIndex].content.id : null
+    return Promise.all(descriptionPath.map(this.resolveEntity))
+      .then((resolvedEntities) => {
+        // remove null
+        const filtered = resolvedEntities.filter(e => !!e)
+        const newSelectedIndex = filtered.findIndex(e => e.content.id === previouslySelectedEntityId)
+        return {
+          descriptionPath: filtered,
+          selectedIndex: newSelectedIndex < 0 ? 0 : newSelectedIndex,
+          // when all where filtered, keep one entity to restore (the one in URL)
+          unresolvedRootEntityId: !filtered.length ? previouslySelectedEntityId : null,
+        }
+      })
+  }
+
+  /**
+   * Rights changed: perform entities tag resolution again, to match them against current user rights
+   */
+  onRightsChanged = () => {
+    const { resultsContext } = this.props
+    // A - Resolve tags
+    // 1 - main tab context tags
+    this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags)
+      // 2 - main tab tags filtering
+      .then(mainContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.tagsFiltering)
+        // 3 - Tag tab results context tags
+        .then(mainTagsFiltering => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags)
+          // 4 - Tag tab tags filtering
+          .then(tagContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.tagsFiltering)
+            // 5 - Description tab update
+            .then(tagTagsFiltering => this.updateDescriptionTab(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION])
+              // 6 - Pack in a complete results context state and commit (with coherence control)
+              .then((newDescriptionState) => {
+                const contextDiff = {
+                  tabs: {
+                    [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+                      criteria: {
+                        contextTags: mainContextTags,
+                        tagsFiltering: mainTagsFiltering,
+                      },
+                    },
+                    [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+                      criteria: {
+                        contextTags: tagContextTags,
+                        tagsFiltering: tagTagsFiltering,
+                      },
+                    },
+                    [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: newDescriptionState,
+                  },
+                }
+                this.commitCoherentContext(contextDiff)
+              })))))
   }
 
   render() {

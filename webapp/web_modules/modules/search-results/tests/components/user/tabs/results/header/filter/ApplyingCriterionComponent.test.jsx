@@ -108,5 +108,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriterionComponent', () => {
     // test delete callback
     enzymeWrapper.instance().onUnselectCriterion()
     assert.deepEqual(spiedDeletedCrit, props.selectedCriterion, 'Criterion shoud be correctly provided when deleting')
+    assert.fail('see todos below')
   })
+  // TODO: all tag types (word / unresolved / )
+  // TODO: search criteria
 })

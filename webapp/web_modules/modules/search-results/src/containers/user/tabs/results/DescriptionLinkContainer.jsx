@@ -141,6 +141,8 @@ export class DescriptionLinkContainer extends React.Component {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          // mute any previous value of unresolvedRootEntityId
+          unresolvedRootEntityId: null,
           // replace the current description path
           descriptionPath: [entity],
           selectedIndex: 0,

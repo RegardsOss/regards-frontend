@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import reduce from 'lodash/reduce'
+import map from 'lodash/map'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 import { PresentationHelper } from './PresentationHelper'
@@ -192,16 +193,18 @@ export class ContextInitializationHelper {
 
   /**
    * Builds initial search state based on criteria groups
+   * @param {number} moduleId module ID
+   * @param {string} tabType tab type from UIDomain.RESULTS_TABS_ENUM
    * @param {[*]} criteriaGroups criteria groups
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
    */
-  static buildSearchState(criteriaGroups = [], attributeModels) {
+  static buildSearchState(moduleId, tabType, criteriaGroups = [], attributeModels) {
     // convert each group when at least one criterion is active and has valid configuration...
-    const groups = criteriaGroups.reduce((accGroups, { showTitle, title, criteria: confCriteria }) => {
+    const groups = criteriaGroups.reduce((accGroups, { showTitle, title, criteria: confCriteria }, groupIndex) => {
       // convert each criterion that is active and has valid configuration
       const criteria = confCriteria.reduce((accCrit, {
         label, pluginId, active, conf,
-      }) => {
+      }, criterionIndex) => {
         if (active) {
           const confAttributes = get(conf, 'attributes', {})
           // resolve all attributes
@@ -212,12 +215,15 @@ export class ContextInitializationHelper {
               [attrKey]: resolvedAttribute.content,
             } : null // set acc to null when first missing attribute is not found (or any previous attribute was not)
           }, {})
-          if (attributes) { // all attributes could be retrieved
+          if (attributes) { // all attributes could be retrieved, add criterion in results context
+            // 1 - build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
+            // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
+            const pluginInstanceId = `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`
+            // 2 - Append plugin
             return [...accCrit, {
-              label,
               pluginId,
-              state: null,
-              requestParameters: {},
+              pluginInstanceId,
+              label,
               conf: { attributes },
             }]
           }
@@ -240,17 +246,16 @@ export class ContextInitializationHelper {
 
   /**
    * Builds default state based on module configuration
+   * @param {number} moduleId module ID
    * @param {*} configuration module configuration matching ModuleConfiguration shape
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
    * @return {*} default results context state
    */
-  static buildDefaultResultsContext(configuration, attributeModels) {
+  static buildDefaultResultsContext(moduleId, configuration, attributeModels) {
     // 1 - Build default state for data (as it is common to both main results and results tag view)
     const dataType = ContextInitializationHelper.buildDefaultTypeState(configuration, attributeModels, DamDomain.ENTITY_TYPES_ENUM.DATA)
     // 2 - Compute initial facets state
     const facets = ContextInitializationHelper.buildFacetsState(configuration, attributeModels)
-    // 3 - Compute initial search state
-    const search = ContextInitializationHelper.buildSearchState(configuration.criteriaGroups, attributeModels)
     // 4 - complete default state to provide data and dataset type in results views
     const defaultContext = {
       ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT,
@@ -259,7 +264,7 @@ export class ContextInitializationHelper {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS],
           facets,
-          search,
+          search: ContextInitializationHelper.buildSearchState(moduleId, UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS, configuration.criteriaGroups, attributeModels),
           criteria: {
             ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria,
             configurationRestrictions: ContextInitializationHelper.buildConfigurationCriteria(configuration.restrictions),
@@ -274,7 +279,7 @@ export class ContextInitializationHelper {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS],
           facets,
-          search,
+          search: ContextInitializationHelper.buildSearchState(moduleId, UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS, configuration.criteriaGroups, attributeModels),
           criteria: {
             ...UIDomain.ResultsContextConstants.DEFAULT_RESULTS_CONTEXT.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria,
             requestFacets: facets.enabled ? facets.list : [],

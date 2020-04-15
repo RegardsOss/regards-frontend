@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { SearchCriteriaGroupRuntime } from '../../../../../shapes/search/SearchCriteriaGroupRuntime'
 
 /**
  * Shows a criteria group title
@@ -27,7 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class GroupTitleComponent extends React.Component {
   static propTypes = {
-    group: UIShapes.CriteriaGroup.isRequired,
+    group: SearchCriteriaGroupRuntime.isRequired,
   }
 
   static contextTypes = {

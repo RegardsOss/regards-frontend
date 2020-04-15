@@ -25,6 +25,8 @@ import { UIShapes } from '@regardsoss/shape'
 import { AttributeBoundsConfiguration } from '@regardsoss/api'
 import { connect } from '@regardsoss/redux'
 import reduce from 'lodash/reduce'
+import { SearchCriteriaGroupRuntime } from '../../../../../shapes/search/SearchCriteriaGroupRuntime'
+import { SearchCriterionRuntime } from '../../../../../shapes/search/SearchCriterionRuntime'
 import { attributesBoundsActions } from '../../../../../clients/AttributesBoundsClient'
 import CriterionWrapperComponent from '../../../../../components/user/tabs/results/search/CriterionWrapperComponent'
 
@@ -47,12 +49,11 @@ export class CriterionWrapperContainer extends React.Component {
   }
 
   static propTypes = {
-    criterionBaseId: PropTypes.string.isRequired, // base ID to use to generate single criterion identifier
     groupIndex: PropTypes.number.isRequired,
     criterionIndex: PropTypes.number.isRequired,
-    criterion: UIShapes.Criterion.isRequired,
+    criterion: SearchCriterionRuntime.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired, // used in onPropertiesUpdated
+    groups: PropTypes.arrayOf(SearchCriteriaGroupRuntime).isRequired, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired, // used in onPropertiesUpdated
     onUpdatePluginState: PropTypes.func.isRequired,
@@ -97,7 +98,6 @@ export class CriterionWrapperContainer extends React.Component {
 
   /** Initial state */
   state = {
-    pluginInstanceId: `${this.props.criterionBaseId}-${this.props.groupIndex}-${this.props.criterionIndex}`,
     pluginConf: {},
     pluginProps: {},
   }
@@ -266,8 +266,8 @@ export class CriterionWrapperContainer extends React.Component {
 
 
   render() {
-    const { criterion: { pluginId } } = this.props
-    const { pluginProps, pluginConf, pluginInstanceId } = this.state
+    const { criterion: { pluginId, pluginInstanceId } } = this.props
+    const { pluginProps, pluginConf } = this.state
     return (
       <CriterionWrapperComponent
         pluginId={pluginId}

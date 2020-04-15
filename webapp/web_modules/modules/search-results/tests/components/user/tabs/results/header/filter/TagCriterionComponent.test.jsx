@@ -51,5 +51,7 @@ describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
       selectedCriterion: props.tagCriterion,
       onUnselectCriterion: props.onUnselectTagFilter,
     })
+    assert.fail('see TODO below')
   })
+  // TODO ALL tag types here too!
 })

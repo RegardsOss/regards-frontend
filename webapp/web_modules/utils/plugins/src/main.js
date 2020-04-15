@@ -27,9 +27,5 @@ export { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
 export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
 export { CriterionConfiguration } from './shapes/CriterionConfiguration'
 export { CriterionProperties } from './shapes/CriterionProperties'
-// TODO those things are probably wrong now
 export { default as pluginReducerHelper } from './helpers/PluginReducerHelper'
 export { default as PluginReducer } from './reducer'
-// TODO client and shape should no longer be used! Delete!
-export { pluginStateActions, pluginStateSelectors } from './clients/PluginStateClient'
-export { CriterionData, AllCriteriaData } from './shapes/CriterionShapes'

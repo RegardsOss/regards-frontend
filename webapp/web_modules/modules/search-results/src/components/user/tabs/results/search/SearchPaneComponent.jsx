@@ -26,6 +26,7 @@ import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { UIDomain } from '@regardsoss/domain'
+import { SearchCriteriaGroupRuntime } from '../../../../../shapes/search/SearchCriteriaGroupRuntime'
 import CriteriaListComponent from './CriteriaListComponent'
 
 /**
@@ -34,9 +35,8 @@ import CriteriaListComponent from './CriteriaListComponent'
  */
 class SearchPaneComponent extends React.Component {
   static propTypes = {
-    criterionBaseId: PropTypes.string.isRequired,
     open: PropTypes.bool.isRequired,
-    groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
+    groups: PropTypes.arrayOf(SearchCriteriaGroupRuntime).isRequired,
     rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     searchDisabled: PropTypes.bool.isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
@@ -85,7 +85,7 @@ class SearchPaneComponent extends React.Component {
 
   render() {
     const {
-      open, groups, rootContextCriteria, criterionBaseId, searchDisabled,
+      open, groups, rootContextCriteria, searchDisabled,
       onUpdatePluginState, onResetPluginsStates, onSearch, onClose,
     } = this.props
     const {
@@ -124,7 +124,6 @@ class SearchPaneComponent extends React.Component {
         </div>
         {/* 2. Criteria list display in scrollable area */}
         <CriteriaListComponent
-          criterionBaseId={criterionBaseId}
           rootContextCriteria={rootContextCriteria}
           groups={groups}
           onUpdatePluginState={onUpdatePluginState}

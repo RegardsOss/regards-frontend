@@ -178,6 +178,7 @@ const messages = {
   'search.facets.filter.chip.number.value': '{facetLabel} = {value}',
   'search.facets.filter.menu.word.value': '{word} ({count})',
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
+  'search.filter.geometry.entity.private': 'Donnée privée',
   'search.filter.geometry.label': 'Zone',
   'search.filter.entities.selection.label': 'Entités ({count})',
   'search.filter.search.criteria.label': 'Recherche',

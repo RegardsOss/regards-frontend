@@ -21,6 +21,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { MeasureResultProvider } from '@regardsoss/display-control'
 import { ScrollArea } from '@regardsoss/adapters'
 import GroupTitleComponent from './GroupTitleComponent'
+import { SearchCriteriaGroupRuntime } from '../../../../../shapes/search/SearchCriteriaGroupRuntime'
 import CriterionWrapperContainer from '../../../../../containers/user/tabs/results/search/CriterionWrapperContainer'
 
 /**
@@ -30,8 +31,7 @@ import CriterionWrapperContainer from '../../../../../containers/user/tabs/resul
  */
 class CriteriaListComponent extends React.Component {
   static propTypes = {
-    groups: PropTypes.arrayOf(UIShapes.CriteriaGroup).isRequired,
-    criterionBaseId: PropTypes.string.isRequired,
+    groups: PropTypes.arrayOf(SearchCriteriaGroupRuntime).isRequired,
     rootContextCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUpdatePluginState: PropTypes.func.isRequired,
   }
@@ -42,7 +42,7 @@ class CriteriaListComponent extends React.Component {
 
   render() {
     const {
-      groups, criterionBaseId, rootContextCriteria, onUpdatePluginState,
+      groups, rootContextCriteria, onUpdatePluginState,
     } = this.props
     const { moduleTheme: { user: { searchPane: { criteria } } } } = this.context
     return (
@@ -61,11 +61,9 @@ class CriteriaListComponent extends React.Component {
                 // eslint-disable-next-line react/no-array-index-key
                 <GroupTitleComponent key={`group.title.${groupIndex}`} group={group} />,
                 group.criteria.map((criterion, criterionIndex) => <CriterionWrapperContainer
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={`criterion.${groupIndex}.${criterionIndex}`}
+                  key={criterion.pluginInstanceId}
                   groupIndex={groupIndex}
                   criterionIndex={criterionIndex}
-                  criterionBaseId={criterionBaseId}
                   criterion={criterion}
                   groups={groups}
                   rootContextCriteria={rootContextCriteria}

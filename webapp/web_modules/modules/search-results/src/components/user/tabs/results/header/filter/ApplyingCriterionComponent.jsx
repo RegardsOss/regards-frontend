@@ -28,6 +28,7 @@ import { themeContextType } from '@regardsoss/theme'
 class ApplyingCriterionComponent extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
+    error: PropTypes.bool, // display as error?
     // assert basic criterion only (other field are specific to each criterion type).
     // Not mandatory as some feedback elements may use none
     selectedCriterion: UIShapes.BasicCriterion,
@@ -50,11 +51,18 @@ class ApplyingCriterionComponent extends React.Component {
   }
 
   render() {
-    const { label, filterIcon } = this.props
+    const { error, label, filterIcon } = this.props
     const { moduleTheme: { user: { filters } } } = this.context
     return (
-      <Chip style={filters.style} onRequestDelete={this.onUnselectCriterion}>
-        <Avatar color={filters.iconColor} icon={filterIcon} />
+      <Chip
+        labelColor={error ? filters.errorColor : null}
+        style={filters.style}
+        onRequestDelete={this.onUnselectCriterion}
+      >
+        <Avatar
+          color={error ? filters.errorColor : filters.iconColor}
+          icon={filterIcon}
+        />
         { label }
       </Chip>
     )

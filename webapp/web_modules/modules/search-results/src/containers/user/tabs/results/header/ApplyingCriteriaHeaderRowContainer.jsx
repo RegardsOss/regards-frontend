@@ -131,7 +131,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
   }
 
   /**
-   * User callback: search criteria unselected (clear applying searchTags)
+   * User callback: search criteria unselected (clear applying searchCriteria)
    */
   onUnselectSearchCriteria = () => {
     const {
@@ -141,7 +141,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       tabs: {
         [tabType]: {
           criteria: {
-            searchTags: [], // reset search criteria
+            searchCriteria: [], // reset search criteria
           },
         },
       },
@@ -154,7 +154,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       tab: {
         criteria: {
           tagsFiltering, appliedFacets, geometry,
-          entitiesSelection, searchTags,
+          entitiesSelection, searchCriteria,
         },
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -164,7 +164,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
         facetValues={appliedFacets}
         geometries={geometry}
         entitiesSelections={entitiesSelection}
-        searchTags={searchTags}
+        searchCriteria={searchCriteria}
         onUnselectTagFilter={this.onUnselectTagFilter}
         onUnselectFacetValue={this.onUnselectFacetValue}
         onUnselectGeometry={this.onUnselectGeometry}
