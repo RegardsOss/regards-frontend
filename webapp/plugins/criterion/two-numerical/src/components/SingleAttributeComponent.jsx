@@ -57,7 +57,7 @@ class SingleAttributeComponent extends React.Component {
     const { intl: { locale }, muiTheme } = this.context
     return (
       <>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
             {label[locale] || searchAttribute.label}
           </td>
@@ -71,7 +71,7 @@ class SingleAttributeComponent extends React.Component {
             onChange={onMinChanged}
           />
         </tr>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
           <NumericalCriterionComponent
             searchAttribute={searchAttribute}

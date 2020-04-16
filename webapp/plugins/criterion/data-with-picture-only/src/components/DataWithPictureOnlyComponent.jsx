@@ -16,47 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
-import TextField from 'material-ui/TextField'
+import Checkbox from 'material-ui/Checkbox'
 import { UIShapes } from '@regardsoss/shape'
-import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Main plugin component
  * @author Raphaël Mechali
  */
-class FullTextCriterionComponent extends React.Component {
+class DataWithPictureOnlyComponent extends React.Component {
   static propTypes = {
     label: UIShapes.IntlMessage.isRequired,
-    // Currently searched text (text field input value)
-    searchText: PropTypes.string.isRequired,
-    // Text input callback: (event, string) => ()
-    onTextInput: PropTypes.func.isRequired,
+    checked: PropTypes.bool.isRequired,
+    onToggled: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
-    // enable plugin theme access through this.context
-    ...themeContextType,
-    // enable i18n access trhough this.context
     ...i18nContextType,
+    ...themeContextType,
   }
 
   render() {
+    const { label, checked, onToggled } = this.props
     const { intl: { locale, formatMessage }, muiTheme } = this.context
-    const { label, searchText, onTextInput } = this.props
     return (
       <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+        {/* Checkbox */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} colSpan="3">
-          <TextField
-            fullWidth
-            hintText={label[locale] || formatMessage({ id: 'criterion.search.field.label' })}
-            value={searchText}
-            onChange={onTextInput}
+          <Checkbox
+            checked={checked}
+            onCheck={onToggled}
+            label={label[locale] || formatMessage({ id: 'criterion.data.with.picture.only.label' })}
+            title={formatMessage({ id: 'criterion.data.with.picture.only.tooltip' })}
           />
         </td>
-      </tr>
-    )
+      </tr>)
   }
 }
-export default FullTextCriterionComponent
+export default DataWithPictureOnlyComponent

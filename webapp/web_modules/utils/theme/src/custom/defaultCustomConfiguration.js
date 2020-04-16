@@ -321,12 +321,15 @@ export default baseTheme => ({
         criteria: {
           containerMargin: '10px 0',
           innerListMargin: '0 15px 0 10px',
+          defaultRow: {
+            height: 48,
+          },
           firstCell: {
             padding: 0,
             whiteSpace: 'nowrap',
           },
           nextCell: {
-            padding: '0px 0 0px 8px',
+            padding: '0 0 0 8px',
           },
           optionStyle: {
             width: undefined,

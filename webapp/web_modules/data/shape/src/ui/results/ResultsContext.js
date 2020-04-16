@@ -286,8 +286,6 @@ export const ResultsTab = PropTypes.shape({
     configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
     contextTags: TagsArray.isRequired, // Other filters (especially used by tag results tab)
     searchCriteria: PropTypes.arrayOf(ApplyingSearchCriterion).isRequired, // Currently applying search criteria
-    // TODO delete that one (requires search everywhere!)
-    quicklookFiltering: PropTypes.arrayOf(BasicCriterion).isRequired, // filtering elements with quicklooks
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets
     geometry: PropTypes.arrayOf(GeometryCriterion).isRequired, // Selected filtering geometry criteria
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria

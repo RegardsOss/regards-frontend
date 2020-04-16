@@ -73,7 +73,7 @@ class StringCriterionComponent extends React.Component {
     } = this.props
     const { intl, muiTheme } = this.context
     return (
-      <tr>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
         {/* 1. Label */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
           {label[intl.locale] || searchAttribute.label}

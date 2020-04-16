@@ -54,7 +54,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
 
     return (
       <>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           {/* Message as IIFE */}
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
             {(() => {
@@ -85,7 +85,7 @@ class TwoTemporalCriteriaComponent extends React.Component {
             isStopDate={false}
           />
         </tr>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           {/* empty cell */}
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
           <TemporalCriterionComponent

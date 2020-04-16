@@ -117,7 +117,7 @@ export class PluginLoader extends React.Component {
    * Keeps track of the fetched plugins ID (avoid multiple loading of the same
    * plugin path). Possible as the redux context is static here
    */
-  static FETCHED_PLUGINS_PATH = []
+  static FETCHED_PLUGINS_PATH = [] // TODO better in reducer! along with plugin definitions (will be used by admin too!)
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state

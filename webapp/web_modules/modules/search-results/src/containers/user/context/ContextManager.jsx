@@ -27,16 +27,15 @@ import ModuleConfiguration from '../../../shapes/ModuleConfiguration'
 import { actions as searchEntityActions } from '../../../clients/SearchEntityClient'
 import { resultsContextActions, resultsContextSelectors } from '../../../clients/ResultsContextClient'
 import { ContextInitializationHelper } from './ContextInitializationHelper'
-import { URLContextHelper } from './URLContextHelper'
+import { ContextStorageHelper } from './ContextStorageHelper'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
 
 /**
  * Results context manager:
- * - It initializes context with module configuration
- * - Retrieves context parts from URL (ignoring possible driving modules parameters) at initialization
- * - Update context tags list from URL when authentication changes (to disable / enable tags from URL in context)
- * - Updates URL during component lifecycle
- * while context is updated
+ * - It initializes context with module configuration and state from URL / local storages
+ * - Updates results context state on authentication change
+ * - Stores new state to URL and local storage while on change
+ * @author Raphaël Mechali
  */
 export class ContextManager extends React.Component {
   /**
@@ -68,6 +67,8 @@ export class ContextManager extends React.Component {
   static propTypes = {
     // module ID, used in mapStateToProps and mapDispatchToProps to access the
     moduleId: PropTypes.number.isRequired,
+    /** Project name */
+    project: PropTypes.string.isRequired,
     // module configuration
     configuration: ModuleConfiguration.isRequired,
     // Attributes models (must always be provided and non empty)
@@ -108,41 +109,42 @@ export class ContextManager extends React.Component {
    * When results context changes, report new type, mode and tags into URL
    */
   componentWillReceiveProps = (nextProps) => {
-    const { authentication: { result: newAuthResults }, resultsContext: newResultsContext } = nextProps
+    const {
+      authentication: { result: newAuthResults }, resultsContext: newResultsContext,
+      project, moduleId,
+    } = nextProps
     const { authentication: { result: oldAuthResults }, resultsContext: oldResultsContext } = this.props
     if (!isEqual(get(oldAuthResults, 'sub'), get(newAuthResults, 'sub')) && this.state.initialized) {
       // A - Authentication changed: update entities related elements (tags / description path)
-      this.onRightsChanged()
+      this.updateWithRights(newResultsContext)
     } else if (!isEqual(oldResultsContext, newResultsContext) && this.state.initialized) {
-      // B  - Manage any results context change: let helper update URL when context changes or at initialization
-      URLContextHelper.updateURLForContext(newResultsContext)
-      // TODO : here, we need to serialize the module context into local storage (pick only elements that can not be retrieved from configuration)
+      // B  - Update URL and local storage on change
+      ContextStorageHelper.store(newResultsContext, project, moduleId)
     }
   }
 
   /**
    * Checks and corrects a resolved context from URL, then commits it to redux store and marks the component initialized
-   * @param {*} contextDiff partial context to commit
+   * @param {*} resultsContext context to commit. Must be a new  reference
    */
-  commitCoherentContext = (contextDiff) => {
-    const { moduleId, updateResultsContext, resultsContext } = this.props
-    const contextToCommit = { ...contextDiff }
-    // compute the resulting next context
-    const nextFullContext = UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff)
+  commitCoherentContext = (resultsContext) => {
+    const { moduleId, updateResultsContext } = this.props
     // Is description tab without entities?
-    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.DESCRIPTION
-      && !get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}.descriptionPath.length`, 0)) {
-      contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+    if (resultsContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.DESCRIPTION
+      && !get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}.descriptionPath.length`, 0)) {
+      // no: switch back to main
+      // eslint-disable-next-line no-param-reassign
+      resultsContext.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS // nota: we use here param reference to avoid an n-th copy
     }
     // Is tag results with context tag?
-    if (nextFullContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS) {
-      const contextTags = get(nextFullContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags`, [])
+    if (resultsContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS) {
+      const contextTags = get(resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS}.criteria.contextTags`, [])
       if (!contextTags.length || contextTags[0].type === CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED) {
-        // no context tag or unresolved entity
-        contextToCommit.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS
+        // eslint-disable-next-line no-param-reassign
+        resultsContext.selectedTab = UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS // nota: we use here param reference to avoid an n-th copy
       }
     }
-    updateResultsContext(moduleId, contextToCommit)
+    updateResultsContext(moduleId, resultsContext)
     this.setState({ initialized: true })
   }
 
@@ -151,16 +153,16 @@ export class ContextManager extends React.Component {
    */
   initializeFromURL = () => {
     const {
-      moduleId, configuration, resultsContext,
-      attributeModels, fetchEntity,
+      moduleId, project, configuration, resultsContext, attributeModels,
     } = this.props
     // 1 - Convert root context from configuration
-    const configurationContext = ContextInitializationHelper.buildDefaultResultsContext(moduleId, configuration, attributeModels)
+    let context = ContextInitializationHelper.buildDefaultResultsContext(moduleId, configuration, attributeModels)
     // 2 - Apply any parent control on it (XXX only search graph may still use that mechanism)
-    const contextWithControl = UIDomain.ResultsContextHelper.deepMerge(configurationContext, resultsContext)
-    // 3 - Resolve context from URL then commit it to module state
-    // TODO: consider also local storage, when not in auth change case
-    URLContextHelper.resolveContextFromURL(contextWithControl, fetchEntity).then(contextWithURL => this.commitCoherentContext(contextWithURL))
+    context = UIDomain.ResultsContextHelper.deepMerge(context, resultsContext)
+    // 3 - Apply URL or local storage saved data
+    context = ContextStorageHelper.restore(context, project, moduleId)
+    // Finally apply rights checking and commit context
+    this.updateWithRights(context)
   }
 
 
@@ -235,10 +237,10 @@ export class ContextManager extends React.Component {
   }
 
   /**
-   * Rights changed: perform entities tag resolution again, to match them against current user rights
+   * Updates results context with current rights
+   * @param {*} complete results context to consider
    */
-  onRightsChanged = () => {
-    const { resultsContext } = this.props
+  updateWithRights = (resultsContext) => {
     // A - Resolve tags
     // 1 - main tab context tags
     this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags)
@@ -269,7 +271,7 @@ export class ContextManager extends React.Component {
                     [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: newDescriptionState,
                   },
                 }
-                this.commitCoherentContext(contextDiff)
+                this.commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff))
               })))))
   }
 

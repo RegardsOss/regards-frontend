@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import { CommonDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { AttributeModelWithBounds, NumberRange } from '@regardsoss/plugins-api'
@@ -115,7 +116,6 @@ export class MultipleAttributesContainer extends React.Component {
     }
   }
 
-
   /**
    * Callback: user changed value 1 number and / or operator
    * @param {number} value1 user input text
@@ -128,7 +128,7 @@ export class MultipleAttributesContainer extends React.Component {
     const { error, value } = NumberHelper.parse(value1)
     const newState = {
       ...state,
-      error1: error || !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1)),
+      error1: error || (!isNil(value) && !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1))),
       value1,
       comparator1,
     }
@@ -150,7 +150,7 @@ export class MultipleAttributesContainer extends React.Component {
     const newState = {
       ...state,
       // in error when text cannot be parsed or range is invalid
-      error2: error || !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2)),
+      error2: error || (!isNil(value) && !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2))),
       value2,
       comparator2,
     }
@@ -158,6 +158,7 @@ export class MultipleAttributesContainer extends React.Component {
       publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
     }
   }
+
 
   render() {
     const {

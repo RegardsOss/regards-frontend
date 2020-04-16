@@ -191,12 +191,14 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
+            configurationRestrictions: [],
             contextTags: [CriterionBuilder.buildWordTagCriterion('coffee')],
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },
@@ -229,12 +231,14 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
-            contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
+            configurationRestrictions: [],
+            contextTags: [CriterionBuilder.buildWordTagCriterion('coffee')],
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },

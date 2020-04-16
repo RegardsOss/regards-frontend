@@ -108,7 +108,7 @@ export class EnumeratedCriterionComponent extends React.Component {
     const { currentHints } = this.state
     const { intl, muiTheme, moduleTheme: { menuStyle } } = this.context
     return (
-      <tr>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
           {label[intl.locale] || searchAttribute.label}
         </td>

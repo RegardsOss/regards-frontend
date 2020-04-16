@@ -63,7 +63,7 @@ class TemporalCriterionComponent extends React.Component {
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
     return (
-      <tr>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
         {/* 1. Label */}
         <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
           {label[intl.locale] || searchAttribute.label}

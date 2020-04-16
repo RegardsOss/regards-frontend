@@ -196,13 +196,14 @@ export class DescriptionContainer extends React.Component {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
+            configurationRestrictions: [],
             contextTags: [initialTag],
-            // reset user filtering (they are probably wrong in that tag context)
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },

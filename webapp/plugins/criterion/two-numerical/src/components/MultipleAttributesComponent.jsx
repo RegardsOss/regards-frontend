@@ -66,7 +66,7 @@ class MultipleAttributesComponent extends React.Component {
     const { intl: { locale }, muiTheme } = this.context
     return (
       <>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
             { label[locale] || attribute1.label }
           </td>
@@ -80,7 +80,7 @@ class MultipleAttributesComponent extends React.Component {
             onChange={onValue1Changed}
           />
         </tr>
-        <tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
           <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
             { // When label is provided, show empty cell. Show second attribute label otherwise
             label[locale] ? null : attribute2.label
