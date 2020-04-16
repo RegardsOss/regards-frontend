@@ -110,7 +110,7 @@ export class EditContainer extends React.Component {
     // detect change
     if (this.props.error.hasError !== previousProps.error.hasError || this.props.isFetching !== previousProps.isFetching) {
       // close the popup when the fetch is done and there is no error
-      if (!this.props.error && !this.props.isFetching) {
+      if (!this.props.error.hasError && !this.props.isFetching) {
         this.props.onClose()
       }
     }
@@ -124,12 +124,12 @@ export class EditContainer extends React.Component {
     const { searchContext } = this.props.target
     this.props.editFeatures({
       searchRequest: searchContext,
-      values: { properties },
+      feature: { properties },
     })
   }
 
   render() {
-    const { target: { entitiesCount }, modelAttributeList } = this.props
+    const { target: { entitiesCount }, modelAttributeList } = this.props
     const { isLoading } = this.state
     return (
 
@@ -138,7 +138,7 @@ export class EditContainer extends React.Component {
       >
         <EditComponent
           onSubmit={this.onSubmit}
-          attributeModelList={modelAttributeList }
+          attributeModelList={modelAttributeList}
           onCancel={this.cancel}
           pluginInstanceId={this.props.pluginInstanceId}
           entitiesCount={entitiesCount}

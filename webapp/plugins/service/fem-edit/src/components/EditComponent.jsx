@@ -51,6 +51,7 @@ export class EditComponent extends React.Component {
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
+    autofill: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -91,6 +92,7 @@ export class EditComponent extends React.Component {
     hasSelectedAttributes: false,
     hasSelectedAllAttributes: false,
   }
+
   /**
    * Lifecycle hook: create attribute list
    */
@@ -146,10 +148,14 @@ export class EditComponent extends React.Component {
 
   onDeselect = (attributeModel) => {
     const { modelAttributeSelected } = this.state
-    const { attributeModelList } = this.props
+    const { attributeModelList, autofill } = this.props
 
     const nextModelAttributeSelected = without(modelAttributeSelected, attributeModel.content.id)
     this.computeModelAttributes(attributeModelList, nextModelAttributeSelected)
+
+    // Clear the field
+    // https://github.com/redux-form/redux-form/issues/2325#issuecomment-487162582
+    autofill(`properties.${attributeModel.content.fragment.name}.${attributeModel.content.name}`, undefined)
   }
 
   onSelect = (attributeModel) => {
@@ -196,6 +202,7 @@ export class EditComponent extends React.Component {
     } = this.props
     const { modelAttributeList, hasSelectedAttributes, hasSelectedAllAttributes } = this.state
     const msgValues = { nbElement: entitiesCount }
+    const hasNoAttributes = isEmpty(modelAttributeList)
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -223,9 +230,14 @@ export class EditComponent extends React.Component {
                 isEditing={false} // ignore this, we only pass alterable attrs
               />
             </div>
-            <ShowableAtRender show={hasSelectedAttributes}>
-              <FormattedMessage id="plugin.message" values={msgValues} />
-              <FormattedMessage id="plugin.question" />
+            <ShowableAtRender show={hasSelectedAttributes || hasNoAttributes}>
+              <ShowableAtRender show={hasSelectedAttributes}>
+                <FormattedMessage id="plugin.message" values={msgValues} />
+                <FormattedMessage id="plugin.question" />
+              </ShowableAtRender>
+              <ShowableAtRender show={hasNoAttributes}>
+                <FormattedMessage id="plugin.error.no.attribute" values={msgValues} />
+              </ShowableAtRender>
               <div style={moduleTheme.buttonsWrapper}>
                 <RaisedButton
                   label={formatMessage({ id: 'plugin.cancel' })}
