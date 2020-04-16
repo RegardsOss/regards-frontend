@@ -138,7 +138,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           loader: 'file-loader',
           options: {
             name: 'staticConfiguration.js',
-            outputPath: 'conf/',
+            outputPath: 'conf-template/',
           },
         },
         {
