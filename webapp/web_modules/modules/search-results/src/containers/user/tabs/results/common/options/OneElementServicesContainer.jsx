@@ -138,7 +138,6 @@ export class OneElementServicesContainer extends React.Component {
        dessous test les doublons */
       const newServices = [
         ...get(entity.content, 'services', []),
-        ...contextSelectionServices,
       ].reduce((services, service) => OneElementServicesContainer.isUsableService(service, entity.content.entityType, availableDependencies)
         && !services.find(({ content: { type, configId } }) => type === service.content.type && configId === service.content.configId)
         ? [...services, service]
