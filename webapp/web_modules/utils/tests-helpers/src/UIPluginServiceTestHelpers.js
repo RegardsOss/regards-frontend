@@ -38,7 +38,6 @@ function buildConfiguration(staticProperties = {}, dynamicProperties = {}) {
     dynamic: dynamicProperties,
   }
 }
-//TODO-LEO improve? (déjà édité pour matcher CatalogShapes.Entity)
 function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALIDATION_DATA_MODEL_1', label = 'Toulouse France') {
   return {
     content: {
