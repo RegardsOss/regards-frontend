@@ -50,6 +50,12 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_webapp.sh'
                     },
+                    plugin_criterion_data_with_picture_only: {
+                        sh 'docker run \
+                        --rm -i \
+                        -v ${WORKSPACE}/webapp:/app_to_build \
+                        rs_node ./build_plugin.sh criterion/data-with-picture-only'
+                    },
                     plugin_criterion_enumerated: {
                         sh 'docker run \
                             --rm -i \
