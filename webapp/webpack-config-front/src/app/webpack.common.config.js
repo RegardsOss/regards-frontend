@@ -138,7 +138,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           loader: 'file-loader',
           options: {
             name: 'staticConfiguration.js',
-            outputPath: 'conf-template/',
+            outputPath: mode === 'dev' ? 'conf/' : 'conf-template/',
           },
         },
         {
@@ -167,7 +167,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         template: 'index.ejs',
         hash: true,
         isProduction: mode === 'prod',
-        chunksSortMode: 'none'
+        chunksSortMode: 'none',
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
