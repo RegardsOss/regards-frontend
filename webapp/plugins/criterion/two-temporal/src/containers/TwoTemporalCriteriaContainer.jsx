@@ -33,8 +33,8 @@ export class TwoTemporalCriteriaContainer extends React.Component {
   /** Default component state */
   static DEFAULT_STATE = {
     error: false,
-    time1: undefined, // first attribute value
-    time2: undefined, // second attribute value (or range value when working with single attribute)
+    time1: null, // first attribute value
+    time2: null, // second attribute value (or range value when working with single attribute)
   }
 
   static propTypes = {
@@ -85,11 +85,15 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     if (error || (isNil(time1) && isNil(time2))) {
       return {}
     }
+    // transfer user input time to UTC time (as server expects dates at UTC time)
+    const utcTime1 = DateRange.toUTCTime(time1)
+    const utcTime2 = DateRange.toUTCTime(time2)
+
     // range on single attribute
     if (TwoTemporalCriteriaContainer.isSingleAttribute(firstAttribute, secondAttribute)) {
       return {
         q: DateRange.getDateQueryParameter(firstAttribute.jsonPath,
-          new DateRange(time1, time2)).toQueryString(),
+          new DateRange(utcTime1, utcTime2)).toQueryString(),
       }
     }
     // range on 2 attributes: value1 applies to attribute2 and value2 to attribute 1. Example:
@@ -98,8 +102,8 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     // PERDIOD_END >= 01/01/2010 (A) AND PERIOD_START <= 31/01/2010 (B)
     return {
       q: new CatalogDomain.OpenSearchQuery([
-        DateRange.getDateQueryParameter(secondAttribute, new DateRange(time1, null)), // A
-        DateRange.getDateQueryParameter(firstAttribute, new DateRange(null, time2)), // B
+        DateRange.getDateQueryParameter(secondAttribute.jsonPath, new DateRange(utcTime1, null)), // A
+        DateRange.getDateQueryParameter(firstAttribute.jsonPath, new DateRange(null, utcTime2)), // B
       ]).toQueryString(),
     }
   }
@@ -117,14 +121,20 @@ export class TwoTemporalCriteriaContainer extends React.Component {
     if (isNil(time1) && isNil(time2)) {
       return false
     }
+    // transfer user input time to UTC time (as server provides dates at UTC time)
+    const utcTime1 = DateRange.toUTCTime(time1)
+    const utcTime2 = DateRange.toUTCTime(time2)
     // Single attribute case: error when restriction range does not cross attribute bounds
     if (TwoTemporalCriteriaContainer.isSingleAttribute(firstAttribute, secondAttribute)) {
-      return !DateRange.isValidRestrictionOn(firstAttribute, new DateRange(time1, time2))
+      return !DateRange.isValidRestrictionOn(firstAttribute, new DateRange(utcTime1, utcTime2))
     }
     // Two attribute case: reversed (see convertToQuery comments):
     // attr2 => time1 && attr1 <= time2
-    return !DateRange.isValidRestrictionOn(secondAttribute, DateRange.convertToRange(time1, EnumNumericalComparator.GE))
-      || !DateRange.isValidRestrictionOn(firstAttribute, DateRange.convertToRange(time2, EnumNumericalComparator.LE))
+    return new DateRange(utcTime1, utcTime2).isEmpty()
+    || (!isNil(utcTime1) && !DateRange.isValidRestrictionOn(secondAttribute,
+      DateRange.convertToRange(utcTime1, EnumNumericalComparator.GE)))
+    || (!isNil(utcTime2) && !DateRange.isValidRestrictionOn(firstAttribute,
+      DateRange.convertToRange(utcTime2, EnumNumericalComparator.LE)))
   }
 
   /**

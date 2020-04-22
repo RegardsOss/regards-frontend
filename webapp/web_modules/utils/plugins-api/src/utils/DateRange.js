@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { CatalogDomain } from '@regardsoss/domain'
 import { NumberRange } from './NumberRange'
 
@@ -28,14 +29,26 @@ import { NumberRange } from './NumberRange'
  */
 export class DateRange extends NumberRange {
   /**
+   * Converts time with local timezone into UTC time
+   * @param {number} localTime local time value
+   * @return {number} UTC time
+   */
+  static toUTCTime(localTime) {
+    if (isNil(localTime)) {
+      return localTime
+    }
+    const localDate = new Date(localTime)
+    return new Date(localDate.getTime() - (localDate.getTimezoneOffset() * 60000)).getTime()
+  }
+
+  /**
    * Converts date time to open search query date value
-   * @param {number} dateTime
+   * @param {number} dateTime witt local timezone already removed
    * @return {string} usable date time for open search query
    */
   static toOpenSearchDate(dateTime) {
-    const dateWithTZ = new Date(dateTime)
-    const dateWithoutTZ = new Date(dateWithTZ.getTime() - (dateWithTZ.getTimezoneOffset() * 60000))
-    return dateWithoutTZ.toISOString()
+    return dateTime === Number.NEGATIVE_INFINITY || dateTime === Number.POSITIVE_INFINITY
+      ? NumberRange.INFINITE_BOUND_TAG : new Date(dateTime).toISOString()
   }
 
   /**
@@ -54,9 +67,8 @@ export class DateRange extends NumberRange {
       return new CatalogDomain.OpenSearchQueryParameter(attributeName, DateRange.toOpenSearchDate(value.lowerBound))
     }
     // a range that has not 2 infinite bounds
-    const lowerBound = value.isInfiniteLowerBound() ? NumberRange.INFINITE_BOUND_TAG : DateRange.toOpenSearchDate(value.lowerBound)
-    const upperBound = value.isInfiniteUpperBound() ? NumberRange.INFINITE_BOUND_TAG : DateRange.toOpenSearchDate(value.upperBound)
-    return new CatalogDomain.OpenSearchQueryParameter(attributeName, `[${lowerBound} TO ${upperBound}]`)
+    return new CatalogDomain.OpenSearchQueryParameter(attributeName,
+      `[${DateRange.toOpenSearchDate(value.lowerBound)} TO ${DateRange.toOpenSearchDate(value.upperBound)}]`)
   }
 
   /**

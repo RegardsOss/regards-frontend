@@ -171,8 +171,8 @@ export class MultipleAttributesContainer extends React.Component {
     return (
       <MultipleAttributesComponent
         label={label}
-        attribute1={firstField}
 
+        attribute1={firstField}
         error1={error1}
         value1={value1}
         comparator1={comparator1}

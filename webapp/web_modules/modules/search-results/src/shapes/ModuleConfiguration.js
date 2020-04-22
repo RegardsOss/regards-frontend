@@ -125,7 +125,7 @@ export const RestrictionsConfiguration = PropTypes.shape({
 /** A criterion configuration, with internationalized labels */
 export const CriterionConfiguration = PropTypes.shape({
   label: UIShapes.IntlMessage.isRequired,
-  pluginId: PropTypes.number.isRequired, // TODO raph check, but it seems to be the plugin ==> better use a business ID
+  pluginId: PropTypes.number.isRequired,
   active: PropTypes.bool.isRequired, // TODO make editable
   conf: PropTypes.object.isRequired, // configuration
 })

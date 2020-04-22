@@ -20,10 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
-import { StringCriterionContainer } from '../../src/containers/StringCriterionContainer'
-import styles from '../../src/styles/styles'
-import StringCriterionComponent from '../../src/components/StringCriterionComponent'
 import { SEARCH_MODES_ENUM } from '../../src/domain/SearchMode'
+import { StringCriterionContainer } from '../../src/containers/StringCriterionContainer'
+import StringCriterionComponent from '../../src/components/StringCriterionComponent'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
@@ -38,7 +38,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
   it('should exists', () => {
     assert.isDefined(StringCriterionContainer)
   })
-  it('should render self and sub components and publish state on updates', () => {
+  it('should render self and sub components and publish state / query on updates', () => {
     const spiedPublishStateData = {
       count: 0,
       state: null,
@@ -54,6 +54,7 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
         searchText: 'xxx',
         searchMode: SEARCH_MODES_ENUM.CONTAINS,
       },
+      label: criterionTestSuiteHelpers.getLabelStub(),
       publishState: (state, requestParameters) => {
         spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
@@ -64,31 +65,33 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
     const component = enzymeWrapper.find(StringCriterionComponent)
     assert.lengthOf(component, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(component, {
+      label: props.label,
       searchAttribute: props.attributes.searchField,
       searchText: props.state.searchText,
       searchMode: props.state.searchMode,
+      onSelectMode: enzymeWrapper.instance().onSelectMode,
       onTextInput: enzymeWrapper.instance().onTextInput,
-      onCheckStrictEqual: enzymeWrapper.instance().onCheckStrictEqual,
     }, 'Component properties should be correctly reported')
-    // check state is published when text value is updated (query is not tested here)
+    // check state and request are published when text value is updated
     enzymeWrapper.instance().onTextInput(null, 'abc')
     assert.equal(spiedPublishStateData.count, 1, 'Update text: publish state should have been called 1 time')
     assert.deepEqual(spiedPublishStateData.state, {
       searchText: 'abc',
-      searchMode: SEARCH_MODES_ENUM.CONTAINS,
+      searchMode: props.state.searchMode,
     }, 'Update text: state should be computed with new value and previous state from props')
-    assert.isDefined(spiedPublishStateData.requestParameters, 'Update text: requestParameters should be computed')
+    assert.deepEqual(spiedPublishStateData.requestParameters,
+      StringCriterionContainer.convertToRequestParameters(spiedPublishStateData.state, props.attributes.searchField),
+      'request parameters should be updated')
     // check state is published when user changes mode selection
-    enzymeWrapper.instance().onSelectStrictEqualMode()
+    enzymeWrapper.instance().onSelectMode(SEARCH_MODES_ENUM.EQUALS)
     assert.equal(spiedPublishStateData.count, 2, 'publish state should have been called on strict equal mode selection')
     assert.deepEqual(spiedPublishStateData.state, {
-      searchText: 'xxx',
+      searchText: props.state.searchText,
       searchMode: SEARCH_MODES_ENUM.EQUALS,
     }, 'State should be correctly updated when user selects strict equal mode')
-    assert.isDefined(spiedPublishStateData.requestParameters, 'Equal mode selection: query should be computed')
-
-    enzymeWrapper.instance().onSelectContainsMode()
-    assert.equal(spiedPublishStateData.count, 2, 'publish state should not have been called on contains selection (already selected)')
+    assert.deepEqual(spiedPublishStateData.requestParameters,
+      StringCriterionContainer.convertToRequestParameters(spiedPublishStateData.state, props.attributes.searchField),
+      'Equal mode selection: query should be computed')
   })
   it('should convert correctly into a query', () => {
     const attribute = {
