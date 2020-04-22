@@ -31,7 +31,7 @@ import PluginLoader from './PluginLoader'
  * @see PluginProvider for more information about Plugin loading.
  * @author Sébastien Binda
  */
-class PluginProvider extends React.Component {
+export class PluginProvider extends React.Component {
   /**
    * pluginConf : Props to add to te plugin rendering element,
    * displayPlugin : Display the plugin component. If false the plugin is only passed as a prop to the children of this provider
@@ -111,8 +111,5 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
 })
 
-// Export for tests
-const UnconnectedPluginProvider = PluginProvider
-export { UnconnectedPluginProvider }
 // Default export
 export default connect(mapStateToProps, mapDispatchToProps)(PluginProvider)

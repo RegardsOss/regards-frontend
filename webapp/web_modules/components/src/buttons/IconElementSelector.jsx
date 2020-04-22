@@ -36,7 +36,7 @@ export class IconElementSelector extends React.Component {
     choices: PropTypes.arrayOf(PropTypes.string).isRequired,
     // maps of choice, as key, and corresponding graphical data as value. It must hold at least each choice
     choiceGraphics: PropTypes.objectOf(PropTypes.shape({
-      IconConstructor: PropTypes.func, // Icon for choice
+      IconConstructor: PropTypes.func.isRequired, // Icon for choice
       labelKey: PropTypes.string, // Label for choice (used in menu)
       tooltipKey: PropTypes.string, // used on root button
     })).isRequired,

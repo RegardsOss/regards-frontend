@@ -26,3 +26,8 @@ export const IntlMessage = PropTypes.shape({
   [UIDomain.LOCALES_ENUM.en]: PropTypes.string.isRequired,
   [UIDomain.LOCALES_ENUM.fr]: PropTypes.string.isRequired,
 })
+
+export const OptionalIntlMessage = PropTypes.shape({
+  [UIDomain.LOCALES_ENUM.en]: PropTypes.string,
+  [UIDomain.LOCALES_ENUM.fr]: PropTypes.string,
+})

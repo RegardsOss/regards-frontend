@@ -28,7 +28,6 @@ import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/r
 import ModeSelectorContainer from '../../../../../../src/containers/user/tabs/results/header/options/ModeSelectorContainer'
 import SelectAllContainer from '../../../../../../src/containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../../src/containers/user/tabs/results/header/options/SingleSortingContainer'
-import ToggleOnlyQuicklookContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 import EditColumnsSettingsContainer from '../../../../../../src/containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
 import SelectionServiceComponent from '../../../../../../src/components/user/tabs/results/header/options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../../../../../../src/components/user/tabs/results/header/options/AddSelectionToCartComponent'
@@ -123,17 +122,6 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               assert.lengthOf(addToCartContainer, 1, 'There should be add to cart container')
               assert.equal(addToCartContainer.props().onAddSelectionToCart, props.onAddSelectionToCart,
                 'Add to cart container callback should be correctly set')
-              // 4 - Data and dataset only: quiclooks filter
-              const quicklookFilterContainer = enzymeWrapper.find(ToggleOnlyQuicklookContainer)
-              if (groupType === DamDomain.ENTITY_TYPES_ENUM.DATA || groupType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
-                assert.lengthOf(quicklookFilterContainer, 1, 'There should be quicklook filter container')
-                testSuiteHelpers.assertWrapperProperties(quicklookFilterContainer, {
-                  moduleId: props.moduleId,
-                  resultsContext: props.resultsContext,
-                }, 'Quicklooks filter container properties should be correctly provided')
-              } else {
-                assert.lengthOf(quicklookFilterContainer, 0, 'Quicklook filter container should be hidden')
-              }
               // 5 - Toggle filters (currently in all views and modes, due to configuration)
               const toggleFiltersContainer = enzymeWrapper.find(ToggleFiltersContainer)
               assert.lengthOf(toggleFiltersContainer, 1, 'Toggle filters container should be shown')

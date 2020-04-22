@@ -33,7 +33,6 @@ import { datasetEntity, anotherDatasetEntity } from '../../../../dumps/entities.
 import { dataContext } from '../../../../dumps/data.context.dump'
 import { CriterionBuilder } from '../../../../../src/definitions/CriterionBuilder'
 import { attributes } from '../../../../dumps/attributes.dump'
-import { ToggleOnlyQuicklookContainer } from '../../../../../src/containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 
 const context = buildTestContext(styles)
 
@@ -161,7 +160,6 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
               },
             }],
             tagsFiltering: [CriterionBuilder.buildEntityTagCriterion(anotherDatasetEntity)],
-            quicklooksFiltering: [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
             requestFacets: [{
               facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
               attribute: attributes[1],

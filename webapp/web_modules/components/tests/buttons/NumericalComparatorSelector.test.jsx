@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import NumericalComparatorSelector from '../../src/buttons/NumericalComparatorSelector'
+import IconElementSelector from '../../src/buttons/IconElementSelector'
 import styles from '../../src/buttons/styles'
 
 const context = buildTestContext(styles)
@@ -36,11 +38,30 @@ describe('[Components] Testing NumericalComparatorSelector', () => {
     assert.isDefined(NumericalComparatorSelector)
   })
   it('should render correctly', () => {
-    const props = {
-    //  TODO properties
-    }
-    assert.fail('Implement me')
-    const enzymeWrapper = shallow(<NumericalComparatorSelector {...props} />, { context })
-    // TODO test
+    const testSets = [{
+      operator: CommonDomain.EnumNumericalComparator.GE,
+      operators: [CommonDomain.EnumNumericalComparator.GE, CommonDomain.EnumNumericalComparator.LE],
+    }, {
+      operator: CommonDomain.EnumNumericalComparator.EQ,
+      operators: [CommonDomain.EnumNumericalComparator.GE, CommonDomain.EnumNumericalComparator.EQ, CommonDomain.EnumNumericalComparator.LE],
+    }, {
+      operator: CommonDomain.EnumNumericalComparator.LE,
+    }]
+    testSets.forEach(({ operator, operators }, index) => {
+      const props = {
+        operator,
+        operators,
+        onSelect: () => {},
+      }
+      const enzymeWrapper = shallow(<NumericalComparatorSelector {...props} />, { context })
+      const iconElementSelectorWrapper = enzymeWrapper.find(IconElementSelector)
+      assert.lengthOf(iconElementSelectorWrapper, 1, `#${index} There should be delegate selector`)
+      testSuiteHelpers.assertWrapperProperties(iconElementSelectorWrapper, {
+        value: props.operator,
+        choices: props.operators || NumericalComparatorSelector.defaultProps.operators,
+        choiceGraphics: NumericalComparatorSelector.COMPARATORS_DEFINITION,
+        onChange: props.onSelect,
+      }, 'Selector properties should be correctly computed')
+    })
   })
 })

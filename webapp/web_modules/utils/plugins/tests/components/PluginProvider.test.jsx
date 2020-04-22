@@ -25,7 +25,7 @@ import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import PluginTest from './PluginTest'
 import PluginLoader, { PluginLoader as UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
-import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
+import { PluginProvider } from '../../src/containers/PluginProvider'
 
 /**
  * Tests for PluginProvider
@@ -38,7 +38,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should fetch the pluginDefinition with the given pluginId in props', () => {
     const pluginDefinitionId = 12
     const fetchPluginSpy = spy()
-    const wrapper = shallow(<UnconnectedPluginProvider
+    const wrapper = shallow(<PluginProvider
       pluginInstanceId="0"
       pluginId={pluginDefinitionId}
       pluginConf={{}}
@@ -57,7 +57,7 @@ describe('[PLUGINS] Testing Plugins load', () => {
   it('Should render a PluginLoader', () => {
     const pluginDefinitionId = 12
     const fetchPluginSpy = spy()
-    const wrapper = shallow(<UnconnectedPluginProvider
+    const wrapper = shallow(<PluginProvider
       pluginInstanceId="0"
       pluginId={pluginDefinitionId}
       pluginConf={{}}
@@ -76,7 +76,6 @@ describe('[PLUGINS] Testing Plugins load', () => {
 
     assert.isFalse(fetchPluginSpy.called, 'The pluginDefinition is already fetched so the fetch method should not be called')
     assert.lengthOf(wrapper.find(PluginLoader), 1, 'The PluginLoader component should be rendered')
-    assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), false, 'Loading component should not be display as the pluginDefinition is already fetched')
   })
   it('Should render correctly that a plugin is loading', () => {
     const wrapper = shallow(<UnconnectedPluginLoader

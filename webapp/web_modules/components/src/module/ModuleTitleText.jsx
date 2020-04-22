@@ -37,7 +37,7 @@ class ModuleTitleText extends React.Component {
 
   static propTypes = {
     // module title, as an object like [locale]:title where locale can be 'en', 'fr'...
-    title: UIShapes.IntlMessage,
+    title: UIShapes.OptionalIntlMessage,
     // module description (used as fallback when title cannot be used)
     description: PropTypes.string,
   }

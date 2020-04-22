@@ -25,13 +25,13 @@ import { ContextManager } from '../../../../src/containers/user/context/ContextM
 import { ContextInitializationHelper } from '../../../../src/containers/user/context/ContextInitializationHelper'
 import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import styles from '../../../../src/styles'
-import { URLContextHelper } from '../../../../src/containers/user/context/URLContextHelper'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
 import { dataContext } from '../../../dumps/data.context.dump'
 import { attributes } from '../../../dumps/attributes.dump'
 import {
   dataEntity, datasetEntity, anotherDataEntity, anotherDatasetEntity, allEntities,
 } from '../../../dumps/entities.dump'
+import { ContextStorageHelper } from '../../../../src/containers/user/context/ContextStorageHelper'
 
 const router = require('react-router')
 
@@ -58,18 +58,20 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   it('should exists', () => {
     assert.isDefined(ContextManager)
   })
+
+  // TODO add here tests for local storage restoration and storing
   it('should attempt initial context resolution, preserving initial context', () => {
     // replace resolve context method to spy it
-    const savedResolveContext = URLContextHelper.resolveContextFromURL
+    const savedRestoreContext = ContextStorageHelper.restore
     const spiedContextResolution = {
       initContext: null,
       fetchEntity: null,
       builtPromise: null,
     }
-    URLContextHelper.resolveContextFromURL = (initContext, fetchEntity) => {
+    ContextStorageHelper.restore = (initContext, fetchEntity) => {
       spiedContextResolution.initContext = initContext
       spiedContextResolution.fetchEntity = fetchEntity
-      spiedContextResolution.builtPromise = savedResolveContext(initContext, fetchEntity)
+      spiedContextResolution.builtPromise = savedRestoreContext(initContext, fetchEntity, 25)
       return spiedContextResolution.builtPromise
     }
 
@@ -77,14 +79,14 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     currentLocation = {
       pathname: 'www.test.com/test',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
-        [URLContextHelper.MODULE_URL_PARAMETERS[3].name]: anotherDatasetEntity.content.id,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: anotherDataEntity.content.id,
-        [URLContextHelper.MODULE_URL_PARAMETERS[5].name]: 'coffee',
-        [URLContextHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
-        [URLContextHelper.MODULE_URL_PARAMETERS[7].name]: datasetEntity.content.id,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: anotherDatasetEntity.content.id,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: anotherDataEntity.content.id,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: 'coffee',
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: datasetEntity.content.id,
       },
     }
 
@@ -130,7 +132,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.isNotNull(spiedContextResolution.builtPromise, 'There should be the built resolution promise')
 
     // Restore original method
-    URLContextHelper.resolveContextFromURL = savedResolveContext
+    ContextStorageHelper.restore = savedRestoreContext
 
     // 2 - when promise resolves, check context is resolved and initialized
     return spiedContextResolution.builtPromise.then(() => {
@@ -178,22 +180,22 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     }).catch(err => assert.fail(`Failed with error ${err}`))
   })
   it('should forbid incomplete description state in inital context', () => {
-    const savedResolveContext = URLContextHelper.resolveContextFromURL
+    const savedRestoreContext = ContextStorageHelper.restore
     const spiedContextResolution = {
       builtPromise: null,
     }
-    URLContextHelper.resolveContextFromURL = (initContext, fetchEntity) => {
-      spiedContextResolution.builtPromise = savedResolveContext(initContext, fetchEntity)
+    ContextStorageHelper.restore = (initContext, fetchEntity) => {
+      spiedContextResolution.builtPromise = savedRestoreContext(initContext, fetchEntity, 25)
       return spiedContextResolution.builtPromise
     }
     // set up an URL context to be resolved: in description tab but without description entities
     currentLocation = {
       pathname: 'www.test.com/test',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: 'URN:DATA:unresolved',
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATA,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: 'URN:DATA:unresolved',
       },
     }
     const spiedUpdateResultsContext = {
@@ -220,7 +222,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     shallow(<ContextManager {...props} />, { context })
     assert.isNotNull(spiedContextResolution.builtPromise, 'There should be the built resolution promise')
     // Restore original method
-    URLContextHelper.resolveContextFromURL = savedResolveContext
+    ContextStorageHelper.restore = savedRestoreContext
     return spiedContextResolution.builtPromise.then(() => {
       assert.deepEqual(spiedUpdateResultsContext.newContext, UIDomain.ResultsContextHelper.deepMerge(dataContext, {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -238,21 +240,21 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     }).catch(err => assert.fail(`Failed with error ${err}`))
   })
   it('should forbid incomplete tag results state in inital context', () => {
-    const savedResolveContext = URLContextHelper.resolveContextFromURL
+    const savedRestoreContext = ContextStorageHelper.restore
     const spiedContextResolution = {
       builtPromise: null,
     }
-    URLContextHelper.resolveContextFromURL = (initContext, fetchEntity) => {
-      spiedContextResolution.builtPromise = savedResolveContext(initContext, fetchEntity)
+    ContextStorageHelper.restore = (initContext, fetchEntity) => {
+      spiedContextResolution.builtPromise = savedRestoreContext(initContext, fetchEntity, 25)
       return spiedContextResolution.builtPromise
     }
     // set up an URL context to be resolved: in tag tab but without tag context
     currentLocation = {
       pathname: 'www.test.com/test',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       },
     }
     const spiedUpdateResultsContext = {
@@ -279,7 +281,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     shallow(<ContextManager {...props} />, { context })
     assert.isNotNull(spiedContextResolution.builtPromise, 'There should be the built resolution promise')
     // Restore original method
-    URLContextHelper.resolveContextFromURL = savedResolveContext
+    ContextStorageHelper.restore = savedRestoreContext
     return spiedContextResolution.builtPromise.then(() => {
       assert.deepEqual(spiedUpdateResultsContext.newContext, UIDomain.ResultsContextHelper.deepMerge(dataContext, {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -297,12 +299,12 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     }).catch(err => assert.fail(`Failed with error ${err}`))
   })
   it('should initialize to configuration with empty URL', () => {
-    const savedResolveContext = URLContextHelper.resolveContextFromURL
+    const savedRestoreContext = ContextStorageHelper.restore
     const spiedContextResolution = {
       builtPromise: null,
     }
-    URLContextHelper.resolveContextFromURL = (initContext, fetchEntity) => {
-      spiedContextResolution.builtPromise = savedResolveContext(initContext, fetchEntity)
+    ContextStorageHelper.restore = (initContext, project, moduleId) => {
+      spiedContextResolution.builtPromise = savedRestoreContext(initContext, project, moduleId)
       return spiedContextResolution.builtPromise
     }
     // set up an URL context to be resolved: in tag tab but without tag context
@@ -334,16 +336,17 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     shallow(<ContextManager {...props} />, { context })
     assert.isNotNull(spiedContextResolution.builtPromise, 'There should be the built resolution promise')
     // Restore original method
-    URLContextHelper.resolveContextFromURL = savedResolveContext
+    ContextStorageHelper.restore = savedRestoreContext
     return spiedContextResolution.builtPromise.then(() => {
       assert.deepEqual(spiedUpdateResultsContext.newContext, dataContext, 'State should be unchanged compared to configuration')
     }).catch(err => assert.fail(`Failed with error ${err}`))
   })
-  it('should update URL as context changes (bound from redux)', () => {
+  it('should update URL and local storage as context changes (bound from redux)', () => {
     const previousLocation = {
       pathname: 'www.test2.com/test2',
       query: { },
     }
+    assert.fail('Need to check local storage too!!!!')
     currentLocation = previousLocation
     const configurationContext = ContextInitializationHelper.buildDefaultResultsContext(dataConfiguration, attributes)
     const props = {
@@ -388,10 +391,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATA,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
-        [URLContextHelper.MODULE_URL_PARAMETERS[3].name]: datasetEntity.content.id,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATA,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: datasetEntity.content.id,
       },
     })
 
@@ -418,9 +421,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       },
     })
 
@@ -441,10 +444,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
       },
     })
 
@@ -473,13 +476,13 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
-        [URLContextHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
-        [URLContextHelper.MODULE_URL_PARAMETERS[5].name]: 'coffee',
-        [URLContextHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
-        [URLContextHelper.MODULE_URL_PARAMETERS[7].name]: dataEntity.content.id,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // only last element
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: 'coffee',
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: dataEntity.content.id,
       },
     })
 
@@ -507,9 +510,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     assert.deepEqual(currentLocation, {
       pathname: 'www.test2.com/test2',
       query: {
-        [URLContextHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-        [URLContextHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-        [URLContextHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+        [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       },
     })
   })
