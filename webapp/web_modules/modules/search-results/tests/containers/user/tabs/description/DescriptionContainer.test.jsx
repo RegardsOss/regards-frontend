@@ -160,6 +160,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [dataEntity, datasetEntity],
           selectedIndex: 0,
+          unresolvedRootEntityId: null,
         },
       },
     }, 'Context diff description path should be valid')
@@ -232,7 +233,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
             configurationRestrictions: [],
-            contextTags: [CriterionBuilder.buildWordTagCriterion('coffee')],
+            contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
             searchCriteria: [],
             appliedFacets: [],
             geometry: [],

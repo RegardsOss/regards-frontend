@@ -110,7 +110,11 @@ const DEFAULT_RESULTS_CONTEXT = {
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
       },
     },
-    [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
+    [RESULTS_TABS_ENUM.DESCRIPTION]: {
+      unresolvedRootEntityId: null,
+      descriptionPath: [],
+      selectedIndex: 0,
+    },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       facets: {
         enabled: false,

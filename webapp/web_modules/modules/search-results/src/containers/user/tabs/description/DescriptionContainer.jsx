@@ -141,9 +141,10 @@ export class DescriptionContainer extends React.Component {
             ...descriptionModule.conf,
             // add runtime render data
             runtime: {
-              // report descriptionPath and selectedIndex
-              ...descriptionState,
-              // provide call
+              // report state
+              descriptionPath: descriptionState.descriptionPath,
+              selectedIndex: descriptionState.selectedIndex,
+              // provide callbacks
               setDescriptionPath: this.setDescriptionPath,
               onSearchWord: this.onSearchWord,
               onSearchEntity: this.onSearchEntity,

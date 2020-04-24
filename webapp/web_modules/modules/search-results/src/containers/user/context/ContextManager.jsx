@@ -239,41 +239,34 @@ export class ContextManager extends React.Component {
   /**
    * Updates results context with current rights
    * @param {*} complete results context to consider
+   * @return {Promise} the promise used to resolve context
    */
-  updateWithRights = (resultsContext) => {
-    // A - Resolve tags
-    // 1 - main tab context tags
-    this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags)
-      // 2 - main tab tags filtering
-      .then(mainContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.tagsFiltering)
-        // 3 - Tag tab results context tags
-        .then(mainTagsFiltering => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags)
-          // 4 - Tag tab tags filtering
-          .then(tagContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.tagsFiltering)
-            // 5 - Description tab update
-            .then(tagTagsFiltering => this.updateDescriptionTab(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION])
-              // 6 - Pack in a complete results context state and commit (with coherence control)
-              .then((newDescriptionState) => {
-                const contextDiff = {
-                  tabs: {
-                    [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
-                      criteria: {
-                        contextTags: mainContextTags,
-                        tagsFiltering: mainTagsFiltering,
-                      },
+  updateWithRights = resultsContext => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags) // 1 - main tab context tags
+    .then(mainContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.tagsFiltering) // 2 - main tab tags filtering
+      .then(mainTagsFiltering => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags) // 3 - Tag tab results context tags
+        .then(tagContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.tagsFiltering) // 4 - Tag tab tags filtering
+          .then(tagTagsFiltering => this.updateDescriptionTab(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]) // 5 - Description tab update
+            .then((newDescriptionState) => { // 6 - Pack in a complete results context state and commit (with coherence control)
+              const contextDiff = {
+                tabs: {
+                  [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+                    criteria: {
+                      contextTags: mainContextTags,
+                      tagsFiltering: mainTagsFiltering,
                     },
-                    [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
-                      criteria: {
-                        contextTags: tagContextTags,
-                        tagsFiltering: tagTagsFiltering,
-                      },
-                    },
-                    [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: newDescriptionState,
                   },
-                }
-                this.commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff))
-              })))))
-  }
+                  [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+                    criteria: {
+                      contextTags: tagContextTags,
+                      tagsFiltering: tagTagsFiltering,
+                    },
+                  },
+                  [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: newDescriptionState,
+                },
+              }
+              this.commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff))
+            })))))
+
 
   render() {
     const { children } = this.props

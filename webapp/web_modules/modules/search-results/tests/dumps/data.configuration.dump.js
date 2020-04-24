@@ -89,4 +89,79 @@ export const configuration = {
       },
     },
   },
+  criteriaGroups: [{
+    showTitle: true,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'First group', [UIDomain.LOCALES_ENUM.fr]: 'Premier groupe' },
+    criteria: [{ // completely resolved
+      pluginId: 111,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'First criterion', [UIDomain.LOCALES_ENUM.fr]: 'Premier critère' },
+      active: true,
+      conf: {
+        attributes: {
+          field1: 'my.attr.1',
+          field2: 'my.attr.2',
+        },
+      },
+    }, { // no attribute
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Second criterion', [UIDomain.LOCALES_ENUM.fr]: 'Second critère' },
+      pluginId: 833,
+      active: true,
+      conf: { attributes: {} },
+    }, { // partially resolved
+      pluginId: 455,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Third criterion', [UIDomain.LOCALES_ENUM.fr]: 'Troisième critère' },
+      active: true,
+      conf: {
+        attributes: {
+          field1: 'my.attr.1',
+          field2: 'my.attr.36',
+        },
+      },
+    }, { // disabled
+      pluginId: 736,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Fourth criterion', [UIDomain.LOCALES_ENUM.fr]: 'Quatrième critère' },
+      active: false,
+      conf: {
+        attributes: {
+          field: 'my.attr.1',
+        },
+      },
+    }],
+  }, {
+    showTitle: false,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'Second group', [UIDomain.LOCALES_ENUM.fr]: 'Deuxième groupe' },
+    criteria: [{ // completely resolved
+      pluginId: 1025,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Fith criterion', [UIDomain.LOCALES_ENUM.fr]: 'Cinquième critère' },
+      active: true,
+      conf: { // resolved using standard attributes
+        attributes: {
+          fieldX: 'my.attr.1',
+          fieldY: 'label',
+        },
+      },
+    }],
+  }, { // filtered group (no active and resolved element)
+    showTitle: true,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'Third group', [UIDomain.LOCALES_ENUM.fr]: 'Troisième groupe' },
+    criteria: [{ // completely resolved but inactive
+      pluginId: 2222,
+      label: { [UIDomain.LOCALES_ENUM.en]: '6th criterion', [UIDomain.LOCALES_ENUM.fr]: '6ème critère' },
+      active: false,
+      conf: {
+        attributes: {
+          fieldX: 'my.attr.1',
+        },
+      },
+    }, { // unresove resolved
+      pluginId: 1836,
+      label: { [UIDomain.LOCALES_ENUM.en]: '6th criterion', [UIDomain.LOCALES_ENUM.fr]: '6ème critère' },
+      active: true,
+      conf: {
+        attributes: {
+          fieldX: 'my.unresolved.attr',
+        },
+      },
+    }],
+  }],
 }

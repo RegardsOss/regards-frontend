@@ -127,7 +127,9 @@ export const CriterionConfiguration = PropTypes.shape({
   label: UIShapes.IntlMessage.isRequired,
   pluginId: PropTypes.number.isRequired,
   active: PropTypes.bool.isRequired, // TODO make editable
-  conf: PropTypes.object.isRequired, // configuration
+  conf: PropTypes.shape({
+    attributes: PropTypes.objectOf(PropTypes.string),
+  }),
 })
 
 /** A criteria group, with optional title */

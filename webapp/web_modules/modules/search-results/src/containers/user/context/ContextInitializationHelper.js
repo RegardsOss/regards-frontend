@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
 import map from 'lodash/map'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
@@ -209,26 +210,28 @@ export class ContextInitializationHelper {
           const confAttributes = get(conf, 'attributes', {})
           // resolve all attributes
           const attributes = reduce(confAttributes, (accAttributes, attrPath, attrKey) => {
+            if (isNil(accAttributes)) {
+              return null // there were a previously missing attribute
+            }
             const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
-            return accAttributes && resolvedAttribute ? {
+            return resolvedAttribute ? {
               ...accAttributes,
               [attrKey]: resolvedAttribute.content,
-            } : null // set acc to null when first missing attribute is not found (or any previous attribute was not)
+            } : null // set acc to null when first missing attribute is encountered
           }, {})
-          if (attributes) { // all attributes could be retrieved, add criterion in results context
-            // 1 - build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
-            // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
-            const pluginInstanceId = `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`
-            // 2 - Append plugin
-            return [...accCrit, {
+
+          // if all attributes where resolved, append criterion with configuration
+          return isNil(attributes) ? accCrit : [
+            ...accCrit, {
               pluginId,
-              pluginInstanceId,
+              // build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
+              // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
+              pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
               label,
               conf: { attributes },
             }]
-          }
         }
-        return accCrit
+        return accCrit // not active
       }, [])
       return criteria.length ? [...accGroups, {
         showTitle,

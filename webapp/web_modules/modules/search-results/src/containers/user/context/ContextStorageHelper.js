@@ -42,12 +42,11 @@ export class ContextStorageHelper {
   }
 
   /**
-   * module URL parameters serialization management. Each parameter defines:
-   * - name: parameter name in URL
-   * - toParameterValue: Value to push in URL for parameter  (recovered in resultsContext)
-   * resultsContext: value: * => string
-   * - fromParameterValue: Builds a promise that resolves on updated results context with value from URL.
-   * resultsContext: *, value: *: Function => Promise
+   * module parameters serialization management. Each parameter defines:
+   * - name: parameter name in URL / local storage state
+   * - toParameterValue: Value to push for parameter  (recovered in resultsContext)
+   * resultsContext: value: * => string (optional)
+   * - fromParameterValue: resultsContext, value => resultsContextDiff
    */
   static MODULE_URL_PARAMETERS = [
     // selected tab
@@ -116,7 +115,7 @@ export class ContextStorageHelper {
           },
         }
       },
-    }, { // Main tab: Search State
+    }, { // main tab: Search State
       name: 'mss',
       toParameterValue: (resultsContext) => {
         const { search: { enabled }, criteria: { searchCriteria } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]

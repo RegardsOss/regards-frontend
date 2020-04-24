@@ -34,6 +34,7 @@ import styles from '../../../../../../src/styles'
 import resultsDump from '../../../../../dumps/results.dump'
 import { datasetEntity } from '../../../../../dumps/entities.dump'
 import { attributes } from '../../../../../dumps/attributes.dump'
+import SearchCriteriaComponent from '../../../../../../src/components/user/tabs/results/header/filter/SearchCriteriaComponent'
 
 const context = buildTestContext(styles)
 
@@ -100,17 +101,18 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
   it('should exists', () => {
     assert.isDefined(ApplyingCriteriaHeaderRowComponent)
   })
-  // TODO new test for search crit
   it('should render hidden when no criterion is applying', () => {
     const props = {
       tagsFiltering: [],
       facetValues: [],
       geometries: [],
       entitiesSelections: [],
+      searchCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -123,10 +125,12 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       facetValues: [],
       geometries: [],
       entitiesSelections: [],
+      searchCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -139,10 +143,12 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       facetValues: [boolFacet],
       geometries: [],
       entitiesSelections: [],
+      searchCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -155,10 +161,12 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       facetValues: [],
       geometries: [],
       entitiesSelections: [entitiesSelection],
+      searchCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -171,10 +179,40 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       facetValues: [],
       geometries: [geometrySelection],
       entitiesSelections: [],
+      searchCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
+    }
+    const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1)
+    assert.isTrue(showable.props().show)
+  })
+  it('should render visible whth one search criterion only', () => {
+    const props = {
+      tagsFiltering: [],
+      facetValues: [],
+      geometries: [geometrySelection],
+      entitiesSelections: [],
+      searchCriteria: [{
+        pluginInstanceId: 'myFakeCrit118',
+        state: {
+          searchText: 'Any',
+          myBool: false,
+        },
+        requestParameters: {
+          gg: 'gg!',
+          q: 'azerty',
+        },
+      }],
+      onUnselectTagFilter: () => {},
+      onUnselectFacetValue: () => {},
+      onUnselectGeometry: () => {},
+      onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -187,10 +225,22 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       facetValues: [boolFacet, dateRangeFacet, numberRangeFacet, wordFacet],
       geometries: [geometrySelection],
       entitiesSelections: [entitiesSelection],
+      searchCriteria: [{
+        pluginInstanceId: 'myFakeCrit118',
+        state: {
+          searchText: 'Any',
+          myBool: false,
+        },
+        requestParameters: {
+          gg: 'gg!',
+          q: 'azerty',
+        },
+      }],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -245,5 +295,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometryCriterion: geometrySelection,
       onUnselectGeometry: props.onUnselectGeometry,
     }, 'Geometry displayer properties should be correctly reported')
+
+    const searchCriteriaComponent = enzymeWrapper.find(SearchCriteriaComponent)
+    assert.lengthOf(searchCriteriaComponent, 1, 'There should be search criteria displayer')
+    testSuiteHelpers.assertWrapperProperties(searchCriteriaComponent, {
+      onUnselectSearchCriteria: props.onUnselectSearchCriteria,
+    }, 'Search criteria properties should be correctly reported')
   })
 })
