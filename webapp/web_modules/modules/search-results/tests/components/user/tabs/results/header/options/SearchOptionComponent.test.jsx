@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import SearchIcon from 'mdi-material-ui/Magnify'
+import FlatButton from 'material-ui/FlatButton'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -35,12 +37,36 @@ describe('[SEARCH RESULTS] Testing SearchOptionComponent', () => {
   it('should exists', () => {
     assert.isDefined(SearchOptionComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly with search open', () => {
     const props = {
-    //  TODO properties
+      open: true,
+      onToggleOpen: () => {},
     }
-    assert.fail('Implement me!')
     const enzymeWrapper = shallow(<SearchOptionComponent {...props} />, { context })
-    // TODO test
+    const button = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(button, 1)
+    testSuiteHelpers.assertWrapperProperties(button, {
+      label: 'search.results.show.search.pane.label',
+      title: 'search.results.show.search.pane.title',
+      onClick: props.onToggleOpen,
+      icon: <SearchIcon />,
+      secondary: true,
+    })
+  })
+  it('should render correctly with search closed', () => {
+    const props = {
+      open: false,
+      onToggleOpen: () => {},
+    }
+    const enzymeWrapper = shallow(<SearchOptionComponent {...props} />, { context })
+    const button = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(button, 1)
+    testSuiteHelpers.assertWrapperProperties(button, {
+      label: 'search.results.show.search.pane.label',
+      title: 'search.results.show.search.pane.title',
+      onClick: props.onToggleOpen,
+      icon: <SearchIcon />,
+      secondary: false,
+    })
   })
 })

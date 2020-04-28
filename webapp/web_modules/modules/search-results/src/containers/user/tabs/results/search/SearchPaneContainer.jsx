@@ -18,7 +18,9 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isArray from 'lodash/isArray'
 import isNil from 'lodash/isNil'
+import isString from 'lodash/isString'
 import omit from 'lodash/omit'
 import reduce from 'lodash/reduce'
 import { UIDomain } from '@regardsoss/domain'
@@ -89,7 +91,7 @@ export class SearchPaneContainer extends React.Component {
    * @return {*} request parameters without empty keys
    */
   static filterEmptyParameters(requestParameters) {
-    return reduce(requestParameters, (acc, value, key) => isNil(value) || isEmpty(value)
+    return reduce(requestParameters, (acc, value, key) => isNil(value) || ((isArray(value) || isString(value)) && isEmpty(value))
       ? acc
       : { ...(acc || {}), [key]: value },
     null)
@@ -111,7 +113,7 @@ export class SearchPaneContainer extends React.Component {
         return isEmpty(filteredParameters)
           ? criteriaAcc // criterion ignored as its parameters are empty
           : [...criteriaAcc, { pluginInstanceId, state, requestParameters }]
-      }, groupsAcc),
+      }, []),
     ]), [])
   }
 
@@ -258,7 +260,6 @@ export class SearchPaneContainer extends React.Component {
           [tabType]: {
             search: {
               open: false, // close pane
-              groups,
             },
             criteria: {
               searchCriteria: newSearchCriteria,

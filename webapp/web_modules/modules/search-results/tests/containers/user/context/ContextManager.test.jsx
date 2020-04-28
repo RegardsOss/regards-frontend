@@ -20,9 +20,8 @@ import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { DamDomain, CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UIDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
-import { ResultsContextHelper } from '@regardsoss/domain/ui'
 import { ContextManager } from '../../../../src/containers/user/context/ContextManager'
 import { ContextStorageHelper } from '../../../../src/containers/user/context/ContextStorageHelper'
 import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
@@ -433,7 +432,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
 
   // 2. Tests logout / login context updates
   it('should update results context on user login changes', (done) => {
-    const contextWithRights = ResultsContextHelper.deepMerge(dataContext, {
+    const contextWithRights = UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           criteria: {
@@ -451,7 +450,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         },
       },
     })
-    const contextWithoutRights = ResultsContextHelper.deepMerge(dataContext, {
+    const contextWithoutRights = UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           criteria: {
@@ -567,19 +566,19 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
 
     // 1 - Description tab selected but no description entity
-    enzymeWrapper.instance().commitCoherentContext(ResultsContextHelper.deepMerge(dataContext, {
+    enzymeWrapper.instance().commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
     }))
     assert.equal(spiedUpdateResults.moduleId, props.moduleId, '1 - should have been called for right module ID')
     assert.deepEqual(spiedUpdateResults.resultsContext, dataContext, '1 - should prevent incoherent context by removing corresponding field')
     // 2 - Tag tab without context tag
-    enzymeWrapper.instance().commitCoherentContext(ResultsContextHelper.deepMerge(dataContext, {
+    enzymeWrapper.instance().commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     }))
     assert.equal(spiedUpdateResults.moduleId, props.moduleId, '2 - should have been called for right module ID')
     assert.deepEqual(spiedUpdateResults.resultsContext, dataContext, '2 - should prevent incoherent context by removing corresponding field')
     // 3 - Tag tab with unresolved context tag
-    const contextWithUnresolvedTag = ResultsContextHelper.deepMerge(dataContext, {
+    const contextWithUnresolvedTag = UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
@@ -588,7 +587,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         },
       },
     })
-    enzymeWrapper.instance().commitCoherentContext(ResultsContextHelper.deepMerge(contextWithUnresolvedTag, {
+    enzymeWrapper.instance().commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(contextWithUnresolvedTag, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     }))
     assert.equal(spiedUpdateResults.moduleId, props.moduleId, '2 - should have been called for right module ID')
@@ -902,10 +901,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     let nextProps = props
     let nextExpectedRestored = dataContext
     updateCases.forEach(({ label, stateDiff, expectedRestoredDiff }) => {
-      nextProps = { ...nextProps, resultsContext: ResultsContextHelper.deepMerge(nextProps.resultsContext, stateDiff) }
+      nextProps = { ...nextProps, resultsContext: UIDomain.ResultsContextHelper.deepMerge(nextProps.resultsContext, stateDiff) }
       // 1 - apply "external" update operation
       enzymeWrapper.setProps(nextProps)
-      nextExpectedRestored = ResultsContextHelper.deepMerge(nextExpectedRestored, expectedRestoredDiff)
+      nextExpectedRestored = UIDomain.ResultsContextHelper.deepMerge(nextExpectedRestored, expectedRestoredDiff)
       // 2 - mimic restoration from storage and URL and check expectations (then loop to next update...)
       const savedCurrentLocation = currentLocation
       currentLocation = { query: {} } // cancelling URL mode

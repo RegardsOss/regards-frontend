@@ -18,7 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
+import { PluginProvider } from '@regardsoss/plugins'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import CriterionWrapperComponent from '../../../../../../src/components/user/tabs/results/search/CriterionWrapperComponent'
 import styles from '../../../../../../src/styles'
 
@@ -37,10 +39,31 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-    //  TODO properties
+      pluginInstanceId: 'IamAPlugin',
+      pluginId: 26,
+      pluginProps: {
+        label: { [UIDomain.LOCALES_ENUM.en]: 'pl1', [UIDomain.LOCALES_ENUM.fr]: 'pl2' },
+        state: { anything: true },
+        publishState: () => {},
+      },
+      pluginConf: {
+        attributes: {
+          attrA: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+          attrB: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
+        },
+      },
     }
-    assert.fail('implement me!')
     const enzymeWrapper = shallow(<CriterionWrapperComponent {...props} />, { context })
-    // TODO test
+    const providerWrapper = enzymeWrapper.find(PluginProvider)
+    assert.lengthOf(providerWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(providerWrapper, {
+      pluginId: props.pluginId,
+      pluginInstanceId: props.pluginInstanceId,
+      pluginConf: props.pluginConf,
+      pluginProps: props.pluginProps,
+      displayPlugin: true,
+      loadingComponent: CriterionWrapperComponent.LOADING_COMPONENT,
+      errorComponent: null,
+    })
   })
 })

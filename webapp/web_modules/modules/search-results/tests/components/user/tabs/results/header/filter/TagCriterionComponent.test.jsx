@@ -38,6 +38,8 @@ describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(TagCriterionComponent)
   })
+
+
   it('should render correctly', () => {
     const props = {
       tagCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),
@@ -51,7 +53,5 @@ describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
       selectedCriterion: props.tagCriterion,
       onUnselectCriterion: props.onUnselectTagFilter,
     })
-    assert.fail('see TODO below')
   })
-  // TODO ALL tag types here too!
 })

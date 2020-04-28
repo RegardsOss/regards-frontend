@@ -111,7 +111,7 @@ export class ResultsContextHelper {
       const nextAcc = { ...acc }
       // Add in local accumulator all parameters of the current criterion (preserving other values)
       forEach(criterion.requestParameters || {}, (paramValue, paramKey) => {
-        if (paramValue && paramKey) { // avoid empty / null parmeter values
+        if (!isNil(paramKey) && !isNil(paramValue)) { // avoid empty / null parmeter values
           const previousParameterValues = nextAcc[paramKey]
           if (previousParameterValues && CatalogSearchQueryHelper.isAllowingMultipleValues(paramKey)) {
             // That parameter can accept many values, add new one at end

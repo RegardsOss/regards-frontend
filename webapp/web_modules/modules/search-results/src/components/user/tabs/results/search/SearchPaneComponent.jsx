@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import root from 'window-or-global'
 import Drawer from 'material-ui/Drawer'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
@@ -52,14 +53,14 @@ class SearchPaneComponent extends React.Component {
 
   /** Lifecyle method: component did mount. Used  here to register keyboard listener in order to manage document level events */
   componentDidMount() {
-    document.addEventListener('keydown', this.onKeyPressed, false)
+    root.document.addEventListener('keydown', this.onKeyPressed, false)
   }
 
   /**
    * Lifecycle method: component will unmount. Used here to unregister keyboard lister
    */
   componentWillUnmount() {
-    document.removeEventListener('keydown', this.onKeyPressed, false)
+    root.document.removeEventListener('keydown', this.onKeyPressed, false)
   }
 
   /**
@@ -69,6 +70,7 @@ class SearchPaneComponent extends React.Component {
    * - ENTER / CTRL + ENTRE: Start search
    */
   onKeyPressed = (event) => {
+    // TODO retester maintenant que c'est sur root
     const {
       open, onSearch, onClose, onResetPluginsStates,
     } = this.props

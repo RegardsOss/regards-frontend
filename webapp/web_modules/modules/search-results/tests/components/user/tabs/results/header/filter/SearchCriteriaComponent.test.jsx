@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SearchCriteriaComponent from '../../../../../../../src/components/user/tabs/results/header/filter/SearchCriteriaComponent'
+import ApplyingCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/ApplyingCriterionComponent'
 import styles from '../../../../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,10 +38,16 @@ describe('[SEARCH RESULTS] Testing SearchCriteriaComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-    //  TODO properties
+      onUnselectSearchCriteria: () => {},
     }
-    assert.fail('Implement me')
     const enzymeWrapper = shallow(<SearchCriteriaComponent {...props} />, { context })
+    const delegateWrapper = enzymeWrapper.find(ApplyingCriterionComponent)
+    assert.lengthOf(delegateWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(delegateWrapper, {
+      label: 'search.filter.search.criteria.label',
+      onUnselectCriterion: props.onUnselectSearchCriteria,
+      filterIcon: SearchCriteriaComponent.ICON,
+    })
     // TODO test
   })
 })

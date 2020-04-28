@@ -36,11 +36,7 @@ describe('[SEARCH RESULTS] Testing CriterionLoadingComponent', () => {
     assert.isDefined(CriterionLoadingComponent)
   })
   it('should render correctly', () => {
-    const props = {
-    //  TODO properties
-    }
-    assert.fail('Implement me!')
-    const enzymeWrapper = shallow(<CriterionLoadingComponent {...props} />, { context })
-    // TODO test
+    const props = {}
+    shallow(<CriterionLoadingComponent {...props} />, { context })
   })
 })

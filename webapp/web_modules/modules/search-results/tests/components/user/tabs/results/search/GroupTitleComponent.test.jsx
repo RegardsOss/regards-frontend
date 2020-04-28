@@ -18,11 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import GroupTitleComponent from '../../../../../../src/components/user/tabs/results/search/GroupTitleComponent'
 import styles from '../../../../../../src/styles'
-
-const context = buildTestContext(styles)
+import { attributes } from '../../../../../dumps/attributes.dump'
 
 /**
  * Test GroupTitleComponent
@@ -35,12 +35,76 @@ describe('[SEARCH RESULTS] Testing GroupTitleComponent', () => {
   it('should exists', () => {
     assert.isDefined(GroupTitleComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly when showing title, by locale', () => {
     const props = {
-    //  TODO properties
+      group: {
+        showTitle: true,
+        title: {
+          [UIDomain.LOCALES_ENUM.en]: 'Group 1',
+          [UIDomain.LOCALES_ENUM.fr]: 'Groupe 1',
+        },
+        criteria: [{
+          pluginId: 8,
+          pluginInstanceId: 'anythingIWant',
+          conf: {
+            attributes: { attr1: attributes[1].content },
+          },
+          label: { [UIDomain.LOCALES_ENUM.en]: 'Plugin1', [UIDomain.LOCALES_ENUM.fr]: 'Plugin1' },
+          state: { OK: true, kos: 36 },
+          requestParameters: { ok: true, q: 'afterKos: [* TO 36]' },
+        }, {
+          pluginId: 10,
+          pluginInstanceId: 'anythingIWant2',
+          conf: {
+            attributes: { },
+          },
+          label: { [UIDomain.LOCALES_ENUM.en]: 'X2', [UIDomain.LOCALES_ENUM.fr]: 'X2(FR)' },
+        }],
+      },
     }
-    assert.fail('Implement me!')
-    const enzymeWrapper = shallow(<GroupTitleComponent {...props} />, { context })
-    // TODO test
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<GroupTitleComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      const row = enzymeWrapper.find('tr')
+      assert.lengthOf(row, 1, 'It should render as a table row for criterion layout')
+      assert.include(enzymeWrapper.debug(), props.group.title[locale], `it should display ${locale} group title`)
+    })
+  })
+  it('should render correctly when not showing title', () => {
+    const props = {
+      group: {
+        showTitle: false,
+        title: {
+          [UIDomain.LOCALES_ENUM.en]: 'Group 1',
+          [UIDomain.LOCALES_ENUM.fr]: 'Groupe 1',
+        },
+        criteria: [{
+          pluginId: 8,
+          pluginInstanceId: 'anythingIWant',
+          conf: {
+            attributes: { attr1: attributes[1].content },
+          },
+          label: { [UIDomain.LOCALES_ENUM.en]: 'Plugin1', [UIDomain.LOCALES_ENUM.fr]: 'Plugin1' },
+          state: { OK: true, kos: 36 },
+          requestParameters: { ok: true, q: 'afterKos: [* TO 36]' },
+        }, {
+          pluginId: 10,
+          pluginInstanceId: 'anythingIWant2',
+          conf: {
+            attributes: { },
+          },
+          label: { [UIDomain.LOCALES_ENUM.en]: 'X2', [UIDomain.LOCALES_ENUM.fr]: 'X2(FR)' },
+        }],
+      },
+    }
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<GroupTitleComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      const row = enzymeWrapper.find('tr')
+      assert.lengthOf(row, 0, 'It should not render when title is hidden')
+      assert.notInclude(enzymeWrapper.debug(), props.group.title[locale], `it should not display ${locale} group title`)
+    })
   })
 })

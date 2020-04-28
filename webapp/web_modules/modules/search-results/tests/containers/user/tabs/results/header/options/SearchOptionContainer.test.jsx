@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SearchOptionComponent from '../../../../../../../src/components/user/tabs/results/header/options/SearchOptionComponent'
 import { SearchOptionContainer } from '../../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
@@ -36,16 +37,55 @@ describe('[SEARCH RESULTS] Testing SearchOptionContainer', () => {
   it('should exists', () => {
     assert.isDefined(SearchOptionContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly, toggling search pane state', () => {
+    const spyUpdate = {}
     const props = {
-      // TODO props
+      moduleId: 25,
+      open: false,
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      updateResultsContext: (moduleId, resultsContext) => {
+        spyUpdate.moduleId = moduleId
+        spyUpdate.context = resultsContext
+      },
     }
-    assert.fail('Implement me!')
     const enzymeWrapper = shallow(<SearchOptionContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SearchOptionComponent)
+    let componentWrapper = enzymeWrapper.find(SearchOptionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-    // TODO
-    }, 'Component should define the expected properties')
+      open: false,
+      onToggleOpen: enzymeWrapper.instance().onToggleOpen,
+    })
+    componentWrapper.props().onToggleOpen()
+    assert.deepEqual(spyUpdate, {
+      moduleId: 25,
+      context: {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+            search: {
+              open: true,
+            },
+          },
+        },
+      },
+    }, '1 - Firt toggle call should open the pane')
+    enzymeWrapper.setProps({ ...props, open: true })
+    componentWrapper = enzymeWrapper.find(SearchOptionComponent)
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      open: true,
+      onToggleOpen: enzymeWrapper.instance().onToggleOpen,
+    })
+    componentWrapper.props().onToggleOpen()
+    assert.deepEqual(spyUpdate, {
+      moduleId: 25,
+      context: {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+            search: {
+              open: false,
+            },
+          },
+        },
+      },
+    }, '2 - Second toggle call should close the pane')
   })
 })
