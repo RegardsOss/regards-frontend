@@ -130,7 +130,6 @@ class Container extends React.Component {
    * @returns {Array}
    */
   renderPlugins = () => {
-    // TODO that may be no longer used!!! =D
     const { configurationMode, plugins, container } = this.props
     if (configurationMode || !plugins) {
       return null

@@ -126,7 +126,7 @@ export const RestrictionsConfiguration = PropTypes.shape({
 export const CriterionConfiguration = PropTypes.shape({
   label: UIShapes.IntlMessage.isRequired,
   pluginId: PropTypes.number.isRequired,
-  active: PropTypes.bool.isRequired, // TODO make editable
+  active: PropTypes.bool.isRequired,
   conf: PropTypes.shape({
     attributes: PropTypes.objectOf(PropTypes.string),
   }),

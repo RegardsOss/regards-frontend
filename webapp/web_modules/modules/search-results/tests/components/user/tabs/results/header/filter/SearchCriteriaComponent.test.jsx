@@ -48,6 +48,5 @@ describe('[SEARCH RESULTS] Testing SearchCriteriaComponent', () => {
       onUnselectCriterion: props.onUnselectSearchCriteria,
       filterIcon: SearchCriteriaComponent.ICON,
     })
-    // TODO test
   })
 })
