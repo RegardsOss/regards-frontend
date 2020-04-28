@@ -32,7 +32,6 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
     onClose: PropTypes.func.isRequired,
     // From withAuthInfo
     accessToken: PropTypes.string.isRequired,
-    projectName: PropTypes.string.isRequired,
   }
 
   static contextTypes = {
@@ -40,11 +39,11 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
     ...themeContextType,
   }
 
-  getSearchLink = (withAuth) => {
-    const searchLink = find(this.props.searchEngineConfiguration.links, l => l.rel === 'search')
+  getSearchLink = (withAuth, type = 'search') => {
+    const searchLink = find(this.props.searchEngineConfiguration.links, l => l.rel === type)
     if (searchLink) {
       return withAuth
-        ? `${searchLink.href}?scope=${this.props.projectName}&token=${this.props.accessToken}`
+        ? `${searchLink.href}?token=${this.props.accessToken}`
         : searchLink.href
     }
     return null
@@ -86,7 +85,11 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
       content = formatMessage({ id: 'dataaccess.searchengines.info.content.all' })
     }
 
-    const searchRootLink = this.getSearchLink()
+    const searchRootLink = this.getSearchLink(false)
+    const searchObjectsRootLink = this.getSearchLink(false, 'search-objects')
+    const searchDatasetsRootLink = this.getSearchLink(false, 'search-datasets')
+    const searchCollectionsRootLink = this.getSearchLink(false, 'search-collections')
+    const descriptortLink = this.getSearchLink(false, 'opensearchdescription.xml')
 
     return (
       <Dialog
@@ -102,12 +105,22 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
           <React.Fragment>
             <div style={searchEngineURLInfo}>
               {searchRootLink}
+              {searchObjectsRootLink ? <br /> : null}
+              {searchObjectsRootLink}
+              {searchDatasetsRootLink ? <br /> : null}
+              {searchDatasetsRootLink}
+              {searchCollectionsRootLink ? <br /> : null}
+              {searchCollectionsRootLink}
+              {descriptortLink ? <br /> : null}
+              {descriptortLink}
             </div>
             <br />
             <br />
           </React.Fragment>
         ) : null}
         <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
+        <br />
+        {descriptortLink ? <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true, 'opensearchdescription.xml')} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test.descriptor' })}</a> : null}
       </Dialog>
     )
   }
