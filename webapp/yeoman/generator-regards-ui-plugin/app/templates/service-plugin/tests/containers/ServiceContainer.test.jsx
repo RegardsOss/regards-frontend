@@ -48,5 +48,6 @@ describe('[<%= name %>] Testing ServiceContainer', () => {
       //component props
     }
     shallow(<ServiceContainer {...props} />, { context })
+    // TODO some tests here
   })
 })
