@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,23 +15,22 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-/**
- * Combine all reducers for this aa to a single root reducer.
  */
-import { combineReducers } from 'redux'
-import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
-import { reducePluginDefPartitions } from './clients/PluginsDefinitionPartitionsClient'
-import LoadPluginReducer from './model/LoadPluginReducer'
-import initializePluginReducer from './model/InitializePluginReducer'
+import { BasicPartitionActions, BasicPartitionReducers, BasicPartitionSelectors } from '@regardsoss/store-utils'
 
 /**
- * Plugin utils reducers
+ * UI Plugin Definition partitions client: stores the current loading state for each definition
+ *
  * @author Sébastien Binda
  */
-export default combineReducers({
-  loadedPlugins: LoadPluginReducer,
-  definitionsLoading: uiPluginDefinitionReducers,
-  definitionsPartitions: reducePluginDefPartitions,
-  initializedPlugins: initializePluginReducer,
-})
+const ENTITIES_STORE_PATH = ['common', 'plugins', 'definitionsPartitions']
+const REDUX_ACTION_NAMESPACE = 'common/plugins/definitionsPartitions'
+
+
+export const pluginDefPartitionsActions = new BasicPartitionActions({ namespace: REDUX_ACTION_NAMESPACE })
+export const pluginDefPartitionsSelectors = new BasicPartitionSelectors(ENTITIES_STORE_PATH)
+
+const pluginDefPartitionsReducers = new BasicPartitionReducers(pluginDefPartitionsActions)
+export function reducePluginDefPartitions(state, action) {
+  return pluginDefPartitionsReducers.reduce(state, action)
+}

@@ -99,7 +99,7 @@ export class PluginLoader extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     onErrorCallback: PropTypes.func,
     // From mapStateToProps
-    isInitialized: PropTypes.bool, // is instance intialized
+    isInitialized: PropTypes.bool, // is instance initialized
     loadedPlugin: AccessShapes.UIPluginInstanceContent,
     // From mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -117,27 +117,31 @@ export class PluginLoader extends React.Component {
    * Keeps track of the fetched plugins ID (avoid multiple loading of the same
    * plugin path). Possible as the redux context is static here
    */
-  static FETCHED_PLUGINS_PATH = [] // TODO better in reducer! along with plugin definitions (will be used by admin too!)
+  static FETCHED_PLUGINS_PATH = []
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   * Life cycle method: component will mount. Used here to detect first properties change and update local state
    */
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
 
-    onLoadPlugin = (doLoadPlugin, pluginPath) => {
-      if (!PluginLoader.FETCHED_PLUGINS_PATH.includes(pluginPath)) {
-        // light improvement and fix for the double mounting issue: avoid fetching
-        // multiple times the same plugin path (redux store is static here)
-        PluginLoader.FETCHED_PLUGINS_PATH.push(pluginPath)
-        doLoadPlugin(pluginPath, this.errorCallback)
-      }
+  /**
+   * On load done: When not already loading / loaded by another instance:
+   * Marks plugin loading in static map (for other instances using that plugin) then performs plugin loading
+   */
+  onLoadPlugin = (doLoadPlugin, pluginPath) => {
+    if (!PluginLoader.FETCHED_PLUGINS_PATH.includes(pluginPath)) {
+      // light improvement and fix for the double mounting issue: avoid fetching
+      // multiple times the same plugin path (redux store is static here)
+      PluginLoader.FETCHED_PLUGINS_PATH.push(pluginPath)
+      doLoadPlugin(pluginPath, this.errorCallback)
     }
+  }
 
   /**
    * Properties change detected: update local state

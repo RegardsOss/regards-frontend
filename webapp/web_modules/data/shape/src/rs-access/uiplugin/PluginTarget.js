@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ENTITY_TYPES } from '@regardsoss/domain/dam'
-import { RuntimeTargetTypes } from '@regardsoss/domain/access'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { SearchContext } from '../../rs-catalog/SearchContext'
 import { Entity } from '../../rs-catalog/entity/Entity'
 
@@ -29,26 +28,26 @@ import { Entity } from '../../rs-catalog/entity/Entity'
  * @author Raphaël Mechali
  */
 export const OneElementTarget = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.ONE]).isRequired, // enumerated type
+  type: PropTypes.oneOf([AccessDomain.RuntimeTargetTypes.ONE]).isRequired, // enumerated type
   searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
-  entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
   entity: Entity.isRequired,
 })
 
 export const SelectionTarget = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.MANY]), // enumerated type
+  type: PropTypes.oneOf([AccessDomain.RuntimeTargetTypes.MANY]), // enumerated type
   searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
-  entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
   entities: PropTypes.arrayOf(Entity).isRequired, // entities list
 })
 
 export const QueryTarget = PropTypes.shape({
-  type: PropTypes.oneOf([RuntimeTargetTypes.QUERY]), // enumerated type
+  type: PropTypes.oneOf([AccessDomain.RuntimeTargetTypes.QUERY]), // enumerated type
   searchContext: SearchContext.isRequired,
   entitiesCount: PropTypes.number.isRequired,
-  entityType: PropTypes.oneOf(ENTITY_TYPES).isRequired,
+  entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
   excludedEntities: PropTypes.arrayOf(Entity).isRequired, // excluded entities list
 })
 
