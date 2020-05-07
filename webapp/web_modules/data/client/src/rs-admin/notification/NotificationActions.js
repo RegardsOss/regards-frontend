@@ -38,7 +38,7 @@ export default class NotificationActions extends BasicPageableActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
-        instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+        instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN
       }/notifications`,
       schemaTypes: {
         ENTITY: NOTIFICATION,

@@ -29,7 +29,7 @@ export default class DeleteNotificationActions extends BasicSignalActions {
 
   constructor(namespace, instance = false) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications/read/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/notifications/read/delete`,
       namespace,
       bypassErrorMiddleware: false,
     })
