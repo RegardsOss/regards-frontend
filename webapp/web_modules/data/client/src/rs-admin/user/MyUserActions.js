@@ -28,6 +28,8 @@ export default class MyUserActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/users/myuser`,
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users/myuser`,
       namespace,
       bypassErrorMiddleware: true,
     })

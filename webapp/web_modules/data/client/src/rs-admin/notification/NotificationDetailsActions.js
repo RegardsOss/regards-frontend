@@ -25,6 +25,10 @@ export default class NotificationDetailsActions extends BasicSignalActions {
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
         instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN
       }/notifications/{notification_id}`,
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
+        instance ? STATIC_CONF.MSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+      }/notifications/{notification_id}`,
     })
   }
 }

@@ -27,7 +27,12 @@ export default class AccountPasswordActions extends BasicSignalActions {
   }
 
   constructor(namespace) {
-    super({ namespace, entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE}/accounts/password` })
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE}/accounts/password`,
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN_INSTANCE}/accounts/password`,
+    })
   }
 
   fetchPasswordRules() {

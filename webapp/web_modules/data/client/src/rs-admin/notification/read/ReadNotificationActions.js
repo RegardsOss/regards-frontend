@@ -33,16 +33,19 @@ export default class ReadNotificationActions extends BasicSignalsActions {
 
   constructor(instance = false) {
     /** Root endpoints for order state actions */
-    const ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications`
+    const ROOT_ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/notifications`
+    const ROOT_RESOURCE = `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN}/notifications`
 
     super({
       [ReadNotificationActions.MARK_READ_ACTIONS]: {
         entityEndpoint: `${ROOT_ENDPOINT}/{notificationId}/read`,
+        resourcesEndpoint: `${ROOT_RESOURCE}/{notificationId}/read`,
         namespace: `${ReadNotificationActions.NAMESPACE}/resume`,
         bypassErrorMiddleware: true,
       },
       [ReadNotificationActions.MARK_ALL_READ_ACTIONS]: {
         entityEndpoint: `${ROOT_ENDPOINT}/all/read`,
+        resourcesEndpoint: `${ROOT_RESOURCE}/all/read`,
         namespace: `${ReadNotificationActions.NAMESPACE}/all-read`,
         bypassErrorMiddleware: true,
       },

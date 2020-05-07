@@ -27,6 +27,8 @@ export default class BorrowableRolesActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/roles/borrowables`,
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/roles/borrowables`,
       schemaTypes: {
         ENTITY: ROLE,
         ENTITY_ARRAY: ROLE_ARRAY,

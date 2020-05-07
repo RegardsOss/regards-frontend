@@ -43,7 +43,7 @@ class BasicActions {
    * Class constructor
    *
    * @param options Object containing :
-   * { entityEndpoint: string, entityPathVariable: string,namespace : string ,
+   * { entityEndpoint: string, resourcesEndpoint: string, entityPathVariable: string,namespace : string ,
    * headers: Object ,bypassErrorMiddleware : bool, options: {*} }
    */
   constructor(options) {
@@ -53,6 +53,7 @@ class BasicActions {
     this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
     this.options = options.options
+    this.resourcesEndpoint = options.resourcesEndpoint || options.entityEndpoint
   }
 
 
@@ -116,7 +117,7 @@ class BasicActions {
    * @returns {string}
    */
   getDependency = (verb) => {
-    let dependency = this.entityEndpoint
+    let dependency = this.resourcesEndpoint
     // Remove query params if any
     dependency = split(dependency, '?')[0]
     // Remove GATEWAY path
