@@ -38,6 +38,13 @@ STATIC_CONF = {
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',
   },
+  // Public proxixied microservice to access secured microservices from user interface.
+  // Only some endpoints of associated microservices are availables. Reffer to gateway mircoservice configuration.
+  MSERVICES_PUBLIC: {
+    ADMIN: 'rs-admin-public',
+    ADMIN_INSTANCE: 'rs-admin-instance-public',
+    DAM: 'rs-dam-public',
+  },
   IMSERVICES: {
     ADMIN_INSTANCE: 'rs-admin-instance',
     ACCESS_INSTANCE: 'rs-access-instance',
