@@ -58,7 +58,6 @@
     "@regardsoss-modules/order-history": "file:web_modules/modules/order-history",
     "@regardsoss-modules/project-about-page": "file:web_modules/modules/project-about-page",
     "@regardsoss-modules/projects-list": "file:web_modules/modules/projects-list",
-    "@regardsoss-modules/search-form": "file:web_modules/modules/search-form",
     "@regardsoss-modules/search-graph": "file:web_modules/modules/search-graph",
     "@regardsoss-modules/search-results": "file:web_modules/modules/search-results",
     "@regardsoss/adapters": "file:web_modules/utils/adapters",
