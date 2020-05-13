@@ -54,6 +54,7 @@ class InfiniteTableContainer extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number, // defaults to theme when not provided
+    stripeRows: PropTypes.bool,
     // Min and max row count: when not specified, the table attempts to auto fit the available height
     minRowCount: PropTypes.number,
     maxRowCount: PropTypes.number,
@@ -285,7 +286,8 @@ class InfiniteTableContainer extends React.Component {
 
   render() {
     const {
-      displayColumnsHeader, columns, emptyComponent, entitiesCount,
+      displayColumnsHeader, stripeRows, columns,
+      emptyComponent, entitiesCount,
     } = this.props
     const { tableHeight, tableWidth = 0, entities } = this.state // cached render entities
     const { moduleTheme: { containerStyle } } = this.context
@@ -300,6 +302,7 @@ class InfiniteTableContainer extends React.Component {
                 emptyComponent={emptyComponent}
               >
                 <Table
+                  stripeRows={stripeRows}
                   displayColumnsHeader={displayColumnsHeader}
                   lineHeight={this.getTableLineHeight()}
                   entities={entities}

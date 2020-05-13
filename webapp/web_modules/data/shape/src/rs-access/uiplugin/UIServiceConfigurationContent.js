@@ -26,7 +26,7 @@ import { UI_PLUGIN_CONF_PARAMETER_TYPES, applicationModes } from '@regardsoss/do
 
 const ParameterType = PropTypes.oneOf(UI_PLUGIN_CONF_PARAMETER_TYPES)
 
-const UIServiceInstanceConfContent = PropTypes.shape({
+export const UIServiceConfigurationContent = PropTypes.shape({
   // this constant is essential to know the plugin working mode (works with ONE and / or many objects)
   target: PropTypes.arrayOf(PropTypes.oneOf(values(applicationModes))).isRequired,
   // static plugin parameters (ie configuration at administrion level)
@@ -41,6 +41,3 @@ const UIServiceInstanceConfContent = PropTypes.shape({
     required: PropTypes.bool,
   })),
 })
-
-
-export default UIServiceInstanceConfContent

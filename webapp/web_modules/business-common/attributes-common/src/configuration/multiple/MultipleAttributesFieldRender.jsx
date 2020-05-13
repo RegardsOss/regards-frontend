@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { intlShape } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -27,7 +28,7 @@ import SelectedAttributesTable from './selected/SelectedAttributesTable'
  * Table allowing multiple attributes selection
  * @author Raphaël Mechali
  */
-class AttributesSelectionTable extends React.Component {
+class MultipleAttributesFieldRender extends React.Component {
   static propTypes = {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     fields: PropTypes.shape({
@@ -40,6 +41,7 @@ class AttributesSelectionTable extends React.Component {
       error: PropTypes.string,
     }),
     label: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
   }
 
   static contextTypes = {
@@ -94,7 +96,9 @@ class AttributesSelectionTable extends React.Component {
   }
 
   render() {
-    const { label, attributeModels, meta: { invalid, error } } = this.props
+    const {
+      label, attributeModels, meta: { invalid, error }, intl,
+    } = this.props
     const { availableAttributesModels, selectedAttributes } = this.state
     const {
       rootStyle, fieldLabelStyle, verticalSeparatorStyle, tableHolderStyle,
@@ -118,7 +122,7 @@ class AttributesSelectionTable extends React.Component {
               attributeModels={attributeModels}
               onRemove={this.onRemove}
               invalid={invalid}
-              error={error}
+              error={invalid && error ? intl.formatMessage({ id: error }) : undefined}
             />
           </div>
         </div>
@@ -126,4 +130,4 @@ class AttributesSelectionTable extends React.Component {
     )
   }
 }
-export default AttributesSelectionTable
+export default MultipleAttributesFieldRender

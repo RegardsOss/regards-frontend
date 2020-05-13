@@ -70,7 +70,6 @@ class SearchPaneComponent extends React.Component {
    * - ENTER / CTRL + ENTRE: Start search
    */
   onKeyPressed = (event) => {
-    // TODO retester maintenant que c'est sur root
     const {
       open, onSearch, onClose, onResetPluginsStates,
     } = this.props

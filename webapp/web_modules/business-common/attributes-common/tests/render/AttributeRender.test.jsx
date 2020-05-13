@@ -51,6 +51,7 @@ describe('[Attributes Common] Testing AttributeRender', () => {
       formatMessage: ({ id }, values = {}) => id === 'attribute.render.path.join.string' ? '.' : `${values.label}/${values.path}`,
     }
     // Custom attributes
+    // TODO: that will fail
     assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[1], testIntl),
       'Attr1/f1.attr1', 'Simple fragment should be correctly formatted')
     assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[2], testIntl),

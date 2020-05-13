@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,20 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import values from 'lodash/values'
-import { DamDomain } from '@regardsoss/domain'
+ */
+import { AccessProjectClient } from '@regardsoss/client'
 
 /**
- * Specific configuration for an UI criterion plugin information (shapes expected plugin-info "conf" field)
+ * UI Plugin Definition entities client.
+ *
+ * @author Sébastien Binda
  */
-const UICriterionInstanceConfContent = PropTypes.shape({
-  attributes: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    attributeType: PropTypes.arrayOf(
-      PropTypes.oneOf(values(DamDomain.MODEL_ATTR_TYPES))).isRequired,
-  })),
-})
+const ENTITIES_STORE_PATH = ['modules.search-results', 'pluginsDefinitions']
+const REDUX_ACTION_NAMESPACE = 'search-results/plugins-definitions'
 
-export default UICriterionInstanceConfContent
+export const uiPluginDefinitionActions = new AccessProjectClient.UIPluginDefinitionActions(REDUX_ACTION_NAMESPACE)
+export const uiPluginDefinitionReducer = AccessProjectClient.UIPluginDefinitionReducers(REDUX_ACTION_NAMESPACE)
+export const uiPluginDefinitionSelectors = AccessProjectClient.UIPluginDefinitionSelectors(ENTITIES_STORE_PATH)

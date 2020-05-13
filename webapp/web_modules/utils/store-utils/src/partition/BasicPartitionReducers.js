@@ -22,27 +22,34 @@ import identity from 'lodash/identity'
  * Reducers for partition data, update store state by partitionKey
  */
 export default class BasicPartitionReducers {
+  /** Partition loading state */
+  static PARTITION_LOADING_STATE = {
+    loading: true,
+    hasError: false,
+    error: null,
+    data: null,
+  }
+
   /**
    * Constructor
-   * @param {*} storePartionedAction actions (provides the actions identifier for this reducer)
+   * @param {*} storePartitionedActions actions (provides the actions identifier for this reducer)
    * @param {*} dataPostTreatment (optional) data post treatment
    */
-  constructor(storePartionedAction, dataPostTreatment = identity) {
-    this.actions = storePartionedAction
+  constructor(storePartitionedActions, dataPostTreatment = identity) {
+    this.actions = storePartitionedActions
     this.dataPostTreatment = dataPostTreatment
   }
 
   reduce(state = {}, action) {
     switch (action.type) {
-      case this.actions.DATA_LOADING_START:
+      case this.actions.INITIALIZE_PARTITIONS:
+        // add to previous partitions
         return {
-          ...state, // copy other partitions
-          [action.partitionKey]: { // set the partition in loading state
-            loading: true,
-            hasError: false,
-            error: null,
-            data: null,
-          },
+          ...state,
+          ...action.partitionKeys.reduce((acc, key) => ({
+            ...acc,
+            [key]: BasicPartitionReducers.PARTITION_LOADING_STATE,
+          }), {}),
         }
       case this.actions.DATA_LOADING_DONE:
         return {
@@ -64,6 +71,8 @@ export default class BasicPartitionReducers {
             data: null,
           },
         }
+      case this.actions.FLUSH: // clear all partitions data
+        return {}
       default:
         return state
     }

@@ -18,35 +18,46 @@
  **/
 
 /**
- * Allwos for partitioned data storage in redux store (at runtime, avoids dynamic call to combine).
+ * Allows for partitioned data storage in redux store (at runtime, avoids dynamic call to combine).
  * Typical use case: A container dispatches onDataLoadingStart(partitionKey), runs a promise to finally :
- *    A - In then instruction run onDataLoadingDone(data)
- * or B - In catch instruction run onDataLoadingFailed(reason)
+ * - A) In then instruction run onDataLoadingDone(data)
+ * - or B) In catch instruction run onDataLoadingFailed(reason)
  *
  * Note: You can add in the reducer a callback to transform action data before it gets in store (optional)
  */
 class BasicPartitionActions {
   constructor(options) {
-    this.DATA_LOADING_START = `${options.namespace}/PARTITION_LOADING_START`
+    this.FLUSH = `${options.namespace}/FLUSH`
+    this.INITIALIZE_PARTITIONS = `${options.namespace}/INITIALIZE_PARTITIONS`
     this.DATA_LOADING_DONE = `${options.namespace}/PARTITION_LOADING_DONE`
     this.DATA_LOADING_FAILED = `${options.namespace}/PARTITION_LOADING_FAILED`
   }
 
   /**
-   * Notifies data loading started
-   * @param {*} partitionKey key for partition in store
+   * Notifies many partitions loading started
+   * @param {[string|number]} partitionKey key for partition in store
    */
-  onDataLoadingStart(partitionKey) {
+  onManyLoadingStart(partitionKeys) {
     return {
-      type: this.DATA_LOADING_START,
-      partitionKey,
+      type: this.INITIALIZE_PARTITIONS,
+      partitionKeys,
     }
   }
 
   /**
+   * Notifies data loading started for a partition
+   * @param {string|number} partitionKey key for partition in store
+   * @return {*} redux action to dispatch
+   */
+  onDataLoadingStart(partitionKey) {
+    return this.onManyLoadingStart([partitionKey])
+  }
+
+  /**
    * Notifies data loading complete (will be stored)
-   * @param {*} partitionKey key for partition in store
+   * @param {string|number} partitionKey key for partition in store
    * @param {*} data data to store
+   * @return {*} redux action to dispatch
    */
   onDataLoadingDone(partitionKey, data) {
     return {
@@ -58,14 +69,24 @@ class BasicPartitionActions {
 
   /**
    * Notifies data loading failed
-   * @param {*} partitionKey key for partition in store
+   * @param {string|number} partitionKey key for partition in store
    * @param {string} reason: fail reson
+   * @return {*} redux action to dispatch
    */
   onDataLoadingFailed(partitionKey, reason) {
     return {
       type: this.DATA_LOADING_FAILED,
       partitionKey,
       reason,
+    }
+  }
+
+  /**
+   * @return {*} redux action to dispatch to clear partitions data
+   */
+  flush() {
+    return {
+      type: this.FLUSH,
     }
   }
 }

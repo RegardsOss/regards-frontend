@@ -18,6 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
+import { messages as attributesCommonMsg } from '@regardsoss/attributes-common'
 
 /**
  * i18n messages French language
@@ -28,9 +29,12 @@ const messages = {
   ...Locales.fr,
   // units messages
   ...storage.messages.fr,
+  // attributes common messages (used to format attributes locally)
+  ...attributesCommonMsg.fr,
 
   // Administration messages
   'search.results.form.configuration.tree.section.label.MAIN': 'Général',
+  'search.results.form.configuration.tree.section.label.SEARCH': 'Volet de recherche',
   'search.results.form.configuration.tree.section.label.FILTERS': 'Filtres',
   'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Restriction des résultats',
   'search.results.form.configuration.tree.section.label.DATA': 'Données',
@@ -43,6 +47,46 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Types de résultats à afficher',
   'search.results.form.main.configuration.display.types.data': 'Données',
   'search.results.form.configuration.result.type.data.and.datasets': 'Données et jeux de données',
+  'search.results.form.configuration.search.pane.title': 'Configuration des groupes de critères du volet de recherche',
+  'search.results.form.configuration.search.pane.empty.message': 'Cliquez sur le bouton ci-dessous pour ajouter le premier groupe de critères du formulaire',
+  'search.results.form.configuration.search.pane.empty.first.group.label': 'Ajouter',
+  'search.results.form.configuration.search.pane.identifier.column.label': 'Elément',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.group': 'Groupe #{index}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.plugin.set': '{name}:{version}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.title.plugin.set': '{name}:{version}, développé par {author}. {description}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.plugin.unset': 'Indéfini',
+  'search.results.form.configuration.search.pane.identifier.column.cell.title.plugin.unset': 'Plugin indéfini',
+  'search.results.form.configuration.search.pane.label.column.label': 'Libellé ({locale})',
+  'search.results.form.configuration.search.pane.label.column.cell.unset': 'Indéfini',
+  'search.results.form.configuration.search.pane.show.label.column.label': 'Libellé',
+  'search.results.form.configuration.search.pane.show.label.column.cell.shown': 'affiché',
+  'search.results.form.configuration.search.pane.show.label.column.cell.hidden': 'caché',
+  'search.results.form.configuration.search.pane.configuration.column.label': 'Configuration',
+  'search.results.form.configuration.search.pane.configuration.column.cell.attributes.separator': ', ',
+  'search.results.form.configuration.search.pane.configuration.column.cell.none': 'Aucune configuration',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.title': 'Editer la configuration du critère',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field': '{name}: {description}',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown': 'Attribut indéfini',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type': 'Type d\'attribut incompatible',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.confirm.label': 'Confirmer',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.cancel.label': 'Annuler',
+  'search.results.form.configuration.search.pane.options.column.label': 'Options',
+  'search.results.form.configuration.search.pane.options.column.insert.tooltip': 'Insérer...',
+  'search.results.form.configuration.search.pane.options.column.insert.group.before.label': 'Insérer un groupe avant',
+  'search.results.form.configuration.search.pane.options.column.insert.group.after.label': 'Insérer un groupe après',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.before.label': 'Insérer un critère avant',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.after.label': 'Insérer un critère après',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.in.group.menu.label': 'Insérer un critère',
+  'search.results.form.configuration.search.pane.options.column.move.tooltip': 'Déplacer...',
+  'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label': 'Dans ce groupe',
+  'search.results.form.configuration.search.pane.options.column.move.in.other.group': 'Dans le groupe {reference}',
+  'search.results.form.configuration.search.pane.options.common.position.first.label': 'En premier',
+  'search.results.form.configuration.search.pane.options.common.position.after.label': 'Après {elementType} {reference}',
+  'search.results.form.configuration.search.pane.options.common.position.after.group.type.label': 'le groupe',
+  'search.results.form.configuration.search.pane.options.common.position.after.criterion.type.label': 'le critère',
+  'search.results.form.configuration.search.pane.options.common.position.simple.reference': '#{index}',
+  'search.results.form.configuration.search.pane.options.common.position.reference.with.label': '#{index} "{label}"',
+  'search.results.form.configuration.search.pane.options.column.delete.tooltip': 'Supprimer',
   'search.results.form.restrictions.configuration.display.types.message': 'Restrictions des résultats par les jeux de données',
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',

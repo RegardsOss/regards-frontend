@@ -24,7 +24,6 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
  */
 class CriterionLoadingComponent extends React.Component {
   render() {
-    // TODO Improve rendering with definitive layout
     return (
       <tr>
         <td colSpan="3">

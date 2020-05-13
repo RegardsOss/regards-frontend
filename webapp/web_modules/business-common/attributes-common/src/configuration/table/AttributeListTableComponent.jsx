@@ -70,8 +70,8 @@ class AttributeListTableComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     return [
-      // 1 - Direct label column (that renders attributes label) when label functionnality is disabled on columns
-      new TableColumnBuilder('label').titleHeaderCell().visible(!allowLabel)
+      // 1 - Direct label column (that renders attributes label) when label group functionality is disabled on columns
+      new TableColumnBuilder('label').titleHeaderCell().visible(!allowAttributesRegroupements)
         .label(formatMessage({ id: 'attributes.configuration.label.simple.column' }))
         .rowCellDefinition({
           Constructor: AttributesRender,

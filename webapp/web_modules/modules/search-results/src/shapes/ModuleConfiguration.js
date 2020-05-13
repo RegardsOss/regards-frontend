@@ -124,9 +124,9 @@ export const RestrictionsConfiguration = PropTypes.shape({
 
 /** A criterion configuration, with internationalized labels */
 export const CriterionConfiguration = PropTypes.shape({
-  label: UIShapes.IntlMessage.isRequired,
-  pluginId: PropTypes.number.isRequired,
-  active: PropTypes.bool.isRequired,
+  // all fields are mandatory and present at user runtime. They are made optional only for edition runtime
+  label: UIShapes.OptionalIntlMessage.isRequired,
+  pluginId: PropTypes.number,
   conf: PropTypes.shape({
     attributes: PropTypes.objectOf(PropTypes.string),
   }),
@@ -135,7 +135,7 @@ export const CriterionConfiguration = PropTypes.shape({
 /** A criteria group, with optional title */
 export const CriteriaGroup = PropTypes.shape({
   showTitle: PropTypes.bool.isRequired,
-  title: UIShapes.IntlMessage.isRequired,
+  title: UIShapes.OptionalIntlMessage.isRequired,
   criteria: PropTypes.arrayOf(CriterionConfiguration).isRequired,
 })
 

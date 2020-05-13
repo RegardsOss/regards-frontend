@@ -23,7 +23,9 @@
  */
 export { default as PluginProvider } from './containers/PluginProvider'
 export { default as PluginLoader } from './containers/PluginLoader'
-export { loadPlugin, savePluginLoaded } from './model/LoadPluginActions'
+export {
+  loadPlugin, savePluginLoaded, PLUGIN_LOADED, CHECK_PLUGIN, PLUGIN_ERROR,
+} from './model/LoadPluginActions'
 export { AttributeModelWithBounds } from './shapes/AttributeModelWithBounds'
 export { CriterionConfiguration } from './shapes/CriterionConfiguration'
 export { CriterionProperties } from './shapes/CriterionProperties'

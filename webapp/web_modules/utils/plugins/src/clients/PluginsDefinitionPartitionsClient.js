@@ -21,16 +21,13 @@ import { BasicPartitionActions, BasicPartitionReducers, BasicPartitionSelectors 
 /**
  * UI Plugin Definition partitions client: stores the current loading state for each definition
  *
- * @author Sébastien Binda
+ * @author Raphaël Mechali
  */
 const ENTITIES_STORE_PATH = ['common', 'plugins', 'definitionsPartitions']
 const REDUX_ACTION_NAMESPACE = 'common/plugins/definitionsPartitions'
 
 
 export const pluginDefPartitionsActions = new BasicPartitionActions({ namespace: REDUX_ACTION_NAMESPACE })
+const reducer = new BasicPartitionReducers(pluginDefPartitionsActions)
+export const pluginDefPartitionsReducer = (state, action) => reducer.reduce(state, action)
 export const pluginDefPartitionsSelectors = new BasicPartitionSelectors(ENTITIES_STORE_PATH)
-
-const pluginDefPartitionsReducers = new BasicPartitionReducers(pluginDefPartitionsActions)
-export function reducePluginDefPartitions(state, action) {
-  return pluginDefPartitionsReducers.reduce(state, action)
-}

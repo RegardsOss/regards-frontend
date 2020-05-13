@@ -36,6 +36,9 @@ const styles = theme => ({
         borderWidth: '0 1px 0 0',
         borderStyle: 'solid',
       },
+      table: {
+        minWidth: 280,
+      },
       cell: {
         root: {
           display: 'flex',
@@ -79,7 +82,113 @@ const styles = theme => ({
         paddingLeft: 20,
       },
       tableFieldSpacer: {
-        marginTop: theme.components.infiniteTable.minHeaderRowHeight,
+        borderStyle: 'solid',
+        borderColor: theme.toolbar.separatorColor,
+        borderWidth: '1px 0 0',
+      },
+      searchPane: {
+        defaultRowsCount: 5,
+        showLabelColumnWidth: 100,
+        loading: {
+          size: 256,
+          thickness: 1.5,
+          style: {
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: 48,
+          },
+        },
+        empty: {
+          root: {
+            display: 'flex',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: 48,
+            flexDirection: 'column',
+            alignItems: 'center',
+          },
+          message: {
+            color: theme.palette.secondaryTextColor,
+          },
+          button: {
+            marginTop: 20,
+          },
+        },
+        groupIdCell: {
+          root: {
+            flexGrow: 1,
+            display: 'inline-flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+          icon: {
+            color: theme.palette.accent1Color,
+          },
+          text: {
+            color: theme.palette.accent1Color,
+            paddingLeft: 8,
+            fontWeight: 500,
+          },
+        },
+        commonCell: {
+          default: { // editable
+            padding: 5,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+            wordBreak: 'break-word',
+
+          },
+          inactive: { // not editable
+            padding: 5,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'default',
+            wordBreak: 'break-word',
+
+          },
+          error: {
+            padding: 5,
+            flexGrow: 1,
+            color: theme.formsExtensions.validation.errorColor,
+            textAlign: 'left',
+            cursor: 'pointer',
+            wordBreak: 'break-word',
+          },
+        },
+        criterionIdCell: {
+          default: {
+            paddingLeft: 32,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+          },
+          error: {
+            paddingLeft: 32,
+            color: theme.formsExtensions.validation.errorColor,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+          },
+          menuItem: {
+            headerRow: {
+              display: 'flex',
+              justifyContent: 'space-between',
+            },
+            headerText: {
+              fontWeight: 500,
+              color: theme.palette.textColor,
+            },
+            authorText: {
+              color: theme.palette.textColor,
+              textDecoration: 'underline',
+            },
+            descriptionText: {
+              color: theme.palette.textColor,
+            },
+          },
+        },
       },
     },
   },

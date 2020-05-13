@@ -18,6 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
+import { messages as attributesCommonMsg } from '@regardsoss/attributes-common'
 
 /**
  * i18n messages English language
@@ -28,9 +29,12 @@ const messages = {
   ...Locales.en,
   // units messages
   ...storage.messages.en,
+  // attributes common messages (used to format attributes locally)
+  ...attributesCommonMsg.en,
 
   // Administration messages
   'search.results.form.configuration.tree.section.label.MAIN': 'Main',
+  'search.results.form.configuration.tree.section.label.SEARCH': 'Search tab',
   'search.results.form.configuration.tree.section.label.FILTERS': 'Filters',
   'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Results restriction',
   'search.results.form.configuration.tree.section.label.DATA': 'Data',
@@ -43,6 +47,46 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Results types to display',
   'search.results.form.main.configuration.display.types.data': 'Data',
   'search.results.form.configuration.result.type.data.and.datasets': 'Data and datasets',
+  'search.results.form.configuration.search.pane.title': 'Search tab criteria groups configuration',
+  'search.results.form.configuration.search.pane.empty.message': 'Click on button below to add the first criteria group in form',
+  'search.results.form.configuration.search.pane.empty.first.group.label': 'Add',
+  'search.results.form.configuration.search.pane.identifier.column.label': 'Component',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.group': 'Group #{index}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.plugin.set': '{name}:{version}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.title.plugin.set': '{name}:{version}, developed by {author}. {description}',
+  'search.results.form.configuration.search.pane.identifier.column.cell.label.plugin.unset': 'Not set',
+  'search.results.form.configuration.search.pane.identifier.column.cell.title.plugin.unset': 'Plugin not set',
+  'search.results.form.configuration.search.pane.label.column.label': 'Label ({locale})',
+  'search.results.form.configuration.search.pane.label.column.cell.unset': 'Unset',
+  'search.results.form.configuration.search.pane.show.label.column.label': 'Label',
+  'search.results.form.configuration.search.pane.show.label.column.cell.shown': 'shown',
+  'search.results.form.configuration.search.pane.show.label.column.cell.hidden': 'hidden',
+  'search.results.form.configuration.search.pane.configuration.column.label': 'Configuration',
+  'search.results.form.configuration.search.pane.configuration.column.cell.attributes.separator': ', ',
+  'search.results.form.configuration.search.pane.configuration.column.cell.none': 'No configuration',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.title': 'Edit criterion configuration',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field': '{name}: {description}',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown': 'Unknown attribute',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type': 'Invalid attribute type',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.confirm.label': 'Confirm',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.cancel.label': 'Cancel',
+  'search.results.form.configuration.search.pane.options.column.label': 'Options',
+  'search.results.form.configuration.search.pane.options.column.insert.tooltip': 'Insert...',
+  'search.results.form.configuration.search.pane.options.column.insert.group.before.label': 'Insert group before',
+  'search.results.form.configuration.search.pane.options.column.insert.group.after.label': 'Insert group after',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.before.label': 'Insert criterion before',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.after.label': 'Insert criterion after',
+  'search.results.form.configuration.search.pane.options.column.insert.criterion.in.group.menu.label': 'Insert criterion',
+  'search.results.form.configuration.search.pane.options.column.move.tooltip': 'Move...',
+  'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label': 'In this group',
+  'search.results.form.configuration.search.pane.options.column.move.in.other.group': 'In group {reference}',
+  'search.results.form.configuration.search.pane.options.common.position.first.label': 'First',
+  'search.results.form.configuration.search.pane.options.common.position.after.label': 'After {elementType} {reference}',
+  'search.results.form.configuration.search.pane.options.common.position.after.group.type.label': 'group',
+  'search.results.form.configuration.search.pane.options.common.position.after.criterion.type.label': 'criterion',
+  'search.results.form.configuration.search.pane.options.common.position.simple.reference': '#{index}',
+  'search.results.form.configuration.search.pane.options.common.position.reference.with.label': '#{index} "{label}"',
+  'search.results.form.configuration.search.pane.options.column.delete.tooltip': 'Delete',
   'search.results.form.restrictions.configuration.display.types.message': 'Restrictions on results by dataset',
   'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',

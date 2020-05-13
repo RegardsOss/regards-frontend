@@ -203,35 +203,30 @@ export class ContextInitializationHelper {
     // convert each group when at least one criterion is active and has valid configuration...
     const groups = criteriaGroups.reduce((accGroups, { showTitle, title, criteria: confCriteria }, groupIndex) => {
       // convert each criterion that is active and has valid configuration
-      const criteria = confCriteria.reduce((accCrit, {
-        label, pluginId, active, conf,
-      }, criterionIndex) => {
-        if (active) {
-          const confAttributes = get(conf, 'attributes', {})
-          // resolve all attributes
-          const attributes = reduce(confAttributes, (accAttributes, attrPath, attrKey) => {
-            if (isNil(accAttributes)) {
-              return null // there were a previously missing attribute
-            }
-            const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
-            return resolvedAttribute ? {
-              ...accAttributes,
-              [attrKey]: resolvedAttribute.content,
-            } : null // set acc to null when first missing attribute is encountered
-          }, {})
+      const criteria = confCriteria.reduce((accCrit, { label, pluginId, conf }, criterionIndex) => {
+        const confAttributes = get(conf, 'attributes', {})
+        // resolve all attributes
+        const attributes = reduce(confAttributes, (accAttributes, attrPath, attrKey) => {
+          if (isNil(accAttributes)) {
+            return null // there were a previously missing attribute
+          }
+          const resolvedAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels)
+          return resolvedAttribute ? {
+            ...accAttributes,
+            [attrKey]: resolvedAttribute.content,
+          } : null // set acc to null when first missing attribute is encountered
+        }, {})
 
-          // if all attributes where resolved, append criterion with configuration
-          return isNil(attributes) ? accCrit : [
-            ...accCrit, {
-              pluginId,
-              // build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
-              // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
-              pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
-              label,
-              conf: { attributes },
-            }]
-        }
-        return accCrit // not active
+        // if all attributes where resolved, append criterion with configuration
+        return isNil(attributes) ? accCrit : [
+          ...accCrit, {
+            pluginId,
+            // build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
+            // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
+            pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
+            label,
+            conf: { attributes },
+          }]
       }, [])
       return criteria.length ? [...accGroups, {
         showTitle,

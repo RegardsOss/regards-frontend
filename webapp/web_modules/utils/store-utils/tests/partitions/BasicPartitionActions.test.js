@@ -30,6 +30,8 @@ const partitionActions = new BasicPartitionActions({
   namespace: 'partitions-test',
 })
 
+// TODO add test for: many partitions loading, one partition loading and flush!
+
 function dispatchAndCheck(action, expectedAction, store) {
   store.dispatch(action)
   assert.includeDeepMembers(store.getActions(), [expectedAction], `There shoud be the action in action store
