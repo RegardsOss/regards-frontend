@@ -18,17 +18,42 @@
  **/
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import {
-  moduleContainer, styles, messages,
-} from '../src/main'
+import dataHandler from '../../src/partition/EntityListPartitionDataHandler'
 
-describe('[LICENSE MODULE] Testing module interface', () => {
+describe('[STORE UTILS] Testing EntityListPartitionDataHandler', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should supply valid module interface', () => {
-    assert.isDefined(moduleContainer, 'License module should define a main container')
-    assert.isDefined(styles, 'License module should define a styles file')
-    assert.isDefined(messages, 'License module should define his internationalization messages dictionary')
+  it('should convert correctly payload', () => {
+    const convert = dataHandler('potatoes')
+    assert.deepEqual(convert({
+      payload: {
+        entities: {
+          potatoes: {
+            1: {
+              id: 1,
+              weight: 1.65,
+            },
+            2: {
+              id: 2,
+              weight: 0.85,
+            },
+          },
+        },
+        anotherField: 35,
+      },
+    }), {
+      items: {
+        1: {
+          id: 1,
+          weight: 1.65,
+        },
+        2: {
+          id: 2,
+          weight: 0.85,
+        },
+      },
+      anotherField: 35,
+    })
   })
 })

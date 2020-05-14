@@ -39,17 +39,6 @@ function exportModulesList(modulesWithoutContent) {
 }
 
 const defaultModules = [{
-  id: 1,
-  active: true,
-  container: 'dynamic-1',
-  description: 'Form 1',
-  page: {
-    iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-    title: { en: 'Some search form', fr: 'Un formulaire de recherche' },
-    home: false,
-  },
-  type: modulesManager.VisibleModuleTypes.SEARCH_FORM,
-}, {
   id: 2,
   active: true,
   container: 'dynamic-1',
@@ -125,13 +114,13 @@ export const modulesWithNewAndDeleted = exportModulesList(
     id: 8,
     active: true,
     container: 'dynamic-1',
-    description: 'another search form',
+    description: 'another search results 2',
     page: {
       iconType: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-      title: { en: 'Form 2', fr: 'Formulaire 2' },
+      title: { en: 'View data 3', fr: 'Consulter les données 3' },
       home: false,
     },
-    type: modulesManager.VisibleModuleTypes.SEARCH_FORM,
+    type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
   }]))
 
 

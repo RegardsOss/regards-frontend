@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const commonAttributeForGraph = {
-  // attribute labels dictionnary by language
+  // attribute labels dictionary by language
   label: PropTypes.objectOf(PropTypes.string).isRequired,
   // the render component, see attributes-common/render (expects a list of attribute values)
   render: PropTypes.func.isRequired,

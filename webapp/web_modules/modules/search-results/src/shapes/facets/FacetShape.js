@@ -27,7 +27,7 @@ import { CatalogShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape
  * Facet with configured label and optional unit
  */
 export const UIFacet = PropTypes.shape({
-  // labels dictionnary (where languages like 'en', 'fr'... are the keys)
+  // labels dictionary (where languages like 'en', 'fr'... are the keys)
   facetLabels: UIShapes.IntlMessage.isRequired,
   attribute: DataManagementShapes.AttributeModel.isRequired,
   model: CatalogShapes.Facet.isRequired, // from backend

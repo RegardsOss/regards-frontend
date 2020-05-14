@@ -22,7 +22,7 @@ import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AddOption from '../../../../src/configuration/multiple/available/AddOption'
 import styles from '../../../../src/styles'
-import { attributeModelsDictionnary } from '../../../dumps/AttributeModels.dump'
+import { attributeModelsDictionary } from '../../../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,7 +40,7 @@ describe('[Attributes Common] Testing AddOption', () => {
   it('should render correctly and provide right value to callback', () => {
     let spiedCallbackValue = null
     const props = {
-      entity: attributeModelsDictionnary[1],
+      entity: attributeModelsDictionary[1],
       onAdd: (jsonPath) => {
         spiedCallbackValue = jsonPath
       },
@@ -52,6 +52,6 @@ describe('[Attributes Common] Testing AddOption', () => {
     // Test button callback value
     assert.isNull(spiedCallbackValue, 'Callback should not have been invoked yet')
     enzymeWrapper.instance().onAdd()
-    assert.equal(spiedCallbackValue, attributeModelsDictionnary[1].content.jsonPath, 'Callback value should be the attribute json path')
+    assert.equal(spiedCallbackValue, attributeModelsDictionary[1].content.jsonPath, 'Callback value should be the attribute json path')
   })
 })

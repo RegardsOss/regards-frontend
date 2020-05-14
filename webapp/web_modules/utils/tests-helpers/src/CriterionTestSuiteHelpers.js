@@ -29,7 +29,7 @@ import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 export default {
 
   /**
-   * @return {{en: string, fr: string}} a minimal label dictionnary for tests
+   * @return {{en: string, fr: string}} a minimal label dictionary for tests
    */
   getLabelStub() {
     return {

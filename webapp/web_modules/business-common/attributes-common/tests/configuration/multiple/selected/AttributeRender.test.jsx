@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributeRender from '../../../../src/configuration/multiple/selected/AttributeRender'
-import AttributeLabelRender from '../../../../src/render/AttributeRender'
+import AttributeRenderDelegate from '../../../../src/render/AttributeRender'
 import styles from '../../../../src/styles'
-import { attributeModelsArray } from '../../../dumps/AttributeModels.dump'
+import { attributeModelsArray, attributeModelsDictionary } from '../../../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -43,8 +43,8 @@ describe('[Attributes Common] Testing AttributeRender', () => {
       attributeModels: attributeModelsArray,
     }
     const enzymeWrapper = shallow(<AttributeRender {...props} />, { context })
-    const render = enzymeWrapper.find(AttributeLabelRender)
+    const render = enzymeWrapper.find(AttributeRenderDelegate)
     assert.lengthOf(render, 1)
-    assert.deepEqual(render.props().entity, attributeModelsArray[1], 'Attribute label should be correctly resolved')
+    assert.deepEqual(render.props().entity, attributeModelsDictionary[2], 'Attribute should be correctly resolved')
   })
 })

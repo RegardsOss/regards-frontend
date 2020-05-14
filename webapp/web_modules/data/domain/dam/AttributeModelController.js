@@ -115,7 +115,7 @@ function buildAsModel(standardAttributeKey) {
   }
 }
 
-/** All standard attributes with server AttributeModel shape, in a dictionnary by ID (mimics server) */
+/** All standard attributes with server AttributeModel shape, in a dictionary by ID (mimics server) */
 const standardAttributesAsModel = map(standardAttributesKeys, buildAsModel)
 
 /**

@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { AutoCompleteTextField } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import { SingleAttributeFieldRender } from '../../../src/configuration/single/SingleAttributeFieldRender'
 import styles from '../../../src/styles'
-import { attributeModelsArray, attributeModelsDictionnary } from '../../dumps/AttributeModels.dump'
+import { attributeModelsArray, attributeModelsDictionary } from '../../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -37,41 +38,102 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
   it('should exists', () => {
     assert.isDefined(SingleAttributeFieldRender)
   })
-  it('should render correctly and filter available attributes', () => {
+  it('should render correctly and filter available attributes on value change', () => {
+    const spyUpdate = {}
     const props = {
       attributeModels: attributeModelsArray,
       input: {
-        value: 'att',
-        onChange: PropTypes.func.isRequired,
+        value: '',
+        onChange: (value) => {
+          spyUpdate.value = value
+        },
       },
       meta: {
         invalid: true,
         error: 'hello',
       },
       label: 'MEMEMEME',
+      intl: context.intl,
     }
-    // create custom context to return attribute label when formatting message ID attribute.render.label
-    const customContext = {
-      ...context,
-      intl: {
-        ...context.intl,
-        formatMessage: ({ id }, values) => id === 'attribute.render.label' ? values.label : context.intl.formatMessage({ id }, values),
+    const enzymeWrapper = shallow(<SingleAttributeFieldRender {...props} />, { context })
+    const convertToHint = ({ content: { jsonPath } }) => ({
+      id: jsonPath,
+      text: jsonPath,
+      value: jsonPath,
+    })
+    // 0 - init, check error and non filtered list
+    let autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(autocompleteField, 1, '0 - There should be the autocomplete field')
+    assert.isTrue(autocompleteField.props().isInError, '0 - Autocomplete should be in error')
+    assert.equal(autocompleteField.props().errorMessage, props.meta.error, '0 - Autocomplete should show rigth error message')
+    assert.equal(autocompleteField.props().currentHintText, props.input.value, '0 - Autocomplete value should be correctly reported')
+    assert.deepEqual(autocompleteField.props().currentHints, attributeModelsArray.map(convertToHint), '0 - Available attributes should not be filtered')
+
+    // 1 - Simulate user typing in progress
+    enzymeWrapper.instance().onUpdateInput('a')
+    assert.equal(spyUpdate.value, 'a')
+
+    const props1 = {
+      ...props,
+      meta: { invalid: false, error: null },
+      input: {
+        value: spyUpdate.value,
+        onChange: props.input.onChange,
       },
     }
-    const enzymeWrapper = shallow(<SingleAttributeFieldRender {...props} />, { context: customContext })
-    const autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
-    assert.lengthOf(autocompleteField, 1, 'There should be the autocomplete field')
-    assert.isTrue(autocompleteField.props().isInError, 'Error state should be correctly reported')
-    assert.equal(props.meta.error, autocompleteField.props().errorMessage, 'Error state should be correctly reported')
+    enzymeWrapper.setProps(props1)
+    autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(autocompleteField, 1, '1 - There should be the autocomplete field')
+    assert.isFalse(autocompleteField.props().isInError, '1 - Autocomplete should not be in error')
+    assert.isUndefined(autocompleteField.props().errorMessage, '1 - Autocomplete should show no error message')
+    assert.equal(autocompleteField.props().currentHintText, props1.input.value, '1 - Autocomplete value should be correctly reported')
+    assert.deepEqual(autocompleteField.props().currentHints, [ // alphabetical order on jsonPath
+      DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+      attributeModelsDictionary[3],
+      attributeModelsDictionary[2],
+      attributeModelsDictionary[1],
+      attributeModelsDictionary[4],
+      DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
+    ].map(convertToHint), '1 - Available attributes should be filtered')
 
+    // 2 - Simulate more user typing in progress
+    enzymeWrapper.instance().onUpdateInput('attr')
+    assert.equal(spyUpdate.value, 'attr')
 
-    enzymeWrapper.instance().onUpdateInput('attr3')
-    assert.deepEqual(enzymeWrapper.state().inputValue, 'attr3', 'Filter text input should be updated')
-    const attr3 = attributeModelsDictionnary[3]
-    assert.deepEqual(enzymeWrapper.state().filteredAttributes, [{
-      id: attr3.content.jsonPath,
-      text: attr3.content.label, // as there is no fragment
-      value: attr3.content.jsonPath,
-    }], 'Only attr3 should be retained for current filter')
+    const props2 = {
+      ...props,
+      input: {
+        value: spyUpdate.value,
+        onChange: props.input.onChange,
+      },
+    }
+    enzymeWrapper.setProps(props2)
+    autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(autocompleteField, 1, '2 - There should be the autocomplete field')
+    assert.equal(autocompleteField.props().currentHintText, props2.input.value, '2 - Autocomplete value should be correctly reported')
+    assert.deepEqual(autocompleteField.props().currentHints, [ // alphabetical order on jsonPath
+      attributeModelsDictionary[3],
+      attributeModelsDictionary[2],
+      attributeModelsDictionary[1],
+      attributeModelsDictionary[4],
+    ].map(convertToHint), '2 - Available attributes should be filtered')
+    // 3 - Simulate selection or full typing
+    enzymeWrapper.instance().onUpdateInput(attributeModelsDictionary[2].content.jsonPath)
+    assert.equal(spyUpdate.value, attributeModelsDictionary[2].content.jsonPath)
+
+    const props3 = {
+      ...props,
+      input: {
+        value: spyUpdate.value,
+        onChange: props.input.onChange,
+      },
+    }
+    enzymeWrapper.setProps(props3)
+    autocompleteField = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(autocompleteField, 1, '3 - There should be the autocomplete field')
+    assert.equal(autocompleteField.props().currentHintText, props3.input.value, '3 - Autocomplete value should be correctly reported')
+    assert.deepEqual(autocompleteField.props().currentHints, [
+      attributeModelsDictionary[2],
+    ].map(convertToHint), '3 - Available attributes should be filtered')
   })
 })

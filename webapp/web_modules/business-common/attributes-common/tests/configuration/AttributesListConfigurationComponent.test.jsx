@@ -25,7 +25,7 @@ import AttributeListTableComponent from '../../src/configuration/table/Attribute
 import AddManyDialog from '../../src/configuration/dialog/add/AddManyDialog'
 import EditItemDialog from '../../src/configuration/dialog/edit/EditItemDialog'
 import styles from '../../src/styles'
-import { attributeModelsDictionnary, attributeModelsArray } from '../dumps/AttributeModels.dump'
+import { attributeModelsDictionary, attributeModelsArray } from '../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -100,7 +100,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
       changeField: (name, value) => {
         spiedChangeField = { name, value }
       },
-      selectableAttributes: attributeModelsDictionnary,
+      selectableAttributes: attributeModelsDictionary,
       attributesList: [{ // first element: one existing server attribute, one none existing
         attributes: [{ name: 'properties.default.attr2' }, { name: 'unexisting attribute' }],
       }, { // second element: one existing standard attribute
@@ -129,12 +129,12 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
       hintMessageKey: 'hello.table',
       attributesListFieldName: 'xxx',
       changeField: () => { },
-      selectableAttributes: attributeModelsDictionnary,
+      selectableAttributes: attributeModelsDictionary,
       attributesFilter: attribute => attribute.content.name.includes('1'), // keep only attr1
       attributesList: [],
     }
     const enzymeWrapper = shallow(<AttributesListConfigurationComponent {...props} />, { context })
-    assert.deepEqual(enzymeWrapper.state().attributeModels, [attributeModelsDictionnary[1]],
+    assert.deepEqual(enzymeWrapper.state().attributeModels, [attributeModelsDictionary[1]],
       'Only attr1 should be available for selection')
   })
 })

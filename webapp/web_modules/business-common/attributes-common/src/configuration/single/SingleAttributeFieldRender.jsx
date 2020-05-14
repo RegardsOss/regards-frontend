@@ -64,7 +64,7 @@ export class SingleAttributeFieldRender extends React.Component {
    * @param {*} attributeModels attribute models
    * @return [{*}] auto complete field items for current text
    */
-  static filterAndConvertAttributes(filterText = '', attributeModels, intl) {
+  static filterAndConvertAttributes(filterText = '', attributeModels) {
     const lowerInputText = filterText.toLowerCase()
     return attributeModels
       .reduce((acc, { content: { jsonPath } }) => jsonPath.toLowerCase().includes(lowerInputText)
@@ -136,7 +136,7 @@ export class SingleAttributeFieldRender extends React.Component {
       <AutoCompleteTextField
         name="attributeSelector"
         currentHintText={value}
-        currentHints={SingleAttributeFieldRender.filterAndConvertAttributes(value, attributeModels, intl)}
+        currentHints={SingleAttributeFieldRender.filterAndConvertAttributes(value, attributeModels)}
         isInError={invalid}
         errorMessage={invalid && error ? intl.formatMessage({ id: error }) : undefined}
         onUpdateInput={this.onUpdateInput}

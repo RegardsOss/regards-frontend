@@ -265,7 +265,7 @@ export const SearchCriteriaGroup = PropTypes.shape({
   title: PropTypes.shape({
     en: PropTypes.string, // english group label, optional
     fr: PropTypes.string, // french group label, optional
-  }).isRequired, // labels dictionnary, required
+  }).isRequired, // labels dictionary, required
   criteria: PropTypes.arrayOf(SearchCriterion).isRequired,
 })
 
