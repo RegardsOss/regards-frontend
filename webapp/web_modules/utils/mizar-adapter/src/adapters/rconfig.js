@@ -62,9 +62,12 @@ require.config({
     gzip: '/mizar/external/gzip.min',
     saveAs: '/mizar/node_modules/file-saver/FileSaver.min',
     jszip: '/mizar/node_modules/jszip/dist/jszip.min',
+    jsvotable: "/mizar/node_modules/jsvotable/JsVotable.min",
+    jscsv: "/mizar/node_modules/jscsv/JsCsv.min",
     xmltojson: '/mizar/node_modules/xmltojson/lib/xmlToJSON.min',
     'wms-capabilities': '/mizar/node_modules/wms-capabilities/dist/wms-capabilities',
     moment: '/mizar/node_modules/moment/min/moment-with-locales.min',
+    loadmask: "/mizar/external/loadmask/jquery.loadmask.min"
   },
   shim: {
     'underscore-min': {
