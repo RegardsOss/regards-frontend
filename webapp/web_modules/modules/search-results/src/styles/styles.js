@@ -400,6 +400,20 @@ const styles = theme => ({
         backgroundColor: theme.palette.canvasColor,
         borderRight: `1px solid ${theme.tableRow.borderColor}`,
       },
+      opacityToolsBox: {
+        // overlay position
+        position: 'absolute',
+        top: 0,
+        // mimics table header styles
+        backgroundColor: theme.palette.canvasColor,
+        borderRight: `1px solid ${theme.tableRow.borderColor}`,
+        borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+        display: 'flex',
+        alignItems: 'center',
+        left: '166px',
+        width: '200px',
+        height: '40px',
+      },
       iconToolButton: {
         minWidth: theme.button.iconButtonSize,
       },
