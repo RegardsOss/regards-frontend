@@ -35,10 +35,10 @@ const standardAttributesKeys = {
   id: 'id', // === URN
   providerId: 'providerId',
   label: 'label',
-  geometry: 'geometry',
   model: 'model',
   tags: 'tags',
   thumbnail: 'thumbnail',
+  geometry: 'geometry',
 }
 
 /**

@@ -18,9 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import CriteriaGroupsFieldArrayComponent from '../../../../../src/components/admin/content/search/CriteriaGroupsFieldArrayComponent'
+import CriteriaGroupsTableComponent from '../../../../../src/components/admin/content/search/CriteriaGroupsTableComponent'
 import styles from '../../../../../src/styles'
+import { attributes } from '../../../../dumps/attributes.dump'
+import { exampleConfiguration } from '../../../../dumps/search.criteria.runtime'
+import { allPluginMeta } from '../../../../dumps/search.plugins.meta.runtime'
 
 const context = buildTestContext(styles)
 
@@ -37,10 +41,30 @@ describe('[SEARCH RESULTS] Testing CriteriaGroupsFieldArrayComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-    //  TODO properties
+      fetchingMetadata: false,
+      pluginsMetadata: allPluginMeta,
+      availableAttributes: attributes,
+      fields: ReduxFormTestHelper.getFieldsProps(exampleConfiguration),
     }
-    assert.fail('Implement me')
+
     const enzymeWrapper = shallow(<CriteriaGroupsFieldArrayComponent {...props} />, { context })
-    // TODO test
+    const tableWrapper = enzymeWrapper.find(CriteriaGroupsTableComponent)
+    assert.lengthOf(tableWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(tableWrapper, {
+      fetchingMetadata: props.fetchingMetadata,
+      pluginsMetadata: props.pluginsMetadata,
+      availableAttributes: props.availableAttributes,
+      groups: exampleConfiguration,
+      onUpdateCriterionPlugin: enzymeWrapper.instance().onUpdateCriterionPlugin,
+      onUpdateElementLabel: enzymeWrapper.instance().onUpdateElementLabel,
+      onUpdateGroupShowTitle: enzymeWrapper.instance().onUpdateGroupShowTitle,
+      onUpdateCriterionConfiguration: enzymeWrapper.instance().onUpdateCriterionConfiguration,
+      onInsertGroup: enzymeWrapper.instance().onInsertGroup,
+      onInsertCriterion: enzymeWrapper.instance().onInsertCriterion,
+      onMoveGroup: enzymeWrapper.instance().onMoveGroup,
+      onMoveCriterion: enzymeWrapper.instance().onMoveCriterion,
+      onDeleteCriterion: enzymeWrapper.instance().onDeleteCriterion,
+      onDeleteGroup: enzymeWrapper.instance().onDeleteGroup,
+    })
   })
 })

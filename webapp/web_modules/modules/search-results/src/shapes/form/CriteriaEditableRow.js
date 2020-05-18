@@ -29,7 +29,6 @@ export const CriteriaEditableRow = PropTypes.shape({
   groupIndex: PropTypes.number.isRequired,
   criterionIndex: PropTypes.number, // only for criteria, null for groups
   pluginMetadata: PluginMeta, // only for criteria, null for groups or when not found / set
-  enabled: PropTypes.bool, // only for criteria, null for groups
   configuration: PropTypes.shape({ // only for criteria with configuration
     attributes: PropTypes.objectOf(PropTypes.string),
   }),

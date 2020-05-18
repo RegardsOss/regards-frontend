@@ -66,6 +66,7 @@ const messages = {
   'search.results.form.configuration.search.pane.configuration.column.cell.none': 'No configuration',
   'search.results.form.configuration.search.pane.configuration.column.dialog.title': 'Edit criterion configuration',
   'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field': '{name}: {description}',
+  'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.no.description': '-',
   'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.unknown': 'Unknown attribute',
   'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type': 'Invalid attribute type',
   'search.results.form.configuration.search.pane.configuration.column.dialog.confirm.label': 'Confirm',

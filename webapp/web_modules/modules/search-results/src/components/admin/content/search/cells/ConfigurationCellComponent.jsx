@@ -56,11 +56,13 @@ class ConfigurationCellComponent extends React.Component {
   render() {
     const { entity, availableAttributes } = this.props
     const { intl, moduleTheme: { configuration: { content: { searchPane: { commonCell } } } } } = this.context
-    if (CriteriaRowsHelper.isGroup(entity) || !entity.pluginMetadata) {
-      // group or criterion with undefined plugin
-      return <div style={commonCell.inactive} />
+    if (CriteriaRowsHelper.isGroup(entity) || !entity.pluginMetadata || isEmpty(entity.pluginMetadata.configuration.attributes)) {
+      // group or criterion with undefined plugin / empty configuration
+      return (
+        <div style={commonCell.inactive}>
+          { CriteriaRowsHelper.isGroup(entity) ? '' : intl.formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.cell.none' })}
+        </div>)
     }
-    const hasNoConfiguration = isEmpty(entity.pluginMetadata.configuration.attributes)
     const error = CriteriaFormHelper.isCriterionConfigurationInError(entity.configuration, entity.pluginMetadata, availableAttributes)
     // label: attribute (if at least one is defined), placeholder otherwise
     const label = values(entity.configuration.attributes)
@@ -74,7 +76,7 @@ class ConfigurationCellComponent extends React.Component {
     return (
       <div
         // style: no conf, error or default style
-        style={(hasNoConfiguration && commonCell.inactive) || (error && commonCell.error) || commonCell.default}
+        style={error ? commonCell.error : commonCell.default}
         onClick={this.onEdit}
         title={label}
       >

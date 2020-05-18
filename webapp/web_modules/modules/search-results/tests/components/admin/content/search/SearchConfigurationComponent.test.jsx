@@ -18,9 +18,15 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
+import { FieldsGroup, FieldArray } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SearchConfigurationComponent from '../../../../../src/components/admin/content/search/SearchConfigurationComponent'
+import CriteriaGroupsFieldArrayComponent from '../../../../../src/components/admin/content/search/CriteriaGroupsFieldArrayComponent'
 import styles from '../../../../../src/styles'
+import { attributes } from '../../../../dumps/attributes.dump'
+import { allPluginMeta } from '../../../../dumps/search.plugins.meta.runtime'
+import { exampleConfiguration } from '../../../../dumps/search.criteria.runtime'
 
 const context = buildTestContext(styles)
 
@@ -37,10 +43,104 @@ describe('[SEARCH RESULTS] Testing SearchConfigurationComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-    //  TODO properties
+      fetchingMetadata: false,
+      availableAttributes: attributes,
+      pluginsMetadata: allPluginMeta,
+      currentNamespace: 'xyz',
     }
-    assert.fail('Implement me')
     const enzymeWrapper = shallow(<SearchConfigurationComponent {...props} />, { context })
-    // TODO test
+    // 1 - Check fields group
+    const groupWrapper = enzymeWrapper.find(FieldsGroup)
+    assert.lengthOf(groupWrapper, 1)
+    assert.equal(groupWrapper.props().title, 'search.results.form.configuration.search.pane.title')
+    // 2 - Check feld array for criteria groups
+    const fieldWrapper = groupWrapper.find(FieldArray)
+    assert.lengthOf(fieldWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(fieldWrapper, {
+      name: 'xyz.criteriaGroups',
+      component: CriteriaGroupsFieldArrayComponent,
+      fetchingMetadata: props.fetchingMetadata,
+      pluginsMetadata: props.pluginsMetadata,
+      availableAttributes: props.availableAttributes,
+      validate: enzymeWrapper.instance().validateGroups,
+    })
+  })
+  it('should validate groups correctly', () => {
+    const props = {
+      fetchingMetadata: false,
+      availableAttributes: attributes,
+      pluginsMetadata: allPluginMeta,
+      currentNamespace: 'xyz',
+    }
+    const enzymeWrapper = shallow(<SearchConfigurationComponent {...props} />, { context })
+
+    const { validateGroups } = enzymeWrapper.instance()
+    // 1 - Validate groups
+    assert.isUndefined(validateGroups([]), 'Empty groups array should be valid')
+    assert.isUndefined(validateGroups([{
+      showTitle: true,
+      title: {
+        [UIDomain.LOCALES_ENUM.en]: 'Group 1',
+        [UIDomain.LOCALES_ENUM.fr]: 'Groupe 1',
+      },
+      criteria: [],
+    }]), 'Title is shown and defined for each locale, should be valid')
+    assert.isUndefined(validateGroups([{
+      showTitle: false,
+      title: {
+        [UIDomain.LOCALES_ENUM.en]: '',
+        [UIDomain.LOCALES_ENUM.fr]: 'n',
+      },
+      criteria: [],
+    }]), 'Title is undefined but hidden: should be OK')
+    assert.isOk(validateGroups([{
+      showTitle: true,
+      title: {
+        [UIDomain.LOCALES_ENUM.en]: 'a',
+        [UIDomain.LOCALES_ENUM.fr]: '',
+      },
+      criteria: [],
+    }]), 'Title is undefined in a locale but shown: should be KO')
+    assert.isOk(validateGroups([{
+      showTitle: true,
+      title: {
+        [UIDomain.LOCALES_ENUM.en]: '',
+        [UIDomain.LOCALES_ENUM.fr]: 'b',
+      },
+      criteria: [],
+    }]), 'Title is undefined in other locale but shown: should be KO')
+    // 2 - Validate criteria (use example configuration)
+    function inValidGroups(criterion) {
+      return [{
+        showTitle: true,
+        title: {
+          [UIDomain.LOCALES_ENUM.en]: 'a',
+          [UIDomain.LOCALES_ENUM.fr]: 'b',
+        },
+        criteria: [criterion],
+      }]
+    }
+    // crit 1.1 valid
+    assert.isUndefined(validateGroups(inValidGroups(exampleConfiguration[0].criteria[0])),
+      'Crit 1.1 should be fully valid')
+    // crit 1.2 in error: no label
+    assert.isOk(validateGroups(inValidGroups(exampleConfiguration[0].criteria[1])),
+      'Crit 1.2 should be in error (no label)')
+    // crit 1.3 in error: no plugin
+    assert.isOk(validateGroups(inValidGroups(exampleConfiguration[0].criteria[2])),
+      'Crit 1.3 should be in error (no plugin)')
+    // crit 2.1 in error: missing attributes
+    assert.isOk(validateGroups(inValidGroups(exampleConfiguration[1].criteria[0])),
+      'Crit 2.1 should be in error (missing attributes)')
+    // custom: in error: mismatching attribute type
+    assert.isOk(validateGroups(inValidGroups({
+      ...exampleConfiguration[0].criteria[2],
+      conf: {
+        attributes: {
+          f1: attributes[2], // STRING, but boolean expected
+        },
+      },
+    })),
+    'Custom criterion should be in in error (mismatching attribute type)')
   })
 })

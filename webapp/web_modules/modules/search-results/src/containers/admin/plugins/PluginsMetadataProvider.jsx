@@ -155,9 +155,9 @@ export class PluginsMetadataProvider extends React.Component {
     const allAttributeTypes = [...values(dataAttributeModels), ...values(DamDomain.AttributeModelController.standardAttributesAsModel)]
       .reduce((acc, { content: { type } }) => acc.includes(type) ? acc : [...acc, type], [])
     // C - Compute available meta, when not fetchingMetadata
-    const pluginsMetadata = isFetching ? [] : allPartitions.reduce((acc, { error, data }) => {
+    const pluginsMetadata = isFetching ? [] : allPartitions.reduce((acc, { hasError, data }) => {
       // C.1 - Filter errors
-      if (error) {
+      if (hasError) {
         return acc
       }
       // C.2 - Filter criteria that have, for a given configuration attribute, no matching attribute type (currently available types

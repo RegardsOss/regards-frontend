@@ -64,6 +64,35 @@ class CriteriaGroupsTableComponent extends React.Component {
     ...i18nContextType,
   }
 
+
+  /**
+   * Converts defined groups into entities list for table
+   * @param {[*]} groups configuration as an array of CriteriaGroup
+   * @param {[*]} pluginsMetadata available meta as an array of PluginMeta
+   * @return {[*]} table entities, as an array of CriteriaEditableRow
+   */
+  static convertToEntities(groups = [], pluginsMetadata) {
+    return flatMap(groups, (group, index) => [{
+      label: group.title,
+      showTitle: group.showTitle,
+      groupIndex: index,
+      criteria: group.criteria.map(({ label }) => ({ label })),
+      // unused in groups
+      criterionIndex: null,
+      pluginMetadata: null,
+      attributes: null,
+    },
+    ...group.criteria.map((criterion, criterionIndex) => ({
+      label: criterion.label,
+      showTitle: null, // unused in criteria
+      criteria: null, // unused in criteria
+      groupIndex: index,
+      criterionIndex,
+      pluginMetadata: CriteriaFormHelper.getPluginMetadata(criterion.pluginId, pluginsMetadata),
+      configuration: criterion.conf,
+    }))])
+  }
+
   state = {
     entities: [],
     configurationDialog: {
@@ -95,27 +124,8 @@ class CriteriaGroupsTableComponent extends React.Component {
     || !isEqual(oldProps.fetchingMetadata, newProps.fetchingMetadata)) {
       // update table entities: set one cell for each group and each child.
       // Nota: while fetching, show no entity but loading state instead
-      newState.entities = newProps.fetchingMetadata ? [] : flatMap(newProps.groups, (group, index) => [{
-        label: group.title,
-        showTitle: group.showTitle,
-        groupIndex: index,
-        criteria: group.criteria.map(({ label }) => ({ label })),
-        // unused in groups
-        criterionIndex: null,
-        pluginMetadata: null,
-        enabled: null,
-        attributes: null,
-      },
-      ...group.criteria.map((criterion, criterionIndex) => ({
-        label: criterion.label,
-        showTitle: null, // unused in criteria
-        criteria: null, // unused in criteria
-        groupIndex: index,
-        criterionIndex,
-        pluginMetadata: CriteriaFormHelper.getPluginMetadata(criterion.pluginId, newProps.pluginsMetadata),
-        enabled: criterion.active,
-        configuration: criterion.conf,
-      }))])
+      newState.entities = newProps.fetchingMetadata
+        ? [] : CriteriaGroupsTableComponent.convertToEntities(newProps.groups, newProps.pluginsMetadata)
     }
     if (!isEqual(this.state, newState)) {
       this.setState(newState)

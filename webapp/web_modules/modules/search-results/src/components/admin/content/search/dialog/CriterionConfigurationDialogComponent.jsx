@@ -35,7 +35,7 @@ import { CriteriaEditableRow } from '../../../../../shapes/form/CriteriaEditable
  * Dialog component allowing criterion configuration edition
  * @author Raphaël Mechali
  */
-class CriterionConfigurationDialogComponent extends React.Component {
+export class CriterionConfigurationDialogComponent extends React.Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
     criterionRow: CriteriaEditableRow, // Always provided when open. Only a criterion row with plugin metadata  and configuration (must be granted by parent!)
@@ -185,7 +185,10 @@ class CriterionConfigurationDialogComponent extends React.Component {
             <Field
               key={name}
               name={`attributes.${name}`}
-              label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field' }, { name, description })}
+              label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.field' }, {
+                name,
+                description: description || formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.no.description' }),
+              })}
               component={SingleAttributeFieldRender}
               attributeModels={attributes}
               validate={this.validateAttribute}
