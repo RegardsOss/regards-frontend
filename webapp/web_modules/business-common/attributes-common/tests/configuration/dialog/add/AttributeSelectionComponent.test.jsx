@@ -53,7 +53,6 @@ describe('[Attributes Common] Testing AttributeSelectionComponent', () => {
     const enzymeWrapper = shallow(<AttributeSelectionComponent {...props} />, { context })
     const checkbox = enzymeWrapper.find(Checkbox)
     assert.lengthOf(checkbox, 1, 'There should be the checkbox')
-    // TODO: that will fail
     testSuiteHelpers.assertWrapperProperties(checkbox, {
       label: AttributeRender.getRenderLabel(props.attribute.attributeModel, context.intl),
       checked: props.attribute.selected,
@@ -78,7 +77,6 @@ describe('[Attributes Common] Testing AttributeSelectionComponent', () => {
     const enzymeWrapper = shallow(<AttributeSelectionComponent {...props} />, { context })
     const checkbox = enzymeWrapper.find(Checkbox)
     assert.lengthOf(checkbox, 1, 'There should be the checkbox')
-    // TODO: that will fail
     testSuiteHelpers.assertWrapperProperties(checkbox, {
       label: AttributeRender.getRenderLabel(props.attribute.attributeModel, context.intl),
       checked: props.attribute.selected,
