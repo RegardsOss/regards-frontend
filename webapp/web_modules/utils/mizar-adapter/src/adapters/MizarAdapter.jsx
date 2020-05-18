@@ -17,6 +17,7 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 import './MizarLoader'
@@ -35,6 +36,7 @@ export default class MizarAdapter extends React.Component {
     backgroundLayerConf: PropTypes.object,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
+    staticLayerOpacity: PropTypes.number,
     // selection management: when drawing selection is true, user draws a rectangle
     // during that gestion, onDrawingSelectionUpdated will be called for the component parent to update feedback through drawnAreas
     // at end, onDrawingSelectionDone will be called
@@ -130,6 +132,7 @@ export default class MizarAdapter extends React.Component {
     instance: null, // mizar instance
     featuresLayer: null, // features collection layer
     drawLayer: null, // areas draw layer
+    staticLayer: null, // static layer
   }
 
   /** Currently drawn selection initial point (lat / lon) */
@@ -155,7 +158,9 @@ export default class MizarAdapter extends React.Component {
    */
   componentWillReceiveProps(nextProps) {
     // Add new geo features to display layer
-    const { featuresCollection, drawingSelection, drawnAreas } = nextProps
+    const {
+      featuresCollection, drawingSelection, drawnAreas, staticLayerOpacity,
+    } = nextProps
     if (!isEqual(this.props.featuresCollection, featuresCollection)) {
       this.onFeaturesCollectionUpdated(featuresCollection)
     }
@@ -167,6 +172,11 @@ export default class MizarAdapter extends React.Component {
     if (this.props.drawingSelection !== drawingSelection) {
       this.onToggleDrawSelectionMode(drawingSelection)
     }
+    // remove old areas and add new ones
+    if (!isEqual(this.props.staticLayerOpacity, staticLayerOpacity)) {
+      this.onUpdateOpacity(staticLayerOpacity)
+    }
+
     // XXX- take in account, in later versions, color properties change ==> requires unmounting then remounting layers
     // useless in current version as the parent split pane blocks redrawing anyways
   }
@@ -225,11 +235,16 @@ export default class MizarAdapter extends React.Component {
     }
 
     // 3 - Set up background layer
+    this.mizar.instance.addLayer(baseLayer)
+
+
     const staticLayer = get(STATIC_CONF, 'MAP.STATIC_LAYER', null)
     if (staticLayer) {
-      this.mizar.instance.addLayer(staticLayer)
+      this.mizar.instance.addLayer(staticLayer, (staticLayerId) => {
+        // store features layer
+        this.mizar.staticLayer = this.mizar.instance.getLayerByID(staticLayerId)
+      })
     }
-    this.mizar.instance.addLayer(baseLayer)
 
     // 4 - Set up features collection layer and store its reference
     this.mizar.instance.addLayer({
@@ -270,7 +285,7 @@ export default class MizarAdapter extends React.Component {
         // delete if any old value
         this.mizar.featuresLayer.removeAllFeatures()
         // add if any new value
-        if (newFeaturesCollection) {
+        if (newFeaturesCollection && !isEmpty(newFeaturesCollection.features)) {
           this.mizar.featuresLayer.addFeatureCollection(newFeaturesCollection)
         }
       } else {
@@ -308,6 +323,13 @@ export default class MizarAdapter extends React.Component {
         this.mizar.instance.getActivatedContext().getNavigation().start()
       }
     }
+  }
+
+  /**
+   * Update the level of opacity of the static layer
+   */
+  onUpdateOpacity = (opacity) => {
+    this.mizar.staticLayer.setOpacity(opacity)
   }
 
   /**
