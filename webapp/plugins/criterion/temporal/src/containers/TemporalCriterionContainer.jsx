@@ -70,7 +70,7 @@ export class TemporalCriterionContainer extends React.Component {
    */
   static isInError(attribute, time, operator) {
     return !isNil(time) && !!operator && !DateRange.isValidRestrictionOn(
-      attribute, DateRange.convertToRange(time, operator))
+      attribute, DateRange.convertToRange(DateRange.toUTCTime(time), operator))
   }
 
   /**
@@ -82,7 +82,7 @@ export class TemporalCriterionContainer extends React.Component {
   static convertToRequestParameters({ error, time, operator }, attribute) {
     return error || isNil(time) || !operator ? { } : {
       q: DateRange.getDateQueryParameter(attribute.jsonPath,
-        DateRange.convertToRange(time, operator)).toQueryString(),
+        DateRange.convertToRange(DateRange.toUTCTime(time), operator)).toQueryString(),
     }
   }
 

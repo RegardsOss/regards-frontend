@@ -33,8 +33,19 @@ const context = buildTestContext(styles)
  * @author Xavier-Alexandre Brochard
  */
 describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  // override timezone offset to make it constant for tests (+3h) - avoids tests issues on other timezones
+  let savedGetTimezoneOffset
+  before(() => {
+    savedGetTimezoneOffset = Date.prototype.getTimezoneOffset
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getTimezoneOffset = () => 180 // in minutes
+    testSuiteHelpers.before()
+  })
+  after(() => {
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getTimezoneOffset = savedGetTimezoneOffset
+    testSuiteHelpers.after()
+  })
   it('should exists', () => {
     assert.isDefined(TwoTemporalCriteriaContainer)
   })
@@ -93,7 +104,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: TwoTemporalCriteriaContainer.DEFAULT_STATE.time1,
         time2: new Date('2017-05-22T12:25:25.150Z').getTime(),
       },
-      expectedQuery: { q: 'x.a1:[* TO 2017-05-22T14:25:25.150Z]' }, // reversed, see class documentation
+      expectedQuery: { q: 'x.a1:[* TO 2017-05-22T09:25:25.150Z]' }, // reversed, see class documentation
     }, {
       label: '#2: Set lower value greater than upper value (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2017-07-26T08:11:05.222Z')),
@@ -111,7 +122,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: new Date('2017-07-26T08:11:05.222Z').getTime(),
         time2: new Date('2030-05-02T11:40:54.756Z').getTime(),
       },
-      expectedQuery: { q: 'y.a2:[2017-07-26T10:11:05.222Z TO *] AND x.a1:[* TO 2030-05-02T13:40:54.756Z]' },
+      expectedQuery: { q: 'y.a2:[2017-07-26T05:11:05.222Z TO *] AND x.a1:[* TO 2030-05-02T08:40:54.756Z]' },
     }, {
       label: '#4: Set lower bound greater than attribute 2 range (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2029-04-17T16:35:44.133Z')),
@@ -130,7 +141,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time2: new Date('2030-05-02T11:40:54.756Z').getTime(),
       },
       // 1 hour shift only on min date (winter time change)
-      expectedQuery: { q: 'y.a2:[2010-11-15T00:10:37.868Z TO *] AND x.a1:[* TO 2030-05-02T13:40:54.756Z]' },
+      expectedQuery: { q: 'y.a2:[2010-11-14T20:10:37.868Z TO *] AND x.a1:[* TO 2030-05-02T08:40:54.756Z]' },
     }, {
       label: '#6: Set upper lower than attribute 1 range (error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2012-01-01T06:00:00.000Z')),
@@ -148,7 +159,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: new Date('2010-11-14T23:10:37.868Z').getTime(),
         time2: null,
       },
-      expectedQuery: { q: 'y.a2:[2010-11-15T00:10:37.868Z TO *]' },
+      expectedQuery: { q: 'y.a2:[2010-11-14T20:10:37.868Z TO *]' },
     }, {
       label: '#8: Unset lower bound (no error)',
       update: () => enzymeWrapper.instance().onDate1Changed(null),
@@ -241,7 +252,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: TwoTemporalCriteriaContainer.DEFAULT_STATE.time1,
         time2: new Date('2016-07-26T08:11:05.222Z').getTime(),
       },
-      expectedQuery: { q: 'x.a1:[* TO 2016-07-26T10:11:05.222Z]' },
+      expectedQuery: { q: 'x.a1:[* TO 2016-07-26T05:11:05.222Z]' },
     }, {
       label: '#3: Set lower value greater than upper (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2016-08-02T11:40:54.756Z')),
@@ -259,7 +270,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: new Date('2010-04-17T16:35:44.133Z').getTime(),
         time2: new Date('2016-07-26T08:11:05.222Z').getTime(),
       },
-      expectedQuery: { q: 'x.a1:[2010-04-17T18:35:44.133Z TO 2016-07-26T10:11:05.222Z]' },
+      expectedQuery: { q: 'x.a1:[2010-04-17T13:35:44.133Z TO 2016-07-26T05:11:05.222Z]' },
     }, {
       label: '#5: Set upper value in far future (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2035-09-07T05:05:05.005Z')),
@@ -268,7 +279,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: new Date('2010-04-17T16:35:44.133Z').getTime(),
         time2: new Date('2035-09-07T05:05:05.005Z').getTime(),
       },
-      expectedQuery: { q: 'x.a1:[2010-04-17T18:35:44.133Z TO 2035-09-07T07:05:05.005Z]' },
+      expectedQuery: { q: 'x.a1:[2010-04-17T13:35:44.133Z TO 2035-09-07T02:05:05.005Z]' },
     }, {
       label: '#6: Set lower value greater than attribute range max (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2030-01-01T06:00:00.000Z')),
@@ -286,7 +297,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
         time1: null,
         time2: new Date('2035-09-07T05:05:05.005Z').getTime(),
       },
-      expectedQuery: { q: 'x.a1:[* TO 2035-09-07T07:05:05.005Z]' },
+      expectedQuery: { q: 'x.a1:[* TO 2035-09-07T02:05:05.005Z]' },
     }, {
       label: '#8: Unset upper bound (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(null),
