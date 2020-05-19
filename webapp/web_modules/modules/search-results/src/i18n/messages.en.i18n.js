@@ -223,6 +223,9 @@ const messages = {
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',
+  'results.map.tools.tooltip.opacity': 'Change layer opacity',
+  'results.map.tools.opaque': 'Opaque',
+  'results.map.tools.transparent': 'Transparent',
 }
 
 export default messages

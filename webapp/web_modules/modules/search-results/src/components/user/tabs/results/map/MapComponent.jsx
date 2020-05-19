@@ -52,16 +52,33 @@ class MapComponent extends React.Component {
   /** Number of items by page for map (used by correlated quicklooks fetcher) */
   static MAP_PAGE_SIZE = STATIC_CONF.MAP.PAGE_SIZE_MAP
 
+  state = {
+    staticLayerOpacity: 1,
+  }
+
+  handleChangeOpacity = (staticLayerOpacity) => {
+    this.setState({
+      staticLayerOpacity,
+    })
+  }
+
   render() {
     const {
       featuresCollection, displayedAreas,
       selectionMode, onSetSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       onFeaturesPicked, backgroundLayerURL, backgroundLayerType, backgroundLayerConf,
     } = this.props
+    const { staticLayerOpacity } = this.state
+
     const { featureColor, drawColor } = this.context.muiTheme.module.searchResults.map.mizar
     return (
       <React.Fragment>
-        <MapToolsComponent selectionMode={selectionMode} onSetSelectionMode={onSetSelectionMode} />
+        <MapToolsComponent
+          selectionMode={selectionMode}
+          onSetSelectionMode={onSetSelectionMode}
+          handleChangeOpacity={this.handleChangeOpacity}
+          opacity={staticLayerOpacity}
+        />
         <MizarAdapter
           key="mizarAdapter"
           backgroundLayerUrl={backgroundLayerURL}
@@ -75,6 +92,7 @@ class MapComponent extends React.Component {
           onFeaturesSelected={onFeaturesPicked}
           featuresColor={featureColor}
           drawColor={drawColor}
+          staticLayerOpacity={staticLayerOpacity}
         />
       </React.Fragment>
     )

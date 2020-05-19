@@ -227,6 +227,9 @@ const messages = {
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Sélectionner des entités',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Dessiner une zone de recherche',
+  'results.map.tools.tooltip.opacity': 'Changer l\'opacité de la couche',
+  'results.map.tools.opaque': 'Opaque',
+  'results.map.tools.transparent': 'Transparent',
 }
 
 export default messages

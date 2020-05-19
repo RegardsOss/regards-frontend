@@ -21,6 +21,7 @@ export { default as getAccountPasswordReducer } from './accounts/AccountPassword
 export { default as getAccountPasswordSelectors } from './accounts/AccountPasswordSelectors'
 
 export { default as ProjectActions } from './project/ProjectActions'
+export { default as PublicProjectActions } from './project/PublicProjectActions'
 export { default as ProjectSelectors } from './project/ProjectSelectors'
 export { default as ProjectReducers } from './project/ProjectReducers'
 
