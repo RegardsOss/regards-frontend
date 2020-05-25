@@ -45,6 +45,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   let currentLocation = {}
   let getDataSave = null
   let saveDataSave = null
+  let getModuleContextIdSave = null
   before(() => {
     testSuiteHelpers.before()
     // replace external data sources for tests (URL and local storage)
@@ -55,12 +56,14 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     // each test can replace the following methods by it own functions on need
     getDataSave = UIDomain.LocalStorageData.getData
     saveDataSave = UIDomain.LocalStorageData.saveData
+    getModuleContextIdSave = UIDomain.LocalStorageData.saveData
   })
   after(() => {
     testSuiteHelpers.after()
     delete router.browserHistory
     UIDomain.LocalStorageData.getData = getDataSave
     UIDomain.LocalStorageData.saveData = saveDataSave
+    UIDomain.LocalStorageData.getModuleContextId = getModuleContextIdSave
   })
 
   it('should exists', () => {
@@ -227,6 +230,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: anotherDatasetEntity.content.id, // tag view main tag
     [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
     [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: JSON.stringify([true, true]), // 2 unactives attributes
+    [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
   }
 
   // 1.C - Tests cases
@@ -322,6 +327,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: 'URN:DATASET:UNEXISTING',
       [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: anotherDataEntity.content.id,
       [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
     },
     storageData: defaultLocalStorage,
     doExpect: (initialContext, restoredContext, publishedContext) => {

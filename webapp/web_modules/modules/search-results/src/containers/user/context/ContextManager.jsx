@@ -65,7 +65,7 @@ export class ContextManager extends React.Component {
   }
 
   static propTypes = {
-    // module ID, used in mapStateToProps and mapDispatchToProps to access the
+    // module ID, used in mapStateToProps and mapDispatchToProps to access the resultsContext
     moduleId: PropTypes.number.isRequired,
     /** Project name */
     project: PropTypes.string.isRequired,
@@ -94,6 +94,7 @@ export class ContextManager extends React.Component {
     // flag to avoid suppression of initial URL (may be used on later authentication).
     // False while complete initialization has not been performed
     initialized: false,
+    moduleContextualKey: null,
   }
 
 
@@ -102,6 +103,10 @@ export class ContextManager extends React.Component {
    * initial state for table, according
    */
   componentDidMount() {
+    const { moduleId } = this.props
+    this.setState({
+      moduleContextualKey: ContextStorageHelper.getModuleContextId(moduleId),
+    })
     this.initializeFromURL()
   }
 
@@ -110,16 +115,16 @@ export class ContextManager extends React.Component {
    */
   componentWillReceiveProps = (nextProps) => {
     const {
-      authentication: { result: newAuthResults }, resultsContext: newResultsContext,
-      project, moduleId,
+      authentication: { result: newAuthResults }, resultsContext: newResultsContext, project,
     } = nextProps
+    const { moduleContextualKey } = this.state
     const { authentication: { result: oldAuthResults }, resultsContext: oldResultsContext } = this.props
     if (!isEqual(get(oldAuthResults, 'sub'), get(newAuthResults, 'sub')) && this.state.initialized) {
       // A - Authentication changed: update entities related elements (tags / description path)
       this.updateWithRights(newResultsContext)
     } else if (!isEqual(oldResultsContext, newResultsContext) && this.state.initialized) {
       // B  - Update URL and local storage on change
-      ContextStorageHelper.store(newResultsContext, project, moduleId)
+      ContextStorageHelper.store(newResultsContext, project, moduleContextualKey)
     }
   }
 
@@ -155,12 +160,13 @@ export class ContextManager extends React.Component {
     const {
       moduleId, project, configuration, resultsContext, attributeModels,
     } = this.props
+    const { moduleContextualKey } = this.state
     // 1 - Convert root context from configuration
     let context = ContextInitializationHelper.buildDefaultResultsContext(moduleId, configuration, attributeModels)
     // 2 - Apply any parent control on it (XXX only search graph may still use that mechanism)
     context = UIDomain.ResultsContextHelper.deepMerge(context, resultsContext)
     // 3 - Apply URL or local storage saved data
-    context = ContextStorageHelper.restore(context, project, moduleId)
+    context = ContextStorageHelper.restore(context, project, moduleContextualKey)
     // Finally apply rights checking and commit context
     this.updateWithRights(context)
   }

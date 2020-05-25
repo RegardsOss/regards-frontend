@@ -220,6 +220,7 @@ const messages = {
   'search.filter.geometry.label': 'Area',
   'search.filter.entities.selection.label': 'Entities ({count})',
   'search.filter.search.criteria.label': 'Search',
+  'search.filter.static.reactive': 'Reactive this criteria',
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',
