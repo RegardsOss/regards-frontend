@@ -53,7 +53,7 @@ require.config({
   paths: {
     path: '/mizar/node_modules/path/path',
     fits: '/mizar/external/fits',
-    'underscore-min': '/mizar/node_modules/underscore/underscore-min',
+    'underscore': '/mizar/node_modules/underscore/underscore-min',
     jquery: '/mizar/node_modules/jquery/dist/jquery.min',
     'jquery.ui': '/mizar/node_modules/jquery-ui-dist/jquery-ui.min',
     wcs: '/mizar/external/wcs',
@@ -70,13 +70,6 @@ require.config({
     loadmask: "/mizar/external/loadmask/jquery.loadmask.min"
   },
   shim: {
-    'underscore-min': {
-      exports: '_',
-      init() {
-        // eslint-disable-next-line no-undef
-        return _.noConflict()
-      },
-    },
     jquery: {
       exports: '$',
     },
