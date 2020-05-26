@@ -30,6 +30,6 @@ describe('[Order History] Testing module interface', () => {
     assert.isDefined(moduleContainer, 'Order cart module should define a main container')
     assert.isDefined(dependencies, 'Order cart module should define a its dependencies')
     assert.isDefined(styles, 'Order cart module should define a styles file')
-    assert.isDefined(messages, 'Order cart module should define his internationalization messages dictionnary')
+    assert.isDefined(messages, 'Order cart module should define his internationalization messages dictionary')
   })
 })

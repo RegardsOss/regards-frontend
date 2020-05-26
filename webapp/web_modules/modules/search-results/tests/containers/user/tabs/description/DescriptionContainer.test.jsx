@@ -160,6 +160,7 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
           descriptionPath: [dataEntity, datasetEntity],
           selectedIndex: 0,
+          unresolvedRootEntityId: null,
         },
       },
     }, 'Context diff description path should be valid')
@@ -191,12 +192,14 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
+            configurationRestrictions: [],
             contextTags: [CriterionBuilder.buildWordTagCriterion('coffee')],
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },
@@ -229,12 +232,14 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
+            configurationRestrictions: [],
             contextTags: [CriterionBuilder.buildEntityTagCriterion(datasetEntity)],
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },

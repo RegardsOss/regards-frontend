@@ -22,7 +22,7 @@ import Checkbox from 'material-ui/Checkbox'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AttributeSelectionComponent from '../../../../src/configuration/dialog/add/AttributeSelectionComponent'
 import styles from '../../../../src/styles'
-import { attributeModelsDictionnary } from '../../../dumps/AttributeModels.dump'
+import { attributeModelsDictionary } from '../../../dumps/AttributeModels.dump'
 import AttributeRender from '../../../../src/render/AttributeRender'
 
 const context = buildTestContext(styles)
@@ -43,7 +43,7 @@ describe('[Attributes Common] Testing AttributeSelectionComponent', () => {
     const props = {
       index: 25,
       attribute: {
-        attributeModel: attributeModelsDictionnary[3],
+        attributeModel: attributeModelsDictionary[3],
         selected: true,
       },
       onToggleAttributeSelection: (index) => {
@@ -67,7 +67,7 @@ describe('[Attributes Common] Testing AttributeSelectionComponent', () => {
     const props = {
       index: 2,
       attribute: {
-        attributeModel: attributeModelsDictionnary[4],
+        attributeModel: attributeModelsDictionary[4],
         selected: false,
       },
       onToggleAttributeSelection: (index) => {

@@ -40,7 +40,7 @@ export default class EnumeratedDOPropertyValuesActions extends BasicArrayActions
    * @param {string} propertyName property name
    * @param {string} partialText values list filter as text
    * @param {number} maxCount max expected results ccount
-   * @param {string} q contextual openSearch query
+   * @param {*} parameters other request parameters (q, ...)
    */
-  fetchValues = (propertyName, partialText, maxCount, q) => this.fetchEntityList({ propertyName }, { partialText, maxCount, q })
+  fetchValues = (propertyName, partialText, maxCount, parameters = {}) => this.fetchEntityList({ propertyName }, { partialText, maxCount, ...parameters })
 }

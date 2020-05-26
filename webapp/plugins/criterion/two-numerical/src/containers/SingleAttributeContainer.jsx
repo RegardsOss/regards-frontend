@@ -16,114 +16,126 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
-} from '@regardsoss/plugins-api'
+import isEqual from 'lodash/isEqual'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, NumberRange } from '@regardsoss/plugins-api'
+import { NumberHelper } from './NumberHelper'
 import SingleAttributeComponent from '../components/SingleAttributeComponent'
 
 /**
- * Main container for criterion when working on a single attribute: value from value1 to value2
+ * Main container for criterion when working on a single attribute (expresses contraint on attribute as a [min; max] range)
  *
  * @author Xavier-Alexandre Brochard
  */
 export class SingleAttributeContainer extends React.Component {
   /** Default component state */
   static DEFAULT_STATE = {
-    value1: undefined, // first range value
-    value2: undefined, // second range value
+    error: false,
+    min: '',
+    max: '',
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || SingleAttributeContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
+  /** Shape for this subtype of criterion */
+  static STATE_SHAPE = PropTypes.shape({
+    error: PropTypes.bool.isRequired,
+    min: PropTypes.string,
+    max: PropTypes.string,
+  })
 
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** Configured field attribute */
     searchField: AttributeModelWithBounds.isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-      value1: PropTypes.number,
-      value2: PropTypes.number,
-    }).isRequired,
-    // From mapDispatchToProps...
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: SingleAttributeContainer.STATE_SHAPE.isRequired,
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
   }
 
   /**
    * Converts state as parameter into OpenSearch request parameters
-   * @param {{value1: number, value2: number}} plugin state
+   * @param {{min: number, max: number}} plugin state
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ value1, value2 }, attribute) {
-    // Using common toolbox to build range query
-    return {
-      q: numberRangeHelper.getNumberQueryParameter(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2)).toQueryString(),
+  static convertToRequestParameters({ error, min, max }, attribute) {
+    // No query when there is an error or no bound is entered (infinite range constraint)
+    return error || (!min && !max) ? {} : {
+      // query as range expressed by the user (no parse error possible, tested above)
+      q: NumberRange.getNumberQueryParameter(attribute.jsonPath,
+        new NumberRange(NumberHelper.parse(min).value, NumberHelper.parse(max).value)).toQueryString(),
     }
   }
 
+  /**
+   * Computes if the constraints as entered by user contains an error.
+   * There is an error when:
+   * - at least one value is entered AND
+   * - at least one is invalid OR expressed range is invalid OR expressed range does not cross attribute bounds
+   * @param {*} attribute attribute
+   * @param {*} min entered min
+   * @param {*} max ented value 2
+   */
+  static hasError(attribute, min, max) {
+    if (!min && !max) {
+      return false
+    }
+    const { error: minError, value: minValue } = NumberHelper.parse(min)
+    const { error: maxError, value: maxValue } = NumberHelper.parse(max)
+    // error when any bound parsing failed
+    return minError || maxError || !NumberRange.isValidRestrictionOn(attribute, new NumberRange(minValue, maxValue))
+  }
+
+  /**
+   * Inner callback: publishes a new bound value
+   * @param {numer} min lower bound text
+   * @param {numer} max upper bound text
+   */
+  onChange = (min, max) => {
+    const { state, publishState, searchField } = this.props
+    const nextState = {
+      min,
+      max,
+      error: SingleAttributeContainer.hasError(searchField, min, max),
+    }
+    if (!isEqual(state, nextState)) {
+      publishState(nextState, SingleAttributeContainer.convertToRequestParameters(nextState, searchField))
+    }
+  }
 
   /**
    * Callback: user changed value 1
-   * @param {number} value as parsed by NumericalCriteriaComponent
+   * @param {string} minText user entered min text
    */
-  onChangeValue1 = (value1) => {
-    const { state, publishState, searchField } = this.props
-    const newState = { ...state, value1 }
-    publishState(newState, SingleAttributeContainer.convertToRequestParameters(newState, searchField))
+  onMinChanged = (minText) => {
+    const { state: { max } } = this.props
+    this.onChange(minText, max)
   }
 
   /**
    * Callback: user changed value 2
-   * @param {number} value as parsed by NumericalCriteriaComponent
+   * @param {string} maxText user entered max text
    */
-  onChangeValue2 = (value2) => {
-    const { state, publishState, searchField } = this.props
-    const newState = { ...state, value2 }
-    publishState(newState, SingleAttributeContainer.convertToRequestParameters(newState, searchField))
+  onMaxChanged = (maxText) => {
+    const { state: { min } } = this.props
+    this.onChange(min, maxText)
   }
 
   render() {
-    const { state: { value1, value2 }, searchField } = this.props
-
-
+    const { label, state: { error, min, max }, searchField } = this.props
     return (
       <SingleAttributeComponent
+        label={label}
         searchAttribute={searchField}
-        value1={value1}
-        value2={value2}
-        onChangeValue1={this.onChangeValue1}
-        onChangeValue2={this.onChangeValue2}
+        error={error}
+        min={min}
+        max={max}
+        onMinChanged={this.onMinChanged}
+        onMaxChanged={this.onMaxChanged}
       />
     )
   }
 }
 
-export default connect(
-  SingleAttributeContainer.mapStateToProps,
-  SingleAttributeContainer.mapDispatchToProps)(SingleAttributeContainer)
+export default SingleAttributeContainer

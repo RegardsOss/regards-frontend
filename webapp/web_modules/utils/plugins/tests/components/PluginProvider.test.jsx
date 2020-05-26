@@ -17,166 +17,253 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { spy } from 'sinon'
-import { I18nProvider } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import PluginTest from './PluginTest'
-import PluginLoader, { PluginLoader as UnconnectedPluginLoader } from '../../src/containers/PluginLoader'
-import { UnconnectedPluginProvider } from '../../src/containers/PluginProvider'
+import { assert } from 'chai'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { PluginConfiguration } from '@regardsoss/api'
+import TestSuiteHelpers from '@regardsoss/tests-helpers/src/TestSuiteHelpers'
+import PluginLoader from '../../src/containers/PluginLoader'
+import { PluginProvider } from '../../src/containers/PluginProvider'
+
+const context = buildTestContext()
 
 /**
  * Tests for PluginProvider
  * @author Sébastien Binda
  */
-describe('[PLUGINS] Testing Plugins load', () => {
+describe('[PLUGINS] Testing PluginProvider', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('Should fetch the pluginDefinition with the given pluginId in props', () => {
-    const pluginDefinitionId = 12
-    const fetchPluginSpy = spy()
-    const wrapper = shallow(<UnconnectedPluginProvider
-      pluginInstanceId="0"
-      pluginId={pluginDefinitionId}
-      pluginConf={{}}
-      pluginProps={{}}
-      displayPlugin
-      pluginToLoad={null}
-      fetchPlugin={fetchPluginSpy}
-    />)
-
-    assert.isTrue(fetchPluginSpy.calledOnce, 'As no plugin is given, the PluginProvider should fetch the plugin using fetchPlugin method')
-    assert.isTrue(fetchPluginSpy.calledWith(pluginDefinitionId), 'Wrong parameter passed to fetchPlugin.')
-    assert.lengthOf(wrapper.find(PluginLoader), 0, 'The PluginLoader component should not be rendered cause the pluginDefinition to load is not fetched yet')
-    assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), true, 'A loading component should be display as the pluginDefinition to load is not fetched yet')
-  })
-
-  it('Should render a PluginLoader', () => {
-    const pluginDefinitionId = 12
-    const fetchPluginSpy = spy()
-    const wrapper = shallow(<UnconnectedPluginProvider
-      pluginInstanceId="0"
-      pluginId={pluginDefinitionId}
-      pluginConf={{}}
-      pluginProps={{}}
-      displayPlugin
-      pluginToLoad={{
+  const testCases = [{
+    label: 'Should load plugin definition then display result in nominal case',
+    initialPartition: {
+      loading: false,
+      hasError: false,
+      data: null,
+    },
+    fetchResult: {
+      payload: {
+        entities: {
+          [PluginConfiguration.normalizrKey]: {
+            25: {
+              content: {
+                id: 25,
+                name: 'plugin-test',
+                type: 'CRITERIA',
+                sourcePath: '/test/plugin.js',
+              },
+            },
+          },
+        },
+      },
+    },
+    expectsFetch: true,
+    expectsInitially: {
+      loading: true,
+      error: false,
+    },
+    expectAfterFetch: {
+      loading: false,
+      error: false,
+    },
+  }, {
+    label: 'Should load plugin definition then display error when fetching failed',
+    initialPartition: {
+      loading: false,
+      hasError: false,
+      data: null,
+    },
+    fetchResult: { payload: { error: true } },
+    expectsFetch: true,
+    expectsInitially: {
+      loading: true,
+      error: false,
+    },
+    expectAfterFetch: {
+      loading: false,
+      error: true,
+    },
+  }, {
+    label: 'Should render correctly when another instance is fetching same ID',
+    initialPartition: {
+      loading: true,
+      hasError: false,
+      data: null,
+    },
+    expectsInitially: {
+      loading: true,
+      error: false,
+    },
+  }, {
+    label: 'Should render correctly when another instance has fetched same ID',
+    initialPartition: {
+      loading: false,
+      hasError: false,
+      data: {
         content: {
-          id: pluginDefinitionId,
+          id: 25,
           name: 'plugin-test',
           type: 'CRITERIA',
           sourcePath: '/test/plugin.js',
         },
-      }}
-      fetchPlugin={fetchPluginSpy}
-    />)
+      },
+    },
+    expectsInitially: {
+      loading: false,
+      error: false,
+    },
+  }, {
+    label: 'Should render correctly when another instance has failed fetching same ID',
+    initialPartition: {
+      loading: false,
+      hasError: true,
+      data: null,
+    },
+    expectsInitially: {
+      loading: false,
+      error: true,
+    },
+  },
+  ]
 
-    assert.isFalse(fetchPluginSpy.called, 'The pluginDefinition is already fetched so the fetch method should not be called')
-    assert.lengthOf(wrapper.find(PluginLoader), 1, 'The PluginLoader component should be rendered')
-    assert.equal(wrapper.find(LoadableContentDisplayDecorator).prop('isLoading'), false, 'Loading component should not be display as the pluginDefinition is already fetched')
-  })
-  it('Should render correctly that a plugin is loading', () => {
-    const wrapper = shallow(<UnconnectedPluginLoader
-      pluginInstanceId={0}
-      pluginPath="test"
-      pluginConf={{
-        parameter: 'value',
-      }}
-      displayPlugin
-      locale="fr"
-      doLoadPlugin={() => { }}
-      doInitPlugin={() => { }}
-    />)
+  testCases.forEach(({
+    label, initialPartition, fetchResult,
+    expectsInitially, expectsFetch, expectAfterFetch,
+  }) => it(label, (done) => {
+    const fetchPluginSpy = { count: 0 }
+    const markLoadingSpy = { count: 0 }
+    const markLoadedSpy = { count: 0 }
+    const markFailedSpy = { count: 0 }
+    const fetchPromise = new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(fetchResult)
+      }, 5)
+    })
+    const props = {
+      pluginInstanceId: 'any-instance-id',
+      pluginId: 25,
+      pluginConf: {},
+      pluginProps: {},
+      displayPlugin: true,
+      loadingComponent: <div id="loading.div" />,
+      errorComponent: <div id="error.div" />,
+      pluginPartition: initialPartition,
+      fetchPlugin: (pluginId) => {
+        fetchPluginSpy.pluginId = pluginId
+        fetchPluginSpy.count += 1
+        return fetchPromise
+      },
+      onPluginLoadingStarted: (partitionKey) => {
+        markLoadingSpy.count += 1
+        markLoadingSpy.partitionKey = partitionKey
+      },
+      onPluginLoadingDone: (partitionKey, data) => {
+        markLoadedSpy.count += 1
+        markLoadedSpy.partitionKey = partitionKey
+        markLoadedSpy.data = data
+      },
+      onPluginLoadingFailed: (partitionKey) => {
+        markFailedSpy.count += 1
+        markFailedSpy.partitionKey = partitionKey
+      },
+    }
+    const enzymeWrapper = shallow(<PluginProvider {...props} />, { context })
 
-    expect(wrapper.find(PluginTest)).to.have.length(0)
-    expect(wrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
-  })
+    function expectDisplaying({ error, loading }, cycleMessage, pluginDefinition) {
+      const loadingWrapper = enzymeWrapper.findWhere(n => n.props().id === 'loading.div')
+      const errorWrapper = enzymeWrapper.findWhere(n => n.props().id === 'error.div')
+      const childWrapper = enzymeWrapper.find(PluginLoader)
+      if (error) {
+        assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)
+        assert.lengthOf(errorWrapper, 1, `Error should be displayed ${cycleMessage}`)
+        assert.lengthOf(childWrapper, 0, `Child plugin loader should be hidden ${cycleMessage}`)
+      } else if (loading) {
+        assert.lengthOf(loadingWrapper, 1, `Loading should be displayed ${cycleMessage}`)
+        assert.lengthOf(errorWrapper, 0, `Error should be hidden ${cycleMessage}`)
+        assert.lengthOf(childWrapper, 0, `Child plugin loader should be hidden ${cycleMessage}`)
+      } else {
+        assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)
+        assert.lengthOf(errorWrapper, 0, `Error should be hidden ${cycleMessage}`)
+        assert.lengthOf(childWrapper, 1, `Child plugin loader should be displayed ${cycleMessage}`)
+        TestSuiteHelpers.assertWrapperProperties(childWrapper, {
+          pluginInstanceId: props.pluginInstanceId,
+          pluginName: pluginDefinition.content.name,
+          pluginPath: pluginDefinition.content.sourcePath,
+          displayPlugin: props.displayPlugin,
+          pluginConf: props.pluginConf,
+          pluginProps: props.pluginProps,
+          onErrorCallback: props.onErrorCallback,
+          loadingComponent: props.loadingComponent,
+          errorComponent: props.errorComponent,
+        })
+      }
+    }
 
-  it('Should render correctly a plugin', () => {
-    const wrapper = shallow(<UnconnectedPluginLoader
-      pluginInstanceId={0}
-      pluginPath="test"
-      pluginConf={{
-        parameter: 'value',
-      }}
-      displayPlugin
-      doLoadPlugin={() => { }}
-      doInitPlugin={() => { }}
-      loadedPlugin={{
-        name: 'testPlugin',
-        plugin: PluginTest,
-        messages: {
-          fr: {},
-          en: {},
-        },
-        styles: {
-          styles: () => { },
-        },
-        info: {
-          name: 'testPlugin',
-          description: 'description',
-          version: '1.0',
-          author: 'Sébastien Binda',
-          company: 'CS-SI',
-          type: 'CRITERIA',
-          conf: {},
-        },
-        loadError: false,
-      }}
-      isInitialized
-      locale="fr"
-    />)
-
-    expect(wrapper.find(PluginTest)).to.have.length(1)
-    expect(wrapper.find(PluginTest).prop('parameter')).to.equal('value')
-    expect(wrapper.find(I18nProvider)).to.have.length(1)
-  })
-
-  it('Should render correctly an element with a plugin as a prop', () => {
-    const wrapper = shallow(
-      <UnconnectedPluginLoader
-        pluginInstanceId={0}
-        pluginPath="test"
-        pluginConf={{
-          parameter: 'value',
-        }}
-        displayPlugin={false}
-        doLoadPlugin={() => { }}
-        doInitPlugin={() => { }}
-        loadedPlugin={{
-          name: 'testPlugin',
-          plugin: PluginTest,
-          messages: {
-            fr: {},
-            en: {},
-          },
-          styles: {},
-          info: {
-            name: 'testPlugin',
-            description: 'description',
-            version: '1.0',
-            author: 'Sébastien Binda',
-            company: 'CS-SI',
-            type: 'CRITERIA',
-            conf: {},
-          },
-          loadError: false,
-        }}
-        isInitialized
-        locale="fr"
-      >
-        <div>Test</div>
-      </UnconnectedPluginLoader>)
-
-    expect(wrapper.find(PluginTest)).to.have.length(0)
-    expect(wrapper.find('div')).to.have.length(1)
-    const pluginParam = wrapper.find('div').prop('plugin')
-    assert.isDefined(pluginParam)
-    expect(wrapper.find(I18nProvider)).to.have.length(0)
-  })
+    // 1 - Do initial expectations
+    expectDisplaying(expectsInitially, 'at initialization', props.pluginPartition.data)
+    // 2 - When the component should fetch, register to the resolution
+    // promise to step 3 (and check fetch was called). Otherwise exit
+    if (expectsFetch) {
+      assert.deepEqual(fetchPluginSpy, {
+        pluginId: props.pluginId,
+        count: 1,
+      }, 'Fetch should have been called once with the right parameters')
+      assert.deepEqual(markLoadingSpy, {
+        partitionKey: props.pluginId,
+        count: 1,
+      }, 'Mark loading should have been called once with the right parameters')
+      assert.equal(markLoadedSpy.count, 0, 'Mark loaded should not have been called')
+      assert.equal(markFailedSpy.count, 0, 'Mark failed should not have been called')
+      const afterFetch = () => {
+        // 3 - according with test post state, check what was called
+        const nextProps = {
+          ...props,
+        }
+        if (expectAfterFetch.error) {
+          assert.equal(fetchPluginSpy.count, 1, 'Fetch should not have been called another time')
+          assert.equal(markLoadingSpy.count, 1, 'Mark loading should not have been called another time')
+          assert.equal(markLoadedSpy.count, 0, 'Mark loaded should not have been called')
+          assert.deepEqual(markFailedSpy, {
+            partitionKey: props.pluginId,
+            count: 1,
+          }, 'Mark failed should have been called with the right parameters')
+          // update props accordingly
+          nextProps.pluginPartition = {
+            loading: false,
+            hasError: true,
+            data: null,
+          }
+        } else {
+          assert.equal(fetchPluginSpy.count, 1, 'Fetch should not have been called another time')
+          assert.equal(markLoadingSpy.count, 1, 'Mark loading should not have been called another time')
+          const expectedDef = get(fetchResult, `payload.entities.${PluginConfiguration.normalizrKey}[${props.pluginId}]`)
+          assert.deepEqual(markLoadedSpy, {
+            count: 1,
+            partitionKey: props.pluginId,
+            data: expectedDef,
+          }, 'Mark loaded should not have been called')
+          assert.equal(markFailedSpy.count, 0, 'Mark failed should not have been called')
+          nextProps.pluginPartition = {
+            loading: false,
+            hasError: false,
+            data: expectedDef,
+          }
+        }
+        // finally, check post assertions on graphical component, by simulating redux loopback
+        enzymeWrapper.setProps(nextProps)
+        expectDisplaying(expectAfterFetch, 'after fetching', nextProps.pluginPartition.data)
+        done()
+      }
+      fetchPromise.then(afterFetch).catch(afterFetch)
+    } else {
+      // 2.b - Check fetch and partition systems was left unchanged and exit
+      assert.equal(fetchPluginSpy.count, 0, 'Fetch should not have been performed')
+      assert.equal(markLoadingSpy.count, 0, 'Mark loading should not have been performed')
+      assert.equal(markLoadedSpy.count, 0, 'Mark loaded should not have been called')
+      assert.equal(markFailedSpy.count, 0, 'Mark failed should not have been called')
+      done()
+    }
+  }))
 })
-
-/* eslint-enable react-perf/jsx-no-new-object-as-prop */

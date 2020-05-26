@@ -30,6 +30,6 @@ describe('[PROJECT LIST MODULE] Testing module interface', () => {
     assert.isDefined(moduleContainer, 'ProjectList module should define a main container')
     assert.isDefined(styles, 'ProjectList module should define a styles file')
     assert.isDefined(reducer, 'ProjectList module should define his reducers')
-    assert.isDefined(messages, 'ProjectList module should define his internationalization messages dictionnary')
+    assert.isDefined(messages, 'ProjectList module should define his internationalization messages dictionary')
   })
 })

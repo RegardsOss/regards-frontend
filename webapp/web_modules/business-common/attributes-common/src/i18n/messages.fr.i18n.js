@@ -26,8 +26,7 @@ const messages = {
   ...Locales.fr, // form messages
   'attribute.thumbnail.alt': 'Aucune vignette',
   'attribute.thumbnail.action.close': 'Fermer',
-  'attribute.render.label': '{label} ({path})',
-  'attribute.render.path.join.string': '.',
+  'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Ajout simple',
   'attributes.configuration.add.many.items.label': 'Ajout multiple',

@@ -232,7 +232,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/projects-list/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/modules/search-form/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/embedded-html/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/menu/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-history/src/main.js'),

@@ -19,16 +19,21 @@ Then you will be able to load modules inside sections with custom configuration 
 REGARDS modules have a specific [scoped package name](https://docs.npmjs.com/getting-started/scoped-packages) named `@regardsoss-modules`.  
 Here is the list of available modules :
 
-  | Module         | Description                       |
-  |----------------|-----------------------------------|
-  | authentication | Add the authentication functionalities |
-  | project-about-page      | Display a configured project-about-page as dialog |
-  | licenses       | Display the project license inside a dialog after user authentication |
-  | menu           | Display the main menu of the interface |
-  | projects-list  | Display the list of public accessible REGARDS projects and allow to access their "User project interface" |
-  | search-form    | Display a search form and allow to consult results |
-  | search-results | Display the result of the given REGARDS catalog opensearch request |
-  | search-graph   | Allow define a collection tree and allow to navigate into in order to consult datasets contents |
+  | Module                  | Description                                                                            |
+  |-------------------------|----------------------------------------------------------------------------------------|
+  | authentication          | Displays the authentication form                                                       |
+  | description             | Displays a results entity description                                                  |
+  | embedded-html           | Displays showing an URL by supported locale in an i-frame                              |
+  | licenses                | Displays the project license inside a dialog after user authentication                 |
+  | map                     | Displays a map using Mizar API                                                         |
+  | menu                    | Displays the main menu of the interface                                                |
+  | news                    | Displays news list                                                                     |
+  | order-cart              | Displays user order cart                                                               |
+  | order-history           | Displays user orders list                                                              |
+  | project-about-page      | Displays a configured project-about-page as dialog                                     |
+  | projects-list           | Displays the list of public accessible REGARDS projects, allowing user to access them  |
+  | search-graph            | Displays collections tree and allow browsing it                                        |
+  | search-results          | Displays a catalog, allowing results filtering / research                              |
 
 ## Create a new module
 

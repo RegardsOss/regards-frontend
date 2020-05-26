@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { BOUND_TYPE } from '@regardsoss/plugins-api'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import SingleAttributeComponent from '../../src/components/SingleAttributeComponent'
@@ -38,17 +38,32 @@ describe('[Two numerical criteria] Testing SingleAttributeComponent', () => {
   it('should exists', () => {
     assert.isDefined(SingleAttributeComponent)
   })
+  it('should render correctly with all locales', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
+      error: false,
+      min: '25',
+      max: '45',
+      onMinChanged: () => {},
+      onMaxChanged: () => {},
+    }
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<SingleAttributeComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      assert.include(enzymeWrapper.debug(), props.label[locale])
+    })
+  })
   it('should render correctly', () => {
     const props = {
-      searchAttribute: {
-        ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
-        name: 'Attr1',
-        jsonPath: 'x.attr1',
-      },
-      value1: 55,
-      value2: null,
-      onChangeValue1: () => {},
-      onChangeValue2: () => {},
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER),
+      error: true,
+      min: '45',
+      max: '25',
+      onMinChanged: () => {},
+      onMaxChanged: () => {},
     }
     const enzymeWrapper = shallow(<SingleAttributeComponent {...props} />, { context })
     const criterionComponents = enzymeWrapper.find(NumericalCriterionComponent)
@@ -56,20 +71,20 @@ describe('[Two numerical criteria] Testing SingleAttributeComponent', () => {
     testSuiteHelpers.assertWrapperProperties(criterionComponents.at(0), {
       searchAttribute: props.searchAttribute,
       fieldBoundType: BOUND_TYPE.LOWER_BOUND,
-      value: props.value1,
+      error: props.error,
+      value: props.min,
       comparator: CommonDomain.EnumNumericalComparator.GE,
-      onChange: props.onChangeValue1,
-      showAttributeLabel: false,
-      showComparator: false,
+      availableComparators: SingleAttributeComponent.LOWER_BOUND_OPERATORS,
+      onChange: props.onMinChanged,
     }, 'First numerical component properties should be correctly set')
     testSuiteHelpers.assertWrapperProperties(criterionComponents.at(1), {
       searchAttribute: props.searchAttribute,
       fieldBoundType: BOUND_TYPE.UPPER_BOUND,
-      value: props.value2,
+      error: props.error,
+      value: props.max,
       comparator: CommonDomain.EnumNumericalComparator.LE,
-      onChange: props.onChangeValue2,
-      showAttributeLabel: false,
-      showComparator: false,
+      availableComparators: SingleAttributeComponent.UPPER_BOUND_OPERATORS,
+      onChange: props.onMaxChanged,
     }, 'Second numerical component properties should be correctly set')
   })
 })

@@ -17,20 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import isNil from 'lodash/isNil'
+import { UIDomain } from '@regardsoss/domain'
 
-/**
- * Intl object stub for tests (avoids react warnings)
- */
-const IntlStub = {
-  locale: 'en',
-  formatMessage: m => m.id,
-  formatDate: () => { },
-  formatTime: () => { },
-  formatRelative: () => { },
-  formatNumber: n => isNil(n) ? '' : n.toString(),
-  formatPlural: () => { },
-  formatHTMLMessage: () => { },
-  now: () => { },
+export function getLocalizedIntlStub(locale = UIDomain.LOCALES_ENUM.en) {
+  return {
+    locale,
+    formatMessage: m => m.id,
+    formatDate: () => { },
+    formatTime: () => { },
+    formatRelative: () => { },
+    formatNumber: n => isNil(n) ? '' : n.toString(),
+    formatPlural: () => { },
+    formatHTMLMessage: () => { },
+    now: () => { },
+  }
 }
 
-export default IntlStub
+export const IntlStub = getLocalizedIntlStub()

@@ -27,6 +27,7 @@ import { DamDomain } from '@regardsoss/domain'
 
 export const FORM_SECTIONS_ENUM = {
   MAIN: 'MAIN', // main section
+  SEARCH: 'SEARCH', // search configuration section
   FILTERS: 'FILTERS', // filters section
   RESTRICTIONS: 'RESTRICTIONS', // restrictions section
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: DamDomain.ENTITY_TYPES_ENUM.DATA,

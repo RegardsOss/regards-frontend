@@ -39,6 +39,7 @@ export class SessionsMonitoringFilterToComponent extends React.Component {
     const { intl: { formatMessage, locale } } = this.context
     return (
       <DatePickerField
+        id="filter.to"
         value={to}
         defaultTime="23:59:59"
         dateHintText={formatMessage({ id: 'acquisition-sessions.filters.to.label' })}

@@ -16,10 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
-import {
-  pluginStateActions, pluginStateSelectors,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import FullTextCriterionComponent from '../components/FullTextCriterionComponent'
 
@@ -32,42 +29,20 @@ export class FullTextCriterionContainer extends React.Component {
     searchText: '',
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store, defaults to a static JS objects (avoids constant re-render issues)
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || FullTextCriterionContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
-
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
       searchText: PropTypes.string,
-    }).isRequired,
-    // From mapDispatchToProps...
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
+  }
+
+  /** Using default props to ensure a default plugin state */
+  static defaultProps = {
+    state: FullTextCriterionContainer.DEFAULT_STATE,
   }
 
   /**
@@ -93,13 +68,11 @@ export class FullTextCriterionContainer extends React.Component {
   }
 
   render() {
-    const { state: { searchText } } = this.props
+    const { label, state: { searchText } } = this.props
     return (
-      <FullTextCriterionComponent searchText={searchText} onTextInput={this.onTextInput} />
+      <FullTextCriterionComponent label={label} searchText={searchText} onTextInput={this.onTextInput} />
     )
   }
 }
 
-export default connect(
-  FullTextCriterionContainer.mapStateToProps,
-  FullTextCriterionContainer.mapDispatchToProps)(FullTextCriterionContainer)
+export default FullTextCriterionContainer

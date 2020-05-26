@@ -39,6 +39,7 @@ export class SessionsMonitoringFilterFromComponent extends React.Component {
     const { intl: { formatMessage, locale } } = this.context
     return (
       <DatePickerField
+        id="filter.from"
         dateHintText={formatMessage({ id: 'acquisition-sessions.filters.from.label' })}
         onChange={onChangeFrom}
         locale={locale}

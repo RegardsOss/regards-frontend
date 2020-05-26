@@ -29,6 +29,6 @@ describe('[LICENSE MODULE] Testing module interface', () => {
   it('Should supply valid module interface', () => {
     assert.isDefined(moduleContainer, 'License module should define a main container')
     assert.isDefined(styles, 'License module should define a styles file')
-    assert.isDefined(messages, 'License module should define his internationalization messages dictionnary')
+    assert.isDefined(messages, 'License module should define his internationalization messages dictionary')
   })
 })

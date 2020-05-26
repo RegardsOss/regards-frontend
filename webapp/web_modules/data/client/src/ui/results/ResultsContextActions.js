@@ -19,7 +19,7 @@
 
 /**
  * Redux actions to drive a given search-results module context.
- * Note that it may either be used by parent modules (like search-form) or by
+ * Note that it may either be used by parent modules or by
  * search-results module to update its own state
  *
  * @author Raphaël Mechali

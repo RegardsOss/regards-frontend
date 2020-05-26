@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import { i18nContextType } from '@regardsoss/i18n'
+import { UIShapes } from '@regardsoss/shape'
 
 /**
  * Resolves module title text
@@ -36,7 +37,7 @@ class ModuleTitleText extends React.Component {
 
   static propTypes = {
     // module title, as an object like [locale]:title where locale can be 'en', 'fr'...
-    title: PropTypes.objectOf(PropTypes.string),
+    title: UIShapes.OptionalIntlMessage,
     // module description (used as fallback when title cannot be used)
     description: PropTypes.string,
   }

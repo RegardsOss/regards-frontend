@@ -26,15 +26,6 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-/** Mock attribute for tests */
-const mockAttribute = {
-  label: 'label',
-  name: 'Label',
-  jsonPath: 'label',
-  type: DamDomain.MODEL_ATTR_TYPES.STRING,
-  boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-}
-
 /**
  * Test case for {@link EnumeratedCriterionContainer}
  * @author Raphaël Mechali
@@ -50,11 +41,13 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       // parent callbacks (required)
       pluginInstanceId: 'any',
       attributes: {
-        searchField: mockAttribute,
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       },
+      searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      state: EnumeratedCriterionContainer.DEFAULT_STATE,
       isFetching: false,
       availablePropertyValues: ['a', 'b', 'c'],
-      state: EnumeratedCriterionContainer.DEFAULT_STATE,
       publishState: () => {},
       dispatchGetPropertyValues: () => { },
     }
@@ -63,11 +56,12 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
     const componentWrapper = enzymeWrapper.find(EnumeratedCriterionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      label: props.label,
       searchAttribute: props.attributes.searchField,
-      text: '', // no initial value
-      availablePropertyValues: ['a', 'b', 'c'], // from available values
-      inError: false, // initial state
-      isFetching: false, // from props
+      error: false,
+      text: '',
+      availablePropertyValues: props.availablePropertyValues,
+      isFetching: props.isFetching,
       onUpdateTextFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
     }, 'Component properties should be correctly reported')
@@ -77,14 +71,16 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       // parent callbacks (required)
       pluginInstanceId: 'any',
       attributes: {
-        searchField: mockAttribute,
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       },
-      isFetching: false,
-      availablePropertyValues: ['testValue'],
+      searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
+      label: criterionTestSuiteHelpers.getLabelStub(),
       state: {
         searchText: 'testValue',
-        inError: false,
+        error: true,
       },
+      isFetching: false,
+      availablePropertyValues: ['a', 'b', 'c'],
       publishState: () => {},
       dispatchGetPropertyValues: () => { },
     }
@@ -92,9 +88,18 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
     // verify sub component is correctly instantiated
     const componentWrapper = enzymeWrapper.find(EnumeratedCriterionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    assert.equal(componentWrapper.props().text, 'testValue', 'initial value should be correctly reported')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      label: props.label,
+      searchAttribute: props.attributes.searchField,
+      error: true,
+      text: 'testValue',
+      availablePropertyValues: props.availablePropertyValues,
+      isFetching: props.isFetching,
+      onUpdateTextFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
+      onFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
+    }, 'Component properties should be correctly reported')
   })
-  it('should update list and state when user changed the text', () => {
+  it('should update list when mounting and state when user changed the text', () => {
     const spiedDispatchData = {
       name: null,
       filterText: null,
@@ -109,37 +114,61 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       // parent callbacks (required)
       pluginInstanceId: 'any',
       attributes: {
-        searchField: mockAttribute,
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      },
+      searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      state: {
+        error: false,
+        searchText: 'b',
       },
       isFetching: false,
-      availablePropertyValues: [],
-      state: EnumeratedCriterionContainer.DEFAULT_STATE,
+      availablePropertyValues: ['a', 'b', 'c'],
       publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
-      dispatchGetPropertyValues: (name, filterText) => {
+      dispatchGetPropertyValues: (name, filterText, searchParameters) => {
         spiedDispatchData.name = name
         spiedDispatchData.filterText = filterText
+        spiedDispatchData.searchParameters = searchParameters
         spiedDispatchData.count += 1
       },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
-    // run event, and check spied data
+    // 0 - Check dispatch was initially called (due to timer, it is not possible to test it later here)
+    assert.equal(spiedDispatchData.count, 1, '0 - Dispatch should have been performed')
+    assert.equal(spiedDispatchData.name, props.attributes.searchField.jsonPath, '0 - Dispatched attribute path should be valid')
+    assert.equal(spiedDispatchData.filterText, props.state.searchText, '0 - Dispatched filter text should be valid')
+    assert.deepEqual(spiedDispatchData.searchParameters, props.searchContext.searchParameters, '0 - Dispatched parameters form context should be reported')
+
+    // 1 - Test with unexisting option
     enzymeWrapper.instance().onUpdateTextFilter('test text')
-    assert.equal(spiedPublishData.count, 1, 'Data publishing should have been performed')
+    assert.equal(spiedPublishData.count, 1, '1 - Data publishing should have been performed')
     assert.deepEqual(spiedPublishData.nextState, {
       searchText: 'test text',
-      inError: false,
-    }, 'Dispatched plugin state should be valid')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test text"' }, 'Dispatched plugin requestParameters should be valid')
+      error: true,
+    }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
+    assert.deepEqual(spiedPublishData.requestParameters, {},
+      '1 - No query parameter should be built in error state')
 
-    assert.equal(spiedDispatchData.count, 1, 'Dispatch should have been performed')
-    assert.equal(spiedDispatchData.name, 'label', 'Dispatched attribute should be valid')
-    assert.equal(spiedDispatchData.filterText, 'test text', 'Dispatched filter text should be valid')
+    // 2 - Test with existing option
+    enzymeWrapper.instance().onUpdateTextFilter('c')
+    assert.equal(spiedPublishData.count, 2, '2 - Data publishing should have been performed')
+    assert.deepEqual(spiedPublishData.nextState, {
+      searchText: 'c',
+      error: false,
+    }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"c"` },
+      '2 - Query parameter should be correctly built outside error state')
   })
   it('should update correctly state on user item selection', () => {
+    const spiedDispatchData = {
+      name: null,
+      filterText: null,
+      count: 0,
+    }
     const spiedPublishData = {
       nextState: null,
       requestParameters: null,
@@ -149,35 +178,50 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionContainer', () => {
       // parent callbacks (required)
       pluginInstanceId: 'any',
       attributes: {
-        searchField: mockAttribute,
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       },
-      isFetching: false,
-      availablePropertyValues: [],
+      searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
+      label: criterionTestSuiteHelpers.getLabelStub(),
       state: EnumeratedCriterionContainer.DEFAULT_STATE,
-      dispatchGetPropertyValues: () => { },
+      isFetching: false,
+      availablePropertyValues: ['t1', 't2'],
       publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
       },
+      dispatchGetPropertyValues: (name, filterText, searchParameters) => {
+        spiedDispatchData.name = name
+        spiedDispatchData.filterText = filterText
+        spiedDispatchData.searchParameters = searchParameters
+        spiedDispatchData.count += 1
+      },
     }
     const enzymeWrapper = shallow(<EnumeratedCriterionContainer {...props} />, { context })
-    // 1 - test an item outside the list (should show error)
-    enzymeWrapper.instance().onFilterSelected('test1', false)
+    // 0 - Check dispatch was initially called (due to timer, it is not possible to test it later here)
+    assert.equal(spiedDispatchData.count, 1, '0 - Dispatch should have been performed')
+    assert.equal(spiedDispatchData.name, props.attributes.searchField.jsonPath, '0 - Dispatched attribute path should be valid')
+    assert.equal(spiedDispatchData.filterText, props.state.searchText, '0 - Dispatched filter text should be valid')
+    assert.deepEqual(spiedDispatchData.searchParameters, props.searchContext.searchParameters, '0 - Dispatched parameters form context should be reported')
+
+    // 1 - Test with unexisting option
+    enzymeWrapper.instance().onFilterSelected('test1')
     assert.equal(spiedPublishData.count, 1, '1 - Data publishing should have been performed')
     assert.deepEqual(spiedPublishData.nextState, {
       searchText: 'test1',
-      inError: true,
-    }, '1 - Dispatched plugin state should match data')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test1"' }, '1 - Dispatched plugin requestParameters should match data')
+      error: true,
+    }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
+    assert.deepEqual(spiedPublishData.requestParameters, {},
+      '1 - No query parameter should be built in error state')
 
-    // 2 - test an item inside the list (should not show error)
-    enzymeWrapper.instance().onFilterSelected('test2', true)
+    // 2 - Test with existing option
+    enzymeWrapper.instance().onUpdateTextFilter('t1')
     assert.equal(spiedPublishData.count, 2, '2 - Data publishing should have been performed')
     assert.deepEqual(spiedPublishData.nextState, {
-      searchText: 'test2',
-      inError: false,
-    }, '2 - Dispatched plugin state should match data')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: 'label:"test2"' }, '2 - Dispatched plugin requestParameters should match data')
+      searchText: 't1',
+      error: false,
+    }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: `${props.attributes.searchField.jsonPath}:"t1"` },
+      '2 - Query parameter should be correctly built outside error state')
   })
 })

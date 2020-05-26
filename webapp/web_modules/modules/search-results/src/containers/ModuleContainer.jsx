@@ -59,7 +59,8 @@ export class ModuleContainer extends React.Component {
 
   render() {
     const {
-      id: moduleId, moduleConf, fetchingAttributes, attributeModels,
+      id: moduleId, project, moduleConf,
+      fetchingAttributes, attributeModels,
     } = this.props
     if (fetchingAttributes) {
       // wait for attributes to be resolved before resolving and showing module
@@ -70,6 +71,7 @@ export class ModuleContainer extends React.Component {
       /* URL management container: blocks view while it is not initialized to avoid useless requests (no view) */
       <ContextManager
         moduleId={moduleId}
+        project={project}
         configuration={moduleConf}
         attributeModels={attributeModels}
       >

@@ -23,11 +23,6 @@ import { storage } from '@regardsoss/units'
  * @type {*}
  */
 const messages = {
-  'criterion.aggregator.text': 'and',
-
-  'criterion.aggregator.between': '{label} between',
-  'criterion.aggregator.and': 'and',
-
   ...storage.messages.en, // required to format numbers with units
 }
 

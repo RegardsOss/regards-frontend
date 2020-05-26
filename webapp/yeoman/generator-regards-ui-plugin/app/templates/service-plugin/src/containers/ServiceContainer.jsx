@@ -18,6 +18,7 @@
  **/
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
+import { TargetEntitiesResolver } from '@regardsoss/plugins-api'
 
 /**
  * Main <%= name %> plugin container
@@ -45,7 +46,7 @@ export class ServiceContainer extends React.Component {
   static mapDispatchToProps(dispatch, { target }) {
     return {
       // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-      getReducePromise: (reducer, initialValue) => target.getReducePromise(dispatch, reducer, initialValue),
+      getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
     }
   }
 
@@ -64,7 +65,7 @@ export class ServiceContainer extends React.Component {
   componentDidMount() {
     // Start fetching and converting entities: append each new entity in array
     // Note: It isn't a good pratice to keep complete entities in memory as it result
-    // in heavy memory load (just demonstrated here)
+    // in heavy memory load (just demonstrated here).
     const { getReducePromise } = this.props
 
     getReducePromise((previouslyRetrieved, entity) => [...previouslyRetrieved, entity], [])
