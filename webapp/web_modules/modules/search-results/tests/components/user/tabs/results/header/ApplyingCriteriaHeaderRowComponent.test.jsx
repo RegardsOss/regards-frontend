@@ -35,6 +35,8 @@ import resultsDump from '../../../../../dumps/results.dump'
 import { datasetEntity } from '../../../../../dumps/entities.dump'
 import { attributes } from '../../../../../dumps/attributes.dump'
 import SearchCriteriaComponent from '../../../../../../src/components/user/tabs/results/header/filter/SearchCriteriaComponent'
+import StaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/StaticParameterCriterionComponent'
+import ReactiveStaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/ReactiveStaticParameterCriterionComponent'
 
 const context = buildTestContext(styles)
 
@@ -108,11 +110,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometries: [],
       entitiesSelections: [],
       searchCriteria: [],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -126,11 +130,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometries: [],
       entitiesSelections: [],
       searchCriteria: [],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -144,11 +150,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometries: [],
       entitiesSelections: [],
       searchCriteria: [],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -162,11 +170,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometries: [],
       entitiesSelections: [entitiesSelection],
       searchCriteria: [],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -180,11 +190,69 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       geometries: [geometrySelection],
       entitiesSelections: [],
       searchCriteria: [],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
+    }
+    const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1)
+    assert.isTrue(showable.props().show)
+  })
+  it('should render visible with one active static parameter', () => {
+    const props = {
+      tagsFiltering: [],
+      facetValues: [],
+      geometries: [],
+      entitiesSelections: [],
+      searchCriteria: [],
+      staticParameters: [{
+        parameters: {
+          q: 'attr1:val1',
+        },
+        requestParameters: {
+          q: 'attr1:val1',
+        },
+        active: true,
+        label: 'myFakeStaticParam1',
+      }],
+      onUnselectTagFilter: () => {},
+      onUnselectFacetValue: () => {},
+      onUnselectGeometry: () => {},
+      onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
+    }
+    const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(showable, 1)
+    assert.isTrue(showable.props().show)
+  })
+  it('should render visible with one reactive static parameter', () => {
+    const props = {
+      tagsFiltering: [],
+      facetValues: [],
+      geometries: [],
+      entitiesSelections: [],
+      searchCriteria: [],
+      staticParameters: [{
+        parameters: {
+          q: 'attr2:val2',
+        },
+        requestParameters: {},
+        active: false,
+        label: 'myFakeStaticParam2',
+      }],
+      onUnselectTagFilter: () => {},
+      onUnselectFacetValue: () => {},
+      onUnselectGeometry: () => {},
+      onUnselectEntitiesSelection: () => {},
+      onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -208,11 +276,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
           q: 'azerty',
         },
       }],
+      staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -236,11 +306,29 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
           q: 'azerty',
         },
       }],
+      staticParameters: [{
+        parameters: {
+          q: 'attr1:val1',
+        },
+        requestParameters: {
+          q: 'attr1:val1',
+        },
+        active: true,
+        label: 'myFakeStaticParam1',
+      }, {
+        parameters: {
+          q: 'attr2:val2',
+        },
+        requestParameters: {},
+        active: false,
+        label: 'myFakeStaticParam2',
+      }],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
+      onToggleStaticParameter: () => {},
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -301,5 +389,19 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
     testSuiteHelpers.assertWrapperProperties(searchCriteriaComponent, {
       onUnselectSearchCriteria: props.onUnselectSearchCriteria,
     }, 'Search criteria properties should be correctly reported')
+
+    const staticParameterCriterionComponent = enzymeWrapper.find(StaticParameterCriterionComponent)
+    assert.lengthOf(staticParameterCriterionComponent, 1, 'There should be search criteria displayer')
+    testSuiteHelpers.assertWrapperProperties(staticParameterCriterionComponent, {
+      onUnselectStaticParameter: props.onToggleStaticParameter,
+      staticParameter: props.staticParameters[0],
+    }, 'Static Parameter Criterion properties should be correctly reported')
+
+    const reactiveStaticParameterCriterionComponent = enzymeWrapper.find(ReactiveStaticParameterCriterionComponent)
+    assert.lengthOf(reactiveStaticParameterCriterionComponent, 1, 'There should be search criteria displayer')
+    testSuiteHelpers.assertWrapperProperties(reactiveStaticParameterCriterionComponent, {
+      onSelectStaticParameter: props.onToggleStaticParameter,
+      staticParameter: props.staticParameters[1],
+    }, 'Reactive Static Parameter Criterion properties should be correctly reported')
   })
 })

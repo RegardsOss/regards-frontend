@@ -155,7 +155,7 @@ export class SearchPaneContainer extends React.Component {
     this.onStateChange({
       groups: SearchPaneContainer.packGroupModels(groups, criteria.searchCriteria), // when mounting, restore values from applying criteria
       rootContextCriteria: UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
-        omit(criteria, ['searchCriteria', 'requestFacets'])),
+        omit(criteria, ['searchCriteria', 'requestFacets', 'staticParameters'])),
     })
   }
 
@@ -169,7 +169,7 @@ export class SearchPaneContainer extends React.Component {
     // update root context criteria when it changes
     this.onStateChange({
       rootContextCriteria: UIDomain.ResultsContextHelper.getCriteriaMapAsArray(
-        omit(criteria, ['searchCriteria', 'requestFacets'])),
+        omit(criteria, ['searchCriteria', 'requestFacets', 'staticParameters'])),
     })
   }
 

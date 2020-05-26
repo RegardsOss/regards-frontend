@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
@@ -148,13 +149,47 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
     })
   }
 
+  /**
+   * User callback: static parameter toggle
+   */
+  onToggleStaticParameter = (selectedStaticParameter) => {
+    const {
+      moduleId, updateResultsContext, tabType, resultsContext,
+    } = this.props
+    const { tab: { criteria: { staticParameters } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
+    updateResultsContext(moduleId, { // update results context by diff
+      tabs: {
+        [tabType]: {
+          criteria: {
+            staticParameters: map(staticParameters, (staticParameter) => {
+              let result
+              if (staticParameter === selectedStaticParameter) {
+                const newActive = !staticParameter.active
+                result = {
+                  ...staticParameter,
+                  active: newActive,
+                  requestParameters: newActive ? staticParameter.parameters : {},
+                }
+              } else {
+                result = staticParameter
+              }
+              return result
+            }),
+          },
+        },
+      },
+    })
+  }
+
+
   render() {
     const { resultsContext, tabType } = this.props
     const {
       tab: {
         criteria: {
           tagsFiltering, appliedFacets, geometry,
-          entitiesSelection, searchCriteria,
+          entitiesSelection, searchCriteria, staticParameters,
         },
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -165,11 +200,13 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
         geometries={geometry}
         entitiesSelections={entitiesSelection}
         searchCriteria={searchCriteria}
+        staticParameters={staticParameters}
         onUnselectTagFilter={this.onUnselectTagFilter}
         onUnselectFacetValue={this.onUnselectFacetValue}
         onUnselectGeometry={this.onUnselectGeometry}
         onUnselectEntitiesSelection={this.onUnselectEntitiesSelection}
         onUnselectSearchCriteria={this.onUnselectSearchCriteria}
+        onToggleStaticParameter={this.onToggleStaticParameter}
       />)
   }
 }

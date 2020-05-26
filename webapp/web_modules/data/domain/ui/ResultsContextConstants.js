@@ -96,6 +96,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
         searchCriteria: [],
         appliedFacets: [],
@@ -127,6 +128,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
         searchCriteria: [],
         appliedFacets: [],
