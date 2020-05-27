@@ -46,19 +46,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
             /node_modules/,
             /dist/,
             /staticConfiguration(\.dev)?\.js$/,
-            /\/mizar\//,
-            /rconfig.js$/,
-            /requirejs\//,
-            /path\//,
-            /underscore\//,
-            /jquery\//,
-            /jquery-ui-dist\//,
-            /string\//,
-            /file-saver\//,
-            /jszip\//,
-            /xmltojson\//,
-            /jsvotable\//,
-            /jscsv\//,
           ],
           use: [
             'thread-loader',
@@ -67,47 +54,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
             // the cache is different depending of the value of NODE_ENV
             'babel-loader?cacheDirectory',
           ],
-        },
-        // Special for Mizar
-        {
-          test: /\/mizar\//,
-          loader: 'file-loader',
-          options: {
-            regExp: /\/mizar\/(.+)$/,
-            name: '[1]',
-            outputPath: 'mizar/',
-          },
-        },
-        {
-          test: [
-            /requirejs\//,
-            /path\//,
-            /underscore\//,
-            /jquery\//,
-            /jquery-ui-dist\//,
-            /string\//,
-            /file-saver\//,
-            /jszip\//,
-            /xmltojson\//,
-            /wms-capabilities\//,
-            /moment\/min\//,
-            /jsvotable\//,
-            /jscsv\//,
-          ],
-          loader: 'file-loader',
-          options: {
-            regExp: /\/node_modules\/(.+)$/,
-            name: '[1]',
-            outputPath: 'mizar/node_modules/',
-          },
-        },
-        {
-          test: /\/rconfig.js$/,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'mizar/src/',
-          },
         },
         { // @regardsoss-modules icon handler
           test: /default-icon\.svg$/,
@@ -173,6 +119,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.ProvidePlugin({
         React: 'react',
         PropTypes: 'prop-types',
+        Jquery: 'jquery',
+        'jquery-ui': 'jquery-ui-dist/jquery-ui.js'
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),

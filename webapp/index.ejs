@@ -121,6 +121,16 @@
         </div>
     </div>
 </div>
+<script
+type="text/javascript"
+src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment-with-locales.min.js"
+></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.x-git.min.js"></script>
+<script
+src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+crossorigin="anonymous"
+></script>
 <script src="/conf/staticConfiguration.js?<%= webpack.hash %>"></script>
 <!-- core.bundle.js is a webpack DLL containing dependencies -->
 <script src="/core.bundle.js?<%= webpack.hash %>"></script>
@@ -130,5 +140,4 @@
 <% } %>
 <!-- bundle.js is the webpack compiled javascript file, append automatically by HtmlWebpackPlugin -->
 </body>
-<script type="text/javascript" data-main="/mizar/src/rconfig.js" src="/mizar/node_modules/requirejs/require.js"></script>
 </html>
