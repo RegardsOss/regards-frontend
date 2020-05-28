@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/adapters",
-  "version": "1.2.0",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Provides components adapters from library to regards",
