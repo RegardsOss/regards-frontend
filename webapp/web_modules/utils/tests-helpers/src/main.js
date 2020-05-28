@@ -18,7 +18,7 @@
 **/
 
 export { default as defaultFluxStandardError } from './DefaultFluxStandardError'
-export { default as IntlStub } from './IntlStub'
+export { getLocalizedIntlStub, IntlStub } from './IntlStub'
 export { default as muiThemeStub } from './MuiThemeStub'
 export { default as buildTestContext } from './TestContextStub'
 export { default as testSuiteHelpers } from './TestSuiteHelpers'

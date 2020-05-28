@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/display-control",
-  -SNAPSHOT",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "",

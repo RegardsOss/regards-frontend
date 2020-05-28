@@ -23,7 +23,7 @@ import MessagesEN from '../../src/i18n/messages.en.i18n'
 import MessagesFR from '../../src/i18n/messages.fr.i18n'
 
 /**
- * Tests for i18n messages of search-form module
+ * Tests for i18n messages of description module
  * @author Sébastien binda
  */
 describe('[Description] Testing i18n', () => {

@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UI_PLUGIN_INFO_TYPES } from '@regardsoss/domain/access'
-import UIPluginInfoServiceContent from './UIPluginInfoServiceContent'
-import UIPluginInfoCriterionContent from './UIPluginInfoCriterionContent'
+import { UICriterionConfigurationContent } from './UICriterionConfigurationContent'
+import { UIServiceConfigurationContent } from './UIServiceConfigurationContent'
 
 /**
  * Plugin information supplied by the plugin himself
@@ -35,5 +35,5 @@ export const UIPluginInfoContent = PropTypes.shape({
   url: PropTypes.string,
   type: PropTypes.oneOf(UI_PLUGIN_INFO_TYPES),
   // Specific configuration properties for the given plugin
-  conf: PropTypes.oneOfType([UIPluginInfoServiceContent, UIPluginInfoCriterionContent]).isRequired,
+  conf: PropTypes.oneOfType([UICriterionConfigurationContent, UIServiceConfigurationContent]).isRequired,
 })

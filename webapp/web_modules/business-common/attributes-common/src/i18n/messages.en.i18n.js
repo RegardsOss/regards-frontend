@@ -26,8 +26,7 @@ const messages = {
   ...Locales.en, // form messages
   'attribute.thumbnail.alt': 'No thumbnail',
   'attribute.thumbnail.action.close': 'Close',
-  'attribute.render.label': '{label} ({path})',
-  'attribute.render.path.join.string': '.',
+  'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Add one',
   'attributes.configuration.add.many.items.label': 'Add many',

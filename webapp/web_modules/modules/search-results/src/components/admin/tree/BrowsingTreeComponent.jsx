@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
+import { themeContextType } from '@regardsoss/theme'
 import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
 import { FormSection } from '../../../shapes/form/FormSections'
 import { FORM_SECTIONS_ENUM } from '../../../domain/form/FormSectionsEnum'
@@ -32,6 +33,11 @@ class BrowsingTreeComponent extends React.Component {
     navigationSections: PropTypes.arrayOf(FormSection).isRequired,
     // browse to page callback (section, page) => ()
     onBrowseToPage: PropTypes.func.isRequired,
+  }
+
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /** Static reference to tree columns, as they are unused by this component */
@@ -53,7 +59,8 @@ class BrowsingTreeComponent extends React.Component {
     // 1 - specific cases: single section pages
     if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN
       || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS
-      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS) {
+      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS
+      || navigationSection.type === FORM_SECTIONS_ENUM.SEARCH) {
       // build section row using page builder
       return this.buildPageRow(navigationSection, navigationSection.pages[0])
     }
@@ -99,6 +106,7 @@ class BrowsingTreeComponent extends React.Component {
 
   render() {
     const { navigationSections } = this.props
+    const { moduleTheme: { configuration: { tree: { table } } } } = this.context
     return (
       <TreeTableComponent
         model={navigationSections}
@@ -108,6 +116,7 @@ class BrowsingTreeComponent extends React.Component {
         onCellClick={this.onCellClicked}
         stripeLevelColors={false}
         displayTableRowBorder={false}
+        style={table}
         hideHeader
       />
     )

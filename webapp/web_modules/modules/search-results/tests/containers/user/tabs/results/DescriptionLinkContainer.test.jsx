@@ -30,7 +30,7 @@ const context = buildTestContext()
  * Test DescriptionLinkContainer
  * @author Raphaël Mechali
  */
-describe('[Entities Common] Testing DescriptionLinkContainer', () => {
+describe('[SEARCH RESULTS] Testing DescriptionLinkContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

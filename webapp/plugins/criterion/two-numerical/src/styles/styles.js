@@ -23,34 +23,7 @@
  * @author Raphaël Mechali
  */
 const pluginStyles = theme => ({
-  rootStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexWrap: 'wrap',
-  },
-  labelSpanStyle: {
-    margin: '0px 10px',
-  },
-  textFieldStyle: {
-    top: -13,
-    maxWidth: 180,
-    margin: '0px 10px',
-    minHeight: theme.criterion.minHeight,
-  },
-  comparatorButtonStyle: {
-    height: theme.button.iconButtonSize,
-    width: theme.button.iconButtonSize,
-    minWidth: 'initial',
-  },
-  comparatorMenuStyle: {
-    display: 'none',
-  },
-  comparatorMenuItemStyle: {
-    display: 'flex',
-    textTransform: 'uppercase',
-    justifyContent: 'center',
-  },
+  // no specific styles
 })
 
 export default pluginStyles

@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
 import { CatalogDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import StringCriterionComponent from '../components/StringCriterionComponent'
 import { SEARCH_MODES, SEARCH_MODES_ENUM } from '../domain/SearchMode'
 
@@ -39,47 +37,25 @@ export class StringCriterionContainer extends React.Component {
     searchMode: SEARCH_MODES_ENUM.CONTAINS,
   }
 
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store, defaults to a static JS objects (avoids constant re-render issues)
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || StringCriterionContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       searchField: AttributeModelWithBounds.isRequired,
     }).isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
       searchText: PropTypes.string,
       searchMode: PropTypes.oneOf(SEARCH_MODES).isRequired,
-    }).isRequired,
-    // From mapDispatchToProps...
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
+  }
+
+  /** Using default props to ensure a default plugin state */
+  static defaultProps = {
+    state: StringCriterionContainer.DEFAULT_STATE,
   }
 
   /**
@@ -113,16 +89,6 @@ export class StringCriterionContainer extends React.Component {
   }
 
   /**
-   * Callback: user selected contains mode
-   */
-  onSelectContainsMode = () => this.onSelectMode(SEARCH_MODES_ENUM.CONTAINS)
-
-  /**
-   * Callback: user selected strict equal mode
-   */
-  onSelectStrictEqualMode = () => this.onSelectMode(SEARCH_MODES_ENUM.EQUALS)
-
-  /**
    * Inner callback: new mode selected. Updates state and query
    * @param {string} searchMode selected, from SEARCH_MODES_ENUM
    */
@@ -147,19 +113,17 @@ export class StringCriterionContainer extends React.Component {
   }
 
   render() {
-    const { state: { searchText, searchMode }, attributes: { searchField } } = this.props
+    const { label, state: { searchText, searchMode }, attributes: { searchField } } = this.props
     return (
       <StringCriterionComponent
+        label={label}
         searchAttribute={searchField}
         searchText={searchText}
         searchMode={searchMode}
-        onSelectContainsMode={this.onSelectContainsMode}
-        onSelectStrictEqualMode={this.onSelectStrictEqualMode}
+        onSelectMode={this.onSelectMode}
         onTextInput={this.onTextInput}
       />)
   }
 }
 
-export default connect(
-  StringCriterionContainer.mapStateToProps,
-  StringCriterionContainer.mapDispatchToProps)(StringCriterionContainer)
+export default StringCriterionContainer

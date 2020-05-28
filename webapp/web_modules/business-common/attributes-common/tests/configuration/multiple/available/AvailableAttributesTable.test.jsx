@@ -20,10 +20,11 @@ import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableHeaderTextField, InfiniteTableContainer } from '@regardsoss/components'
+import { StringComparison } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AvailableAttributesTable from '../../../../src/configuration/multiple/available/AvailableAttributesTable'
 import styles from '../../../../src/styles'
-import { attributeModelsDictionnary, attributeModelsArray } from '../../../dumps/AttributeModels.dump'
+import { attributeModelsDictionary, attributeModelsArray } from '../../../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -61,7 +62,9 @@ describe('[Attributes Common] Testing AvailableAttributesTable', () => {
     enzymeWrapper.update()
     state = enzymeWrapper.state()
     assert.equal(state.filterText, 'attr', 'Filter text should be updated in state')
-    assert.deepEqual(state.attributeModels, values(attributeModelsDictionnary), 'Only custom attributes should be retained for "attr" label')
+    assert.deepEqual(state.attributeModels,
+      values(attributeModelsDictionary).sort((a1, a2) => StringComparison.compare(a1.content.jsonPath, a2.content.jsonPath)),
+      'Only custom attributes should be retained for "attr" label')
     text = enzymeWrapper.find(TableHeaderTextField)
     assert.equal(text.props().value, 'attr', 'Filter text value should be updated')
     table = enzymeWrapper.find(InfiniteTableContainer)

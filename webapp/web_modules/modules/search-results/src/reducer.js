@@ -24,6 +24,9 @@ import { dataObjectAttributesReducer } from './clients/DataObjectAttributesClien
 import { mainTableReducer, tagTableReducer } from './clients/TableClient'
 import { mainPluginServicesReducer, tagPluginServicesReducer } from './clients/PluginServiceClient'
 import { mainRunPluginServiceReducer, tagRunPluginServiceReducer } from './clients/RunPluginServiceClient'
+import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
+import { uiPluginMetaPartitionReducer } from './clients/UIPluginMetaPartitionClient'
+
 
 /**
  * Reducers for search-results module
@@ -43,6 +46,9 @@ const searchResultsReducers = {
   tagPluginServices: tagPluginServicesReducer,
   mainRunPluginService: mainRunPluginServiceReducer,
   tagRunPluginService: tagRunPluginServiceReducer,
+  // plugins (for meta)
+  pluginsDefinitions: uiPluginDefinitionReducer,
+  pluginsMetaPartitions: uiPluginMetaPartitionReducer,
 }
 
 export default searchResultsReducers

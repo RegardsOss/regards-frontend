@@ -41,77 +41,103 @@ describe('[Two numerical criteria] Testing SingleAttributeContainer', () => {
   })
   it('should render self and subcomponents and publish state on updates', () => {
     const spiedPublishStateData = {
-      count: 0,
       state: null,
       requestParameters: null,
     }
     const props = {
-      // parent callbacks (required)
-      pluginInstanceId: 'any',
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchField: {
         ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -25.3, 455555555543435421321354.2)),
-        name: 'myAttribute',
-        jsonPath: 'somewhere.over.the.rainbow',
+          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -100.5, 99.5)),
+        name: 'attr1',
+        jsonPath: 'x.a1',
       },
-      state: {
-        value1: -3.5,
-        value2: 18,
-      },
+      state: SingleAttributeContainer.DEFAULT_STATE,
       publishState: (state, requestParameters) => {
-        spiedPublishStateData.count += 1
         spiedPublishStateData.state = state
         spiedPublishStateData.requestParameters = requestParameters
       },
     }
     const enzymeWrapper = shallow(<SingleAttributeContainer {...props} />, { context })
-    const component = enzymeWrapper.find(SingleAttributeComponent)
+    let component = enzymeWrapper.find(SingleAttributeComponent)
     assert.lengthOf(component, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(component, {
+      label: props.label,
       searchAttribute: props.searchField,
-      value1: props.state.value1,
-      value2: props.state.value2,
-      onChangeValue1: enzymeWrapper.instance().onChangeValue1,
-      onChangeValue2: enzymeWrapper.instance().onChangeValue2,
+      error: props.state.error,
+      min: props.state.min,
+      max: props.state.max,
+      onMinChanged: enzymeWrapper.instance().onMinChanged,
+      onMaxChanged: enzymeWrapper.instance().onMaxChanged,
     }, 'Component properties should be correctly reported')
-    // check updating value1 publihes state and query (query conversion is not tested here)
-    enzymeWrapper.instance().onChangeValue1(-77.15)
-    assert.equal(spiedPublishStateData.count, 1, 'OnChangeValue1: Publish data should have been called 1 time')
-    assert.deepEqual(spiedPublishStateData.state, {
-      value1: -77.15,
-      value2: 18,
-    }, 'OnChangeValue1: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.requestParameters, 'OnChangeValue1: query should have been built')
-    // check updating value2 publihes state and query (query conversion is not tested here)
-    enzymeWrapper.instance().onChangeValue2(777.777)
-    assert.equal(spiedPublishStateData.count, 2, 'onChangeValue2: Publish data should have been called 2 times')
-    assert.deepEqual(spiedPublishStateData.state, {
-      value1: -3.5,
-      value2: 777.777,
-    }, 'OnChangeValue2: next state should be correctly computed from the props state')
-    assert.isDefined(spiedPublishStateData.requestParameters, 'onChangeValue2: query should have been built')
-  })
-  it('should export correctly state to open search query', () => {
-    // 1 - Build component to get instance
-    const attribute = {
-      ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE),
-      jsonPath: 'somewhere.over.the.rainbow',
-    }
-    // 2 - test URL computing on instance
-    // 2.1 - full range
-    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value1: -0.569, value2: 0.32 }, attribute),
-      { q: 'somewhere.over.the.rainbow:[\\-0.569 TO 0.32]' }, 'Full range should be correctly exported')
-    // 2.2 - lower bound range
-    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value1: 1.5 }, attribute),
-      { q: 'somewhere.over.the.rainbow:[1.5 TO *]' }, 'Lower bound range should be correctly exported')
-    // 2.3 - upper bound range
-    assert.deepEqual(SingleAttributeContainer.convertToRequestParameters({ value2: -2.3 }, attribute),
-      { q: 'somewhere.over.the.rainbow:[* TO \\-2.3]' }, 'Upper bound range should be correctly exported')
-    // 2.4 -not exportable (no value)
-    assert.isNotOk(SingleAttributeContainer.convertToRequestParameters({}, attribute).q,
-      'Range query should not be exported when there is no value (full infinite range)')
-    // 2.4 -not exportable (no attribute path)
-    assert.isNotOk(SingleAttributeContainer.convertToRequestParameters({ value1: -0.569, value2: 0.32 }, { ...attribute, jsonPath: null }).q,
-      'Range query should not be exported when there is attribute path')
+    // update state and check that
+    // - query is updated / ignored when in error
+    // - component receives updated mutable values
+    const testUpdates = [{
+      label: 'Set max value',
+      updateMethod: () => enzymeWrapper.instance().onMaxChanged('55.5'),
+      expectedQuery: { q: 'x.a1:[* TO 55.5]' },
+      expectedState: { error: false, min: '', max: '55.5' },
+    }, {
+      label: 'Set min value',
+      updateMethod: () => enzymeWrapper.instance().onMinChanged('-1.56'),
+      expectedQuery: { q: 'x.a1:[\\-1.56 TO 55.5]' },
+      expectedState: { error: false, min: '-1.56', max: '55.5' },
+    }, {
+      label: 'Set max value (error: empty range)',
+      updateMethod: () => enzymeWrapper.instance().onMaxChanged('-2'),
+      expectedQuery: { },
+      expectedState: { error: true, min: '-1.56', max: '-2' },
+    }, {
+      label: 'Set min value (OK)',
+      updateMethod: () => enzymeWrapper.instance().onMinChanged('-150'),
+      expectedQuery: { q: 'x.a1:[\\-150 TO \\-2]' },
+      expectedState: { error: false, min: '-150', max: '-2' },
+    }, {
+      label: 'Set max value (error: range lesser than min bound)',
+      updateMethod: () => enzymeWrapper.instance().onMaxChanged('-101'),
+      expectedQuery: { },
+      expectedState: { error: true, min: '-150', max: '-101' },
+    }, {
+      label: 'Set max value (OK: overlapping)',
+      updateMethod: () => enzymeWrapper.instance().onMaxChanged('150.5'),
+      expectedQuery: { q: 'x.a1:[\\-150 TO 150.5]' },
+      expectedState: { error: false, min: '-150', max: '150.5' },
+    }, {
+      label: 'Set min value (error: range greater than max bound)',
+      updateMethod: () => enzymeWrapper.instance().onMinChanged('101.25645678'),
+      expectedQuery: { },
+      expectedState: { error: true, min: '101.25645678', max: '150.5' },
+    }, {
+      label: 'Set min value (OK: overlapping)',
+      updateMethod: () => enzymeWrapper.instance().onMinChanged('2'),
+      expectedQuery: { q: 'x.a1:[2 TO 150.5]' },
+      expectedState: { error: false, min: '2', max: '150.5' },
+    }, {
+      label: 'Unset max value',
+      updateMethod: () => enzymeWrapper.instance().onMaxChanged(''),
+      expectedQuery: { q: 'x.a1:[2 TO *]' },
+      expectedState: { error: false, min: '2', max: '' },
+    }, {
+      label: 'Unset min value',
+      updateMethod: () => enzymeWrapper.instance().onMinChanged(''),
+      expectedQuery: { },
+      expectedState: { error: false, min: '', max: '' },
+    }]
+    testUpdates.forEach(({
+      label, updateMethod, expectedQuery, expectedState,
+    }, caseIndex) => {
+      updateMethod()
+      // check published state
+      assert.deepEqual(spiedPublishStateData.state, expectedState, `#${caseIndex} ${label} - state should be correctly updated`)
+      // check published query
+      assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery,
+        `#${caseIndex} ${label} - query should be correctly computed`)
+      // mute state through props and check it is correctly reported
+      enzymeWrapper.setProps({ ...props, state: spiedPublishStateData.state })
+      component = enzymeWrapper.find(SingleAttributeComponent)
+      testSuiteHelpers.assertWrapperProperties(component, expectedState,
+        `#${caseIndex} ${label} - mutable properties should be correctly reported`)
+    })
   })
 })

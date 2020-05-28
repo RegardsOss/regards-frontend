@@ -1,36 +1,1591 @@
 <?xml version="1.0"?>
 <analysis xmlns="https://jeremylong.github.io/DependencyCheck/dependency-check.1.3.xsd">
   <scanInfo>
-    <engineVersion>2.1.2</engineVersion>
-    <dataSource><name>Retire.js github js repo</name><timestamp>2020-03-25T14:09:33.156+0000</timestamp></dataSource>
-    <dataSource><name>Retire.js github node repo</name><timestamp>2020-03-25T14:09:33.156+0000</timestamp></dataSource>
+    <engineVersion>2.2.1</engineVersion>
+    <dataSource><name>Retire.js github js repo</name><timestamp>2020-05-26T14:09:02.813+0000</timestamp></dataSource>
+    <dataSource><name>Retire.js github node repo</name><timestamp>2020-05-26T14:09:02.813+0000</timestamp></dataSource>
    </scanInfo>
    <projectInfo>
    	<name>.</name>
-    <reportDate>2020-03-25T14:09:33.156+0000</reportDate>
+    <reportDate>2020-05-26T14:09:02.813+0000</reportDate>
     <credits>retire.js</credits>
    </projectInfo>
    <dependencies>
     <dependency>
-      <fileName>package.json</fileName>
-      <filePath>node_modules/hoek/package.json</filePath>
-      <md5>3bb9cac8a6981fce5085ca69d9ccbe40</md5>
-      <sha1>1be0993354afa7881a07a9ba1ea4ead9cdbc3bc0</sha1>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/examples/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
       <evidenceCollected>
         <evidence type="product" confidence="HIGH">
           <source>file</source>
           <name>name</name>
-          <value>hoek</value>
+          <value>jquery</value>
         </evidence>
         <evidence type="version" confidence="HIGH">
           <source>file</source>
           <name>version</name>
-          <value>0.9.1</value>
+          <value>1.11.1</value>
         </evidence>
       </evidenceCollected>
       <identifiers>
         <identifier type="npm" confidence="HIGH">
-           <name>(hoek:0.9.1)</name>
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/examples/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/examples/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-autocomplete</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-autocomplete:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/build/generated/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/build/generated/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>MizarWidget.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/build/generated/MizarWidget.min.js</filePath>
+      <md5>02606500d03a36689df3bcb66b477a51</md5>
+      <sha1>9038a0416e1a5e22c5300a89d83518cb101ad112</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-autocomplete</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-autocomplete:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>bower.json</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/bower.json</filePath>
+      <md5>6c0f112e36fb2be357a1b63e875d46cf</md5>
+      <sha1>22e284f3cbb3186a1216cf0ef8e818ee289d8e25</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-ui.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/jquery-ui.js</filePath>
+      <md5>04a4db2983450a2970c459ba87b4210a</md5>
+      <sha1>3efaf11e60ea8c541b6dc26f0ef09f195732587a</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-ui.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/jquery-ui.js</filePath>
+      <md5>04a4db2983450a2970c459ba87b4210a</md5>
+      <sha1>3efaf11e60ea8c541b6dc26f0ef09f195732587a</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-autocomplete</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-autocomplete:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-ui.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/jquery-ui.js</filePath>
+      <md5>04a4db2983450a2970c459ba87b4210a</md5>
+      <sha1>3efaf11e60ea8c541b6dc26f0ef09f195732587a</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-tooltip</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-tooltip:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-ui.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/jquery-ui.min.js</filePath>
+      <md5>d935d506ae9c8dd9e0f96706fbb91f65</md5>
+      <sha1>7f650ee30c6a4d3eea04032039b20ff72997559b</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-ui.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/jquery-ui.min.js</filePath>
+      <md5>d935d506ae9c8dd9e0f96706fbb91f65</md5>
+      <sha1>7f650ee30c6a4d3eea04032039b20ff72997559b</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-autocomplete</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-autocomplete:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery-datetimepicker/jquery.js</filePath>
+      <md5>628072e7212db1e8cdacb22b21752cda</md5>
+      <sha1>0511abe9863c2ea7084efa7e24d1d86c5b3974f1</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.10.2</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.10.2)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery/dist/jquery.js</filePath>
+      <md5>3d93b072d14f2bd1ede58f4847f537fd</md5>
+      <sha1>73e5d044bd153dd912930e8be433059454ce19cd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery/dist/jquery.min.js</filePath>
+      <md5>d4a20d75db01a33e2d65e303ce5c34f3</md5>
+      <sha1>b14a228c3632ebfe3d20e5ea830ceea313523353</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>dialog.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery-ui/ui/dialog.js</filePath>
+      <md5>0c28855827aa7285428739f9399422a8</md5>
+      <sha1>567a3fd1659cba35c92ef13641ca7c40874c6edb</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.11.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-1.9.0.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery.ui.timepicker/include/jquery-1.9.0.min.js</filePath>
+      <md5>0652da382b6fceb033dfe2b6c06d4d11</md5>
+      <sha1>002da8cbe90fcf32fbdebb72386125079e3805ee</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.9.0</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.9.0)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-1.2.6.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery.ui.timepicker/legacy_1.2.6/jquery-1.2.6.js</filePath>
+      <md5>8df6b73af2f90ea849a1e3a505e489c8</md5>
+      <sha1>e1b3566027d4023cd222a3056997963758d4003b</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.2.6</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.2.6)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2011-4969</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>XSS with location.hash</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2011-4969</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2011-4969</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/9521</url>
+              <name>https://bugs.jquery.com/ticket/9521</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.6.3</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2012-6708</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Selector interpreted as HTML</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://bugs.jquery.com/ticket/11290</url>
+              <name>http://bugs.jquery.com/ticket/11290</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2012-6708</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2012-6708</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.9.0b1</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.ui.1.6.all.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/jquery.ui.timepicker/legacy_1.2.6/jquery.ui.1.6.all.js</filePath>
+      <md5>a20035e80dfac5e29ce91444691c6eec</md5>
+      <sha1>9f62a9744f7fce590e9d65bb6b0209b7de9dad61</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery-ui-dialog</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.6</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery-ui-dialog:1.6)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2016-7103</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>high</severity>
+          <description>XSS Vulnerability on closeText option</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/api.jqueryui.com/issues/281</url>
+              <name>https://github.com/jquery/api.jqueryui.com/issues/281</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2016-7103</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://snyk.io/vuln/npm:jquery-ui:20160721</url>
+              <name>https://snyk.io/vuln/npm:jquery-ui:20160721</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/jquery.js</filePath>
+      <md5>11c05eb286ed576526bf4543760785b9</md5>
+      <sha1>7faa15a054093f3b5d674e63b6567c835a6fa217</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>3.4.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:3.4.1)</name>
         </identifier>
       </identifiers>
       <vulnerabilities>
@@ -43,17 +1598,1490 @@
           <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
           <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
           <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
-          <severity>low</severity>
-          <description>Prototype pollution attack</description>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
           <references>
             <reference>
               <source>Retire.js</source>
-              <url>https://hackerone.com/reports/310439</url>
-              <name>https://hackerone.com/reports/310439</name>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
             </reference>
           </references>
           <vulnerableSoftware>
-              <software> &lt; 4.2.1</software>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/jquery.min.js</filePath>
+      <md5>220afd743d9e9643852e31a135a9f3ae</md5>
+      <sha1>88523924351bac0b5d560fe0c5781e2556e7693d</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>3.4.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:3.4.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.slim.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/jquery.slim.js</filePath>
+      <md5>1a94b73b4b451a7872de5d76f57024e4</md5>
+      <sha1>fceda01666299b2af23407213a66b1fd908ba6ba</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>3.4.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:3.4.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.slim.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/jquery.slim.min.js</filePath>
+      <md5>d9b11ca4d877c327889805b73bb79edd</md5>
+      <sha1>dd15958a3f0f1f3601461f927c4703a56ed59011</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>3.4.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:3.4.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-1.11.1.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.11.1.js</filePath>
+      <md5>3d93b072d14f2bd1ede58f4847f537fd</md5>
+      <sha1>73e5d044bd153dd912930e8be433059454ce19cd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-1.11.1.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-1.11.1.min.js</filePath>
+      <md5>8101d596b2b8fa35fe3a634ea342d7c3</md5>
+      <sha1>d6c1f41972de07b09bfa63d2e50f9ab41ec372bd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-latest.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-latest.js</filePath>
+      <md5>3d93b072d14f2bd1ede58f4847f537fd</md5>
+      <sha1>73e5d044bd153dd912930e8be433059454ce19cd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery-latest.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery-latest.min.js</filePath>
+      <md5>8101d596b2b8fa35fe3a634ea342d7c3</md5>
+      <sha1>d6c1f41972de07b09bfa63d2e50f9ab41ec372bd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery.js</filePath>
+      <md5>3d93b072d14f2bd1ede58f4847f537fd</md5>
+      <sha1>73e5d044bd153dd912930e8be433059454ce19cd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/dist/cdn/jquery.min.js</filePath>
+      <md5>8101d596b2b8fa35fe3a634ea342d7c3</md5>
+      <sha1>d6c1f41972de07b09bfa63d2e50f9ab41ec372bd</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.11.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.11.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery-ui-dist/external/jquery/jquery.js</filePath>
+      <md5>fb2d334dabf4902825df4fe6c2298b4b</md5>
+      <sha1>433836da7e015f2eb3fc386817de88b78248f6ef</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.12.4</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.12.4)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.12.3 &lt; 3.0.0-beta1</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.12.2 &lt; 2.2.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/node_modules/jquery/src/sizzle/test/jquery.js</filePath>
+      <md5>04881c667961f2d4735fe1881b94c44b</md5>
+      <sha1>b08cf5128a86aea81cc62981679dd1612cad97a1</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>1.9.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:1.9.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.4.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.8.0 &lt; 1.12.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>jquery.min.js</fileName>
+      <filePath>/home/rmechali/workspace/regards/rs-frontend/webapp/dist/prod/MizarWidget/external/Mizar/doc/tpl/static/scripts/prettify/jquery.min.js</filePath>
+      <md5>2edc942c0bd2476be8967a9f788d9e26</md5>
+      <sha1>0be05c714a7e6cf28fe692629ece5b3769901dca</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>2.0.0</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:2.0.0)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>3rd party CORS request may execute</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/issues/2432</url>
+              <name>https://github.com/jquery/jquery/issues/2432</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</url>
+              <name>http://blog.jquery.com/2016/01/08/jquery-2-2-and-1-12-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.12.3 &lt; 3.0.0-beta1</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2015-9251</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>parseHTML() executes scripts in event handlers</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://bugs.jquery.com/ticket/11974</url>
+              <name>https://bugs.jquery.com/ticket/11974</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2015-9251</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>http://research.insecurelabs.org/jquery/test/</url>
+              <name>http://research.insecurelabs.org/jquery/test/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software>&gt;= 1.12.2 &lt; 2.2.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>CVE-2019-11358</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>jQuery before 3.4.0, as used in Drupal, Backdrop CMS, and other products, mishandles jQuery.extend(true, {}, ...) because of Object.prototype pollution</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</url>
+              <name>https://blog.jquery.com/2019/04/10/jquery-3-4-0-released/</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</url>
+              <name>https://nvd.nist.gov/vuln/detail/CVE-2019-11358</name>
+            </reference>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</url>
+              <name>https://github.com/jquery/jquery/commit/753d591aea698e57d6db58c9f722cd0808619b1b</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.4.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
           </vulnerableSoftware>
         </vulnerability>
       </vulnerabilities>
@@ -61,8 +3089,8 @@
     <dependency>
       <fileName>package.json</fileName>
       <filePath>node_modules/hawk/package.json</filePath>
-      <md5>028b74c78417cc54352df30a630bbd29</md5>
-      <sha1>9ca2362fe231d525266037e4cf1ab0eca83bfc7f</sha1>
+      <md5>bc79402774f583d12bf891381a40cdf1</md5>
+      <sha1>9dc2122ddf6baa7a55d93e4a42823e30803a466a</sha1>
       <evidenceCollected>
         <evidence type="product" confidence="HIGH">
           <source>file</source>
@@ -107,9 +3135,103 @@
     </dependency>
     <dependency>
       <fileName>package.json</fileName>
+      <filePath>node_modules/hoek/package.json</filePath>
+      <md5>d9512fb04b9b4d0c0149f6e8d365d0fa</md5>
+      <sha1>a31a17aa80de5e8658e993494074e504db5924d1</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>hoek</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>0.9.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(hoek:0.9.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>low</severity>
+          <description>Prototype pollution attack</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://hackerone.com/reports/310439</url>
+              <name>https://hackerone.com/reports/310439</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 4.2.1</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>package.json</fileName>
+      <filePath>node_modules/jquery/package.json</filePath>
+      <md5>ab0ecd04709c4f1b03403f4411367f68</md5>
+      <sha1>ea5ee9911470fa4134acba4fae24e15285406d04</sha1>
+      <evidenceCollected>
+        <evidence type="product" confidence="HIGH">
+          <source>file</source>
+          <name>name</name>
+          <value>jquery</value>
+        </evidence>
+        <evidence type="version" confidence="HIGH">
+          <source>file</source>
+          <name>version</name>
+          <value>3.4.1</value>
+        </evidence>
+      </evidenceCollected>
+      <identifiers>
+        <identifier type="npm" confidence="HIGH">
+           <name>(jquery:3.4.1)</name>
+        </identifier>
+      </identifiers>
+      <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
+      </vulnerabilities>
+    </dependency>
+    <dependency>
+      <fileName>package.json</fileName>
       <filePath>node_modules/MizarWidget/node_modules/jquery/package.json</filePath>
-      <md5>40fe780f8bdd745e1d4590ebd8df7bdf</md5>
-      <sha1>ced99b6747ee083c5a1bba3d98ec9757b0c417da</sha1>
+      <md5>de80ac76984b2034f697cbbddbba948d</md5>
+      <sha1>0512fa9c00d61039ba25bf2904441939132d9685</sha1>
       <evidenceCollected>
         <evidence type="product" confidence="HIGH">
           <source>file</source>
@@ -128,6 +3250,28 @@
         </identifier>
       </identifiers>
       <vulnerabilities>
+        <vulnerability source="retire">
+          <name>undefined</name>
+          <cvssScore>7.5</cvssScore>
+          <cvssAccessVector>NETWORK</cvssAccessVector>
+          <cvssAccessComplexity>LOW</cvssAccessComplexity>
+          <cvssAuthenticationr>NONE</cvssAuthenticationr>
+          <cvssConfidentialImpact>PARTIAL</cvssConfidentialImpact>
+          <cvssIntegrityImpact>PARTIAL</cvssIntegrityImpact>
+          <cvssAvailabilityImpact>PARTIAL</cvssAvailabilityImpact>
+          <severity>medium</severity>
+          <description>Regex in its jQuery.htmlPrefilter  sometimes may introduce XSS</description>
+          <references>
+            <reference>
+              <source>Retire.js</source>
+              <url>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</url>
+              <name>https://blog.jquery.com/2020/04/10/jquery-3-5-0-released/</name>
+            </reference>
+          </references>
+          <vulnerableSoftware>
+              <software> &lt; 3.5.0</software>
+          </vulnerableSoftware>
+        </vulnerability>
         <vulnerability source="retire">
           <name>CVE-2019-11358</name>
           <cvssScore>7.5</cvssScore>

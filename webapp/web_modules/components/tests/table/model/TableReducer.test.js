@@ -67,7 +67,7 @@ describe('[Component] Test table reducer', () => {
     ), {
       selectionMode: TableSelectionModes.includeSelected,
       toggledElements: { 3: 'elt' },
-    }, 'reducer should add the element to toggled dictionnary')
+    }, 'reducer should add the element to toggled dictionary')
 
     assert.deepEqual(reduce(
       {
@@ -78,6 +78,6 @@ describe('[Component] Test table reducer', () => {
     ), {
       selectionMode: TableSelectionModes.excludeSelected,
       toggledElements: {},
-    }, 'reducer should add the element to toggled dictionnary')
+    }, 'reducer should add the element to toggled dictionary')
   })
 })

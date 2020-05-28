@@ -17,11 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import TextField from 'material-ui/TextField'
-import IconButton from 'material-ui/IconButton'
 import ContainsIcon from 'mdi-material-ui/CodeArray'
 import StrictEqualIcon from 'mdi-material-ui/EqualBox'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { IconElementSelector } from '@regardsoss/components'
 import {
   AttributeModelWithBounds, BOUND_TYPE, formatHintText, formatTooltip,
 } from '@regardsoss/plugins-api'
@@ -33,6 +34,7 @@ import { SEARCH_MODES_ENUM, SEARCH_MODES } from '../domain/SearchMode'
  */
 class StringCriterionComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     // attribute currently searched
     searchAttribute: AttributeModelWithBounds.isRequired,
     // current search text
@@ -41,10 +43,8 @@ class StringCriterionComponent extends React.Component {
     searchMode: PropTypes.oneOf(SEARCH_MODES).isRequired,
     // Callback: user input some text. (event, text) => ()
     onTextInput: PropTypes.func.isRequired,
-    // Callback: user selected contains mode. () => ()
-    onSelectContainsMode: PropTypes.func.isRequired,
-    // Callback: user selected strict equal mode. () => ()
-    onSelectStrictEqualMode: PropTypes.func.isRequired,
+    // Callback: user selected a restriction mode. (mode:string) => ()
+    onSelectMode: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -52,53 +52,54 @@ class StringCriterionComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Graphics definition by mode type */
+  static MODES_DEFINITION = {
+    [SEARCH_MODES_ENUM.CONTAINS]: {
+      IconConstructor: ContainsIcon,
+      labelKey: 'criterion.search.field.contains.selector.label',
+      tooltipKey: 'criterion.search.field.contains.selector.title',
+    },
+    [SEARCH_MODES_ENUM.EQUALS]: {
+      IconConstructor: StrictEqualIcon,
+      labelKey: 'criterion.search.field.equals.selector.label',
+      tooltipKey: 'criterion.search.field.equals.selector.title',
+    },
+  }
+
   render() {
     const {
-      searchText, searchMode, searchAttribute,
-      onTextInput, onSelectContainsMode, onSelectStrictEqualMode,
+      label, searchText, searchMode, searchAttribute,
+      onTextInput, onSelectMode,
     } = this.props
-    const {
-      intl,
-      moduleTheme: {
-        rootStyle, labelSpanStyle, textFieldStyle,
-        selectorButtonStyle, defaultIconStyle, selectedIconStyle,
-      },
-    } = this.context
+    const { intl, muiTheme } = this.context
     return (
-      <div style={rootStyle}>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
         {/* 1. Label */}
-        <span style={labelSpanStyle}>
-          {searchAttribute.label}
-        </span>
-        {/* 2. Input */}
-        <TextField
-          id="search"
-          // Genererate type label as floating text
-          floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
-          title={formatTooltip(intl, searchAttribute)}
-          value={searchText}
-          onChange={onTextInput}
-          style={textFieldStyle}
-        />
-        {/* 3. Contains mode selector */}
-        <IconButton
-          style={selectorButtonStyle}
-          iconStyle={searchMode === SEARCH_MODES_ENUM.CONTAINS ? selectedIconStyle : defaultIconStyle}
-          title={intl.formatMessage({ id: 'criterion.search.field.contains.selector.title' })}
-          onClick={onSelectContainsMode}
-        >
-          <ContainsIcon />
-        </IconButton>
-        {/* 4. Strict equal mode selector */}
-        <IconButton
-          style={selectorButtonStyle}
-          iconStyle={searchMode === SEARCH_MODES_ENUM.EQUALS ? selectedIconStyle : defaultIconStyle}
-          title={intl.formatMessage({ id: 'criterion.search.field.equals.selector.title' })}
-          onClick={onSelectStrictEqualMode}
-        >
-          <StrictEqualIcon />
-        </IconButton>
-      </div>)
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[intl.locale] || searchAttribute.label}
+        </td>
+        {/* 2. Options */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
+            <IconElementSelector
+              value={searchMode}
+              choices={SEARCH_MODES}
+              choiceGraphics={StringCriterionComponent.MODES_DEFINITION}
+              onChange={onSelectMode}
+            />
+          </div>
+        </td>
+        {/* 3. Input */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <TextField
+            hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
+            title={formatTooltip(intl, searchAttribute)}
+            value={searchText}
+            onChange={onTextInput}
+            fullWidth
+          />
+        </td>
+      </tr>)
   }
 }
 export default StringCriterionComponent

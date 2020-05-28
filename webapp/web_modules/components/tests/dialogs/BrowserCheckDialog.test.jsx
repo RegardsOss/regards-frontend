@@ -86,33 +86,33 @@ describe('[Components] Testing BrowserCheckerDialog', () => {
     assert.isNotOk(BrowserCheckerDialog.checkBrowerVersion([2, 2, 0], [2, 2, 0]), 'Required 2.2.0 == Current 2.2.0')
   })
   it('should check correctly browser and version', () => {
-    const dictionnary = {
+    const dictionary = {
       chrome: '1.1.2',
       firefox: '2.0-bvc',
     }
 
     // test browser errors
-    assert.equal(BrowserCheckerDialog.checkBrowser(null, dictionnary),
+    assert.equal(BrowserCheckerDialog.checkBrowser(null, dictionary),
       BrowserCheckerDialog.BROWSER_ERROR_TYPES.UNSUPPORTED, 'Undefined browser should be marked unsupported')
-    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'ie' }, dictionnary),
-      BrowserCheckerDialog.BROWSER_ERROR_TYPES.UNSUPPORTED, 'Browser not found in dictionnary should be marked unsupported')
+    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'ie' }, dictionary),
+      BrowserCheckerDialog.BROWSER_ERROR_TYPES.UNSUPPORTED, 'Browser not found in dictionary should be marked unsupported')
     // test version errors
-    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: null }, dictionnary),
+    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: null }, dictionary),
       BrowserCheckerDialog.BROWSER_ERROR_TYPES.TOO_OLD, 'Browser without version should be marked too old')
-    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: 'a' }, dictionnary),
+    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: 'a' }, dictionary),
       BrowserCheckerDialog.BROWSER_ERROR_TYPES.TOO_OLD, 'Browser with crazy version should be marked too old')
-    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: '1.9' }, dictionnary),
+    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: '1.9' }, dictionary),
       BrowserCheckerDialog.BROWSER_ERROR_TYPES.TOO_OLD, 'Firefox version 1.9 should be marked too old')
-    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.1' }, dictionnary),
+    assert.equal(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.1' }, dictionary),
       BrowserCheckerDialog.BROWSER_ERROR_TYPES.TOO_OLD, 'Chrome version 1.1.1 should be marked too old')
     // test OK browsers (no return value)
-    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '2.0' }, dictionnary),
+    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '2.0' }, dictionary),
       'Chrome version 2.0 should not raise an error')
-    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: '2.0' }, dictionnary),
+    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'firefox', version: '2.0' }, dictionary),
       'Firefox version 2.0 should not raise an error')
-    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.2' }, dictionnary),
+    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.2' }, dictionary),
       'Chrome version 1.1.2 should not raise an error')
-    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.3' }, dictionnary),
+    assert.isNotOk(BrowserCheckerDialog.checkBrowser({ name: 'chrome', version: '1.1.3' }, dictionary),
       'Chrome version 1.1.3 should not raise an error')
   })
 })

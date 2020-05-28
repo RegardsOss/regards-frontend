@@ -45,10 +45,6 @@ export const aNavigationConfiguration = [{ // Home module
     id: 3,
     type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
     visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-  }, {
-    id: 1,
-    type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
   }, { // embedded second section
     id: 1,
     type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,

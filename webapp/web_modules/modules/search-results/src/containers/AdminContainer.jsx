@@ -29,11 +29,12 @@ import { INITIAL_FORM_STATE } from '../domain/form/InitialFormState'
 import { FORM_SECTIONS_ENUM } from '../domain/form/FormSectionsEnum'
 import { FORM_PAGES_ENUM } from '../domain/form/FormPagesEnum'
 import { PAGES_BY_TYPE } from '../domain/form/FormPagesByType'
-import MainFormComponent from '../components/admin/MainFormComponent'
 import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
 import { datasetModelActions, datasetModelSelectors } from '../clients/DatasetModelClient'
 import { dataObjectAttributesActions, dataObjectAttributesSelectors } from '../clients/DataObjectAttributesClient'
 import { dataSetAttributesActions, dataSetAttributesSelectors } from '../clients/DataSetAttributesClient'
+import PluginsMetadataProvider from './admin/plugins/PluginsMetadataProvider'
+import MainFormComponent from '../components/admin/MainFormComponent'
 
 /**
  * Main container to display administration view of the module form.
@@ -128,6 +129,13 @@ export class AdminContainer extends React.Component {
       }, forbidRestrictions ? null : {
         // Restrictions page (contains only main page)
         type: FORM_SECTIONS_ENUM.RESTRICTIONS,
+        pages: [{
+          type: FORM_PAGES_ENUM.MAIN,
+          selected: false,
+        }],
+      }, {
+        // Search configuration
+        type: FORM_SECTIONS_ENUM.SEARCH,
         pages: [{
           type: FORM_PAGES_ENUM.MAIN,
           selected: false,
@@ -282,22 +290,24 @@ export class AdminContainer extends React.Component {
           // wait for form initialization and data loading
           isLoading={!hasLoadedDatasetsAndModels || !hasLoadedInitialAttributes}
         >
-          <MainFormComponent
-            navigationSections={navigationSections}
-            selectedSectionType={selectedSectionType}
-            selectedPageType={selectedPageType}
+          <PluginsMetadataProvider dataAttributeModels={dataAttributeModels}>
+            <MainFormComponent
+              navigationSections={navigationSections}
+              selectedSectionType={selectedSectionType}
+              selectedPageType={selectedPageType}
 
-            currentNamespace={currentNamespace}
-            currentFormValues={get(form, currentNamespace)}
+              currentNamespace={currentNamespace}
+              currentFormValues={get(form, currentNamespace)}
 
-            datasets={datasets}
-            datasetModels={datasetModels}
-            dataAttributeModels={dataAttributeModels}
-            datasetAttributeModels={datasetAttributeModels}
+              datasets={datasets}
+              datasetModels={datasetModels}
+              dataAttributeModels={dataAttributeModels}
+              datasetAttributeModels={datasetAttributeModels}
 
-            changeField={changeField}
-            onBrowseToPage={this.onBrowseToPage}
-          />
+              changeField={changeField}
+              onBrowseToPage={this.onBrowseToPage}
+            />
+          </PluginsMetadataProvider>
         </LoadableContentDisplayDecorator>
       )
     }

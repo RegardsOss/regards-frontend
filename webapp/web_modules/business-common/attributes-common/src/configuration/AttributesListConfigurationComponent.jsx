@@ -29,7 +29,6 @@ import AttributeListTableComponent from './table/AttributeListTableComponent'
 import styles from '../styles'
 import messages from '../i18n'
 import EditItemDialog from './dialog/edit/EditItemDialog'
-import AttributeRender from '../render/AttributeRender'
 import AddManyDialog from './dialog/add/AddManyDialog'
 
 /**
@@ -143,9 +142,7 @@ export class AttributesListConfigurationComponent extends React.Component {
         ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes
         ...values(selectableAttributes), // all server attributes
       ].filter(attributesFilter) // filter on allowed elements only
-        .sort((a1, a2) => StringComparison.compare( // sort on full label
-          AttributeRender.getRenderLabel(a1, this.context.intl),
-          AttributeRender.getRenderLabel(a2, this.context.intl)))
+        .sort(({ content: { jsonPath: j1 } }, { content: { jsonPath: j2 } }) => StringComparison.compare(j1, j2))
 
       // 1.b - Update current configurations when attribute models could be retrieved from server
       const updated = AttributesListConfigurationComponent.filterElementsList(attributesList, newState.attributeModels)

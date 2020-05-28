@@ -108,9 +108,9 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     const resolvedElements = initialState.navigationElements
 
     // check resoluting model, element by element, we expect:
-    // [M5, S0:[M1], M7, M8] (M3, M4, M2 and M6 should be deleted as not present in dynamic modules OR inactive,
-    // S1 and S2 should be deleted as empty)
-    assert.lengthOf(resolvedElements, 4, 'There should be 5 root elements (empty section should have been removed, new modules added)')
+    // [M5, M7, M8] (M3, M4, M2 and M6 should be deleted as not present in dynamic modules OR inactive,
+    // S0, S1 and S2 should be deleted as empty after filtering (or holding only empty sections))
+    assert.lengthOf(resolvedElements, 3, 'There should be 3 root elements (empty section should have been removed, new modules added)')
 
     // M5
     const r0 = resolvedElements[0]
@@ -122,41 +122,25 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     }, 'R0 Module definition should be reported')
     assert.deepEqual(r0.title, props.homeConfiguration.title, 'Home module title should be retrieved from home configuration')
 
-    // S0
-    const r1 = resolvedElements[1]
-    assert.equal(r1.key, 'section.0', 'R1 should be the section 0')
-    assert.deepEqual(r1.title, props.navigationConfiguration[1].title, 'Section configuration should be retrieved from navigation configuration')
-
-    assert.lengthOf(r1.children, 1, 'Children should contain [M1] - (M3 and S1 should be remove)')
-    const r1x0 = r1.children[0]
-    assert.equal(r1x0.key, 'module.1', 'R1_0 should be the module 1')
-    assert.equal(r1x0.type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, 'R1_0 should be a module')
-    assert.deepEqual(r1x0.module, {
-      id: 1,
-      description: 'Form 1',
-      type: modulesManager.VisibleModuleTypes.SEARCH_FORM,
-    }, 'R1_0 Module definition should be reported')
-    assert.deepEqual(r1x0.title, targetModules[0].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
-
     // M7 (new module)
-    const r2 = resolvedElements[2]
-    assert.equal(r2.key, 'module.7', 'R2 should be the module 7, added from dynamic list')
-    assert.deepEqual(r2.module, {
+    const r1 = resolvedElements[1]
+    assert.equal(r1.key, 'module.7', 'R1 should be the module 7, added from dynamic list')
+    assert.deepEqual(r1.module, {
       id: 7,
       description: 'another search results',
       type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
-    }, 'R2 Module definition should be reported')
-    assert.deepEqual(r2.title, targetModules[targetModules.length - 2].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
+    }, 'R1 Module definition should be reported')
+    assert.deepEqual(r1.title, targetModules[targetModules.length - 2].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
 
     // M8 (new module)
-    const r3 = resolvedElements[3]
-    assert.equal(r3.key, 'module.8', 'R3 should be the module 8, added from dynamic list')
-    assert.deepEqual(r3.module, {
+    const r2 = resolvedElements[2]
+    assert.equal(r2.key, 'module.8', 'R3 should be the module 8, added from dynamic list')
+    assert.deepEqual(r2.module, {
       id: 8,
-      description: 'another search form',
-      type: modulesManager.VisibleModuleTypes.SEARCH_FORM,
+      description: 'another search results 2',
+      type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
     }, 'R2 Module definition should be reported')
-    assert.deepEqual(r3.title, targetModules[targetModules.length - 1].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
+    assert.deepEqual(r2.title, targetModules[targetModules.length - 1].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
   })
   it('should hide modules and section based on user role and provided configuration', () => {
     // rigths management:
@@ -175,7 +159,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
         visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
         visibleForRole: 'PUBLIC',
       },
-      { // M2
+      { // M2b
         id: 2,
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
         visibilityMode: VISIBILITY_MODES_ENUM.FOR_ROLE,
@@ -243,7 +227,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
       content: {
         id,
         active: true,
-        type: 'IDK',
+        type: `type.${id}`,
         container: 'dyn1',
         description: `description-${id}`,
         page: {
@@ -265,9 +249,9 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     // 1 - test for non logged user: should have only PUBLIC elements
     const enzymeWrapper = shallow(<NavigationModelResolutionContainer {...props} />)
     let { navigationElements } = enzymeWrapper.state()
-    assert.lengthOf(navigationElements, 1, '[NOT LOGGED] Only first module should be allowed for non logged user')
+    assert.lengthOf(navigationElements, 1, '[NOT LOGGED] Only public module should be allowed')
     assert.equal(navigationElements[0].type, NAVIGATION_ITEM_TYPES_ENUM.MODULE, '[NOT LOGGED] First element should be of type module')
-    assert.equal(navigationElements[0].module.id, 1, '[NOT LOGGED] First element should be the module M1')
+    assert.equal(navigationElements[0].module.id, 1, '[NOT LOGGED] First element should be the module M2a')
 
     // 2 - test for non logged user: should have only PUBLIC elements
     enzymeWrapper.setProps({ ...props, currentRole: 'PUBLIC' })

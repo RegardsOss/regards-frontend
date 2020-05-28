@@ -21,7 +21,7 @@
  */
 import { combineReducers } from 'redux'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
-import { pluginStateReducer } from './clients/PluginStateClient'
+import { pluginDefPartitionsReducer } from './clients/PluginsDefinitionPartitionsClient'
 import LoadPluginReducer from './model/LoadPluginReducer'
 import initializePluginReducer from './model/InitializePluginReducer'
 
@@ -31,7 +31,7 @@ import initializePluginReducer from './model/InitializePluginReducer'
  */
 export default combineReducers({
   loadedPlugins: LoadPluginReducer,
-  plugins: uiPluginDefinitionReducers,
+  definitionsLoading: uiPluginDefinitionReducers,
+  definitionsPartitions: pluginDefPartitionsReducer,
   initializedPlugins: initializePluginReducer,
-  searchCriteria: pluginStateReducer,
 })

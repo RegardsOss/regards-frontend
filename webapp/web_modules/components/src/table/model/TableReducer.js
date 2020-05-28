@@ -22,7 +22,7 @@ import TableActions from './TableActions'
 
 export const DEFAULT_STATE = {
   selectionMode: TableSelectionModes.includeSelected,
-  toggledElements: {}, // dictionnary by level index
+  toggledElements: {}, // dictionary by level index
 }
 
 class TableReducer {
@@ -41,9 +41,9 @@ class TableReducer {
         // switch element state: if already toggled, untoggle it, toggle it otherwise
         const toggledElements = { ...state.toggledElements }
         if (toggledElements[action.rowIndex]) {
-          delete toggledElements[action.rowIndex] // remove from dictionnary
+          delete toggledElements[action.rowIndex] // remove from dictionary
         } else {
-          toggledElements[action.rowIndex] = action.element // add into dictionnary
+          toggledElements[action.rowIndex] = action.element // add into dictionary
         }
         return {
           selectionMode: state.selectionMode,

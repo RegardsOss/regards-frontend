@@ -23,7 +23,7 @@ import { PositionedDialog } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import AddManyDialog from '../../../../src/configuration/dialog/add/AddManyDialog'
 import styles from '../../../../src/styles'
-import { attributeModelsDictionnary } from '../../../dumps/AttributeModels.dump'
+import { attributeModelsDictionary } from '../../../dumps/AttributeModels.dump'
 import AttributeSelectionComponent from '../../../../src/configuration/dialog/add/AttributeSelectionComponent'
 
 const context = buildTestContext(styles)
@@ -54,10 +54,10 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
   it('should render correctly when opened, update selection state and commit valid selection', () => {
     const props = {
       initialSelectionModel: [{
-        attributeModel: attributeModelsDictionnary[1],
+        attributeModel: attributeModelsDictionary[1],
         selected: false,
       }, {
-        attributeModel: attributeModelsDictionnary[2],
+        attributeModel: attributeModelsDictionary[2],
         selected: true,
       }],
       onConfirm: () => {},
@@ -96,10 +96,10 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
     assert.isFalse(enzymeWrapper.state().someSelected, '(2) Some selected should be correctly computed')
     selectionModel = enzymeWrapper.state().selectionModel
     assert.deepEqual(selectionModel, [{
-      attributeModel: attributeModelsDictionnary[1],
+      attributeModel: attributeModelsDictionary[1],
       selected: false,
     }, {
-      attributeModel: attributeModelsDictionnary[2],
+      attributeModel: attributeModelsDictionary[2],
       selected: false,
     }], '(2) Selection model should be correctly updated')
     // 2b - check state is correctly rendered
@@ -121,10 +121,10 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
     assert.isTrue(enzymeWrapper.state().someSelected, '(3) Some selected should be correctly computed')
     selectionModel = enzymeWrapper.state().selectionModel
     assert.deepEqual(selectionModel, [{
-      attributeModel: attributeModelsDictionnary[1],
+      attributeModel: attributeModelsDictionary[1],
       selected: true,
     }, {
-      attributeModel: attributeModelsDictionnary[2],
+      attributeModel: attributeModelsDictionary[2],
       selected: false,
     }], '(3) Selection model should be correctly updated')
     // 3b - check state is correctly rendered
@@ -146,10 +146,10 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
     assert.isTrue(enzymeWrapper.state().someSelected, '(4) Some selected should be correctly computed')
     selectionModel = enzymeWrapper.state().selectionModel
     assert.deepEqual(selectionModel, [{
-      attributeModel: attributeModelsDictionnary[1],
+      attributeModel: attributeModelsDictionary[1],
       selected: true,
     }, {
-      attributeModel: attributeModelsDictionnary[2],
+      attributeModel: attributeModelsDictionary[2],
       selected: true,
     }], '(4) Selection model should be correctly updated')
     // 4b - check state is correctly rendered

@@ -29,6 +29,6 @@ describe('[MENU MODULE] Testing module interface', () => {
   it('Should supply valid module interface', () => {
     assert.isDefined(moduleContainer, 'News module should define a main container')
     assert.isDefined(styles, 'News module should define a styles file')
-    assert.isDefined(messages, 'News module should define his internationalization messages dictionnary')
+    assert.isDefined(messages, 'News module should define his internationalization messages dictionary')
   })
 })

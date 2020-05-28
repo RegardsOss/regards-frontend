@@ -18,8 +18,10 @@
  * ith REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import WordTagIcon from 'mdi-material-ui/AlphaTbox'
+import PrivateDataIcon from 'mdi-material-ui/Cancel'
 import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
 import { EntityTypeIcon } from '@regardsoss/entities-common'
 import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
@@ -34,6 +36,10 @@ class TagCriterionComponent extends React.Component {
     onUnselectTagFilter: PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   /** Icon for selected entity criterion */
   static TAG_TYPE_TO_ICON = CatalogDomain.TAG_TYPES.reduce((acc, tagType) => {
     let IconConstructor = null
@@ -46,8 +52,9 @@ class TagCriterionComponent extends React.Component {
       case CatalogDomain.TAG_TYPES_ENUM.DATASET:
         IconConstructor = EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[tagType]
         break
+      case CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED:
       default:
-        throw new Error(`Unhandled tag type ${tagType}`)
+        IconConstructor = PrivateDataIcon
     }
     return {
       ...acc,
@@ -56,12 +63,15 @@ class TagCriterionComponent extends React.Component {
   })
 
   render() {
+    const { intl: { formatMessage } } = this.context
     const { tagCriterion, onUnselectTagFilter } = this.props
+    const unresolved = tagCriterion.type === CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED
     return (
       <ApplyingCriterionComponent
-        label={tagCriterion.label}
+        label={unresolved ? formatMessage({ id: 'search.filter.geometry.entity.private' }) : tagCriterion.label}
         selectedCriterion={tagCriterion}
         onUnselectCriterion={onUnselectTagFilter}
+        error={unresolved}
         filterIcon={TagCriterionComponent.TAG_TYPE_TO_ICON[tagCriterion.type]}
       />
     )

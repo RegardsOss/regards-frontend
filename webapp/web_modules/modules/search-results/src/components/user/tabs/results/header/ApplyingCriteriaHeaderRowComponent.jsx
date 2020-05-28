@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import filter from 'lodash/filter'
+import reject from 'lodash/reject'
 import { CatalogDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
@@ -29,7 +31,9 @@ import SelectedStringFacetComponent from './filter/facets/SelectedStringFacetCom
 import GeometryCriterionComponent from './filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from './filter/EntitiesSelectionCriterionComponent'
 import TagCriterionComponent from './filter/TagCriterionComponent'
-
+import SearchCriteriaComponent from './filter/SearchCriteriaComponent'
+import StaticParameterCriterionComponent from './filter/StaticParameterCriterionComponent'
+import ReactiveStaticParameterCriterionComponent from './filter/ReactiveStaticParameterCriterionComponent'
 /**
  * Header line to show (and delete) currently applying criteria
  * @author Raphaël Mechali
@@ -40,10 +44,14 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
     facetValues: PropTypes.arrayOf(UIShapes.SelectedFacetCriterion).isRequired,
     geometries: PropTypes.arrayOf(UIShapes.GeometryCriterion).isRequired,
     entitiesSelections: PropTypes.arrayOf(UIShapes.EntitiesSelectionCriterion).isRequired,
+    searchCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
+    staticParameters: PropTypes.arrayOf(UIShapes.StaticParameterCriterion).isRequired,
     onUnselectTagFilter: PropTypes.func.isRequired,
     onUnselectFacetValue: PropTypes.func.isRequired,
     onUnselectGeometry: PropTypes.func.isRequired,
     onUnselectEntitiesSelection: PropTypes.func.isRequired,
+    onUnselectSearchCriteria: PropTypes.func.isRequired,
+    onToggleStaticParameter: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -53,22 +61,39 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
 
   render() {
     const {
-      tagsFiltering, facetValues, geometries, entitiesSelections,
-      onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry, onUnselectEntitiesSelection,
+      tagsFiltering, facetValues, geometries,
+      entitiesSelections, searchCriteria, staticParameters,
+      onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry,
+      onUnselectEntitiesSelection, onUnselectSearchCriteria,
+      onToggleStaticParameter,
     } = this.props
     return (
-      <ShowableAtRender show={tagsFiltering.length > 0 || facetValues.length > 0 || geometries.length > 0 || entitiesSelections.length > 0}>
+      <ShowableAtRender show={tagsFiltering.length > 0
+      || facetValues.length > 0
+      || geometries.length > 0
+      || entitiesSelections.length > 0
+      || staticParameters.length > 0
+      || searchCriteria.length > 0}
+      >
         <TableHeaderLine>
           <TableHeaderContentBox>
             {
                 [
-                  // 1 - Tag criteria
+                  // 1 - Static criteria
+                  // When unactiveStaticParameters empty, all staticParameters are actives
+                  ...filter(staticParameters, sp => sp.active)
+                    .map(sp => <StaticParameterCriterionComponent
+                      key={sp.label}
+                      staticParameter={sp}
+                      onUnselectStaticParameter={onToggleStaticParameter}
+                    />),
+                  // 2 - Tag criteria
                   ...tagsFiltering.map(tagCriterion => <TagCriterionComponent
                     key={tagCriterion.searchKey}
                     tagCriterion={tagCriterion}
                     onUnselectTagFilter={onUnselectTagFilter}
                   />),
-                  // 2 - Facet values
+                  // 3 - Facet values
                   ...facetValues.map((selectedFacetValue) => {
                     const selectorProps = { key: selectedFacetValue.attribute.content.jsonPath, selectedFacetValue, onUnselectFacetValue }
                     switch (selectedFacetValue.facetType) {
@@ -84,20 +109,32 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                         throw new Error(`Unknown facet type ${selectedFacetValue.facetType}`)
                     }
                   }),
-                  // 3 - Geometries
+                  // 4 - Geometries
                   ...geometries.map((geometryCriterion, index) => <GeometryCriterionComponent
                     // eslint-disable-next-line react/no-array-index-key
                     key={`geometry-${index}`} // no better key here, but it should be 1 always (see MapContainer control function)
                     geometryCriterion={geometryCriterion}
                     onUnselectGeometry={onUnselectGeometry}
                   />),
-                  // 4 - Entities selection
+                  // 5 - Entities selection
                   ...entitiesSelections.map((entitiesSelectionCriterion, index) => <EntitiesSelectionCriterionComponent
                     // eslint-disable-next-line react/no-array-index-key
                     key={`entities-selection-${index}`} // no better key here, but it should be 1 always (see MapContainer control function)
                     entitiesSelectionCriterion={entitiesSelectionCriterion}
                     onUnselectEntitiesSelection={onUnselectEntitiesSelection}
                   />),
+                  // 6 - Current search
+                  searchCriteria.length
+                    ? <SearchCriteriaComponent key="search.criteria" onUnselectSearchCriteria={onUnselectSearchCriteria} />
+                    : null,
+
+                  // 7 - Reactive static criteria - let the user reactive unactive static criteria
+                  ...reject(staticParameters, sp => sp.active)
+                    .map(sp => <ReactiveStaticParameterCriterionComponent
+                      key={sp.label}
+                      staticParameter={sp}
+                      onSelectStaticParameter={onToggleStaticParameter}
+                    />),
                 ]
             }
           </TableHeaderContentBox>

@@ -19,7 +19,6 @@
 
 /**
  * Module french messages
- * @type {{[modules.list.menu.label]: string, [section.search-form]: string}}
  * @author Sébastien Binda
  */
 const messages = {

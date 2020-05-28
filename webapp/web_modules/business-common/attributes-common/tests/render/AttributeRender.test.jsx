@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { StringValueRender } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import AttributeRender from '../../src/render/AttributeRender'
 import styles from '../../src/styles'
-import { attributeModelsDictionnary } from '../dumps/AttributeModels.dump'
+import { attributeModelsDictionary } from '../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -39,7 +40,7 @@ describe('[Attributes Common] Testing AttributeRender', () => {
   })
   it('should render correctly', () => {
     const props = {
-      entity: attributeModelsDictionnary[2],
+      entity: attributeModelsDictionary[2],
     }
     const enzymeWrapper = shallow(<AttributeRender {...props} />, { context })
     const renderWrapper = enzymeWrapper.find(StringValueRender)
@@ -48,19 +49,24 @@ describe('[Attributes Common] Testing AttributeRender', () => {
   })
   it('should compute correctly label', () => {
     const testIntl = {
-      formatMessage: ({ id }, values = {}) => id === 'attribute.render.path.join.string' ? '.' : `${values.label}/${values.path}`,
+      formatMessage: ({ id }, values = {}) => `${values.label}/${values.jsonPath}`,
     }
     // Custom attributes
-    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[1], testIntl),
-      'Attr1/f1.attr1', 'Simple fragment should be correctly formatted')
-    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[2], testIntl),
-      'Attr2/attr2', 'Default fragment should not be displayed')
-    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[3], testIntl),
-      'Attr3/attr3', 'No fragment should not be displayed')
-    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[4], testIntl),
-      'Attr4/f4.sf4.attr4', 'Compose fragment should be correclty displayed')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionary[1], testIntl),
+      'Attr1/properties.f1.attr1')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionary[2], testIntl),
+      'Attr2/properties.default.attr2')
+    // Standard attributes
+    assert.equal(AttributeRender.getRenderLabel(
+      DamDomain.AttributeModelController.getStandardAttributeModel(
+        DamDomain.AttributeModelController.standardAttributesKeys.model), testIntl),
+    'Model/model')
+    assert.equal(AttributeRender.getRenderLabel(
+      DamDomain.AttributeModelController.getStandardAttributeModel(
+        DamDomain.AttributeModelController.standardAttributesKeys.thumbnail), testIntl),
+    'Thumbnail/files')
     // Outside content field
-    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionnary[1].content, testIntl),
-      'Attr1/f1.attr1', 'Simple fragment should be correctly formatted')
+    assert.equal(AttributeRender.getRenderLabel(attributeModelsDictionary[1].content, testIntl),
+      'Attr1/properties.f1.attr1', 'Simple fragment should be correctly formatted')
   })
 })

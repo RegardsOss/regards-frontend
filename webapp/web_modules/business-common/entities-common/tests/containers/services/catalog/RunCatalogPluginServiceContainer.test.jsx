@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
 import { TargetHelper } from '../../../../src/definitions/TargetHelper'
@@ -420,7 +420,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
     assert.deepEqual(lastFetchParams.targetParameter, {
-      engineType: 'legacy',
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
       searchParameters: { q: [`id:"${entity2.content.id}"`] },
     },
     'One element target - target should be corretly sent')
@@ -438,7 +438,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
     assert.deepEqual(lastFetchParams.targetParameter, {
-      engineType: 'legacy',
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
       searchParameters: { q: [`id:("${entity1.content.id}" OR "${entity3.content.id}")`] },
     },
     'Many elements target - target should be corretly sent')
@@ -457,7 +457,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
     assert.deepEqual(
       lastFetchParams.targetParameter, {
-        engineType: 'legacy',
+        engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
         searchParameters: {
           geo: 'potatoesField',
           q: [`model.age=22 AND id:(!("${entity2.content.id}" OR "${entity3.content.id}"))`],

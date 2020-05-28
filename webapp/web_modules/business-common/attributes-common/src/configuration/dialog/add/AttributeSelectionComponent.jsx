@@ -20,6 +20,7 @@ import Checkbox from 'material-ui/Checkbox'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import AttributeRender from '../../../render/AttributeRender'
+
 /**
  * Attribute selection component: provides selector for an attribute
  * @author Raphaël Mechali

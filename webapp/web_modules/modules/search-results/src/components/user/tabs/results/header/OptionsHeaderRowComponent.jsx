@@ -25,8 +25,8 @@ import ToggleFiltersContainer from '../../../../../containers/user/tabs/results/
 import ModeSelectorContainer from '../../../../../containers/user/tabs/results/header/options/ModeSelectorContainer'
 import SelectAllContainer from '../../../../../containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../containers/user/tabs/results/header/options/SingleSortingContainer'
-import ToggleOnlyQuicklookContainer from '../../../../../containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
+import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
 
@@ -63,16 +63,6 @@ class OptionsHeaderRowComponent extends React.Component {
     DamDomain.ENTITY_TYPES_ENUM.DATASET,
     DamDomain.ENTITY_TYPES_ENUM.DATA,
   ]
-
-  /**
-   * @param {*} tab tab results context (UIShapes.ResultsTab)
-   * @return {boolean} returns true when quicklooks filter should be shown, ie. quicklook or map view enabled for DATA in tab
-   */
-  static shouldShowQuicklooksFilter(tab) {
-    const dataViewsGroupState = tab.types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes
-    return dataViewsGroupState[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP].enabled
-        || dataViewsGroupState[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].enabled
-  }
 
   render() {
     const {
@@ -123,23 +113,8 @@ class OptionsHeaderRowComponent extends React.Component {
             { /** 2.A.2 - Add selection to cart */ }
             <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
           </TableHeaderOptionGroup>
-          {/* 2.B Extended options: filter quicklook only (when it can be applied) and toggle filters */}
-          <TableHeaderOptionGroup show={
-            OptionsHeaderRowComponent.shouldShowQuicklooksFilter(tab)
-            || selectedTypeState.facetsAllowed
-          }
-          >
-            { /** 2.B.1 - Filter entities with quicklook only (only when project configured quicklooks / map views and for DATA/DATASET types) */
-              OptionsHeaderRowComponent.shouldShowQuicklooksFilter(tab)
-                ? (
-                  <ToggleOnlyQuicklookContainer
-                    moduleId={moduleId}
-                    tabType={tabType}
-                    resultsContext={resultsContext}
-                  />)
-                : null
-            }
-            { /** 2.B.2 - Toggle filters selection bar */ }
+          {/* 2.B Extended options: Toggle filters */}
+          <TableHeaderOptionGroup show={selectedTypeState.facetsAllowed}>
             <ToggleFiltersContainer
               moduleId={moduleId}
               tabType={tabType}
@@ -191,6 +166,10 @@ class OptionsHeaderRowComponent extends React.Component {
                   mode={aMode}
                 />) : null)
           }
+          </TableHeaderOptionGroup>
+          {/* 2.6 - Search option, when it is available*/}
+          <TableHeaderOptionGroup show={tab.search.enabled}>
+            <SearchOptionContainer moduleId={moduleId} tabType={tabType} open={tab.search.open} />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
       </TableHeaderLine>

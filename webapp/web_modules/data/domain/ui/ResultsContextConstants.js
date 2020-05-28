@@ -89,11 +89,16 @@ const DEFAULT_RESULTS_CONTEXT = {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
-        otherFilters: [],
-        quicklookFiltering: [],
+        searchCriteria: [],
         appliedFacets: [],
         geometry: [],
         entitiesSelection: [],
@@ -106,17 +111,26 @@ const DEFAULT_RESULTS_CONTEXT = {
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
       },
     },
-    [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
+    [RESULTS_TABS_ENUM.DESCRIPTION]: {
+      unresolvedRootEntityId: null,
+      descriptionPath: [],
+      selectedIndex: 0,
+    },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       facets: {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
-        otherFilters: [],
-        quicklookFiltering: [],
+        searchCriteria: [],
         appliedFacets: [],
         geometry: [],
         entitiesSelection: [],

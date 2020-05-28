@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
 import TextField from 'material-ui/TextField'
+import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -27,6 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FullTextCriterionComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     // Currently searched text (text field input value)
     searchText: PropTypes.string.isRequired,
     // Text input callback: (event, string) => ()
@@ -41,18 +42,19 @@ class FullTextCriterionComponent extends React.Component {
   }
 
   render() {
-    const { moduleTheme: { rootStyle, textFieldStyle } } = this.context
-    const { searchText, onTextInput } = this.props
+    const { intl: { locale, formatMessage }, muiTheme } = this.context
+    const { label, searchText, onTextInput } = this.props
     return (
-      <div style={rootStyle}>
-        <TextField
-          id="search"
-          floatingLabelText={<FormattedMessage id="criterion.search.field.label" />}
-          value={searchText}
-          onChange={onTextInput}
-          style={textFieldStyle}
-        />
-      </div>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} colSpan="3">
+          <TextField
+            fullWidth
+            hintText={label[locale] || formatMessage({ id: 'criterion.search.field.label' })}
+            value={searchText}
+            onChange={onTextInput}
+          />
+        </td>
+      </tr>
     )
   }
 }

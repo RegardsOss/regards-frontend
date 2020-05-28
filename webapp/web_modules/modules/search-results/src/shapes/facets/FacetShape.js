@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
+import { CatalogShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
 
 /**
  * Describes runtime resolved facets (parts recovered from backend and parts added at runtime resolution and use)
@@ -27,8 +27,8 @@ import { CatalogShapes, DataManagementShapes } from '@regardsoss/shape'
  * Facet with configured label and optional unit
  */
 export const UIFacet = PropTypes.shape({
-  // labels dictionnary (where languages like 'en', 'fr'... are the keys)
-  facetLabels: PropTypes.objectOf(PropTypes.string).isRequired,
+  // labels dictionary (where languages like 'en', 'fr'... are the keys)
+  facetLabels: UIShapes.IntlMessage.isRequired,
   attribute: DataManagementShapes.AttributeModel.isRequired,
   model: CatalogShapes.Facet.isRequired, // from backend
 })

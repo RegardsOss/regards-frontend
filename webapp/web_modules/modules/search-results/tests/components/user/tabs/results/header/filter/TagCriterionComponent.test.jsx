@@ -38,6 +38,8 @@ describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(TagCriterionComponent)
   })
+
+
   it('should render correctly', () => {
     const props = {
       tagCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),

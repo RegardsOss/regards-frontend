@@ -24,6 +24,7 @@
 export default {
   'plugin.title': 'Edition',
   'plugin.message': 'By clicking on the button, {nbElement} selected entities will be edited with provided values.',
+  'plugin.async.info': 'This process is asynchronous, so you will need to refresh the table to see the removal.',
   'plugin.error.no.attribute': 'No editable attribute',
   'plugin.question': 'Do you want to continue?',
   'plugin.valid': 'Send',

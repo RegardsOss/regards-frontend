@@ -82,6 +82,7 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
               </TableHeaderOptionGroup>
               <TableHeaderOptionGroup key="dateForm">
                 <DatePickerField
+                  id="filter.from"
                   value={null}
                   dateHintText={formatMessage({
                     id: 'oais.aips.list.filters.from.label',
@@ -91,6 +92,7 @@ export class OAISFeatureManagerFiltersComponent extends React.Component {
                   key="datefrom"
                 />
                 <DatePickerField
+                  id="filter.to"
                   value={null}
                   defaultTime="23:59:59"
                   dateHintText={formatMessage({ id: 'oais.aips.list.filters.to.label' })}

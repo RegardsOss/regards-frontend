@@ -175,12 +175,9 @@ export class EditItemForm extends React.Component {
    * Validates multiple attributes field value
    * @param {[string]} value attributes full qualified names
    */
-  validateMultipleAttributesField = (value) => {
-    const { intl: { formatMessage } } = this.context
-    return !value || !value.length
-      ? formatMessage({ id: 'attribute.configuration.selected.attributes.error' })
-      : undefined
-  }
+  validateMultipleAttributesField = value => !value || !value.length
+    ? 'attribute.configuration.selected.attributes.error'
+    : undefined
 
   /**
    * Validates single attribute field value
@@ -189,14 +186,13 @@ export class EditItemForm extends React.Component {
    */
   validateSingleAttributeNameField = (value) => {
     const { attributeModels } = this.props
-    const { intl: { formatMessage } } = this.context
     // 1 - check that attribute was specified
     if (!value) {
-      return formatMessage({ id: ErrorTypes.REQUIRED })
+      return ErrorTypes.REQUIRED
     }
     // 2 - check that it is a valid attribute
     const found = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(value, attributeModels)
-    return found ? undefined : formatMessage({ id: 'attribute.configuration.single.attribute.error' })
+    return found ? undefined : 'attribute.configuration.single.attribute.error'
   }
 
   /**
@@ -241,7 +237,6 @@ export class EditItemForm extends React.Component {
                   name="singleAttribute.name"
                   component={SingleAttributeFieldRender}
                   attributeModels={attributeModels}
-                  format={this.formatSingleAttributeValue}
                   validate={this.validateSingleAttributeNameField}
                   label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
                   fullWidth

@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Arrow from 'mdi-material-ui/ArrowRight'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
 import TemporalCriterionComponent from './TemporalCriterionComponent'
 
 /**
@@ -28,8 +28,11 @@ import TemporalCriterionComponent from './TemporalCriterionComponent'
  */
 class TwoTemporalCriteriaComponent extends React.Component {
   static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
+    label: UIShapes.IntlMessage.isRequired,
     attribute1: AttributeModelWithBounds.isRequired,
     attribute2: AttributeModelWithBounds.isRequired, // provide here the same reference than attribute 1 if same attribute
+    error: PropTypes.bool.isRequired,
     value1: PropTypes.instanceOf(Date),
     value2: PropTypes.instanceOf(Date),
     onDate1Changed: PropTypes.func.isRequired, // value 1 update callback like: (Date) => ()
@@ -43,41 +46,60 @@ class TwoTemporalCriteriaComponent extends React.Component {
 
   render() {
     const {
+      pluginInstanceId, label, error,
       attribute1, value1, onDate1Changed,
       attribute2, value2, onDate2Changed,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { rootStyle, labelSpanStyle } } = this.context
+    const { intl: { locale, formatMessage }, muiTheme } = this.context
 
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>
-          { // Message
-          attribute1.jsonPath === attribute2.jsonPath
-            // single attribute message
-            ? formatMessage({ id: 'single.attributes.label' }, { label: attribute1.label })
-            // Two attributes (range) message
-            : formatMessage({ id: 'multiple.attributes.label' }, {
-              label1: attribute1.label,
-              label2: attribute2.label,
-            })
-        }
-        </span>
-        <TemporalCriterionComponent
-          searchAttribute={attribute1}
-          value={value1}
-          hintDate={attribute1.boundsInformation.lowerBound}
-          onDateChanged={onDate1Changed}
-          isStopDate={false}
-        />
-        <Arrow />
-        <TemporalCriterionComponent
-          searchAttribute={attribute2}
-          value={value2}
-          hintDate={attribute2.boundsInformation.upperBound}
-          onDateChanged={onDate2Changed}
-          isStopDate
-        />
-      </div>
+      <>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+          {/* Message as IIFE */}
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            {(() => {
+              const configurationLabel = label[locale]
+              if (configurationLabel) {
+                return configurationLabel
+              }
+              // note configured, use attribute(s) label
+              if (attribute1.jsonPath === attribute2.jsonPath) {
+              // single attribute message
+                return formatMessage({ id: 'single.attributes.label' }, { label: attribute1.label })
+              }
+              // Two attributes (range) message
+              return formatMessage({ id: 'multiple.attributes.label' }, {
+                label1: attribute1.label,
+                label2: attribute2.label,
+              })
+            })()}
+          </td>
+          <TemporalCriterionComponent
+            id={`${pluginInstanceId}-lower-bound`}
+            searchAttribute={attribute1}
+            error={error}
+            value={value1}
+            hintDate={attribute1.boundsInformation.lowerBound}
+            onDateChanged={onDate1Changed}
+            lowerBound
+            isStopDate={false}
+          />
+        </tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+          {/* empty cell */}
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
+          <TemporalCriterionComponent
+            id={`${pluginInstanceId}-upper-bound`}
+            searchAttribute={attribute2}
+            error={error}
+            value={value2}
+            hintDate={attribute2.boundsInformation.upperBound}
+            onDateChanged={onDate2Changed}
+            lowerBound={false}
+            isStopDate
+          />
+        </tr>
+      </>
     )
   }
 }

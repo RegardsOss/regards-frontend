@@ -2,9 +2,7 @@
 
 ## Description
 
-This module is a dynamic configurable module to be used in REGARDS user interfaces. It displays search results from REGARDS catalog. It is used by modules
-  - @regardsoss/search-form
-  - @regardsoss/search-graph
+This module is a dynamic configurable module to be used in REGARDS user interfaces. It displays search results from REGARDS catalog. It is be used as standalone or as child of a search-graph module
   
 It can be used as a stand-alone module to display the results of a research on a the whole project data catalog.
 
@@ -14,6 +12,7 @@ This module allows:
   - Switching display mode between list, table and quickview
   - Sorting results
   - Filtering results on facets
+  - Filtering results using a search form
   - Configuring displayed columns (table mode)
   - Applying Services (UI and Businnes) on data and dataset data
   

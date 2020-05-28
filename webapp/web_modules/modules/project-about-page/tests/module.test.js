@@ -29,6 +29,6 @@ describe('[HOME PAGE] Testing module interface', () => {
   it('Should supply valid module interface', () => {
     assert.isDefined(moduleContainer, 'Home page module should define a main container')
     assert.isDefined(styles, 'Home page module should define a styles file')
-    assert.isDefined(messages, 'Home page module should define his internationalization messages dictionnary')
+    assert.isDefined(messages, 'Home page module should define his internationalization messages dictionary')
   })
 })
