@@ -23,7 +23,8 @@
  */
 export default {
   'plugin.title': 'Confirm suppresion',
-  'plugin.message': 'By clicking on the button, {nbElement} selected entities will be removed.',
+  'plugin.message': 'By clicking on the button, {nbElement, plural, one {the selected entity} other {# selected entities}} will be removed.',
+  'plugin.async.info': 'This process is asynchronous, so you will need to refresh the result table to see {nbElement, plural, one {that entity removed} other {these entities removed}}.',
   'plugin.question': 'Do you want to continue?',
   'plugin.valid': 'Delete',
   'plugin.cancel': 'Cancel',

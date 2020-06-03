@@ -39,6 +39,12 @@ export const BasicCriterion = PropTypes.shape({
   ...commonCriterionFields,
 })
 
+export const StaticParameterCriterion = PropTypes.shape({
+  label: PropTypes.string.isRequired, // label explains the purpose of this criterion
+  ...commonCriterionFields,
+})
+
+
 /** A requested facet criterion, emitted and consumed by search results */
 export const RequestFacetCriterion = PropTypes.shape({
   facetLabels: PropTypes.objectOf(PropTypes.string).isRequired, // label map by locale
@@ -290,6 +296,8 @@ export const ResultsTab = PropTypes.shape({
   }),
   criteria: PropTypes.shape({
     configurationRestrictions: PropTypes.arrayOf(BasicCriterion).isRequired, // Restrictions from configuration
+    staticParameters: PropTypes.arrayOf(StaticParameterCriterion), // Static criterion, only used on MAIN_RESULTS
+    unactiveStaticParameters: PropTypes.arrayOf(PropTypes.bool), // Currently unactived static criterion, only used on MAIN_RESULTS
     contextTags: TagsArray.isRequired, // Other filters (especially used by tag results tab)
     searchCriteria: PropTypes.arrayOf(ApplyingSearchCriterion).isRequired, // Currently applying search criteria
     appliedFacets: PropTypes.arrayOf(SelectedFacetCriterion).isRequired, // List of selected facets

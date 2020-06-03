@@ -399,8 +399,13 @@ const styles = theme => ({
     filters: {
       iconColor: theme.palette.accent1Color,
       errorColor: theme.textField.errorColor,
+      disabledColor: theme.palette.textColor,
       style: {
         margin: '0 5px',
+      },
+      styleInactive: {
+        margin: '0 5px',
+        textDecoration: 'line-through',
       },
     },
     listViewStyles: {

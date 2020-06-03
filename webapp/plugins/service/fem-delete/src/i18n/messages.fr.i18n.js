@@ -24,6 +24,7 @@
 export default {
   'plugin.title': 'Confirmer la suppresion',
   'plugin.message': 'En appuyant sur le bouton ci-dessous, {nbElement, plural, one {l\'élément sélectionné sera supprimé} other {les # éléments sélectionnés seront supprimés}}.',
+  'plugin.async.info': 'La suppression étant asynchrone, vous devrez rafraîchir la table des résultats pour ne plus {nbElement, plural, one {le} other {les}} voir.',
   'plugin.question': 'Voulez vous continuer?',
   'plugin.valid': 'Supprimer',
   'plugin.cancel': 'Annuler',

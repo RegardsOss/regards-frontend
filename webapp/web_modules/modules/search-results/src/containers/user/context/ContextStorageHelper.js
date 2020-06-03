@@ -54,7 +54,7 @@ export class ContextStorageHelper {
       name: 't',
       toParameterValue: resultsContext => resultsContext.selectedTab,
       fromParameterValue: (resultsContext, selectedTab) => ({ selectedTab }),
-    }, { // main reults entities type
+    }, { // main results entities type
       name: 'rt',
       toParameterValue: resultsContext => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].selectedType,
       fromParameterValue: (resultsContext, selectedType) => ({
@@ -209,8 +209,25 @@ export class ContextStorageHelper {
           },
         },
       }),
+    }, { // Unactive static parameters
+      name: 'usp',
+      toParameterValue: resultsContext => CriterionBuilder.buildUnactiveStaticCriterionString(resultsContext),
+      fromParameterValue: (resultsContext, unactiveStaticParametersAsString) => CriterionBuilder.buildUnactiveStaticCriterion(resultsContext, unactiveStaticParametersAsString),
     },
   ]
+
+  /**
+   *  This static parameter describes requests attributes statically provided to search context
+   */
+  static STATIC_PARAMETERS = {
+    name: 'sp',
+    toParameterValue: resultsContext => CriterionBuilder.buildStaticCriterionString(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.staticParameters),
+    fromParameterValue: (resultsContext, staticParameters) => ({
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { criteria: { staticParameters: CriterionBuilder.buildStaticCriterion(staticParameters) } },
+      },
+    }),
+  }
 
   /**
    * @param {*} query current browser query
@@ -221,12 +238,19 @@ export class ContextStorageHelper {
   }
 
   /**
+   * @return the list of dynamic and static parameters
+   */
+  static getAllParameters() {
+    return [ContextStorageHelper.STATIC_PARAMETERS, ...ContextStorageHelper.MODULE_URL_PARAMETERS]
+  }
+
+  /**
    * Restores, when possible, applying context from adequate source (URL or local storage). Marks all
    * entities <em>unresolved</em>
    * @param {*} initContext int context or empty object, to be completed here
    * @return {*} restored results context (may be initial one if no source could be found)
    */
-  static restore(initContext, project, moduleId) {
+  static restore(initContext, project, moduleContextualKey) {
     const { query } = browserHistory.getCurrentLocation()
     // A - find resolution source (map holding saved values)
     let resolutionSource = {}
@@ -235,13 +259,13 @@ export class ContextStorageHelper {
       resolutionSource = query
     } else {
       // when no URL parameter, restore from local storage if there is some
-      const stored = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleId, ContextStorageHelper.LOCAL_STORAGE_KEY)
+      const stored = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey, ContextStorageHelper.LOCAL_STORAGE_KEY)
       if (stored) {
         resolutionSource = JSON.parse(stored)
       }
     }
     // B - Resolve on source
-    return ContextStorageHelper.MODULE_URL_PARAMETERS.reduce(
+    return ContextStorageHelper.getAllParameters().reduce(
       (previousContext, { name, fromParameterValue }) => {
         const parameterValue = resolutionSource[name]
         return isEmpty(parameterValue)
@@ -258,7 +282,7 @@ export class ContextStorageHelper {
    */
   static buildURLQuery(resultsContext, currentQuery) {
     const contextQuery = { ...currentQuery }
-    ContextStorageHelper.MODULE_URL_PARAMETERS.forEach(({ name, toParameterValue }) => {
+    ContextStorageHelper.getAllParameters().forEach(({ name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
       if (isEmpty(parameterValue)) {
         delete contextQuery[name]
@@ -274,7 +298,7 @@ export class ContextStorageHelper {
    * @param {*} resultsContext results context
    **/
   static buildStorageObject(resultsContext) {
-    return ContextStorageHelper.MODULE_URL_PARAMETERS.reduce((acc, { name, toParameterValue }) => {
+    return ContextStorageHelper.getAllParameters().reduce((acc, { name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
       return isEmpty(parameterValue) ? acc : {
         ...acc,
@@ -287,15 +311,24 @@ export class ContextStorageHelper {
    * Updates browser URL, to match new results context
    * @param {*} resultsContext new results context (ignored when incomplete)
    */
-  static store(resultsContext, project, moduleId) {
+  static store(resultsContext, project, moduleContextualKey) {
     if (UIDomain.ResultsContextHelper.isFullContext(resultsContext)) {
       const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
       // 1 - Update query (required to delete now useless fields)
       browserHistory.replace({ pathname, query: ContextStorageHelper.buildURLQuery(resultsContext, currentQuery) })
       // 2 - Store a minimal version of the query (where)
       const toSave = JSON.stringify(ContextStorageHelper.buildStorageObject(resultsContext))
-      UIDomain.LocalStorageData.saveData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleId,
+      UIDomain.LocalStorageData.saveData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey,
         ContextStorageHelper.LOCAL_STORAGE_KEY, toSave)
     }
+  }
+
+  static getModuleContextId(moduleId) {
+    const { query: { sp: staticProperties } } = browserHistory.getCurrentLocation()
+    let result = moduleId
+    if (staticProperties) {
+      result = `${moduleId}/${staticProperties}`
+    }
+    return result
   }
 }

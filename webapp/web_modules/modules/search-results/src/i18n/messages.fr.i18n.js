@@ -224,6 +224,7 @@ const messages = {
   'search.filter.geometry.label': 'Zone',
   'search.filter.entities.selection.label': 'Entités ({count})',
   'search.filter.search.criteria.label': 'Recherche',
+  'search.filter.static.reactive': 'Réactiver ce critère',
 
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Sélectionner des entités',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Dessiner une zone de recherche',
