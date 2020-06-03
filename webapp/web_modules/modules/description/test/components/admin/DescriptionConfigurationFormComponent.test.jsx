@@ -87,7 +87,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
       attributesListFieldName: 'test.DATA.attributeToDescriptionFiles',
       hintMessageKey: 'module.description.configuration.description.files.hint',
       changeField: props.changeField,
-      allowAttributesRegroupements: false,
+      allowAttributesGroups: false,
       allowLabel: false,
     }, 'URL attributes to description file field properties should be correctly reported')
   })

@@ -42,7 +42,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     let spiedConfirmValue = null
     const props = {
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: {
@@ -72,7 +72,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     assert.lengthOf(form, 1, 'There should be the edition form')
     testSuiteHelpers.assertWrapperProperties(form, {
       allowLabel: props.allowLabel,
-      allowAttributesRegroupements: props.allowAttributesRegroupements,
+      allowAttributesGroups: props.allowAttributesGroups,
       attributeModels: props.attributeModels,
       editionData: props.editionData,
       onCancel: props.onCancel,
@@ -88,7 +88,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     let spiedConfirmValue = null
     const props = {
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: {
@@ -134,7 +134,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     assert.lengthOf(form, 1, 'There should be the edition form')
     testSuiteHelpers.assertWrapperProperties(form, {
       allowLabel: props.allowLabel,
-      allowAttributesRegroupements: props.allowAttributesRegroupements,
+      allowAttributesGroups: props.allowAttributesGroups,
       attributeModels: props.attributeModels,
       editionData: props.editionData,
       onCancel: props.onCancel,
@@ -153,7 +153,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
   it('should render correctly when closed', () => {
     const props = {
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: null,

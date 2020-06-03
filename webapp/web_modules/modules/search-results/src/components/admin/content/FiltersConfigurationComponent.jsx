@@ -80,7 +80,6 @@ class FiltersConfigurationComponent extends React.Component {
             attributesListFieldName={`${currentNamespace}.facets.list`}
             hintMessageKey="search.results.form.configuration.result.no.filter"
             changeField={changeField}
-            allowAttributesRegroupements={false}
             allowLabel
           />
         </div>

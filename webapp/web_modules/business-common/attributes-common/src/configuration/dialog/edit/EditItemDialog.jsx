@@ -31,10 +31,11 @@ import EditItemForm from './EditItemForm'
 export class EditItemDialog extends React.Component {
   static propTypes = {
     allowLabel: PropTypes.bool.isRequired,
-    allowAttributesRegroupements: PropTypes.bool.isRequired,
+    allowRendererSelection: PropTypes.bool.isRequired,
+    allowAttributesGroups: PropTypes.bool.isRequired,
     // available attribute models
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    // edition data: this dialog is visible only when it is porvided
+    // edition data: this dialog is visible only when it is provided
     editionData: PropTypes.shape({
       // model. When adding a new item, it must present in this model
       attributesList: AccessShapes.AttributeListConfigurationModel.isRequired,
@@ -71,7 +72,8 @@ export class EditItemDialog extends React.Component {
 
   render() {
     const {
-      allowLabel, allowAttributesRegroupements, attributeModels, editionData, onCancel,
+      allowLabel, allowAttributesGroups, allowRendererSelection,
+      attributeModels, editionData, onCancel,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { editDialog } } } = this.context
 
@@ -93,7 +95,8 @@ export class EditItemDialog extends React.Component {
       >
         <EditItemForm
           allowLabel={allowLabel}
-          allowAttributesRegroupements={allowAttributesRegroupements}
+          allowRendererSelection={allowRendererSelection}
+          allowAttributesGroups={allowAttributesGroups}
           attributeModels={attributeModels}
           editionData={editionData}
           onCancel={onCancel}

@@ -99,7 +99,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       label: '#1: Set upper value',
       // time 2 must be above attr1 range
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2017-05-22T12:25:25.150Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: TwoTemporalCriteriaContainer.DEFAULT_STATE.time1,
         time2: new Date('2017-05-22T12:25:25.150Z').getTime(),
@@ -108,7 +108,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#2: Set lower value greater than upper value (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2017-07-26T08:11:05.222Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: new Date('2017-07-26T08:11:05.222Z').getTime(),
         time2: new Date('2017-05-22T12:25:25.150Z').getTime(),
@@ -117,7 +117,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#3: Set upper bound greater than lower (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2030-05-02T11:40:54.756Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: new Date('2017-07-26T08:11:05.222Z').getTime(),
         time2: new Date('2030-05-02T11:40:54.756Z').getTime(),
@@ -126,7 +126,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#4: Set lower bound greater than attribute 2 range (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2029-04-17T16:35:44.133Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: new Date('2029-04-17T16:35:44.133Z').getTime(),
         time2: new Date('2030-05-02T11:40:54.756Z').getTime(),
@@ -135,7 +135,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#5: Set lower bound lower than attribute 2 range (no error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2010-11-14T23:10:37.868Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: new Date('2010-11-14T23:10:37.868Z').getTime(),
         time2: new Date('2030-05-02T11:40:54.756Z').getTime(),
@@ -145,7 +145,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#6: Set upper lower than attribute 1 range (error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2012-01-01T06:00:00.000Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: new Date('2010-11-14T23:10:37.868Z').getTime(),
         time2: new Date('2012-01-01T06:00:00.000Z').getTime(),
@@ -154,7 +154,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#7: Unset upper bound (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(null),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: new Date('2010-11-14T23:10:37.868Z').getTime(),
         time2: null,
@@ -163,7 +163,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#8: Unset lower bound (no error)',
       update: () => enzymeWrapper.instance().onDate1Changed(null),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: null,
         time2: null,
@@ -171,21 +171,21 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       expectedQuery: {},
     }]
     updates.forEach(({
-      label, update, expecetedState, expectedQuery,
+      label, update, expectedState, expectedQuery,
     }) => {
       update()
-      assert.deepEqual(spiedPublishStateData.state, expecetedState, `${label} - Next state should be correctly computed`)
+      assert.deepEqual(spiedPublishStateData.state, expectedState, `${label} - Next state should be correctly computed`)
       assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery, `${label} - Next query should be correctly computed`)
       enzymeWrapper.setProps({
         ...props,
-        state: expecetedState,
+        state: expectedState,
       })
       componentWrapper = enzymeWrapper.find(TwoTemporalCriteriaComponent)
       assert.lengthOf(componentWrapper, 1, `${label} - There should be the component`)
       testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-        error: expecetedState.error,
-        value1: expecetedState.time1 && new Date(expecetedState.time1),
-        value2: expecetedState.time2 && new Date(expecetedState.time2),
+        error: expectedState.error,
+        value1: expectedState.time1 && new Date(expectedState.time1),
+        value2: expectedState.time2 && new Date(expectedState.time2),
       }, `${label} - Mutable state properties should be correctly reported to the component`)
     })
   })
@@ -238,7 +238,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     const updates = [{
       label: '#1: Set upper value below attribute range (error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2010-05-22T12:25:25.150Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: TwoTemporalCriteriaContainer.DEFAULT_STATE.time1,
         time2: new Date('2010-05-22T12:25:25.150Z').getTime(),
@@ -247,7 +247,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#2: Set upper value in range',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2016-07-26T08:11:05.222Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: TwoTemporalCriteriaContainer.DEFAULT_STATE.time1,
         time2: new Date('2016-07-26T08:11:05.222Z').getTime(),
@@ -256,7 +256,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#3: Set lower value greater than upper (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2016-08-02T11:40:54.756Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: new Date('2016-08-02T11:40:54.756Z').getTime(),
         time2: new Date('2016-07-26T08:11:05.222Z').getTime(),
@@ -265,7 +265,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#4: Set lower value lower than upper bound (no error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2010-04-17T16:35:44.133Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: new Date('2010-04-17T16:35:44.133Z').getTime(),
         time2: new Date('2016-07-26T08:11:05.222Z').getTime(),
@@ -274,7 +274,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#5: Set upper value in far future (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(new Date('2035-09-07T05:05:05.005Z')),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: new Date('2010-04-17T16:35:44.133Z').getTime(),
         time2: new Date('2035-09-07T05:05:05.005Z').getTime(),
@@ -283,7 +283,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#6: Set lower value greater than attribute range max (error)',
       update: () => enzymeWrapper.instance().onDate1Changed(new Date('2030-01-01T06:00:00.000Z')),
-      expecetedState: {
+      expectedState: {
         error: true,
         time1: new Date('2030-01-01T06:00:00.000Z').getTime(),
         time2: new Date('2035-09-07T05:05:05.005Z').getTime(),
@@ -292,7 +292,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#7: Unset lower bound (no error)',
       update: () => enzymeWrapper.instance().onDate1Changed(null),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: null,
         time2: new Date('2035-09-07T05:05:05.005Z').getTime(),
@@ -301,7 +301,7 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
     }, {
       label: '#8: Unset upper bound (no error)',
       update: () => enzymeWrapper.instance().onDate2Changed(null),
-      expecetedState: {
+      expectedState: {
         error: false,
         time1: null,
         time2: null,
@@ -309,21 +309,21 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       expectedQuery: {},
     }]
     updates.forEach(({
-      label, update, expecetedState, expectedQuery,
+      label, update, expectedState, expectedQuery,
     }) => {
       update()
-      assert.deepEqual(spiedPublishStateData.state, expecetedState, `${label} - Next state should be correctly computed`)
+      assert.deepEqual(spiedPublishStateData.state, expectedState, `${label} - Next state should be correctly computed`)
       assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery, `${label} - Next query should be correctly computed`)
       enzymeWrapper.setProps({
         ...props,
-        state: expecetedState,
+        state: expectedState,
       })
       componentWrapper = enzymeWrapper.find(TwoTemporalCriteriaComponent)
       assert.lengthOf(componentWrapper, 1, `${label} - There should be the component`)
       testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-        error: expecetedState.error,
-        value1: expecetedState.time1 && new Date(expecetedState.time1),
-        value2: expecetedState.time2 && new Date(expecetedState.time2),
+        error: expectedState.error,
+        value1: expectedState.time1 && new Date(expectedState.time1),
+        value2: expectedState.time2 && new Date(expectedState.time2),
       }, `${label} - Mutable state properties should be correctly reported to the component`)
     })
   })

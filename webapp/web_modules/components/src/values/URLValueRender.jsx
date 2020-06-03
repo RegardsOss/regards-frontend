@@ -40,6 +40,7 @@ class URLValueRender extends React.Component {
 
   render() {
     const { value } = this.props
+    console.error('---------->', value)
     // Regex url
     const regexMarkdownUrl = /\[(.*?)\]\((http.*?)\)/i
     let label = value

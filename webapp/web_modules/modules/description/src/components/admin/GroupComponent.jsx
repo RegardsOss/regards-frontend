@@ -200,7 +200,8 @@ class GroupComponent extends React.Component {
               selectableAttributes={availableAttributes}
               attributesList={elements}
               allowLabel
-              allowAttributesRegroupements
+              allowRendererSelection
+              allowAttributesGroups
               hintMessageKey="module.description.configuration.group.elements.hint"
               attributesListFieldName="dumb.key" // unused as it is not directly connected with form
               changeField={this.onElementsChanged}

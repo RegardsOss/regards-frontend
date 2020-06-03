@@ -35,10 +35,13 @@ class DateRangeValueRender extends React.Component {
     }),
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
+    // function like (date, formatMessage) => (string). Required but a default is provided
+    formatter: PropTypes.func,
   }
 
   static defaultProps = {
     multilineDisplay: false,
+    formatter: DateValueRender.DEFAULT_FORMATTERS.dateWithSeconds, // historical default formatter
   }
 
   static contextTypes = {
@@ -47,14 +50,14 @@ class DateRangeValueRender extends React.Component {
 
   render() {
     const value = this.props.value || {}
-    const { multilineDisplay } = this.props
-    const { intl } = this.context
+    const { multilineDisplay, formatter } = this.props
+    const { intl: { formatMessage } } = this.context
 
     return (
       <RangeValueRenderDelegate
         noValue={isNil(this.props.value)}
-        lowerBound={DateValueRender.getFormattedDate(intl, value.lowerBound)}
-        upperBound={DateValueRender.getFormattedDate(intl, value.upperBound)}
+        lowerBound={DateValueRender.getFormattedDate(value.lowerBound, formatter, formatMessage)}
+        upperBound={DateValueRender.getFormattedDate(value.upperBound, formatter, formatMessage)}
         multilineDisplay={multilineDisplay}
       />)
   }

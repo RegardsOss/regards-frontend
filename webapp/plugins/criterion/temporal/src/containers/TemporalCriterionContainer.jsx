@@ -49,7 +49,7 @@ export class TemporalCriterionContainer extends React.Component {
     // state shared and consumed by this criterion
     state: PropTypes.shape({
       error: PropTypes.bool.isRequired,
-      time: PropTypes.number, // note: the date is stored as timestamp for serizalization
+      time: PropTypes.number, // note: the date is stored as timestamp for serialization
       operator: PropTypes.oneOf([CommonDomain.EnumNumericalComparator.GE, CommonDomain.EnumNumericalComparator.LE]), // only accepts >= and <=
     }),
     // Callback to share state update with parent form like (state, requestParameters) => ()
@@ -70,7 +70,7 @@ export class TemporalCriterionContainer extends React.Component {
    */
   static isInError(attribute, time, operator) {
     return !isNil(time) && !!operator && !DateRange.isValidRestrictionOn(
-      attribute, DateRange.convertToRange(DateRange.toUTCTime(time), operator))
+      attribute, DateRange.convertToRange(time, operator)) // user input is considered already UTC
   }
 
   /**
@@ -82,7 +82,7 @@ export class TemporalCriterionContainer extends React.Component {
   static convertToRequestParameters({ error, time, operator }, attribute) {
     return error || isNil(time) || !operator ? { } : {
       q: DateRange.getDateQueryParameter(attribute.jsonPath,
-        DateRange.convertToRange(DateRange.toUTCTime(time), operator)).toQueryString(),
+        DateRange.convertToRange(time, operator)).toQueryString(),
     }
   }
 
@@ -131,7 +131,8 @@ export class TemporalCriterionContainer extends React.Component {
         error={error}
         label={label}
         searchAttribute={searchField}
-        value={isNil(time) ? null : new Date(time)} // provide value as date to components below
+        // provide value as UTC date to component
+        value={isNil(time) ? null : new Date(time)}
         operator={operator}
         availableComparators={TemporalCriterionContainer.AVAILABLE_COMPARISON_OPERATORS}
         onDateChanged={this.onDateChanged}

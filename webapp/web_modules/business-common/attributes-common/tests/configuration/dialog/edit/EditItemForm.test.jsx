@@ -45,7 +45,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     let spiedConfirmValues = null
     const props = {
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       attributeModels: attributeModelsArray,
       editionData: {
         attributesList: [{
@@ -122,7 +122,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     let spiedConfirmValues = null
     const props = {
       allowLabel: false,
-      allowAttributesRegroupements: false,
+      allowAttributesGroups: false,
       attributeModels: attributeModelsArray,
       editionData: {
         attributesList: [

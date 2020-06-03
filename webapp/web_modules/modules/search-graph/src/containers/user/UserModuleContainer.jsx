@@ -126,8 +126,9 @@ export class UserModuleContainer extends React.Component {
       // resolve attributes from model (ignore the non resolved attributes, as they come from model changes)
       // Note: by configuration, each graphDatasetAttributes element has one and only one attribute
       const resolvedGraphDatasetAttributes = attributesConfiguration.reduce((resolvedAcc, attributeElement) => {
+        const attrConfiguration = attributeElement.attributes[0]
         const foundModel = DamDomain.AttributeModelController
-          .findModelFromAttributeFullyQualifiedName(attributeElement.attributes[0].name, fetchedAtributesModels)
+          .findModelFromAttributeFullyQualifiedName(attrConfiguration.name, fetchedAtributesModels)
         if (foundModel) {
           const {
             content: {
@@ -137,7 +138,7 @@ export class UserModuleContainer extends React.Component {
           return [...resolvedAcc, {
             label: attributeElement.label,
             attributePath: jsonPath, // fragment attribute
-            render: getTypeRender(type),
+            render: getTypeRender(type, attrConfiguration.renderer),
             precision, // optional (double {array / range / single} attributes only)
             unit, // optional (numeric {array / range / single} attributes only)
           }]

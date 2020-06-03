@@ -101,7 +101,7 @@ describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
       attributesList: values.views[viewType].attributes,
       attributesListFieldName: `${rootViewNamespace}.attributes`,
       changeField: props.changeField,
-      allowAttributesRegroupements: viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+      allowAttributesGroups: viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       allowLabel: true,
     }, 'Attributes list properties should be correctly set')
 

@@ -116,10 +116,18 @@ export default theme => ({
           marginRight: 20,
           marginLeft: 20,
         },
-        tableHolderStyle: {
-          flexGrow: 1,
+        firstTableHolderStyle: {
+          flexGrow: 2,
           flexShrink: 1,
-          flexBasis: 5, // no matter the value, it just avoids empty table to be smaller
+          flexBasis: 0, // no matter the value, it just avoids empty table to be smaller
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'stretch',
+        },
+        secondTableHolderStyle: {
+          flexGrow: 3,
+          flexShrink: 1,
+          flexBasis: 0, // no matter the value, it just avoids empty table to be smaller
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'stretch',
