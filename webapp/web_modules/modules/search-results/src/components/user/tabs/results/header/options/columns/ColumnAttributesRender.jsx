@@ -45,7 +45,7 @@ class ColumnAttributesRender extends React.Component {
     // 1.a That model is not related with attributes (options / selection columns): show NA label
       ? formatMessage({ id: 'search.results.configure.columns.attribute.not.available' })
     // 1.b There is a list: format each attribute and join on separator
-      : attributes.map(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute))
+      : attributes.map(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute.model))
         .join(formatMessage({ id: 'search.results.configure.columns.attribute.label.separator' }))
 
     return (

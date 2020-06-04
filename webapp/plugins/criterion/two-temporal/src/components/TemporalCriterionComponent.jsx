@@ -20,7 +20,7 @@ import noop from 'lodash/noop'
 import { CommonDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DatePickerField, NumericalComparatorSelector } from '@regardsoss/components'
+import { DatePickerField, NumericalComparatorSelector, DateValueRender } from '@regardsoss/components'
 import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
@@ -72,6 +72,7 @@ export class TemporalCriterionComponent extends React.Component {
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
     const operators = isLowerBound ? TemporalCriterionComponent.LOWER_BOUND_COMPARATORS : TemporalCriterionComponent.UPPER_BOUND_COMPARATORS
+
     return (
       <>
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
@@ -89,8 +90,12 @@ export class TemporalCriterionComponent extends React.Component {
             onChange={onDateChanged}
             locale={intl.locale}
             errorText={error ? TemporalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
-            dateHintText={hintDate ? intl.formatDate(hintDate) : intl.formatMessage({ id: 'criterion.date.field.label' })}
-            timeHintText={hintDate ? intl.formatTime(hintDate) : intl.formatMessage({ id: 'criterion.time.field.label' })}
+            dateHintText={hintDate
+              ? DateValueRender.getFormattedDate(hintDate, DateValueRender.DEFAULT_FORMATTERS.date, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.date.field.label' })}
+            timeHintText={hintDate
+              ? DateValueRender.getFormattedDate(hintDate, DateValueRender.DEFAULT_FORMATTERS.time, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.time.field.label' })}
             tooltip={formatTooltip(intl, searchAttribute)}
             okLabel={intl.formatMessage({ id: 'criterion.date.picker.ok' })}
             cancelLabel={intl.formatMessage({ id: 'criterion.date.picker.cancel' })}

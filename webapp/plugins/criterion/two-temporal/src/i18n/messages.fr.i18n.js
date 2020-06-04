@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { RenderMessages } from '@regardsoss/components'
 
 /**
  * i18n messages French language
  * @type {*}
  */
 const messages = {
+  // required to format dates
+  ...RenderMessages.fr,
   'single.attributes.label': '{label}',
   'multiple.attributes.label': '{label1} / {label2}',
   'criterion.date.field.label': 'Date',

@@ -50,8 +50,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
    * @return {boolean} true if attribute type is URL, false otherwise
    */
   static filterURLAttributes(attribute) {
-    return attribute.content.name !== DamDomain.AttributeModelController.standardAttributesKeys.thumbnail
-    && attribute.content.type === DamDomain.MODEL_ATTR_TYPES.URL
+    return attribute.content.type === DamDomain.MODEL_ATTR_TYPES.URL
   }
 
   /**
@@ -161,14 +160,11 @@ class DescriptionConfigurationFormComponent extends React.Component {
           >
             <AttributesListConfigurationComponent
               selectableAttributes={availableAttributes}
-              // forbid thumbnail in map and quicklooks but allow it for all entity types (new REGARDS working mode)
               attributesFilter={DescriptionConfigurationFormComponent.filterURLAttributes}
               attributesList={currentTypeValues.attributeToDescriptionFiles}
               attributesListFieldName={`${currentNamespace}.${entityType}.attributeToDescriptionFiles`}
               hintMessageKey="module.description.configuration.description.files.hint"
               changeField={changeField}
-              allowAttributesRegroupements={false}
-              allowLabel={false}
             />
           </FieldsGroup>
         </FormRow>

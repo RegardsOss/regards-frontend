@@ -78,7 +78,7 @@ describe('[Description] Testing GroupComponent', () => {
       selectableAttributes: props.availableAttributes,
       attributesList: props.group.elements,
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       hintMessageKey: 'module.description.configuration.group.elements.hint',
       changeField: wrapperInstance.onElementsChanged,
     }, 'Attributes list editor component properties should be correctly set')

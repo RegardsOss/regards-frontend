@@ -76,7 +76,7 @@ export class TableViewContainer extends React.Component {
       if (model.enableSorting) {
         // pre: this model is necessary an AttributePresentationModel and can only have one attribute
         // search for corresponding sorting criterion
-        const correspondingCritIndex = sortingCriteria.findIndex(({ attribute }) => isEqual(attribute, model.attributes[0]))
+        const correspondingCritIndex = sortingCriteria.findIndex(({ attribute }) => isEqual(attribute, model.attributes[0].model))
         if (correspondingCritIndex >= 0) { // 0 -> n-1: that model attribute is used for sorting
           sortOrder = sortingCriteria[correspondingCritIndex].sortOrder
           sortIndex = correspondingCritIndex
@@ -155,7 +155,7 @@ export class TableViewContainer extends React.Component {
       selectedModeState: { presentationModels },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     const updatedSortingModel = presentationModels.find(({ key }) => key === presentationModelKey)
-    const sortingAttribute = updatedSortingModel.attributes[0]
+    const sortingAttribute = updatedSortingModel.attributes[0].model
 
     const indexInCurrentSorting = sorting.findIndex(({ attribute }) => isEqual(attribute, sortingAttribute))
 

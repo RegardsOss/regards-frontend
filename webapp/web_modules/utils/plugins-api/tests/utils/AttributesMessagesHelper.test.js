@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { DamDomain } from '@regardsoss/domain'
 import { criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  getTypeText, formatDateBound, formatBoundValue, formatBoundsStateHint,
+  getTypeText, formatBoundValue, formatBoundsStateHint,
   formatAnyBoundHintText, formatLowerBoundHintText, formatUpperBoundHintText,
   formatHintText, formatTooltip, BOUND_TYPE,
 } from '../../src/utils/AttributesMessagesHelper'
@@ -34,8 +34,6 @@ function makeIntlStub() {
   const results = {
     formatMessage: { count: 0, id: [], parameters: [] },
     formatNumber: { count: 0, number: [] },
-    formatDate: { count: 0, date: [] },
-    formatTime: { count: 0, date: [] },
   }
   return {
     formatMessage: ({ id }, parameters = {}) => {
@@ -53,20 +51,8 @@ function makeIntlStub() {
       }
       return number.toString()
     },
-    formatDate: (date) => {
-      results.formatDate = {
-        count: results.formatDate.count + 1,
-        date: [...results.formatDate.date, date],
-      }
-      return date.toUTCString()
-    },
-    formatTime: (date) => {
-      results.formatTime = {
-        count: results.formatTime.count + 1,
-        date: [...results.formatTime.date, date],
-      }
-      return date.toUTCString()
-    },
+    formatTime: () => { },
+    formatDate: () => { },
     results,
   }
 }
@@ -99,7 +85,6 @@ const testValues = [
 describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
   it('should define expected members', () => {
     assert.isDefined(getTypeText, 'getTypeText should be exported')
-    assert.isDefined(formatDateBound, 'formatDateBound should be exported')
     assert.isDefined(formatBoundValue, 'formatBoundValue should be exported')
     assert.isDefined(formatBoundsStateHint, 'formatBoundsStateHint should be exported')
     assert.isDefined(formatLowerBoundHintText, 'formatLowerBoundHintText should be exported')
@@ -113,19 +98,6 @@ describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
     const intlStub = makeIntlStub()
     assert.equal(getTypeText(intlStub, criterionTestSuiteHelpers.getAttributeStub('my.type')), 'criterion.attribute.hint.type.my.type', 'key should be correctly computed')
     assert.equal(intlStub.results.formatMessage.count, 1, 'Type should be internationalized')
-  })
-  it('should format correctly a date bound value', () => {
-    // 1 - Valid date
-    const intlStub = makeIntlStub()
-    const result1 = formatDateBound(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z')
-    assert.equal(result1, 'criterion.attribute.bounds.value.date', '1 - Internationalized date should be returned')
-    assert.equal(intlStub.results.formatDate.count, 1, '1 - formatDate should have been called 1 time')
-    assert.deepInclude(intlStub.results.formatDate.date, new Date('2018-09-27T13:15:42.726Z'), '1 - formatDate should have been called with parsed date')
-    assert.equal(intlStub.results.formatTime.count, 1, '1 - formatTime should have been called 1 time')
-    assert.deepInclude(intlStub.results.formatTime.date, new Date('2018-09-27T13:15:42.726Z'), '1 - formatTime should have been called with parsed date')
-
-    // Invalid date: expected exception
-    assert.throws(formatDateBound.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'invalid'))
   })
   it('should format correctly a bound value', () => {
     // 1 - Valid attributes (detailed tests above)
@@ -143,7 +115,7 @@ describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, 'o'), 15500000),
       'storage.capacity.monitoring.capacity', '"storage.capacity.monitoring.capacity" should be returned by the number bound value formatter')
     assert.equal(formatBoundValue(intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), '2018-09-27T13:15:42.726Z'),
-      'criterion.attribute.bounds.value.date', '"criterion.attribute.bounds.value.date" should be returned by the date bound value formatter')
+      'date.value.render.type.dateWithSeconds', '"date.value.render.type.dateWithSeconds" should be returned by the date bound value formatter')
     // 2 - Invalid values or attribute types
     assert.throws(formatBoundValue.bind(null, intlStub, criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601), 'anything'))
     typesWithoutBounds.forEach((type) => {
@@ -193,10 +165,8 @@ describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
     })
     const result2a = formatLowerBoundHintText(intlStub2a, attrStub2a)
     assert.equal(result2a, 'criterion.attribute.bounds.lower.bound.value', '2a - Bound should be internationalized with value')
-    assert.equal(intlStub2a.results.formatDate.count, 1, '2a - formatDate should have been called to format date')
-    assert.equal(intlStub2a.results.formatTime.count, 1, '2a - formatTime should have been called to format date')
     assert.equal(intlStub2a.results.formatMessage.count, 2, '2a - formatMessage should have been called to format bound value and date parameters')
-    assert.deepInclude(intlStub2a.results.formatMessage.parameters, { lowerBoundText: 'criterion.attribute.bounds.value.date' }, '2a - Message should include the right bounds information')
+    assert.deepInclude(intlStub2a.results.formatMessage.parameters, { lowerBoundText: 'date.value.render.type.dateWithSeconds' }, '2a - Message should include the right bounds information')
 
     // b - invalid
     const intlStub2b = makeIntlStub()
@@ -243,10 +213,8 @@ describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
     })
     const result2 = formatUpperBoundHintText(intlStub2, attrStub2)
     assert.equal(result2, 'criterion.attribute.bounds.upper.bound.value', '2 - Bound should be internationalized with value')
-    assert.equal(intlStub2.results.formatDate.count, 1, '2 - formatDate should have been called to format date')
-    assert.equal(intlStub2.results.formatTime.count, 1, '2 - formatTime should have been called to format date')
     assert.equal(intlStub2.results.formatMessage.count, 2, '2 - formatMessage should have been called to format bound value and date parameters')
-    assert.deepInclude(intlStub2.results.formatMessage.parameters, { upperBoundText: 'criterion.attribute.bounds.value.date' }, '2 - Message should include the right bounds information')
+    assert.deepInclude(intlStub2.results.formatMessage.parameters, { upperBoundText: 'date.value.render.type.dateWithSeconds' }, '2 - Message should include the right bounds information')
 
     // 3 - Without value
     const intlStub3 = makeIntlStub()
@@ -280,10 +248,6 @@ describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
     })
     const result2 = formatAnyBoundHintText(intlStub2, attrStub2)
     assert.equal(result2, 'criterion.attribute.bounds.range.values', '2 - Bound should be internationalized with values')
-    assert.equal(intlStub2.results.formatDate.count, 1, '2 - formatDate should have been called to format lower bound value')
-    assert.deepInclude(intlStub2.results.formatDate.date, new Date('2018-09-27T13:15:42.726Z'), '2 - formatDate should have been called for lower bound')
-    assert.equal(intlStub2.results.formatTime.count, 1, '2 - formatTime should have been called to format lower bound value')
-    assert.deepInclude(intlStub2.results.formatTime.date, new Date('2018-09-27T13:15:42.726Z'), '2 - formatTime should have been called for lower bound')
     assert.equal(intlStub2.results.formatMessage.count, 4, '2 - formatMessage for bound each (2 times), for date displaying and for and full range')
     assert.deepInclude(intlStub2.results.formatMessage.parameters, {
       rangeMin: 'criterion.attribute.bounds.range.inclusive.min.bound',

@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import MenuItem from 'material-ui/MenuItem'
 import { ShowableAtRender } from '@regardsoss/components'
 import { Field, FieldArray } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
+import { DEFAULT_RENDERER_KEY, getTypeRendererKeys } from '../../../../src/render/AttributesTypeToRender'
 import { EditItemForm } from '../../../../src/configuration/dialog/edit/EditItemForm'
 import MultipleAttributesFieldRender from '../../../../src/configuration/multiple/MultipleAttributesFieldRender'
 import styles from '../../../../src/styles'
@@ -45,7 +48,8 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     let spiedConfirmValues = null
     const props = {
       allowLabel: true,
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
+      allowRendererSelection: true,
       attributeModels: attributeModelsArray,
       editionData: {
         attributesList: [{
@@ -53,7 +57,10 @@ describe('[Attributes Common] Testing EditItemForm', () => {
             en: 'First test',
             fr: 'Premier test',
           },
-          attributes: [{ name: 'label' }, { name: 'attr2' }],
+          attributes: [{
+            name: 'label',
+            renderer: getTypeRendererKeys(DamDomain.MODEL_ATTR_TYPES.STRING)[1], // multiline
+          }, { name: 'attr2' }],
         }, {
           label: {
             en: 'Another attribute',
@@ -67,8 +74,8 @@ describe('[Attributes Common] Testing EditItemForm', () => {
         spiedConfirmValues = { newItem, order }
       },
       onCancel: () => { },
-      initialize: (values) => {
-        spiedInitValues = values
+      initialize: (initValues) => {
+        spiedInitValues = initValues
       },
       handleSubmit: () => { },
       change: () => { },
@@ -78,7 +85,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     assert.deepEqual(spiedInitValues, {
       order: 0, // current position
       ...props.editionData.attributesList[0],
-      singleAttribute: { name: 'label' }, // added for single attributes elements, not used here
+      singleAttribute: { name: 'label', renderer: getTypeRendererKeys(DamDomain.MODEL_ATTR_TYPES.STRING)[1] },
     })
     // 2 - check fields and allowed values
     // a. labels (through their parent showable)
@@ -122,7 +129,8 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     let spiedConfirmValues = null
     const props = {
       allowLabel: false,
-      allowAttributesRegroupements: false,
+      allowAttributesGroups: false,
+      allowRendererSelection: false,
       attributeModels: attributeModelsArray,
       editionData: {
         attributesList: [
@@ -135,8 +143,8 @@ describe('[Attributes Common] Testing EditItemForm', () => {
         spiedConfirmValues = { newItem, order }
       },
       onCancel: () => { },
-      initialize: (values) => {
-        spiedInitValues = values
+      initialize: (initValues) => {
+        spiedInitValues = initValues
       },
       change: () => { },
       handleSubmit: () => { },
@@ -146,7 +154,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     assert.deepEqual(spiedInitValues, {
       order: 2,
       ...props.editionData.attributesList[2],
-      singleAttribute: { name: 'attr4' },
+      singleAttribute: { name: 'attr4', renderer: DEFAULT_RENDERER_KEY },
     })
     // 2 - check fields and allowed values
     // a. labels
@@ -182,5 +190,53 @@ describe('[Attributes Common] Testing EditItemForm', () => {
       },
       order: 55,
     }, 'Submitted values should be correctly converted')
+  })
+  it('should render a specific renderer selection field when in single attribute with that option, and provide the right selection options to it', () => {
+    const renderersCount = [{
+      types: [DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY, DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL],
+      expectedOptionsCount: 6,
+    }, {
+      types: [DamDomain.MODEL_ATTR_TYPES.STRING],
+      expectedOptionsCount: 2,
+    }] // other type: expected one possible renderer
+    values(DamDomain.PSEUDO_ATTR_TYPES).forEach((type) => {
+      const props = {
+        allowLabel: false,
+        allowAttributesGroups: false,
+        allowRendererSelection: true,
+        attributeModels: [{ // add custom attribute with type
+          content: {
+            id: 600000000,
+            name: 'acustomattribute',
+            label: 'acustomattribute',
+            jsonPath: 'acustomattribute',
+            description: 'acustomattribute',
+            type,
+          },
+        }, ...attributeModelsArray],
+        editionData: {
+          attributesList: [
+            { attributes: [{ name: 'label' }] },
+            { attributes: [{ name: 'attr3' }] },
+            { attributes: [{ name: 'acustomattribute' }] }],
+          editedElementIndex: 2,
+        },
+        editedSingleAttribute: {
+          name: 'acustomattribute',
+          renderer: DEFAULT_RENDERER_KEY,
+        },
+        onConfirm: () => {},
+        onCancel: () => { },
+        initialize: () => {},
+        change: () => { },
+        handleSubmit: () => { },
+      }
+      const enzymeWrapper = shallow(<EditItemForm {...props} />, { context })
+      const field = enzymeWrapper.find(Field).findWhere(n => n.props().name === 'singleAttribute.renderer')
+      assert.lengthOf(field, 1, 'There should be renderer selection field')
+      const options = field.find(MenuItem)
+      const { expectedOptionsCount } = (renderersCount.find(({ types }) => types.includes(type)) || { expectedOptionsCount: 1 })
+      assert.lengthOf(options, expectedOptionsCount, `There should be ${expectedOptionsCount} for type ${type}`)
+    })
   })
 })

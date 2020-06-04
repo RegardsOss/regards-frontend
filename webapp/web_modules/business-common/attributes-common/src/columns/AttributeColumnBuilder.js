@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import { DamDomain } from '@regardsoss/domain'
 import { TableColumnBuilder } from '@regardsoss/components'
-import { buildRenderDelegate, buildThumbnailRenderDelegate } from '../render/AttributesTypeToRender'
+import { buildRenderDelegate } from '../render/AttributesTypeToRender'
 
 /**
  * Helper to build data model attribute table columns
@@ -28,20 +28,21 @@ import { buildRenderDelegate, buildThumbnailRenderDelegate } from '../render/Att
 
 /**
  * Returns render delegates for attributes
- * @param {*} attributes attributes
+ * @param {*} attributes attributes, an array of elements matching ResultsContext#AttributeAndRender
  * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
  */
 function buildRenderDelegates(attributes) {
-  return attributes.map(({ content }) => buildRenderDelegate(`content.${content.jsonPath}`, content.type, content.precision, content.unit))
-}
-
-/**
- * Returns thumbnail render delegate as array
- * @param {*} thumbnailAttribute thumbnail attribute
- * @return {path:{string}, RenderConstructor:{function}} delegate builder with props
- */
-function buildThumbnailDelegates(thumbnailAttribute) {
-  return [buildThumbnailRenderDelegate(`content.${thumbnailAttribute.content.jsonPath}`)]
+  return attributes.map(({
+    renderer,
+    model: {
+      content: {
+        jsonPath,
+        type,
+        precision,
+        unit,
+      },
+    },
+  }) => buildRenderDelegate(`content.${jsonPath}`, type, precision, unit, renderer))
 }
 
 /**
@@ -59,17 +60,19 @@ function buildAttributeColumn({
     throw new Error(`An attribute presentation model must have attributes! (${key}/${label.en})`)
   }
   // 1 - build common column elements
-  const columnBuilder = new TableColumnBuilder(key).label(get(label, locale, '')).visible(visible)
+  const columnBuilder = new TableColumnBuilder(key)
+    .label(get(label, locale, ''))
+    .visible(visible)
+    .propertiesRenderCell(buildRenderDelegates(attributes))
   // 2 - determine column header, width and render
   // check, by key, if we are currently rendering the thumbnail column
   const isThumbnailColumn = attributes.length === 1
-    && DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].content.name
+    && DamDomain.AttributeModelController.standardAttributesKeys.thumbnail === attributes[0].model.content.name
   if (isThumbnailColumn) {
-    // thumbnail attribute: no header, fixed width, single picture delegate
-    columnBuilder.optionsSizing(1).propertiesRenderCell(buildThumbnailDelegates(attributes[0]))
+    // thumbnail attribute: no header, fixed width
+    columnBuilder.optionsSizing(1)
   } else {
-    // a common single or attributes group column: build attributes render delegates, keep width undefined (not fixed) and prepare header
-    columnBuilder.propertiesRenderCell(buildRenderDelegates(attributes))
+    // a common single or attributes group column: dynamic width (unspecified) and header
     const isSortable = attributes.length === 1 && enableSorting
     if (isSortable) {
       // default column: if sorting enabled, sorting header
@@ -83,6 +86,5 @@ function buildAttributeColumn({
 
 export default {
   buildRenderDelegates,
-  buildThumbnailDelegates,
   buildAttributeColumn,
 }

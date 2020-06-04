@@ -39,33 +39,37 @@ export class PresentationHelper {
   ]
 
   /**
-   * Is attribute as parameter (by its name) sortable
-   * @param {*} attributeFullQualifiedName attributeFullQualifiedName
+   * Is model as parameter sortable
+   * @param {*} presentationModel matching AccessShapes#AttributeElementModel
+   * @return {boolean} true if sorting is allowed for presentation model, false otherwise
    */
-  static isSortableAttribute(attributeFullQualifiedName) {
-    return !PresentationHelper.NON_SORTABLE_ATTRIBUTES.includes(attributeFullQualifiedName)
+  static isSortableModel(presentationModel) {
+    return presentationModel.attributes.length === 1
+    && !this.NON_SORTABLE_ATTRIBUTES.includes(presentationModel.attributes[0].name)
   }
 
   /**
    * Builds a common presentatation model for results view
    * @param {*} attributeModels attributes found on server (respects DataManagementShapes.AttributeModelList shapes)
-   * @param {*} columnConfiguration  attributes group configuration
+   * @param {*} presentationModel matching AccessShapes#AttributeElementModel
    * @param {bool} allowingSort is sort allowed in current context
    * @param {string} key column key
    * @return {*} presentation model or null
    */
-  static buildPresentationModel(attributeModels = {}, { label, attributes = [] }, allowingSort, key) {
+  static buildPresentationModel(attributeModels = {}, presentationModel, allowingSort, key) {
   // 1 - Retrieve all attributes that can be retrieved
-    const columnAttributeModels = attributes.map(({ name }) => DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels))
-      .filter(model => !!model) // remove non retrieved models
-    if (!columnAttributeModels.length) {
+    const attributesAndRender = presentationModel.attributes.map(({ name, renderer }) => ({
+      renderer,
+      model: DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels),
+    })).filter(attr => !!attr.model) // remove non retrieved models
+    if (!attributesAndRender.length) {
       return null // cannot show that column as no attribute could be retrieved
     }
     return {
       key,
-      label,
-      attributes: columnAttributeModels,
-      enableSorting: allowingSort && columnAttributeModels.length === 1 && PresentationHelper.isSortableAttribute(attributes[0].name),
+      label: presentationModel.label,
+      attributes: attributesAndRender,
+      enableSorting: allowingSort && PresentationHelper.isSortableModel(presentationModel),
       visible: true,
     }
   }
@@ -85,14 +89,14 @@ export class PresentationHelper {
     const addSelectionColumn = UIDomain.ResultsContextConstants.allowSelection(viewType, viewMode)
       && PresentationHelper.MODES_USING_SELECTION_PM.includes(viewMode)
     return [
-    // 1 - selection if enabled for current
+      // 1 - selection if enabled for current
       addSelectionColumn ? PresentationHelper.buildColumnPlaceholder(TableColumnBuilder.selectionColumnKey) : null,
       // 2 - build the presentation model, or null when no attribute model could be retrieved (filter null elements)
       ...configuredAttributes.map(
         (c, index) => PresentationHelper.buildPresentationModel(attributeModels, c, allowingSort, `configured.column.${index}`)),
       // 3 - options columns
       addOptionsColumn ? PresentationHelper.buildColumnPlaceholder(TableColumnBuilder.optionsColumnKey) : null,
-    ].filter(model => !!model)
+    ].filter(presentationModel => !!presentationModel)
   }
 
   /**

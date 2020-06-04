@@ -206,8 +206,9 @@ class ViewTypeConfigurationComponent extends React.Component {
               attributesListFieldName={`${viewNamespace}.attributes`}
               hintMessageKey={`search.results.form.configuration.result.${viewType}.no.attribute`}
               changeField={changeField}
-              allowAttributesRegroupements={ViewTypeConfigurationComponent.TYPES_ALLOWING_GROUPS.includes(viewType)}
+              allowAttributesGroups={ViewTypeConfigurationComponent.TYPES_ALLOWING_GROUPS.includes(viewType)}
               allowLabel
+              allowRendererSelection
             />
           </div>
         </FieldsGroup>
