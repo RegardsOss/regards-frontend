@@ -40,9 +40,11 @@ describe('[Attributes Common] Testing SelectedAttributesTable', () => {
   it('should render correctly without element and in error', () => {
     const props = {
       invalid: true,
+      allowRendererSelection: false,
       error: 'hello',
       selectedAttributes: [],
       attributeModels: attributeModelsArray,
+      onRendererSelected: () => {},
       onRemove: () => { },
     }
     const enzymeWrapper = shallow(<SelectedAttributesTable {...props} />, { context })
@@ -55,13 +57,16 @@ describe('[Attributes Common] Testing SelectedAttributesTable', () => {
     const table = enzymeWrapper.find(InfiniteTableContainer)
     assert.lengthOf(table, 1, 'There should be the table')
     assert.isEmpty(table.props().entities, 'There should be no entity in table')
+    assert.lengthOf(table.props().columns, 2, 'There should be attribute and options columns')
   })
   it('should render correctly with elements and no error', () => {
     const props = {
       invalid: false,
+      allowRendererSelection: true,
       error: null,
       selectedAttributes: [{ name: 'properties.attr1' }, { name: 'label' }],
       attributeModels: attributeModelsArray,
+      onRendererSelected: () => {},
       onRemove: () => { },
     }
     const enzymeWrapper = shallow(<SelectedAttributesTable {...props} />, { context })
@@ -74,5 +79,6 @@ describe('[Attributes Common] Testing SelectedAttributesTable', () => {
     const table = enzymeWrapper.find(InfiniteTableContainer)
     assert.lengthOf(table, 1, 'There should be the table')
     assert.deepEqual(table.props().entities, props.selectedAttributes, 'Selected elements should be displayed')
+    assert.lengthOf(table.props().columns, 3, 'There should be attribute, render and options columns')
   })
 })

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import forEach from 'lodash/forEach'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
@@ -45,11 +46,12 @@ describe('[COMPONENTS] Testing DateValueRender', () => {
     assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined date should display no data text')
   })
 
-  it('Should internationalize a valid date', () => {
+  forEach(DateValueRender.DEFAULT_FORMATTERS, (formatter, key) => it(`Should render correctly with format ${key}`, () => {
     const props = {
-      value: '2017-01-07T12:00:00',
+      value: '2017-01-07T12:00:00Z',
+      formatter,
     }
     const wrapper = shallow(<DateValueRender {...props} />, { context })
-    assert.include(wrapper.text(), 'value.render.date.value', 'There should be an empty value rendered')
-  })
+    assert.include(wrapper.text(), `date.value.render.type.${key}`, 'There should be an empty value rendered')
+  }))
 })

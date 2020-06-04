@@ -80,17 +80,23 @@ export function formatBoundsStateHint(intl, attribute) {
  * @throws Error when formatting failed
  */
 export function formatBoundValue(intl, attribute, value) {
+  let formattedValue = null
   switch (attribute.type) {
     case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
     case DamDomain.MODEL_ATTR_TYPES.INTEGER:
     case DamDomain.MODEL_ATTR_TYPES.LONG:
       // Delegate onto number value render
-      return NumberValueRender.formatValue(intl, value, attribute.precision, attribute.unit)
+      formattedValue = NumberValueRender.formatValue(intl, value, attribute.precision, attribute.unit)
+      break
     case DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601:
-      return DateValueRender.getFormattedDate(value, DateValueRender.DEFAULT_FORMATTERS.dateWithSeconds, intl.formatMessage)
-    default:
-      throw new Error(`Attribute ${attribute.name} should have no bound as its type is ${attribute.type}`)
+      formattedValue = DateValueRender.getFormattedDate(value, DateValueRender.DEFAULT_FORMATTERS.dateWithSeconds, intl.formatMessage)
+      break
+    default: // no fallback for default
   }
+  if (formattedValue) {
+    return formattedValue
+  }
+  throw new Error(`Attribute ${attribute.name} should have no bound as its type is ${attribute.type}`)
 }
 
 /**

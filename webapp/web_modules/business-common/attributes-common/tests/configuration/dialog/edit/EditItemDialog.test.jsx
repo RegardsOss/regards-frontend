@@ -43,6 +43,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     const props = {
       allowLabel: true,
       allowAttributesGroups: true,
+      allowRendererSelection: true,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: {
@@ -73,6 +74,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     testSuiteHelpers.assertWrapperProperties(form, {
       allowLabel: props.allowLabel,
       allowAttributesGroups: props.allowAttributesGroups,
+      allowRendererSelection: props.allowRendererSelection,
       attributeModels: props.attributeModels,
       editionData: props.editionData,
       onCancel: props.onCancel,
@@ -89,6 +91,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     const props = {
       allowLabel: true,
       allowAttributesGroups: true,
+      allowRendererSelection: false,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: {
@@ -135,6 +138,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     testSuiteHelpers.assertWrapperProperties(form, {
       allowLabel: props.allowLabel,
       allowAttributesGroups: props.allowAttributesGroups,
+      allowRendererSelection: props.allowRendererSelection,
       attributeModels: props.attributeModels,
       editionData: props.editionData,
       onCancel: props.onCancel,
@@ -154,6 +158,7 @@ describe('[Attributes Common] Testing EditItemDialog', () => {
     const props = {
       allowLabel: true,
       allowAttributesGroups: true,
+      allowRendererSelection: false,
       attributeModels: attributeModelsArray,
       // edition data: this dialog is visible only when it is porvided
       editionData: null,
