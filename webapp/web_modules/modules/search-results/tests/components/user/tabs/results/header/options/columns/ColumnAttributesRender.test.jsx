@@ -68,21 +68,22 @@ describe('[SEARCH RESULTS] Testing ColumnAttributesRender', () => {
           fr: 'IDK.fr',
         },
         visible: true,
-        attributes: [
-          DamDomain.AttributeModelController.getStandardAttributeModel(
+        attributes: [{
+          model: DamDomain.AttributeModelController.getStandardAttributeModel(
             DamDomain.AttributeModelController.standardAttributesKeys.label),
-          DamDomain.AttributeModelController.getStandardAttributeModel(
+        }, {
+          model: DamDomain.AttributeModelController.getStandardAttributeModel(
             DamDomain.AttributeModelController.standardAttributesKeys.id),
-        ],
+        }],
         enableSorting: false,
       },
     }
     const enzymeWrapper = shallow(<ColumnAttributesRender {...props} />, { context })
     assert.include(enzymeWrapper.debug(),
-      DamDomain.AttributeModelController.getAttributeModelFullLabel(props.entity.attributes[0]),
+      DamDomain.AttributeModelController.getAttributeModelFullLabel(props.entity.attributes[0].model),
       'First attribute should appear in label')
     assert.include(enzymeWrapper.debug(),
-      DamDomain.AttributeModelController.getAttributeModelFullLabel(props.entity.attributes[1]),
+      DamDomain.AttributeModelController.getAttributeModelFullLabel(props.entity.attributes[1].model),
       'Second attribute should appear in label')
   })
 })

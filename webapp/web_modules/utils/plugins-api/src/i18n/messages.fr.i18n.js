@@ -55,7 +55,6 @@ const messages = {
   'criterion.attribute.bounds.range.max.infinity.bound': '+∞[',
   'criterion.attribute.bounds.range.inclusive.max.bound': '{upperBoundText}]',
   'criterion.attribute.bounds.range.values': '{rangeMin}; {rangeMax}...',
-  'criterion.attribute.bounds.value.date': '{date} {time}',
   // Tooltip with bounds
   'criterion.attribute.tooltip.no.bound': '{typeText}...',
   'criterion.attribute.tooltip.valueable.with.bounds': '{typeText} dans {range}',

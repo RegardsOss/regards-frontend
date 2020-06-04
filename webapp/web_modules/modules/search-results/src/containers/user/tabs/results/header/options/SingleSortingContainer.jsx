@@ -96,7 +96,7 @@ export class SingleSortingContainer extends React.Component {
           return acc
         }
         // 2 - convert to sorting criteria
-        const sortingCriteria = [CriterionBuilder.buildSortCriterion(presentationModel.attributes[0])] // necessarily present
+        const sortingCriteria = [CriterionBuilder.buildSortCriterion(presentationModel.attributes[0].model)] // necessarily present
         // 3 - convert that attribute presentation model as it is usable for single sorting
         return [...acc, {
           type: SingleSortingModelEnum.ATTRIBUTE,

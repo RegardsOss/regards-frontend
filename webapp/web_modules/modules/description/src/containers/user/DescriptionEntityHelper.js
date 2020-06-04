@@ -268,8 +268,8 @@ export class DescriptionEntityHelper {
    */
   static filterOrConvertElement({ label, attributes: confAttributes }, hideEmptyAttributes, attributes, entity, index) {
     // A - retrieve all attributes and their render data
-    const convertedAttributes = confAttributes.reduce((acc, attribute) => {
-      const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attribute.name, attributes)
+    const convertedAttributes = confAttributes.reduce((acc, { name, renderer }) => {
+      const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributes)
       // 1- retrieve attribute model
       if (model) {
         // attribute model is part of the current entity model
@@ -287,7 +287,7 @@ export class DescriptionEntityHelper {
           return [...acc, {
             key: jsonPath,
             render: {
-              Constructor: getTypeRender(type),
+              Constructor: getTypeRender(type, renderer),
               props: {
                 value: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
                 precision,

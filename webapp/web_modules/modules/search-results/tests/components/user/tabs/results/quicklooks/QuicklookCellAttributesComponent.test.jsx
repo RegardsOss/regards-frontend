@@ -50,11 +50,11 @@ describe('[SEARCH RESULTS] Testing QuicklookCellAttributesComponent', () => {
     assert.isTrue(props.presentationModels.length > 0, 'There should be attribute models from converted configuration')
     const renderText = enzymeWrapper.debug()
     props.presentationModels.forEach(({ label: { en: enLabel }, attributes }) => {
-      // cheack each label is displayed
+      // check each label is displayed
       assert.isTrue(renderText.includes(enLabel), `There should be attribute label ${enLabel}`)
       // check first attribute is rendered with value
       assert.isTrue(attributes.length > 0, `There should be attributes in attributes group ${enLabel}`)
-      const { content: { type, jsonPath } } = attributes[0]
+      const { content: { type, jsonPath } } = attributes[0].model
       const attributeValue = get(dataEntity, `content.${jsonPath}`)
       assert.isOk(attributeValue, `Attribute ${enLabel} value should be found`)
       const RenderConstructor = getTypeRender(type)

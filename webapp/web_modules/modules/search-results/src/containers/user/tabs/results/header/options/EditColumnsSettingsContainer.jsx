@@ -68,7 +68,8 @@ export class EditColumnsSettingsContainer extends React.Component {
       updatedSorting = sorting.reduce((acc, sortingCrit) => {
         // was that model hidden? Nota: sorting is allowed only on single attribute presentation models, but there may be
         // other types here (like selection / option / multi attributes...)
-        const correspondingPresentationModel = presentationModels.find(({ attributes }) => attributes && isEqual(attributes[0], sortingCrit.attribute))
+        const correspondingPresentationModel = presentationModels.find(({ attributes }) => attributes
+        && isEqual(attributes[0].model, sortingCrit.attribute))
         // remove sorting when presentation model was found and is no longer visible
         return correspondingPresentationModel && !correspondingPresentationModel.visible ? acc : [...acc, sortingCrit]
       }, [])

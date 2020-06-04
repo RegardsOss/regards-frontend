@@ -19,9 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import forEach from 'lodash/forEach'
 import DateRangeValueRender from '../../src/values/DateRangeValueRender'
 import styles from '../../src/values/styles'
 import RangeValueRenderDelegate from '../../src/values/RangeValueRenderDelegate'
+import DateValueRender from '../../src/values/DateValueRender'
 
 const context = buildTestContext(styles)
 
@@ -60,14 +62,14 @@ describe('[COMPONENTS] Testing DateRangeValueRender', () => {
     expectedProps: {
       noValue: false,
       lowerBound: null,
-      upperBound: 'value.render.date.value',
+      upperBound: 'date.value.render.type.dateWithSeconds',
     },
   }, {
     label: 'upper infinite range',
     value: { lowerBound: '2017-01-07T12:00:00' },
     expectedProps: {
       noValue: false,
-      lowerBound: 'value.render.date.value',
+      lowerBound: 'date.value.render.type.dateWithSeconds',
       upperBound: null,
     },
   }, {
@@ -78,14 +80,31 @@ describe('[COMPONENTS] Testing DateRangeValueRender', () => {
     },
     expectedProps: {
       noValue: false,
-      lowerBound: 'value.render.date.value',
-      upperBound: 'value.render.date.value',
+      lowerBound: 'date.value.render.type.dateWithSeconds',
+      upperBound: 'date.value.render.type.dateWithSeconds',
     },
   }]
-  testCases.forEach(({ label, value, expectedProps }) => it(`should render correctly in ${label} case`, () => {
+  testCases.forEach(({ label, value, expectedProps }) => it(`should render correctly in ${label} case (default render)`, () => {
     const enzymeWrapper = shallow(<DateRangeValueRender value={value} />, { context })
     const delegateWrapper = enzymeWrapper.find(RangeValueRenderDelegate)
     assert.lengthOf(delegateWrapper, 1)
     testSuiteHelpers.assertWrapperProperties(delegateWrapper, expectedProps)
+  }))
+  forEach(DateValueRender.DEFAULT_FORMATTERS, (formatter, key) => it(`Should render correctly with format ${key}`, () => {
+    const props = {
+      value: {
+        lowerBound: '2017-01-07T06:00:00',
+        upperBound: '2017-01-07T12:00:00',
+      },
+      formatter,
+    }
+    const enzymeWrapper = shallow(<DateRangeValueRender {...props} />, { context })
+    const delegateWrapper = enzymeWrapper.find(RangeValueRenderDelegate)
+    assert.lengthOf(delegateWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(delegateWrapper, {
+      noValue: false,
+      lowerBound: `date.value.render.type.${key}`,
+      upperBound: `date.value.render.type.${key}`,
+    })
   }))
 })

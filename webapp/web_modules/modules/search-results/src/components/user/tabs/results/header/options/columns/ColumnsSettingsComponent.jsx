@@ -149,7 +149,7 @@ class ColumnsSettingsComponent extends React.Component {
   /** User callback: show all columns */
   onToggleAllVisible = () => this.onToggleAll(true)
 
-  /** @return [*] Buildt columns table columns */
+  /** @return [*] Builds table columns */
   buildColumns = () => {
     const { editionModels } = this.state
     const { intl: { formatMessage } } = this.context

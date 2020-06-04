@@ -36,6 +36,13 @@ const messages = {
   'value.render.duration.hour': ' {hour, plural, one {{hour} hour} other {{hour} hours}}',
   'value.render.duration.minute': ' {minute, plural, one {{minute} minute} other {{minute} minutes}}',
   'value.render.duration.second': ' {second} second(s)',
+
+  'date.value.render.type.date': '{month}/{day}/{year}',
+  'date.value.render.type.dateWithMinutes': '{month}/{day}/{year} {hours}:{minutes}',
+  'date.value.render.type.dateWithSeconds': '{month}/{day}/{year} {hours}:{minutes}:{seconds}',
+  'date.value.render.type.dateWithMilliseconds': '{month}/{day}/{year} {hours}:{minutes}:{seconds}.{milliseconds}',
+  'date.value.render.type.time': '{hours}:{minutes}:{seconds}',
+  'date.value.render.type.timeWithMilliseconds': '{hours}:{minutes}:{seconds}.{milliseconds}',
 }
 
 export default messages

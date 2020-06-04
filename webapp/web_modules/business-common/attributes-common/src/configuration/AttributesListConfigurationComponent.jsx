@@ -44,9 +44,11 @@ export class AttributesListConfigurationComponent extends React.Component {
     // Current list configuration (Marked here as a simple element list, but may contain all addition data for columns and such)
     attributesList: AccessShapes.AttributeListConfigurationModel,
     // should allow attributes regroupement configuration?
-    allowAttributesRegroupements: PropTypes.bool.isRequired,
+    allowAttributesGroups: PropTypes.bool,
     // should this edition component add columns properties into elements?
     allowLabel: PropTypes.bool,
+    // should this edition component a render properties
+    allowRendererSelection: PropTypes.bool,
     // List hint text, that should be shown while no element has been added
     hintMessageKey: PropTypes.string.isRequired,
     // Attributes filter: returns true when an attribute is allowed for current selection, false otherwise
@@ -63,6 +65,8 @@ export class AttributesListConfigurationComponent extends React.Component {
 
   static defaultProps = {
     allowLabel: false,
+    allowRendererSelection: false,
+    allowAttributesGroups: false,
     attributesFilter: AttributesListConfigurationComponent.filterNone,
     attributesList: [],
     i18n: UIDomain.LOCALES_ENUM.en,
@@ -286,7 +290,8 @@ export class AttributesListConfigurationComponent extends React.Component {
 
   render() {
     const {
-      hintMessageKey, attributesList, allowAttributesRegroupements, allowLabel,
+      hintMessageKey, attributesList, allowAttributesGroups,
+      allowLabel, allowRendererSelection,
     } = this.props
     const { attributeModels, editionData, multipleSelectionData } = this.state
     return (
@@ -294,7 +299,8 @@ export class AttributesListConfigurationComponent extends React.Component {
         {/* 1. show edit dialog when there is edition data */}
         <EditItemDialog
           allowLabel={allowLabel}
-          allowAttributesRegroupements={allowAttributesRegroupements}
+          allowRendererSelection={allowRendererSelection}
+          allowAttributesGroups={allowAttributesGroups}
           attributeModels={attributeModels}
           editionData={editionData}
           onCancel={this.onCancelEdit}
@@ -311,7 +317,7 @@ export class AttributesListConfigurationComponent extends React.Component {
           hintMessageKey={hintMessageKey}
           attributesList={attributesList}
           attributeModels={attributeModels}
-          allowAttributesRegroupements={allowAttributesRegroupements}
+          allowAttributesGroups={allowAttributesGroups}
           allowLabel={allowLabel}
           // callbacks to show dialogs
           onAddOneItem={this.onShowAddOneItemDialog}
