@@ -110,7 +110,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       requestParams: props.requestParameters,
       displayColumnsHeader: false,
 
-      queryPageSize: ListViewComponent.RESULTS_PAGE_SIZE,
+      queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST],
       emptyComponent: ListViewComponent.EMPTY_COMPONENT,
     })
     assert.isOk(tableWrapper.props().lineHeight, 'Line height should be set')
