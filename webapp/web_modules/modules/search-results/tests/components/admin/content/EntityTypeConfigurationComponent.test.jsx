@@ -64,6 +64,10 @@ describe('[SEARCH RESULTS] Testing EntityTypeConfigurationComponent', () => {
       'There should be english title field')
     assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.tabTitle.fr`), 1,
       'There should be french title field')
+
+    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.enableRefresh`), 1,
+      'There should be enable refresh field')
+
     // 3 - Enable download field should be present for DATA
     if (shouldHaveEnableDownload) {
       assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.enableDownload`), 1,

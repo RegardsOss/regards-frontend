@@ -80,6 +80,8 @@ class SearchResultsComponent extends React.Component {
           moduleId={moduleId}
           tabType={tabType}
           resultsContext={resultsContext}
+          requestParameters={requestParameters}
+          searchActions={searchActions}
           selectionServices={selectionServices}
           onStartSelectionService={onStartSelectionService}
           onAddSelectionToCart={onAddSelectionToCart}
