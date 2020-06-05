@@ -253,25 +253,32 @@ export class ContextStorageHelper {
   static restore(initContext, project, moduleContextualKey) {
     const { query } = browserHistory.getCurrentLocation()
     // A - find resolution source (map holding saved values)
-    let resolutionSource = {}
-    if (ContextStorageHelper.hasURLResultsParameters(query)) {
-      // URL: preferred (shared URL cases)
-      resolutionSource = query
-    } else {
-      // when no URL parameter, restore from local storage if there is some
+    let resolutionSource = {
+      ...query, // URL: preferred (shared URL cases)
+    }
+    if (!ContextStorageHelper.hasURLResultsParameters(query)) {
+      // when no DYNAMIC URL parameter, restore from local storage if there is some
       const stored = UIDomain.LocalStorageData.getData(UIDomain.APPLICATIONS_ENUM.USER, project, moduleContextualKey, ContextStorageHelper.LOCAL_STORAGE_KEY)
       if (stored) {
-        resolutionSource = JSON.parse(stored)
+        resolutionSource = {
+          ...resolutionSource, // any static parameter from query
+          ...JSON.parse(stored), // dynamic data
+        }
       }
     }
-    // B - Resolve on source
-    return ContextStorageHelper.getAllParameters().reduce(
+    // B.1 - Resolve static parameter
+    const contextWithStaticParams = UIDomain.ResultsContextHelper.deepMerge(initContext,
+      ContextStorageHelper.STATIC_PARAMETERS.fromParameterValue(initContext,
+        resolutionSource[ContextStorageHelper.STATIC_PARAMETERS.name]))
+
+    // B.2 - Resolve dynamic parameters
+    return ContextStorageHelper.MODULE_URL_PARAMETERS.reduce(
       (previousContext, { name, fromParameterValue }) => {
         const parameterValue = resolutionSource[name]
         return isEmpty(parameterValue)
           ? previousContext
           : UIDomain.ResultsContextHelper.deepMerge(previousContext, fromParameterValue(previousContext, parameterValue))
-      }, initContext)
+      }, contextWithStaticParams)
   }
 
   /**
@@ -298,7 +305,7 @@ export class ContextStorageHelper {
    * @param {*} resultsContext results context
    **/
   static buildStorageObject(resultsContext) {
-    return ContextStorageHelper.getAllParameters().reduce((acc, { name, toParameterValue }) => {
+    return ContextStorageHelper.MODULE_URL_PARAMETERS.reduce((acc, { name, toParameterValue }) => {
       const parameterValue = toParameterValue(resultsContext)
       return isEmpty(parameterValue) ? acc : {
         ...acc,

@@ -104,10 +104,11 @@ export class ContextManager extends React.Component {
    */
   componentDidMount() {
     const { moduleId } = this.props
+    const moduleContextualKey = ContextStorageHelper.getModuleContextId(moduleId)
     this.setState({
-      moduleContextualKey: ContextStorageHelper.getModuleContextId(moduleId),
+      moduleContextualKey,
     })
-    this.initializeFromURL()
+    this.initializeFromURL(moduleContextualKey)
   }
 
   /**
@@ -156,11 +157,10 @@ export class ContextManager extends React.Component {
   /**
    * Initializes results context from current URL
    */
-  initializeFromURL = () => {
+  initializeFromURL = (moduleContextualKey) => {
     const {
       moduleId, project, configuration, resultsContext, attributeModels,
     } = this.props
-    const { moduleContextualKey } = this.state
     // 1 - Convert root context from configuration
     let context = ContextInitializationHelper.buildDefaultResultsContext(moduleId, configuration, attributeModels)
     // 2 - Apply any parent control on it (XXX only search graph may still use that mechanism)

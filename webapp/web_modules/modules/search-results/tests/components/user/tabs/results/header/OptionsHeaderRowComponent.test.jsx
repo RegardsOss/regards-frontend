@@ -31,6 +31,8 @@ import EditColumnsSettingsContainer from '../../../../../../src/containers/user/
 import SearchOptionContainer from '../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from '../../../../../../src/components/user/tabs/results/header/options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../../../../../../src/components/user/tabs/results/header/options/AddSelectionToCartComponent'
+import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
+import RefreshTableComponent from '../../../../../../src/components/user/tabs/results/header/options/RefreshTableComponent'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -136,6 +138,8 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                     },
                   },
                 }),
+                requestParameters: {},
+                searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDataobjectsActions,
                 onAddSelectionToCart: () => {},
                 selectionServices: services,
                 onStartSelectionService: () => {},
@@ -225,6 +229,15 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.isFalse(searchOptionWrapper.parent().props().show, 'Search option')
               }
+              // 10 - Refresh table
+              const refreshTableComponent = enzymeWrapper.find(RefreshTableComponent)
+              assert.lengthOf(refreshTableComponent, 1, 'There should be refresh table container')
+              testSuiteHelpers.assertWrapperProperties(refreshTableComponent, {
+                tabType: props.tabType,
+                resultsContext: props.resultsContext,
+                requestParameters: props.requestParameters,
+                searchActions: props.searchActions,
+              }, 'Refresh table properties should be correctly set')
             })
           }
         })

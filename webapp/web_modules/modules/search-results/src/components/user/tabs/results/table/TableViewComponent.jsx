@@ -85,8 +85,6 @@ class TableViewComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static RESULTS_PAGE_SIZE = 500
-
   /** Stores reference on the static empty component */
   static EMPTY_COMPONENT = <EmptyTableComponent />
 
@@ -155,7 +153,7 @@ class TableViewComponent extends React.Component {
         displayColumnsHeader
         lineHeight={lineHeight}
         columns={this.buildTableColumns()}
-        queryPageSize={TableViewComponent.RESULTS_PAGE_SIZE}
+        queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]}
         requestParams={requestParameters}
         emptyComponent={TableViewComponent.EMPTY_COMPONENT}
       />
