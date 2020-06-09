@@ -258,6 +258,11 @@ export default baseTheme => ({
         },
       },
     },
+    embeddedHTML: {
+      iFrame: {
+        background: '',
+      },
+    },
     // menu module
     menu: {
       background: baseTheme.palette.canvasColor,
