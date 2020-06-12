@@ -93,7 +93,15 @@ class EntityTypeConfigurationComponent extends React.Component {
           />
         </FieldsGroup>
         <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.options.title' })}>
-          {/* 3. Other options */
+          {/* 3. Other options
+              3.A - Refresh option */ }
+          <Field
+            name={`${currentTypeNamespace}.enableRefresh`}
+            fullWidth
+            component={RenderCheckbox}
+            label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.refresh' })}
+          />
+          { /** 3.B - Download */
             UIDomain.ResultsContextConstants.allowDownload(type)
               ? (
                 <Field
@@ -104,12 +112,18 @@ class EntityTypeConfigurationComponent extends React.Component {
                 />)
               : null
           }
-          <Field
-            name={`${currentTypeNamespace}.enableRefresh`}
-            fullWidth
-            component={RenderCheckbox}
-            label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.refresh' })}
-          />
+          { /** 3.C - Services */
+            UIDomain.ResultsContextConstants.allowServices(type)
+              ? (
+                <Field
+                  name={`${currentTypeNamespace}.enableServices`}
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.services' })}
+                />)
+              : null
+          }
+
         </FieldsGroup>
       </div>
     )
