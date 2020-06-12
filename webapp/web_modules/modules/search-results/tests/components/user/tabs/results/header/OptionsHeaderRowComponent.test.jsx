@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import forEach from 'lodash/forEach'
 import { DamDomain, AccessDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ResultsContextConstants } from '@regardsoss/domain/ui'
 import OptionsHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/OptionsHeaderRowComponent'
 import TypeTabContainer from '../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
@@ -151,15 +152,19 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.lengthOf(enzymeWrapper.find(TypeTabContainer), 0, 'Type tabs should be hidden should be hidden')
               }
-              // 2 - Check all services are displayed
-              const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
-              assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
-              services.forEach((service) => {
-                const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
-                assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
-                assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
-                  `Start service callback should be correctly reported for service ${service.content.label}`)
-              })
+              // 2 - Check all services are displayed (when allowed for type)
+              if (ResultsContextConstants.allowServices(typeKey)) {
+                const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
+                assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
+                services.forEach((service) => {
+                  const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
+                  assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
+                  assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
+                    `Start service callback should be correctly reported for service ${service.content.label}`)
+                })
+              } else {
+                assert.lengthOf(enzymeWrapper.find(SelectionServiceComponent), 0, 'No service should be displayed when forbidden by type')
+              }
               // 3 - Add selection to cart
               const addToCartContainer = enzymeWrapper.find(AddSelectionToCartComponent)
               assert.lengthOf(addToCartContainer, 1, 'There should be add to cart container')

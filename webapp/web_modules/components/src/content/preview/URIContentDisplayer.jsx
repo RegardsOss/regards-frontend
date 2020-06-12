@@ -35,7 +35,7 @@ const downloadFileActions = new DownloadFileActions({
 
 
 /**
- * URL content displayer. It displays content of a file (or no data / loading / unsuppored MIME type) from its URL.
+ * URL content displayer. It displays content of a file (or no data / loading / unsupported MIME type) from its URL.
  * See FileContentDisplayer for more information about layout and properties
  * @author Raphaël Mechali
  */

@@ -46,6 +46,7 @@ export const configuration = {
       enabled: true,
       initialMode: 'MAP',
       enableDownload: true,
+      enableServices: true,
       sorting: [{ attributes: [{ name: 'properties.start_date' }] }, { attributes: [{ name: 'label' }] }],
       views: {
         TABLE: {

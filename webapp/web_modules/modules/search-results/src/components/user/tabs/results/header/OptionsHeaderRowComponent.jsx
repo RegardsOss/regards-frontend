@@ -81,6 +81,10 @@ class OptionsHeaderRowComponent extends React.Component {
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const showTypeTabs = reduce(tab.types, (count, typeState) => typeState.enabled ? count + 1 : count, 0) > 1
+    const showSelectionServices = selectedTypeState.enableServices
+      && !!onStartSelectionService
+      && !!selectionServices
+      && selectionServices.length > 0
     return (
       <TableHeaderLine key="table.options">
         {/* 1. Type selection tabs, on left, when many type can be selected, place holder otherwise */
@@ -102,18 +106,14 @@ class OptionsHeaderRowComponent extends React.Component {
         { /* 2. Mode selection and options, on right */}
         <TableHeaderOptionsArea reducible>
           {/* 2.A Selection related options (services and add to basket) */}
-          <TableHeaderOptionGroup show={
-            (!!onStartSelectionService && !!selectionServices && selectionServices.length > 0)
-            || !!onAddSelectionToCart
-          }
-          >
+          <TableHeaderOptionGroup show={showSelectionServices || !!onAddSelectionToCart}>
             { /* 2.A.1 Services */
-              selectionServices.map(service => (
+              showSelectionServices ? selectionServices.map(service => (
                 <SelectionServiceComponent
                   key={`${service.content.type}.service.${service.content.configId}`}
                   service={service}
                   onRunService={onStartSelectionService}
-                />))
+                />)) : null
             }
             { /** 2.A.2 - Add selection to cart */ }
             <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
