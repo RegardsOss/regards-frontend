@@ -54,6 +54,7 @@ describe('[Two numerical criteria] Testing TwoNumericalCriteriaComponent', () =>
         },
       },
       state: {
+        error: true,
         error1: true,
         value1: '36',
         comparator1: CommonDomain.EnumNumericalComparator.GE,
