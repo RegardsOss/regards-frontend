@@ -49,7 +49,7 @@ import messages from '../i18n'
 * Redux-form compatible field component to display a PluginParameter configurator form.
 * @author Sébastien Binda
 */
-export class RenderPluginParameterField extends React.PureComponent {
+export class RenderPluginParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
     pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure

@@ -30,7 +30,7 @@ import messages from '../i18n'
 * Render a plugin parameter form for a OBJECT parameter.
 * @author Sébastien Binda
 */
-export class RenderObjectParameterField extends React.PureComponent {
+export class RenderObjectParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
     pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure

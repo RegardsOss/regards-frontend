@@ -39,12 +39,10 @@ const requiredMimeType = [required, validMimeType]
 * Display a form to create or edit a MetaFile entity from a dataprovider generation chain
 * @author Sébastien Binda
 */
-export class AcquisitionFileInfoComponent extends React.PureComponent {
+export class AcquisitionFileInfoComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
   }
-
-  static defaultProps = {}
 
   static contextTypes = {
     ...i18nContextType,
