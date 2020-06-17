@@ -140,7 +140,7 @@ export class ContextInitializationHelper {
         enabled: true,
         enableDownload: !!typeConfiguration.enableDownload,
         enableRefresh: !!typeConfiguration.enableRefresh,
-        enableServices: UIDomain.ResultsContextConstants.allowServices(type),
+        enableServices: !!typeConfiguration.enableServices && UIDomain.ResultsContextConstants.allowServices(type),
         enableSorting: UIDomain.ResultsContextConstants.allowSorting(type),
         enableSearchEntity: UIDomain.ResultsContextConstants.allowNavigateTo(type),
         initialSorting,

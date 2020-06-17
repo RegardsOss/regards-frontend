@@ -15,23 +15,7 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import styles from './styles'
 
-/**
- * Styles for menu module
- * @author Sébastien binda
- */
-const moduleStyles = theme => ({
-  admin: {
-    previewErrorMessage: {
-      color: theme.textField.errorColor,
-    },
-  },
-  user: {
-    iFrame: {
-      background: theme.module.embeddedHTML.iFrame.background,
-    },
-  },
-})
-
-export default moduleStyles
+export default { styles }

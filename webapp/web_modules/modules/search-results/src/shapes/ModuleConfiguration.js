@@ -88,6 +88,7 @@ const commonViewsGroupFields = {
 export const DataViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
   enableDownload: PropTypes.bool,
+  enableServices: PropTypes.bool,
   sorting: AccessShapes.AttributeListConfigurationModel,
 })
 

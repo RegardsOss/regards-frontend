@@ -258,6 +258,11 @@ export default baseTheme => ({
         },
       },
     },
+    embeddedHTML: {
+      iFrame: {
+        background: '',
+      },
+    },
     // menu module
     menu: {
       background: baseTheme.palette.canvasColor,
@@ -399,17 +404,6 @@ export default baseTheme => ({
         },
         tabBottomLineSize: 1,
       },
-    },
-    // storage plugins module
-    storagePlugins: {
-      usedSpaceColor: '#133e63',
-      unusedSpaceColor: '#FFFFFF',
-      chartBorderColor: baseTheme.toolbar.separatorColor,
-      chartBorderWidth: 1,
-      legendMarginTop: 16,
-      legendItemMarginTop: 8,
-      legendItemIconToText: 10,
-      circleIconSize: 12,
     },
   },
   sessionsMonitoring: {
