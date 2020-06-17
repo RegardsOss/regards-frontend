@@ -26,12 +26,14 @@ import { BasicListActions } from '@regardsoss/store-utils'
 export default class AttributeModelForModelActions extends BasicListActions {
   /**
    * Construtor
-   * @param namespace
+   * @param {string} namespace actions namespace
+   * @param {boolean} isPublic Set to true to  use public access to microservice. Only few endpoints of the datamagenemt endpoints are available for user ihm
    */
-  constructor(namespace) {
+  constructor(namespace, isPublic = false) {
+    const ms = isPublic ? STATIC_CONF.MSERVICES_PUBLIC.DAM : STATIC_CONF.MSERVICES.DAM
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes/modeltype/{modelType}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${ms}/models/attributes/modeltype/{modelType}`,
       schemaTypes: {
         ENTITY: ATTRIBUTE_MODEL,
         ENTITY_ARRAY: ATTRIBUTE_MODEL_ARRAY,

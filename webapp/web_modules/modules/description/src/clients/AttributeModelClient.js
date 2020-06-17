@@ -23,6 +23,6 @@ import { DataManagementClient } from '@regardsoss/client'
  */
 
 const namespace = 'description/document-attributes'
-export const attributeModelActions = new DataManagementClient.AttributeModelActions(namespace)
+export const attributeModelActions = new DataManagementClient.AttributeModelActions(namespace, true)
 export const attributeModelReducer = DataManagementClient.AttributeModelReducer(namespace)
 export const attributeModelSelectors = DataManagementClient.AttributeModelSelectors(['modules.description', 'documents-attributes'])
