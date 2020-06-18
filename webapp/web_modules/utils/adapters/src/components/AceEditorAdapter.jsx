@@ -59,7 +59,6 @@ export class AceEditorAdapter extends React.Component {
           // supported themes
           require('ace-builds/src-noconflict/theme-monokai')
           // supported languages
-          // TODO-LEO optimization possible here: src-min-noconflict. TBC with final package analysis
           require('ace-builds/src-noconflict/mode-css')
           require('ace-builds/src-noconflict/mode-javascript')
           require('ace-builds/src-noconflict/mode-json')
