@@ -67,8 +67,8 @@ const conf = webpackConfigurator
         'mdi-material-ui',
         'intl',
         'react-ace',
+        // 'ace-builds', TODO-LEO optimization possible here, TBC with final package analysis
         'react-notification-system',
-        'brace',
       ],
     },
     plugins: [

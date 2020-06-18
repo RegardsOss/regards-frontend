@@ -153,7 +153,7 @@
     "normalizr": "^2.3.1",
     "plotly.js": "^1.36.0",
     "react": "^16.10.1",
-    "react-ace": "^6.2.0",
+    "react-ace": "^9.0.0",
     "react-chartjs-2": "^2.7.4",
     "react-copy-to-clipboard": "^5.0.1",
     "react-dnd": "^6.0.0",

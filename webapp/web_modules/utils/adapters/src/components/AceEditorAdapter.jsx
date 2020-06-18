@@ -57,12 +57,13 @@ export class AceEditorAdapter extends React.Component {
         require.ensure([], (require) => {
           AceEditorAdapter.LOADED_COMPONENT = require('react-ace').default
           // supported themes
-          require('brace/theme/monokai')
-          // supported language
-          require('brace/mode/css')
-          require('brace/mode/javascript')
-          require('brace/mode/json')
-          require('brace/mode/xml')
+          require('ace-builds/src-noconflict/theme-monokai')
+          // supported languages
+          // TODO-LEO optimization possible here: src-min-noconflict. TBC with final package analysis
+          require('ace-builds/src-noconflict/mode-css')
+          require('ace-builds/src-noconflict/mode-javascript')
+          require('ace-builds/src-noconflict/mode-json')
+          require('ace-builds/src-noconflict/mode-xml')
           onAsyncLoadingDone()
         })
       }
