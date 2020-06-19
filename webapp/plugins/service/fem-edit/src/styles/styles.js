@@ -33,7 +33,7 @@ export default function buildServiceStyles(theme) {
     },
 
     contentWrapper: {
-      color: 'rgba(255, 255, 255, 0.85)',
+      color: theme.palette.textColor,
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column',

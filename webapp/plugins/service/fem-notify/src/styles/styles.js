@@ -34,7 +34,7 @@ export default function buildServiceStyles(theme) {
 
     contentWrapper: {
       paddingTop: '25px',
-      color: 'rgba(255, 255, 255, 0.85)',
+      color: theme.palette.textColor,
       display: 'flex',
       alignItems: 'center',
       flexDirection: 'column',
