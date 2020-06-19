@@ -1,5 +1,4 @@
 FROM nginx
-COPY nginx.conf /etc/nginx/
 
 # Not root user cannot open port 80, so this container use 8080 instead
 EXPOSE 8080
