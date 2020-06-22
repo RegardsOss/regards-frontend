@@ -81,7 +81,8 @@ const messages = Object.assign({
 
   // 2 Chain list
   // 2.1 Header
-  'acquisition-chain.list.subtitle': 'Suivi de l\'avancement des chaînes d\'acquisition de données, consultation des erreurs d\'acquisition et activation des chaînes à déclenchement manuel',
+  'acquisition-chain.list.subtitle': 'Configuration et activation des chaînes d\'acquisitio de données',
+  'acquisition-product.help.deletion.message': 'Pour supprimer une chaîne, vous devez la désactiver au préalable.',
   'acquisition-chain.empty.title': 'Aucune chaine configurée',
   'acquisition-chain-breadcrumb.label': 'Chaînes d\'acquisition',
 
@@ -94,6 +95,7 @@ const messages = Object.assign({
   'acquisition-chain.list.state': 'Etat',
   'acquisition-chain.list.activity.not.running': 'Arrêtée',
   'acquisition-chain.list.activity.not.running.date': 'Arrêtée depuis le {date}',
+  'acquisition-chain.list.activity.deletion.pending': 'Suppression en cours',
   'acquisition-chain.list.total-nb-products': 'Produits',
   'acquisition-chain.list.total-products.tooltip': 'Total des produits',
   'acquisition-chain.list.error-nb-products.tooltip': 'Produits en erreur',

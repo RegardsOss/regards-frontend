@@ -39,6 +39,7 @@ const messages = Object.assign({
   'storage.location.list.header.name.label': 'Name',
   'storage.location.list.header.type.label': 'Type',
   'storage.location.list.header.activity': 'Activity',
+  'storage.location.list.size.no.quota': 'No quota defined',
   'storage.location.list.activity.none': 'None',
   'storage.location.list.activity.storing': 'Storing files ...',
   'storage.location.list.activity.deleting': 'Deletion is running ...',

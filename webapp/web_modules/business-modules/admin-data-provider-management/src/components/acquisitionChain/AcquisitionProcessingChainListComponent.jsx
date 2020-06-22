@@ -27,7 +27,7 @@ import TextField from 'material-ui/TextField'
 import {
   PageableInfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLineLoadingAndResults,
   NoContentComponent, CardActionsComponent, FormErrorMessage, Breadcrumb, TableDeleteOption, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes, PositionedDialog,
+  ConfirmDialogComponentTypes, PositionedDialog, HelpMessageComponent,
 } from '@regardsoss/components'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -439,6 +439,9 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
         />
         <CardText>
           <FormErrorMessage>{errorMessage}</FormErrorMessage>
+          <HelpMessageComponent
+            message={formatMessage({ id: 'acquisition-product.help.deletion.message' })}
+          />
           <TableLayout>
             <AcquisitionProcessingChainListFiltersComponent
               initialFilters={initialFilters}

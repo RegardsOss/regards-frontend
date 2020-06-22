@@ -27,6 +27,7 @@ import { AcquisitionProcessingChainContent } from './AcquisitionProcessingChain'
 export const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   chain: AcquisitionProcessingChainContent.isRequired,
   active: PropTypes.bool.isRequired,
+  deletionPending: PropTypes.bool.isRequired,
 })
 
 export const AcquisitionProcessingChainMonitor = PropTypes.shape({
