@@ -83,7 +83,7 @@ export class EditItemForm extends React.Component {
   static getAttributeLabel(qualifiedName, attributeModels) {
     const foundAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(qualifiedName,
       attributeModels)
-    return foundAttribute ? DamDomain.AttributeModelController.getAttributeModelFullLabel(foundAttribute) : null
+    return foundAttribute ? foundAttribute.content.label : null
   }
 
   /**

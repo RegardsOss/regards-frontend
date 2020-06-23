@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -45,14 +44,19 @@ class AvailableAttributesTable extends React.Component {
 
   /**
    * Filters attributes models on filterText
+   * @param {*} intl context
    * @param {*} filterText filter text
    * @param {*} attributeModels attribute models
    * @return [{*}] filtered attributes list
    */
-  static filterAttributes(filterText, attributeModels = []) {
-    return attributeModels.filter(attribute => DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute)
-      .toLowerCase().includes(filterText.toLowerCase()))
+  static filterAttributes(intl, filterText, attributeModels = []) {
+    const lowerFilter = filterText.toLowerCase()
+    return attributeModels.filter((attribute) => {
+      const lowerLabel = AttributeRender.getRenderLabel(attribute, intl).toLowerCase()
+      return lowerLabel.includes(lowerFilter)
+    })
   }
+
 
   /** Empty table component */
   static EMPTY_COMPONENT = <TableNoDataMessage messageKey="attribute.configuration.selectable.attributes.no.data" />
@@ -90,9 +94,10 @@ class AvailableAttributesTable extends React.Component {
    * @param {string} filter
    *  */
   onUpdateFilter = (filterText = '', attributeModels) => {
+    const { intl } = this.context
     this.setState({
       filterText,
-      attributeModels: AvailableAttributesTable.filterAttributes(filterText, attributeModels),
+      attributeModels: AvailableAttributesTable.filterAttributes(intl, filterText, attributeModels),
     })
   }
 
