@@ -181,32 +181,6 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
   return resolveAttribute(entity.content, path)
 }
 
-/**
- * Method to retrieve full label of a given AttributeModel. The full labels is a string composed with fragment and attribute names.
- * @param attribute
- * @returns {string}
- */
-function getAttributeModelFullLabel(attribute) {
-  let fullAttributeLabel = ''
-
-  const fragment = get(attribute, 'content.fragment.name')
-  const attributeLabel = get(attribute, 'content.label')
-  const attributeName = get(attribute, 'content.name')
-  if (fragment && (fragment !== DEFAULT_FRAGMENT)) {
-    fullAttributeLabel = `${fragment} - `
-  }
-
-  if (attributeLabel) {
-    fullAttributeLabel = `${fullAttributeLabel}${attributeLabel}`
-  } else if (attributeName) {
-    fullAttributeLabel = `${fullAttributeLabel}${attributeName}`
-  } else {
-    fullAttributeLabel = `${fullAttributeLabel}undefined`
-  }
-
-  return fullAttributeLabel
-}
-
 function getAttributeModelFullName(attribute) {
   let fullAttributeName = ''
   const fragment = get(attribute, 'content.fragment.name')
@@ -228,7 +202,6 @@ export default {
   getEntityAttributeValue,
   getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,
-  getAttributeModelFullLabel,
   getAttributeModelFullName,
   isSearchableAttribute,
   standardAttributesKeys,

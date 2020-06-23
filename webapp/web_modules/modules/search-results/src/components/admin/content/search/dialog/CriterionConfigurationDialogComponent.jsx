@@ -102,19 +102,6 @@ export class CriterionConfigurationDialogComponent extends React.Component {
   }
 
   /**
-   * Formats single attribute field: jsonPath to label
-   * @param {[string]} value single element value array
-   * @return {string} single attribute label out of the attributes jsonPath array
-   */
-  formatSingleAttributeValue = (value) => {
-    // format using label from attribute model when retrieved
-    const { availableAttributes } = this.props
-    const attribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(value,
-      availableAttributes)
-    return attribute ? DamDomain.AttributeModelController.getAttributeModelFullLabel(attribute) : value
-  }
-
-  /**
    * Validates selected value for attribute  field
    * @param {string} value selected value for field
    * @param {*} formValues
