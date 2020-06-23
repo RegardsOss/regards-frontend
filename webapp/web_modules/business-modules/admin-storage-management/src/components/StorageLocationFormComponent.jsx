@@ -161,11 +161,13 @@ class StorageLocationFormComponent extends React.Component {
 
   renderUnits = () => (
     <DropDownMenu value={this.state.unit} onChange={this.changeUnit}>
-      {map(storage.StorageUnitScale.bytesScale.units, u => <MenuItem
+      {map(storage.StorageUnitScale.bytesScale.units.slice(2), u => <MenuItem
         key={u.symbol}
         value={u}
         primaryText={<storage.FormattedStorageUnit unit={u} />}
-      />)}
+      />,
+      )
+    }
     </DropDownMenu>
   )
 

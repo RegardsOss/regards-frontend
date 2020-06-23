@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableHeaderTextField, InfiniteTableContainer } from '@regardsoss/components'
 import { StringComparison } from '@regardsoss/form-utils'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, getLocalizedIntlStub } from '@regardsoss/tests-helpers'
 import AvailableAttributesTable from '../../../../src/configuration/multiple/available/AvailableAttributesTable'
 import styles from '../../../../src/styles'
 import { attributeModelsDictionary, attributeModelsArray } from '../../../dumps/AttributeModels.dump'
@@ -44,7 +44,16 @@ describe('[Attributes Common] Testing AvailableAttributesTable', () => {
       attributeModels: attributeModelsArray,
       onAdd: PropTypes.func.isRequired,
     }
-    const enzymeWrapper = shallow(<AvailableAttributesTable {...props} />, { context })
+    const enzymeWrapper = shallow(<AvailableAttributesTable {...props} />, {
+      context: {
+        ...context,
+        intl: {
+          ...getLocalizedIntlStub(),
+          // return attr jsonPath + label to let the filter system work
+          formatMessage: (idPart, paramsPart) => values(paramsPart).join(' '),
+        },
+      },
+    })
     // 1 - check init
     let state = enzymeWrapper.state()
     let text = enzymeWrapper.find(TableHeaderTextField)
@@ -58,15 +67,15 @@ describe('[Attributes Common] Testing AvailableAttributesTable', () => {
     assert.deepEqual(table.props().entities, state.attributeModels, 'Table attributes should be correctly reported')
     assert.deepEqual(state.attributeModels, props.attributeModels, 'Initial attributes should not be filtered')
     // 2 - Apply some filter and check attributes are correctly filtered
-    enzymeWrapper.instance().onFilterTextUpdated(null, 'attr') // we expect to filter only custom attributes, removing standard ones
+    enzymeWrapper.instance().onFilterTextUpdated(null, 'roperti') // we expect to filter only custom attributes, removing standard ones
     enzymeWrapper.update()
     state = enzymeWrapper.state()
-    assert.equal(state.filterText, 'attr', 'Filter text should be updated in state')
+    assert.equal(state.filterText, 'roperti', 'Filter text should be updated in state')
     assert.deepEqual(state.attributeModels,
       values(attributeModelsDictionary).sort((a1, a2) => StringComparison.compare(a1.content.jsonPath, a2.content.jsonPath)),
-      'Only custom attributes should be retained for "attr" label')
+      'Only custom attributes should be retained for "roperti" label')
     text = enzymeWrapper.find(TableHeaderTextField)
-    assert.equal(text.props().value, 'attr', 'Filter text value should be updated')
+    assert.equal(text.props().value, 'roperti', 'Filter text value should be updated')
     table = enzymeWrapper.find(InfiniteTableContainer)
     assert.deepEqual(table.props().entities, state.attributeModels, 'Table available attributes should be updated')
   })

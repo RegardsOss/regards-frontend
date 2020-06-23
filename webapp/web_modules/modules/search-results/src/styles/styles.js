@@ -374,7 +374,7 @@ const styles = theme => ({
       minWidth: theme.button.iconButtonSize,
     },
     columnsDialog: {
-      widthPercent: 70,
+      widthPercent: 50,
       heightPercent: 80,
       actionsContainer: {
         display: 'flex',
@@ -388,12 +388,18 @@ const styles = theme => ({
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        flexGrow: 1,
+        flexShrink: 1,
+        textAlign: 'left',
       },
       hiddenColumnCell: {
         color: theme.palette.disabledColor,
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        flexGrow: 1,
+        flexShrink: 1,
+        textAlign: 'left',
       },
     },
     filters: {
