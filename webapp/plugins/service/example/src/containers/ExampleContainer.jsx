@@ -50,24 +50,27 @@ export class ExampleContainer extends React.Component {
    * @param {*} state redux dispatch function
    * note: non redux properties are also availble as second parameter
    */
-  static mapStateToProps = (state) => {
+  static mapStateToProps(state) {
     // select the stuff we want in central redux store
     const authenticationInfo = AuthenticationClient.authenticationSelectors.getAuthenticationResult(state)
-    // if there is some info, then return user login
     return {
+      // if there is some info, then return user login
       user: get(authenticationInfo, 'result.sub', null), // note : for bundle size issues, we should never import all lodash, but only the function required, here 'get'
     }
   }
+
 
   /**
    * Redux connector to dispatch: allows dispatching action. used here to demo the reduce promise on runtime target
    * @param {*} dispatch redux dispatch function
    * @param {*} props this properties (non redux injected)
    */
-  static mapDispatchToProps = (dispatch, { target }) => ({
-    // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-    getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
-  })
+  static mapDispatchToProps(dispatch, { target }) {
+    return {
+      // we apply partially the method getReducePromise to ignore dispatch reference at runtime
+      getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
+    }
+  }
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
@@ -107,7 +110,7 @@ export class ExampleContainer extends React.Component {
   }
 
   /**
-   * Standard lyfecycle method of a React component, componentWillMount is called before the the component mounts and renders.
+   * Standard lifecycle method of a React component, componentWillMount is called before the the component mounts and renders.
    * It is a good place to initialize component state.
    */
   componentWillMount() {
@@ -147,7 +150,7 @@ export class ExampleContainer extends React.Component {
     // - There is a current limitation to 10 000 entities.
     getReducePromise((previousResult, entity, index) => {
       // R.1 - let's update the state, so that user can see the advancement
-      this.setState({ currentIndex: index, lastLoadedEntity: entity.content.label })// react is cool,ithe will only change those fields in state!
+      this.setState({ currentIndex: index, lastLoadedEntity: entity.content.label })// react is cool,it will only change those fields in state!
       // R.2 - check if STOP_DATE, from TIME_PERIOD fragment is before or after this date pameter. Note
       // that all fragments are set up in properties attribute. Also note that dates, in backend model, are actually saved as string
       let { beforeDateCount, afterDateCount, unknown } = previousResult
@@ -215,6 +218,7 @@ export class ExampleContainer extends React.Component {
     }
     return `unknown value type ${value}`
   }
+
 
   render() {
     const {
@@ -320,8 +324,7 @@ export class ExampleContainer extends React.Component {
               </div>) : null
           }
         </div>
-      </ScrollArea>
-    )
+      </ScrollArea>)
   }
 }
 
