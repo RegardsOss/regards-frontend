@@ -52,7 +52,6 @@ class SessionDeleteDialogComponent extends React.Component {
   }
 
   handleConfirm = (action) => {
-    console.error('action', action)
     const { intl: { formatMessage } } = this.context
     const request = action()
     if (request) {

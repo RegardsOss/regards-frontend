@@ -23,7 +23,7 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * Redux actions to handle Attribute Model entities from backend server.
  * @author Léo Mieulet
  */
-export default class AttributeModelForModelActions extends BasicListActions {
+export default class AttributeModelForModelTypeActions extends BasicListActions {
   /**
    * Construtor
    * @param {string} namespace actions namespace
