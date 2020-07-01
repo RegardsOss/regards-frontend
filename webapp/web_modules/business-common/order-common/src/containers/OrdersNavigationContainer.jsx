@@ -55,7 +55,7 @@ export class OrdersNavigationContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { navigationActions }) {
     return {
-      dispatchResetToLevel: level => dispatch(navigationActions.resetToLevel(level)),
+      dispatchResetToLevel: (level) => dispatch(navigationActions.resetToLevel(level)),
     }
   }
 
@@ -83,13 +83,13 @@ export class OrdersNavigationContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

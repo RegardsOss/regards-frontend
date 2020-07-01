@@ -135,8 +135,7 @@ class SelectedLevelFormRender extends React.Component {
               error={invalid}
               text={formatMessage(
                 { id: invalid ? error : 'search.graph.levels.selection.header.message' },
-                { count: selectedLevels.length })
-              }
+                { count: selectedLevels.length })}
             />
           </TableHeaderContentBox>
           {/* 2 - table options  */}

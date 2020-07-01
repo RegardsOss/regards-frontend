@@ -47,7 +47,7 @@ describe('[Order Cart] Testing ModuleConfigurationComponent', () => {
     assert.lengthOf(paneField, 1, 'There should be the pane field')
     assert.equal(paneField.props().currentNamespace, props.currentNamespace, 'It should use the right namespace')
     assert.lengthOf(
-      enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
+      enzymeWrapper.findWhere((n) => n.props().name === enzymeWrapper.instance().SHOW_DATASETS_FIELD),
       1, 'There should be the show dataset field')
   })
 })

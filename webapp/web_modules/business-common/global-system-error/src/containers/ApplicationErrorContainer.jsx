@@ -54,13 +54,13 @@ class ApplicationErrorContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // Add theme from store to the components props
   snackBarOpened: state.common.error.opened ? state.common.error.opened : false,
   snackBarMessage: state.common.error.message ? state.common.error.message : '',
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeDialog: () => dispatch(closeErrorDialog()),
 })
 

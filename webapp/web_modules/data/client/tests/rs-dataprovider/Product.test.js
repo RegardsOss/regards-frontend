@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-data-provider/Product/ProductReducer'
 import getEntitySelectors from '../../src/rs-data-provider/Product/ProductSelectors'
 import dump from './Product.dump'
 
-
 const options = {
 }
 

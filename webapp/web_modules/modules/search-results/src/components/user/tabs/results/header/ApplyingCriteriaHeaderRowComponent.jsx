@@ -81,14 +81,14 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                 [
                   // 1 - Static criteria
                   // When unactiveStaticParameters empty, all staticParameters are actives
-                  ...filter(staticParameters, sp => sp.active)
-                    .map(sp => <StaticParameterCriterionComponent
+                  ...filter(staticParameters, (sp) => sp.active)
+                    .map((sp) => <StaticParameterCriterionComponent
                       key={sp.label}
                       staticParameter={sp}
                       onUnselectStaticParameter={onToggleStaticParameter}
                     />),
                   // 2 - Tag criteria
-                  ...tagsFiltering.map(tagCriterion => <TagCriterionComponent
+                  ...tagsFiltering.map((tagCriterion) => <TagCriterionComponent
                     key={tagCriterion.searchKey}
                     tagCriterion={tagCriterion}
                     onUnselectTagFilter={onUnselectTagFilter}
@@ -129,8 +129,8 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                     : null,
 
                   // 7 - Reactive static criteria - let the user reactive unactive static criteria
-                  ...reject(staticParameters, sp => sp.active)
-                    .map(sp => <ReactiveStaticParameterCriterionComponent
+                  ...reject(staticParameters, (sp) => sp.active)
+                    .map((sp) => <ReactiveStaticParameterCriterionComponent
                       key={sp.label}
                       staticParameter={sp}
                       onSelectStaticParameter={onToggleStaticParameter}

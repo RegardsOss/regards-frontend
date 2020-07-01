@@ -62,7 +62,6 @@ class ThumbnailFullSizePictureDialog extends React.Component {
     }
   }
 
-
   render() {
     const { open, onClose, thumbnailURI } = this.props
     const { contentStyle } = this.state
@@ -71,14 +70,6 @@ class ThumbnailFullSizePictureDialog extends React.Component {
       // No render before image is
       return null
     }
-    const actions = [
-      <FlatButton
-        key="cancel"
-        label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
-        primary
-        onClick={onClose}
-      />,
-    ]
     return (
       <Dialog
         modal={false}
@@ -87,7 +78,14 @@ class ThumbnailFullSizePictureDialog extends React.Component {
         contentStyle={contentStyle}
         bodyStyle={content}
         open
-        actions={actions}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
+            primary
+            onClick={onClose}
+          />
+        </>}
       >
         <img
           alt={formatMessage({ id: 'attribute.thumbnail.alt' })}

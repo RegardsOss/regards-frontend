@@ -19,8 +19,8 @@
 import { CommonShapes } from '@regardsoss/shape'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import PositionedDialog from './PositionedDialog'
+import URIContentDisplayer from '../content/preview/URIContentDisplayer'
 import styles from './styles'
-import { URIContentDisplayer } from '../main'
 
 /**
  * Loadable content dialog showing only one content with its URL

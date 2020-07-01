@@ -62,7 +62,7 @@ export class MapViewContainer extends React.Component {
     dispatchSelectAll: PropTypes.func.isRequired,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.dispatchSelectAll()
   }
 
@@ -93,7 +93,6 @@ export class MapViewContainer extends React.Component {
       },
     })
   }
-
 
   render() {
     const {

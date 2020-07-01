@@ -91,16 +91,16 @@ describe('[Description] Testing TreeLinkComponent', () => {
       // - the icon
       // - the click callback
       assert.lengthOf(enzymeWrapper.find(TestIcon), 0, 'Icon should not be shown')
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onClick), 0, 'On click callback should not be available')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onClick), 0, 'On click callback should not be available')
     } else {
       // when enabled, check there is:
       // - the icon
       // - the click callback
       assert.lengthOf(enzymeWrapper.find(TestIcon), 1, 'Icon should not be shown')
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onClick), 1, 'On click callback should be available')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onClick), 1, 'On click callback should be available')
     }
     // In any case, the link text and tooltip should be displayed
-    assert.lengthOf(enzymeWrapper.filterWhere(n => n.props().title === props.tooltip), 1, 'Tooltip should be shown')
+    assert.lengthOf(enzymeWrapper.filterWhere((n) => n.props().title === props.tooltip), 1, 'Tooltip should be shown')
     assert.include(enzymeWrapper.debug(), props.text, 'Link text should be shown')
   }))
 })

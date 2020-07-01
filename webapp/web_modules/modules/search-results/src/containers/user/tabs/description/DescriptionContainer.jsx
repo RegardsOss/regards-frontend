@@ -93,13 +93,13 @@ export class DescriptionContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update description module runtime properties
@@ -178,13 +178,13 @@ export class DescriptionContainer extends React.Component {
    * On search word tag from description callback: searches word in tags tab
    * @param {string} word tag
    */
-  onSearchWord = word => this.onOpenTagResults(CriterionBuilder.buildWordTagCriterion(word))
+  onSearchWord = (word) => this.onOpenTagResults(CriterionBuilder.buildWordTagCriterion(word))
 
   /**
    * On search entity tag from description callback: searches entity in tags tab
    * @param {*} entity matching CatalogShapes.entity
    */
-  onSearchEntity = entity => this.onOpenTagResults(CriterionBuilder.buildEntityTagCriterion(entity))
+  onSearchEntity = (entity) => this.onOpenTagResults(CriterionBuilder.buildEntityTagCriterion(entity))
 
   /**
    * Open tag results callback

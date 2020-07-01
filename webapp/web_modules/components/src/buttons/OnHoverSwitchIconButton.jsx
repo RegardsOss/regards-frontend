@@ -36,11 +36,9 @@ class OnHoverSwitchIconButton extends React.Component {
     // This component also accepts all properties of IconButton
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      usedPropIndex: 0,
-    }
+  /** Initial state */
+  state = {
+    usedPropIndex: 0,
   }
 
   handleOnMouseEnter = () => {

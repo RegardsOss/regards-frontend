@@ -52,7 +52,6 @@ export const editServiceRoute = {
   },
 }
 
-
 const servicesManagementRouter = {
   childRoutes: [
     listServiceRoute,

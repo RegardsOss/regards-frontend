@@ -57,7 +57,6 @@ export default class ReduxEntityTester {
     return combineReducers(obj)
   }
 
-
   getStore() { // Define the used middlewares (order matters)
     const middlewares = [
       thunk, // lets us dispatch() functions
@@ -107,18 +106,17 @@ export default class ReduxEntityTester {
     return this.runSelectorTest(store, done)
   }
 
-
   runActionTest(done) {
     try {
       const store = this.getStore()
       if (this.entityActions.fetchPagedEntityList) {
         assert.isDefined(this.backendServerResultList.metadata, 'Your Action is Pageable but the result you provided comes from a list entrypoint')
         return store.dispatch(this.entityActions.fetchPagedEntityList(null, null, this.options.pathParams))
-          .then(action => this.onPostActionTest(action, store, done))
+          .then((action) => this.onPostActionTest(action, store, done))
       } if (this.entityActions.fetchEntityList) {
         assert.isUndefined(this.backendServerResultList.metadata, 'Your Action is a List but the result you provided comes from a pageable entrypoint')
         return store.dispatch(this.entityActions.fetchEntityList(this.options.pathParams))
-          .then(action => this.onPostActionTest(action, store, done))
+          .then((action) => this.onPostActionTest(action, store, done))
       }
       return done("Action can't be tested. Is it a Basic[Array|List|Pageable]Actions that you provided ?")
     } catch (e) {
@@ -149,7 +147,6 @@ export default class ReduxEntityTester {
       .post(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
 
-
     // Since react will console.error propType manual that we use in pure JS to check if normalized
     // entities matches Shapes, we use sinon.js to stub it into throwing only others errors
     console.error = (warning, ...args) => {
@@ -160,7 +157,6 @@ export default class ReduxEntityTester {
       }
     }
   }
-
 
   /**
    * Remove any HTTP mock created

@@ -18,9 +18,9 @@
  **/
 import find from 'lodash/find'
 
-const findParam = (entity, parameterName) => find(entity.content.parameters, parameter => parameter.name === parameterName)
+const findParam = (entity, parameterName) => find(entity.content.parameters, (parameter) => parameter.name === parameterName)
 const hasParam = (entity, parameterName) => {
-  const param = find(entity.content.parameters, parameter => parameter.name === parameterName)
+  const param = find(entity.content.parameters, (parameter) => parameter.name === parameterName)
   return !!param
 }
 export default {

@@ -58,7 +58,6 @@ export class ModelFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   componentDidMount() {
     this.handleInitialize()
   }
@@ -79,7 +78,7 @@ export class ModelFormComponent extends React.Component {
    * @param {[function]} validators validators for field
    * @return {function} validator
    */
-  getFieldOrImportValidator = validators => function fieldValidator(value, values) {
+  getFieldOrImportValidator = (validators) => function fieldValidator(value, values) {
     let error
     if (!values.file) {
       error = validators.reduce((acc, validator) => acc || validator(value, values), undefined)

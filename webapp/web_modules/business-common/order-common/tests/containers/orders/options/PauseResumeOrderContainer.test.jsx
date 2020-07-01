@@ -67,8 +67,8 @@ describe('[Order Common] Testing PauseResumeOrderContainer', () => {
       ordersSelectors: OrderClient.getOrderListSelectors(['any']),
       onShowRequestFailedInformation: () => { },
       onShowAsynchronousRequestInformation: () => { },
-      sendPause: () => new Promise(resolve => resolve(true)),
-      sendResume: () => new Promise(resolve => resolve(true)),
+      sendPause: () => new Promise((resolve) => resolve(true)),
+      sendResume: () => new Promise((resolve) => resolve(true)),
       fetchOrders: () => { },
     }
     const enzymeWrapper = shallow(<PauseResumeOrderContainer {...props} />, { context })

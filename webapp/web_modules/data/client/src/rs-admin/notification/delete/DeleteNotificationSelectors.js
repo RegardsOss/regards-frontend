@@ -18,4 +18,4 @@
  */
 import { BasicSignalsSelectors } from '@regardsoss/store-utils'
 
-export default storePath => new BasicSignalsSelectors(storePath)
+export default (storePath) => new BasicSignalsSelectors(storePath)

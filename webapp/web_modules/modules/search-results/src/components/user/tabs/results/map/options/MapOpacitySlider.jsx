@@ -60,6 +60,13 @@ class MapOpacitySlider extends React.Component {
     width: '75%',
   }
 
+  /**
+   * User callback: opacity changed
+   * @param {*} e event
+   * @param {number} value new opacity value
+   */
+  onOpacityChanged = (e, value) => this.props.handleChangeOpacity(value)
+
   render() {
     const { opacity } = this.props
     const { intl: { formatMessage } } = this.context
@@ -75,7 +82,7 @@ class MapOpacitySlider extends React.Component {
           value={opacity}
           style={MapOpacitySlider.slider}
           sliderStyle={MapOpacitySlider.sliderStyle}
-          onChange={(e, value) => { this.props.handleChangeOpacity(value) }}
+          onChange={this.onOpacityChanged}
         />
       </div>
     )

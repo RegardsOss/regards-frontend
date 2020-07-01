@@ -29,18 +29,18 @@ import ProfileEditionDialogComponent from '../../../components/user/profile/Prof
  * Profile edition container
  */
 export class ProfileEditionContainer extends React.Component {
-  static mapStateToProps = state => ({
+  static mapStateToProps = (state) => ({
     visible: profileDialogSelectors.isProfileEditionVisible(state),
     myUser: myUserSelectors.getMyUser(state),
     notificationSettings: notificationSettingsSelectors.getResult(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     hideDialog: () => dispatch(profileDialogActions.hideEdition()),
     fetchMyUser: () => dispatch(myUserActions.fetchMyUser()),
-    updateMyUser: user => dispatch(myUserActions.updateMyUser(user)),
+    updateMyUser: (user) => dispatch(myUserActions.updateMyUser(user)),
     fetchNotificationSettings: () => dispatch(notificationSettingsActions.fetchNotificationSettings()),
-    updateNotificationSettings: settings => dispatch(notificationSettingsActions.updateNotificationSettings(settings)),
+    updateNotificationSettings: (settings) => dispatch(notificationSettingsActions.updateNotificationSettings(settings)),
   })
 
   static propTypes = {
@@ -61,7 +61,7 @@ export class ProfileEditionContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // back from user fetching?
     if (this.props.myUser !== nextProps.myUser) {
       this.updateMetadata(nextProps.myUser)
@@ -93,14 +93,14 @@ export class ProfileEditionContainer extends React.Component {
     return updateMyUser(updatedUser)
   }
 
-  onEditNotificationSettings = newSettings => this.props.updateNotificationSettings(newSettings)
+  onEditNotificationSettings = (newSettings) => this.props.updateNotificationSettings(newSettings)
 
   /**
    * Updates userMetadata in state  from loaded myUser data. This method always returns a list of metadata,
    * but when user is known, retrieves the current metadata values
    * @param user : myUser values
    */
-  updateMetadata = user => this.setState({
+  updateMetadata = (user) => this.setState({
     userMetadata: getMetadataArray(user),
     isLoading: false,
   })

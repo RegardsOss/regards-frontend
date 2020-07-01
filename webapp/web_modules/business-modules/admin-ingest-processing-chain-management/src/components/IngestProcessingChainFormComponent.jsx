@@ -128,8 +128,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
           />
           : <CardTitle
             title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
-          />
-        }
+          />}
         {// import button (when creating only)
           isCreating ? (
             <ImportFromFileDialogButton
@@ -223,8 +222,8 @@ function validate(fieldValues) {
 }
 
 const selector = formValueSelector('plugin-configuration-form')
-const mapStateToProps = state => ({
-  getField: field => selector(state, field),
+const mapStateToProps = (state) => ({
+  getField: (field) => selector(state, field),
 })
 
 const ConnectedComponent = connect(mapStateToProps)(IngestProcessingChainFormComponent)

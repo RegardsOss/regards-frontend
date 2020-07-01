@@ -20,7 +20,7 @@
 /**
  * @author Sébastien Binda
  */
-const storageManagementStyles = theme => ({
+const storageManagementStyles = (theme) => ({
   root: {
     position: 'relative',
     paddingBottom: 20,
@@ -40,6 +40,9 @@ const storageManagementStyles = theme => ({
     padding: 8,
     color: theme.palette.accent2Color,
     wordBreak: 'break-all',
+  },
+  emphasizedText: {
+    color: theme.palette.accent1Color,
   },
 })
 

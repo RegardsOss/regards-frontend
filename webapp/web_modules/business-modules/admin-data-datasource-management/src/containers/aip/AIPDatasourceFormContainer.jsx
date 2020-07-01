@@ -37,7 +37,6 @@ import { datasourceSelectors, datasourceActions } from '../../clients/Datasource
 
 const { findParam } = PluginConfParamsUtils
 
-
 /**
  * Show the AIP datasource form
  */
@@ -72,12 +71,12 @@ export class AIPDatasourceFormContainer extends React.Component {
     formValues: getFormValues('aip-datasource-form')(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
-    fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
+    fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
     flushModelAttribute: () => dispatch(modelAttributesActions.flush()),
     fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
-    createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+    createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
@@ -182,7 +181,6 @@ export class AIPDatasourceFormContainer extends React.Component {
         })
       })
   }
-
 
   redirectToList = () => {
     const { params: { project } } = this.props

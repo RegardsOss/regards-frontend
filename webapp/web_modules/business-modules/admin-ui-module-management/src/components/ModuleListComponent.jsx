@@ -66,11 +66,8 @@ class ModuleListComponent extends React.Component {
 
   static CREATE_DEPENDENCIES = [moduleActions.getDependency(RequestVerbEnum.POST)]
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
   }
 
   openDeleteDialog = (module) => {
@@ -85,6 +82,15 @@ class ModuleListComponent extends React.Component {
       deleteDialogOpened: false,
       moduleToDelete: null,
     })
+  }
+
+  /**
+   * User callback: on delete confirmed
+   */
+  onDeleteConfirmed = () => {
+    const { onDelete } = this.props
+    const { moduleToDelete } = this.state
+    onDelete(moduleToDelete)
   }
 
   render() {
@@ -105,7 +111,7 @@ class ModuleListComponent extends React.Component {
         >
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
-            onConfirm={() => { this.props.onDelete(this.state.moduleToDelete) }}
+            onConfirm={this.onDeleteConfirmed}
             onClose={this.closeDeleteDialog}
             title={title}
           />

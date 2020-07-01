@@ -27,7 +27,6 @@ import GraphContextReducers, { REDUCER_PATH as GRAPH_CONTEXT_PATH } from './mode
 import GraphLevelCollectionReducers, { REDUCER_PATH as GRAPH_LEVEL_COLLECTION_PATH } from './model/graph/GraphLevelCollectionReducers'
 import GraphLevelDatasetReducers, { REDUCER_PATH as GRAPH_LEVEL_DATASET_PATH } from './model/graph/GraphLevelDatasetReducers'
 
-
 export default {
   // Admin
   [COLLECTION_MODEL_PATH]: CollectionModelReducers,

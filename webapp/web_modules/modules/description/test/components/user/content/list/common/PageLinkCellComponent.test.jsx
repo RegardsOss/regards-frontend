@@ -47,7 +47,7 @@ describe('[Description] Testing PageLinkCellComponent', () => {
     }
     const enzymeWrapper = shallow(<PageLinkCellComponent {...props} />, { context })
     // search for first div
-    const rootDiv = enzymeWrapper.findWhere(n => n.props().title === props.tooltip)
+    const rootDiv = enzymeWrapper.findWhere((n) => n.props().title === props.tooltip)
     assert.lengthOf(rootDiv, 1, 'There should be root div, displaying tooltip')
     assert.equal(rootDiv.props().onClick, props.onClick, 'Root division should hold onClick callback')
     rootDiv.find(props.LinkIconConstructor, 'Link icon should be displayed')

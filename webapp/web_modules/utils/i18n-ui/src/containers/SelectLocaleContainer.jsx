@@ -29,7 +29,34 @@ import styles from '../styles'
  * @author Sébastien Binda
  */
 export class SelectLocaleContainer extends React.Component {
-  static propTypes = {}
+  static propTypes = {
+    currentLocale: PropTypes.string,
+    setLocale: PropTypes.func,
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      currentLocale: state.common.i18n.locale,
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      setLocale: (locale) => dispatch(setLocale(locale)),
+    }
+  }
 
   /**
    * on change locale
@@ -51,22 +78,7 @@ export class SelectLocaleContainer extends React.Component {
   }
 }
 
-SelectLocaleContainer.propTypes = {
-  currentLocale: PropTypes.string,
-  setLocale: PropTypes.func,
-}
-
-// Add projects from store to the containers props
-const mapStateToProps = state => ({
-  currentLocale: state.common.i18n.locale,
-})
-
-// Add functions dependending on store dispatch to containers props.
-const mapDispatchToProps = dispatch => ({
-  setLocale: locale => dispatch(setLocale(locale)),
-})
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(SelectLocaleContainer.mapStateToProps, SelectLocaleContainer.mapDispatchToProps),
   withModuleStyle(styles), withI18n(messages),
 )(SelectLocaleContainer)

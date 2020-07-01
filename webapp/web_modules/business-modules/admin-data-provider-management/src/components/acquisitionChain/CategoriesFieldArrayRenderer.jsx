@@ -60,7 +60,7 @@ export class CategoriesFieldArrayRenderer extends React.Component {
     const { fields } = this.props
     const { categoryField } = this.state
     const categoryToAdd = categoryField.trim()
-    if (categoryToAdd && !fields.getAll().find(category => category === categoryToAdd)) {
+    if (categoryToAdd && !fields.getAll().find((category) => category === categoryToAdd)) {
       fields.push(categoryField)
       this.setState({ categoryField: '' })
     }
@@ -102,7 +102,7 @@ export class CategoriesFieldArrayRenderer extends React.Component {
       },
     } = this.context
     return (
-      <React.Fragment>
+      <>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.category' })}</p>
         <div style={categoriesField}>
           <TextField
@@ -121,7 +121,7 @@ export class CategoriesFieldArrayRenderer extends React.Component {
           <div style={chipSeparator} />
           {fields.map(this.renderChip)}
         </div>
-      </React.Fragment>
+      </>
     )
   }
 }

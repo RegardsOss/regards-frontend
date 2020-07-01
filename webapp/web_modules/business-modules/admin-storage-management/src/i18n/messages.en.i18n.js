@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'storage.location.list.title': 'Configure data storage locations',
   'storage.location.list.subtitle': 'This section allows you to configure storage locations and their priority. The priority is used by the system to determine on which storage location retrieve data if they are stored on many of them.',
   'storage.location.type.online.name': 'Online   : ',
@@ -114,6 +114,7 @@ const messages = Object.assign({
   'storage.type.OFFLINE': 'Offline',
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

@@ -38,7 +38,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing DraggableCard', () => 
   it('should render', () => {
     const props = {
       value: { data: { to: { save: 42 } } },
-      connectDragSource: children => (children),
+      connectDragSource: (children) => (children),
       title: 'Some title',
       draggableToContainerType: ItemTypes.ATTR_ASSOCIATED,
       children: (<div />),

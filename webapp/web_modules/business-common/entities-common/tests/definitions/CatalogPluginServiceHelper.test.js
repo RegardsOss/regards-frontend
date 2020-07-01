@@ -71,7 +71,6 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     }
   }))
 
-
   const choiceTests = [
     { type: PluginParameterTypes.CHARACTER, dynamicsValues: ['Z', 'A'] },
     { type: PluginParameterTypes.DOUBLE, dynamicsValues: [1.5, 3.2] },
@@ -116,7 +115,7 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     })
   })
   it('Should report optional when convering the parameter', () => {
-    const tests = flatMap([PluginParameterTypes.STRING, PluginParameterTypes.BOOLEAN], type => [{ type, optional: true }, { type, optional: false }])
+    const tests = flatMap([PluginParameterTypes.STRING, PluginParameterTypes.BOOLEAN], (type) => [{ type, optional: true }, { type, optional: false }])
     tests.forEach(({ type, optional }) => {
       const configParam = getConfigParameter('common.field')
       const metaParam = getMetaDataParameter('common.field', type, PluginParameterTypes.STRING, optional)

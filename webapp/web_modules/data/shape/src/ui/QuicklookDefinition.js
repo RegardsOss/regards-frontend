@@ -19,7 +19,6 @@
 import { CommonDomain } from '@regardsoss/domain'
 import { DataFile } from '../rs-dam/DataFile'
 
-
 /**
  * A quiclook definition, as compiled and used by UI
  * @author Raphaël Mechali

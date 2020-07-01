@@ -30,7 +30,6 @@ import { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES } from './ModelAttrTypes'
  * @author Sébastien Binda
  */
 
-
 const standardAttributesKeys = {
   id: 'id', // === URN
   providerId: 'providerId',
@@ -127,7 +126,6 @@ function getStandardAttributeModel(standardAttributeKey) {
   return standardAttributesAsModel.find(({ content: { name } }) => name === standardAttributeKey)
 }
 
-
 /** Pseudo attributes, marks elements that should not be used with the server */
 const pseudoAttributesKeys = [
   standardAttributesKeys.thumbnail,
@@ -138,7 +136,7 @@ const pseudoAttributesKeys = [
  * @param {*} attribute attribute as returned by the server (within content field)
  * @return {bool} true when that attribute can be used to search, filter, sort...
  */
-const isSearchableAttribute = attribute => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
+const isSearchableAttribute = (attribute) => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
 
 const DEFAULT_FRAGMENT = 'default'
 

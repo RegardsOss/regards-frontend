@@ -31,13 +31,12 @@ export default class SelectedDynamicModuleActions {
     this.SET_DYNAMIC_MODULE = `${namespace}/set-dynamic-module`
   }
 
-
   /**
    * Dispatches dynamic module change
    * @param {number} dynamicModuleId current dynamic module ID
    * @return action to dispatch
    */
-  setDynamicModule = dynamicModuleId => ({
+  setDynamicModule = (dynamicModuleId) => ({
     type: this.SET_DYNAMIC_MODULE,
     dynamicModuleId,
   })

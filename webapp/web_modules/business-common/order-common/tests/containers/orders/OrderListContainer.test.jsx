@@ -44,7 +44,6 @@ describe('[Order Common] Testing OrderListContainer', () => {
     assert.isDefined(OrderListContainer)
   })
 
-
   const orderStateActions = new OrderClient.OrderStateActions('any')
 
   const commonProperties = {
@@ -57,7 +56,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
       orderStateActions.getResumeDependency(), orderStateActions.getDeleteCompletelyDependency(),
     ],
   }
-  values(ORDER_DISPLAY_MODES).forEach(displayMode => it(`should render correcty in display mode "${displayMode}"`, () => {
+  values(ORDER_DISPLAY_MODES).forEach((displayMode) => it(`should render correcty in display mode "${displayMode}"`, () => {
     const props = {
       ...commonProperties,
       displayMode,
@@ -166,7 +165,6 @@ describe('[Order Common] Testing OrderListContainer', () => {
     assert.isTrue(enzymeWrapper.state().hasDeleteCompletely, 'Delete completely should be available')
     assert.isFalse(enzymeWrapper.state().hasDeleteSuperficially, 'Delete superficially should not be available')
     assert.isFalse(enzymeWrapper.state().hasPauseResume, 'Pause resume should be not available')
-
 
     // 2 - delete partially
     enzymeWrapper.setProps({

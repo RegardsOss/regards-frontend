@@ -22,7 +22,21 @@
  * @param theme
  * @author Sébastien Binda
  */
-const styles = theme => ({
+const styles = (theme) => ({
+  anchorComponent: {
+    buttonStyle: {
+      bottom: theme.components.anchorScrollTop.buttonBottom,
+      right: theme.components.anchorScrollTop.buttonRight,
+      position: 'fixed',
+      zIndex: 2,
+    },
+    iconStyle: {
+      fill: theme.components.anchorScrollTop.iconColor,
+    },
+  },
+  linkComponent: {
+    color: theme.palette.primary1Color,
+  },
   breadcrumb: {
     style: {
       height: theme.module.common.titleBarHeight,

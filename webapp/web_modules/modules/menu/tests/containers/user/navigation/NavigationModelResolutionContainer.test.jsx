@@ -223,7 +223,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
       },
     }
     // provide dynamic modules (only IDs are changed here)
-    const dynamicModules = [1, 2, 3, 4, 5].map(id => ({
+    const dynamicModules = [1, 2, 3, 4, 5].map((id) => ({
       content: {
         id,
         active: true,

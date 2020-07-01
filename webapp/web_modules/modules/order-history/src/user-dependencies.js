@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { orderListActions } from './client/OrderListClient'
 
-
 /**
  * User module dependencies, not exported but used internally to let the module show dependencies / authentication messages
  * @author Raphaël Mechali

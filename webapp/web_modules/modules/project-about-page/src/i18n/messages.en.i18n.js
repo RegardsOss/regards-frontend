@@ -22,13 +22,14 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages English language
  * @type {*}
  */
-const messages = Object.assign({
+const messages = {
   'module.defaault.button.tooltip': 'About...',
   'project.about.page.ok': 'Close',
   'project.about.page.display': 'Always display',
   'project.about.page.hide': 'Don\'t show again',
   'project.about.page.admin.url': 'HTML file URL',
   'project.about.page.admin.test': 'Test',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

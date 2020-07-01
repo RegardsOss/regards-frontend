@@ -53,10 +53,21 @@ class PictureLinkComponent extends React.Component {
     ...themeContextType,
   }
 
-  componentWillMount = () => {
-    this.onExit()
+  static ROOT_STYLES = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    textDecoration: 'none',
+    cursor: 'pointer',
   }
 
+  static ICON_CONTAINER_STYLE = {
+    flexGrow: '0',
+    flexShrink: '0',
+  }
+
+  state = {
+    isOver: false,
+  }
 
   onAction = () => {
     const { disabled, onAction } = this.props
@@ -76,7 +87,6 @@ class PictureLinkComponent extends React.Component {
       isOver: false,
     })
   }
-
 
   render() {
     const {
@@ -105,27 +115,32 @@ class PictureLinkComponent extends React.Component {
     } else {
       [textColor, imageColor] = [defaultTextColor, defaultImageColor]
     }
-    const iconStyle = { color: imageColor, ...iconStyles }
-    const textStyle = {
-      color: textColor, textAlign: 'center', flexGrow: '1', flexShrink: '1', marginLeft: iconToTextGap,
-    }
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
       <div
         className={className}
-        style={{
-          display: 'inline-flex', alignItems: 'center', textDecoration: 'none', cursor: 'pointer',
-        }}
+        style={PictureLinkComponent.ROOT_STYLES}
         onClick={this.onAction}
         onMouseOut={this.onMouseOut}
         onMouseOver={this.onMouseOver}
       >
-        <div style={{ flexGrow: '0', flexShrink: '0' }}>
+        <div style={PictureLinkComponent.ICON_CONTAINER_STYLE}>
           <IconComponent
-            style={iconStyle}
+            // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+            style={{ // eslint wont fix: requires context data, not accurate outside render
+              color: imageColor,
+              ...iconStyles,
+            }}
           />
         </div>
-        <div style={textStyle}>
+        { /* eslint-disable-next-line react-perf/jsx-no-new-object-as-prop */ }
+        <div style={{ // eslint wont fix: requires context information, not accurate outside render
+          color: textColor,
+          textAlign: 'center',
+          flexGrow: '1',
+          flexShrink: '1',
+          marginLeft: iconToTextGap,
+        }}
+        >
           {text}
         </div>
       </div>

@@ -23,7 +23,6 @@ import getWaitingAccessUsersEntitiesReducer from '../../src/rs-admin/user/Waitin
 import getWaitingAccessUsersEntitiesSelectors from '../../src/rs-admin/user/WaitingAccessUsersEntitiesSelectors'
 import WaitingAccessUsersEntitiesDump from './WaitingAccessUsersEntities.dump'
 
-
 const options = {
 }
 

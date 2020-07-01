@@ -55,7 +55,6 @@ class StorageLocationActivityRender extends React.Component {
       },
     }
 
-
     return (
       <div style={container}>
         { storageRunning

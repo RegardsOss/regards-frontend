@@ -82,7 +82,7 @@ class SelectedAttributesTable extends React.Component {
         OptionConstructor: RemoveOption,
         optionProps: { onRemove },
       }]).build(),
-    ].filter(c => !!c)
+    ].filter((c) => !!c)
   }
 
   render() {
@@ -97,8 +97,7 @@ class SelectedAttributesTable extends React.Component {
               error={invalid}
               text={error || formatMessage(
                 { id: 'attribute.configuration.selected.attributes.header' },
-                { count: selectedAttributes.length })
-              }
+                { count: selectedAttributes.length })}
             />
           </TableHeaderContentBox>
         </TableHeaderLine>

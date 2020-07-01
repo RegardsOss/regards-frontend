@@ -92,7 +92,7 @@ export default class PluginMetaDataListComponent extends React.Component {
     }
   }
 
-  getActions = plugin => this.props.enableConfiguration ? (
+  getActions = (plugin) => this.props.enableConfiguration ? (
     <CardActions style={this.styles.tile.actionsStyles}>
       <ResourceLink
         resourceDependencies={pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, this.props.microserviceName)}
@@ -119,7 +119,7 @@ export default class PluginMetaDataListComponent extends React.Component {
    * Builds the array of {@link ListItem}.
    */
   getFilterListItems = () => (
-    map(this.props.pluginTypes, type => (
+    map(this.props.pluginTypes, (type) => (
       <ListItem
         key={type.content}
         primaryText={last(type.content.split('.'))}
@@ -138,7 +138,7 @@ export default class PluginMetaDataListComponent extends React.Component {
    * Builds the grid of tiles.
    */
   getGrid = () => (
-    map(this.state.displayedTypes, pluginType => (
+    map(this.state.displayedTypes, (pluginType) => (
       [
         <Subheader key="header">{pluginType.content}</Subheader>,
         flow(
@@ -148,7 +148,7 @@ export default class PluginMetaDataListComponent extends React.Component {
             }
             return null
           }),
-          fpmap(pluginMetaData => this.getTile(pluginMetaData)),
+          fpmap((pluginMetaData) => this.getTile(pluginMetaData)),
         )(this.props.pluginMetaDataList),
       ]
     ))
@@ -159,7 +159,7 @@ export default class PluginMetaDataListComponent extends React.Component {
    *
    * @param plugin
    */
-  getTile = plugin => (
+  getTile = (plugin) => (
     <div key={plugin.content.pluginId} className={this.styles.tile.classes}>
       <Card style={this.styles.tile.styles}>
         <span title={plugin.content.pluginId}>
@@ -183,8 +183,7 @@ export default class PluginMetaDataListComponent extends React.Component {
                 {this.context.intl.formatMessage({ id: 'plugin.description.more' })}
               </a>
             </div>
-            : null
-          }
+            : null}
 
         </CardText>
         {this.getActions(plugin)}
@@ -203,7 +202,6 @@ export default class PluginMetaDataListComponent extends React.Component {
       pluginDesc: null,
     })
   }
-
 
   /**
    * Adds the filter element to the displayed type if not present or add it if absent.

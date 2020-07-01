@@ -35,7 +35,8 @@ export class PluginFormContainer extends React.Component {
     // From react router
     params: PropTypes.shape({
       project: PropTypes.string,
-      plugin_id: PropTypes.string,
+      // eslint-disable-next-line camelcase
+      plugin_id: PropTypes.string, // eslint wont fix: from URL parameters
     }),
     // Set by mapDispatchToProps
     updatePlugin: PropTypes.func,
@@ -52,7 +53,7 @@ export class PluginFormContainer extends React.Component {
     submitError: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchRoleList()
     if (this.props.params.plugin_id && !this.props.plugin) {
       this.props.fetchPlugin(this.props.params.plugin_id)
@@ -61,7 +62,7 @@ export class PluginFormContainer extends React.Component {
 
   handleSubmit = (values) => {
     // Remove empty iconUrl
-    const newValues = Object.assign({}, values)
+    const newValues = { ...values }
     newValues.iconUrl = values.iconUrl === '' ? null : values.iconUrl
     if (this.props.params.plugin_id) {
       return this.handleUpdate(newValues)
@@ -70,7 +71,7 @@ export class PluginFormContainer extends React.Component {
   }
 
   handleCreate = (values) => {
-    const submitModel = Object.assign({}, values)
+    const submitModel = { ...values }
     Promise.resolve(this.props.createPlugin(submitModel))
       .then((actionResult) => {
         if (actionResult.error) {
@@ -87,7 +88,7 @@ export class PluginFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const submitModel = Object.assign({}, this.props.plugin.content, values)
+    const submitModel = { ...this.props.plugin.content, ...values }
     Promise.resolve(this.props.updatePlugin(submitModel))
       .then((actionResult) => {
         if (actionResult.error) {
@@ -137,10 +138,10 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: uiPluginDefinitionSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
-  updatePlugin: plugin => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
-  createPlugin: plugin => dispatch(uiPluginDefinitionActions.createEntity(plugin)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchPlugin: (pluginId) => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
+  updatePlugin: (plugin) => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
+  createPlugin: (plugin) => dispatch(uiPluginDefinitionActions.createEntity(plugin)),
   fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
 })
 

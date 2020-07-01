@@ -32,6 +32,11 @@ class AttributeModelUnitFieldComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Root component style */
+  static ROOT_STYLE = {
+    display: 'flex', flexDirection: 'row',
+  }
+
   state = {
     unitDescriptionOpen: false,
   }
@@ -42,18 +47,18 @@ class AttributeModelUnitFieldComponent extends React.Component {
 
   renderDescriptionDialog = () => {
     const { intl: { formatMessage } } = this.context
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'attrmodel.form.unit.description.dialog.close' })}
-        primary
-        onClick={this.handleCloseDescription}
-      />]
     return (
       <Dialog
         open={this.state.unitDescriptionOpen}
         title={formatMessage({ id: 'attrmodel.form.unit.description.dialog.title' })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'attrmodel.form.unit.description.dialog.close' })}
+            primary
+            onClick={this.handleCloseDescription}
+          />
+        </>}
         modal
       >
         <FormattedHTMLMessage id="attrmodel.form.unit.description.dialog.content" />
@@ -63,7 +68,7 @@ class AttributeModelUnitFieldComponent extends React.Component {
 
   render() {
     return (
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={AttributeModelUnitFieldComponent.ROOT_STYLE}>
         <Field
           name="unit"
           fullWidth

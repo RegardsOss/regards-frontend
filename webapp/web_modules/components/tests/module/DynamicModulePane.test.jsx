@@ -72,7 +72,6 @@ describe('[Components] Testing DynamicModulePane', () => {
       ), { context },
     )
 
-
     // check card rendering
     const cardWrapper = wrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be the card')

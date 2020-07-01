@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
-const messages = Object.assign({
+const messages = {
   'attrmodel.list.delete.conditions': 'You can delete attributes which are not associated to a model.',
   'attrmodel.list.title': 'Attribute models',
   'attrmodel.list.subtitle': 'All attribute models for the project',
@@ -61,7 +61,6 @@ const messages = Object.assign({
     + '</ul>',
   'attrmodel.form.unit.description.dialog.close': 'Close',
 
-
   'attrmodel.form.restriction.NUMBER_RANGE.active': 'Activate a range restriction',
   'attrmodel.form.restriction.NUMBER_RANGE.min': 'Minimal value authorized',
   'attrmodel.form.restriction.NUMBER_RANGE.isMinInclusive': 'Minimal limit included in the set',
@@ -79,7 +78,8 @@ const messages = Object.assign({
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestion and data updates',
 
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
-}, Locales.en)
+  ...Locales.en,
+}
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'No fragment'
 
 export default messages

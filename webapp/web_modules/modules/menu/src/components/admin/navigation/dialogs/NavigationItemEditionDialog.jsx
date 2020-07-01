@@ -77,7 +77,7 @@ export class NavigationItemEditionDialog extends React.Component {
     // remove any editedItem here
     const hasParentSection = parentSection && parentSection !== NavigationItemEditionDialog.MAIN_BAR
     const sameLevelItems = (hasParentSection ? parentSection.children : navigationItems)
-      .filter(child => child.id !== editedItem.id || child.type !== editedItem.type)
+      .filter((child) => child.id !== editedItem.id || child.type !== editedItem.type)
     // possible positions: sibling and first position, except on root level (cannot be before home item if there is home item)
     return hasParentSection || !hasHome ? [NavigationItemEditionDialog.FIRST_POSITION, ...sameLevelItems] : sameLevelItems
   }
@@ -91,7 +91,7 @@ export class NavigationItemEditionDialog extends React.Component {
   static getParentSectionChoices(item, navigationItems) {
     // search all sections of the current tree that are not this edited item nor part of its children
     // note: we keep the reference, otherwise selector field equal method cannot work
-    const allSelectableSections = findAll(navigationItems, currentItem => isSection(currentItem) && !isChildOrSelf(item, currentItem))
+    const allSelectableSections = findAll(navigationItems, (currentItem) => isSection(currentItem) && !isChildOrSelf(item, currentItem))
     return [
       NavigationItemEditionDialog.MAIN_BAR,
       ...allSelectableSections,
@@ -141,13 +141,13 @@ export class NavigationItemEditionDialog extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -202,7 +202,6 @@ export class NavigationItemEditionDialog extends React.Component {
       }
     }
   }
-
 
   /**
    * On confirm edition callback
@@ -280,24 +279,24 @@ export class NavigationItemEditionDialog extends React.Component {
     const titleKey = get(editionData, 'dialogTitleKey')
 
     // create dialog actions
-    const dialogActions = [
-      <FlatButton
-        key="cancel"
-        label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.cancel' })}
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="confirm"
-        disabled={submitting || invalid}
-        label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.confirm' })}
-        onClick={handleSubmit(this.onConfirm)}
-        primary
-      />]
     return (
       <Dialog
         open={!!editionData}
         title={titleKey ? formatMessage({ id: titleKey }) : null}
-        actions={dialogActions}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.cancel' })}
+            onClick={onClose}
+          />
+          <FlatButton
+            key="confirm"
+            disabled={submitting || invalid}
+            label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.confirm' })}
+            onClick={handleSubmit(this.onConfirm)}
+            primary
+          />
+        </>}
         onRequestClose={onClose}
         autoDetectWindowHeight
         autoScrollBodyContent
@@ -370,7 +369,7 @@ export class NavigationItemEditionDialog extends React.Component {
               >
                 {
                   /* possible parent sections, from state */
-                  parentSectionChoices.map(value => (
+                  parentSectionChoices.map((value) => (
                     <MenuItem
                       key={value.ITEM_ID || `${value.type}-${value.id}`}
                       value={value}
@@ -391,7 +390,7 @@ export class NavigationItemEditionDialog extends React.Component {
                 fullWidth
               >
                 { /* possible positions, from state */
-                  afterElementChoices.map(value => (<MenuItem
+                  afterElementChoices.map((value) => (<MenuItem
                     key={value.ITEM_ID || `${value.type}-${value.id}`}
                     value={value}
                     primaryText={
@@ -414,7 +413,7 @@ export class NavigationItemEditionDialog extends React.Component {
                 fullWidth
               >
                 { /** possible visibility modes */
-                  VISIBILITY_MODES.map(value => (
+                  VISIBILITY_MODES.map((value) => (
                     <MenuItem
                       key={value}
                       value={value}
@@ -454,7 +453,7 @@ const connectedReduxForm = reduxForm({ form })(NavigationItemEditionDialog)
 // form values selector
 const selector = formValueSelector(form)
 
-export default connect(state => ({
+export default connect((state) => ({
   selectedIconType: selector(state, ICON_TYPE_FIELD),
   selectedParentSection: selector(state, PARENT_SECTION_FIELD),
   selectedVisibilityMode: selector(state, VISIBILITY_MODE_FIELD),

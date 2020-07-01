@@ -64,10 +64,10 @@ export class UserModuleContainer extends React.Component {
     }
   }
 
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     fetchCollections: (levelIndex, parentEntityId, levelModelName) => dispatch(fetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentEntityId, levelModelName)),
     fetchDatasets: (levelIndex, parentPath) => dispatch(fetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath)),
-    dispatchClearLevelSelection: levelIndex => dispatch(graphContextActions.selectEntity(levelIndex, null)),
+    dispatchClearLevelSelection: (levelIndex) => dispatch(graphContextActions.selectEntity(levelIndex, null)),
     dispatchLevelDataLoaded: (levelIndex, results, patitionTypeActions) => {
       if (results.error) {
         dispatch(patitionTypeActions.onDataLoadingFailed(getLevelPartitionKey(levelIndex), results.payload.message))
@@ -107,11 +107,11 @@ export class UserModuleContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
   }
 
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   onPropertiesChanged = (oldProps, nextProps) => {
     const { moduleConf: { graphDatasetAttributes }, attributeModels, authentication } = (oldProps || { moduleConf: { attributeModels: [], graphLevels: [] } })
@@ -203,7 +203,7 @@ export class UserModuleContainer extends React.Component {
     const { graphDatasetAttributes } = this.state
     const { intl: { formatMessage } } = this.context
     return (
-      <React.Fragment>
+      <>
         <DescriptionProviderContainer id={id}>
           <SearchGraph
             graphDatasetAttributes={graphDatasetAttributes}
@@ -215,7 +215,7 @@ export class UserModuleContainer extends React.Component {
           resultsModuleTitle={formatMessage({ id: 'search.graph.results.title' })}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
-      </React.Fragment>)
+      </>)
   }
 }
 

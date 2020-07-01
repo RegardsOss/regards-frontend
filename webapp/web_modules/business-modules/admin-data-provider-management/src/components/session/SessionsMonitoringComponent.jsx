@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FlatButton from 'material-ui/FlatButton'
 import get from 'lodash/get'
+import noop from 'lodash/noop'
+import identity from 'lodash/identity'
+import FlatButton from 'material-ui/FlatButton'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -115,6 +117,10 @@ export class SessionsMonitoringComponent extends React.Component {
     INDEXED: 'column.indexed',
   }
 
+  static ACQUISITION_REFRESH_BUTTON_STYLE = {
+    margin: 5,
+  }
+
   static getColumnSortingData(columnsSorting, columnKey) {
     const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
     return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
@@ -132,13 +138,14 @@ export class SessionsMonitoringComponent extends React.Component {
 
   renderBreadCrump = () => {
     const { intl: { formatMessage } } = this.context
-    const elements = [formatMessage({ id: 'acquisition-sessions.title' })]
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const elements = [formatMessage({ id: 'acquisition-sessions.title' })] // eslint should fix: wrong design
     return (
       <Breadcrumb
         rootIcon={<PageView />}
         elements={elements}
-        labelGenerator={label => label}
-        onAction={() => { }}
+        labelGenerator={identity}
+        onAction={noop}
       />
     )
   }
@@ -224,17 +231,17 @@ export class SessionsMonitoringComponent extends React.Component {
     }
     const title = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.title.error' }, values) : formatMessage({ id: 'acquisition-sessions.menus.products.list.title.incomplete' }, values)
     const helpMessage = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.help.error' }) : formatMessage({ id: 'acquisition-sessions.menus.products.list.help.incomplete' })
-    const actions = [
-      <FlatButton
-        key="close"
-        label="close"
-        onClick={() => this.onSwitchProductsDialog(null)}
-      />]
     return (
       <PositionedDialog
         title={title}
         open={!!session}
-        actions={actions}
+        actions={<>
+          <FlatButton
+            key="close"
+            label="close"
+            onClick={this.onSwitchProductsDialog}
+          />
+        </>}
         dialogHeightPercent={75}
         dialogWidthPercent={75}
       >
@@ -282,11 +289,8 @@ export class SessionsMonitoringComponent extends React.Component {
       onGoToDatasources,
     } = this.props
     const { sessionToAcknowledge } = this.state
-    const iconStyle = {
-      margin: 5,
-    }
-
-    const columns = [
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const columns = [ // eslint wont fix: Major API rework required here
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
@@ -369,6 +373,7 @@ export class SessionsMonitoringComponent extends React.Component {
         .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
         .build(),
     ]
+
     return (
       <Card>
         {this.renderDeleteDialog()}
@@ -389,7 +394,7 @@ export class SessionsMonitoringComponent extends React.Component {
             label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}
             onClick={this.props.onRefresh}
             primary
-            style={iconStyle}
+            style={SessionsMonitoringComponent.ACQUISITION_REFRESH_BUTTON_STYLE}
           />
           <TableLayout>
             <SessionsMonitoringFiltersComponent

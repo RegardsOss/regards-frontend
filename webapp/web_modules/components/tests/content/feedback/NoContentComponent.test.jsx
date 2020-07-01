@@ -37,10 +37,11 @@ describe('[Components] Testing NoContentComponent', () => {
   })
 
   it('should render correctly', () => {
+    const TestIcon = () => <div />
     shallow(<NoContentComponent
       titleKey="titleKey"
       messageKey="messageKey"
-      Icon={() => <div />}
+      Icon={<TestIcon />}
     />, { context })
   })
 })

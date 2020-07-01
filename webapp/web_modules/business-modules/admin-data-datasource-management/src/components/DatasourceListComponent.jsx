@@ -56,7 +56,6 @@ export default class DatasourceListComponent extends React.Component {
     onToggleState: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

@@ -29,7 +29,6 @@ import { CommonDomain } from '@regardsoss/domain'
 import messages from '../i18n'
 import styles from '../styles'
 
-
 const typesWithoutAIP = [
   CommonDomain.DATA_TYPES_ENUM.RAWDATA,
   CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
@@ -95,7 +94,7 @@ class StorageCopyform extends React.Component {
     this.props.onClose()
   }
 
-  isDisabled = location => (location.content.name === this.props.storageLocation.content.name) || get(location, 'content.configuration.storageType', null) === 'CACHE' || get(location, 'content.configuration.storageType', null) === 'OFFLINE'
+  isDisabled = (location) => (location.content.name === this.props.storageLocation.content.name) || get(location, 'content.configuration.storageType', null) === 'CACHE' || get(location, 'content.configuration.storageType', null) === 'OFFLINE'
 
   render = () => {
     const { storageLocation, availablableDestinations } = this.props
@@ -127,7 +126,7 @@ class StorageCopyform extends React.Component {
               onChange={this.handleStorageSelect}
               style={dropdown}
             >
-              {map(availablableDestinations, dest => (
+              {map(availablableDestinations, (dest) => (
                 <MenuItem
                   value={dest.content.name}
                   key={dest.content.name}

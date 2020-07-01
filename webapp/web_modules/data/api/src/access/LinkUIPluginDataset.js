@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const LinkUIPluginDatasetConfiguration = {
@@ -25,10 +24,9 @@ export const LinkUIPluginDatasetConfiguration = {
   normalizrKey: 'linkuiplugindataset',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const LINK_UI_PLUGIN_DATASET = new Schema(LinkUIPluginDatasetConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[LinkUIPluginDatasetConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[LinkUIPluginDatasetConfiguration.entityKey]
   ,
 })
 export const LINK_UI_PLUGIN_DATASET_ARRAY = arrayOf(LINK_UI_PLUGIN_DATASET)

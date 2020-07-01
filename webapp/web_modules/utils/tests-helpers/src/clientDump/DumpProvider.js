@@ -30,7 +30,6 @@ import DumpDictionary from './DumpDictionary'
  * @author Léo Mieulet
  **/
 
-
 class DumpProvider {
   dumpDictionary = DumpDictionary
 
@@ -68,7 +67,6 @@ class DumpProvider {
     return this.getNthEntity(microserviceName, entityName, 0)
   }
 
-
   /**
    * Return a valid entity
    * @param microserviceName
@@ -82,7 +80,7 @@ class DumpProvider {
 
   getEntityBy(microserviceName, entityName, key, value) {
     const entityListResult = this.get(microserviceName, entityName)
-    return find(entityListResult, entity => get(entity, key) === value, {})
+    return find(entityListResult, (entity) => get(entity, key) === value, {})
   }
 
   getEntityContentBy(microserviceName, entityName, key, value) {

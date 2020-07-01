@@ -49,7 +49,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
-  ].map(attribute => ({
+  ].map((attribute) => ({
     key: attribute.content.name,
     label: { // XXX-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
       fakeLocale: attribute.content.label,
@@ -79,7 +79,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * @return [*] columns
    */
   renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-    model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
+    (model) => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {

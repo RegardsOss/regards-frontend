@@ -47,7 +47,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormAttributesC
       fetchConnection: () => { },
     }
 
-
     const enzymeWrapper = shallow(<DBDatasourceFormAttributesContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')

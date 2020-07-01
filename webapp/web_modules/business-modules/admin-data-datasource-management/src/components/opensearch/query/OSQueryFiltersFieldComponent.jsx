@@ -66,7 +66,6 @@ class OSQueryFiltersFieldComponent extends React.Component {
     ...themeContextType,
   }
 
-
   state = {
     dialogOpen: false,
   }
@@ -108,7 +107,7 @@ class OSQueryFiltersFieldComponent extends React.Component {
     }
     // build parameters list from both fields and parent information
     const queryParameters = (fields.getAll() || [])
-      .filter(e => !!e.queryValue).map(e => `${e.name}=${e.queryValue}`)
+      .filter((e) => !!e.queryValue).map((e) => `${e.name}=${e.queryValue}`)
       .concat([ // page size and page index
         `${pageSizeParam}=${selectedPageSize}`,
         `${pageIndexParam}=${firstPageIndex}`,

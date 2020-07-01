@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const AcquisitionProcessingChainMonitorConfiguration = {
@@ -26,7 +25,7 @@ export const AcquisitionProcessingChainMonitorConfiguration = {
 }
 
 export const ACQUISITION_PROCESSING_CHAIN_MONITOR = new Schema(AcquisitionProcessingChainMonitorConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AcquisitionProcessingChainMonitorConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[AcquisitionProcessingChainMonitorConfiguration.entityKey]
   ,
 })
 export const ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY = arrayOf(ACQUISITION_PROCESSING_CHAIN_MONITOR)

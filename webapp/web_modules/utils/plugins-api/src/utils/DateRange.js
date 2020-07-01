@@ -21,7 +21,6 @@ import isNil from 'lodash/isNil'
 import { CatalogDomain } from '@regardsoss/domain'
 import { NumberRange } from './NumberRange'
 
-
 /**
  * Represents a date range. Provides helper tools for date related plugins to work
  * with date ranges in open search queries.

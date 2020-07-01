@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const AcquisitionFileConfiguration = {
@@ -26,7 +25,7 @@ export const AcquisitionFileConfiguration = {
 }
 
 export const ACQUISITION_FILE = new Schema(AcquisitionFileConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AcquisitionFileConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[AcquisitionFileConfiguration.entityKey]
   ,
 })
 export const ACQUISITION_FILE_ARRAY = arrayOf(ACQUISITION_FILE)

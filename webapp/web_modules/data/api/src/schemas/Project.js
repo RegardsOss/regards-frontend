@@ -23,10 +23,9 @@ export const ProjectConfiguration = {
   normalizrKey: 'projects',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const PROJECT = new Schema(ProjectConfiguration.normalizrKey, {
-  idAttribute: project => project.content[ProjectConfiguration.entityKey]
+  idAttribute: (project) => project.content[ProjectConfiguration.entityKey]
   ,
 })
 export const PROJECT_ARRAY = arrayOf(PROJECT)

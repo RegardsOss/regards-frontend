@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 /**
  * Project license actions: retrieves and updates user licence accepted state
  */

@@ -18,7 +18,6 @@
 **/
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 
-
 class ErrorHandler {
   /**
    * Handle an error during HTTP Request error.

@@ -33,9 +33,9 @@ import { DamDomain } from '@regardsoss/domain'
 
 class FragmentSelectors extends BasicListSelectors {
   getListWithoutNoneFragment(state) {
-    return pickBy(this.getList(state), fragment => (
+    return pickBy(this.getList(state), (fragment) => (
       fragment.content.name !== DamDomain.DEFAULT_FRAGMENT
     ))
   }
 }
-export default storePath => new FragmentSelectors(storePath)
+export default (storePath) => new FragmentSelectors(storePath)

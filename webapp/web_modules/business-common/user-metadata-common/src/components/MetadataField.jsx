@@ -27,7 +27,6 @@ import metadatav1 from '../definitions/metadatav1'
 
 const DEFAULT_MULTILINES_COUNT = 3
 
-
 /**
 * Form field to edit a metadata model.
 * Note: when importing this field, you should make sure the i18n keys of this module are available
@@ -41,11 +40,11 @@ class MetadataField extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.onPropertiesChange(this.props)
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     this.onPropertiesChange(nextProps)
   }
 
@@ -74,7 +73,6 @@ class MetadataField extends React.Component {
     const { metadata: { mandatory } } = this.props
     return mandatory ? '(*)' : ''
   }
-
 
   validateFieldValue = (fieldValue) => {
     const { metadata: { mandatory } } = this.props

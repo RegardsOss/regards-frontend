@@ -40,7 +40,7 @@ export default {
   INVALID_FLOATING_NUMBER: 'invalid.floating.number',
   INVALID_CHARACTER: 'invalid.character',
   INVALID_MIME_TYPE: 'invalid.mime_type',
-  invalidRegex: regexp => ({
+  invalidRegex: (regexp) => ({
     key: 'invalid.regex.pattern',
     props: { regexp },
   }),
@@ -58,19 +58,19 @@ export default {
       maxSize,
     },
   }),
-  lengthLessThan: number => ({
+  lengthLessThan: (number) => ({
     key: 'invalid.length.less.than',
     props: { number },
   }),
-  lengthMoreThan: number => ({
+  lengthMoreThan: (number) => ({
     key: 'invalid.length.more.than',
     props: { number },
   }),
-  lessThan: number => ({
+  lessThan: (number) => ({
     key: 'invalid.less.than',
     props: { number },
   }),
-  moreThan: number => ({
+  moreThan: (number) => ({
     key: 'invalid.more.than',
     props: { number },
   }),

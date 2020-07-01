@@ -79,13 +79,13 @@ class OrderCartContentSummary extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -97,7 +97,7 @@ class OrderCartContentSummary extends React.Component {
     // we can assert here it is the one that changed (or this is initialization time)
     const { totalObjectsCount, effectiveObjectsCount, totalSize } = OrderCartContentSummary.computeBasketSummaryData(newProps.basket)
     const { intl: { formatMessage, formatNumber } } = this.context
-    const totalSizeCapacity = new storage.StorageCapacity(totalSize, storage.StorageUnits.BYTE).scaleAndConvert(storage.StorageUnitScale.bytesScale)
+    const totalSizeCapacity = new storage.StorageCapacity(totalSize, storage.units.BYTE).scaleAndConvert(storage.StorageUnitScale.bytesScale)
     this.setState({
       totalObjectsCount,
       effectiveObjectsCount,
@@ -127,14 +127,11 @@ class OrderCartContentSummary extends React.Component {
         <TableHeaderContentBox>
           { /* 1 - Objects count messages */}
           <TableHeaderText text={formatMessage({ id: 'order-cart.module.objects.count.header.message' }, objectCountMessageParameters)} />
-          { /* 2 - Information about double object in basket.
-                   Note: we re-use the table styles here, stacked by TableLayout */
-            <DuplicatedObjectsMessageComponents
-              totalObjectsCount={totalObjectsCount}
-              effectiveObjectsCount={effectiveObjectsCount}
-              onShowDuplicatedMessage={onShowDuplicatedMessage}
-            />
-          }
+          <DuplicatedObjectsMessageComponents
+            totalObjectsCount={totalObjectsCount}
+            effectiveObjectsCount={effectiveObjectsCount}
+            onShowDuplicatedMessage={onShowDuplicatedMessage}
+          />
           <br />
         </TableHeaderContentBox>
         { /* show loading feedback */}

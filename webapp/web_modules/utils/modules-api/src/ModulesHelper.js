@@ -49,13 +49,13 @@ const adminModulePropertiesKeys = [
  * DynamicModulePane for instance)
  * @param {*} props parent properties
  */
-const getReportedUserModuleProps = props => pick(props, userModulePropertiesKeys)
+const getReportedUserModuleProps = (props) => pick(props, userModulePropertiesKeys)
 /**
  * Returns the list of properties consumed by a module admin component (to be used in order to instanciated a
  * DynamicModulePane for instance)
  * @param {*} props parent properties
  */
-const getReportedAdminModuleProps = props => pick(props, adminModulePropertiesKeys)
+const getReportedAdminModuleProps = (props) => pick(props, adminModulePropertiesKeys)
 
 export default {
   getReportedUserModuleProps,

@@ -31,7 +31,6 @@ import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationCli
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
 
-
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
   dataset: datasetReducer,

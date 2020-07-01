@@ -27,6 +27,6 @@ export const AIPConfiguration = {
 }
 
 export const AIP = new Schema(AIPConfiguration.normalizrKey, {
-  idAttribute: model => model.content.aip[AIPConfiguration.entityKey],
+  idAttribute: (model) => model.content.aip[AIPConfiguration.entityKey],
 })
 export const AIP_ARRAY = arrayOf(AIP)

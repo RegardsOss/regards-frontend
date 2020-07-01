@@ -41,7 +41,7 @@ describe('[Description] Testing AttributesGroupComponent', () => {
     assert.isDefined(AttributesGroupComponent)
   })
   resolvedDataEntity.displayModel.attributesGroups.forEach(
-    group => it(`should render correctly resolved data dump ${group.key} ${group.showTitle ? 'with title' : 'without title'}`, () => {
+    (group) => it(`should render correctly resolved data dump ${group.key} ${group.showTitle ? 'with title' : 'without title'}`, () => {
       const props = { group }
       const enzymeWrapper = shallow(<AttributesGroupComponent {...props} />, { context })
       const debugContent = enzymeWrapper.debug()

@@ -49,15 +49,6 @@ export class OrderCartTableComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Computes total objects count for a list of items selections
-   * @param itemsSelections items selections
-   * @return {number} total objects count over all items selections
-   */
-  static getTotalSelectionsObjectsCount(itemsSelections) {
-    return itemsSelections.reduce((acc, { objectsCount }) => acc + objectsCount, 0)
-  }
-
   /** Column keys */
   static ColumnKeys = {
     ID: 'id',
@@ -65,20 +56,6 @@ export class OrderCartTableComponent extends React.Component {
     FILES_SIZE: 'files.size',
     OPTIONS_DETAIL: 'options.detail',
     OPTIONS_DELETE: 'options.delete',
-  }
-
-  /**
-   * Converts an octet storage value into a storage capacity
-   * @param {number} size size in bytes
-   * @return {storage.StorageCapacity} converted capacity
-   */
-  static getStorageCapacity(size) {
-    if (size) {
-      const capacityInOctet = new storage.StorageCapacity(size, storage.StorageUnits.BYTE)
-      // let algorithm decide the best unity for that capacity
-      return capacityInOctet.scaleAndConvert(storage.StorageUnitScale.bytesScale)
-    }
-    return null
   }
 
   /** Columns models */
@@ -107,6 +84,29 @@ export class OrderCartTableComponent extends React.Component {
 
   /** When there is less dataset selections than this count, initially expand all rows */
   static AUTO_EXPANDED_DS_SELECTIONS_COUNT = 5
+
+  /**
+   * Computes total objects count for a list of items selections
+   * @param itemsSelections items selections
+   * @return {number} total objects count over all items selections
+   */
+  static getTotalSelectionsObjectsCount(itemsSelections) {
+    return itemsSelections.reduce((acc, { objectsCount }) => acc + objectsCount, 0)
+  }
+
+  /**
+   * Converts an octet storage value into a storage capacity
+   * @param {number} size size in bytes
+   * @return {storage.StorageCapacity} converted capacity
+   */
+  static getStorageCapacity(size) {
+    if (size) {
+      const capacityInOctet = new storage.StorageCapacity(size, storage.units.BYTE)
+      // let algorithm decide the best unity for that capacity
+      return capacityInOctet.scaleAndConvert(storage.StorageUnitScale.bytesScale)
+    }
+    return null
+  }
 
   /**
    * Initial state
@@ -141,12 +141,11 @@ export class OrderCartTableComponent extends React.Component {
     const { showDatasets } = this.props
     if (showDatasets) {
       // datasets as root rows
-      return basket.datasetSelections.map(selection => this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+      return basket.datasetSelections.map((selection) => this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
     }
     // selections as root rows, datasets hidden
-    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
+    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections.map((itemSelection) => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
   }
-
 
   /**
    * Builds a dataset selection row
@@ -162,7 +161,7 @@ export class OrderCartTableComponent extends React.Component {
     }, OrderCartTableComponent.getStorageCapacity(filesSize),
     null, { // keep dataset selection id
       datasetSelectionId: id,
-    }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
+    }], itemsSelections.map((datedSelectionItem) => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
     rowExpanded,
   )
 
@@ -307,7 +306,8 @@ export class OrderCartTableComponent extends React.Component {
                   />
                 </ScrollArea>
               </div>
-            ))}
+            ))
+}
         </Measure>
       </TableLayout>
     )

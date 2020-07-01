@@ -63,7 +63,7 @@ function configureStore(rootReducer) {
     preloadedState,
     compose(
       applyMiddleware(...middlewares),
-      root.__REDUX_DEVTOOLS_EXTENSION__ ? root.__REDUX_DEVTOOLS_EXTENSION__() : f => f, // Enable redux dev tools
+      root.__REDUX_DEVTOOLS_EXTENSION__ ? root.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f, // Enable redux dev tools
     ),
   )
   /* eslint-enable */

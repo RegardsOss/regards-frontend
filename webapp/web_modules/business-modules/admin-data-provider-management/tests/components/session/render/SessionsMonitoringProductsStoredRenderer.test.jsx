@@ -181,19 +181,19 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsSto
       const menuItems = dropDownMenu.find(MenuItem)
       const instance = enzymeWrapper.instance()
       if (hasRelaunch) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickRelaunch), 1, 'There should be relaunch option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickRelaunch), 1, 'There should be relaunch option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickRelaunch), 0, 'There should not be relaunch option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickRelaunch), 0, 'There should not be relaunch option')
       }
       if (hasShowErrors) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickListRequestErrors), 1, 'There should be show errors option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickListRequestErrors), 1, 'There should be show errors option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickListRequestErrors), 0, 'There should not be show errors option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickListRequestErrors), 0, 'There should not be show errors option')
       }
       if (hasShowAIPs) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickListAIP), 1, 'There should be show AIPs option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickListAIP), 1, 'There should be show AIPs option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickListAIP), 0, 'There should not be show AIPs option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickListAIP), 0, 'There should not be show AIPs option')
       }
     } else {
       // 2.b - Check menu is not displayed

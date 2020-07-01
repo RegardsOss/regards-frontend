@@ -45,25 +45,6 @@ const basketActions = new OrderClient.OrderBasketActions()
 * @author Raphaël Mechali
 */
 export class CartSelectorContainer extends React.Component {
-  /** Basket dependencies */
-  static BASKET_DEPENDENCIES = basketActions.getDependencies('GET')
-
-  static mapStateToProps(state) {
-    return {
-      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
-      modules: modulesSelectors.getList(state),
-      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-      objectsCount: basketSelector.getObjectsCount(state),
-    }
-  }
-
-  static mapDispatchToProps(dispatch) {
-    return {
-      dispatchGetBasket: () => dispatch(basketActions.getBasket()),
-    }
-  }
-
   static propTypes = {
     // project identifier
     project: PropTypes.string,
@@ -82,11 +63,30 @@ export class CartSelectorContainer extends React.Component {
     dispatchGetBasket: PropTypes.func.isRequired,
   }
 
+  /** Basket dependencies */
+  static BASKET_DEPENDENCIES = basketActions.getDependencies('GET')
+
   static DEFAULT_STATE = {
     cartModuleId: null,
   }
 
-  componentWillMount = () => this.setState(CartSelectorContainer.DEFAULT_STATE)
+  static mapStateToProps(state) {
+    return {
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      dynamicContainerId: layoutSelectors.getDynamicContainerId(state),
+      modules: modulesSelectors.getList(state),
+      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      objectsCount: basketSelector.getObjectsCount(state),
+    }
+  }
+
+  static mapDispatchToProps(dispatch) {
+    return {
+      dispatchGetBasket: () => dispatch(basketActions.getBasket()),
+    }
+  }
+
+  UNSAFE_componentWillMount = () => this.setState(CartSelectorContainer.DEFAULT_STATE)
 
   /**
    * * Lifecycle hook: component did mount, used here to update component state
@@ -97,7 +97,7 @@ export class CartSelectorContainer extends React.Component {
    * Lifecycle hook: component will receive props, used here to update component state
    * @param nextProps component next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * Updates component state (recompute properties related elements)

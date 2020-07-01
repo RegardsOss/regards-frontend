@@ -21,7 +21,7 @@
  * Styles for module
  * @author Sébastien binda
  */
-const styles = theme => ({
+const styles = (theme) => ({
   configuration: {
     rootStyle: {
       display: 'flex',

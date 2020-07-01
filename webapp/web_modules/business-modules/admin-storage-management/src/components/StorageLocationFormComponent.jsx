@@ -43,7 +43,7 @@ import styles from '../styles'
 * Component to create/edit/diplicate a storage location plugin configuration
 * @author Sébastien Binda
 */
-const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
+const validateName = (value) => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
   ? 'invalid.name.expression' : undefined
 
 class StorageLocationFormComponent extends React.Component {
@@ -161,13 +161,12 @@ class StorageLocationFormComponent extends React.Component {
 
   renderUnits = () => (
     <DropDownMenu value={this.state.unit} onChange={this.changeUnit}>
-      {map(storage.StorageUnitScale.bytesScale.units.slice(2), u => <MenuItem
+      {map(storage.StorageUnitScale.bytesScale.units.slice(2), (u) => <MenuItem
         key={u.symbol}
         value={u}
         primaryText={<storage.FormattedStorageUnit unit={u} />}
       />,
-      )
-    }
+      )}
     </DropDownMenu>
   )
 

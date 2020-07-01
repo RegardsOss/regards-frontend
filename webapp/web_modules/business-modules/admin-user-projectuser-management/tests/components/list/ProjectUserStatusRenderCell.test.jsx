@@ -39,7 +39,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserStatusRenderCell', (
     assert.isDefined(ProjectUserStatusRenderCell)
   })
 
-  AdminDomain.PROJECT_USER_STATUS.forEach(status => it(`should render correctly for status ${status}`, () => {
+  AdminDomain.PROJECT_USER_STATUS.forEach((status) => it(`should render correctly for status ${status}`, () => {
     const props = {
       value: status,
     }

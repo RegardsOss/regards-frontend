@@ -27,7 +27,7 @@ export default class MicroserviceConfBackupStatusActions extends BasicSignalActi
     })
   }
 
-  check = microserviceName => (
+  check = (microserviceName) => (
     this.sendSignal('GET', {}, { microserviceName })
   )
 }

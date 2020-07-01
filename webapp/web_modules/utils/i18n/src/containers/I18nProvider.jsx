@@ -63,6 +63,26 @@ export class I18nProvider extends React.Component {
     ...i18nContextType,
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // TODO
+  }
+
   render() {
     const { messages, stackCallingContext, locale } = this.props
     if (!messages) {
@@ -73,8 +93,8 @@ export class I18nProvider extends React.Component {
       throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
     }
 
-
-    const subContextMessages = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const subContextMessages = { // eslint wont fix: context is provided only during runtime, no workaround
       ...(messages[locale] || messages[keys(messages)[0]]),
       ...(stackCallingContext ? callingContextMessages : {}),
     }
@@ -89,7 +109,6 @@ export class I18nProvider extends React.Component {
     )
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => ({
   locale: I18nSelectors.getLocale(state),

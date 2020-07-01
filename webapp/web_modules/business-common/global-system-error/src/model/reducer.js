@@ -31,14 +31,13 @@ export default (state = {
 }, action) => {
   switch (action.type) {
     case RECEIVE_ERROR:
-      return Object.assign({}, state, {
+      return {
+        ...state,
         opened: true,
         message: action.message,
-      })
+      }
     case CLOSE_ERROR_DIALOG:
-      return Object.assign({}, state, {
-        opened: false,
-      })
+      return { ...state, opened: false }
     default:
       return state
   }

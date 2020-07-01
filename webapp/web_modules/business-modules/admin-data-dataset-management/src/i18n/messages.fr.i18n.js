@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'dataset.list.action.add': 'Ajouter',
   'dataset.list.action.cancel': 'Annuler',
   'dataset.list.title': 'Jeux de données',
@@ -119,7 +119,7 @@ const messages = Object.assign({
   'dataset.stepper.subsetting': 'Filtrage',
   'dataset.stepper.plugins': 'Plugins',
   'dataset.stepper.uiServices': 'Services IHM',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

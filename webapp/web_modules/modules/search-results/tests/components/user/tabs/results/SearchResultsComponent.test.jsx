@@ -114,7 +114,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
         UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
       ],
     }]
-    testViews.forEach(({ type, modes, tabs }) => tabs.forEach(tab => modes.forEach((mode) => {
+    testViews.forEach(({ type, modes, tabs }) => tabs.forEach((tab) => modes.forEach((mode) => {
       enzymeWrapper.setProps({
         ...props,
         tabType: tab,

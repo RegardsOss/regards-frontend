@@ -22,7 +22,7 @@ export const AuthenticateResultShape = PropTypes.shape({
   scope: PropTypes.string.isRequired,
   sub: PropTypes.string.isRequired,
   role: PropTypes.string.isRequired,
-  access_token: PropTypes.string.isRequired,
+  access_token: PropTypes.string.isRequired, // eslint wont fix: as externally provided
   token_type: PropTypes.string,
   expires_in: PropTypes.number.isRequired,
   jti: PropTypes.string,

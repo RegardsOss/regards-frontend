@@ -51,7 +51,7 @@ export class AuthenticationModuleContainer extends React.Component {
     authenticated: PropTypes.bool,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // determinate the initial state and parameters for authentication state machine
     this.setState({
       initialViewMode: this.getInitialViewMode(AuthenticationParametersHelper.getMailAuthenticationAction()),
@@ -60,7 +60,7 @@ export class AuthenticationModuleContainer extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (!this.props.authenticated && nextProps.authenticated) {
       if (routeHelpers.isBackFromAuthenticationMail()) {
         // now back to default routing state
@@ -124,7 +124,7 @@ export class AuthenticationModuleContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   authenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
   authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
   scope: AuthenticationParametersHelper.get,

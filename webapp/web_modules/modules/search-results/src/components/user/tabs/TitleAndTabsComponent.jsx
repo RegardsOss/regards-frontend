@@ -44,7 +44,6 @@ class TitleAndTabsComponent extends React.Component {
     onTabClosed: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
   }

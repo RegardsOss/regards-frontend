@@ -19,7 +19,6 @@
 import TableSelectionModes from './TableSelectionModes'
 import TableActions from './TableActions'
 
-
 export const DEFAULT_STATE = {
   selectionMode: TableSelectionModes.includeSelected,
   toggledElements: {}, // dictionary by level index

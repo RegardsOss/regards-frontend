@@ -21,4 +21,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
 /**
  * Function to get redux store selectors for complex search actions results
 */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

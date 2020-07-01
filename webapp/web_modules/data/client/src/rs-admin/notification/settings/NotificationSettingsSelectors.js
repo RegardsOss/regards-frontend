@@ -23,4 +23,4 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  * To use this selector, you need to pass a parameter : <storePath>.
  * @author Léo Mieulet
  */
-export default storePath => new BasicSignalSelectors(storePath)
+export default (storePath) => new BasicSignalSelectors(storePath)

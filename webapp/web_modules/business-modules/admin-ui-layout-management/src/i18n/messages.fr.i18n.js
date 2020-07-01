@@ -22,11 +22,12 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages French language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
   'layout.title': 'Configuration de l\'agencement de l\'interface',
   'layout.subtitle': 'Vous pouvez configurer l\'agencement de votre interface en créant des conteneurs. Placez ensuite vos modules dans ces conteneurs',
   'layout.submit': 'Sauvegarder',
   'layout.cancel': 'Annuler',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

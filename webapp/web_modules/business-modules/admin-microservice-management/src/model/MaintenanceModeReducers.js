@@ -25,6 +25,6 @@ import MaintenanceModeActions from './MaintenanceModeActions'
  * @param action redux action received
  * @return new state
  */
-export default microservice => function (state, action) {
+export default (microservice) => function (state, action) {
   return new BasicSignalReducers(MaintenanceModeActions(microservice)).reduce(state, action)
 }

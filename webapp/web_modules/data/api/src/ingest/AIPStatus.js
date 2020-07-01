@@ -27,6 +27,6 @@ export const AIPStatusConfiguration = {
 }
 
 export const AIP_STATUS = new Schema(AIPStatusConfiguration.normalizrKey, {
-  idAttribute: model => model.content[AIPStatusConfiguration.entityKey],
+  idAttribute: (model) => model.content[AIPStatusConfiguration.entityKey],
 })
 export const AIP_STATUS_ARRAY = arrayOf(AIP_STATUS)

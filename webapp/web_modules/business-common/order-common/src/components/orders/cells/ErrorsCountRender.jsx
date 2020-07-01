@@ -18,7 +18,6 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 
-
 /**
 * Cell to show errors count in table (formats any error count greater than 0 as a warning)
 * @author Raphaël Mechali

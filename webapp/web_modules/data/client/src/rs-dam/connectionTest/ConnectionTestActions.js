@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 export default class ConnectionTestActions extends BasicSignalActions {
   constructor(namespace) {
     super({

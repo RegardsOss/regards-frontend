@@ -63,7 +63,7 @@ export class PluginsMetadataProvider extends React.Component {
         type: AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.CRITERIA,
       })),
       clearMetadata: () => dispatch(uiPluginMetaPartitionActions.flush()),
-      markAllMetaLoading: pluginIds => dispatch(uiPluginMetaPartitionActions.onManyLoadingStart(pluginIds)),
+      markAllMetaLoading: (pluginIds) => dispatch(uiPluginMetaPartitionActions.onManyLoadingStart(pluginIds)),
       markMetaLoaded: (pluginId, metadata) => dispatch(uiPluginMetaPartitionActions.onDataLoadingDone(pluginId, metadata)),
       markMetaInError: (pluginId, error) => dispatch(uiPluginMetaPartitionActions.onDataLoadingFailed(pluginId, error)),
     }
@@ -78,7 +78,7 @@ export class PluginsMetadataProvider extends React.Component {
     // from mapStateToProps
     pluginsFetching: PropTypes.bool.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    pluginsDefinition: AccessShapes.UIPluginDefinitionList, // used in componentWillReceiveProps
+    pluginsDefinition: AccessShapes.UIPluginDefinitionList, // used in UNSAFE_componentWillReceiveProps
     pluginMetaPartitions: PropTypes.objectOf(PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       hasError: PropTypes.bool.isRequired,
@@ -88,7 +88,7 @@ export class PluginsMetadataProvider extends React.Component {
     fetchPluginsDefinition: PropTypes.func.isRequired,
     clearMetadata: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    markAllMetaLoading: PropTypes.func.isRequired, // used in componentWillReceiveProps
+    markAllMetaLoading: PropTypes.func.isRequired, // used in UNSAFE_componentWillReceiveProps
     markMetaLoaded: PropTypes.func.isRequired,
     markMetaInError: PropTypes.func.isRequired,
   }
@@ -106,19 +106,18 @@ export class PluginsMetadataProvider extends React.Component {
    * - fetch plugin definitions
    * - ensure initial state
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { children, clearMetadata, fetchPluginsDefinition } = this.props
     clearMetadata()
     fetchPluginsDefinition()
     this.onStateUpdate(children, true, [], true)
   }
 
-
   /**
    * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     const {
       pluginsFetching, pluginsDefinition,
       dataAttributeModels, children,
@@ -150,7 +149,7 @@ export class PluginsMetadataProvider extends React.Component {
   onMetaComputingUpdate = (children, pluginMetaPartitions, dataAttributeModels, pluginsFetching, childrenUpdated) => {
     // A - Compute if plugins definitions or any partition content are fetchingMetadata: provide empty list in that case
     const allPartitions = values(pluginMetaPartitions)
-    const isFetching = pluginsFetching || allPartitions.some(partition => partition.loading)
+    const isFetching = pluginsFetching || allPartitions.some((partition) => partition.loading)
     // B - Prepare currently available attribute types
     const allAttributeTypes = [...values(dataAttributeModels), ...values(DamDomain.AttributeModelController.standardAttributesAsModel)]
       .reduce((acc, { content: { type } }) => acc.includes(type) ? acc : [...acc, type], [])
@@ -162,16 +161,15 @@ export class PluginsMetadataProvider extends React.Component {
       }
       // C.2 - Filter criteria that have, for a given configuration attribute, no matching attribute type (currently available types
       // are computed at B)
-      const requiredAttributeTypes = values(data.configuration.attributes).map(attrConf => attrConf.attributeType)
-      const hasMissingType = requiredAttributeTypes.some(attrTypes => !attrTypes // can find at least one type for that attribute?
-        .some(aPossibleType => allAttributeTypes.includes(aPossibleType)))
+      const requiredAttributeTypes = values(data.configuration.attributes).map((attrConf) => attrConf.attributeType)
+      const hasMissingType = requiredAttributeTypes.some((attrTypes) => !attrTypes // can find at least one type for that attribute?
+        .some((aPossibleType) => allAttributeTypes.includes(aPossibleType)))
       return hasMissingType ? acc : [...acc, data]
     }, [])
       .sort((m1, m2) => StringComparison.compare(m1.name, m2.name)) // finally sort it on name
     // D - Delegate state update
     this.onStateUpdate(children, isFetching, pluginsMetadata, childrenUpdated)
   }
-
 
   /**
    * Updates children list when fetchingMetadata state or plugins metadata change
@@ -202,7 +200,7 @@ export class PluginsMetadataProvider extends React.Component {
    * @param {*} pluginsDefinitions criteria plugins definitions as normalized
    * @return {[Promise]} resolution promises
    */
-  resolveAllPluginMeta = pluginsDefinitions => values(pluginsDefinitions)
+  resolveAllPluginMeta = (pluginsDefinitions) => values(pluginsDefinitions)
     .map(({ content: { id, sourcePath } }) => this.resolvePluginMeta(id, sourcePath))
 
   /**
@@ -228,7 +226,7 @@ export class PluginsMetadataProvider extends React.Component {
       }
     }
     loadPlugin(sourcePath, onError, onDone)
-  }).then(meta => this.props.markMetaLoaded(pluginId, meta)) // commit result
+  }).then((meta) => this.props.markMetaLoaded(pluginId, meta)) // commit result
     .catch(() => this.props.markMetaInError(pluginId, `Failed loading plugin content for ${pluginId}`))
 
   render() {

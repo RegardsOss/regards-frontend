@@ -38,7 +38,7 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     assert.isDefined(MapToolsComponent)
   })
 
-  UIDomain.MAP_SELECTION_MODES.forEach(selectionMode => it(`should render correctly when selected mode is ${selectionMode}`, () => {
+  UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => it(`should render correctly when selected mode is ${selectionMode}`, () => {
     const props = {
       selectionMode,
       onSetSelectionMode: () => {},
@@ -50,7 +50,7 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     assert.lengthOf(selectors, UIDomain.MAP_SELECTION_MODES.length, 'There should be an option selector for each selection mode')
 
     UIDomain.MAP_SELECTION_MODES.forEach((localSelectionMode) => {
-      const modeSelector = selectors.findWhere(n => n.props().selectionMode === localSelectionMode)
+      const modeSelector = selectors.findWhere((n) => n.props().selectionMode === localSelectionMode)
       assert.lengthOf(modeSelector, 1, `There should be a selector for mode ${localSelectionMode}`)
       assert.equal(modeSelector.props().onSetSelectionMode, props.onSetSelectionMode, 'Selector callback should be correctly set')
       if (localSelectionMode === selectionMode) {

@@ -24,7 +24,7 @@ export const NotificationConfiguration = {
 }
 
 export const NOTIFICATION = new Schema(NotificationConfiguration.normalizrKey, {
-  idAttribute: notification => notification.content[NotificationConfiguration.entityKey],
+  idAttribute: (notification) => notification.content[NotificationConfiguration.entityKey],
 })
 
 export const NOTIFICATION_ARRAY = arrayOf(NOTIFICATION)

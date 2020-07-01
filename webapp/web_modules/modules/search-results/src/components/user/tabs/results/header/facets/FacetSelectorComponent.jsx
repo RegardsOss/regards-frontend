@@ -45,7 +45,7 @@ class FacetSelectorComponent extends React.Component {
    * User callback: a facet value was selected
    * @param {*} facetValue selected facet value
    */
-  onSelectFacetValue = facetValue => this.props.onSelectFacetValue(facetValue)
+  onSelectFacetValue = (facetValue) => this.props.onSelectFacetValue(facetValue)
 
   /**
    * @return {string} drop down button label, using facet label

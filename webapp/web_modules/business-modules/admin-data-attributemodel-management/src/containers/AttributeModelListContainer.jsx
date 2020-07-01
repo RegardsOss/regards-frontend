@@ -51,7 +51,7 @@ export class AttributeModelListContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchAttrModelList()
       .then(() => {
         this.setState({
@@ -96,13 +96,13 @@ export class AttributeModelListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attrModelArray: attributeModelSelectors.getArrayOrderedUsingFragmentAndAttributeName(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAttrModelList: () => dispatch(attributeModelActions.fetchEntityList()),
-  deleteAttrModel: id => dispatch(attributeModelActions.deleteEntity(id)),
-  throwError: message => dispatch(ApplicationErrorAction.throwError(message)),
+  deleteAttrModel: (id) => dispatch(attributeModelActions.deleteEntity(id)),
+  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelListContainer)

@@ -26,7 +26,7 @@ import AddIcon from 'mdi-material-ui/PlusCircle'
  * @param intl
  * @author Sébastien binda
  */
-export default intl => [
+export default (intl) => [
   {
     title: intl.formatMessage({ id: 'portal.layout.title' }),
     description: intl.formatMessage({ id: 'project.layout.description' }),

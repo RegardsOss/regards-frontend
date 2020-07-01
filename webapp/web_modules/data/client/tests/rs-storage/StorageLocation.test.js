@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-storage/location/StorageLocationReduc
 import getEntitySelectors from '../../src/rs-storage/location/SotrageLocationSelectors'
 import dump from './StorageLocation.dump'
 
-
 const options = {
 }
 

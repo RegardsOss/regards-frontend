@@ -43,7 +43,6 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
     expect(Routes.childRoutes[6].path).to.eq('oais')
   })
 
-
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

@@ -76,8 +76,7 @@ class MainBarNavigationItem extends React.Component {
                     buildLinkURL={buildLinkURL}
                   />)
             }
-          </div>)
-        }
+          </div>)}
       </Measure>)
   }
 }

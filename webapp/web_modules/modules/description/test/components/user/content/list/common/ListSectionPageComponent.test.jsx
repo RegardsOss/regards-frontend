@@ -38,11 +38,11 @@ describe('[Description] Testing ListSectionPageComponent', () => {
   it('should render correctly', () => {
     const props = {
       elements: ['a', 'b', 'c'],
-      buildElementNode: elt => <div key={elt} id={elt} />,
+      buildElementNode: (elt) => <div key={elt} id={elt} />,
     }
     const enzymeWrapper = shallow(<ListSectionPageComponent {...props} />, { context })
     props.elements.forEach((elt) => {
-      const eltComponent = enzymeWrapper.findWhere(n => n.props().id === elt)
+      const eltComponent = enzymeWrapper.findWhere((n) => n.props().id === elt)
       assert.lengthOf(eltComponent, 1, 'There should be element render, based on buildElementNode')
     })
   })

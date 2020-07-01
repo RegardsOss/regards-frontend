@@ -52,11 +52,11 @@ export class ContextStorageHelper {
     // selected tab
     {
       name: 't',
-      toParameterValue: resultsContext => resultsContext.selectedTab,
+      toParameterValue: (resultsContext) => resultsContext.selectedTab,
       fromParameterValue: (resultsContext, selectedTab) => ({ selectedTab }),
     }, { // main results entities type
       name: 'rt',
-      toParameterValue: resultsContext => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].selectedType,
+      toParameterValue: (resultsContext) => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].selectedType,
       fromParameterValue: (resultsContext, selectedType) => ({
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { selectedType },
@@ -211,7 +211,7 @@ export class ContextStorageHelper {
       }),
     }, { // Unactive static parameters
       name: 'usp',
-      toParameterValue: resultsContext => CriterionBuilder.buildUnactiveStaticCriterionString(resultsContext),
+      toParameterValue: (resultsContext) => CriterionBuilder.buildUnactiveStaticCriterionString(resultsContext),
       fromParameterValue: (resultsContext, unactiveStaticParametersAsString) => CriterionBuilder.buildUnactiveStaticCriterion(resultsContext, unactiveStaticParametersAsString),
     },
   ]
@@ -221,7 +221,7 @@ export class ContextStorageHelper {
    */
   static STATIC_PARAMETERS = {
     name: 'sp',
-    toParameterValue: resultsContext => CriterionBuilder.buildStaticCriterionString(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.staticParameters),
+    toParameterValue: (resultsContext) => CriterionBuilder.buildStaticCriterionString(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.staticParameters),
     fromParameterValue: (resultsContext, staticParameters) => ({
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { criteria: { staticParameters: CriterionBuilder.buildStaticCriterion(staticParameters) } },

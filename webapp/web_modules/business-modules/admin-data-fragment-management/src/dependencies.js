@@ -36,7 +36,6 @@ const addDependencies = [
   fragmentActions.getDependency(RequestVerbEnum.POST),
 ]
 
-
 export default {
   addDependencies,
   listDependencies,

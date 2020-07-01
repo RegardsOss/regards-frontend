@@ -50,7 +50,7 @@ export class AttributePluginFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, props) {
     return {
-      fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      fetch: (entityId) => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
       create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity({
         ...entity,
         businessId: null, // clear source entity business ID for duplication case
@@ -81,7 +81,7 @@ export class AttributePluginFormContainer extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { params: { pluginId }, fetch } = this.props
     if (pluginId) {
       fetch(pluginId).then(() => this.setState({ isLoading: false }))
@@ -104,8 +104,7 @@ export class AttributePluginFormContainer extends React.Component {
             onUpdate={update}
             onCreate={create}
           />
-        )
-        }
+        )}
       </LoadableContentDisplayDecorator>
     )
   }

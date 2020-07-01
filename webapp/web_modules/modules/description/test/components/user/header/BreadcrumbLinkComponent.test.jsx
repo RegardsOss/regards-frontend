@@ -54,9 +54,9 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     // 1 - check label is both displayed and shown as tooltip
     const { label } = props.descriptionEntity.entity.content
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
-    const callbackHolder = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
+    const callbackHolder = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(callbackHolder, 1, 'There should be an element providing selection callback on click')
     assert.isNotOk(spyOnSelectEntityIndex.index, 'Callback should not have been invoked yet')
     callbackHolder.props().onClick()
@@ -80,9 +80,9 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     // 1 - check label is both displayed and shown as tooltip
     const { label } = props.descriptionEntity.entity.content
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
-    const callbackHolder = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
+    const callbackHolder = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(callbackHolder, 1, 'There should be an element providing selection callback on click')
     assert.isNotOk(spyOnSelectEntityIndex.index, 'Callback should not have been invoked yet')
     callbackHolder.props().onClick()

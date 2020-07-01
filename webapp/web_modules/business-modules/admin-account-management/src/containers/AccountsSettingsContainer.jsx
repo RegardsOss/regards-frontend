@@ -53,7 +53,7 @@ export class AccountsSettingsContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchSettings: () => dispatch(accountSettingsActions.getSettings()),
-      updateSettings: accountSettings => dispatch(accountSettingsActions.updateSettings(accountSettings)),
+      updateSettings: (accountSettings) => dispatch(accountSettingsActions.updateSettings(accountSettings)),
     }
   }
 

@@ -41,6 +41,28 @@ const orderBasketSelectors = OrderClient.getOrderBasketSelectors()
  * @author Raphaël Mechali
  */
 export class UserModuleContainer extends React.Component {
+  static propTypes = {
+    // default modules properties
+    ...AccessShapes.runtimeDispayModuleFields,
+    // override conf to specify expected shape
+    moduleConf: ModuleConfigurationShape.isRequired,
+    // from mapStateToProps
+    isAuthenticated: PropTypes.bool, // used only in properties changed
+    basket: OrderShapes.Basket,
+    hasError: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    modules: AccessShapes.ModuleList,
+    // from mapDispatchToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchGetBasket: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchFlushBasket: PropTypes.func.isRequired, // locally clears basket
+    dispatchStartOrder: PropTypes.func.isRequired,
+    dispatchClearCart: PropTypes.func.isRequired, // clears basket on server side
+  }
+
+  static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -68,31 +90,9 @@ export class UserModuleContainer extends React.Component {
       dispatchGetBasket: () => dispatch(orderBasketActions.getBasket()),
       dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
-      dispatchStartOrder: onSucceedOrderURL => dispatch(createOrderActions.order(onSucceedOrderURL)),
+      dispatchStartOrder: (onSucceedOrderURL) => dispatch(createOrderActions.order(onSucceedOrderURL)),
     }
   }
-
-  static propTypes = {
-    // default modules properties
-    ...AccessShapes.runtimeDispayModuleFields,
-    // override conf to specify expected shape
-    moduleConf: ModuleConfigurationShape.isRequired,
-    // from mapStateToProps
-    isAuthenticated: PropTypes.bool, // used only in properties changed
-    basket: OrderShapes.Basket,
-    hasError: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
-    modules: AccessShapes.ModuleList,
-    // from mapDispatchToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    dispatchGetBasket: PropTypes.func.isRequired,
-    // eslint-disable-next-line react/no-unused-prop-types
-    dispatchFlushBasket: PropTypes.func.isRequired, // locally clears basket
-    dispatchStartOrder: PropTypes.func.isRequired,
-    dispatchClearCart: PropTypes.func.isRequired, // clears basket on server side
-  }
-
-  static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
 
   /**
    * Lifecycle method: component did mount. Notify properties changed to fetch basket if logged for user
@@ -104,7 +104,7 @@ export class UserModuleContainer extends React.Component {
   /**
    * Lifecycle method: component will receive props. Notify properties changed to fetch basket if logged for user
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * Event handler: component properties changed. If user just logged in, fetch the basket content

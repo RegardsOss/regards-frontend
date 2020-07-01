@@ -45,7 +45,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing FieldsBuilderComponent', () => {
     }
 
     // generate all possible parameter types / required combination
-    const allTests = flatMap(UI_PLUGIN_CONF_PARAMETER_TYPES, type => [{ type, required: true }, { type, required: false }])
+    const allTests = flatMap(UI_PLUGIN_CONF_PARAMETER_TYPES, (type) => [{ type, required: true }, { type, required: false }])
     // test each
     allTests.forEach(({ type, required }) => {
       const localProps = { parameter: { type, required }, ...commonProps }
@@ -82,7 +82,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing FieldsBuilderComponent', () => {
     }
 
     // generate all possible parameter types / required combination
-    const allTests = flatMap(UI_PLUGIN_CONF_PARAMETER_TYPES, type => [{ type, required: true }, { type, required: false }])
+    const allTests = flatMap(UI_PLUGIN_CONF_PARAMETER_TYPES, (type) => [{ type, required: true }, { type, required: false }])
     // test each
     allTests.forEach(({ type, required }) => {
       const localProps = { parameter: { type, required }, ...commonProps }

@@ -33,7 +33,6 @@ describe('[ADMIN BOARD COMMANDS] Testing acquisition board router', () => {
     expect(Routes.childRoutes[1].path).to.eq('history')
   })
 
-
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

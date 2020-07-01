@@ -28,7 +28,6 @@ import styles from '../../../../src/styles'
 import { dataContext } from '../../../dumps/data.context.dump'
 import { dataEntity } from '../../../dumps/entities.dump'
 
-
 const context = buildTestContext(styles)
 
 /**
@@ -79,7 +78,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     }
     const enzymeWrapper = shallow(<TabsContentComponent {...props} />, { context })
     // retrieve each tab container and check they are correctly displayed / hidden
-    const mainResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere(c => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
+    const mainResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere((c) => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS)
     assert.lengthOf(mainResultsContainer, 1, 'There should be a results container for each main results')
     testSuiteHelpers.assertWrapperProperties(mainResultsContainer, {
       moduleId: props.moduleId,
@@ -107,7 +106,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       assert.deepEqual(descriptionContainer.parent().props().style, hiddenTabContent, 'Description tab should be currently hidden')
     }
 
-    const tagResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere(c => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
+    const tagResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere((c) => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
     assert.lengthOf(tagResultsContainer, 1, 'There should be a results container for each tag results')
     testSuiteHelpers.assertWrapperProperties(tagResultsContainer, {
       moduleId: props.moduleId,

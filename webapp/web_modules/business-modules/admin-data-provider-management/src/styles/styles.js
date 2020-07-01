@@ -19,7 +19,7 @@
 
 import { AccessDomain } from '@regardsoss/domain'
 
-const styles = theme => ({
+const styles = (theme) => ({
   sessionsStyles: {
     iconColor: {
       [AccessDomain.SESSION_STATUS_ENUM.OK]: theme.sessionsMonitoring.acquiredProductRunningColor,

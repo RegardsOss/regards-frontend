@@ -18,9 +18,10 @@
  **/
 import isNil from 'lodash/isNil'
 import Checkbox from 'material-ui/Checkbox'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from '../styles'
 
-export default class RenderCheckbox extends React.Component {
+class RenderCheckbox extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
@@ -77,7 +78,7 @@ export default class RenderCheckbox extends React.Component {
       alwaysShowError, input, className, label, disabled, meta: { touched, error },
       intl, noSpacing,
     } = this.props
-    const { muiTheme } = this.context
+    const { moduleTheme: { field: { error: errorStyle } } } = this.context
     const checked = !!input.value
     return (
       <div>
@@ -91,8 +92,10 @@ export default class RenderCheckbox extends React.Component {
           disabled={disabled}
           name={input.name}
         />
-        {(alwaysShowError || touched) && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+        {(alwaysShowError || touched) && error && (<span style={errorStyle}>{intl.formatMessage({ id: error })}</span>)}
       </div>
     )
   }
 }
+
+export default withModuleStyle(styles)(RenderCheckbox)

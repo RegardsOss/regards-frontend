@@ -74,7 +74,7 @@ class ParametersSectionComponent extends React.Component {
             attributesGroups.length ? (
               <div style={attributesGroupsContainer.root}>
                 { // render every group
-                  attributesGroups.map(group => <AttributesGroupComponent key={group.key} group={group} />)
+                  attributesGroups.map((group) => <AttributesGroupComponent key={group.key} group={group} />)
                 }
               </div>
             ) : null

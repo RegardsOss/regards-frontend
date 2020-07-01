@@ -31,7 +31,6 @@ import AttributesRender from './AttributesRender'
 import DeleteOption from './options/DeleteOption'
 import EditOption from './options/EditOption'
 
-
 /**
  * This component shows currently configured attribute list and edition options in a table
  * @author Raphaël Mechali

@@ -25,7 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { DropDownButton, TableColumnBuilder } from '@regardsoss/components'
 
 /** wraps an icon button with its icon, to be used as drop down menu */
-const IconButtonNoChild = props => (
+const IconButtonNoChild = (props) => (
   <IconButton {...props}>
     <MoveIcon />
   </IconButton>)

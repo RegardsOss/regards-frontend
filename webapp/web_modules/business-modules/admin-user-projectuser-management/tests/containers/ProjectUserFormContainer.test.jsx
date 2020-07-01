@@ -95,7 +95,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', ()
       // from router
       params: {
         project: 'project-1',
-        user_id: '1',
+        // eslint-disable-next-line camelcase
+        user_id: '1', // eslint wont fix: expected parameter format
       },
       passwordRules: 'Open bar password',
       // from mapDispatchToProps

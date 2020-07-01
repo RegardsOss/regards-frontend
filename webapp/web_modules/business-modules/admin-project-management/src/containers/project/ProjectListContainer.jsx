@@ -41,7 +41,7 @@ export class ProjectListContainer extends React.Component {
     updateLicense: PropTypes.func,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchProjectList()
   }
 
@@ -76,7 +76,6 @@ export class ProjectListContainer extends React.Component {
     this.props.updateLicense(projectName)
   }
 
-
   render() {
     const { projectList } = this.props
     return (
@@ -94,13 +93,13 @@ export class ProjectListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   projectList: projectSelectors.getList(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchProjectList: () => dispatch(projectActions.fetchPagedEntityList(0, 100)),
-  deleteProject: projectName => dispatch(projectActions.deleteEntity(projectName)),
-  updateLicense: projectName => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
+  deleteProject: (projectName) => dispatch(projectActions.deleteEntity(projectName)),
+  updateLicense: (projectName) => dispatch(NotifyLicenseUpdatedActions.sendLicenseUpdatedNotification(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectListContainer)

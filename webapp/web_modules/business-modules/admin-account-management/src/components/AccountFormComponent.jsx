@@ -61,7 +61,6 @@ export class AccountFormComponent extends React.Component {
     })
   }
 
-
   render() {
     const { pristine, submitting } = this.props
     return (
@@ -78,7 +77,8 @@ export class AccountFormComponent extends React.Component {
                   firstName: this.props.currentAccount.content.firstName,
                   lastName: this.props.currentAccount.content.lastName,
                 },
-              )}
+              )
+}
           />
           <CardText>
 

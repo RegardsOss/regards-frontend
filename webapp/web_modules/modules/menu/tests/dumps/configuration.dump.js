@@ -30,7 +30,7 @@ export const aNavigationConfiguration = [{ // Home module
   id: 5,
   type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
   visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-}, {// first section
+}, { // first section
   id: 0,
   type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
   visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,

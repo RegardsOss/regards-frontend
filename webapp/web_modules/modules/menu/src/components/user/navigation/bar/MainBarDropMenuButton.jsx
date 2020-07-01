@@ -45,7 +45,6 @@ class MainBarDropMenuButton extends React.Component {
     buildLinkURL: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -83,13 +82,14 @@ class MainBarDropMenuButton extends React.Component {
             defaultIconURL={
               type === NAVIGATION_ITEM_TYPES_ENUM.SECTION // provide default icon for section too
                 ? defaultSectionIconURL
-                : UIDomain.getModuleDefaultIconURL(module.type)}
+                : UIDomain.getModuleDefaultIconURL(module.type)
+}
             customIconURL={customIconURL}
             color={selected ? selectedNavigationMenuItem.color : null}
           />
         }
         primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
-        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, buildLinkURL)) : null}
+        menuItems={children ? children.map((subItem) => this.renderMenuItem(subItem, buildLinkURL)) : null}
         rightIcon={children ? <NextMenuIcon /> : null}
         style={selected ? selectedNavigationMenuItem : null}
       />)
@@ -108,11 +108,11 @@ class MainBarDropMenuButton extends React.Component {
         value={null}
         icon={icon || null}
         hasSubMenus
-        secondary={!!items.find(item => item.selected)}
+        secondary={!!items.find((item) => item.selected)}
       >
 
         {/* Render menu items */
-          items.map(item => this.renderMenuItem(item, buildLinkURL))
+          items.map((item) => this.renderMenuItem(item, buildLinkURL))
         }
       </DropDownButton>
     )

@@ -43,7 +43,8 @@ class ProgressRenderCell extends React.Component {
     return (
       <div style={progressBar.borderStyle} title={label}>
         <div
-          style={{
+          // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+          style={{ // eslint wont fix: a dynamic value must be applied to cell style at runtime (and partially comes from context)
             ...progressBar.barStyle,
             ...progressBar.backgroundStyle,
             ...{ width: `${progress}%` },

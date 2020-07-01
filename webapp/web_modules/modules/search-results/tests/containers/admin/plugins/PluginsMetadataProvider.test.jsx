@@ -44,7 +44,6 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
     const spyMarkAllMetaLoading = { count: 0, pluginIds: [] }
     // mock load plugin
 
-
     const props = {
       dataAttributeModels: attributes,
       children: <div test />,
@@ -53,7 +52,7 @@ describe('[SEARCH RESULTS] Testing PluginsMetadataProvider', () => {
       pluginMetaPartitions: {},
       fetchPluginsDefinition: () => {
         spyFetchPlugins.count += 1
-        return new Promise(resolve => resolve({}))
+        return new Promise((resolve) => resolve({}))
       },
       clearMetadata: () => {
         spyClearMeta.count += 1

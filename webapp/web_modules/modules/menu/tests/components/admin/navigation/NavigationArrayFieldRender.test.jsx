@@ -180,7 +180,7 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.create.section.dialog.title', 'dialogTitleKey should correctly reported')
     assert.isOk(editionData.item.id, 'New item ID should be correctly initialized')
-    assert.isFalse(!!findAllSections(aNavigationConfiguration).find(section => section.id === editionData.item.id),
+    assert.isFalse(!!findAllSections(aNavigationConfiguration).find((section) => section.id === editionData.item.id),
       'The new item id should be unique')
     assert.isOk(editionData.item.icon, 'New item icon field should be correctly initialized')
     assert.equal(editionData.item.icon.type, AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,

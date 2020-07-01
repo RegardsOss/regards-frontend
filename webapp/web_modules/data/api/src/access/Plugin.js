@@ -23,10 +23,9 @@ export const PluginConfiguration = {
   normalizrKey: 'plugins',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const PLUGIN = new Schema(PluginConfiguration.normalizrKey, {
-  idAttribute: plugin => plugin.content[PluginConfiguration.entityKey]
+  idAttribute: (plugin) => plugin.content[PluginConfiguration.entityKey]
   ,
 })
 export const PLUGIN_ARRAY = arrayOf(PLUGIN)

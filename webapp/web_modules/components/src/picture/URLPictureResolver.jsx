@@ -31,7 +31,6 @@ const downloadActions = new DownloadFileActions({
   bypassErrorMiddleware: true,
 })
 
-
 /**
  * Download  pictures to resolve their MIME type and provide URL+MIME type to URLPicture in order to display it
  * Holds an URL to MIME type cache.
@@ -51,7 +50,7 @@ export class URLPictureResolver extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchDownload: pictureURL => dispatch(downloadActions.download({ pictureURL })),
+      dispatchDownload: (pictureURL) => dispatch(downloadActions.download({ pictureURL })),
     }
   }
 
@@ -73,13 +72,13 @@ export class URLPictureResolver extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Lifecycle method: component will unmount: block stupid react warning messages...

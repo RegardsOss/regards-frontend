@@ -27,7 +27,6 @@ import DatasetEditPluginContainer from '../src/containers/DatasetEditPluginConta
 import DatasetEditUIServicesContainer from '../src/containers/DatasetEditUIServicesContainer'
 import DatasetEditFilesContainer from '../src/containers/DatasetEditFilesContainer'
 
-
 describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)

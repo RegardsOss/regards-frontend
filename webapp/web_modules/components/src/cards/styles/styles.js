@@ -22,7 +22,7 @@
  * @param {*} theme current application theme
  * @author Raphaël Mechali
  */
-export default theme => ({
+export default (theme) => ({
   noDataContainerStyle: {
     flexGrow: 1,
     flexShrink: 1,

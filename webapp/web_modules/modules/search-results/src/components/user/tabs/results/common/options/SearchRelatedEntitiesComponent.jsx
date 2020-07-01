@@ -22,7 +22,6 @@ import FilterIcon from 'mdi-material-ui/Filter'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 /**
  * Displays the option to search related entities: when triggered, entity filter is added
  * @author Raphaël Mechali

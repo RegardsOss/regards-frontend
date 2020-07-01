@@ -19,7 +19,6 @@
 import get from 'lodash/get'
 import commonMessages from '../i18n'
 
-
 /**
  * Shares tools to init a regards plugin in the application.
  * @author Sebastien Binda

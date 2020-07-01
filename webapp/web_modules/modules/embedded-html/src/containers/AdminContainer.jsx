@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
 import reduce from 'lodash/reduce'
 import SelectField from 'material-ui/SelectField'
@@ -29,7 +30,6 @@ import { modulesManager } from '@regardsoss/modules'
 import {
   RenderTextField, Field, FormPresentation, FormRow, FieldsGroup,
 } from '@regardsoss/form-utils'
-import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 import { ModuleContainer } from './ModuleContainer'
 
 /**
@@ -40,8 +40,6 @@ class AdminContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeConfigurationModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   static contextTypes = {
@@ -52,32 +50,86 @@ class AdminContainer extends React.Component {
   /** Height to use for preview when module is used as a page */
   static PREVIEW_PAGE_HEIGHT = '400px'
 
-  constructor(props) {
-    super(props)
-    this.CONF_HEIGHT = `${props.adminForm.currentNamespace}.cssHeight`
-    this.CONF_WIDTH = `${props.adminForm.currentNamespace}.cssWidth`
-    this.CONF_URLS = `${props.adminForm.currentNamespace}.urlByLocale`
-    this.CONF_EN_URL = `${this.CONF_URLS}.${UIDomain.LOCALES_ENUM.en}`
-    this.CONF_FR_URL = `${this.CONF_URLS}.${UIDomain.LOCALES_ENUM.fr}`
-  }
+  /** Height field name */
+  CONF_HEIGHT = `${this.props.adminForm.currentNamespace}.cssHeight`
+
+  /** Width field name */
+  CONF_WIDTH = `${this.props.adminForm.currentNamespace}.cssWidth`
+
+  /** URLs group fields name */
+  CONF_URLS = `${this.props.adminForm.currentNamespace}.urlByLocale`
+
+  /** EN URL field name */
+  CONF_EN_URL = `${this.CONF_URLS}.${UIDomain.LOCALES_ENUM.en}`
+
+  /** FR URL field name */
+  CONF_FR_URL = `${this.CONF_URLS}.${UIDomain.LOCALES_ENUM.fr}`
 
   /** Initial state */
   state = {
     previewLocale: UIDomain.LOCALES_ENUM.en,
+    moduleConf: null,
+  }
+
+  /**
+  * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+  */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { adminForm: { isPage, form } } = newProps
+    this.onPreviewDataChanged(this.state.previewLocale, isPage, form)
   }
 
   /**
    * User select another preview
    * @param {*} evt event
    * @param {number} index selected index
-   * @param {string} value selected locale value
+   * @param {string} newLocale selected locale value
    */
-  onPreviewLocaleSelected = (evt, index, value) => this.setState({ previewLocale: value })
+  onPreviewLocaleSelected = (evt, index, newLocale) => {
+    const { adminForm: { isPage, form } } = this.props
+    this.onPreviewDataChanged(newLocale, isPage, form)
+  }
+
+  /**
+   * Inner callback: Preview module data changed, update state
+   * @param {string} previewLocale
+   * @param {boolean} isPage is module displayed as page
+   * @param {*} form current form data
+   *
+   */
+  onPreviewDataChanged = (previewLocale, isPage, form) => {
+    const nextState = {
+      previewLocale,
+      moduleConf: {
+        preview: true,
+        previewLocale,
+        cssHeight: isPage ? AdminContainer.PREVIEW_PAGE_HEIGHT : get(form, this.CONF_HEIGHT),
+        cssWidth: get(form, this.CONF_WIDTH),
+        urlByLocale: get(form, this.CONF_URLS),
+      },
+    }
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
+    }
+  }
 
   /** @return {string} error if any, undefined otherwise  */
   validateAnyPageField = (fieldValue, formValues) => {
     const urlByLocale = get(formValues, this.CONF_URLS, {})
-    const firstDefinedURL = find(urlByLocale, value => !!value)
+    const firstDefinedURL = find(urlByLocale, (value) => !!value)
     return firstDefinedURL ? undefined : 'embedded.html.admin.html.no.url.error'
   }
 
@@ -86,23 +138,16 @@ class AdminContainer extends React.Component {
    * @return {React.Element} rendered preview
    */
   renderPreview() {
-    const { project, appName, adminForm: { form, isPage } } = this.props
+    const { project, appName, adminForm: { form } } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    const { previewLocale } = this.state
-    // 1 - compute preview properties
+    const { moduleConf } = this.state
+    // compute preview properties
     const urlByLocale = get(form, this.CONF_URLS)
-    const moduleConfiguration = {
-      preview: true,
-      previewLocale,
-      cssHeight: isPage ? AdminContainer.PREVIEW_PAGE_HEIGHT : get(form, this.CONF_HEIGHT),
-      cssWidth: get(form, this.CONF_WIDTH),
-      urlByLocale,
-    }
-    // 2 - compute preview warning / explanation message
+    // compute preview warning / explanation message
     const noPage = reduce(urlByLocale, (acc, value) => acc && !value, true)
-    // 3 - Render with the main user component (disconnected from store to control locale)
+    // Render with the main user component (disconnected from store to control locale)
     return (
-      <React.Fragment>
+      <>
         { // No page error
           noPage ? (
             <div style={moduleTheme.admin.previewErrorMessage}>
@@ -113,9 +158,9 @@ class AdminContainer extends React.Component {
           appName={appName}
           project={project}
           type={modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL}
-          moduleConf={moduleConfiguration}
+          moduleConf={moduleConf}
         />
-      </React.Fragment>)
+      </>)
   }
 
   render() {
@@ -177,13 +222,12 @@ class AdminContainer extends React.Component {
               onChange={this.onPreviewLocaleSelected}
               fullWidth
             >
-              { UIDomain.LOCALES.map(locale => (
+              { UIDomain.LOCALES.map((locale) => (
                 <MenuItem
                   key={locale}
                   value={locale}
                   primaryText={formatMessage({ id: `embedded.html.content.preview.locale.${locale}` })}
-                />))
-              }
+                />))}
             </SelectField>
             { // 2. Preview rendering
               this.renderPreview()

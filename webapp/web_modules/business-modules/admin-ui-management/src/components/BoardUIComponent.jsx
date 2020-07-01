@@ -35,14 +35,13 @@ class BoardUIComponent extends React.Component {
   }
 
   render() {
-    let items = {}
-    if (this.props.project) {
-      items = projectItems(this.props.project, this.context.intl)
-    } else {
-      items = instanceItems(this.context.intl)
-    }
+    const { project } = this.props
+    const { intl } = this.context
     return (
-      <BoardComponent items={items} />
+      <BoardComponent items={project
+        ? projectItems(project, intl)
+        : instanceItems(intl)}
+      />
     )
   }
 }

@@ -29,7 +29,6 @@ export const editSettingsRouter = {
   },
 }
 
-
 const projectUserManagementRouter = {
   childRoutes: [editSettingsRouter],
 }

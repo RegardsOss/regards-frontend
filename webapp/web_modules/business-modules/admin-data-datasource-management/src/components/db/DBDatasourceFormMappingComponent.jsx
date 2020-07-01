@@ -88,7 +88,7 @@ export class DBDatasourceFormMappingComponent extends React.Component {
         const attributes = {}
         forEach(attributesMapping, (attributeMapping) => {
           // Check if the value provided by attributeMapping.nameDs exists in table attributes
-          const existingTable = find(tableAttributeList, tableAttribute => tableAttribute.name === attributeMapping.nameDS)
+          const existingTable = find(tableAttributeList, (tableAttribute) => tableAttribute.name === attributeMapping.nameDS)
           attributes[attributeMapping.name] = {
             tableAttribute: existingTable ? attributeMapping.nameDS : '',
             sql: existingTable ? '' : attributeMapping.nameDS,
@@ -119,7 +119,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
       }
     }
   }
-
 
   handleTableSelected = (tableName) => {
     this.props.onTableSelected(tableName)
@@ -252,7 +251,6 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     )
   }
 }
-
 
 /**
  * Form validation

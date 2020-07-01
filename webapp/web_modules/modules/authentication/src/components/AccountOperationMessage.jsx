@@ -25,7 +25,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import values from 'lodash/values'
 
-
 /**
  * Possible Ids for this message displayer, corresponds to the message / stage to show
  */

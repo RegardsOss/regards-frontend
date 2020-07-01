@@ -80,7 +80,7 @@ export default class FEMFeatureRequestsActions extends BasicSignalsActions {
    */
   getDependencies() {
     return map([FEMFeatureRequestsActions.NOTIFY, FEMFeatureRequestsActions.DELETE, FEMFeatureRequestsActions.UPDATE],
-      subAction => this.getDependency(subAction, 'POST'),
+      (subAction) => this.getDependency(subAction, 'POST'),
     )
   }
 }

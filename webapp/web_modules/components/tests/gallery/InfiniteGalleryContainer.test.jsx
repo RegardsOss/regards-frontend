@@ -23,7 +23,6 @@ import values from 'lodash/values'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { InfiniteGalleryContainer } from '../../src/gallery/InfiniteGalleryContainer'
 
-
 const context = buildTestContext()
 /**
 * Test InfiniteGalleryContainer

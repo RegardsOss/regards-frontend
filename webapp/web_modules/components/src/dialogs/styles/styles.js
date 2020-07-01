@@ -22,7 +22,7 @@
  * @param theme
  * @author Raphaël Mechali
  */
-const styles = theme => ({
+const styles = (theme) => ({
   dialogCommon: {
     actionsContainerStyle: {
       backgroundColor: theme.palette.canvasColor,

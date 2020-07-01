@@ -55,7 +55,7 @@ const {
   required, validStringSize,
 } = ValidationHelpers
 const validRequiredString255 = [required, validStringSize(1, 255)]
-const validateCron = value => value && !/^0 [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*$/i.test(value)
+const validateCron = (value) => value && !/^0 [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*$/i.test(value)
   ? 'invalid.cron.expression' : undefined
 
 /**
@@ -83,7 +83,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     ...i18nContextType,
     ...themeContextType,
   }
-
 
   static getNewIntialValues = () => ({
     active: true,
@@ -145,7 +144,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return {
       ...omit(plugin, ['id', 'label', 'parameters', 'businessId']),
       label: plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now(),
-      parameters: map(plugin.parameters, parameter => omit(parameter, ['id'])) || [],
+      parameters: map(plugin.parameters, (parameter) => omit(parameter, ['id'])) || [],
     }
   }
 
@@ -170,7 +169,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     cronDescOpened: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       chain, mode, storages, initialize,
     } = this.props
@@ -178,7 +177,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     let loadedStorages
     if (mode !== 'create') {
       loadedStorages = map(storages, (serverStorage) => {
-        const findStorage = find(chain.content.storages, s => serverStorage.content.label === s.pluginBusinessId)
+        const findStorage = find(chain.content.storages, (s) => serverStorage.content.label === s.pluginBusinessId)
         return {
           label: serverStorage.content.label,
           active: !!findStorage,
@@ -198,7 +197,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       case 'create':
         initialValues = {
           ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
-          storages: map(storages, serverStorage => ({
+          storages: map(storages, (serverStorage) => ({
             label: serverStorage.content.label,
             active: false,
             storePath: '',
@@ -248,7 +247,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     })
   }
 
-  renderFileInfoItemLabel = item => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
+  renderFileInfoItemLabel = (item) => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
 
   render() {
     const {

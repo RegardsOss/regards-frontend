@@ -23,7 +23,6 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ThemeFormComponent from '../../src/components/ThemeFormComponent'
 import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
 
-
 const context = buildTestContext()
 
 /**

@@ -67,8 +67,8 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
-      stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
-      deleteChain: id => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
+      stopChain: (chainId) => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
+      deleteChain: (id) => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
       toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
       multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
     }
@@ -184,7 +184,6 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
   }
 
   onToggle = (chainId, target, nextValue) => this.props.toggleChain(chainId, target, nextValue)
-
 
   render() {
     const {

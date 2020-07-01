@@ -33,12 +33,62 @@ import ParametersConfigurationComponent from './parameters/ParametersConfigurati
 *  by both UI and catalog plugin services lifecycle)
 */
 export class RunServiceDialogComponent extends React.Component {
+  static propTypes = {
+    serviceName: PropTypes.string.isRequired,
+    currentStep: PropTypes.oneOfType([
+      // loading step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.LOADING]),
+      }),
+      // a message step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.MESSAGE]),
+        messageKey: PropTypes.string.isRequired,
+        error: PropTypes.bool.isRequired,
+        // custom step dialog options as react components
+        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+      }),
+      // parameters configuration step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION]),
+        parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
+        parametersValues: PropTypes.objectOf(PropTypes.any).isRequired, // previously entered values if any (used for 'previous step')
+        onSubmit: PropTypes.func.isRequired,
+      }),
+      // results step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.RESULTS]),
+        resultsComponent: PropTypes.node.isRequired,
+        onPrevious: PropTypes.func,
+        // custom step dialog options as react components
+        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+        // plugin option to hide action bar for the RESULT step
+        showButtonsBar: PropTypes.bool.isRequired,
+      }),
+    ]).isRequired,
+    onClose: PropTypes.func.isRequired,
+    // from reduxForm
+    invalid: PropTypes.bool,
+    handleSubmit: PropTypes.func.isRequired,
+    initialize: PropTypes.func.isRequired,
+    // other LoadableContentDialogContainer properties accepted here
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+  /** Possible steps in dialog */
   static Steps = {
     LOADING: 'LOADING',
     MESSAGE: 'MESSAGE',
     PARAMETERS_CONFIGURATION: 'PARAMETERS_CONFIGURATION',
     RESULTS: 'RESULTS',
   }
+
+  /** Single empty react component reference */
+  static EMPTY_COMPONENT = <div />
 
   /**
    * Builds loading step
@@ -88,68 +138,48 @@ export class RunServiceDialogComponent extends React.Component {
     showButtonsBar,
   })
 
-  static propTypes = {
-    serviceName: PropTypes.string.isRequired,
-    currentStep: PropTypes.oneOfType([
-      // loading step
-      PropTypes.shape({
-        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.LOADING]),
-      }),
-      // a message step
-      PropTypes.shape({
-        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.MESSAGE]),
-        messageKey: PropTypes.string.isRequired,
-        error: PropTypes.bool.isRequired,
-        // custom step dialog options as react components
-        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
-      }),
-      // parameters configuration step
-      PropTypes.shape({
-        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION]),
-        parameters: PropTypes.arrayOf(PropTypes.instanceOf(Parameter)).isRequired,
-        parametersValues: PropTypes.objectOf(PropTypes.any).isRequired, // previously entered values if any (used for 'previous step')
-        onSubmit: PropTypes.func.isRequired,
-      }),
-      // results step
-      PropTypes.shape({
-        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.RESULTS]),
-        resultsComponent: PropTypes.node.isRequired,
-        onPrevious: PropTypes.func,
-        // custom step dialog options as react components
-        customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
-        // plugin option to hide action bar for the RESULT step
-        showButtonsBar: PropTypes.bool.isRequired,
-      }),
-    ]).isRequired,
-    onClose: PropTypes.func.isRequired,
-    // from reduxForm
-    invalid: PropTypes.bool,
-    handleSubmit: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
-    // other LoadableContentDialogContainer properties accepted here
-  }
-
-  static contextTypes = {
-    ...themeContextType,
-    ...i18nContextType,
-  }
-
-  /** Single empty react component reference */
-  static EMPTY_COMPONENT = <div />
-
   /**
    * On form submitted (can only be called when step is PARAMETERS_CONFIGURATION)
    */
-  onSubmit = values => this.props.currentStep.onSubmit(values)
+  onSubmit = (values) => this.props.currentStep.onSubmit(values)
 
+  /**
+   * Renders dialog actions for step and service configuration
+   */
   renderActions = () => {
     const {
       onClose, currentStep, invalid, handleSubmit,
     } = this.props
     const { intl: { formatMessage } } = this.context
-
-    // 1- init the render actions list
-    let actionsResult = [
+    // A - Specific case: hidden buttons bar
+    if (currentStep.step === RunServiceDialogComponent.Steps.RESULTS && !currentStep.showButtonsBar) {
+      return null
+    }
+    // B - Button bar, according with step
+    return <>
+      {/* 1. Step options */
+        (() => {
+          switch (currentStep.step) {
+            // submit option when configuring parameters
+            case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+              return <FlatButton
+                key="submit.button"
+                disabled={invalid}
+                label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
+                type="submit"
+                onClick={handleSubmit(this.onSubmit)}
+              />
+            // previous options (should be used after parameters configuration)
+            case RunServiceDialogComponent.Steps.MESSAGE:
+            case RunServiceDialogComponent.Steps.RESULTS:
+              // inner fragment to handle multiple custom options
+              return <>{currentStep.customOptions}</>
+            default:
+              return null
+          }
+        })()
+      }
+      { /** 2. Close button  */ }
       <FlatButton
         key="close.button"
         primary
@@ -157,41 +187,8 @@ export class RunServiceDialogComponent extends React.Component {
         label={formatMessage({ id: 'entities.common.services.close.service' })}
         title={formatMessage({ id: 'entities.common.services.close.service' })}
         onClick={onClose}
-      />,
-    ]
-
-    // 2 - determinate if there is a second action in current state
-    switch (currentStep.step) {
-      // submit option when configuring parameters
-      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
-        actionsResult = [
-          <FlatButton
-            key="submit.button"
-            disabled={invalid}
-            label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
-            type="submit"
-            onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
-          />,
-          ...actionsResult,
-        ]
-        break
-      // previous options (should be used after parameters configuration)
-      case RunServiceDialogComponent.Steps.MESSAGE:
-      case RunServiceDialogComponent.Steps.RESULTS:
-        // may the list depending of the plugin configuration
-        if (currentStep.step === RunServiceDialogComponent.Steps.RESULTS && !currentStep.showButtonsBar) {
-          actionsResult = []
-        } else {
-          actionsResult = [
-            ...currentStep.customOptions,
-            ...actionsResult,
-          ]
-        }
-        break
-      default:
-        // nothing to do
-    }
-    return actionsResult
+      />
+    </>
   }
 
   render() {

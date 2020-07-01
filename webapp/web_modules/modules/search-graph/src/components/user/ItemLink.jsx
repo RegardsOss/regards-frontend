@@ -91,11 +91,11 @@ class ItemLink extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.updateDisplayStateStyles(null, this.props.displayState)
   }
 
-  componentWillReceiveProps = ({ displayState: nextState }) => {
+  UNSAFE_componentWillReceiveProps = ({ displayState: nextState }) => {
     const { displayState: previousState } = this.props
     this.updateDisplayStateStyles(previousState, nextState)
   }

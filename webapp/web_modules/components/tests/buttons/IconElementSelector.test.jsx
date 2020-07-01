@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import noop from 'lodash/noop'
 import C1Icon from 'mdi-material-ui/AbTesting'
 import C2Icon from 'mdi-material-ui/Account'
 import C3Icon from 'mdi-material-ui/Airplane'
@@ -147,7 +148,7 @@ describe('[Components] Testing IconElementSelector', () => {
     }
     const enzymeWrapper = shallow(<IconElementSelector {...props} />, { context })
     const InnerButtonConstructor = enzymeWrapper.instance().renderIconButton
-    const innerButtonWrapper = shallow(<InnerButtonConstructor onClick={() => {}} />, { context })
+    const innerButtonWrapper = shallow(<InnerButtonConstructor onClick={noop} />, { context })
     const iconButtonWrapper = innerButtonWrapper.find(IconButton)
     assert.lengthOf(iconButtonWrapper, 1, 'There should be inner button')
     assert.isTrue(iconButtonWrapper.props().disabled, 'Disabled state should be reported to inner icon button render')

@@ -48,7 +48,6 @@ class ProjectHandler extends React.Component {
     })
   }
 
-
   render() {
     return null
   }
@@ -58,8 +57,8 @@ const mapStateToProps = (state, ownProps) => ({
   project: ProjectClient.projectSelectors.getById(state, ownProps.projectName),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchProject: project => dispatch(ProjectClient.projectActions.fetchEntity(project)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchProject: (project) => dispatch(ProjectClient.projectActions.fetchEntity(project)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectHandler)

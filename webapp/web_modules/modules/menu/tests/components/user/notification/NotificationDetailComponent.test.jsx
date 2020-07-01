@@ -49,7 +49,7 @@ describe('[Menu] Testing NotificationDetailComponent', () => {
     }
     const enzymeWrapper = shallow(<NotificationDetailComponent {...props} />, { context })
     // expected: find a div with dangerouslySetInnerHTML field
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().dangerouslySetInnerHTML), 1)
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().dangerouslySetInnerHTML), 1)
     // date
     const dateWrapper = enzymeWrapper.find(FormattedNotificationDate)
     assert.lengthOf(dateWrapper, 1, 'There should be notification date')
@@ -59,7 +59,7 @@ describe('[Menu] Testing NotificationDetailComponent', () => {
     assert.equal(cardHeaderWrapper.props().title, props.notification.title, 'Notification title should be reported')
   })
   it('should render correctly with text and other MIME types', () => {
-    const testCases = values(MIME_TYPES).filter(type => type !== MIME_TYPES.HTML_MIME_TYPE)
+    const testCases = values(MIME_TYPES).filter((type) => type !== MIME_TYPES.HTML_MIME_TYPE)
     testCases.forEach((type) => {
       const props = {
         notification: {

@@ -71,12 +71,11 @@ export class FragmentListComponent extends React.Component {
 
   getExportUrlFromHateoas = (fragmentLinks) => {
     const { accessToken } = this.props
-    const exportLink = find(fragmentLinks, link => (
+    const exportLink = find(fragmentLinks, (link) => (
       link.rel === 'export'
     ))
     return `${exportLink.href}?token=${accessToken}` || ''
   }
-
 
   closeDeleteDialog = () => {
     this.setState({

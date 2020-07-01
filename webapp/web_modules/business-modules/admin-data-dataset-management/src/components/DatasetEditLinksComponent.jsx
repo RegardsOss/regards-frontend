@@ -34,7 +34,6 @@ import TextField from 'material-ui/TextField'
 import Divider from 'material-ui/Divider'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
-
 /**
  * React component to list datasets.
  */

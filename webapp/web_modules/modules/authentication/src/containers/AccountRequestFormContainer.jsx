@@ -51,7 +51,7 @@ export class AccountRequestFormContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // Detect if last fetch is DONE and OK
     const { isFetching, onDone } = this.props
     if (isFetching && !nextProps.hasError && !nextProps.isFetching) {
@@ -94,7 +94,7 @@ export class AccountRequestFormContainer extends React.Component {
  * @param selectors selector
  * @return map state to props
  */
-const buildMapStateToProps = selectors => (state) => {
+const buildMapStateToProps = (selectors) => (state) => {
   const error = selectors.getError(state)
   return {
     isFetching: selectors.isFetching(state),
@@ -108,19 +108,19 @@ const buildMapStateToProps = selectors => (state) => {
  * @param fetchMethod form fetch method
  * @return map dispatch to props method
   */
-const buildMapDispatchToProps = fetchMethod => dispatch => ({
-  fetchRequestAction: mail => dispatch(fetchMethod(mail)),
+const buildMapDispatchToProps = (fetchMethod) => (dispatch) => ({
+  fetchRequestAction: (mail) => dispatch(fetchMethod(mail)),
 })
 
 /** Export connected Ask reset password form container */
-const AskResetPasswordForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.resetPasswordRequest} {...props} />
+const AskResetPasswordForm = (props) => <AccountRequestFormContainer requestFormId={requestFormIds.resetPasswordRequest} {...props} />
 export const AskResetPasswordFormContainer = connect(
   buildMapStateToProps(ResetPasswordSelectors),
   buildMapDispatchToProps(sendAskResetPassword),
 )(AskResetPasswordForm)
 
 /** Export connected ask unlock account form container */
-const AskUnlockAccountForm = props => <AccountRequestFormContainer requestFormId={requestFormIds.unlockAccountRequest} {...props} />
+const AskUnlockAccountForm = (props) => <AccountRequestFormContainer requestFormId={requestFormIds.unlockAccountRequest} {...props} />
 export const AskUnlockAccountFormContainer = connect(
   buildMapStateToProps(UnlockAccountSelectors),
   buildMapDispatchToProps(sendAskUnlockAccount),

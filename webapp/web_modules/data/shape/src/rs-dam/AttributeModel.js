@@ -20,7 +20,6 @@ import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
 import { FragmentContent } from './Fragment'
 
-
 export const attributeModelFields = {
   id: PropTypes.number,
   name: PropTypes.string.isRequired,

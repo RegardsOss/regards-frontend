@@ -63,7 +63,7 @@ class MapToolsComponent extends React.Component {
         <TableHeaderLine>
           <TableHeaderOptionGroup>
             { /** Show a selector for each available mode */
-            UIDomain.MAP_SELECTION_MODES.map(selectionMode => <MapSelectionModeOption
+            UIDomain.MAP_SELECTION_MODES.map((selectionMode) => <MapSelectionModeOption
               key={selectionMode}
               selected={currentSelectionMode === selectionMode}
               selectionMode={selectionMode}

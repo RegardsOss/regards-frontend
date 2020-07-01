@@ -99,7 +99,6 @@ export class NavigationModelResolutionContainer extends React.Component {
     }
   }
 
-
   /**
    * Converts a module edited item and into corresponding runtime navigation item using both model and home configuration
    * @param {Module} dynamicModule found dynamic module (with content) as model for this runtime item, null if not found
@@ -278,7 +277,6 @@ export class NavigationModelResolutionContainer extends React.Component {
     }, resultingNavigationItems)
   }
 
-
   /**
    * Updates selection in current navigation tree (clones the tree to avoid editing the set properties)
    * @param {[NavigationItem]} navigationItems currently resolved navigation items
@@ -294,7 +292,7 @@ export class NavigationModelResolutionContainer extends React.Component {
       return {
         ...item,
         children: updatedChildren,
-        selected: !!updatedChildren.find(child => child.selected),
+        selected: !!updatedChildren.find((child) => child.selected),
       }
     })
   }
@@ -330,13 +328,13 @@ export class NavigationModelResolutionContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

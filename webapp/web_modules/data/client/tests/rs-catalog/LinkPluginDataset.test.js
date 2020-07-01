@@ -27,7 +27,6 @@ const backendServerResultList = LinkPluginDatasetNetworkDump
 const options = {
 }
 
-
 const linkPluginDatasetActions = new LinkPluginDatasetActions('test/action')
 const linkPluginDatasetReducer = LinkPluginDatasetReducer('test/action')
 const linkPluginDatasetSelectors = LinkPluginDatasetSelectors(['test', 'modules'])

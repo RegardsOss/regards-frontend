@@ -223,7 +223,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       <Breadcrumb
         rootIcon={<PageView />}
         elements={elements}
-        labelGenerator={label => label}
+        labelGenerator={(label) => label}
         onAction={() => { }}
       />
     )
@@ -255,7 +255,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   onSort = (columnKey, order) => {
     const { columnsSorting } = this.state
     const newOrder = columnsSorting
-    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    const columnIndex = newOrder.findIndex((columnArray) => columnArray.columnKey === columnKey)
     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
       newOrder.splice(columnIndex, 1)
     } else if (columnIndex === -1) {
@@ -395,19 +395,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       }]).build(),
     ]
 
-    const actions = [
-      <FlatButton
-        key="close"
-        label={formatMessage({ id: 'acquisition-product.run.dialog.close.button' })}
-        primary
-        onClick={this.onCloseDialog}
-      />,
-      <FlatButton
-        key="confirm"
-        label={formatMessage({ id: 'acquisition-product.run.dialog.confirm.button' })}
-        primary
-        onClick={this.onConfirmDialog}
-      />,
+    const actions = [,
     ]
 
     const defaultDateSessionName = new Date()
@@ -418,7 +406,20 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           title={formatMessage({ id: 'acquisition-product.run.dialog.title' })}
           open={this.state.sessionNameDialog}
           autoScrollBodyContent
-          actions={actions}
+          actions={<>
+            <FlatButton
+              key="close"
+              label={formatMessage({ id: 'acquisition-product.run.dialog.close.button' })}
+              primary
+              onClick={this.onCloseDialog}
+            />
+            <FlatButton
+              key="confirm"
+              label={formatMessage({ id: 'acquisition-product.run.dialog.confirm.button' })}
+              primary
+              onClick={this.onConfirmDialog}
+            />
+          </>}
           dialogWidthPercent={60}
           dialogHeightPercent={30}
           onRequestClose={this.onCloseDialog}

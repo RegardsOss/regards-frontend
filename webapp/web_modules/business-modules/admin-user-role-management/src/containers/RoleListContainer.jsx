@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import RoleListComponent from '../components/RoleListComponent'
+import styles from '../styles'
 import messages from '../i18n'
 
 /**
@@ -39,7 +42,30 @@ export class RoleListContainer extends React.Component {
     }).isRequired,
   }
 
-  componentWillMount() {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      roleList: roleSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+      deleteRole: (roleName) => dispatch(roleActions.deleteEntity(roleName)),
+    }
+  }
+
+  UNSAFE_componentWillMount() {
     this.props.fetchRoleList()
   }
 
@@ -86,12 +112,7 @@ export class RoleListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
-  roleList: roleSelectors.getList(state),
-})
-const mapDispatchToProps = dispatch => ({
-  fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
-  deleteRole: roleName => dispatch(roleActions.deleteEntity(roleName)),
-})
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoleListContainer)
+export default compose(
+  connect(RoleListContainer.mapStateToProps, RoleListContainer.mapDispatchToProps),
+  withModuleStyle(styles))(RoleListContainer)

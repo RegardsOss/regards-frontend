@@ -27,7 +27,6 @@ import PageElementOption from '../../../../../../src/components/user/content/lis
 import styles from '../../../../../../src/styles'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../../../../../dumps/resolved.dump'
 
-
 const context = buildTestContext(styles)
 
 /**

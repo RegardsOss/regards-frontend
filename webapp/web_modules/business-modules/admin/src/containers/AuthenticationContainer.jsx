@@ -42,7 +42,8 @@ class AuthenticationContainer extends React.Component {
   render() {
     const { isAuthenticated, scope, children } = this.props
     const moduleStyles = getModuleStyles(this.context.muiTheme)
-    const module = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const module = { // eslint wont fix: login title can only be resolved using context (accurate only in render)
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: true,
       conf: {
@@ -65,6 +66,5 @@ class AuthenticationContainer extends React.Component {
     )
   }
 }
-
 
 export default AuthenticationContainer

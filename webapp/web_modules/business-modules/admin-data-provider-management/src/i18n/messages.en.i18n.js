@@ -19,7 +19,7 @@
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   ...DataProviderDomain.enMessages,
   ...IngestDomain.enMessages,
 
@@ -228,7 +228,7 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.close.button': 'Close',
 
   'invalid.cron.expression': 'Invalid cron',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -59,6 +58,14 @@ export default class NotificationItemComponent extends React.Component {
   }
 
   /**
+   * User callback: open notification
+   */
+  onOpenNotification = () => {
+    const { entity: { content }, handleOpenNotif } = this.props
+    handleOpenNotif(content)
+  }
+
+  /**
    * Renders a notification list
    * @param notifications Array containing the notifications to show
    * @param unread Is the array containing unread notifications ?
@@ -70,7 +77,7 @@ export default class NotificationItemComponent extends React.Component {
     return (
       <div
         style={styleContentWrapper}
-        onClick={() => this.props.handleOpenNotif(entity.content)}
+        onClick={this.onOpenNotification}
       >
         <NotificationIcon
           notification={entity.content}

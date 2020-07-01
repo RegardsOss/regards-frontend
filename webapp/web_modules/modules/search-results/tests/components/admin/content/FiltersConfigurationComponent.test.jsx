@@ -50,13 +50,13 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
     }
     const enzymeWrapper = shallow(<FiltersConfigurationComponent {...props} />, { context })
     // 1 - DATA facets enabled
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATA}`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATA}`), 1,
       'There should be facets enabled for DATA field')
     // 2 - DATASET facets enabled
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`), 1,
       'There should be facets enabled for DATASETfield')
     // 3 - Facets initially enabled
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.initiallyEnabled`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.facets.initiallyEnabled`), 1,
       'There should be facets initially enabled field')
     // 3 - Attributes list field
     const attributesListField = enzymeWrapper.find(AttributesListConfigurationComponent)

@@ -25,15 +25,15 @@ import { CommonClient } from '@regardsoss/client'
  */
 const ROOT_REDUX_ACTION_NAMESPACE = 'microservice-conf-backup-status'
 
-export const MicroserviceConfBackupStatusActions = microserviceName => (
+export const MicroserviceConfBackupStatusActions = (microserviceName) => (
   //eslint-disable-next-line no-new
   new CommonClient.MicroserviceConfBackupStatusActions(`${ROOT_REDUX_ACTION_NAMESPACE}-${microserviceName}`)
 )
 
-export const MicroserviceConfBackupStatusReducer = microserviceName => (
+export const MicroserviceConfBackupStatusReducer = (microserviceName) => (
   CommonClient.getMicroserviceConfBackupStatusReducer(`${ROOT_REDUX_ACTION_NAMESPACE}-${microserviceName}`)
 )
 
-export const MicroserviceConfBackupStatusSelector = microserviceName => (
+export const MicroserviceConfBackupStatusSelector = (microserviceName) => (
   CommonClient.getMicroserviceConfBackupStatusSelectors(['admin', 'microservice-management', `conf-backup-${microserviceName}`])
 )

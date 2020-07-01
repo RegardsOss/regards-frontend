@@ -210,7 +210,6 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     }, 'Download component properties should be correctly set')
     assert.equal(downloadFileComp.parent().props().show, enableDownload, 'Download file component should be shown / hidden according with enableDownload')
 
-
     // 9 - Attributes
     const attributesComponent = enzymeWrapper.find(QuicklookCellAttributesComponent)
     assert.lengthOf(attributesComponent, 1, 'There should be attributes render component')

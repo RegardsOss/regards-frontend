@@ -19,7 +19,7 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import CardActionsComponent from './cards/CardActionsComponent'
+import { CardActionsComponent } from '@regardsoss/components'
 
 const DATETIME_OPTIONS = {
   year: 'numeric',
@@ -30,47 +30,53 @@ const DATETIME_OPTIONS = {
 }
 
 /**
- * Show the list of users for the current project
+ * Displays a news item
+ * @Léo Mieulet
+ * @author Raphaël Mechali
  */
-function NewsItemComponent(props, context) {
-  const styleText = {
+class NewsItemComponent extends React.Component { // TODO A degager dans news...
+  static propTypes = {
+    news: PropTypes.objectOf(PropTypes.string), // TODO <<< peut faire mieux en typage...
+  }
+
+  static TEXT_STYLE = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     maxHeight: '5.2em',
     lineHeight: '1.3em',
     textAlign: 'justify',
   }
-  const styleTitle = {
+
+  static TITLE_STYLE = {
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap',
-
   }
-  const { news } = props
-  const { intl: { formatDate } } = context
-  const pubDate = formatDate(news.pubDate, DATETIME_OPTIONS)
-  return (
-    <Card>
-      <CardTitle
-        title={news.title}
-        titleStyle={styleTitle}
-        subtitle={pubDate}
-      />
-      <CardText>
-        <div style={styleText}>
-          {news.description}
-        </div>
-      </CardText>
-      <CardActions>
-        <CardActionsComponent
-          mainButtonLabel="See more"
-          mainButtonUrl={news.link}
+
+  render() {
+    const { news } = this.props
+    const { intl: { formatDate } } = context
+    const pubDate = formatDate(news.pubDate, DATETIME_OPTIONS)
+    return (
+      <Card>
+        <CardTitle
+          title={news.title}
+          titleStyle={NewsItemComponent.TITLE_STYLE}
+          subtitle={pubDate}
         />
-      </CardActions>
-    </Card>
-  )
-}
-NewsItemComponent.propTypes = {
-  news: PropTypes.objectOf(PropTypes.string),
+        <CardText>
+          <div style={NewsItemComponent.TEXT_STYLE}>
+            {news.description}
+          </div>
+        </CardText>
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel="See more"
+            mainButtonUrl={news.link}
+          />
+        </CardActions>
+      </Card>
+    )
+  }
 }
 export default NewsItemComponent

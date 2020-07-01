@@ -94,7 +94,7 @@ export class OSQueryConfigurationComponent extends React.Component {
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialize, initialValues, urlDescriptor } = this.props
     // convert values to initialize from provided values (keep only useful ones and convert to usable filters with model)
     const usedInitialValues = {
@@ -116,7 +116,7 @@ export class OSQueryConfigurationComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -142,7 +142,7 @@ export class OSQueryConfigurationComponent extends React.Component {
         webserviceURL: DescriptorHelper.getWebserviceURL(urlDescriptor),
         // Available parameters: remove page index and size as they are used by the plugin request then sort alphabetically
         availableParameters: get(newProps.urlDescriptor, 'parameter', [])
-          .filter(p => p.name !== pageSizeParam && p.name !== pageIndexParam)
+          .filter((p) => p.name !== pageSizeParam && p.name !== pageIndexParam)
           .sort((p1, p2) => StringComparison.compare(p1.name, p2.name)),
         // update field validators
         pageSizeValidators: [
@@ -152,7 +152,6 @@ export class OSQueryConfigurationComponent extends React.Component {
       })
     }
   }
-
 
   /**
    * On user submission
@@ -211,7 +210,7 @@ export class OSQueryConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'opensearch.crawler.form.query.lastUpdate' })}
               fullWidth
             >
-              {availableParameters.map(filter => (
+              {availableParameters.map((filter) => (
                 <MenuItem key={`${filter.value}`} value={filter.name} primaryText={filter.name} />
               ))}
             </Field>
@@ -228,7 +227,8 @@ export class OSQueryConfigurationComponent extends React.Component {
                   maxBound: maxPageSize
                     ? formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.inclusive.bound' }, { bound: maxPageSize.toString() })
                     : formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.free.bound' }),
-                })}
+                })
+}
               validate={pageSizeValidators}
               fullWidth
             />
@@ -262,7 +262,6 @@ export class OSQueryConfigurationComponent extends React.Component {
   }
 }
 
-
 // prepare redux form
 const formId = 'opensearch-query-form'
 const connectedReduxForm = reduxForm({
@@ -271,6 +270,6 @@ const connectedReduxForm = reduxForm({
 
 // connect to select the page size value
 const selector = formValueSelector(formId)
-export default connect(state => ({
+export default connect((state) => ({
   selectedPageSize: selector(state, 'pagesSize'),
 }))(connectedReduxForm)

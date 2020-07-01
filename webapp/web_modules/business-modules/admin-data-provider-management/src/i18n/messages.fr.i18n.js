@@ -19,7 +19,7 @@
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   ...DataProviderDomain.frMessages,
   ...IngestDomain.frMessages,
 
@@ -174,7 +174,6 @@ const messages = Object.assign({
   'acquisition-sessions.states.index.errors': 'Erreurs',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
-
   //3.4 Cell's Menus
   'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
   'acquisition-sessions.menus.session.delete.force.button': 'Supprimer la session',
@@ -229,7 +228,7 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.close.button': 'Fermer',
 
   'invalid.cron.expression': 'Cron invalide',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

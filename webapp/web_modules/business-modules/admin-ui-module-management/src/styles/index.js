@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
 /**
- * Module configuration shape
- * @author Léo Mieulet
+ * @author Sébastien Binda
  */
-const ModuleConfigurationShape = PropTypes.shape({
-  mizarConf: PropTypes.string,
-})
-
-export default ModuleConfigurationShape
+export default {
+  styles,
+}

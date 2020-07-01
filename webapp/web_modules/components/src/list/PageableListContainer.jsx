@@ -32,7 +32,6 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
 
-
 /**
  * React component to handle paginated list of elements.
  * Each element is rendered with a custom given React component.
@@ -81,28 +80,49 @@ class PageableListContainer extends React.Component {
   }
 
   static defaultProps = {
-    selectedEntities: [],
     displayCheckbox: true,
+    selectedEntities: [],
+    additionalPropToLineComponent: {},
+    queryParams: {},
     disableActions: false,
     style: {},
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      lineHeight: 40,
-      autoLoadOffset: 160,
-      loadedEntities: [],
-      lastIndexReached: false,
-      searchValue: '',
-    }
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state, props) => ({
+    entities: props.entitiesSelector.getList(state),
+    pageMetadata: props.entitiesSelector.getMetaData(state),
+    entitiesFetching: props.entitiesSelector.isFetching(state),
+  })
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps = (dispatch, props) => ({
+    fetchEntities: (index, nbEntityByPage, pathParams, queryParams) => dispatch(props.entitiesActions.fetchPagedEntityList(index, nbEntityByPage, pathParams, queryParams)),
+  })
+
+  state = {
+    lineHeight: 40,
+    autoLoadOffset: 160,
+    loadedEntities: [],
+    lastIndexReached: false,
+    searchValue: '',
   }
 
   /**
    * When a page is fetched, this method is called and then we add the elements to the list
    * @param nextProps
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.entitiesFetching === false && this.props.entitiesFetching === true) {
       const newEntities = values(nextProps.entities)
       const newStateEntities = concat([], this.state.loadedEntities, newEntities)
@@ -193,7 +213,6 @@ class PageableListContainer extends React.Component {
     }
   }
 
-
   render() {
     const { searchValue } = this.state
     let containerSize = this.props.nbEntityByPage - 2
@@ -227,7 +246,7 @@ class PageableListContainer extends React.Component {
           {map(this.state.loadedEntities, (entity) => {
             const selected = some(
               this.props.selectedEntities,
-              selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
+              (selectedEntity) => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier],
             )
             return (
               <LineComponent
@@ -248,21 +267,6 @@ class PageableListContainer extends React.Component {
   }
 }
 
-PageableListContainer.defaultProps = {
-  displayCheckbox: false,
-  selectedEntities: [],
-  additionalPropToLineComponent: {},
-  queryParams: {},
-}
-
-const mapStateToProps = (state, ownProps) => ({
-  entities: ownProps.entitiesSelector.getList(state),
-  pageMetadata: ownProps.entitiesSelector.getMetaData(state),
-  entitiesFetching: ownProps.entitiesSelector.isFetching(state),
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchEntities: (index, nbEntityByPage, pathParams, queryParams) => dispatch(ownProps.entitiesActions.fetchPagedEntityList(index, nbEntityByPage, pathParams, queryParams)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PageableListContainer)
+export default connect(
+  PageableListContainer.mapStateToProps,
+  PageableListContainer.mapDispatchToProps)(PageableListContainer)

@@ -39,7 +39,7 @@ export class UsersListWithCountIconContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notificationsCount: waitingAccessUsersEntitiesSelectors.getSize(state),
 })
 

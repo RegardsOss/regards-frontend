@@ -18,9 +18,9 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
 import { PluginLoader } from '@regardsoss/plugins'
 import { AccessShapes } from '@regardsoss/shape'
 import {
@@ -31,6 +31,7 @@ import {
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceConfigurationListComponent from '../components/ServiceConfigurationListComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Show the list of plugin service configuration
@@ -38,11 +39,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ServiceConfigurationListContainer extends React.Component {
-  static contextTypes = {
-    ...i18nContextType,
-    ...themeContextType,
-  }
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -64,11 +60,11 @@ export class ServiceConfigurationListContainer extends React.Component {
     uiPluginDefinition: uiPluginDefinitionSelectors.getById(state, ownProps.params.uiPluginId),
   })
 
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     deleteUIPluginConfiguration: (uiPluginConfId, uiPluginId) => dispatch(uiPluginConfigurationActions.deleteEntity(uiPluginConfId)),
-    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationByPluginActions.fetchPagedEntityList(0, 100, { pluginId: uiPluginId })),
+    fetchUIPluginConfigurationList: (uiPluginId) => dispatch(uiPluginConfigurationByPluginActions.fetchPagedEntityList(0, 100, { pluginId: uiPluginId })),
     updateUIPluginConfiguration: (uiPluginId, value) => dispatch(uiPluginConfigurationActions.updateEntity(uiPluginId, value)),
-    fetchUIPluginDefinition: uiPluginId => dispatch(uiPluginDefinitionActions.fetchEntity(uiPluginId)),
+    fetchUIPluginDefinition: (uiPluginId) => dispatch(uiPluginDefinitionActions.fetchEntity(uiPluginId)),
   })
 
   state = {
@@ -111,24 +107,19 @@ export class ServiceConfigurationListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-
   handleDelete = (uiPluginConfId) => {
     this.props.deleteUIPluginConfiguration(uiPluginConfId)
   }
 
   handleToggleActivation = (uiPluginConf) => {
     const { params: { uiPluginId } } = this.props
-    const updatedPluginConfiguration = Object.assign({}, uiPluginConf, {
-      active: !uiPluginConf.active,
-    })
+    const updatedPluginConfiguration = { ...uiPluginConf, active: !uiPluginConf.active }
     this.props.updateUIPluginConfiguration(uiPluginConf.id, updatedPluginConfiguration, uiPluginId)
   }
 
   handleToggleDefault = (uiPluginConf) => {
     const { params: { uiPluginId } } = this.props
-    const updatedPluginConfiguration = Object.assign({}, uiPluginConf, {
-      linkedToAllEntities: !uiPluginConf.linkedToAllEntities,
-    })
+    const updatedPluginConfiguration = { ...uiPluginConf, linkedToAllEntities: !uiPluginConf.linkedToAllEntities }
     this.props.updateUIPluginConfiguration(uiPluginConf.id, updatedPluginConfiguration, uiPluginId)
   }
 
@@ -137,29 +128,31 @@ export class ServiceConfigurationListContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          {() => (
-            <PluginLoader
-              pluginPath={uiPluginDefinition.content.sourcePath}
-              pluginInstanceId={uiPluginDefinition.content.id}
-              displayPlugin={false}
-            >
-              <ServiceConfigurationListComponent
-                uiPluginConfigurationList={uiPluginConfigurationList}
-                uiPluginDefinition={uiPluginDefinition}
-                handleEdit={this.handleEdit}
-                handleDelete={this.handleDelete}
-                handleDuplicate={this.handleDuplicate}
-                handleToggleActivation={this.handleToggleActivation}
-                handleToggleDefault={this.handleToggleDefault}
-                createUrl={this.getCreateUrl()}
-                backUrl={this.getBackUrl()}
-              />
-            </PluginLoader>
-          )}
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            {() => (
+              <PluginLoader
+                pluginPath={uiPluginDefinition.content.sourcePath}
+                pluginInstanceId={uiPluginDefinition.content.id}
+                displayPlugin={false}
+              >
+                <ServiceConfigurationListComponent
+                  uiPluginConfigurationList={uiPluginConfigurationList}
+                  uiPluginDefinition={uiPluginDefinition}
+                  handleEdit={this.handleEdit}
+                  handleDelete={this.handleDelete}
+                  handleDuplicate={this.handleDuplicate}
+                  handleToggleActivation={this.handleToggleActivation}
+                  handleToggleDefault={this.handleToggleDefault}
+                  createUrl={this.getCreateUrl()}
+                  backUrl={this.getBackUrl()}
+                />
+              </PluginLoader>
+            )}
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

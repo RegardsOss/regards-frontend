@@ -133,7 +133,8 @@ class OrderCartComponent extends React.Component {
               key="close.button"
               label={formatMessage({ id: 'order-cart.module.duplicate.objects.message.close' })}
               onClick={this.onHideDuplicatedMessage}
-            />}
+            />
+          }
         >
           {
             formatMessage({ id: 'order-cart.module.duplicate.objects.message' }, {

@@ -23,4 +23,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * @param storePath redux store path to access reduced data
  * @return selectors instance
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

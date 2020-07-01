@@ -24,6 +24,6 @@ export const RoleConfiguration = {
 }
 
 export const ROLE = new Schema(RoleConfiguration.normalizrKey, {
-  idAttribute: role => role.content[RoleConfiguration.entityKey],
+  idAttribute: (role) => role.content[RoleConfiguration.entityKey],
 })
 export const ROLE_ARRAY = arrayOf(ROLE)

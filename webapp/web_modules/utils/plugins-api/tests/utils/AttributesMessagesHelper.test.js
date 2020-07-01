@@ -26,7 +26,6 @@ import {
   formatHintText, formatTooltip, BOUND_TYPE,
 } from '../../src/utils/AttributesMessagesHelper'
 
-
 /**
  * @return {*} self spying intl stub for tests
  */
@@ -67,7 +66,7 @@ const typesWithBounds = [
 ]
 /** Types that cannot have bounds */
 const typesWithoutBounds = [
-  ...values(DamDomain.MODEL_ATTR_TYPES).filter(type => !typesWithBounds.includes(type)),
+  ...values(DamDomain.MODEL_ATTR_TYPES).filter((type) => !typesWithBounds.includes(type)),
   'unknownType',
   null,
   undefined,
@@ -80,7 +79,6 @@ const testValues = [
   -45,
   12.56,
 ]
-
 
 describe('[PLUGINS API] Testing AttributesMessagesHelper', () => {
   it('should define expected members', () => {

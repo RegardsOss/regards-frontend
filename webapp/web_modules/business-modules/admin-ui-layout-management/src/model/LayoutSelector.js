@@ -28,6 +28,5 @@ class LayoutsSelector extends BasicPageableSelectors {
   }
 }
 
-
 const instance = new LayoutsSelector()
 export default instance

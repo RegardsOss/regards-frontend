@@ -36,7 +36,6 @@ import { DropDownButton } from '@regardsoss/components'
 import { sessionsRelaunchAIPActions } from '../../../clients/session/SessionsClient'
 import { SessionsMonitoringTableBackgroundComponent } from './SessionsMonitoringTableBackgroundComponent'
 
-
 class SessionsMonitoringProductsStoredRenderer extends React.Component {
   static propTypes = {
     entity: AccessShapes.Session.isRequired,
@@ -142,7 +141,6 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
     const storagePending = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_store_pending')
     const errors = SessionsMonitoringProductsStoredRenderer.getValue(entity, 'products_gen_error', 'products_store_error', 'products_meta_store_error')
 
-
     const items = []
     if (errors > 0) {
       if (allMatchHateoasDisplayLogic(SessionsMonitoringProductsStoredRenderer.RELAUNCH_DEPENCIES, availableDependencies)) {
@@ -181,7 +179,7 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
           { !entity.content.lifeCycle.oais ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-            -
+                -
               </div>
             </div>
           ) : (
@@ -193,16 +191,16 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
                 <div style={lineFourContainer}>
                   <div style={one}>
                     {formatMessage({ id: 'acquisition-sessions.states.storing' })}
-                  :
+                    :
                   </div>
                   <div style={two}>
                     {formatMessage({ id: 'acquisition-sessions.states.stored' })}
-                  :
+                    :
                   </div>
                   <div style={three} />
                   <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
-                  :
+                    :
                   </div>
                 </div>
                 <div style={listFourValues}>

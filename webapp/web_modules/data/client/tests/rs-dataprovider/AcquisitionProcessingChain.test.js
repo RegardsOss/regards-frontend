@@ -24,7 +24,6 @@ import getAcquisitionProcessingChainReducer from '../../src/rs-data-provider/Acq
 import getAcquisitionProcessingChainSelectors from '../../src/rs-data-provider/AcquisitionProcessingChain/AcquisitionProcessingChainSelectors'
 import dump from './AcquisitionProcessingChain.dump'
 
-
 const options = {
 }
 

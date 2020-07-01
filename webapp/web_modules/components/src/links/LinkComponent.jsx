@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
 /**
  * Render a <a> HTML Balise with muiTheme styles for colors.
@@ -37,11 +38,10 @@ class LinkComponent extends React.Component {
   }
 
   render() {
+    const { moduleTheme: { linkComponent } } = this.context
     return (
       <a
-        style={{
-          color: this.context.muiTheme.palette.primary1Color,
-        }}
+        style={linkComponent}
         href={this.props.link}
         target={this.props.target ? this.props.target : '_self'}
         rel={this.props.rel ? this.props.rel : ''}
@@ -53,4 +53,4 @@ class LinkComponent extends React.Component {
   }
 }
 
-export default LinkComponent
+export default withModuleStyle(styles)(LinkComponent)

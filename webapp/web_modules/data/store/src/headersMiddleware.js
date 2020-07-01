@@ -28,7 +28,7 @@ const { RSAA } = require('redux-api-middleware')
  * @param state
  * @returns {*}
  */
-const sessionIsLocked = state => get(state, 'common.authentication.sessionLocked', false)
+const sessionIsLocked = (state) => get(state, 'common.authentication.sessionLocked', false)
 
 /**
  * Returns Authorization header value, or null if no authorization possible
@@ -77,13 +77,13 @@ const getDefaultTypesHeaders = (callAPI) => {
 
 // Intercept actions
 // If the action is formated as [RSAA]: {...}, inject the headers
-const headersMiddleware = () => next => (action) => {
+const headersMiddleware = () => (next) => (action) => {
   const callAPI = action[RSAA]
   const apiEndpoint = get(callAPI, 'endpoint', '')
   // add regards headers for specific regards requests only
   if (callAPI && apiEndpoint.startsWith(`${GATEWAY_HOSTNAME}`)) {
     const specificHeaders = callAPI.headers || {}
-    callAPI.headers = callStore => ({
+    callAPI.headers = (callStore) => ({
       // lower preference: locally added headers
       ...getDefaultTypesHeaders(callAPI),
       ...getAuthorizationHeaders(callStore, callAPI),

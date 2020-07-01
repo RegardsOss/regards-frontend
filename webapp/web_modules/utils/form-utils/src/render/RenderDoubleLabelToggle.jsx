@@ -28,22 +28,23 @@ import DoubleLabelToggle from '../DoubleLabelToggle'
  */
 function createComponent(MaterialUIComponent, mapProps) {
   class InputComponent extends Component {
+    static displayName = `ReduxFormMaterialUI${MaterialUIComponent.name}`
+
+    childRef = React.createRef()
+
     getRenderedComponent() {
-      // legacy from material-ui
-      // eslint-disable-next-line react/no-string-refs
-      return this.childRef
+      return this.childRef.current
     }
 
     render() {
       return (
         <MaterialUIComponent
-          ref={(ref) => { this.childRef = ref }}
+          ref={this.childRef}
           {...mapProps(this.props)}
         />
       )
     }
   }
-  InputComponent.displayName = `ReduxFormMaterialUI${MaterialUIComponent.name}`
   return InputComponent
 }
 

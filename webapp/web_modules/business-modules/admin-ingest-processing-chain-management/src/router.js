@@ -33,7 +33,6 @@ export const createIngestProcessingChainRoute = {
   },
 }
 
-
 export const editIngestProcessingChainRoute = {
   path: ':chain_name/edit',
   getComponents(nextState, cb) {
@@ -57,7 +56,6 @@ export const listIngestProcessingChainRoute = {
     })
   },
 }
-
 
 const processingChainManagementRouter = {
   childRoutes: [

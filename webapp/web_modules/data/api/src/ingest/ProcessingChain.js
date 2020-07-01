@@ -24,7 +24,7 @@ export const ProcessingChainConfiguration = {
 }
 
 export const PROCESSING_CHAIN = new Schema(ProcessingChainConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ProcessingChainConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[ProcessingChainConfiguration.entityKey]
   ,
 })
 export const PROCESSING_CHAIN_ARRAY = arrayOf(PROCESSING_CHAIN)

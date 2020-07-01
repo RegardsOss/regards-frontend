@@ -84,7 +84,6 @@ export class DatasetFormAttributesContainer extends React.Component {
     this.props.handleSave(values.providerId, values.label, values.geometry, values.model, properties, datasourceObjectModelName)
   }
 
-
   /**
    * Used when the user change the value of the model selected
    * In charge to fetch new list of model attributes
@@ -118,8 +117,7 @@ export class DatasetFormAttributesContainer extends React.Component {
             backUrl={backUrl}
             isEditing={isEditing}
             isCreatinguUsingDatasetValues={!isEditing && has(currentDataset, 'content.label')}
-          />)
-          }
+          />)}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -131,12 +129,12 @@ const mapStateToProps = (state, ownProps) => ({
   currentDatasource: datasourceSelectors.getById(state, ownProps.currentDatasourceId),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATASET' })),
-  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   flushAttributes: () => dispatch(modelAttributesActions.flush()),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
-  fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
+  fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetFormAttributesContainer)

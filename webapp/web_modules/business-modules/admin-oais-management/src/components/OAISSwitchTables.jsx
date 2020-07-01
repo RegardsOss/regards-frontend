@@ -75,7 +75,7 @@ export class OAISSwitchTables extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { switchButton } } = this.context
     const { aipsMeta, requestsMeta, openedPane } = this.props
     return (
-      <React.Fragment>
+      <>
         <FlatButton
           label={formatMessage({ id: 'oais.requests.switch-to.products.label' }, { productsNb: aipsMeta ? aipsMeta.totalElements : 0 })}
           title={formatMessage({ id: 'oais.requests.switch-to.products.title' })}
@@ -91,7 +91,7 @@ export class OAISSwitchTables extends React.Component {
           disabled={openedPane === 'REQUESTS'}
         />
 
-      </React.Fragment>
+      </>
     )
   }
 }

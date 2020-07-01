@@ -24,7 +24,6 @@ import getAccessGroupReducer from '../../src/rs-dam/accessGroup/AccessGroupReduc
 import getAccessGroupSelectors from '../../src/rs-dam/accessGroup/AccessGroupSelectors'
 import AccessGroupDump from './AccessGroup.dump'
 
-
 const options = {
 }
 

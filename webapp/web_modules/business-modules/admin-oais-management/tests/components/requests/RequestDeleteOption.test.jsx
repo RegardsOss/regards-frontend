@@ -47,7 +47,7 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestDeleteOption', () => {
     }
     const enzymeWrapper = shallow(<RequestDeleteOption {...props} />, { context })
 
-    const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
+    const confirmButton = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(confirmButton, 1, 'There should be icon button')
 
     assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onClick, 'onClick callback should be correctly set')

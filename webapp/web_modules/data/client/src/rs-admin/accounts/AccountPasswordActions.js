@@ -47,7 +47,7 @@ export default class AccountPasswordActions extends BasicSignalActions {
 
   buildResults(stream) {
     const type = this.fetchingType
-    return getJSON(stream).then(json => ({
+    return getJSON(stream).then((json) => ({
       type,
       content: json,
     }))

@@ -23,7 +23,8 @@ import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
 import MoreVertIcon from 'mdi-material-ui/MenuDown'
-import StorageLocationListComponent from './StorageLocationListComponent'
+import { DIALOG_OPTIONS } from '../domain/StorageLocationDialogOptionsEnum'
+
 /**
  * Show Deletion Errors and a button to relauch
  * @author Kévin Picart
@@ -45,17 +46,17 @@ class StorageLocationDeletionErrorRenderer extends React.Component {
 
   onRelaunchDeletingErrors = () => {
     const { entity, onDeletionErrors } = this.props
-    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+    onDeletionErrors(entity, DIALOG_OPTIONS.RELAUNCH_ERRORS)
   }
 
   onDeleteDeletingErrors = () => {
     const { entity, onDeletionErrors } = this.props
-    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
+    onDeletionErrors(entity, DIALOG_OPTIONS.DELETE_ERRORS)
   }
 
   onViewDeletionErrors = () => {
     const { entity, onDeletionErrors } = this.props
-    onDeletionErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
+    onDeletionErrors(entity, DIALOG_OPTIONS.VIEW_ERRORS)
   }
 
   render() {

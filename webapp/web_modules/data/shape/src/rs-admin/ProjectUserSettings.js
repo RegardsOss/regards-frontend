@@ -18,7 +18,6 @@
  **/
 import { AdminDomain } from '@regardsoss/domain'
 
-
 /**
  * Project user settings shapes
  * @author Raphaël Mechali

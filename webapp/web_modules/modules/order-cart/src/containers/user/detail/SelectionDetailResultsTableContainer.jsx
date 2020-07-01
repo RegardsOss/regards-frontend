@@ -68,10 +68,10 @@ export class SelectionDetailResultsTableContainer extends React.Component {
   }
 
   /** React lifecycle method: component will mount. Used here to detect properties changed */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
   /** React lifecycle method: component will receive new props. Used here to detect properties changed */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed:

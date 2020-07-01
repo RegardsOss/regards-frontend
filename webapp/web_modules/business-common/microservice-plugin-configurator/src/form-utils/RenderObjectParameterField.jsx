@@ -57,7 +57,7 @@ export class RenderObjectParameterField extends React.Component {
 
     return (
       <div style={fullWidthStyle}>
-        {map(pluginParameterType.parameters, p => (<Field
+        {map(pluginParameterType.parameters, (p) => (<Field
           key={`${name || input.name}.${p.name}`}
           name={`${name || input.name}.${p.name}`}
           component={RenderPluginParameterField}

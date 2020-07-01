@@ -70,7 +70,7 @@ class LoadableContentDisplayDecorator extends React.Component {
       isLoading, loadingComponent, isContentError, contentErrorComponent, isEmpty, emptyComponent,
     } = this.props
     return (
-      <React.Fragment>
+      <>
         <ShowableAtRender show={isLoading}>
           {loadingComponent}
         </ShowableAtRender>
@@ -83,7 +83,7 @@ class LoadableContentDisplayDecorator extends React.Component {
         <ShowableAtRender show={!isEmpty && !isContentError && !isLoading}>
           {this.renderChild()}
         </ShowableAtRender>
-      </React.Fragment>
+      </>
     )
   }
 }

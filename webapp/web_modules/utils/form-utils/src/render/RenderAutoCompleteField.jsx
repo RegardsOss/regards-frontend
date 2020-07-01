@@ -53,6 +53,8 @@ export class RenderAutoCompleteField extends React.Component {
         PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
       ]),
       name: PropTypes.string,
+      onChange: PropTypes.func.isRequired,
+      onBlur: PropTypes.func.isRequired,
     }),
 
     meta: PropTypes.shape({
@@ -74,15 +76,56 @@ export class RenderAutoCompleteField extends React.Component {
 
   static valueIsInDataSource(value, datasource, datasourceConfig) {
     if (datasourceConfig) {
-      return !!find(datasource, ds => ds[datasourceConfig.value] === value)
+      return !!find(datasource, (ds) => ds[datasourceConfig.value] === value)
     }
-    return !!find(datasource, ds => ds === value)
+    return !!find(datasource, (ds) => ds === value)
   }
+
+  /**
+   * New request callback
+   * @param {*} selected selected value
+   */
+  onNewRequest = (selected) => {
+    const { onNewRequest, dataSourceConfig, input } = this.props
+    if (onNewRequest) {
+      onNewRequest(selected)
+    }
+    if (dataSourceConfig && dataSourceConfig.value) {
+      return input.onChange(selected[dataSourceConfig.value])
+    }
+    return input.onChange(selected)
+  }
+
+  /**
+   * Text input update callback
+   * @param {string} searchText
+   * @param {*} datasource
+   * @param {*} params
+   */
+  onUpdateInput = (searchText, datasource, params) => {
+    const {
+      enableOnlyDatasourceValues, onUpdateInput, dataSourceConfig, input,
+    } = this.props
+    const isValueMatching = RenderAutoCompleteField.valueIsInDataSource(searchText, datasource, dataSourceConfig)
+    if (enableOnlyDatasourceValues && !isValueMatching) {
+      input.onChange(null)
+    } else if (!enableOnlyDatasourceValues || isValueMatching) {
+      input.onChange(searchText)
+    }
+    if (onUpdateInput) {
+      onUpdateInput(searchText, datasource, params)
+    }
+  }
+
+  /**
+   * Click callback
+   */
+  onClick = () => this.props.input.onBlur()
 
   render() {
     const {
-      enableOnlyDatasourceValues, filter, floatingLabelText, input, hintText, meta: { touched, error }, fullWidth, dataSource,
-      dataSourceConfig, onUpdateInput, onNewRequest, openOnFocus, searchText,
+      filter, floatingLabelText, input, hintText, meta: { touched, error },
+      fullWidth, dataSource, dataSourceConfig, openOnFocus, searchText,
     } = this.props
     const { moduleTheme: { autoCompleteFields: { listStyle } }, intl } = this.context
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
@@ -94,28 +137,10 @@ export class RenderAutoCompleteField extends React.Component {
           floatingLabelText={floatingLabelText}
           hintText={hintText}
           fullWidth={fullWidth}
-          onNewRequest={(selected, key) => {
-            if (onNewRequest) {
-              onNewRequest(selected)
-            }
-            if (dataSourceConfig && dataSourceConfig.value) {
-              return input.onChange(selected[dataSourceConfig.value])
-            }
-            return input.onChange(selected)
-          }}
+          onNewRequest={this.onNewRequest}
           searchText={input.value ? input.value : searchText || ''}
-          onUpdateInput={(pSearchText, pDatasource, params) => {
-            const isValueMatching = RenderAutoCompleteField.valueIsInDataSource(pSearchText, pDatasource, dataSourceConfig)
-            if (enableOnlyDatasourceValues && !isValueMatching) {
-              input.onChange(null)
-            } else if (!enableOnlyDatasourceValues || isValueMatching) {
-              input.onChange(pSearchText)
-            }
-            if (onUpdateInput) {
-              onUpdateInput(pSearchText, pDatasource, params)
-            }
-          }}
-          onClick={() => input.onBlur()}
+          onUpdateInput={this.onUpdateInput}
+          onClick={this.onClick()}
           dataSource={dataSource}
           dataSourceConfig={dataSourceConfig}
           openOnFocus={openOnFocus}

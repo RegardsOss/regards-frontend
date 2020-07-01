@@ -64,7 +64,7 @@ class ModuleForm extends React.Component {
   }
 
   /** Validate selected levels in form */
-  validateSelectedLevels = selectedLevels => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
+  validateSelectedLevels = (selectedLevels) => isEmpty(selectedLevels) ? 'search.graph.levels.selection.none.selected.error' : null
 
   render() {
     const {

@@ -28,7 +28,6 @@ class UserInformationLoadingIcon extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const { moduleTheme: { loadingIcon: { size, thickness } } } = this.context
     return <CircularProgress size={size} thickness={thickness} />

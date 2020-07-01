@@ -45,20 +45,27 @@ export class RenderFileFieldWithMui extends React.Component {
     changeLabel: PropTypes.string,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
 
-  static iconStyles = { width: '70px', height: '70px' }
+  static ICON_STYLES = { width: '70px', height: '70px' }
 
-  static propStyles = { margin: '5px' }
+  static PROP_STYLES = { margin: '5px' }
 
-  adaptFileEventToValue = delegate => e => delegate(e.target.files[0])
+  static ROW_CONTAINER = { display: 'flex', flexDirection: 'row', alignContent: 'stretch' }
+
+  static COLUMNS_CONTAINER_CENTER = { display: 'flex', flexDirection: 'column', justifyContent: 'center' }
+
+  static COLUMNS_CONTAINER_SPACED = { display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }
+
+  static HIDDEN_FIELD = { display: 'none' }
+
+  adaptFileEventToValue = (delegate) => (e) => delegate(e.target.files[0])
 
   transformSize = (size) => {
-    const capacity = new storage.StorageCapacity(size, storage.StorageUnits.BYTE)
+    const capacity = new storage.StorageCapacity(size, storage.units.BYTE)
     const scale = capacity.scaleAndConvert(storage.StorageUnitScale.bytesScale)
     return (<storage.FormattedStorageCapacity
       capacity={scale}
@@ -69,29 +76,29 @@ export class RenderFileFieldWithMui extends React.Component {
     const { intl } = this.context
     if (!file || !file.name) {
       return (
-        <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'stretch' }}>
-          <Cancel style={RenderFileFieldWithMui.iconStyles} />
-          <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div style={RenderFileFieldWithMui.propStyles}>{intl.formatMessage({ id: 'renderer.fileField.no.file.selected' })}</div>
+        <div style={RenderFileFieldWithMui.ROW_CONTAINER}>
+          <Cancel style={RenderFileFieldWithMui.ICON_STYLES} />
+          <div style={RenderFileFieldWithMui.COLUMNS_CONTAINER_CENTER}>
+            <div style={RenderFileFieldWithMui.PROP_STYLES}>{intl.formatMessage({ id: 'renderer.fileField.no.file.selected' })}</div>
           </div>
         </div>
       )
     }
     return (
-      <div style={{ display: 'flex', flexDirection: 'row', alignContent: 'stretch' }}>
-        <File style={RenderFileFieldWithMui.iconStyles} />
-        <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <div style={RenderFileFieldWithMui.propStyles}>
+      <div style={RenderFileFieldWithMui.ROW_CONTAINER}>
+        <File style={RenderFileFieldWithMui.ICON_STYLES} />
+        <div style={RenderFileFieldWithMui.COLUMNS_CONTAINER_SPACED}>
+          <div style={RenderFileFieldWithMui.PROP_STYLES}>
             {intl.formatMessage({ id: 'renderer.fileField.file.name' })}
             {' : '}
             {file.name}
           </div>
-          <div style={RenderFileFieldWithMui.propStyles}>
+          <div style={RenderFileFieldWithMui.PROP_STYLES}>
             {intl.formatMessage({ id: 'renderer.fileField.file.type' })}
             {' : '}
             {file.type}
           </div>
-          <div style={RenderFileFieldWithMui.propStyles}>
+          <div style={RenderFileFieldWithMui.PROP_STYLES}>
             {intl.formatMessage({ id: 'renderer.fileField.file.size' })}
             {' : '}
             {this.transformSize(file.size)}
@@ -121,7 +128,7 @@ export class RenderFileFieldWithMui extends React.Component {
             type="file"
             accept={accept}
             {...inputProps}
-            style={{ display: 'none' }}
+            style={RenderFileFieldWithMui.HIDDEN_FIELD}
           />
         </RaisedButton>
       </div>

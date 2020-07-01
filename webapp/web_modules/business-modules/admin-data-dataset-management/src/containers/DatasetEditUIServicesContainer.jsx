@@ -54,15 +54,15 @@ export class DatasetEditUIServicesContainer extends React.Component {
     linkUIPluginDataset: linkUIPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchUIPluginConfigurationList: uiPluginId => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
+  static mapDispatchToProps = (dispatch) => ({
+    fetchUIPluginConfigurationList: (uiPluginId) => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
       // { isActive: true, isDefault: false }
     )),
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
       0, 100, {},
       { type: 'SERVICE' },
     )),
-    fetchLinkUIPluginDataset: id => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
+    fetchLinkUIPluginDataset: (id) => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
     updateLinkUIPluginDataset: (id, linkUIPluginDataset) => dispatch(linkUIPluginDatasetActions.updateEntity(id, linkUIPluginDataset)),
   })
 
@@ -127,6 +127,5 @@ export class DatasetEditUIServicesContainer extends React.Component {
     )
   }
 }
-
 
 export default connect(DatasetEditUIServicesContainer.mapStateToProps, DatasetEditUIServicesContainer.mapDispatchToProps)(DatasetEditUIServicesContainer)

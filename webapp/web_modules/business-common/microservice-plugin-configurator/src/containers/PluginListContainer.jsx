@@ -35,7 +35,7 @@ export class PluginListContainer extends React.Component {
   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
   * @return {*} list of actions ready to be dispatched in the redux store
   */
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     fetchPlugins: (microserviceName, pluginType) => dispatch(pluginMetadataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
 
@@ -80,7 +80,7 @@ export class PluginListContainer extends React.Component {
         isLoading: false,
       })
       if (this.props.selectedPluginId) {
-        const plugin = find(pluginList, p => p.content.pluginId === this.props.selectedPluginId)
+        const plugin = find(pluginList, (p) => p.content.pluginId === this.props.selectedPluginId)
         if (plugin) {
           this.props.handleSelect(plugin.content, true)
         }

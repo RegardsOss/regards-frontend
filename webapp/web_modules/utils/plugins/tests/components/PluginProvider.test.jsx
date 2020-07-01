@@ -172,8 +172,8 @@ describe('[PLUGINS] Testing PluginProvider', () => {
     const enzymeWrapper = shallow(<PluginProvider {...props} />, { context })
 
     function expectDisplaying({ error, loading }, cycleMessage, pluginDefinition) {
-      const loadingWrapper = enzymeWrapper.findWhere(n => n.props().id === 'loading.div')
-      const errorWrapper = enzymeWrapper.findWhere(n => n.props().id === 'error.div')
+      const loadingWrapper = enzymeWrapper.findWhere((n) => n.props().id === 'loading.div')
+      const errorWrapper = enzymeWrapper.findWhere((n) => n.props().id === 'error.div')
       const childWrapper = enzymeWrapper.find(PluginLoader)
       if (error) {
         assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)

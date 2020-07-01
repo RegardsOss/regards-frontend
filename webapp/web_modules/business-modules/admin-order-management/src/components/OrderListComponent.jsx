@@ -45,7 +45,6 @@ class OrderListComponent extends React.Component {
     onUserFilterSelected: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

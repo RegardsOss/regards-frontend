@@ -51,7 +51,6 @@ describe('[SEARCH RESULTS] Testing SearchPaneComponent', () => {
     delete root.document
   })
 
-
   it('should exists', () => {
     assert.isDefined(SearchPaneComponent)
   })

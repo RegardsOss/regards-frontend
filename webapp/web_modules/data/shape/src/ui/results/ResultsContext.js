@@ -44,7 +44,6 @@ export const StaticParameterCriterion = PropTypes.shape({
   ...commonCriterionFields,
 })
 
-
 /** A requested facet criterion, emitted and consumed by search results */
 export const RequestFacetCriterion = PropTypes.shape({
   facetLabels: PropTypes.objectOf(PropTypes.string).isRequired, // label map by locale
@@ -205,7 +204,6 @@ const MapViewModeState = PropTypes.shape({
   selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
   splitPosition: PropTypes.number, // current split position
 })
-
 
 /**
  * A view entity state (held for each available entity type, holds each mode state)

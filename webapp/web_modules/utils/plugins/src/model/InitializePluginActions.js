@@ -31,7 +31,7 @@ export class InitializePluginActions {
    * @param {string} pluginInstanceId plugin instance ID
    * @return {{type: string, pluginInstanceId: string}} redux action to dispatch
    */
-  markInitialized = pluginInstanceId => ({
+  markInitialized = (pluginInstanceId) => ({
     type: InitializePluginActions.MARK_INITIALIZED,
     pluginInstanceId,
   })
@@ -41,7 +41,7 @@ export class InitializePluginActions {
    * @param {string} pluginInstanceId plugin instance ID
    * @return {{type: string, pluginInstanceId: string}} redux action to dispatch
    */
-  markUnloaded = pluginInstanceId => ({
+  markUnloaded = (pluginInstanceId) => ({
     type: InitializePluginActions.MARK_UNLOADED,
     pluginInstanceId,
   })

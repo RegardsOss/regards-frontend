@@ -36,7 +36,6 @@ const datasetWithAccessRightActions = new DatasetWithAccessRightActions('test/ac
 const datasetWithAccessRightReducer = getDatasetWithAccessRightReducer('test/action')
 const datasetWithAccessRightSelectors = getDatasetWithAccessRightSelectors(['test', 'modules'])
 
-
 const entityTester = new ReduxEntityTester(datasetWithAccessRightActions, datasetWithAccessRightReducer, datasetWithAccessRightSelectors, DataManagementShapes.DatasetWithAccessRightList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing model DatasetWithAccessRight', () => {

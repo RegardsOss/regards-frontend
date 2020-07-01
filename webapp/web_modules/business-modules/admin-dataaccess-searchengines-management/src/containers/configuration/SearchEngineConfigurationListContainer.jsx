@@ -52,8 +52,8 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(searchEngineConfigurationsActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       fetchDatasetList: () => dispatch(datasetActions.fetchPagedEntityList(0, 1000)),
-      update: conf => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
-      delete: conf => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
+      update: (conf) => dispatch(searchEngineConfigurationsActions.updateEntity(conf.id, conf)),
+      delete: (conf) => dispatch(searchEngineConfigurationsActions.deleteEntity(conf.id)),
     }
   }
 
@@ -80,7 +80,7 @@ export class SearchEngineConfigurationListContainer extends React.Component {
     },
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.fetchDatasetList()
   }
 

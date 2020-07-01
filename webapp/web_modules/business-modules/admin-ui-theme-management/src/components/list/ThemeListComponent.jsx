@@ -21,26 +21,20 @@ import { FormattedMessage } from 'react-intl'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Edit from 'mdi-material-ui/Pencil'
-import Duplicate from 'mdi-material-ui/ContentCopy'
-import Delete from 'mdi-material-ui/Delete'
 import {
   ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { themeContextType, ThemeActions } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
+import EditOptionComponent from './EditOptionComponent'
+import DuplicateOptionComponent from './DuplicateOptionComponent'
+import DeleteOptionComponent from './DeleteOptionComponent'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const actionsBreakpoints = [940, 995, 1065]
-
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * React component to list themes.
@@ -61,11 +55,18 @@ export class ThemeListComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static CREATE_DEPENDENCIES = [ThemeActions.getDependency(RequestVerbEnum.POST)]
-
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
+  }
+
+  /**
+   * User callback: deleted confirmed
+   */
+  onConfirmDelete = () => {
+    const { handleDelete } = this.props
+    const { entityToDelete } = this.state
+    handleDelete(entityToDelete.content.id)
   }
 
   closeDeleteDialog = () => {
@@ -83,17 +84,16 @@ export class ThemeListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'theme.list.delete.title' }, { name })
+    const title = formatMessage({ id: 'theme.list.delete.title' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
-          }}
+          onConfirm={this.onConfirmDelete}
           onClose={this.closeDeleteDialog}
           title={title}
         />
@@ -105,16 +105,12 @@ export class ThemeListComponent extends React.Component {
     const {
       themeList, handleEdit, handleDuplicate, createUrl, backUrl,
     } = this.props
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDuplicate: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-    }
+    const { intl: { formatMessage } } = this.context
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'theme.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'theme.list.subtitle' })}
+          title={formatMessage({ id: 'theme.list.title' })}
+          subtitle={formatMessage({ id: 'theme.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -143,29 +139,9 @@ export class ThemeListComponent extends React.Component {
                     <ActionsMenuCell
                       breakpoints={actionsBreakpoints}
                     >
-                      <HateoasIconAction
-                        entityLinks={theme.links}
-                        hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(theme.content.id)}
-                        title={this.context.intl.formatMessage({ id: 'theme.list.tooltip.edit' })}
-                      >
-                        <Edit hoverColor={style.hoverButtonEdit} />
-                      </HateoasIconAction>
-                      <ResourceIconAction
-                        title={this.context.intl.formatMessage({ id: 'theme.list.tooltip.duplicate' })}
-                        resourceDependencies={ThemeListComponent.CREATE_DEPENDENCIES}
-                        onClick={() => handleDuplicate(theme.content.id)}
-                      >
-                        <Duplicate hoverColor={style.hoverButtonDuplicate} />
-                      </ResourceIconAction>
-                      <HateoasIconAction
-                        entityLinks={theme.links}
-                        hateoasKey={HateoasKeys.DELETE}
-                        onClick={() => this.openDeleteDialog(theme)}
-                        title={this.context.intl.formatMessage({ id: 'theme.list.tooltip.delete' })}
-                      >
-                        <Delete hoverColor={style.hoverButtonDelete} />
-                      </HateoasIconAction>
+                      <EditOptionComponent theme={theme} onEdit={handleEdit} />
+                      <DuplicateOptionComponent theme={theme} onDuplicate={handleDuplicate} />
+                      <DeleteOptionComponent theme={theme} onDelete={this.openDeleteDialog} />
                     </ActionsMenuCell>
                   </TableRowColumn>
                 </TableRow>
@@ -182,7 +158,7 @@ export class ThemeListComponent extends React.Component {
               />
             }
             mainHateoasDependencies={ThemeListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'theme.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'theme.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -25,7 +25,6 @@ class DatasetLinkReducer extends BasicSignalReducers {
   }
 }
 
-
 export default (namespace) => {
   const instance = new DatasetLinkReducer(namespace)
   return (state, action) => instance.reduce(state, action)

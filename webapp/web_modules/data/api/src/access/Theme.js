@@ -25,7 +25,7 @@ export const ThemeConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const THEME = new Schema(ThemeConfiguration.normalizrKey, {
-  idAttribute: theme => theme.content[ThemeConfiguration.entityKey],
+  idAttribute: (theme) => theme.content[ThemeConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.configuration) {
       try {

@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'service.list.title': 'UI Service plugin list',
   'service.list.open.tooltip': 'Configurations',
   'service.list.create.tooltip': 'Create',
@@ -57,7 +57,7 @@ const messages = Object.assign({
   'service.form.linkedToAllEntities': 'Include this service within every dataset',
   'service.form.action.save': 'Save',
   'service.form.action.back': 'Back',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

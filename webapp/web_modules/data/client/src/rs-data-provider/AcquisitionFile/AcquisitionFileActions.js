@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { ACQUISITION_FILE, ACQUISITION_FILE_ARRAY } from '@regardsoss/api'
 

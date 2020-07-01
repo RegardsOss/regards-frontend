@@ -25,7 +25,6 @@ import { sendChangePassword } from '../model/operation/ChangePasswordActions'
 import ChangePasswordSelectors from '../model/operation/ChangePasswordSelectors'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 
-
 /**
  * Change password form container
  */
@@ -69,7 +68,7 @@ export class ChangePasswordFormContainer extends React.Component {
     fetchPasswordRules()
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // Detect last fetch finished
     const {
       isFetching, onDone, onTokenExpired, token, mail, changingPassword,
@@ -143,11 +142,10 @@ const mapStatesToProps = (state) => {
   }
 }
 
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   sendChangePassword: (mail, oldPassword, newPassword) => dispatch(sendChangePassword(mail, oldPassword, newPassword)),
   fetchRequestAction: (token, mail, newPassword) => dispatch(sendFinishResetPassword(token, mail, newPassword)),
-  fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
+  fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })
 

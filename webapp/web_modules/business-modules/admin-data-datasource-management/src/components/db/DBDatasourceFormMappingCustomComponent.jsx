@@ -61,7 +61,7 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
-      fpmap(modelAttribute => (
+      fpmap((modelAttribute) => (
         <DBDatasourceFormMappingLineComponent
           key={modelAttribute.content.id}
           tableAttributeList={tableAttributeList}
@@ -107,7 +107,7 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
             preScanRows={false}
             showRowHover
           >
-            {map(StaticAttributeListDB, staticAttribute => (
+            {map(StaticAttributeListDB, (staticAttribute) => (
               <DBDatasourceFormMappingLineComponent
                 key={staticAttribute.content.attribute.name}
                 tableAttributeList={tableAttributeList}
@@ -145,6 +145,5 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
     )
   }
 }
-
 
 export default DBDatasourceFormMappingCustomComponent

@@ -29,4 +29,4 @@ class EndpointSelectors extends BasicPageableSelectors {
   }
 }
 
-export default storePath => new EndpointSelectors(storePath)
+export default (storePath) => new EndpointSelectors(storePath)

@@ -36,7 +36,6 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT]Testing form container', () => 
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-
   it('should exists', () => {
     assert.isDefined(ModelAttributeFormContainer)
     assert.isDefined(LoadableContentDisplayDecorator)

@@ -105,13 +105,13 @@ export class DescriptionProviderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -136,7 +136,7 @@ export class DescriptionProviderContainer extends React.Component {
     if (!isEqual(this.state.descriptionModule, newState.descriptionModule)
       || oldProps.children !== newProps.children) {
       // prepare an is available for type closure
-      const isDescriptionAvailableFor = entityType => DescriptionHelper.isDescAvailableFor(newState.descriptionModule, entityType)
+      const isDescriptionAvailableFor = (entityType) => DescriptionHelper.isDescAvailableFor(newState.descriptionModule, entityType)
 
       // clone all children with new props and update state
       newState.children = HOCUtils.cloneChildrenWith(newProps.children, {

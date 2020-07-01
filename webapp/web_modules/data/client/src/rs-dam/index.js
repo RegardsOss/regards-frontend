@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 /**
  * Index for all datamanagement microservice clients.
  *
@@ -72,16 +71,13 @@ export { default as CollectionSelectors } from './collection/CollectionSelectors
 export { default as CollectionActions } from './collection/CollectionActions'
 export { default as CollectionReducer } from './collection/CollectionReducer'
 
-
 export { default as ConnectionSelectors } from './connection/ConnectionSelectors'
 export { default as ConnectionActions } from './connection/ConnectionActions'
 export { default as ConnectionReducer } from './connection/ConnectionReducer'
 
-
 export { default as CrawlerDatasourceActions } from './crawler/CrawlerDatasourceActions'
 export { default as CrawlerDatasourceReducer } from './crawler/CrawlerDatasourceReducer'
 export { default as CrawlerDatasourceSelectors } from './crawler/CrawlerDatasourceSelectors'
-
 
 export { default as ScheduleCrawlerDatasourceActions } from './crawler/ScheduleCrawlerDatasourceActions'
 export { default as ScheduleCrawlerDatasourceReducer } from './crawler/ScheduleCrawlerDatasourceReducer'
@@ -125,15 +121,12 @@ export { default as ConnectionTableSelectors } from './connectionTable/Connectio
 export { default as ConnectionTableActions } from './connectionTable/ConnectionTableActions'
 export { default as ConnectionTableReducer } from './connectionTable/ConnectionTableReducer'
 
-
 export { default as ConnectionTestActions } from './connectionTest/ConnectionTestActions'
 export { default as ConnectionTestReducer } from './connectionTest/ConnectionTestReducer'
-
 
 export { default as ConnectionTableAttributesSelectors } from './connectionTableAttributes/ConnectionTableAttributesSelectors'
 export { default as ConnectionTableAttributesActions } from './connectionTableAttributes/ConnectionTableAttributesActions'
 export { default as ConnectionTableAttributesReducer } from './connectionTableAttributes/ConnectionTableAttributesReducer'
-
 
 export { default as CollectionLinkActions } from './collectionLink/CollectionLinkActions'
 export { default as CollectionLinkReducer } from './collectionLink/CollectionLinkReducer'
@@ -141,7 +134,6 @@ export { default as CollectionLinkReducer } from './collectionLink/CollectionLin
 export { default as UserGroupActions } from './userGroup/UserGroupActions'
 export { default as getUserGroupReducer } from './userGroup/UserGroupReducer'
 export { default as getUserGroupSelectors } from './userGroup/UserGroupSelectors'
-
 
 export { default as EntityAttachmentActions } from './entityAttachment/EntityAttachmentActions'
 export { default as getEntityAttachmentReducer } from './entityAttachment/EntityAttachmentReducer'

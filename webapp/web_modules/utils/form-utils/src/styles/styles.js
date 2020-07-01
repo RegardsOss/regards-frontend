@@ -24,6 +24,11 @@
 export default function styles(theme) {
   return {
     /** Form presentation */
+    field: {
+      error: {
+        color: theme.textField.errorColor,
+      },
+    },
     formContainer: {
       class: 'container-fluid',
     },

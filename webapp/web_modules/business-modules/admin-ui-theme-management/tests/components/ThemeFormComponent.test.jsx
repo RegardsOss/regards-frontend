@@ -71,7 +71,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing ThemeFormComponent', () => {
     }
     const enzymeWrapper = shallow(<ThemeFormComponent {...props} />, { context })
 
-
     const instance = enzymeWrapper.instance()
     assert.isUndefined(instance.validateUniqueName('a.unique.name'), 'No error should be raised for a unique name')
     assert.isDefined(instance.validateUniqueName('Light'), 'An error should be raised for a name already used (from dump)')

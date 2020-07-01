@@ -99,7 +99,6 @@ export class PluginFormComponent extends React.Component {
     })
   }
 
-
   /**
    * Initialize redux-form values with the given pluginConfiguration if any or with an new empty one.
    */
@@ -199,8 +198,7 @@ export class PluginFormComponent extends React.Component {
             href="#"
           >
             <FormattedMessage id="plugin.configuration.form.description.more" />
-          </a>
-        }
+          </a>}
       </div>
     )
 

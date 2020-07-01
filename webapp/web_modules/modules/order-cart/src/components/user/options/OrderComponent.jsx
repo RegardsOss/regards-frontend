@@ -38,7 +38,6 @@ class OrderComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { disabled, empty, onOrder } = this.props
     const { intl: { formatMessage } } = this.context

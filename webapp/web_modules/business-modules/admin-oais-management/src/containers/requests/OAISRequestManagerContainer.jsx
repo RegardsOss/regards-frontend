@@ -34,35 +34,6 @@ import { requestAbortActions } from '../../clients/RequestAbortClient'
  * @author Simon MILHAU
  */
 export class OAISRequestManagerContainer extends React.Component {
-  /**
-  * Redux: map state to props function
-  * @param {*} state: current redux state
-  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
-  */
-  static mapStateToProps(state) {
-    return {
-      meta: requestSelectors.getMetaData(state),
-      tableSelection: requestTableSelectors.getToggledElementsAsList(state),
-      selectionMode: requestTableSelectors.getSelectionMode(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps = dispatch => ({
-    fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    fetchPage: (pageIndex, pageSize, pathParams, requestParam, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, requestParam, bodyParams)),
-    clearSelection: () => dispatch(requestTableActions.unselectAll()),
-    deleteRequests: bodyParams => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
-    retryRequests: bodyParams => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
-    abortRequests: () => dispatch(requestAbortActions.sendSignal('PUT')),
-  })
-
   static propTypes = {
     // from router
     updateStateFromRequestManager: PropTypes.func.isRequired,
@@ -90,6 +61,43 @@ export class OAISRequestManagerContainer extends React.Component {
     selectionMode: PropTypes.string.isRequired,
   }
 
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
+  }
+
+  static PAGE_SIZE = 20
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      meta: requestSelectors.getMetaData(state),
+      tableSelection: requestTableSelectors.getToggledElementsAsList(state),
+      selectionMode: requestTableSelectors.getSelectionMode(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps = (dispatch) => ({
+    fetchProcessingChains: (file) => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
+    fetchPage: (pageIndex, pageSize, pathParams, requestParam, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, requestParam, bodyParams)),
+    clearSelection: () => dispatch(requestTableActions.unselectAll()),
+    deleteRequests: (bodyParams) => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
+    retryRequests: (bodyParams) => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
+    abortRequests: () => dispatch(requestAbortActions.sendSignal('PUT')),
+  })
+
   static extractStateFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
     const urlFilters = {}
@@ -104,14 +112,6 @@ export class OAISRequestManagerContainer extends React.Component {
     }
     return urlFilters
   }
-
-  static defaultProps = {
-    meta: {
-      totalElements: 0,
-    },
-  }
-
-  static PAGE_SIZE = 20
 
   componentDidMount() {
     this.props.fetchProcessingChains()

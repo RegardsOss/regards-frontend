@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /** Possible states for AIP in storage process */
 export const AIP_STATES = [
   'VALID', // Valid, waiting for storage

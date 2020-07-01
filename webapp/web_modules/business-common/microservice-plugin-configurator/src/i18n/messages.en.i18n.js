@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'plugin.configuration.form.create.title': 'Add a configuration',
   'plugin.configuration.form.edit.title': 'Edit a configuration {name}',
   'plugin.configuration.form.pluginClassName': 'Plugin class (full path)',
@@ -49,7 +49,7 @@ const messages = Object.assign({
 
   'plugin.parameter.map.new.key.dialog.title': 'Enter new <{key}>',
   'plugin.parameter.map.new.value.label': 'Value for {value}',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

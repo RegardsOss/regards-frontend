@@ -37,7 +37,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPTypeRender', () => {
   it('should exists', () => {
     assert.isDefined(AIPTypeRender)
   })
-  DamDomain.ENTITY_TYPES.forEach(type => it(`should render correctly with type ${type}`, () => {
+  DamDomain.ENTITY_TYPES.forEach((type) => it(`should render correctly with type ${type}`, () => {
     const props = {
       value: type,
     }

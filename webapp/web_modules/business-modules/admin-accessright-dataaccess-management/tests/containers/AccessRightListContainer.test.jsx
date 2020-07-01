@@ -157,7 +157,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
     assert.isTrue(updateSpy.calledOnce, 'Update should be fired at this state')
   })
 
-
   it('Check submit a bundle of accessRights with updates and creations', () => {
     const clearSelectionSpy = stub().returns({})
     const fetchAccessRightsSpy = stub().returns({})
@@ -190,7 +189,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       'content.datasetIpId', 'URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1').content
     const dataset = DumpProvider.get('DataManagementClient', 'Dataset')
 
-
     const datasetWithAccessRights = [{
       content: {
         datasetIpId: 'dataset1',
@@ -222,7 +220,6 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
         accessRight,
       },
     }]
-
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
     assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')

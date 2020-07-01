@@ -31,7 +31,6 @@ const options = {
   },
 }
 
-
 const attributesBoundsActions = new AttributesBoundsActions('test/action')
 const attributesBoundsReducer = AttributesBoundsReducer('test/action')
 const attributesBoundsSelectors = AttributesBoundsSelectors(['test', 'modules'])

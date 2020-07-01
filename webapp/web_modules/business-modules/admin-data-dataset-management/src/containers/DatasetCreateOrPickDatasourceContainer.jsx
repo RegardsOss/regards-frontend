@@ -96,7 +96,7 @@ const mapStateToProps = (state, ownProps) => ({
   datasourceList: datasourceSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
 })
 

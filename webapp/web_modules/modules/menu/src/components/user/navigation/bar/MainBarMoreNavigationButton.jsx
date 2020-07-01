@@ -60,7 +60,6 @@ class MoreNavigationButton extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { navigationItem } } } = this.context
 
-
     return (
       // handle measure system locally
       <Measure bounds onMeasure={this.onComponentResized}>
@@ -75,8 +74,7 @@ class MoreNavigationButton extends React.Component {
               items={items}
               buildLinkURL={buildLinkURL}
             />
-          </div>)
-        }
+          </div>)}
       </Measure>
     )
   }

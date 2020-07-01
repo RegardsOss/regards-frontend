@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -42,7 +41,6 @@ class HeaderBarComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
   }
@@ -68,8 +66,7 @@ class HeaderBarComponent extends React.Component {
         <div style={rightGroup}>
           {allowSearching ? (
             <SearchEntityOptionComponent descriptionEntity={descriptionEntity} onSearchEntity={onSearchEntity} />)
-            : null
-          }
+            : null}
         </div>
       </TableHeaderLine>
     )

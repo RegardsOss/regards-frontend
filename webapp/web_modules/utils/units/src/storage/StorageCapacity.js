@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
-import { StorageUnitScale } from './StorageUnit'
-
+import { StorageUnitScale } from './StorageUnitScale'
 
 /**
  * A storage capacity (like 8Mo, 36 Gio...)

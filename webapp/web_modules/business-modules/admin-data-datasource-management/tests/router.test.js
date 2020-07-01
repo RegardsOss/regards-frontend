@@ -28,7 +28,6 @@ import AIPDatasourceFormContainer from '../src/containers/aip/AIPDatasourceFormC
 import OSConfigurationFormContainer from '../src/containers/opensearch/OSConfigurationFormContainer'
 import FeatureDatasourceFormContainer from '../src/containers/feature/FeatureDatasourceFormContainer'
 
-
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)

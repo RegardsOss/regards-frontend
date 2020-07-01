@@ -120,7 +120,6 @@ class NavigationArrayFieldRender extends React.Component {
     changeNavigationFieldValue: PropTypes.func.isRequired, // used only in onPropertiesUpdated
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -134,7 +133,7 @@ class NavigationArrayFieldRender extends React.Component {
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update this field value
    * */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.onPropertiesUpdated({}, this.props)
   }
 
@@ -142,7 +141,7 @@ class NavigationArrayFieldRender extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -186,7 +185,6 @@ class NavigationArrayFieldRender extends React.Component {
     })
   }
 
-
   /**
    * User asked to edit an element: show corresponding dialog
    * @param {string} type element type form NAVIGATION_ITEM_TYPES_ENUM
@@ -227,7 +225,6 @@ class NavigationArrayFieldRender extends React.Component {
    */
   onEditClosed = () => this.setState({ editionData: null })
 
-
   /**
    * User asked to delete a section
    * @param {number} id : section id
@@ -251,7 +248,7 @@ class NavigationArrayFieldRender extends React.Component {
    * Publishes new items list in form
    * @param {[{NavigationEditionItem}]} newNavigationItems new items list
    */
-  publishNewItems = newNavigationItems => this.props.changeNavigationFieldValue(newNavigationItems)
+  publishNewItems = (newNavigationItems) => this.props.changeNavigationFieldValue(newNavigationItems)
 
   render() {
     const {

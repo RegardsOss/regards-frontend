@@ -345,7 +345,7 @@ export function isChildOrSelf(source, target) {
   }
   if (source.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
     // search in children
-    return !!source.children.find(child => isChildOrSelf(child, target))
+    return !!source.children.find((child) => isChildOrSelf(child, target))
   }
 
   return false

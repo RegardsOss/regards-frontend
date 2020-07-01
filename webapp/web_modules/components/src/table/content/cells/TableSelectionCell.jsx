@@ -50,7 +50,7 @@ export class TableSelectionCell extends React.Component {
    */
   static mapDispatchToProps(dispatch, { rowIndex, tableActions }) {
     return {
-      dispatchToggleRowSelection: entity => dispatch(tableActions.toggleElement(rowIndex, entity)),
+      dispatchToggleRowSelection: (entity) => dispatch(tableActions.toggleElement(rowIndex, entity)),
     }
   }
 

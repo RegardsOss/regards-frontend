@@ -69,7 +69,7 @@ class MapComponent extends React.Component {
 
     const { featureColor, drawColor } = this.context.muiTheme.module.searchResults.map.mizar
     return (
-      <React.Fragment>
+      <>
         <MapToolsComponent
           selectionMode={selectionMode}
           onSetSelectionMode={onSetSelectionMode}
@@ -91,7 +91,7 @@ class MapComponent extends React.Component {
           drawColor={drawColor}
           staticLayerOpacity={staticLayerOpacity}
         />
-      </React.Fragment>
+      </>
     )
   }
 }

@@ -28,7 +28,6 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import ProjectLicenseActions from '../model/ProjectLicenseActions'
 import ProjectLicenseSelectors from '../model/ProjectLicenseSelectors'
 
-
 /**
  * License display container, shows license validation dialog after user authenticated (injected by parent)
  */
@@ -43,7 +42,6 @@ export class LicenseDisplayContainer extends React.Component {
     sendAcceptLicense: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -68,20 +66,6 @@ export class LicenseDisplayContainer extends React.Component {
 
   onRefuse = () => { this.props.logout() }
 
-  renderActions = () => [
-    <FlatButton
-      key="license.refuse"
-      label={this.context.intl.formatMessage({ id: 'license.refuse' })}
-      onClick={this.onRefuse}
-    />,
-    <FlatButton
-      key="license.accept"
-      label={this.context.intl.formatMessage({ id: 'license.accept' })}
-      primary
-      onClick={this.onAccept}
-    />,
-  ]
-
   render() {
     const { licenseLink, accepted } = this.props
     const { dialog: { heightPercent, widthPercent } } = this.context.moduleTheme
@@ -93,23 +77,34 @@ export class LicenseDisplayContainer extends React.Component {
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           open
-          actions={this.renderActions()}
+          actions={<>
+            <FlatButton
+              key="license.refuse"
+              label={this.context.intl.formatMessage({ id: 'license.refuse' })}
+              onClick={this.onRefuse}
+            />
+            <FlatButton
+              key="license.accept"
+              label={this.context.intl.formatMessage({ id: 'license.accept' })}
+              primary
+              onClick={this.onAccept}
+            />
+          </>}
         />)
     }
     return null
   }
 }
 
+const getLicenseLinkFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.licenseLink')
+const getLicenseAcceptedFromState = (state) => get(ProjectLicenseSelectors.getResult(state), 'content.accepted', false)
 
-const getLicenseLinkFromState = state => get(ProjectLicenseSelectors.getResult(state), 'content.licenseLink')
-const getLicenseAcceptedFromState = state => get(ProjectLicenseSelectors.getResult(state), 'content.accepted', false)
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   licenseLink: getLicenseLinkFromState(state),
   accepted: getLicenseAcceptedFromState(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchLicenseInformation: () => { dispatch(ProjectLicenseActions.fetchLicenseInformation()) },
   sendAcceptLicense: () => { dispatch(ProjectLicenseActions.sendAcceptLicense()) },
   flushLicenseInformation: () => { dispatch(ProjectLicenseActions.flush()) },

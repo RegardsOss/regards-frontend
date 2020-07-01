@@ -51,7 +51,6 @@ class LabelCellComponent extends React.Component {
     this.setState({ editing: true, editionText: label[locale] || '' })
   }
 
-
   /** User stopped edition (performed only when editing to avoid useless setState calls) */
   onStopEdition = () => this.state.editing && this.setState({ editing: false, editionText: null })
 

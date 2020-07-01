@@ -51,7 +51,7 @@ const routeParameters = {
 
 export default routeParameters
 
-const getParameterClosure = param => () => (browserHistory.getCurrentLocation().query && browserHistory.getCurrentLocation().query[param.urlKey])
+const getParameterClosure = (param) => () => (browserHistory.getCurrentLocation().query && browserHistory.getCurrentLocation().query[param.urlKey])
 
 /**
  * Parameter values util

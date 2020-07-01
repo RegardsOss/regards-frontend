@@ -47,38 +47,6 @@ import initializePluginSelectors from '../model/InitializePluginSelectors'
  */
 export class PluginLoader extends React.Component {
   /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state, { pluginPath, pluginInstanceId }) {
-    return {
-      loadedPlugin: loadPluginSelector.getById(state, pluginPath),
-      isInitialized: initializePluginSelectors.isInitialized(state, pluginInstanceId),
-    }
-  }
-
-  /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      doLoadPlugin: (pluginPath, errorCallback) => loadPlugin(pluginPath, errorCallback, dispatch),
-      doInitPlugin: (loadedPlugin) => {
-        // 1 - Let helper initialize the plugin (especially plugin redux store space)
-        pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
-          // 2 - after initialize, mark initialization complete
-          dispatch(initializePluginActions.markInitialized(pluginInstanceId))
-        })
-      },
-    }
-  }
-
-  /**
    * pluginInstanceId: An unique identifier of the plugin to provide, in  case you're loading multiple plugins on the same page
    * pluginConf : Props to add to the plugin rendered,
    * pluginProps : Props to add to the plugin rendered (legacy),
@@ -120,15 +88,47 @@ export class PluginLoader extends React.Component {
   static FETCHED_PLUGINS_PATH = []
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pluginPath, pluginInstanceId }) {
+    return {
+      loadedPlugin: loadPluginSelector.getById(state, pluginPath),
+      isInitialized: initializePluginSelectors.isInitialized(state, pluginInstanceId),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
+    return {
+      doLoadPlugin: (pluginPath, errorCallback) => loadPlugin(pluginPath, errorCallback, dispatch),
+      doInitPlugin: (loadedPlugin) => {
+        // 1 - Let helper initialize the plugin (especially plugin redux store space)
+        pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
+          // 2 - after initialize, mark initialization complete
+          dispatch(initializePluginActions.markInitialized(pluginInstanceId))
+        })
+      },
+    }
+  }
+
+  /**
    * Life cycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * On load done: When not already loading / loaded by another instance:

@@ -25,7 +25,7 @@ const moduleReducerPath = 'modules.authentication'
  * Returns selector path for specific pathName as parameter
  * @param pathName last path element name
  */
-const getSelectorPath = pathName => [moduleReducerPath, pathName]
+const getSelectorPath = (pathName) => [moduleReducerPath, pathName]
 
 /**
  * Returns Origin URL
@@ -40,7 +40,7 @@ const getOriginUrlWithoutQueryParams = () => `${root.location.protocol}//${root.
  * @param mailAuthenticationActionValue
  * @return request link URL
  */
-const getRequestLinkURL = mailAuthenticationActionValue => `${root.location.protocol}//${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
+const getRequestLinkURL = (mailAuthenticationActionValue) => `${root.location.protocol}//${root.location.host}${root.location.pathname}?${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${mailAuthenticationActionValue}`
 
 export default {
   getSelectorPath,

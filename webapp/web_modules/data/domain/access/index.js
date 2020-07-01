@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 export { default as defaultTheme } from './defaultTheme'
 export { PAGE_MODULE_ICON_TYPES, PAGE_MODULE_ICON_TYPES_ENUM } from './PageModuleIconType'
 export { applicationModes, pluginTypes } from './PluginServiceConstants'

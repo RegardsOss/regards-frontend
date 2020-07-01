@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 export default class DatasetValidSubsettingTestActions extends BasicSignalActions {
   constructor(namespace) {
     super({

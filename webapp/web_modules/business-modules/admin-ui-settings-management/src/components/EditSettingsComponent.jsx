@@ -63,13 +63,13 @@ export class EditSettingsComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize redux form values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialize, settings, dataModelNames } = this.props
     const editionSettings = settings || UIDomain.UISettingsConstants.DEFAULT_SETTINGS
     // remove previously selected data model that do not exist any longer
     const editedSettings = {
       ...editionSettings,
-      documentModels: editionSettings.documentModels.filter(model => dataModelNames.includes(model)),
+      documentModels: editionSettings.documentModels.filter((model) => dataModelNames.includes(model)),
     }
     initialize(editedSettings)
   }

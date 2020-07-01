@@ -71,6 +71,12 @@ class ViewTypeConfigurationComponent extends React.Component {
     [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: ViewTypeConfigurationComponent.allButThumbnail,
   }
 
+  /** Background layer URL validators */
+  static BACKGROUND_LAYER_URL_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.url]
+
+  /** Sort available layer types (to not perform it at render time) */
+  static SORTED_LAYER_TYPES = UIDomain.MIZAR_LAYER_TYPES.sort(StringComparison.compare)
+
   /**
    * Builds view type / namespace and extracts view form data
    * @param {*} currrentTypeNamespace current entity type (views group) name space
@@ -110,12 +116,6 @@ class ViewTypeConfigurationComponent extends React.Component {
   static allButThumbnail(attribute) {
     return attribute.content.name !== DamDomain.AttributeModelController.standardAttributesKeys.thumbnail
   }
-
-  /** Background layer URL validators */
-  static BACKGROUND_LAYER_URL_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.url]
-
-  /** Sort available layer types (to not perform it at render time) */
-  static SORTED_LAYER_TYPES = UIDomain.MIZAR_LAYER_TYPES.sort(StringComparison.compare)
 
   /**
    * User callback: enable view toggled. When disabling the view, make sure the group do not use that view
@@ -228,13 +228,12 @@ class ViewTypeConfigurationComponent extends React.Component {
               label={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.layer.type' })}
               fullWidth
             >
-              { ViewTypeConfigurationComponent.SORTED_LAYER_TYPES.map(type => (
+              { ViewTypeConfigurationComponent.SORTED_LAYER_TYPES.map((type) => (
                 <MenuItem
                   key={type}
                   value={type}
                   primaryText={type}
-                />))
-              }
+                />))}
             </Field>
             <Field
               name={`${viewNamespace}.backgroundLayer.conf`}

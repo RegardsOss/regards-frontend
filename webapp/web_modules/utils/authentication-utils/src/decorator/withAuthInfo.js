@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import AuthenticationParametersSelectors from '../AuthenticationParametersSelectors'
 import AuthenticationClient from '../AuthenticationClient'
 
-const getReactCompoName = WrappedComponent => WrappedComponent.displayName || WrappedComponent.name || 'Component'
+const getReactCompoName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
 /**
  * Decorates a React component with Regards Auth info.
@@ -42,22 +42,28 @@ const withAuthInfo = (DecoratedComponent) => {
       projectName: PropTypes.string.isRequired,
     }
 
+    static displayName = `withAuthInfo(${getReactCompoName(DecoratedComponent)})`
+
+    /**
+     * Redux: map state to props function
+     * @param {*} state: current redux state
+     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+     * @return {*} list of component properties extracted from redux state
+     */
+    static mapStateToProps = (state) => ({
+      // user auth info
+      accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
+      projectName: AuthenticationParametersSelectors.getProject(state),
+    })
+
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       const childProps = omit(this.props, ['theme', 'i18n', 'dispatch'])
       return React.createElement(DecoratedComponent, childProps)
     }
   }
-  // Ease debugging in the React Developer Tools by choosing a display name that communicates that it's the result of an HOC
-  WithAuthInfo.displayName = `withAuthInfo(${getReactCompoName(DecoratedComponent)})`
 
-  const mapStateToProps = state => ({
-    // user auth info
-    accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
-    projectName: AuthenticationParametersSelectors.getProject(state),
-  })
-
-  return connect(mapStateToProps)(WithAuthInfo)
+  return connect(WithAuthInfo.mapStateToProps)(WithAuthInfo)
 }
 
 export default withAuthInfo

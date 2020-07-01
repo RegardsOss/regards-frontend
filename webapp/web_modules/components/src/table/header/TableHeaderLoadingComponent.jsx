@@ -52,13 +52,13 @@ class TableHeaderLoadingComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Lifecycle method: component will unmount: prevents here to call set state when component is not mounted
@@ -66,7 +66,6 @@ class TableHeaderLoadingComponent extends React.Component {
   componentWillUnmount() {
     this.willUnmount = true
   }
-
 
   /**
    * Properties change detected: update local state
@@ -114,7 +113,6 @@ class TableHeaderLoadingComponent extends React.Component {
       this.setState({ loadingVisible: false }) // hide loading
     }
   }
-
 
   render() {
     const { moduleTheme: { header }, intl: { formatMessage } } = this.context

@@ -159,7 +159,7 @@ describe('[SEARCH RESULTS] Testing ColumnsSettingsComponent', () => {
     instance.onChangeVisibility(initialPresentationModels[3], false)
     instance.onChangeVisibility(initialPresentationModels[4], false)
     enzymeWrapper.update()
-    nextPresentationModels = nextPresentationModels.map(m => ({ ...m, visible: false }))
+    nextPresentationModels = nextPresentationModels.map((m) => ({ ...m, visible: false }))
     assert.deepEqual(enzymeWrapper.state().editionModels, nextPresentationModels, '[3] presentation models visibility should be correctly updated')
     assert.isFalse(enzymeWrapper.state().valid, '[3] model is not valid (all columns hidden)')
     assert.isTrue(enzymeWrapper.state().modified, '[3] model is modified')

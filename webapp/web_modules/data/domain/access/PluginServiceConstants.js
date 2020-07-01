@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Plugin services related constants. Applies to both UI plugin services and catalog plugin services
  * @author Raphaël Mechali

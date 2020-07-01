@@ -25,7 +25,6 @@ import DateParameterField from './DateParameterField'
 import TextParameterField from './TextParameterField'
 import ParameterPresentation from './ParameterPresentation'
 
-
 /**
  * Shows all plugin service parameters and allows editing them
  * @author Raphaël Mechali
@@ -42,7 +41,7 @@ class ParametersConfigurationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { parameters, parametersValues } = this.props
     // initialize parameters default values
     const values = parameters.reduce((acc, parameter) => ({

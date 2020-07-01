@@ -153,15 +153,14 @@ export class ProjectConnectionListContainer extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state, ownProps) => ({
   project: projectSelectors.getById(state, ownProps.params.project_name),
   projectConnections: projectConnectionSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
-  fetchProjectConnections: projectName => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
+const mapDispatchToProps = (dispatch) => ({
+  fetchProject: (projectName) => dispatch(projectActions.fetchEntity(projectName)),
+  fetchProjectConnections: (projectName) => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
     projectName,
   })),
   fetchProjectConnection: (projectName, connectionId) => dispatch(projectConnectionActions.fetchSilentEntity(connectionId, { projectName })),

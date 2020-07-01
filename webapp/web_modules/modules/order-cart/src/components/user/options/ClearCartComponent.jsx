@@ -38,7 +38,6 @@ class ClearCartComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { intl: { formatMessage } } = this.context
     const { disabled, empty, onClearCart } = this.props

@@ -136,7 +136,6 @@ export const monitorDatasourcesRoute = {
   },
 }
 
-
 export const editFEMDatasourceRoute = {
   path: 'feature/:datasourceId/edit',
   getComponents(nextState, cb) {
@@ -160,7 +159,6 @@ export const createFEMDatasourceRoute = {
     })
   },
 }
-
 
 const datasourceDataManagementRouter = {
   childRoutes: [

@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'dataaccess.services.list.title': 'Configuration des services applicables aux données du catalogue',
   'dataaccess.services.list.subtitle': 'Cette section vous permet de configurer les services applicables aux données du catalogue.',
   'dataaccess.services.list.header.id.label': 'Identifiant',
@@ -45,7 +45,7 @@ const messages = Object.assign({
   'dataaccess.services.form.type.select.label': 'Sélectionnez un type ...',
   'dataaccess.services.form.invalid.id': 'La configuration sélectionnée n\'existe plus',
   'dataaccess.services.form.back.button': 'Annuler',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

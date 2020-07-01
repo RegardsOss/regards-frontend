@@ -33,7 +33,6 @@ class AIPTypeRender extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { value: type } = this.props
     const { intl: { formatMessage } } = this.context

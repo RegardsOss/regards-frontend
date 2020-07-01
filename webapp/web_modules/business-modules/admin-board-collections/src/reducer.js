@@ -20,11 +20,9 @@ import { combineReducers } from 'redux'
 import { collectionDataManagementReducer } from '@regardsoss/admin-data-collection-management'
 import { datasetDataManagementReducer } from '@regardsoss/admin-data-dataset-management'
 
-
 const collectionsReducers = combineReducers({
   collection: collectionDataManagementReducer,
   dataset: datasetDataManagementReducer,
 })
-
 
 export default collectionsReducers

@@ -35,4 +35,4 @@ class ResourceSelectors extends BasicPageableSelectors {
   }
 }
 
-export default storePath => new ResourceSelectors(storePath)
+export default (storePath) => new ResourceSelectors(storePath)

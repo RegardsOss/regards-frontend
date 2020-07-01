@@ -48,7 +48,7 @@ export class AIPModifyDialogContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in \the redux store
    */
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     fetchSelectionStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
     fetchSelectionTags: (bodyParams, pathParams) => dispatch(aipTagSearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
     fetchSelectionCategories: (bodyParams, pathParams) => dispatch(aipCategorySearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
@@ -77,7 +77,6 @@ export class AIPModifyDialogContainer extends React.Component {
     fetchSelectionTags(contextRequestBodyParameters)
     fetchSelectionCategories(contextRequestBodyParameters)
   }
-
 
   render() {
     const {

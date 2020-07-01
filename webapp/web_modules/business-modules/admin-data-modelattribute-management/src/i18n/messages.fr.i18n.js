@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'modelattr.edit.title': 'Gestion des attributs du modèle {name}',
   'modelattr.edit.description': 'Pour ajouter un attribut ou un fragment au modèle, glissez/déposez depuis la colonne de droite vers la colonne de gauche. Réalisez l\'opération inverse pour enlever un attribut ou un fragment au modèle',
   'modelattr.form.action.back': 'Retour',
@@ -31,6 +31,7 @@ const messages = Object.assign({
   'modelattr.edit.table.computationMethod': 'Méthode de calcul',
   'modelattr.edit.table.name': 'Nom (type)',
   'modelattr.edit.noAttrLink': 'Aucun attribut n\'est lié au modèle',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

@@ -64,7 +64,7 @@ export class OrderListFiltersContainer extends React.Component {
       // Note: we throttle here the emitted network requests to avoid dispatching for each key entered
       dispatchGetUsers:
         throttle(
-          partialEmail => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
+          (partialEmail) => dispatch(projectUserActions.fetchPagedEntityList(0, PAGE_SIZE, null, { partialEmail })),
           THROTTLE_DELAY_MS, { leading: false }),
     }
   }
@@ -129,7 +129,6 @@ export class OrderListFiltersContainer extends React.Component {
     )
   }
 }
-
 
 export default connect(
   OrderListFiltersContainer.mapStateToProps,

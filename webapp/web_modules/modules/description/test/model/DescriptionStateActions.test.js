@@ -22,7 +22,6 @@ import { assert } from 'chai'
 import { DescriptionStateActions } from '../../src/model/DescriptionStateActions'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../dumps/resolved.dump'
 
-
 const actions = new DescriptionStateActions('myNamespace')
 
 const middlewares = [thunk]

@@ -18,7 +18,6 @@
  **/
 import values from 'lodash/values'
 
-
 /**
  * Available tabs in results
  * @author Raphaël Mechali

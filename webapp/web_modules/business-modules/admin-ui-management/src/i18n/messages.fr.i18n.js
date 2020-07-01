@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages French language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
   'ui.settings.title': 'Paramètres IHM',
   'ui.settings.description': 'Configuration des paramètres principaux de l\'IHM utilisateur',
   'ui.settings.edit.tooltip': 'Editer les paramètres IHM',
@@ -50,6 +50,7 @@ const messages = Object.assign({
   'action.add.tooltip': 'Ajouter',
 
   'action.service.list.tooltip': 'Services IHM',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

@@ -49,7 +49,7 @@ describe('[Entities Common] Testing TextParameterField', () => {
     const props = {
       name: 'aText',
       label: 'AText(*)',
-      validator: value => value === 'TEST ERROR' ? 'error' : undefined, // spy validation
+      validator: (value) => value === 'TEST ERROR' ? 'error' : undefined, // spy validation
       required: true,
     }
     const enzymeWrapper = shallow(<TextParameterField {...props} />, { context })

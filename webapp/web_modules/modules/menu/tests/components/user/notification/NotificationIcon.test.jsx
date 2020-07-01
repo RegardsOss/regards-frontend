@@ -44,7 +44,7 @@ describe('[Menu] Testing NotificationIcon', () => {
     'WARNING',
     'UNKNWON LEVEL',
     null]
-  testCases.forEach(type => it(`Should render correctly with type ${type || 'NULL'}`, () => {
+  testCases.forEach((type) => it(`Should render correctly with type ${type || 'NULL'}`, () => {
     const props = {
       notification: { ...aNotif, type },
       style: {

@@ -36,7 +36,7 @@ class ResourceReducers extends BasicPageableReducers {
   }
 
   static buildListOfKeys(list) {
-    return map(list, item => `${item.content.microservice}@${item.content.resource}@${item.content.verb}`)
+    return map(list, (item) => `${item.content.microservice}@${item.content.resource}@${item.content.verb}`)
   }
 
   reduce(state, action) {

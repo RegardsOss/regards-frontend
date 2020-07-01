@@ -74,7 +74,6 @@ const commonProps = {
   dispatchFetchPluginResult: () => new Promise((resolve, reject) => { }),
 }
 
-
 /**
  * Builds a payload for normalizr key and objet model as parameter. Changes parameters field if specified
  */
@@ -112,7 +111,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
   before(() => {
     // stub LocalURLProvider.buildLocalAccessURL to not use blobs and URL
     toRestore = LocalURLProvider.buildLocalAccessURL
-    LocalURLProvider.buildLocalAccessURL = fakeContent => fakeContent.text
+    LocalURLProvider.buildLocalAccessURL = (fakeContent) => fakeContent.text
     testSuiteHelpers.before()
   })
   after(() => {

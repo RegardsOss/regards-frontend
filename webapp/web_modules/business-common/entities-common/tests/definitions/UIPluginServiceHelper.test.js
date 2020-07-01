@@ -24,7 +24,6 @@ import {
 } from '../../src/definitions/UIPluginServiceHelper'
 import { Parameter } from '../../src/definitions/parameters/Parameter'
 
-
 /**
 * Test  UIPluginServiceHelper
 * @author Raphaël Mechali
@@ -92,11 +91,11 @@ describe('[Entities Common] Testing UIPluginServiceHelper', () => {
     }
     const resolvedParameters = resolveParameters(pluginConf, pluginInstance)
     assert.lengthOf(resolvedParameters, 2, 'Only dynamic parameters should be retrieved')
-    const resolvedP3 = resolvedParameters.find(p => p.name === 'p3')
+    const resolvedP3 = resolvedParameters.find((p) => p.name === 'p3')
     assert.isDefined(resolvedP3, 'The dynamic parameter p3 should be defined')
     assert.equal(resolvedP3.label, 'P3', 'P3 label should be reported')
     assert.equal(resolvedP3.defaultValue, 'abc', 'P3 default value should be reported')
-    const resolvedP4 = resolvedParameters.find(p => p.name === 'p4')
+    const resolvedP4 = resolvedParameters.find((p) => p.name === 'p4')
     assert.isDefined(resolvedP4, 'The dynamic parameter p3 should be defined')
     assert.equal(resolvedP4.label, 'P4', 'P4 label should be reported')
     assert.equal(resolvedP4.defaultValue, null, 'P4 default value should be specified')

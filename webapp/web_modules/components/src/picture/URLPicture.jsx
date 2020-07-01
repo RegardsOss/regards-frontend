@@ -55,7 +55,7 @@ export class URLPicture extends React.Component {
   render() {
     const { mimeType, url, ...pictureProperties } = this.props
     if (url) {
-      const URLPictureRender = URLPicture.PICTURES_RENDER.find(Render => URLPicture.accepts(Render, mimeType))
+      const URLPictureRender = URLPicture.PICTURES_RENDER.find((Render) => URLPicture.accepts(Render, mimeType))
       if (URLPictureRender) {
         // found a picture render matching that MIME type
         return <URLPictureRender url={url} {...pictureProperties} />

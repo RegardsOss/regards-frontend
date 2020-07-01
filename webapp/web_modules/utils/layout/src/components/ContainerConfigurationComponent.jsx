@@ -91,13 +91,13 @@ class ContainerConfigurationComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -114,11 +114,9 @@ class ContainerConfigurationComponent extends React.Component {
     }
   }
 
-  onAdvancedClick = () => {
-    this.setState({
-      advanced: !this.state.advanced,
-    })
-  }
+  onAdvancedClick = () => this.setState({
+    advanced: !this.state.advanced,
+  })
 
   selectContainerType = (event, index, value, input) => {
     input.onChange(value)
@@ -147,26 +145,26 @@ class ContainerConfigurationComponent extends React.Component {
     // dynamic options (layout and main container) are available for non root container (ie new ones or inUserApp marked layouts)
     const hasDynamicOptions = !container || containerModel.inUserApp
 
-    const actions = [
-      <FlatButton
-        key="cancel"
-        onClick={onCancel}
-        label={formatMessage({ id: 'container.form.cancel.button' })}
-      />,
-      <RaisedButton
-        key="submit"
-        onClick={handleSubmit(onSubmit)}
-        disabled={pristine || submitting || invalid}
-        label={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
-      />,
-    ]
-
     return (
       <Dialog
         title={formatMessage({ id: 'container.configuration.edit.dialog.title' })}
         modal={false}
         open={open}
-        actions={actions}
+        actions={
+          <>
+            <FlatButton
+              key="cancel"
+              onClick={onCancel}
+              label={formatMessage({ id: 'container.form.cancel.button' })}
+            />
+            <RaisedButton
+              key="submit"
+              onClick={handleSubmit(onSubmit)}
+              disabled={pristine || submitting || invalid}
+              label={formatMessage({ id: container ? 'container.form.update.button' : 'container.form.submit.button' })}
+            />
+          </>
+        }
         onRequestClose={onCancel}
         autoDetectWindowHeight
         autoScrollBodyContent

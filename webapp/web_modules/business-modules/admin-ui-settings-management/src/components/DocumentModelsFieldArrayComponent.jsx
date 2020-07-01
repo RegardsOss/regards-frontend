@@ -59,7 +59,7 @@ class DocumentModelsFieldArrayComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize columns lists
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.dataModelColumns = [
       new TableColumnBuilder('name').valuesRenderCell([{ getValue: identity }]).build(), // render model name
       new TableColumnBuilder('options').optionsColumn([{ // add as document model option
@@ -94,12 +94,11 @@ class DocumentModelsFieldArrayComponent extends React.Component {
     fields.remove(documentModelIndex)
   }
 
-
   render() {
     const { dataModelNames, fields } = this.props
     const { intl: { formatMessage }, moduleTheme: { documentModels } } = this.context
     const documentModelNames = fields.getAll()
-    const remainingDataModelNames = dataModelNames.filter(m => !documentModelNames.includes(m))
+    const remainingDataModelNames = dataModelNames.filter((m) => !documentModelNames.includes(m))
     return (
       <div style={documentModels.root}>
         {/* 1 - Left table: data models */}

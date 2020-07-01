@@ -22,4 +22,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * Store selector to ProcessingChain entities.
  * @author Sébastien Binda
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

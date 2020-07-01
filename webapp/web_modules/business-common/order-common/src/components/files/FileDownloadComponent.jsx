@@ -21,7 +21,6 @@ import DownloadIcon from 'mdi-material-ui/Download'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 /**
  * File download option cell component
  * @author Raphaël Mechali

@@ -38,7 +38,6 @@ import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/dom
 import ParameterArrayAttributeComponent from './ParameterArrayAttributeComponent'
 import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
 
-
 /**
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
@@ -64,7 +63,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
       restrictions: this.getRestrictions(modelAttribute),
     }
   }
-
 
   getField = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
@@ -116,7 +114,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getFieldCheckbox = modelAttribute => (
+  getFieldCheckbox = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -125,7 +123,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getFieldDateTime = modelAttribute => (
+  getFieldDateTime = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -135,7 +133,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getFieldSelect = modelAttribute => (
+  getFieldSelect = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -152,8 +150,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           key={acceptableValue}
           primaryText={acceptableValue}
         />
-      ))
-      }
+      ))}
     </Field>
   )
 
@@ -170,8 +167,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       />
     </div>)
 
-
-  getEnumTextArrayField = modelAttribute => (
+  getEnumTextArrayField = (modelAttribute) => (
     <div>
       <Field
         className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
@@ -188,8 +184,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
             key={acceptableValue}
             primaryText={acceptableValue}
           />
-        ))
-        }
+        ))}
       </Field>
     </div>
   )
@@ -288,6 +283,5 @@ export class EntitiesAttributeFormComponent extends React.Component {
     )
   }
 }
-
 
 export default EntitiesAttributeFormComponent

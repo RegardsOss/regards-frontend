@@ -53,7 +53,7 @@ class OSQueryParameterSelectField extends React.Component {
         style={filtersTable.fieldsStyle}
         fullWidth
       >
-        {DescriptorHelper.getParameterOptions(filterParameter).map(option => (
+        {DescriptorHelper.getParameterOptions(filterParameter).map((option) => (
           <MenuItem
             key={option.value}
             value={option.value}

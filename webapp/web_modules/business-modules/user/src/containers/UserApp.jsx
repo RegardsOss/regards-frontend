@@ -41,44 +41,6 @@ import AuthenticationContainer from './AuthenticationContainer'
  * Provides the theme to sub containers
  */
 export class UserApp extends React.Component {
-/**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state) {
-    const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
-    return {
-      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      currentRole: (authenticationResult && authenticationResult.role) || '',
-      dataFetching: layoutSelectors.isFetching(state)
-      || moduleSelectors.isFetching(state)
-      || attributeModelSelectors.isFetching(state)
-      || uiSettingsSelectors.isFetching(state),
-      layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
-      modules: moduleSelectors.getList(state),
-    }
-  }
-
-  /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapDispatchToProps(dispatch) {
-    return {
-      initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-      fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
-      fetchLayout: () => dispatch(layoutActions.fetchEntity(UIDomain.APPLICATIONS_ENUM.USER)),
-      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: UIDomain.APPLICATIONS_ENUM.USER })),
-      flushModules: () => dispatch(moduleActions.flush(true)),
-      fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
-      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
-    }
-  }
-
   /**
    * @type {{theme: string, content: React.Component}}
    */
@@ -110,9 +72,47 @@ export class UserApp extends React.Component {
   }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    const authenticationResult = AuthenticationClient.authenticationSelectors.getResult(state)
+    return {
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      currentRole: (authenticationResult && authenticationResult.role) || '',
+      dataFetching: layoutSelectors.isFetching(state)
+    || moduleSelectors.isFetching(state)
+    || attributeModelSelectors.isFetching(state)
+    || uiSettingsSelectors.isFetching(state),
+      layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
+      modules: moduleSelectors.getList(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+      fetchAttributes: () => dispatch(attributeModelActions.fetchEntityList(null, { noLink: true })),
+      fetchLayout: () => dispatch(layoutActions.fetchEntity(UIDomain.APPLICATIONS_ENUM.USER)),
+      fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: UIDomain.APPLICATIONS_ENUM.USER })),
+      flushModules: () => dispatch(moduleActions.flush(true)),
+      fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
+      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
+    }
+  }
+
+  /**
    * At first render, fetch application layout and modules
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // before any request: provide the project name
     // init with project parameter if available, or fallback on INSTANCE default
     const {
@@ -135,10 +135,10 @@ export class UserApp extends React.Component {
   }
 
   /**
-   * Go to default module page if no module is defiend in the dynamic content container
+   * Go to default module page if no module is defined in the dynamic content container
    * @param nextProps
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // If there is no dynamic content display the default module
     if (!nextProps.content && nextProps.modules && nextProps.layout) {
       // find the home page module and redirect user to that page (if there are modules)

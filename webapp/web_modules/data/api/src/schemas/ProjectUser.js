@@ -24,7 +24,7 @@ export const ProjectUserConfiguration = {
 }
 
 export const PROJECT_USER = new Schema(ProjectUserConfiguration.normalizrKey, {
-  idAttribute: projectUser => projectUser.content[ProjectUserConfiguration.entityKey],
+  idAttribute: (projectUser) => projectUser.content[ProjectUserConfiguration.entityKey],
   assignEntity: (output, key, value, input) => {
     // eslint-disable-next-line no-param-reassign
     output[key] = ['lastUpdate', 'lastConnection'].includes(key) ? new Date(value) : value

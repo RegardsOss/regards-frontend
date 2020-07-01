@@ -26,7 +26,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { DropDownButton, URLPictureResolver } from '@regardsoss/components'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
-const IconButtonConstructorWrapper = props => (
+const IconButtonConstructorWrapper = (props) => (
   <IconButton {...(omit(props, ['label', 'labelPosition']))}>
     <OptionsIcon />
   </IconButton>)
@@ -57,7 +57,7 @@ class OneElementServicesComponent extends React.Component {
         {...otherButtonProperties}
       >
         {
-          (services || []).map(service => (
+          (services || []).map((service) => (
             <MenuItem
               key={`${service.content.type}-${service.content.configId}`}
               value={service}
@@ -65,7 +65,8 @@ class OneElementServicesComponent extends React.Component {
                 // render the icon only when service has one
                 service.content.iconUrl
                   ? <URLPictureResolver url={service.content.iconUrl} />
-                  : null}
+                  : null
+}
               primaryText={service.content.label}
             />))
         }

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * @source https://stackoverflow.com/a/29153059/2294168
  */

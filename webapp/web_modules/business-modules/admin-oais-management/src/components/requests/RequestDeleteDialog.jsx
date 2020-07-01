@@ -36,35 +36,29 @@ export class RequestDeleteDialog extends React.Component {
     ...themeContextType,
   }
 
-
-  renderActions = () => {
-    const { onConfirmDelete, onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.requests.confirm.delete.close' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="deleteRequestsIrrevocably"
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.requests.confirm.delete' })}
-        onClick={() => onConfirmDelete()}
-      />,
-    ]
-  }
-
   render() {
+    const { onConfirmDelete, onClose } = this.props
     const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
 
     return (
       <Dialog
         title={formatMessage({ id: 'oais.requests.confirm.delete.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.requests.confirm.delete.close' })}
+            primary
+            keyboardFocused
+            onClick={onClose}
+          />
+          <FlatButton
+            key="deleteRequestsIrrevocably"
+            className="selenium-confirmDialogButton"
+            label={formatMessage({ id: 'oais.requests.confirm.delete' })}
+            onClick={onConfirmDelete}
+          />
+        </>}
         modal={false}
         open
       >

@@ -52,7 +52,6 @@ class BasicSignalReducers extends BasicReducer {
     this.basicSignalActionInstance = basicSignalActionInstance
   }
 
-
   reduce(state = this.defaultState, action) {
     if (this.isCancelled(state, action)) {
       return state

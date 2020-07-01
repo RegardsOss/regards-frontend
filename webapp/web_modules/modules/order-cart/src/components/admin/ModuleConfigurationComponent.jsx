@@ -44,13 +44,12 @@ class ModuleConfigurationComponent extends React.Component {
    * Lifecycle method component will mount.
    * Used here to initialize field values to default
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { changeField, isCreating } = this.props
     if (isCreating) {
       changeField(this.SHOW_DATASETS_FIELD, true)
     }
   }
-
 
   render() {
     const { currentNamespace } = this.props

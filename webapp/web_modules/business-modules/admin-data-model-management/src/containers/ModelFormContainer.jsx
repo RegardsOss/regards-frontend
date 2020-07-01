@@ -70,9 +70,7 @@ export class ProjectFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const updatedProject = Object.assign({}, this.props.model.content, {
-      description: values.description,
-    })
+    const updatedProject = { ...this.props.model.content, description: values.description }
     return Promise.resolve(this.props.updateModel(this.props.model.content.name, updatedProject))
       .then((actionResult) => {
         // We receive here the action
@@ -154,12 +152,12 @@ const mapStateToProps = (state, ownProps) => ({
   model: ownProps.params.modelName ? modelSelectors.getById(state, ownProps.params.modelName) : null,
 })
 
-const mapDispatchToProps = dispatch => ({
-  createModel: values => dispatch(modelActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  createModel: (values) => dispatch(modelActions.createEntity(values)),
   updateModel: (id, values) => dispatch(modelActions.updateEntity(id, values)),
   duplicateModel: (modelId, values) => dispatch(modelActions.duplicateModel(modelId, values)),
-  createModelUsingFile: file => dispatch(modelActions.createEntityUsingMultiPart({}, file)),
-  fetchModel: id => dispatch(modelActions.fetchEntity(id)),
+  createModelUsingFile: (file) => dispatch(modelActions.createEntityUsingMultiPart({}, file)),
+  fetchModel: (id) => dispatch(modelActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)

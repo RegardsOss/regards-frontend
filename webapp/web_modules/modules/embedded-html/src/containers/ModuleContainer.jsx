@@ -42,6 +42,18 @@ const modulesSelectors = AccessProjectClient.getModuleSelectors()
  * @author Sébastien Binda
  **/
 export class ModuleContainer extends React.Component {
+  /** Style to use when rendering a page in final app */
+  static PAGE_RENDER_STYLE = {
+    flexGrow: 1,
+    flexShrink: 1,
+  }
+
+  /** Default CSS property for width, when not user provided */
+  static DEFAULT_CSS_WIDTH = '100%'
+
+  /** Default CSS property for height, when not user provided */
+  static DEFAULT_CSS_HEIGHT = '100px'
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -54,18 +66,6 @@ export class ModuleContainer extends React.Component {
       modules: modulesSelectors.getList(state),
     }
   }
-
-  /** Style to use when rendering a page in final app */
-  static PAGE_RENDER_STYLE = {
-    flexGrow: 1,
-    flexShrink: 1,
-  }
-
-  /** Default CSS property for width, when not user provided */
-  static DEFAULT_CSS_WIDTH = '100%'
-
-  /** Default CSS property for height, when not user provided */
-  static DEFAULT_CSS_HEIGHT = '100px'
 
   /**
    * React lifecycle method, called on properties change to build next state
@@ -85,7 +85,7 @@ export class ModuleContainer extends React.Component {
       }
     } else {
       // 1.b - in user app: page or element?
-      const thisModuleDefinition = find(modules, m => m.content.id === id)
+      const thisModuleDefinition = find(modules, (m) => m.content.id === id)
       if (thisModuleDefinition && dynamicContainerId === thisModuleDefinition.content.container) {
         // 1.b.1 - page style, grow the available height in user app
         nextState.renderStyles = ModuleContainer.PAGE_RENDER_STYLE
@@ -99,7 +99,7 @@ export class ModuleContainer extends React.Component {
     }
     // 2 - Prepare the locales URL by locale (it remains possible for URL to be empty in each locale,
     // in specific configuration case)
-    const anyNonEmptyLocale = find(moduleConf.urlByLocale, url => !!url)
+    const anyNonEmptyLocale = find(moduleConf.urlByLocale, (url) => !!url)
     nextState.urlByLocale = LOCALES.reduce((acc, locale) => ({
       ...acc,
       [locale]: get(moduleConf.urlByLocale, locale) || anyNonEmptyLocale,

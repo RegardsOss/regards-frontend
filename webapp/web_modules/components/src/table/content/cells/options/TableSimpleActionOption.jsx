@@ -19,7 +19,6 @@
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 /**
 * Table simple action option. One action for a column.
 * @author Sébastien Binda

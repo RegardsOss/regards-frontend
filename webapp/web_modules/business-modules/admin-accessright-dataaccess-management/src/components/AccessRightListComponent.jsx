@@ -16,6 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import Refresh from 'mdi-material-ui/Refresh'
 import Edit from 'mdi-material-ui/Pencil'
 import {
@@ -24,8 +27,6 @@ import {
 import Dialog from 'material-ui/Dialog'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import FlatButton from 'material-ui/FlatButton'
-import values from 'lodash/values'
-import get from 'lodash/get'
 import { datasetDependencies } from '@regardsoss/admin-data-dataset-management'
 import {
   ConfirmDialogComponent,
@@ -99,6 +100,32 @@ export class AccessRightListComponent extends React.Component {
     submitError: false,
   }
 
+  /**
+    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+    */
+    UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+   /**
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+   /**
+    * Properties change detected: update local state
+    * @param oldProps previous component properties
+    * @param newProps next component properties
+    */
+   onPropertiesUpdated = (oldProps, newProps) => {
+     if (!isEqual(oldProps.accessGroup, newProps.accessGroup)) {
+       this.setState({
+         pathParams: {
+           accessGroupName: newProps.accessGroup.name,
+         },
+       })
+     }
+   }
+
   onDelete = () => {
     this.props.deleteAccessRight(this.state.entityToDelete)
   }
@@ -168,7 +195,6 @@ export class AccessRightListComponent extends React.Component {
    */
   handleSubmitAccessRights = (datasetAccessRightsToEdit, accessRightValues) => this.props.submitAccessRights(datasetAccessRightsToEdit, accessRightValues)
     .then(this.handleSubmitResult)
-
 
   /**
    * Render the dialog containing the AccessRight Configuration form
@@ -257,40 +283,9 @@ export class AccessRightListComponent extends React.Component {
     const {
       accessGroup, navigateToCreateDataset, backURL, filters,
     } = this.props
+    const { pathParams } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-
-    // Table columns to display
-    const columns = [
-      // 1 - selection column
-      new TableColumnBuilder().selectionColumn(false, datasetWithAccessRightSelectors, tableActions, tableSelectors).build(),
-      // 2 - label column
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
-        .label(formatMessage({ id: 'accessright.table.dataset.label' }))
-        .build(),
-      // 3 - Meta access level column
-      new TableColumnBuilder('column.meta.access.level').titleHeaderCell()
-        .label(formatMessage({ id: 'accessright.form.meta.accessLevel' })).rowCellDefinition({
-          Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
-        })
-        .build(),
-      // 4 - Data access level
-      new TableColumnBuilder('column.data.access.level').titleHeaderCell()
-        .label(formatMessage({ id: 'accessright.form.data.accessLevel' }))
-        .rowCellDefinition({
-          Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
-        })
-        .build(),
-      // 5 - Options
-      new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: AccessRightsTableEditAction,
-        optionProps: { onEdit: this.openEditDialog },
-      }, {
-        OptionConstructor: AccessRightsTableDeleteAction,
-        optionProps: { onDelete: this.openDeleteDialog },
-      }]).build(),
-    ]
-
     const emptyContentAction = (
       <FlatButtonWithResourceDisplayControl
         resourceDependencies={datasetDependencies.addDependencies}
@@ -306,10 +301,6 @@ export class AccessRightListComponent extends React.Component {
         action={emptyContentAction}
       />
     )
-
-    const pathParams = {
-      accessGroupName: this.props.accessGroup.name,
-    }
 
     return (
       <Card>
@@ -333,7 +324,36 @@ export class AccessRightListComponent extends React.Component {
               pageSelectors={datasetWithAccessRightSelectors}
               tableActions={tableActions}
               pageSize={AccessRightListComponent.PAGE_SIZE}
-              columns={columns}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: API rework required
+                // 1 - selection column
+                new TableColumnBuilder().selectionColumn(false, datasetWithAccessRightSelectors, tableActions, tableSelectors).build(),
+                // 2 - label column
+                new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.dataset.feature.label')
+                  .label(formatMessage({ id: 'accessright.table.dataset.label' }))
+                  .build(),
+                // 3 - Meta access level column
+                new TableColumnBuilder('column.meta.access.level').titleHeaderCell()
+                  .label(formatMessage({ id: 'accessright.form.meta.accessLevel' })).rowCellDefinition({
+                    Constructor: AccessRightsMetadataAccessTableCustomCell, // custom cell
+                  })
+                  .build(),
+                // 4 - Data access level
+                new TableColumnBuilder('column.data.access.level').titleHeaderCell()
+                  .label(formatMessage({ id: 'accessright.form.data.accessLevel' }))
+                  .rowCellDefinition({
+                    Constructor: AccessRightsDataAccessTableCustomCell, // custom cell
+                  })
+                  .build(),
+                // 5 - Options
+                new TableColumnBuilder().optionsColumn([{
+                  OptionConstructor: AccessRightsTableEditAction,
+                  optionProps: { onEdit: this.openEditDialog },
+                }, {
+                  OptionConstructor: AccessRightsTableDeleteAction,
+                  optionProps: { onDelete: this.openDeleteDialog },
+                }]).build(),
+              ]}
               pathParams={pathParams}
               requestParams={filters}
               emptyComponent={emptyComponent}

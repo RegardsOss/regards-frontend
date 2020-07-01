@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default theme => ({
+export default (theme) => ({
   defaultThumbnailDimensions: {
     width: theme.components.infiniteTable.lineHeight,
     height: theme.components.infiniteTable.lineHeight,

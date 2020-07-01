@@ -18,14 +18,11 @@
  **/
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
-import Container from './Container'
+import Container, { ADD_ACTION, EDIT_ACTION, DELETE_ACTION } from './Container'
 import ContainerConfigurationProvider from './ContainerConfigurationProvider'
 import ContainerHelper from '../ContainerHelper'
 import messages from '../i18n'
 
-const DELETE_ACTION = 'DELETE'
-const ADD_ACTION = 'ADD'
-const EDIT_ACTION = 'EDIT'
 /**
  * Component to display configure a given layout
  * @author Sébastien Binda
@@ -119,7 +116,6 @@ class LayoutConfigurationComponent extends React.Component {
     }
   }
 
-
   render() {
     return (
       <div>
@@ -144,9 +140,3 @@ class LayoutConfigurationComponent extends React.Component {
 }
 
 export default withI18n(messages)(LayoutConfigurationComponent)
-
-export {
-  ADD_ACTION,
-  DELETE_ACTION,
-  EDIT_ACTION,
-}

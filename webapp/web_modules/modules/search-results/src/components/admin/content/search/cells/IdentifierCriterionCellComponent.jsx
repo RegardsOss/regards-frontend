@@ -47,7 +47,6 @@ class IdentifierCriterionCellComponent extends React.Component {
     editing: false,
   }
 
-
   /** User started edition */
   onEdit = () => this.setState({ editing: true })
 

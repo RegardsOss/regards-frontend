@@ -29,5 +29,4 @@ const modelsReducers = combineReducers({
   'access-rights-management': accessRightManagementReducer,
 })
 
-
 export default modelsReducers

@@ -51,8 +51,8 @@ class BasicPageableSelectors extends BasicListSelectors {
    * @return {number} loaded elements count
    */
   getLoadedResultCount = createSelector([
-    state => this.getMetaData(state),
-    state => this.getList(state)],
+    (state) => this.getMetaData(state),
+    (state) => this.getList(state)],
   (pageMetadata, currentPageItems) => (isNil(pageMetadata) ? 0 : (pageMetadata.number * pageMetadata.size)) + values(currentPageItems).length)
 
   /**

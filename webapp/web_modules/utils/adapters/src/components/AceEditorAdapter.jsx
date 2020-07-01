@@ -20,7 +20,7 @@ import reduce from 'lodash/reduce'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { styles } from '../styles'
 
-const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
+const HeadlessAdapter = (props) => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
 
 /**
 * Ace editor adapter, to render headless instances
@@ -39,6 +39,20 @@ export class AceEditorAdapter extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  static propTypes = {
+    // one of the ace editor modes
+    mode: PropTypes.string.isRequired,
+    // note: any other ace editor property will be propagated to component below like
+    // value: editor content
+    // setOptions: editor options
+    // ...
+    onChange: PropTypes.func,
+  }
+
+  static editorProps = {
+    $blockScrolling: Infinity,
   }
 
   /**
@@ -69,24 +83,7 @@ export class AceEditorAdapter extends React.Component {
     }
   }
 
-  static propTypes = {
-    // one of the ace editor modes
-    mode: PropTypes.string.isRequired,
-    // note: any other ace editor property will be propagated to component below like
-    // value: editor content
-    // setOptions: editor options
-    // ...
-    onChange: PropTypes.func,
-  }
-
-  static editorProps = {
-    $blockScrolling: Infinity,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
-  }
+  state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
 
   componentDidMount() {
     // check if runtime data as initialize (callback is called only when there is something new loaded)

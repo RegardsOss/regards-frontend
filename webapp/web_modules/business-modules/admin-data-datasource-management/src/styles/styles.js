@@ -21,7 +21,7 @@
  * Module theme
  * @author Raphaël Mechali
  */
-export default theme => ({
+export default (theme) => ({
   openSearchCrawler: {
     queryFilters: {
       mainContainer: {

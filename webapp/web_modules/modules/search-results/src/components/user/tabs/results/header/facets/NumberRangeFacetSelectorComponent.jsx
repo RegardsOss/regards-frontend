@@ -62,7 +62,6 @@ class NumberRangeFacetSelectorComponent extends React.Component {
     return value
   }
 
-
   /**
    * Formats facet value
    * @param {FacetValue} facetValue as returned by the backend

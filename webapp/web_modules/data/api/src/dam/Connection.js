@@ -24,7 +24,7 @@ export const ConnectionConfiguration = {
 }
 
 export const CONNECTION = new Schema(ConnectionConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ConnectionConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[ConnectionConfiguration.entityKey]
   ,
 })
 export const CONNECTION_ARRAY = arrayOf(CONNECTION)

@@ -42,8 +42,7 @@ class AttributesRender extends React.Component {
     return (
       <StringArrayValueRender
         value={entity.attributes.map(({ name }) => AttributeRenderDelegate.getRenderLabel(
-          DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels), intl))
-        }
+          DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels), intl))}
       />)
   }
 }

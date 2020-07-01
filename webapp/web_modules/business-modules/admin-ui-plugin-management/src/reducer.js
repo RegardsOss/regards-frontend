@@ -25,5 +25,4 @@ const pluginReducer = combineReducers({
   role: roleReducer,
 })
 
-
 export default pluginReducer

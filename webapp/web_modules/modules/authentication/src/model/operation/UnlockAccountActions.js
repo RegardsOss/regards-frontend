@@ -21,5 +21,5 @@ import AccountOperationActions from './AccountOperationActions'
 
 export const UnlockAccountActions = new AccountOperationActions('unlockAccount', AuthenticationRouteParameters.mailAuthenticationAction.values.unlockAccount)
 
-export const sendAskUnlockAccount = mail => UnlockAccountActions.sendAskRequest(mail)
+export const sendAskUnlockAccount = (mail) => UnlockAccountActions.sendAskRequest(mail)
 export const sendFinishAccountUnlocking = (mail, token) => UnlockAccountActions.sendFinishRequest(mail, token)

@@ -31,9 +31,7 @@ import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import FieldsBuilderComponent from './FieldsBuilderComponent'
-import moduleStyles from '../styles/styles'
 
-const styles = moduleStyles()
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.lengthLessThan(32)]
 
 /**
@@ -101,20 +99,18 @@ export class ServiceConfigurationFormComponent extends React.Component {
     this.props.initialize(initialValues)
   }
 
-
   render() {
     const {
       plugin, submitting, invalid, backUrl, pristine,
     } = this.props
-    const { formatMessage } = this.context.intl
-    const title = this.getTitle()
+    const { intl: { formatMessage }, moduleTheme: { service } } = this.context
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
           <CardTitle
-            title={title}
+            title={this.getTitle()}
             subtitle={formatMessage({ id: 'service.form.subtitle' })}
           />
           <CardText>
@@ -130,7 +126,7 @@ export class ServiceConfigurationFormComponent extends React.Component {
             {
               isEmpty(plugin.info.conf.static) ? null : (
                 <div>
-                  <Subheader style={styles.service.form.subheaderStyles}>
+                  <Subheader style={service.form.subheaderStyles}>
                     {formatMessage({ id: 'service.form.static.configuration.title' })}
                   </Subheader>
                   {
@@ -141,15 +137,19 @@ export class ServiceConfigurationFormComponent extends React.Component {
                         parameter={input}
                         staticParameter
                       />
-                    ))}
+                    ))
+}
                   <br />
                   <br />
                 </div>
-              )}
+              )
+}
             {
               isEmpty(plugin.info.conf.static) ? null : (
                 <div>
-                  <Subheader style={styles.service.form.subheaderStyles}>{formatMessage({ id: 'service.form.dynamic.configuration.title' })}</Subheader>
+                  <Subheader style={service.form.subheaderStyles}>
+                    {formatMessage({ id: 'service.form.dynamic.configuration.title' })}
+                  </Subheader>
                   {map(plugin.info.conf.dynamic, (input, id) => (
                     <FieldsBuilderComponent
                       key={`dynamic.${id}`}
@@ -159,7 +159,8 @@ export class ServiceConfigurationFormComponent extends React.Component {
                     />
                   ))}
                 </div>
-              )}
+              )
+}
             <Field
               name="isActive"
               fullWidth
@@ -187,7 +188,6 @@ export class ServiceConfigurationFormComponent extends React.Component {
     )
   }
 }
-
 
 export default reduxForm({
   form: 'service-form',

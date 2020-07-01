@@ -60,7 +60,6 @@ class InsertOptionComponent extends React.Component {
     })
   }
 
-
   /**
    * User callback: request close menu close menu
    * @param {Function} callback any operation to perform after closing menu
@@ -71,14 +70,13 @@ class InsertOptionComponent extends React.Component {
    * Inner close method, that performs callback after closing
    * @param {Function} callback to invoke after state update, optional
    */
-  onCloseMenu = callback => this.setState({ menuOpen: false }, callback)
-
+  onCloseMenu = (callback) => this.setState({ menuOpen: false }, callback)
 
   /**
    * User callback: group inserted
    * @param {number} index insertion index
    */
-  onInsertGroup = groupIndex => this.onCloseMenu(() => {
+  onInsertGroup = (groupIndex) => this.onCloseMenu(() => {
     const { onInsertGroup } = this.props
     onInsertGroup(groupIndex)
   })
@@ -203,7 +201,7 @@ class InsertOptionComponent extends React.Component {
             }
           </Menu>
         </Popover>
-        </>
+      </>
     )
   }
 }

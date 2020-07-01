@@ -65,7 +65,6 @@ class MainFormComponent extends React.Component {
     onBrowseToPage: PropTypes.func.isRequired,
   }
 
-
   static defaultProps = {
     fetchingMetadata: true, // loading when unknown
     pluginsMetadata: [],
@@ -75,7 +74,6 @@ class MainFormComponent extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
-
 
   /**
    * @param {string} sectionType section type, which is also an entity type (precondition)
@@ -178,7 +176,6 @@ class MainFormComponent extends React.Component {
         throw new Error(`Unsupported section type ${selectedSectionType}`)
     }
   }
-
 
   render() {
     const { navigationSections, onBrowseToPage } = this.props

@@ -50,14 +50,13 @@ class ApplicationLayoutComponent extends React.Component {
 
   static UPDATE_DEPENDENCIES = [LayoutActions.getDependency(RequestVerbEnum.PUT)]
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentLayout: null,
-    }
+  static CARD_TEXT_STYLE = { width: '100%' }
+
+  state = {
+    currentLayout: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const initialLayout = this.getInitialLayout(this.props.layout)
     this.setState({
       currentLayout: initialLayout,
@@ -81,17 +80,17 @@ class ApplicationLayoutComponent extends React.Component {
 
   render() {
     const { pristine, submitting } = this.props
-    const style = { width: '100%' }
+    const { intl: { formatMessage } } = this.context
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
       >
         <Card>
           <CardTitle
-            title={this.context.intl.formatMessage({ id: 'layout.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'layout.subtitle' })}
+            title={formatMessage({ id: 'layout.title' })}
+            subtitle={formatMessage({ id: 'layout.subtitle' })}
           />
-          <CardText style={style}>
+          <CardText style={ApplicationLayoutComponent.CARD_TEXT_STYLE}>
             <LayoutConfigurationComponent
               layout={this.state.currentLayout}
               onChange={this.changeLayout}
@@ -99,11 +98,11 @@ class ApplicationLayoutComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'layout.submit' })}
+              mainButtonLabel={formatMessage({ id: 'layout.submit' })}
               mainButtonType="submit"
               mainHateoasDependencies={ApplicationLayoutComponent.UPDATE_DEPENDENCIES}
               isMainButtonDisabled={pristine || submitting}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'layout.cancel' })}
               secondaryButtonClick={this.props.onCancel}
             />
           </CardActions>

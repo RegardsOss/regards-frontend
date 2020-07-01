@@ -35,7 +35,6 @@ export class URLAttributeHelper {
     return isString(value) && URLAttributeHelper.URL_WITH_NAME_REGEXP.test(value)
   }
 
-
   /**
    * Parses URL parts in URL attribute value
    * @param {string} value value

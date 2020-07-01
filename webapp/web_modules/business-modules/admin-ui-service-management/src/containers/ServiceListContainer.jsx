@@ -18,14 +18,15 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
+import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { themeContextType } from '@regardsoss/theme'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessDomain } from '@regardsoss/domain'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import ServiceListComponent from '../components/ServiceListComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Displays the list of plugin service
@@ -33,11 +34,6 @@ import messages from '../i18n'
  * @author Léo Mieulet
  */
 export class ServiceListContainer extends React.Component {
-  static contextTypes = {
-    ...i18nContextType,
-    ...themeContextType,
-  }
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -53,7 +49,7 @@ export class ServiceListContainer extends React.Component {
     uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
       0, 100, {},
       { type: AccessDomain.UI_PLUGIN_INFO_TYPES_ENUM.SERVICE },
@@ -87,7 +83,6 @@ export class ServiceListContainer extends React.Component {
     browserHistory.push(url)
   }
 
-
   handleCreate = (uiPluginServiceId) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/ui/service/${uiPluginServiceId}/create`
@@ -99,16 +94,18 @@ export class ServiceListContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          <ServiceListComponent
-            uiPluginDefinitionList={uiPluginDefinitionList}
-            handleOpen={this.handleOpen}
-            handleCreate={this.handleCreate}
-            handleBack={this.handleBack}
-          />
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            <ServiceListComponent
+              uiPluginDefinitionList={uiPluginDefinitionList}
+              handleOpen={this.handleOpen}
+              handleCreate={this.handleCreate}
+              handleBack={this.handleBack}
+            />
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

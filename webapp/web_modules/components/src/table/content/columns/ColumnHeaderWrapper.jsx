@@ -19,7 +19,6 @@
 import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 
-
 const NO_PROPS = {}
 
 /**
@@ -40,7 +39,6 @@ class ColumnHeaderWrapper extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
-
 
   render() {
     const {

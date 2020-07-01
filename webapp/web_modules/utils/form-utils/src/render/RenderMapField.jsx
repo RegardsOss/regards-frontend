@@ -86,18 +86,15 @@ class RenderMapField extends React.Component {
 
   static DOT_CHAR = '.'
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      mapKeys: keys(this.props.input.value) || [],
-      displayedKey: null,
-      addDialogOpened: false,
-      duplicateDialogOpened: false,
-      newKey: null,
-      newKeyErrorMessage: null,
-      keyToDelete: null,
-      keyToDuplicate: null,
-    }
+  state = {
+    mapKeys: keys(this.props.input.value) || [],
+    displayedKey: null,
+    addDialogOpened: false,
+    duplicateDialogOpened: false,
+    newKey: null,
+    newKeyErrorMessage: null,
+    keyToDelete: null,
+    keyToDuplicate: null,
   }
 
   /**
@@ -106,7 +103,7 @@ class RenderMapField extends React.Component {
   onAddNewObject = () => {
     const { newKey, mapKeys } = this.state
     const { intl: { formatMessage } } = this.context
-    if (!newKey || find(mapKeys, k => k === newKey)) {
+    if (!newKey || find(mapKeys, (k) => k === newKey)) {
       // Key is empty or does not exists.
       this.setState({
         newKeyErrorMessage: formatMessage({ id: 'render.map-object.key.already.exists.error' }),
@@ -129,7 +126,7 @@ class RenderMapField extends React.Component {
       input.onChange({
         ...omit(input.value, encodedKey),
       })
-      const nextKeys = filter(mapKeys, k => k !== encodedKey)
+      const nextKeys = filter(mapKeys, (k) => k !== encodedKey)
       this.setState({
         mapKeys: nextKeys,
         // update displayed element (select first if there is any after removal)
@@ -154,7 +151,7 @@ class RenderMapField extends React.Component {
       this.setState({
         newKeyErrorMessage: formatMessage({ id: 'render.map-object.duplicate.key.not.exists' }),
       })
-    } else if (!newKey || find(mapKeys, k => k === newKey)) {
+    } else if (!newKey || find(mapKeys, (k) => k === newKey)) {
       // Key is empty or does not exists.
       this.setState({
         newKeyErrorMessage: formatMessage({ id: 'render.map-object.key.already.exists.error' }),
@@ -228,39 +225,38 @@ class RenderMapField extends React.Component {
    * @param {string} key key
    * @return {string} key as shown to user
    */
-  getUserReadableKey = key => replace(key, new RegExp(this.props.charsToReplaceDotsInKeys, 'g'), RenderMapField.DOT_CHAR)
+  getUserReadableKey = (key) => replace(key, new RegExp(this.props.charsToReplaceDotsInKeys, 'g'), RenderMapField.DOT_CHAR)
 
   /**
    * Returns encoded key to be used in redux form ('.' chars conflics with the subpath system)
    * @param {string} key key
    * @return {string} key as used in forms, without '.' chars
    */
-  getEncodedKey = key => replace(key, new RegExp(RenderMapField.DOT_CHAR_REGEXP, 'g'), this.props.charsToReplaceDotsInKeys)
+  getEncodedKey = (key) => replace(key, new RegExp(RenderMapField.DOT_CHAR_REGEXP, 'g'), this.props.charsToReplaceDotsInKeys)
 
   renderAddObjectDialog = () => {
     const { newKeyErrorMessage, addDialogOpened, newKey } = this.state
     const { newValueDialogLabel, mapKeyLabel, mapLabel } = this.props
     const { intl: { formatMessage } } = this.context
-    const actions = [
-      <RaisedButton
-        key="ok"
-        label={formatMessage({ id: 'render.array-object.add.button' })}
-        primary
-        disabled={!newKey}
-        keyboardFocused
-        onClick={this.onAddNewObject}
-      />,
-      <RaisedButton
-        key="cancel"
-        label={formatMessage({ id: 'render.array-object.cancel.button' })}
-        onClick={this.onCloseAddDialog}
-      />,
-    ]
 
     return (
       <Dialog
         title={newValueDialogLabel || formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: mapLabel })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="ok"
+            label={formatMessage({ id: 'render.array-object.add.button' })}
+            primary
+            disabled={!newKey}
+            keyboardFocused
+            onClick={this.onAddNewObject}
+          />
+          <RaisedButton
+            key="cancel"
+            label={formatMessage({ id: 'render.array-object.cancel.button' })}
+            onClick={this.onCloseAddDialog}
+          />
+        </>}
         modal={false}
         open={addDialogOpened}
         onRequestClose={this.onCloseAddDialog}
@@ -297,26 +293,26 @@ class RenderMapField extends React.Component {
     const { newKeyErrorMessage, duplicateDialogOpened, newKey } = this.state
     const { newValueDialogLabel, mapKeyLabel, mapLabel } = this.props
     const { intl: { formatMessage } } = this.context
-    const actions = [
-      <RaisedButton
-        key="ok"
-        label={formatMessage({ id: 'render.array-object.add.button' })}
-        primary
-        disabled={!newKey}
-        keyboardFocused
-        onClick={this.onDuplicateObject}
-      />,
-      <RaisedButton
-        key="cancel"
-        label={formatMessage({ id: 'render.array-object.cancel.button' })}
-        onClick={this.onCloseDuplicateDialog}
-      />,
-    ]
-
     return (
       <Dialog
         title={newValueDialogLabel || formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: mapLabel })}
-        actions={actions}
+        actions={
+          <>
+            <RaisedButton
+              key="ok"
+              label={formatMessage({ id: 'render.array-object.add.button' })}
+              primary
+              disabled={!newKey}
+              keyboardFocused
+              onClick={this.onDuplicateObject}
+            />
+            <RaisedButton
+              key="cancel"
+              label={formatMessage({ id: 'render.array-object.cancel.button' })}
+              onClick={this.onCloseDuplicateDialog}
+            />
+          </>
+        }
         modal={false}
         open={duplicateDialogOpened}
         onRequestClose={this.onCloseDuplicateDialog}
@@ -359,12 +355,14 @@ class RenderMapField extends React.Component {
     const rightIconMenu = (
       <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem
-          onClick={() => this.onDeleteObject(key)}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+          onClick={() => this.onDeleteObject(key)} // eslint wont fix: due to MUI 0x menu items issue (cannot compose menu items)
         >
           {formatMessage({ id: 'render.array-object.delete.button' })}
         </MenuItem>
         <MenuItem
-          onClick={() => this.onOpenDuplicateDialog(key)}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+          onClick={() => this.onOpenDuplicateDialog(key)} // eslint wont fix: due to MUI 0x menu items issue (cannot compose menu items)
         >
           {formatMessage({ id: 'render.array-object.duplicate.button' })}
         </MenuItem>
@@ -440,8 +438,7 @@ class RenderMapField extends React.Component {
                     onClick={this.onOpenAddDialog}
                     icon={<AddBoxIcon />}
                     style={leftButtonStyle}
-                  />
-                }
+                  />}
               </div>
               <div style={rightColumnStyle}>
                 {fieldForm}

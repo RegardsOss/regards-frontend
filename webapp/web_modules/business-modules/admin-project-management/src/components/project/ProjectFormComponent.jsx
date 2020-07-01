@@ -40,7 +40,6 @@ const requiredUrlValidator = [required, url, validStringSize(1, 255)]
 const nameValidator = [validAlphaNumericUnderscore, ...requiredStringValidator]
 const validUrlSize255 = [url, validStringSize(0, 255)]
 
-
 /**
  * Display edit and create project form
  *
@@ -64,11 +63,11 @@ export class ProjectFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentProject === undefined,
-    }
+  /** Host field style */
+  static HOST_FIELD_STYLE = { marginBottom: 15 }
+
+  state = {
+    isCreating: this.props.currentProject === undefined,
   }
 
   componentDidMount() {
@@ -108,7 +107,6 @@ export class ProjectFormComponent extends React.Component {
     const title = this.state.isCreating
       ? this.context.intl.formatMessage({ id: 'project.create.title' })
       : this.context.intl.formatMessage({ id: 'project.edit.title' }, { name: currentProject.content.name })
-    const hostFieldStyle = { marginBottom: 15 }
 
     return (
       <form
@@ -173,7 +171,7 @@ export class ProjectFormComponent extends React.Component {
               className="selenium-host"
               component={RenderTextField}
               label={this.context.intl.formatMessage({ id: 'project.form.host' })}
-              style={hostFieldStyle}
+              style={ProjectFormComponent.HOST_FIELD_STYLE}
               normalize={trim}
             />
             <Field

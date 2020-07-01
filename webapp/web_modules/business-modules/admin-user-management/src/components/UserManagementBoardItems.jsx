@@ -25,7 +25,6 @@ import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgro
 import { authenticationPluginManagementDependencies } from '@regardsoss/admin-user-authentication-plugins-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
-
 /**
  * Configuration file for user management boards items.
  * @param project

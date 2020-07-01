@@ -27,6 +27,6 @@ export const RequestConfiguration = {
 }
 
 export const REQUEST = new Schema(RequestConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[RequestConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[RequestConfiguration.entityKey],
 })
 export const REQUEST_ARRAY = arrayOf(REQUEST)

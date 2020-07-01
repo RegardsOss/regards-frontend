@@ -40,20 +40,20 @@ class BoardComponent extends React.Component {
 
   render() {
     const boardItemComponents = flow(
-      fpfilter(item => !item.advanced),
-      fpmap(item => <BoardItemComponent item={item} key={item.title} />),
+      fpfilter((item) => !item.advanced),
+      fpmap((item) => <BoardItemComponent item={item} key={item.title} />),
     )(this.props.items)
 
     const advancedBoardItemComponents = flow(
-      fpfilter(item => item.advanced),
-      fpmap(item => <BoardItemComponent item={item} key={item.title} />),
+      fpfilter((item) => item.advanced),
+      fpmap((item) => <BoardItemComponent item={item} key={item.title} />),
     )(this.props.items)
 
     const advancedBoardDependencies = flow(
-      fpfilter(item => item.advanced),
-      fpmap(item => item.actions),
+      fpfilter((item) => item.advanced),
+      fpmap((item) => item.actions),
       fpflatten,
-      fpmap(item => item.hateoasDependencies),
+      fpmap((item) => item.hateoasDependencies),
       fpflatten,
     )(this.props.items)
 

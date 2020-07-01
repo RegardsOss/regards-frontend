@@ -18,6 +18,6 @@
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
 
-const getPluginTypeSelectors = storePath => new BasicListSelectors(storePath)
+const getPluginTypeSelectors = (storePath) => new BasicListSelectors(storePath)
 
 export default getPluginTypeSelectors

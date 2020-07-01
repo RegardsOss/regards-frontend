@@ -44,7 +44,6 @@ class OrderHistoryComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
   }
@@ -67,7 +66,8 @@ class OrderHistoryComponent extends React.Component {
                 iconDisplayMode={page && page.iconType}
                 defaultIconURL={defaultIconURL}
                 customIconURL={page && page.customIconURL}
-              />}
+              />
+}
             navigationActions={navigationActions}
             navigationSelectors={navigationSelectors}
           />

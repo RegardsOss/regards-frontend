@@ -17,5 +17,5 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
 
-const getDisplayName = WrappedComponent => WrappedComponent.displayName || WrappedComponent.name || 'Component'
+const getDisplayName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
 export default getDisplayName

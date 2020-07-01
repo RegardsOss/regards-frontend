@@ -29,7 +29,6 @@ export class StabilityDelayer {
   /** Commonly waited time to assert user finished typing on keyboard */
   static COMMON_KEYBOARD_INPUT_LATENCY = 500
 
-
   /**
    * Constructor
    * @param {number} delay 'stability' delay

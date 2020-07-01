@@ -18,14 +18,15 @@
  **/
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient, AuthenticationParametersActions, routeHelpers } from '@regardsoss/authentication-utils'
+import {
+  AuthenticationClient, AuthenticationParametersActions, routeHelpers, AuthenticateResultShape,
+} from '@regardsoss/authentication-utils'
 import { AdminShapes } from '@regardsoss/shape'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
 import LoginButton from '../../../components/user/authentication/LoginButton'
-
 
 /**
  * Authentication related container, that displays:
@@ -57,10 +58,10 @@ export class AuthenticationContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
-      sendBorrowRole: roleName => dispatch(borrowRoleActions.borrowRole(roleName)),
-      dispatchRoleBorrowed: authResult => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
+      sendBorrowRole: (roleName) => dispatch(borrowRoleActions.borrowRole(roleName)),
+      dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
       showProfileEdition: () => dispatch(profileDialogActions.showEdition()),
-      toggleAuthenticationDialogOpen: opened => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
+      toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
     }
   }
 
@@ -68,11 +69,13 @@ export class AuthenticationContainer extends React.Component {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string,
     borrowableRoles: AdminShapes.RoleList.isRequired,
+
     authenticationName: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
     isInstance: PropTypes.bool.isRequired,
     // from mapStateToProps
     isSendingBorrowRole: PropTypes.bool.isRequired,
+    borrowRoleResult: AuthenticateResultShape,
     // from mapDispatchToProps
     onLogout: PropTypes.func.isRequired,
     sendBorrowRole: PropTypes.func.isRequired,
@@ -84,14 +87,14 @@ export class AuthenticationContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect back from email case and open authentication dialog when required
    */
-  componentWillMount = () => this.onToggleAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
+  UNSAFE_componentWillMount = () => this.onToggleAuthenticationVisible(routeHelpers.isBackFromAuthenticationMail())
 
   /**
    * Lifecycle method: component will receive props. It detects here:
    * - send borrow role done to update authentication state (reflect borrowed role in authentication)
    * - authentication change (to hide the authentication dialog)
    */
-  componentWillReceiveProps = ({
+  UNSAFE_componentWillReceiveProps = ({
     isSendingBorrowRole, borrowRoleResult, authenticationName, dispatchRoleBorrowed,
   }) => {
     if (this.props.isSendingBorrowRole && !isSendingBorrowRole) {
@@ -131,7 +134,6 @@ export class AuthenticationContainer extends React.Component {
     this.props.toggleAuthenticationDialogOpen(authenticationVisible)
   }
 
-
   goToHomePage = () => {
     const { project, appName } = this.props
     let url
@@ -142,7 +144,6 @@ export class AuthenticationContainer extends React.Component {
     }
     browserHistory.push(url)
   }
-
 
   render() {
     const {

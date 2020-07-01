@@ -24,7 +24,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { FileData } from '../../../../../shapes/DescriptionState'
 
 /** Button constructor for inner download button graphics */
-const DownloadInnerButton = props => <IconButton {...props}><DownloadIcon /></IconButton>
+const DownloadInnerButton = (props) => <IconButton {...props}><DownloadIcon /></IconButton>
 
 /**
  * Cell showing download option

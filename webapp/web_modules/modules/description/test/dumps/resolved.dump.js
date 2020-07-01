@@ -50,7 +50,8 @@ export const resolvedDataEntity = {
       geometry: null,
       normalizedGeometry: null,
       properties: {
-        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
+        // eslint-disable-next-line camelcase
+        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model', // eslint wont fix: mimics server format
       },
       type: 'Feature',
       crs: 'WGS_84',
@@ -341,7 +342,8 @@ export const resolvedDataEntity = {
         tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
         id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
         properties: {
-          name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md', TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000,
+          // eslint-disable-next-line camelcase
+          name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md', TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000, // eslint wont fix: mimics server format
         },
         type: 'Feature',
       },
@@ -370,7 +372,13 @@ export const resolvedDatasetEntity = {
       tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
       id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
       properties: {
-        name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md', TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000,
+        name: 'DATASET_CHRIS_2',
+        Missions: ['None'],
+        TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md',
+        TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf',
+        count: 12,
+        // eslint-disable-next-line camelcase
+        values_l1_sum: 1350000, // eslint wont fix: mimics server format
       },
       type: 'Feature',
     },
@@ -427,7 +435,16 @@ export const resolvedDatasetEntity = {
     couplingTags: [],
     linkedEntities: [{
       content: {
-        providerId: 'Collection 2269', entityType: 'COLLECTION', label: 'Collection #2269', model: 'model_collection1', files: {}, tags: [], id: 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', properties: { coll_attr_1: '#plop' }, type: 'Feature',
+        providerId: 'Collection 2269',
+        entityType: 'COLLECTION',
+        label: 'Collection #2269',
+        model: 'model_collection1',
+        files: {},
+        tags: [],
+        id: 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1',
+        // eslint-disable-next-line camelcase
+        properties: { coll_attr_1: '#plop' }, // eslint wont fix: mimics server format
+        type: 'Feature',
       },
       links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/collections/URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1' }],
     }, {

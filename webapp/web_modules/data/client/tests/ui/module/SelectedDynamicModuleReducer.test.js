@@ -23,7 +23,6 @@ import getSelectedDynamicModuleReducer, { SelectedDynamicModuleReducer } from '.
 const testActions = new SelectedDynamicModuleActions('tests')
 const testReduce = getSelectedDynamicModuleReducer('tests')
 
-
 /**
  * Test SelectedDynamicModuleReducer
  * @author Raphaël Mechali

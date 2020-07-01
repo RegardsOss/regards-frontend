@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages English language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
   'ui.settings.title': 'UI settings',
   'ui.settings.description': 'Main user interface settings',
   'ui.settings.edit.tooltip': 'Edit UI settings',
@@ -50,6 +50,7 @@ const messages = Object.assign({
   'action.add.tooltip': 'Add',
 
   'action.service.list.tooltip': 'UI Services',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

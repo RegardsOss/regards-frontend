@@ -26,7 +26,6 @@ import replace from 'lodash/replace'
 import isNil from 'lodash/isNil'
 import { CommonDomain } from '@regardsoss/domain'
 
-
 class PluginFormUtils {
   /**
    * Tools created to handle pluginConfiguration formating to handle special caracters '.' as key in Redux Field names.
@@ -53,7 +52,7 @@ class PluginFormUtils {
    * @param {*} forInit
    */
   static formatMapParameterKeys(parameterMeta, parameterConf, forInit) {
-    const formatedParameterConf = Object.assign({})
+    const formatedParameterConf = {}
     forEach(keys(parameterConf), (key) => {
       if (!forInit && key.includes(PluginFormUtils.DOT_CHAR_REPLACEMENT)) {
         formatedParameterConf[replace(key, new RegExp(PluginFormUtils.DOT_CHAR_REPLACEMENT, 'g'), '.')] = parameterConf[key]
@@ -199,7 +198,7 @@ class PluginFormUtils {
       let configurableParameters = pluginConfiguration.parameters
       if (pluginMetaData && pluginMetaData.parameters) {
         formatedConf.parameters = []
-        configurableParameters = filter(pluginConfiguration.parameters, p => find(pluginMetaData.parameters, { unconfigurable: false }))
+        configurableParameters = filter(pluginConfiguration.parameters, (p) => find(pluginMetaData.parameters, { unconfigurable: false }))
         formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, pluginMetaData, forInit)
       } else {
         formatedConf.parameters = PluginFormUtils.formatPluginConfParameters(configurableParameters, null, forInit)

@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 // fake bind method: publishes an ID in children elements
-const bind = id => ({ id })
+const bind = (id) => ({ id })
 // fake headless adapter for tests
 export const HeadlessPlaceholder = ({ children }) => children({ bind })
-
 
 /**
  chart JS adapter: prevents chart JS loading to explode mocha tests due to headless environment
@@ -34,7 +33,7 @@ export default class MeasureAdapter extends React.Component {
     RenderComponent: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     let RenderComponent
     if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'coverage') {
       // in test, avoid loading the library

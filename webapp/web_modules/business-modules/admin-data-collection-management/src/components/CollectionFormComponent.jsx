@@ -32,7 +32,6 @@ import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardso
 import MenuItem from 'material-ui/MenuItem'
 import CollectionStepperComponent from './CollectionStepperComponent'
 
-
 const lessThan128 = ValidationHelpers.lengthLessThan(128)
 const labelValidate = [lessThan128, ValidationHelpers.required]
 /**
@@ -138,7 +137,8 @@ export class CollectionFormComponent extends React.Component {
             subtitle={// subtitle: show warning when duplicating
               this.context.intl.formatMessage({
                 id: isDuplicating ? 'collection.form.duplicate.warning.subtitle' : 'collection.form.subtitle',
-              })}
+              })
+}
             subtitleColor={// warning color when duplicating
               isDuplicating ? muiTheme.palette.accent1Color : null
             }

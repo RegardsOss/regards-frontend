@@ -96,7 +96,7 @@ const mapStateToProps = (state, ownProps) => ({
   connectionList: connectionSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
 })
 

@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionActions } from './clients/ConnectionClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

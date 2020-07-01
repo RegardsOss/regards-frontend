@@ -32,7 +32,6 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-
   it('should exists', () => {
     assert.isDefined(RoleListComponent)
   })

@@ -25,30 +25,6 @@ import { MeasureResultProvider } from '@regardsoss/display-control'
 import styles from '../styles'
 
 export class MarkdownFileContentDisplayer extends React.Component {
-  /**
-   * Maps MIME type to editor mode
-   */
-  static SUPPORTED_MIME_TYPES = [
-    MIME_TYPES.MARKDOWN_MIME_TYPE,
-    'text/x-markdown', // XXX This is a workaround for the wrong description MIME types provided at collections / dataset level
-  ]
-
-  /**
-   * Is supported content type for this component?
-   * @param {string} contentType to test
-   * @return {boolean} true if content type is supported, false otherwise
-   */
-  static isSupportedContentType(contentType) {
-    const lowerContentType = contentType.toLowerCase()
-    return MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
-  }
-
-  /** Default options for the viewer */
-  static DEFAULT_MD_VIEWER_OPTIONS = {
-    html: true,
-    xhtmlOut: true,
-  }
-
   static propTypes = {
     // source: content or URL
     source: PropTypes.string,
@@ -70,8 +46,32 @@ export class MarkdownFileContentDisplayer extends React.Component {
     ...themeContextType,
   }
 
+  /**
+   * Maps MIME type to editor mode
+   */
+  static SUPPORTED_MIME_TYPES = [
+    MIME_TYPES.MARKDOWN_MIME_TYPE,
+    'text/x-markdown', // XXX This is a workaround for the wrong description MIME types provided at collections / dataset level
+  ]
+
+  /** Default options for the viewer */
+  static DEFAULT_MD_VIEWER_OPTIONS = {
+    html: true,
+    xhtmlOut: true,
+  }
+
   static EXPANDABLE_BODY_LAYOUT_STYLES = {
     display: 'flex',
+  }
+
+  /**
+   * Is supported content type for this component?
+   * @param {string} contentType to test
+   * @return {boolean} true if content type is supported, false otherwise
+   */
+  static isSupportedContentType(contentType) {
+    const lowerContentType = contentType.toLowerCase()
+    return MarkdownFileContentDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
   }
 
   render() {

@@ -37,7 +37,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing DocumentModelsFieldArrayCompone
     assert.isDefined(DocumentModelsFieldArrayComponent)
   })
   it('should render and update with selection updates correctly', () => {
-    const models = [1, 2, 3, 4, 5].map(v => `model${v}`)
+    const models = [1, 2, 3, 4, 5].map((v) => `model${v}`)
     let selectedModels = [models[0], models[3]]
     const props = {
       dataModelNames: models,
@@ -45,7 +45,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing DocumentModelsFieldArrayCompone
         get: () => {}, // unused
         getAll: () => selectedModels,
         insert: () => {}, // unused
-        push: model => selectedModels.push(model),
+        push: (model) => selectedModels.push(model),
         remove: (index) => {
           selectedModels = selectedModels.reduce(
             (acc, v, localIndex) => index === localIndex ? acc : [...acc, v], [])

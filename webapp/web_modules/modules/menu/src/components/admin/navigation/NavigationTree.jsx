@@ -97,13 +97,12 @@ class NavigationTree extends React.Component {
     ]
   }
 
-
   /**
    * Builds tree table rows from model (the fields). Note: it is recusively called by the buildSectionTreeTableRow function
    * @param {[NavigationEditionItem]} navigationEditionItems navigation items (initially redux form fields)
    * @return {[TreeTableRow]} built rows
    */
-  buildTreeTableRows = navigationItems => navigationItems.map((item) => {
+  buildTreeTableRows = (navigationItems) => navigationItems.map((item) => {
     switch (item.type) {
       case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
         return this.buildModuleTreeTableRow(item)
@@ -112,7 +111,7 @@ class NavigationTree extends React.Component {
       default:
         throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
     }
-  }).filter(row => !!row) // delete here the elements that could not be retrieved (temporary state)
+  }).filter((row) => !!row) // delete here the elements that could not be retrieved (temporary state)
 
   /**
    * Builds a module tree table row

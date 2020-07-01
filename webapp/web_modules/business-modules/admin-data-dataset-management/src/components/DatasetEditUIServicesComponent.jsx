@@ -88,7 +88,7 @@ export class DatasetEditUIServicesComponent extends React.Component {
     this.setState({
       linkUIPluginConfigurationActiveList: this.isPluginConfigurationActivated(uiPluginConfiguration)
         // remove plugin from list
-        ? linkUIPluginConfigurationActiveList.filter(value => uiPluginConfiguration.content.id !== value.id)
+        ? linkUIPluginConfigurationActiveList.filter((value) => uiPluginConfiguration.content.id !== value.id)
         // add plugin in list
         : [...linkUIPluginConfigurationActiveList, { id: uiPluginConfiguration.content.id }],
     })
@@ -108,12 +108,12 @@ export class DatasetEditUIServicesComponent extends React.Component {
    * @param uiPluginConfiguration
    * @returns {*}
    */
-  isPluginConfigurationActivated = uiPluginConfiguration => (
+  isPluginConfigurationActivated = (uiPluginConfiguration) => (
     this.isPluginConfigurationActivatedForAllDataset(uiPluginConfiguration)
-    || some(this.state.linkUIPluginConfigurationActiveList, entity => (entity.id === uiPluginConfiguration.content.id))
+    || some(this.state.linkUIPluginConfigurationActiveList, (entity) => (entity.id === uiPluginConfiguration.content.id))
   )
 
-  isPluginConfigurationActivatedForAllDataset = uiPluginConfiguration => uiPluginConfiguration.content.linkedToAllEntities
+  isPluginConfigurationActivatedForAllDataset = (uiPluginConfiguration) => uiPluginConfiguration.content.linkedToAllEntities
 
   render() {
     const { backUrl, uiPluginDefinitionList } = this.props

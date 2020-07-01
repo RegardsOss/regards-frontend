@@ -157,7 +157,7 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                 const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
                 assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
                 services.forEach((service) => {
-                  const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
+                  const serviceComponent = servicesComponents.findWhere((serviceComp) => serviceComp.props().service === service)
                   assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
                   assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
                     `Start service callback should be correctly reported for service ${service.content.label}`)

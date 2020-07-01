@@ -116,9 +116,9 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightFormComponent', () 
       const allFields = ['access', 'dataAccess', 'dataAccessPlugin']
       allFields.forEach((fieldName) => {
         if (expectedFields[fieldName]) {
-          assert.lengthOf(fieldsWrapper.findWhere(n => n.props().name === fieldName), 1, `There should be ${fieldName} field`)
+          assert.lengthOf(fieldsWrapper.findWhere((n) => n.props().name === fieldName), 1, `There should be ${fieldName} field`)
         } else {
-          assert.lengthOf(fieldsWrapper.findWhere(n => n.props().name === fieldName), 0, `There should not be ${fieldName} field`)
+          assert.lengthOf(fieldsWrapper.findWhere((n) => n.props().name === fieldName), 0, `There should not be ${fieldName} field`)
         }
       })
     }))

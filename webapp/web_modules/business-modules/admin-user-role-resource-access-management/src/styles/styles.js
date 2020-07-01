@@ -19,11 +19,13 @@
 import {
   lightBlue200, yellow300, green300, purple300,
 } from 'material-ui/styles/colors'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 
-const styles = theme => ({
+const styles = (theme) => ({
   listItem: {
-    paddingLeft: '100px',
+    paddingLeft: 50,
   },
+  listItemEven: {},
   listItemOdd: {
     backgroundColor: theme.tableRow.stripeColor,
   },
@@ -38,17 +40,19 @@ const styles = theme => ({
   chipItem: {
     marginRight: 10,
   },
-  getChip: {
-    backgroundColor: lightBlue200,
-  },
-  putChip: {
-    backgroundColor: yellow300,
-  },
-  deleteChip: {
-    backgroundColor: green300,
-  },
-  postChip: {
-    backgroundColor: purple300,
+  chipByVerb: {
+    [RequestVerbEnum.GET]: {
+      backgroundColor: lightBlue200,
+    },
+    [RequestVerbEnum.POST]: {
+      backgroundColor: green300,
+    },
+    [RequestVerbEnum.PUT]: {
+      backgroundColor: yellow300,
+    },
+    [RequestVerbEnum.DELETE]: {
+      backgroundColor: purple300,
+    },
   },
   description: {
     style: {
@@ -57,6 +61,13 @@ const styles = theme => ({
       textoverflow: 'ellipsis',
     },
     class: 'col-sm-75',
+  },
+  resourceSecondaryStyle: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
+  resourceIconStyle: {
+    marginRight: 10,
   },
   microserviceSplitPanel: {
     layoutStyle: {

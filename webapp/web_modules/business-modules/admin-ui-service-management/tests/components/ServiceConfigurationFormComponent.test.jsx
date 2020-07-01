@@ -64,7 +64,6 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationFormComponen
     // the subheaders should be visible
     assert.lengthOf(enzymeWrapper.find(Subheader), 2, 'There should static and dynamic parameters headers')
 
-
     assert.isTrue(onSubmitSpy.notCalled, 'Not called yet')
     assert.isTrue(handleSubmitSpy.calledOnce, 'Not called yet')
     assert.isTrue(initializeSpy.calledOnce, 'Initialize the form since we are duplicating an entity')

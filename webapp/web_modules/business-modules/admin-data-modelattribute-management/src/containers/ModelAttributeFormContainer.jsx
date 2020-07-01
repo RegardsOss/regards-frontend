@@ -118,11 +118,11 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   handleDeleteAttributeModel = (attributeModel) => {
-    const modelAttributeToDelete = find(this.props.modelAttributeList, modelAttribute => (modelAttribute.content.attribute.id === attributeModel.content.id))
+    const modelAttributeToDelete = find(this.props.modelAttributeList, (modelAttribute) => (modelAttribute.content.attribute.id === attributeModel.content.id))
     this.props.deleteModelAttribute(modelAttributeToDelete.content.id, this.props.model.content.name)
   }
 
-  isNotInFragment = attribute => (
+  isNotInFragment = (attribute) => (
     attribute.content.fragment.name !== DamDomain.DEFAULT_FRAGMENT
   )
 
@@ -136,7 +136,7 @@ export class ModelAttributeFormContainer extends React.Component {
       fragments: {},
       attrs: [],
     }
-    const partitionAttributeHavingFragment = partition(attributeList, attribute => this.isNotInFragment(attribute))
+    const partitionAttributeHavingFragment = partition(attributeList, (attribute) => this.isNotInFragment(attribute))
     // Store attributeModel that are on the default fragment
     result.attrs = partitionAttributeHavingFragment[1]
 
@@ -171,12 +171,11 @@ export class ModelAttributeFormContainer extends React.Component {
       },
     }
     // Extract all attributes that are associated to the current model
-    const partitionAttributeModel = partition(attributeModelList, attributeModel => some(modelAttributeList, modelAttribute => modelAttribute.content.attribute.id === attributeModel.content.id))
+    const partitionAttributeModel = partition(attributeModelList, (attributeModel) => some(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.id === attributeModel.content.id))
     result.ATTR_ASSOCIATED = this.extractFragmentFromAttributeList(partitionAttributeModel[0])
     result.ATTR_REMAINING = this.extractFragmentFromAttributeList(partitionAttributeModel[1])
     return result
   }
-
 
   render() {
     const { isLoading } = this.state
@@ -197,12 +196,12 @@ const mapStateToProps = (state, ownProps) => ({
   model: modelSelectors.getById(state, ownProps.params.modelName),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAttributeModelList: () => dispatch(attributeModelActions.fetchEntityList()),
-  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   createModelAttribute: (modelAttribute, modelName) => dispatch(modelAttributesActions.createEntity(modelAttribute, { modelName })),
   deleteModelAttribute: (id, modelName) => dispatch(modelAttributesActions.deleteEntity(id, { modelName })),
-  fetchModel: modelName => dispatch(modelActions.fetchEntity(modelName)),
+  fetchModel: (modelName) => dispatch(modelActions.fetchEntity(modelName)),
 
   bindFragment: (fragment, modelName) => dispatch(modelAttributesFragmentActions.createEntities(fragment, { modelName })),
   unbindFragment: (fragmentId, modelName) => dispatch(modelAttributesFragmentActions.deleteEntity(fragmentId, { modelName })),

@@ -56,7 +56,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize this sub form part values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       isCreating, entityType, changeField, currentNamespace,
     } = this.props
@@ -80,10 +80,9 @@ class DescriptionConfigurationFormComponent extends React.Component {
    * Validates edited groups
    * @return {string} error if any, undefined otherwise
    */
-  validateGroups = groups => groups.find(g => g.showTitle && (!g.title.en || !g.title.fr))
+  validateGroups = (groups) => groups.find((g) => g.showTitle && (!g.title.en || !g.title.fr))
     ? 'error.marker' // unused, only explaining redux there is an error here
     : null
-
 
   render() {
     const {

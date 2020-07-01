@@ -34,7 +34,7 @@ describe('[User Metadata Common] Testing MetadataField', () => {
   })
 
   // test that each known metadata model is correctly rendered
-  getMetadataArray().forEach(metadata => it(`should render a field properly for ${metadata.key}`, () => {
+  getMetadataArray().forEach((metadata) => it(`should render a field properly for ${metadata.key}`, () => {
     const props = {
       metadata,
     }

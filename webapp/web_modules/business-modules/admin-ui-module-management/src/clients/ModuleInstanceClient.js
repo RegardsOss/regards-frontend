@@ -26,7 +26,6 @@ import { AccessInstanceClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'modules-instance']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules-instance'
 
-
 export const moduleInstanceReducers = AccessInstanceClient.getModuleReducer(REDUX_ACTION_NAMESPACE)
 export const moduleInstanceActions = new AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
 export const moduleInstanceSelectors = AccessInstanceClient.getModuleSelectors(ENTITIES_STORE_PATH)

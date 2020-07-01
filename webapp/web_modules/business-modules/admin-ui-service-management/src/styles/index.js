@@ -16,28 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
 /**
- * A React component to display a div element centered in height and width in his parent element
+ * @author Sébastien Binda
  */
-class CenteredDiv extends React.Component {
-  static propTypes = {
-    children: PropTypes.element,
-  }
-
-  render() {
-    const styles = {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100vh',
-    }
-    return (
-      <div style={styles}>
-        {this.props.children}
-      </div>
-    )
-  }
+export default {
+  styles,
 }
-
-export default CenteredDiv

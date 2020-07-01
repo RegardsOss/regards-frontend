@@ -60,7 +60,6 @@ class BasicListActions extends BasicActions {
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
   }
 
-
   /**
    * Fetch entities
    *
@@ -75,7 +74,7 @@ class BasicListActions extends BasicActions {
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesListPayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
@@ -85,7 +84,6 @@ class BasicListActions extends BasicActions {
       },
     }
   }
-
 
   /**
    * Fetch a single entity of id attribute keyValue.
@@ -108,7 +106,7 @@ class BasicListActions extends BasicActions {
           this.ENTITY_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
@@ -132,7 +130,7 @@ class BasicListActions extends BasicActions {
           this.ENTITY_REQUEST_SILENT,
           this.buildSuccessAction(
             this.ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_FAILURE),
         ],
@@ -149,7 +147,7 @@ class BasicListActions extends BasicActions {
           this.CREATE_ENTITY_REQUEST,
           this.buildSuccessAction(
             this.CREATE_ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
           ),
           this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
         ],
@@ -174,7 +172,7 @@ class BasicListActions extends BasicActions {
           this.CREATE_ENTITIES_REQUEST,
           this.buildSuccessAction(
             this.CREATE_ENTITIES_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesListPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesListPayload(json)),
           ),
           this.buildFailureAction(this.CREATE_ENTITIES_FAILURE),
         ],
@@ -187,7 +185,7 @@ class BasicListActions extends BasicActions {
 
   updateEntity(keyValue, values, pathParams, queryParams, endpoint = null, verb = 'PUT') {
     let endpointRequest = endpoint || this.entityEndpoint
-    const pathParamsRequest = Object.assign({}, pathParams)
+    const pathParamsRequest = { ...pathParams }
     // 1. Add entity identifier into endpoint.
     // If the entityPathVariable is in the endpoint, handle it as a normal path parameter.
     // Else, add the identifier at the end of the endpoint
@@ -205,7 +203,7 @@ class BasicListActions extends BasicActions {
           this.UPDATE_ENTITY_REQUEST,
           this.buildSuccessAction(
             this.UPDATE_ENTITY_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
           ),
           this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
         ],
@@ -264,7 +262,7 @@ class BasicListActions extends BasicActions {
         this.CREATE_ENTITY_REQUEST,
         this.buildSuccessAction(
           this.CREATE_ENTITY_SUCCESS,
-          (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
         ),
         this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
       ])
@@ -286,13 +284,12 @@ class BasicListActions extends BasicActions {
         this.UPDATE_ENTITY_REQUEST,
         this.buildSuccessAction(
           this.UPDATE_ENTITY_SUCCESS,
-          (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
         ),
         this.buildFailureAction(this.UPDATE_ENTITY_FAILURE),
       ],
     )
   }
-
 
   /**
    * Allows to send multiple objects on the same time
@@ -310,12 +307,11 @@ class BasicListActions extends BasicActions {
         this.CREATE_ENTITY_REQUEST,
         {
           type: this.CREATE_ENTITY_SUCCESS,
-          payload: (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntityPayload(json)),
+          payload: (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntityPayload(json)),
         },
         this.buildFailureAction(this.CREATE_ENTITY_FAILURE),
       ])
   }
-
 
   /**
       * Extracts payload from action result
@@ -325,9 +321,9 @@ class BasicListActions extends BasicActions {
       */
   static extractPayload(res, normalizer) {
     if (normalizer) {
-      return getJSON(res).then(json => normalizer(json))
+      return getJSON(res).then((json) => normalizer(json))
     }
-    return getJSON(res).then(json => json)
+    return getJSON(res).then((json) => json)
   }
 
   /**

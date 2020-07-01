@@ -72,7 +72,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
         documentModels: ['model3'],
         primaryQuicklookGroup: 'customMain',
       },
-      dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
+      dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
       onBack: () => {},
       onSubmit: () => {},
       // from redux form
@@ -113,7 +113,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
     const spyInitialize = {}
     const props = {
       settings: null,
-      dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
+      dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
       onBack: () => {},
       onSubmit: () => {},
       // from redux form

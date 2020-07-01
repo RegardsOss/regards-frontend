@@ -76,7 +76,7 @@ export default class ComplexSearchActions extends BasicPageableActions {
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesPagePayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],

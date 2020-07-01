@@ -34,8 +34,8 @@ export class ModuleFormAdapter extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       applicationId: PropTypes.string,
-      module_id: PropTypes.string,
-      duplicate_module_id: PropTypes.string,
+      moduleId: PropTypes.string,
+      duplicateModuleId: PropTypes.string,
     }),
     // Set by mapStateToProps
     isInstance: PropTypes.bool,
@@ -83,7 +83,6 @@ export class ModuleFormAdapter extends React.Component {
     return props
   }
 
-
   render() {
     return (<ModuleFormContainer
       {...this.getChildProps()}
@@ -104,8 +103,8 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   createInstanceModule: (applicationId, module) => dispatch(moduleInstanceActions.createEntity(module, { applicationId })),
   deleteModule: (applicationId, module) => dispatch(moduleActions.deleteEntity(module.id, { applicationId })),
   deleteInstanceModule: (applicationId, module) => dispatch(moduleInstanceActions.deleteEntity(module.id, { applicationId })),
-  fetchLayout: applicationId => dispatch(layoutActions.fetchEntity(applicationId)),
-  fetchInstanceLayout: applicationId => dispatch(layoutInstanceActions.fetchEntity(applicationId)),
+  fetchLayout: (applicationId) => dispatch(layoutActions.fetchEntity(applicationId)),
+  fetchInstanceLayout: (applicationId) => dispatch(layoutInstanceActions.fetchEntity(applicationId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModuleFormAdapter)

@@ -37,7 +37,7 @@ function createGroups(groupDefinitions) {
         id: index,
         name,
         isPublic,
-        users: users.map(email => ({ email })),
+        users: users.map((email) => ({ email })),
       },
     },
   }), {})
@@ -60,7 +60,6 @@ function createUsers(userDefinitions) {
     },
   }), {})
 }
-
 
 // Test a component rendering
 describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', () => {
@@ -161,8 +160,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', (
     assert.isNull(state2.selectedGroup, '[2] While groups are not available, selected group should be null')
     assert.isTrue(state2.showOnlyWaitingUsers, '[2] Show only waiting users should be true')
     assert.lengthOf(state2.users, 2, '[2] The waiting users should be selected')
-    assert.isTrue(state2.users.some(u => u.content.email === 'u3@u.com'), '[2] The user 3 should be visible (waiting)')
-    assert.isTrue(state2.users.some(u => u.content.email === 'u4@u.com'), '[2] The user 4 should be visible (waiting)')
+    assert.isTrue(state2.users.some((u) => u.content.email === 'u3@u.com'), '[2] The user 3 should be visible (waiting)')
+    assert.isTrue(state2.users.some((u) => u.content.email === 'u4@u.com'), '[2] The user 4 should be visible (waiting)')
     assert.equal(state2.waitingUsersCount, 2, '[2] Only waiting users shown')
 
     // [3] fetch groups done, the list should now be filter
@@ -176,7 +175,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', (
     assert.equal(state3.selectedGroup.content.name, 'g1', '[3] Selected group should be g1')
     assert.isTrue(state3.showOnlyWaitingUsers, '[3] Show only waiting users should be true')
     assert.lengthOf(state3.users, 1, '[3] The waiting users in group g1 should be selected')
-    assert.isTrue(state3.users.some(u => u.content.email === 'u3@u.com'), '[3] The user 3 should be visible (waiting and group 1)')
+    assert.isTrue(state3.users.some((u) => u.content.email === 'u3@u.com'), '[3] The user 3 should be visible (waiting and group 1)')
     assert.equal(state3.waitingUsersCount, 1, '[3] Only waiting users shown')
 
     // [4] switch to g2, only waiting (no data)
@@ -203,7 +202,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', (
     assert.equal(state5.selectedGroup.content.name, 'g2', '[5] Selected group should be g2')
     assert.isFalse(state5.showOnlyWaitingUsers, '[5] Show only waiting users should be false')
     assert.lengthOf(state5.users, 1, '[5] All users in group g2 should be selected')
-    assert.isTrue(state5.users.some(u => u.content.email === 'u2@u.com'), '[5] The user 2 should be visible (group 2)')
+    assert.isTrue(state5.users.some((u) => u.content.email === 'u2@u.com'), '[5] The user 2 should be visible (group 2)')
     assert.equal(state5.waitingUsersCount, 0, '[5] no waiting user in g2')
 
     // [6] Test with public group g3

@@ -18,7 +18,7 @@
  */
 import { amber900 } from 'material-ui/styles/colors'
 
-const adminProjectManagementStyles = theme => (
+const adminProjectManagementStyles = (theme) => (
   {
     palette: {
       warning: amber900,

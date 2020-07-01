@@ -51,14 +51,11 @@ class AdminApp extends React.Component {
     fetchEndpoints: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoadingEndpoints: false,
-    }
+  state = {
+    isLoadingEndpoints: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // init with project parameter if available
     const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
@@ -68,7 +65,7 @@ class AdminApp extends React.Component {
    * On authentication-manager fetch autorized endpoints
    * @param nextProps
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const nextProject = nextProps.params.project
     // if project changed reinitialize application
     if (nextProps.params && nextProject !== this.props.params.project) {
@@ -151,8 +148,8 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+const mapDispatchToProps = (dispatch) => ({
+  initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
   fetchEndpoints: () => dispatch(CommonEndpointClient.endpointActions.fetchPagedEntityList(0, 10000)),
 })
 

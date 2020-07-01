@@ -71,7 +71,6 @@ export class ModeSelectorContainer extends React.Component {
     }
   }
 
-
   render() {
     const { mode, tabType, resultsContext } = this.props
     const { selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)

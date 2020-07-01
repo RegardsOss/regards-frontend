@@ -103,13 +103,13 @@ export class OrderListContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -154,7 +154,7 @@ export class OrderListContainer extends React.Component {
   }
 
   /** Request callback: show a request failure to user */
-  onShowRequestFailedInformation = requestResponse => this.setState({ currentFailureResponse: requestResponse })
+  onShowRequestFailedInformation = (requestResponse) => this.setState({ currentFailureResponse: requestResponse })
 
   /** User callback: hide request failure */
   onHideRequestFailedInformation = () => this.setState({ currentFailureResponse: null })
@@ -181,7 +181,7 @@ export class OrderListContainer extends React.Component {
       currentFailureResponse, asynchRequestInformation, deleteConfirmation,
     } = this.state
     return (
-      <React.Fragment>
+      <>
         { /* request fail information component, on demand */ }
         <RequestFailedInformationComponent
           visible={!!currentFailureResponse}
@@ -222,7 +222,7 @@ export class OrderListContainer extends React.Component {
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>
-      </React.Fragment>)
+      </>)
   }
 }
 

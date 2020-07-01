@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isDate from 'lodash/isDate'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import isNaN from 'lodash/isNaN'
 import DatePicker from 'material-ui/DatePicker'
 import TimePicker from 'material-ui/TimePicker'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
-import isNaN from 'lodash/isNaN'
-import isEmpty from 'lodash/isEmpty'
-import isDate from 'lodash/isDate'
 import TimeIcon from 'mdi-material-ui/ClockOutline'
 import ActionDateRange from 'mdi-material-ui/CalendarRange'
 import format from 'date-fns/format'
@@ -47,7 +48,8 @@ export default class DatePickerField extends React.Component {
     okLabel: PropTypes.string,
     cancelLabel: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    style: PropTypes.objectOf(
+    // eslint-disable-next-line react/no-unused-prop-types
+    style: PropTypes.objectOf( // eslint wont fix: broken rule, used in onPropertiesUpdated
       PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     ),
     locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
@@ -100,6 +102,11 @@ export default class DatePickerField extends React.Component {
     width: undefined,
   }
 
+  /** Style to use in full width */
+  static FULL_WIDTH_STYLE = { flexGrow: 1, flexShrink: 1, display: 'inline-flex' }
+
+  /** Default style (not full width) */
+  static DEFAULT_STYLE = { display: 'inline-flex' }
 
   static getUsDate = (dateString) => {
     const parts = dateString.split('/')
@@ -109,14 +116,22 @@ export default class DatePickerField extends React.Component {
     return null
   }
 
-  static formatDateWithLocale = (date, locale) => {
+  static formatDateWithLocale(date, locale) {
     if (locale === 'en') {
       return date ? format(date, DatePickerField.DATE_FORMAT_US) : ''
     }
     return date ? format(date, DatePickerField.DATE_FORMAT) : ''
   }
 
-  static parseDateWithLocale = (dateString, locale, timeString) => {
+  /**
+   * Formats date for date field input
+   * @param {*} date
+   */
+  static formatDateForInput(date) {
+    return format(date, DatePickerField.DATE_FORMAT_US)
+  }
+
+  static parseDateWithLocale(dateString, locale, timeString) {
     if (locale === 'en') {
       if (timeString) {
         return dateString ? parse(`${dateString} ${timeString}`, `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
@@ -132,37 +147,61 @@ export default class DatePickerField extends React.Component {
     return dateString ? parse(usDateString, DatePickerField.DATE_FORMAT_US) : null
   }
 
-  constructor(props) {
-    super(props)
-
-    // compute initial state
-    const date = isDate(props.defaultValue) ? props.defaultValue : props.value
+  /** Initial state (resolved on IIFE for readability sake) */
+  state = (() => {
+    const date = isDate(this.props.defaultValue) ? this.props.defaultValue : this.props.value
     const defaultDate = date
-      || parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${props.defaultTime}`,
+      || parse(`${format(new Date(), DatePickerField.DATE_FORMAT_US)} ${this.props.defaultTime}`,
         `${DatePickerField.DATE_FORMAT_US} ${DatePickerField.TIME_FORMAT}`)
-
-    this.state = {
-      dateText: date ? DatePickerField.formatDateWithLocale(date, props.locale) : '',
+    return {
+      dateText: date ? DatePickerField.formatDateWithLocale(date, this.props.locale) : '',
       timeText: date ? format(date, DatePickerField.TIME_FORMAT) : '',
       defaultDate,
+      style: {}, // initialized on properties init detection
     }
-  }
+  })()
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.handleChangeDate(nextProps.value)
+  /** Date picker ref */
+  datePicker = React.createRef()
+
+  /** Date picker ref */
+  timePicker = React.createRef()
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const nextState = { ...this.state }
+    const {
+      value, displayTime, fullWidth, style,
+    } = newProps
+    if (oldProps.value !== value) {
+      nextState.dateText = value ? DatePickerField.formatDateWithLocale(value, this.props.locale) : ''
+      nextState.timeText = value ? format(value, DatePickerField.TIME_FORMAT) : ''
     }
-  }
-
-  handleChangeDate = (newDate) => {
-    if (newDate) {
-      const newDateText = DatePickerField.formatDateWithLocale(newDate, this.props.locale)
-      const newTimeText = format(newDate, DatePickerField.TIME_FORMAT)
-      if (this.state.dateText !== newDateText || this.state.timeText !== newTimeText) {
-        this.setState({ dateText: newDateText, timeText: newTimeText })
+    if (oldProps.displayTime !== displayTime
+        || oldProps.fullWidth !== fullWidth
+        || oldProps.style !== style) {
+      nextState.style = {
+        ...style,
+        ...(fullWidth ? DatePickerField.FULL_WIDTH_STYLE : DatePicker.DEFAULT_STYLE),
       }
-    } else {
-      this.setState({ dateText: '', timeText: '' })
+    }
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
     }
   }
 
@@ -229,8 +268,10 @@ export default class DatePickerField extends React.Component {
 
   /**
    * Save the Date set manually by the user (e.g. YYYY:MM:DD) when the user unblur the TextField
+   * @param {*} event propagated on change
    */
-  handleDateInputBlur = (dateText) => {
+  handleDateInputBlur = (event) => {
+    const dateText = event.currentTarget.value
     const {
       value, locale, onChange, defaultTime,
     } = this.props
@@ -257,8 +298,10 @@ export default class DatePickerField extends React.Component {
 
   /**
    * Save the Datetime set manually by the user (e.g. HH:MM:SS) when the user unselect (unblur) the TextField
+   * @param {*} event propagated on change
    */
-  handleDatetimeInputBlur = (timeText) => {
+  handleTimeInputBlur = (event) => {
+    const timeText = event.currentTarget.value
     let parsedDate
     const { value, onChange, locale } = this.props
     const { dateText } = this.state
@@ -283,6 +326,12 @@ export default class DatePickerField extends React.Component {
       onChange()
     }
   }
+
+  /** User callback, focus date field */
+  onDateInputFocus = () => this.datePicker.current.focus()
+
+  /** User callback, focus time field */
+  onTimeInputFocus = () => this.timePicker.current.focus()
 
   /**
    * Renders time picker components
@@ -309,9 +358,7 @@ export default class DatePickerField extends React.Component {
           autoOk={this.props.autoOk}
           okLabel={this.props.okLabel}
           cancelLabel={this.props.cancelLabel}
-          ref={(c) => {
-            this.datetimePicker = c
-          }}
+          ref={this.timePicker}
         />
       </div>,
       // 2 - time text field where user can input time
@@ -322,7 +369,7 @@ export default class DatePickerField extends React.Component {
         errorText={errorText}
         hintText={timeHintText}
         onChange={this.handleDatetimeInputChange}
-        onBlur={event => this.handleDatetimeInputBlur(event.currentTarget.value)}
+        onBlur={this.handleTimeInputBlur}
         disabled={disabled}
         title={tooltip}
       />,
@@ -330,7 +377,7 @@ export default class DatePickerField extends React.Component {
       <IconButton
         key="time.selector.button"
         style={DatePickerField.iconStyle}
-        onClick={() => this.datetimePicker.focus()}
+        onClick={this.onTimeInputFocus}
         disabled={disabled}
         title={tooltip}
       >
@@ -355,16 +402,14 @@ export default class DatePickerField extends React.Component {
           floatingLabelText=""
           value={this.props.value}
           errorText=""
-          formatDate={date => format(date, DatePickerField.DATE_FORMAT_US)}
+          formatDate={DatePickerField.formatDateForInput}
           autoOk={this.props.autoOk}
           okLabel={this.props.okLabel}
           cancelLabel={this.props.cancelLabel}
           container="inline"
           fullWidth
           onChange={this.handleChangeDatePicker}
-          ref={(c) => {
-            this.datePicker = c
-          }}
+          ref={this.datePicker}
         />
       </div>,
       // 2 - date text field where user can input date
@@ -375,7 +420,7 @@ export default class DatePickerField extends React.Component {
         errorText={errorText}
         hintText={dateHintText}
         onChange={this.handleDateInputChange}
-        onBlur={event => this.handleDateInputBlur(event.currentTarget.value)}
+        onBlur={this.handleDateInputBlur}
         disabled={disabled}
         title={tooltip}
       />,
@@ -383,7 +428,7 @@ export default class DatePickerField extends React.Component {
       <IconButton
         key="date.selector.button"
         style={DatePickerField.iconStyle}
-        onClick={() => this.datePicker.focus()}
+        onClick={this.onDateInputFocus}
         disabled={disabled}
         title={tooltip}
       >
@@ -392,10 +437,10 @@ export default class DatePickerField extends React.Component {
   }
 
   render() {
-    const { displayTime, fullWidth, style } = this.props
-    const dynamicStyle = fullWidth ? { flexGrow: 1, flexShrink: 1 } : {}
+    const { style } = this.state
+    const { displayTime } = this.props
     return (
-      <div style={{ ...style, ...dynamicStyle, display: 'inline-flex' }}>
+      <div style={style}>
         {
           [
             ...this.renderDate(),

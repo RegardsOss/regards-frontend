@@ -38,7 +38,6 @@ const projectReducers = new BasicListReducers({
   normalizrKey: 'projects',
 }, projectActions)
 
-
 describe('[STORE UTILS] Testing project reducer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -60,7 +59,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
   })
 
   describe('should reduce requests fetching', () => {
-    const shallSetIsFetching = actionType => function () {
+    const shallSetIsFetching = (actionType) => function () {
       const action = {
         type: actionType,
       }
@@ -91,7 +90,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
   })
 
   describe('should reduce requests syncing', () => {
-    const shallSetIsSyncing = actionType => function () {
+    const shallSetIsSyncing = (actionType) => function () {
       const action = {
         type: actionType,
       }
@@ -123,7 +122,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
   })
 
   describe('should reduce requests errors', () => {
-    const shallSetErrorSync = actionType => function () {
+    const shallSetErrorSync = (actionType) => function () {
       const action = {
         type: actionType,
       }
@@ -143,7 +142,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
       }
       expect(projectReducers.reduce(initState, action)).to.eql(expectedState)
     }
-    const shallSetErrorFetch = actionType => function () {
+    const shallSetErrorFetch = (actionType) => function () {
       const action = {
         type: actionType,
       }
@@ -303,7 +302,7 @@ describe('[STORE UTILS] Testing project reducer', () => {
   })
 
   describe('should handle other requests success', () => {
-    const shallUpdateElement = actionType => function () {
+    const shallUpdateElement = (actionType) => function () {
       const action = {
         type: actionType,
         payload: {

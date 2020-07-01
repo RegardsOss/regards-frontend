@@ -71,19 +71,23 @@ export class AskProjectAccessFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     initialValues[useExistingAccountFieldId] = false
     this.props.initialize(initialValues)
   }
 
+  /** User callback: back operation */
+  onBack = () => {
+    const { onBack, currentMailValue } = this.props
+    onBack(currentMailValue)
+  }
+
   render() {
     const {
-      projectMetadata, passwordRules,
-      currentMailValue, useExistingAccount, errorMessage,
-      onBack, onRequestAction,
-      pristine, submitting, invalid, handleSubmit,
+      projectMetadata, passwordRules, useExistingAccount, errorMessage,
+      onRequestAction, pristine, submitting, invalid, handleSubmit,
     } = this.props
     const { moduleTheme, intl: { formatMessage } } = this.context
     return (
@@ -157,7 +161,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                 )}
                 {
                   // whatever the case: show project metadata
-                  projectMetadata.map(metadata => <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
+                  projectMetadata.map((metadata) => <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
                 }
                 <br />
                 <br />
@@ -174,7 +178,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                 disabled={submitting}
                 label={formatMessage({ id: 'ask.project.access.form.back' })}
                 primary
-                onClick={() => onBack(currentMailValue)}
+                onClick={this.onBack}
               />
             </CardActions>
           </Card>
@@ -242,7 +246,6 @@ function asyncValidate({ newPassword }, dispatch, props) {
   })
 }
 
-
 // prepare redux form
 const formId = 'ask-project-access-form'
 const connectedReduxForm = reduxForm({
@@ -252,10 +255,9 @@ const connectedReduxForm = reduxForm({
   asyncBlurFields: ['newPassword'],
 })(AskProjectAccessFormComponent)
 
-
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)
-export default connect(state => ({
+export default connect((state) => ({
   currentMailValue: selector(state, mailFieldId),
   useExistingAccount: selector(state, useExistingAccountFieldId),
 }))(connectedReduxForm)

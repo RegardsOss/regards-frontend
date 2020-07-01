@@ -57,18 +57,18 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(searchEngineConfigurationsActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
-      create: entity => dispatch(searchEngineConfigurationsActions.createEntity(entity)),
+      fetch: (entityId) => dispatch(searchEngineConfigurationsActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      create: (entity) => dispatch(searchEngineConfigurationsActions.createEntity(entity)),
       update: (entity, confId) => dispatch(searchEngineConfigurationsActions.updateEntity(confId, entity)),
       fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList(
         { microserviceName: MICROSERVICE }, {
           pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
-      fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList(
+      fetchPluginMetaDataList: (microserviceName) => dispatch(pluginMetaDataActions.fetchEntityList(
         { microserviceName: MICROSERVICE }, {
           pluginType: CatalogDomain.PluginTypeEnum.SEARCHENGINES,
         })),
-      fetchDatasetByUrn: datasetUrn => dispatch(datasetByIpIdActions.fetchDatasetByUrn(datasetUrn)),
+      fetchDatasetByUrn: (datasetUrn) => dispatch(datasetByIpIdActions.fetchDatasetByUrn(datasetUrn)),
     }
   }
 
@@ -99,7 +99,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { params: { confId }, fetch } = this.props
     const actions = []
     if (confId) {
@@ -155,8 +155,7 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
             pluginConfigurationList={pluginConfigurationList}
             pluginMetaDataList={pluginMetaDataList}
           />
-        )
-        }
+        )}
       </LoadableContentDisplayDecorator>
     )
   }

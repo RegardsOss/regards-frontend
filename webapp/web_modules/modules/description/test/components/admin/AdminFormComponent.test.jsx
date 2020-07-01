@@ -60,12 +60,12 @@ describe('[Description] Testing AdminFormComponent', () => {
       documentAttributeModels: {},
     }
     const enzymeWrapper = shallow(<AdminFormComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.allowSearching'), 1, 'There should be allow search tag field for current namespace')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.allowSearching'), 1, 'There should be allow search tag field for current namespace')
 
     // check there is one tab by entity type
     const tabsWrapper = enzymeWrapper.find(Tab)
     UIDomain.PSEUDO_TYPES.forEach((entityType) => {
-      const entityTabWrapper = tabsWrapper.findWhere(n => n.props().entityType === entityType)
+      const entityTabWrapper = tabsWrapper.findWhere((n) => n.props().entityType === entityType)
       assert.lengthOf(entityTabWrapper, 1, `There should be a tab for ${entityType} type`)
       testSuiteHelpers.assertWrapperProperties(entityTabWrapper, {
         entityType,

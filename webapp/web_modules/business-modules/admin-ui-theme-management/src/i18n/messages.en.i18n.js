@@ -23,7 +23,7 @@ import { Locales } from '@regardsoss/form-utils'
  *
  * @author Léo Mieulet
  */
-const messages = Object.assign({
+const messages = {
   'theme.list.delete.title': 'Remove theme {name}?',
   'theme.list.title': 'Theme list',
   'theme.list.subtitle': 'Personifications list of REGARDS themes',
@@ -34,7 +34,6 @@ const messages = Object.assign({
   'theme.list.tooltip.delete': 'Delete',
   'theme.list.action.cancel': 'Cancel',
   'theme.list.action.add': 'Add a new theme',
-
 
   'theme.create.title': 'Create a new theme',
   'theme.edit.title': 'Edit theme {name}',
@@ -47,6 +46,7 @@ const messages = Object.assign({
   'theme.form.active': 'Active by default',
   'theme.form.action.submit': 'Save',
   'theme.form.action.cancel': 'Cancel',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

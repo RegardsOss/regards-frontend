@@ -55,7 +55,7 @@ describe('[Description] Testing QuicklookFilesListComponent', () => {
     const filePreviewComponents = enzymeWrapper.find(QuicklookFilePreviewComponent)
     // check each quicklook is rendered with selection state
     props.quicklookFiles.forEach((file, index) => {
-      const filePreviewWrapper = filePreviewComponents.findWhere(n => n.props().groupIndex === index)
+      const filePreviewWrapper = filePreviewComponents.findWhere((n) => n.props().groupIndex === index)
       assert.lengthOf(filePreviewWrapper, 1, `There should be file preview wrapper for group ${index}`)
       testSuiteHelpers.assertWrapperProperties(filePreviewWrapper, {
         groupIndex: index,

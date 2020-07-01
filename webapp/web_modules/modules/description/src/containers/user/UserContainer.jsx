@@ -66,10 +66,10 @@ export class UserContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      setModuleDescriptionPath: path => dispatch(descriptionStateActions.setDescriptionPath(path)),
+      setModuleDescriptionPath: (path) => dispatch(descriptionStateActions.setDescriptionPath(path)),
       setSelectedTreeEntry: (entityIndex, treeEntry) => dispatch(descriptionStateActions.setSelectedTreeEntry(entityIndex, treeEntry)),
-      fetchEntity: id => dispatch(fetchEntityActions.getEntity(id)),
-      fetchModelAttributes: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+      fetchEntity: (id) => dispatch(fetchEntityActions.getEntity(id)),
+      fetchModelAttributes: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
     }
   }
 
@@ -81,11 +81,15 @@ export class UserContainer extends React.Component {
     // from map state to props
     descriptionState: DescriptionState.isRequired,
     settings: UIShapes.UISettings.isRequired,
-    accessToken: PropTypes.string,
-    projectName: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    accessToken: PropTypes.string, // eslint wont fix: rule broken, used in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    projectName: PropTypes.string.isRequired, // eslint wont fix: rule broken, used in onPropertiesUpdated
     // from mapDispatchToProps
-    fetchEntity: PropTypes.func.isRequired,
-    fetchModelAttributes: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchEntity: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchModelAttributes: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
     setSelectedTreeEntry: PropTypes.func.isRequired,
     setModuleDescriptionPath: PropTypes.func.isRequired,
   }
@@ -103,13 +107,13 @@ export class UserContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -147,7 +151,7 @@ export class UserContainer extends React.Component {
     // A - Mark loading the elements that need to be reloaded
     const loadingDescriptionPath = descriptionPath.map((entity) => {
       const previousDescriptionModel = reloading ? null
-        : descriptionState.descriptionPath.find(descriptionEntity => descriptionEntity.entity.content.id === entity.content.id)
+        : descriptionState.descriptionPath.find((descriptionEntity) => descriptionEntity.entity.content.id === entity.content.id)
       // fallback on initial loading model when reloading or not found
       return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entity)
     })
@@ -177,7 +181,7 @@ export class UserContainer extends React.Component {
     const { descriptionState, setModuleDescriptionPath } = this.props
     if (this.descriptionUpdateGroupId === descriptionUpdateGroupId) {
       setModuleDescriptionPath(descriptionState.descriptionPath
-        .map(pathEntity => pathEntity.entity.content.id === descriptionEntity.entity.content.id ? descriptionEntity : pathEntity))
+        .map((pathEntity) => pathEntity.entity.content.id === descriptionEntity.entity.content.id ? descriptionEntity : pathEntity))
     }
   }
 
@@ -204,7 +208,7 @@ export class UserContainer extends React.Component {
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
-    const foundEntityIndex = descriptionPath.findIndex(pathEntity => pathEntity.content.id === entity.content.id)
+    const foundEntityIndex = descriptionPath.findIndex((pathEntity) => pathEntity.content.id === entity.content.id)
     if (foundEntityIndex >= 0) {
       // 1.a - Yes: just update the displayed index
       setDescriptionPath(descriptionPath, foundEntityIndex)

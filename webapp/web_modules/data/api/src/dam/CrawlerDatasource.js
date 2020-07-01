@@ -24,7 +24,7 @@ export const CrawlerDatasourceConfiguration = {
 }
 
 export const CRAWLER_DATASOURCE = new Schema(CrawlerDatasourceConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[CrawlerDatasourceConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[CrawlerDatasourceConfiguration.entityKey]
   ,
 })
 export const CRAWLER_DATASOURCE_ARRAY = arrayOf(CRAWLER_DATASOURCE)

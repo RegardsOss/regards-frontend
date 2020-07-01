@@ -75,7 +75,6 @@ export class DatasetEditPluginContainer extends React.Component {
       })
   }
 
-
   getBackUrl = () => {
     const { params: { project, datasetId } } = this.props
     return `/admin/${project}/data/collections/dataset/${datasetId}/links`
@@ -118,14 +117,13 @@ export class DatasetEditPluginContainer extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state, ownProps) => ({
   pluginConfigurationList: pluginConfigurationSelectors.getList(state),
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
   linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchPluginConfiguration: () => dispatch(pluginConfigurationActions.fetchEntityList({
     microserviceName: 'rs-catalog',
   }, {
@@ -136,7 +134,7 @@ const mapDispatchToProps = dispatch => ({
   }, {
     pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
   })),
-  fetchLinkPluginDataset: datasetIpId => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
+  fetchLinkPluginDataset: (datasetIpId) => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
   updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
 })
 

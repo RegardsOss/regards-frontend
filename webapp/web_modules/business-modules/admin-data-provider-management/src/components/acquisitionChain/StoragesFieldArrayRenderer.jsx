@@ -179,7 +179,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
       },
     } = this.context
     return (
-      <React.Fragment>
+      <>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
         { /** Storages list or error message */
         fields.length ? (
@@ -192,7 +192,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
             {formatMessage({ id: 'acquisition-chain.form.general.section.info.storage.no.data' })}
           </div>)
         }
-      </React.Fragment>
+      </>
     )
   }
 }

@@ -84,7 +84,7 @@ export class ContextInitializationHelper {
         return CriterionBuilder.buildSortCriterion(
           DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels))
       })
-      .filter(crit => !!crit) // clear non converted elements
+      .filter((crit) => !!crit) // clear non converted elements
   }
 
   /**
@@ -129,7 +129,7 @@ export class ContextInitializationHelper {
   static buildDefaultTypeState(configuration, attributeModels, type) {
     const typeConfiguration = get(configuration, `viewsGroups.${type}`, {})
     // is view type enabled (type enabled and at least one view mode enabled)
-    const enabled = typeConfiguration.enabled && UIDomain.RESULTS_VIEW_MODES.some(mode => get(typeConfiguration, `views.${mode}.enabled`, false))
+    const enabled = typeConfiguration.enabled && UIDomain.RESULTS_VIEW_MODES.some((mode) => get(typeConfiguration, `views.${mode}.enabled`, false))
     if (enabled) {
       // resolve facets
       const facetsAllowed = get(configuration, `facets.enabledFor.${type}`, false)
@@ -224,7 +224,7 @@ export class ContextInitializationHelper {
             pluginId,
             // build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
             // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
-            pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
+            pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, (attr) => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
             label,
             conf: { attributes },
           }]
@@ -295,7 +295,7 @@ export class ContextInitializationHelper {
       const resultTab = defaultContext.tabs[tabType]
       // algorithm: keep the first enable type by preference order or default to DATA
       resultTab.selectedType = UIDomain.ResultsContextConstants.RESULTS_INITIAL_TYPE_PREFERENCE.find(
-        type => resultTab.types[type].enabled) || DamDomain.ENTITY_TYPES_ENUM.DATA
+        (type) => resultTab.types[type].enabled) || DamDomain.ENTITY_TYPES_ENUM.DATA
     })
     return defaultContext
   }

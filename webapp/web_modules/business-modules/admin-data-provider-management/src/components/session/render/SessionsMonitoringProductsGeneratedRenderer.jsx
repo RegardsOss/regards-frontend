@@ -155,7 +155,7 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
           { !entity.content.lifeCycle.dataprovider ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-              -
+                -
               </div>
             </div>
           ) : (
@@ -176,23 +176,23 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
                 <div style={lineFiveContainer}>
                   <div style={one}>
                     {formatMessage({ id: 'acquisition-sessions.states.files_acquired' })}
-                  :
+                    :
                   </div>
                   <div style={two}>
                     {formatMessage({ id: 'acquisition-sessions.states.complet' })}
-                  :
+                    :
                   </div>
                   <div style={three}>
                     {formatMessage({ id: 'acquisition-sessions.states.incomplete' })}
-                  :
+                    :
                   </div>
                   <div style={four}>
                     {formatMessage({ id: 'acquisition-sessions.states.invalid' })}
-                  :
+                    :
                   </div>
                   <div style={five}>
                     {formatMessage({ id: 'acquisition-sessions.states.error' })}
-                  :
+                    :
                   </div>
                 </div>
                 <div style={listFiveValues}>
@@ -211,8 +211,7 @@ class SessionsMonitoringProductsGeneratedRenderer extends React.Component {
                     >
                       {actions}
                     </DropDownButton>
-                  </div> : null
-                }
+                  </div> : null}
               </div>
             </div>
           )}

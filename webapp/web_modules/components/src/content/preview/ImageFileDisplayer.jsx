@@ -40,9 +40,8 @@ class ImageFileDisplayer extends React.Component {
    */
   static isSupportedContentType(contentType) {
     const lowerContentType = contentType.toLowerCase()
-    return ImageFileDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+    return ImageFileDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
   }
-
 
   static propTypes = {
     source: PropTypes.string,

@@ -59,7 +59,7 @@ export class AccessRightListContainer extends React.Component {
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
     const { accessGroup } = this.props
     // Create new access rights
-    const newAccessRightList = map(selectedDatasetsWithAccessright, datasetWithAR => ({
+    const newAccessRightList = map(selectedDatasetsWithAccessright, (datasetWithAR) => ({
       id: get(datasetWithAR, 'content.accessRight.id', null),
       qualityFilter: { // XXX-workaround: backend refuses missing quality filter (clear when correctly coded on backend)
         maxScore: undefined,
@@ -90,7 +90,7 @@ export class AccessRightListContainer extends React.Component {
     // Run all promises together and wait the end to refresh the current access group
     return Promise.all(requests)
       .then((actionsResults) => {
-        const errors = filter(actionsResults, ar => ar.error)
+        const errors = filter(actionsResults, (ar) => ar.error)
         this.refresh()
         this.setState({
           isSubmitting: false,
@@ -164,12 +164,12 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: datasetWithAccessRightSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   clearSelection: () => dispatch(tableActions.unselectAll()),
   fetchDatasetWithAccessRightPage: (pageIndex, pageSize, pathParams, queryParams) => dispatch(datasetWithAccessRightActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
   updateAccessRight: (id, entity) => dispatch(accessRightActions.updateEntity(id, entity)),
-  createAccessRight: entity => dispatch(accessRightActions.createEntity(entity)),
-  deleteAccessRight: id => dispatch(accessRightActions.deleteEntity(id)),
+  createAccessRight: (entity) => dispatch(accessRightActions.createEntity(entity)),
+  deleteAccessRight: (id) => dispatch(accessRightActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessRightListContainer)

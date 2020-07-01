@@ -24,7 +24,7 @@ export const ModelAttributeComputationTypesConfiguration = {
 }
 
 export const MODEL_ATTRIBUTE_COMPUTATION_TYPES = new Schema(ModelAttributeComputationTypesConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ModelAttributeComputationTypesConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[ModelAttributeComputationTypesConfiguration.entityKey]
   ,
 })
 export const MODEL_ATTRIBUTE_COMPUTATION_TYPES_ARRAY = arrayOf(MODEL_ATTRIBUTE_COMPUTATION_TYPES)

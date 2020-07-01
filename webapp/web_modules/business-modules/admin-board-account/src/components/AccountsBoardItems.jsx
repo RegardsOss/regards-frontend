@@ -20,13 +20,12 @@ import SettingsIcon from 'mdi-material-ui/Settings'
 import { dependencies } from '@regardsoss/admin-account-management'
 import AccountsListWithCountIconContainer from '../containers/AccountsListWithCountIconContainer'
 
-
 /**
  * BoardItems configuration for Datamanagement module
  * @param projectName
  * @param intl
  */
-export default intl => [
+export default (intl) => [
   { // accounts
     title: intl.formatMessage({ id: 'data.board.accounts.title' }),
     description: intl.formatMessage({ id: 'data.board.accounts.description' }),

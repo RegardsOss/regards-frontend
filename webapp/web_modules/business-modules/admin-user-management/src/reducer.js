@@ -31,5 +31,4 @@ const userManagementReducer = combineReducers({
   'authentication-plugins': authenticationPluginManagementReducer,
 })
 
-
 export default userManagementReducer

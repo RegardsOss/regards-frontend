@@ -45,13 +45,13 @@ class AddManyDialog extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -69,7 +69,7 @@ class AddManyDialog extends React.Component {
   onSelectionModelChanged = (selectionModel) => {
     this.setState({
       selectionModel,
-      someSelected: selectionModel.some(attributeSelectionModel => attributeSelectionModel.selected),
+      someSelected: selectionModel.some((attributeSelectionModel) => attributeSelectionModel.selected),
     })
   }
 
@@ -86,7 +86,7 @@ class AddManyDialog extends React.Component {
    * Callback: user toggled selected state for attribute at index
    * @param {number} index attribute index
    */
-  onToggleAttributeSelection = index => this.onSelectionModelChanged(
+  onToggleAttributeSelection = (index) => this.onSelectionModelChanged(
     this.state.selectionModel.map(({ attributeModel, selected }, listIndex) => ({
       attributeModel,
       selected: index === listIndex ? !selected : selected,
@@ -127,8 +127,7 @@ class AddManyDialog extends React.Component {
         dialogWidthPercent={widthPercent}
         dialogHeightPercent={heightPercent}
         bodyStyle={dialogBodyStyle}
-        title={formatMessage({ id: 'attribute.configuration.add.many.items.title' })
-      }
+        title={formatMessage({ id: 'attribute.configuration.add.many.items.title' })}
         open={selectionModel.length > 0}
         modal
       >

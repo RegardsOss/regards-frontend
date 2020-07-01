@@ -26,7 +26,6 @@ import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-
 /**
  * Test AllowAccessComponent
  * @author Raphaël Mechali

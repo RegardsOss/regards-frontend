@@ -34,7 +34,7 @@ class AttributeModelComponent extends React.Component {
     return null
   }
 
-  getAttrInfo = attr => (
+  getAttrInfo = (attr) => (
     compact([attr.content.label, attr.content.description]).join(' - ')
   )
 

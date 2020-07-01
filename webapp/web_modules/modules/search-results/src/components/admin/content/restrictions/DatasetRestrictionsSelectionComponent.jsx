@@ -60,13 +60,13 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
   * Properties change detected: update local state
@@ -110,7 +110,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     const lowerFilterText = filterText.toLowerCase()
     const nextState = {
       selectableElements: sortedSelectableElements,
-      visibleElements: sortedSelectableElements.filter(element => element.label.toLowerCase().includes(lowerFilterText)),
+      visibleElements: sortedSelectableElements.filter((element) => element.label.toLowerCase().includes(lowerFilterText)),
       filterText,
     }
     if (!isEqual(this.state, nextState)) {
@@ -138,7 +138,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     // 1 - retrieve the element by its index in visible elements list
     const element = visibleElements[index]
     // 2 - Search for element in currently selected values
-    const selectedElementIndex = getAll().findIndex(selectedElement => selectedElement === element.id)
+    const selectedElementIndex = getAll().findIndex((selectedElement) => selectedElement === element.id)
 
     // 3 - Update selection
     if (selectedElementIndex < 0) {
@@ -154,7 +154,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
    * @param {[string]} selectedElements selected elements IDs
    * @return {[*]} built table columns
    */
-  buildColumns = selectedElements => [
+  buildColumns = (selectedElements) => [
     // Select / unselect column
     new TableColumnBuilder('selection.column').optionsColumn([{
       OptionConstructor: ToggleElementSelectionComponent,
@@ -166,7 +166,6 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     // Label column
     new TableColumnBuilder('label.column').propertyRenderCell('label').build(),
   ]
-
 
   render() {
     const { currentRestrictionType, fields: { getAll } } = this.props

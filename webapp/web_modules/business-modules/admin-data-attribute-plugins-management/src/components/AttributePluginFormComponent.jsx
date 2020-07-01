@@ -103,8 +103,7 @@ export class AttributePluginFormComponent extends React.Component {
             hideDynamicParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+          /> : null}
       </div>
     )
   }
@@ -138,8 +137,7 @@ export class AttributePluginFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

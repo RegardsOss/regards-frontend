@@ -37,6 +37,8 @@ const withConfirmDialog = (DecoratedComponent) => {
       dialogMessage: PropTypes.string,
     }
 
+    static displayName = `WithConfirmDialog(${getDisplayName(DecoratedComponent)})`
+
     state = {
       open: false,
     }
@@ -64,7 +66,7 @@ const withConfirmDialog = (DecoratedComponent) => {
       const decoratedComponentElement = React.createElement(DecoratedComponent, otherProps)
 
       return (
-        <span>
+        <>
           {decoratedComponentElement}
           <ConfirmDialogComponent
             title={dialogTitle}
@@ -73,13 +75,10 @@ const withConfirmDialog = (DecoratedComponent) => {
             onClose={this.handleClose}
             open={open}
           />
-        </span>
+        </>
       )
     }
   }
-
-  // Ease debugging in the React Developer Tools by choosing a display name that communicates that it's the result of an HOC
-  WithConfirmDialog.displayName = `WithConfirmDialog(${getDisplayName(DecoratedComponent)})`
 
   return WithConfirmDialog
 }

@@ -291,7 +291,7 @@ class OrderListComponent extends React.Component {
         .optionsColumn(this.buildOptions())
         .visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .build(),
-    ].filter(c => !!c) // remove null elements
+    ].filter((c) => !!c) // remove null elements
   }
 
   render() {

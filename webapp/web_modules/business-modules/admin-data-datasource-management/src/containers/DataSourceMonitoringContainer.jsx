@@ -49,8 +49,8 @@ export class DataSourceMonitoringContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchCrawlerDatasources: () => dispatch(crawlerDatasourceActions.fetchEntityList()),
-      deleteCrawlerDatasource: crawlerId => dispatch(crawlerDatasourceActions.deleteEntity(crawlerId)),
-      scheduleCrawlerDatasource: crawlerId => dispatch(scheduleCrawlerDatasourceActions.scheduleDatasourceIngestion(crawlerId)),
+      deleteCrawlerDatasource: (crawlerId) => dispatch(crawlerDatasourceActions.deleteEntity(crawlerId)),
+      scheduleCrawlerDatasource: (crawlerId) => dispatch(scheduleCrawlerDatasourceActions.scheduleDatasourceIngestion(crawlerId)),
     }
   }
 
@@ -77,7 +77,7 @@ export class DataSourceMonitoringContainer extends React.Component {
     })
   }
 
-  onSchedule = crawlerId => this.props.scheduleCrawlerDatasource(crawlerId).then(actionResults => this.props.fetchCrawlerDatasources())
+  onSchedule = (crawlerId) => this.props.scheduleCrawlerDatasource(crawlerId).then((actionResults) => this.props.fetchCrawlerDatasources())
 
   onBack = () => {
     const { params: { project } } = this.props

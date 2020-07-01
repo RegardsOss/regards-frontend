@@ -21,7 +21,6 @@ import messages from './i18n'
 import { StorageCapacityShape } from './StorageCapacity'
 import formatStorageCapacity from './formatStorageCapacity'
 
-
 /**
 * Format storage capacity as a react component (react-intl style)
 * @author Raphaël Mechali

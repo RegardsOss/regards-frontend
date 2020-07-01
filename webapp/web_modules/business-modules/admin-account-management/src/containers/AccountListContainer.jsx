@@ -68,7 +68,7 @@ export class AccountListContainer extends React.Component {
   /**
    * Lifecycle method component will receive props, used here to detect initial fetching finished
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // mark initial fetching done (ignore next ones)
     if (this.props.isFetchingContent && !nextProps.isFetchingContent) {
       this.setInitialFetching(false)
@@ -122,13 +122,13 @@ export class AccountListContainer extends React.Component {
    * Sets initial fetching state
    * @param {bool} initialFetching is initially fetching?
    */
-  setInitialFetching = initialFecthing => this.setState({ initialFecthing })
+  setInitialFetching = (initialFecthing) => this.setState({ initialFecthing })
 
   /**
    * Set actions fetching state
    * @param {bool} isFetchingActions is fetching actions?
    */
-  setFetchingActions = isFetchingActions => this.setState({ isFetchingActions })
+  setFetchingActions = (isFetchingActions) => this.setState({ isFetchingActions })
 
   /**
    * Marks fetching true, performs all promises as parameter, update waiting users state then marks fetching false
@@ -171,13 +171,13 @@ const mapStateToProps = (state, ownProps) => ({
   isFetchingContent: accountSelectors.isFetching(state) || accountWaitingSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAccountList: () => dispatch(accountActions.fetchPagedEntityList()),
   fetchWaitingAccountList: () => dispatch(accountWaitingActions.fetchWaitingAccountsEntityList()),
-  sendAcceptUser: accountEmail => dispatch(acceptAccountActions.sendAccept(accountEmail)),
-  sendEnableUser: accountEmail => dispatch(enableAccountActions.sendEnable(accountEmail)),
-  sendRefuseUser: accountEmail => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
-  deleteAccount: accountId => dispatch(accountActions.deleteEntity(accountId)),
+  sendAcceptUser: (accountEmail) => dispatch(acceptAccountActions.sendAccept(accountEmail)),
+  sendEnableUser: (accountEmail) => dispatch(enableAccountActions.sendEnable(accountEmail)),
+  sendRefuseUser: (accountEmail) => dispatch(refuseAccountActions.sendRefuse(accountEmail)),
+  deleteAccount: (accountId) => dispatch(accountActions.deleteEntity(accountId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountListContainer)

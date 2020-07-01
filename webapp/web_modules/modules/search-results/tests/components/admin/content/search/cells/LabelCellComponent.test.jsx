@@ -36,7 +36,6 @@ describe('[SEARCH RESULTS] Testing LabelCellComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-
   it('should exists', () => {
     assert.isDefined(LabelCellComponent)
   })
@@ -109,7 +108,7 @@ describe('[SEARCH RESULTS] Testing LabelCellComponent', () => {
   }]
   testCases.forEach(({ label, entity, expectedError }) => {
     // Test for each locale
-    UIDomain.LOCALES.forEach(locale => it(`should render correctly ${label}, with locale ${locale}`, () => {
+    UIDomain.LOCALES.forEach((locale) => it(`should render correctly ${label}, with locale ${locale}`, () => {
       const spyUpdate = {}
       // 1 - Test initial error
       const props = {

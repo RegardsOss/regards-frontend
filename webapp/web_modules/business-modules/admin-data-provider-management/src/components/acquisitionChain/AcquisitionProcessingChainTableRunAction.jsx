@@ -45,7 +45,7 @@ class AcquisitionProcessingChainTableRunAction extends React.Component {
 
   isRunnable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'start')
+    return !!find(links, (l) => l.rel === 'start')
   }
 
   render() {

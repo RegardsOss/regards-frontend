@@ -25,7 +25,7 @@ import { i18nSelectors } from '@regardsoss/i18n'
  * @param mapStateToProps
  * @author Sébastien Binda
  */
-const mergeMapStateToProps = mapStateToProps => (
+const mergeMapStateToProps = (mapStateToProps) => (
   (state, ownProps) => ({
     ...(mapStateToProps ? mapStateToProps(state, ownProps) : {}),
     theme: getCurrentTheme(state),

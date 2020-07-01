@@ -21,9 +21,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { TableRow, TableBody } from 'material-ui/Table'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import ThemeListComponent from '../../src/components/ThemeListComponent'
+import ThemeListComponent from '../../../src/components/list/ThemeListComponent'
+import styles from '../../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
  * Test ThemeListComponent

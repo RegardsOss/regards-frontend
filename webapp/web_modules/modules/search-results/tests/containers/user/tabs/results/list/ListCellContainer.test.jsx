@@ -96,7 +96,6 @@ describe('[SEARCH RESULTS] Testing ListCellContainer', () => {
       }
     }, { th: null, gA: [] })
 
-
     const props = {
       rowIndex: 1,
       entity,

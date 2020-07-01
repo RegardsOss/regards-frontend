@@ -175,8 +175,7 @@ class ListCellComponent extends React.Component {
               onAddElementToCart={onAddElementToCart}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
-            />) : null
-          }
+            />) : null}
         </div>
       </div>
     )
@@ -195,7 +194,6 @@ class ListCellComponent extends React.Component {
       index > 0 ? (<div key={`separator.${key}`}>{formatMessage({ id: 'results.cell.multiple.values.separator' })}</div>) : null,
       <RenderConstructor key={`render:${key}#${index}`} value={get(entity, path)} {...props} />])
   }
-
 
   /**
    * Renders thumbnail
@@ -268,11 +266,10 @@ class ListCellComponent extends React.Component {
           // eslint-disable-next-line react/no-array-index-key
           <div key={`column.index.${index}`} style={index % 2 === 0 ? labelColumnStyles : valueColumnStyles}>
             { // render the column cells
-              column.map(cell => cell)
+              column.map((cell) => cell)
             }
           </div>
-        ))
-        }
+        ))}
       </div>
     )
   }

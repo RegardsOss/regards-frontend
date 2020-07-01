@@ -49,7 +49,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormContainer',
       fetchPluginMetaDataList: () => { },
     }
 
-
     const enzymeWrapper = shallow(<DBDatasourceFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')

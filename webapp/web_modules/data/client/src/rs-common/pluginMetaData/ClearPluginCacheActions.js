@@ -34,13 +34,12 @@ export default class ClearPluginCacheActions extends BasicSignalActions {
     })
   }
 
-
   /**
    * Builds action to dispatch in order to send server the clear cache signal
    * @param {string} microserviceName microservice name, like 'rs-dam', 'rs-catalog', ...
    *@return redux action to dispatch
    */
-  clearCache = microserviceName => this.sendSignal('DELETE', null, { microserviceName })
+  clearCache = (microserviceName) => this.sendSignal('DELETE', null, { microserviceName })
 
   getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
 }

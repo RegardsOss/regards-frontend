@@ -18,5 +18,4 @@
  **/
 export const relativeURLRegexp = /^([./]*[-a-z\d%_.~+]*)+([;&a-z\d%_.~+=-]*)(\?[;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i
 
-
 export const validURLRegexp = /^(https?:\/\/)?[a-z\d-_]+(\.[a-z\d-_]+)*(:\d+)?(\/[-a-z\d%_.:~+ ]*)*(\?[/;&a-z\d%_.~+=-]*)?(#[-a-z\d_]*)?$/i

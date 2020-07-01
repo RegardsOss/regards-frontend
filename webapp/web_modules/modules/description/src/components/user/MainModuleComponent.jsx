@@ -25,7 +25,6 @@ import HeaderBarComponent from './header/HeaderBarComponent'
 import ContentDisplayComponent from './content/ContentDisplayComponent'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 
-
 /**
  * Main description module component. It show entity description view and breadcrumb in table layout.
  * @author Raphaël Mechali

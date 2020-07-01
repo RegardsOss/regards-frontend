@@ -17,11 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Builds module style on theme
  */
-export default theme => ({
+export default (theme) => ({
   pluginServiceDialog: {
     widthPercent: 70,
     heightPercent: 68,

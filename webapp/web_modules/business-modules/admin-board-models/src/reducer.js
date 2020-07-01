@@ -31,5 +31,4 @@ const modelsReducers = combineReducers({
   'plugin-management': attributePluginDataManagementReducer,
 })
 
-
 export default modelsReducers

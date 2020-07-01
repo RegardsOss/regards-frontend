@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'modelattr.edit.title': 'Edit model attributes {name}',
   'modelattr.edit.description': 'To add an attribute or a fragment to the current model drag it from the right column to left column. Do the opposite to remove an attribute or fragment.',
   'modelattr.form.action.back': 'Back',
@@ -31,6 +31,7 @@ const messages = Object.assign({
   'modelattr.edit.table.computationMethod': 'Computation method',
   'modelattr.edit.table.name': 'Name (type)',
   'modelattr.edit.noAttrLink': 'There is no attribute linked to the model',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

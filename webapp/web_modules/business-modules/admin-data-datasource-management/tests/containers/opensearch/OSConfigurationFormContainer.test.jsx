@@ -44,7 +44,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
     testSuiteHelpers.after()
   })
 
-
   it('should exists', () => {
     assert.isDefined(OSConfigurationFormContainer)
   })
@@ -72,13 +71,13 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
       createDatasource: (values) => {
         spyData.create.count += 1
         spyData.create.data = values
-        return new Promise(resolve => resolve({}))
+        return new Promise((resolve) => resolve({}))
       },
       updateDatasouce: (id, values) => {
         spyData.update.count += 1
         spyData.update.datasourceId = id
         spyData.update.data = values
-        return new Promise(resolve => resolve({}))
+        return new Promise((resolve) => resolve({}))
       },
       fetchDatasource: (id) => {
         spyData.fetch.count += 1
@@ -206,13 +205,13 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
       createDatasource: (values) => {
         spyData.create.count += 1
         spyData.create.data = values
-        return new Promise(resolve => resolve({}))
+        return new Promise((resolve) => resolve({}))
       },
       updateDatasouce: (id, values) => {
         spyData.update.count += 1
         spyData.update.datasourceId = id
         spyData.update.data = values
-        return new Promise(resolve => resolve({}))
+        return new Promise((resolve) => resolve({}))
       },
       fetchDatasource: (id) => {
         spyData.fetch.count += 1

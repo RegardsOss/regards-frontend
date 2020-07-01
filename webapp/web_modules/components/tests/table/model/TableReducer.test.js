@@ -24,7 +24,6 @@ import TableSelectionModes from '../../../src/table/model/TableSelectionModes'
 const tableActionsInstance = new TableActions('test')
 const reduce = getTableReducer('test')
 
-
 describe('[Component] Test table reducer', () => {
   it('should return the initial state', () => {
     assert.deepEqual(reduce(undefined, {}), DEFAULT_STATE, 'Reducer should return an empty initial state')

@@ -25,4 +25,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

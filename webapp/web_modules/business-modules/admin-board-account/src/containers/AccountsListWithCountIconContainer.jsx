@@ -24,7 +24,6 @@ import { ActionIconWithNotifications } from '@regardsoss/components'
 /** Default admin client selectors */
 const waitingAccessUsersEntitiesSelectors = AdminInstanceClient.getAccountWaitingSelectors()
 
-
 /**
  * Display accounts management functionalities icon, with waiting accounts count
  */
@@ -43,7 +42,7 @@ export class AccountsListWithCountIconContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   notificationsCount: waitingAccessUsersEntitiesSelectors.getSize(state),
 })
 

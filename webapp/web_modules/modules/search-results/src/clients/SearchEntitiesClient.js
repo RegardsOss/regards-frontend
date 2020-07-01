@@ -56,7 +56,6 @@ const tagResultsCatalogClient = {
   searchSelectors: tagSearchSelectors,
 }
 
-
 /**
  * Returns client to use for tab type
  * @param {*} tabType tab type

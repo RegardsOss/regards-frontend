@@ -38,7 +38,11 @@ class PluginDefinitionComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
+  static URL_CONTAINER_STYLE= {
+    marginTop: 15,
+  }
+
+  UNSAFE_componentWillMount() {
     this.props.handlePluginValid(this.props.plugin)
   }
 
@@ -68,11 +72,7 @@ class PluginDefinitionComponent extends React.Component {
         />
         <CardText>
           {info.description}
-          <div
-            style={{
-              marginTop: 15,
-            }}
-          >
+          <div style={PluginDefinitionComponent.URL_CONTAINER_STYLE}>
             {this.renderUrlAddress()}
           </div>
         </CardText>

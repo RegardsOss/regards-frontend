@@ -98,14 +98,14 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringSessionRend
       const menuItems = dropDownMenu.find(MenuItem)
       const instance = enzymeWrapper.instance()
       if (hasAck) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowAcknowledgeDialog), 1, 'There should be ACK option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowAcknowledgeDialog), 1, 'There should be ACK option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowAcknowledgeDialog), 0, 'There should not be ACK option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowAcknowledgeDialog), 0, 'There should not be ACK option')
       }
       if (hasDelete) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onDeleteSession), 1, 'There should be delete option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onDeleteSession), 1, 'There should be delete option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onDeleteSession), 0, 'There should not be delete option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onDeleteSession), 0, 'There should not be delete option')
       }
     } else {
       // 1.b - Check menu is not displayed

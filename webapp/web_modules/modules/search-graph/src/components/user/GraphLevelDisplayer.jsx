@@ -81,7 +81,7 @@ class GraphLevelDispayer extends React.Component {
           </ShowableAtRender>
           <ShowableAtRender show={!isLoading && !hasError && hasContent}>
             { // collections
-              values(collections).sort(GraphLevelDispayer.compareEntities).map(collection => (<CollectionItemContainer
+              values(collections).sort(GraphLevelDispayer.compareEntities).map((collection) => (<CollectionItemContainer
                 key={collection.content.id}
                 collection={collection}
                 descriptionProperties={descriptionProperties}
@@ -90,7 +90,7 @@ class GraphLevelDispayer extends React.Component {
               />))
             }
             { // datasets
-              values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset => (<DatasetItemContainer
+              values(datasets).sort(GraphLevelDispayer.compareEntities).map((dataset) => (<DatasetItemContainer
                 key={dataset.content.id}
                 dataset={dataset}
                 graphDatasetAttributes={graphDatasetAttributes}

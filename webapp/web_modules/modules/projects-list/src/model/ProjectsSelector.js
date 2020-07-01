@@ -24,5 +24,5 @@ class ProjectSelectors extends BasicPageableSelectors {
   }
 }
 
-const instance = application => new ProjectSelectors(application)
+const instance = (application) => new ProjectSelectors(application)
 export default instance

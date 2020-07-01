@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -27,7 +26,6 @@ import {
   StepLabel,
   StepButton,
 } from 'material-ui/Stepper'
-
 
 const STEPS_ID = {
   ATTRIBUTES: 0,
@@ -93,7 +91,6 @@ export class CollectionStepperComponent extends React.Component {
     // Otherwise provides the default behaviour
     return stepId > this.props.stepIndex
   }
-
 
   handleAttributesClick = () => {
     const url = `/admin/${this.props.projectName}/data/collections/collection/${this.props.currentCollectionId}/edit`

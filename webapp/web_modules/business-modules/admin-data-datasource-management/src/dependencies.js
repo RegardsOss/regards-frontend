@@ -20,7 +20,6 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from './clients/DatasourceClient'
 import { crawlerDatasourceActions } from './clients/CrawlerDatasourceClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

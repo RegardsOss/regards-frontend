@@ -50,7 +50,7 @@ class NumberArrayValueRender extends React.Component {
     const { precision, unit, multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(nValue => NumberValueRender.formatValue(intl, nValue, precision, unit) || noValueText)
+    const textValue = value.map((nValue) => NumberValueRender.formatValue(intl, nValue, precision, unit) || noValueText)
       .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
 
     return (

@@ -59,7 +59,6 @@ class EntityLinkComponent extends React.Component {
     onSelectEntityLink(entity)
   }
 
-
   render() {
     const { entity, isDescriptionAllowed, allowSearching } = this.props
     const { intl: { formatMessage } } = this.context
@@ -79,8 +78,7 @@ class EntityLinkComponent extends React.Component {
             IconConstructor={SearchIcon}
             title={formatMessage({ id: 'module.description.common.search.entity.tooltip' }, { entityLabel: label })}
             onClick={this.onSearchEntity}
-          />) : null
-        }
+          />) : null}
       </PageElement>)
   }
 }

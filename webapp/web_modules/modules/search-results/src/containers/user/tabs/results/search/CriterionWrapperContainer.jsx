@@ -36,18 +36,6 @@ import CriterionWrapperComponent from '../../../../../components/user/tabs/resul
  * @author Raphaël Mechali
  */
 export class CriterionWrapperContainer extends React.Component {
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      dispatchFetchBounds: (attributesPath, contextQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, contextQuery)),
-    }
-  }
-
   static propTypes = {
     groupIndex: PropTypes.number.isRequired,
     criterionIndex: PropTypes.number.isRequired,
@@ -60,6 +48,26 @@ export class CriterionWrapperContainer extends React.Component {
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFetchBounds: PropTypes.func.isRequired, // used in onPropertiesUpdated
+  }
+
+  /** Types of attributes that accept bounds */
+  static BOUNDABLE_TYPES = [
+    DamDomain.MODEL_ATTR_TYPES.INTEGER,
+    DamDomain.MODEL_ATTR_TYPES.DOUBLE,
+    DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
+    DamDomain.MODEL_ATTR_TYPES.LONG,
+  ]
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      dispatchFetchBounds: (attributesPath, contextQuery) => dispatch(attributesBoundsActions.fetchAttributesBounds(attributesPath, contextQuery)),
+    }
   }
 
   /**
@@ -85,14 +93,6 @@ export class CriterionWrapperContainer extends React.Component {
     }
   }
 
-  /** Types of attributes that accept bounds */
-  static BOUNDABLE_TYPES = [
-    DamDomain.MODEL_ATTR_TYPES.INTEGER,
-    DamDomain.MODEL_ATTR_TYPES.DOUBLE,
-    DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601,
-    DamDomain.MODEL_ATTR_TYPES.LONG,
-  ]
-
   /** Request ID (used to handle concurrency at instance level) */
   currentRequestId = 0
 
@@ -105,13 +105,13 @@ export class CriterionWrapperContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -263,7 +263,6 @@ export class CriterionWrapperContainer extends React.Component {
     const { groupIndex, criterionIndex, onUpdatePluginState } = this.props
     onUpdatePluginState(groupIndex, criterionIndex, newState, newRequestParameters)
   }
-
 
   render() {
     const { criterion: { pluginId, pluginInstanceId } } = this.props

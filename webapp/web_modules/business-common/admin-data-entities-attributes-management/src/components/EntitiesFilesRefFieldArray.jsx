@@ -25,7 +25,6 @@ import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import messages from '../i18n'
 
-
 /**
 * Render for form for external file
 */
@@ -61,7 +60,7 @@ export class EntitiesFilesRefFieldArray extends React.Component {
           type="text"
           label={formatMessage({ id: 'entities-files.form.mimeType' })}
         >
-          {map(mimeTypeList, mimeType => (
+          {map(mimeTypeList, (mimeType) => (
             <MenuItem
               key={mimeType}
               value={mimeType}

@@ -32,11 +32,9 @@ class OnHoverSwitchRaisedButton extends React.Component {
     // this components also accepts all properties of RaisedButton
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      usedPropIndex: 0,
-    }
+  /** Initial state */
+  state = {
+    usedPropIndex: 0,
   }
 
   handleOnMouseEnter = () => {
@@ -52,7 +50,7 @@ class OnHoverSwitchRaisedButton extends React.Component {
   }
 
   render() {
-    const usedProps = mapValues(this.props, prop => prop[this.state.usedPropIndex])
+    const usedProps = mapValues(this.props, (prop) => prop[this.state.usedPropIndex])
     usedProps.onMouseEnter = this.handleOnMouseEnter
     usedProps.onMouseLeave = this.handleOnMouseLeave
 

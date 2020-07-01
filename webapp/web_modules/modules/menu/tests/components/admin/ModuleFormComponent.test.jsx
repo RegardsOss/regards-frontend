@@ -65,12 +65,12 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check presence of each field by its name
     const instance = enzymeWrapper.instance()
-    const searchedFields = keys(instance).filter(key => key.startsWith('CONF_')).map(fieldKey => instance[fieldKey])
+    const searchedFields = keys(instance).filter((key) => key.startsWith('CONF_')).map((fieldKey) => instance[fieldKey])
     const fields = enzymeWrapper.find(Field)
     const fieldArrays = enzymeWrapper.find(FieldArray)
     searchedFields.forEach((fieldName) => {
       const fieldsGroup = fieldName === instance.CONF_NAVIGATION ? fieldArrays : fields // search in field arrays for CONF_NAVIGATION
-      const found = fieldsGroup.findWhere(n => n.props().name === fieldName)
+      const found = fieldsGroup.findWhere((n) => n.props().name === fieldName)
       assert.lengthOf(found, 1, `There should be a field with name "${fieldName}"`)
     })
 
@@ -98,28 +98,28 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     }
     const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
     // check the field is disabled DEFAULT_HOME_ICON
-    let homeIconURLField = enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
+    let homeIconURLField = enzymeWrapper.findWhere((n) => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
     assert.lengthOf(homeIconURLField, 1, 'There should be the field')
     assert.isTrue(homeIconURLField.props().disabled, 'It should be disabled for type DEFAULT_HOME_ICON')
     // check the field is disabled for NONE
     const props2 = { ...props }
     props2.adminForm.form.conf.home.icon.type = HOME_ICON_TYPES_ENUM.NONE
     enzymeWrapper.setProps(props2)
-    homeIconURLField = enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
+    homeIconURLField = enzymeWrapper.findWhere((n) => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
     assert.lengthOf(homeIconURLField, 1, 'There should be the field')
     assert.isTrue(homeIconURLField.props().disabled, 'It should be disabled for type NONE')
     // check the field is disabled for MODULE_ICON
     const props3 = { ...props }
     props3.adminForm.form.conf.home.icon.type = HOME_ICON_TYPES_ENUM.MODULE_ICON
     enzymeWrapper.setProps(props3)
-    homeIconURLField = enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
+    homeIconURLField = enzymeWrapper.findWhere((n) => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
     assert.lengthOf(homeIconURLField, 1, 'There should be the field')
     assert.isTrue(homeIconURLField.props().disabled, 'It should be disabled for type MODULE_ICON')
     // check the field is disabled for CUSTOM_URL_ICON
     const props4 = { ...props }
     props4.adminForm.form.conf.home.icon.type = HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
     enzymeWrapper.setProps(props4)
-    homeIconURLField = enzymeWrapper.findWhere(n => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
+    homeIconURLField = enzymeWrapper.findWhere((n) => n.props().name === enzymeWrapper.instance().CONF_HOME_ICON_URL)
     assert.lengthOf(homeIconURLField, 1, 'There should be the field')
     assert.isFalse(homeIconURLField.props().disabled, 'It should be enabled for type CUSTOM_URL_ICON')
   })
@@ -180,7 +180,7 @@ describe('[Menu] Testing ModuleFormComponent', () => {
     assert.isEmpty(enzymeWrapper.find(FieldArray), 'No field array expected for portal')
 
     expectedPortalConfigurationFields.forEach((fieldName) => {
-      const found = fields.findWhere(n => n.props().name === fieldName)
+      const found = fields.findWhere((n) => n.props().name === fieldName)
       assert.lengthOf(found, 1, `There should be a field with name "${fieldName}"`)
     })
 

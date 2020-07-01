@@ -119,20 +119,6 @@ export default class Components extends React.PureComponent {
 
 
     render() {
-      const dialogActions = [
-        <FlatButton
-          label="Cancel"
-          primary
-          onClick={this.handleCloseDialog}
-        />,
-        <FlatButton
-          label="Submit"
-          primary
-          keyboardFocused
-          onClick={this.handleCloseDialog}
-        />,
-      ]
-
       return (
         <table style={{
           width: '100%', tableLayout: 'fixed', borderCollapse: 'separate', borderSpacing: '0 2em'
@@ -260,7 +246,21 @@ export default class Components extends React.PureComponent {
               <RaisedButton label="Dialog" onClick={this.handleOpenDialog} />
               <Dialog
                 title="Dialog With Actions"
-                actions={dialogActions}
+                actions={
+                <>
+                <FlatButton
+                  label="Cancel"
+                  primary
+                  onClick={this.handleCloseDialog}
+                />
+                <FlatButton
+                  label="Submit"
+                  primary
+                  keyboardFocused
+                  onClick={this.handleCloseDialog}
+                />
+                </>
+                }
                 modal={false}
                 open={this.state.dialogOpen}
                 onRequestClose={this.handleCloseDialog}

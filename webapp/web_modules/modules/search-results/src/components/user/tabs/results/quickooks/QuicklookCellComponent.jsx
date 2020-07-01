@@ -58,7 +58,6 @@ export const specificCellPropertiesFields = {
   // consumed by this component
 }
 
-
 /**
  * Specific cell properties, ie properties not provided by the infinite gallery
  */
@@ -72,10 +71,14 @@ export const SpecificCellProperties = PropTypes.shape({
 class QuicklookCellComponent extends React.PureComponent {
   static propTypes = {
     // from quicklook API
-    top: PropTypes.number,
-    left: PropTypes.number,
-    width: PropTypes.number,
-    gridWidth: PropTypes.number,
+    // eslint-disable-next-line react/no-unused-prop-types
+    top: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    left: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    width: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    gridWidth: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     // specific cell properties
     ...specificCellPropertiesFields,
@@ -91,6 +94,8 @@ class QuicklookCellComponent extends React.PureComponent {
   static EXPECTED_ATTRIBUTE_ROW_HEIGHT = 19
 
   static EXPECTED_ATTRIBUTES_PADDING = 20
+
+  static OPTIONS_BAR_RESERVED_WIDTH = 34
 
   /**
    * Can picture file as parameter be displayed as quicklook
@@ -126,7 +131,7 @@ class QuicklookCellComponent extends React.PureComponent {
   }
 
   /** Used by Infinite gallery API */
-  static getColumnSpanFromProps = props => 1
+  static getColumnSpanFromProps = (props) => 1
 
   /**
    * Used by Infinite gallery API
@@ -174,8 +179,6 @@ class QuicklookCellComponent extends React.PureComponent {
     return (gridWidth * 7 / 10) + footerHeight + 15
   }
 
-  static OPTIONS_BAR_RESERVED_WIDTH = 34
-
   /** State holds dynamic styles, to avoid building them at render time */
   state = {
     cardStyle: null,
@@ -185,13 +188,13 @@ class QuicklookCellComponent extends React.PureComponent {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
    /**
     * Properties change detected: update local state
@@ -324,8 +327,7 @@ class QuicklookCellComponent extends React.PureComponent {
               onAddElementToCart={onAddElementToCart}
               style={option.buttonStyles}
               iconStyle={option.iconStyles}
-            />) : null
-            }
+            />) : null}
           {/* 2.d - Download, when available. Like below, due to props, we can't use a showable at render */}
           <ShowableAtRender show={enableDownload}>
             <DownloadEntityFileComponent

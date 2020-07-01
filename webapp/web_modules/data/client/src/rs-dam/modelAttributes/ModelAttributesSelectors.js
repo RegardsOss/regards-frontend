@@ -24,8 +24,8 @@ import find from 'lodash/find'
  */
 class ModelAttributesSelectors extends BasicListSelectors {
   getByAttributeModelId(state, attributeModelId) {
-    return find(this.uncombineStore(state).items, modelAttribute => modelAttribute.content.attribute.id === attributeModelId)
+    return find(this.uncombineStore(state).items, (modelAttribute) => modelAttribute.content.attribute.id === attributeModelId)
   }
 }
 
-export default storePathArray => new ModelAttributesSelectors(storePathArray)
+export default (storePathArray) => new ModelAttributesSelectors(storePathArray)

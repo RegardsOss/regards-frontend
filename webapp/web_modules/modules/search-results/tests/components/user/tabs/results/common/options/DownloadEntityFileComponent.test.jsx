@@ -176,7 +176,7 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
     // we should only find the file1 and file2 URI in links
     const searchedFiles = [onlineRawData, onlineDocRef]
     searchedFiles.forEach((file) => {
-      const linkForFileURI = linksWrappers.findWhere(n => n.props().href && n.props().href.includes(file.uri))
+      const linkForFileURI = linksWrappers.findWhere((n) => n.props().href && n.props().href.includes(file.uri))
       assert.lengthOf(linkForFileURI, 1, `The should be the link for file URI ${file.uri}`)
       // check that project name has been added for internal file AND NOT for external file
       if (file.reference) {

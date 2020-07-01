@@ -53,7 +53,7 @@ export class FinishAccountValidationContainer extends React.Component {
     fetchRequestAction(token)
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // Detect last fetch finished
     const { isFetching, onDone, onTokenExpired } = this.props
     if (isFetching && !nextProps.isFetching) {
@@ -84,8 +84,8 @@ const mapStatesToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
-  fetchRequestAction: token => dispatch(VerifyEmailActions.sendValidationRequest(token)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchRequestAction: (token) => dispatch(VerifyEmailActions.sendValidationRequest(token)),
 })
 
 export default connect(mapStatesToProps, mapDispatchToProps)(FinishAccountValidationContainer)

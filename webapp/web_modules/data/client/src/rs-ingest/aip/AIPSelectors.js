@@ -36,4 +36,4 @@ class AIPSelectors extends BasicPageableSelectors {
  * Store selector to AIP entities.
  * @author Léo Mieulet
  */
-export default storePath => new AIPSelectors(storePath)
+export default (storePath) => new AIPSelectors(storePath)

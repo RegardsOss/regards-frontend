@@ -123,13 +123,13 @@ class InfiniteTableContainer extends React.Component {
   }
 
   /** Initialize state */
-  componentWillMount = () => this.setState(InfiniteTableContainer.DEFAULT_STATE)
+  UNSAFE_componentWillMount = () => this.setState(InfiniteTableContainer.DEFAULT_STATE)
 
   /** Update state from props */
   componentDidMount = () => this.onPropertiesUpdate({}, this.props)
 
   /** Update state from props */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdate(this.props, nextProps)
 
   /**
    * Updates state and runs fetches required on properties change
@@ -283,7 +283,6 @@ class InfiniteTableContainer extends React.Component {
     }
   }
 
-
   render() {
     const {
       displayColumnsHeader, stripeRows, columns,
@@ -319,7 +318,7 @@ class InfiniteTableContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // authentication, mapped to reload entities on changes
   authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
 })

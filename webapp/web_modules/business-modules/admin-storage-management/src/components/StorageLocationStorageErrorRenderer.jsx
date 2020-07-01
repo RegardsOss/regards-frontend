@@ -26,7 +26,7 @@ import MoreVertIcon from 'mdi-material-ui/MenuDown'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { storageLocationErrorsRetryActions } from '../clients/StorageLocationClient'
 import { storageRequestActions } from '../clients/StorageRequestClient'
-import StorageLocationListComponent from './StorageLocationListComponent'
+import { DIALOG_OPTIONS } from '../domain/StorageLocationDialogOptionsEnum'
 
 /**
  * Show storage errors and a relauch button
@@ -56,17 +56,17 @@ class StorageLocationStorageErrorRenderer extends React.Component {
 
   onRelaunchStoragesErrors = () => {
     const { entity, onStorageErrors } = this.props
-    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.RELAUNCH_ERRORS)
+    onStorageErrors(entity, DIALOG_OPTIONS.RELAUNCH_ERRORS)
   }
 
   onDeleteStoragesErrors = () => {
     const { entity, onStorageErrors } = this.props
-    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.DELETE_ERRORS)
+    onStorageErrors(entity, DIALOG_OPTIONS.DELETE_ERRORS)
   }
 
   onViewStorageErrors = () => {
     const { entity, onStorageErrors } = this.props
-    onStorageErrors(entity, StorageLocationListComponent.DIALOGS_TYPES.VIEW_ERRORS)
+    onStorageErrors(entity, DIALOG_OPTIONS.VIEW_ERRORS)
   }
 
   render() {
@@ -90,24 +90,21 @@ class StorageLocationStorageErrorRenderer extends React.Component {
                 primaryText={formatMessage({ id: 'storage.location.list.relaunch.storage' })}
                 onClick={this.onRelaunchStoragesErrors}
                 key="relaunch"
-              />) : null
-            }
+              />) : null}
             { canDelete ? (
               <MenuItem
                 primaryText={formatMessage({ id: 'storage.location.list.delete.storage' })}
                 onClick={this.onDeleteStoragesErrors}
                 key="delete"
               />
-            ) : null
-            }
+            ) : null}
             { canView ? (
               <MenuItem
                 primaryText={formatMessage({ id: 'storage.location.list.view.storage' })}
                 onClick={this.onViewStorageErrors}
                 key="view"
               />
-            ) : null
-            }
+            ) : null}
           </IconMenu>
         ) : null }
       </div>

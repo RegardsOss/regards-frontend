@@ -102,8 +102,7 @@ export class ServiceFormComponent extends React.Component {
             simpleGlobalParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+          /> : null}
       </div>
     )
   }
@@ -137,8 +136,7 @@ export class ServiceFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

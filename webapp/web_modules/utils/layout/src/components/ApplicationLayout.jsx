@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import merge from 'lodash/merge'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { AnchorComponent } from '@regardsoss/components'
@@ -45,32 +44,39 @@ class ApplicationLayout extends React.Component {
     ...themeContextType,
   }
 
+  /** Builds runtime styles (called at render) */
+  getRuntimeStyles = () => {
+    const { muiTheme } = this.context
+    let themeStyle = {}
+    if (muiTheme) {
+      if (muiTheme.palette.background && muiTheme.palette.background !== '') {
+        themeStyle = {
+          background: muiTheme.palette.background,
+        }
+      } else if (muiTheme.palette.backgroundImage) {
+        themeStyle = {
+          background: `url('${muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
+          backgroundSize: 'cover',
+        }
+      } else {
+        themeStyle = {
+          background: muiTheme.palette.canvasColor,
+        }
+      }
+    }
+    return {
+      ...themeStyle,
+      ...this.props.style,
+    }
+  }
+
   /**
    * Display the layout of the given appName (props parameter) from the current loaded theme.
    * @returns {React.Component}
    */
   render() {
-    let bodyStyles = {}
-    if (this.context.muiTheme) {
-      if (this.context.muiTheme.palette.background && this.context.muiTheme.palette.background !== '') {
-        bodyStyles = {
-          background: this.context.muiTheme.palette.background,
-        }
-      } else if (this.context.muiTheme.palette.backgroundImage) {
-        bodyStyles = {
-          background: `url('${this.context.muiTheme.palette.backgroundImage}') no-repeat fixed center center`,
-          backgroundSize: 'cover',
-        }
-      } else {
-        bodyStyles = {
-          background: this.context.muiTheme.palette.canvasColor,
-        }
-      }
-    }
-
-    bodyStyles = merge({}, bodyStyles, this.props.style)
     return (
-      <div style={bodyStyles}>
+      <div style={this.getRuntimeStyles()}>
         <AnchorComponent>
           <Container
             appName={this.props.appName}

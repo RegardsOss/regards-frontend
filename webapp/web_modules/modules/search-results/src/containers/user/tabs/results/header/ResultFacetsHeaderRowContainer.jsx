@@ -25,7 +25,6 @@ import { resultsContextActions } from '../../../../../clients/ResultsContextClie
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import ResultFacetsHeaderRowComponent from '../../../../../components/user/tabs/results/header/ResultFacetsHeaderRowComponent'
 
-
 /**
  * Container to show results facets header row.
  * @author Raphaël Mechali
@@ -86,7 +85,7 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
       // check if corresponding facet is present in results, has enough values and a valid attribute model
       const correspondingResultFacet = resultsFacets.find(({ attributeName }) => attributeName === attribute.content.jsonPath)
       if (correspondingResultFacet) {
-        const filteredFacetValues = correspondingResultFacet.values.filter(value => value.count)
+        const filteredFacetValues = correspondingResultFacet.values.filter((value) => value.count)
         if (filteredFacetValues.length >= 2) {
           return [
             ...acc, { // return facet plus required presentation attributes
@@ -107,13 +106,13 @@ export class ResultFacetsHeaderRowContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

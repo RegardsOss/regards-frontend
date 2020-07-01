@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 /**
  * Redux actions to fetch current user notification settings
  * @author Léo Mieulet

@@ -96,7 +96,6 @@ class DateRangeFacetSelectorComponent extends React.Component {
     })
   }
 
-
   render() {
     const { facet } = this.props
     return (

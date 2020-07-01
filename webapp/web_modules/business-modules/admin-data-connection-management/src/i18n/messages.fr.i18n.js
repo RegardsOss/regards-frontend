@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'connection.create.title': 'Ajout d\'une connexion à une source de données externe',
   'connection.edit.title': 'Éditer la connexion {name}',
   'connection.form.subtitle': 'Une connexion à une source externe permet au serveur REGARDS de se connecter à la source de données pour les aspirer',
@@ -54,6 +54,7 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'La connexion à {label} est fonctionnelle',
   'connection.connectionTester.snackbar.error': 'La connexion à {label} a échoué',
   'connection.connectionTester.pending': 'Tentative de connexion...',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

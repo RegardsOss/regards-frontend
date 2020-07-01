@@ -42,7 +42,7 @@ describe('[FORM UTILS] Testing FieldsGroup', () => {
         <div id="x" />
       </FieldsGroup>, { context })
 
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'x'), 1, 'Group should render its children')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'x'), 1, 'Group should render its children')
   })
   it('should render with title and span full width', () => {
     const props = {
@@ -54,7 +54,7 @@ describe('[FORM UTILS] Testing FieldsGroup', () => {
         <div id="y" />
       </FieldsGroup>, { context })
 
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'y'), 1, 'Group should render its children')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'y'), 1, 'Group should render its children')
     assert.include(enzymeWrapper.debug(), props.titleKey, 'Title should be rendered')
   })
 })

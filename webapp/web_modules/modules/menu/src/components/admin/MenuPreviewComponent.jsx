@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -27,7 +28,6 @@ import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 
 /** Default public role */
 const PUBLIC_ROLE = 'PUBLIC'
-
 
 /**
  * Menu preview component
@@ -48,6 +48,32 @@ class MenuPreviewComponent extends React.Component {
 
   state = {
     previewRole: PUBLIC_ROLE,
+    previewModule: null,
+  }
+
+  /**
+  * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+  */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { project, moduleConfiguration, roleList } = newProps
+    if (!isEqual(oldProps.project, project)
+    || !isEqual(oldProps.moduleConfiguration, moduleConfiguration)
+    || !isEqual(oldProps.roleList, roleList)) {
+      this.onPreviewContextChanged(this.state.previewRole, project, moduleConfiguration, roleList)
+    }
   }
 
   /**
@@ -57,25 +83,39 @@ class MenuPreviewComponent extends React.Component {
    * @param {string} newRole selected element
    */
   onPreviewRoleChanged = (evt, index, newRole) => {
-    this.setState({ previewRole: newRole })
+    const { project, moduleConfiguration, roleList } = this.props
+    this.onPreviewContextChanged(newRole, project, moduleConfiguration, roleList)
+  }
+
+  /**
+   *
+   * @param {*} previewRole
+   * @param {*} project
+   * @param {*} moduleConfiguration
+   * @param {*} roleList
+   */
+  onPreviewContextChanged = (previewRole, project, moduleConfiguration, roleList) => {
+    this.setState({
+      previewRole,
+      previewModule: {
+        type: modulesManager.VisibleModuleTypes.MENU,
+        active: true,
+        conf: {
+          ...moduleConfiguration,
+          displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
+          previewRole, // role to use for preview
+          roleList, // provide pre-fetched role list
+        },
+      },
+    })
   }
 
   render() {
     const {
-      appName, project, moduleConfiguration, roleList,
+      appName, project, roleList,
     } = this.props
-    const { previewRole } = this.state
+    const { previewRole, previewModule } = this.state
     const { intl: { formatMessage }, moduleTheme: { admin: { previewRoleStyle, previewStyle } } } = this.context
-    const previewModule = {
-      type: modulesManager.VisibleModuleTypes.MENU,
-      active: true,
-      conf: {
-        ...moduleConfiguration,
-        displayMode: UIDomain.MENU_DISPLAY_MODES_ENUM.PREVIEW,
-        previewRole, // role to use for preview
-        roleList, // provide pre-fetched role list
-      },
-    }
     return (
       <div>
         {/* 1. Preview role selector, when not in portal mode */

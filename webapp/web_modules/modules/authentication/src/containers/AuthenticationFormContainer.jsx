@@ -113,12 +113,12 @@ export class AuthenticationFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   loginError: AuthenticationClient.authenticationSelectors.getError(state)
     && AuthenticationClient.authenticationSelectors.getError(state).loginError,
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   dispatchLoginRequest: (username, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(
     username,
     password,

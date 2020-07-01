@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import Dialog from 'material-ui/Dialog'
-import moduleStyles from '../styles/styles'
+import RoleChipComponent from './RoleChipComponent'
 
 /**
  * React container to show User and Role which has an access to the
@@ -44,21 +44,8 @@ class ResourceAccessModalOverviewComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getChipColor = (verb) => {
-    const styles = moduleStyles(this.context.muiTheme)
-    switch (verb) {
-      case 'GET':
-        return styles.getChip
-      case 'POST':
-        return styles.postChip
-      case 'DELETE':
-        return styles.deleteChip
-      case 'PUT':
-        return styles.putChip
-      default:
-        return {}
-    }
-  }
+  // TODO MAJOR remove everywhere manual styling was done :( Big performance issue here
+  // const styles = moduleStyles(this.context.muiTheme)
 
   handleEditRoleResources = (role) => {
     this.props.editRoleResources(role)
@@ -66,9 +53,9 @@ class ResourceAccessModalOverviewComponent extends React.Component {
   }
 
   render() {
-    const { currentResource } = this.props
-    const styles = moduleStyles(this.context.muiTheme)
-    const title = this.context.intl.formatMessage({ id: 'role.modal.title' }, { name: currentResource.content.resource })
+    const { currentResource, roles } = this.props
+    const { moduleTheme, intl: { formatMessage } } = this.context
+    const title = formatMessage({ id: 'role.modal.title' }, { name: currentResource.content.resource })
 
     return (
       <Dialog
@@ -89,29 +76,26 @@ class ResourceAccessModalOverviewComponent extends React.Component {
         <List>
           <ListItem
             disabled
-            innerDivStyle={styles.listItem}
+            innerDivStyle={moduleTheme.listItem}
             primaryText={
               <div>
                 {currentResource.content.description}
                 <br />
                 <br />
-                {this.context.intl.formatMessage({ id: 'role.form.autorizedBy' })}
-                <div style={styles.wrapperChipList}>
-                  {map(this.props.roles, role => (
-                    <Chip
-                      style={styles.chipItem}
-                      onClick={() => this.handleEditRoleResources(role)}
-                      key={role.content.id}
-                    >
-                      {role.content.name}
-                    </Chip>
-                  ))
-                  }
+                {formatMessage({ id: 'role.form.autorizedBy' })}
+                <div style={moduleTheme.wrapperChipList}>
+                  {map(roles, (role) => (
+                    <RoleChipComponent
+                      role={role}
+                      style={moduleTheme.chipItem}
+                      onEditRoleResources={this.handleEditRoleResources}
+                    />
+                  ))}
                 </div>
               </div>
             }
             leftAvatar={
-              <Chip style={this.getChipColor(currentResource.content.verb)}>
+              <Chip style={moduleTheme.chipByVerb[currentResource.content.verb]}>
                 {currentResource.content.verb}
               </Chip>
             }

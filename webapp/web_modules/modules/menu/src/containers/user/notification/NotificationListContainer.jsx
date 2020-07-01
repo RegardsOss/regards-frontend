@@ -124,23 +124,19 @@ export class NotificationListContainer extends React.Component {
     return valuesArray.length ? valuesArray[0] : null
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isInstance: !props.project,
-    }
+  state = {
+    isInstance: !this.props.project,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.startTimer()
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (!!this.notify && !isEqual(this.props.lastNotification, nextProps.lastNotification)) {
       // Open a popup if there is a new notif
       const lastNotif = NotificationListContainer.getNotif(nextProps.lastNotification)
       const previousLastNotif = NotificationListContainer.getNotif(this.props.lastNotification)
-
 
       // notify only when not already read and MORE recent notification (ie: that notification popped during last pull)
       if (lastNotif && lastNotif.content.status === 'UNREAD'
@@ -167,7 +163,6 @@ export class NotificationListContainer extends React.Component {
   }
 
   getLastNotification = () => NotificationListContainer.getNotif(this.props.lastNotification)
-
 
   getLastReadNotification = () => NotificationListContainer.getNotif(this.props.lastReadNotification)
 

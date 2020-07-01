@@ -31,7 +31,6 @@ import SearchEntityCellComponent from './cells/options/SearchEntityCellComponent
 import SearchTagCellComonent from './cells/options/SearchTagCellComonent'
 import DownloadCellComponent from './cells/options/DownloadCellComponent'
 
-
 /**
  * Component to display main browsing tree
  * @author Raphaël Mechali
@@ -228,7 +227,7 @@ class BrowsingTreeComponent extends React.Component {
     BrowsingTreeComponent.buildlListSectionRow(
       BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
       otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
-  ].filter(row => !!row) // remove null rows
+  ].filter((row) => !!row) // remove null rows
 
   /**
    * Builds a cell (here, first column as there is only one)

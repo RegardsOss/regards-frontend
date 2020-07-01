@@ -30,7 +30,7 @@ const COMMON_AUTHENTICATION_NAMESPACE = 'common/authentication-manager'
  * @return {boolean} true if action is a call API action
  */
 function isAuthenticationRequest(callAPI) {
-  return get(callAPI, 'types', EMPTY_ARRAY).find(typeOrObject => isString(typeOrObject)
+  return get(callAPI, 'types', EMPTY_ARRAY).find((typeOrObject) => isString(typeOrObject)
     ? typeOrObject.startsWith(COMMON_AUTHENTICATION_NAMESPACE)
     : typeOrObject.type.startsWith(COMMON_AUTHENTICATION_NAMESPACE))
 }
@@ -64,7 +64,7 @@ function shouldBlockAction(action, store) {
 }
 
 // Intercept actions to reject them if the current user sessions is expired (locked)
-const SessionLockedMiddleware = store => next => (action) => {
+const SessionLockedMiddleware = (store) => (next) => (action) => {
   // If the action is a callAPI and the session of current authenticated user is locked do not send request to server.
   if (shouldBlockAction(action, store)) {
     return new Promise((resolve, reject) => resolve({}))

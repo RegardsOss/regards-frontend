@@ -20,11 +20,11 @@ import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import FlatButton from 'material-ui/FlatButton'
 import Dialog from 'material-ui/Dialog'
-import Checkbox from 'material-ui/Checkbox'
 import ColumnsIcon from 'mdi-material-ui/ViewColumn'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import SwitchSelectAllButton from '../../../../buttons/SwitchSelectAllButton'
+import ColumnVisibilityCheckBox from './ColumnVisibilityCheckBox'
 
 /**
  * Render a react component to display a panel to change visibility of table columns.
@@ -50,12 +50,12 @@ export class TableColumnsVisibilityOption extends React.Component {
   }
 
   /** Lifecycle hook: component will mount. Used here to keep the inner column model up to date */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /** Lifecycle hook: component will receive props. Used here to keep the inner column model up to date
    * @param nextProps next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * On properties updated callback. Updates inner columns model (and initializes dialog state)
@@ -68,7 +68,6 @@ export class TableColumnsVisibilityOption extends React.Component {
       this.onReInitialize(newProps)
     }
   }
-
 
   /**
    * Re-initializes this state: hide dialog, clone current columns in state
@@ -100,8 +99,8 @@ export class TableColumnsVisibilityOption extends React.Component {
    * User callback: user checked / unchecked a column, updating its visibility
    * @param column column to toggle
    */
-  onColumnVisibilityChanged = column => this.onUpdateColumnsState(
-    this.state.bufferedColumns.map(bufferedColumn => column.key === bufferedColumn.key ? { ...bufferedColumn, visible: !bufferedColumn.visible } : bufferedColumn))
+  onColumnVisibilityChanged = (column) => this.onUpdateColumnsState(
+    this.state.bufferedColumns.map((bufferedColumn) => column.key === bufferedColumn.key ? { ...bufferedColumn, visible: !bufferedColumn.visible } : bufferedColumn))
 
   /**
    * On update columns: inner called to update state
@@ -130,29 +129,12 @@ export class TableColumnsVisibilityOption extends React.Component {
     this.setState({ dialogVisible: false })
   }
 
-
   render() {
     const { intl, moduleTheme: { dialog: { columnsVisibilityDialog: { titleBarStyle } } } } = this.context
     const { bufferedColumns, areAllVisible, dialogVisible } = this.state
 
-    // are all columns hidde?
+    // are all columns hide?
     const allColumnsHidden = bufferedColumns.reduce((previousHidden, { visible }) => previousHidden && !visible, true)
-    const actions = [
-      <FlatButton
-        key="Cancel"
-        label={intl.formatMessage({ id: 'table.column.visibility.filter.cancel' })}
-        primary
-        keyboardFocused
-        onClick={this.onCancel}
-      />,
-      <FlatButton
-        key="OK"
-        label={intl.formatMessage({ id: 'table.column.visibility.filter.confirm' })}
-        onClick={this.onConfirm}
-        disabled={allColumnsHidden}
-      />,
-    ]
-
     return (
       <FlatButton
         icon={<ColumnsIcon />}
@@ -177,18 +159,30 @@ export class TableColumnsVisibilityOption extends React.Component {
           modal={false}
           open={dialogVisible}
           onRequestClose={this.onCancel}
-          actions={actions}
+          actions={<>
+            <FlatButton
+              key="Cancel"
+              label={intl.formatMessage({ id: 'table.column.visibility.filter.cancel' })}
+              primary
+              keyboardFocused
+              onClick={this.onCancel}
+            />
+            <FlatButton
+              key="OK"
+              label={intl.formatMessage({ id: 'table.column.visibility.filter.confirm' })}
+              onClick={this.onConfirm}
+              disabled={allColumnsHidden}
+            />
+          </>}
           autoScrollBodyContent
         >
           <div className="row">
             {map(bufferedColumns, (column, index) => (
-              <Checkbox
+              <ColumnVisibilityCheckBox
                 key={column.key}
-                label={column.label}
-                checked={column.visible}
-                onCheck={() => this.onColumnVisibilityChanged(column)}
-              />
-            ))}
+                column={column}
+                onToggleVisibility={this.onColumnVisibilityChanged}
+              />))}
           </div>
         </Dialog>
       </FlatButton>

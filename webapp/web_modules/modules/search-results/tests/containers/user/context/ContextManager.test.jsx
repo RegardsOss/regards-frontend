@@ -209,7 +209,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK, // main results display mode
     [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: datasetEntity.content.id, // main tab filter
     [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: 'true', // search pane open
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: JSON.stringify([{// search state: criteria 0:0, 0:1, 1:0
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: JSON.stringify([{ // search state: criteria 0:0, 0:1, 1:0
       i: `[25/${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}/111][my.attr.1/my.attr.2][0:0]`,
       s: { crit1: 'state', booleanHere: false },
       r: { p1: false, q: 'any' },
@@ -425,7 +425,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       attributeModels: attributes,
       resultsContext: fromResultContext,
       authentication: {},
-      fetchEntity: id => new Promise(resolve => resolve({ payload: allEntities.find(e => e.content.id === id) })),
+      fetchEntity: (id) => new Promise((resolve) => resolve({ payload: allEntities.find((e) => e.content.id === id) })),
       updateResultsContext: (moduleId, resultsContext) => {
         assert.equal(moduleId, props.moduleId, 'Update should be performed on right module ID')
         doExpect(spiedRestore.initialContext, spiedRestore.restoredContext, resultsContext)
@@ -499,8 +499,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       attributeModels: attributes,
       resultsContext: null,
       authentication: {},
-      fetchEntity: id => new Promise(resolve => resolve({
-        payload: currentProps.authentication.result ? allEntities.find(e => e.content.id === id) : null,
+      fetchEntity: (id) => new Promise((resolve) => resolve({
+        payload: currentProps.authentication.result ? allEntities.find((e) => e.content.id === id) : null,
       })),
       updateResultsContext: (moduleId, resultsContext) => {
         assert.equal(moduleId, currentProps.moduleId, 'Update should be performed on right module ID')
@@ -560,7 +560,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       attributeModels: attributes,
       resultsContext: null,
       authentication: {},
-      fetchEntity: () => new Promise(resolve => resolve({})),
+      fetchEntity: () => new Promise((resolve) => resolve({})),
       updateResultsContext: (moduleId, resultsContext) => {
         spiedUpdateResults.moduleId = moduleId
         spiedUpdateResults.resultsContext = resultsContext
@@ -626,7 +626,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       attributeModels: attributes,
       resultsContext: dataContext,
       authentication: {},
-      fetchEntity: () => new Promise(resolve => resolve({})),
+      fetchEntity: () => new Promise((resolve) => resolve({})),
       updateResultsContext: () => {},
     }
 

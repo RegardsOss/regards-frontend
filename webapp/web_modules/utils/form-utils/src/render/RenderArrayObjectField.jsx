@@ -72,7 +72,7 @@ class RenderArrayObjectField extends React.Component {
     canBeEmpty: true,
     fieldProps: {},
     getEmptyObject: () => ({}),
-    duplicationTransformation: object => object && { ...object },
+    duplicationTransformation: (object) => object && { ...object },
   }
 
   static contextTypes = {
@@ -85,7 +85,7 @@ class RenderArrayObjectField extends React.Component {
     fieldIndexToDelete: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { moduleTheme: { arrayObject: { contentStyle } } } = this.context
     this.setState({
       listContentStyle: this.props.listHeight ? { ...omit(contentStyle, ['height']), height: this.props.listHeight } : contentStyle,
@@ -182,12 +182,14 @@ class RenderArrayObjectField extends React.Component {
       <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem
           disabled={!isDeletable}
-          onClick={() => this.onDeleteObject(index)}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+          onClick={() => this.onDeleteObject(index)} // eslint wont fix: Cannot compose using MenuItems in MUI 0x (breaks menu auto closing system)
         >
           {formatMessage({ id: 'render.array-object.delete.button' })}
         </MenuItem>
         <MenuItem
-          onClick={() => this.onDuplicateObject(index)}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+          onClick={() => this.onDuplicateObject(index)} // eslint wont fix: Cannot compose using MenuItems in MUI 0x (breaks menu auto closing system)
         >
           {formatMessage({ id: 'render.array-object.duplicate.button' })}
         </MenuItem>

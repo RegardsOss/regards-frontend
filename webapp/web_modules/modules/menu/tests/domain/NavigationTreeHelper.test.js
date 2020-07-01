@@ -115,7 +115,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
       }, { // a module not found
         id: 88,
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-      }, {// a module found
+      }, { // a module found
         id: 3,
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
       }],
@@ -135,7 +135,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
       },
       // found modules should have been removed
-      newModules: allDefaultConfigDumpModules.filter(module => module.content.id !== 3 && module.content.id !== 5),
+      newModules: allDefaultConfigDumpModules.filter((module) => module.content.id !== 3 && module.content.id !== 5),
     })
   })
   it('(filterItems) should filter correctly an items list', () => {
@@ -241,7 +241,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     const expectedModulesId = [2, 3, 4, 5, 6]
     assert.lengthOf(allModules, expectedModulesId.length)
     expectedModulesId.forEach((id) => {
-      if (!allModules.find(module => module.id === id && module.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)) {
+      if (!allModules.find((module) => module.id === id && module.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)) {
         assert.fail(`The module ${id} was not retrieved in all modules`)
       }
     })
@@ -256,7 +256,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     const expectedSectionId = [0, 1, 2]
     assert.lengthOf(allSections, expectedSectionId.length, 'all sections should be retrieved')
     expectedSectionId.forEach((id) => {
-      if (!allSections.find(section => section.id === id && section.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)) {
+      if (!allSections.find((section) => section.id === id && section.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)) {
         assert.fail(`The section ${id} was not retrieved in all sections`)
       }
     })

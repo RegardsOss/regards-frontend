@@ -49,7 +49,6 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
     assert.isDefined(InfiniteGalleryComponent)
   })
 
-
   it('should render correctly empty', () => {
     const props = {
       alignCenter: true,
@@ -107,7 +106,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
     const loadingShowable = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(loadingShowable, 1, 'There should loading showable component')
     assert.equal(loadingShowable.props().show, true, 'Loading component should be shown')
-    assert.lengthOf(loadingShowable.findWhere(n => n.props().id === 'loading.component'), 1,
+    assert.lengthOf(loadingShowable.findWhere((n) => n.props().id === 'loading.component'), 1,
       'The loading component should be correctly reported from props')
   })
   it('should render correctly in nominal case', () => {

@@ -34,7 +34,6 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesComponent', ()
     assert.isDefined(ListItem)
   })
 
-
   it('Render properly', () => {
     const handleSubmitSpy = spy()
     const props = {

@@ -28,6 +28,6 @@ export const StorageLocationConfiguration = {
 }
 
 export const STORAGE_LOCATION = new Schema(StorageLocationConfiguration.normalizrKey, {
-  idAttribute: model => model.content[StorageLocationConfiguration.entityKey],
+  idAttribute: (model) => model.content[StorageLocationConfiguration.entityKey],
 })
 export const STORAGE_LOCATION_ARRAY = arrayOf(STORAGE_LOCATION)

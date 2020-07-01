@@ -21,7 +21,7 @@
  * Styles for menu module
  * @author Sébastien binda
  */
-const menuStyles = theme => ({
+const menuStyles = (theme) => ({
   admin: {
     firstSubheaderStyle: {
       lineHeight: 1,

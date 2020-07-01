@@ -25,6 +25,25 @@
   */
 export default function buildStyles(theme) {
   return {
+    userForm: {
+      chipBackground: theme.palette.primary1Color,
+      chip: {
+        margin: 4,
+      },
+      avatarBackground: theme.palette.primary2Color,
+      renderChipInput: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginTop: 4,
+      },
+      groupsLabel: {
+        color: theme.textField.floatingLabelColor,
+        fontFamily: theme.fontFamily,
+        fontSize: '0.9em',
+        marginTop: 21,
+        marginBottom: 7,
+      },
+    },
     usersList: {
       actionsStyles: {
         display: 'flex',

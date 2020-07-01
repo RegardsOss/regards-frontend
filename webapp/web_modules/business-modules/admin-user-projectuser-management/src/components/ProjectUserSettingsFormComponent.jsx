@@ -50,7 +50,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   }
 
   /** Lifecycle method component will mount, used here to initialize form values */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { settings, initialize } = this.props
     initialize({
       mode: settings.mode,

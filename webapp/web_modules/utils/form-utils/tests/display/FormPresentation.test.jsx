@@ -41,6 +41,6 @@ describe('[FORM UTILS] Testing FormPresentation', () => {
         <div id="test.id" />
       </FormPresentation>,
       { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'test.id'), 1)
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'test.id'), 1)
   })
 })

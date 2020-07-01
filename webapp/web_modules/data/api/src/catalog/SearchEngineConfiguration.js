@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const SearchEngineConfiguration = {
@@ -25,10 +24,9 @@ export const SearchEngineConfiguration = {
   normalizrKey: 'searchEngine',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const SEARCH_ENGINE = new Schema(SearchEngineConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[SearchEngineConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[SearchEngineConfiguration.entityKey]
   ,
 })
 export const SEARCH_ENGINE_ARRAY = arrayOf(SEARCH_ENGINE)

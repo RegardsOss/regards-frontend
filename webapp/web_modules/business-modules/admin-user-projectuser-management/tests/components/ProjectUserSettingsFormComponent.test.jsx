@@ -58,7 +58,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
     const enzymeWrapper = shallow(<ProjectUserSettingsFormComponent {...props} />, { context })
     assert.deepEqual(spiedInitiliazeData, { mode: props.settings.mode })
 
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'mode'), 1, 'There should be the mode field')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'mode'), 1, 'There should be the mode field')
 
     const cardActionsWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsWrapper, 1, 'There should be the card actions')

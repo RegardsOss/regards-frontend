@@ -70,7 +70,7 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       valueSelected: props.currentRestrictionsValues.byDataset.type,
     }, 'Radio buttons group properties should be correctly set')
     UIDomain.DATASET_RESCRICTIONS_TYPES.forEach((restrictionType) => {
-      assert.lengthOf(radioGroup.findWhere(n => n.props().value === restrictionType), 1,
+      assert.lengthOf(radioGroup.findWhere((n) => n.props().value === restrictionType), 1,
         'There should be one radio button for each possible restriction type')
     })
     let selectionField = enzymeWrapper.find(FieldArray)

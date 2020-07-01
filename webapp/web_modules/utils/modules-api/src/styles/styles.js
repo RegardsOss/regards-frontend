@@ -21,6 +21,6 @@
  * Styles of the Modules components
  * @author Sébastien Binda
  */
-export default theme => ({
+export default (theme) => ({
   // no custom style
 })

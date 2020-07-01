@@ -42,7 +42,7 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
       </LoadableContentDialogContainer>)
     assert.lengthOf(enzymeWrapper.find(ContentLoadingComponent), 1, 'It should display loading')
 
-    const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
+    const testDivs = enzymeWrapper.findWhere((n) => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')
     // parent should not be visible
     const parentStyles = testDivs.parent().props().style
@@ -62,7 +62,7 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
       </LoadableContentDialogContainer>)
     assert.lengthOf(enzymeWrapper.find(ContentLoadingComponent), 0, 'It should not display loading')
 
-    const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
+    const testDivs = enzymeWrapper.findWhere((n) => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')
     // parent should not be visible
     const parentStyles = testDivs.parent().props().style

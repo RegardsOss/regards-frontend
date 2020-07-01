@@ -43,7 +43,7 @@ class NotificationDetailComponent extends React.Component {
     const { notification } = this.props
     const { intl: { formatMessage }, moduleTheme: { notifications: { dialog: { details } } } } = this.context
     return (
-      <React.Fragment>
+      <>
         <div style={details.header.style}>
           <CardHeader
             title={notification.title}
@@ -73,7 +73,7 @@ class NotificationDetailComponent extends React.Component {
           }
 
         </CardText>
-      </React.Fragment>)
+      </>)
   }
 }
 

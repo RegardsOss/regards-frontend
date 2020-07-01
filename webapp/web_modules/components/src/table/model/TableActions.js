@@ -58,7 +58,6 @@ class TableActions {
     }
   }
 
-
   /**
    * @param rowIndex element row
    * @param element to toggle

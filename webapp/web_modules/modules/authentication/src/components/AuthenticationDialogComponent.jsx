@@ -29,7 +29,6 @@ class AuthenticationDialog extends React.Component {
     children: PropTypes.element.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

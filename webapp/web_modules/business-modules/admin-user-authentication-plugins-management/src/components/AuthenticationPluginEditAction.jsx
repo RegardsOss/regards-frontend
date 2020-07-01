@@ -42,19 +42,27 @@ class AuthenticationPluginEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update')
+    return !!find(links, (l) => l.rel === 'update')
+  }
+
+  /**
+   * User callback: edit plugin
+   */
+  onEdit = () => {
+    const { entity: { content }, onEdit } = this.props
+    onEdit(content)
   }
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity: { content }, onEdit } = this.props
+    const { entity: { content } } = this.props
     return (
       <IconButton
         className={`selenium-edit-${content.id}`}
         title={formatMessage({ id: 'user.authentication.plugins.list.edit.button' })}
         iconStyle={AuthenticationPluginEditAction.iconStyle}
         style={AuthenticationPluginEditAction.buttonStyle}
-        onClick={() => onEdit(content)}
+        onClick={this.onEdit}
         disabled={!this.isEditable()}
       >
         <Edit />

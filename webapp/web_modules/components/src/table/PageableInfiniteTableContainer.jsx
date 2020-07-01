@@ -30,39 +30,6 @@ import InfiniteTableContainer from './InfiniteTableContainer'
  * @author Raphaël Mechali
  */
 export class PageableInfiniteTableContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pageSelectors }) {
-    return {
-      // results entities
-      entities: pageSelectors.getOrderedList(state),
-      pageMetadata: pageSelectors.getMetaData(state),
-      entitiesFetching: pageSelectors.isFetching(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch, { pageActions, tableActions, fetchUsingPostMethod }) {
-    return {
-      flushEntities: () => dispatch(pageActions.flush()),
-      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters) => dispatch(
-        fetchUsingPostMethod
-          ? pageActions.fetchPagedEntityListByPost(pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters)
-          : pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParameters),
-      ),
-      flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
-    }
-  }
-
   static propTypes = {
     // When true, fetch will be performed using POST method and with body parameter. Otherwise fetch will use default GET method
     fetchUsingPostMethod: PropTypes.bool,
@@ -108,16 +75,49 @@ export class PageableInfiniteTableContainer extends React.Component {
   static PROPS_TO_OMIT = ['fetchUsingPostMethod', 'pageActions', 'pageSelectors', 'tableActions', 'pageMetadata']
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pageSelectors }) {
+    return {
+      // results entities
+      entities: pageSelectors.getOrderedList(state),
+      pageMetadata: pageSelectors.getMetaData(state),
+      entitiesFetching: pageSelectors.isFetching(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch, { pageActions, tableActions, fetchUsingPostMethod }) {
+    return {
+      flushEntities: () => dispatch(pageActions.flush()),
+      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters) => dispatch(
+        fetchUsingPostMethod
+          ? pageActions.fetchPagedEntityListByPost(pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters)
+          : pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParameters),
+      ),
+      flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. used here to initialize state for properties
    */
-  componentWillMount = () => this.onPropertiesChanged(this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged(this.props)
 
   /**
    * Lifecycle method: component will receive props. Used here to update state for properties, avoid new references
    * at render time
    * @param nextProps next component properties values
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(nextProps, this.props)
 
   /**
    * On properties changed, used here to update sub component properties (limits the references creation at render time)
@@ -133,7 +133,6 @@ export class PageableInfiniteTableContainer extends React.Component {
     }
     this.setState({ tableProps })
   }
-
 
   render() {
     // except actions / selectors, we need all properties through

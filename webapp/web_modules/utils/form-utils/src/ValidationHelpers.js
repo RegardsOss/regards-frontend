@@ -30,7 +30,7 @@ import ErrorTypes from './ErrorTypes'
  * Returns {@code true} if the passed String matches an email format.
  * @param {String} email
  */
-const isValidEmail = email => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
+const isValidEmail = (email) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)
 
 /**
  * Returns {@code true} if the passed String matches an url format.
@@ -43,14 +43,13 @@ const isValidUrl = (url, relativeAllowed = true) => validURLRegexp.test(url) || 
  * Returns {@code true} if the passed String matches an url format.
  * @param {String} uri url text
  */
-const isValidUri = uri => validURIRegexp.test(uri)
-
+const isValidUri = (uri) => validURIRegexp.test(uri)
 
 /**
  * Returns {@code true} if the passed String is only composed of alphanumeric or "_" characters.
  * @param {String} value
  */
-const isValidAlphaNumericUnderscore = value => /^[A-Z0-9_]+$/i.test(value)
+const isValidAlphaNumericUnderscore = (value) => /^[A-Z0-9_]+$/i.test(value)
 
 /**
  * Returns {@code true} if the passed String matches an IP address format.
@@ -58,7 +57,7 @@ const isValidAlphaNumericUnderscore = value => /^[A-Z0-9_]+$/i.test(value)
  * @param {String} value
  * @returns {boolean}
  */
-const isValidIP = value => /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
+const isValidIP = (value) => /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(value)
 
 /**
  * Compose all passed validator functions as a single validator. If all validators are valid, the composed validator is valid.
@@ -71,8 +70,8 @@ const isValidIP = value => /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[
  * @see http://redux-form.com/6.5.0/docs/api/Field.md/  => validate
  */
 const compose = (...validators) => (value, allValues, props) => {
-  const results = validators.map(validator => validator(value, allValues, props))
-  return find(results, result => !isUndefined(result))
+  const results = validators.map((validator) => validator(value, allValues, props))
+  return find(results, (result) => !isUndefined(result))
 }
 
 /**
@@ -81,7 +80,7 @@ const compose = (...validators) => (value, allValues, props) => {
  * @param {String} value
  * @returns {String||undefined}
  */
-const required = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
+const required = (value) => !isNil(value) && value !== '' ? undefined : ErrorTypes.REQUIRED
 
 /**
  * Redux-Form-style validator for Fields which content is required.
@@ -89,7 +88,7 @@ const required = value => !isNil(value) && value !== '' ? undefined : ErrorTypes
  * @param {String} value
  * @returns {String||undefined}
  */
-const arrayRequired = value => !isNil(value) && value !== '' && value.length > 0 ? undefined : ErrorTypes.ARRAY_REQUIRED
+const arrayRequired = (value) => !isNil(value) && value !== '' && value.length > 0 ? undefined : ErrorTypes.ARRAY_REQUIRED
 
 /**
  * Redux-Form-style validator for Fields which content is required.
@@ -97,7 +96,7 @@ const arrayRequired = value => !isNil(value) && value !== '' && value.length > 0
  * @param {String} value
  * @returns {String||undefined}
  */
-const mapRequired = value => !isNil(value) && value !== '' ? undefined : ErrorTypes.ARRAY_REQUIRED
+const mapRequired = (value) => !isNil(value) && value !== '' ? undefined : ErrorTypes.ARRAY_REQUIRED
 
 /**
  * Redux-Form-style validator for Fields which content must be a string.
@@ -105,7 +104,7 @@ const mapRequired = value => !isNil(value) && value !== '' ? undefined : ErrorTy
  * @param {String} value
  * @returns {String||undefined}
  */
-const string = value => isString(value) || isNil(value) ? undefined : ErrorTypes.TYPE_STRING
+const string = (value) => isString(value) || isNil(value) ? undefined : ErrorTypes.TYPE_STRING
 
 /**
  * Redux-Form-style validator for Fields which content must not be empty.
@@ -113,11 +112,11 @@ const string = value => isString(value) || isNil(value) ? undefined : ErrorTypes
  * @param {String} value
  * @returns {String||undefined}
  */
-const validRequiredNumber = value => !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
+const validRequiredNumber = (value) => !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
 
-const matchRegex = regex => value => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
+const matchRegex = (regex) => (value) => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
-const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => value => !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
+const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => (value) => !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
   && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
 
 /**
@@ -127,15 +126,15 @@ const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => v
  * @returns {String||undefined}
  * @author Xavier-Alexandre Brochard
  */
-const validAlphaNumericUnderscore = value => isValidAlphaNumericUnderscore(value) ? undefined : ErrorTypes.ALPHA_NUMERIC
+const validAlphaNumericUnderscore = (value) => isValidAlphaNumericUnderscore(value) ? undefined : ErrorTypes.ALPHA_NUMERIC
 
-const validStringSize = (minSize, maxSize) => value => !value || (isString(value) && value.length <= maxSize && value.length >= minSize) ? undefined : ErrorTypes.invalidStringSize(minSize || '0', maxSize)
+const validStringSize = (minSize, maxSize) => (value) => !value || (isString(value) && value.length <= maxSize && value.length >= minSize) ? undefined : ErrorTypes.invalidStringSize(minSize || '0', maxSize)
 
 /**
  * Checks that the given value is a valid mimeType.
  * @param value
  */
-const validMimeType = value => !isNil(value) && (matchRegex(/[^/ ]*\/[^/ ]/)(value) === undefined) ? undefined : ErrorTypes.INVALID_MIME_TYPE
+const validMimeType = (value) => !isNil(value) && (matchRegex(/[^/ ]*\/[^/ ]/)(value) === undefined) ? undefined : ErrorTypes.INVALID_MIME_TYPE
 
 /**
  * Redux-Form-style validator for Fields which content must be an email.
@@ -143,7 +142,7 @@ const validMimeType = value => !isNil(value) && (matchRegex(/[^/ ]*\/[^/ ]/)(val
  * @param {String} value
  * @returns {String||undefined}
  */
-const email = value => isValidEmail(value) ? undefined : ErrorTypes.EMAIL
+const email = (value) => isValidEmail(value) ? undefined : ErrorTypes.EMAIL
 
 /**
  * Redux-Form-style validator for Fields which content must be an url.
@@ -151,7 +150,7 @@ const email = value => isValidEmail(value) ? undefined : ErrorTypes.EMAIL
  * @param {String} value
  * @returns {String||undefined}
  */
-const url = value => isValidUrl(value) ? undefined : ErrorTypes.INVALID_URL
+const url = (value) => isValidUrl(value) ? undefined : ErrorTypes.INVALID_URL
 
 /**
  * Redux-Form-style validator for Fields which content must be an URI.
@@ -159,7 +158,7 @@ const url = value => isValidUrl(value) ? undefined : ErrorTypes.INVALID_URL
  * @param {String} value
  * @returns {String||undefined}
  */
-const uri = value => isValidUri(value) ? undefined : ErrorTypes.INVALID_URI
+const uri = (value) => isValidUri(value) ? undefined : ErrorTypes.INVALID_URI
 
 /**
  * Construct a Redux-Form-style validator for Fields with length must be less than given value
@@ -167,7 +166,7 @@ const uri = value => isValidUri(value) ? undefined : ErrorTypes.INVALID_URI
  * @param {Number} pNumber
  * @returns {String||undefined}
  */
-const lengthLessThan = pNumber => value => isNil(value) || value.length <= pNumber ? undefined : ErrorTypes.lengthLessThan(pNumber)
+const lengthLessThan = (pNumber) => (value) => isNil(value) || value.length <= pNumber ? undefined : ErrorTypes.lengthLessThan(pNumber)
 
 /**
  * Construct a Redux-Form-style validator for Fields with length must be more than given value
@@ -175,7 +174,7 @@ const lengthLessThan = pNumber => value => isNil(value) || value.length <= pNumb
  * @param {Number} pNumber
  * @returns {String||undefined}
  */
-const lengthMoreThan = pNumber => value => isNil(value) || value.length >= pNumber ? undefined : ErrorTypes.lengthMoreThan(pNumber)
+const lengthMoreThan = (pNumber) => (value) => isNil(value) || value.length >= pNumber ? undefined : ErrorTypes.lengthMoreThan(pNumber)
 
 /**
  * Construct a Redux-Form-style validator for Numeric Fields with value less than given value
@@ -183,7 +182,7 @@ const lengthMoreThan = pNumber => value => isNil(value) || value.length >= pNumb
  * @param {Number} pNumber
  * @returns {String||undefined}
  */
-const lessThan = pNumber => value => isNil(value) || value <= pNumber ? undefined : ErrorTypes.lessThan(pNumber)
+const lessThan = (pNumber) => (value) => isNil(value) || value <= pNumber ? undefined : ErrorTypes.lessThan(pNumber)
 
 /**
  * Construct a Redux-Form-style validator for Numeric Fields with value more than given value
@@ -191,7 +190,7 @@ const lessThan = pNumber => value => isNil(value) || value <= pNumber ? undefine
  * @param {Number} pNumber
  * @returns {String||undefined}
  */
-const moreThan = pNumber => value => isNil(value) || value >= pNumber ? undefined : ErrorTypes.moreThan(pNumber)
+const moreThan = (pNumber) => (value) => isNil(value) || value >= pNumber ? undefined : ErrorTypes.moreThan(pNumber)
 
 /** Regexp to match a number */
 const NUMBER_REGEXP = /^[0-9.,]*$/
@@ -284,7 +283,7 @@ const javaFloatValidator = parsableNumberValidator(ErrorTypes.INVALID_FLOATING_N
   new BigNumber('1.4E-45'), new BigNumber('3.4028235E38'))
 
 /** Character validator */
-const characterValidator = value => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
+const characterValidator = (value) => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
 
 export default {
   isValidEmail,

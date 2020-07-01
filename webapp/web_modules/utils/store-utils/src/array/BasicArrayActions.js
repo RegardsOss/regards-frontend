@@ -47,7 +47,6 @@ class BasicArrayActions extends BasicActions {
     }
   }
 
-
   fetchEntityListByPost(pathParams, queryParams, bodyParams) {
     const endpoint = BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams)
     return {
@@ -93,6 +92,5 @@ class BasicArrayActions extends BasicActions {
     }
   }
 }
-
 
 export default BasicArrayActions

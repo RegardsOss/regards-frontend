@@ -22,6 +22,6 @@ import { PluginListSelectors } from '../../rs-common/plugins/PluginListSelectors
  * Selectors for connection plugins list
  * @author Raphaël Mechali
  */
-export default storePath => new PluginListSelectors(storePath)
+export default (storePath) => new PluginListSelectors(storePath)
 
 // demain:pareil pour les datasource (test edit datasource)

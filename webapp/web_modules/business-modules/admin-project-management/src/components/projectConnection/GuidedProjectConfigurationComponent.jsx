@@ -143,7 +143,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
   renderConfigurationOnForAllConnections = () => {
     const firstMicroservice = GuidedProjectConfigurationComponent.MSERVICES_ARRAY[0]
-    const firstProjectConnection = find(this.props.projectConnections, lProjectConnection => lProjectConnection.content.microservice === firstMicroservice)
+    const firstProjectConnection = find(this.props.projectConnections, (lProjectConnection) => lProjectConnection.content.microservice === firstMicroservice)
     return (
       <ProjectConnectionFormComponent
         project={this.props.project}
@@ -170,7 +170,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
       >
         {map(GuidedProjectConfigurationComponent.MSERVICES_ARRAY, (microservice, key) => {
           // Search if a connection is already defined for the current project
-          const projectConnection = find(projectConnections, lProjectConnection => lProjectConnection.content.microservice === microservice)
+          const projectConnection = find(projectConnections, (lProjectConnection) => lProjectConnection.content.microservice === microservice)
           return (
             <Step key={key}>
               {this.getStepButton(microservice, projectConnection, key)}

@@ -94,13 +94,13 @@ export class DescriptionLinkContainer extends React.Component {
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -156,7 +156,7 @@ export class DescriptionLinkContainer extends React.Component {
    * @param {string} entityType entity type (from ENTITY_TYPES_ENUM)
    * @return {boolean} true when available, false otherwise
    */
-  isDescAvailableFor = entityType => DescriptionHelper.isDescAvailableFor(this.state.descriptionModule, entityType)
+  isDescAvailableFor = (entityType) => DescriptionHelper.isDescAvailableFor(this.state.descriptionModule, entityType)
 
   render() {
     // Otherwise, show results components

@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'group.list.title': 'Access groups',
   'group.list.subtitle': 'An access group allows users from this group to access datasets, partially or totally',
   'group.list.table.name': 'Name',
@@ -43,6 +43,7 @@ const messages = Object.assign({
   'group.form.action.save': 'Save',
   'group.form.public': 'Automatically link this group to all users and visitors',
   'invalid.max_32_carac': 'Use 32 characters or fewer for access groups names',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

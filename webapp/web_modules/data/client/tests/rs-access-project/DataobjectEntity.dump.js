@@ -51,10 +51,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -122,10 +124,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -193,10 +197,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2018-05-16T15:39:00Z',
         weight: 150,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -264,9 +270,11 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 666,
+        // eslint-disable-next-line camelcase
+        value_l1: 666, // eslint wont fix: matches server format
         date: '2016-05-16T15:28:00Z',
         weight: 10,
+        // eslint-disable-next-line camelcase
         value_d1: 3.14157,
         fragment1: {
           activated: false,
@@ -335,10 +343,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -406,10 +416,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2018-05-16T15:39:00Z',
         weight: 150,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -477,10 +489,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: -1,
+        // eslint-disable-next-line camelcase
+        value_l1: -1, // eslint wont fix: matches server format
         date: '2017-04-01T10:28:40.875Z',
         weight: 140,
-        value_d1: 1.4142,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.4142, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'UPDATED',
@@ -549,9 +563,11 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
+        // eslint-disable-next-line camelcase
         value_l1: 1,
         date: '2017-01-01T00:00:00Z',
         weight: 40,
+        // eslint-disable-next-line camelcase
         value_d1: 1.0,
         fragment1: {
           activated: true,
@@ -620,10 +636,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2020-05-16T15:39:00Z',
         weight: 150,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -691,10 +709,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -762,10 +782,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -833,10 +855,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-01-01T00:00:00Z',
         weight: 40,
-        value_d1: 1.0,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -904,10 +928,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -975,10 +1001,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: -1,
+        // eslint-disable-next-line camelcase
+        value_l1: -1, // eslint wont fix: matches server format
         date: '2017-04-01T10:28:40.875Z',
         weight: 140,
-        value_d1: 1.4142,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.4142, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'UPDATED',
@@ -1046,10 +1074,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -1117,10 +1147,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -1188,10 +1220,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -1259,10 +1293,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: -1,
+        // eslint-disable-next-line camelcase
+        value_l1: -1, // eslint wont fix: matches server format
         date: '2017-04-01T10:28:40.875Z',
         weight: 140,
-        value_d1: 1.4142,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.4142, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'UPDATED',
@@ -1330,10 +1366,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -1401,10 +1439,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -1472,10 +1512,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2019-05-16T15:39:00Z',
         weight: 150,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -1543,10 +1585,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-05-16T15:39:00Z',
         weight: 40,
-        value_d1: 1.0E80,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0E80, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'STOPPED',
@@ -1614,10 +1658,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 42,
+        // eslint-disable-next-line camelcase
+        value_l1: 42, // eslint wont fix: matches server format
         date: '2017-05-16T15:28:00Z',
         weight: 25,
-        value_d1: 0.666,
+        // eslint-disable-next-line camelcase
+        value_d1: 0.666, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',
@@ -1685,10 +1731,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 666,
+        // eslint-disable-next-line camelcase
+        value_l1: 666, // eslint wont fix: matches server format
         date: '2016-05-16T15:28:00Z',
         weight: 10,
-        value_d1: 3.14157,
+        // eslint-disable-next-line camelcase
+        value_d1: 3.14157, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'UPDATED',
@@ -1756,10 +1804,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 666,
+        // eslint-disable-next-line camelcase
+        value_l1: 666, // eslint wont fix: matches server format
         date: '2016-05-16T15:28:00Z',
         weight: 10,
-        value_d1: 3.14157,
+        // eslint-disable-next-line camelcase
+        value_d1: 3.14157, // eslint wont fix: matches server format
         fragment1: {
           activated: false,
           state: 'UPDATED',
@@ -1827,10 +1877,12 @@ export default {
       model: 'DATA_MODEL_1',
       tags: ['URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1'],
       properties: {
-        value_l1: 1,
+        // eslint-disable-next-line camelcase
+        value_l1: 1, // eslint wont fix: matches server format
         date: '2017-01-01T00:00:00Z',
         weight: 40,
-        value_d1: 1.0,
+        // eslint-disable-next-line camelcase
+        value_d1: 1.0, // eslint wont fix: matches server format
         fragment1: {
           activated: true,
           state: 'STARTED',

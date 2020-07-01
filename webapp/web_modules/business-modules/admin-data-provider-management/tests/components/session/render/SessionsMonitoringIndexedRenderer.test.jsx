@@ -100,7 +100,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringIndexedRend
       // 1.a - Check menu then options in menu
       assert.lengthOf(dropDownMenu, 1, 'Menu should be shown')
       const menuItems = dropDownMenu.find(MenuItem)
-      assert.lengthOf(menuItems.findWhere(n => n.props().onClick === props.onGoToDatasources), 1, 'There should be datasource list option')
+      assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === props.onGoToDatasources), 1, 'There should be datasource list option')
     } else {
       // 1.b - Check menu is not displayed
       assert.lengthOf(dropDownMenu, 0, 'Menu should not be shown')

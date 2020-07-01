@@ -32,7 +32,6 @@ class NormalQuicklookPictureComponent extends React.Component {
     onToggleMagnified: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -70,7 +69,8 @@ class NormalQuicklookPictureComponent extends React.Component {
           hasOtherQuicklooks ? (
             <div style={normal.caption}>
               { /** Group label or anonymous group */
-                quicklookFile.label || formatMessage({ id: 'module.description.content.quicklook.group.unknown' })}
+                quicklookFile.label || formatMessage({ id: 'module.description.content.quicklook.group.unknown' })
+}
             </div>
           ) : null
         }

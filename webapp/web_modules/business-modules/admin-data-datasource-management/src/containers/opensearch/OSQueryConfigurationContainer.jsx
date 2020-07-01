@@ -55,9 +55,9 @@ export class OSQueryConfigurationContainer extends React.Component {
 
   onSubmit = (fields) => {
     const { descriptor, onSubmit } = this.props
-    const jsonWebservice = descriptor.url.find(e => e.type === 'application/json')
-    const startPage = jsonWebservice.parameter.find(e => e.value === '{startPage}')
-    const count = jsonWebservice.parameter.find(e => e.value === '{count}')
+    const jsonWebservice = descriptor.url.find((e) => e.type === 'application/json')
+    const startPage = jsonWebservice.parameter.find((e) => e.value === '{startPage}')
+    const count = jsonWebservice.parameter.find((e) => e.value === '{count}')
     const webserviceURL = jsonWebservice.template.split('?')[0]
     const pageIndexParam = startPage.name
     const startPageIndex = startPage.minInclusive
@@ -73,7 +73,7 @@ export class OSQueryConfigurationContainer extends React.Component {
         <OSQueryConfigurationComponent
           initialValues={initialValues}
           isEditing={isEditing}
-          urlDescriptor={descriptor.url.find(e => e.type === 'application/json')}
+          urlDescriptor={descriptor.url.find((e) => e.type === 'application/json')}
           onBack={onBack}
           onSubmit={this.onSubmit}
         />

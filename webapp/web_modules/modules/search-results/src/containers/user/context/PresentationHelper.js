@@ -61,7 +61,7 @@ export class PresentationHelper {
     const attributesAndRender = presentationModel.attributes.map(({ name, renderer }) => ({
       renderer,
       model: DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels),
-    })).filter(attr => !!attr.model) // remove non retrieved models
+    })).filter((attr) => !!attr.model) // remove non retrieved models
     if (!attributesAndRender.length) {
       return null // cannot show that column as no attribute could be retrieved
     }
@@ -96,7 +96,7 @@ export class PresentationHelper {
         (c, index) => PresentationHelper.buildPresentationModel(attributeModels, c, allowingSort, `configured.column.${index}`)),
       // 3 - options columns
       addOptionsColumn ? PresentationHelper.buildColumnPlaceholder(TableColumnBuilder.optionsColumnKey) : null,
-    ].filter(presentationModel => !!presentationModel)
+    ].filter((presentationModel) => !!presentationModel)
   }
 
   /**

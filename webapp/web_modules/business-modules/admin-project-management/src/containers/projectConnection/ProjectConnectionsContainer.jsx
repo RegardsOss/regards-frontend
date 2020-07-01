@@ -80,7 +80,7 @@ export class ProjectConnectionsContainer extends React.Component {
     }
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // Retrieve all connections for the given project
     Promise.resolve(this.props.fetchProjectConnections(this.props.params.project_name)).then(() => this.setState({ projectConnectionsIsFetching: false }))
 
@@ -149,10 +149,11 @@ export class ProjectConnectionsContainer extends React.Component {
       // Check if connection already exists
       const prevConnection = find(this.props.projectConnections, { content: { microservice } })
       // If connection already exists add id
-      const connection = Object.assign({}, projectConnection, {
+      const connection = {
+        ...projectConnection,
         id: prevConnection ? prevConnection.content.id : undefined,
         microservice,
-      })
+      }
       if (connection.id) {
         // Update connection
         return this.props.updateProjectConnection(connection.id, connection, this.props.project.content.name)
@@ -271,7 +272,8 @@ export class ProjectConnectionsContainer extends React.Component {
             this.context.intl.formatMessage({ id: 'database.form.edit.title' }, {
               microservice,
               project: this.props.project.content.name,
-            })}
+            })
+}
         />
         <CardText>
           <ProjectConnectionFormComponent
@@ -307,17 +309,17 @@ const mapStateToProps = (state, ownProps) => ({
   project: ownProps.params.project_name ? projectSelectors.getById(state, ownProps.params.project_name) : null,
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchProjectConnections: projectName => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
+const mapDispatchToProps = (dispatch) => ({
+  fetchProjectConnections: (projectName) => dispatch(projectConnectionActions.fetchPagedEntityList(0, 0, {
     projectName,
   })),
   updateProjectConnection: (id, projectConnection) => dispatch(projectConnectionActions.updateEntity(id, projectConnection, {
     projectName: projectConnection.project.name,
   })),
-  createProjectConnection: projectConnection => dispatch(projectConnectionActions.createEntity(projectConnection, {
+  createProjectConnection: (projectConnection) => dispatch(projectConnectionActions.createEntity(projectConnection, {
     projectName: projectConnection.project.name,
   })),
-  fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
+  fetchProject: (projectName) => dispatch(projectActions.fetchEntity(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectConnectionsContainer)

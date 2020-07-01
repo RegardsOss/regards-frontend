@@ -67,4 +67,4 @@ class AuthenticateSelectors extends BasicSignalSelectors {
   }
 }
 
-export default storePath => new AuthenticateSelectors(storePath)
+export default (storePath) => new AuthenticateSelectors(storePath)

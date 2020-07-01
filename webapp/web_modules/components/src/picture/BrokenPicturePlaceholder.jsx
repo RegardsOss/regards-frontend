@@ -46,7 +46,8 @@ export class BrokenPicturePlaceholder extends React.Component {
     // pick up in theme the icon elements
     const { moduleTheme: { svgURLIconStyle } } = this.context
     // merge with provided style
-    const renderStyle = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const renderStyle = { // eslint wont fix: user props and context merged (only available in render)
       ...svgURLIconStyle,
       ...userStyle,
     }

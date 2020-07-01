@@ -61,7 +61,7 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
     filters: {},
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
       this.setState({

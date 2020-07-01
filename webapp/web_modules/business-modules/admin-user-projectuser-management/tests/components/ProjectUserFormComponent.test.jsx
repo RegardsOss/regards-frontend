@@ -24,7 +24,6 @@ import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-commo
 import { ShowableAtRender } from '@regardsoss/components'
 import { ProjectUserFormComponent } from '../../src/components/ProjectUserFormComponent'
 
-
 const context = buildTestContext()
 
 // Test a component rendering

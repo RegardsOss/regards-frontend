@@ -45,7 +45,7 @@ export class ToggleTreeVisibleOptionContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      setBrowsingTreeVisible: visible => dispatch(descriptionStateActions.setBrowsingTreeVisible(visible)),
+      setBrowsingTreeVisible: (visible) => dispatch(descriptionStateActions.setBrowsingTreeVisible(visible)),
     }
   }
 

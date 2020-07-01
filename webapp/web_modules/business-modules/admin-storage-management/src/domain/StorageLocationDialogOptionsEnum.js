@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,26 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import TextField from 'material-ui/TextField'
 
-function UserForm() {
-  return (
-    <form>
-      <TextField
-        floatingLabelText="Nom"
-      />
-      <br />
-      <TextField
-        floatingLabelText="Mot de passe"
-        type="password"
-      />
-      <br />
-      <TextField
-        floatingLabelText="Mot de passe (confirmer)"
-        type="password"
-      />
-    </form>
-  )
+export const DIALOG_OPTIONS = {
+  DELETE: 'DELETE',
+  RELAUNCH_ERRORS: 'RELAUNCH_ERRORS',
+  DELETE_ERRORS: 'DELETE_ERRORS',
+  VIEW_ERRORS: 'VIEW_ERRORS',
+  DELETE_FILES: 'DELETE_FILES',
 }
-
-export default UserForm

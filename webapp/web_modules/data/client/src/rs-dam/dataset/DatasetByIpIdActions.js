@@ -26,7 +26,10 @@ export default class DatasetByIpIdActions extends BasicSignalActions {
     })
   }
 
-  fetchDatasetByUrn = datasetUrn => (
-    this.sendSignal('GET', {}, { dataset_ipId: datasetUrn })
+  fetchDatasetByUrn = (datasetUrn) => (
+    this.sendSignal('GET', {}, {
+      // eslint-disable-next-line camelcase
+      dataset_ipId: datasetUrn, // eslint wont fix: matches server format
+    })
   )
 }

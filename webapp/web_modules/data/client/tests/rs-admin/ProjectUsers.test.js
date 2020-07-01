@@ -24,7 +24,6 @@ import getProjectUserReducer from '../../src/rs-admin/user/ProjectUserReducer'
 import getProjectUserSelectors from '../../src/rs-admin/user/ProjectUserSelectors'
 import ProjectUserDump from './ProjectUser.dump'
 
-
 const options = {
 }
 

@@ -86,9 +86,9 @@ class PluginFormComponent extends React.Component {
   }
 
   /**
-   * React lifecycle method componentWillMount. Used here to initialize form state and values
+   * React lifecycle method UNSAFE_componentWillMount. Used here to initialize form state and values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { plugin, initialize } = this.props
     // initialize state
     this.setState({
@@ -336,7 +336,7 @@ class PluginFormComponent extends React.Component {
 const UnconnectedPluginFormComponent = PluginFormComponent
 export { UnconnectedPluginFormComponent }
 const selector = formValueSelector('edit-plugin-form')
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   pathField: selector(state, 'sourcePath'),
   iconField: selector(state, 'iconUrl'),
 })

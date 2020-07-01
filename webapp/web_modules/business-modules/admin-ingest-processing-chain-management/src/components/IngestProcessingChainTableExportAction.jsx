@@ -47,7 +47,7 @@ class IngestProcessingChainTableExportAction extends React.Component {
 
   getExportUrlFromHateoas = (links) => {
     const { accessToken } = this.props
-    const exportLink = find(links, link => (
+    const exportLink = find(links, (link) => (
       link.rel === 'export'
     ))
     if (!exportLink) {

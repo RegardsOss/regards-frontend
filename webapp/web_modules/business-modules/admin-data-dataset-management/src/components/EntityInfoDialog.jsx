@@ -23,7 +23,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
 
-
 export class EntityInfoDialog extends React.Component {
   static propTypes = {
     entity: DataManagementShapes.Dataset,
@@ -50,18 +49,16 @@ export class EntityInfoDialog extends React.Component {
       return null
     }
 
-    const actions = [
-      <FlatButton
-        key="close"
-        label={formatMessage({ id: 'dataset.info.close' })}
-        primary
-        onClick={onClose}
-      />,
-    ]
-
     return (
       <Dialog
-        actions={actions}
+        actions={<>
+          <FlatButton
+            key="close"
+            label={formatMessage({ id: 'dataset.info.close' })}
+            primary
+            onClick={onClose}
+          />
+        </>}
         title={formatMessage({ id: 'dataset.info.title' }, { name: entity.content.feature.label })}
         open
         onRequestClose={onClose}

@@ -42,7 +42,6 @@ import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 import AttributeModelUnitFieldComponent from './AttributeModelUnitFieldComponent'
 
-
 const ATT_MODEL_NAME_MIN_SIZE = 1
 
 const ATT_MODEL_NAME_MAX_SIZE = 32

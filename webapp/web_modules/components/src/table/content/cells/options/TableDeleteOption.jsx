@@ -23,7 +23,6 @@ import { CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 /**
 * Table delete option: deletes then fetches data

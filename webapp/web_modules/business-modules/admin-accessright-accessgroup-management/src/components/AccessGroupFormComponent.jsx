@@ -82,7 +82,6 @@ export class AccessGroupFormComponent extends React.Component {
     }
   }
 
-
   render() {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()

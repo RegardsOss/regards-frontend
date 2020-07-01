@@ -23,7 +23,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { PositionedDialog } from '@regardsoss/components'
 import SelectionDetailResultsTableContainer from '../../../containers/user/detail/SelectionDetailResultsTableContainer'
 
-
 /**
 * Shows selected item detail
 * @author Raphaël Mechali
@@ -42,7 +41,6 @@ class SelectionItemDetailComponent extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
-
 
   /** Formatting options for selection date */
   static SELECTION_DATE_OPTIONS = {
@@ -64,13 +62,6 @@ class SelectionItemDetailComponent extends React.Component {
     const { intl: { formatDate, formatMessage } } = this.context
     const { moduleTheme: { user: { content: { detail } } } } = this.context
 
-    // prepare dialog actions
-    const actions = [<FlatButton
-      key="close.button"
-      label={this.context.intl.formatMessage({ id: 'order-cart.module.basket.items.group.selection.detail.close' })}
-      onClick={onClose}
-    />]
-
     // prepare title acording with configuration
     const dateLabel = date ? formatDate(new Date(Date.parse(date)), SelectionItemDetailComponent.SELECTION_DATE_OPTIONS) : null
     const title = formatMessage({
@@ -86,7 +77,11 @@ class SelectionItemDetailComponent extends React.Component {
         dialogHeightPercent={detail.heightPercent}
         bodyStyle={detail.dialogBodyStyle}
         onRequestClose={onClose}
-        actions={actions}
+        actions={<FlatButton
+          key="close.button"
+          label={this.context.intl.formatMessage({ id: 'order-cart.module.basket.items.group.selection.detail.close' })}
+          onClick={onClose}
+        />}
         open={visible}
       >
         <SelectionDetailResultsTableContainer selectionRequest={selectionRequest} />

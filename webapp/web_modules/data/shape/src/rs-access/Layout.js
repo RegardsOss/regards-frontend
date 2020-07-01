@@ -37,5 +37,4 @@ export const Layout = PropTypes.shape({
   content: LayoutContent,
 })
 
-
 export const LayoutList = PropTypes.objectOf(Layout)

@@ -28,7 +28,6 @@ export const listAccessGroupRoute = {
   },
 }
 
-
 const accessRightManagementRouter = {
   childRoutes: [
     listAccessGroupRoute,

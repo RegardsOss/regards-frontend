@@ -52,7 +52,6 @@ export const createDatasetRoute = {
   },
 }
 
-
 export const editDatasetRoute = {
   path: ':datasetId/edit',
   getComponents(nextState, cb) {
@@ -112,7 +111,6 @@ export const editUIServicesDatasetRoute = {
     })
   },
 }
-
 
 const datasetDataManagementRouter = {
   childRoutes: [

@@ -18,7 +18,6 @@
  **/
 import includes from 'lodash/includes'
 
-
 function getAbstractEntityDescription(descriptionFileContent, descriptionUrl) {
   if (descriptionFileContent) {
     if (descriptionFileContent.type === 'application/pdf') {

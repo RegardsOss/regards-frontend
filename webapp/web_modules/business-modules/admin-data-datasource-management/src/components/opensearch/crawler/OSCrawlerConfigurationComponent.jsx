@@ -71,7 +71,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialize, initialValues } = this.props
     initialize(initialValues)
   }
@@ -80,7 +80,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
    * On user submission
    * @param {*} fields fields as edited by user (never invalid, respects OSCrawlerConfigurationComponent.MainConfiguration)
    */
-  handleSubmit = fields => this.props.onSubmit(fields)
+  handleSubmit = (fields) => this.props.onSubmit(fields)
 
   render() {
     const {
@@ -200,7 +200,6 @@ function asyncValidate({ opensearchDescriptorURL }, dispatch, props) {
     }
   })
 }
-
 
 export default reduxForm({
   form: 'opensearch-crawler-form',

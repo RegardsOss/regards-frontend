@@ -38,7 +38,6 @@ export class CheckBoxCell extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { selected, onToggleSelection } = this.props
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context

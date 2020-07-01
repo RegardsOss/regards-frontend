@@ -36,7 +36,6 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeComponen
     assert.isDefined(PluginConfigurationPickerComponent)
   })
 
-
   it('should render', () => {
     const onSelectFieldChange = spy()
 

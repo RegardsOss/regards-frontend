@@ -73,5 +73,5 @@ export class UISettingsActions extends BasicSignalActions {
    * @param {*} res action result
    * @return {Promise} result reading promise
    */
-  buildResults = res => getJSON(res).then(json => JSON.parse(json.content.configuration))
+  buildResults = (res) => getJSON(res).then((json) => JSON.parse(json.content.configuration))
 }

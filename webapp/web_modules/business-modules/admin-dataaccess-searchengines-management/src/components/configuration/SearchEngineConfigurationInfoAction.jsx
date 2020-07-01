@@ -42,7 +42,7 @@ class SearchConfigurationInfoAction extends React.Component {
 
   infoAvailable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'search')
+    return !!find(links, (l) => l.rel === 'search')
   }
 
   render() {

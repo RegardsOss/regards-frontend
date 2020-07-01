@@ -27,7 +27,6 @@ const backendServerResultList = AccountNetworkDump
 const options = {
 }
 
-
 const actions = new AccountActions('test/action')
 const reducer = getAccountReducer('test/action')
 const selectors = getAccountSelectors(['test', 'modules'])

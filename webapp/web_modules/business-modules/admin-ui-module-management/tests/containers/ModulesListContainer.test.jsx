@@ -42,7 +42,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list container', () => {
       params: {
         project: 'testProject',
         applicationId: 'testApp',
-        module_id: '0',
+        moduleId: '0',
       },
       // Set by mapDispatchToProps
       fetchModules: fetchModulesCallback,

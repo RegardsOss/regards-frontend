@@ -29,7 +29,6 @@ const commonItemsFields = {
   visibleForRole: PropTypes.string, // provided only when mode is FOR_ROLE
 }
 
-
 /** A module as edited in module form */
 const EditionModule = PropTypes.shape({
   ...commonItemsFields,

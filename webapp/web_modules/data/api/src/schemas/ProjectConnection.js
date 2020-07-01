@@ -24,7 +24,7 @@ export const ProjectConnectionConfiguration = {
 }
 
 export const PROJECT_CONNECTION = new Schema(ProjectConnectionConfiguration.normalizrKey, {
-  idAttribute: projectConnection => projectConnection.content[ProjectConnectionConfiguration.entityKey]
+  idAttribute: (projectConnection) => projectConnection.content[ProjectConnectionConfiguration.entityKey]
   ,
 })
 export const PROJECT_CONNECTION_ARRAY = arrayOf(PROJECT_CONNECTION)

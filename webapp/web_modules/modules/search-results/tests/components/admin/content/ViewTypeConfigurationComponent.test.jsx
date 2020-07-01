@@ -108,14 +108,14 @@ describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
 
     // 3 - Check that map specific field are shown ONLY whend editing map type
     if (viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP) {
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 1,
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 1,
         'Map background URL field should be shown')
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 1,
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 1,
         'Map background type field should be shown')
     } else {
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 0,
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 0,
         'Map background URL field should be hidden')
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 0,
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 0,
         'Map background type field should be hidden')
     }
   }))

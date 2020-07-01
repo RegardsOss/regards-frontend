@@ -60,7 +60,6 @@ export class FileDownloadContainer extends React.Component {
     OrderDomain.ORDER_FILE_STATUS_ENUM.ONLINE,
   ]
 
-
   render() {
     const { entity: { content: { id, state } }, authentication } = this.props
     const canDownload = FileDownloadContainer.DOWNLOADABLE_FILE_STATES.includes(state)

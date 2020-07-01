@@ -21,5 +21,5 @@
  * Use it in a decorator if order to facilitate debugging.
  * You can find an example of use in "withConfirmDialog" decorator
  */
-const getDisplayName = WrappedComponent => WrappedComponent.displayName || WrappedComponent.name || 'Component'
+const getDisplayName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
 export default getDisplayName

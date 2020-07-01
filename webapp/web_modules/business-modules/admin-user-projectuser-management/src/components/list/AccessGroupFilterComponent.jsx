@@ -44,14 +44,14 @@ class AccessGroupFilterComponent extends React.Component {
    * @param {string} group group name or null
    * @return {string} label for group
    */
-  getGroupLabel = group => group ? group.content.name : this.context.intl.formatMessage({ id: 'projectUser.list.filter.none' })
+  getGroupLabel = (group) => group ? group.content.name : this.context.intl.formatMessage({ id: 'projectUser.list.filter.none' })
 
   /**
    * Returns button label for current value
    * @param {string} group current group value
    * @return {string} button label
    */
-  getLabel = group => this.context.intl.formatMessage({ id: 'projectUser.list.filter.label' }, { groupFilter: this.getGroupLabel(group) })
+  getLabel = (group) => this.context.intl.formatMessage({ id: 'projectUser.list.filter.label' }, { groupFilter: this.getGroupLabel(group) })
 
   render() {
     const {
@@ -73,7 +73,7 @@ class AccessGroupFilterComponent extends React.Component {
           value={null}
         />
         { /* { group filter options) */
-          map(groups, group => (
+          map(groups, (group) => (
             <MenuItem
               key={group.content.name}
               primaryText={group.content.name}

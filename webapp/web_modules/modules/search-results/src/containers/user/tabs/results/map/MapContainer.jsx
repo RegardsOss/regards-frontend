@@ -33,6 +33,29 @@ import { MizarAdapter } from '../../../../../../../../utils/mizar-adapter/src/ma
  * @author Raphaël Mechali
  */
 export class MapContainer extends React.Component {
+  static propTypes = {
+    // results context
+    moduleId: PropTypes.number.isRequired,
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+    resultsContext: UIShapes.ResultsContext.isRequired,
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    // from mapDispatchToProps
+    updateResultsContext: PropTypes.func.isRequired,
+  }
+
+  /** Drawing selection feature ID */
+  static DRAWING_SELECTION_FEATURE_ID = 'DRAWING_SELECTION_FEATURE'
+
+  /** Drawing selection feature ID  (basis, use index to ensure unique)*/
+  static CURRENT_CRITERION_FEATURE_ID = 'CURRENT_SELECTION_FEATURE#'
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -60,23 +83,6 @@ export class MapContainer extends React.Component {
     }
   }
 
-  static propTypes = {
-    // results context
-    moduleId: PropTypes.number.isRequired,
-    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
-    resultsContext: UIShapes.ResultsContext.isRequired,
-    // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
-    pageMetadata: PropTypes.shape({
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
-    // from mapDispatchToProps
-    updateResultsContext: PropTypes.func.isRequired,
-  }
-
   /**
    * Builds GeoJson features collections from regards catalog entities as parameter.
    * Removes entities with null geometry
@@ -85,17 +91,10 @@ export class MapContainer extends React.Component {
   static buildGeoJSONFeatureCollection(entities = []) {
     return {
       // REGARDS entities are features withing content field. Filter entities without geometry
-      features: entities.filter(e => !isNil(e.geometry) && !isEmpty(e.geometry)),
+      features: entities.filter((e) => !isNil(e.geometry) && !isEmpty(e.geometry)),
       type: 'FeatureCollection',
     }
   }
-
-  /** Drawing selection feature ID */
-  static DRAWING_SELECTION_FEATURE_ID = 'DRAWING_SELECTION_FEATURE'
-
-  /** Drawing selection feature ID  (basis, use index to ensure unique)*/
-  static CURRENT_CRITERION_FEATURE_ID = 'CURRENT_SELECTION_FEATURE#'
-
 
   /** Initial state */
   state = {
@@ -107,18 +106,20 @@ export class MapContainer extends React.Component {
     currentlyDrawingAreas: [],
     // holds the areas currently applying as geometry criteria
     criteriaAreas: [],
+    /** Background layer configuration */
+    backgroundLayerConf: {},
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -145,14 +146,14 @@ export class MapContainer extends React.Component {
       nextState.loadedEntities = [
         ...entitiesToKeep,
         // add newly loaded entities, removing content field level, as expected for features
-        ...entities.map(e => e.content),
+        ...entities.map((e) => e.content),
       ]
       nextState.featuresCollection = MapContainer.buildGeoJSONFeatureCollection(nextState.loadedEntities)
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { selectionMode, backgroundLayer } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, backgroundLayer: oldBackgroundLayer } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
@@ -163,6 +164,17 @@ export class MapContainer extends React.Component {
     if (!isEqual(get(oldTab, 'criteria.geometry'), tab.criteria.geometry)) {
       nextState.criteriaAreas = tab.criteria.geometry.map(
         ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
+    }
+
+    // Handle background layer configuration parsing on change (should only be performed at initialization currently, allows avoiding parsing at render time )
+    if (!isEqual(oldBackgroundLayer, backgroundLayer)) {
+      if (backgroundLayer.conf) {
+        try {
+          nextState.backgroundLayerConf = JSON.parse(backgroundLayer.conf)
+        } catch (error) {
+          nextState.backgroundLayerConf = {}
+        }
+      }
     }
 
     // update state on change
@@ -229,7 +241,6 @@ export class MapContainer extends React.Component {
       minX, maxX, minY, maxY, empty,
     } = MizarAdapter.toBoxCoordinates(point1, point2)
 
-
     // check area is not empty (empty area cannot be applied as criterion)
     if (!empty) {
       // update in results context, by diff
@@ -237,7 +248,7 @@ export class MapContainer extends React.Component {
         tabs: {
           [tabType]: {
             criteria: {
-              geometry: [{ // add or replace geomtry parameter
+              geometry: [{ // add or replace geometry parameter
                 point1,
                 point2,
                 requestParameters: {
@@ -267,7 +278,7 @@ export class MapContainer extends React.Component {
    * @param {*} selectedFeatures picked features list, matches Catalog.Entity shape (content)
    */
   onFeaturesPicked = (selectedFeatures) => {
-    // skip when sellection is empty
+    // skip when selection is empty
     if (!selectedFeatures.length) {
       return
     }
@@ -283,7 +294,7 @@ export class MapContainer extends React.Component {
                   new CatalogDomain.OpenSearchQuery([ // q: id=({selected ID 1} OR {selected ID 2} OR...)
                     new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
                       CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
-                        selectedFeatures.map(selectedFeature => selectedFeature.feature.id)))])
+                        selectedFeatures.map((selectedFeature) => selectedFeature.feature.id)))])
                     .toQueryString(),
               },
             }],
@@ -295,27 +306,19 @@ export class MapContainer extends React.Component {
 
   render() {
     const { tabType, resultsContext } = this.props
-    const { featuresCollection, currentlyDrawingAreas, criteriaAreas } = this.state
+    const {
+      backgroundLayerConf, featuresCollection, currentlyDrawingAreas, criteriaAreas,
+    } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
     const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
-    let backgroundLayerConf = {}
-    if (backgroundLayer.conf) {
-      try {
-        backgroundLayerConf = JSON.parse(backgroundLayer.conf)
-      } catch (error) {
-        console.error('error', error)
-      }
-    }
     return (
       <MapComponent
         featuresCollection={featuresCollection}
         displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
-          ? currentlyDrawingAreas // drawing: show feedback area
-          : criteriaAreas // not drawing: show criteria areas
-        }
-
+          ? currentlyDrawingAreas /* drawing: show feedback area */
+          : criteriaAreas /* not drawing: show criteria areas */}
         selectionMode={selectionMode}
         onSetSelectionMode={this.onSetSelectionMode}
 

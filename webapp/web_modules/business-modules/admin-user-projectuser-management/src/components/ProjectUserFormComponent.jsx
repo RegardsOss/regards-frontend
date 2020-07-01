@@ -23,26 +23,27 @@ import some from 'lodash/some'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
-import { formValueSelector } from 'redux-form'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
-import {
-  RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm,
-} from '@regardsoss/form-utils'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
-import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
-import { connect } from '@regardsoss/redux'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
+import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import {
+  RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm,
+} from '@regardsoss/form-utils'
+import UserGroupChip from './UserGroupChip'
 
 const { required, email } = ValidationHelpers
 const requiredEmailValidator = [required, email]
@@ -78,35 +79,12 @@ export class ProjectUserFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentUser === undefined,
-      popoverOpen: false,
-      tempGroups: [],
-    }
-  }
+  static ICON_ANCHOR = { horizontal: 'left', vertical: 'top' }
 
-  componentWillMount() {
-    this.style = {
-      chipBackground: this.context.muiTheme.palette.primary1Color,
-      avatarBackground: this.context.muiTheme.palette.primary2Color,
-      renderChipInput: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        marginTop: 4,
-      },
-      chip: {
-        margin: 4,
-      },
-      groupsLabel: {
-        color: this.context.muiTheme.textField.floatingLabelColor,
-        fontFamily: this.context.muiTheme.fontFamily,
-        fontSize: '0.9em',
-        marginTop: 21,
-        marginBottom: 7,
-      },
-    }
+  state = {
+    isCreating: this.props.currentUser === undefined,
+    popoverOpen: false,
+    tempGroups: [],
   }
 
   componentDidMount() {
@@ -116,7 +94,7 @@ export class ProjectUserFormComponent extends React.Component {
   getCurrentUserGroups = (user) => {
     const currentUserGroups = []
     forEach(this.props.groupList, (group) => {
-      if (some(group.content.users, groupUser => groupUser.email === user.email)) {
+      if (some(group.content.users, (groupUser) => groupUser.email === user.email)) {
         currentUserGroups.push(group.content.name)
       }
     })
@@ -124,9 +102,9 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getRoleName = (name = 'empty') => {
-    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formated !== `role.name.${name}`) {
-      return formated
+    const formatted = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formatted !== `role.name.${name}`) {
+      return formatted
     }
     return name
   }
@@ -185,27 +163,24 @@ export class ProjectUserFormComponent extends React.Component {
 
   handleRemoveGroup = (groupName) => {
     this.setState({
-      tempGroups: this.state.tempGroups.filter(val => val !== groupName),
+      tempGroups: this.state.tempGroups.filter((val) => val !== groupName),
     }, () => this.props.change('groups', this.state.tempGroups))
   }
 
   renderChipInput = () => {
-    const iconAnchor = { horizontal: 'left', vertical: 'top' }
+    const { moduleTheme: { userForm } } = this.context
     return (
-      <div style={this.style.renderChipInput}>
-        {map(this.state.tempGroups, groupName => (
-          <Chip
-            onRequestDelete={() => this.handleRemoveGroup(groupName)}
-            style={this.style.chip}
+      <div style={userForm.renderChipInput}>
+        {map(this.state.tempGroups, (groupName) => (
+          <UserGroupChip
             key={groupName}
-            className="selenium-chip"
-          >
-            {groupName}
-          </Chip>))}
+            groupName={groupName}
+            onRemoveGroup={this.handleRemoveGroup}
+          />))}
         <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
-          <Chip className="selenium-addChip" style={this.style.chip} onClick={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+          <Chip className="selenium-addChip" style={userForm.chip} onClick={this.handlePopoverOpen} backgroundColor={userForm.chipBackground}>
             <Avatar
-              backgroundColor={this.style.avatarBackground}
+              backgroundColor={userForm.avatarBackground}
               size={32}
               icon={<AddSvg />}
             />
@@ -215,18 +190,19 @@ export class ProjectUserFormComponent extends React.Component {
         <Popover
           open={this.state.popoverOpen}
           anchorEl={this.state.popoverAnchor}
-          anchorOrigin={iconAnchor}
+          anchorOrigin={ProjectUserFormComponent.ICON_ANCHOR}
           animation={PopoverAnimationVertical}
           onRequestClose={this.handlePopoverClose}
         >
           <Menu>
-            {map(this.props.groupList, group => (
+            {map(this.props.groupList, (group) => (
               <ShowableAtRender
                 key={group.content.name}
-                show={!find(this.state.tempGroups, o => isEqual(o, group.content.name))}
+                show={!find(this.state.tempGroups, (o) => isEqual(o, group.content.name))}
               >
                 <MenuItem
                   primaryText={group.content.name}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => this.handleAddGroup(group.content.name)}
                 />
               </ShowableAtRender>
@@ -240,7 +216,7 @@ export class ProjectUserFormComponent extends React.Component {
     const {
       invalid, userMetadata, submitting, roleList, passwordRules, useExistingAccount,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { userForm } } = this.context
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -253,8 +229,7 @@ export class ProjectUserFormComponent extends React.Component {
             />
             : <CardTitle
               title={formatMessage({ id: 'projectUser.edit.title' }, { email: this.props.currentUser.content.email })}
-            />
-          }
+            />}
           <CardText>
 
             <ShowableAtRender show={this.state.isCreating}>
@@ -330,13 +305,13 @@ export class ProjectUserFormComponent extends React.Component {
             </Field>
             {
               // show user metadata for project
-              userMetadata.map(metadata => (<MetadataField
+              userMetadata.map((metadata) => (<MetadataField
                 key={metadata.key}
                 metadata={metadata}
                 fullWidth
               />))
             }
-            <div style={this.style.groupsLabel}>
+            <div style={userForm.groupsLabel}>
               <FormattedMessage id="projectUser.create.input.groups" />
             </div>
             {this.renderChipInput()}
@@ -404,6 +379,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector('user-form')
-export default connect(state => ({
+export default connect((state) => ({
   useExistingAccount: selector(state, 'useExistingAccount'),
 }))(connectedReduxForm)

@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'fragment.list.title': 'Fragments',
   'fragment.list.subtitle': 'Un fragment permet de regrouper plusieurs attributs dans un ensemble cohérent',
   'fragment.list.table.name': 'Nom',
@@ -40,6 +40,7 @@ const messages = Object.assign({
   'fragment.form.file': 'Ou envoyer un fichier XML contenant le fragment et ses attributs:',
   'fragment.form.action.cancel': 'Annuler',
   'fragment.form.action.submit': 'Sauvegarder',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

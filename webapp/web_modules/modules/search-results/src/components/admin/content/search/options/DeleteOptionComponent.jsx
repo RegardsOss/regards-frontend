@@ -49,7 +49,6 @@ class DeleteOptionComponent extends React.Component {
     }
   }
 
-
   render() {
     const { intl: { formatMessage } } = this.context
     return (

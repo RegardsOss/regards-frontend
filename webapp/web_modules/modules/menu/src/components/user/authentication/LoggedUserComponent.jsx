@@ -34,7 +34,6 @@ import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
 
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
 
-
 /**
  * Component to display action available on connected user.
  * @author Sébastien binda
@@ -107,7 +106,8 @@ class LoggedUserComponent extends React.Component {
                   map(borrowableRoles, (role) => {
                     const roleName = role.content.name
                     return (<MenuItem
-                      onClick={() => onBorrowRole(roleName)}
+                      // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+                      onClick={() => onBorrowRole(roleName)} // eslint wont fix: cannot compose MUI 0x menu items (breaks menu auto closing)
                       key={roleName}
                       primaryText={AdminDomain.DEFAULT_ROLES.includes(roleName) ? this.context.intl.formatMessage({ id: `role.name.${roleName}` }) : roleName}
                       checked={roleName === currentRole}

@@ -28,6 +28,6 @@ export const StorageRequestConfiguration = {
 }
 
 export const STORAGE_REQUEST = new Schema(StorageRequestConfiguration.normalizrKey, {
-  idAttribute: model => model.content[StorageRequestConfiguration.entityKey],
+  idAttribute: (model) => model.content[StorageRequestConfiguration.entityKey],
 })
 export const STORAGE_REQUEST_ARRAY = arrayOf(STORAGE_REQUEST)

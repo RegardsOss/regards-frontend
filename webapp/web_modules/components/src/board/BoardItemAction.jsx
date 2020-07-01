@@ -30,21 +30,29 @@ class BoardItemAction extends React.Component {
     openConfirmDialog: PropTypes.func,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.action.initialize) {
       this.props.action.initialize()
     }
   }
 
-  render() {
+  /**
+   * User callback, open confirm dialog
+   */
+  onOpenConfirmDialog = () => {
     const { action, openConfirmDialog } = this.props
+    openConfirmDialog(action)
+  }
+
+  render() {
+    const { action } = this.props
     if (action.customRender) {
       return action.customRender
     }
     return (
       <IconButton
         tooltip={action.tooltipMsg}
-        onClick={action.confirmMessage ? () => openConfirmDialog(action) : action.touchTapAction}
+        onClick={action.confirmMessage ? this.onOpenConfirmDialog : action.touchTapAction}
         className={action.className}
       >
         {action.icon}

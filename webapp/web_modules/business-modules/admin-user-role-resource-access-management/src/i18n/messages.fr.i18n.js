@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'role.list.title': 'Ressources autorisées pour le rôle {role}',
   'role.list.subtitle': 'Toutes les fonctionnalités du système présentées par microservice. Les autorisations d\'accès sont positionnées pour chacune d\'elles',
   'role.list.action.back': 'Retour',
@@ -32,6 +32,7 @@ const messages = Object.assign({
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',
   'role.name.PROJECT_ADMIN': 'Super Administrateur',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

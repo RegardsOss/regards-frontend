@@ -23,7 +23,7 @@ import { combineReducers } from 'redux'
  * @param reducers
  * @returns {Reducer<S>}
  */
-const configureReducers = reducers => combineReducers({
+const configureReducers = (reducers) => combineReducers({
   ...reducers,
 })
 export default configureReducers

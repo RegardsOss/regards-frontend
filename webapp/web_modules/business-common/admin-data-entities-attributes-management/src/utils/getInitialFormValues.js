@@ -54,7 +54,7 @@ const retrieveFieldKeyUsedOnForm = (modelAttribute) => {
  * @returns {Array}
  */
 const transformArrayIntoObjectValue = (attrValue) => {
-  const attrValueForForm = map(attrValue, arrayValue => ({ value: arrayValue }))
+  const attrValueForForm = map(attrValue, (arrayValue) => ({ value: arrayValue }))
   return attrValueForForm
 }
 

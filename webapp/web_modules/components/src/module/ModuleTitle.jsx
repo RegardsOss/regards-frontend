@@ -134,16 +134,14 @@ export class ModuleTitle extends React.Component {
                 />)
               }
             </div>
-            {/* 2 Options (with collapse if available) */
-              <div style={optionsDivStyle}>
-                { // provided module options
+            <div style={optionsDivStyle}>
+              { // provided module options
                   options
                 }
-                { // layout options
+              { // layout options
                   this.renderLayoutOptions()
                 }
-              </div>
-            }
+            </div>
           </div>
         }
         subtitle={<ModuleSubtitle text={subtitle} />}

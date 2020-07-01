@@ -137,7 +137,7 @@ export class OSResultsConfigurationComponent extends React.Component {
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialize, initialValues } = this.props
     initialize({
       ...initialValues,
@@ -245,8 +245,7 @@ export class OSResultsConfigurationComponent extends React.Component {
                 type="text"
                 label={formatMessage({ id: `opensearch.crawler.form.results.${jsonPath}` })}
                 validate={attributeRequired ? null : requiredValidator}
-              />))
-            }
+              />))}
             {/* Associated files  */}
             <div style={title}>
               <Title

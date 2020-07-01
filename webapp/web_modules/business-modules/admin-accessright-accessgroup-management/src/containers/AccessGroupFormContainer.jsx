@@ -77,7 +77,6 @@ export class AccessGroupFormContainer extends React.Component {
     }
   }
 
-
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/user/access-group/list`
@@ -97,10 +96,11 @@ export class AccessGroupFormContainer extends React.Component {
       defaultValues.users = this.props.currentAccessGroup.content.users
       defaultValues.accessRights = this.props.currentAccessGroup.content.accessRights
     }
-    const newAccessGroup = Object.assign({}, defaultValues, {
+    const newAccessGroup = {
+      ...defaultValues,
       name: values.name,
       isPublic: values.isPublic,
-    })
+    }
     Promise.resolve(this.props.createAccessGroup(newAccessGroup))
       .then((actionResult) => {
         // We receive here the action
@@ -110,15 +110,12 @@ export class AccessGroupFormContainer extends React.Component {
       })
   }
 
-
   /**
    * Handle form submission on update AccessGroup
    * @param values form values
    */
   handleUpdate = (values) => {
-    const updatedAccessGroup = Object.assign({}, this.props.currentAccessGroup.content, {
-      isPublic: values.isPublic,
-    })
+    const updatedAccessGroup = { ...this.props.currentAccessGroup.content, isPublic: values.isPublic }
     Promise.resolve(this.props.updateAccessGroup(this.props.currentAccessGroup.content.name, updatedAccessGroup))
       .then((actionResult) => {
         // We receive here the action
@@ -139,7 +136,6 @@ export class AccessGroupFormContainer extends React.Component {
     />
   )
 
-
   render() {
     const { isError, isLoading } = this.state
     return (
@@ -159,9 +155,9 @@ const mapStateToProps = (state, ownProps) => ({
   currentAccessGroup: ownProps.params.accessGroupName ? accessGroupSelectors.getById(state, ownProps.params.accessGroupName) : undefined,
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchAccessGroup: name => dispatch(accessGroupActions.fetchEntity(name)),
-  createAccessGroup: values => dispatch(accessGroupActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchAccessGroup: (name) => dispatch(accessGroupActions.fetchEntity(name)),
+  createAccessGroup: (values) => dispatch(accessGroupActions.createEntity(values)),
   updateAccessGroup: (name, values) => dispatch(accessGroupActions.updateEntity(name, values)),
 })
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupFormContainer)

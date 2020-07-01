@@ -37,52 +37,51 @@ describe('[MODULES] Testing LazyModuleComponent', () => {
 
   // This test can last ~6s so we override the timeout duration
   it('Should render correctly an application layout with ApplicationLayout', (done) => {
-    const module = {
-      type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
-      active: true,
-    }
-    const wrapper = shallow(<LazyModuleComponent
-      appName="testApp"
-      project="test"
-      module={module}
-      onLoadAction={
-          () => {
-            try {
-              wrapper.update()
-              expect(wrapper.find(moduleContainer)).to.have.length(1)
-              expect(wrapper.find(ModuleStyleProvider)).to.have.length(1)
-              expect(wrapper.find(I18nProvider)).to.have.length(1)
-              done()
-            } catch (e) {
-              done(e)
-            }
-          }
+    let wrapper = null
+    const props = {
+      appName: 'testApp',
+      project: 'test',
+      module: {
+        type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
+        active: true,
+      },
+      onLoadAction: () => {
+        try {
+          wrapper.update()
+          expect(wrapper.find(moduleContainer)).to.have.length(1)
+          expect(wrapper.find(ModuleStyleProvider)).to.have.length(1)
+          expect(wrapper.find(I18nProvider)).to.have.length(1)
+          done()
+        } catch (e) {
+          done(e)
         }
-    />, { context, lifecycleExperimental: true })
+      },
+
+    }
+    wrapper = shallow(<LazyModuleComponent {...props} />, { context })
   }).timeout(60000)
 
   it('Should not render a disabled module', (done) => {
-    const module = {
-      type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
-      active: false,
-    }
-    const wrapper = shallow(<LazyModuleComponent
-      appName="testApp"
-      project="test"
-      module={module}
-      onLoadAction={
-          () => {
-            try {
-              wrapper.update()
-              expect(wrapper.find(moduleContainer)).to.have.length(0)
-              expect(wrapper.find(ModuleStyleProvider)).to.have.length(0)
-              expect(wrapper.find(I18nProvider)).to.have.length(0)
-              done()
-            } catch (e) {
-              done(e)
-            }
-          }
+    let wrapper = null
+    const props = {
+      appName: 'testApp',
+      project: 'test',
+      module: {
+        type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
+        active: false,
+      },
+      onLoadAction: () => {
+        try {
+          wrapper.update()
+          expect(wrapper.find(moduleContainer)).to.have.length(0)
+          expect(wrapper.find(ModuleStyleProvider)).to.have.length(0)
+          expect(wrapper.find(I18nProvider)).to.have.length(0)
+          done()
+        } catch (e) {
+          done(e)
         }
-    />, { context, lifecycleExperimental: true })
+      },
+    }
+    wrapper = shallow(<LazyModuleComponent {...props} />, { context })
   }).timeout(60000)
 })

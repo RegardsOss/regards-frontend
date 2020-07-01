@@ -30,7 +30,6 @@ export const AttributeConfigurationData = PropTypes.shape({
   renderer: PropTypes.string, // optional specific renderer identifier (when not present, default one should be used)
 })
 
-
 /** A list element, holding an attributes list (allows groups) */
 export const AttributeElementModel = PropTypes.shape({
   // list of attributes and corresponding elements

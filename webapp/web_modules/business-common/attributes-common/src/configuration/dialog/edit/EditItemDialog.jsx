@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { PositionedDialog } from '@regardsoss/components'
 import EditItemForm from './EditItemForm'
 
-
 /**
  * Dialog box to edit or create an item in list. It shows the corresponding form
  * @author Raphaël Mechali

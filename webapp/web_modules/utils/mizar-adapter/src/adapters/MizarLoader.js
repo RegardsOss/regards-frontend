@@ -17,7 +17,6 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 // Load mizar in dev mode
 // Each line adds the specifed file to the public folder /mizar/
 // e.g. /mizar/external/fits.js
@@ -55,7 +54,6 @@ import 'mizar/src/Time/Time'
 import 'mizar/src/Time/TimeTravelParams'
 import 'mizar/src/Time/TimeEnumerated'
 import 'mizar/src/Time/TimeSample'
-
 
 import 'mizar/src/Layer/AbstractLayer'
 import 'mizar/src/Layer/AbstractRasterLayer'

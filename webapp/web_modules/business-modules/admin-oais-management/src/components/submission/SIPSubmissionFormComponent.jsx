@@ -73,8 +73,7 @@ export class SIPSubmissionFormComponent extends React.Component {
               <HelpMessageComponent message={<a style={sipSubmition.link} href="https://regardsoss.github.io/appendices/oais/" target="_blank">{helpMessage}</a>} />
               {isError
                 ? <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
-                : null
-              }
+                : null}
               <Field
                 name="sips"
                 component={RenderFileFieldWithMui}

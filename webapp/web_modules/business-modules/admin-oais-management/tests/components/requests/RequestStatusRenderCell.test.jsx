@@ -40,7 +40,7 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestStatusRenderCell', () => {
     assert.isDefined(RequestStatusRenderCell)
   })
 
-  IngestDomain.AIP_REQUEST_STATUS.forEach(status => it(`Should render correctly with status ${status}`, () => {
+  IngestDomain.AIP_REQUEST_STATUS.forEach((status) => it(`Should render correctly with status ${status}`, () => {
     const props = {
       entity: {
         ...Request,

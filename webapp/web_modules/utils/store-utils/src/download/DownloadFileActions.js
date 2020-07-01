@@ -61,5 +61,4 @@ class DownloadFileActions extends BasicSignalActions {
   }
 }
 
-
 export default DownloadFileActions

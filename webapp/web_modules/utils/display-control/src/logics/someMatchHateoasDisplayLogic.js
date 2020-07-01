@@ -33,7 +33,7 @@ import isEmpty from 'lodash/isEmpty'
  * @author Xavier-Alexandre Brochard
  */
 const someMatchHateoasDisplayLogic = (requiredEndpoints, availableEndpoints) => (
-  some(requiredEndpoints, requiredEndpoint => includes(availableEndpoints, requiredEndpoint)) || isEmpty(requiredEndpoints)
+  some(requiredEndpoints, (requiredEndpoint) => includes(availableEndpoints, requiredEndpoint)) || isEmpty(requiredEndpoints)
 )
 
 export default someMatchHateoasDisplayLogic

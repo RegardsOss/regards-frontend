@@ -39,7 +39,7 @@ export const editors = {
   },
   countriesEditor: {
     type: editorTypes.choice,
-    choices: countries.map(key => ({
+    choices: countries.map((key) => ({
       key,
       labelKey: `country.${key}`,
     })),

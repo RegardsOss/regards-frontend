@@ -21,7 +21,7 @@
  * Styles for menu module
  * @author Sébastien binda
  */
-const moduleStyles = theme => ({
+const moduleStyles = (theme) => ({
   admin: {
     previewErrorMessage: {
       color: theme.textField.errorColor,

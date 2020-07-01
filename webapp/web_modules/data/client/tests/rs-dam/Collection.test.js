@@ -28,7 +28,6 @@ const backendServerResultList = CollectionDump
 const options = {
 }
 
-
 const collectionActions = new CollectionActions('test/action')
 const collectionReducer = CollectionReducer('test/action')
 const collectionSelectors = CollectionSelectors(['test', 'modules'])

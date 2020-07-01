@@ -26,7 +26,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { DropDownButton } from '@regardsoss/components'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
-const IconButtonConstructorWrapper = props => (
+const IconButtonConstructorWrapper = (props) => (
   <IconButton
     {...props}
   >
@@ -73,7 +73,7 @@ class DownloadEntityFileComponent extends React.Component {
     const { entity: { content: { files } } } = this.props
     // retrieve each downloadable file, ie for each downloadable file type, find online files (documents and
     // external files are always online)
-    return DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((acc, fileType) => [...acc, ...get(files, fileType, []).filter(f => f.online)], [])
+    return DownloadEntityFileComponent.DOWNLOADABLE_FILES_TYPES.reduce((acc, fileType) => [...acc, ...get(files, fileType, []).filter((f) => f.online)], [])
   }
 
   /**

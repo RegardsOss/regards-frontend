@@ -16,30 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
 /**
  * React components to add the color on a text or another components
  */
 class ErrorDecoratorComponent extends React.Component {
+  static propTypes = {
+    children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  }
+
   static contextTypes = {
     ...themeContextType,
   }
 
   render() {
-    const errorStyle = {
-      color: this.context.muiTheme.textField.errorColor,
-    }
+    const { moduleTheme: { errorDecorator } } = this.context
     return (
-      <div className="selenium-errorMessage" style={errorStyle}>
+      <div className="selenium-errorMessage" style={errorDecorator}>
         { this.props.children }
       </div>
     )
   }
 }
 
-ErrorDecoratorComponent.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
-}
-
-export default ErrorDecoratorComponent
+export default withModuleStyle(styles, true)(ErrorDecoratorComponent)

@@ -62,7 +62,7 @@ class RestrictionsConfigurationComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <React.Fragment>
+      <>
         {/* Results restrictions by dataset */}
         <FieldsGroup
           title={formatMessage({ id: 'search.results.form.restrictions.configuration.display.types.message' })}
@@ -74,7 +74,7 @@ class RestrictionsConfigurationComponent extends React.Component {
             valueSelected={currentRestrictionsValues.byDataset.type}
           >
             { /** Possible restrictions types */
-              UIDomain.DATASET_RESCRICTIONS_TYPES.map(type => (
+              UIDomain.DATASET_RESCRICTIONS_TYPES.map((type) => (
                 <RadioButton
                   key={type}
                   value={type}
@@ -90,7 +90,7 @@ class RestrictionsConfigurationComponent extends React.Component {
             currentRestrictionType={currentRestrictionsValues.byDataset.type}
           />
         </FieldsGroup>
-      </React.Fragment>
+      </>
     )
   }
 }

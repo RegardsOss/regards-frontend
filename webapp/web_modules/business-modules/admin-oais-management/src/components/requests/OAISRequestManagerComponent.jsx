@@ -155,7 +155,7 @@ export class OAISRequestManagerComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {})
   }
 
@@ -163,7 +163,7 @@ export class OAISRequestManagerComponent extends React.Component {
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     this.onPropertiesUpdated(this.props, nextProps)
   }
 
@@ -204,7 +204,7 @@ export class OAISRequestManagerComponent extends React.Component {
     return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
   }
 
-  buildSortURL = columnsSorting => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+  buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
   onSort = (columnSortKey, order) => {
     const { columnsSorting } = this.state
@@ -329,7 +329,7 @@ export class OAISRequestManagerComponent extends React.Component {
           isRetrySelectionDialogOpened: true,
           retryPayload: {
             requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            requestIds: map(tableSelection, entity => entity.content.id),
+            requestIds: map(tableSelection, (entity) => entity.content.id),
           },
         })
         break
@@ -338,7 +338,7 @@ export class OAISRequestManagerComponent extends React.Component {
           isRetrySelectionDialogOpened: true,
           retryPayload: {
             requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            requestIds: map(tableSelection, entity => entity.content.id),
+            requestIds: map(tableSelection, (entity) => entity.content.id),
           },
         })
         break
@@ -514,7 +514,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 onChange={this.changeTypeFilter}
               >
                 <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.type.any' })} />
-                {IngestDomain.AIP_REQUEST_TYPES.map(type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.type.${type}` })} />)}
+                {IngestDomain.AIP_REQUEST_TYPES.map((type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.type.${type}` })} />)}
               </SelectField>
               <SelectField
                 autoWidth
@@ -524,7 +524,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 onChange={this.changeStateFilter || ''}
               >
                 <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.status.any' })} />
-                {IngestDomain.AIP_REQUEST_STATUS.map(status => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
+                {IngestDomain.AIP_REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
               </SelectField>
             </TableHeaderOptionGroup>
             <TableHeaderOptionGroup>

@@ -110,10 +110,10 @@ export class ExampleContainer extends React.Component {
   }
 
   /**
-   * Standard lifecycle method of a React component, componentWillMount is called before the the component mounts and renders.
+   * Standard lifecycle method of a React component, UNSAFE_componentWillMount is called before the the component mounts and renders.
    * It is a good place to initialize component state.
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { target } = this.props
     //  set up in state some loading information for first rendering
     this.setState({

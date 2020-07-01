@@ -22,7 +22,7 @@
  * @param theme
  * @author Sébastien Binda
  */
-const styles = theme => ({
+const styles = (theme) => ({
   section: {
     classes: ['row'].join(' '),
     styles: {
@@ -35,6 +35,9 @@ const styles = theme => ({
     styles: {
       margin: 10,
       minHeight: 200,
+    },
+    titleStyles: {
+      backgroundColor: theme.palette.accent2Color,
     },
     contentStyles: {
       minHeight: '170px',

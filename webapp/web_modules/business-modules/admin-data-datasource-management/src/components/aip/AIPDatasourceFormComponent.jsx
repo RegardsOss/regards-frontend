@@ -103,17 +103,16 @@ export class AIPDatasourceFormComponent extends React.Component {
    */
   getMappableAttributes = (modelAttributeList) => {
     const attributeFileSize = get(this.props.formValues, 'attributeFileSize')
-    return reject(modelAttributeList, modelAttribute => (
+    return reject(modelAttributeList, (modelAttribute) => (
       this.getFullQualifiedAttributeValue(modelAttribute.content.attribute) === attributeFileSize
     ))
   }
 
-
   /**
    * Returns all attributes having a long type
    */
-  getAttributesTypeLong = modelAttributeList => (
-    filter(modelAttributeList, modelAttribute => (
+  getAttributesTypeLong = (modelAttributeList) => (
+    filter(modelAttributeList, (modelAttribute) => (
       modelAttribute.content.attribute.type === MODEL_ATTR_TYPES.LONG
     ))
   )
@@ -131,9 +130,9 @@ export class AIPDatasourceFormComponent extends React.Component {
   /**
    * Return the mapping component, with optional at the end
    */
-  getMappingAttributes = modelAttributeList => flow(
+  getMappingAttributes = (modelAttributeList) => flow(
     fpsortBy('content.attribute.optional'),
-    fpmap(modelAttribute => (
+    fpmap((modelAttribute) => (
       <AIPDatasourceAttributeLineConfigurationComponent
         key={modelAttribute.content.attribute.name}
         modelAttribute={modelAttribute}
@@ -148,7 +147,6 @@ export class AIPDatasourceFormComponent extends React.Component {
     input.onChange(value)
     this.props.change(`mapping.properties@${value.replace('.', '@')}`, null)
   }
-
 
   /**
    * Fetch attributes related to the model selected
@@ -170,15 +168,15 @@ export class AIPDatasourceFormComponent extends React.Component {
     if (find(attributes, ['key', key])) {
       return true
     }
-    if (find(attributes, a => a.content.attribute.jsonPath === key)) {
+    if (find(attributes, (a) => a.content.attribute.jsonPath === key)) {
       return true
     }
 
     // Special  case of range attributes add lowerBound and upperBound at the end of the jsonPath
-    if (endsWith(key, '.upperBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
+    if (endsWith(key, '.upperBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
       return true
     }
-    if (endsWith(key, '.lowerBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
+    if (endsWith(key, '.lowerBound') && find(attributes, (a) => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
       return true
     }
     return false

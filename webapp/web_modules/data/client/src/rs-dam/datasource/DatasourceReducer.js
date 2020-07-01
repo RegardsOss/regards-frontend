@@ -26,7 +26,6 @@ class DatasourceReducer extends BasicListReducers {
   }
 }
 
-
 export default function (namespace) {
   const instance = new DatasourceReducer(namespace)
   return (state, action) => instance.reduce(state, action)

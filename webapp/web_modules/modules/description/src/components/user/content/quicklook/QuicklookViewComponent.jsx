@@ -41,7 +41,7 @@ class QuicklookViewComponent extends React.Component {
   /**
    * On user selected a group:
    */
-  onSelectGroup = groupIndex => this.setState({ groupIndex })
+  onSelectGroup = (groupIndex) => this.setState({ groupIndex })
 
   /**
    * On user click, toggle the zoom
@@ -57,7 +57,7 @@ class QuicklookViewComponent extends React.Component {
     const { quicklookFiles } = this.props
     const { magnified, groupIndex } = this.state
     return (
-      <React.Fragment>
+      <>
         { /** Show quicklook groups list, when there are multiple groups and state is not magnified  */
           quicklookFiles.length > 1 && !magnified ? (
             <QuicklookFilesListComponent
@@ -78,7 +78,7 @@ class QuicklookViewComponent extends React.Component {
                 onToggleMagnified={this.onToggleMagnified}
               />)
         }
-      </React.Fragment>
+      </>
     )
   }
 }

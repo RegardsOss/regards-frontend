@@ -33,7 +33,6 @@ import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import AccessRightsEnum from './AccessRightsEnum'
 
-
 /**
  * Display edit and create accessright form
  */
@@ -103,7 +102,6 @@ export class AccessRightFormComponent extends React.Component {
     } = this.props
     return !isSubmitting && !submitting && !invalid && (datasetAccessRightsToEdit.length > 1 || !pristine)
   }
-
 
   render() {
     const {
@@ -216,6 +214,6 @@ const connectedReduxForm = reduxForm({
 
 // export connected with selector to select the last mail value
 const selector = formValueSelector(formId)
-export default connect(state => ({
+export default connect((state) => ({
   selectedAccessLevel: selector(state, 'access'),
 }))(connectedReduxForm)

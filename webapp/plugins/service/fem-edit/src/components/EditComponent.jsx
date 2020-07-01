@@ -107,7 +107,7 @@ export class EditComponent extends React.Component {
    * Lifecycle hook: update attribute list
    * @param {*} nextProps
    */
-  componentWillReceiveProps = ({ attributeModelList: nextAttributeModelList }) => {
+  UNSAFE_componentWillReceiveProps = ({ attributeModelList: nextAttributeModelList }) => {
     const { attributeModelList } = this.props
     const { modelAttributeSelected } = this.state
     if (attributeModelList !== nextAttributeModelList && nextAttributeModelList) { // refetch on parent change, if showable

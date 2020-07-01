@@ -35,7 +35,6 @@ class TableNoDataMessage extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { messageKey } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context

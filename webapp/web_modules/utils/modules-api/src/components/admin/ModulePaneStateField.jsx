@@ -25,7 +25,6 @@ import compose from 'lodash/fp/compose'
 import messages from '../../i18n'
 import styles from '../../styles'
 
-
 /**
  * Field to select the state of a module pane (expanded / collapsed). It is intended to be used in admin forms.
  * It provides messages and styles for corresponding field (so all the modules with multiple pane can use it to respect
@@ -66,7 +65,6 @@ export class ModulePaneStateField extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-
 
   render() {
     const {

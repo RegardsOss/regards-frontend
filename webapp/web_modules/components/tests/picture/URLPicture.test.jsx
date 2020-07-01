@@ -68,8 +68,7 @@ describe('[Components] Testing URLPicture', () => {
     assert.lengthOf(enzymeWrapper.find(ConnectdURLCommonPicture), 0, ' Should not render as common picture')
   })
 
-
-  const testCaseByMimeType = flatMap(URLPicture.PICTURES_RENDER, Render => Render.SUPPORTED_MIME_TYPES)
+  const testCaseByMimeType = flatMap(URLPicture.PICTURES_RENDER, (Render) => Render.SUPPORTED_MIME_TYPES)
 
   testCaseByMimeType.forEach((mimeType) => {
     it(`It support ${mimeType} render`, () => {

@@ -72,7 +72,7 @@ export class DatasetEditPluginComponent extends React.Component {
           // add service
           ? [...previousContent.services, pluginConfiguration.content]
           // remove service
-          : previousContent.services.filter(service => service.id !== pluginConfiguration.content.id),
+          : previousContent.services.filter((service) => service.id !== pluginConfiguration.content.id),
       },
     }
     this.setState({ currentLinkPluginDataset })
@@ -85,11 +85,11 @@ export class DatasetEditPluginComponent extends React.Component {
 
   isCheckboxChecked = (pluginConfiguration) => {
     const { currentLinkPluginDataset } = this.state
-    return some(currentLinkPluginDataset.content.services, service => service.id === pluginConfiguration.content.id)
+    return some(currentLinkPluginDataset.content.services, (service) => service.id === pluginConfiguration.content.id)
   }
 
   renderItemMetaData = (pluginMetaData, pluginConfigurationList) => {
-    const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
+    const pluginConfigurationAssociated = filter(pluginConfigurationList, (pluginConfiguration) => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
     return (
       <ShowableAtRender
         show={pluginConfigurationAssociated.length > 0}

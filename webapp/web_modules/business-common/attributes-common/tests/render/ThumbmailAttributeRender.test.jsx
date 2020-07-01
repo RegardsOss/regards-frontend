@@ -83,7 +83,7 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       },
     }
     const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
-    const picture = wrapper.findWhere(n => n.props().src === 'http://rd1.com?scope=project')
+    const picture = wrapper.findWhere((n) => n.props().src === 'http://rd1.com?scope=project')
     assert.lengthOf(picture, 1, 'There should be a picture with the right URL')
     testSuiteHelpers.assertWrapperProperties(picture, {
       alt: 'attribute.thumbnail.alt',
@@ -136,10 +136,10 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
   }
   function buildImgDataFiles(thumbnails, quicklooksSD, quicklooksMD, quicklookHD) {
     return {
-      [CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]: thumbnails.map(f => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.THUMBNAIL, f)),
-      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: quicklooksSD.map(f => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, f)),
-      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: quicklooksMD.map(f => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, f)),
-      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: quicklookHD.map(f => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, f)),
+      [CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]: thumbnails.map((f) => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.THUMBNAIL, f)),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: quicklooksSD.map((f) => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, f)),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD]: quicklooksMD.map((f) => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD, f)),
+      [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD]: quicklookHD.map((f) => buildImgDataFile(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, f)),
     }
   }
   const testCases = [{

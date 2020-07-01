@@ -48,7 +48,7 @@ describe('[Components] Testing URIContentDisplayer', () => {
       noPreviewComponent: <div id="no.preview.comp" />,
       downloadFile: (uri) => {
         spiedDownloadParameters.uri = uri
-        return new Promise(resolve => resolve({ payload: 'blablabla' }))
+        return new Promise((resolve) => resolve({ payload: 'blablabla' }))
       },
     }
     const enzymeWrapper = shallow(<URIContentDisplayer {...props} />, { context })

@@ -20,7 +20,7 @@
 /**
  * @author Sébastien Binda
  */
-const storageManagementStyles = theme => ({
+const storageManagementStyles = (theme) => ({
   rootStyle: {
     display: 'grid',
     gridTemplateColumns: 'auto auto',

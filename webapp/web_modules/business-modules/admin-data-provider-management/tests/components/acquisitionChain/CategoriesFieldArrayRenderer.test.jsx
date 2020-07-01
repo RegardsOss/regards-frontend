@@ -48,8 +48,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing CategoriesFieldArrayRenderer'
         ],
         push: () => { },
         remove: () => { },
-        map: f => fieldValues.map((member, index, fields) => f(member, index, props.fields)),
-        get: i => fieldValues[i],
+        map: (f) => fieldValues.map((member, index, fields) => f(member, index, props.fields)),
+        get: (i) => fieldValues[i],
       },
     }
     const enzymeWrapper = shallow(<CategoriesFieldArrayRenderer {...props} />, { context })

@@ -27,4 +27,4 @@ class MaintenanceModeActions extends BasicSignalActions {
   }
 }
 
-export default microserviceName => new MaintenanceModeActions(microserviceName)
+export default (microserviceName) => new MaintenanceModeActions(microserviceName)

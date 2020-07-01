@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'dataaccess.services.list.title': 'Configure catalog services',
   'dataaccess.services.list.subtitle': 'This section allows you to configure data catalog services.',
   'dataaccess.services.list.header.id.label': 'Identifier',
@@ -45,7 +45,7 @@ const messages = Object.assign({
   'dataaccess.services.form.type.select.label': 'Select a type ...',
   'dataaccess.services.form.invalid.id': 'Service plugin configuration selected does not exist anymore.',
   'dataaccess.services.form.back.button': 'Cancel',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import { StorageUnitScale } from '../../src/storage/StorageUnit'
 import messages from '../../src/storage/i18n'
 
-
 /**
 * Test  Component name
 * @author Raphaël Mechali

@@ -28,6 +28,6 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * @param {[string]} storePath path to access state in redux store
  * @return selectors instance
  */
-const getAcquisitionProcessingChainMonitorSelectors = storePath => new BasicPageableSelectors(storePath)
+const getAcquisitionProcessingChainMonitorSelectors = (storePath) => new BasicPageableSelectors(storePath)
 
 export default getAcquisitionProcessingChainMonitorSelectors

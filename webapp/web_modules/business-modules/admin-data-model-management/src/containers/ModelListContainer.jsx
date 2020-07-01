@@ -46,7 +46,7 @@ export class ModelListContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchModelList())
       .then((actionResult) => {
         if (!actionResult.error) {
@@ -108,13 +108,13 @@ export class ModelListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   modelList: modelSelectors.getList(state),
   accessToken: authenticationSelectors.getAccessToken(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList()),
-  deleteModel: id => dispatch(modelActions.deleteEntity(id)),
+  deleteModel: (id) => dispatch(modelActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelListContainer)

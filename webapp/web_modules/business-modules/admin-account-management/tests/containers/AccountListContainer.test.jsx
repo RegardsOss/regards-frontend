@@ -34,7 +34,7 @@ const allAccounts = {
     },
   },
 }
-const waitingAccounts = pickBy(allAccounts, account => account.content.status === 'PENDING')
+const waitingAccounts = pickBy(allAccounts, (account) => account.content.status === 'PENDING')
 
 // Test a component rendering
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing account list container', () => {

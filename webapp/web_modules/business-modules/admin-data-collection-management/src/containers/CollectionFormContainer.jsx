@@ -90,7 +90,6 @@ export class CollectionFormContainer extends React.Component {
     this.props.clearModelAttributeList()
   }
 
-
   getBackUrl = () => {
     const { params: { project } } = this.props
     return `/admin/${project}/data/collections/collection/list`
@@ -104,14 +103,15 @@ export class CollectionFormContainer extends React.Component {
 
   handleUpdate = (values) => {
     const properties = extractParametersFromFormValues(values, this.props.modelAttributeList)
-    const updatedCollection = Object.assign({}, this.props.currentCollection.content, {
+    const updatedCollection = {
+      ...this.props.currentCollection.content,
       feature: {
         ...this.props.currentCollection.content.feature,
         label: values.label,
         geometry: values.geometry,
         properties,
       },
-    })
+    }
     Promise.resolve(this.props.updateCollection(this.props.currentCollection.content.id, updatedCollection))
       .then((actionResult) => {
         // We receive here the action
@@ -121,8 +121,7 @@ export class CollectionFormContainer extends React.Component {
       })
   }
 
-
-  extractCollectionFromActionResult = actionResult => actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
+  extractCollectionFromActionResult = (actionResult) => actionResult.payload.entities.collection[keys(actionResult.payload.entities.collection)[0]].content
 
   /**
    * Handle form submission on duplication / creation
@@ -136,7 +135,8 @@ export class CollectionFormContainer extends React.Component {
     if (this.state.isDuplicating) {
       defaultValues.tags = this.props.currentCollection.content.tags
     }
-    const apiValues = Object.assign({}, defaultValues, {
+    const apiValues = {
+      ...defaultValues,
       feature: {
         providerId: values.providerId,
         entityType: ENTITY_TYPES_ENUM.COLLECTION,
@@ -148,7 +148,7 @@ export class CollectionFormContainer extends React.Component {
       // descriptionFile,
       model,
       type: ENTITY_TYPES_ENUM.COLLECTION,
-    })
+    }
 
     Promise.resolve(this.props.createCollection(apiValues))
       .then((actionResult) => {
@@ -194,8 +194,7 @@ export class CollectionFormContainer extends React.Component {
             handleUpdateModel={this.handleUpdateModel}
             backUrl={this.getBackUrl()}
             projectName={this.props.params.project}
-          />)
-          }
+          />)}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -211,12 +210,12 @@ const mapStateToProps = (state, ownProps) => ({
   isFetchingModelAttribute: modelAttributesSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
-  createCollection: values => dispatch(collectionActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchCollection: (id) => dispatch(collectionActions.fetchEntity(id)),
+  createCollection: (values) => dispatch(collectionActions.createEntity(values)),
   updateCollection: (id, values) => dispatch(collectionActions.updateEntity(id, values)),
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: ENTITY_TYPES_ENUM.COLLECTION })),
-  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
   clearModelAttributeList: () => dispatch(modelAttributesActions.flush()),
   unregisterField: (form, name) => dispatch(unregisterField(form, name)),
 })

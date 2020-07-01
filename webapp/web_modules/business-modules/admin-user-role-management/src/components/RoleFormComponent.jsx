@@ -54,11 +54,8 @@ export class RoleFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentRole === undefined,
-    }
+  state = {
+    isCreating: this.props.currentRole === undefined,
   }
 
   componentDidMount() {
@@ -91,7 +88,6 @@ export class RoleFormComponent extends React.Component {
     }
     return name
   }
-
 
   render() {
     const {

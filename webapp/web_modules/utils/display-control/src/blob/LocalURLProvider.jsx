@@ -59,14 +59,13 @@ class LocalURLProvider extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and create local URL reference
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local URL reference
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
-
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Lifecycle method: component receive props. Used to delete local URL reference
@@ -119,7 +118,6 @@ class LocalURLProvider extends React.Component {
       }),
     })
   }
-
 
   render() {
     const { children } = this.state

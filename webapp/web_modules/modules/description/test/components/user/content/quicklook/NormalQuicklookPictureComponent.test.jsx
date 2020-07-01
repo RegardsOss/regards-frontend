@@ -45,7 +45,7 @@ describe('[Description] Testing NormalQuicklookPictureComponent', () => {
     }
     const enzymeWrapper = shallow(<NormalQuicklookPictureComponent {...props} />, { context })
     // A - check there is toggle magnify callback
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
     // B - check picture
     const pictureWrapper = enzymeWrapper.find('img')
     assert.lengthOf(pictureWrapper, 1, 'There should be the picture')
@@ -65,7 +65,7 @@ describe('[Description] Testing NormalQuicklookPictureComponent', () => {
     }
     const enzymeWrapper = shallow(<NormalQuicklookPictureComponent {...props} />, { context })
     // A - check there is toggle magnify callback
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
     // B - check picture
     const pictureWrapper = enzymeWrapper.find('img')
     assert.lengthOf(pictureWrapper, 1, 'There should be the picture')
@@ -84,7 +84,7 @@ describe('[Description] Testing NormalQuicklookPictureComponent', () => {
     }
     const enzymeWrapper = shallow(<NormalQuicklookPictureComponent {...props} />, { context })
     // A - check there is toggle magnify callback
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
     // B - check picture
     const pictureWrapper = enzymeWrapper.find('img')
     assert.lengthOf(pictureWrapper, 1, 'There should be the picture')
@@ -163,7 +163,7 @@ describe('[Description] Testing NormalQuicklookPictureComponent', () => {
     }
     const enzymeWrapper = shallow(<NormalQuicklookPictureComponent {...props} />, { context })
     // A - check there is toggle magnify callback
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === props.onToggleMagnified), 1, 'Toggle magnify callback should be provided to user')
     // B - check picture
     const pictureWrapper = enzymeWrapper.find('img')
     assert.lengthOf(pictureWrapper, 1, 'There should be the picture')

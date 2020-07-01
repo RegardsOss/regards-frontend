@@ -67,11 +67,11 @@ export class ProjectUserListContainer extends React.Component {
     return {
       fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
       fetchUsers: () => dispatch(projectUserActions.fetchPagedEntityList()),
-      validateProjectUser: userId => dispatch(projectUserSignalActions.sendAccept(userId)),
-      denyProjectUser: userId => dispatch(projectUserSignalActions.sendDeny(userId)),
-      active: userId => dispatch(projectUserSignalActions.sendActive(userId)),
-      inactive: userId => dispatch(projectUserSignalActions.sendInactive(userId)),
-      deleteAccount: userId => dispatch(projectUserActions.deleteEntity(userId)),
+      validateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
+      denyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
+      active: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
+      inactive: (userId) => dispatch(projectUserSignalActions.sendInactive(userId)),
+      deleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
     }
   }
 
@@ -141,7 +141,7 @@ export class ProjectUserListContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // Fetch view data
     const { fetchGroups, fetchUsers } = this.props
     fetchGroups()
@@ -154,7 +154,7 @@ export class ProjectUserListContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -229,8 +229,8 @@ export class ProjectUserListContainer extends React.Component {
   onValidateAll = () => {
     // validate all waiting users currently visible
     const tasks = this.state.users
-      .filter(user => user.content.status === AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS)
-      .map(user => this.props.validateProjectUser(user.content.id))
+      .filter((user) => user.content.status === AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS)
+      .map((user) => this.props.validateProjectUser(user.content.id))
     if (tasks.length) {
       this.performThenUpdate(tasks)
     }

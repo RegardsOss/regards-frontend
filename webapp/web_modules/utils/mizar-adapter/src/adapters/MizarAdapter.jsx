@@ -50,6 +50,21 @@ export default class MizarAdapter extends React.Component {
     onFeaturesSelected: PropTypes.func,
   }
 
+  static defaultProps = {
+    crsContext: 'CRS:84',
+    drawnAreas: [],
+    featuresColor: 'Orange',
+    drawColor: 'Yellow',
+    backgroundLayerConf: {
+    },
+  }
+
+  /** Mizar library */
+  static MIZAR_LIBRARY = null
+
+  // XXX : Workaround
+  static MIZAR_Y_OFFSET = 180
+
   /**
    * Transforsm points into a box with {min/max}{X/Y} fields and empty information field
    * @param {[number]} point1 first point as coordinates array
@@ -112,21 +127,6 @@ export default class MizarAdapter extends React.Component {
     return null
   }
 
-  static defaultProps = {
-    crsContext: 'CRS:84',
-    drawnAreas: [],
-    featuresColor: 'Orange',
-    drawColor: 'Yellow',
-    backgroundLayerConf: {
-    },
-  }
-
-  /** Mizar library */
-  static MIZAR_LIBRARY = null
-
-  // XXX : Workaround
-  static MIZAR_Y_OFFSET = 180
-
   /** Transient instance information: keeps mizar layers and data in this as their lifecycle is correlated */
   mizar = {
     instance: null, // mizar instance
@@ -137,7 +137,6 @@ export default class MizarAdapter extends React.Component {
 
   /** Currently drawn selection initial point (lat / lon) */
   currentDrawingInitPoint = null
-
 
   /**
    * Lifecycle method: component did mount. Used here to load and initialize the mizar component
@@ -156,7 +155,7 @@ export default class MizarAdapter extends React.Component {
    * Lifecycle method: component will receive props. Used here to report changes onto the mizar component (main wrapper job)
    * @param {*} nextProps next properties
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // Add new geo features to display layer
     const {
       featuresCollection, drawingSelection, drawnAreas, staticLayerOpacity,
@@ -237,7 +236,6 @@ export default class MizarAdapter extends React.Component {
     // 3 - Set up background layer
     this.mizar.instance.addLayer(baseLayer)
 
-
     const staticLayer = get(STATIC_CONF, 'MAP.STATIC_LAYER', null)
     if (staticLayer) {
       this.mizar.instance.addLayer(staticLayer, (staticLayerId) => {
@@ -302,8 +300,8 @@ export default class MizarAdapter extends React.Component {
    */
   onAreasUpdated = (oldDrawnAreas = [], drawnAreas = []) => {
     if (this.mizar.drawLayer && !this.unmounted) {
-      oldDrawnAreas.forEach(f => this.mizar.drawLayer.removeFeature(f))
-      drawnAreas.forEach(f => this.mizar.drawLayer.addFeature(f))
+      oldDrawnAreas.forEach((f) => this.mizar.drawLayer.removeFeature(f))
+      drawnAreas.forEach((f) => this.mizar.drawLayer.addFeature(f))
     }
   }
 

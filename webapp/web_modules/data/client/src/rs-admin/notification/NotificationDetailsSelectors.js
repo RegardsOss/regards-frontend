@@ -29,4 +29,4 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  *
  * @author Simon MILHAU
  */
-export default storePath => new BasicSignalSelectors(storePath)
+export default (storePath) => new BasicSignalSelectors(storePath)

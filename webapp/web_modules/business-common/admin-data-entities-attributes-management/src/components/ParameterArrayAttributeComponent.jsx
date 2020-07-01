@@ -24,7 +24,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 
-
 /**
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
@@ -56,7 +55,6 @@ export class ParameterArrayAttributeComponent extends React.Component {
 
   static iconAdd = <Add />
 
-
   addNewValue = () => {
     const { fields } = this.props
     fields.push({})
@@ -85,7 +83,6 @@ export class ParameterArrayAttributeComponent extends React.Component {
     )
   }
 
-
   render() {
     const { fields } = this.props
     return (
@@ -100,6 +97,5 @@ export class ParameterArrayAttributeComponent extends React.Component {
       </div>)
   }
 }
-
 
 export default ParameterArrayAttributeComponent

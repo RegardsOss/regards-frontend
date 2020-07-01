@@ -55,7 +55,8 @@ class LoadingPaneComponent extends React.Component {
             <CardTitle
               title={title}
               subtitle={subtitle}
-            />}
+            />
+}
         >
           <div style={containerStyle}>
             <CircularProgress size={loadingComponentSize} />

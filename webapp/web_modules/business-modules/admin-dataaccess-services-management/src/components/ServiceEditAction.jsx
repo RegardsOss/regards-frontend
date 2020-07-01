@@ -42,7 +42,7 @@ class ServiceEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update')
+    return !!find(links, (l) => l.rel === 'update')
   }
 
   render() {

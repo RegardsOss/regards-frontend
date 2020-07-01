@@ -57,8 +57,8 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetch: id => dispatch(AcquisitionProcessingChainEditActions.fetchEntity(id)),
-      create: values => dispatch(AcquisitionProcessingChainEditActions.createEntity(values)),
+      fetch: (id) => dispatch(AcquisitionProcessingChainEditActions.fetchEntity(id)),
+      create: (values) => dispatch(AcquisitionProcessingChainEditActions.createEntity(values)),
       update: (id, values) => dispatch(AcquisitionProcessingChainEditActions.updateEntity(id, values)),
       getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
       changeField: (field, value) => dispatch(change('acquisition-chain-form', field, value)),
@@ -167,7 +167,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       generateSipPluginConf: PluginFormUtils.formatPluginConf(values.generateSipPluginConf),
       productPluginConf: PluginFormUtils.formatPluginConf(values.productPluginConf),
       validationPluginConf: PluginFormUtils.formatPluginConf(values.validationPluginConf),
-      storages: values.storages.filter(storages => storages.active).map(configuredStorage => ({
+      storages: values.storages.filter((storages) => storages.active).map((configuredStorage) => ({
         pluginBusinessId: configuredStorage.label,
         storePath: configuredStorage.storePath ? configuredStorage.storePath : '',
         targetTypes: this.getTargetTypes(configuredStorage),

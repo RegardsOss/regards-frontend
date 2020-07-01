@@ -38,7 +38,7 @@ class DateParameterField extends React.Component {
    * @param value value to validate
    * @return error when any error, undefined otherwise
    */
-  validate = value => this.props.required && !value ? ErrorTypes.REQUIRED : undefined
+  validate = (value) => this.props.required && !value ? ErrorTypes.REQUIRED : undefined
 
   render() {
     const { name, label } = this.props

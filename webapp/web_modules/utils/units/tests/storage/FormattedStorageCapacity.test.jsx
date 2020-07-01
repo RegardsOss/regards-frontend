@@ -43,7 +43,7 @@ describe('[Units] Testing FormattedStorageCapacity', () => {
     '30Mo',
     '70Gio',
   ]
-  capacities.forEach(capacity => it(`should render correctly with capacity: ${capacity}`, () => {
+  capacities.forEach((capacity) => it(`should render correctly with capacity: ${capacity}`, () => {
     shallow(<FormattedStorageCapacity capacity={StorageCapacity.fromValue(capacity)} />, { context })
   }))
 })

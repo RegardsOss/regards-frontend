@@ -39,7 +39,6 @@ import AllowAccessComponent from './options/AllowAccessComponent'
 import DenyAccessComponent from './options/DenyAccessComponent'
 import RoleRenderer from './RoleRenderer'
 
-
 const MainActionButtonWithResourceDisplayControl = withResourceDisplayControl(MainActionButtonComponent)
 const SecondaryActionButtonWithResourceDisplayControl = withResourceDisplayControl(SecondaryActionButtonComponent)
 

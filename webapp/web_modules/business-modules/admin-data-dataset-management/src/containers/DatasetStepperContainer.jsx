@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -224,10 +223,8 @@ export class DatasetStepperContainer extends React.Component {
   }
 }
 
-
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   projectName: AuthenticationParametersSelectors.getProject(state),
 })
-
 
 export default connect(mapStateToProps)(DatasetStepperContainer)

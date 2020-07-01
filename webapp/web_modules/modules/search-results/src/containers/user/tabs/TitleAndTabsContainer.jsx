@@ -28,30 +28,6 @@ import TitleAndTabsComponent from '../../../components/user/tabs/TitleAndTabsCom
  * @author Raphaël Mechali
  */
 export class TitleAndTabsContainer extends React.Component {
-  /**
- * Redux: map state to props function
- * @param {*} state: current redux state
- * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapStateToProps(state, { moduleId }) {
-    return {
-      resultsContext: resultsContextSelectors.getResultsContext(state, moduleId),
-    }
-  }
-
-  /**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
-  static mapDispatchToProps(dispatch) {
-    return {
-      updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
-    }
-  }
-
   static propTypes = {
     moduleId: PropTypes.number.isRequired,
     description: PropTypes.string, // used only in onPropertiesUpdated
@@ -76,6 +52,30 @@ export class TitleAndTabsContainer extends React.Component {
     UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
   ]
 
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { moduleId }) {
+    return {
+      resultsContext: resultsContextSelectors.getResultsContext(state, moduleId),
+    }
+  }
+
+  /**
+ * Redux: map dispatch to props function
+ * @param {*} dispatch: redux dispatch function
+ * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+ * @return {*} list of component properties extracted from redux state
+ */
+  static mapDispatchToProps(dispatch) {
+    return {
+      updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
+    }
+  }
+
   /** Default state: only results visible */
   state = {
     tabs: [{
@@ -87,13 +87,13 @@ export class TitleAndTabsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

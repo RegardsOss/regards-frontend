@@ -22,13 +22,13 @@ import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import DrowDownIcon from 'mdi-material-ui/MenuDown'
 
-/** No value label stub function (drop down button is not neccessarily used with values) */
+/** No value label stub function (drop down button is not necessarily used with values) */
 const noLabelStubFunction = () => {}
 
 /**
  * Drop down button (used where drop down menu is not adequate). You can add some other properties to this component,
  * it will pass them through to the button instance
- * WORKAROUND - remove when MUI handles submenus correctly!
+ * WORKAROUND - remove when MUI handles sub menus correctly!
  */
 class DropDownButton extends React.Component {
   static propTypes = {
@@ -42,7 +42,7 @@ class DropDownButton extends React.Component {
     disabled: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
     value: PropTypes.any,
-    // set up explicitely to true to use the submenus problem fix (not compatible with a value menu)
+    // set up explicitly to true to use the sub menus problem fix (not compatible with a value menu)
     hasSubMenus: PropTypes.bool,
     // properties to be reported to menu (optional)
     // eslint-disable-next-line react/forbid-prop-types
@@ -58,18 +58,21 @@ class DropDownButton extends React.Component {
     getLabel: noLabelStubFunction,
   }
 
-  componentWillMount = () => {
+  static ICON_ANCHOR = { horizontal: 'left', vertical: 'bottom' }
+
+  static ICON_TARGET = { horizontal: 'left', vertical: 'top' }
+
+  UNSAFE_componentWillMount = () => {
     this.setMenuVisibleOn()
     this.setCurrentValue(this.props.value)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.value !== nextProps.value) {
       // externally controlled value change
       this.setCurrentValue(nextProps.value)
     }
   }
-
 
   onOpenMenu = (event) => {
     event.preventDefault()
@@ -99,7 +102,7 @@ class DropDownButton extends React.Component {
   /**
    * Sets the current menu item value
    */
-  setCurrentValue = value => this.setState({ value })
+  setCurrentValue = (value) => this.setState({ value })
 
   /**
    * Applies the sub menus fix to a menu item (and sub items). Ignores non menu items
@@ -115,7 +118,7 @@ class DropDownButton extends React.Component {
     let onClick = initialCallback
     if (subItems && subItems.length) {
       // A sub menus container: we need to set up the hack in all sub items (and successively)
-      menuItems = subItems.map(item => this.buildAutoClosingMenuItem(item))
+      menuItems = subItems.map((item) => this.buildAutoClosingMenuItem(item))
     } else {
       // a last level menu item: we need to fix the callback to close this menu
       onClick = () => {
@@ -151,7 +154,7 @@ class DropDownButton extends React.Component {
       return children
     }
     // wrap required to ensure menu closes (remove null elements)
-    return children.filter(menuItem => !!menuItem).map(menuItem => this.buildAutoClosingMenuItem(menuItem))
+    return children.filter((menuItem) => !!menuItem).map((menuItem) => this.buildAutoClosingMenuItem(menuItem))
   }
 
   render() {
@@ -159,8 +162,6 @@ class DropDownButton extends React.Component {
       ButtonConstructor, getLabel, children, disabled, hasSubMenus, menuProps, ...otherButtonProperties
     } = this.props
     const { value, menuVisibleOn } = this.state
-    const iconAnchor = { horizontal: 'left', vertical: 'bottom' }
-    const iconTarget = { horizontal: 'left', vertical: 'top' }
     return (
       <div>
         <ButtonConstructor
@@ -173,8 +174,8 @@ class DropDownButton extends React.Component {
         <Popover
           open={!!menuVisibleOn}
           anchorEl={this.state.menuVisibleOn}
-          anchorOrigin={iconAnchor}
-          targetOrigin={iconTarget}
+          anchorOrigin={DropDownButton.ICON_ANCHOR}
+          targetOrigin={DropDownButton.ICON_TARGET}
           onRequestClose={this.onCloseMenu}
         >
           <Menu onChange={hasSubMenus ? undefined : this.onMenuItemSelected} {...menuProps}>

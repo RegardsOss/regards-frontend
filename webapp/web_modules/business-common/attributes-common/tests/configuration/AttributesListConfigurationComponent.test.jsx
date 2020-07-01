@@ -130,7 +130,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
       attributesListFieldName: 'xxx',
       changeField: () => { },
       selectableAttributes: attributeModelsDictionary,
-      attributesFilter: attribute => attribute.content.name.includes('1'), // keep only attr1
+      attributesFilter: (attribute) => attribute.content.name.includes('1'), // keep only attr1
       attributesList: [],
     }
     const enzymeWrapper = shallow(<AttributesListConfigurationComponent {...props} />, { context })

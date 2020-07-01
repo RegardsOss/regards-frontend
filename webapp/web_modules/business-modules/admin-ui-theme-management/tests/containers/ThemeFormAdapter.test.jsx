@@ -22,7 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ThemeFormContainer from '../../src/containers/ThemeFormContainer'
 import { ThemeFormAdapter } from '../../src/containers/ThemeFormAdapter'
 
-
 const context = buildTestContext()
 
 /**

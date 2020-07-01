@@ -46,7 +46,6 @@ const options = {
   context: buildTestContext(),
 }
 
-
 // Test a component rendering
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeFormComponent', () => {
   before(testSuiteHelpers.before)

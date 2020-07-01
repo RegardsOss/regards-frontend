@@ -51,9 +51,9 @@ describe('[Domain] Testing QuicklookHelper', () => {
       [DATA_TYPES_ENUM.DOCUMENT]: [],
       [DATA_TYPES_ENUM.OTHER]: [],
       [DATA_TYPES_ENUM.THUMBNAIL]: [],
-      [DATA_TYPES_ENUM.QUICKLOOK_SD]: quicklooksSD.map(f => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_SD, f)),
-      [DATA_TYPES_ENUM.QUICKLOOK_MD]: quicklooksMD.map(f => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_MD, f)),
-      [DATA_TYPES_ENUM.QUICKLOOK_HD]: quicklookHD.map(f => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_HD, f)),
+      [DATA_TYPES_ENUM.QUICKLOOK_SD]: quicklooksSD.map((f) => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_SD, f)),
+      [DATA_TYPES_ENUM.QUICKLOOK_MD]: quicklooksMD.map((f) => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_MD, f)),
+      [DATA_TYPES_ENUM.QUICKLOOK_HD]: quicklookHD.map((f) => buildImgDataFile(DATA_TYPES_ENUM.QUICKLOOK_HD, f)),
     }
   }
 
@@ -133,11 +133,10 @@ describe('[Domain] Testing QuicklookHelper', () => {
     }], // g4 should be removed as completely filtered
   }]
 
-
   testCases.forEach(({
     title, files, primaryGroup, filter, expectedGroups,
   }) => it(title, () => {
-    const realExpected = expectedGroups.map(group => ({
+    const realExpected = expectedGroups.map((group) => ({
       label: group.label,
       primary: group.primary,
       ...[DATA_TYPES_ENUM.QUICKLOOK_SD, DATA_TYPES_ENUM.QUICKLOOK_MD, DATA_TYPES_ENUM.QUICKLOOK_HD].reduce((acc, type) => {

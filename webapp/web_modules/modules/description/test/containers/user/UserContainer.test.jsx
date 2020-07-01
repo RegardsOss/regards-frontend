@@ -104,8 +104,8 @@ describe('[Description] Testing UserContainer', () => {
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
-      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
-      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: (descriptionPath) => {
         spySetModuleDescriptionPath.descriptionPath = descriptionPath
@@ -255,8 +255,8 @@ describe('[Description] Testing UserContainer', () => {
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
-      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
-      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
     }

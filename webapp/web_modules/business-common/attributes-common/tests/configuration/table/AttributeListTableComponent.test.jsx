@@ -73,7 +73,7 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       TableColumnBuilder.optionsColumnKey, // options column
     ]
     expectedColumnsKeys.forEach((key) => {
-      const foundColumn = columns.find(c => c.key === key)
+      const foundColumn = columns.find((c) => c.key === key)
       assert.isOk(foundColumn, `Expected column ${key} not found`)
     })
   })
@@ -99,7 +99,7 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       TableColumnBuilder.optionsColumnKey, // options column
     ]
     expectedColumnsKeys.forEach((key) => {
-      const foundColumn = columns.find(c => c.key === key)
+      const foundColumn = columns.find((c) => c.key === key)
       assert.isOk(foundColumn, `Expected column ${key} not found`)
     })
   })

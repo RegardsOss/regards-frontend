@@ -115,7 +115,6 @@ class AuthenticateReducers extends BasicSignalReducers {
   }
 }
 
-
 export default (namespace) => {
   const instance = new AuthenticateReducers(namespace)
   return (state, action) => instance.reduce(state, action)

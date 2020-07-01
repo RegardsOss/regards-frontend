@@ -39,7 +39,7 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
   })
 
   UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => {
-    [true, false].forEach(selected => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
+    [true, false].forEach((selected) => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
       const props = {
         selected,
         selectionMode,

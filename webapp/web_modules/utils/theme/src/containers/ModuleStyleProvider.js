@@ -21,6 +21,7 @@
  * context but IT WILL KEEP HIGER PRIORITY. IE: the calling context can override the component context and thus redefine its
  * styles
  **/
+import isFunction from 'lodash/isFunction'
 import themeContextType from '../contextType'
 
 /**
@@ -70,8 +71,8 @@ class ModuleStyleProvider extends React.Component {
     const {
       muiTheme, moduleTheme: callingModuleTheme,
     } = this.context
-    if (!localStylesBuilder) {
-      throw new Error('You must provide styles as a builder function in an object like { styles } messages when module styles provider ')
+    if (!localStylesBuilder || !isFunction(localStylesBuilder)) {
+      throw new Error(`module styles must be provided as a function in module property. Received "${JSON.stringify(this.props.module)}" module property instead`)
     }
 
     const moduleTheme = {

@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { accessGroupActions } from './clients/AccessGroupClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

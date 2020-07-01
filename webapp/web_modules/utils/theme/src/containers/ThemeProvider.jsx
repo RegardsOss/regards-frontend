@@ -72,7 +72,7 @@ export class ThemeProvider extends React.Component {
       // Init the current theme from the new list
       let activeTheme = defaultTheme
       if (has(actionResult, 'payload.entities.theme')) {
-        activeTheme = find(actionResult.payload.entities.theme, theme => theme.content.active) || defaultTheme
+        activeTheme = find(actionResult.payload.entities.theme, (theme) => theme.content.active) || defaultTheme
       }
       this.setState({
         isLoading: false,
@@ -83,7 +83,7 @@ export class ThemeProvider extends React.Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentTheme } = this.props
 
     // Recompute the merged theme when the current theme has changed
@@ -108,17 +108,17 @@ export class ThemeProvider extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   themeList: themeSelectors.getList(state),
   currentTheme: getCurrentTheme(state),
   project: AuthenticationParametersSelectors.getProject(state),
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchThemeList: () => dispatch(themeActions.fetchPagedEntityList(0, 100)),
   fetchThemeInstanceList: () => dispatch(themeInstanceActions.fetchPagedEntityList(0, 100)),
-  dispatchSetCurrentTheme: themeId => dispatch(setCurrentTheme(themeId)),
+  dispatchSetCurrentTheme: (themeId) => dispatch(setCurrentTheme(themeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeProvider)

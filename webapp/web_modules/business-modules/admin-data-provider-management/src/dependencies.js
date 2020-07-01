@@ -43,7 +43,6 @@ const addDependencies = [
   storagesListActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
 ]
 
-
 export default {
   addDependencies,
   listDependencies,

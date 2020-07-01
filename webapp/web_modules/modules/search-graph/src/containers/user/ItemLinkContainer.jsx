@@ -35,13 +35,13 @@ export class ItemLinkContainer extends React.Component {
     onStateChange: PropTypes.func, // optional callback on state change: (newState:ItemLink.States) => void
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // initialize state
     const { locked, selected } = this.props
     this.updateDisplayState(this.getNewState(locked, selected, false))
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // update state, in case of locked or selected properties changed
     const { locked, selected } = nextProps
     const hover = [ItemLink.States.HOVER, ItemLink.States.SELECTED_HOVER].includes(this.state.currentState)

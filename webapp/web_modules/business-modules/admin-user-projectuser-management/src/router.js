@@ -29,7 +29,6 @@ export const listProjectUserRoute = {
   },
 }
 
-
 export const createProjectUserRoute = {
   path: 'create',
   getComponents(nextState, cb) {
@@ -64,7 +63,6 @@ export const settingsProjectUserRoute = {
     })
   },
 }
-
 
 const projectUserManagementRouter = {
   childRoutes: [

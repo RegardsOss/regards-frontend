@@ -20,7 +20,6 @@ import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
 import ValuesSeparator from './ValuesSeparator'
 
-
 const EMPTY_OBJECT = {}
 
 /**
@@ -56,9 +55,7 @@ export default class ValuesRenderCell extends React.Component {
     return flatMap(values, ({ getValue, RenderConstructor, props }, index) => [
       index > 0 ? <ValuesSeparator key={`separator.${index}`} /> : null,
       <div key={`value.${index}`} style={multipleCellValues}>
-        { // render using delegate if provided
-          <RenderConstructor value={getValue(entity)} {...(props || EMPTY_OBJECT)} />
-        }
+        <RenderConstructor value={getValue(entity)} {...(props || EMPTY_OBJECT)} />
       </div>,
     ])
   }

@@ -63,7 +63,7 @@ function getFieldsProps(initialValue = [], name = 'anything') {
   return {
     name,
     forEach: () => {},
-    get: index => currentValue[index],
+    get: (index) => currentValue[index],
     insert: () => {},
     getAll: () => currentValue,
     length: currentValue.length,

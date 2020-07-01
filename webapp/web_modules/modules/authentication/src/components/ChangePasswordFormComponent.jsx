@@ -126,7 +126,6 @@ export class ChangePasswordFormComponent extends React.Component {
   }
 }
 
-
 function validate(values) {
   const errors = {}
   if (values.confirmPassword && values.newPassword && values.newPassword !== values.confirmPassword) {

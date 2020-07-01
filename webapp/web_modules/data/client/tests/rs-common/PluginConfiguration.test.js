@@ -28,7 +28,6 @@ const options = {
   pathParams: { microserviceName: 'rs-dam' },
 }
 
-
 const pluginConfigurationActions = new PluginConfigurationActions('test/action')
 const pluginConfigurationReducer = PluginConfigurationReducer('test/action')
 const pluginConfigurationSelectors = PluginConfigurationSelectors(['test', 'modules'])

@@ -18,7 +18,6 @@
  **/
 import { DamDomain } from '@regardsoss/domain'
 
-
 export const dataset1 = {
   content: {
     id: 1,

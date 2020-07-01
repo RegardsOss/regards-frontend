@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
-import { StorageUnits } from './StorageUnit'
+import { units } from './StorageUnit'
 
 /**
  * Export function to format storage capacity. Warning: when using this method, make sure your context contains storage units
@@ -27,7 +27,7 @@ import { StorageUnits } from './StorageUnit'
  */
 
 /** Units considered small (no digits displayed) */
-const SMALL_UNITS = [StorageUnits.BIT.symbol, StorageUnits.BYTE.symbol]
+const SMALL_UNITS = [units.BIT.symbol, units.BYTE.symbol]
 
 /** Big units format options (not for bits and bytes) */
 const BIG_UNITS_FORMAT_OPTIONS = {

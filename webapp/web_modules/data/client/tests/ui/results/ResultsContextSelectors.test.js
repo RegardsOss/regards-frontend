@@ -25,7 +25,6 @@ const testActions = new ResultsContextActions('tests')
 const testReduce = getResultsContextReducer('tests')
 const testSelectors = getResultsContextSelectors(['test', 'resultsContext'])
 
-
 const buildMockStore = (initState = ResultsContextReducer.DEFAULT_STATE) => ({
   test: {
     resultsContext: initState,

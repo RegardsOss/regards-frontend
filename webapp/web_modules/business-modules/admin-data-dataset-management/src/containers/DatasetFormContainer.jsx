@@ -62,7 +62,6 @@ export class DatasetFormContainer extends React.Component {
     }
   }
 
-
   componentDidMount() {
     if (this.state.isEditing) {
       Promise.resolve(this.props.fetchDataset(this.props.params.datasetId))
@@ -74,7 +73,7 @@ export class DatasetFormContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if ((this.state.currentDataset == null || this.props.currentDataset == null) && nextProps.currentDataset != null) {
       this.setState({
         currentDataset: cloneDeep(nextProps.currentDataset),
@@ -238,9 +237,9 @@ const mapStateToProps = (state, ownProps) => ({
   currentDataset: ownProps.params.datasetId ? datasetSelectors.getById(state, ownProps.params.datasetId) : null,
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
-  createDataset: values => dispatch(datasetActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchDataset: (id) => dispatch(datasetActions.fetchEntity(id)),
+  createDataset: (values) => dispatch(datasetActions.createEntity(values)),
   updateDataset: (id, values) => dispatch(datasetActions.updateEntity(id, values)),
 })
 

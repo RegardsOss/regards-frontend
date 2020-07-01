@@ -25,7 +25,7 @@ export const DocumentConfiguration = {
 }
 
 export const DOCUMENT = new Schema(DocumentConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[DocumentConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[DocumentConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (has(value, 'feature.geometry')) {
       try {

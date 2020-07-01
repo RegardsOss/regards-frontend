@@ -27,7 +27,6 @@ import DateValueRender from '../../src/values/DateValueRender'
 
 const context = buildTestContext(styles)
 
-
 /**
  * Tests for ValueConfigurationComponent
  * @author Sébastien binda

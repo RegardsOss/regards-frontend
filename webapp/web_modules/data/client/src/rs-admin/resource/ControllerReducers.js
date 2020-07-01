@@ -19,7 +19,6 @@
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import ControllerActions from './ControllerActions'
 
-
 /**
  * Redux Reducer for ProjectConnection actions.
  *

@@ -80,12 +80,12 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   /**
    * Component initialization: retrieve configuration, then metadata and finally resolve parameters
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState(RunCatalogPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
     const { configId } = service
     dispatchFetchPluginConfiguration(configId)
-      .then(result => this.onFetchConfigurationDone(result, configId))
+      .then((result) => this.onFetchConfigurationDone(result, configId))
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR))
   }
 
@@ -104,7 +104,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       const { dispatchFetchPluginMetaData } = this.props
       this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_METADATA })
       dispatchFetchPluginMetaData(pluginConfiguration.content.pluginId)
-        .then(result => this.onFetchMetaDataDone(result, pluginConfiguration))
+        .then((result) => this.onFetchMetaDataDone(result, pluginConfiguration))
         .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR))
     }
   }
@@ -134,7 +134,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * On fetch error handler
    * @param errorStep corresponding error step
    */
-  onFetchError = errorStep => this.setState({ step: errorStep })
+  onFetchError = (errorStep) => this.setState({ step: errorStep })
 
   /**
    * On initialization done: start normal component workflow (parameters edition and / or)
@@ -179,7 +179,6 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       })
     }
   }
-
 
   /** Enters back the parameters configuration */
   onPrevious = () => this.setState({ step: RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION })
@@ -264,10 +263,10 @@ const catalogPluginServiceResultActions = new CatalogClient.CatalogPluginService
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchFetchPluginConfiguration: configId => dispatch(pluginConfigurationActions.fetchEntity(configId, {
+    dispatchFetchPluginConfiguration: (configId) => dispatch(pluginConfigurationActions.fetchEntity(configId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginMetaData: pluginId => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
+    dispatchFetchPluginMetaData: (pluginId) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
     dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),

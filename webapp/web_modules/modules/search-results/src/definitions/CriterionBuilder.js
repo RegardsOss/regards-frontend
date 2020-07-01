@@ -108,7 +108,6 @@ export class CriterionBuilder {
     }
   }
 
-
   static STATIC_CRITERION_SERIALIZED = /(?<label>[^;]+);(?<attribute>[^=]+)=(?<criteria>[^,]+),?/g;
 
   /**
@@ -175,10 +174,10 @@ export class CriterionBuilder {
   static buildUnactiveStaticCriterionString(resultsContext) {
     const { staticParameters } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria
     // Do not save this parameter if empty or all values are defaults ones
-    if (isEmpty(staticParameters) || !some(staticParameters, staticParameter => !staticParameter.active)) {
+    if (isEmpty(staticParameters) || !some(staticParameters, (staticParameter) => !staticParameter.active)) {
       return null
     }
 
-    return JSON.stringify(map(staticParameters, staticParameter => !staticParameter.active))
+    return JSON.stringify(map(staticParameters, (staticParameter) => !staticParameter.active))
   }
 }

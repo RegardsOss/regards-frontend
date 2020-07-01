@@ -59,7 +59,6 @@ class MainMenuComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const {
       appName,

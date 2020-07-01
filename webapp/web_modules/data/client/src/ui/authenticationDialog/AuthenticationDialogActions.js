@@ -35,7 +35,7 @@ export default class AuthenticationDialogActions {
    * @param {boolean} show
    * @return action to dispatch
    */
-  toggleDialogDisplay = show => ({
+  toggleDialogDisplay = (show) => ({
     type: this.TOGGLE_AUTH_DIALOG_DISPLAY,
     show,
   })

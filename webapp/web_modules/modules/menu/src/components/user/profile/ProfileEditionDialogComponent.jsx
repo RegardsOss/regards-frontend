@@ -57,7 +57,7 @@ class ProfileEditionDialogComponent extends React.Component {
     view: PROFILE_FORMS.PROFILE,
   }
 
-  getItemStyle = viewName => viewName === this.state.view ? this.context.moduleTheme.notifications.list.selectedItem.style : {}
+  getItemStyle = (viewName) => viewName === this.state.view ? this.context.moduleTheme.notifications.list.selectedItem.style : {}
 
   getIconColor = (viewName) => {
     const { muiTheme } = this.context
@@ -67,12 +67,6 @@ class ProfileEditionDialogComponent extends React.Component {
   getTextStyle = (viewName) => {
     const { muiTheme } = this.context
     return viewName === this.state.view ? { color: muiTheme.palette.accent1Color } : {}
-  }
-
-  handleOpen = (view) => {
-    this.setState({
-      view,
-    })
   }
 
   /**
@@ -95,9 +89,25 @@ class ProfileEditionDialogComponent extends React.Component {
           onEdit={onEditNotificationSettings}
         />)
       default:
-        throw new Error('Unexpect view type to display')
+        throw new Error('Unexpected view type')
     }
   }
+
+  /**
+   * Inner callback: shows opened view
+   * @param {*} view  view
+   */
+  onOpenView = (view) => {
+    this.setState({
+      view,
+    })
+  }
+
+  /** User callback: open profile */
+  onOpenProfile = () => this.onOpenView(PROFILE_FORMS.PROFILE)
+
+  /** User callback: open notifications */
+  onOpenNotifications = () => this.onOpenView(PROFILE_FORMS.NOTIFICATIONS)
 
   render() {
     const {
@@ -121,7 +131,7 @@ class ProfileEditionDialogComponent extends React.Component {
                 <FormattedMessage id="user.menu.profile.leftbar.title" />
               </Subheader>
               <ListItem
-                onClick={() => this.handleOpen(PROFILE_FORMS.PROFILE)}
+                onClick={this.onOpenProfile}
                 style={this.getItemStyle(PROFILE_FORMS.PROFILE)}
                 key={`notification-${PROFILE_FORMS.PROFILE}`}
                 leftIcon={<Identity color={this.getIconColor(PROFILE_FORMS.PROFILE)} />}
@@ -131,7 +141,7 @@ class ProfileEditionDialogComponent extends React.Component {
                 }
               />
               <ListItem
-                onClick={() => this.handleOpen(PROFILE_FORMS.NOTIFICATIONS)}
+                onClick={this.onOpenNotifications}
                 style={this.getItemStyle(PROFILE_FORMS.NOTIFICATIONS)}
                 key={`notification-${PROFILE_FORMS.NOTIFICATIONS}`}
                 leftIcon={<Bell color={this.getIconColor(PROFILE_FORMS.NOTIFICATIONS)} />}
@@ -158,6 +168,5 @@ class ProfileEditionDialogComponent extends React.Component {
     )
   }
 }
-
 
 export default ProfileEditionDialogComponent

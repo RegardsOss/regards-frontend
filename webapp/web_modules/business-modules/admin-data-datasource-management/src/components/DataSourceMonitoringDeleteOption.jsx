@@ -45,7 +45,7 @@ class DataSourceMonitoringDeleteOption extends React.Component {
 
   isDeletable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'delete')
+    return !!find(links, (l) => l.rel === 'delete')
   }
 
   render() {

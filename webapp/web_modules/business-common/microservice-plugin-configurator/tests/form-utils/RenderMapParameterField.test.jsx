@@ -51,7 +51,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.MAP)
+    const parameters = filter(pluginMetaData.parameters, (p) => p.type === CommonDomain.PluginParameterTypes.MAP)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type MAP')
     forEach(parameters, (parameter) => {
@@ -97,7 +97,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.MAP)
+    const parameters = filter(pluginMetaData.parameters, (p) => p.type === CommonDomain.PluginParameterTypes.MAP)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type MAP')
     forEach(parameters, (parameter) => {

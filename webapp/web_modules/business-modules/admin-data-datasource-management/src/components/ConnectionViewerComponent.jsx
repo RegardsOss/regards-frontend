@@ -115,7 +115,7 @@ export class ConnectionViewerComponent extends React.Component {
 
     return flow(
       fpsortBy('name'),
-      fpmap(tableAttribute => (
+      fpmap((tableAttribute) => (
         <ListItem
           key={tableAttribute.name}
           secondaryText={tableAttribute.javaSqlType}

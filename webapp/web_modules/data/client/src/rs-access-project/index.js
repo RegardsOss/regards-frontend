@@ -40,11 +40,9 @@ export { default as UIPluginConfigurationActions } from './uiPluginConfiguration
 export { default as UIPluginConfigurationReducers } from './uiPluginConfiguration/UIPluginConfigurationReducers'
 export { default as UIPluginConfigurationSelectors } from './uiPluginConfiguration/UIPluginConfigurationSelectors'
 
-
 export { default as LinkUIPluginDatasetActions } from './linkUIPluginDataset/LinkUIPluginDatasetActions'
 export { default as getLinkUIPluginDatasetReducer } from './linkUIPluginDataset/LinkUIPluginDatasetReducer'
 export { default as getLinkUIPluginDatasetSelectors } from './linkUIPluginDataset/LinkUIPluginDatasetSelectors'
-
 
 export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
 export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'

@@ -21,7 +21,7 @@
  * Module styles
  * @author Raphaël Mechali
  */
-const storageManagementStyles = theme => ({
+const storageManagementStyles = (theme) => ({
   modelsSpacer: {
     marginTop: 20,
   },

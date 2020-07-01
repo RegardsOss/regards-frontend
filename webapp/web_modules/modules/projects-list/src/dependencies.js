@@ -23,6 +23,7 @@ import ProjectsAction from './model/ProjectsAction'
  * Module hateoas depencies
  * @author Sébastien binda
  */
+
 /**
  * Mandatory Dependencies to display module in user interface
  * @type {Array}

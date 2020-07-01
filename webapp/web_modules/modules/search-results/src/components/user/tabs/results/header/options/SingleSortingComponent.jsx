@@ -98,7 +98,7 @@ class SingleSortingComponent extends React.Component {
    */
   getSelectedSortingModel = () => {
     const { defaultSortingModel, customSortingModel, attributeSortingModels } = this.props
-    return [defaultSortingModel, customSortingModel, ...attributeSortingModels].find(sortingModel => sortingModel && sortingModel.selected)
+    return [defaultSortingModel, customSortingModel, ...attributeSortingModels].find((sortingModel) => sortingModel && sortingModel.selected)
   }
 
   /**
@@ -149,7 +149,7 @@ class SingleSortingComponent extends React.Component {
           value={defaultSortingModel}
         />
         { /* Available attributes sorting models */
-          attributeSortingModels.map(attrSortingModel => (
+          attributeSortingModels.map((attrSortingModel) => (
             <MenuItem
               key={attrSortingModel.presentationModel.key}
               checked={attrSortingModel.selected}

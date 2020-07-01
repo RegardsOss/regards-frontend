@@ -137,7 +137,7 @@ export class BrowserCheckerDialog extends React.Component {
    * Lifecycle method component will mount, used here to resolved browser, retrieve local storage and deteminate
    * if the message should be shown to user
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { browserRequirements } = this.props
     const hasStoredDoNoShowAgain = this.hasStoredDoNoShowAgain()
     // do not compute error if user asked not showing it again
@@ -227,6 +227,5 @@ export class BrowserCheckerDialog extends React.Component {
     )
   }
 }
-
 
 export default compose(withI18n(messages), withModuleStyle(styles))(BrowserCheckerDialog)

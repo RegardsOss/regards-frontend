@@ -21,7 +21,7 @@
  * Styles of the Modules components
  * @author Sébastien Binda
  */
-export default theme => ({
+export default (theme) => ({
   modulesListWidth: 400,
   moduleListButtonsGroup: {
     top: '45vh',

@@ -35,16 +35,20 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing RoleFormContainer container', () 
   it('should render self and subcomponents', () => {
     const props = {
       params: {
-        project_name: 'project name',
+        // eslint-disable-next-line camelcase
+        project_name: 'project name', // eslint wont fix: matches server format
       },
       // from mapStateToProps
       role: {
         content: {
           id: 1,
           name: 'project name',
-          parent_role_id: 'project desc',
-          is_default: true,
-          is_native: true,
+          // eslint-disable-next-line camelcase
+          parent_role_id: 'project desc', // eslint wont fix: matches server format
+          // eslint-disable-next-line camelcase
+          is_default: true, // eslint wont fix: matches server format
+          // eslint-disable-next-line camelcase
+          is_native: true, // eslint wont fix: matches server format
         },
       },
       isFetching: false,

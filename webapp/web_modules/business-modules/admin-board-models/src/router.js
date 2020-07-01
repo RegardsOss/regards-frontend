@@ -38,7 +38,6 @@ export const modelManagementRouter = {
   },
 }
 
-
 export const modelAttributeManagementRouter = {
   path: 'model-attribute',
   getChildRoutes(nextState, cb) {
@@ -48,7 +47,6 @@ export const modelAttributeManagementRouter = {
     })
   },
 }
-
 
 export const attributeModelManagementRouter = {
   path: 'attribute/model',

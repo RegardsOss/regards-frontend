@@ -23,7 +23,6 @@ import URLAuthInjector from '../common/URLAuthInjector'
  * @author Raphaël Mechali
  */
 
-
 /**
  * @param {string} uri initial uri
  * @param {boolean} reference is external reference or is in REGARDS website?
@@ -64,7 +63,6 @@ function getFileURI(dataFile, accessToken, projectName) {
 function isAvailableNow(dataFile) {
   return !!dataFile && (dataFile.reference || dataFile.online)
 }
-
 
 export default {
   getFileURI,

@@ -70,7 +70,6 @@ class BasicSignalActions extends BasicActions {
     }
   }
 
-
   /**
    * Allows to send multiple objects on the same time
    * @param objectValues Object containing key - values with key expected by the API and value an object, a string,...
@@ -90,7 +89,6 @@ class BasicSignalActions extends BasicActions {
         this.buildFailureAction(this.SIGNAL_FAILURE),
       ], verb)
   }
-
 
   /**
    * Allows to send multiple objects on the same time, and an array of files (several files with the same key)
@@ -117,7 +115,7 @@ class BasicSignalActions extends BasicActions {
    * @param {*} res fetch result
    * @return result
    */
-  buildResults = res => getJSON(res).then(json => json)
+  buildResults = (res) => getJSON(res).then((json) => json)
 }
 
 export default BasicSignalActions

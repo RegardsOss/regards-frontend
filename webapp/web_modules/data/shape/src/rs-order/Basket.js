@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Describes a basket shape and related sub objects
  * @author Raphaël Mechali
@@ -41,7 +40,6 @@ export const BasketDatedItemsSelection = PropTypes.shape({
   filesSize: PropTypes.number.isRequired,
   selectionRequest: BasketSelelectionRequest.isRequired,
 })
-
 
 /** A dataset selection shape, containing dated selection items */
 export const BasketDatasetSelection = PropTypes.shape({

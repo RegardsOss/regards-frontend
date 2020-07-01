@@ -33,7 +33,6 @@ const downloadFileActions = new DownloadFileActions({
   bypassErrorMiddleware: true,
 })
 
-
 /**
  * URL content displayer. It displays content of a file (or no data / loading / unsupported MIME type) from its URL.
  * See FileContentDisplayer for more information about layout and properties
@@ -48,7 +47,7 @@ export class URIContentDisplayer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      downloadFile: filePath => dispatch(downloadFileActions.download({ filePath })),
+      downloadFile: (filePath) => dispatch(downloadFileActions.download({ filePath })),
     }
   }
 
@@ -79,7 +78,7 @@ export class URIContentDisplayer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component will unmount. Used here to stop updated
@@ -92,7 +91,7 @@ export class URIContentDisplayer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

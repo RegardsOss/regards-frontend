@@ -77,7 +77,7 @@ class EditColumnsSettingsComponent extends React.Component {
     const { showDialog } = this.state
 
     return (
-      <React.Fragment>
+      <>
         {/* 1. Option that will be displayed */}
         <FlatButton
           label={formatMessage({ id: 'search.results.configure.columns.option' })}
@@ -93,7 +93,7 @@ class EditColumnsSettingsComponent extends React.Component {
           onResetColumns={this.onResetColumns}
           onClose={this.onClose}
         />
-      </React.Fragment>
+      </>
     )
   }
 }

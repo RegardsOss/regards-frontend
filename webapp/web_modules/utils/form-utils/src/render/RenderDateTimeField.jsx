@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { intlShape } from 'react-intl'
+import { fieldInputPropTypes } from 'redux-form'
 import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'mdi-material-ui/Backspace'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { DatePickerField } from '@regardsoss/components'
 import styles from '../styles'
-
 
 /**
  * Search form criteria plugin allowing the user to configure the temporal value of the passed attribute with a comparator.
@@ -39,16 +40,10 @@ import styles from '../styles'
  */
 export class RenderDateTimeField extends React.Component {
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
-      name: PropTypes.string,
-      onChange: PropTypes.func,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     displayTime: PropTypes.bool,
-    intl: PropTypes.shape({
-      formatMessage: PropTypes.func,
-    }),
+    intl: intlShape,
     meta: PropTypes.shape({
       touched: PropTypes.bool,
       error: PropTypes.string,
@@ -144,6 +139,5 @@ export class RenderDateTimeField extends React.Component {
     )
   }
 }
-
 
 export default withModuleStyle(styles)(RenderDateTimeField)

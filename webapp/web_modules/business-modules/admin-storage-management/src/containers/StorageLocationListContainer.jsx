@@ -56,8 +56,8 @@ export class StorageLocationListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetch: () => dispatch(storageLocationActions.fetchEntityList({}, { type: props.type })),
-      update: storageLocation => dispatch(storageLocationActions.updateEntity(storageLocation.id, storageLocation)),
-      delete: name => dispatch(storageLocationActions.deleteEntity(name)),
+      update: (storageLocation) => dispatch(storageLocationActions.updateEntity(storageLocation.id, storageLocation)),
+      delete: (name) => dispatch(storageLocationActions.deleteEntity(name)),
       deleteFiles: (name, force) => dispatch(storageLocationDeleteFilesActions.deleteFiles(name, force)),
       copyFiles: (nameSource, pathSource, nameTarget, pathTarget, types) => dispatch(storageLocationCopyFilesActions.copyFiles(nameSource, pathSource, nameTarget, pathTarget, types)),
       upPriority: (name, conf) => dispatch(storageLocationPriorityUpActions.upPriority(name, conf)),
@@ -65,7 +65,7 @@ export class StorageLocationListContainer extends React.Component {
       retryErrors: (id, type) => dispatch(storageLocationErrorsRetryActions.retryErrors(id, type)),
       deleteErrors: (storage, type) => dispatch(storageRequestActions.deleteEntity(null, { storage, type })),
       fetchErrors: (storage, type) => dispatch(storageRequestActions.fetchPagedEntityList(0, 100, { storage, type }, { status: 'ERROR' })),
-      relaunchMonitoring: reset => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
+      relaunchMonitoring: (reset) => dispatch(storageLocationMonitoringActions.relaunchMonitoring(reset)),
       onStop: () => dispatch(storageRequestStopActions.stop()),
     }
   }
@@ -91,7 +91,7 @@ export class StorageLocationListContainer extends React.Component {
     onStop: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetch()
   }
 
@@ -106,10 +106,8 @@ export class StorageLocationListContainer extends React.Component {
   }
 
   onActivateToggle = (entity) => {
-    const updatedObject = Object.assign({}, entity)
-    updatedObject.configuration.pluginConfiguration = Object.assign({}, entity.configuration.pluginConfiguration, {
-      active: !entity.configuration.pluginConfiguration.active,
-    })
+    const updatedObject = { ...entity }
+    updatedObject.configuration.pluginConfiguration = { ...entity.configuration.pluginConfiguration, active: !entity.configuration.pluginConfiguration.active }
     this.props.update(updatedObject)
   }
 

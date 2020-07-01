@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { I18nProvider } from '@regardsoss/i18n'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AccessShapes } from '@regardsoss/shape'
-import ThemeListComponent from '../components/ThemeListComponent'
+import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
+import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import ThemeListComponent from '../components/list/ThemeListComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Handle theme list network operations
@@ -41,7 +43,7 @@ export class ThemeListContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchThemeList())
       .then((actionResult) => {
         if (!actionResult.error) {
@@ -51,7 +53,6 @@ export class ThemeListContainer extends React.Component {
         }
       })
   }
-
 
   handleDelete = (themeId) => {
     this.props.deleteTheme(themeId)
@@ -64,18 +65,20 @@ export class ThemeListContainer extends React.Component {
     const { isLoading } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          <ThemeListComponent
-            themeList={themeList}
-            handleDelete={this.handleDelete}
-            handleEdit={handleEdit}
-            handleDuplicate={handleDuplicate}
-            backUrl={backUrl}
-            createUrl={createUrl}
-          />
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            <ThemeListComponent
+              themeList={themeList}
+              handleDelete={this.handleDelete}
+              handleEdit={handleEdit}
+              handleDuplicate={handleDuplicate}
+              backUrl={backUrl}
+              createUrl={createUrl}
+            />
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

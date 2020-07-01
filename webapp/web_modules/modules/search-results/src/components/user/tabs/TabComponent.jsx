@@ -112,8 +112,7 @@ class TabComponent extends React.Component {
             iconStyle={closeIcon}
           >
             <CloseIcon />
-          </IconButton>) : null
-        }
+          </IconButton>) : null}
       </div>
     )
   }

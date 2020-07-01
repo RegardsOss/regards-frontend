@@ -53,7 +53,8 @@ export class URLCommonPicture extends React.Component {
     const { moduleTheme: { commonURLIconStyle } } = this.context
 
     // merge with provided style (some MUI components)
-    const renderStyle = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const renderStyle = { // eslint wont fix: user props and context merged (only available in render)
       ...commonURLIconStyle,
       ...userStyle,
     }

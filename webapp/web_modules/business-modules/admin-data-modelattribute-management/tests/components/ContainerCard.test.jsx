@@ -37,7 +37,7 @@ describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ContainerCard', () => 
 
   it('should render', () => {
     const props = {
-      connectDropTarget: children => (children),
+      connectDropTarget: (children) => (children),
       title: 'Some title',
       acceptAttrType: ItemTypes.ATTR_ASSOCIATED,
       children: (<div />),

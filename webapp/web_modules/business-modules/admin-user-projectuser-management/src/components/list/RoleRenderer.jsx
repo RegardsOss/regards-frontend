@@ -34,9 +34,9 @@ class RoleRenderer extends React.Component {
 
   render = () => {
     const { entity } = this.props
-    const formated = this.context.intl.formatMessage({ id: `role.name.${entity.content.role.name}` })
-    if (formated !== `role.name.${entity.content.role.name}`) {
-      return formated
+    const formatted = this.context.intl.formatMessage({ id: `role.name.${entity.content.role.name}` })
+    if (formatted !== `role.name.${entity.content.role.name}`) {
+      return formatted
     }
     return entity.content.role.name
   }

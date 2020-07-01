@@ -25,7 +25,7 @@ import getChainableTypeChecker from './ChainableTypeChecker'
  * @param parser bound text parser: string => boolean (true if parsable)
  * @return PropType validator, to be used in getChainableTypeChecker to make a valid PropType
  */
-const getTextBoundPropType = parser => (props, propName, componentName, location) => {
+const getTextBoundPropType = (parser) => (props, propName, componentName, location) => {
   const localComponentName = componentName || '[Anonymous component]'
   const boundText = props[propName]
   // pre : never empty here (see ChainableTypeChecker)
@@ -45,5 +45,5 @@ const parseInt = (intText) => {
 
 export const NumericTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseInt))
 
-const parseDate = dateText => !root.isNaN(Date.parse(dateText))
+const parseDate = (dateText) => !root.isNaN(Date.parse(dateText))
 export const DateTextBoundPropType = getChainableTypeChecker(getTextBoundPropType(parseDate))

@@ -32,7 +32,6 @@ import messages from '../../i18n'
 
 const { findParam, hasParam } = PluginConfParamsUtils
 
-
 /**
  * Show the datasource form
  */
@@ -148,8 +147,8 @@ const mapStateToProps = (state, ownProps) => ({
   modelAttributeList: modelAttributesSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchTable: connectionId => dispatch(connectionTableActions.sendSignal('GET', null, {
+const mapDispatchToProps = (dispatch) => ({
+  fetchTable: (connectionId) => dispatch(connectionTableActions.sendSignal('GET', null, {
     connectionId,
   })),
   fetchTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.sendSignal('GET', null, {
@@ -157,7 +156,7 @@ const mapDispatchToProps = dispatch => ({
     tableName,
   })),
   flushTableAttributes: (connectionId, tableName) => dispatch(connectionTableAttributesActions.flush()),
-  fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormMappingContainer)

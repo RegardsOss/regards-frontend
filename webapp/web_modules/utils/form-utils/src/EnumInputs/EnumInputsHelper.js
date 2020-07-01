@@ -46,7 +46,7 @@ function formValuesIntoApiData(values, inputKey) {
   let enumValues = []
   if (values && values.enumForm && values.enumForm.length > 0
     && values.enumform[inputKey] && values.enumform[inputKey].inputs) {
-    enumValues = valuesIn(pickBy(values.enumform[inputKey].inputs, val => val && val.length > 0))
+    enumValues = valuesIn(pickBy(values.enumform[inputKey].inputs, (val) => val && val.length > 0))
   }
   return enumValues
 }

@@ -20,7 +20,6 @@ import map from 'lodash/map'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { TargetHelper } from '@regardsoss/entities-common/src/definitions/TargetHelper'
 
-
 /**
  * Provides some tools for UI plugins services test
  * @author Raphaël Mechali
@@ -64,7 +63,14 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
       geometry: null,
       normalizedGeometry: null,
       properties: {
-        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
+        // eslint-disable-next-line camelcase
+        value_l1: 102, // eslint wont fix: external format, not controlled locally
+        // eslint-disable-next-line camelcase
+        data_size: 100000,
+        date: '2017-09-09T19:00:00Z',
+        // eslint-disable-next-line camelcase
+        value_d1: 89.56,
+        DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
       },
       type: 'Feature',
       crs: 'WGS_84',
@@ -73,7 +79,7 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
   }
 }
 function getFakeEntitities(ipIDs, type) {
-  return map(ipIDs, ipID => getFakeEntity(ipID, type))
+  return map(ipIDs, (ipID) => getFakeEntity(ipID, type))
 }
 function buildOneElementTarget(ipID = 'a.test.IPID', type = ENTITY_TYPES_ENUM.DATA) {
   return TargetHelper.buildOneElementTarget(getFakeEntity(ipID, type))

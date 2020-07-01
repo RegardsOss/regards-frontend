@@ -38,7 +38,7 @@ describe('[Components] Testing Breadcrumb', () => {
   it('should render correctly an empty list', () => {
     const props = {
       elements: [],
-      labelGenerator: elt => elt,
+      labelGenerator: (elt) => elt,
       onAction: () => { },
     }
     const enzymeWrapper = shallow(<Breadcrumb {...props} />, { context })
@@ -49,7 +49,7 @@ describe('[Components] Testing Breadcrumb', () => {
   it('should render correctly a one element list', () => {
     const props = {
       elements: ['root'],
-      labelGenerator: elt => elt,
+      labelGenerator: (elt) => elt,
       onAction: () => { },
     }
     const enzymeWrapper = shallow(<Breadcrumb {...props} />, { context })

@@ -41,7 +41,7 @@ describe('[SEARCH RESULTS] Testing InsertOptionComponent', () => {
   it('should render correctly of a group, providing the right options for that group', () => {
     const spyInsertGroup = { }
     const spyInsertCriterion = { }
-    const testData = [0, 4, 6].map(index => ({ entity: exampleEntities[index] }))
+    const testData = [0, 4, 6].map((index) => ({ entity: exampleEntities[index] }))
     testData.forEach(({ entity, expectedInsertionIndex }) => {
       const props = {
         entity,
@@ -105,7 +105,7 @@ describe('[SEARCH RESULTS] Testing InsertOptionComponent', () => {
   it('should render correctly of a criterion', () => {
     const spyInsertGroup = { }
     const spyInsertCriterion = { }
-    const testData = [1, 2, 3, 5].map(index => ({ entity: exampleEntities[index] }))
+    const testData = [1, 2, 3, 5].map((index) => ({ entity: exampleEntities[index] }))
     testData.forEach(({ entity, expectedInsertionIndex }) => {
       const props = {
         entity,

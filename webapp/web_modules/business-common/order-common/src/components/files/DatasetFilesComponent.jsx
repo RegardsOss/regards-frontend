@@ -88,7 +88,6 @@ class DatasetFilesComponent extends React.Component {
     return get(file, 'content.state')
   }
 
-
   /**
    * Builds table columns
    * @return columns

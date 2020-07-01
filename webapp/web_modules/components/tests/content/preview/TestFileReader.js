@@ -30,6 +30,6 @@ export class TestFileReader {
 
   readAsText = (testBlob) => {
     this.result = testBlob.text
-    this.listeners.loadend.forEach(listener => listener())
+    this.listeners.loadend.forEach((listener) => listener())
   }
 }

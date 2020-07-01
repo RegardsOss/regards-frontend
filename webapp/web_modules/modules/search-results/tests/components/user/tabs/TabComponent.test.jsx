@@ -82,7 +82,7 @@ describe('[SEARCH RESULTS] Testing TabComponent', () => {
     } = context
     // 1 - check selected state is rendered
     const selectedStateStyle = selected ? selectedContainer : unselectedContainer
-    assert.lengthOf(enzymeWrapper.findWhere(n => isEqual(n.props().style, selectedStateStyle)), 1, 'Selection state should be rendered')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => isEqual(n.props().style, selectedStateStyle)), 1, 'Selection state should be rendered')
 
     // 2 - check closable state is rendered
     if (closable) {
@@ -99,7 +99,7 @@ describe('[SEARCH RESULTS] Testing TabComponent', () => {
     assert.include(enzymeWrapper.debug(), labelKey, 'Tab type text should be rendered')
 
     // 4 - Check selection callback is correctly set
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onTabSelected), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onTabSelected), 1,
       'There should be a tab selection node')
 
     // 5 - Check both callback are correctly working

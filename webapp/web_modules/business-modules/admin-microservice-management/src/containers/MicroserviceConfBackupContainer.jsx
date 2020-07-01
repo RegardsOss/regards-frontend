@@ -42,13 +42,13 @@ export class MicroserviceConfBackupContainer extends React.Component {
     uploadConfiguration: PropTypes.func,
   }
 
-  static mapStateToProps = state => ({
+  static mapStateToProps = (state) => ({
     accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
     isSendingConfiguration: microserviceConfBackupSelectors.isFetching(state),
   })
 
   static mapDispatchToProps = (dispatch, ownProps) => ({
-    uploadConfiguration: file => dispatch(microserviceConfBackupActions.sendBackupConf(ownProps.params.microserviceName, file)),
+    uploadConfiguration: (file) => dispatch(microserviceConfBackupActions.sendBackupConf(ownProps.params.microserviceName, file)),
   })
 
   getExportUrl = () => {

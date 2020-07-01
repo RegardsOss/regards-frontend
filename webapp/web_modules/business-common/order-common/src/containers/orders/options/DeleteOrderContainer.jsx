@@ -108,8 +108,7 @@ export class DeleteOrderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. used here to initialize the state
    */
-  componentWillMount = () => this.setFetching(false)
-
+  UNSAFE_componentWillMount = () => this.setFetching(false)
 
   /**
    * User asked for delete: show confirmation dialog, process only when confirmed
@@ -140,12 +139,11 @@ export class DeleteOrderContainer extends React.Component {
     })
   }
 
-
   /**
    * Sets fetching state
    * @param {boolean} isFetching is fetching?
    */
-  setFetching = isFetching => this.setState({ isFetching })
+  setFetching = (isFetching) => this.setState({ isFetching })
 
   /**
    * Refreshes table up to the current last page
@@ -173,7 +171,6 @@ export class DeleteOrderContainer extends React.Component {
     const { entity: { content: { status } }, hasDeleteSuperficially } = this.props
     return DeleteOrderContainer.SUPERFICIALLY_DELETABLE_STATES.includes(status) && hasDeleteSuperficially
   }
-
 
   render() {
     const { isFetching } = this.state

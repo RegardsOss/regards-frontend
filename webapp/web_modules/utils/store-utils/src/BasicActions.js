@@ -56,7 +56,6 @@ class BasicActions {
     this.resourcesEndpoint = options.resourcesEndpoint || options.entityEndpoint
   }
 
-
   /**
    * Builds a failure action, storing status code and allowing bypass middleware (see constructor)
    * @param {string} type action type
@@ -148,7 +147,6 @@ class BasicActions {
     } else if (requestHttpVerb === RequestVerbEnum.GET_LIST) {
       requestHttpVerb = RequestVerbEnum.GET
     }
-
     return `${microservice}@/${endpoint}@${requestHttpVerb}`
   }
 
@@ -211,9 +209,9 @@ class BasicActions {
         // for each parameter value:
         const appendParametersText = paramValues
           // filter null / undefined and empty strings values
-          .filter(value => !isNil(value) && (!isString(parameter) || !!parameter))
+          .filter((value) => !isNil(value) && (!isString(parameter) || !!parameter))
           // map to key=value[i] then join on '&'
-          .map(value => `${key}=${encodeURIComponent(value)}`).join('&')
+          .map((value) => `${key}=${encodeURIComponent(value)}`).join('&')
         if (appendParametersText) {
           // The value is OK, append to current query
           const parameterSeparator = finalEndpoint.includes('?') ? '&' : '?'

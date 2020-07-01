@@ -78,8 +78,7 @@ export class DBDatasourceFormAttributesContainer extends React.Component {
             pluginMetaDataList={pluginMetaDataList}
             onSubmit={handleSave}
             backUrl={backUrl}
-          />)
-          }
+          />)}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )
@@ -91,9 +90,9 @@ const mapStateToProps = (state, ownProps) => ({
   currentConnection: connectionSelectors.getByBusinessId(state, ownProps.currentConnectionId),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
-  fetchConnection: id => dispatch(connectionActions.fetchEntity(id)),
+  fetchConnection: (id) => dispatch(connectionActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DBDatasourceFormAttributesContainer)

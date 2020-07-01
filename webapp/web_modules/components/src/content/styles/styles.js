@@ -22,7 +22,7 @@
 * @param theme
 * @author Raphaël Mechali
 */
-const styles = theme => ({
+const styles = (theme) => ({
   subSection: {
     sectionStyle: {
       border: '1px solid',

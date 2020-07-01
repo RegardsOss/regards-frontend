@@ -98,7 +98,7 @@ class GroupsFieldComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { admin: { topSeparator } } } = this.context
     const allGroups = getAll() || []
     return (
-      <React.Fragment>
+      <>
         { /** Nota: here we have to send an array instead of many evaluated blocks  */
           [ /** Show currently defined groups */
             ...allGroups.map((group, index) => (
@@ -126,7 +126,7 @@ class GroupsFieldComponent extends React.Component {
             </FormRow>,
           ]
         }
-      </React.Fragment>
+      </>
     )
   }
 }

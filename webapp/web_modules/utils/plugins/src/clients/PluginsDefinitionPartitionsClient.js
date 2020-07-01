@@ -26,7 +26,6 @@ import { BasicPartitionActions, BasicPartitionReducers, BasicPartitionSelectors 
 const ENTITIES_STORE_PATH = ['common', 'plugins', 'definitionsPartitions']
 const REDUX_ACTION_NAMESPACE = 'common/plugins/definitionsPartitions'
 
-
 export const pluginDefPartitionsActions = new BasicPartitionActions({ namespace: REDUX_ACTION_NAMESPACE })
 const reducer = new BasicPartitionReducers(pluginDefPartitionsActions)
 export const pluginDefPartitionsReducer = (state, action) => reducer.reduce(state, action)

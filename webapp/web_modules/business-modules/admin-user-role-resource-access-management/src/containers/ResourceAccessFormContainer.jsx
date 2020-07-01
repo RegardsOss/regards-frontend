@@ -17,15 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
+import compose from 'lodash/fp/compose'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { roleResourceActions, roleResourceSelectors } from '../clients/RoleResourceClient'
 import ResourceAccessFormComponent from '../components/ResourceAccessFormComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * React container to edit resource access allowed for the
@@ -36,7 +39,8 @@ export class ResourceAccessFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
-      role_name: PropTypes.string.isRequired,
+      // eslint-disable-next-line camelcase
+      role_name: PropTypes.string.isRequired, // eslint wont fix: matches server format
     }).isRequired,
     // from mapStateToProps
     role: AdminShapes.Role,
@@ -48,13 +52,42 @@ export class ResourceAccessFormContainer extends React.Component {
     fetchRoleResources: PropTypes.func,
   }
 
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @return {*} list of component properties extracted from redux state
+   */
 
-  componentWillMount() {
+  static mapStateToProps(state, ownProps) {
+    return {
+      role: roleSelectors.getById(state, ownProps.params.role_name),
+      roleResources: roleResourceSelectors.getOrderedList(state),
+      isRoleFetching: roleSelectors.isFetching(state),
+      isResourcesFetching: roleResourceSelectors.isFetching(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchRole: (roleName) => dispatch(roleActions.fetchEntity(roleName)),
+      fetchRoleResources: (roleName) => dispatch(roleResourceActions.fetchEntityList({
+        // eslint-disable-next-line camelcase
+        role_name: roleName, // eslint wont fix: matches server format
+      })),
+    }
+  }
+
+  UNSAFE_componentWillMount() {
     this.props.fetchRole(this.props.params.role_name)
     this.props.fetchRoleResources(this.props.params.role_name)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (this.props.params.role_name !== nextProps.params.role_name) {
       this.props.fetchRole(nextProps.params.role_name)
       this.props.fetchRoleResources(nextProps.params.role_name)
@@ -100,15 +133,6 @@ export class ResourceAccessFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  role: roleSelectors.getById(state, ownProps.params.role_name),
-  roleResources: roleResourceSelectors.getOrderedList(state),
-  isRoleFetching: roleSelectors.isFetching(state),
-  isResourcesFetching: roleResourceSelectors.isFetching(state),
-})
-const mapDispatchToProps = dispatch => ({
-  fetchRole: roleName => dispatch(roleActions.fetchEntity(roleName)),
-  fetchRoleResources: roleName => dispatch(roleResourceActions.fetchEntityList({ role_name: roleName })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormContainer)
+export default compose(
+  connect(ResourceAccessFormContainer.mapStateToProps, ResourceAccessFormContainer.mapDispatchToProps),
+  withModuleStyle(styles))(ResourceAccessFormContainer)

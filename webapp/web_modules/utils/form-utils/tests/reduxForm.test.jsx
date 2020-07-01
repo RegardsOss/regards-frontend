@@ -25,7 +25,6 @@ import reduxForm from '../src/reduxForm'
 
 const context = buildTestContext()
 
-
 // create a small test form class
 class TestForm extends React.Component {
   render() {

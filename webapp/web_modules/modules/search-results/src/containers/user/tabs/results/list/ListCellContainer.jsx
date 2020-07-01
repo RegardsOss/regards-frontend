@@ -24,7 +24,6 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { getTableClient } from '../../../../../clients/TableClient'
 import ListCellComponent, { ListThumbnailRenderData, ListAttributeRenderData } from '../../../../../components/user/tabs/results/list/ListCellComponent'
 
-
 /**
  * Container to display the list cell component (provides selection state related management)
  * @author Raphaël Mechali
@@ -106,7 +105,6 @@ export class ListCellContainer extends React.Component {
     return (selectionMode === TableSelectionModes.includeSelected && !!toggledElements[rowIndex])
       || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
-
 
   render() {
     const {

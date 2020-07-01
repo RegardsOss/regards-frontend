@@ -30,7 +30,6 @@ import { orderListActions } from './clients/OrderListClient'
 
 const listDependencies = [orderListActions.getDependency(RequestVerbEnum.GET_LIST)]
 
-
 export default {
   listDependencies,
 }

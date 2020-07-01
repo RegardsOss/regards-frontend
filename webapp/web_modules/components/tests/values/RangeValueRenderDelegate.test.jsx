@@ -24,7 +24,6 @@ import styles from '../../src/values/styles'
 
 const context = buildTestContext(styles)
 
-
 /**
  * Tests for ValueConfigurationComponent
  * @author Sébastien binda

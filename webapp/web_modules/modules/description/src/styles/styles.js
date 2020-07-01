@@ -22,7 +22,7 @@
  * @param {*} theme base Material UI theme
  * @return {*} module theme object
  */
-const styles = theme => ({
+const styles = (theme) => ({
   admin: {
     topSeparator: {
       marginTop: 40,

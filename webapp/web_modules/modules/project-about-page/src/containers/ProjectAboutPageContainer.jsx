@@ -49,13 +49,11 @@ class ProjectAboutPageContainer extends React.Component {
     ...i18nContextType,
   }
 
-
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState({
       dialogOpen: !this.isProjectAboutPageHiddenCached(),
     })
   }
-
 
   onClose = () => {
     this.setState({ dialogOpen: false })
@@ -87,30 +85,6 @@ class ProjectAboutPageContainer extends React.Component {
 
   forceOpen = () => {
     this.setState({ dialogOpen: true })
-  }
-
-  renderActionButtons = () => {
-    const actionButtons = []
-    if (this.isProjectAboutPageHiddenCached()) {
-      actionButtons.push(<FlatButton
-        key="project.about.page.display"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
-        onClick={this.onCacheProjectAboutPageDisplayed}
-      />)
-    } else {
-      actionButtons.push(<FlatButton
-        key="project.about.page.hide"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
-        onClick={this.onCacheProjectAboutPageHidden}
-      />)
-    }
-    actionButtons.push(<FlatButton
-      key="project.about.page.ok"
-      label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
-      primary
-      onClick={this.onClose}
-    />)
-    return actionButtons
   }
 
   render() {
@@ -145,7 +119,24 @@ class ProjectAboutPageContainer extends React.Component {
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
-          actions={this.renderActionButtons()}
+          actions={<>
+            { this.isProjectAboutPageHiddenCached()
+              ? <FlatButton
+                key="project.about.page.display"
+                label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
+                onClick={this.onCacheProjectAboutPageDisplayed}
+              /> : <FlatButton
+                key="project.about.page.hide"
+                label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
+                onClick={this.onCacheProjectAboutPageHidden}
+              />}
+            <FlatButton
+              key="project.about.page.ok"
+              label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
+              primary
+              onClick={this.onClose}
+            />
+          </>}
         />
       </div>
     )

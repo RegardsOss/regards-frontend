@@ -39,7 +39,7 @@ class RenderPageableAutoCompleteField extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetchEntities: queryParams => dispatch(ownProps.entityActions.fetchPagedEntityList(0, ownProps.pageSize, {}, queryParams)),
+      fetchEntities: (queryParams) => dispatch(ownProps.entityActions.fetchPagedEntityList(0, ownProps.pageSize, {}, queryParams)),
     }
   }
 
@@ -131,7 +131,7 @@ class RenderPageableAutoCompleteField extends React.Component {
       input, meta, fullWidth, floatingLabelText, hintText, validate, entitiesConfig, onSelect, entitiesPath,
     } = this.props
     const { isLoading, searchText } = this.state
-    const dsContents = map(this.state.entities, d => entitiesPath ? d.content[entitiesPath] : d.content)
+    const dsContents = map(this.state.entities, (d) => entitiesPath ? d.content[entitiesPath] : d.content)
     const loadingDatasource = [formatMessage({ id: 'render.pageableAutoCompleteField.loading' })]
     const ds = isLoading ? loadingDatasource : dsContents
     const dsConfig = isLoading ? undefined : entitiesConfig

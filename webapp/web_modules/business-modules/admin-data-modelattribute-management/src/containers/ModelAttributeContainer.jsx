@@ -38,16 +38,12 @@ export class ModelAttributeContainer extends React.Component {
   handleComputationUpdate = (computationConfId) => {
     let updatedModelAttribute
     if (computationConfId) {
-      const computationPluginConf = find(this.props.modelAttributeComputationType.content.pluginConfigurations, pluginConfiguration => (
+      const computationPluginConf = find(this.props.modelAttributeComputationType.content.pluginConfigurations, (pluginConfiguration) => (
         pluginConfiguration.content.id === computationConfId
       ))
-      updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
-        computationConf: computationPluginConf.content,
-      })
+      updatedModelAttribute = { ...this.props.modelAttribute.content, computationConf: computationPluginConf.content }
     } else {
-      updatedModelAttribute = Object.assign({}, this.props.modelAttribute.content, {
-        computationConf: null,
-      })
+      updatedModelAttribute = { ...this.props.modelAttribute.content, computationConf: null }
     }
     return this.props.updateModelAttribute(this.props.modelAttribute.content.id, updatedModelAttribute, updatedModelAttribute.model.name)
   }
@@ -74,9 +70,8 @@ const mapStateToProps = (state, ownProps) => ({
   modelAttributeComputationType: modelAttributeComputationTypesSelectors.getById(state, ownProps.attribute.content.type),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateModelAttribute: (id, values, modelName) => dispatch(modelAttributesActions.updateEntity(id, values, { modelName })),
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModelAttributeContainer)

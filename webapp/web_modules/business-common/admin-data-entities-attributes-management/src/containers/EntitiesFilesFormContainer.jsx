@@ -57,7 +57,7 @@ export class EntitiesFilesFormContainer extends React.Component {
     accessToken: authenticationSelectors.getAccessToken(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     addFiles: (entityId, dataType, formValues, files) => dispatch(entityAttachmentActions.uploadEntityFile(entityId, dataType, formValues, files)),
     removeFile: (entityId, documentFileChecksum) => dispatch(entityAttachmentActions.deleteEntityFile(entityId, documentFileChecksum)),
     removeOneFieldOfTheForm: (form, name) => dispatch(unregisterField(form, name)),
@@ -92,7 +92,7 @@ export class EntitiesFilesFormContainer extends React.Component {
     const { currentEntity } = this.props
     if (file.reference) {
       // remove the file reference from the entity and re save the entity
-      const newFileList = reject(get(currentEntity, `content.feature.files.${type}`), f => (
+      const newFileList = reject(get(currentEntity, `content.feature.files.${type}`), (f) => (
         f.uri === file.uri
       ))
       const newEntity = {
@@ -140,6 +140,5 @@ export class EntitiesFilesFormContainer extends React.Component {
     )
   }
 }
-
 
 export default connect(EntitiesFilesFormContainer.mapStateToProps, EntitiesFilesFormContainer.mapDispatchToProps)(EntitiesFilesFormContainer)

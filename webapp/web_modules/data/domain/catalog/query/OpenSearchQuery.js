@@ -18,7 +18,6 @@
  **/
 import Query from '../../common/query/abstract/Query'
 
-
 /**
  * Manages an open search query parameter as a complete query (with its own separator and such)
  * @author Raphaël Mechali

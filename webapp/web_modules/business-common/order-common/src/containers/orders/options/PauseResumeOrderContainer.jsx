@@ -99,7 +99,7 @@ export class PauseResumeOrderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. used here to initialize the state
    */
-  componentWillMount = () => this.setFetching(false)
+  UNSAFE_componentWillMount = () => this.setFetching(false)
 
   /**
    * On pause callback: sends pause request then notifies user
@@ -142,7 +142,7 @@ export class PauseResumeOrderContainer extends React.Component {
    * Sets fetching state
    * @param {boolean} isFetching is fetching?
    */
-  setFetching = isFetching => this.setState({ isFetching })
+  setFetching = (isFetching) => this.setState({ isFetching })
 
   /**
    * Refreshes table up to the current last page

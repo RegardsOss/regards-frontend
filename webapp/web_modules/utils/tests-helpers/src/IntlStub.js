@@ -22,11 +22,11 @@ import { UIDomain } from '@regardsoss/domain'
 export function getLocalizedIntlStub(locale = UIDomain.LOCALES_ENUM.en) {
   return {
     locale,
-    formatMessage: m => m.id,
+    formatMessage: (m) => m.id,
     formatDate: () => { },
     formatTime: () => { },
     formatRelative: () => { },
-    formatNumber: n => isNil(n) ? '' : n.toString(),
+    formatNumber: (n) => isNil(n) ? '' : n.toString(),
     formatPlural: () => { },
     formatHTMLMessage: () => { },
     now: () => { },

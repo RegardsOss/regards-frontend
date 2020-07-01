@@ -22,7 +22,7 @@
  * @param theme Material UI theme
  * @author Raphaël Mechali
  */
-export default theme => ({
+export default (theme) => ({
   oddLevelRowStyle: {
     background: theme.tableRow.stripeColor,
     color: theme.palette.secondaryTextColor,

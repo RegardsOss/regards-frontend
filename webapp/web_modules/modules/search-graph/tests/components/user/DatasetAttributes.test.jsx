@@ -86,12 +86,12 @@ describe('[Search Graph] Testing DatasetAttributes', () => {
     const savedLocale = context.intl.locale
     context.intl.locale = 'en'
     props.datasetAttributes.forEach(({ label }) => {
-      assert.lengthOf(enzymeWrapper.findWhere(node => !node.type() && node.text() === label.en), 1, `${label.en} - English label should be correctly rendered with en locale`)
+      assert.lengthOf(enzymeWrapper.findWhere((node) => !node.type() && node.text() === label.en), 1, `${label.en} - English label should be correctly rendered with en locale`)
     })
     context.intl.locale = 'fr'
     enzymeWrapper = shallow(<DatasetAttributes {...props} />, { context }) // re render with context
     props.datasetAttributes.forEach(({ label }) => {
-      assert.lengthOf(enzymeWrapper.findWhere(node => !node.type() && node.text() === label.fr), 1, `${label.fr} - French label should be correctly rendered with fr locale`)
+      assert.lengthOf(enzymeWrapper.findWhere((node) => !node.type() && node.text() === label.fr), 1, `${label.fr} - French label should be correctly rendered with fr locale`)
     })
     context.intl.locale = savedLocale
   })

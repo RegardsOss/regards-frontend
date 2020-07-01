@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'entities-attributes.form.table.value': 'Valeur fixe',
   'entities-attributes.form.table.type': 'Type',
   'entities-attributes.form.table.fragmentAndLabel': 'Fragment et nom de l\'attribut',
@@ -53,6 +53,7 @@ const messages = Object.assign({
   'entities-files.form.filename': 'Nom à afficher pour ce fichier (*)',
   'entities-files.form.imageWidth': 'Largeur de l\'image',
   'entities-files.form.imageHeight': 'Hauteur de l\'image',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

@@ -108,8 +108,7 @@ export class IconElementSelector extends React.Component {
               leftIcon={<IconConstructor />}
               primaryText={labelKey && formatMessage({ id: labelKey })}
             />)
-        })
-      }
+        })}
       </DropDownButton>)
   }
 }

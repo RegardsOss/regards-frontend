@@ -37,7 +37,6 @@ export class OpenSearchStepperComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { stepIndex } = this.props
     return (

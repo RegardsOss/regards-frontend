@@ -40,7 +40,6 @@ class ParameterPresentation extends React.Component {
 
   static defaultProps = {}
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -61,17 +60,17 @@ class ParameterPresentation extends React.Component {
   renderDescriptionDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { label, description } = this.props
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'entities.common.services.parameter.description.dialog.close' })}
-        primary
-        onClick={this.handleCloseDescription}
-      />]
     return (
       <Dialog
         title={formatMessage({ id: 'entities.common.services.parameter.description.dialog.title' }, { parameter: label })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'entities.common.services.parameter.description.dialog.close' })}
+            primary
+            onClick={this.handleCloseDescription}
+          />
+        </>}
         modal
         open={this.state.descriptionOpened}
       >

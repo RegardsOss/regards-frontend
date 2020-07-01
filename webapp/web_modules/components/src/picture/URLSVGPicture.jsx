@@ -49,10 +49,11 @@ export class URLSVGPicture extends React.Component {
     const { moduleTheme: { svgURLIconStyle } } = this.context
 
     // merge with provided style
-    const renderStyle = {
+    const renderStyle = userStyle ? {
       ...svgURLIconStyle,
       ...userStyle,
-    }
+    } : svgURLIconStyle
+
     // workaround: provide runtime color to this element (MUI components send that property separately)
     if (userColor) {
       renderStyle.fill = userColor
@@ -60,7 +61,8 @@ export class URLSVGPicture extends React.Component {
 
     // workaround: ensure the icon will display correctly in material UI components
     // as MUI does not support the root ReactSVG div without display in its layout
-    const rootStyle = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const rootStyle = { // eslint wont fix: user props and context merged (only available in render)
       display: renderStyle.display,
     }
 

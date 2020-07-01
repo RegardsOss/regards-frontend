@@ -34,6 +34,30 @@ import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
  */
 export class PortalApp extends React.Component {
   /**
+   * @type {{theme: string, content: React.Component}}
+   */
+  static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      // Project from the URL
+      project: PropTypes.string,
+    }),
+    // Set by mapStateToProps
+    layoutIsFetching: PropTypes.bool,
+    modulesIsFetching: PropTypes.bool,
+    layout: AccessShapes.Layout,
+    modules: AccessShapes.ModuleList,
+    // Project from the store
+    project: PropTypes.string,
+    // Set by mapDispatchToProps
+    fetchLayout: PropTypes.func,
+    fetchModules: PropTypes.func,
+    initializeApplication: PropTypes.func.isRequired,
+  }
+
+  static PORTAL_STYLES = { minHeight: '100vh' }
+
+  /**
    * Redux: map state to props function
    * @param {*} state: current redux state
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
@@ -57,35 +81,13 @@ export class PortalApp extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      initializeApplication: project => dispatch(AuthenticationParametersActions.applicationStarted(project)),
+      initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
       fetchLayout: () => dispatch(layoutActions.fetchEntity(UIDomain.APPLICATIONS_ENUM.PORTAL)),
       fetchModules: () => dispatch(moduleActions.fetchPagedEntityList(0, 100, { applicationId: UIDomain.APPLICATIONS_ENUM.PORTAL })),
     }
   }
 
-  /**
-   * @type {{theme: string, content: React.Component}}
-   */
-  static propTypes = {
-    // from router
-    params: PropTypes.shape({
-      // Project from the URL
-      project: PropTypes.string,
-    }),
-    // Set by mapStateToProps
-    layoutIsFetching: PropTypes.bool,
-    modulesIsFetching: PropTypes.bool,
-    layout: AccessShapes.Layout,
-    modules: AccessShapes.ModuleList,
-    // Project from the store
-    project: PropTypes.string,
-    // Set by mapDispatchToProps
-    fetchLayout: PropTypes.func,
-    fetchModules: PropTypes.func,
-    initializeApplication: PropTypes.func.isRequired,
-  }
-
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // init with project parameter if available
     const project = (this.props.params && this.props.params.project)
     this.props.initializeApplication(project)
@@ -111,9 +113,6 @@ export class PortalApp extends React.Component {
       return (<FormEntityNotFoundComponent />)
     }
     const { project } = this.props
-
-    const styles = { minHeight: '100vh' }
-
     return (
       <ThemeProvider>
         <div>
@@ -125,13 +124,12 @@ export class PortalApp extends React.Component {
             layout={this.props.layout.content.layout}
             modules={values(this.props.modules)}
             project={project}
-            style={styles}
+            style={PortalApp.PORTAL_STYLES}
           />
         </div>
       </ThemeProvider>
     )
   }
 }
-
 
 export default connect(PortalApp.mapStateToProps, PortalApp.mapDispatchToProps)(PortalApp)

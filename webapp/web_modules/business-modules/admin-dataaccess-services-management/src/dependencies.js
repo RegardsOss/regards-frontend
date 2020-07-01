@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from './clients/PluginConfigurationClient'
 
-
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
@@ -36,7 +35,6 @@ const listDependencies = [
 const addDependencies = [
   pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.DAM),
 ]
-
 
 export default {
   addDependencies,

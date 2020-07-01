@@ -35,7 +35,6 @@ class FeedbackDisplayComponent extends React.Component {
     FAILED: 'FAILED',
   }
 
-
   static propTypes = {
     // is currently adding to basket?
     isAddingToBasket: PropTypes.bool.isRequired,

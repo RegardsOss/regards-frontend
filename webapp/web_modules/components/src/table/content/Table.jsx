@@ -90,15 +90,14 @@ class Table extends React.Component {
   /**
    * Lifecycle method component will mount. Used here to initialize runtime graphic data in state
    */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
   // initialize graphics and columns
-
 
   /**
    * Lifecycle method component will receive props. Used here to (re-)initialize runtime data in state
    * @param nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed
@@ -136,7 +135,7 @@ class Table extends React.Component {
     const { runtimeColumns } = this.state
     // in state, replace the width of column that was resized
     this.setState({
-      runtimeColumns: runtimeColumns.map(column => ({
+      runtimeColumns: runtimeColumns.map((column) => ({
         ...column,
         runtimeWidth: columnKey === column.key ? newColumnWidth : column.runtimeWidth,
       })),
@@ -148,14 +147,14 @@ class Table extends React.Component {
    * @param rowIndex
    * @return entity or null
    */
-  getEntity = rowIndex => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
+  getEntity = (rowIndex) => rowIndex < 0 || rowIndex >= this.props.entities.length ? null : this.props.entities[rowIndex]
 
   /**
    * Returns header height for current xconfiguration
    * @param {boolean} displayColumnsHeader  component properties
    * @return current header height
    */
-  getHeaderHeight = displayColumnsHeader => displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
+  getHeaderHeight = (displayColumnsHeader) => displayColumnsHeader ? this.context.muiTheme.components.infiniteTable.minHeaderRowHeight : 0
 
   /**
    * Is there an entity on specified row index?
@@ -163,7 +162,7 @@ class Table extends React.Component {
    * @param {number} rowIndex row index
    * @return {boolean} true if row has an entity
    */
-  hasEntity = rowIndex => rowIndex >= 0 && this.props.entities.length > rowIndex
+  hasEntity = (rowIndex) => rowIndex >= 0 && this.props.entities.length > rowIndex
 
   /**
    * Computes graphics measures and provides a usable component state
@@ -221,7 +220,7 @@ class Table extends React.Component {
                   stripeRows={stripeRows}
                   lineHeight={lineHeight}
                   isLastColumn={index === runtimeColumns.length - 1}
-                  getEntity={rowIndex => this.getEntity(rowIndex)}
+                  getEntity={this.getEntity}
                   rowCellDefinition={column.rowCellDefinition}
                 />
               }

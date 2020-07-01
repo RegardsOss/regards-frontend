@@ -55,7 +55,7 @@ class AttributesGroupComponent extends React.Component {
 
     // Note: we work here within fragments to not break parent grid layout
     return (
-      <React.Fragment>
+      <>
         { /* 1. Show group title if configured */
           showTitle ? ( // title
             <div key={`title.${key}`} style={attributesGroupsContainer.groupTitleStyle}>
@@ -89,7 +89,7 @@ class AttributesGroupComponent extends React.Component {
             </React.Fragment>
           ))
         }
-      </React.Fragment>
+      </>
     )
   }
 }

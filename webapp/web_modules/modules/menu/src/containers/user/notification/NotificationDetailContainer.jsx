@@ -26,8 +26,10 @@ export class NotificationDetailContainer extends React.Component {
     return {
       fetchNotificationSignal: (instance = false, notificationId) => dispatch(
         instance
-          ? notificationDetailsInstanceActions.sendSignal('GET', {}, { notification_id: notificationId })
-          : notificationDetailsActions.sendSignal('GET', {}, { notification_id: notificationId }),
+          // eslint-disable-next-line camelcase
+          ? notificationDetailsInstanceActions.sendSignal('GET', {}, { notification_id: notificationId }) // eslint wont fix: server expected format
+          // eslint-disable-next-line camelcase
+          : notificationDetailsActions.sendSignal('GET', {}, { notification_id: notificationId }), // eslint wont fix: server expected format
       ),
       flushDetail: () => dispatch(notificationDetailsActions.flush()),
     }
@@ -60,7 +62,7 @@ export class NotificationDetailContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

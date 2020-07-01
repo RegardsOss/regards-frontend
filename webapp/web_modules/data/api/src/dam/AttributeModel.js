@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const AttributeModelConfiguration = {
@@ -26,6 +25,6 @@ export const AttributeModelConfiguration = {
 }
 
 export const ATTRIBUTE_MODEL = new Schema(AttributeModelConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AttributeModelConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[AttributeModelConfiguration.entityKey],
 })
 export const ATTRIBUTE_MODEL_ARRAY = arrayOf(ATTRIBUTE_MODEL)

@@ -30,7 +30,6 @@ class ColumnLabelRender extends React.Component {
     entity: PropTypes.oneOfType([UIShapes.AttributePresentationModel, UIShapes.FunctionalPresentationModel]).isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,

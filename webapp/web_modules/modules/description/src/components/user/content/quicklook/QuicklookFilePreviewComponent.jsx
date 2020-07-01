@@ -48,7 +48,6 @@ class QuicklookFilePreviewComponent extends React.Component {
     }
   }
 
-
   render() {
     const { selected, quicklookFile } = this.props
     const {

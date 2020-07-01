@@ -58,7 +58,7 @@ export class RenderCollectionParameterField extends React.Component {
     fieldProps: {},
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.initialize()
   }
 

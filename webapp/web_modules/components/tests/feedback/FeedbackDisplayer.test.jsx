@@ -92,7 +92,7 @@ describe('[COMPONENTS] Testing FeedbackDisplayer', () => {
     assert.isTrue(enzymeWrapper.state().showLoading, 'It should be marked loading')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'It should be visible')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'fetchingIcon'), 1, 'The component should be showing the fetching icon')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'fetchingIcon'), 1, 'The component should be showing the fetching icon')
 
     // test hiding feedback
     enzymeWrapper.setProps({
@@ -104,8 +104,7 @@ describe('[COMPONENTS] Testing FeedbackDisplayer', () => {
     assert.isFalse(enzymeWrapper.state().showLoading, 'It should no longer be marked loading')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'It should be visible')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'doneIcon'), 1, 'The component should be showing the done icon')
-
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'doneIcon'), 1, 'The component should be showing the done icon')
 
     // test hide
     enzymeWrapper.instance().onHide()
@@ -142,9 +141,8 @@ describe('[COMPONENTS] Testing FeedbackDisplayer', () => {
     assert.isFalse(enzymeWrapper.state().showLoading, 'It should no longer be marked loading')
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'It should be visible')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'doneWithErrorIcon'), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'doneWithErrorIcon'), 1,
       'The component should be showing the done with error icon')
-
 
     // test hide
     enzymeWrapper.instance().onHide()

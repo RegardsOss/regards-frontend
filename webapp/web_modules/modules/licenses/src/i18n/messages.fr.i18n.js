@@ -18,9 +18,10 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'license.refuse': 'Se déconnecter',
   'license.accept': 'Accepter la licence',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

@@ -91,7 +91,6 @@ export class PluginMetaDataListContainer extends React.Component {
     />
   )
 
-
   /**
    * @return back URL
    */
@@ -138,10 +137,10 @@ const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchClearPluginCache: microserviceName => dispatch(clearPluginCacheActions.clearCache(microserviceName)),
-  fetchPluginTypeList: microserviceName => dispatch(pluginTypeActions.fetchEntityList({ microserviceName }, { available: true })),
-  fetchPluginMetaDataList: microserviceName => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName })),
+const mapDispatchToProps = (dispatch) => ({
+  fetchClearPluginCache: (microserviceName) => dispatch(clearPluginCacheActions.clearCache(microserviceName)),
+  fetchPluginTypeList: (microserviceName) => dispatch(pluginTypeActions.fetchEntityList({ microserviceName }, { available: true })),
+  fetchPluginMetaDataList: (microserviceName) => dispatch(pluginMetaDataActions.fetchEntityList({ microserviceName })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginMetaDataListContainer)

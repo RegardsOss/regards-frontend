@@ -93,21 +93,21 @@ describe('[SEARCH RESULTS] Testing SingleSortingComponent', () => {
     const options = dropDownButton.find(MenuItem)
     assert.lengthOf(options, 3, 'There should be default option and 2 options for selectable attributes')
     // 1- Default option
-    const defaultOption = options.findWhere(n => n.props().value === props.defaultSortingModel)
+    const defaultOption = options.findWhere((n) => n.props().value === props.defaultSortingModel)
     assert.lengthOf(defaultOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(defaultOption, {
       checked: true,
       primaryText: 'search.results.list.sort.default.label',
     }, 'Default option properties should be correctly set')
     // 2- first attribute options
-    const firstAttributeOption = options.findWhere(n => n.props().value === props.attributeSortingModels[0])
+    const firstAttributeOption = options.findWhere((n) => n.props().value === props.attributeSortingModels[0])
     assert.lengthOf(firstAttributeOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(firstAttributeOption, {
       checked: false,
       primaryText: 'any.en',
     }, 'First attribute option properties should be correctly set (en locale)')
     // 3 - second attribute options
-    const secondAttributeOption = options.findWhere(n => n.props().value === props.attributeSortingModels[1])
+    const secondAttributeOption = options.findWhere((n) => n.props().value === props.attributeSortingModels[1])
     assert.lengthOf(secondAttributeOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(secondAttributeOption, {
       checked: false,
@@ -147,28 +147,28 @@ describe('[SEARCH RESULTS] Testing SingleSortingComponent', () => {
     const options = dropDownButton.find(MenuItem)
     assert.lengthOf(options, 4, 'There should be default option, custom options and 2 options for selectable attributes')
     // 2- Default option
-    const customOption = options.findWhere(n => n.props().value === props.customSortingModel)
+    const customOption = options.findWhere((n) => n.props().value === props.customSortingModel)
     assert.lengthOf(customOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(customOption, {
       checked: true,
       primaryText: 'search.results.list.sort.custom.label',
     }, 'Custom option properties should be correctly set')
     // 2- Default option
-    const defaultOption = options.findWhere(n => n.props().value === props.defaultSortingModel)
+    const defaultOption = options.findWhere((n) => n.props().value === props.defaultSortingModel)
     assert.lengthOf(defaultOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(defaultOption, {
       checked: false,
       primaryText: 'search.results.list.sort.default.label',
     }, 'Default option properties should be correctly set')
     // 3- first attribute options
-    const firstAttributeOption = options.findWhere(n => n.props().value === props.attributeSortingModels[0])
+    const firstAttributeOption = options.findWhere((n) => n.props().value === props.attributeSortingModels[0])
     assert.lengthOf(firstAttributeOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(firstAttributeOption, {
       checked: false,
       primaryText: 'any.fr',
     }, 'First attribute option properties should be correctly set (fr locale)')
     // 4 - second attribute options
-    const secondAttributeOption = options.findWhere(n => n.props().value === props.attributeSortingModels[1])
+    const secondAttributeOption = options.findWhere((n) => n.props().value === props.attributeSortingModels[1])
     assert.lengthOf(secondAttributeOption, 1, 'There should be the default options')
     testSuiteHelpers.assertWrapperProperties(secondAttributeOption, {
       checked: false,

@@ -76,7 +76,8 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets
         isFetching
-        onShowDuplicatedMessage={() => { }}
+        // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })
 
     // test empty model
@@ -89,7 +90,8 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets
         isFetching
-        onShowDuplicatedMessage={() => { }}
+        // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]
     models.forEach(({ label, model }) => {
@@ -106,7 +108,8 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets={false}
         isFetching
-        onShowDuplicatedMessage={() => { }}
+        // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })
     // test complex mock models
     const models = [{ label: 'Mock model 1', model: mockBasket1 }, { label: 'Mock model 2', model: mockBasket2 }]

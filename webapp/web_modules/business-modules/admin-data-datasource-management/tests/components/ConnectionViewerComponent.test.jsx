@@ -28,7 +28,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing ConnectionViewerComponent',
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-
   it('should exists', () => {
     assert.isDefined(ConnectionViewerComponent)
     assert.isDefined(ListItem)

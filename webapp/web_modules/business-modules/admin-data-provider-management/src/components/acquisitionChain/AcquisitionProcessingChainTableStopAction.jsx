@@ -45,7 +45,7 @@ class AcquisitionProcessingChainTableStopAction extends React.Component {
 
   isStoppable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'stop')
+    return !!find(links, (l) => l.rel === 'stop')
   }
 
   render() {

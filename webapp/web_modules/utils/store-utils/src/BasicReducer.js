@@ -40,7 +40,6 @@ class BasicReducer {
    */
   isCancelled = (state, action) => get(state, 'cancelPendingAfter', 0) > get(action, 'meta.requestTime', Number.MAX_SAFE_INTEGER)
 
-
   reduce(state = this.defaultState, action) {
     switch (action.type) {
       case this.basicActionsInstance.FLUSH:

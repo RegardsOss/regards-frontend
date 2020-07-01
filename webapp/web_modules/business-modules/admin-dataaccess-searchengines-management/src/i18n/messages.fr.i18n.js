@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'dataaccess.searchengines.list.title': 'Définition des protocoles d\'accès à vos données',
   'dataaccess.searchengines.list.subtitle': 'Chaque protocole d\'accès peut être associé à l\'ensemble du catalogue ou bien à un jeu de données précis.',
   'dataaccess.searchengines.list.header.label': 'Libellé',
@@ -71,7 +71,7 @@ const messages = Object.assign({
   'plugin.configuration.form.description.more': 'Voir la description détaillée du protocole',
 
   'dataaccess.searchengines.list.confirm.delete.title': 'Supprimer le protocole sélectionné?',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

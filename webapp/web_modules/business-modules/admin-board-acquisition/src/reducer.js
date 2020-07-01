@@ -33,5 +33,4 @@ const acquisitionReducers = combineReducers({
   oais: oaisManagementReducer,
 })
 
-
 export default acquisitionReducers

@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { modelActions } from './clients/ModelClient'
 
-
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}
@@ -35,7 +34,6 @@ const listDependencies = [
 const addDependencies = [
   modelActions.getDependency(RequestVerbEnum.POST),
 ]
-
 
 export default {
   addDependencies,

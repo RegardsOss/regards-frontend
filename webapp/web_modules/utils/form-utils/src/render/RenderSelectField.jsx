@@ -17,47 +17,65 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import SelectField from 'material-ui/SelectField'
+import { fieldArrayMetaPropTypes } from 'redux-form'
 import RenderHelper from './RenderHelper'
 
-const renderSelectField = ({
-  input, label, meta: { touched, error }, fullWidth, children, disabled, onSelect, intl, ...rest
-}) => {
-  const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
-  return (
-    <SelectField
-      floatingLabelText={label}
-      errorText={errorMessage}
-      {...input}
-      fullWidth={fullWidth}
-      onChange={(event, index, value) => {
-        if (onSelect) {
-          return onSelect(event, index, value, input)
-        }
-        return input.onChange(value)
-      }}
-      disabled={disabled}
-      {...rest}
-    >
-      {children}
-    </SelectField>
-  )
+/**
+ * Form select field render
+ * @author Léo Mieulet
+ * @author Raphaël Mechali
+ */
+class RenderSelectField extends React.Component {
+  static propTypes = {
+    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
+    input: PropTypes.shape({
+      value: PropTypes.any,
+      name: PropTypes.string,
+      onChange: PropTypes.func.isRequired,
+    }),
+    label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+    children: PropTypes.arrayOf(PropTypes.element),
+    fullWidth: PropTypes.bool,
+    disabled: PropTypes.bool,
+    onSelect: PropTypes.func,
+    intl: PropTypes.shape({
+      formatMessage: PropTypes.func,
+    }),
+  }
+
+  /**
+   * On select callback
+   * @param {*} event
+   * @param {number} index selected element index
+   * @param {*} value selected element value
+   */
+  onSelect =(event, index, value) => {
+    const { onSelect, input } = this.props
+    if (onSelect) {
+      return onSelect(event, index, value, input)
+    }
+    return input.onChange(value)
+  }
+
+  render() {
+    const {
+      input, label, meta: { touched, error },
+      fullWidth, children, disabled, intl,
+      ...others
+    } = this.props
+    const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
+    return (
+      <SelectField
+        floatingLabelText={label}
+        errorText={errorMessage}
+        {...input}
+        fullWidth={fullWidth}
+        onChange={this.onSelect}
+        disabled={disabled}
+        {...others}
+      >
+        {children}
+      </SelectField>)
+  }
 }
-renderSelectField.propTypes = {
-  input: PropTypes.shape({
-    value: PropTypes.any,
-    name: PropTypes.string,
-  }),
-  label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  meta: PropTypes.shape({
-    touched: PropTypes.bool,
-    error: PropTypes.string,
-  }),
-  children: PropTypes.arrayOf(PropTypes.element),
-  fullWidth: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onSelect: PropTypes.func,
-  intl: PropTypes.shape({
-    formatMessage: PropTypes.func,
-  }),
-}
-export default renderSelectField
+export default RenderSelectField

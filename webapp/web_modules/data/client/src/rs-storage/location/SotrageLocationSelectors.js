@@ -23,4 +23,4 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
  * @param storePath redux store path to access reduced data
  * @return selectors instance
  */
-export default storePath => new BasicListSelectors(storePath)
+export default (storePath) => new BasicListSelectors(storePath)

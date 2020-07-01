@@ -45,7 +45,7 @@ export const savePluginLoaded = ({
   ...otherProps,
 })
 
-export const checkPluginLoaded = sourcePath => ({
+export const checkPluginLoaded = (sourcePath) => ({
   type: CHECK_PLUGIN,
   sourcePath,
 })
@@ -55,7 +55,6 @@ export const pluginError = (sourcePath, cause) => ({
   sourcePath,
   cause,
 })
-
 
 /**
  * Load a plugin with a given name and a given sourcePath

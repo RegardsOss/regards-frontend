@@ -26,7 +26,6 @@ import styles from '../../src/tree-table/styles/styles'
 
 const context = buildTestContext(styles)
 
-
 const TestCellMarkerComponent = ({ text }) => text
 const defaultCellBuilder = (value, level, column) => (
   <TableRowColumn key={`cell.${value}`}>
@@ -48,7 +47,7 @@ describe('[COMPONENTS] Testing TreeTable', () => {
   it('should render correctly using buildTreeTableRows method', () => {
     const props = {
       model: [['l1.c1', 'l1.c2'], ['l2.c1', 'l2.c2']],
-      buildTreeTableRows: model => model.map((row, index) => new TreeTableRow(`row.${index}`, row)),
+      buildTreeTableRows: (model) => model.map((row, index) => new TreeTableRow(`row.${index}`, row)),
       buildCellComponent: defaultCellBuilder,
       columns: [<TableHeaderColumn key="c1" />, <TableHeaderColumn key="c2" />],
     }
@@ -93,7 +92,7 @@ describe('[COMPONENTS] Testing TreeTable', () => {
     // change builder
     const props3 = {
       ...props2,
-      buildTreeTableRows: model => props.buildTreeTableRows(model), // just change ref
+      buildTreeTableRows: (model) => props.buildTreeTableRows(model), // just change ref
     }
     enzymeWrapper.setProps(props3)
     assert.equal(callCounter, 3, 'Should have called once the model builder after builder hange')
@@ -106,7 +105,7 @@ describe('[COMPONENTS] Testing TreeTable', () => {
   it('should restore row state when possible', () => {
     const props = {
       model: [['l1.c1', 'l1.c2'], ['l2.c1', 'l2.c2']],
-      buildTreeTableRows: model => model.map((row, index) => new TreeTableRow(`row.${index}`, row)),
+      buildTreeTableRows: (model) => model.map((row, index) => new TreeTableRow(`row.${index}`, row)),
       buildCellComponent: defaultCellBuilder,
       columns: [],
     }

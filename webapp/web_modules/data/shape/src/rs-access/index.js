@@ -28,7 +28,6 @@ export {
 export { RuntimeConfiguration } from './uiplugin/RuntimeConfiguration'
 export { PluginTarget } from './uiplugin/PluginTarget'
 
-
 export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'
 
 export { ContainerContent } from './ContainerContent'

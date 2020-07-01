@@ -19,7 +19,6 @@
 import { AdminDomain } from '@regardsoss/domain'
 import URL from '../rs-common/URL'
 
-
 export const ProjectContent = PropTypes.shape({
   id: PropTypes.number,
   label: PropTypes.string.isRequired,

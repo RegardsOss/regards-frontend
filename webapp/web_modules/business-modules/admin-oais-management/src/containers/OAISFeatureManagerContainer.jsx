@@ -37,7 +37,7 @@ export class OAISFeatureManagerContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     clearAIPSelection: () => dispatch(aipTableActions.unselectAll()),
     clearRequestSelection: () => dispatch(requestTableActions.unselectAll()),
   })
@@ -52,7 +52,6 @@ export class OAISFeatureManagerContainer extends React.Component {
     clearAIPSelection: PropTypes.func.isRequired,
     clearRequestSelection: PropTypes.func.isRequired,
   }
-
 
   render() {
     const { params, clearAIPSelection, clearRequestSelection } = this.props

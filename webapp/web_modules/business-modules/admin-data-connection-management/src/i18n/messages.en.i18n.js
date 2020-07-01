@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'connection.create.title': 'Add connection to external datasource',
   'connection.edit.title': 'Edit connection {name}',
   'connection.form.subtitle': 'Connection to an external datasource allows the REGARDS server to connect to the datasource to crawl data from it',
@@ -54,6 +54,7 @@ const messages = Object.assign({
   'connection.connectionTester.snackbar.success': 'Connection to {label} is working',
   'connection.connectionTester.snackbar.error': 'Connection to {label} failed',
   'connection.connectionTester.pending': 'Trying to connect...',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

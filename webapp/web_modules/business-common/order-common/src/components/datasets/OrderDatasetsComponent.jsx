@@ -51,7 +51,6 @@ class OrderDatasetsComponent extends React.Component {
     onChangeColumnsVisibility: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -101,7 +100,6 @@ class OrderDatasetsComponent extends React.Component {
         .build(),
     ]
   }
-
 
   render() {
     const { datasets, onChangeColumnsVisibility } = this.props

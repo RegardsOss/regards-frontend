@@ -105,8 +105,8 @@ export class DescriptionEntityHelper {
     descriptionUpdateGroupId) {
     const { entity: { content: { tags, model: modelName } } } = descriptionEntity
     // 1 - resolve all tags (apply tags filter from configuration)
-    return new Promise(resolve => Promise.all(tags
-      .map(tag => DescriptionEntityHelper.resolveEntityTag(tag, fetchEntity))).then((resolvedTags) => {
+    return new Promise((resolve) => Promise.all(tags
+      .map((tag) => DescriptionEntityHelper.resolveEntityTag(tag, fetchEntity))).then((resolvedTags) => {
       // 2 - Retrieve or fetch model (prepare functions with local parameters)
       /**
        * Resolves with found model attributes or failure
@@ -159,7 +159,7 @@ export class DescriptionEntityHelper {
               resolve(null) // failed silently
             }
             // No resolution error: is it a model refused by configuration?
-            return STATIC_CONF.ENTITY_DESCRIPTION.TAGS.MODEL_NAME_FILTERS.some(exclusionPattern => exclusionPattern.test(payload.content.model))
+            return STATIC_CONF.ENTITY_DESCRIPTION.TAGS.MODEL_NAME_FILTERS.some((exclusionPattern) => exclusionPattern.test(payload.content.model))
               ? resolve(null) // yes: resolve none
               : resolve(payload) // no: return retrieved entity
           })
@@ -167,7 +167,7 @@ export class DescriptionEntityHelper {
       })
     }
     // 2 - simple word, immediately resolved
-    return new Promise(resolve => resolve(tag))
+    return new Promise((resolve) => resolve(tag))
   }
 
   /**
@@ -252,7 +252,6 @@ export class DescriptionEntityHelper {
     }, [])
   }
 
-
   /**
    * Filters or convert a single group row: when some attributes can be retrieved,
    *  converts the element into runtime displayable attributes row. Filters the row otherwise
@@ -315,7 +314,7 @@ export class DescriptionEntityHelper {
    */
   static toFileData(entity, fileDataType, accessToken, projectName) {
     const uriOriginParam = `&origin=${root.location.protocol}//${root.location.host}`
-    return get(entity.content, `files.${fileDataType}`, []).map(dataFile => ({
+    return get(entity.content, `files.${fileDataType}`, []).map((dataFile) => ({
       label: dataFile.filename,
       available: DamDomain.DataFileController.isAvailableNow(dataFile),
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
@@ -391,7 +390,7 @@ export class DescriptionEntityHelper {
           return null
         }
         return null // cannot be resolved
-      }).filter(f => !!f),
+      }).filter((f) => !!f),
       // map entity native description files
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, accessToken, projectName),
     ]

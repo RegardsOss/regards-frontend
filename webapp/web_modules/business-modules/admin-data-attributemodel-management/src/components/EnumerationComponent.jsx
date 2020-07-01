@@ -78,7 +78,6 @@ export class EnumerationComponent extends React.Component {
     this.props.change(`restriction.ENUMERATION.inputs.input${idForm}`, newValue)
   }
 
-
   handleDelete = (id) => {
     const { acceptableValues } = this.state
     acceptableValues[id].deleted = true

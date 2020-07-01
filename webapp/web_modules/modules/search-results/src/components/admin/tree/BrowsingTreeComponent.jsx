@@ -35,7 +35,6 @@ class BrowsingTreeComponent extends React.Component {
     onBrowseToPage: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
   }
@@ -48,7 +47,7 @@ class BrowsingTreeComponent extends React.Component {
    * @param {[*]} navigationSections navigation sections as array (respects input prop type)
    * @return {[TreeTableRow]} tree table rows
    */
-  buildTreeTableRows = navigationSections => navigationSections.map(this.buildSectionRow)
+  buildTreeTableRows = (navigationSections) => navigationSections.map(this.buildSectionRow)
 
   /**
    * Builds tree table section row
@@ -66,7 +65,7 @@ class BrowsingTreeComponent extends React.Component {
     }
     // 2 - common case: build a section with pages below
     return new TreeTableRow(navigationSection.type, [{ section: navigationSection }],
-      navigationSection.pages.map(page => this.buildPageRow(navigationSection, page)), true)
+      navigationSection.pages.map((page) => this.buildPageRow(navigationSection, page)), true)
   }
 
   /**

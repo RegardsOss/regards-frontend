@@ -79,7 +79,6 @@ const DISABLED_TYPE_STATE = {
   },
 }
 
-
 /** Default results context */
 const DEFAULT_RESULTS_CONTEXT = {
   selectedTab: RESULTS_TABS_ENUM.MAIN_RESULTS,
@@ -146,7 +145,6 @@ const DEFAULT_RESULTS_CONTEXT = {
   },
 }
 
-
 /** Types for which download is allowed */
 const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
@@ -198,7 +196,6 @@ const SERVICES_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
 function allowServices(type) {
   return SERVICES_ALLOWING_TYPES.includes(type)
 }
-
 
 /** Types for which navigate to (results filtering) is allowed */
 const NAVIGATE_TO_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATASET]

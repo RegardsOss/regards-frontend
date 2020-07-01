@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayMetaPropTypes } from 'redux-form'
 import { RadioButtonGroup } from 'material-ui/RadioButton'
-import { themeContextType } from '@regardsoss/theme'
 import isNil from 'lodash/isNil'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from '../styles'
+
+// TODO v1.3 ===> EVERY RENDER SHOULD BE EXPORTED WITH CONTEXT! (stop importing FormMessages eveywhere)
+// TODO v1.3 check each definition in app of meta: input: fields: ==> bind all onto redux-form equivalent (nota: fieldInputPropTypes no longer exists!)
 
 class RenderRadio extends React.Component {
   static contextTypes = {
@@ -29,12 +34,9 @@ class RenderRadio extends React.Component {
     input: PropTypes.shape({
       value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
       name: PropTypes.string,
-      onChange: PropTypes.func,
+      onChange: PropTypes.func.isRequired,
     }),
-    meta: PropTypes.shape({
-      error: PropTypes.string,
-      touched: PropTypes.bool,
-    }),
+    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),
@@ -51,30 +53,39 @@ class RenderRadio extends React.Component {
     }
   }
 
+  /**
+   * On select value callback
+   * @param {*} event
+   * @param {*} value selected value
+   */
+  onSelect = (event, value) => {
+    const { onSelect, input } = this.props
+    if (onSelect) {
+      onSelect(event, value, input)
+    }
+    return input.onChange(value)
+  }
+
   render() {
     const {
-      input, onSelect, defaultSelected, children, meta: { touched, error }, intl,
+      input, defaultSelected, children,
+      meta: { touched, error }, intl,
     } = this.props
-    const { muiTheme } = this.context
+    const { moduleTheme: { field: { error: errorStyle } } } = this.context
     return (
       <div>
         <RadioButtonGroup
           {...input}
           defaultSelected={defaultSelected}
           valueSelected={(input.value || input.value === false) ? input.value : undefined}
-          onChange={(event, value) => {
-            if (onSelect) {
-              onSelect(event, value, input)
-            }
-            return input.onChange(value)
-          }}
+          onChange={this.onSelect}
         >
           {children}
         </RadioButtonGroup>
-        {touched && error && (<span style={{ color: muiTheme.textField.errorColor }}>{intl.formatMessage({ id: error })}</span>)}
+        {touched && error && (<span style={errorStyle}>{intl.formatMessage({ id: error })}</span>)}
       </div>
     )
   }
 }
 
-export default RenderRadio
+export default withModuleStyle(styles)(RenderRadio)

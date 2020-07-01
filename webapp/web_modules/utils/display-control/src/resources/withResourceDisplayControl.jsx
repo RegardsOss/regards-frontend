@@ -59,6 +59,19 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       hideDisabled: true,
     }
 
+    static displayName = `WithResourceDisplayControl(${getDisplayName(DecoratedComponent)})`
+
+    /**
+     * Redux: map state to props function
+     * @param {*} state: current redux state
+     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+     * @return {*} list of component properties extracted from redux state
+     */
+    static mapStateToProps = (state) => ({
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      isInstance: AuthenticationParametersSelectors.isInstance(state),
+    })
+
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
@@ -82,15 +95,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
     }
   }
 
-  // Ease debugging in the React Developer Tools by choosing a display name that communicates that it's the result of an HOC
-  WithResourceDisplayControl.displayName = `WithResourceDisplayControl(${getDisplayName(DecoratedComponent)})`
-
-  const mapStateToProps = state => ({
-    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    isInstance: AuthenticationParametersSelectors.isInstance(state),
-  })
-
-  return connect(mapStateToProps)(WithResourceDisplayControl)
+  return connect(WithResourceDisplayControl.mapStateToProps)(WithResourceDisplayControl)
 }
 
 export default withResourceDisplayControl

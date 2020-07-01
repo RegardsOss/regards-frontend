@@ -26,8 +26,7 @@ class ProfileDialogSelectors extends BasicSelector {
     super(['modules.menu', 'profileDialog'])
   }
 
-  isProfileEditionVisible = state => this.uncombineStore(state).profileEditionVisible
+  isProfileEditionVisible = (state) => this.uncombineStore(state).profileEditionVisible
 }
-
 
 export default new ProfileDialogSelectors()

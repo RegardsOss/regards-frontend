@@ -50,7 +50,7 @@ export class ThemeFormAdapter extends React.Component {
     createInstanceTheme: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { themeId, mode } = this.props.params
     this.setState({
       isCreating: isNil(themeId),
@@ -102,10 +102,10 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch, ownProps) => ({
   fetchTheme: () => dispatch(ThemeActions.fetchEntity(ownProps.params.themeId)),
   fetchThemeInstance: () => dispatch(ThemeInstanceActions.fetchEntity(ownProps.params.themeId)),
-  updateTheme: theme => dispatch(ThemeActions.updateEntity(theme.id, theme)),
-  updateInstanceTheme: theme => dispatch(ThemeInstanceActions.updateEntity(theme.id, theme)),
-  createTheme: theme => dispatch(ThemeActions.createEntity(theme)),
-  createInstanceTheme: theme => dispatch(ThemeInstanceActions.createEntity(theme)),
+  updateTheme: (theme) => dispatch(ThemeActions.updateEntity(theme.id, theme)),
+  updateInstanceTheme: (theme) => dispatch(ThemeInstanceActions.updateEntity(theme.id, theme)),
+  createTheme: (theme) => dispatch(ThemeActions.createEntity(theme)),
+  createInstanceTheme: (theme) => dispatch(ThemeInstanceActions.createEntity(theme)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeFormAdapter)

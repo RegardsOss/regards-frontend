@@ -92,7 +92,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         navigationItems: aNavigationConfiguration,
         hasHome: true,
       },
-      handleSubmit: f => f,
+      handleSubmit: (f) => f,
       initialize: () => { },
       change: () => { },
     }
@@ -108,16 +108,16 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
     // check the fields for section are not added
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === ICON_TYPE_FIELD), 0, 'Icon type field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === ICON_URL_FIELD), 0, 'Icon URL field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === TITLE_EN_FIELD), 0, 'Title (en) field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === TITLE_FR_FIELD), 0, 'Title (fr) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 0, 'Icon type field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 0, 'Icon URL field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 0, 'Title (en) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 0, 'Title (fr) field should be hidden for module edition')
 
     // check common section / module fields are added
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
     // note: those fields are tested after
   })
 
@@ -146,7 +146,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         navigationItems: aNavigationConfiguration,
         hasHome: true,
       },
-      handleSubmit: f => f,
+      handleSubmit: (f) => f,
       initialize: () => { },
       change: () => { },
     }
@@ -161,23 +161,22 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
     // check the fields for section are added, and verify their current value
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === ICON_TYPE_FIELD), 1, 'Icon type field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === ICON_URL_FIELD), 1, 'Icon URL field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === TITLE_EN_FIELD), 1, 'Title (en) field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === TITLE_FR_FIELD), 1, 'Title (fr) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 1, 'Icon type field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 1, 'Icon URL field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 1, 'Title (en) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 1, 'Title (fr) field should be hidden for module edition')
 
     // check common section / module fields are added
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
     // note: those fields are tested after
 
     // there should be an option for each role
-    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere(n => n.props().value === 'R1'), 1, 'R1 role option should be available')
-    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere(n => n.props().value === 'R2'), 1, 'R2 role option should be available')
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere((n) => n.props().value === 'R1'), 1, 'R1 role option should be available')
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere((n) => n.props().value === 'R2'), 1, 'R2 role option should be available')
   })
-
 
   // Now, we test for series of items that retrieved parents and sibling and corresponding edition possibilities are valid
   const mainBarAndAllSections = [NavigationItemEditionDialog.MAIN_BAR, ...findAllSections(aNavigationConfiguration)]
@@ -249,7 +248,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     // MAIN_BAR and all sections BUT THAT ONE could be the parent
-    expectedPossibleParents: mainBarAndAllSections.filter(item => item.id !== 2),
+    expectedPossibleParents: mainBarAndAllSections.filter((item) => item.id !== 2),
     // it should be after the previous item...
     expectedSibling: aNavigationConfiguration[2],
     // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
@@ -323,7 +322,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         navigationItems: aNavigationConfiguration,
         hasHome,
       },
-      handleSubmit: f => f,
+      handleSubmit: (f) => f,
       initialize: (initValues) => { spiedInitValues = initValues },
       change: () => { },
     }
@@ -334,7 +333,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.equal(spiedInitValues[AFTER_ELEMENT_FIELD], expectedSibling, 'Sibling should be correctly retrieved')
     // verify corresponding fields options
     // 1 - parent
-    const parentSectionField = enzymeWrapper.findWhere(n => n.props().name === PARENT_SECTION_FIELD)
+    const parentSectionField = enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD)
     assert.lengthOf(parentSectionField, 1, 'There should be the parent section field')
     const parentSectionOptions = parentSectionField.find(MenuItem)
     assert.lengthOf(parentSectionOptions, expectedPossibleParents.length, 'There should be the same parent sections options count')
@@ -344,7 +343,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     })
 
     // 2 - position in parent
-    const afterElementField = enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD)
+    const afterElementField = enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD)
     assert.lengthOf(afterElementField, 1, 'There should be the after element field')
     const afterElementOptions = afterElementField.find(MenuItem)
     assert.lengthOf(afterElementOptions, expectedPossibleSibling.length, 'There should be the same after element options count')
@@ -376,7 +375,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         hasHome: true,
       },
       selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
-      handleSubmit: f => f,
+      handleSubmit: (f) => f,
       initialize: () => { },
       change: (fieldName, value) => { spiedChangeValue[fieldName] = value },
     }
@@ -388,7 +387,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     })
     //enzymeWrapper.update()
     // now we expect that the options are section id 2 children (none) and first position
-    const afterElementField = enzymeWrapper.findWhere(n => n.props().name === AFTER_ELEMENT_FIELD)
+    const afterElementField = enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD)
     assert.lengthOf(afterElementField, 1, 'There should be the after element field')
     const afterElementOptions = afterElementField.find(MenuItem)
     assert.lengthOf(afterElementOptions, 1, 'There should be only FIRST_POSITION available in new section')
@@ -467,7 +466,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         hasHome,
       },
       selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
-      handleSubmit: f => f,
+      handleSubmit: (f) => f,
       initialize: () => { },
       change: () => { },
     }

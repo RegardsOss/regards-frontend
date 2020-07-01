@@ -80,7 +80,6 @@ export class DatasetFormSubsettingComponent extends React.Component {
     return `properties.${attribute.fragment.name}.${attribute.name}`
   }
 
-
   render() {
     const styleButton = {
       display: 'flex',

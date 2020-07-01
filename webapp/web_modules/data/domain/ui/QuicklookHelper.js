@@ -77,9 +77,9 @@ export class QuicklookHelper {
         if (canDisplay(file)) {
           // 1 - identify file group and check if the file is part of primary group
           const fileMetaTypes = get(file, 'types', [])
-          const groupName = fileMetaTypes.find(keyword => keyword !== primaryGroupKey)
+          const groupName = fileMetaTypes.find((keyword) => keyword !== primaryGroupKey)
           const groupKey = groupName || QuicklookHelper.UNKNOWN_GROUPNAME
-          const primary = fileMetaTypes.some(keyword => keyword === primaryGroupKey)
+          const primary = fileMetaTypes.some((keyword) => keyword === primaryGroupKey)
           // 2 - assemble group, re-using it from accumulator, as that group may have already found
           const previouslyFoundGroup = acc2[groupKey] || { }
           return {

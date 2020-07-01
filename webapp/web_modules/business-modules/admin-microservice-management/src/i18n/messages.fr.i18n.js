@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'microservice-management.rs-access-project.description': 'Configuration du service de gestion de l\'interface utilisateur',
   'microservice-management.rs-access-instance.description': 'Configuration du service de gestion de l\'interface portail',
   'microservice-management.rs-admin.description': 'Configuration du service d\'administration du système',
@@ -88,7 +88,6 @@ const messages = Object.assign({
 
   'microservice-management.plugin.configurations.empty': 'Aucune configuration définie',
 
-
   'renderer.fileField.button.select.label': 'Sélectionner un fichier JSON',
   'microservice.conf-backup.title': 'Import et téléchargement de configuration de {name}',
   'microservice.conf-backup.action.export': 'Télécharger',
@@ -102,6 +101,7 @@ const messages = Object.assign({
   'microservice-management.backup-conf.tooltip': 'Gérer les backups',
 
   'plugin.description.more': 'Description détaillée ...',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

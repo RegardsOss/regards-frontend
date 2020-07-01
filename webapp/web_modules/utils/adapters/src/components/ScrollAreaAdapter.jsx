@@ -54,13 +54,13 @@ class ScrollAreaAdapter extends React.Component {
 
   scrollBottom = () => this.canDelegate() && this.delegateInstance.scrollBottom()
 
-  scrollYTo = topPosition => this.canDelegate() && this.delegateInstance.scrollYTo(topPosition)
+  scrollYTo = (topPosition) => this.canDelegate() && this.delegateInstance.scrollYTo(topPosition)
 
   scrollLeft = () => this.canDelegate() && this.delegateInstance.scrollLeft()
 
   scrollRight = () => this.canDelegate() && this.delegateInstance.scrollRight()
 
-  scrollXTo = leftPosition => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
+  scrollXTo = (leftPosition) => this.canDelegate() && this.delegateInstance.scrollXTo(leftPosition)
 
   render() {
     const { muiTheme } = this.context
@@ -81,6 +81,5 @@ class ScrollAreaAdapter extends React.Component {
     return <RenderComponent {...renderingProps} />
   }
 }
-
 
 export default ScrollAreaAdapter

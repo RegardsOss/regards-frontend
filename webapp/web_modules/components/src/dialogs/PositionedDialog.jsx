@@ -24,7 +24,6 @@ import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regard
 import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles'
 
-
 /**
 * A positioned dialog: width and height can be specified as percents. It reports any other
 * property to material UI dialog instance
@@ -67,8 +66,7 @@ class PositionedDialog extends React.Component {
 
   static BORDER_REGEX = new RegExp('^border', 'i');
 
-  componentWillMount = () => this.updateDimensions()
-
+  UNSAFE_componentWillMount = () => this.updateDimensions()
 
   componentDidMount = () => {
     root.addEventListener('resize', this.onResize)

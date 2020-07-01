@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { BasicListSelectors } from '@regardsoss/store-utils'
-import orderBy from 'lodash/orderBy'
+import sortBy from 'lodash/sortBy'
 import partition from 'lodash/partition'
 import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
 /**
@@ -36,9 +36,9 @@ class AttributeModelSelectors extends BasicListSelectors {
     const modelAttributeListPartition = partition(modelAttributeList, ['content.fragment.name', DEFAULT_FRAGMENT])
     return [
       // add first attributes that are not in the DEFAULT_FRAGMENT
-      ...orderBy(modelAttributeListPartition[1], ['content.fragment.name', 'content.name'], ['asc', 'asc']),
+      ...sortBy(modelAttributeListPartition[1], ['content.fragment.name', 'content.name']),
       // then display attributes from the DEFAULT_FRAGMENT
-      ...orderBy(modelAttributeListPartition[0], ['content.name'], ['asc']),
+      ...sortBy(modelAttributeListPartition[0], ['content.name'], ['asc']),
     ]
   }
 }

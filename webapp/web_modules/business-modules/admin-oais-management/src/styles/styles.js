@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const aipManagementStyles = theme => ({
+const aipManagementStyles = (theme) => ({
   import: {
     errorColor: theme.formsExtensions.validation.errorColor,
     validColor: theme.formsExtensions.validation.validColor,
@@ -142,6 +142,9 @@ const aipManagementStyles = theme => ({
         marginLeft: theme.spacing.iconSize + 10,
         marginBottom: 5,
       },
+    },
+    gotoSubmission: {
+      marginLeft: 20,
     },
   },
   switchButton: {

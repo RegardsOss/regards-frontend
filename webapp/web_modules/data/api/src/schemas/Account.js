@@ -24,7 +24,7 @@ export const AccountConfiguration = {
 }
 
 export const ACCOUNT = new Schema(AccountConfiguration.normalizrKey, {
-  idAttribute: account => account.content[AccountConfiguration.entityKey]
+  idAttribute: (account) => account.content[AccountConfiguration.entityKey]
   ,
 })
 

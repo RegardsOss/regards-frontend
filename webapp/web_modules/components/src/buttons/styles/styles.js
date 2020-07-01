@@ -20,7 +20,7 @@
 /**
  * Styles for buttons components
  */
-export default theme => ({
+export default (theme) => ({
   switchSelectAllButton: {
     labelStyle: {
       textTransform: 'none',

@@ -67,7 +67,6 @@ export const createPluginRoute = {
   },
 }
 
-
 /**
  *
  * @type {{childRoutes: [*]}}

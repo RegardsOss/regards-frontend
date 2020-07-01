@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'collection.list.action.add': 'Add',
   'collection.list.action.cancel': 'Cancel',
   'collection.list.title': 'Collections',
@@ -90,6 +90,7 @@ const messages = Object.assign({
   'collection.info.model.label': 'Collection model : ',
   'collection.info.close': 'Close',
   'collection.info.title': 'Information about collection {name}',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

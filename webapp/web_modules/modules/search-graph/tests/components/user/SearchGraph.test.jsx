@@ -34,7 +34,7 @@ describe('[Search Graph] Testing SearchGraph', () => {
     assert.isDefined(SearchGraph)
   })
 
-  UIDomain.PRESENTATION_STATE.forEach(presentationState => it(`should render corrent in state ${presentationState}`, () => {
+  UIDomain.PRESENTATION_STATE.forEach((presentationState) => it(`should render corrent in state ${presentationState}`, () => {
     const props = {
       appName: 'x',
       project: 'y',

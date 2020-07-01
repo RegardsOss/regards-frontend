@@ -51,7 +51,7 @@ export class ApplicationLayoutContainer extends React.Component {
     updateInstanceLayout: PropTypes.func,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (this.props.isInstance) {
       this.props.fetchInstanceLayout(this.props.params.applicationId)
     } else {
@@ -135,9 +135,9 @@ const mapStateToProps = (state, ownProps) => ({
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchLayout: applicationId => dispatch(LayoutActions.fetchEntity(applicationId)),
-  fetchInstanceLayout: applicationId => dispatch(LayoutInstanceActions.fetchEntity(applicationId)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchLayout: (applicationId) => dispatch(LayoutActions.fetchEntity(applicationId)),
+  fetchInstanceLayout: (applicationId) => dispatch(LayoutInstanceActions.fetchEntity(applicationId)),
   updateLayout: (applicationId, layout) => dispatch(LayoutActions.updateEntity(applicationId, layout)),
   updateInstanceLayout: (applicationId, layout) => dispatch(LayoutInstanceActions.updateEntity(applicationId, layout)),
 })

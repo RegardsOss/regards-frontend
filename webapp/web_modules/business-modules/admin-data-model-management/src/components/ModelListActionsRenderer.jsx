@@ -57,7 +57,7 @@ class ModelListActionsRenderer extends React.Component {
 
   getExportUrlFromHateoas = (modelLinks) => {
     const { accessToken } = this.props
-    const exportLink = find(modelLinks, link => (
+    const exportLink = find(modelLinks, (link) => (
       link.rel === 'export'
     ))
     return `${exportLink.href}?token=${accessToken}` || ''

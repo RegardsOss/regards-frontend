@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasetActions } from './clients/DatasetClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

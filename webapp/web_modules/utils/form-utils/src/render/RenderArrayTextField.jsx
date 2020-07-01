@@ -104,26 +104,25 @@ class RenderArrayTextField extends React.Component {
     const { dialogOpened, newValue } = this.state
     const { newFieldLabel, fieldsListLabel } = this.props
     const { intl: { formatMessage } } = this.context
-    const actions = [
-      <RaisedButton
-        key="ok"
-        label={formatMessage({ id: 'render.array-object.add.button' })}
-        primary
-        disabled={!newValue}
-        keyboardFocused
-        onClick={this.onAddNewValue}
-      />,
-      <RaisedButton
-        key="cancel"
-        label={formatMessage({ id: 'render.array-object.cancel.button' })}
-        onClick={this.closeAddDialog}
-      />,
-    ]
 
     return (
       <Dialog
         title={formatMessage({ id: 'render.map-object.add.new.dialog.title' }, { parameter: fieldsListLabel })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="ok"
+            label={formatMessage({ id: 'render.array-object.add.button' })}
+            primary
+            disabled={!newValue}
+            keyboardFocused
+            onClick={this.onAddNewValue}
+          />
+          <RaisedButton
+            key="cancel"
+            label={formatMessage({ id: 'render.array-object.cancel.button' })}
+            onClick={this.closeAddDialog}
+          />
+        </>}
         modal={false}
         open={dialogOpened}
         onRequestClose={this.closeDialog}
@@ -181,8 +180,7 @@ class RenderArrayTextField extends React.Component {
               fullWidth
               primary
               icon={<AddBoxIcon />}
-            />
-          }
+            />}
         </Paper>
         {disabled ? null : this.renderNewValueDialog()}
       </div>

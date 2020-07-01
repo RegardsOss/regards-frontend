@@ -116,7 +116,7 @@ export class RenderPluginParameterField extends React.Component {
     descriptionOpened: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // Format plugin parameter conf for initialization with the given metadatas
     const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
     const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(value, pluginParameterType, true) : value
@@ -262,8 +262,8 @@ export class RenderPluginParameterField extends React.Component {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: pluginParameterType.sensitive ? 'password' : primitiveParameters.type,
-      normalize: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
-      format: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
+      normalize: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
+      format: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,
@@ -365,18 +365,18 @@ export class RenderPluginParameterField extends React.Component {
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
     const bodyStyle = pluginParameterType.markdown ? markdownDialog.bodyStyle : {}
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
-        primary
-        onClick={this.handleCloseDescription}
-      />]
     return (
       <Dialog
         key="desc-dialog"
         title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
+            primary
+            onClick={this.handleCloseDescription}
+          />
+        </>}
         modal
         open={this.state.descriptionOpened}
         bodyStyle={bodyStyle}
@@ -396,7 +396,6 @@ export class RenderPluginParameterField extends React.Component {
       </Dialog>
     )
   }
-
 
   render() {
     const { pluginParameterType } = this.props
