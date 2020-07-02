@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2013.2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,28 +22,9 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   ...DataProviderDomain.frMessages,
   ...IngestDomain.frMessages,
-  // 1. Chains list
-  // 1.1 Headers
-  'acquisition-chain.list.title': 'Configuration des chaînes d\'acquisition de données',
-  'acquisition-chain.list.subtitle': 'Une chaîne d\'acquisition est l\'enchaînement de traitements réalisés sur les données avant leur soumission au service d\'ingestion. Une chaine d\'acquisition génère en sortie un ou plusieurs SIPs.',
-  'acquisition-chain.list.info.message': 'Vous pouvez définir pour chaque étape de la chaîne un traitement un fonctionnement spécifique grâce aux plugins suivants.',
-  'acquisition-chain.list.empty.title': 'Aucune chaîne définie',
-  'acquisition-chain.list.delete.conditions': 'Pour pouvoir supprimer une chaîne d\'acquisition vous devez la désactiver au préalable',
 
-  // 1.2 table headers
-  'acquisition-chain.list.table.label': 'Nom',
-  'acquisition-chain.list.table.mode': 'Mode de déclenchement',
-  'acquisition-chain.list.table.session': 'Session',
-
-  // 1.3 actions
-  'acquisition-chain.list.addnew.button': 'Ajouter',
-  'acquisition-chain.list.back.button': 'Retour',
-  'acquisition-chain.list.edit.tooltip': 'Éditer',
-  'acquisition-chain.list.duplicate.tooltip': 'Dupliquer',
-  'acquisition-chain.list.delete.confirm.title': 'Etes-vous sûr de vouloir supprimer la chaîne d\'acquisition : {label}',
-
-  // 2 Chain creation/edition form
-  // 2.1 Header section
+  // 1 Chain creation/edition form
+  // 1.1 Header section
   'acquisition-chain.form.create.title': 'Créer une nouvelle chaîne de d\'acquisition de données',
   'acquisition-chain.form.edit.title': 'Édition de la chaine : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
@@ -52,32 +33,40 @@ const messages = Object.assign({
   'acquisition-chain.form.informations-3': '2. Définition des fichiers constituant une donnée.',
   'acquisition-chain.form.informations-4': '3. Définition des plugins constituant la chaine.',
 
-  // 2.2 General configuration section
+  // 1.2 General configuration section
   'acquisition-chain.form.general.section.title': 'Général',
   'acquisition-chain.form.general.section.label': 'Nom de la chaîne (*)',
   'acquisition-chain.form.general.section.active': 'Chaîne active',
-  'acquisition-chain.form.general.generationRetryEnabled': 'Autoriser la re-génération des SIP associés à des produits en erreur.',
-  'acquisition-chain.form.general.section.periodicity': 'Période d\'activation (secondes). Utile uniquement pour une chaîne automatique.',
+  'acquisition-chain.form.general.section.periodicity': 'Cron d\'activation.',
+  'acquisition-chain.form.general.section.cron.description.title': 'Format des expressions Cron acceptées.',
+  'acquisition-chain.form.general.section.cron.description.tooltip': 'Format des expressions Cron acceptées.',
+  'acquisition-chain.form.general.section.cron.description.close': 'Fermer',
   'acquisition-chain.form.general.section.session': 'Session (*)',
   'acquisition-chain.form.general.section.mode': 'Mode (*)',
   'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
   'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
+  'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
+  'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers. Pour chaque espace de stockage, veuillez selectionner les types de fichiers à stocker.',
+  'acquisition-chain.form.general.section.info.storage.no.data': 'La chaîne ne peut pas être éditée car il n\'y a pas d\'espace de stockage configuré.',
+  'acquisition-chain.form.general.section.info.category': 'Les catégories permettent de filtrer les AIPs à aspirer par les sources de données',
+  'acquisition-chain.form.general.section.category-hint': 'Nouvelle categorie',
+  'acquisition-chain.form.general.section.click.category.add.warn': 'Confirmer l\'ajout de la categorie',
 
-  // 2.3 Files configuration section
+  // 1.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',
   'acquisition-chain.form.fileInfos.list.item.title': 'Fichier',
   'acquisition-chain.form.fileInfos.options.title': 'Actions',
   'acquisition-chain.form.fileInfos.list.add.button': 'Ajouter',
   'acquisition-chain.form.fileInfos.list.delete.button': 'Supprimer',
   'acquisition-chain.form.fileInfos.list.duplicate.button': 'Dupliquer',
-  'acquisition-chain.form.fileInfo.comment': 'Name',
+  'acquisition-chain.form.fileInfo.comment': 'Nom',
   'acquisition-chain.form.fileInfo.plugin.scan.label': 'Plugin de détection des données (*)',
   'acquisition-chain.form.fileInfo.mandatory': 'Obligatoire à la construction du produit',
   'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
   'acquisition-chain.form.fileInfo.dataType': 'Type de donnée à générer (*)',
-  // 2.4 Plugins configuration section
+  // 1.4 Plugins configuration section
   'acquisition-chain.form.plugins.section': 'Plugins',
   'acquisition-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
   'acquisition-chain.form.plugins.validation.label': 'Plugin de validation des données (*)',
@@ -85,137 +74,159 @@ const messages = Object.assign({
   'acquisition-chain.form.plugins.gen-sip.label': 'Plugin de génération des métadonnées (*)',
   'acquisition-chain.form.plugins.post-processing.label': 'Post traitement',
 
-  // 2.5 Actions
+  // 1.5 Actions
   'acquisition-chain.form.create.button': 'Créer',
   'acquisition-chain.form.update.button': 'Mettre à jour',
   'acquisition-chain.form.cancel.button': 'Annuler',
 
-  // 3. Monitoring
-  // 3.1 Chain list
-  // 3.1.1 Header
-  'acquisition-chain.monitor.list.subtitle': 'Suivi de l\'avancement des chaînes d\'acquisition de données, consultation des erreurs d\'acquisition et activation des chaînes à déclenchement manuel',
-  'acquisition-chain.monitor.empty.title': 'Aucune chaine configurée',
-  'acquisition-chain-monitor.breadcrumb.label': 'Chaînes d\'acquisition',
+  // 2 Chain list
+  // 2.1 Header
+  'acquisition-chain.list.subtitle': 'Suivi de l\'avancement des chaînes d\'acquisition de données, consultation des erreurs d\'acquisition et activation des chaînes à déclenchement manuel',
+  'acquisition-chain.empty.title': 'Aucune chaine configurée',
+  'acquisition-chain-breadcrumb.label': 'Chaînes d\'acquisition',
 
-  // 3.1.2 Table header
-  'acquisition-chain.monitor.list.label': 'Nom',
-  'acquisition-chain.monitor.list.mode': 'Mode',
-  'acquisition-chain.monitor.list.mode.AUTO': 'Automatique',
-  'acquisition-chain.monitor.list.mode.MANUAL': 'Manuel',
-  'acquisition-chain.monitor.list.running': 'Etat',
-  'acquisition-chain.monitor.list.activity.not.running': 'Arrêtée',
-  'acquisition-chain.monitor.list.activity.not.running.date': 'Arrêtée depuis le {date}',
-  'acquisition-chain.monitor.list.total-nb-products': 'Produits',
-  'acquisition-chain.monitor.list.total-products.tooltip': 'Total des produits',
-  'acquisition-chain.monitor.list.error-nb-products.tooltip': 'Produits en erreur',
-  'acquisition-chain.monitor.list.inprogress-nb-products.tooltip': 'Produits en cours',
-  'acquisition-chain.monitor.list.total-nb-files': 'Fichiers',
-  'acquisition-chain.monitor.list.total-files.tooltip': 'Total des Fichiers générés par la chaîne',
-  'acquisition-chain.monitor.list.error-nb-files.tooltip': 'Fichiers en erreur',
-  'acquisition-chain.monitor.list.inprogress-nb-files.tooltip': 'Fichiers en cours',
+  // 2.2 Table header
+  'acquisition-chain.list.label': 'Nom',
+  'acquisition-chain.list.mode': 'Mode',
+  'acquisition-chain.list.mode.AUTO': 'Automatique',
+  'acquisition-chain.list.mode.MANUAL': 'Manuel',
+  'acquisition-chain.list.running': 'Actif',
+  'acquisition-chain.list.state': 'Etat',
+  'acquisition-chain.list.activity.not.running': 'Arrêtée',
+  'acquisition-chain.list.activity.not.running.date': 'Arrêtée depuis le {date}',
+  'acquisition-chain.list.total-nb-products': 'Produits',
+  'acquisition-chain.list.total-products.tooltip': 'Total des produits',
+  'acquisition-chain.list.error-nb-products.tooltip': 'Produits en erreur',
+  'acquisition-chain.list.inprogress-nb-products.tooltip': 'Produits en cours',
+  'acquisition-chain.list.total-nb-files': 'Fichiers',
+  'acquisition-chain.list.total-files.tooltip': 'Total des Fichiers générés par la chaîne',
+  'acquisition-chain.list.error-nb-files.tooltip': 'Fichiers en erreur',
+  'acquisition-chain.list.inprogress-nb-files.tooltip': 'Fichiers en cours',
 
-  // 3.1.3 Table actions
-  'acquisition-chain.monitor.list.run.tooltip': 'Lancer la chaîne',
-  'acquisition-chain.monitor.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
-  'acquisition-chain.monitor.list.stop.tooltip': 'Arrêter la chaîne',
-  'acquisition-chain.monitor.list.stop.error': 'Erreur durant l\'arrêt de la chaîne de traitement {label} ({chainId})',
+  // 2.3 Table actions
+  'acquisition-chain.list.toggle.error': 'Erreur durant la modification de la chaîne {chainId}',
+  'acquisition-chain.list.run.tooltip': 'Lancer la chaîne',
+  'acquisition-chain.list.run.error': 'Erreur durant le lancement de la chaîne de traitement {label} ({chainId})',
+  'acquisition-chain.list.stop.tooltip': 'Arrêter la chaîne',
+  'acquisition-chain.list.stop.error': 'Erreur durant l\'arrêt de la chaîne de traitement {label} ({chainId})',
+  'acquisition-chain.list.duplicate.tooltip': 'Dupliquer la chaîne de traitement',
+  'acquisition-chain.list.edit.tooltip': 'Editer la chaîne de traitement',
+  'acquisition-chain.list.list.tooltip': 'Voir les détails de la session',
+  'acquisition-chain.list.mode.manual': 'Manuel',
+  'acquisition-chain.list.mode.auto': 'Auto',
+  'acquisition-chain.list.enabled.true': 'Activé',
+  'acquisition-chain.list.enabled.false': 'Désactivé',
+  'acquisition-chain.list.addnew.button': 'Créer une nouvelle chaîne',
+  'acquisition-chain.list.delete.confirm.title': 'Supprimer la chaîne d\'acquisition {label} ?',
 
-  // 3.1.4 Table filters
-  'acquisition-chain.monitor.list.filters.label': 'Libellé',
-  'acquisition-chain.monitor.list.filters.running': 'Etat d\'activation',
-  'acquisition-chain.monitor.list.filters.mode': 'Mode d\'activation',
-  'acquisition-chain.monitor.list.filters.mode.all': 'Tous',
-  'acquisition-chain.monitor.list.filters.mode.auto': 'Automatique',
-  'acquisition-chain.monitor.list.filters.mode.manual': 'Manuel',
-  'acquisition-chain.monitor.list.filters.running.all': 'Toutes',
-  'acquisition-chain.monitor.list.filters.running.running': 'Actives',
-  'acquisition-chain.monitor.list.filters.running.stopped': 'Arrêtées',
-  'acquisition-chain.monitor.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition-chain.monitor.list.filters.clear.button': 'Vider',
-  'acquisition-chain.monitor.list.refresh.button': 'Rafraîchir',
-  'acquisition-chain.monitor.list.back.button': 'Retour',
+  // 2.4 Table filters
+  'acquisition-chain.list.filters.label': 'Libellé',
+  'acquisition-chain.list.filters.running': 'Etat d\'activation',
+  'acquisition-chain.list.filters.mode': 'Mode d\'activation',
+  'acquisition-chain.list.filters.mode.all': 'Tous',
+  'acquisition-chain.list.filters.mode.auto': 'Automatique',
+  'acquisition-chain.list.filters.mode.manual': 'Manuel',
+  'acquisition-chain.list.filters.running.all': 'Toutes',
+  'acquisition-chain.list.filters.running.running': 'Actives',
+  'acquisition-chain.list.filters.running.stopped': 'Arrêtées',
+  'acquisition-chain.list.filters.apply.button': 'Appliquer les filtres',
+  'acquisition-chain.list.filters.clear.button': 'Vider',
+  'acquisition-chain.list.refresh.button': 'Rafraîchir',
+  'acquisition-chain.list.enable-selected.button': 'Activer la selection',
+  'acquisition-chain.list.disable-selected.button': 'Désactiver la selection',
+  'acquisition-chain.list.back.button': 'Retour',
 
-  // 3.2 Chain jobs
-  'acquisition-chain.jobs.monitor.view.button.label': 'Détails',
-  'acquisition-chain.jobs.monitor.dialog.title': 'Etat d\'activité des "Jobs" associés à la chaîne d\'acquisition {label}',
-  'acquisition-chain.jobs.monitor.dialog.information.message': 'Ci-dessous sont listés les jobs en cours d\'activité pour la chaîne d\'acquisition courante.',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.label': '{count} Jobs d\'acquisition actif(s).',
-  'acquisition-chain.jobs.monitor.product-acquisition.job.empty.label': 'Tous les jobs d\'acquisition sont terminés.',
-  'acquisition-chain.jobs.monitor.generation.job.label': '{count} Jobs de génération actif(s).',
-  'acquisition-chain.jobs.monitor.generation.job.empty.label': 'Tous les "Jobs" de génération sont terminés.',
+  //3. Sessions Monitor
+  'acquisition-sessions.empty-response': 'Aucune session disponible',
+  'acquisition-sessions.title': 'Sessions',
+  'acquisition-sessions.subtitle': 'Suivi de l\'avancement global de l\'aquisition et traitement des données',
+  'acquisition-sessions.back.button': 'Retour',
+  'acquisition-sessions.refresh.button': 'Rafraîchir',
 
-  // 4. Products list
-  // 4.1 Headers
-  'acquisition-product.breadcrumb.label': 'Produits',
-  'acquisition-product.selected-chain.title': 'Produits de la chaîne {chain}',
-  'acquisition-product.empty.title': 'Aucun produit',
-  'acquisition-product.list.productName': 'Produit',
-  'acquisition-product.list.lastUpdate': 'Date de mise à jour',
-  'acquisition-product.list.state': 'Etat',
-  'acquisition-product.list.sipState': 'Etat du SIP',
-  'acquisition-product.list.session': 'Session',
+  //3.1 Table headers
+  'acquisition-sessions.table.name': 'Session',
+  'acquisition-sessions.table.source': 'Source',
+  'acquisition-sessions.table.creation-date': 'Date de création',
+  'acquisition-sessions.table.state': 'Etat',
+  'acquisition-sessions.table.sip-generated': 'Acquisition',
+  'acquisition-sessions.table.aip-stored': 'Archivage',
+  'acquisition-sessions.table.indexed': 'Catalogage',
+  'acquisition-sessions.table.last-modification': 'Dernière modification',
 
-  //4.2 Filters
-  'acquisition.product.list.filters.state': 'Etat des produits',
-  'acquisition.product.list.filters.sipState': 'Etat des SIPs',
-  'acquisition.product.list.filters.state.ACQUIRING': 'En cours',
-  'acquisition.product.list.filters.state.COMPLETED': 'Complet',
-  'acquisition.product.list.filters.state.FINISHED': 'Terminé',
-  'acquisition.product.list.filters.state.INVALID': 'Invalide',
-  'acquisition.product.list.filters.state.ERROR': 'Erreur',
-  'acquisition-product.list.filters.productName': 'Nom du produit',
-  'acquisition.product.list.filters.session': 'Session d\'ingestion',
-  'acquisition-chain.monitor.list.filters.no.session': 'Produits sans session',
-  'acquisition.product.list.filters.from': 'Depuis ...',
+  //3.2 Table Headers tooltip
+  'acquisition-sessions.table.sip-generated.tooltip': 'Produits préparés pour l’ingestion (SIP générés)',
+  'acquisition-sessions.table.aip-stored.tooltip': 'Produits enregistrés auprès du stockage (AIP stockés)',
+  'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
-  // 4.3 actions
-  'acquisition-product.list.view.files.tooltip': 'Voir les fichiers associés',
-  'acquisition-product.list.product.info.tooltip': 'Voir les informations sur l\'acquisition du produit',
-  'acquisition-product.list.back.button': 'Retour',
-  'acquisition.product.list.filters.clear.button': 'Vider',
-  'acquisition.product.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.product.list.refresh.button': 'Rafraîchir',
-  'acquisition.product.list.sip.session.link.title': 'Visualiser l\'état de la session',
+  //3.3 Products states
+  'acquisition-sessions.states.complet': 'Produits générés',
+  'acquisition-sessions.states.incomplete': 'Prod. incomplets',
+  'acquisition-sessions.states.invalid': 'Prod. invalides',
+  'acquisition-sessions.states.files_acquired': 'Fichiers détectés',
+  'acquisition-sessions.states.error': 'Erreurs',
+  'acquisition-sessions.states.pending': 'En cours',
+  'acquisition-sessions.states.storing': 'Archivages en cours',
+  'acquisition-sessions.states.stored': 'Produits Archivés',
+  'acquisition-sessions.states.running': 'En cours',
+  'acquisition-sessions.states.indexed': 'Produits indexés',
+  'acquisition-sessions.states.index.errors': 'Erreurs',
+  'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
 
-  // 5. Acquisition file list
-  // 5.1 Headers
-  'acquisition-file.breadcrumb.label': 'Fichiers',
-  'acquisition.file.list.subtitle': 'Fichiers de la chaîne d\'acquisition {chain}',
-  'acquisition.file.list.product.selected.subtitle': 'Fichiers du produit {product}',
-  'acquisition.file.empty.title': 'Aucun fichiers acquis',
-  'acquisition.file.list.back.button': 'Retour',
-  'acquisition.file.list.filePath': 'Fichier',
-  'acquisition.file.list.acqDate': 'Date d\'acquisition',
-  'acquisition.file.list.state': 'Etat',
 
-  //5.2 Filters
-  'acquisition.file.list.filters.state': 'Etat',
-  'acquisition.file.list.filters.state.IN_PROGRESS': 'En cours',
-  'acquisition.file.list.filters.state.VALID': 'Valide',
-  'acquisition.file.list.filters.state.ACQUIRED': 'Acquis',
-  'acquisition.file.list.filters.state.SUPERSEDED': 'Remplacé',
-  'acquisition.file.list.filters.state.SUPERSEDED_AFTER_ERROR': 'Remplacé après erreur',
-  'acquisition.file.list.filters.state.INVALID': 'Invalide',
-  'acquisition.file.list.filters.state.ERROR': 'Erreur',
-  'acquisition.file.list.filters.filePath': 'Fichier',
-  'acquisition.file.list.filters.from': 'Depuis ...',
+  //3.4 Cell's Menus
+  'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
+  'acquisition-sessions.menus.session.delete.force.button': 'Supprimer la session',
+  'acquisition-sessions.menus.session.delete.dialog.title': 'Supprimer les produits de la session <{source} - {name}>',
+  'acquisition-sessions.menus.session.delete.dialog.message': 'Etes vous sûr de vouloir supprimer tous les produits de cette session ? Si les fichiers sont sockés sur un espace de stockage configuré pour autoriser la suppression, alors les fichiers seront également supprimés physiquement.',
+  'acquisition-sessions.menus.session.delete.dialog.cancel.button': 'Annuler',
+  'acquisition-sessions.menus.session.delete.dialog.delete.button': 'Supprimer les produits',
+  'acquisition-sessions.menus.session.delete.dialog.force.button': 'Supprimer la session',
+  'acquisition-sessions.menus.session.delete.dialog.deletion.error': 'Une erreur innatendue c\'est produite durant la demande de suppression. Veuillez réessayer ultérieurement',
+  'acquisition-sessions.menus.products.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.products.show.errors': 'Voir les produits en erreur',
+  'acquisition-sessions.menus.products.show.incomplete': 'Voir les produits incomplets',
+  'acquisition-sessions.menus.products.show.invalids': 'Voir les produits invalides',
+  'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
+  'acquisition-sessions.menus.archives': 'Produits pour archivage',
+  'acquisition-sessions.menus.archives.relaunch': 'Relancer les produits en erreur',
+  'acquisition-sessions.menus.archives.list': 'Visualiser les Produits',
+  'acquisition-sessions.menus.archives.list.error': 'Visualiser les Traitements en erreur',
 
-  //5.3 actions
-  'acquisition.file.list.filters.clear.button': 'Vider',
-  'acquisition.file.list.filters.apply.button': 'Appliquer les filtres',
-  'acquisition.file.list.refresh.button': 'Rafraîchir',
+  'acquisition-sessions.menus.products.list.name': 'Produit',
+  'acquisition-sessions.menus.products.list.error': 'Cause de l\'erreur',
+  'acquisition-sessions.menus.products.list.title.error': 'Liste des produits en erreur pour la session {source}:{session}',
+  'acquisition-sessions.menus.products.list.title.incomplete': 'Liste des produits incomplets pour la session {source}:{session}',
+  'acquisition-sessions.menus.products.list.help.error': 'Liste des produits en erreurs sur la session courante. Après avoir corrigé les problèmes rencontrés, vous pouvez relancer l\'acquisition des produits en erreur',
+  'acquisition-sessions.menus.products.list.help.incomplete': 'Un produit incompet est un produit auquel il manque au moins un type de fichier obligatoire. Il se peut que le fichier n\'était pas présent lors du scan du répertoire. Vous pouvez relancer la chaîne d\'acquisition pour compléter ces produits si les fichiers sont désormais présents.',
 
-  //6. Product information dialog
-  'acquisition-product.informaton.dialog.title': 'Informations sur l\'acquisition du produit {label}',
-  'acquisition-product.informaton.dialog.close.button': 'Fermer',
-  'acquisition-product.informaton.global.error': 'Erreur durant l\'acquisition : ',
-  'acquisition-product.informaton.generation.job.title': 'Informations sur le processus de génération du produit',
-  'acquisition-product.informaton.submission.job.title': 'Information sur le processus de soumission du SIP',
-  'acquisition-product.informaton.dialog.job.info.percentCompleted': 'Avancement : ',
-  'acquisition-product.informaton.dialog.job.info.queuedDate': 'Date de création : ',
-  'acquisition-product.informaton.dialog.job.info.startDate': 'Date de début : ',
-  'acquisition-product.informaton.dialog.job.info.stopDate': 'Date de fin : ',
-  'acquisition-product.informaton.dialog.job.info.status': 'Etat : ',
+  'acquisition-sessions.menus.index.view': 'Visualiser les aspirations',
+
+  //3.5 Filters
+  'acquisition-sessions.filters.source': 'Source',
+  'acquisition-sessions.filters.session': 'Session',
+  'acquisition-sessions.filters.from.label': 'Du',
+  'acquisition-sessions.filters.to.label': 'Au',
+  'acquisition-sessions.filters.last-session': 'Dernière session seulement',
+  'acquisition-sessions.filters.errors-only': 'Erreurs seulement',
+  'acquisition-sessions.filters.reset': 'Vider les filtres',
+  'acquisition-sessions.filters.apply': 'Appliquer les filtres',
+  'acquisition-sessions.filters.column-selector': 'Selectionnez les colonnes à afficher',
+  'acquisition-sessions.filters.sources-hint': 'Sources',
+  'acquisition-sessions.filters.sessions-hint': 'Sessions',
+
+  // 3.6 Sessions states
+  'acquisition-sessions.state.OK': 'Aucune erreur',
+  'acquisition-sessions.state.DELETED': 'Supprimée',
+  'acquisition-sessions.state.ACKNOWLEDGED': 'Erreur acquittée',
+  'acquisition-sessions.state.ERROR': 'En erreur',
+
+  //4 Run Confirm Dialog
+  'acquisition-product.run.dialog.title': 'Souhaitez-vous renommer cette session ?',
+  'acquisition-product.run.dialog.message': 'Vous pouvez directement confirmer si vous ne souhaitez pas la renommer.',
+  'acquisition-product.run.dialog.confirm.button': 'Confirmer',
+  'acquisition-product.run.dialog.close.button': 'Fermer',
+
+  'invalid.cron.expression': 'Cron invalide',
 
 }, Locales.fr)
 

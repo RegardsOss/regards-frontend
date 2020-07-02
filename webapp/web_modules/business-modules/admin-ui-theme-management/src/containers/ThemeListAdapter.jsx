@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,7 @@ import { AuthenticationParametersSelectors } from '@regardsoss/authentication-ut
 import { connect } from '@regardsoss/redux'
 import { browserHistory } from 'react-router'
 import {
-  ThemeActions, ThemeInstanceActions, ThemeSelectors, getCurrentTheme,
+  ThemeActions, ThemeInstanceActions, ThemeSelectors,
 } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import ThemeListContainer from './ThemeListContainer'
@@ -97,7 +97,6 @@ export class ThemeListAdapter extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   themeList: ThemeSelectors.getList(state),
-  currentTheme: getCurrentTheme(state),
   isFetching: ThemeSelectors.isFetching(state),
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })

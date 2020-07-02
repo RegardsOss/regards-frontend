@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,24 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
+import values from 'lodash/values'
+import { formValueSelector } from 'redux-form'
+import CircularProgress from 'material-ui/CircularProgress'
 import { CardActions, CardText } from 'material-ui/Card'
-import {
-  ShowableAtRender, CardActionsComponent, FormErrorMessage,
-} from '@regardsoss/components'
+import MenuItem from 'material-ui/MenuItem'
 import { FormattedMessage } from 'react-intl'
-import {
-  RenderTextField, Field, RenderSelectField, reduxForm,
-} from '@regardsoss/form-utils'
+import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import MenuItem from 'material-ui/MenuItem'
-import KeyboardArrowUp from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import KeyboardArrowDown from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
-import RaisedButton from 'material-ui/RaisedButton'
-import styles from '../styles/styles'
+import { Field, RenderSelectField, reduxForm } from '@regardsoss/form-utils'
+import { CardActionsComponent, FormErrorMessage } from '@regardsoss/components'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import AccessRightsEnum from './AccessRightsEnum'
 
 
@@ -51,277 +47,145 @@ export class AccessRightFormComponent extends React.Component {
     onSubmit: PropTypes.func.isRequired,
     onCancel: PropTypes.func.isRequired,
     errorMessage: PropTypes.string,
-    currentAccessRight: DataManagementShapes.AccessRightContent,
+    datasetAccessRightsToEdit: PropTypes.arrayOf(DataManagementShapes.DatasetWithAccessRight).isRequired,
+    isSubmitting: PropTypes.bool.isRequired,
     // from reduxForm
     submitting: PropTypes.bool,
     invalid: PropTypes.bool,
+    pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
+    selectedAccessLevel: PropTypes.oneOf(values(AccessRightsEnum.METADATA_ACCESS_ENUM)), // Binded from current redux form values (used to update visible fields)
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isDisplayAdvancedForm: false,
-      isDisplayPluginConf: false,
-      isDisplayDOAccessPluginConf: false,
-      selectMetaDataAccessLevel: props.currentAccessRight && props.currentAccessRight.accessLevel
-        ? props.currentAccessRight.accessLevel : AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
-    }
+  static DEFAULT_RIGHTS = {
+    accessLevel: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
+    dataAccessLevel: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
   }
-
-  componentDidMount() {
-    this.handleInitialize()
-  }
-
-  handleInitialize = () => {
-    const { currentAccessRight } = this.props
-    let defaultValues = {}
-    if (currentAccessRight) {
-      defaultValues = {
-        quality: {
-          level: currentAccessRight.qualityFilter.qualityLevel,
-          max: currentAccessRight.qualityFilter.maxScore,
-          min: currentAccessRight.qualityFilter.minScore,
-        },
-        access: currentAccessRight.accessLevel,
-        dataAccess: currentAccessRight.dataAccessRight.dataAccessLevel,
-        dataAccessPlugin: currentAccessRight.dataAccessPlugin,
-        checkAccessPlugin: currentAccessRight.dataAccessRight.pluginConfiguration,
-      }
-      const isCustomMetaAccess = (currentAccessRight.accessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS)
-      const isCustomAccess = (currentAccessRight.dataAccessRight.dataAccessLevel === AccessRightsEnum.DATA_ACCESS_ENUM.CUSTOM_ACCESS)
-
-      if (isCustomMetaAccess || isCustomAccess) {
-        this.setState({
-          isDisplayPluginConf: isCustomAccess,
-          isDisplayDOAccessPluginConf: isCustomMetaAccess,
-        })
-      }
-    } else {
-      defaultValues = {
-        quality: {
-          level: AccessRightsEnum.QUALITY_LEVEL_ENUM.ACCEPTED,
-          max: '10',
-          min: '0',
-        },
-        access: AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS,
-        dataAccess: AccessRightsEnum.DATA_ACCESS_ENUM.REFUSED,
-      }
-    }
-
-    this.setState({
-      selectMetaDataAccessLevel: defaultValues.access,
-    })
-
-    this.props.initialize(defaultValues)
-  }
-
-  handleToggleAdvanced = () => {
-    const { isDisplayAdvancedForm } = this.state
-    this.setState({
-      isDisplayAdvancedForm: !isDisplayAdvancedForm,
-    })
-  }
-
 
   /**
-   * Display the Plugin Configuraion picker when the user pick CustomAccess
-   * Or remove the plugin configuration id from the form  when the user selects something else than CustomAccess
-   * @param event
-   * @param index
-   * @param value
-   * @param input
+   * Converts access rights as parameter into edited form values
+   * @param {*} accessRight access rights (matching DataManagementShapes.AccessRightContent)
+   * @return {*} corresponding form values
    */
-  handleChangeDataAccess = (event, index, value, input) => {
-    this.setState({
-      isDisplayPluginConf: (value === AccessRightsEnum.DATA_ACCESS_ENUM.CUSTOM_ACCESS),
-    })
-    input.onChange(value)
-  }
-
-  handleChangeMetaDataAccess = (event, index, value, input) => {
-    this.setState({
-      selectMetaDataAccessLevel: value,
-      isDisplayDOAccessPluginConf: (value === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS),
-    })
-    input.onChange(value)
-  }
-
-  renderShowAdvancedButton = () => {
-    const computedStyles = styles(this.context.muiTheme)
-    const { isDisplayAdvancedForm } = this.state
-    const labelToggleAdvanced = isDisplayAdvancedForm
-      ? <FormattedMessage id="accessright.form.action.advanced.hide" />
-      : <FormattedMessage id="accessright.form.action.advanced.show" />
-    const iconToggleAdvanced = isDisplayAdvancedForm
-      ? <KeyboardArrowUp />
-      : <KeyboardArrowDown />
-    return (
-      <div
-        className={computedStyles.action.classes}
-        style={computedStyles.action.styles}
-      >
-        <RaisedButton
-          label={labelToggleAdvanced}
-          icon={iconToggleAdvanced}
-          onClick={this.handleToggleAdvanced}
-        />
-      </div>
-    )
-  }
-
-  renderDataAccessLevel = () => {
-    // Data access level is configurable only if metadata level is available for datas
-    if (this.state.selectMetaDataAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
-      || this.state.selectMetaDataAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS) {
-      return null
+  static toFormValues(accessRight = AccessRightFormComponent.DEFAULT_RIGHTS) {
+    return {
+      access: accessRight.accessLevel,
+      dataAccess: accessRight.dataAccessLevel,
+      dataAccessPlugin: accessRight.dataAccessPlugin,
     }
-    return (
-      <Field
-        className="selenium-pick-dataAccess"
-        name="dataAccess"
-        fullWidth
-        component={RenderSelectField}
-        label={this.context.intl.formatMessage({ id: 'accessright.form.data.accessLevel' })}
-        onSelect={this.handleChangeDataAccess}
-      >
-        {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
-          const label = `accessright.form.data.accessLevel.${value}`
-          return (
-            <MenuItem
-              className={`selenium-pick-dataAccess-${value}`}
-              value={value}
-              key={key}
-              primaryText={<FormattedMessage id={label} />}
-            />
-          )
-        })}
-      </Field>
-    )
   }
 
-  renderMetaDataAccessLevel = () => (
-    <Field
-      className="selenium-pick-metaDataAccessLevel"
-      name="access"
-      fullWidth
-      component={RenderSelectField}
-      label={this.context.intl.formatMessage({ id: 'accessright.form.meta.accessLevel' })}
-      onSelect={this.handleChangeMetaDataAccess}
-    >
-      {map(AccessRightsEnum.METADATA_ACCESS_ENUM, (value, key) => {
-        const label = `accessright.form.meta.accessLevel.${value}`
-        return (
-          <MenuItem
-            className={`selenium-pick-metaDataAccessLevel-${value}`}
-            value={value}
-            key={key}
-            primaryText={<FormattedMessage id={label} />}
-          />
-        )
-      })}
-    </Field>
-  )
-
-  renderQualityFilter = () => {
-    const { isDisplayAdvancedForm } = this.state
-    return (
-      <ShowableAtRender show={isDisplayAdvancedForm}>
-        <hr />
-        <FormattedMessage id="accessright.form.quality" />
-        <br />
-        <div className="row">
-          <div className="col-sm-48">
-            <Field
-              name="quality.min"
-              component={RenderTextField}
-              type="number"
-              fullWidth
-              label={this.context.intl.formatMessage({ id: 'accessright.form.quality.min' })}
-            />
-          </div>
-          <div className="col-sm-48 col-sm-offset-4">
-            <Field
-              name="quality.max"
-              component={RenderTextField}
-              type="number"
-              fullWidth
-              label={this.context.intl.formatMessage({ id: 'accessright.form.quality.max' })}
-            />
-          </div>
-        </div>
-        <Field
-          name="quality.level"
-          fullWidth
-          component={RenderSelectField}
-          label={this.context.intl.formatMessage({ id: 'accessright.form.quality.level' })}
-        >
-          {map(AccessRightsEnum.QUALITY_LEVEL_ENUM, (value, key) => {
-            const label = `accessright.form.quality.level.${value}`
-            return (
-              <MenuItem
-                value={value}
-                key={key}
-                primaryText={<FormattedMessage id={label} />}
-              />
-            )
-          })}
-        </Field>
-      </ShowableAtRender>
-    )
+  /**
+   * React lifecycle method: component did mount. Used here to initialize form values
+   */
+  componentDidMount() {
+    const { datasetAccessRightsToEdit, initialize } = this.props
+    // Set to edit dataset values when only one dataset, or default values otherwise (plugins cannot be handled for all at once)
+    initialize(AccessRightFormComponent.toFormValues(
+      datasetAccessRightsToEdit.length === 1
+        ? datasetAccessRightsToEdit[0].content.accessRight
+        : AccessRightFormComponent.DEFAULT_RIGHTS))
   }
+
+  /**
+   * On submit callback
+   * @param {*} formValues from redux form
+   */
+  onSubmit = (formValues) => {
+    const { datasetAccessRightsToEdit, onSubmit } = this.props
+    onSubmit(datasetAccessRightsToEdit, formValues)
+  }
+
+  isSubmitable = () => {
+    const {
+      submitting, isSubmitting, invalid, pristine, datasetAccessRightsToEdit,
+    } = this.props
+    return !isSubmitting && !submitting && !invalid && (datasetAccessRightsToEdit.length > 1 || !pristine)
+  }
+
 
   render() {
-    const { submitting, invalid } = this.props
-    const { isDisplayPluginConf, isDisplayDOAccessPluginConf } = this.state
+    const {
+      selectedAccessLevel, errorMessage, handleSubmit, onCancel, submitting, isSubmitting,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
+    const submitDisabled = !this.isSubmitable()
     return (
-      <form onSubmit={this.props.handleSubmit(this.props.onSubmit)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
           <CardText>
+            {/* 1. error */}
             <FormErrorMessage>
-              {this.props.errorMessage}
+              {errorMessage}
             </FormErrorMessage>
-            {this.renderMetaDataAccessLevel()}
-            <ShowableAtRender show={isDisplayDOAccessPluginConf}>
-              <Field
-                name="dataAccessPlugin"
-                component={RenderPluginField}
-                title={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.title' })}
-                selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.dataAccessPlugin.select.label' })}
-                pluginType={DamDomain.PluginTypeEnum.DATA_OBJECT_ACCESS_FILTER}
-                defaultPluginConfLabel={`dataAccessPlugin-${Date.now()}`}
-                microserviceName={STATIC_CONF.MSERVICES.DAM}
-                hideDynamicParameterConf
-                hideGlobalParameterConf
-              />
-            </ShowableAtRender>
-            {this.renderDataAccessLevel()}
-            <ShowableAtRender show={isDisplayPluginConf}>
-              <br />
-              <br />
-              <Field
-                name="checkAccessPlugin"
-                component={RenderPluginField}
-                title={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.title' })}
-                selectLabel={this.context.intl.formatMessage({ id: 'accessright.form.checkDataAccessPlugin.select.label' })}
-                pluginType={DamDomain.PluginTypeEnum.CHECK_DATA_ACCESS}
-                defaultPluginConfLabel={`checkAccessPlugin-${Date.now()}`}
-                microserviceName={STATIC_CONF.MSERVICES.DAM}
-                hideDynamicParameterConf
-                hideGlobalParameterConf
-              />
-            </ShowableAtRender>
-            {/**this.renderQualityFilter()*/}
-            {/** this.renderShowAdvancedButton()*/}
+            {/* 2. Metadata (dataset) access level selection */}
+            <Field
+              className="selenium-pick-metaDataAccessLevel"
+              name="access"
+              fullWidth
+              component={RenderSelectField}
+              label={formatMessage({ id: 'accessright.form.meta.accessLevel' })}
+            >
+              {map(AccessRightsEnum.METADATA_ACCESS_ENUM, (value, key) => {
+                const label = `accessright.form.meta.accessLevel.${value}`
+                return (
+                  <MenuItem
+                    className={`selenium-pick-metaDataAccessLevel-${value}`}
+                    value={value}
+                    key={key}
+                    primaryText={<FormattedMessage id={label} />}
+                  />
+                )
+              })}
+            </Field>
+            {/* 3. Access plugin configuration (when meta data access level is custom) */
+              selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
+                <Field
+                  name="dataAccessPlugin"
+                  component={RenderPluginField}
+                  title={formatMessage({ id: 'accessright.form.dataAccessPlugin.title' })}
+                  selectLabel={formatMessage({ id: 'accessright.form.dataAccessPlugin.select.label' })}
+                  pluginType={DamDomain.PluginTypeEnum.DATA_OBJECT_ACCESS_FILTER}
+                  defaultPluginConfLabel={`dataAccessPlugin-${Date.now()}`}
+                  microserviceName={STATIC_CONF.MSERVICES.DAM}
+                  hideDynamicParameterConf
+                  hideGlobalParameterConf
+                />) : null
+            }
+            {/* 4. Data access level, when metadata level is DATASET_AND_OBJECT_ACCESS or CUSTOM_ACCESS,
+                  as other metadata access types prevent data access */
+                  selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS
+                  || selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
+                    <Field
+                      className="selenium-pick-dataAccess"
+                      name="dataAccess"
+                      fullWidth
+                      component={RenderSelectField}
+                      label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
+                    >
+                      {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
+                        const label = `accessright.form.data.accessLevel.${value}`
+                        return (
+                          <MenuItem
+                            className={`selenium-pick-dataAccess-${value}`}
+                            value={value}
+                            key={key}
+                            primaryText={<FormattedMessage id={label} />}
+                          />
+                        )
+                      })}
+                    </Field>) : null
+            }
           </CardText>
+          {/* 5. Form actions */}
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.save' })}
+              mainButtonLabel={submitting || isSubmitting ? <CircularProgress size={30} /> : formatMessage({ id: 'accessright.form.action.save' })}
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'accessright.form.action.cancel' })}
-              secondaryButtonClick={this.props.onCancel}
+              isMainButtonDisabled={submitDisabled}
+              secondaryButtonLabel={formatMessage({ id: 'accessright.form.action.cancel' })}
+              secondaryButtonClick={onCancel}
             />
           </CardActions>
         </div>
@@ -330,19 +194,28 @@ export class AccessRightFormComponent extends React.Component {
   }
 }
 
-function validate(values) {
+/**
+ * Computes error for current form values
+ * @param {*} formValues as provided by redux form (keys are fields name)
+ * @return {*} errors map, where key if field name and value is internationalized message key
+ */
+function validate(formValues) {
   const errors = {}
-  if (values.dataAccess && values.dataAccess === 'CUSTOM_ACCESS' && !values.pluginConfiguration) {
+  if (formValues.dataAccess && formValues.dataAccess === 'CUSTOM_ACCESS' && !formValues.pluginConfiguration) {
     errors.dataAccess = 'invalid.require_plugin_configuration'
-  }
-  if (values.quality && values.quality.min && parseInt(values.quality.min, 10) > parseInt(values.quality.max, 10)) {
-    errors.quality = {}
-    errors.quality.max = 'invalid.require_max_more_than_min'
   }
   return errors
 }
 
-export default reduxForm({
-  form: 'access-right-form',
+// prepare redux form
+const formId = 'access-right-form'
+const connectedReduxForm = reduxForm({
+  form: formId,
   validate,
 })(AccessRightFormComponent)
+
+// export connected with selector to select the last mail value
+const selector = formValueSelector(formId)
+export default connect(state => ({
+  selectedAccessLevel: selector(state, 'access'),
+}))(connectedReduxForm)

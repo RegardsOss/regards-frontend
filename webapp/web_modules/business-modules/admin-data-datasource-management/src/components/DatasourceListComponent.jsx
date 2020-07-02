@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,7 +31,7 @@ import {
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { datasourceActions } from '../clients/DatasourceClient'
 import DatasourceListEditAction from './DatasourceListEditAction'
@@ -91,7 +91,7 @@ export default class DatasourceListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.content.businessId)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -153,7 +153,7 @@ export default class DatasourceListComponent extends React.Component {
 
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'datasource.list.empty.title' })}
+        titleKey="datasource.list.empty.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,14 +31,25 @@ class BasicArrayActions extends BasicActions {
     this.ENTITY_LIST_REQUEST = `${options.namespace}/LIST_REQUEST`
     this.ENTITY_LIST_SUCCESS = `${options.namespace}/LIST_SUCCESS`
     this.ENTITY_LIST_FAILURE = `${options.namespace}/LIST_FAILURE`
-    this.CREATE_ENTITIES_SUCCESS = `${options.namespace}/CREATE_ENTITIES_SUCCESS`
-    this.CREATE_ENTITIES_REQUEST = `${options.namespace}/CREATE_ENTITIES_REQUEST`
-    this.CREATE_ENTITIES_FAILURE = `${options.namespace}/CREATE_ENTITIES_FAILURE`
   }
 
   fetchEntityList(pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
+    return {
+      [RSAA]: {
+        types: [
+          this.ENTITY_LIST_REQUEST,
+          this.buildSuccessAction(this.ENTITY_LIST_SUCCESS, (action, state, res) => getJSON(res)),
+          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
+        ],
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
+        method: 'GET',
+      },
+    }
+  }
+
+
+  fetchEntityListByPost(pathParams, queryParams, bodyParams) {
+    const endpoint = BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams)
     return {
       [RSAA]: {
         types: [
@@ -47,7 +58,9 @@ class BasicArrayActions extends BasicActions {
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
         endpoint,
-        method: 'GET',
+        headers: this.headers,
+        method: 'POST',
+        body: JSON.stringify(bodyParams),
       },
     }
   }

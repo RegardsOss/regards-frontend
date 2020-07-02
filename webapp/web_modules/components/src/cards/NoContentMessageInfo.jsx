@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import DefaultIcon from 'material-ui/svg-icons/social/sentiment-very-satisfied'
+import DefaultIcon from 'mdi-material-ui/EmoticonOutline'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import NoContentComponent from '../content/NoContentComponent'
+import NoContentComponent from '../content/feedback/NoContentComponent'
 import styles from './styles'
 
 /**
@@ -27,9 +27,13 @@ import styles from './styles'
 export class NoContentMessageInfo extends React.Component {
   static propTypes = {
     noContent: PropTypes.bool.isRequired,
-    title: PropTypes.node.isRequired,
-    message: PropTypes.node,
+    titleKey: PropTypes.string,
+    titleParameters: PropTypes.objectOf(PropTypes.any), // title message parameters
+    messageKey: PropTypes.string,
+    messageParameters: PropTypes.objectOf(PropTypes.any), // main message parameters
     Icon: PropTypes.func,
+    // No data action, generally a button, that will be displayed under the no data message
+    action: PropTypes.element,
     children: PropTypes.node,
   }
 
@@ -43,14 +47,22 @@ export class NoContentMessageInfo extends React.Component {
 
   render() {
     const {
-      title, message, noContent, Icon, children,
+      titleKey, titleParameters, messageKey, messageParameters,
+      Icon, action, noContent, children,
     } = this.props
     const { moduleTheme: { noDataContainerStyle } } = this.context
     return (
       <div style={noDataContainerStyle}>
         {
           noContent
-            ? <NoContentComponent title={title} message={message} Icon={Icon} />
+            ? <NoContentComponent
+              titleKey={titleKey}
+              titleParameters={titleParameters}
+              messageKey={messageKey}
+              messageParameters={messageParameters}
+              Icon={Icon}
+              action={action}
+            />
             : children
         }
       </div>

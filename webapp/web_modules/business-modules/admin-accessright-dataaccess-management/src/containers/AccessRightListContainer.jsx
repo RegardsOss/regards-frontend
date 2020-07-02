@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -53,29 +53,23 @@ export class AccessRightListContainer extends React.Component {
 
   state ={
     filters: {},
+    isSubmitting: false,
   }
 
   onSubmit = (selectedDatasetsWithAccessright, formValues) => {
     const { accessGroup } = this.props
     // Create new access rights
-    const dataAccessRight = {
-      dataAccessLevel: formValues.dataAccess,
-    }
-    if (formValues) {
-      dataAccessRight.pluginConfiguration = formValues.checkAccessPlugin
-    }
-    const qualityFilter = {
-      maxScore: formValues.quality.max,
-      minScore: formValues.quality.min,
-      qualityLevel: formValues.quality.level,
-    }
     const newAccessRightList = map(selectedDatasetsWithAccessright, datasetWithAR => ({
       id: get(datasetWithAR, 'content.accessRight.id', null),
-      qualityFilter,
-      dataAccessRight,
+      qualityFilter: { // XXX-workaround: backend refuses missing quality filter (clear when correctly coded on backend)
+        maxScore: undefined,
+        minScore: undefined,
+        qualityLevel: undefined,
+      },
       dataAccessPlugin: formValues.dataAccessPlugin,
       accessGroup: accessGroup.content,
       accessLevel: formValues.access,
+      dataAccessLevel: formValues.dataAccess,
       dataset: {
         id: get(datasetWithAR, 'content.dataset.id', null),
         type: get(datasetWithAR, 'content.dataset.type', null),
@@ -90,11 +84,17 @@ export class AccessRightListContainer extends React.Component {
         requests.push(this.props.createAccessRight(newAccessRight))
       }
     })
+    this.setState({
+      isSubmitting: true,
+    })
     // Run all promises together and wait the end to refresh the current access group
     return Promise.all(requests)
       .then((actionsResults) => {
         const errors = filter(actionsResults, ar => ar.error)
         this.refresh()
+        this.setState({
+          isSubmitting: false,
+        })
         return {
           error: errors && errors.length > 0,
         }
@@ -114,7 +114,7 @@ export class AccessRightListContainer extends React.Component {
 
   getBackURL = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/dataaccess/access-group/list`
+    return `/admin/${project}/user/access-group/list`
   }
 
   navigateToCreateDataset = () => {
@@ -152,6 +152,7 @@ export class AccessRightListContainer extends React.Component {
         onFilter={this.filter}
         filters={this.state.filters}
         isFetching={this.props.isFetching}
+        isSubmitting={this.state.isSubmitting}
       />
     )
   }

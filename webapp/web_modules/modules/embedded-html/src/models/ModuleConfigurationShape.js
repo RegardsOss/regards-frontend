@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,6 +23,8 @@ import { UIDomain } from '@regardsoss/domain'
  * @author Sébastien Binda
  */
 const ModuleConfigurationShape = PropTypes.shape({
+  preview: PropTypes.bool, // is in preview (undefined when not)
+  previewLocale: PropTypes.oneOf(UIDomain.LOCALES), // preview locale (undefined when not in preview)
   cssHeight: PropTypes.string,
   cssWidth: PropTypes.string,
   urlByLocale: PropTypes.shape({

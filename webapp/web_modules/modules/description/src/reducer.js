@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { attributeModelReducer } from './clients/AttributeModelClient'
 import { collectionAttributeModelReducer } from './clients/CollectionAttributeModelClient'
 import { dataAttributeModelReducer } from './clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelReducer } from './clients/DatasetAttributeModelClient'
-import { documentAttributeModelReducer } from './clients/DocumentAttributeModelClient'
-import { modelAttributesReducer } from './clients/ModelAttributesClient'
-import { descriptionLevelsReducer } from './clients/DescriptionLevelClient'
+import { uiSettingsReducer } from './clients/UISettingsClient'
+import { descriptionStateReducer } from './clients/DescriptionStateClient'
 
 /**
  * Reducers for description module
@@ -29,13 +29,13 @@ import { descriptionLevelsReducer } from './clients/DescriptionLevelClient'
  */
 const searchResultsReducers = {
   // admin reducers
+  'documents-attributes': attributeModelReducer,
   'collections-attributes': collectionAttributeModelReducer,
   'dataobjects-attributes': dataAttributeModelReducer,
   'datasets-attributes': datasetAttributeModelReducer,
-  'documents-attributes': documentAttributeModelReducer,
+  uiSettings: uiSettingsReducer,
   // user reducer
-  model: modelAttributesReducer,
-  levels: descriptionLevelsReducer,
+  descriptionState: descriptionStateReducer,
 }
 
 export default searchResultsReducers

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -37,7 +37,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing AccessRightsTableEditAction', (
   })
   it('should render correctly', () => {
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
+    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'DatasetWithAccessRight')
 
     const props = {
       onEdit: () => { },

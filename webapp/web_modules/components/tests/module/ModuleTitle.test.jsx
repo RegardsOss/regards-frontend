@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -86,6 +86,16 @@ describe('[Components] Testing ModuleTitle', () => {
   it('should render correctly in maximized mode', () => {
     const props = {
       type: 'any',
+      description: 'any-module',
+      page: {
+        home: true,
+        iconType: 'DEFAULT',
+        customIconURL: 'any.svg',
+        title: {
+          en: 'any',
+          fr: 'quelconque',
+        },
+      },
       expandable: true,
       presentationState: UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED,
       showLayoutOptions: false,

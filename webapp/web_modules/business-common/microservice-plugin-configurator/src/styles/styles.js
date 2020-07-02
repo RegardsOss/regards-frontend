@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -46,8 +46,12 @@ const microserviceManagementStyles = theme => ({
     bodyStyle: {
       padding: 0,
     },
+    markdownView: {
+      width: '100%',
+      height: 450,
+    },
     scrollStyle: {
-      maxHeight: 400,
+      maxHeight: 450,
       padding: '10px 24px 0px 24px',
     },
     textDescriptionStyle: {

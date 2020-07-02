@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -97,7 +97,7 @@ export class ThemeFormComponent extends React.Component {
 
   getTitle = () => {
     const { isCreating, isEditing, currentTheme } = this.props
-    const { formatMessage } = this.context.intl
+    const { intl: { formatMessage } } = this.context
     if (isCreating) {
       return formatMessage({ id: 'theme.create.title' })
     } if (isEditing) {
@@ -264,6 +264,7 @@ export class ThemeFormComponent extends React.Component {
       invalid, submitting, isCreating, isDuplicating,
     } = this.props
     const { configuration } = this.state
+    const { intl: { formatMessage } } = this.context
     const title = this.getTitle()
     return (
       <form
@@ -281,7 +282,7 @@ export class ThemeFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={this.context.intl.formatMessage({ id: 'theme.form.name' })}
+                label={formatMessage({ id: 'theme.form.name' })}
                 validate={this.nameValidators}
                 normalize={trim}
               />
@@ -289,19 +290,20 @@ export class ThemeFormComponent extends React.Component {
             {/* 2. Base theme, when creating */}
             <ShowableAtRender show={isCreating}>
               <SelectField
-                floatingLabelText={this.context.intl.formatMessage({ id: 'theme.form.baseTheme' })}
+                fullWidth
+                floatingLabelText={formatMessage({ id: 'theme.form.baseTheme' })}
                 value={this.state.value}
                 onChange={this.handleSelectBaseTheme}
               >
                 <MenuItem value={ThemeFormComponent.UNDEFINED_THEME} primaryText="" />
-                <MenuItem value={ThemeFormComponent.LIGHT_THEME} primaryText="Light" />
-                <MenuItem value={ThemeFormComponent.DARK_THEME} primaryText="Dark" />
+                <MenuItem value={ThemeFormComponent.LIGHT_THEME} primaryText={formatMessage({ id: 'theme.form.mui.light.theme' })} />
+                <MenuItem value={ThemeFormComponent.DARK_THEME} primaryText={formatMessage({ id: 'theme.form.mui.dark.theme' })} />
               </SelectField>
             </ShowableAtRender>
             <Field
               name="active"
               component={RenderCheckbox}
-              label={this.context.intl.formatMessage({ id: 'theme.form.active' })}
+              label={formatMessage({ id: 'theme.form.active' })}
             />
             <ShowableAtRender show={!isEmpty(this.state.configuration)}>
               <ThemeEditor
@@ -317,10 +319,10 @@ export class ThemeFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'theme.form.action.submit' })}
+              mainButtonLabel={formatMessage({ id: 'theme.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid || isEmpty(configuration)}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'theme.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'theme.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

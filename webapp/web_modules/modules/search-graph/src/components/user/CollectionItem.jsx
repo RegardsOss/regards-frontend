@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import CollectionIcon from 'material-ui/svg-icons/file/folder'
-import ArrowDown from 'material-ui/svg-icons/navigation/arrow-drop-down'
-import { themeContextType } from '@regardsoss/theme'
+import ArrowDown from 'mdi-material-ui/MenuDown'
+import { DamDomain } from '@regardsoss/domain'
 import { CatalogShapes } from '@regardsoss/shape'
+import { themeContextType } from '@regardsoss/theme'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import ItemLinkContainer from '../../containers/user/ItemLinkContainer'
 import ItemLink from './ItemLink'
 
@@ -29,6 +31,7 @@ import ItemLink from './ItemLink'
 class CollectionItem extends React.Component {
   static propTypes = {
     collection: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     expensible: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,
@@ -57,7 +60,7 @@ class CollectionItem extends React.Component {
 
   render() {
     const {
-      collection, expensible, selected, onSelect,
+      collection, descriptionProperties, expensible, selected, onSelect,
     } = this.props
     const { arrowStyles } = this.state
     const { moduleTheme: { user: { collectionItem } } } = this.context
@@ -65,7 +68,8 @@ class CollectionItem extends React.Component {
       <div style={collectionItem.styles}>
         <ItemLinkContainer
           entity={collection}
-          Icon={CollectionIcon}
+          descriptionProperties={descriptionProperties}
+          Icon={EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.COLLECTION]}
           additiveLineComponent={expensible ? <ArrowDown style={arrowStyles} /> : null}
           onSelect={onSelect}
           selected={selected}

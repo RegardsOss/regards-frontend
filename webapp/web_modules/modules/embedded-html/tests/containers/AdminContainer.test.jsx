@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { modulesManager } from '@regardsoss/modules'
+import { UIDomain } from '@regardsoss/domain'
 import AdminContainer from '../../src/containers/AdminContainer'
 import { ModuleContainer } from '../../src/containers/ModuleContainer'
 import styles from '../../src/styles/styles'
@@ -39,7 +40,7 @@ describe('[Embedded-html] Testing AdminContainer', () => {
   it('should exists', () => {
     assert.isDefined(AdminContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly with page preview', () => {
     const props = {
       appName: 'x',
       project: 'y',
@@ -48,6 +49,7 @@ describe('[Embedded-html] Testing AdminContainer', () => {
         isCreating: true,
         isDuplicating: false,
         isEditing: false,
+        isPage: true,
         changeField: () => { },
         form: {},
       },
@@ -65,18 +67,67 @@ describe('[Embedded-html] Testing AdminContainer', () => {
     })
 
     // 2 - check there is the preview container
-    const previewContainer = wrapper.find(ModuleContainer)
+    let previewContainer = wrapper.find(ModuleContainer)
     assert.lengthOf(previewContainer, 1, 'There should be user container, disconnected, as preview displayer')
     testSuiteHelpers.assertWrapperProperties(previewContainer, {
       appName: props.appName,
       project: props.project,
       type: modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL,
       moduleConf: {
-        cssHeight: undefined,
+        preview: true,
+        previewLocale: UIDomain.LOCALES_ENUM.en,
+        cssHeight: AdminContainer.PREVIEW_PAGE_HEIGHT,
         cssWidth: undefined,
         urlByLocale: undefined,
       },
-      locale: wrapper.state().previewLocale,
-    }, 'Container properties should be correctly computed')
+    }, 'Preview properties should be correctly computed')
+    // 3 - change preview locale and check properties
+    wrapperInstance.onPreviewLocaleSelected(null, 1, UIDomain.LOCALES_ENUM.fr)
+    previewContainer = wrapper.find(ModuleContainer)
+    assert.lengthOf(previewContainer, 1, 'There should be user container, as preview displayer')
+    testSuiteHelpers.assertWrapperProperties(previewContainer, {
+      appName: props.appName,
+      project: props.project,
+      type: modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL,
+      moduleConf: {
+        preview: true,
+        previewLocale: UIDomain.LOCALES_ENUM.fr,
+        cssHeight: AdminContainer.PREVIEW_PAGE_HEIGHT,
+        cssWidth: undefined,
+        urlByLocale: undefined,
+      },
+    }, 'Preview properties should be correctly computed')
+  })
+  it('should render correctly with decorative component preview', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      adminForm: {
+        isCreating: true,
+        isDuplicating: false,
+        isEditing: false,
+        isPage: false,
+        changeField: () => { },
+        form: {},
+      },
+      moduleConf: {},
+    }
+    const wrapper = shallow(<AdminContainer {...props} />, { context })
+    // Check preview height comes from form values
+    const previewContainer = wrapper.find(ModuleContainer)
+    assert.lengthOf(previewContainer, 1, 'There should be user container, as preview displayer')
+    testSuiteHelpers.assertWrapperProperties(previewContainer, {
+      appName: props.appName,
+      project: props.project,
+      type: modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL,
+      moduleConf: {
+        preview: true,
+        previewLocale: UIDomain.LOCALES_ENUM.en,
+        cssHeight: undefined, // no value in form yet
+        cssWidth: undefined,
+        urlByLocale: undefined,
+      },
+    }, 'Preview properties should be correctly computed')
   })
 })

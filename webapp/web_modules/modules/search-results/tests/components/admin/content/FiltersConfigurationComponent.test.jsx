@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,6 @@ import FiltersConfigurationComponent from '../../../../src/components/admin/cont
 import styles from '../../../../src/styles'
 import { attributes } from '../../../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
-import { configuration as documentsConfiguration } from '../../../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -40,29 +39,23 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
   it('should exists', () => {
     assert.isDefined(FiltersConfigurationComponent)
   })
-  const testCases = [{
-    type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    values: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA],
-  }, {
-    type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    values: documentsConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
-  }]
-
-  testCases.forEach(({ type, values }) => it(`should render correctly with ${type} form values`, () => {
+  it('should render correctly', () => {
     // NOTE: we emulate an empty namespace below, as configuration holds form values at root
-    const rootNamespace = `viewsGroups.${type}`
+    const rootNamespace = 'any'
     const props = {
       availableAttributes: attributes,
-      type,
-      currentTypeNamespace: rootNamespace,
-      currentTypeFormValues: values,
+      currentNamespace: rootNamespace,
+      currentFormValues: dataConfiguration,
       changeField: () => {},
     }
     const enzymeWrapper = shallow(<FiltersConfigurationComponent {...props} />, { context })
-    // 1 - Facets enabled
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabled`), 1,
-      'There should be facets enabled field')
-    // 2 - Facets initially enabled
+    // 1 - DATA facets enabled
+    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATA}`), 1,
+      'There should be facets enabled for DATA field')
+    // 2 - DATASET facets enabled
+    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.enabledFor.${DamDomain.ENTITY_TYPES_ENUM.DATASET}`), 1,
+      'There should be facets enabled for DATASETfield')
+    // 3 - Facets initially enabled
     assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.facets.initiallyEnabled`), 1,
       'There should be facets initially enabled field')
     // 3 - Attributes list field
@@ -71,11 +64,11 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
     testSuiteHelpers.assertWrapperProperties(attributesListField, {
       selectableAttributes: props.availableAttributes,
       attributesFilter: DamDomain.AttributeModelController.isSearchableAttribute,
-      attributesList: props.currentTypeFormValues.facets.list,
+      attributesList: props.currentFormValues.facets.list,
       attributesListFieldName: `${rootNamespace}.facets.list`,
       changeField: props.changeField,
       allowAttributesRegroupements: false,
       allowLabel: true,
     }, 'Attributes list field properties should be correctly set up')
-  }))
+  })
 })

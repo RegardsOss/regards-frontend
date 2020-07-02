@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,12 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   FormPresentation, FormRow, FieldsGroup, Field, FieldArray, RenderCheckbox,
 } from '@regardsoss/form-utils'
+import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
+import { DescriptionConfiguration } from '../../shapes/ModuleConfiguration'
 import GroupsFieldComponent from './GroupsFieldComponent'
 
 /**
@@ -30,7 +32,8 @@ import GroupsFieldComponent from './GroupsFieldComponent'
  */
 class DescriptionConfigurationFormComponent extends React.Component {
   static propTypes = {
-    entityType: PropTypes.oneOf(DamDomain.ENTITY_TYPES).isRequired,
+    entityType: PropTypes.oneOf(UIDomain.PSEUDO_TYPES).isRequired,
+    currentTypeValues: DescriptionConfiguration,
     isCreating: PropTypes.bool.isRequired,
     changeField: PropTypes.func.isRequired,
     currentNamespace: PropTypes.string.isRequired,
@@ -39,6 +42,16 @@ class DescriptionConfigurationFormComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+  }
+
+  /**
+   * Predicate that filters only URL type attributes (removes pseudo attributes too)
+   * @param {*} attribute attributes, matching DataManagementShapes.AttributeModel shape
+   * @return {boolean} true if attribute type is URL, false otherwise
+   */
+  static filterURLAttributes(attribute) {
+    return attribute.content.name !== DamDomain.AttributeModelController.standardAttributesKeys.thumbnail
+    && attribute.content.type === DamDomain.MODEL_ATTR_TYPES.URL
   }
 
   /**
@@ -54,9 +67,12 @@ class DescriptionConfigurationFormComponent extends React.Component {
         // default configuration for description
         showDescription: true,
         showTags: true,
+        showCoupling: true,
         showLinkedDocuments: true,
+        showLinkedEntities: true,
         showThumbnail: false,
         groups: [],
+        attributeToDescriptionFiles: [],
       })
     }
   }
@@ -71,8 +87,14 @@ class DescriptionConfigurationFormComponent extends React.Component {
 
 
   render() {
-    const { currentNamespace, entityType, availableAttributes } = this.props
+    const {
+      entityType, availableAttributes,
+      currentNamespace, currentTypeValues, changeField,
+    } = this.props
     const { intl: { formatMessage } } = this.context
+    if (!currentTypeValues) {
+      return null // wait for form complete initialization
+    }
     return (
       <FormPresentation>
         <FormRow>
@@ -87,10 +109,24 @@ class DescriptionConfigurationFormComponent extends React.Component {
               component={RenderCheckbox}
               fullWidth
             />
+            {/* Hide empty attribute values */}
+            <Field
+              name={`${currentNamespace}.${entityType}.hideEmptyAttributes`}
+              label={formatMessage({ id: 'module.description.configuration.hide.empty.attributes' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
             {/* Show tags field */}
             <Field
               name={`${currentNamespace}.${entityType}.showTags`}
               label={formatMessage({ id: 'module.description.configuration.show.tags' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
+            {/* Show coupling field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showCoupling`}
+              label={formatMessage({ id: 'module.description.configuration.show.coupling' })}
               component={RenderCheckbox}
               fullWidth
             />
@@ -101,12 +137,38 @@ class DescriptionConfigurationFormComponent extends React.Component {
               component={RenderCheckbox}
               fullWidth
             />
+            {/* Show linked entities field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showLinkedEntities`}
+              label={formatMessage({ id: 'module.description.configuration.show.linked.entities' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
             {/* Show thumbnail field */}
             <Field
               name={`${currentNamespace}.${entityType}.showThumbnail`}
               label={formatMessage({ id: 'module.description.configuration.show.thumbnail' })}
               component={RenderCheckbox}
               fullWidth
+            />
+          </FieldsGroup>
+        </FormRow>
+        {/* List of attribute URLs to show as description files */}
+        <FormRow>
+          <FieldsGroup
+            title={formatMessage({ id: 'module.description.configuration.description.files.title' })}
+            spanFullWidth
+          >
+            <AttributesListConfigurationComponent
+              selectableAttributes={availableAttributes}
+              // forbid thumbnail in map and quicklooks but allow it for all entity types (new REGARDS working mode)
+              attributesFilter={DescriptionConfigurationFormComponent.filterURLAttributes}
+              attributesList={currentTypeValues.attributeToDescriptionFiles}
+              attributesListFieldName={`${currentNamespace}.${entityType}.attributeToDescriptionFiles`}
+              hintMessageKey="module.description.configuration.description.files.hint"
+              changeField={changeField}
+              allowAttributesRegroupements={false}
+              allowLabel={false}
             />
           </FieldsGroup>
         </FormRow>

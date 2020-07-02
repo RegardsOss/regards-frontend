@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,8 @@ const messages = {
   'attribute.render.label': '{label} ({path})',
   'attribute.render.path.join.string': '.',
   // Attributes configuration
-  'attributes.configuration.add.item.label': 'Add',
+  'attributes.configuration.add.one.item.label': 'Add one',
+  'attributes.configuration.add.many.items.label': 'Add many',
   'attributes.configuration.type.column': 'Type',
   'attributes.configuration.label.simple.column': 'Label',
   'attributes.configuration.label.english.column': 'English label',
@@ -37,6 +38,9 @@ const messages = {
   'attributes.configuration.attributes.column': 'Attribute(s)',
   'attributes.configuration.edit.option.tooltip': 'Edit item',
   'attributes.configuration.delete.option.tooltip': 'Delete item',
+  'attribute.configuration.add.many.items.title': 'Add many items',
+  'attribute.configuration.add.many.items.select.all.label': 'Select all',
+  'attribute.configuration.add.many.items.select.none.label': 'Unselect all',
   'attribute.configuration.new.item.title': 'Add new item',
   'attribute.configuration.edit.item.title': 'Edit item',
   'attribute.configuration.cancel.edition': 'Cancel',

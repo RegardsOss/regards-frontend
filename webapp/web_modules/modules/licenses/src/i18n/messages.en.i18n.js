@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,6 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'license.refuse': 'Log out',
   'license.accept': 'Accept license',
-  'license.loading.message': 'Loading project license, please wait...',
 }, Locales.en)
 
 export default messages

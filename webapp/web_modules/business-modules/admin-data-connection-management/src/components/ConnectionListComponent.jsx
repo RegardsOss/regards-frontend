@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,8 +25,8 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender, ActionsMenuCell,
@@ -97,7 +97,7 @@ export class ConnectionListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.content.businessId)
           }}
           onClose={this.closeDeleteDialog}
           title={title}
@@ -155,7 +155,7 @@ export class ConnectionListComponent extends React.Component {
                       <HateoasIconAction
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
-                        onClick={() => handleEdit(connection.content.id)}
+                        onClick={() => handleEdit(connection.content.businessId)}
                         title={intl.formatMessage({ id: 'connection.list.action.edit' })}
                         className="selenium-editButton"
                       >

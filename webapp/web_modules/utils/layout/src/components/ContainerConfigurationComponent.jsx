@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import forEach from 'lodash/forEach'
+import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import join from 'lodash/join'
 import split from 'lodash/split'
 import MenuItem from 'material-ui/MenuItem'
-import { Dialog, FlatButton, RaisedButton } from 'material-ui'
+import Dialog from 'material-ui/Dialog'
+import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -56,7 +60,6 @@ class ContainerConfigurationComponent extends React.Component {
     pristine: PropTypes.bool,
     invalid: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
-    initialize: PropTypes.func.isRequired,
     change: PropTypes.func.isRequired,
   }
 
@@ -85,20 +88,36 @@ class ContainerConfigurationComponent extends React.Component {
     advanced: false,
   }
 
-  componentDidMount() {
-    this.handleInitialize()
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { change, container, open } = newProps
+    // Detect form opening
+    if (!isEqual(oldProps.open, open) && open) {
+      // for each form initial field, set value from edited container, or default to initial value
+      forEach(ContainerConfigurationComponent.INITIAL_CONTAINER_VALUES,
+        (initialValue, key) => change(key, container ? container[key] : initialValue))
+    }
   }
 
   onAdvancedClick = () => {
     this.setState({
       advanced: !this.state.advanced,
     })
-  }
-
-  handleInitialize = () => {
-    // compute initial values (provide default values for a new container)
-    const initialValues = this.props.container || ContainerConfigurationComponent.INITIAL_CONTAINER_VALUES
-    this.props.initialize({ ...initialValues })
   }
 
   selectContainerType = (event, index, value, input) => {
@@ -127,7 +146,6 @@ class ContainerConfigurationComponent extends React.Component {
     const containerModel = container && ALL_CONTAINERS[container.type]
     // dynamic options (layout and main container) are available for non root container (ie new ones or inUserApp marked layouts)
     const hasDynamicOptions = !container || containerModel.inUserApp
-    const dialogTitle = formatMessage({ id: 'container.configuration.edit.dialog.title' })
 
     const actions = [
       <FlatButton
@@ -145,7 +163,7 @@ class ContainerConfigurationComponent extends React.Component {
 
     return (
       <Dialog
-        title={dialogTitle}
+        title={formatMessage({ id: 'container.configuration.edit.dialog.title' })}
         modal={false}
         open={open}
         actions={actions}

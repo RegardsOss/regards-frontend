@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -80,9 +80,13 @@ class DumpProvider {
     return entityListResult[keys(entityListResult)[n]]
   }
 
-  getEntityContentBy(microserviceName, entityName, key, value) {
+  getEntityBy(microserviceName, entityName, key, value) {
     const entityListResult = this.get(microserviceName, entityName)
-    return get(find(entityListResult, entity => get(entity, key) === value, {}), 'content')
+    return find(entityListResult, entity => get(entity, key) === value, {})
+  }
+
+  getEntityContentBy(microserviceName, entityName, key, value) {
+    return get(this.getEntityBy(microserviceName, entityName, key, value), 'content')
   }
 
   /**

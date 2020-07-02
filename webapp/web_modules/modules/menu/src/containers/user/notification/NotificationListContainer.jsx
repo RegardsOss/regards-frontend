@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -56,6 +56,7 @@ export class NotificationListContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      sessionLocked: AuthenticationClient.authenticationSelectors.isSessionLocked(state),
       lastNotification: notificationPollerSelectors.getList(state),
       nbNotification: notificationPollerSelectors.getResultsCount(state),
       lastReadNotification: notificationReadPollerSelectors.getList(state),
@@ -104,6 +105,7 @@ export class NotificationListContainer extends React.Component {
     // from mapStateToProps
     lastNotification: AdminShapes.NotificationList, // THIS IS A LIST WITH ONE ITEM INSIDE
     lastReadNotification: AdminShapes.NotificationList, // THIS IS A LIST WITH ONE ITEM INSIDE
+    sessionLocked: PropTypes.bool,
     isAuthenticated: PropTypes.bool,
     nbNotification: PropTypes.number,
     nbReadNotification: PropTypes.number,
@@ -170,8 +172,8 @@ export class NotificationListContainer extends React.Component {
   getLastReadNotification = () => NotificationListContainer.getNotif(this.props.lastReadNotification)
 
   startTimer = () => {
-    const { isAuthenticated } = this.props
-    if (isAuthenticated) {
+    const { sessionLocked, isAuthenticated } = this.props
+    if (isAuthenticated && !sessionLocked) {
       // A - refresh list only if authenticated
       this.props.fetchLastNotification(this.state.isInstance)
       this.props.fetchLastReadNotification(this.state.isInstance)

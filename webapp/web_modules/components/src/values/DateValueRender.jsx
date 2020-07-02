@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,35 +20,6 @@ import isNaN from 'lodash/isNaN'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
-const DATE_OPTIONS = {
-  timeZone: 'utc',
-}
-
-const TIME_OPTIONS = {
-  timeZone: 'utc',
-}
-
-/**
- * Formats a date using intl and date text
- * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
- * formatDate and formatTime
- * @param dateText date text
- * @return formatted date text if valid or null if invalid
- */
-export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, dateText) => {
-  if (!dateText) {
-    return null
-  }
-  const dateWrapper = new Date(dateText)
-  if (!isNaN(dateWrapper.getDate())) {
-    return formatMessage({ id: 'value.render.date.value' }, {
-      date: formatDate(dateWrapper, DATE_OPTIONS),
-      time: formatTime(dateWrapper, TIME_OPTIONS),
-    })
-  }
-  return null
-}
-
 /**
  * Component to display Date values group value
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables
@@ -56,6 +27,35 @@ export const getFormattedDate = ({ formatMessage, formatDate, formatTime }, date
  * @author Sébastien binda
  */
 class DateValueRender extends React.Component {
+  static DATE_OPTIONS = {
+    timeZone: 'utc',
+  }
+
+  static TIME_OPTIONS = {
+    timeZone: 'utc',
+  }
+
+  /**
+   * Formats a date using intl and date text
+   * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
+   * formatDate and formatTime
+   * @param dateText date text
+   * @return formatted date text if valid or null if invalid
+   */
+  static getFormattedDate = ({ formatMessage, formatDate, formatTime }, dateText) => {
+    if (!dateText) {
+      return null
+    }
+    const dateWrapper = new Date(dateText)
+    if (!isNaN(dateWrapper.getDate())) {
+      return formatMessage({ id: 'value.render.date.value' }, {
+        date: formatDate(dateWrapper, DateValueRender.DATE_OPTIONS),
+        time: formatTime(dateWrapper, DateValueRender.TIME_OPTIONS),
+      })
+    }
+    return null
+  }
+
   static propTypes = {
     value: PropTypes.string,
     // should diplay using multiple lines? (false by default)
@@ -74,7 +74,7 @@ class DateValueRender extends React.Component {
   render() {
     const { value, multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
-    const textValue = getFormattedDate(intl, value) || intl.formatMessage({ id: 'value.render.no.value.label' })
+    const textValue = DateValueRender.getFormattedDate(intl, value) || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
         {textValue}

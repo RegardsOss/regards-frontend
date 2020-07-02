@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -84,11 +84,122 @@ const styles = theme => ({
     },
   },
   user: {
+    titleBar: {
+      container: {
+        display: 'flex',
+        grow: 1,
+        shrink: 1,
+        justifyContent: 'space-between',
+      },
+      title: {
+        grow: 0,
+        shrink: 0,
+      },
+      tabsContainer: {
+        display: 'flex',
+        grow: 0,
+        shrink: 0,
+        alignSelf: 'flex-end',
+      },
+      tab: {
+        selectedContainer: {
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: theme.module.searchResults.tabs.selectedColor,
+          margin: theme.module.searchResults.tabs.externalMargin,
+          minWidth: theme.module.searchResults.tabs.minWidth,
+          maxWidth: theme.module.searchResults.tabs.maxWidth,
+        },
+        unselectedContainer: {
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: theme.module.searchResults.tabs.unselectedColor,
+          margin: theme.module.searchResults.tabs.externalMargin,
+          minWidth: theme.module.searchResults.tabs.minWidth,
+          maxWidth: theme.module.searchResults.tabs.maxWidth,
+        },
+        iconAndTextGroup: {
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          cursor: 'pointer',
+          flexGrow: 1,
+          flexShrink: 1,
+          margin: theme.module.searchResults.tabs.iconAndTextMargin,
+          minWidth: 0,
+        },
+        iconColor: theme.palette.textColor,
+        icon: {
+          flexGrow: 0,
+          flexShrink: 0,
+        },
+        label: {
+          flexGrow: 0,
+          flexShrink: 1,
+          padding: theme.module.searchResults.tabs.textMargin,
+          color: theme.palette.textColor,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        closeIconButton: {
+          padding: 0,
+          flexGrow: 0,
+          flexShrink: 0,
+          alignSelf: theme.module.searchResults.tabs.closeButton.alignSelf,
+          margin: theme.module.searchResults.tabs.closeButton.margin,
+          width: theme.module.searchResults.tabs.closeButton.size,
+          height: theme.module.searchResults.tabs.closeButton.size,
+        },
+        closeIcon: {
+          width: theme.module.searchResults.tabs.closeButton.size,
+          height: theme.module.searchResults.tabs.closeButton.size,
+        },
+      },
+    },
     rootModuleContainer: {
       flexGrow: 1,
       flexShrink: 1,
       display: 'flex',
       flexDirection: 'column',
+    },
+    tabContent: {
+      borderDisplayer: {
+        flexGrow: 1,
+        flexShrink: 1,
+        display: 'flex',
+        alignItems: 'stretch',
+        borderTopColor: theme.module.searchResults.tabs.selectedColor,
+        borderTopWidth: theme.module.searchResults.tabs.tabBottomLineSize,
+        borderTopStyle: 'solid',
+      },
+      layoutContainer: {
+        flexGrow: 1,
+        flexShrink: 1,
+        position: 'relative',
+      },
+      hiddenTabContent: {
+        zIndex: 0,
+        backgroundColor: theme.palette.canvasColor,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      shownTabContent: {
+        zIndex: 1,
+        backgroundColor: theme.palette.canvasColor,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+      },
     },
     viewModeButton: {
       minWidth: theme.button.iconButtonSize,
@@ -175,7 +286,7 @@ const styles = theme => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 5px 0',
+        margin: '10px 0 10px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -188,7 +299,7 @@ const styles = theme => ({
         margin: '5px 0 0 0',
       },
       valueColumnStyles: {
-        margin: '10px 0 5px 10px',
+        margin: theme.module.searchResults.list.attribute.labelMargin,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -200,23 +311,31 @@ const styles = theme => ({
         minWidth: 0,
       },
       valueCellStyle: { // for groups
-        margin: '5px 0 0 0',
+        margin: theme.module.searchResults.list.attribute.valueMargin,
         display: 'flex',
         justifyContent: 'flex-start',
         maxWidth: '100%', // required to diminish contained cells width (text 'pushes' column width otherwise)
       },
       thumbnailColumnStyle: {
-        width: '110px',
-        display: 'block',
-        padding: '5px 0px 10px 10px',
+        margin: theme.module.searchResults.list.thumbnailMargin,
+      },
+      thumbnailDimensions: {
+        width: theme.module.searchResults.list.thumbnailSize,
+        height: theme.module.searchResults.list.thumbnailSize,
       },
     },
     quicklookViewStyles: {
+      cardContentContainer: {
+        display: 'flex',
+      },
       imageStyle: {
         maxWidth: '100%',
       },
-      imageAndOptionsContainer: {
+      pictureAndAttributesContainer: {
         display: 'flex',
+        flexDirection: 'column',
+        flexGrow: 1,
+        flexShrink: 1,
       },
       quicklookContainerStyle: {
         cursor: 'zoom-in',
@@ -226,6 +345,9 @@ const styles = theme => ({
         width: '50%',
         height: '50%',
         margin: 'auto',
+      },
+      attributesContainer: {
+        padding: 0,
       },
       optionsBarStyles: {
         display: 'flex',
@@ -242,9 +364,7 @@ const styles = theme => ({
           height: 24,
         },
       },
-      attributesContainer: {
-        padding: 0,
-      },
+
     },
     mapViewStyles: {
       geoLayout: {
@@ -267,8 +387,9 @@ const styles = theme => ({
         padding: theme.module.searchResults.map.quicklooks.padding,
       },
       quicklookImage: {
-        maxWidth: '100%',
+        width: '100%',
         height: theme.module.searchResults.map.quicklooks.thumbnailHeight,
+        objectFit: 'contain',
       },
       toolsBox: {
         // overlay position
@@ -283,7 +404,23 @@ const styles = theme => ({
         minWidth: theme.button.iconButtonSize,
       },
       resizer: {
-        ...theme.module.searchResults.map.resizerSeparator,
+        backgroundColor: theme.module.searchResults.map.resizerSeparator.backgroundColor,
+        // Create an handle of 1 pixel visible but width half size * 2 (consume the remaining width on borders)
+        width: (theme.module.searchResults.map.resizerSeparator.halfSize * 2) + 1,
+        margin: `0 -${theme.module.searchResults.map.resizerSeparator.halfSize}px`,
+        borderLeft: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
+        borderRight: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
+        cursor: 'col-resize',
+
+        zIndex: 1,
+
+        MozBoxSizing: 'border-box',
+        WebkitBoxSizing: 'border-box',
+        boxSizing: 'border-box',
+
+        MozBackgroundClip: 'padding',
+        WebkitBackgroundClip: 'padding',
+        backgroundClip: 'padding-box',
       },
     },
   },

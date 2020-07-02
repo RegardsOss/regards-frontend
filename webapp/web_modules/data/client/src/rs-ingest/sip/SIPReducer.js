@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -15,17 +15,11 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
 import { BasicPageableReducers } from '@regardsoss/store-utils'
 import { SIPConfiguration } from '@regardsoss/api'
 import SIPActions from './SIPActions'
-/**
- * Redux store reducer for
- */
-/**
- * Redux Reducer for SIP entities
- * @author Maxime Bouveron
- */
+
 class SIPReducer extends BasicPageableReducers {
   constructor(namespace) {
     super(SIPConfiguration, new SIPActions(namespace))

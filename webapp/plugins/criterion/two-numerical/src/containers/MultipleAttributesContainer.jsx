@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
 } from '@regardsoss/plugins-api'
@@ -124,16 +124,14 @@ export class MultipleAttributesContainer extends React.Component {
   }, firstAttribute, secondAttribute) {
     // Using common toolbox to build range query
     return {
-      q: [
+      q: new CatalogDomain.OpenSearchQuery('', [
         // first attribute
-        numberRangeHelper.getNumberAttributeQueryPart(firstAttribute.jsonPath,
+        numberRangeHelper.getNumberQueryParameter(firstAttribute.jsonPath,
           numberRangeHelper.convertToRange(value1, comparator1)),
         // second attribute
-        numberRangeHelper.getNumberAttributeQueryPart(secondAttribute.jsonPath,
+        numberRangeHelper.getNumberQueryParameter(secondAttribute.jsonPath,
           numberRangeHelper.convertToRange(value2, comparator2)),
-      ]
-        .filter(query => !!query)// clear empty queries
-        .join(' AND ') || null, // Join all parts with open search instruction, return null if string is empty
+      ]).toQueryString(),
     }
   }
 

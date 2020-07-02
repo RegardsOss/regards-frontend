@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -76,7 +76,8 @@ export class RenderMapParameterField extends React.PureComponent {
     if (!pluginParameterType.parameterizedSubTypes || pluginParameterType.parameterizedSubTypes.length !== 2) {
       throw new Error('Invalid map parameter', pluginParameterType)
     }
-    if (pluginParameterType.parameterizedSubTypes[0] !== 'java.lang.String') {
+    if ((pluginParameterType.parameterizedSubTypes[0] !== 'java.lang.String')
+     && (pluginParameterType.parameterizedSubTypes[0] !== 'STRING')) {
       throw new Error('Invalid map key parameter. Only String is allowed.')
     }
 

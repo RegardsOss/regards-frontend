@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -39,7 +39,9 @@ const messages = Object.assign({
   'theme.create.title': 'Créer un nouveau thème',
   'theme.edit.title': 'Éditer le thème {name}',
   'theme.duplicate.title': 'Dupliquer le thème {name}',
-  'theme.form.baseTheme': 'Thème de base',
+  'theme.form.baseTheme': 'Basé sur le thème Material UI',
+  'theme.form.mui.light.theme': 'Thème clair',
+  'theme.form.mui.dark.theme': 'Thème sombre',
   'theme.form.name': 'Nom du thème',
   'theme.form.name.not.unique.error': 'Il existe déjà un thème portant ce nom',
   'theme.form.active': 'Actif par défaut',

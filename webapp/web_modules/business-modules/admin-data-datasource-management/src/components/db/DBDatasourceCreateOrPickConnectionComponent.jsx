@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -47,11 +47,8 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentConnection: undefined,
-    }
+  state = {
+    currentConnection: undefined,
   }
 
   handleChange = (event, index, value) => {
@@ -92,12 +89,16 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
               value={currentConnection}
               fullWidth
             >
-              {map(connectionList, (connection, id) => connection.content.active ? (
+              {map(connectionList, ({
+                content: {
+                  id, active, label, businessId,
+                },
+              }) => active ? (
                 <MenuItem
-                  className={`selenium-pickConnection-${connection.content.label}`}
-                  value={connection.content.id}
+                  className={`selenium-pickConnection-${label}`}
                   key={id}
-                  primaryText={connection.content.label}
+                  value={businessId}
+                  primaryText={label}
                 />
               ) : null)}
             </SelectField>

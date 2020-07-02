@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,17 +25,19 @@ import { CommonDomain } from '@regardsoss/domain'
 
 /** only fields (for extending files to re-use) */
 export const dataFileFields = {
-  dataType: PropTypes.oneOf(CommonDomain.DataTypes),
+  dataType: PropTypes.oneOf(CommonDomain.DATA_TYPES),
   reference: PropTypes.bool.isRequired, // Does the file is a external reference ? not stored by regards.
   uri: PropTypes.string.isRequired,
   mimeType: PropTypes.string.isRequired,
   imageWidth: PropTypes.number,
   imageHeight: PropTypes.number,
-  online: PropTypes.bool.isRequired, // Does the file is directly accessible ? If not online, file is not downloadable.
+  online: PropTypes.bool.isRequired, // Is the file directly accessible ? If not online, file is not downloadable.
   checksum: PropTypes.string,
   digestAlgorithm: PropTypes.string,
   filesize: PropTypes.number,
   filename: PropTypes.string.isRequired,
+  // types metadata on file
+  types: PropTypes.arrayOf(PropTypes.string),
 }
 
 /** complete object */

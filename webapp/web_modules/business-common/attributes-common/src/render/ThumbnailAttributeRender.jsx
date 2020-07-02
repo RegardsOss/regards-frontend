@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,28 +16,55 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import compose from 'lodash/fp/compose'
-import FlatButton from 'material-ui/FlatButton'
-import NoDataIcon from 'material-ui/svg-icons/device/wallpaper'
-import { DataManagementShapes } from '@regardsoss/shape'
+import NoDataIcon from 'mdi-material-ui/Wallpaper'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
+import { CatalogShapes, UIShapes } from '@regardsoss/shape'
+import { AccessProjectClient } from '@regardsoss/client'
+import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
-import { FitContentDialog } from '@regardsoss/components'
-import { DamDomain } from '@regardsoss/domain'
+import { ThumbnailHelper } from '@regardsoss/domain/ui'
 import messages from '../i18n'
 import styles from '../styles'
+import ThumbnailFullSizePictureDialog from './ThumbnailFullSizePictureDialog'
+
+/** Default UI settings selectors instance, retrieving common user app settings data */
+const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
+
 /**
  * Component to render thumbnail attributes group
- * note: Thumbnail render expects to receive the first thumbnail value
+ * Note: That component can only be used in user interface as it requires settings reducer to work (since
+ * it uses the primary quicklook group settings)
  *
  * @author Sébastien Binda
  */
 export class ThumbnailAttributeRender extends React.Component {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      settings: uiSettingsSelectors.getSettings(state),
+    }
+  }
+
   static propTypes = {
-    value: DataManagementShapes.DataFile,
+    value: CatalogShapes.entityFiles,
+    // thumbnail dimansions (defaults to table one when not provided)
+    dimensions: PropTypes.shape({
+      width: PropTypes.number.isRequired,
+      height: PropTypes.number.isRequired,
+    }),
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
+    // From mapStateToProps
+    settings: UIShapes.UISettings.isRequired, // used in onPropertiesUpdated
   }
 
   static contextTypes = {
@@ -46,70 +73,77 @@ export class ThumbnailAttributeRender extends React.Component {
   }
 
   state = {
-    displayFullSize: false,
+    showFullSizeDialog: false,
   }
 
-  displayFullSize = (uri) => {
-    if (this.state.displayFullSize) {
-      const { intl: { formatMessage } } = this.context
-      const actions = [
-        <FlatButton
-          key="cancel"
-          label={formatMessage({ id: 'attribute.thumbnail.action.close' })}
-          primary
-          onClick={this.handleToggleDialog}
-        />,
-      ]
-      return (
-        <FitContentDialog
-          modal={false}
-          onRequestClose={this.handleToggleDialog}
-          open
-          actions={actions}
-        >
-          <div>
-            <img
-              src={uri}
-              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-            />
-          </div>
-        </FitContentDialog>
-      )
+  /**
+   * Callback: user clicked on cell, requesting full size picture dialog
+   */
+  onShowFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: true })
+  }
+
+  /**
+   * Callback: user closed full size picture dialog
+   */
+  onCloseFullSizeDialog = () => {
+    this.setState({ showFullSizeDialog: false })
+  }
+
+  /**
+   * @returns {*} file to use, matching DataManagementShapes.DataFile, or null if none found
+   */
+  getPictureFile = () => {
+    const {
+      value: entityFiles, accessToken, projectName, settings: { primaryQuicklookGroup },
+    } = this.props
+    const thumbnailFile = UIDomain.ThumbnailHelper.getThumbnail(
+      get(entityFiles, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL), accessToken, projectName)
+    if (thumbnailFile) {
+      // case A: thumbnail available
+      return thumbnailFile
     }
-    return null
-  }
-
-  handleToggleDialog = () => {
-    this.setState({ displayFullSize: !this.state.displayFullSize })
+    // case B: search for the best fallback in quicklooks
+    return ThumbnailHelper.getQuicklookFallback(
+      UIDomain.QuicklookHelper.getQuicklooks(entityFiles, primaryQuicklookGroup, accessToken, projectName))
   }
 
   render() {
-    const { value, accessToken, projectName } = this.props
+    const { dimensions } = this.props
+    const { showFullSizeDialog } = this.state
     // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage }, moduleTheme: { thumbnailRoot, thumbnailCell, noThumbnailIcon } } = this.context
-    const thumbnailURI = value
-      ? DamDomain.DataFileController.getFileURI(value, accessToken, projectName) : null
+    const { intl: { formatMessage }, moduleTheme: { defaultThumbnailDimensions, thumbnailPicture, noThumbnailIcon } } = this.context
+
+    const picture = this.getPictureFile()
     return (
       <div
-        style={thumbnailRoot}
-        title={thumbnailURI ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
+        style={dimensions || defaultThumbnailDimensions}
+        title={picture ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
       >
         {
-          thumbnailURI ? (
+          picture ? (
             <img
-              src={thumbnailURI}
-              style={thumbnailCell}
+              src={picture.uri}
+              style={thumbnailPicture}
               alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              onClick={this.handleToggleDialog}
+              onClick={this.onShowFullSizeDialog}
             />) : (
               <NoDataIcon
                 style={noThumbnailIcon}
               />)
         }
-        {this.displayFullSize(thumbnailURI)}
+        <ThumbnailFullSizePictureDialog
+          thumbnailURI={picture ? picture.uri : null}
+          open={showFullSizeDialog}
+          onClose={this.onCloseFullSizeDialog}
+        />
       </div>
     )
   }
 }
 
-export default compose(withAuthInfo, withModuleStyle(styles, true), withI18n(messages, true))(ThumbnailAttributeRender)
+export default compose(
+  withAuthInfo,
+  withModuleStyle(styles, true),
+  withI18n(messages, true),
+  connect(ThumbnailAttributeRender.mapStateToProps))(ThumbnailAttributeRender)

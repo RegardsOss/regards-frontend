@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,7 +27,6 @@ import { ModuleContainer } from '../../src/containers/ModuleContainer'
 import styles from '../../src/styles'
 import { attributes } from '../dumps/attributes.dump'
 import { configuration as dataConfiguration } from '../dumps/data.configuration.dump'
-import { configuration as documentConfiguration } from '../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -50,11 +49,6 @@ describe('[SEARCH RESULTS] Testing ModuleContainer', () => {
   }, {
     label: 'with data configuration',
     moduleConf: dataConfiguration,
-    attributeModels: attributes,
-    fetchingAttributes: false,
-  }, {
-    label: 'with documents configuration',
-    moduleConf: documentConfiguration,
     attributeModels: attributes,
     fetchingAttributes: false,
   }]

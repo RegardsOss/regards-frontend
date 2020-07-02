@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import identity from 'lodash/identity'
 import isArray from 'lodash/isArray'
 import QueryParameter from '../../common/query/abstract/QueryParameter'
 
@@ -27,9 +28,30 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   /** Tag to value separator */
   static VALUE_SEPARATOR = ':'
 
-  /** Strings to escape. Please note that '\' is escaped first, to not break the algorithm  */
-  static ESCAPED_CHARS = ['\\', '+', '-', '&&', '||', '!', '(', ')', '{', '}', '[', ']', '^', '"', '~', '*', '?', ':', '/', ' ']
+  /** Regexp of element to replace and corresponding replacement when building a value in contain mode  */
+  static CONTAINS_STRING_ESCAPED = [
+    { exp: /\\/g, rep: '\\\\' }, // first to not replace after next expressions
+    { exp: /\+/g, rep: '\\+' },
+    { exp: /-/g, rep: '\\-' },
+    { exp: /&&/g, rep: '\\&&' },
+    { exp: /\|\|/g, rep: '\\||' },
+    { exp: /!/g, rep: '\\!' },
+    { exp: /\(/g, rep: '\\(' },
+    { exp: /\)/g, rep: '\\)' },
+    { exp: /\{/g, rep: '\\{' },
+    { exp: /\}/g, rep: '\\}' },
+    { exp: /\[/g, rep: '\\[' },
+    { exp: /\]/g, rep: '\\]' },
+    { exp: /\^/g, rep: '\\^' },
+    { exp: /"/g, rep: '\\"' },
+    { exp: /~/g, rep: '\\~' },
+    { exp: /\*/g, rep: '\\*' },
+    { exp: /\?/g, rep: '\\?' },
+    { exp: /:/g, rep: '\\:' },
+    { exp: /\s/g, rep: '\\ ' }]
 
+  /** Regexp of element to replace and corresponding replacement when building a value in strict equal mode  */
+  static STRICT_STRING_EQUAL_ESCAPED = [{ exp: /"/g, rep: '\\"' }]
 
   /** OR values separator */
   static OR_SEPARATOR = ' OR '
@@ -40,81 +62,91 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   /** NEGATE value operator */
   static NEGATE_OPERATOR = 'NOT '
 
+
   /**
-   * Escape string when its value cannot be parsed
-   * @see {documentation server}/microservice-catalog/search/
-   * @param {string} value parameter value string
-   * @return {string} escaped string or initial value if it should not be escaped
+   * Negates a parameter value
+   * @param {string} parameterValue parameter value
+   * @returns {strgin} parameter value
+   *
    */
-  static escape(value) {
-    if (value) {
-      return OpenSearchQueryParameter.ESCAPED_CHARS.some(char => value.includes(char))
-        // there are special characters in some of the parameter parts
-        ? `"${value}"` : value // no lucen special char
-    }
-    return value // no value
+  static negateParameterValue(parameterValue) {
+    return `${this.NEGATE_OPERATOR}(${parameterValue})`
   }
 
   /**
-   * Converts paramter value into usable query parameter value
-   * @param {string} value a parameter value, as string
-   * @param {boolean} negate should negate value?
-   * @return {string} escaped value, negated when required
+   * Delegate to build string parameter value
+   * @param {string | [string]} values value or values for the parameter
+   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
+   * @param {boolean} negate is negated value?
+   * @param {[{exp: RegExp, rep: string}]} escapedRegexps regexp of element to replace
+   * @param {Function} toValueString function to apply to generate parameter value, like (excapedValue: string)  => (queryValue: string)
+   * @return {string} parameter value
    */
-  static toQueryParameterValue(value = '', negate = false) {
-    const escapedString = OpenSearchQueryParameter.escape(value)
-    if (escapedString) {
-      return negate ? `${OpenSearchQueryParameter.NEGATE_OPERATOR}${escapedString}` : escapedString
+  static toStringParameterValue(values, separator, negate, escapedRegexps, toValueString = identity) {
+    // 1 - exit if no value
+    if (!values) {
+      return null
     }
-    return escapedString
+    // 2 - For each parameter, filter empty / null values
+    const escapedValues = (isArray(values) ? values : [values])
+      .reduce((acc, v) => {
+        if (v) {
+          const escapedValue = escapedRegexps.reduce((acc2, { exp, rep }) => acc2.replace(exp, rep), v)
+          const queryValue = toValueString(escapedValue)
+          if (queryValue) {
+            return [...acc, queryValue]
+          }
+        }
+        // no value
+        return acc
+      }, [])
+
+    // If all values were filtered, exit here
+    if (!escapedValues.length) {
+      return null
+    }
+
+    // 3 - Join on separator (revert if negated)
+    if (negate) {
+      // 3.a - NOT ([values])
+      return OpenSearchQueryParameter.negateParameterValue(
+        escapedValues.join(
+          separator === OpenSearchQueryParameter.OR_SEPARATOR ? OpenSearchQueryParameter.AND_SEPARATOR : OpenSearchQueryParameter.OR_SEPARATOR))
+    }
+    // 3.b - value or ([values])
+    return escapedValues.length === 1 ? escapedValues[0] : `(${escapedValues.join(separator)})`
   }
 
   /**
-   * Compute the parameter value and serialize it, based on
-   * @param {string|[string]} value parameter value as string or array of string in the case of choices
-   * @param {boolean} negate should negate value?
-   * @param negate
+   * Computes parameter value for value / values as parameter to get strictly equal results
+   * @param {string | [string]} values value or values for the parameter
+   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
+   * @param {boolean} negate is negated value?
+   * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
    */
-  static computeParameterValue(value = '', negate = false) {
-    // A - Convert to array without empty values
-    const valuesArray = (isArray(value) ? value : [value]).filter(v => !!v)
-    if (!valuesArray.length) {
-      return null // no parameter value
-    }
+  static toStrictStringEqual(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
+    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.STRICT_STRING_EQUAL_ESCAPED,
+      escapedValue => `"${escapedValue}"`)
+  }
 
-    // B - Convert array to open search query
-    // build OR values array when not negated => a:(X OR Y)
-    // build AND values array when negated => a:(!X AND !Y)
-    const paramValue = valuesArray
-      .map(v => OpenSearchQueryParameter.toQueryParameterValue(v, negate))
-      .join(negate ? OpenSearchQueryParameter.AND_SEPARATOR : OpenSearchQueryParameter.OR_SEPARATOR)
-    if (valuesArray.length > 1 || negate) {
-      // add parenthesis for espressions like (A OR B), (NOT X), (NOT X AND NOT Y)
-      return `(${paramValue})`
-    }
-    // simple value
-    return paramValue
+  /**
+   * Computes parameter value for value / values as parameter to get results containing values
+   * @param {string | [string]} values value or values for the parameter
+   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
+   * @param {boolean} negate is negated value?
+   * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
+   */
+  static toStringContained(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
+    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED,
+      escapedValue => `(${escapedValue})`)
   }
 
   /**
    * Constructor
    * @param {string} name parameter name
-   * @param {string|[string]} value parameter value or values list in the case of choices
-   * @param {boolean} negate (optional, defaults to false) should negate that parameter in request? (ie return elements that DO NOT match it)
+   * @param {string} value value
    */
-  constructor(name, value, negate = false) {
+  constructor(name, value) {
     super(name, value, OpenSearchQueryParameter.VALUE_SEPARATOR)
-    this.negate = negate
-  }
-
-  toQueryString() {
-    if (!this.name) {
-      return null
-    }
-    const queryString = OpenSearchQueryParameter.computeParameterValue(this.value, this.negate)
-    if (!queryString) {
-      return null
-    }
-    return `${this.name}${this.valueSeparator}${queryString}`
   }
 }

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const IDBDatasourceParamsEnum = {
-  AIP: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
-  OPENSEARCH: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.WebserviceDatasourcePlugin',
-  DB: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
+
+const DataSourcePluginTypeEnum = {
+  AIP: 'aip-storage-datasource',
+  OPENSEARCH: 'webservice-datasource',
+  DB_POSTGRES: 'postgresql-datasource',
+  DB_POSTGRES_SINGLE_TABLE: 'postgresql-datasource-single-table',
+  DB_ORACLE: 'oracle-datasource-single-table',
 }
 
-export default IDBDatasourceParamsEnum
+export default DataSourcePluginTypeEnum

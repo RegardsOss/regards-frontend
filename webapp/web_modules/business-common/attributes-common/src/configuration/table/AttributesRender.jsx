@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -45,7 +45,7 @@ class AttributesRender extends React.Component {
         value={entity.attributes.map( // map attribute names to attributes label to corresponding qualified label
           ({ name }) => {
             const attributeModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels)
-            return AttributeLabelRender.getRenderLabel(attributeModel, intl)
+            return attributeModel ? AttributeLabelRender.getRenderLabel(attributeModel, intl) : ''
           })
         }
       />)

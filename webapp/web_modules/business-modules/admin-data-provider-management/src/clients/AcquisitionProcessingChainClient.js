@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,13 +22,23 @@ import { DataProviderClient } from '@regardsoss/client'
  * Dataprovider generation chain entities client.
  * @author Sébastien Binda
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chain']
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'monitoredChains']
+const ENTITIES_EDIT_STORE_PATH = ['admin', 'acquisition', 'dataProvider', 'chains']
 const REDUX_ACTION_NAMESPACE = 'admin-data-provider-management/chains'
+const REDUX_ACTION_EDIT_NAMESPACE = 'admin-data-provider-management/chains/edit'
 const REDUX_START_ACTION_NAMESPACE = 'admin-data-provider-management/chain-run'
 const REDUX_STOP_ACTION_NAMESPACE = 'admin-data-provider-management/chain-stop'
+const REDUX_TOGGLE_ACTION_NAMESPACE = 'admin-data-provider-management/chain-toggle-mode'
 
-export const AcquisitionProcessingChainActions = new DataProviderClient.AcquisitionProcessingChainActions(REDUX_ACTION_NAMESPACE)
-export const AcquisitionProcessingChainReducer = DataProviderClient.getAcquisitionProcessingChainReducer(REDUX_ACTION_NAMESPACE)
-export const AcquisitionProcessingChainSelectors = DataProviderClient.getAcquisitionProcessingChainSelectors(ENTITIES_STORE_PATH)
+export const AcquisitionProcessingChainActions = new DataProviderClient.AcquisitionProcessingChainMonitorActions(REDUX_ACTION_NAMESPACE)
+export const AcquisitionProcessingChainReducer = DataProviderClient.getAcquisitionProcessingChainMonitorReducer(REDUX_ACTION_NAMESPACE)
+export const AcquisitionProcessingChainSelectors = DataProviderClient.getAcquisitionProcessingChainMonitorSelectors(ENTITIES_STORE_PATH)
+
+export const AcquisitionProcessingChainEditActions = new DataProviderClient.AcquisitionProcessingChainActions(REDUX_ACTION_EDIT_NAMESPACE)
+export const AcquisitionProcessingChainEditReducer = DataProviderClient.getAcquisitionProcessingChainReducer(REDUX_ACTION_EDIT_NAMESPACE)
+export const AcquisitionProcessingChainEditSelectors = DataProviderClient.getAcquisitionProcessingChainSelectors(ENTITIES_EDIT_STORE_PATH)
+
 export const RunAcquisitionProcessingChainActions = new DataProviderClient.RunAcquisitionProcessingChainActions(REDUX_START_ACTION_NAMESPACE)
 export const StopAcquisitionProcessingChainActions = new DataProviderClient.StopAcquisitionProcessingChainActions(REDUX_STOP_ACTION_NAMESPACE)
+export const ToggleAcquisitionProcessingChainActions = new DataProviderClient.ToggleAcquisitionProcessingChainActions(REDUX_TOGGLE_ACTION_NAMESPACE)
+export const MultiToggleAcquisitionProcessingChainActions = new DataProviderClient.MultiToggleAcquisitionProcessingChainActions(REDUX_TOGGLE_ACTION_NAMESPACE)

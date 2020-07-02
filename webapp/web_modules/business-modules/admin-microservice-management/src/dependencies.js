@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import reduce from 'lodash/reduce'
+import forEach from 'lodash/forEach'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import MaintenanceModeActions from './model/MaintenanceModeActions'
 import SetMaintenanceModeActions from './model/SetMaintenanceModeActions'
@@ -25,11 +25,13 @@ import { pluginMetaDataActions } from './clients/PluginMetadataClient'
  * Module hateoas depencies
  * @author Sébastien binda
  */
-
-export default reduce(STATIC_CONF.MSERVICES, (result, microservice) => {
-  result.push(MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET))
-  result.push(SetMaintenanceModeActions(microservice).getActivateDependency())
-  result.push(SetMaintenanceModeActions(microservice).getDesactivateDependency())
-  result.push(pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice))
-  return result
-}, [])
+const dependencies = []
+forEach(STATIC_CONF.MSERVICES, (microservice) => {
+  const msDep = []
+  msDep.push(MaintenanceModeActions(microservice).getDependency(RequestVerbEnum.GET))
+  msDep.push(SetMaintenanceModeActions(microservice).getActivateDependency())
+  msDep.push(SetMaintenanceModeActions(microservice).getDesactivateDependency())
+  msDep.push(pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, microservice))
+  dependencies.push(msDep)
+})
+export default dependencies

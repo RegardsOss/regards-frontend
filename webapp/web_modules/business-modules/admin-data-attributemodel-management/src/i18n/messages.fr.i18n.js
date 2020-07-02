@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,6 +34,8 @@ const messages = Object.assign({
   'attrmodel.list.action.edit': 'Éditer',
   'attrmodel.list.action.delete': 'Supprimer',
   'attrmodel.list.delete.title': 'Supprimer l\'attribut {name} ?',
+  'attrmodel.list.empty.title': 'Aucun attribut défini',
+  'attrmodel.list.filter.name': 'Filtrer par nom d\'attribut',
 
   'attrmodel.edit.title': 'Éditer l\'attribut de modèle {name}',
   'attrmodel.create.title': 'Ajouter un attribut de modèle',

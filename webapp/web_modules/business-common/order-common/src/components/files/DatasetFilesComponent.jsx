@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import NoFileIcon from 'mdi-material-ui/FolderOutline'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'
 import { OrderClient } from '@regardsoss/client'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -24,11 +25,10 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
-  TableColumnsVisibilityOption, StorageCapacityRender,
+  TableColumnsVisibilityOption, StorageCapacityRender, NoContentComponent,
 } from '@regardsoss/components'
 import FileDownloadContainer from '../../containers/files/FileDownloadContainer'
 import DatasetFilesCountHeaderMessage from './DatasetFilesCountHeaderMessage'
-import NoFileComponent from './NoFileComponent'
 import OrderFileStatusRender from './OrderFileStatusRender'
 
 // Column keys
@@ -63,7 +63,11 @@ class DatasetFilesComponent extends React.Component {
   }
 
   /** No data component (avoids re-rendering it) */
-  static EMPTY_COMPONENT = <NoFileComponent />
+  static EMPTY_COMPONENT = <NoContentComponent
+    Icon={NoFileIcon}
+    titleKey="files.list.no.file.information.title"
+    messageKey="files.list.no.file.information.message"
+  />
 
   /**
    * Returns something that can be used as name for file as parameter

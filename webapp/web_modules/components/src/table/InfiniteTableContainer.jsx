@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -80,11 +80,12 @@ class InfiniteTableContainer extends React.Component {
     // [Optional] server request end path parameters (sends undefined if not provided)
     pathParams: CommonShapes.RequestParameters,
     requestParams: CommonShapes.RequestParameters,
+    bodyParams: CommonShapes.JSONObject,
 
     // INNER TABLE API (will be provided by adequate parents)
 
     // functions to fetch/flush entities and select them in redux store
-    // fetch entities: (pageIndex:{number}, pageSize:{number}, pathParams: {from props}, requestParams: {from props}) => ()
+    // fetch entities: (pageIndex:{number}, pageSize:{number}, pathParams: {from props}, requestParams: {from props}, bodyParams: {from props}}) => ()
     // when fetchEntities is not provided, table is considered as externally controlled
     // eslint-disable-next-line react/no-unused-prop-types
     fetchEntities: PropTypes.func,
@@ -141,6 +142,7 @@ class InfiniteTableContainer extends React.Component {
     if (isAutoControlled
       && (!isEqual(nextProps.requestParams, previousProps.requestParams)
         || !isEqual(nextProps.pathParams, previousProps.pathParams)
+        || !isEqual(nextProps.bodyParams, previousProps.bodyParams)
         || !isEqual(nextProps.authentication, previousProps.authentication))) {
       // remove any previously fetched data
       nextState.entities = []
@@ -273,10 +275,10 @@ class InfiniteTableContainer extends React.Component {
    * @param {number} pageNumber number of page to fetch (optional, defaults to 0)
    */
   fetchEntityPage = ({
-    fetchEntities, pathParams, requestParams, queryPageSize,
+    fetchEntities, queryPageSize, pathParams, requestParams, bodyParams,
   }, pageNumber = 0) => {
     if (fetchEntities) {
-      fetchEntities(pageNumber, queryPageSize, pathParams, requestParams)
+      fetchEntities(pageNumber, queryPageSize, pathParams, requestParams, bodyParams)
     }
   }
 
@@ -300,7 +302,6 @@ class InfiniteTableContainer extends React.Component {
                 <Table
                   displayColumnsHeader={displayColumnsHeader}
                   lineHeight={this.getTableLineHeight()}
-
                   entities={entities}
                   entitiesCount={entitiesCount}
                   onScrollEnd={this.onScrollEnd}

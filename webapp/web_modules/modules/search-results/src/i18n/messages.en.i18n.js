@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,14 +30,12 @@ const messages = {
   ...storage.messages.en,
 
   // Administration messages
-
-  // Configuration tab
   'search.results.form.configuration.tree.section.label.MAIN': 'Main',
+  'search.results.form.configuration.tree.section.label.FILTERS': 'Filters',
+  'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Results restriction',
   'search.results.form.configuration.tree.section.label.DATA': 'Data',
   'search.results.form.configuration.tree.section.label.DATASET': 'Dataset',
-  'search.results.form.configuration.tree.section.label.DOCUMENT': 'Document',
   'search.results.form.configuration.tree.page.label.MAIN': 'View',
-  'search.results.form.configuration.tree.page.label.FILTERS': 'Filters',
   'search.results.form.configuration.tree.page.label.SORTING': 'Sorting',
   'search.results.form.configuration.tree.page.label.LIST_AND_TABLE': 'List and table',
   'search.results.form.configuration.tree.page.label.QUICKLOOKS': 'Quicklooks',
@@ -45,7 +43,22 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Results types to display',
   'search.results.form.main.configuration.display.types.data': 'Data',
   'search.results.form.configuration.result.type.data.and.datasets': 'Data and datasets',
-  'search.results.form.main.configuration.display.types.documents': 'Documents',
+  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions on results by dataset',
+  'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restrict to selected dataset models',
+  'search.results.form.restrictions.configuration.no.selection.messsage': 'No selection',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} selected element{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'search.results.form.restrictions.configuration.filter.by.name.message': 'Filter',
+  'search.results.form.restrictions.configuration.no.data.title': 'No data',
+  'search.results.form.restrictions.configuration.no.dataset.existing.message': 'There is no dataset, please select another results restriction mode.',
+  'search.results.form.restrictions.configuration.no.dataset.matching.message': 'There is no dataset matching current filter.',
+  'search.results.form.restrictions.configuration.no.dataset.model.existing.message': 'There is no dataset model, please select another results restriction mode.',
+  'search.results.form.restrictions.configuration.no.dataset.model.matching.message': 'There is no dataset model matching current filter.',
   'search.results.form.configuration.result.type.tab.title.message': 'View title',
   'search.results.form.configuration.result.type.tab.hint': 'Result type tab title, leave empty for default value',
   'search.results.form.configuration.result.type.tab.label.en': 'English',
@@ -58,8 +71,9 @@ const messages = {
   'search.results.form.configuration.result.options.title': 'Options',
   'search.results.form.configuration.result.options.enable.download': 'Enable download associated files',
   'search.results.form.configuration.result.filters': 'Filters',
-  'search.results.form.configuration.result.enable.filters': 'Enable filters',
-  'search.results.form.configuration.result.enable.filters.initially': 'Enable filters initially',
+  'search.results.form.configuration.result.enable.filters.data': 'Show filters in data view',
+  'search.results.form.configuration.result.enable.filters.dataset': 'Show filters in datasets view',
+  'search.results.form.configuration.result.enable.filters.initially': 'Show filters initially',
   'search.results.form.configuration.result.no.filter': 'Add here attributes allowing user filtering results',
   'search.results.form.configuration.result.sorting': 'Initial results sorting',
   'search.results.form.configuration.result.no.sorting': 'Add here attributes to be used in initial results sorting',
@@ -75,6 +89,9 @@ const messages = {
   'search.results.form.configuration.result.MAP.background.layer.type': 'Type',
 
   // User messages
+  'search.results.tab.main.results': 'Results',
+  'search.results.tab.description': 'Description',
+  'search.results.tab.tag.results': '{tabLabel}',
   'search.results.configure.columns.option': 'Columns',
   'search.results.configure.columns.summary.text': '{columnsCount} columns are available for table display',
   'search.results.configure.columns.toggle.all.visible': 'Display all',
@@ -96,7 +113,6 @@ const messages = {
   'search.results.default.tab.label.for.DATA': 'Data',
   'search.results.default.tab.label.for.DATASET': 'Datasets',
   'search.results.default.tab.label.for.COLLECTION': 'Collections',
-  'search.results.default.tab.label.for.DOCUMENT': 'Documents',
   'search.results.toggle.filters': 'Filters',
   'search.results.list.sort.label': 'Sort: {sortElement}',
   'search.results.list.sort.default.label': 'Default',
@@ -110,7 +126,7 @@ const messages = {
   'download.no.online.file.tooltip': 'All files are offline',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
-  'search.related.objects': 'View dataset content',
+  'filter.related.data': 'Display data',
   'add.to.cart.tooltip': 'Add item to my cart',
   'add.selection.to.cart.label': 'Add to basket',
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -70,16 +70,6 @@ describe('[SEARCH RESULTS] Testing BrowsingTreeCellComponent', () => {
       selected: true,
     },
     level: 0,
-  }, {
-    section: {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      pages: [],
-    },
-    page: {
-      type: FORM_PAGES_ENUM.LIST_AND_TABLE,
-      selected: true,
-    },
-    level: 1,
   }, {
     section: {
       type: DamDomain.ENTITY_TYPES_ENUM.DATA,

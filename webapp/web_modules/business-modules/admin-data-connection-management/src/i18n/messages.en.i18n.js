@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,7 @@ const messages = Object.assign({
   'connection.form.label': 'Connection name',
   'connection.form.version': 'Version',
   'connection.form.priorityOrder': 'Connection priority',
-  'connection.form.pluginClassName': 'Connection plugin',
+  'connection.form.pluginId': 'Connection plugin',
   'connection.form.user': 'User for connecting to the database',
   'connection.form.password': 'Password for connecting to the database',
   'connection.form.dbProtocol': 'Communication protocol (ex: jdbc:postgresql)',
@@ -36,7 +36,7 @@ const messages = Object.assign({
   'connection.form.isActive': 'Connection is active',
   'connection.form.action.save': 'Save',
   'connection.form.action.cancel': 'Cancel',
-  'connection.list.title': 'External databases',
+  'connection.list.title': 'Connections to external databases',
   'connection.list.subtitle': 'Connection to an external database allows the REGARDS server to connect to the datasource to crawl data from it',
   'connection.list.table.label': 'Connection name',
   'connection.list.table.isActive': 'Connection status',

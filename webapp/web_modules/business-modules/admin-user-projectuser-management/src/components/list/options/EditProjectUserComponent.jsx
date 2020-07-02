@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 
 import IconButton from 'material-ui/IconButton'
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit'
+import EditIcon from 'mdi-material-ui/Pencil'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'

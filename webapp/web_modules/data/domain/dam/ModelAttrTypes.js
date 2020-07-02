@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,7 @@
 /**
  * Define available values for Attribute Type
  */
-const MODEL_ATTR_TYPES = {
+export const MODEL_ATTR_TYPES = {
   STRING: 'STRING',
   INTEGER: 'INTEGER',
   DOUBLE: 'DOUBLE',
@@ -38,5 +38,9 @@ const MODEL_ATTR_TYPES = {
   LONG_ARRAY: 'LONG_ARRAY',
 }
 
+export const THUMBNAIL_PSEUDO_TYPE = 'MAP'
 
-export default MODEL_ATTR_TYPES
+export const PSEUDO_ATTR_TYPES = {
+  ...MODEL_ATTR_TYPES,
+  THUMBNAIL_PSEUDO_TYPE,
+}

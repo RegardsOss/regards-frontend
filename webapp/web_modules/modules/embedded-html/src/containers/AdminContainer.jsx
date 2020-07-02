@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -49,6 +49,9 @@ class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
+  /** Height to use for preview when module is used as a page */
+  static PREVIEW_PAGE_HEIGHT = '400px'
+
   constructor(props) {
     super(props)
     this.CONF_HEIGHT = `${props.adminForm.currentNamespace}.cssHeight`
@@ -83,14 +86,16 @@ class AdminContainer extends React.Component {
    * @return {React.Element} rendered preview
    */
   renderPreview() {
-    const { project, appName, adminForm } = this.props
+    const { project, appName, adminForm: { form, isPage } } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
     const { previewLocale } = this.state
     // 1 - compute preview properties
-    const urlByLocale = get(adminForm, `form.${this.CONF_URLS}`)
+    const urlByLocale = get(form, this.CONF_URLS)
     const moduleConfiguration = {
-      cssHeight: get(adminForm, `form.${this.CONF_HEIGHT}`),
-      cssWidth: get(adminForm, `form.${this.CONF_WIDTH}`),
+      preview: true,
+      previewLocale,
+      cssHeight: isPage ? AdminContainer.PREVIEW_PAGE_HEIGHT : get(form, this.CONF_HEIGHT),
+      cssWidth: get(form, this.CONF_WIDTH),
       urlByLocale,
     }
     // 2 - compute preview warning / explanation message
@@ -109,34 +114,17 @@ class AdminContainer extends React.Component {
           project={project}
           type={modulesManager.AllDynamicModuleTypes.EMBEDDED_HMTL}
           moduleConf={moduleConfiguration}
-          locale={previewLocale}
         />
       </React.Fragment>)
   }
 
   render() {
+    const { adminForm: { isPage } } = this.props
     const { intl: { formatMessage } } = this.context
     const { previewLocale } = this.state
     return (
       <FormPresentation>
         <FormRow>
-          {/* Styles */}
-          <FieldsGroup title={formatMessage({ id: 'embedded.html.styles.group.title' })}>
-            <Field
-              name={this.CONF_HEIGHT}
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={formatMessage({ id: 'embedded.html.admin.css.height.label' })}
-            />
-            <Field
-              name={this.CONF_WIDTH}
-              fullWidth
-              component={RenderTextField}
-              type="text"
-              label={formatMessage({ id: 'embedded.html.admin.css.width.label' })}
-            />
-          </FieldsGroup>
           {/* URLs by language */}
           <FieldsGroup title={formatMessage({ id: 'embedded.html.content.group.title' })}>
             <Field
@@ -154,6 +142,25 @@ class AdminContainer extends React.Component {
               type="text"
               validate={this.validateAnyPageField}
               label={formatMessage({ id: 'embedded.html.admin.html.url.fr' })}
+            />
+          </FieldsGroup>
+          {/* Styles */}
+          <FieldsGroup title={formatMessage({ id: 'embedded.html.styles.group.title' })}>
+            <Field
+              name={this.CONF_HEIGHT}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={formatMessage({ id: 'embedded.html.admin.css.height.label' })}
+              disabled={isPage}
+            />
+            <Field
+              name={this.CONF_WIDTH}
+              fullWidth
+              component={RenderTextField}
+              type="text"
+              label={formatMessage({ id: 'embedded.html.admin.css.width.label' })}
+              disabled={isPage}
             />
           </FieldsGroup>
         </FormRow>

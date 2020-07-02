@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,8 +22,8 @@ import map from 'lodash/map'
 import fill from 'lodash/fill'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
+import Delete from 'mdi-material-ui/Delete'
+import Add from 'mdi-material-ui/PlusCircleOutline'
 import FlatButton from 'material-ui/FlatButton'
 import Field from '../Field'
 import RenderTextField from '../render/RenderTextField'

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import AboutIcon from 'material-ui/svg-icons/action/lightbulb-outline'
+import AboutIcon from 'mdi-material-ui/LightbulbOutline'
 import { CommonShapes } from '@regardsoss/shape'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { themeContextType } from '@regardsoss/theme'

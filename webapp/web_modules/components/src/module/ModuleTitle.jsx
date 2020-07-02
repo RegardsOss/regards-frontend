@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,17 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { CardHeader } from 'material-ui/Card'
 import IconButton from 'material-ui/IconButton'
-import ExpandedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-up'
-import CollapsedIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down'
+import ExpandedIcon from 'mdi-material-ui/ChevronUp'
+import CollapsedIcon from 'mdi-material-ui/ChevronDown'
 import MaximizeIcon from 'mdi-material-ui/Fullscreen'
 import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
-import ModuleTitleText from './ModuleTitleText'
 import ModuleSubtitle from './ModuleSubtitle'
-import ModuleIcon from './ModuleIcon'
+import { DefaultModuleTitleComponent } from './DefaultModuleTitleComponent'
 
 /**
 * Common dynamic modules title (when not using a breadcrumb)
@@ -115,7 +113,7 @@ export class ModuleTitle extends React.Component {
     const {
       moduleTheme: {
         module: {
-          cardHeaderStyle, cardHeaderContentStyle, moduleTitle,
+          cardHeaderStyle, cardHeaderContentStyle,
           titleBarDivStyle, titleDivStyle, optionsDivStyle,
         },
       },
@@ -129,23 +127,11 @@ export class ModuleTitle extends React.Component {
           <div style={titleBarDivStyle}>
             <div style={titleDivStyle}>
               {/* 1 - Icon and title OR title component when provided */
-                titleComponent || (
-                  <div style={moduleTitle.style}>
-                    <div style={moduleTitle.iconContainer}>
-                      <ModuleIcon
-                        iconDisplayMode={get(page, 'iconType', AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT)}
-                        defaultIconURL={UIDomain.getModuleDefaultIconURL(type)}
-                        customIconURL={get(page, 'customIconURL')}
-                        style={moduleTitle.iconStyle}
-                      />
-                    </div>
-                    <div style={moduleTitle.labelStyle}>
-                      <ModuleTitleText
-                        title={get(page, 'title')}
-                        description={description}
-                      />
-                    </div>
-                  </div>)
+                titleComponent || (<DefaultModuleTitleComponent
+                  type={type}
+                  description={description}
+                  page={page}
+                />)
               }
             </div>
             {/* 2 Options (with collapse if available) */

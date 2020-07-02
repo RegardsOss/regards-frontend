@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -51,7 +51,6 @@ class AttributeRender extends React.Component {
     }
     pathElements.push(name)
     const path = pathElements.join(intl.formatMessage({ id: 'attribute.render.path.join.string' }))
-    //
     return intl.formatMessage({ id: 'attribute.render.label' }, { label, path })
   }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,7 +22,30 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { NumberValueRender } from '../../src/values/NumberValueRender'
 import styles from '../../src/values/styles'
 
-const context = buildTestContext(styles)
+/**
+ * test function to format number (replacing react-intl, not available in tests context)
+ * @param {number} v value
+ * @param {*} options format options
+ * @return {string} formatted text
+ */
+function formatNumberForTest(v, options) {
+  assert.isNotNull(v)
+  assert.isNotNull(options)
+  // options used here only for truncating number (test impl)
+  const factor = 10 ** options.maximumFractionDigits
+  return `${Math.round(v * factor) / factor}`
+}
+/**
+ * Build usable test context
+ */
+const initialContext = buildTestContext(styles)
+const context = {
+  ...initialContext,
+  intl: {
+    ...initialContext.intl,
+    formatNumber: formatNumberForTest,
+  },
+}
 
 /**
  * Tests for ValueConfigurationComponent
@@ -44,12 +67,22 @@ describe('[COMPONENTS] Testing NumberValueRender', () => {
   it('Should render string data directly (avoids useless parsing)', () => {
     const props = { value: '156' }
     const wrapper = shallow(<NumberValueRender {...props} />, { context })
-    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
+    assert.include(wrapper.text(), '156')
   })
 
   it('Should render number data', () => {
     const props = { value: 156 }
     const wrapper = shallow(<NumberValueRender {...props} />, { context })
-    assert.include(wrapper.text(), '156', 'There should be an integer value rendered')
+    assert.include(wrapper.text(), '156')
+  })
+
+  it('Should render number with precision and unit', () => {
+    const props = {
+      value: 123.45678,
+      precision: 3,
+      unit: 'potatoes',
+    }
+    const wrapper = shallow(<NumberValueRender {...props} />, { context })
+    assert.include(wrapper.text(), '123.457potatoes')
   })
 })

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,10 +24,16 @@
 class SimpleTitleColumnHeaderCell extends React.Component {
   static propTypes = {
     label: PropTypes.string.isRequired,
+    tooltip: PropTypes.string,
   }
 
   render() {
-    return this.props.label || null
+    const { tooltip } = this.props
+    return (
+      <div title={tooltip}>
+        {this.props.label || null}
+      </div>
+    )
   }
 }
 

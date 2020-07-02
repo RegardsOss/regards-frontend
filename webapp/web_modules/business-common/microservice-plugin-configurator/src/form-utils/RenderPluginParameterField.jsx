@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,7 +27,7 @@ import SubHeader from 'material-ui/Subheader'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import { Tabs, Tab } from 'material-ui'
+import { Tabs, Tab } from 'material-ui/Tabs'
 import { ScrollArea } from '@regardsoss/adapters'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
@@ -35,6 +35,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import {
   Field, FieldArray, RenderArrayTextField, RenderRadio, ValidationHelpers,
 } from '@regardsoss/form-utils'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderPluginField } from './RenderPluginPluginParameterField'
 import { RenderObjectParameterField } from './RenderObjectParameterField'
 import { RenderCollectionParameterField } from './RenderCollectionParameterField'
@@ -77,7 +78,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   static getFieldValidators(pluginParameterType) {
     const validators = []
     // 1 - By type validator
-    if (pluginParameterType.paramType === 'PRIMITIVE') {
+    if (pluginParameterType.type === CommonDomain.PluginParameterTypes.STRING) {
       const typeValidator = getPrimitiveJavaTypeValidator(pluginParameterType.type)
       if (typeValidator) {
         validators.push(typeValidator)
@@ -86,16 +87,23 @@ export class RenderPluginParameterField extends React.PureComponent {
     // 2 - Required value validator
     const isRequired = !pluginParameterType.optional && !pluginParameterType.defaultValue
     if (isRequired) {
-      switch (pluginParameterType.paramType) {
-        case 'PRIMITIVE':
-        case 'PLUGIN':
-        case 'OBJECT':
+      switch (pluginParameterType.type) {
+        case CommonDomain.PluginParameterTypes.STRING:
+        case CommonDomain.PluginParameterTypes.BYTE:
+        case CommonDomain.PluginParameterTypes.SHORT:
+        case CommonDomain.PluginParameterTypes.INTEGER:
+        case CommonDomain.PluginParameterTypes.LONG:
+        case CommonDomain.PluginParameterTypes.FLOAT:
+        case CommonDomain.PluginParameterTypes.DOUBLE:
+        case CommonDomain.PluginParameterTypes.BOOLEAN:
+        case CommonDomain.PluginParameterTypes.POJO:
+        case CommonDomain.PluginParameterTypes.PLUGIN:
           validators.push(ValidationHelpers.required)
           break
-        case 'COLLECTION':
+        case CommonDomain.PluginParameterTypes.COLLECTION:
           validators.push(ValidationHelpers.arrayRequired)
           break
-        case 'MAP':
+        case CommonDomain.PluginParameterTypes.MAP:
           validators.push(ValidationHelpers.mapRequired)
           break
         default: // No validator
@@ -111,7 +119,7 @@ export class RenderPluginParameterField extends React.PureComponent {
   componentWillMount() {
     // Format plugin parameter conf for initialization with the given metadatas
     const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
-    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(pluginParameterType, value, true) : value
+    const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(value, pluginParameterType, true) : value
     if (!isEqual(formatedParam, value)) {
       onChange(formatedParam)
     }
@@ -378,7 +386,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       >
         {/* Show only markdown description */}
         {!pluginParameterType.description && pluginParameterType.markdown && <MarkdownFileContentDisplayer
-          heightToFit={400}
+          style={markdownDialog.markdownView}
           source={pluginParameterType.markdown}
         />}
         {/* Show only regular description */}
@@ -402,16 +410,23 @@ export class RenderPluginParameterField extends React.PureComponent {
     }
 
     const validators = RenderPluginParameterField.getFieldValidators(pluginParameterType)
-    switch (pluginParameterType.paramType) {
-      case 'PRIMITIVE':
+    switch (pluginParameterType.type) {
+      case CommonDomain.PluginParameterTypes.STRING:
+      case CommonDomain.PluginParameterTypes.BYTE:
+      case CommonDomain.PluginParameterTypes.SHORT:
+      case CommonDomain.PluginParameterTypes.INTEGER:
+      case CommonDomain.PluginParameterTypes.LONG:
+      case CommonDomain.PluginParameterTypes.FLOAT:
+      case CommonDomain.PluginParameterTypes.DOUBLE:
+      case CommonDomain.PluginParameterTypes.BOOLEAN:
         return this.renderPrimitiveParameter(label, validators)
-      case 'PLUGIN':
+      case CommonDomain.PluginParameterTypes.PLUGIN:
         return this.renderPluginParameter(label, validators)
-      case 'OBJECT':
+      case CommonDomain.PluginParameterTypes.POJO:
         return this.renderObjectParameter(label, validators)
-      case 'COLLECTION':
+      case CommonDomain.PluginParameterTypes.COLLECTION:
         return this.renderCollectionParameter(label, validators)
-      case 'MAP':
+      case CommonDomain.PluginParameterTypes.MAP:
         return this.renderMapParameter(label, validators)
       default:
         return null

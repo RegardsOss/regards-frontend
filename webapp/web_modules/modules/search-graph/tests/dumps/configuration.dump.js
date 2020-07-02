@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -72,15 +72,6 @@ export const configuration1 = {
               { attributes: [{ name: 'properties.Missions' }], label: { en: 'Missions', fr: 'Missions' } }],
           },
         },
-      },
-      DOCUMENT: {
-        enabled: false,
-        tabTitle: {},
-        initialMode: 'TABLE',
-        enableDownload: false,
-        facets: { enabled: false, initiallyEnabled: false, list: [] },
-        sorting: [],
-        views: { TABLE: { enabled: true, attributes: [] } },
       },
     },
   },

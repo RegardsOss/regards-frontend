@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -54,7 +54,7 @@ const messages = {
   'search.graph.level.fetch.model.failed': 'Failed retrieving collections and datasets',
   'search.graph.level.no.model': 'Empty collection',
   'search.graph.dataset.attribute.no.value': '-',
-  'search.graph.results.title.without.tag': 'Selection results',
+  'search.graph.results.title': 'Results',
 
   ...Locales.en,
 }

@@ -1,8 +1,9 @@
 import { GrowingColumnSize } from './columns/size/GrowingColumnSize'
 import { OptionsColumnSize } from './columns/size/OptionColumnSize'
+import { FixedColumnSize } from './columns/size/FixedColumnSize'
 
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -56,6 +57,10 @@ export function layout(columns, tableWidth, showVerticalScrollBar, fixedColumnsW
       case OptionsColumnSize.TYPE: {
         const columnWidth = column.sizing.optionsCount * fixedColumnsWidth
         // split: fixed column, save reserved space
+        return { cWL: [...cWL, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
+      }
+      case FixedColumnSize.TYPE: {
+        const columnWidth = column.sizing.size
         return { cWL: [...cWL, { ...column, runtimeWidth: columnWidth }], gc, rFW: rFW + columnWidth }
       }
       default:

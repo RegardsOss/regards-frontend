@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
-import MoodIcon from 'material-ui/svg-icons/social/mood'
+import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import { FormattedMessage } from 'react-intl'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import {
@@ -269,7 +269,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
       return (
         <Card>
           <NoContentComponent
-            title={formatMessage({ id: 'dataaccess.searchengines.form.no.plugin.available' })}
+            titleKey="dataaccess.searchengines.form.no.plugin.available"
             Icon={MoodIcon}
           />
         </Card>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,18 +23,6 @@
  * @author Raphaël Mechali
  */
 const styles = theme => ({
-  loading: {
-    styles: {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-      flexGrow: 1,
-      flexShrink: 1,
-    },
-    progressSize: 256,
-    messageStyles: { marginTop: '2em' },
-  },
   dialogCommon: {
     actionsContainerStyle: {
       backgroundColor: theme.palette.canvasColor,

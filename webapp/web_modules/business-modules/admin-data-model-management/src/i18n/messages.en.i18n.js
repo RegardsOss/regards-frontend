@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,6 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = Object.assign({
   'model.list.title': 'Models',
   'model.list.subtitle': 'All data models of the project',
+  'model.list.table.filter.name': 'Filter on model name',
   'model.list.table.name': 'Name',
   'model.list.table.description': 'Description',
   'model.list.table.type': 'Type',
@@ -39,7 +40,6 @@ const messages = Object.assign({
   'model.type.dataset': 'Dataset',
   'model.type.data': 'Data',
   'model.type.collection': 'Collection',
-  'model.type.document': 'Document',
 
   'model.edit.title': 'Edit the model {name}',
   'model.create.title': 'Create a new model',

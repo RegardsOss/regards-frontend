@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,7 +23,11 @@ export default class NotificationDetailsActions extends BasicSignalActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
-        instance ? STATIC_CONF.IMSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
+        instance ? STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE : STATIC_CONF.MSERVICES_PUBLIC.ADMIN
+      }/notifications/{notification_id}`,
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${
+        instance ? STATIC_CONF.MSERVICES.ADMIN_INSTANCE : STATIC_CONF.MSERVICES.ADMIN
       }/notifications/{notification_id}`,
     })
   }

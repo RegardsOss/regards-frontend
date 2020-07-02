@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,6 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import LinkComponent from '../links/LinkComponent'
+import StringValueRender from './StringValueRender'
 
 /**
  * Component to display url link values group value
@@ -39,11 +40,26 @@ class URLValueRender extends React.Component {
 
   render() {
     const { value } = this.props
+    // Regex url
+    const regexMarkdownUrl = /\[(.*?)\]\((http.*?)\)/i
+    let label = value
+    let url = value
+    if (value && value.includes('(') && value.includes(')') && value.includes('[') && value.includes(']')) {
+      const found = value.match(regexMarkdownUrl)
+      if (found) {
+        label = found[1] ? found[1] : found[2]
+        url = found[2]
+      }
+    }
+
     return value ? (
       <LinkComponent
         target="_blank"
-        link={value}
-      />) : null
+        link={url}
+        label={label}
+      />) : (
+        <StringValueRender value={null} />
+    )
   }
 }
 

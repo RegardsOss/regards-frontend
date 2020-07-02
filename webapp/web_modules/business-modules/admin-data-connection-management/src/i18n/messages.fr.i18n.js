@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,7 @@ const messages = Object.assign({
   'connection.form.label': 'Nom de la connexion',
   'connection.form.version': 'Version',
   'connection.form.priorityOrder': 'Priorité de la connexion',
-  'connection.form.pluginClassName': 'Plugin de connexion',
+  'connection.form.pluginId': 'Plugin de connexion',
   'connection.form.user': 'Utilisateur de la connexion à la base de données',
   'connection.form.password': 'Mot de passe de la connexion à la base de données',
   'connection.form.dbProtocol': 'Protocole de communication (ex: jdbc:postgresql)',

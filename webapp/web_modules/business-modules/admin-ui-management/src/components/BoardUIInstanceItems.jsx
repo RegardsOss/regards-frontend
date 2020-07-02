@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ViewQuilt from 'material-ui/svg-icons/action/view-quilt'
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
+import ViewQuilt from 'mdi-material-ui/ViewQuilt'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import AddIcon from 'mdi-material-ui/PlusCircle'
 
 /**
  * Configuration file for UI-Configuration boards items.

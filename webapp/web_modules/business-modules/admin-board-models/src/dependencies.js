@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,12 +26,8 @@ import { attributePluginDependencies } from '@regardsoss/admin-data-attribute-pl
  * @type {Array}
  */
 export default [
-  ...modelDependencies.listDependencies,
-  ...modelDependencies.addDependencies,
-  ...fragmentDependencies.listDependencies,
-  ...fragmentDependencies.addDependencies,
-  ...attributeModelDependencies.listDependencies,
-  ...attributeModelDependencies.addDependencies,
-  ...attributePluginDependencies.addDependencies,
-  ...attributePluginDependencies.listDependencies,
+  [...modelDependencies.listDependencies, ...modelDependencies.addDependencies],
+  [...fragmentDependencies.listDependencies, ...fragmentDependencies.addDependencies],
+  [...attributeModelDependencies.listDependencies, ...attributeModelDependencies.addDependencies],
+  [...attributePluginDependencies.addDependencies, ...attributePluginDependencies.listDependencies],
 ]

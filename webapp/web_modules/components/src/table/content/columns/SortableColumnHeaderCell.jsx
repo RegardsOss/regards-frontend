@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,9 +18,9 @@
  **/
 import isNumber from 'lodash/isNumber'
 import IconButton from 'material-ui/IconButton'
-import SortDesc from 'material-ui/svg-icons/navigation/arrow-drop-up'
-import SortAsc from 'material-ui/svg-icons/navigation/arrow-drop-down'
-import Sort from 'material-ui/svg-icons/action/swap-vert'
+import SortDesc from 'mdi-material-ui/MenuUp'
+import SortAsc from 'mdi-material-ui/MenuDown'
+import Sort from 'mdi-material-ui/SwapVertical'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonDomain } from '@regardsoss/domain'
 
@@ -39,6 +39,7 @@ class SortableColumnHeaderCell extends React.Component {
     sortIndex: PropTypes.number,
     hideLabel: PropTypes.bool.isRequired,
     sortable: PropTypes.bool.isRequired,
+    tooltip: PropTypes.string,
     onSort: PropTypes.func.isRequired,
   }
 
@@ -64,13 +65,13 @@ class SortableColumnHeaderCell extends React.Component {
 
   render() {
     const {
-      label, hideLabel, sortable, sortingOrder, sortIndex,
+      label, hideLabel, sortable, sortingOrder, sortIndex, tooltip,
     } = this.props
     const {
       style, sortButtonStyle, sortComposedIconStyle, sortIndexStyle,
     } = this.context.moduleTheme.header.sortableHeader
     return (
-      <div style={style}>
+      <div style={style} title={tooltip}>
         {
           sortable ? (
             <IconButton

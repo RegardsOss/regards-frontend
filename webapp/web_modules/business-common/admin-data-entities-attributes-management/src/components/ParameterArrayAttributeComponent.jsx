@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Delete from 'material-ui/svg-icons/content/clear'
+import Delete from 'mdi-material-ui/Close'
+import Add from 'mdi-material-ui/PlusCircleOutline'
 import FlatButton from 'material-ui/FlatButton'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

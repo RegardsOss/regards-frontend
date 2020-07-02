@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -45,13 +45,12 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
       type: 'any',
       moduleConf: {
       },
-      locale: UIDomain.LOCALES_ENUM.en,
     }
     const wrapper = shallow(<ModuleContainer {...props} />, { context })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 0, 'The page should be hidden')
   })
-  it('should render correctly with english URL', () => {
+  it('should render correctly in runtime with english locale', () => {
     const props = {
       appName: 'x',
       project: 'y',
@@ -62,14 +61,21 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.en,
     }
-    const wrapper = shallow(<ModuleContainer {...props} />, { context })
+    const wrapper = shallow(<ModuleContainer {...props} />, {
+      context: {
+        ...context,
+        intl: {
+          ...context.intl,
+          locale: UIDomain.LOCALES_ENUM.en,
+        },
+      },
+    })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.en], 'English page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.en], 'English page should have been selected')
   })
-  it('should render correctly with french URL', () => {
+  it('should render correctly with french locale', () => {
     const props = {
       appName: 'x',
       project: 'y',
@@ -80,12 +86,19 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.fr,
     }
-    const wrapper = shallow(<ModuleContainer {...props} />, { context })
+    const wrapper = shallow(<ModuleContainer {...props} />, {
+      context: {
+        ...context,
+        intl: {
+          ...context.intl,
+          locale: UIDomain.LOCALES_ENUM.fr,
+        },
+      },
+    })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
   })
   it('should render correctly, fallbacking on other locale when one is not found', () => {
     const props = {
@@ -97,11 +110,45 @@ describe('[Embedded-html] Testing ModuleContainer', () => {
           [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
         },
       },
-      locale: UIDomain.LOCALES_ENUM.en,
     }
-    const wrapper = shallow(<ModuleContainer {...props} />, { context })
+    const wrapper = shallow(<ModuleContainer {...props} />, {
+      context: {
+        ...context,
+        intl: {
+          ...context.intl,
+          locale: UIDomain.LOCALES_ENUM.en,
+        },
+      },
+    })
     const iFrame = wrapper.find(IFrameURLContentDisplayer)
     assert.lengthOf(iFrame, 1, 'There should be the page')
-    assert.equal(iFrame.props().contentURL, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.fr], 'French page should have been selected')
+  })
+  it('should render correctly in preview, overriding context locale with preview one', () => {
+    const props = {
+      appName: 'x',
+      project: 'y',
+      type: 'any',
+      moduleConf: {
+        preview: true,
+        previewLocale: UIDomain.LOCALES_ENUM.en,
+        urlByLocale: {
+          [UIDomain.LOCALES_ENUM.en]: 'URL-test.en',
+          [UIDomain.LOCALES_ENUM.fr]: 'URL-test.fr',
+        },
+      },
+    }
+    const wrapper = shallow(<ModuleContainer {...props} />, {
+      context: {
+        ...context,
+        intl: {
+          ...context.intl,
+          locale: UIDomain.LOCALES_ENUM.fr,
+        },
+      },
+    })
+    const iFrame = wrapper.find(IFrameURLContentDisplayer)
+    assert.lengthOf(iFrame, 1, 'There should be the page')
+    assert.equal(iFrame.props().source, props.moduleConf.urlByLocale[UIDomain.LOCALES_ENUM.en], 'English page should have been selected')
   })
 })

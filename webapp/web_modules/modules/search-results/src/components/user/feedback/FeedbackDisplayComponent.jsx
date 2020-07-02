@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,8 +18,8 @@
  **/
 import values from 'lodash/values'
 import { FeedbackDisplayer } from '@regardsoss/components'
-import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
-import DoneEmptyIcon from 'material-ui/svg-icons/navigation/close'
+import CartIcon from 'mdi-material-ui/Cart'
+import DoneEmptyIcon from 'mdi-material-ui/Close'
 
 /**
  * Component to display long operations on module

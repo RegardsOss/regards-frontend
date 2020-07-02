@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,6 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
 import messages from '../i18n'
@@ -81,20 +80,18 @@ export class AttributeModelListContainer extends React.Component {
     this.props.throwError('Delete is not applicable on attributes yet.')
   }
 
-
   render() {
     const { attrModelArray } = this.props
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator isLoading={this.state.isLoading}>
-          <AttributeModelListComponent
-            attrModelArray={attrModelArray}
-            createUrl={this.getCreateUrl()}
-            backUrl={this.getBackUrl()}
-            handleDelete={this.handleDelete}
-            handleEdit={this.handleEdit}
-          />
-        </LoadableContentDisplayDecorator>
+        <AttributeModelListComponent
+          attrModelArray={attrModelArray}
+          createUrl={this.getCreateUrl()}
+          backUrl={this.getBackUrl()}
+          handleDelete={this.handleDelete}
+          handleEdit={this.handleEdit}
+          isLoading={this.state.isLoading}
+        />
       </I18nProvider>
     )
   }

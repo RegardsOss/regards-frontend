@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -45,11 +45,13 @@ export { default as MainActionButtonComponent } from './cards/MainActionButtonCo
 export { default as NoContentMessageInfo } from './cards/NoContentMessageInfo'
 export { default as SecondaryActionButtonComponent } from './cards/SecondaryActionButtonComponent'
 
-export { default as FileContentDisplayer } from './content/FileContentDisplayer'
-export { default as CodeFileDisplayer } from './content/CodeFileDisplayer'
-export { default as IFrameURLContentDisplayer } from './content/IFrameURLContentDisplayer'
-export { default as MarkdownFileContentDisplayer } from './content/MarkdownFileContentDisplayer'
-export { default as NoContentComponent } from './content/NoContentComponent'
+export { default as NoContentComponent } from './content/feedback/NoContentComponent'
+export { default as ContentLoadingComponent } from './content/feedback/ContentLoadingComponent'
+export { default as URIContentDisplayer } from './content/preview/URIContentDisplayer'
+export { default as FileContentDisplayer } from './content/preview/FileContentDisplayer'
+export { default as CodeFileDisplayer } from './content/preview/CodeFileDisplayer'
+export { default as IFrameURLContentDisplayer } from './content/preview/IFrameURLContentDisplayer'
+export { default as MarkdownFileContentDisplayer } from './content/preview/MarkdownFileContentDisplayer'
 export { default as SubSectionCard } from './content/SubSectionCard'
 
 export { default as BrowserCheckerDialog } from './dialogs/BrowserCheckerDialog'
@@ -85,6 +87,7 @@ export { default as DynamicModulePane } from './module/DynamicModulePane'
 export { default as HorizontalAreasSeparator } from './module/HorizontalAreasSeparator'
 export { default as ModuleIcon } from './module/ModuleIcon'
 export { default as ModuleTitleText } from './module/ModuleTitleText'
+export { default as DefaultModuleTitleComponent } from './module/DefaultModuleTitleComponent'
 
 export { default as URLPicture } from './picture/URLPicture'
 export { default as URLPictureResolver } from './picture/URLPictureResolver'
@@ -94,6 +97,7 @@ export { default as PluginConfigurationPickerComponent } from './plugin/PluginCo
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'
 export { default as AutoRefreshPageableTableHOC } from './table/options/AutoRefreshPageableTableHOC'
 export { default as CheckBoxCell } from './table/content/cells/CheckBoxCell'
+export { default as TableSelectionCell } from './table/content/cells/TableSelectionCell'
 export { default as InfiniteTableContainer } from './table/InfiniteTableContainer'
 export { default as getTableReducer } from './table/model/TableReducer'
 export { default as getTableSelectors } from './table/model/TableSelectors'
@@ -105,6 +109,7 @@ export { TableColumnConfiguration } from './table/content/columns/model/TableCol
 export { default as TableColumnConfigurationController } from './table/content/columns/model/ColumnConfigurationController'
 export { default as TableColumnsVisibilityOption } from './table/content/columns/options/TableColumnsVisibilityOption'
 export { default as TableHeaderAutoCompleteFilter } from './table/header/TableHeaderAutoCompleteFilter'
+export { default as TableHeaderAutoCompleteFilterContainer } from './table/header/TableHeaderAutoCompleteFilterContainer'
 export { default as TableHeaderCheckbox } from './table/header/TableHeaderCheckbox'
 
 export { default as TableHeaderContentBox } from './table/header/TableHeaderContentBox'
@@ -136,8 +141,9 @@ export { default as DateArrayValueRender } from './values/DateArrayValueRender'
 export { default as DateRangeValueRender } from './values/DateRangeValueRender'
 export { default as DateValueRender } from './values/DateValueRender'
 export { default as DateRelativeValueRender } from './values/DateRelativeValueRender'
+export { default as NumberArrayValueRender } from './values/NumberArrayValueRender'
+export { default as NumberRangeValueRender } from './values/NumberRangeValueRender'
 export { default as NumberValueRender } from './values/NumberValueRender'
-export { default as RangeValueRender } from './values/RangeValueRender'
 export { default as StorageCapacityRender } from './values/StorageCapacityRender'
 export { default as StringArrayValueRender } from './values/StringArrayValueRender'
 export { default as StringValueRender } from './values/StringValueRender'

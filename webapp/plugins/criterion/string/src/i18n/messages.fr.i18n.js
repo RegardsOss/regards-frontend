@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,7 +22,8 @@
  * @type {*}
  */
 const messages = {
-  'criterion.search.field.word.checkbox.title': 'Rechercher un mot entier',
+  'criterion.search.field.contains.selector.title': 'Contient le texte',
+  'criterion.search.field.equals.selector.title': 'Texte strictement égal',
 }
 
 export default messages

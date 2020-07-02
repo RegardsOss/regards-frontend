@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -51,7 +51,7 @@ export class DatasourceListContainer extends React.Component {
   onToggleState = (datasource) => {
     const updatedDatasource = Object.assign({}, datasource)
     updatedDatasource.content.active = !updatedDatasource.content.active
-    this.props.updateDatasource(updatedDatasource.content.id, updatedDatasource.content)
+    this.props.updateDatasource(updatedDatasource.content.businessId, updatedDatasource.content)
   }
 
   getCreateUrl = () => {
@@ -70,7 +70,7 @@ export class DatasourceListContainer extends React.Component {
    */
   handleEdit = (datasource) => {
     const { params: { project } } = this.props
-    const datasourceId = datasource.content.id
+    const datasourceId = datasource.content.businessId
     const type = EditionHelper.getDatasourcePluginType(datasource)
 
     const url = `/admin/${project}/data/acquisition/datasource/${type}/${datasourceId}/edit`

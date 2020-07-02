@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,7 +26,6 @@ import values from 'lodash/values'
 
 export const FORM_PAGES_ENUM = {
   MAIN: 'MAIN', // main configuration page
-  FILTERS: 'FILTERS', // filters attributes configuration page
   SORTING: 'SORTING', // sorting attributes configuration page
   LIST_AND_TABLE: 'LIST_AND_TABLE', // list and table columns configuration page
   QUICKLOOKS: 'QUICKLOOKS', // quicklook attributes configuration page

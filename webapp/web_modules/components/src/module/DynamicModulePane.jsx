@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import { Card } from 'material-ui/Card'
-import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
@@ -29,7 +29,7 @@ import { connect } from '@regardsoss/redux'
 import { HOCUtils, ShowableAtRender } from '@regardsoss/display-control'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType, SwitchThemeDecorator } from '@regardsoss/theme'
 import { moduleExpandedStateActions, moduleExpandedStateSelectors } from './clients/ModuleExpandedStateClient'
 import NoContentMessageInfo from '../cards/NoContentMessageInfo'
@@ -39,9 +39,6 @@ import styles from './styles'
 import messages from './i18n'
 import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
-
-/** User app name */
-const userAppName = 'user'
 
 /**
  * This module is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
@@ -151,7 +148,6 @@ export class DynamicModulePane extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
-    ...i18nContextType,
   }
 
   static DEFAULT_STATE = {
@@ -251,7 +247,7 @@ export class DynamicModulePane extends React.Component {
   /**
    * @return true if layout options should be shown
    */
-  showLayoutOptions = () => this.props.appName === userAppName
+  showLayoutOptions = () => this.props.appName === UIDomain.APPLICATIONS_ENUM.USER
 
   render() {
     const {
@@ -263,7 +259,7 @@ export class DynamicModulePane extends React.Component {
       noData, loading, noDataTitleKey, noDataMessageKey,
     } = this.state
     const {
-      intl: { formatMessage }, moduleTheme: {
+      moduleTheme: {
         module: {
           cardRootContainerStyle,
           content: {
@@ -304,8 +300,8 @@ export class DynamicModulePane extends React.Component {
               {/* prevent children to show when missing rights  */}
               <NoContentMessageInfo
                 noContent={noData || loading}
-                title={formatMessage({ id: noDataTitleKey })}
-                message={formatMessage({ id: noDataMessageKey })}
+                titleKey={noDataTitleKey}
+                messageKey={noDataMessageKey}
                 Icon={loading ? UserInformationLoadingIcon : NotLoggedIcon}
               >
                 <div style={moduleContentStyle}>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,7 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import IconButton from 'material-ui/IconButton'
-import Help from 'material-ui/svg-icons/action/help'
+import Help from 'mdi-material-ui/HelpCircle'
 
 import { Checkbox } from 'redux-form-material-ui'
 import { Field } from 'redux-form'

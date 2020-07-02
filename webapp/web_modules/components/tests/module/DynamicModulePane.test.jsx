@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,7 +41,7 @@ describe('[Components] Testing DynamicModulePane', () => {
   })
   it('should render correctly expanded, in user app', () => {
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'y',
       type: 'any',
       description: 'any module',
@@ -207,7 +207,7 @@ describe('[Components] Testing DynamicModulePane', () => {
   it('should attempt initializing its own state in redux store from module configuration when in user app', () => {
     let spiedInitialization = {}
     const props = {
-      appName: 'user',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'y',
       type: 'any',
       description: 'any',
@@ -286,8 +286,8 @@ describe('[Components] Testing DynamicModulePane', () => {
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as module is loading content')
-    assert.equal(noContentWrapper.props().title, 'dynamic.module.loading.title', 'Loading title should be shown')
-    assert.equal(noContentWrapper.props().message, 'dynamic.module.loading.message', 'Loading message should be shown')
+    assert.equal(noContentWrapper.props().titleKey, 'dynamic.module.loading.title', 'Loading title should be shown')
+    assert.equal(noContentWrapper.props().messageKey, 'dynamic.module.loading.message', 'Loading message should be shown')
 
     enzymeWrapper.setProps({ ...props, fetching: false })
     noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
@@ -321,8 +321,8 @@ describe('[Components] Testing DynamicModulePane', () => {
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be authentication message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user is not authenticated')
-    assert.equal(noContentWrapper.props().title, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be shown')
-    assert.equal(noContentWrapper.props().message, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown')
+    assert.equal(noContentWrapper.props().titleKey, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be shown')
+    assert.equal(noContentWrapper.props().messageKey, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown')
 
     enzymeWrapper.setProps({ ...props, isAuthenticated: true })
     noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
@@ -359,14 +359,14 @@ describe('[Components] Testing DynamicModulePane', () => {
     let noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(noContentWrapper, 1, 'There should be rights message displayer')
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user has not all dependencies (1)')
-    assert.equal(noContentWrapper.props().title, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be used while user is not authenticated (missing rights for PUBLIC profile)')
-    assert.equal(noContentWrapper.props().message, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown while user is not authenticated (missing rights for PUBLIC profile)')
+    assert.equal(noContentWrapper.props().titleKey, 'dynamic.module.not.authenticated.title', 'Not authenticated title should be used while user is not authenticated (missing rights for PUBLIC profile)')
+    assert.equal(noContentWrapper.props().messageKey, 'dynamic.module.not.authenticated.message', 'Not authenticated message should be shown while user is not authenticated (missing rights for PUBLIC profile)')
 
     enzymeWrapper.setProps({ ...props, isAuthenticated: true })
     noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)
     assert.isTrue(noContentWrapper.props().noContent, 'Module content should be blocked as user has not all dependencies (2)')
-    assert.equal(noContentWrapper.props().title, 'dynamic.module.unsufficient.rights.title', 'Missing dependencies title should be shown')
-    assert.equal(noContentWrapper.props().message, 'dynamic.module.unsufficient.rights.message', 'Missing dependencies message should be shown')
+    assert.equal(noContentWrapper.props().titleKey, 'dynamic.module.unsufficient.rights.title', 'Missing dependencies title should be shown')
+    assert.equal(noContentWrapper.props().messageKey, 'dynamic.module.unsufficient.rights.message', 'Missing dependencies message should be shown')
 
     enzymeWrapper.setProps({ ...props, availableDependencies: ['dep1', 'dep2', 'dep3'] })
     noContentWrapper = enzymeWrapper.find(NoContentMessageInfo)

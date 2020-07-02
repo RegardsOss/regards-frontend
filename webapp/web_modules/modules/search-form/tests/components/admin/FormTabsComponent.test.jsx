@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,7 +22,6 @@ import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import FormTabsComponent from '../../../src/components/admin/FormTabsComponent'
 import Styles from '../../../src/styles/styles'
 import SearchResultsComponent from '../../../src/components/admin/results/SearchResultsComponent'
-import FormDatasetsConfigurationComponent from '../../../src/components/admin/datasets/FormDatasetsConfigurationComponent'
 import FormLayoutComponent from '../../../src/components/admin/layout/FormLayoutComponent'
 import FormCriterionComponent from '../../../src/components/admin/criterion/FormCriterionComponent'
 import FormPreviewComponent from '../../../src/components/admin/preview/FormPreviewComponent'
@@ -88,13 +87,11 @@ describe('[SEARCH FORM] Testing FormTabsComponent', () => {
     const wrapper = shallow(<FormTabsComponent {...props} />, options)
 
     const paramTab = wrapper.find(SearchResultsComponent)
-    const datasetTab = wrapper.find(FormDatasetsConfigurationComponent)
     const layoutTab = wrapper.find(FormLayoutComponent)
     const criterionTab = wrapper.find(FormCriterionComponent)
     const previewTab = wrapper.find(FormPreviewComponent)
 
     assert(paramTab.length === 1)
-    assert(datasetTab.length === 1)
     assert(layoutTab.length === 1)
     assert(criterionTab.length === 1)
     assert(previewTab.length === 1)

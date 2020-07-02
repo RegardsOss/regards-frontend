@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -184,6 +184,7 @@ export class AttributeModelFormContainer extends React.Component {
       label: values.label,
       description: values.description,
       type: values.type,
+      precision: values.precision ? parseInt(values.precision, 10) : null,
       alterable: values.alterable,
       optional: values.optional,
       unit: values.unit,
@@ -212,6 +213,7 @@ export class AttributeModelFormContainer extends React.Component {
       label: values.label,
       description: values.description,
       type: values.type,
+      precision: values.precision ? parseInt(values.precision, 10) : null,
       unit: values.unit,
       alterable: values.alterable,
       optional: values.optional,

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,6 +30,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { List, ListItem } from 'material-ui/List'
 import { DEFAULT_FRAGMENT } from '@regardsoss/domain/dam'
+import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 import DatasetSubsettingTesterIconButton from './DatasetSubsettingTesterIconButton'
 
@@ -39,7 +40,7 @@ import DatasetSubsettingTesterIconButton from './DatasetSubsettingTesterIconButt
 export class DatasetFormSubsettingComponent extends React.Component {
   static propTypes = {
     modelAttributeList: DataManagementShapes.ModelAttributeList,
-    currentDataset: DataManagementShapes.Dataset,
+    currentDataset: SubsettingEditionDataset.isRequired,
     onSubmit: PropTypes.func.isRequired,
     handleTestSubsetting: PropTypes.func.isRequired,
     handleBack: PropTypes.func.isRequired,

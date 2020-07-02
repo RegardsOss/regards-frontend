@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,26 +32,6 @@ export const processingChainManagementRouter = {
     require.ensure([], (require) => {
       const processingChainManagement = require('@regardsoss/admin-ingest-processing-chain-management')
       cb(null, [processingChainManagement.processingChainManagementRouter])
-    })
-  },
-}
-
-export const sipManagementRouter = {
-  path: 'sip',
-  getChildRoutes(nextState, cb) {
-    const sipManagement = require('@regardsoss/admin-ingest-sip-management')
-    require.ensure([], (require) => {
-      cb(null, [sipManagement.sipManagementRouter])
-    })
-  },
-}
-
-export const documentManagementRouter = {
-  path: 'document',
-  getChildRoutes(nextState, cb) {
-    require.ensure([], (require) => {
-      const adminDataDocumentManagement = require('@regardsoss/admin-data-document-management')
-      cb(null, [adminDataDocumentManagement.documentDataManagementRouter])
     })
   },
 }
@@ -96,16 +76,25 @@ export const storageManagementRouter = {
   },
 }
 
+export const oaisManagementRouter = {
+  path: 'oais',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const oaisManagement = require('@regardsoss/admin-oais-management')
+      cb(null, [oaisManagement.oaisManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
     processingChainManagementRouter,
-    sipManagementRouter,
-    documentManagementRouter,
     dataproviderManagementRouter,
     datasourceManagementRouter,
     connectionManagementRouter,
     storageManagementRouter,
+    oaisManagementRouter,
   ],
 }
 

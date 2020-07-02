@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,6 +24,7 @@ import { Field, FieldArray } from '@regardsoss/form-utils'
 import {
   buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
 } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderPluginParameterField } from '../../src/form-utils/RenderPluginParameterField'
 import styles from '../../src/styles/styles'
 import { RenderPluginField } from '../../src/form-utils/RenderPluginPluginParameterField'
@@ -50,7 +51,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
   const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
   assert.isDefined(pluginMetaData)
   forEach(pluginMetaData.parameters, (parameter) => {
-    it(`should render correctly field ${parameter.paramType} - ${parameter.type}`, () => {
+    it(`should render correctly field ${parameter.type}`, () => {
       assert.isDefined(parameter)
       const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
@@ -65,29 +66,36 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
       }
       const enzymeWrapper = shallow(<RenderPluginParameterField {...props} />, { context })
       const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameter.type)
-      switch (parameter.paramType) {
-        case 'PRIMITIVE':
+      switch (parameter.type) {
+        case CommonDomain.PluginParameterTypes.STRING:
+        case CommonDomain.PluginParameterTypes.INTEGER:
+        case CommonDomain.PluginParameterTypes.BYTE:
+        case CommonDomain.PluginParameterTypes.SHORT:
+        case CommonDomain.PluginParameterTypes.LONG:
+        case CommonDomain.PluginParameterTypes.FLOAT:
+        case CommonDomain.PluginParameterTypes.DOUBLE:
+        case CommonDomain.PluginParameterTypes.BOOLEAN:
           assert.isDefined(primitiveParameters, `Error calculating Field Component parameters for primitive type ${parameter.type}`)
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 1, 'There should be a Field for dynamic configuration defined')
           assert.equal(enzymeWrapper.find(Field).find({ component: primitiveParameters.component }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'PLUGIN':
+        case CommonDomain.PluginParameterTypes.PLUGIN:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined. No dynamic conf for OBJECT paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderPluginField }).length, 1, 'There should be a Field for dynamic configuration defined.')
           break
-        case 'OBJECT':
+        case CommonDomain.PluginParameterTypes.POJO:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined. No dynamic conf for OBJECT paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderObjectParameterField }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'COLLECTION':
+        case CommonDomain.PluginParameterTypes.COLLECTION:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined.No dynamic conf for COLLECTION paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderCollectionParameterField }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'MAP':
+        case CommonDomain.PluginParameterTypes.MAP:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined. No dynamic conf for MAP paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderMapParameterField }).length, 1, 'There should be a Field for dynamic configuration defined')
@@ -96,7 +104,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
           break
       }
     })
-    it(`should render correctly field ${parameter.paramType} - ${parameter.type} as disabled`, () => {
+    it(`should render correctly field ${parameter.type} as disabled`, () => {
       assert.isDefined(parameter)
       const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
@@ -111,29 +119,36 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
       }
       const enzymeWrapper = shallow(<RenderPluginParameterField {...props} />, { context })
       const primitiveParameters = getPrimitiveJavaTypeRenderParameters(parameter.type)
-      switch (parameter.paramType) {
-        case 'PRIMITIVE':
+      switch (parameter.type) {
+        case CommonDomain.PluginParameterTypes.STRING:
+        case CommonDomain.PluginParameterTypes.INTEGER:
+        case CommonDomain.PluginParameterTypes.BYTE:
+        case CommonDomain.PluginParameterTypes.SHORT:
+        case CommonDomain.PluginParameterTypes.LONG:
+        case CommonDomain.PluginParameterTypes.FLOAT:
+        case CommonDomain.PluginParameterTypes.DOUBLE:
+        case CommonDomain.PluginParameterTypes.BOOLEAN:
           assert.isDefined(primitiveParameters, `Error calculating Field Component parameters for primitive type ${parameter.type}`)
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not be a Field for dynamic configuration defined as the prop hideDynamicParameterConf is true')
           assert.equal(enzymeWrapper.find(Field).find({ component: primitiveParameters.component, disabled: true }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'PLUGIN':
+        case CommonDomain.PluginParameterTypes.PLUGIN:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not be a Field for dynamic configuration defined as the prop hideDynamicParameterConf is true')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderPluginField, disabled: true }).length, 1, 'There should be a Field for dynamic configuration defined.')
           break
-        case 'OBJECT':
+        case CommonDomain.PluginParameterTypes.POJO:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined. No dynamic conf for OBJECT paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderObjectParameterField, disabled: true }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'COLLECTION':
+        case CommonDomain.PluginParameterTypes.COLLECTION:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined.No dynamic conf for COLLECTION paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderCollectionParameterField, disabled: true }).length, 1, 'There should be a Field for dynamic configuration defined')
           break
-        case 'MAP':
+        case CommonDomain.PluginParameterTypes.MAP:
           assert.equal(enzymeWrapper.find(FieldArray).length, 0, 'There should not be a FieldArray defined as the parameter is not configured as dynamic')
           assert.equal(enzymeWrapper.find(Field).find({ name: 'conf.dynamic' }).length, 0, 'There should not have a Field for dynamic configuration defined. No dynamic conf for MAP paramters.')
           assert.equal(enzymeWrapper.find(Field).find({ component: RenderMapParameterField, disabled: true }).length, 1, 'There should be a Field for dynamic configuration defined')

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,7 @@ import {
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
-import { DataViewsConfiguration, DatasetViewsConfiguration, DocumentsViewsConfiguration } from '../../../shapes/ModuleConfiguration'
+import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 
 /**
  * Component to configure each view type (table (and list), quicklooks and map)
@@ -44,7 +44,6 @@ class ViewTypeConfigurationComponent extends React.Component {
     currentTypeFormValues: PropTypes.oneOfType([
       DataViewsConfiguration,
       DatasetViewsConfiguration,
-      DocumentsViewsConfiguration,
     ]).isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,

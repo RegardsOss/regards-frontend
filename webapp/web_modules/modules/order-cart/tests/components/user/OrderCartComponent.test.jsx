@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Dialog from 'material-ui/Dialog'
-import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
-import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import CartIcon from 'mdi-material-ui/Cart'
+import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
 import SelectionItemDetailContainer from '../../../src/containers/user/detail/SelectionItemDetailContainer'
@@ -62,8 +62,8 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
     // Check specific messages for authentication
-    assert.equal(noContentWrapper.props().title, 'order-cart.module.not.logged.title', 'When not authenticated, title key should be correctly set up')
-    assert.equal(noContentWrapper.props().message, 'order-cart.module.not.logged.messsage', 'When not authenticated, message key should be correctly set up')
+    assert.equal(noContentWrapper.props().titleKey, 'order-cart.module.not.logged.title', 'When not authenticated, title key should be correctly set up')
+    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.not.logged.messsage', 'When not authenticated, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, NotLoggedIcon, 'When not authenticated, icon should be a NotLoggedIcon')
     // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
@@ -92,8 +92,8 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.lengthOf(noContentWrapper, 1, 'There should be a no data component')
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
     // Check specific messages for empty basket
-    assert.equal(noContentWrapper.props().title, 'order-cart.module.empty.basket.title', 'When basket is empty, title key should be correctly set up')
-    assert.equal(noContentWrapper.props().message, 'order-cart.module.empty.basket.messsage', 'When basket is empty, message key should be correctly set up')
+    assert.equal(noContentWrapper.props().titleKey, 'order-cart.module.empty.basket.title', 'When basket is empty, title key should be correctly set up')
+    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.empty.basket.messsage', 'When basket is empty, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, CartIcon, 'When basket is empty, icon should be a NotLoggedIcon')
     // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)

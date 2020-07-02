@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -160,12 +160,12 @@ export class DatasetFormAttributesComponent extends React.Component {
             />
             <SelectField
               floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.datasource' })}
-              value={currentDatasource.content.id}
+              value={currentDatasource.content.businessId}
               fullWidth
               disabled
             >
               <MenuItem
-                value={currentDatasource.content.id}
+                value={currentDatasource.content.businessId}
                 primaryText={currentDatasource.content.label}
               />
             </SelectField>

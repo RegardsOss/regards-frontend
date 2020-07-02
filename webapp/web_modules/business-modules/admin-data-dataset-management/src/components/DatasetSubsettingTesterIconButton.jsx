@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,14 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import get from 'lodash/get'
-import Check from 'material-ui/svg-icons/navigation/check'
-import Error from 'material-ui/svg-icons/alert/error'
+import Check from 'mdi-material-ui/Check'
+import Error from 'mdi-material-ui/AlertCircle'
 import Snackbar from 'material-ui/Snackbar'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
 import RaisedButton from 'material-ui/RaisedButton'
 import DatasetSubsettingTesterProgress from './DatasetSubsettingTesterProgress'
+import { SubsettingEditionDataset } from '../shapes/SubsettingsShapes'
 
 const states = {
   NOT_TESTED: 'not_tested',
@@ -42,7 +42,7 @@ e passed {@link Connection}.<br>
  */
 class ConnectionTesterIconButton extends React.Component {
   static propTypes = {
-    currentDataset: DataManagementShapes.Dataset,
+    currentDataset: SubsettingEditionDataset.isRequired,
     subsetting: PropTypes.string,
     handleTestSubsetting: PropTypes.func.isRequired,
   }

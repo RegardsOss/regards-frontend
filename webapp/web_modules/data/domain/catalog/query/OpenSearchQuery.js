@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Query from '../../common/query/abstract/Query'
-import OpenSearchQueryParameter from './OpenSearchQueryParameter'
 
 
 /**
@@ -38,37 +37,7 @@ export default class OpenSearchQuery extends Query {
   static ID_PARAM_NAME = 'id'
 
   /** Open search query parameter name: Entity parent dataset model Ids */
-  static DATASET_MODEL_IDS_PARAM = 'datasetModelIds'
-
-  /**
-   * Builds a tag parameter
-   * @param {[string]|string} values values array or simple string
-   * @param {boolean} negate should negate parameter value in final request?
-   * @return built parameter
-   */
-  static buildTagParameter(values, negate = false) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.TAGS_PARAM_NAME, values, negate)
-  }
-
-  /**
-   * Builds a model name parameter
-   * @param {[string]|string} values values array or simple string
-   * @param {boolean} negate should negate parameter value in final request?
-   * @return built parameter
-   */
-  static buildModelParameter(values, negate = false) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.MODEL_PARAM_NAME, values, negate)
-  }
-
-  /**
-   * Builds a IP ID parameter
-   * @param {[string]|string} values values array or simple string
-   * @param {boolean} negate should negate parameter value in final request?
-   * @return built parameter
-   */
-  static buildIDParameter(values, negate = false) {
-    return new OpenSearchQueryParameter(OpenSearchQuery.ID_PARAM_NAME, values, negate)
-  }
+  static DATASET_MODEL_NAMES_PARAM = 'datasetModelNames'
 
   constructor(rootQuery, parameters) {
     super(rootQuery, OpenSearchQuery.PARAMETERS_SEPARATOR, parameters)

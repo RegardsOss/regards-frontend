@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,84 +23,11 @@
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
-export const securityPluginListRoute = {
-  path: 'security',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/security/SecurityDelegationListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const securityPluginCreateFormRoute = {
-  path: 'security/create',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/security/SecurityDelegationFormContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const securityPluginEditFormRoute = {
-  path: 'security/:id/:mode',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/security/SecurityDelegationFormContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const allocationsPluginListRoute = {
-  path: 'allocations',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/allocations/AllocationStrategyListContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const allocationsPluginCreateFormRoute = {
-  path: 'allocations/create',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/allocations/AllocationStrategyFormContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const allocationsPluginEditFormRoute = {
-  path: 'allocations/:id/:mode',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./containers/allocations/AllocationStrategyFormContainer')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const storagePluginListRoute = {
+export const storageLocationListRoute = {
   path: 'storages',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      //const container = require('./containers/PluginStorageConfigurationListContainer')
-      const container = require('./components/PrioritizedDataStoragesComponent')
+      const container = require('./components/StorageLocationsComponent')
       cb(null, {
         content: container.default,
       })
@@ -108,11 +35,11 @@ export const storagePluginListRoute = {
   },
 }
 
-export const storagePluginCreateFormRoute = {
-  path: 'storages/:type/create',
+export const storageLocationCreateFormRoute = {
+  path: 'storages/create',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PrioritizedDataStorageFormContainer')
+      const container = require('./containers/StorageLocationFormContainer')
       cb(null, {
         content: container.default,
       })
@@ -120,53 +47,23 @@ export const storagePluginCreateFormRoute = {
   },
 }
 
-export const storagePluginEditFormRoute = {
-  path: 'storages/:type/:id/:mode',
+export const storageLocationEditFormRoute = {
+  path: 'storages/:name/:mode',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('./containers/PrioritizedDataStorageFormContainer')
+      const container = require('./containers/StorageLocationFormContainer')
       cb(null, {
         content: container.default,
       })
-    })
-  },
-}
-
-export const storagePluginMonitoringRoute = {
-  path: 'storages/monitoring',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const container = require('./components/StoragePluginMonitoringComponent')
-      cb(null, {
-        content: container.default,
-      })
-    })
-  },
-}
-
-export const sipManagementRouter = {
-  path: 'aip',
-  getChildRoutes(nextState, cb) {
-    const aipManagement = require('@regardsoss/admin-storage-aip-management')
-    require.ensure([], (require) => {
-      cb(null, [aipManagement.aipManagementRouter])
     })
   },
 }
 
 const storageManagementRouter = {
   childRoutes: [
-    storagePluginListRoute,
-    storagePluginCreateFormRoute,
-    storagePluginEditFormRoute,
-    storagePluginMonitoringRoute,
-    allocationsPluginListRoute,
-    allocationsPluginCreateFormRoute,
-    allocationsPluginEditFormRoute,
-    securityPluginListRoute,
-    securityPluginCreateFormRoute,
-    securityPluginEditFormRoute,
-    sipManagementRouter,
+    storageLocationListRoute,
+    storageLocationCreateFormRoute,
+    storageLocationEditFormRoute,
   ],
 }
 

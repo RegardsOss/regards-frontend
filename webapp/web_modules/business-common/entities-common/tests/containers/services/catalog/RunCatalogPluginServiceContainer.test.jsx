@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
 import { AccessDomain, DamDomain } from '@regardsoss/domain'
-import { FileContentDisplayer } from '@regardsoss/components'
+import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
 import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/ServiceTarget'
 import { RunCatalogPluginServiceContainer } from '../../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
@@ -30,7 +30,7 @@ import styles from '../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const serviceConfiguration = {
-  configId: 1,
+  configId: '1',
   label: 'service1',
   icon: 'hellfire.png',
   applicationModes: [],
@@ -109,13 +109,13 @@ const getContentObjectWithParameters = (model, parameters = []) => ({
 describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
   let toRestore
   before(() => {
-    // stub FileContentDisplayer.buildLocalAccessURL to not use blobs and URL
-    toRestore = FileContentDisplayer.buildLocalAccessURL
-    FileContentDisplayer.buildLocalAccessURL = fakeContent => fakeContent.text
+    // stub LocalURLProvider.buildLocalAccessURL to not use blobs and URL
+    toRestore = LocalURLProvider.buildLocalAccessURL
+    LocalURLProvider.buildLocalAccessURL = fakeContent => fakeContent.text
     testSuiteHelpers.before()
   })
   after(() => {
-    FileContentDisplayer.buildLocalAccessURL = toRestore
+    LocalURLProvider.buildLocalAccessURL = toRestore
     testSuiteHelpers.after()
   })
 
@@ -275,7 +275,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
       payload: getPayloadWithParameters(PluginMetaDataConfiguration.normalizrKey, basicConfiguration.pluginId, basicMetadata, [
         // this parameter will be resolved (note: all types tested in resolution helper )
         {
-          name: 'test.field', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+          name: 'test.field', type: 'BOOLEAN', optional: false,
         }]),
     }, getContentObjectWithParameters(basicConfiguration, [
       // this parameter will be resolved

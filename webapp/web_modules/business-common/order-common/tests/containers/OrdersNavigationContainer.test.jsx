@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import BigIcon from 'material-ui/svg-icons/action/pregnant-woman'
+import BigIcon from 'mdi-material-ui/HumanPregnant'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import OrdersNavigationComponent from '../../src/components/navigation/OrdersNavigationComponent'
 import { OrdersNavigationActions } from '../../src/model/OrdersNavigationActions'
@@ -47,6 +47,22 @@ describe('[Order Common] Testing OrdersNavigationContainer', () => {
       navigationActions: new OrdersNavigationActions(''), // used in mapDispatchToProps
       navigationSelectors: new OrdersNavigationSelectors(['idk']),
       navigationPath: [],
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
       dispatchResetToLevel: () => { },
     }
     const enzymeWrapper = shallow(<OrdersNavigationContainer {...props} />, { context })
@@ -83,5 +99,65 @@ describe('[Order Common] Testing OrdersNavigationContainer', () => {
     assert.equal(compProps.navigationPath[0], OrdersNavigationComponent.ROOT_MARKER, 'WITH ORDER AND DS - Root element should be inserted from corresponding static field in component')
     assert.equal(compProps.navigationPath[1], exampleOrder, 'WITH ORDER AND DS - Order element should still be present in path')
     assert.equal(compProps.navigationPath[2], exampleDSTask, 'WITH ORDER AND DS - Dataset task element should still be present in path')
+  })
+  it('should reset navigation when authentified user changes', () => {
+    const spyReset = { count: 0 }
+    const props = {
+      title: 'hello hello, I don\'t know why you say hello',
+      rootIcon: <BigIcon />,
+      navigationActions: new OrdersNavigationActions(''), // used in mapDispatchToProps
+      navigationSelectors: new OrdersNavigationSelectors(['idk']),
+      navigationPath: [],
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user1',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+      dispatchResetToLevel: () => { spyReset.count += 1 },
+    }
+    const enzymeWrapper = shallow(<OrdersNavigationContainer {...props} />, { context })
+    assert.equal(spyReset.count, 1, 'Reset should have been called at initialization')
+    enzymeWrapper.setProps({
+      ...props,
+      authentication: {
+        isFetching: false,
+        authenticateDate: null,
+        authenticateExpirationDate: null,
+        sessionLocked: false,
+        result: null,
+      },
+    })
+    assert.equal(spyReset.count, 2, 'Reset should have been called after log out')
+    enzymeWrapper.setProps({
+      ...props,
+      authentication: {
+        isFetching: false,
+        authenticateDate: 68545,
+        authenticateExpirationDate: 68725,
+        sessionLocked: false,
+        result: {
+          project: 'any',
+          scope: 'any',
+          sub: 'user2',
+          role: 'myRole',
+          access_token: 'xxx',
+          token_type: 'yyy',
+          expires_in: 56879,
+          jti: 'JTIYOURSELF',
+        },
+      },
+    })
+    assert.equal(spyReset.count, 3, 'Reset should have been called after log out')
   })
 })

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,7 +22,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AuthenticateShape from '../src/AuthenticateShape'
+import { AuthenticateShape } from '../src/AuthenticateShape'
 
 describe('[AUTH UTILS] Testing AuthShape', () => {
   before(testSuiteHelpers.before)

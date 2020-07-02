@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,8 +19,8 @@
 import { DataManagementShapes } from '@regardsoss/shape'
 import { DamDomain } from '@regardsoss/domain'
 import get from 'lodash/get'
-import Report from 'material-ui/svg-icons/content/report'
-import Info from 'material-ui/svg-icons/action/info'
+import Report from 'mdi-material-ui/AlertOctagon'
+import Info from 'mdi-material-ui/Information'
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType } from '@regardsoss/i18n'
 

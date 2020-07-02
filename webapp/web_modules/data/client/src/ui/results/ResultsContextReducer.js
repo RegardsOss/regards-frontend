@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import ResultsContextActions from './ResultsContextActions'
-import { ResultsContextHelper } from './ResultsContextHelper'
 
 /**
  * Results context actions: used to drive each results module context, by their module ID. That client
@@ -51,7 +51,7 @@ export class ResultsContextReducer {
       case this.actionsModel.UPDATE_CONTEXT: {
         return {
           ...state,
-          [action.moduleId]: ResultsContextHelper.mergeDeep(state[action.moduleId], action.stateDiff),
+          [action.moduleId]: UIDomain.ResultsContextHelper.deepMerge(state[action.moduleId], action.stateDiff),
         }
       }
       default:
@@ -63,6 +63,7 @@ export class ResultsContextReducer {
 /**
  * Returns reduce function instance for a given namespace
  * @param {*} namespace namespace (optional, leave empty to get reducer on default namespace)
+ * @return {Function} reduce
  */
 export default function getResultsContextReducer(namespace) {
   const reducer = new ResultsContextReducer(namespace)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,42 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { default as AIPStatusActions } from './aip/AIPStatusActions'
-export { default as getAIPStatusReducer } from './aip/AIPStatusReducer'
-export { default as getAIPStatusSelectors } from './aip/AIPStatusSelectors'
+export { default as StorageLocationActions } from './location/StorageLocationActions'
+export { default as getStorageLocationReducers } from './location/StorageLocationReducers'
+export { default as getStorageLocationSelectors } from './location/SotrageLocationSelectors'
 
-export { default as AIPActions } from './aip/AIPActions'
-export { default as getAIPReducer } from './aip/AIPReducer'
-export { default as getAIPSelectors } from './aip/AIPSelectors'
+export { default as StorageLocationCopyFilesActions } from './location/StorageLocationCopyFilesActions'
+export { default as StorageLocationDeleteFilesActions } from './location/StorageLocationDeleteFilesActions'
+export { default as StorageLocationErrorsRetryActions } from './location/StorageLocationErrorsRetryActions'
+export { default as StorageLocationMonitoringActions } from './location/StorageLocationMonitoringActions'
+export { default as StorageLocationPriorityDownActions } from './location/StorageLocationPriorityDownActions'
+export { default as StorageLocationPriorityUpActions } from './location/StorageLocationPriorityUpActions'
 
-export { default as AIPTagActions } from './aip/AIPTagActions'
-export { default as getAIPTagReducer } from './aip/AIPTagReducer'
-export { default as getAIPTagSelectors } from './aip/AIPTagSelectors'
-
-export { default as AIPSessionActions } from './aip/AIPSessionActions'
-export { default as getAIPSessionReducer } from './aip/AIPSessionReducer'
-export { default as getAIPSessionSelectors } from './aip/AIPSessionSelectors'
-
-export { default as AIPSessionClearActions } from './aip/AIPSessionClearActions'
-
-export { default as AIPFileActions } from './aip/AIPFileActions'
-export { default as getAIPFileReducer } from './aip/AIPFileReducer'
-export { default as getAIPFileSelectors } from './aip/AIPFileSelectors'
-
-export { default as DeleteAIPsOnAllStoragesActions } from './aip/storage/DeleteAIPsOnAllStoragesActions'
-export { default as getDeleteAIPsOnAllStoragesReducer } from './aip/storage/DeleteAIPsOnAllStoragesReducer'
-export { default as getDeleteAIPsOnAllStoragesSelectors } from './aip/storage/DeleteAIPsOnAllStoragesSelectors'
-
-export { default as DeleteAIPsOnSomeStoragesActions } from './aip/storage/DeleteAIPsOnSomeStoragesActions'
-export { default as getDeleteAIPsOnSomeStoragesReducer } from './aip/storage/DeleteAIPsOnSomeStoragesReducer'
-export { default as getDeleteAIPsOnSomeStoragesSelectors } from './aip/storage/DeleteAIPsOnSomeStoragesSelectors'
-
-export { default as StorageMonitoringActions } from './monitoring/StorageMonitoringActions'
-export { default as getStorageMonitoringReducer } from './monitoring/StorageMonitoringReducer'
-export { default as getStorageMonitoringSelectors } from './monitoring/StorageMonitoringSelectors'
-
-export { default as PrioritizedDataStorageActions } from './plugins/PrioritizedDataStorageActions'
-export { default as getPrioritizedDataStorageReducer } from './plugins/PrioritizedDataStorageReducer'
-export { default as getPrioritizedDataStorageSelectors } from './plugins/PrioritizedDataStorageSelectors'
-export { default as PrioritizedDataStorageUpActions } from './plugins/PrioritizedDataStorageUpActions'
-export { default as PrioritizedDataStorageDownActions } from './plugins/PrioritizedDataStorageDownActions'
+export { default as StorageRequestActions } from './requests/StorageRequestActions'
+export { default as getStorageRequestReducers } from './requests/StorageRequestReducers'
+export { default as getStorageRequestSelectors } from './requests/SotrageRequestSelectors'
+export { default as StorageRequestStopActions } from './requests/StorageRequestStopActions'

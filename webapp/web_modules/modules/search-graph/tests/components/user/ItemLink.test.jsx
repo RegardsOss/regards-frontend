@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -46,8 +46,11 @@ describe('[Search Graph] Testing ItemLink', () => {
       onMouseOver: () => { },
       onMouseOut: () => { },
       onLinkClicked: () => { },
-      isDescAvailableFor: () => true,
-      onShowDescription: () => { },
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
     }
     const enzymeWrapper = shallow(<ItemLink {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(FlatButton), 1, 'The additive line component (a flat button here) should be rendered')
@@ -65,8 +68,11 @@ describe('[Search Graph] Testing ItemLink', () => {
       onMouseOver: () => { },
       onMouseOut: () => { },
       onLinkClicked: () => { },
-      isDescAvailableFor: () => true,
-      onShowDescription: () => { },
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
     }
     shallow(<ItemLink displayState={ItemLink.States.DEFAULT} {...props} />, { context })
     shallow(<ItemLink displayState={ItemLink.States.HOVER} {...props} />, { context })

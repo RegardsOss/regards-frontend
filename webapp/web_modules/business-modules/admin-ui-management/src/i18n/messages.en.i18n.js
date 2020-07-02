@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,6 +23,10 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien binda
  */
 const messages = Object.assign({
+  'ui.settings.title': 'UI settings',
+  'ui.settings.description': 'Main user interface settings',
+  'ui.settings.edit.tooltip': 'Edit UI settings',
+
   'portal.layout.title': 'Layout configuration',
   'project.layout.title': 'Layout configuration',
   'project.layout.description': 'Layout configuration',

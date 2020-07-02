@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -72,12 +72,14 @@ const messages = {
   'order.list.option.cell.download.title': 'Télécharger...',
   'order.list.option.cell.download.zip.tooltip': 'Télécharger les fichiers disponibles de la commande en ZIP',
   'order.list.option.cell.download.metalink.tooltip': 'Télécharger le fichier metalink de la commande',
-  'order.list.option.cell.delete.superficially.order.tooltip': 'Supprimer la commande',
-  'order.list.option.cell.delete.superficially.confirmation.title': 'Suppression',
-  'order.list.option.cell.delete.superficially.confirmation.message': 'Cette commande et ses données seront supprimées. Voulez-vous continuer?',
+  'order.list.option.cell.delete.superficially.order.tooltip': 'Annuler la commande',
+  'order.list.option.cell.delete.superficially.confirmation.title': 'Annuler la commande',
+  'order.list.option.cell.delete.superficially.confirmation.message': 'Etes-vous sûr de vouloir annuler la commande sélectionnée ?',
+  'order.list.option.cell.delete.superficially.confirmation.button': 'Confirmer',
   'order.list.option.cell.delete.completely.order.tooltip': 'Effacer complètement la commande et les données liées',
   'order.list.option.cell.delete.completely.confirmation.title': 'Suppression complète',
   'order.list.option.cell.delete.completely.confirmation.message': 'Cette commande et ses données seront intégralement supprimées. Voulez-vous continuer?',
+  'order.list.option.cell.delete.completely.confirmation.button': 'Supprimer',
   'order.list.option.cell.pause.order.tooltip': 'Mettre la commande en pause',
   'order.list.option.cell.resume.order.tooltip': 'Reprendre la commande',
   'order.list.option.cell.detail.title': 'Détail',

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -40,6 +40,15 @@ function shouldCloneChildren(oldProps, newProps, nonReportedPropsKeys) {
 }
 
 /**
+ * Is child as parameter valid? Workaround for react bug, see FileContentReader.jsx
+ * @param {*} child to test
+ * @return {boolean} true when child is valid
+ */
+function isValidChild(child) {
+  return child && !!child.type
+}
+
+/**
  * Clones the list of children as parameter using the new props defined
  * @param children children as: undefined, single child or children list
  * @param newProps new children properties as undefined or new object (will be merged with current element properties)
@@ -49,16 +58,18 @@ function cloneChildrenWith(children = [], newProps = {}) {
   if (isNil(children)) {
     return children
   }
-  if (!isArray(children)) {
-    return React.cloneElement(children, {
-      ...children.props,
+
+  // XXX-Woraround here: react sometimes sends children with undefined type: make sure they won't be cloned
+  if (isArray(children)) {
+    return children.filter(isValidChild).map(child => React.cloneElement(child, {
+      ...child.props,
       ...newProps,
-    })
+    }))
   }
-  return children.map(child => React.cloneElement(child, {
-    ...child.props,
+  return isValidChild(children) ? React.cloneElement(children, {
+    ...children.props,
     ...newProps,
-  }))
+  }) : null
 }
 
 /**
@@ -70,14 +81,18 @@ function renderChildren(children) {
   if (!children) {
     return null
   }
-  switch (children.length) {
-    case 0:
-      return null
-    case 1:
-      return children[0]
-    default:
-      return children
+  if (isArray(children)) {
+    const validChildren = children.filter(isValidChild)
+    switch (validChildren.length) {
+      case 0:
+        return null
+      case 1:
+        return validChildren[0]
+      default:
+        return validChildren
+    }
   }
+  return isValidChild(children) ? children : null
 }
 
 export default {

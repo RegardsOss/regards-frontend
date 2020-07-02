@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -36,8 +36,7 @@ class DownloadOrderMetalinkFileAtions extends BasicActions {
    * @return {string} metalink download URL
    */
   getFileDownloadLink(orderId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { orderId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+    return BasicActions.buildURL(this.entityEndpoint, { orderId }, { token })
   }
 }
 

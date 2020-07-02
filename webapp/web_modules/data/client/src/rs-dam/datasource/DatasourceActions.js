@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,7 +24,7 @@ export default class DatasourceActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/datasources`,
-      entityPathVariable: 'pPluginConfId',
+      entityPathVariable: 'businessId',
       schemaTypes: {
         ENTITY: DATASOURCE,
         ENTITY_ARRAY: DATASOURCE_ARRAY,

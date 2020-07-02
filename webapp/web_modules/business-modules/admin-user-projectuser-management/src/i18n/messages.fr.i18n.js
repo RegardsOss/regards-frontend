@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -86,6 +86,13 @@ const messages = {
   'project.user.settings.mode.AUTO': 'Automatique: les demandes de création d\'un utilisateur projet sont automatiquement validées',
   'project.user.settings.action.confirm': 'Confirmer',
   'project.user.settings.action.cancel': 'Annuler',
+
+  'role.name.PUBLIC': 'Publique',
+  'role.name.REGISTERED_USER': 'Utilisateur enregistré',
+  'role.name.EXPLOIT': 'Exploitant',
+  'role.name.ADMIN': 'Administrateur',
+  'role.name.PROJECT_ADMIN': 'Super Administrateur',
+  'role.name.empty': ' - ',
 
   ...Locales.fr,
   ...MetadataLocales.fr,

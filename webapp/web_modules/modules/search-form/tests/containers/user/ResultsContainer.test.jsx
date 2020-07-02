@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -42,10 +42,9 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       id: 1,
       appName: 'anyApp',
       project: 'anyProject',
-      searchResultsConfiguration: conf1.searchResult,
-      restrictedDatasetsIds: conf1.datasets.selectedDatasets,
-      locale: 'en',
+      resultsModuleTitle: 'anyTitle',
       preview: false,
+      searchResultsConfiguration: conf1.searchResult,
     }
     const enzymeWrapper = shallow(<ResultsContainer {...props} />, { context })
 
@@ -56,7 +55,7 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
         type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
         active: true,
         applicationId: props.appName,
-        description: 'results.module.title',
+        description: 'anyTitle',
         conf: props.searchResultsConfiguration,
       },
     }, 'Module conf be correctly computed in state from component properties')
@@ -76,14 +75,9 @@ describe('[SEARCH FORM] Testing ResultsContainer', () => {
       id: 1,
       appName: 'anyApp',
       project: 'anyProject',
-      searchResultsConfiguration: conf1.searchResult,
-      searchParameters: {
-        q: 'anyQuery',
-        sort: 'anySort',
-      },
-      restrictedDatasetsIds: conf1.datasets.selectedDatasets,
-      locale: 'en',
+      resultsModuleTitle: 'anyTitle',
       preview: true,
+      searchResultsConfiguration: conf1.searchResult,
     }
     const enzymeWrapper = shallow(<ResultsContainer {...props} />, { context })
     const resultsModule = enzymeWrapper.find(LazyModuleComponent)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,49 +21,49 @@ export default [
     content: {
       label: 'Hello Toulouse',
       id: 1353,
+      businessId: 'toulouse',
       version: 'V1',
       priorityOrder: '42',
       active: false,
-      pluginClassName: 'fr.cnes.regards.framework.plugins.SampleErrorPlugin',
       parameters: [
         {
           name: 'user',
           value: 'admin',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'password',
           value: 'admin',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'dbHost',
           value: 'localhost',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'dbPort',
           value: '1256',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'dbName',
           value: 'pierre',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'driver',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'maxPoolSize',
           value: '20',
-          dynamic: false,
+          type: 'STRING',
         },
         {
           name: 'minPoolSize',
           value: '5',
-          dynamic: false,
+          type: 'STRING',
         },
       ],
     },

@@ -11,7 +11,6 @@ It can be used as a stand-alone module to display the results of a research on a
 This module allows:
   - Displaying results datas
   - Displaying results datasets
-  - Displaying results documents
   - Switching display mode between list, table and quickview
   - Sorting results
   - Filtering results on facets

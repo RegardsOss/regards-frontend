@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,8 +23,8 @@ const PluginParameterType = PropTypes.shape({
   label: PropTypes.string, // Label to display
   keyLabel: PropTypes.string, // Label of the parameterized type if any
   description: PropTypes.string, // Description of the parameter
-  type: PropTypes.string, // type of parameter
-  paramType: PropTypes.oneOf(PluginParamType),
+  type: PropTypes.oneOf(PluginParamType).isRequired, // type of parameter
+  pluginType: PropTypes.string, // If type is PLUGIN this field define de type of plugin
   parameterizedSubTypes: PropTypes.arrayOf(PropTypes.string),
   optional: PropTypes.bool,
   unconfigurable: PropTypes.bool,

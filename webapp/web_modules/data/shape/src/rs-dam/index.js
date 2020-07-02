@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,10 +27,10 @@ export { Dataset, DatasetContent, DatasetList } from './Dataset'
 export { DatasetWithAccessRight, DatasetWithAccessRightContent, DatasetWithAccessRightList } from './DatasetWithAccessRight'
 export { Datasource, DatasourceList } from './Datasource'
 export { DataFile } from './DataFile'
-export { default as Entity } from './Entity'
+export { default as Entity, EntityProperties } from './Entity'
 
 export { FragmentContent, Fragment, FragmentList } from './Fragment'
-export { Model, ModelList } from './Model'
+export { ModelContent, Model, ModelList } from './Model'
 export { ModelAttribute, ModelAttributeList } from './ModelAttribute'
 export { StandardAttributeModelContent, StandardAttributeModel } from './StandardAttributeModel'
 export { ModelAttributeComputationTypes, ModelAttributeComputationTypesList } from './ModelAttributeComputationTypes'

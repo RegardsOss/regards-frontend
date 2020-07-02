@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,3 +24,4 @@ export { applicationModes, pluginTypes } from './PluginServiceConstants'
 export { RuntimeTargetTypes } from './RuntimeTargetTypes'
 export { UI_PLUGIN_INFO_TYPES_ENUM, UI_PLUGIN_INFO_TYPES } from './UIPluginInfoTypes'
 export { UI_PLUGIN_CONF_PARAMETER_TYPES_ENUM, UI_PLUGIN_CONF_PARAMETER_TYPES } from './UIPluginConfParameterTypes'
+export { SESSION_STATUS, SESSION_STATUS_ENUM } from './SessionStatus'

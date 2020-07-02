@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -28,7 +28,6 @@ export const PluginTypeEnum = {
   DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin',
   DB_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
   AIP_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IAipDataSourcePlugin',
-  CHECK_DATA_ACCESS: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.plugins.ICheckDataAccess',
   DATA_OBJECT_ACCESS_FILTER: 'fr.cnes.regards.modules.dam.domain.dataaccess.accessright.plugins.IDataObjectAccessFilterPlugin',
 }
 

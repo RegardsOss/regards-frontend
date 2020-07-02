@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,8 +24,8 @@ import { themeContextType } from '@regardsoss/theme'
 import ColumnHeaderWrapper from './columns/ColumnHeaderWrapper'
 import CellWrapper from './cells/CellWrapper'
 import { TableColumnConfiguration } from './columns/model/TableColumnConfiguration'
-import { OptionsColumnSize } from './columns/size/OptionColumnSize'
 import { layout } from './TableLayoutHelper'
+import { GrowingColumnSize } from './columns/size/GrowingColumnSize'
 
 /** Protects from undesired vertical scrollbar (due to the component CSS borders) */
 const RESERVED_BORDERS_HEIGHT = 2
@@ -222,7 +222,7 @@ class Table extends React.Component {
                 />
               }
               width={column.runtimeWidth}
-              isResizable={column.sizing.type !== OptionsColumnSize.TYPE} // forbid fixed width columns to resize
+              isResizable={column.sizing.type === GrowingColumnSize.TYPE} // Allow growing columns to be resized
             />))
         }
       </FixedDataTable>

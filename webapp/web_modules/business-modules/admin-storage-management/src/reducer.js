@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,18 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { combineReducers } from 'redux'
-import { onlinePrioritizedDataStorageReducer, nearlinePrioritizedDataStorageReducer } from './clients/PrioritizedDataStorageClient'
-import { allocationStrategyReducer } from './clients/AllocationStrategyClient'
-import { securityDelegationReducer } from './clients/SecurityDelegationClient'
+import { storageLocationReducer } from './clients/StorageLocationClient'
+import { storageRequestReducers } from './clients/StorageRequestClient'
 
 /**
  * @author Sébastien Binda
  */
 const microserviceManagementReducer = combineReducers({
-  'security-delegation': securityDelegationReducer,
-  'allocation-strategy': allocationStrategyReducer,
-  'prioritized-datastorage-online': onlinePrioritizedDataStorageReducer,
-  'prioritized-datastorage-nearline': nearlinePrioritizedDataStorageReducer,
+  'storage-location': storageLocationReducer,
+  'storage-request': storageRequestReducers,
 })
 
 export default microserviceManagementReducer

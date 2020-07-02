@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-
-const fixedFlexElement = { flexShrink: '0', flexGrow: '0' }
-const growingFlexElement = { flexShrink: '1', flexGrow: '1', minHeight: '0' }
-const verticalLayout = { display: 'flex', flexDirection: 'column', alignItems: 'stretch' }
-const growingVerticalLayout = { ...growingFlexElement, ...verticalLayout }
 
 /**
  * Module styles builder
@@ -42,205 +37,406 @@ const styles = theme => ({
       },
     },
   },
-  descriptionDialog: {
-    widthPercent: 88,
-    heightPercent: 88,
-    body: { padding: '0', overflowY: 'none' },
-    card: {
-      style: {
-        ...growingFlexElement,
-        ...verticalLayout,
+  user: {
+    header: {
+      flatIconButtonStyle: {
+        minWidth: theme.button.iconButtonSize,
       },
-      containerStyle: {
-        ...growingFlexElement,
-        ...verticalLayout,
+      leftGroup: { // breadcrumb and options
+        display: 'flex',
+        flexGrow: 0,
+        flexShrink: 1,
+        minWidth: theme.module.description.tree.width, // re use tree width: min left size
       },
-      titleStyle: fixedFlexElement,
-      media: {
-        rootStyle: growingVerticalLayout,
-        mediaStyle: growingVerticalLayout,
-        tabs: {
-          rootStyle: growingVerticalLayout,
-          tabItemContainerStyle: fixedFlexElement,
-          contentContainerStyle: growingVerticalLayout,
-          tabTemplateStyle: growingVerticalLayout,
-          tab: {
-            loading: {
-              rootStyle: {
-                padding: '24px', display: 'flex', flexDirection: 'row', alignItems: 'center',
-              },
-              circleSize: 32,
-              circleThickness: 1.5,
-              messageStyle: { fontWeight: '0.8em', padding: '16px 0 0 16px', color: theme.subheader.color },
+      rightGroup: { // right options (search)
+        display: 'flex',
+        justifyContent: 'stretch',
+        minWidth: 'fit-content',
+        flexShrink: 0,
+        flexGrow: 0,
+      },
+      breadcrumb: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          flexGrow: 1,
+          flexShrink: 1,
+          minWidth: 0,
+        },
+        selectedLink: {
+          root: {
+            display: 'flex',
+            flexGrow: 0,
+            flexShrink: 0,
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            color: theme.module.description.breadcrumb.link.selected.color,
+            style: {
+              width: theme.module.description.breadcrumb.link.selected.iconSize,
+              height: theme.module.description.breadcrumb.link.selected.iconSize,
+              flexShrink: 0,
             },
-            quicklook: {
-              imageContainerZoomOut: {
-                display: 'flex',
-                justifyContent: 'center',
-                maxHeight: '100%',
-                cursor: 'zoom-in',
-              },
-              imageContainerZoomIn: {
-                cursor: 'zoom-out',
-                overflow: 'auto',
-              },
-              imageZoomOut: {
-                maxHeight: '100%',
-                objectFit: 'contain',
-              },
-              imageZoomIn: {
-                display: 'block',
-                margin: 'auto',
-              },
+          },
+          text: {
+            padding: theme.module.description.breadcrumb.link.textPadding,
+            color: theme.module.description.breadcrumb.link.selected.color,
+            fontWeight: theme.module.description.breadcrumb.link.selected.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.selected.fontSize,
+            flexShrink: 0,
+          },
+        },
+        unselectedLink: {
+          root: {
+            display: 'flex',
+            flexGrow: 0,
+            flexShrink: 1,
+            minWidth: theme.module.description.breadcrumb.link.unselected.minWidth,
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            color: theme.module.description.breadcrumb.link.unselected.color,
+            style: {
+              width: theme.module.description.breadcrumb.link.unselected.iconSize,
+              height: theme.module.description.breadcrumb.link.unselected.iconSize,
+              flexShrink: 0,
             },
-            filesTab: {
-              rootStyle: {
-                position: 'relative',
-                width: '100%',
-                height: '100%',
+          },
+          text: {
+            padding: theme.module.description.breadcrumb.link.textPadding,
+            color: theme.module.description.breadcrumb.link.unselected.color,
+            fontWeight: theme.module.description.breadcrumb.link.unselected.fontWeight,
+            fontSize: theme.module.description.breadcrumb.link.unselected.fontSize,
+            minWidth: 0,
+            flexShrink: 1,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          },
+        },
+        separator: {
+          ...theme.module.description.breadcrumb.separator,
+          flexShrink: 0,
+        },
+      },
+    },
+    main: {
+      root: {
+        display: 'flex',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: 0,
+      },
+      tree: {
+        scrollArea: {
+          flexBasis: theme.module.description.tree.width,
+          borderColor: theme.module.description.tree.borderColor,
+          borderWidth: theme.module.description.tree.borderWidth,
+          borderStyle: 'solid',
+          flexGrow: 0,
+          flexShrink: 0,
+        },
+        scrollAreaContent: {
+          minWidth: '100%',
+          maxHeight: '100',
+        },
+        cell: {
+          optionCell: {
+            padding: 0,
+            width: theme.button.iconButtonSize,
+          },
+          iconButton: {
+            style: {
+              width: theme.button.iconButtonSize,
+              height: theme.button.iconButtonSize,
+              padding: theme.module.description.tree.iconButtonPadding,
+            },
+            iconStyle: {
+              width: theme.module.description.tree.iconSize,
+              height: theme.module.description.tree.iconSize,
+            },
+          },
+          text: {
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'default',
+          },
+          link: {
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          icon: {
+            width: theme.module.description.tree.iconSize,
+            height: theme.module.description.tree.iconSize,
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          ...[ // build ready to use styles for selected and unselected states (both are very similar)
+            { key: 'selected', stateColor: theme.module.description.tree.selectedColor },
+            { key: 'unselected', stateColor: theme.module.description.tree.unselectedColor }]
+            .reduce((acc, { key, stateColor }) => {
+              const textCommon = {
                 flexGrow: 1,
                 flexShrink: 1,
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }
+              return {
+                ...acc,
+                [key]: {
+                  iconColor: stateColor,
+                  sectionText: {
+                    color: stateColor,
+                    fontWeight: theme.module.description.tree.section.fontWeight,
+                    fontSize: theme.module.description.tree.section.fontSize,
+                    textDecoration: theme.module.description.tree.section.textTextDecoration,
+                    ...textCommon,
+                  },
+                  sectionLink: {
+                    color: stateColor,
+                    fontWeight: theme.module.description.tree.section.fontWeight,
+                    fontSize: theme.module.description.tree.section.fontSize,
+                    textDecoration: theme.module.description.tree.section.linkTextDecoration,
+                    ...textCommon,
+                  },
+                  elementText: {
+                    color: stateColor,
+                    marginLeft: theme.module.description.tree.iconToTextGap,
+                    fontSize: theme.module.description.tree.element.fontSize,
+                    textDecoration: theme.module.description.tree.element.textTextDecoration,
+                    ...textCommon,
+                  },
+                  elementLink: {
+                    color: stateColor,
+                    marginLeft: theme.module.description.tree.iconToTextGap,
+                    fontSize: theme.module.description.tree.element.fontSize,
+                    textDecoration: theme.module.description.tree.element.linkTextDecoration,
+                    ...textCommon,
+                  },
+                },
+              }
+            }, {}),
+        },
+      },
+      content: {
+        scrolling: {
+          scrollArea: {
+            flexGrow: 1,
+            flexShrink: 1,
+            flexBasis: 0,
+          },
+          scrollAreaContent: {
+            minHeight: '100%',
+            maxWidth: '100%',
+          },
+        },
+        listPage: {
+          contentRoot: {
+            display: 'flex',
+          },
+          listContainer: {
+            // Nota: layouting as column is impossible here,
+            // see https://stackoverflow.com/questions/39095473/flexbox-wrong-width-calculation-when-flex-direction-column-flex-wrap-wrap
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            padding: theme.module.description.contentPadding,
+          },
+          elementContainer: {
+            display: 'flex',
+            alignItems: 'center',
+            padding: theme.module.description.listPage.element.padding,
+            minHeight: theme.module.description.listPage.rightIconButton.size,
+          },
+          elementIcon: {
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          rigthIconButton: {
+            flexGrow: 0,
+            flexShrink: 0,
+            width: theme.module.description.listPage.rightIconButton.size,
+            height: theme.module.description.listPage.rightIconButton.size,
+            padding: theme.module.description.listPage.rightIconButton.padding,
+            margin: theme.module.description.listPage.rightIconButton.margin,
+          },
+          textCell: {
+            flexGrow: 1,
+            flexShrink: 1,
+            fontSize: theme.module.description.listPage.element.fontSize,
+            fontWeight: theme.module.description.listPage.element.fontWeight,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            cursor: 'default',
+          },
+          linkAndIconCell: {
+            flexGrow: 1,
+            flexShrink: 1,
+            display: 'flex',
+            alignItems: 'center',
+            cursor: 'pointer',
+          },
+          linkText: {
+            flexGrow: 1,
+            flexShrink: 1,
+            marginLeft: theme.module.description.listPage.element.iconToTextGap,
+            fontSize: theme.module.description.listPage.element.fontSize,
+            fontWeight: theme.module.description.listPage.element.fontWeight,
+            textDecoration: theme.module.description.listPage.element.linkTextDecoration,
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          },
+        },
+        parameters: {
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'stretch',
+            padding: theme.module.description.contentPadding,
+          },
+          thumbnail: {
+            display: 'block',
+            width: theme.module.description.parameters.thumbnail.maxSize,
+            height: theme.module.description.parameters.thumbnail.maxSize,
+            margin: theme.module.description.parameters.thumbnail.margin,
+            objectFit: 'contain',
+            alignSelf: 'flex-start',
+            flexGrow: 0,
+            flexShrink: 0,
+          },
+          attributesGroupsContainer: {
+            root: {
+              display: 'grid',
+              flexGrow: 1,
+              flexShrink: 0,
+              gridTemplateColumns: 'min-content auto',
+            },
+            groupTitlePlaceholdStyle: {
+              padding: theme.module.description.parameters.group.titlePlaceholder.padding,
+              gridColumnEnd: 'span 2',
+            },
+            groupTitleStyle: {
+              color: theme.module.description.parameters.group.title.color,
+              padding: theme.module.description.parameters.group.title.padding,
+              fontSize: theme.module.description.parameters.group.title.fontSize,
+              justifySelf: 'left',
+              gridColumnEnd: 'span 2',
+              lineHeight: 1,
+            },
+            labelStyle: {
+              padding: theme.module.description.parameters.group.attribute.label.padding,
+              textDecoration: theme.module.description.parameters.group.attribute.label.textDecoration,
+              justifySelf: 'left',
+              lineHeight: 1,
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              maxWidth: theme.module.description.parameters.group.attribute.label.maxWidth,
+            },
+            valueStyle: {
+              justifySelf: 'stretch',
+              display: 'block',
+              padding: theme.module.description.parameters.group.attribute.value.padding,
+              textDecoration: theme.module.description.parameters.group.attribute.value.textDecoration,
+              minWidth: 0,
+              lineHeight: 1,
+            },
+            valuesSeparator: {
+              height: theme.module.description.parameters.group.attribute.multipleValuesSpacing,
+            },
+          },
+        },
+        quicklook: {
+          groupLists: {
+            scrollArea: {
+              flexBasis: theme.module.description.quicklook.groupLists.width,
+              borderColor: theme.module.description.quicklook.groupLists.borderColor,
+              borderWidth: theme.module.description.quicklook.groupLists.borderWidth,
+              borderStyle: 'solid',
+              flexGrow: 0,
+              flexShrink: 0,
+            },
+            scrollAreaContent: {
+              minWidth: '100%',
+              maxHeight: '100',
+            },
+            listContainer: {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'stretch',
+              padding: theme.module.description.quicklook.groupLists.padding,
+            },
+            picturesSeparator: {
+              marginTop: theme.module.description.quicklook.groupLists.picturesGap,
+            },
+            pictureContainer: {
+              selected: {
+                width: theme.module.description.quicklook.groupLists.picture.width,
+                height: theme.module.description.quicklook.groupLists.picture.height,
+                cursor: 'default',
+                borderWidth: theme.module.description.quicklook.groupLists.picture.borderWidth,
+                borderColor: theme.module.description.quicklook.groupLists.picture.selectedColor,
+                borderStyle: 'solid',
               },
-              fileOptions: {
-                position: 'absolute',
-                top: theme.module.description.filesOptions.top,
-                right: theme.module.description.filesOptions.right,
-                background: theme.module.description.filesOptions.background,
-                padding: theme.module.description.filesOptions.padding,
+              unselected: {
+                width: theme.module.description.quicklook.groupLists.picture.width,
+                height: theme.module.description.quicklook.groupLists.picture.height,
+                cursor: 'pointer',
+                borderWidth: theme.module.description.quicklook.groupLists.picture.borderWidth,
+                borderColor: theme.module.description.quicklook.groupLists.picture.unselectedColor,
+                borderStyle: 'solid',
+              },
+            },
+            picture: {
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+            },
+          },
+          view: {
+            normal: {
+              container: {
+                flexGrow: 1,
+                flexShrink: 1,
+                padding: theme.module.description.quicklook.normalPadding,
                 display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
                 alignItems: 'center',
-                zIndex: 1,
+                cursor: 'zoom-in',
               },
-              fileContent: {
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                zIndex: 0,
+              img: {
+                flexShrink: 1,
+                minWidth: 0,
+                minHeight: 0,
+                maxWidth: '100%',
+                maxHeight: '100%',
               },
-              fileMeaureDiv: {
-                width: '100%',
-                height: '100%',
+              caption: {
+                color: theme.module.description.quicklook.caption.color,
+                padding: theme.module.description.quicklook.caption.padding,
               },
-              centeredFileContent: {
-                height: '100%',
-                width: '100%',
+            },
+            magnified: {
+              container: {
+                flexGrow: 1,
+                flexShrink: 1,
+                overflow: 'auto',
+                cursor: 'zoom-out',
                 display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
               },
-              contentBackground: {
-                height: '100%',
-                width: '100%',
-                background: theme.module.description.fileContentBackground,
-              },
-            },
-            propertiesTab: {
-              rootStyle: {
-                display: 'flex', flexDirection: 'row', alignItems: 'stretch', ...growingFlexElement,
-              },
-              loadingContainerStyle: { display: 'flex', alignItems: 'flex-start' },
-              messageContainerStyle: { display: 'flex', alignItems: 'flex-start', paddingLeft: '24px' },
-              thumbnailStyle: {
+              img: {
                 display: 'block',
-                maxWidth: theme.module.description.thumbnail.maxSize,
-                maxHeight: theme.module.description.thumbnail.maxSize,
-                margin: theme.module.description.thumbnail.margin,
-                borderWidth: theme.module.description.thumbnail.borderWidth,
-                borderStyle: theme.module.description.thumbnail.borderStyle,
-                borderColor: theme.module.description.thumbnail.borderColor,
-              },
-              attributes: {
-                scrollArea: {
-                  flexShrink: '1',
-                  flexGrow: '2',
-                  flexBasis: 0,
-                },
-                rootStyle: { ...growingFlexElement, ...verticalLayout },
-                attributesContainer: {
-                  rootStyle: {
-                    display: 'grid',
-                    gridTemplateColumns: 'auto auto',
-                    padding: '0 15px 0 20px',
-                  },
-                  groupTitlePlaceholdStyle: {
-                    padding: theme.module.description.attributeGroupTitlePlaceholderPadding,
-                    gridColumnEnd: 'span 2',
-                  },
-                  groupTitleStyle: {
-                    color: theme.module.description.attributeGroupTitleColor,
-                    padding: theme.module.description.attributeGroupTitlePadding,
-                    justifySelf: 'left',
-                    gridColumnEnd: 'span 2',
-                    lineHeight: 1,
-                  },
-                  labelStyle: {
-                    padding: theme.module.description.attributeLabelPadding,
-                    textDecoration: theme.module.description.attributeLabelTextDecoration,
-                    justifySelf: 'left',
-                    lineHeight: 1,
-                  },
-                  valueStyle: {
-                    padding: theme.module.description.attributeValuesPadding,
-                    textDecoration: theme.module.description.attributeValuesTextDecoration,
-                    justifySelf: 'stretch',
-                    minWidth: 0,
-                    lineHeight: 1,
-                  },
-                },
-              },
-              tags: {
-                rootStyle: {
-                  display: 'flex',
-                  flexDirection: 'column',
-                  flexShrink: '1',
-                  flexGrow: '1',
-                  flexBasis: 0,
-                },
-                tagsRootStyle: {
-                  flexGrow: 1,
-                  height: '100%',
-                },
-                documentsRootStyle: {
-                  flexGrow: 1,
-                  height: '100%',
-                },
-                horizontalAreaSeparator: {
-                  flexGrow: 0,
-                  minHeight: 1,
-                  backgroundColor: theme.toolbar.separatorColor,
-                },
-                scrollArea: {
-                  height: '100%',
-                },
-                scrollAreaContent: {
-                  borderWidth: '0 0 0 1px',
-                  borderColor: theme.toolbar.separatorColor,
-                  borderStyle: 'solid',
-                  minHeight: '100%',
-                },
-                sectionStyle: {
-                  ...verticalLayout,
-                  padding: '0 12px 0 12px',
-                },
-                tagsContainer: {
-                  rootStyle: { display: 'table', paddingLeft: '24px' },
-                  rowStyle: { display: 'table-row' },
-                  iconCellStyle: { display: 'table-cell', padding: '0 0 0.4em 0' },
-                  searchIconStyle: { height: '24px', width: '24px' },
-                  infoIconStyle: {
-                    height: '24px', width: '24px', color: theme.palette.accent2Color, opacity: 0.7,
-                  },
-                  buttonStyle: { height: '24px', width: '24px', padding: 0 },
-                  labelStyle: {
-                    display: 'table-cell',
-                    padding: '0 20px 0.4em 10px',
-                    maxWidth: '350px',
-                    overflowWrap: 'break-word',
-                  },
-                  actionStyle: { display: 'table-cell', padding: '0 20px 0.4em 0' },
-                },
+                margin: 'auto',
               },
             },
           },

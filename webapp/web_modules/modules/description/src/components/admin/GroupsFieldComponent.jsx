@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import RaisedButton from 'material-ui/RaisedButton'
-import AddIcon from 'material-ui/svg-icons/content/add'
+import AddIcon from 'mdi-material-ui/Plus'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -98,35 +98,35 @@ class GroupsFieldComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme: { admin: { topSeparator } } } = this.context
     const allGroups = getAll() || []
     return (
-      <FormRow>
-        { /** Add groups separator if there is any group */
-          allGroups.length ? <div style={topSeparator} /> : null
-        }
-        <div style={topSeparator} />
-        { /** Show currently defined groups */
-          allGroups.map((group, index) => (
-            <GroupComponent
+      <React.Fragment>
+        { /** Nota: here we have to send an array instead of many evaluated blocks  */
+          [ /** Show currently defined groups */
+            ...allGroups.map((group, index) => (
+              <GroupComponent
               // eslint-disable-next-line react/no-array-index-key
-              key={index} // no better key in such array
-              index={index}
-              group={group}
-              allGroups={allGroups}
-              availableAttributes={availableAttributes}
-              onGroupUpdated={this.onGroupUpdated}
-              onGroupMoved={this.onGroupMoved}
-              onGroupRemoved={this.onGroupRemoved}
-            />))
+                key={index} // no better key here
+                index={index}
+                group={group}
+                allGroups={allGroups}
+                availableAttributes={availableAttributes}
+                onGroupUpdated={this.onGroupUpdated}
+                onGroupMoved={this.onGroupMoved}
+                onGroupRemoved={this.onGroupRemoved}
+              />)),
+            /* Add group button */
+            <FormRow key="bottom.options.row">
+              <FieldsGroup spanFullWidth>
+                <div style={topSeparator} />
+                <RaisedButton
+                  label={formatMessage({ id: 'module.description.configuration.add.group' })}
+                  icon={<AddIcon />}
+                  onClick={this.onAddGroup}
+                />
+              </FieldsGroup>
+            </FormRow>,
+          ]
         }
-        {/* Add group button */}
-        <FieldsGroup spanFullWidth>
-          <div style={topSeparator} />
-          <RaisedButton
-            label={formatMessage({ id: 'module.description.configuration.add.group' })}
-            icon={<AddIcon />}
-            onClick={this.onAddGroup}
-          />
-        </FieldsGroup>
-      </FormRow>
+      </React.Fragment>
     )
   }
 }

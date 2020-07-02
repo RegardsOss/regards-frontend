@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { getFormattedDate } from './DateValueRender'
+import DateValueRender from './DateValueRender'
 
 /**
  * Component to display Date Array values group value
@@ -49,7 +49,7 @@ class DateArrayValueRender extends React.Component {
     const { multilineDisplay } = this.props
     const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = intl.formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(dateText => getFormattedDate(intl, dateText) || noValueText)
+    const textValue = value.map(dateText => DateValueRender.getFormattedDate(intl, dateText) || noValueText)
       .join(intl.formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
 
     return (

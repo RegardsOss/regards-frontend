@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,8 +18,8 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import NextLevelIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right'
-import TestIcon from 'material-ui/svg-icons/device/airplanemode-active'
+import NextLevelIcon from 'mdi-material-ui/ChevronRight'
+import TestIcon from 'mdi-material-ui/Airplane'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Breadcrumb } from '../../src/links/Breadcrumb'
 import BreadcrumbElement from '../../src/links/BreadcrumbElement'
@@ -65,7 +65,7 @@ describe('[Components] Testing Breadcrumb', () => {
     assert.isTrue(breadcrumbElement.props().navigationAllowed, 'Default predicate should allow navigation for all elements')
   })
 
-  it('should render correctly a complete list', () => {
+  it('should render correctly a complete list, with a simple root icon', () => {
     const props = {
       elements: ['elementA', 'elementB', 'elementC', 'elementD'],
       labelGenerator: (elt, index) => `${elt}-${index}`, // make simple label to check generator
@@ -86,7 +86,11 @@ describe('[Components] Testing Breadcrumb', () => {
       // 2.2 - check element callback
       assert.isDefined(element.props().onAction, 'Callback should be defined (cannot test further due to anonymous function)')
       // 2.3 - check icon
-      assert.equal(element.props().rootIcon, props.rootIcon, 'Root icon should be correctly reported')
+      if (index === 0) {
+        assert.equal(element.props().icon, props.rootIcon, 'Root icon should be correctly reported')
+      } else {
+        assert.isNull(element.props().icon, 'Root icon be used only at first level')
+      }
       // 2.4 - check list position variables
       assert.equal(element.props().isFirst, index === 0)
       assert.equal(element.props().isLast, index === props.elements.length - 1)
@@ -100,6 +104,28 @@ describe('[Components] Testing Breadcrumb', () => {
       } else {
         assert.isFalse(element.props().navigationAllowed, `Navigation should be forbidden for element at index ${index}`)
       }
+    })
+  })
+  it('should render correctly a complete list, with icon generator', () => {
+    const props = {
+      elements: ['elementA', 'elementB', 'elementC', 'elementD'],
+      labelGenerator: (elt, index) => `${elt}-${index}`, // make simple label to check generator
+      iconGenerator: (elt, index) => <div id={index} />,
+      navigationAllowedPredicate: (elt, index) => index % 2 === 0, // each even element should allow navigation
+      onAction: () => { },
+      rootIcon: <div id="rootIcon" />,
+    }
+    const enzymeWrapper = shallow(<Breadcrumb {...props} />, { context })
+
+    // 1 - Check there is a separator between each element
+    assert.lengthOf(enzymeWrapper.find(NextLevelIcon), props.elements.length - 1)
+    // 2 - Check each element has been correctly rendered
+    const renderedElements = enzymeWrapper.find(BreadcrumbElement)
+    assert.lengthOf(renderedElements, props.elements.length, 'Elements rendered should keep the same size')
+    renderedElements.forEach((element, index) => {
+      // for each element, check the icon from icon generator was used (other tests performed previously)
+      const iconElement = element.props().icon
+      assert.equal(iconElement.props.id, index, 'Icon should come from iconGenerator and not root icon (higher precedence)')
     })
   })
 })

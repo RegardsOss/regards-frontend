@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,13 +32,23 @@ const styles = theme => ({
       alignItems: 'center',
       marginLeft: theme.module.common.titleMarginLeft,
     },
-    iconStyle: {
-      color: theme.palette.textColor,
-      margin: (theme.button.iconButtonSize - theme.spacing.iconSize) / 2,
-      flexGrow: 0,
-      flexShrink: 0,
-      width: theme.module.common.titleIconSize,
-      height: theme.module.common.titleIconSize,
+    breadcrumbIcon: {
+      defaultStyle: {
+        color: theme.palette.textColor,
+        margin: (theme.button.iconButtonSize - theme.spacing.iconSize) / 2,
+        flexGrow: 0,
+        flexShrink: 0,
+        width: theme.module.common.titleIconSize,
+        height: theme.module.common.titleIconSize,
+      },
+      selectedStyle: {
+        color: theme.flatButton.secondaryTextColor,
+        margin: (theme.button.iconButtonSize - theme.spacing.iconSize) / 2,
+        flexGrow: 0,
+        flexShrink: 0,
+        width: theme.module.common.titleIconSize,
+        height: theme.module.common.titleIconSize,
+      },
     },
     element: {
       navigable: {

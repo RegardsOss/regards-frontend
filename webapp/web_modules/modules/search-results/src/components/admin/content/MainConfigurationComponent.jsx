@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,8 +32,6 @@ class MainConfigurationComponent extends React.Component {
   static propTypes = {
     currentNamespace: PropTypes.string.isRequired,
     currentFormValues: ModuleConfiguration.isRequired,
-    // are documents forbidden in current module form?
-    documentsForbidden: PropTypes.bool.isRequired,
     // redux change field method
     changeField: PropTypes.func.isRequired,
   }
@@ -46,20 +44,18 @@ class MainConfigurationComponent extends React.Component {
   static DISPLAYED_TYPES_CHOICES = {
     DATA: 'DATA',
     DATA_AND_DATASET: 'DATA_AND_DATASET',
-    DOCUMENTS: 'DOCUMENTS',
   }
 
   /** As choices are necessary string, define here the matching views list to enable by choice */
   static ENABLED_VIEWS_BY_TYPES_CHOICE = {
     [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA]: [DamDomain.ENTITY_TYPES_ENUM.DATA],
     [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET]: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
-    [MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS]: [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
   }
 
   /**
    * Callbak: User changed displayed entity types. Update for values
    * @param {*} event MUI event
-   * @param {string} value selected value, DISPLAYED_TYPES_CHOICES
+   * @param {string} value selected value, one of DISPLAYED_TYPES_CHOICES
    */
   onChangeDisplayedTypes = (event, typesChoice) => {
     const { currentNamespace, currentFormValues, changeField } = this.props
@@ -82,9 +78,6 @@ class MainConfigurationComponent extends React.Component {
    */
   getCurrentDisplayedTypesChoices = () => {
     const { currentFormValues: { viewsGroups } } = this.props
-    if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT].enabled) {
-      return MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS
-    }
     if (viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATA].enabled
       && viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATASET].enabled) {
       return MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET
@@ -96,7 +89,7 @@ class MainConfigurationComponent extends React.Component {
   }
 
   render() {
-    const { currentNamespace, documentsForbidden } = this.props
+    const { currentNamespace } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <div>
@@ -116,11 +109,6 @@ class MainConfigurationComponent extends React.Component {
             <RadioButton
               value={MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DATA_AND_DATASET}
               label={formatMessage({ id: 'search.results.form.configuration.result.type.data.and.datasets' })}
-            />
-            <RadioButton
-              value={MainConfigurationComponent.DISPLAYED_TYPES_CHOICES.DOCUMENTS}
-              label={formatMessage({ id: 'search.results.form.main.configuration.display.types.documents' })}
-              disabled={documentsForbidden}
             />
           </RadioButtonGroup>
         </FieldsGroup>

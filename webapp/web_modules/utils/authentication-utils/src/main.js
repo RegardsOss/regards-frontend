@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,7 @@ export { default as AuthenticationClient } from './AuthenticationClient'
 export { default as AuthenticationParametersActions } from './AuthenticationParametersActions'
 export { default as AuthenticationParametersReducers, PATH as AUTHENTICATION_PARAMETERS_REDUCERS_PATH } from './AuthenticationParametersReducers'
 export { default as AuthenticationParametersSelectors } from './AuthenticationParametersSelectors'
-export { default as AuthenticateShape, AuthenticationErrorShape } from './AuthenticateShape'
+export { AuthenticateShape, AuthenticateResultShape, AuthenticationErrorShape } from './AuthenticateShape'
 export { default as AuthenticationRouteParameters, AuthenticationParametersHelper, routeHelpers } from './AuthenticationRouteParameters'
 export { default as AuthenticationRouteHelper } from './AuthenticationRouteHelper'
 export { default as withAuthInfo } from './decorator/withAuthInfo'

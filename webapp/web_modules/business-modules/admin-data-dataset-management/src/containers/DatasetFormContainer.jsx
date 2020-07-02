@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -152,7 +152,7 @@ export class DatasetFormContainer extends React.Component {
             model: modelDatasetName,
           },
           plgConfDataSource: {
-            id: parseInt(this.props.params.datasourceId, 10),
+            businessId: this.props.params.datasourceId,
           },
           dataModel: modelObjectName,
           type: 'DATASET',
@@ -202,7 +202,7 @@ export class DatasetFormContainer extends React.Component {
       case states.FORM_ATTRIBUTE:
         return (<DatasetFormAttributesContainer
           currentDataset={currentDataset}
-          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource.id}
+          currentDatasourceId={isCreating ? datasourceId : currentDataset.content.plgConfDataSource.businessId}
           handleSave={this.saveAttributes}
           backUrl={this.getFormAttributeBackUrl()}
           isEditing={isEditing}

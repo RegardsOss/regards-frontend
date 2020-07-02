@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,26 +19,29 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { StorageClient } from '@regardsoss/client'
 import { pluginMetaDataActions } from './clients/PluginMetadataClient'
-import { pluginConfigurationActions, pluginConfigurationByPluginIdActions } from './clients/PluginConfigurationClient'
+import { pluginConfigurationActions } from './clients/PluginConfigurationClient'
 
-const storageDependencies = [new StorageClient.StorageMonitoringActions().getDependency(RequestVerbEnum.GET_LIST)]
+
 /**
  * Module hateoas depencies
  * @author Sébastien binda
  */
-const listPluginDependencies = [
+const listDependencies = [
+  new StorageClient.StorageLocationActions().getDependency(RequestVerbEnum.GET_LIST),
+]
+
+const addDependencies = [
+  new StorageClient.StorageLocationActions().getDependency(RequestVerbEnum.GET_POST),
   pluginMetaDataActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
   pluginConfigurationActions.getMsDependency(RequestVerbEnum.GET_LIST, STATIC_CONF.MSERVICES.STORAGE),
 ]
 
-const addPluginDependencies = [
-  pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, STATIC_CONF.MSERVICES.STORAGE),
+const stopDependencies = [
+  new StorageClient.StorageRequestStopActions().getDependency(RequestVerbEnum.GET),
 ]
 
-const monitoringDependencies = storageDependencies
-
 export default {
-  listPluginDependencies,
-  addPluginDependencies,
-  monitoringDependencies,
+  stopDependencies,
+  listDependencies,
+  addDependencies,
 }

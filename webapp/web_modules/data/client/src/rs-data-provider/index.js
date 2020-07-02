@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,8 @@ export { default as getAcquisitionProcessingChainSelectors } from './Acquisition
 
 export { default as RunAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/RunAcquisitionProcessingChainActions'
 export { default as StopAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/StopAcquisitionProcessingChainActions'
+export { default as ToggleAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/ToggleAcquisitionProcessingChainActions'
+export { default as MultiToggleAcquisitionProcessingChainActions } from './AcquisitionProcessingChain/MultiToggleAcquisitionProcessingChainActions'
 
 export { default as AcquisitionProcessingChainMonitorActions } from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorActions'
 export { default as getAcquisitionProcessingChainMonitorReducer } from './AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorReducer'

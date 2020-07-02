@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -46,18 +46,20 @@ const SMALL_UNITS_FORMAT_OPTIONS = {
  * @param {function} formatMessage method to format a storage message
  * @param {function} formatNumber method to format a number
  * @param {StorageCapacity} capacity to format (optional)
+ * @param {*} formatOptions options to format number (defaults to SMALL_UNITS_FORMAT_OPTIONS or BIG_UNITS_FORMAT_OPTIONS
+ * when not provided)
+ * @return {string} localized storage capacity message
  */
-export default function formatStorageCapacity(formatMessage, formatNumber, capacity) {
+export default function formatStorageCapacity(formatMessage, formatNumber, capacity, formatOptions) {
   let id = 'storage.capacity.monitoring.capacity.unknown'
   const values = {}
   if (capacity && isNumber(capacity.value) && capacity.unit) {
     id = 'storage.capacity.monitoring.capacity'
     // unit
     values.unitLabel = formatMessage({ id: capacity.unit.messageKey })
-    // value: when bytes or bits, format without digits
-    values.valueLabel = formatNumber(
-      capacity.value,
-      SMALL_UNITS.includes(capacity.unit.symbol) ? SMALL_UNITS_FORMAT_OPTIONS : BIG_UNITS_FORMAT_OPTIONS,
+    // value: By preference, use (A) API user formatOptions or (B) small unit format (no digit) or (C) big units format
+    values.valueLabel = formatNumber(capacity.value,
+      formatOptions || (SMALL_UNITS.includes(capacity.unit.symbol) ? SMALL_UNITS_FORMAT_OPTIONS : BIG_UNITS_FORMAT_OPTIONS),
     )
   }
   return formatMessage({ id }, values)

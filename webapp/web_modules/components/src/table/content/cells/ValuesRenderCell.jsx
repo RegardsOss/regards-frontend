@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,7 +34,7 @@ export default class ValuesRenderCell extends React.Component {
     // common cell content properties
     // rowIndex: PropTypes.number.isRequired, unused
     // eslint-disable-next-line react/forbid-prop-types
-    entity: PropTypes.object.isRequired,
+    entity: PropTypes.any.isRequired, // object, string, ... depends on values producer (getValue methods)
     // list of values extractors
     values: PropTypes.arrayOf(PropTypes.shape({
       // vallue producer from entity

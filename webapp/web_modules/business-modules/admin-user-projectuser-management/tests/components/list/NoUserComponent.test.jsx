@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -44,8 +44,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing NoUserComponent', () => {
     const noContentWrapper = enzymeWrapper.find(NoContentComponent)
     assert.lengthOf(noContentWrapper, 1)
     testSuiteHelpers.assertWrapperProperties(noContentWrapper, {
-      title: 'projectUser.list.table.no.content.title',
-      message: 'projectUser.list.table.no.content.without.filter.message',
+      titleKey: 'projectUser.list.table.no.content.title',
+      messageKey: 'projectUser.list.table.no.content.without.filter.message',
     })
   })
   it('should render correctly when there is a filter', () => {
@@ -56,8 +56,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing NoUserComponent', () => {
     const noContentWrapper = enzymeWrapper.find(NoContentComponent)
     assert.lengthOf(noContentWrapper, 1)
     testSuiteHelpers.assertWrapperProperties(noContentWrapper, {
-      title: 'projectUser.list.table.no.content.title',
-      message: 'projectUser.list.table.no.content.with.filter.message',
+      titleKey: 'projectUser.list.table.no.content.title',
+      messageKey: 'projectUser.list.table.no.content.with.filter.message',
     })
   })
 })

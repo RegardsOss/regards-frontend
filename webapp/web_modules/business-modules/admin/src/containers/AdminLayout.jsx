@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,7 @@
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { AuthenticationClient } from '@regardsoss/authentication-utils'
+import { AuthenticationClient, AuthenticateResultShape } from '@regardsoss/authentication-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
@@ -49,12 +49,12 @@ export class AdminLayout extends React.Component {
     }),
     location: CommonShapes.LocationShape.isRequired,
     // from mapStateToProps
-    isInstance: PropTypes.bool,
+    auth: AuthenticateResultShape.isRequired,
   }
 
   getSidebar = (isInstanceDashboard) => {
     const {
-      params: { project }, location, isInstance,
+      params: { project }, location, auth,
     } = this.props
     if (isInstanceDashboard) {
       return (<InstanceSidebarComponent
@@ -64,7 +64,7 @@ export class AdminLayout extends React.Component {
     return (<ProjectSidebarComponent
       projectName={project}
       currentPath={location.pathname}
-      isInstance={isInstance}
+      role={auth.role}
     />)
   }
 
@@ -132,7 +132,7 @@ export class AdminLayout extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  isInstance: AuthenticationClient.authenticationSelectors.isInstanceAdmin(state),
+  auth: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
 })
 
 export default connect(mapStateToProps)(AdminLayout)

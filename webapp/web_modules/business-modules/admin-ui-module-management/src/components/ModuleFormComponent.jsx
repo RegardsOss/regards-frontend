@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -39,12 +39,12 @@ import DynamicModuleFormComponent from './DynamicModuleFormComponent'
 import Styles from '../styles/styles'
 
 /**
- * React component to display and configure a given layout
+ * React component to display and configure a given module
  * @author Sébastien binda
  */
 class ModuleFormComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     module: AccessShapes.Module,
     availableModuleTypes: PropTypes.arrayOf(PropTypes.string).isRequired,
     containers: PropTypes.arrayOf(AccessShapes.ContainerContent),
@@ -146,6 +146,7 @@ class ModuleFormComponent extends React.Component {
    */
   renderStaticModuleConfiguration = (style) => {
     const containerFieldStyle = { marginBottom: 15 }
+    const { intl: { formatMessage } } = this.context
     return (
       <div>
         <Field
@@ -154,7 +155,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderSelectField}
           type="text"
           onSelect={this.selectModuleType}
-          label={this.context.intl.formatMessage({ id: 'module.form.name' })}
+          label={formatMessage({ id: 'module.form.name' })}
           disabled={!this.props.adminForm.isCreating}
           validate={ValidationHelpers.required}
         >
@@ -172,7 +173,7 @@ class ModuleFormComponent extends React.Component {
           fullWidth
           component={RenderTextField}
           type="text"
-          label={this.context.intl.formatMessage({ id: 'module.form.description' })}
+          label={formatMessage({ id: 'module.form.description' })}
           validate={ValidationHelpers.required}
         />
         <Field
@@ -182,7 +183,7 @@ class ModuleFormComponent extends React.Component {
           component={RenderSelectField}
           type="text"
           onSelect={this.selectContainer}
-          label={this.context.intl.formatMessage({ id: 'module.form.container' })}
+          label={formatMessage({ id: 'module.form.container' })}
           validate={ValidationHelpers.required}
         >
           {map(this.props.containers, container => (
@@ -196,7 +197,7 @@ class ModuleFormComponent extends React.Component {
         <Field
           name="active"
           component={RenderCheckbox}
-          label={this.context.intl.formatMessage({ id: 'module.form.active' })}
+          label={formatMessage({ id: 'module.form.active' })}
         />
       </div>
     )
@@ -205,72 +206,86 @@ class ModuleFormComponent extends React.Component {
   /**
    * Renders page configuration part, when module is dynamic
    */
-  renderModulePageConfiguration = () => (
-    <div>
-      {/* is default page? */}
-      <Field
-        name="page.home"
-        component={RenderCheckbox}
-        label={this.context.intl.formatMessage({ id: 'module.form.page.home' })}
-      />
-      {/* icon mode and value */}
-      <Field
-        name="page.iconType"
-        component={RenderRadio}
-        defaultSelected={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT}
-      >
-        <RadioButton
-          value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE}
-          label={this.context.intl.formatMessage({ id: 'module.form.page.icon.none' })}
+  renderModulePageConfiguration = () => {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <div>
+        {/* is default page? */}
+        <Field
+          name="page.home"
+          component={RenderCheckbox}
+          label={formatMessage({ id: 'module.form.page.home' })}
         />
-        <RadioButton
-          value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT}
-          label={this.context.intl.formatMessage({ id: 'module.form.page.icon.default' })}
+        {/* icon mode and value */}
+        <Field
+          name="page.iconType"
+          component={RenderRadio}
+          defaultSelected={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT}
+        >
+          <RadioButton
+            value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE}
+            label={formatMessage({ id: 'module.form.page.icon.none' })}
+          />
+          <RadioButton
+            value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT}
+            label={formatMessage({ id: 'module.form.page.icon.default' })}
+          />
+          <RadioButton
+            value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
+            label={formatMessage({ id: 'module.form.page.icon.custom' })}
+          />
+        </Field>
+        {/* page custom icon */}
+        <Field
+          name="page.customIconURL"
+          disabled={this.props.currentPageIconType !== AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={formatMessage({ id: 'module.form.page.custom.icon.url' })}
+          validate={this.validateCustomIcon}
         />
-        <RadioButton
-          value={AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
-          label={this.context.intl.formatMessage({ id: 'module.form.page.icon.custom' })}
+        {/* page english title */}
+        <Field
+          name="page.title.en"
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={formatMessage({ id: 'module.form.page.title.en' })}
+          validate={ValidationHelpers.required}
         />
-      </Field>
-      {/* page custom icon */}
-      <Field
-        name="page.customIconURL"
-        disabled={this.props.currentPageIconType !== AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM}
-        component={RenderTextField}
-        fullWidth
-        type="text"
-        label={this.context.intl.formatMessage({ id: 'module.form.page.custom.icon.url' })}
-        validate={this.validateCustomIcon}
-      />
-      {/* page english title */}
-      <Field
-        name="page.title.en"
-        component={RenderTextField}
-        fullWidth
-        type="text"
-        label={this.context.intl.formatMessage({ id: 'module.form.page.title.en' })}
-        validate={ValidationHelpers.required}
-      />
-      {/* page french title */}
-      <Field
-        name="page.title.fr"
-        component={RenderTextField}
-        fullWidth
-        type="text"
-        label={this.context.intl.formatMessage({ id: 'module.form.page.title.fr' })}
-        validate={ValidationHelpers.required}
-      />
-    </div>
-  )
+        {/* page french title */}
+        <Field
+          name="page.title.fr"
+          component={RenderTextField}
+          fullWidth
+          type="text"
+          label={formatMessage({ id: 'module.form.page.title.fr' })}
+          validate={ValidationHelpers.required}
+        />
+      </div>
+    )
+  }
 
   /** Renders dynamic module configuration part */
-  renderDynamicModuleConfiguration = () => get(this.props.adminForm, 'form') ? (
-    <DynamicModuleFormComponent
-      project={this.props.project}
-      appName={this.props.applicationId}
-      adminForm={this.props.adminForm}
-      module={this.state.module}
-    />) : null
+  renderDynamicModuleConfiguration = () => {
+    const { dynamicContainerSelected } = this.state
+    const { adminForm } = this.props
+    if (!get(adminForm, 'form')) {
+      return null
+    }
+    const childAdminForm = {
+      ...adminForm,
+      isPage: !!dynamicContainerSelected,
+    }
+    return (
+      <DynamicModuleFormComponent
+        project={this.props.project}
+        appName={this.props.applicationId}
+        adminForm={childAdminForm}
+        module={this.state.module}
+      />)
+  }
 
   render() {
     const {

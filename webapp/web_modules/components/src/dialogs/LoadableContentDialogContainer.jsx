@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import { withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
 import PositionedDialog from './PositionedDialog'
-import DialogLoadingComponent from './DialogLoadingComponent'
+import ContentLoadingComponent from '../content/feedback/ContentLoadingComponent'
 
 import styles from './styles'
 
@@ -34,7 +34,6 @@ export class LoadableContentDialogContainer extends React.Component {
     loaded: PropTypes.bool.isRequired,
     dialogHeightPercent: CommonShapes.Percent.isRequired,
     dialogWidthPercent: CommonShapes.Percent.isRequired,
-    loadingMessage: PropTypes.node.isRequired,
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -47,16 +46,17 @@ export class LoadableContentDialogContainer extends React.Component {
 
   render() {
     const {
-      loaded, loadingMessage, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties
+      loaded, dialogHeightPercent, dialogWidthPercent, children, ...dialogProperties
     } = this.props
     return (
       <PositionedDialog
         dialogHeightPercent={dialogHeightPercent}
         dialogWidthPercent={dialogWidthPercent}
+        autoScrollBodyContent
         {...dialogProperties}
       >
         {
-          loaded ? null : <DialogLoadingComponent loadingMessage={loadingMessage} />
+          loaded ? null : <ContentLoadingComponent />
         }
         <div style={loaded ? LoadableContentDialogContainer.VISIBLE_STYLES : LoadableContentDialogContainer.HIDDEN_STYLES}>
           {

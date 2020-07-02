@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -43,7 +43,7 @@ const isValidUrl = (url, relativeAllowed = true) => validURLRegexp.test(url) || 
  * Returns {@code true} if the passed String matches an url format.
  * @param {String} uri url text
  */
-const isValidUri = uri => console.error('isValidUri, ', validURIRegexp.test(uri)) || validURIRegexp.test(uri)
+const isValidUri = uri => validURIRegexp.test(uri)
 
 
 /**

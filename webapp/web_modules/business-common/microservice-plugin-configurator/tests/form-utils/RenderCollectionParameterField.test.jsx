@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,6 +25,7 @@ import { FieldArray, RenderArrayObjectField, RenderArrayTextField } from '@regar
 import {
   buildTestContext, testSuiteHelpers, ReduxFormTestHelper, DumpProvider,
 } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { RenderCollectionParameterField } from '../../src/form-utils/RenderCollectionParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'
@@ -48,7 +49,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'COLLECTION')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.COLLECTION)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type COLLECTION')
     forEach(parameters, (parameter) => {
@@ -92,7 +93,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderCollectionParameterFi
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'COLLECTION')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.COLLECTION)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type COLLECTION')
     forEach(parameters, (parameter) => {

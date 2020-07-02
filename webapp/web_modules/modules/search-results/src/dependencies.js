@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,9 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { DataAttributeModelActions } from './clients/DataobjectAttributeModelClient'
-import { DatasetAttributeModelActions } from './clients/DatasetAttributeModelClient'
-import { DocumentAttributeModelActions } from './clients/DocumentAttributeModelClient'
+import { datasetActions } from './clients/DatasetClient'
+import { datasetModelActions } from './clients/DatasetModelClient'
+import { dataObjectAttributesActions } from './clients/DataObjectAttributesClient'
+import { dataSetAttributesActions } from './clients/DataSetAttributesClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -34,9 +35,10 @@ const user = [
  * @type {[*]}
  */
 const admin = [
-  DataAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  DatasetAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
-  DocumentAttributeModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  dataObjectAttributesActions.getDependency(RequestVerbEnum.POST),
+  dataSetAttributesActions.getDependency(RequestVerbEnum.POST),
+  datasetActions.getDependency(RequestVerbEnum.GET_LIST),
+  datasetModelActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

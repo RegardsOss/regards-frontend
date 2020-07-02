@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,7 @@ export default [
   {
     content: {
       id: 202,
+      businessId: 'businessId1',
       pluginId: 'FullPluginExample',
       label: 'fdgfdgfdg',
       version: '1.0.0',
@@ -64,6 +65,7 @@ export default [
   {
     content: {
       id: 40,
+      businessId: 'businessId2',
       pluginId: 'aComplexErrorPlugin',
       label: 'a plugin configuration for the test',
       version: '12345-6789-11',
@@ -103,6 +105,7 @@ export default [
   {
     content: {
       id: 12,
+      businessId: 'businessId3',
       pluginId: 'aComplexPlugin',
       label: 'This is a configuration',
       version: '1.2.0',
@@ -132,6 +135,7 @@ export default [
   {
     content: {
       id: 11,
+      businessId: 'businessId4',
       pluginId: 'aComplexPlugin',
       label: 'A configuration',
       version: '1.0.0',
@@ -161,6 +165,7 @@ export default [
   {
     content: {
       id: 10,
+      businessId: 'businessId5',
       pluginId: 'aComplexPlugin',
       label: 'An other configuration',
       version: '1.0.0',

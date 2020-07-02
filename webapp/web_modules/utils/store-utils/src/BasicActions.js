@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,7 @@ import endsWith from 'lodash/endsWith'
 import trimEnd from 'lodash/trimEnd'
 import join from 'lodash/join'
 import takeRight from 'lodash/takeRight'
+import { RSAA } from 'redux-api-middleware'
 import RequestVerbEnum from './RequestVerbEnum'
 
 /**
@@ -42,8 +43,8 @@ class BasicActions {
    * Class constructor
    *
    * @param options Object containing :
-   * { entityEndpoint: string, entityPathVariable: string,namespace : string ,
-   * headers: Object ,bypassErrorMiddleware : bool }
+   * { entityEndpoint: string, resourcesEndpoint: string, entityPathVariable: string,namespace : string ,
+   * headers: Object ,bypassErrorMiddleware : bool, options: {*} }
    */
   constructor(options) {
     this.entityEndpoint = options.entityEndpoint
@@ -51,6 +52,8 @@ class BasicActions {
     this.FLUSH = `${options.namespace}/FLUSH`
     this.headers = options.headers || {}
     this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
+    this.options = options.options
+    this.resourcesEndpoint = options.resourcesEndpoint || options.entityEndpoint
   }
 
 
@@ -91,57 +94,6 @@ class BasicActions {
   }
 
   /**
-   * Replace parameterized value in the current configured endpoint
-   *
-   * @param entityEndpoint endpoint entity
-   * @param params parameters to replace in the endpoint entity
-   * @returns {*}
-   */
-  handleRequestPathParameters = (entityEndpoint, params) => {
-    let endpoint = entityEndpoint
-    if (params) {
-      forEach(params, (param, key) => {
-        endpoint = replace(endpoint, `{${key}}`, param)
-      })
-    }
-    // endpoint = replace(endpoint, /{.*}/, '') // Remove unspecified parameters
-    // endpoint = trim(endpoint, '?') // Remove the trailing '?' if last character
-    return endpoint
-  }
-
-  /**
-   * Appends query parameters
-   *
-   * @param entityEndpoint endpoint entity
-   * @param {*} params parameters to replace in the endpoint entity. Allowed parameter values are string or string arrays
-   * @returns {string} endpoint
-   */
-  handleRequestQueryParams = (entityEndpoint, queryParams) => {
-    let endpoint = entityEndpoint
-    if (endsWith(endpoint, '?')) {
-      endpoint = trimEnd(endpoint, '?')
-    }
-    if (queryParams) {
-      forEach(queryParams, (parameter, key) => {
-        // handle array parameters : key:[a, b] => key=a&key=b
-        const paramValues = isArray(parameter) ? parameter : [parameter]
-        // for each parameter value:
-        const appendParametersText = paramValues
-          // filter null / undefined and empty strings values
-          .filter(value => !isNil(value) && (!isString(parameter) || !!parameter))
-          // map to key=value[i] then join on '&'
-          .map(value => `${key}=${encodeURIComponent(value)}`).join('&')
-        if (appendParametersText) {
-          // The value is OK, append to current query
-          const parameterSeparator = endpoint.includes('?') ? '&' : '?'
-          endpoint = `${endpoint}${parameterSeparator}${appendParametersText}`
-        }
-      })
-    }
-    return endpoint
-  }
-
-  /**
    * Remove all existing entries
    * @param {boolean} cancelPending: (default: true) should cancel pending actions?
    *
@@ -165,7 +117,7 @@ class BasicActions {
    * @returns {string}
    */
   getDependency = (verb) => {
-    let dependency = this.entityEndpoint
+    let dependency = this.resourcesEndpoint
     // Remove query params if any
     dependency = split(dependency, '?')[0]
     // Remove GATEWAY path
@@ -184,6 +136,7 @@ class BasicActions {
         case RequestVerbEnum.GET:
         case RequestVerbEnum.DELETE:
         case RequestVerbEnum.PUT:
+        case RequestVerbEnum.PATCH:
           endpoint = `${endpoint}/{${this.entityPathVariable}}`
           break
         case RequestVerbEnum.GET_LIST:
@@ -199,6 +152,97 @@ class BasicActions {
     return `${microservice}@/${endpoint}@${requestHttpVerb}`
   }
 
+  /**
+   * Builds the RSAA action to dispatch to fetch server data with multiparts form
+   * @param {string} initialEndpoint endpoint entity
+   * @param {*} pathParams query parameters
+   * @param {*} queryParams query parameters
+   * @param {*} formData form data
+   * @param {[string|{*}]} types Redux API middleware types
+   * @param {string} method HTTP verb to use for request (defaults to POST)
+   * @returns {{type: string }} RSAA action to dispatch
+   */
+  buildMultiPartsRSAAction(initialEndpoint, pathParams, queryParams, formData, types, method = 'POST') {
+    let finalEndpoint = BasicActions.buildURL(initialEndpoint, pathParams, queryParams)
+    finalEndpoint = BasicActions.useZuulSlugForMultiPartRoutes(finalEndpoint)
+    return {
+      [RSAA]: {
+        types,
+        endpoint: finalEndpoint,
+        method,
+        body: formData,
+        headers: this.headers,
+        options: this.options,
+      },
+    }
+  }
+
+  /**
+   * Replace parameterized value in the current configured endpoint
+   * @param {string} enpoint endpoint entity
+   * @param params parameters to replace in the endpoint entity
+   * @returns {string} endpoint with path parameters
+   */
+  static handleRequestPathParameters(endpoint, params) {
+    let finalEndpoint = endpoint
+    if (params) {
+      forEach(params, (param, key) => {
+        finalEndpoint = replace(finalEndpoint, `{${key}}`, param)
+      })
+    }
+    return finalEndpoint
+  }
+
+  /**
+   * Appends query parameters to endpoint
+   * @param {string} enpoint endpoint entity
+   * @param {*} params parameters to replace in the endpoint entity. Allowed parameter values are string or string arrays
+   * @returns {string} endpoint with query parameters
+   */
+  static handleRequestQueryParams(enpoint, queryParams) {
+    let finalEndpoint = enpoint
+    if (endsWith(finalEndpoint, '?')) {
+      finalEndpoint = trimEnd(finalEndpoint, '?')
+    }
+    if (queryParams) {
+      forEach(queryParams, (parameter, key) => {
+        // handle array parameters : key:[a, b] => key=a&key=b
+        const paramValues = isArray(parameter) ? parameter : [parameter]
+        // for each parameter value:
+        const appendParametersText = paramValues
+          // filter null / undefined and empty strings values
+          .filter(value => !isNil(value) && (!isString(parameter) || !!parameter))
+          // map to key=value[i] then join on '&'
+          .map(value => `${key}=${encodeURIComponent(value)}`).join('&')
+        if (appendParametersText) {
+          // The value is OK, append to current query
+          const parameterSeparator = finalEndpoint.includes('?') ? '&' : '?'
+          finalEndpoint = `${finalEndpoint}${parameterSeparator}${appendParametersText}`
+        }
+      })
+    }
+    return finalEndpoint
+  }
+
+  /**
+   * Completes in endpoint the path and query parameters
+   * @param {string} enpoint endpoint
+   * @param {*} pathParameters path parameters
+   * @param {*} queryParameters query parameters
+   * @return {string} completed URL with path and query parameters
+   */
+  static buildURL(enpoint, pathParameters, queryParameters) {
+    return BasicActions.handleRequestQueryParams(
+      BasicActions.handleRequestPathParameters(enpoint, pathParameters),
+      queryParameters)
+  }
+
+  /**
+   * Assembles form values and files to build form data
+   * @param {*} objectValues key to value map
+   * @param {*} files key to file map
+   * @return {FormData} built form data
+   */
   static createFormDataWithFilesMap(objectValues, filesMap) {
     const formData = new FormData()
     // Handle object values
@@ -208,17 +252,29 @@ class BasicActions {
     return formData
   }
 
-  static useZuulSlugForMultiPartRoutes(endpoint) {
-    return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
-  }
-
-  static createFormDataWithFilesList(objectValues, filesList, filesKey) {
+  /**
+   * Assembles form values and file list to build form data
+   * @param {*} objectValues key to value map
+   * @param {*} fileLists array/map of files to addd under fileKey in payload
+   * @param {string} fileKey file list key in payload
+   * @return {FormData} built form data
+   */
+  static createFormDataWithFilesList(objectValues, filesList, fileKey) {
     const formData = new FormData()
     // Handle object values
     BasicActions.addObjectValuesToFormData(formData, objectValues)
     // Handle files
-    BasicActions.addFilesListToFormData(formData, filesList, filesKey)
+    BasicActions.addFilesListToFormData(formData, filesList, fileKey)
     return formData
+  }
+
+  /**
+   * Redirects endpoint to zuul
+   * @param {string} endpoint -
+   * @return {string} zuul endpoint
+   */
+  static useZuulSlugForMultiPartRoutes(endpoint) {
+    return endpoint.replace(`/${API_URL}/`, `/zuul/${API_URL}/`)
   }
 
   /**
@@ -259,7 +315,6 @@ class BasicActions {
       }
     })
   }
-
 
   /**
    * Add a list of files to FormData

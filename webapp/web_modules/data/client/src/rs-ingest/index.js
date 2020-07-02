@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,16 +20,53 @@ export { default as ProcessingChainActions } from './processingChain/ProcessingC
 export { default as ProcessingChainReducer } from './processingChain/ProcessingChainReducer'
 export { default as ProcessingChainSelectors } from './processingChain/ProcessingChainSelectors'
 export { default as ProcessingChainImportActions } from './processingChain/ProcessingChainImportActions'
-export { default as SIPActions } from './sip/SIPActions'
-export { default as getSIPReducer } from './sip/SIPReducer'
-export { default as getSIPSelectors } from './sip/SIPSelectors'
-export { default as SIPImportActions } from './sipImport/SIPImportActions'
-export { default as getSIPImportReducer } from './sipImport/SIPImportReducer'
-export { default as getSIPImportSelectors } from './sipImport/SIPImportSelectors'
+
 export { default as SessionActions } from './session/SessionActions'
 export { default as getSessionReducer } from './session/SessionReducer'
 export { default as getSessionSelectors } from './session/SessionSelectors'
 
-export { default as SIPSignalActions } from './sip/SIPSignalActions'
-export { default as getSipSignalReducer } from './sip/SIPSignalReducer'
-export { default as getSipSignalSelectors } from './sip/SIPSignalSelectors'
+export { default as AIPDeleteActions } from './aip/AIPDeleteActions'
+export { default as getAIPDeleteReducer } from './aip/AIPDeleteReducer'
+export { default as getAIPDeleteSelectors } from './aip/AIPDeleteSelectors'
+
+export { default as AIPActions } from './aip/AIPActions'
+export { default as getAIPReducer } from './aip/AIPReducer'
+export { default as getAIPSelectors } from './aip/AIPSelectors'
+
+export { default as AIPStorageSearchActions } from './aip/AIPStorageSearchActions'
+export { default as getAIPStorageSearchReducer } from './aip/AIPStorageSearchReducer'
+export { default as getAIPStorageSearchSelectors } from './aip/AIPStorageSearchSelectors'
+
+export { default as AIPTagSearchActions } from './aip/AIPTagSearchActions'
+export { default as getAIPTagSearchReducer } from './aip/AIPTagSearchReducer'
+export { default as getAIPTagSearchSelectors } from './aip/AIPTagSearchSelectors'
+
+export { default as AIPCategorySearchActions } from './aip/AIPCategorySearchActions'
+export { default as getAIPCategorySearchReducer } from './aip/AIPCategorySearchReducer'
+export { default as getAIPCategorySearchSelectors } from './aip/AIPCategorySearchSelectors'
+
+export { default as AIPUpdateActions } from './aip/AIPUpdateActions'
+export { default as getAIPUpdateReducer } from './aip/AIPUpdateReducer'
+export { default as getAIPUpdateSelectors } from './aip/AIPUpdateSelectors'
+
+export { default as SIPActions } from './sip/SIPActions'
+export { default as getSIPReducer } from './sip/SIPReducer'
+export { default as getSIPSelectors } from './sip/SIPSelectors'
+
+export { default as SIPImportActions } from './sipImport/SIPImportActions'
+export { default as getSIPImportReducer } from './sipImport/SIPImportReducer'
+export { default as getSIPImportSelectors } from './sipImport/SIPImportSelectors'
+
+export { default as RequestActions } from './request/RequestActions'
+export { default as getRequestReducer } from './request/RequestReducer'
+export { default as getRequestSelectors } from './request/RequestSelectors'
+
+export { default as RequestDeleteActions } from './request/RequestDeleteActions'
+export { default as getRequestDeleteReducer } from './request/RequestDeleteReducer'
+export { default as getRequestDeleteSelectors } from './request/RequestDeleteSelectors'
+
+export { default as RequestRetryActions } from './request/RequestRetryActions'
+export { default as getRequestRetryReducer } from './request/RequestRetryReducer'
+export { default as getRequestRetrySelectors } from './request/RequestRetrySelectors'
+
+export { default as RequestAbortActions } from './request/RequestAbortActions'

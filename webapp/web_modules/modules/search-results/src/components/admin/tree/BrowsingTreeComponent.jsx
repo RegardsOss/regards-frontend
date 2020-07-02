@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,7 +26,7 @@ import BrowsingTreeCellComponent from './BrowsingTreeCellComponent'
  * Left browsing edition tree for module
  * @author Raphaël Mechali
  */
-class BrowsingTree extends React.Component {
+class BrowsingTreeComponent extends React.Component {
   static propTypes = {
     // navigation data
     navigationSections: PropTypes.arrayOf(FormSection).isRequired,
@@ -50,8 +50,10 @@ class BrowsingTree extends React.Component {
    * @return {TreeTableRow} tree table row, where cells are an array of objects like: { section: FormSection, page: FormPage} (nota: page is null if section should be shown as parent)
    */
   buildSectionRow = (navigationSection) => {
-    // 1 - specific case: main configuration row
-    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN) {
+    // 1 - specific cases: single section pages
+    if (navigationSection.type === FORM_SECTIONS_ENUM.MAIN
+      || navigationSection.type === FORM_SECTIONS_ENUM.RESTRICTIONS
+      || navigationSection.type === FORM_SECTIONS_ENUM.FILTERS) {
       // build section row using page builder
       return this.buildPageRow(navigationSection, navigationSection.pages[0])
     }
@@ -64,7 +66,7 @@ class BrowsingTree extends React.Component {
    * Builds tree table page row
    * @param {*} section parent section, matches FormSection
    * @param {*} page page model for that row
-   * @return {}
+   * @return {TreeTableRow}
    */
   buildPageRow = (section, page) => new TreeTableRow(`${section.type}/${page.type}`, [{ section, page }])
 
@@ -102,7 +104,7 @@ class BrowsingTree extends React.Component {
         model={navigationSections}
         buildTreeTableRows={this.buildTreeTableRows}
         buildCellComponent={this.buildCellComponent}
-        columns={BrowsingTree.COLUMNS_FILLER}
+        columns={BrowsingTreeComponent.COLUMNS_FILLER}
         onCellClick={this.onCellClicked}
         stripeLevelColors={false}
         displayTableRowBorder={false}
@@ -111,4 +113,4 @@ class BrowsingTree extends React.Component {
     )
   }
 }
-export default BrowsingTree
+export default BrowsingTreeComponent

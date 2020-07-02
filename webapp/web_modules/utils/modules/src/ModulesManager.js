@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -42,7 +42,6 @@ const VisibleModuleTypes = {
   SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
-  STORAGE_MONITORING: 'storage-monitoring',
 }
 
 /**
@@ -64,7 +63,7 @@ const ALL_MODULE_TYPES = values(VisibleModuleTypes)
 
 /**
  * Finds the first available module by type
- * @param {*} modules modules list, as provided by ccessProjectClient.ModuleSelectors().getList(state) (normalized results)
+ * @param {*} modules modules list, as provided by AccessProjectClient.getModuleSelectors().getList(state) (normalized results)
  * @param {string} moduleType searched module type, from ALL_MODULE_TYPES
  * @return {{content: {*}, links: [*]}} found module as a {} object or null if not found
  */

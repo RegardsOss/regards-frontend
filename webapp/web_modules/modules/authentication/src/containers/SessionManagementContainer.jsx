@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -147,24 +147,34 @@ export class SessionManagementContainer extends React.Component {
   }
 
   /**
-   * If a user is saved in local storage use it to update the current authentication informations
+   * If a authentication info is saved in local storage, and still valid, use it to restored logged user.
+   * Otherwise, clean authentication info
    */
   updateAuthenticationFromLocalStorage = () => {
-    const { project, application } = this.props
+    const {
+      project, application, notifyAuthenticationChanged, logout,
+    } = this.props
     const user = UIDomain.LocalStorageUser.retrieve(project || 'instance', application)
+    // 1. Check if there are already authentication information stored
     if (user) {
-      return [this.props.notifyAuthenticationChanged(user.getAuthenticationInformations())]
+      const { authenticationDate, authentication } = user
+      // 2. Check if they are not out of date
+      const validityEndDate = authenticationDate + (authentication.expires_in * 1000)
+      if (Date.now() < validityEndDate) {
+        // Restore that token as it is still valid
+        notifyAuthenticationChanged(user.getAuthenticationInformations(), user.authenticationDate)
+        return
+      }
     }
     // Else we have to clean store if an authentication token is present from an other project or user.
     // Case of switching from one project to another through browser navigation back,next arrows.
-    this.props.logout()
-    return []
+    logout()
   }
 
   unlockSession = (formValues) => {
-    const { fetchAuthenticate, authentication: { result: { scope, sub } } } = this.props
+    const { fetchAuthenticate, authentication: { result: { tenant, sub } } } = this.props
     // fetch authentication (will unlock session when it returns successfully )
-    fetchAuthenticate(sub, formValues.password, scope)
+    fetchAuthenticate(sub, formValues.password, tenant)
   }
 
   render() {
@@ -201,7 +211,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
-  notifyAuthenticationChanged: authentication => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication)),
+  notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),
   logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
 

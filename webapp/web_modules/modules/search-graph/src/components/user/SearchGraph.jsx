@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,10 +24,12 @@ import { DynamicModulePane } from '@regardsoss/components'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
 import { UIDomain } from '@regardsoss/domain'
 import { dependencies } from '../../user-dependencies'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
+import { DatasetAttributesArrayForGraph } from '../../shapes/DatasetAttributesForGraph'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
 import ToggleDatasetDetailsContainer from '../../containers/user/ToggleDatasetDetailsContainer'
+
 
 /**
 * Search graph (collections explorer)
@@ -40,6 +42,8 @@ class SearchGraph extends React.Component {
     moduleConf: ModuleConfiguration.isRequired,
     presentationState: PropTypes.oneOf(UIDomain.PRESENTATION_STATE).isRequired,
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
+    // From description HOC (not required as it comes from HOC, after initialization)
+    descriptionProperties: DescriptionProperties,
   }
 
   static contextTypes = {
@@ -78,7 +82,7 @@ class SearchGraph extends React.Component {
   render() {
     const {
       moduleConf, graphDatasetAttributes,
-      presentationState, ...moduleProps
+      descriptionProperties, presentationState, ...moduleProps
     } = this.props
     const { viewportStyles } = this.state
     const { moduleTheme: { user } } = this.context
@@ -118,8 +122,9 @@ class SearchGraph extends React.Component {
                 <div style={user.levels.styles} {...bind('measureDiv')}>
                   {graphLevels.map((levelModelName, index) => (
                     <GraphLevelDisplayerContainer
-                      graphDatasetAttributes={graphDatasetAttributes}
                       key={levelModelName}
+                      graphDatasetAttributes={graphDatasetAttributes}
+                      descriptionProperties={descriptionProperties}
                       levelModelName={levelModelName}
                       levelIndex={index}
                       isFirstLevel={index === 0}
@@ -128,8 +133,9 @@ class SearchGraph extends React.Component {
                   ))}
                   {/* Last level to show datasets */}
                   <GraphLevelDisplayerContainer
-                    graphDatasetAttributes={graphDatasetAttributes}
                     key="last.level.datasets.only"
+                    graphDatasetAttributes={graphDatasetAttributes}
+                    descriptionProperties={descriptionProperties}
                     levelModelName={null}
                     levelIndex={graphLevels.length}
                     isFirstLevel={graphLevels.length === 0}

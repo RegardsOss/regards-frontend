@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,7 +27,7 @@ import { FormattedMessage } from 'react-intl'
  */
 class DynamicModuleFormComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
+    project: PropTypes.string,
     // eslint-disable-next-line react/no-unused-prop-types
     appName: PropTypes.string.isRequired,
     module: AccessShapes.Module,
@@ -51,8 +51,7 @@ class DynamicModuleFormComponent extends React.Component {
       return true
     }
     return !isEqual(this.state, nextState)
-      || !isEqual(this.props.adminForm.form.type, nextProps.adminForm.form.type)
-      || !isEqual(this.props.adminForm.form.conf, nextProps.adminForm.form.conf)
+      || !isEqual(this.props.adminForm, nextProps.adminForm)
   }
 
   moduleLoaded = (module) => {

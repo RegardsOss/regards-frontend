@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -204,10 +204,10 @@ export class TreeTableComponent extends React.Component {
    * @param {number} leftIndentation left indentation of current level (in pixels)
    * @return {*} Rendered React element
    */
-  renderRow = (row, indexInLevel, parentIndexChain = [], leftIndentation = this.context.moduleTheme.firstCell.leftMarginForLevel) => {
+  renderRow = (row, indexInLevel, parentIndexChain = [], leftIndentation = this.context.muiTheme.components.treeTable.firstLevelIndentation) => {
     const {
       moduleTheme: {
-        oddLevelRowStyle, evenLevelRowStyle, expandCell, firstCell,
+        oddLevelRowStyle, evenLevelRowStyle, expandCell,
       },
     } = this.context
     const { stripeLevelColors, displayTableRowBorder } = this.props
@@ -236,8 +236,9 @@ export class TreeTableComponent extends React.Component {
         </TableRowColumn>
       </TableRow>)
     // 3 - Render sub level rows
+    const sublevelIndentation = leftIndentation + this.context.muiTheme.components.treeTable.nextLevelsIndentation
     const subRows = row.expanded && row.subRows.length
-      ? flatMap(row.subRows, (subRow, indexInSubLevel) => this.renderRow(subRow, indexInSubLevel, uniqueKeyChain, leftIndentation + firstCell.leftMarginForLevel)) : []
+      ? flatMap(row.subRows, (subRow, indexInSubLevel) => this.renderRow(subRow, indexInSubLevel, uniqueKeyChain, sublevelIndentation)) : []
     return [rootRow, ...subRows]
   }
 

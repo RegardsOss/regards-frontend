@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,14 +21,15 @@ import { CatalogShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import GraphLevelDisplayer from '../../components/user/GraphLevelDisplayer'
-import { SelectionPath } from '../../model/graph/SelectionShape'
-import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import getLevelPartitionKey from '../../domain/PartitionsConstants'
+import { SelectionPath } from '../../shapes/SelectionShape'
+import { DatasetAttributesArrayForGraph } from '../../shapes/DatasetAttributesForGraph'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import FetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import FetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import GraphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import GraphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
-import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
 import GraphLevelCollectionSelectors from '../../model/graph/GraphLevelCollectionSelectors'
 import GraphLevelDatasetSelectors, { getTerminalDatasets } from '../../model/graph/GraphLevelDatasetSelectors'
 import styles from '../../styles/styles'
@@ -96,6 +97,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     levelIndex: PropTypes.number.isRequired, // level index in graph
     isFirstLevel: PropTypes.bool.isRequired,
     isLastLevel: PropTypes.bool.isRequired,
@@ -167,19 +169,14 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   render() {
     const {
-      graphDatasetAttributes,
-      isLastLevel,
-      levelIndex,
-      isShowable,
-      isLoading,
-      hasError,
-      collections,
-      datasets,
+      graphDatasetAttributes, descriptionProperties, isLastLevel, levelIndex,
+      isShowable, isLoading, hasError, collections, datasets,
     } = this.props
     return (
       <ModuleStyleProvider module={moduleStyles}>
         <GraphLevelDisplayer
           graphDatasetAttributes={graphDatasetAttributes}
+          descriptionProperties={descriptionProperties}
           isShowable={isShowable}
           isLoading={isLoading}
           hasError={hasError}

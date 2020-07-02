@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -72,12 +72,14 @@ const messages = {
   'order.list.option.cell.download.title': 'Download...',
   'order.list.option.cell.download.zip.tooltip': 'Download available order files as zip',
   'order.list.option.cell.download.metalink.tooltip': 'Download order metalink file',
-  'order.list.option.cell.delete.superficially.order.tooltip': 'Delete order',
-  'order.list.option.cell.delete.superficially.confirmation.title': 'Delete',
-  'order.list.option.cell.delete.superficially.confirmation.message': 'That order and associated data will be deleted. Would you like to continue',
+  'order.list.option.cell.delete.superficially.order.tooltip': 'Cancel order',
+  'order.list.option.cell.delete.superficially.confirmation.title': 'Cancel order',
+  'order.list.option.cell.delete.superficially.confirmation.message': 'Do you really want to cancel this command ?',
+  'order.list.option.cell.delete.superficially.confirmation.button': 'Confirm',
   'order.list.option.cell.delete.completely.order.tooltip': 'Clear completely order and associated data',
   'order.list.option.cell.delete.completely.confirmation.title': 'Delete completely',
   'order.list.option.cell.delete.completely.confirmation.message': 'That order and associated data will be fully deleted. Would you like to continue',
+  'order.list.option.cell.delete.completely.confirmation.button': 'Delete',
   'order.list.option.cell.pause.order.tooltip': 'Pause order',
   'order.list.option.cell.resume.order.tooltip': 'Resume order',
   'order.list.option.cell.detail.title': 'Detail',

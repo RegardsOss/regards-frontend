@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -73,7 +73,7 @@ export class ProjectFormContainer extends React.Component {
     const updatedProject = Object.assign({}, this.props.model.content, {
       description: values.description,
     })
-    Promise.resolve(this.props.updateModel(this.props.model.content.name, updatedProject))
+    return Promise.resolve(this.props.updateModel(this.props.model.content.name, updatedProject))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -96,7 +96,7 @@ export class ProjectFormContainer extends React.Component {
         type: values.type,
       })
     }
-    Promise.resolve(task)
+    return Promise.resolve(task)
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -108,7 +108,7 @@ export class ProjectFormContainer extends React.Component {
 
   handleDuplicate = (values) => {
     const { model } = this.props
-    Promise.resolve(this.props.duplicateModel(model.content.name, {
+    return Promise.resolve(this.props.duplicateModel(model.content.name, {
       type: model.content.type,
       name: values.name,
       description: values.description,

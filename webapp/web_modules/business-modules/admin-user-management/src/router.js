@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,6 +29,15 @@ export const homeUserProjectAdminRoute = {
   },
 }
 
+export const roleResourceAccessAdminRouter = {
+  path: 'role-resource-access',
+  getChildRoutes(nextState, cb) {
+    const adminResourceAccessProjectUserManagement = require('@regardsoss/admin-user-role-resource-access-management')
+    require.ensure([], (require) => {
+      cb(null, [adminResourceAccessProjectUserManagement.roleResourceAccessManagementRouter])
+    })
+  },
+}
 
 export const projectUserAdminRouter = {
   path: 'project-user',
@@ -40,34 +49,12 @@ export const projectUserAdminRouter = {
   },
 }
 
-
-export const roleResourceAccessAdminRouter = {
-  path: 'role-resource-access',
-  getChildRoutes(nextState, cb) {
-    const adminResourceAccessProjectUserManagement = require('@regardsoss/admin-user-role-resource-access-management')
-    require.ensure([], (require) => {
-      cb(null, [adminResourceAccessProjectUserManagement.roleResourceAccessManagementRouter])
-    })
-  },
-}
-
-
 export const roleAdminRouter = {
   path: 'role',
   getChildRoutes(nextState, cb) {
     const adminRoleManagement = require('@regardsoss/admin-user-role-management')
     require.ensure([], (require) => {
       cb(null, [adminRoleManagement.roleManagementRouter])
-    })
-  },
-}
-
-export const orderAdminRouter = {
-  path: 'order',
-  getChildRoutes(nextState, cb) {
-    const adminOrderManagement = require('@regardsoss/admin-order-management')
-    require.ensure([], (require) => {
-      cb(null, [adminOrderManagement.orderRouter])
     })
   },
 }
@@ -82,6 +69,25 @@ export const authenticationPluginsAdminRouter = {
   },
 }
 
+export const accessGroupAdminRouter = {
+  path: 'access-group',
+  getChildRoutes(nextState, cb) {
+    const adminAccessGroupManagement = require('@regardsoss/admin-accessright-accessgroup-management')
+    require.ensure([], (require) => {
+      cb(null, [adminAccessGroupManagement.accessGroupManagementRouter])
+    })
+  },
+}
+
+export const accessRightsAdminRouter = {
+  path: 'access-rights',
+  getChildRoutes(nextState, cb) {
+    const adminDataAccessManagement = require('@regardsoss/admin-accessright-dataaccess-management')
+    require.ensure([], (require) => {
+      cb(null, [adminDataAccessManagement.accessRightManagementRouter])
+    })
+  },
+}
 
 const projectUserManagementRouter = {
   childRoutes: [
@@ -89,8 +95,9 @@ const projectUserManagementRouter = {
     roleResourceAccessAdminRouter,
     projectUserAdminRouter,
     roleAdminRouter,
-    orderAdminRouter,
     authenticationPluginsAdminRouter,
+    accessGroupAdminRouter,
+    accessRightsAdminRouter,
   ],
 }
 

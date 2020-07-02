@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,20 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { AIPStatusContent, AIPStatus, AIPStatusList } from './AIPStatus'
-
-export { AIPSession } from './AIPSession'
 export {
-  AIPContentWithStorages, AIPWithStorages, AIPWithStoragesArray, AIPWithStoragesList,
-} from './AIP'
-export { AIPDeletionError, AIPDeletionErrorsArray } from './AIPDeletionError'
-export {
-  StorageMonitoring, StorageMonitoringContent, StorageMonitoringList, StorageMonitoringArray,
-} from './StorageMonitoring'
-export {
-  PrioritizedDataStorage, PrioritizedDataStorageContent, PrioritizedDataStorageList, PrioritizedDataStorageArray,
-}
-  from './PrioritizedDataStorage'
+  StorageLocation, StorageLocationContent, StorageLocationConfiguration, StorageLocationList, StorageLocationArray,
+} from './StorageLocation'
 export {
   DataObject, DataObjectContent, DataObjectList, DataObjectArray,
 } from './DataObject'

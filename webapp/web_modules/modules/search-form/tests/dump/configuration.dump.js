@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,8 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
-import DatasetSelectionTypes from '../../src/domain/DatasetSelectionTypes'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 /**
  * Holds module configurations dump
@@ -121,14 +120,15 @@ export const conf1 = {
     type: 'type',
   },
   criterion: criteria,
-  datasets: {
-    type: DatasetSelectionTypes.DATASET_TYPE,
-    selectedDatasets: ['URN:DATASET:EXAMPLE1'],
-    selectedModels: [],
-  },
   // search results dump conf (from a real example)
   searchResult: {
     primaryPane: 'EXPANDED_COLLAPSIBLE',
+    restrictions: {
+      byDataset: {
+        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+        selection: ['URN:DATASET:EXAMPLE1'],
+      },
+    },
     viewsGroups: {
       DATA: {
         enabled: true,
@@ -264,24 +264,6 @@ export const conf1 = {
                 },
               },
             ],
-          },
-        },
-      },
-      DOCUMENT: {
-        enabled: false,
-        tabTitle: {},
-        initialMode: 'TABLE',
-        enableDownload: false,
-        facets: {
-          enabled: false,
-          initiallyEnabled: false,
-          list: [],
-        },
-        sorting: [],
-        views: {
-          TABLE: {
-            enabled: true,
-            attributes: [],
           },
         },
       },

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,12 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { DamDomain } from '@regardsoss/domain'
 import { connect } from '@regardsoss/redux'
+import { CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
 import StringCriterionComponent from '../components/StringCriterionComponent'
+import { SEARCH_MODES, SEARCH_MODES_ENUM } from '../domain/SearchMode'
 
 /**
  * Main criterion container: it handles state for a simple text search box with 'full words research' checkbox.
@@ -30,15 +31,12 @@ import StringCriterionComponent from '../components/StringCriterionComponent'
  * @author Xavier-Alexandre Brochard
  */
 export class StringCriterionContainer extends React.Component {
-  /** Attribute model types for which full word option is available */
-  static FULL_WORD_AVAILABLE_TYPES = [DamDomain.MODEL_ATTR_TYPES.STRING]
-
   /**
    * Specifying the default state expected by this component (see propTypes for types)
    */
   static DEFAULT_STATE = {
     searchText: '',
-    searchFullWords: false,
+    searchMode: SEARCH_MODES_ENUM.CONTAINS,
   }
 
 
@@ -78,7 +76,7 @@ export class StringCriterionContainer extends React.Component {
     // From mapStateToProps...
     state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
       searchText: PropTypes.string,
-      searchFullWords: PropTypes.bool,
+      searchMode: PropTypes.oneOf(SEARCH_MODES).isRequired,
     }).isRequired,
     // From mapDispatchToProps...
     publishState: PropTypes.func.isRequired,
@@ -86,67 +84,78 @@ export class StringCriterionContainer extends React.Component {
 
   /**
    * Converts state as parameter into OpenSearch request parameters
-   * @param {{searchText: string, searchFullWords: bool}} state
+   * @param {{searchText: string, searchMode: string}} state
    * @param {*} attribute criterion attribute
    * @return {*} corresponding OpenSearch request parameters
    */
-  static convertToRequestParameters({ searchText, searchFullWords }, attribute) {
-    let q = null
+  static convertToRequestParameters({ searchText, searchMode }, attribute) {
     const trimedText = (searchText || '').trim()
+    let parameterValue = null
     if (trimedText && attribute.jsonPath) {
-      let parameterValue = null
-      if (searchFullWords) {
-        // searching for attributes values strictly equal to text
-        parameterValue = `"${trimedText}"`
-      } else {
-        // searching for all parts of text (separated by a blank char) to be included in attributes values
-        const values = trimedText.split(' ') || []
-        // clear empty values (2 blank chars for instance)
-        const meaningfulValues = values.filter(value => !!value)
-        // join values as Open search parameters
-        parameterValue = `(${meaningfulValues.map(value => `*${value}*`).join(' AND ')})`
+      switch (searchMode) {
+        case SEARCH_MODES_ENUM.CONTAINS: {
+          // Searching for elements containing each words (separated in input by blank characters)
+          const values = trimedText.split(' ') || []
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStringContained(values, CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR)
+          break
+        }
+        case SEARCH_MODES_ENUM.EQUALS:
+          // searching for attributes values strictly equal to text
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
+          break
+        default:
+          throw new Error('Unknown search mode', searchMode)
       }
-      q = `${attribute.jsonPath}:${parameterValue}`
     } // else: no query
-    return { q }
+    return {
+      q: new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath, parameterValue).toQueryString(),
+    }
   }
 
   /**
-   * User callback: full word option was checked / unchecked
+   * Callback: user selected contains mode
    */
-  onCheckFullWord = () => {
+  onSelectContainsMode = () => this.onSelectMode(SEARCH_MODES_ENUM.CONTAINS)
+
+  /**
+   * Callback: user selected strict equal mode
+   */
+  onSelectStrictEqualMode = () => this.onSelectMode(SEARCH_MODES_ENUM.EQUALS)
+
+  /**
+   * Inner callback: new mode selected. Updates state and query
+   * @param {string} searchMode selected, from SEARCH_MODES_ENUM
+   */
+  onSelectMode = (searchMode) => {
     const { state, attributes: { searchField }, publishState } = this.props
-    const nextState = {
-      ...state,
-      searchFullWords: !state.searchFullWords, // check / uncheck
+    if (searchMode === state.searchMode) {
+      return // avoid resetting state without change
     }
-    // update criterion state and query
+    const nextState = { ...state, searchMode }
     publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   /**
    * User callback: user set an input
+   * @param {*} event
+   * @param {string} searchText input text
    */
-  onTextInput = (event, value) => {
+  onTextInput = (event, searchText) => {
     const { state, attributes: { searchField }, publishState } = this.props
-    const nextState = {
-      ...state,
-      searchText: value,
-    }
-    // update criterion state and query
+    const nextState = { ...state, searchText }
     publishState(nextState, StringCriterionContainer.convertToRequestParameters(nextState, searchField))
   }
 
   render() {
-    const { state: { searchText, searchFullWords }, attributes: { searchField } } = this.props
+    const { state: { searchText, searchMode }, attributes: { searchField } } = this.props
     return (
       <StringCriterionComponent
         searchAttribute={searchField}
         searchText={searchText}
-        searchFullWords={searchFullWords}
+        searchMode={searchMode}
+        onSelectContainsMode={this.onSelectContainsMode}
+        onSelectStrictEqualMode={this.onSelectStrictEqualMode}
         onTextInput={this.onTextInput}
-        onCheckFullWord={this.onCheckFullWord}
-        allowFullword={StringCriterionContainer.FULL_WORD_AVAILABLE_TYPES.includes(searchField.type)}
       />)
   }
 }

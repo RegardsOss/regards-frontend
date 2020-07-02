@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,11 +27,14 @@ const messages = {
   'user.board.role.description': 'Consulter et éditer les fonctionnalités accessibles par rôle utilisateur',
   'user.board.role.title': 'Rôles',
 
-  'user.board.orders.title': 'Commandes',
-  'orders.board.orders.description': 'Consulter et gérer les commandes lancées par les utilisateurs du projet',
-
   'user.board.authentication-plugins.title': 'Système d\'authentification',
   'user.board.authentication-plugins.description': 'Configuration du système de connexion des utilisateurs.',
+
+  'accessright.board.tooltip.list': 'Liste',
+  'accessright.board.tooltip.add': 'Ajouter',
+  'accessright.board.accessgroup.title': 'Groupes d\'accès',
+  'accessright.board.accessgroup.description': 'Les groupes d\'accès permettent de limiter l\'accès aux données du catalogue à certains utilisateurs. Ils permettent également d\'affiner le niveau d\'accès en accordant l\'accès aux métadonnées ou aux données ou aux deux.',
+
 }
 
 export default messages

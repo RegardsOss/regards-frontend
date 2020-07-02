@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { PluginListSelectors } from '../../rs-common/plugins/PluginListSelectors'
 
-export default storePath => new BasicListSelectors(storePath)
+/**
+ * Selectors for connection plugins list
+ * @author Raphaël Mechali
+ */
+export default storePath => new PluginListSelectors(storePath)
+
+// demain:pareil pour les datasource (test edit datasource)

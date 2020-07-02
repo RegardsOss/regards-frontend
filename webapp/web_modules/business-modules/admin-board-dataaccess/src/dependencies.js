@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
 import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
-import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
 
 /**
@@ -27,11 +26,7 @@ import { indexActions, RESET_INDEX_ACTION } from './clients/IndexClient'
  * @type {Array}
  */
 export default [
-  ...servicesManagementDependencies.listDependencies,
-  ...servicesManagementDependencies.addDependencies,
-  ...searchEnginesDependencies.listDependencies,
-  ...searchEnginesDependencies.addDependencies,
-  ...accessGroupDependencies.addDependencies,
-  ...accessGroupDependencies.listDependencies,
-  indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
+  [...servicesManagementDependencies.listDependencies, ...servicesManagementDependencies.addDependencies],
+  [...searchEnginesDependencies.listDependencies, ...searchEnginesDependencies.addDependencies],
+  [indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE)],
 ]

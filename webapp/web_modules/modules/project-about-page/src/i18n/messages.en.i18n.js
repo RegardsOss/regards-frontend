@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,6 @@ const messages = Object.assign({
   'project.about.page.hide': 'Don\'t show again',
   'project.about.page.admin.url': 'HTML file URL',
   'project.about.page.admin.test': 'Test',
-  'project.about.page.loading.message': 'Loading project project.about. page, please wait...',
 }, Locales.en)
 
 export default messages

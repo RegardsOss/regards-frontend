@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,20 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
-import DeleteIcon from 'material-ui/svg-icons/action/delete'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import AddIcon from 'mdi-material-ui/PlusCircle'
+
 import { servicesManagementDependencies } from '@regardsoss/admin-dataaccess-services-management'
-import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
-import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
+import { searchEnginesDependencies } from '@regardsoss/admin-dataaccess-searchengines-management'
 
 /**
  * BoardItems configuration for data access module
  * @param projectName
  * @param intl
  */
-const items = (projectName, intl, onResetIndex) => [
+const items = (projectName, intl) => [
   {
     title: intl.formatMessage({ id: 'dataaccess.board.searchengines.title' }),
     description: intl.formatMessage({ id: 'dataaccess.board.searchengines.description' }),
@@ -39,13 +37,13 @@ const items = (projectName, intl, onResetIndex) => [
         path: `/admin/${projectName}/dataaccess/searchengines/list`,
         icon: <ViewLinesIcon />,
         tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.list.tooltip' }),
-        hateoasDependencies: servicesManagementDependencies.listDependencies,
+        hateoasDependencies: searchEnginesDependencies.listDependencies,
       },
       {
         path: `/admin/${projectName}/dataaccess/searchengines/create`,
         icon: <AddIcon />,
         tooltipMsg: intl.formatMessage({ id: 'dataaccess.board.action.add.tooltip' }),
-        hateoasDependencies: servicesManagementDependencies.addDependencies,
+        hateoasDependencies: searchEnginesDependencies.addDependencies,
       },
     ],
   },
@@ -67,39 +65,6 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: servicesManagementDependencies.addDependencies,
       },
     ],
-  },
-  {
-    title: intl.formatMessage({ id: 'accessright.board.accessgroup.title' }),
-    description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
-    advanced: false,
-    actions: [{
-      path: `/admin/${projectName}/dataaccess/access-group/list`,
-      icon: <ViewLinesIcon />,
-      className: 'selenium-accessgroupList',
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
-      hateoasDependencies: accessGroupDependencies.listDependencies,
-    }, {
-      path: `/admin/${projectName}/dataaccess/access-group/create`,
-      icon: <AddIcon />,
-      className: 'selenium-accessgroupCreate',
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
-      hateoasDependencies: accessGroupDependencies.addDependencies,
-    }],
-  },
-  {
-    title: intl.formatMessage({ id: 'accessright.board.index.title' }),
-    description: intl.formatMessage({ id: 'accessright.board.index.description' }),
-    advanced: false,
-    actions: [{
-      icon: <DeleteIcon />,
-      tooltipMsg: intl.formatMessage({ id: 'accessright.board.index.delete' }),
-      confirmMessage: intl.formatMessage({ id: 'accessright.board.index.delete.confirm' }),
-      errorMessage: intl.formatMessage({ id: 'accessright.board.index.delete.error.message' }),
-      touchTapAction: onResetIndex,
-      hateoasDependencies: [
-        indexActions.getSubAction(RESET_INDEX_ACTION).getDependency(RequestVerbEnum.DELETE),
-      ],
-    }],
   },
 ]
 

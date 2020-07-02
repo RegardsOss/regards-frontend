@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,5 +25,3 @@ import { DataManagementClient } from '@regardsoss/client'
 
 const namespace = 'description/model'
 export const modelAttributesActions = new DataManagementClient.ModelAttributesActions(namespace)
-export const modelAttributesReducer = DataManagementClient.ModelAttributesReducer(namespace)
-export const modelAttributesSelectors = DataManagementClient.ModelAttributesSelectors(['modules.description', 'model'])

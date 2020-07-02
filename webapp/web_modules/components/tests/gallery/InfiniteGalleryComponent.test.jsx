@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { assert, expect } from 'chai'
-import values from 'lodash/values'
-import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { assert } from 'chai'
+import { ShowableAtRender, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import InfiniteGalleryComponent from '../../src/gallery/InfiniteGalleryComponent'
 
 const context = buildTestContext()
@@ -29,8 +29,12 @@ class FakeItem extends React.PureComponent {
 
   static getHeightFromProps = (getState, props, columnSpan, columnGutter, gridWidth, itemProps) => 2
 
+  static propTypes = {
+    entity: PropTypes.string.isRequired,
+  }
+
   render() {
-    return (<div />)
+    return (<div id={this.props.entity.name} />)
   }
 }
 /**
@@ -46,25 +50,95 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
   })
 
 
-  it('should render correctly', () => {
+  it('should render correctly empty', () => {
     const props = {
       alignCenter: true,
       columnGutter: 15,
       columnWidth: 400,
       hasMore: true,
+      isEmpty: true,
       isLoading: false,
-      items: values(DumpProvider.get('AccessProjectClient', 'DataobjectEntity')),
+      items: [],
       itemComponent: FakeItem,
       itemProps: {
         someIdea: 42,
       },
-      width: 500,
-      height: 500,
       onInfiniteLoad: () => {
+      },
+      emptyComponent: <div id="empty.component" />,
+      loadingComponent: <div id="loading.component" />,
+      componentSize: {
+        width: 400,
+        height: 400,
       },
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
-    expect(enzymeWrapper.find('div')).to.have.length(2)
-    // This component is too low level to get FakeItem rendered
+    const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableDecorator, 1, 'There should be loadable decorator')
+    assert.equal(loadableDecorator.props().isEmpty, true, 'Content should be hidden as it is empty')
+    assert.deepEqual(loadableDecorator.props().emptyComponent, props.emptyComponent, 'Empty component should be correctly reported from props')
+  })
+  it('should render correctly loading', () => {
+    const props = {
+      alignCenter: true,
+      columnGutter: 15,
+      columnWidth: 400,
+      hasMore: true,
+      isEmpty: true,
+      isLoading: true,
+      items: [],
+      itemComponent: FakeItem,
+      itemProps: {
+        someIdea: 42,
+      },
+      onInfiniteLoad: () => {
+      },
+      emptyComponent: <div id="empty.component" />,
+      loadingComponent: <div id="loading.component" />,
+      componentSize: {
+        width: 400,
+        height: 400,
+      },
+    }
+    const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
+    const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableDecorator, 1, 'There should be loadable decorator')
+    assert.equal(loadableDecorator.props().isEmpty, false, 'Content should be visible, to show loading component')
+    const loadingShowable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(loadingShowable, 1, 'There should loading showable component')
+    assert.equal(loadingShowable.props().show, true, 'Loading component should be shown')
+    assert.lengthOf(loadingShowable.findWhere(n => n.props().id === 'loading.component'), 1,
+      'The loading component should be correctly reported from props')
+  })
+  it('should render correctly in nominal case', () => {
+    const props = {
+      alignCenter: true,
+      columnGutter: 15,
+      columnWidth: 400,
+      hasMore: true,
+      isEmpty: false,
+      isLoading: false,
+      items: [{ name: 'a' }, { name: 'b' }, { name: 'c' }, { name: 'd' }],
+      itemComponent: FakeItem,
+      itemProps: {
+        someIdea: 42,
+      },
+      onInfiniteLoad: () => {
+      },
+      emptyComponent: <div id="empty.component" />,
+      loadingComponent: <div id="loading.component" />,
+      componentSize: {
+        width: 400,
+        height: 400,
+      },
+    }
+    const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
+    const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
+    assert.lengthOf(loadableDecorator, 1, 'There should be loadable decorator')
+    assert.equal(loadableDecorator.props().isEmpty, false, 'Content should be visible, to show loading component')
+    const loadingShowable = enzymeWrapper.find(ShowableAtRender)
+    assert.lengthOf(loadingShowable, 1, 'There should loading showable component')
+    assert.equal(loadingShowable.props().show, false, 'Loading component should be hidden')
+    // note: further tests would required to dive in renderPage (which is a bit hard to achieve)
   })
 })

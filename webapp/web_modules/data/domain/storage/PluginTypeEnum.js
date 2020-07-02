@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,11 +22,9 @@ import values from 'lodash/values'
  * @author Sébastien Binda
  */
 export const PluginTypeEnum = {
-  STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IDataStorage',
-  ONLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IOnlineDataStorage',
-  NEARLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.INearlineDataStorage',
-  SECURITY_DELEGATION: 'fr.cnes.regards.modules.storage.domain.plugin.ISecurityDelegation',
-  ALLOCATION_STRATEGY: 'fr.cnes.regards.modules.storage.domain.plugin.IAllocationStrategy',
+  STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IStorageLocation',
+  ONLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.IOnlineStorageLocation',
+  NEARLINE_STORAGE: 'fr.cnes.regards.modules.storage.domain.plugin.INearlineStorageLocation',
 }
 
 export const PluginTypeEnumValues = values(PluginTypeEnum)

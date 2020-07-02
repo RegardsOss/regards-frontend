@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 
 /**
  * Module configuration dump for data and datasets display
@@ -23,25 +24,34 @@
  */
 export const configuration = {
   primaryPane: 'EXPANDED_COLLAPSIBLE',
+  facets: {
+    enabledFor: {
+      [DamDomain.ENTITY_TYPES_ENUM.DATA]: true,
+      [DamDomain.ENTITY_TYPES_ENUM.DATASET]: true,
+    },
+    initiallyEnabled: true,
+    list: [
+      { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
+      { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } },
+    ],
+  },
+  restrictions: {
+    byDataset: {
+      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      selection: ['URN:DATASET:EXAMPLE1'],
+    },
+  },
   viewsGroups: {
     DATA: {
       enabled: true,
       initialMode: 'MAP',
       enableDownload: true,
-      facets: {
-        enabled: true,
-        initiallyEnabled: true,
-        list: [
-          { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
-          { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } },
-        ],
-      },
       sorting: [{ attributes: [{ name: 'properties.start_date' }] }, { attributes: [{ name: 'label' }] }],
       views: {
         TABLE: {
           enabled: true,
           attributes: [
-            { attributes: [{ name: 'files.THUMBNAIL[0]' }], label: { en: 'Thumbnail', fr: 'Vignette' } },
+            { attributes: [{ name: 'files' }], label: { en: 'Thumbnail', fr: 'Vignette' } },
             { attributes: [{ name: 'label' }], label: { en: 'Label', fr: 'Libellé' } },
             { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
             { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } }],
@@ -77,15 +87,6 @@ export const configuration = {
             { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } }],
         },
       },
-    },
-    DOCUMENT: {
-      enabled: false,
-      tabTitle: {},
-      initialMode: 'TABLE',
-      enableDownload: false,
-      facets: { enabled: false, initiallyEnabled: false, list: [] },
-      sorting: [],
-      views: { TABLE: { enabled: true, attributes: [] } },
     },
   },
 }

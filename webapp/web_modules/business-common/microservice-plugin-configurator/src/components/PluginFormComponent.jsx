@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -112,13 +112,11 @@ export class PluginFormComponent extends React.Component {
     const pluginConf = pluginConfiguration || {
       active: true,
       pluginId: pluginMetaData.pluginId,
-      pluginClassName: pluginMetaData.pluginClassName,
       version: pluginMetaData.version,
       priorityOrder: 1,
       parameters: [],
     }
     const initValues = PluginFormUtils.formatPluginConfForReduxFormInit(pluginConf, pluginMetaData)
-
     if (pluginConfiguration && !isEditing) {
       // In copy mode remove id of the duplicated pluginConfiguration
       delete initValues.id

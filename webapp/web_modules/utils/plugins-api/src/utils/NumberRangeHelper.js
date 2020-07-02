@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,6 +19,7 @@
 import isNaN from 'lodash/isNaN'
 import isNumber from 'lodash/isNumber'
 import { EnumNumericalComparator } from '@regardsoss/domain/common'
+import { CatalogDomain } from '@regardsoss/domain'
 
 
 /**
@@ -84,24 +85,24 @@ function numberToOpenSearch(value) {
 }
 
 /**
- * Returns query part for attribute name and number or NumberRange as parameter
+ * Returns query parameter for attribute name and number or NumberRange as parameter
  * @param {string} attributeName attribute name (optional, when not provided no query will be generated)
  * @param {NumberRange} value a NumberRange (optional, when not number no query will be generated)
- * @return {string} generated attribute query for value (maybe empty string)
+ * @return {CatalogDomain.OpenSearchQueryParameter} generated query parameter
  */
-function getNumberAttributeQueryPart(attributeName, value) {
-  if (!attributeName || !value || value.isFullyInifiniteRange()) {
+function getNumberQueryParameter(attributeName, value) {
+  if (!value || value.isFullyInifiniteRange()) {
     // query part cannot be generated or is useless (full infinite range)
-    return ''
+    return new CatalogDomain.OpenSearchQueryParameter(attributeName, null)
   }
   if (value.isSingleValueRange()) {
     // a simple value equality request
-    return `${attributeName}:${numberToOpenSearch(value.lowerBound)}`
+    return new CatalogDomain.OpenSearchQueryParameter(attributeName, numberToOpenSearch(value.lowerBound))
   }
   // a range that has not 2 infinite bounds
   const lowerBound = value.isInfiniteLowerBound() ? INFINITE_BOUND_TAG : numberToOpenSearch(value.lowerBound)
   const upperBound = value.isInfiniteUpperBound() ? INFINITE_BOUND_TAG : numberToOpenSearch(value.upperBound)
-  return `${attributeName}:[${lowerBound} TO ${upperBound}]`
+  return new CatalogDomain.OpenSearchQueryParameter(attributeName, `[${lowerBound} TO ${upperBound}]`)
 }
 
 /**
@@ -132,6 +133,6 @@ function convertToRange(value, operator) {
 export default {
   convertToRange,
   isValidNumber,
-  getNumberAttributeQueryPart,
+  getNumberQueryParameter,
   NumberRange,
 }

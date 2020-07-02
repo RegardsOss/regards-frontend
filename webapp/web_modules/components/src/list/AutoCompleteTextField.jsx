@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,8 +19,8 @@
 import omit from 'lodash/omit'
 import AutoComplete from 'material-ui/AutoComplete'
 import MenuItem from 'material-ui/MenuItem'
-import LoadingIcon from 'material-ui/svg-icons/av/loop'
-import NoDataIcon from 'material-ui/svg-icons/av/not-interested'
+import LoadingIcon from 'mdi-material-ui/Sync'
+import NoDataIcon from 'mdi-material-ui/Cancel'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import messages from './i18n'
@@ -107,6 +107,7 @@ class AutoCompleteTextField extends React.Component {
     'isInError',
     'isFetching',
     'onFilterSelected',
+    'onUpdateInput', // from MUI but locally wrapped
   ]
 
   static contextTypes = {
@@ -134,11 +135,27 @@ class AutoCompleteTextField extends React.Component {
    * @param {*} nextProps next properties
    */
   componentWillReceiveProps(nextProps) {
-    if (this.props.currentHintText !== nextProps.currentHintText) {
-      nextProps.onUpdateInput(nextProps.currentHintText)
+    const { currentHintText } = nextProps
+    const { currentHintText: oldText } = this.props
+    if (oldText !== currentHintText) {
+      if (currentHintText !== this.lastUserInputText) {
+        nextProps.onUpdateInput(nextProps.currentHintText)
+      }
+      // reset last text field input
+      this.lastUserInputText = null
     }
   }
 
+  /**
+   * User typed some text in textfield: keep track of it to avoid multiple updates
+   * @param {string} newText typed text
+   */
+  onUpdateInput = (newText = '') => {
+    const { onUpdateInput } = this.props
+    // store a transient state to avoid calling onTextInput twice for the same event (see componentWillReceiveProps)
+    this.lastUserInputText = newText
+    onUpdateInput(newText)
+  }
 
   /**
    * On new request: before callback, check if item is complete or just a string (user typed enter key).
@@ -200,6 +217,7 @@ class AutoCompleteTextField extends React.Component {
         searchText={currentHintText}
         errorText={isInError ? errorMessage : null}
         onNewRequest={this.onNewRequest}
+        onUpdateInput={this.onUpdateInput}
         {...reportedProps}
       />
     )

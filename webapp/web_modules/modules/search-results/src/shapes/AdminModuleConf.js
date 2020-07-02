@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,11 +24,11 @@ import { DataManagementShapes } from '@regardsoss/shape'
  * @author Léo Mieulet
  */
 const AdminModuleConf = PropTypes.shape({
+  // When set to true, prevents user adding restrictions to form configuration
+  forbidRestrictions: PropTypes.bool,
   // Data and datasets restricted attributes: when provided, use those instead of featching available ones
   selectableDataObjectsAttributes: DataManagementShapes.AttributeModelList,
   selectableDataSetsAttributes: DataManagementShapes.AttributeModelList,
-  // Forbid documents displaying in module
-  documentsForbidden: PropTypes.bool,
 })
 
 export default AdminModuleConf

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
 import {
   AttributeModelWithBounds, pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
@@ -116,7 +116,7 @@ export class TemporalCriterionContainer extends React.Component {
         default:
           throw new Error(`Invalid comparator type ${operator}`)
       }
-      q = `${attribute.jsonPath}:${rangeAsQuery}`
+      q = new CatalogDomain.OpenSearchQueryParameter(attribute.jsonPath, rangeAsQuery).toQueryString()
     } // else: no query
     return { q }
   }

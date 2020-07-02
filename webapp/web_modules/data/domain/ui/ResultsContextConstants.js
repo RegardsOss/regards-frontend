@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,12 +20,18 @@ import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
+import { RESULTS_TABS_ENUM } from './ResultsTabs'
 
 /**
  * Holds constants and accessors related to results context
  * @author Raphaël Mechali
  */
 
+/** Preferred initial entity type in results types */
+const RESULTS_INITIAL_TYPE_PREFERENCE = [
+  ENTITY_TYPES_ENUM.DATASET,
+  ENTITY_TYPES_ENUM.DATA,
+]
 
 /** Default view mode for data */
 const DEFAULT_VIEW_MODE = RESULTS_VIEW_MODES_ENUM.LIST
@@ -39,6 +45,7 @@ const DISABLED_VIEW_MODE_STATE = {
 
 /** To be used as default for map state mode */
 const DISABLED_MAP_VIEW_MODE_STATE = {
+  ...DISABLED_VIEW_MODE_STATE,
   enabled: false,
   enableSelection: false,
   presentationModels: [],
@@ -59,36 +66,75 @@ const DISABLED_TYPE_STATE = {
   enableSearchEntity: false,
   initialSorting: [],
   isInInitialSorting: true,
-  mode: DEFAULT_VIEW_MODE,
-  facets: { allowed: false, enabled: false, list: [] },
-  criteria: {},
-  modeState: {
+  selectedMode: DEFAULT_VIEW_MODE,
+  facetsAllowed: false,
+  modes: {
     [RESULTS_VIEW_MODES_ENUM.LIST]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.TABLE]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: DISABLED_VIEW_MODE_STATE,
     [RESULTS_VIEW_MODES_ENUM.MAP]: DISABLED_MAP_VIEW_MODE_STATE,
   },
+  criteria: {
+    sorting: [],
+  },
 }
 
 
-/**
- * Extracts and returns current view state (type and mode)
- * @param {*} resultsContext results context (respects corresponding shape)
- * @return {{type: string, mode: string, currentTypeState: *, currentModeState: *}} current type, current type state, current mode and current mode
- */
-function getViewData(resultsContext = {}) {
-  const { type, typeState } = resultsContext
-  const currentTypeState = typeState && type ? typeState[type] : DISABLED_TYPE_STATE
-  return {
-    type,
-    mode: currentTypeState.mode,
-    currentTypeState,
-    currentModeState: currentTypeState.modeState[currentTypeState.mode],
-  }
+/** Default results context */
+const DEFAULT_RESULTS_CONTEXT = {
+  selectedTab: RESULTS_TABS_ENUM.MAIN_RESULTS,
+  tabs: {
+    [RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+      facets: {
+        enabled: false,
+        list: [],
+      },
+      criteria: {
+        configurationRestrictions: [],
+        contextTags: [],
+        otherFilters: [],
+        quicklookFiltering: [],
+        appliedFacets: [],
+        geometry: [],
+        entitiesSelection: [],
+        tagsFiltering: [],
+        requestFacets: [],
+      },
+      selectedType: ENTITY_TYPES_ENUM.DATA,
+      types: {
+        [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
+        [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
+      },
+    },
+    [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
+    [RESULTS_TABS_ENUM.TAG_RESULTS]: {
+      facets: {
+        enabled: false,
+        list: [],
+      },
+      criteria: {
+        configurationRestrictions: [],
+        contextTags: [],
+        otherFilters: [],
+        quicklookFiltering: [],
+        appliedFacets: [],
+        geometry: [],
+        entitiesSelection: [],
+        tagsFiltering: [],
+        requestFacets: [],
+      },
+      selectedType: ENTITY_TYPES_ENUM.DATA,
+      types: {
+        [ENTITY_TYPES_ENUM.DATA]: DISABLED_TYPE_STATE,
+        [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
+      },
+    },
+  },
 }
+
 
 /** Types for which download is allowed */
-const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
 /**
  * Is download allowed for entity type as parameter
@@ -100,7 +146,7 @@ function allowDownload(type) {
 }
 
 /** Types for which sorting is allowed */
-const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA, ENTITY_TYPES_ENUM.DOCUMENT]
+const SORTING_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
 /**
  * Is sorting allowed for entity type as parameter (ie can entity be used to filter results?)
@@ -158,8 +204,6 @@ function allowNavigateTo(type) {
 const NAVIGATE_TO_VIEW_TYPE = {
   [ENTITY_TYPES_ENUM.DATASET]: ENTITY_TYPES_ENUM.DATA, // show matching data
   [ENTITY_TYPES_ENUM.DATA]: ENTITY_TYPES_ENUM.DATA, // no change
-  [ENTITY_TYPES_ENUM.COLLECTION]: ENTITY_TYPES_ENUM.COLLECTION, // no change
-  [ENTITY_TYPES_ENUM.DOCUMENT]: ENTITY_TYPES_ENUM.DOCUMENT, // no change
 }
 
 /**
@@ -172,11 +216,12 @@ function getNavigateToViewType(type) {
 }
 
 export default {
+  RESULTS_INITIAL_TYPE_PREFERENCE,
+  DEFAULT_RESULTS_CONTEXT,
   DEFAULT_VIEW_MODE,
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
-  getViewData,
   allowDownload,
   allowSorting,
   allowSelection,

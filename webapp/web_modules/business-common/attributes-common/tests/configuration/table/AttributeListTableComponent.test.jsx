@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -45,18 +45,23 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       attributeModels: attributeModelsArray,
       allowAttributesRegroupements: true,
       allowLabel: true,
-      onAdd: () => { },
+      onAddOneItem: () => { },
+      onAddManyItems: () => { },
       onEdit: () => { },
       onDelete: () => { },
     }
     const enzymeWrapper = shallow(<AttributeListTableComponent {...props} />, { context })
-    // check add button
+    // check add buttons
     const addButton = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(addButton, 1)
-    testSuiteHelpers.assertWrapperProperties(addButton, {
-      label: 'attributes.configuration.add.item.label',
-      onClick: props.onAdd,
-    }, 'Add button properties should be correctly set')
+    assert.lengthOf(addButton, 2)
+    testSuiteHelpers.assertWrapperProperties(addButton.at(0), {
+      label: 'attributes.configuration.add.one.item.label',
+      onClick: props.onAddOneItem,
+    }, 'Add one item button properties should be correctly set')
+    testSuiteHelpers.assertWrapperProperties(addButton.at(1), {
+      label: 'attributes.configuration.add.many.items.label',
+      onClick: props.onAddManyItems,
+    }, 'Add many items button properties should be correctly set')
     // check table and columns
     const table = enzymeWrapper.find(InfiniteTableContainer)
     assert.deepEqual(table.props().entities, props.attributesList, 'Entities to display should be correctly reported')
@@ -79,7 +84,8 @@ describe('[Attributes Common] Testing AttributeListTableComponent', () => {
       attributeModels: attributeModelsArray,
       allowAttributesRegroupements: false,
       allowLabel: false,
-      onAdd: () => { },
+      onAddOneItem: () => { },
+      onAddManyItems: () => { },
       onEdit: () => { },
       onDelete: () => { },
     }

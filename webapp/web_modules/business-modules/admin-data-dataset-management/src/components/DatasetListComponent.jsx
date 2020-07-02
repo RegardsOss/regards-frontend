@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,8 +21,8 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
-import Refresh from 'material-ui/svg-icons/navigation/refresh'
-import AddToPhotos from 'material-ui/svg-icons/image/add-to-photos'
+import Refresh from 'mdi-material-ui/Refresh'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   NoContentComponent,
   CardActionsComponent,
@@ -139,7 +139,7 @@ export class DatasetListComponent extends React.Component {
     )
     const emptyComponent = (
       <NoContentComponent
-        title={formatMessage({ id: 'dataset.no.dataset.title' })}
+        titleKey="dataset.no.dataset.title"
         Icon={AddToPhotos}
         action={emptyContentAction}
       />

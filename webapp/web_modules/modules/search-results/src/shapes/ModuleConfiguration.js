@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
+
+/**
+ * Module configuration shapes
+ * @author Raphaël Mechali
+ */
 
 /**
  * Fields that are commmon to all views (table / list / quicklooks / map)
@@ -49,8 +54,11 @@ export const MapViewConfiguration = PropTypes.shape({
 
 /** Facets sub configuration */
 const FacetsConfiguration = PropTypes.shape({
-  enabled: PropTypes.bool,
-  initiallyEnabled: PropTypes.bool, // is initially enabled? (ignored when disabled)
+  enabledFor: PropTypes.shape({
+    [DamDomain.ENTITY_TYPES_ENUM.DATA]: PropTypes.bool,
+    [DamDomain.ENTITY_TYPES_ENUM.DATASET]: PropTypes.bool,
+  }),
+  initiallyEnabled: PropTypes.bool, // is initially enabled?
   list: AccessShapes.AttributeListConfigurationModel, // facets list (facets are considered disabled when empty)
 })
 
@@ -78,7 +86,6 @@ const commonViewsGroupFields = {
 export const DataViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
   enableDownload: PropTypes.bool,
-  facets: FacetsConfiguration,
   sorting: AccessShapes.AttributeListConfigurationModel,
 })
 
@@ -89,28 +96,46 @@ export const DatasetViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
 })
 
-/**
- * Document view configuration
- */
-export const DocumentsViewsConfiguration = PropTypes.shape({
-  ...commonViewsGroupFields,
-  enableDownload: PropTypes.bool,
-  facets: FacetsConfiguration,
-  sorting: AccessShapes.AttributeListConfigurationModel,
+/** Possible restrictions on datasets to show: none, by dataset selection or by dataset models selection */
+export const NoDatasetRescriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE]),
+})
+
+export const DatasetSelectionRescriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS]),
+  selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of URN
+})
+
+export const DatasetModelsRestriction = PropTypes.shape({
+  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS]),
+  selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of model names
+})
+
+export const DatasetRestriction = PropTypes.oneOfType([
+  NoDatasetRescriction,
+  DatasetSelectionRescriction,
+  DatasetModelsRestriction,
+])
+
+/** Configuration of results restrictions */
+export const RestrictionsConfiguration = PropTypes.shape({
+  byDataset: DatasetRestriction,
 })
 
 /**
- * Form entity description
- * @author Sébastien binda
+ * Module configuration
  */
 const ModuleConfiguration = PropTypes.shape({
-  // Special configuration given if the module is not loaded as an independent module
+  // Special configuration provided if the module is not loaded as an independent module
   selectableAttributes: DataManagementShapes.AttributeModelList,
+  // Results facets configuration
+  facets: FacetsConfiguration,
+  // Results restricitons
+  restrictions: RestrictionsConfiguration,
   // Views configurations (by their entities type)
   viewsGroups: PropTypes.shape({
     [ENTITY_TYPES_ENUM.DATA]: DataViewsConfiguration,
     [ENTITY_TYPES_ENUM.DATASET]: DatasetViewsConfiguration,
-    [ENTITY_TYPES_ENUM.DOCUMENT]: DocumentsViewsConfiguration,
   }),
 })
 

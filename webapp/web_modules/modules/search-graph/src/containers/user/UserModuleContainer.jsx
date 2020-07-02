@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,22 +23,23 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateShape } from '@regardsoss/authentication-utils'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { UIClient, DataManagementClient } from '@regardsoss/client'
-import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
+import { UIClient, DataManagementClient } from '@regardsoss/client'
+import { i18nContextType } from '@regardsoss/i18n'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { withValueRenderContext } from '@regardsoss/components'
-import ModuleConfiguration from '../../model/ModuleConfiguration'
-import { SelectionPath } from '../../model/graph/SelectionShape'
+import ModuleConfiguration from '../../shapes/ModuleConfiguration'
+import { SelectionPath } from '../../shapes/SelectionShape'
 import graphContextActions from '../../model/graph/GraphContextActions'
 import fetchGraphCollectionsActions from '../../model/graph/FetchGraphCollectionsActions'
 import fetchGraphDatasetsActions from '../../model/graph/FetchGraphDatasetsActions'
 import graphContextSelectors from '../../model/graph/GraphContextSelectors'
 import graphLevelCollectionActions from '../../model/graph/GraphLevelCollectionActions'
 import graphLevelDatasetActions from '../../model/graph/GraphLevelDatasetActions'
-import getLevelPartitionKey from '../../model/graph/PartitionsConstants'
+import getLevelPartitionKey from '../../domain/PartitionsConstants'
+import DescriptionProviderContainer from './DescriptionProviderContainer'
 import NavigableSearchResultsContainer from './NavigableSearchResultsContainer'
 import SearchGraph from '../../components/user/SearchGraph'
 
@@ -48,7 +49,8 @@ const moduleExpandedStateSelectors = UIClient.getModuleExpandedStateSelectors()
 const attributeModelSelectors = DataManagementClient.AttributeModelSelectors()
 
 /**
- * Module container for user interface
+ * Module container for user interface. It resolves description control for sub elemenets (to avoid resolving it at items level)
+ * @author Raphaël Mechali
  **/
 export class UserModuleContainer extends React.Component {
   static mapStateToProps = (state, { type, id }) => {
@@ -101,6 +103,10 @@ export class UserModuleContainer extends React.Component {
     presentationState: UIDomain.PRESENTATION_STATE_ENUM.NORMAL, // default for admin or when not initialized
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   componentWillMount = () => {
     this.onPropertiesChanged(undefined, this.props)
   }
@@ -123,11 +129,17 @@ export class UserModuleContainer extends React.Component {
         const foundModel = DamDomain.AttributeModelController
           .findModelFromAttributeFullyQualifiedName(attributeElement.attributes[0].name, fetchedAtributesModels)
         if (foundModel) {
+          const {
+            content: {
+              jsonPath, type, precision, unit,
+            },
+          } = foundModel
           return [...resolvedAcc, {
             label: attributeElement.label,
-            attributePath: foundModel.content.jsonPath, // fragment attribute
-            render: getTypeRender(foundModel.content.type),
-            unit: foundModel.content.unit, // attribute unit if any
+            attributePath: jsonPath, // fragment attribute
+            render: getTypeRender(type),
+            precision, // optional (double {array / range / single} attributes only)
+            unit, // optional (numeric {array / range / single} attributes only)
           }]
         }
         // else : not found, ignore it
@@ -168,7 +180,7 @@ export class UserModuleContainer extends React.Component {
           if (!retrievedParentSelection) {
             // (break case) the parent level selection could not be restored: remove it from selection then stop
             dispatchClearLevelSelection(level - 1)
-          } else if (selectedParentType !== ENTITY_TYPES_ENUM.DATASET) {
+          } else if (selectedParentType !== DamDomain.ENTITY_TYPES_ENUM.DATASET) {
             // loop case: resolve next
             const parentPath = selectionPath.slice(0, level).map(({ id }) => id) // prepare parent path for datasets
             Promise.all([
@@ -186,16 +198,20 @@ export class UserModuleContainer extends React.Component {
   }
 
   render() {
-    const { presentationState } = this.props
+    const { id, presentationState } = this.props
     const { graphDatasetAttributes } = this.state
+    const { intl: { formatMessage } } = this.context
     return (
       <React.Fragment>
-        <SearchGraph
-          graphDatasetAttributes={graphDatasetAttributes}
-          presentationState={presentationState}
-          {...modulesHelper.getReportedUserModuleProps(this.props)}
-        />
+        <DescriptionProviderContainer id={id}>
+          <SearchGraph
+            graphDatasetAttributes={graphDatasetAttributes}
+            presentationState={presentationState}
+            {...modulesHelper.getReportedUserModuleProps(this.props)}
+          />
+        </DescriptionProviderContainer>
         <NavigableSearchResultsContainer
+          resultsModuleTitle={formatMessage({ id: 'search.graph.results.title' })}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
       </React.Fragment>)

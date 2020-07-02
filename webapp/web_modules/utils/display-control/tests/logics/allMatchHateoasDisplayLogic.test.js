@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,7 @@ import { expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import allMatchHateoasDisplayLogic from '../../src/logics/allMatchHateoasDisplayLogic'
 
-describe('[DISPLAY CONTROL UTILS] Testing allMatchHateoasDisplayLogic', () => {
+describe('[DISPLAY CONTROL] Testing allMatchHateoasDisplayLogic', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import { BasicSelector } from '@regardsoss/store-utils'
-
-/** Keeping const to 'stabilize' redux bound props by reference */
-const EMPTY_ARRAY = []
 
 /**
  * Results context selectors
@@ -35,26 +31,6 @@ export class ResultsContextSelectors extends BasicSelector {
    */
   getResultsContext(state, moduleId) {
     return this.uncombineStore(state)[moduleId]
-  }
-
-  /**
-   * Returns state tags
-   * @param {*} state redux store state
-   * @param {*} moduleId  module ID
-   * @return {[{*}]} tags as a TagsArray (see ResultsContext.js)
-   */
-  getTags(state, moduleId) {
-    return get(this.getResultsContext(state, moduleId), 'criteria.tags', EMPTY_ARRAY)
-  }
-
-  /**
-   * Returns state context tags
-   * @param {*} state redux store state
-   * @param {*} moduleId  module ID
-   * @return {[{*}]} tags as a TagsArray (see ResultsContext.js)
-   */
-  getContextTags(state, moduleId) {
-    return get(this.getResultsContext(state, moduleId), 'criteria.contextTags', EMPTY_ARRAY)
   }
 }
 

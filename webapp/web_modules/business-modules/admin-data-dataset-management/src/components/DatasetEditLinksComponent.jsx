@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,9 +22,9 @@ import {
 import { List, ListItem } from 'material-ui/List'
 import { FormattedMessage } from 'react-intl'
 import map from 'lodash/map'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
-import Search from 'material-ui/svg-icons/action/search'
-import Clear from 'material-ui/svg-icons/content/clear'
+import Add from 'mdi-material-ui/PlusCircleOutline'
+import Search from 'mdi-material-ui/Magnify'
+import Clear from 'mdi-material-ui/Close'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import IconButton from 'material-ui/IconButton'

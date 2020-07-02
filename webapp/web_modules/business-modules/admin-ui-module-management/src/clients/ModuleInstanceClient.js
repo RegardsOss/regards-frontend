@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,6 @@ const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'modules-instance']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules-instance'
 
 
-export const moduleInstanceReducers = AccessInstanceClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
+export const moduleInstanceReducers = AccessInstanceClient.getModuleReducer(REDUX_ACTION_NAMESPACE)
 export const moduleInstanceActions = new AccessInstanceClient.ModuleActions(REDUX_ACTION_NAMESPACE)
-export const moduleInstanceSelectors = AccessInstanceClient.ModuleSelectors(ENTITIES_STORE_PATH)
+export const moduleInstanceSelectors = AccessInstanceClient.getModuleSelectors(ENTITIES_STORE_PATH)

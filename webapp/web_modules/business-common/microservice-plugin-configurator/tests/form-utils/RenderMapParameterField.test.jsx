@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,6 +25,7 @@ import { RenderMapField } from '@regardsoss/form-utils'
 import {
   buildTestContext, testSuiteHelpers, DumpProvider, ReduxFormTestHelper,
 } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { getPrimitiveJavaTypeRenderParameters } from '../../src/form-utils/JavaPrimitiveTypesTool'
 import { RenderMapParameterField } from '../../src/form-utils/RenderMapParameterField'
 import RenderObjectParameterField from '../../src/form-utils/RenderObjectParameterField'
@@ -50,7 +51,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'MAP')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.MAP)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type MAP')
     forEach(parameters, (parameter) => {
@@ -96,7 +97,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderMapParameterField', (
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.paramType === 'MAP')
+    const parameters = filter(pluginMetaData.parameters, p => p.type === CommonDomain.PluginParameterTypes.MAP)
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type MAP')
     forEach(parameters, (parameter) => {

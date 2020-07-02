@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { SelectableList, CardActionsComponent } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import ResourceAccessFormByMicroserviceContainer from '../containers/ResourceAccessFormByMicroserviceContainer'
 import moduleStyles from '../styles/styles'
 
@@ -52,6 +53,13 @@ export class ResourceAccessFormComponent extends React.Component {
     activeMicroservice: values(STATIC_CONF.MSERVICES)[0],
   }
 
+  /**
+   * Returns role label for role name as parameter
+   * @param {string} name role name, mandatory
+   * @return {string} label to use
+   */
+  getRoleLabel = name => AdminDomain.DEFAULT_ROLES.includes(name) ? this.context.intl.formatMessage({ id: `role.name.${name}` }) : name
+
   activateTab = (microservice) => {
     this.setState({
       activeMicroservice: microservice,
@@ -70,7 +78,7 @@ export class ResourceAccessFormComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'role.list.title' }, { role: currentRole.content.name })}
+          title={this.context.intl.formatMessage({ id: 'role.list.title' }, { role: this.getRoleLabel(currentRole.content.name) })}
           subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>

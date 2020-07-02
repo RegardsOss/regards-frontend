@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,25 +41,14 @@ const messages = Object.assign({
   'accessright.form.data.accessLevel.NOT_APPLICABLE': 'No access',
   'accessright.form.dataAccessPlugin.title': 'Data objects access filer',
   'accessright.form.dataAccessPlugin.select.label': 'Select a filter ...',
-  'accessright.form.checkDataAccessPlugin.title': 'Access rights to data files',
-  'accessright.form.checkDataAccessPlugin.select.label': 'Select an access right mode ...',
   'accessright.form.accessGroup': 'Data access group',
   'accessright.form.dataset.title': 'Datasets list',
   'accessright.form.dataset.input': 'Search by collection name',
   'accessright.form.action.save': 'Save',
   'accessright.form.action.cancel': 'Cancel',
   'accessright.form.action.back': 'Back',
-  'accessright.form.action.advanced.hide': 'Hide',
-  'accessright.form.action.advanced.show': 'Display advanced configuration',
   'accessright.form.title': 'Access rights',
   'accessright.form.subtitle': 'Setting up access rights for {nbSelectedDataset} datasets',
-  'accessright.form.quality': 'Data quality retrieved',
-  'accessright.form.quality.min': 'Minimal quality required',
-  'accessright.form.quality.max': 'Maximal quality  required',
-  'accessright.form.quality.level': 'Level of quality',
-  'accessright.form.quality.level.ACCEPTED': 'Accepted',
-  'accessright.form.quality.level.ACCEPTED_WITH_WARNINGS': 'Accepted with warning(s)',
-  'accessright.form.quality.level.REJECTED': 'Refused',
   'accessright.form.error.message': 'Could not save your configuration.',
   'accessright.edit.tooltip': 'Edit access rights',
   'accessright.delete.tooltip': 'Take off access rights for this dataset',

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,166 +16,279 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import root from 'window-or-global'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DESCRIPTION_TABS_ENUM } from '../../../src/model/DescriptionTabsEnum'
+import { modulesManager } from '@regardsoss/modules'
 import { UserContainer } from '../../../src/containers/user/UserContainer'
-import EntityDescriptionComponent from '../../../src/components/user/EntityDescriptionComponent'
+import MainModuleComponent from '../../../src/components/user/MainModuleComponent'
 import styles from '../../../src/styles/styles'
 import { fullModuleConf } from '../../dumps/configuration.dump'
+import { resolvedDatasetEntity, resolvedDataEntity } from '../../dumps/resolved.dump'
+import { DescriptionEntityHelper } from '../../../src/containers/user/DescriptionEntityHelper'
 
 const context = buildTestContext(styles)
 
-
+/**
+ * Test ToggleTreeVisibleOptionContainer
+ * @author Raphaël Mechali
+ */
 describe('[Description] Testing UserContainer', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  before(() => {
+    testSuiteHelpers.before()
+    root.location = {
+      host: 'localhost/test',
+      protocol: 'test',
+    }
+  })
+  after(() => {
+    testSuiteHelpers.after()
+    delete root.location
+  })
 
   it('should exists', () => {
     assert.isDefined(UserContainer)
   })
-  it('should render correctly when not requested', () => {
+
+  it('should not render when shadow module (configuration storage only)', () => {
     const props = {
       projectName: 'project1',
       accessToken: 'abcdef....',
       appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      dialogState: {
-        visible: false,
+      type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
+      moduleConf: fullModuleConf, // missing runtime => shadow
+      setSelectedPath: () => {},
+      descriptionState: {
+        descriptionPath: [],
+        browsingTreeVisible: true,
       },
-      shownEntity: null,
-      currentTab: null,
-      initializeContext: () => { },
-      onClose: () => { },
-      onChangeTab: () => { },
+      settings: {
+        documentModels: [],
+        primaryQuicklookGroup: 'myMain',
+      },
+      fetchEntity: () => {},
+      fetchModelAttributes: () => {},
+      setSelectedTreeEntry: () => {},
+      setModuleDescriptionPath: () => {},
     }
 
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    const component = enzymeWrapper.find(EntityDescriptionComponent)
-    assert.lengthOf(component, 1, 'Component should be rendered')
-    assert.isNotOk(component.props().entity, 'The entity should not be set (so component will not show up)')
+    const component = enzymeWrapper.find(MainModuleComponent)
+    assert.lengthOf(component, 0, 'Shadow module should hide sub components')
   })
 
-  it('should render correctly when current context is currently set', () => {
+  it('should render correctly with runtime data, and attempt resolving entities each time path changes', () => {
+    const spySetModuleDescriptionPath = {}
     const props = {
       projectName: 'project1',
       accessToken: 'abcdef....',
       appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: {
-        content: {
-          id: 'URN:helloooooooooooooo Nanny!',
-          providerId: 'UnLapin',
-          label: 'Hello, dear nanny',
-          entityType: 'COLLECTION',
-          model: '1',
-          files: {},
-          tags: [],
+      type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
+      moduleConf: {
+        ...fullModuleConf,
+        runtime: {
+          selectedIndex: 0,
+          descriptionPath: [resolvedDataEntity.entity],
+          setDescriptionPath: () => {},
+          onSearchWord: () => {},
+          onSearchEntity: () => {},
         },
       },
-      initializeContext: () => { },
-      onClose: () => { },
-      onChangeTab: () => { },
+      setSelectedPath: () => {},
+      descriptionState: {
+        descriptionPath: [],
+        browsingTreeVisible: true,
+      },
+      settings: {
+        documentModels: [],
+        primaryQuicklookGroup: 'myMain',
+      },
+      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      setSelectedTreeEntry: () => {},
+      setModuleDescriptionPath: (descriptionPath) => {
+        spySetModuleDescriptionPath.descriptionPath = descriptionPath
+      },
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    const component = enzymeWrapper.find(EntityDescriptionComponent)
-    assert.lengthOf(component, 1, 'Component should be rendered')
-    assert.equal(component.props().entity, props.shownEntity, 'The entity should be set (so component will show up)')
-    assert.equal(component.props().currentTab, props.currentTab, 'The current tab should be correctly set')
-  })
-
-  it('should ignore request that are no pointing out this module', () => {
-    let spiedInitCount = 0
-    const props = {
-      projectName: 'project1',
-      accessToken: 'abcdef....',
-      appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: null,
-      dialogState: {
-        visible: false,
+    assert.lengthOf(enzymeWrapper.find(MainModuleComponent), 0,
+      'Main module component should not be shown while current description state is not set')
+    // 1.a - check entities resolution was started
+    assert.deepEqual(spySetModuleDescriptionPath.descriptionPath,
+      [DescriptionEntityHelper.buildLoadingModel(resolvedDataEntity.entity)],
+      'Path should be resolved with first entity loading')
+    // 1.b - simulate redux binding on current model
+    const props2 = {
+      ...props,
+      descriptionState: {
+        descriptionPath: spySetModuleDescriptionPath.descriptionPath,
+        browsingTreeVisible: true,
       },
-      shownEntity: null,
-      initializeContext: () => {
-        spiedInitCount += 1
-      },
-      onClose: () => { },
-      onChangeTab: () => { },
     }
-
-    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    assert.equal(spiedInitCount, 0, 'Initialize context should not have initially been called')
-
-    enzymeWrapper.setProps({
-      visible: true,
-      consumerID: 'not-that-module',
+    enzymeWrapper.setProps(props2)
+    let mainComponentWrapper = enzymeWrapper.find(MainModuleComponent)
+    assert.lengthOf(mainComponentWrapper, 1, '1.b - Main module component should be shown while resolving state')
+    testSuiteHelpers.assertWrapperProperties(mainComponentWrapper, {
+      settings: props2.settings,
+      descriptionEntity: props2.descriptionState.descriptionPath[0],
+      selectedEntityIndex: props2.moduleConf.runtime.selectedIndex,
+      descriptionPath: props2.descriptionState.descriptionPath,
+      allowSearching: props2.moduleConf.allowSearching,
+      browsingTreeVisible: true,
+      isDescriptionAllowed: enzymeWrapper.instance().isDescriptionAllowed,
+      onSelectInnerLink: enzymeWrapper.instance().onSelectInnerLink,
+      onSelectEntityLink: enzymeWrapper.instance().onSelectEntityLink,
+      onSelectEntityIndex: enzymeWrapper.instance().onSelectEntityIndex,
+      onSearchWord: props2.moduleConf.runtime.onSearchWord,
+      onSearchEntity: props2.moduleConf.runtime.onSearchEntity,
+    }, '1.b - main module component should be correctly set')
+    // 1.c - mimic entity resolution on wrong update ID (updates concurrency management, should be refused)
+    enzymeWrapper.instance().onDescriptionEntityResolved({
+      descriptionEntity: resolvedDataEntity,
+      descriptionUpdateGroupId: enzymeWrapper.instance().descriptionUpdateGroupId - 1,
     })
-    assert.equal(spiedInitCount, 0, 'Initialize context should not be called for another consumer ID')
+    assert.notDeepEqual(spySetModuleDescriptionPath.descriptionPath[0], resolvedDataEntity,
+      '1.c - Resolution should be ignored when update group ID does not match current update ID')
+    // 1.d - mimic entity resolution on rigtht update ID resolution and check it is handled
+    enzymeWrapper.instance().onDescriptionEntityResolved({
+      descriptionEntity: resolvedDataEntity,
+      descriptionUpdateGroupId: enzymeWrapper.instance().descriptionUpdateGroupId,
+    })
+    assert.deepEqual(spySetModuleDescriptionPath.descriptionPath[0], resolvedDataEntity,
+      '1.d - Resolution should be handled when update group ID matches current update ID')
+    // 1.e - simulate redux binding on current model
+    const props3 = {
+      ...props,
+      descriptionState: {
+        descriptionPath: spySetModuleDescriptionPath.descriptionPath,
+        browsingTreeVisible: true,
+      },
+    }
+    enzymeWrapper.setProps(props3)
+    mainComponentWrapper = enzymeWrapper.find(MainModuleComponent)
+    assert.lengthOf(mainComponentWrapper, 1, '1.e - Main module component should be shown while resolving state')
+    testSuiteHelpers.assertWrapperProperties(mainComponentWrapper, {
+      settings: props3.settings,
+      descriptionEntity: props3.descriptionState.descriptionPath[0],
+      selectedEntityIndex: props3.moduleConf.runtime.selectedIndex,
+      descriptionPath: props3.descriptionState.descriptionPath,
+      allowSearching: props3.moduleConf.allowSearching,
+      browsingTreeVisible: true,
+      isDescriptionAllowed: enzymeWrapper.instance().isDescriptionAllowed,
+      onSelectInnerLink: enzymeWrapper.instance().onSelectInnerLink,
+      onSelectEntityLink: enzymeWrapper.instance().onSelectEntityLink,
+      onSelectEntityIndex: enzymeWrapper.instance().onSelectEntityIndex,
+      onSearchWord: props3.moduleConf.runtime.onSearchWord,
+      onSearchEntity: props3.moduleConf.runtime.onSearchEntity,
+    }, '1.e - main module component should be correctly set')
+    // 2.a - simulate an entity added in path and check it behaves correctly
+    const props4 = {
+      ...props3,
+      moduleConf: {
+        ...props3.moduleConf,
+        runtime: {
+          selectedIndex: 1,
+          descriptionPath: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+          setDescriptionPath: () => {},
+          onSearchWord: () => {},
+          onSearchEntity: () => {},
+        },
+      },
+    }
+    enzymeWrapper.setProps(props4)
+    assert.deepEqual(spySetModuleDescriptionPath.descriptionPath,
+      [resolvedDataEntity, DescriptionEntityHelper.buildLoadingModel(resolvedDatasetEntity.entity)],
+      '2.a - Path should be computed to preserve previously resolved entity and load only the newly added one')
+    // 2.b simulate redux update (promise callback was tested previously) and check sub component is correctly updated
+    const props5 = {
+      ...props4,
+      descriptionState: {
+        descriptionPath: spySetModuleDescriptionPath.descriptionPath,
+        browsingTreeVisible: false,
+      },
+    }
+    enzymeWrapper.setProps(props5)
+    mainComponentWrapper = enzymeWrapper.find(MainModuleComponent)
+    assert.lengthOf(mainComponentWrapper, 1, 'Main module component should be shown while resolving state')
+    testSuiteHelpers.assertWrapperProperties(mainComponentWrapper, {
+      settings: props5.settings,
+      descriptionEntity: props5.descriptionState.descriptionPath[1],
+      selectedEntityIndex: props5.moduleConf.runtime.selectedIndex,
+      descriptionPath: props5.descriptionState.descriptionPath,
+      allowSearching: props5.moduleConf.allowSearching,
+      browsingTreeVisible: false,
+      isDescriptionAllowed: enzymeWrapper.instance().isDescriptionAllowed,
+      onSelectInnerLink: enzymeWrapper.instance().onSelectInnerLink,
+      onSelectEntityLink: enzymeWrapper.instance().onSelectEntityLink,
+      onSelectEntityIndex: enzymeWrapper.instance().onSelectEntityIndex,
+      onSearchWord: props5.moduleConf.runtime.onSearchWord,
+      onSearchEntity: props5.moduleConf.runtime.onSearchEntity,
+    }, '1.e - main module component should be correctly set')
   })
-
-  it('should initialize context when a dialog request for this module comes in', () => {
-    let spiedInitEntity = null
+  it('should report correctly change description path operation through parent runtime callback', () => {
+    const spySetDescriptionPath = {}
     const props = {
       projectName: 'project1',
       accessToken: 'abcdef....',
       appName: 'any',
-      type: 'description',
-      moduleConf: fullModuleConf,
-      currentTab: DESCRIPTION_TABS_ENUM.PROPERTIES,
-      dialogState: {
-        visible: false,
-      },
-      shownEntity: null,
-      initializeContext: (initEntity) => {
-        spiedInitEntity = initEntity
-      },
-      onClose: () => { },
-      onChangeTab: () => { },
-    }
-
-    // Init without request
-    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
-    assert.isNull(spiedInitEntity)
-
-    // Mimics a reduced dialog state change
-    const descriptionEntity = {
-      content: {
-        id: 'URN:helloooooooooooooo Nanny!',
-        model: {
-          id: 1,
+      type: modulesManager.AllDynamicModuleTypes.DESCRIPTION,
+      moduleConf: {
+        ...fullModuleConf,
+        runtime: {
+          selectedIndex: 1,
+          descriptionPath: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+          setDescriptionPath: (path, index) => {
+            spySetDescriptionPath.path = path
+            spySetDescriptionPath.index = index
+          },
+          onSearchWord: () => {},
+          onSearchEntity: () => {},
         },
-        label: 'Hello, dear nanny',
-        tags: [],
-        entityType: 'DATA',
       },
+      setSelectedPath: () => {},
+      descriptionState: {
+        descriptionPath: [],
+        browsingTreeVisible: true,
+      },
+      settings: {
+        documentModels: [],
+        primaryQuicklookGroup: 'myMain',
+      },
+      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      setSelectedTreeEntry: () => {},
+      setModuleDescriptionPath: () => {},
     }
-
-    let spiedOnSearchCalledCount = 0
-    const spiedOnSearch = () => { spiedOnSearchCalledCount += 1 } // simple marker toc
-
+    const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
+    // 1- Check "Jump to" first entity
+    enzymeWrapper.instance().onSelectEntityLink(resolvedDataEntity.entity)
+    assert.deepEqual(spySetDescriptionPath, {
+      path: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+      index: 0,
+    }, '1- Should have detected that the entity is already selected and only changed index in path')
+    // 2- Test add new entity to describe : should add it directly after current index and clear previously following path
     enzymeWrapper.setProps({
       ...props,
-      dialogState: {
-        visible: true,
-        consumerID: enzymeWrapper.instance().consumerID,
-        parameters: {
-          entity: descriptionEntity,
-          onSearchTag: spiedOnSearch,
+      moduleConf: {
+        ...props.moduleConf,
+        runtime: {
+          ...props.moduleConf.runtime,
+          selectedIndex: 0,
+          descriptionPath: [resolvedDatasetEntity.entity, resolvedDataEntity.entity],
         },
       },
     })
-    // check that initialization was correctly dispatched to show dialog window
-    assert.deepEqual(spiedInitEntity, descriptionEntity, 'The initialization entity should be retrieved from dialog state parameters')
-    // test that the right search call back is used (from dialog state parameters)
-    enzymeWrapper.instance().onSearchTag('xxx')
-    assert.equal(spiedOnSearchCalledCount, 1, 'On search tag should have been call using dialog state parameters method')
+    enzymeWrapper.instance().onSelectEntityLink(resolvedDatasetEntity.displayModel.linkedDocuments[0])
+    assert.deepEqual(spySetDescriptionPath, {
+      path: [resolvedDatasetEntity.entity, resolvedDatasetEntity.displayModel.linkedDocuments[0]],
+      index: 1,
+    }, '2- Should have cleared entities after selected index and added new one at end')
+    // 3 - Set index (simple callback, no computing)
+    enzymeWrapper.instance().onSelectEntityIndex(1)
+    assert.deepEqual(spySetDescriptionPath, {
+      path: [resolvedDatasetEntity.entity, resolvedDataEntity.entity], // from props
+      index: 1, // from callback
+    }, '3- Should have invoked parent callback with unchanged description path but new index')
   })
 })

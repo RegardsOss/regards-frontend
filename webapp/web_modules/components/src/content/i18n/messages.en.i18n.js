@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,8 +18,14 @@
  **/
 
 const messages = {
+  'default.no.content.title': 'No data',
+  'default.content.loading.message': 'Loading content...',
+  'default.file.loading.message': 'Loading file...',
+  'default.unsuported.file.media.type.title': 'No preview',
+  'default.unsuported.file.media.type.message': 'File preview can not be displayed as media type is unsupported',
+  'default.file.download.error.title': 'Download error',
+  'default.file.download.error.message': 'The file could not be downloaded',
   'image.file.not.displayed': 'Image can not be displayed',
-  'file.displayer.no.preview.message': 'No preview available',
 }
 
 export default messages

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -50,11 +50,12 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightListComponent', () 
       backURL: '#test',
       setFilters: () => { },
       isFetching: false,
+      isSubmitting: false,
       onRefresh: () => { },
       onFilter: () => { },
     }
 
-    const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessRightListComponent {...props} />, { context })
     const form = enzymeWrapper.find(AccessRightFormComponent)
     const confirmDeleteDialog = enzymeWrapper.find(ConfirmDialogComponent)
     const table = enzymeWrapper.find(PageableInfiniteTableContainer)

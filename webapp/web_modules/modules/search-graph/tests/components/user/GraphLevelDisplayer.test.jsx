@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -69,6 +69,11 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
   it('should show / hide with isShowable property changes', () => {
     const props = {
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       isShowable: false,
       isLoading: false,
       isLastLevel: false,
@@ -92,6 +97,11 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
   it('Should render loading state', () => {
     const props = {
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       isShowable: true,
       isLoading: false,
       isLastLevel: false,
@@ -115,6 +125,11 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
   it('Should render error state', () => {
     const props = {
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       isShowable: true,
       isLoading: false,
       isLastLevel: false,
@@ -138,6 +153,11 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
   it('Should render empty state or content', () => {
     const props = {
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
       isShowable: true,
       isLoading: false,
       isLastLevel: true,
@@ -191,6 +211,11 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
         return values.map(v => ({
           // basic props
           graphDatasetAttributes: [],
+          descriptionProperties: {
+            showDescriptionOption: true,
+            isDescriptionAvailableFor: () => true,
+            onShowDescription: () => {},
+          },
           isShowable: true,
           isLastLevel: false,
           levelIndex: 999,

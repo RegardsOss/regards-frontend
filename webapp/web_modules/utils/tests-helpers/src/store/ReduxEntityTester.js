@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,6 +23,7 @@ import {
   combineReducers, createStore, applyMiddleware, compose,
 } from 'redux'
 import { apiMiddleware } from 'redux-api-middleware'
+import { BasicActions } from '@regardsoss/store-utils'
 // Since redux-api-middleware v2, we need to add the polyfill ourself
 require('isomorphic-fetch')
 
@@ -135,13 +136,17 @@ export default class ReduxEntityTester {
     }
     let { entityEndpoint } = this.entityActions
     if (this.options.pathParams) {
-      entityEndpoint = this.entityActions.handleRequestPathParameters(this.entityActions.entityEndpoint, this.options.pathParams)
+      entityEndpoint = BasicActions.buildURL(this.entityActions.entityEndpoint, this.options.pathParams)
     }
     if (this.entityActions.fetchPagedEntityList) {
       entityEndpoint = `${entityEndpoint}?page=0&size=2000`
     }
     nock(GATEWAY_HOSTNAME)
       .get(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
+      .reply(200, this.backendServerResultList)
+
+    nock(GATEWAY_HOSTNAME)
+      .post(entityEndpoint.replace(GATEWAY_HOSTNAME, ''))
       .reply(200, this.backendServerResultList)
 
 

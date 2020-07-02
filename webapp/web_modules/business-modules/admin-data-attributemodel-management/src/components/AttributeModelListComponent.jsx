@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,35 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
+import lowerCase from 'lodash/lowerCase'
+import isEmpty from 'lodash/isEmpty'
+import startsWith from 'lodash/startsWith'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import {
-  Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
-} from 'material-ui/Table'
+import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { FormattedMessage } from 'react-intl'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+  TableLayout, InfiniteTableContainer, TableColumnBuilder,
+  NoContentComponent, TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { fragmentSelectors } from '../clients/FragmentClient'
 import { attributeModelActions } from '../clients/AttributeModelClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+import AttributeModelListActionsRenderer from './AttributeModelListActionsRenderer'
+import AttributeModelListFragmentRenderer from './AttributeModelListFragmentRenderer'
+import AttributeModelListFiltersComponent from './AttributeModelListFiltersComponent'
 
 /**
  * React components to list project.
  */
 export class AttributeModelListComponent extends React.Component {
   static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
     attrModelArray: DataManagementShapes.AttributeModelArray,
     handleDelete: PropTypes.func.isRequired,
     handleEdit: PropTypes.func.isRequired,
@@ -62,13 +63,7 @@ export class AttributeModelListComponent extends React.Component {
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
-  }
-
-  getFragmentName = (attrModel) => {
-    if (attrModel.content.fragment.name !== fragmentSelectors.noneFragmentName) {
-      return attrModel.content.fragment.name
-    }
-    return ''
+    nameFilter: null,
   }
 
   closeDeleteDialog = () => {
@@ -82,6 +77,12 @@ export class AttributeModelListComponent extends React.Component {
     this.setState({
       deleteDialogOpened: true,
       entityToDelete: entity,
+    })
+  }
+
+  onFilter = (event, value) => {
+    this.setState({
+      nameFilter: value,
     })
   }
 
@@ -106,14 +107,51 @@ export class AttributeModelListComponent extends React.Component {
 
   render() {
     const {
-      attrModelArray, handleEdit, createUrl, backUrl,
+      attrModelArray, handleEdit, createUrl, backUrl, isLoading,
     } = this.props
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
-    }
-    const { intl } = this.context
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    // Table columns to display
+    const columns = [
+      new TableColumnBuilder('column.fragment').titleHeaderCell()
+        .label(formatMessage({ id: 'attrmodel.list.table.fragment' }))
+        .rowCellDefinition({
+          Constructor: AttributeModelListFragmentRenderer,
+          props: {
+            handleEdit,
+          },
+        })
+        .build(),
+      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+        .label(formatMessage({ id: 'attrmodel.list.table.name' }))
+        .build(),
+      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+        .label(formatMessage({ id: 'attrmodel.list.table.label' }))
+        .build(),
+      new TableColumnBuilder('column.description').titleHeaderCell().propertyRenderCell('content.description')
+        .label(formatMessage({ id: 'attrmodel.list.table.description' }))
+        .build(),
+      new TableColumnBuilder('column.actions').titleHeaderCell()
+        .rowCellDefinition({
+          Constructor: AttributeModelListActionsRenderer,
+          props: {
+            openDeleteDialog: this.openDeleteDialog,
+            handleEdit,
+          },
+        })
+        .label(formatMessage({ id: 'attrmodel.list.table.actions' }))
+        .build(),
+    ]
+
+    const emptyComponent = (
+      <NoContentComponent
+        titleKey="attrmodel.list.empty.title"
+        Icon={AddToPhotos}
+      />
+    )
+
+    const filteredList = filter(attrModelArray, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
+
     return (
       <Card>
         <CardTitle
@@ -122,58 +160,18 @@ export class AttributeModelListComponent extends React.Component {
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
-          <Table
-            selectable={false}
-          >
-            <TableHeader
-              enableSelectAll={false}
-              adjustForCheckbox={false}
-              displaySelectAll={false}
-            >
-              <TableRow>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.fragment" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.type" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="attrmodel.list.table.actions" /></TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody
-              displayRowCheckbox={false}
-              preScanRows={false}
-              showRowHover
-            >
-              {map(attrModelArray, attrmodel => (
-                <TableRow key={attrmodel.content.id}>
-                  <TableRowColumn>{this.getFragmentName(attrmodel)}</TableRowColumn>
-                  <TableRowColumn>{attrmodel.content.name}</TableRowColumn>
-                  <TableRowColumn>{attrmodel.content.label}</TableRowColumn>
-                  <TableRowColumn>{attrmodel.content.description}</TableRowColumn>
-                  <TableRowColumn>{attrmodel.content.type}</TableRowColumn>
-                  <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={attrmodel.links}
-                      onClick={() => handleEdit(attrmodel.content.id)}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      title={intl.formatMessage({ id: 'attrmodel.list.action.edit' })}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-
-                    <HateoasIconAction
-                      entityLinks={attrmodel.links}
-                      onClick={() => this.openDeleteDialog(attrmodel)}
-                      hateoasKey={HateoasKeys.DELETE}
-                      title={intl.formatMessage({ id: 'attrmodel.list.action.delete' })}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
-                  </TableRowColumn>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <TableLayout>
+            <AttributeModelListFiltersComponent onFilter={this.onFilter} />
+            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredList.length} />
+            <InfiniteTableContainer
+              columns={columns}
+              entities={filteredList}
+              emptyComponent={emptyComponent}
+              entitiesCount={filteredList.length}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+            />
+          </TableLayout>
         </CardText>
         <CardActions>
           <CardActionsComponent

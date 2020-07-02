@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -72,6 +72,7 @@ const messages = Object.assign({
   'datasource.form.subtitle': 'Manage datasource attributes',
   'datasource.form.tags': 'Tags list added to all data crawled',
   'datasource.form.subsettingTags': 'Only crawl data containing these tags (empty = all data crawled)',
+  'datasource.form.subsettingCategories': 'Only crawl data of given categories (empty = all categories crawled)',
   'datasource.form.attributeFileSize': 'Select data model attribute in which the total size of AIP files will be written (sum of AIP files size).',
 
   'datasource.edit.title': 'Edit datasource {name}',

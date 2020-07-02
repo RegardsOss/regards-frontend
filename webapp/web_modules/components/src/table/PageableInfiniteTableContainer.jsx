@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -51,15 +51,21 @@ export class PageableInfiniteTableContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { pageActions, tableActions }) {
+  static mapDispatchToProps(dispatch, { pageActions, tableActions, fetchUsingPostMethod }) {
     return {
       flushEntities: () => dispatch(pageActions.flush()),
-      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
+      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters) => dispatch(
+        fetchUsingPostMethod
+          ? pageActions.fetchPagedEntityListByPost(pageNumber, nbEntitiesByPage, pathParam, requestParameters, bodyParameters)
+          : pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParameters),
+      ),
       flushSelection: () => tableActions && dispatch(tableActions.unselectAll()),
     }
   }
 
   static propTypes = {
+    // When true, fetch will be performed using POST method and with body parameter. Otherwise fetch will use default GET method
+    fetchUsingPostMethod: PropTypes.bool,
     // eslint-disable-next-line react/no-unused-prop-types
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired, // BasicPageableActions to retrieve entities from server
     // eslint-disable-next-line react/no-unused-prop-types
@@ -94,8 +100,12 @@ export class PageableInfiniteTableContainer extends React.Component {
     flushSelection: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    fetchUsingPostMethod: false,
+  }
+
   /** List of properties that should not be reported to children */
-  static PROPS_TO_OMIT = ['pageActions', 'pageSelectors', 'tableActions', 'pageMetadata']
+  static PROPS_TO_OMIT = ['fetchUsingPostMethod', 'pageActions', 'pageSelectors', 'tableActions', 'pageMetadata']
 
   /**
    * Lifecycle method: component will mount. used here to initialize state for properties

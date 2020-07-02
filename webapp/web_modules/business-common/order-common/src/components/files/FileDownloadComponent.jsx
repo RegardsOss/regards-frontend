@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import DownloadIcon from 'mdi-material-ui/Download'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 

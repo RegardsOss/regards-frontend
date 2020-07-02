@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -37,68 +37,34 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT]  Testing AccessRightsDataAccessTableCus
     assert.isDefined(AccessRightsDataAccessTableCustomCell)
   })
 
-  it('Render properly', () => {
-    const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
+  const testCases = [{
+    label: 'not applicable label when metadata access level is undefined',
+    entity: DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight',
+      'content.datasetIpId', 'URN:AIP:DATASET:project1:7cb64c2a-a866-4c18-9cf7-08fef9dfcc6c:V1'),
+    expectedLevelKeyword: AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE,
+  },
+  {
+    label: 'not applicable label when metadata access level is RESTRICTED_ACCESS',
+    entity: DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight',
+      'content.datasetIpId', 'URN:AIP:DATASET:project1:1b3aaeb5-c475-46a1-9454-3c69c05215ea:V1'),
+    expectedLevelKeyword: AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE,
+  }, {
+    label: 'data access level label when metadata access level is FULL_ACCESS',
+    entity: DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight',
+      'content.datasetIpId', 'URN:AIP:DATASET:project1:075bc1d9-0f3e-4275-8f8e-bbca8f092229:V1'),
+    expectedLevelKeyword: AccessRightsEnum.DATA_ACCESS_ENUM.AUTHORIZED,
+  }, {
+    label: 'data access level label when metadata access level is CUSTOM_ACCESS',
+    entity: DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight',
+      'content.datasetIpId', 'URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1'),
+    expectedLevelKeyword: AccessRightsEnum.DATA_ACCESS_ENUM.AUTHORIZED,
+  }]
 
-    // Create an accessRight
-    accessRight.content.dataset.id = dataset.content.id
-
+  testCases.forEach(({ label, entity, expectedLevelKeyword }) => it(`should render correctly, displaying ${label}`, () => {
     const props = {
-      entity: {
-        content: {
-          datasetIpId: dataset.content.feature.id,
-          dataset: dataset.content,
-          accessRight: accessRight.content,
-        },
-      },
+      entity,
     }
-
-    const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
-    assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${accessRight.content.dataAccessRight.dataAccessLevel}`, 'Invalid displayed value for accessRight')
-  })
-
-  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (NO_ACCESS)', () => {
-    const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
-
-    // Create an accessRight
-    accessRight.content.dataset.id = dataset.content.id
-    accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.NO_ACCESS
-
-    const props = {
-      entity: {
-        content: {
-          datasetIpId: dataset.content.feature.id,
-          dataset: dataset.content,
-          accessRight: accessRight.content,
-        },
-      },
-    }
-
-    const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
-    assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE}`, 'Invalid displayed value for accessRight')
-  })
-
-  it('Render properly a NOT_APPLICABLE value if metadata access is not FULL_ACCESS (DATASET_ACCESS)', () => {
-    const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
-
-    // Create an accessRight
-    accessRight.content.dataset.id = dataset.content.id
-    accessRight.content.accessLevel = AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_ACCESS
-
-    const props = {
-      entity: {
-        content: {
-          datasetIpId: dataset.content.feature.id,
-          dataset: dataset.content,
-          accessRight: accessRight.content,
-        },
-      },
-    }
-
-    const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context, lifecycleExperimental: true })
-    assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${AccessRightsDataAccessTableCustomCell.NOT_APPLICABLE}`, 'Invalid displayed value for accessRight')
-  })
+    const enzymeWrapper = shallow(<AccessRightsDataAccessTableCustomCell {...props} />, { context })
+    assert.equal(enzymeWrapper.children().text(), `accessright.form.data.accessLevel.${expectedLevelKeyword}`, 'Invalid displayed value for accessRight')
+  }))
 })

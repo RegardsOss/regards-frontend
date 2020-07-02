@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,7 @@ import { connect } from '@regardsoss/redux'
 import {
   pluginStateActions, pluginStateSelectors,
 } from '@regardsoss/plugins-api'
+import { CatalogDomain } from '@regardsoss/domain'
 import FullTextCriterionComponent from '../components/FullTextCriterionComponent'
 
 
@@ -76,7 +77,8 @@ export class FullTextCriterionContainer extends React.Component {
    */
   static convertToRequestParameters({ searchText = '' }) {
     const trimedText = searchText.trim()
-    return { q: trimedText ? `"${trimedText}"` : null }
+    // specific full text format: in parenthesis, escaping only ':' (works like regexp requests)
+    return { q: trimedText ? CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText) : null }
   }
 
   /**

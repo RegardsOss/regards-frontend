@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,8 +21,8 @@ import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
 import Subheader from 'material-ui/Subheader'
 import Dialog from 'material-ui/Dialog'
-import Delete from 'material-ui/svg-icons/action/delete'
-import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
+import Delete from 'mdi-material-ui/Delete'
+import AddBoxIcon from 'mdi-material-ui/PlusBox'
 import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
 import { List, ListItem } from 'material-ui/List'

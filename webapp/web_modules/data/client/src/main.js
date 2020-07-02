@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,8 +29,8 @@
  * From the other modules of this application ou should only use Actions and Selectors.
  *
  */
-import * as AccessInstanceCl from './rs-access-instance/main'
-import * as AccessProjectCl from './rs-access-project/main'
+import * as AccessInstanceCl from './rs-access-instance'
+import * as AccessProjectCl from './rs-access-project'
 import * as AdminCl from './rs-admin'
 import * as AdminInstanceCl from './rs-admin-instance'
 import * as AuthenticationCl from './rs-authentication'

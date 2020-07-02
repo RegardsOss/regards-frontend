@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -48,12 +48,12 @@ export class AccessGroupListContainer extends React.Component {
 
   getCreateUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/dataaccess/access-group/create`
+    return `/admin/${project}/user/access-group/create`
   }
 
   getBackUrl = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/dataaccess/board`
+    return `/admin/${project}/user/board`
   }
 
   /**
@@ -67,19 +67,19 @@ export class AccessGroupListContainer extends React.Component {
 
   handleDuplicate = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/dataaccess/access-group/${accessgroupName}/duplicate`
+    const url = `/admin/${project}/user/access-group/${accessgroupName}/duplicate`
     browserHistory.push(url)
   }
 
   handleEdit = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/dataaccess/access-group/${accessgroupName}/edit`
+    const url = `/admin/${project}/user/access-group/${accessgroupName}/edit`
     browserHistory.push(url)
   }
 
   handleEditAccessRights = (accessgroupName) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/dataaccess/access-rights/${accessgroupName}`
+    const url = `/admin/${project}/user/access-rights/${accessgroupName}`
     browserHistory.push(url)
   }
 

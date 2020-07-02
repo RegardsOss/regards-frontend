@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -54,7 +54,7 @@ export class AuthenticationPluginListContainer extends React.Component {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
       update: conf => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
         conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
-      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.id, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
     }
   }
 
@@ -77,7 +77,7 @@ export class AuthenticationPluginListContainer extends React.Component {
 
   onEdit = (pluginConfToEdit) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/user/authenticationplugins/${pluginConfToEdit.id}/edit`)
+    browserHistory.push(`/admin/${project}/user/authenticationplugins/${pluginConfToEdit.businessId}/edit`)
   }
 
   onActivateToggle = (entity) => {

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,6 +30,7 @@ import { storage } from '@regardsoss/units'
 export class NumberValueRender extends React.Component {
   static propTypes = {
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    precision: PropTypes.number,
     unit: PropTypes.string,
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
@@ -45,34 +46,58 @@ export class NumberValueRender extends React.Component {
   }
 
   /** No unit constant */
-  static unitless = 'unitless'
+  static UNITLESS = 'unitless'
 
-  render() {
-    const { value, unit, multilineDisplay } = this.props
-    const { intl: { formatMessage, formatNumber }, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
-    let textValue
-    // No value
+  /**
+   * Formats a value, given intl context, precision and unit
+   * @param {*} intl intl context
+   * @param {number} value (nil means none)
+   * @param {number} precision (nil means none)
+   * @param {*} unit (nil means none)
+   * @return {string} formatted value when there is a value, null otherwise
+   */
+  static formatValue(intl, value, precision, unit) {
+    // A - Nil value => null
     if (isNil(value)) {
-      textValue = formatMessage({ id: 'value.render.no.value.label' })
-    } else if (!unit || unit.toLowerCase() === NumberValueRender.unitless) {
-      // no unit
-      textValue = value
-    } else {
-      // unit: is a known scalable unit?
+      return null
+    }
+    // B - Prepare format options to take precision in account (no option when none)
+    const numberFormatOptions = precision ? {
+      minimumFractionDigits: Math.round(precision),
+      maximumFractionDigits: Math.round(precision),
+    } : null
+
+    // C - Format number, taking unit in account
+    const isNoUnit = !unit || unit.toLowerCase() === NumberValueRender.UNITLESS
+    if (!isNoUnit) {
+      // C.1 - There is a unit and...
       const storageUnit = storage.StorageUnitScale.getMatchingUnit(unit)
       if (storageUnit) {
+        // ... (C.1) it is a storage unit, delegate localization to storage helpers
         const valueWithUnit = new storage.StorageCapacity(value, storageUnit).scaleAndConvert(storageUnit.scale)
-        textValue = storage.formatStorageCapacity(formatMessage, formatNumber, valueWithUnit)
-      } else {
-        textValue = `${value}${unit}`
+        return storage.formatStorageCapacity(intl.formatMessage, intl.formatNumber, valueWithUnit, numberFormatOptions)
       }
     }
+    // OR C.2 - Unit is simple string type: format number with precision (or toString when none) and default unit if undefined
+    return `${numberFormatOptions ? intl.formatNumber(value, numberFormatOptions) : value}${isNoUnit ? '' : unit}`
+  }
+
+  render() {
+    const {
+      value, precision, unit, multilineDisplay,
+    } = this.props
+    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
+    const textValue = NumberValueRender.formatValue(intl, value, precision, unit) || intl.formatMessage({ id: 'value.render.no.value.label' })
 
     return (
       <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
-        {textValue}
+        {textValue }
       </div>)
   }
 }
 
-export default withI18n(storage.messages, true)(NumberValueRender)
+// report context and static methods for API imports ease
+const WithContext = withI18n(storage.messages, true)(NumberValueRender)
+WithContext.UNITLESS = NumberValueRender.UNITLESS
+WithContext.formatValue = NumberValueRender.formatValue
+export default WithContext

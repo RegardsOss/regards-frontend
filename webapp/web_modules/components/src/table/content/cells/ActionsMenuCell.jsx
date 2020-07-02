@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import map from 'lodash/map'
 import IconMenu from 'material-ui/IconMenu'
 import IconButton from 'material-ui/IconButton'
 import ClickAwayListener from 'material-ui/internal/ClickAwayListener'
-import NavigationMoreVert from 'material-ui/svg-icons/navigation/more-vert'
+import NavigationMoreVert from 'mdi-material-ui/DotsVertical'
 import MediaQuery from 'react-responsive'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -57,7 +57,7 @@ class ActionsMenuCell extends React.Component {
     const styles = moduleStyles(muiTheme)
 
     return (
-      <div style={styles.actionsMenuCellWrapper}>
+      <div id="plop-menu" style={styles.actionsMenuCellWrapper}>
         {map(children, (child, index) => (
           <MediaQuery key={index} minWidth={breakpoints[index]}>
             {child}

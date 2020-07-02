@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,9 +26,9 @@ import {
 } from 'material-ui/Table'
 import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
+import ContentCopy from 'mdi-material-ui/ContentCopy'
 import { CardActionsComponent, withConfirmDialog } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

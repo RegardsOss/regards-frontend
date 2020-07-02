@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -45,6 +45,8 @@ const messages = Object.assign({
   'user.authentication.plugins.form.type.select.label': 'Sélectionnez un type ...',
   'user.authentication.plugins.form.invalid.id': 'La configuration sélectionnée n\'existe plus',
   'user.authentication.plugins.form.back.button': 'Annuler',
+
+  'user.authentication.plugins.list.confirm.delete.title': 'Supprimer le système d\'authentification sélectionné?',
 
 }, Locales.fr)
 

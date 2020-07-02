@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,8 +32,6 @@ export default {
         id: 2,
         label: 'tototo',
         active: false,
-        generationRetryEnabled: true,
-        submissionRetryEnabled: true,
         mode: 'AUTO',
         locked: false,
         lastActivationDate: '2018 - 02 - 20T09: 32: 10.722Z',

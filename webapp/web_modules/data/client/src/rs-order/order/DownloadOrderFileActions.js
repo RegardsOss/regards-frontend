@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,8 +35,7 @@ class DownloadOrderFileActions extends BasicActions {
    * @return {string} file download URL
    */
   getFileDownloadLink(dataFileId, token) {
-    const withPathParams = this.handleRequestPathParameters(this.entityEndpoint, { dataFileId })
-    return this.handleRequestQueryParams(withPathParams, { token })
+    return BasicActions.buildURL(this.entityEndpoint, { dataFileId }, { token })
   }
 }
 

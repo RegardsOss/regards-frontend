@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,7 @@ export const MIME_TYPES = {
   GIF_MIME_TYPE: 'image/gif',
   HTML_MIME_TYPE: 'text/html',
   JPEG_MIME_TYPE: 'image/jpeg',
-  JAVASCRIPT_MIME_TYPE: 'application/js',
+  JAVASCRIPT_MIME_TYPE: 'application/javascript',
   JSON_MIME_TYPE: 'application/json',
   MARKDOWN_MIME_TYPE: 'text/markdown',
   PDF_MIME_TYPE: 'application/pdf',
@@ -38,6 +38,7 @@ export const MIME_TYPES = {
   TIF_MIME_TYPE: 'image/tiff',
   XHTML_MIME_TYPE: 'application/xhtml+xml',
   XML_MIME_TYPE: 'application/xml',
+  XML_TEXT_MIME_TYPE: 'text/xml',
 }
 
 /** Enumerated file extension, label and MIME types */

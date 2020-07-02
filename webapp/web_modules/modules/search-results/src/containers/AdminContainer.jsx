@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,20 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { DataAttributeModelActions, DataAttributeModelSelectors } from '../clients/DataobjectAttributeModelClient'
-import { DatasetAttributeModelActions, DatasetAttributeModelSelectors } from '../clients/DatasetAttributeModelClient'
-import { DocumentAttributeModelActions, DocumentAttributeModelSelectors } from '../clients/DocumentAttributeModelClient'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import { INITIAL_FORM_STATE } from '../domain/form/InitialFormState'
 import { FORM_SECTIONS_ENUM } from '../domain/form/FormSectionsEnum'
 import { FORM_PAGES_ENUM } from '../domain/form/FormPagesEnum'
 import { PAGES_BY_TYPE } from '../domain/form/FormPagesByType'
 import MainFormComponent from '../components/admin/MainFormComponent'
+import { datasetActions, datasetSelectors } from '../clients/DatasetClient'
+import { datasetModelActions, datasetModelSelectors } from '../clients/DatasetModelClient'
+import { dataObjectAttributesActions, dataObjectAttributesSelectors } from '../clients/DataObjectAttributesClient'
+import { dataSetAttributesActions, dataSetAttributesSelectors } from '../clients/DataSetAttributesClient'
 
 /**
  * Main container to display administration view of the module form.
@@ -44,11 +47,13 @@ export class AdminContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { adminForm: { conf } }) {
+    // bind attributes from parent control. When not externally driven, bind from local redux store
     return {
-      dataAttributeModels: DataAttributeModelSelectors.getList(state),
-      datasetAttributeModels: DatasetAttributeModelSelectors.getList(state),
-      documentAttributeModels: DocumentAttributeModelSelectors.getList(state),
+      datasets: datasetSelectors.getList(state),
+      datasetModels: datasetModelSelectors.getList(state),
+      dataAttributeModels: (conf && conf.selectableDataObjectsAttributes) || dataObjectAttributesSelectors.getList(state),
+      datasetAttributeModels: (conf && conf.selectableDataSetsAttributes) || dataSetAttributesSelectors.getList(state),
     }
   }
 
@@ -60,9 +65,12 @@ export class AdminContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchAllDataAttributes: () => dispatch(DataAttributeModelActions.fetchEntityList({ modelType: 'DATA' })),
-      fetchAllDatasetModelsAttributes: () => dispatch(DatasetAttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
-      fetchAllDocumentModelsAttributes: () => dispatch(DocumentAttributeModelActions.fetchEntityList({ modelType: 'DOCUMENT' })),
+      /** Fetch all datasets and datasets models */
+      fetchDatasets: () => dispatch(datasetActions.fetchPagedEntityList(0, 10000)),
+      fetchDatasetModels: () => dispatch(datasetModelActions.fetchEntityList(null, { type: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
+      /** Fetch attributes based on current dataset IDs / model names restrictions */
+      fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
+      fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
     }
   }
 
@@ -72,13 +80,15 @@ export class AdminContainer extends React.Component {
     // redefines expected configuration shape
     moduleConf: ModuleConfiguration,
     // Set by mapStateToProps
+    datasets: DataManagementShapes.DatasetList.isRequired,
+    datasetModels: DataManagementShapes.ModelList.isRequired,
     dataAttributeModels: DataManagementShapes.AttributeModelList,
     datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    documentAttributeModels: DataManagementShapes.AttributeModelList,
     // Set by mapDispatchToProps
-    fetchAllDataAttributes: PropTypes.func,
-    fetchAllDatasetModelsAttributes: PropTypes.func,
-    fetchAllDocumentModelsAttributes: PropTypes.func,
+    fetchDatasets: PropTypes.func.isRequired,
+    fetchDatasetModels: PropTypes.func.isRequired,
+    fetchDataObjectAttributes: PropTypes.func.isRequired,
+    fetchDataSetAttributes: PropTypes.func.isRequired,
   }
 
   /**
@@ -96,9 +106,10 @@ export class AdminContainer extends React.Component {
   /**
    * Builds navigation tree from views data
    * @param {*} newViewsData views
+   * @param {boolean} forbidRestrictions should forbid restrictions edition
    * @return {{navigationSections: [*], selectedSectionType: string, selectedPageType: string}} navigation tree with selection
    */
-  static buildNavigationTree(newViewsData) {
+  static buildNavigationTree(newViewsData, forbidRestrictions) {
     return {
       navigationSections: [{
         // Main configuration page, always available (contains only main page)
@@ -106,6 +117,20 @@ export class AdminContainer extends React.Component {
         pages: [{
           type: FORM_PAGES_ENUM.MAIN,
           selected: true,
+        }],
+      }, {
+        // Filters page, always available (contains only main page)
+        type: FORM_SECTIONS_ENUM.FILTERS,
+        pages: [{
+          type: FORM_PAGES_ENUM.MAIN,
+          selected: false,
+        }],
+      }, forbidRestrictions ? null : {
+        // Restrictions page (contains only main page)
+        type: FORM_SECTIONS_ENUM.RESTRICTIONS,
+        pages: [{
+          type: FORM_PAGES_ENUM.MAIN,
+          selected: false,
         }],
       }, ...newViewsData.filter(viewsGroup => viewsGroup.enabled) // keep only enabled views groups
         .map(viewsGroup => ({
@@ -115,7 +140,7 @@ export class AdminContainer extends React.Component {
             selected: false,
           })),
         })),
-      ],
+      ].filter(s => !!s), // remove any section not present (especially restrictions)
       // report selected elements
       selectedSectionType: FORM_SECTIONS_ENUM.MAIN,
       selectedPageType: FORM_PAGES_ENUM.MAIN,
@@ -123,35 +148,33 @@ export class AdminContainer extends React.Component {
   }
 
   state = {
-    isLoading: true,
+    // used to prevent showing panel before dataset and models where loaded
+    hasLoadedDatasetsAndModels: false,
+    // used to prevent removing attributes from lists while initial loading is not performed
+    hasLoadedInitialAttributes: false,
     navigationSections: [],
     selectedSectionType: null,
     selectedPageType: null,
   }
 
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
    * Lifecycle method: component did mount. Used here to start initial data fetching
    */
   componentDidMount() {
     const {
-      adminForm: { changeField, isCreating, currentNamespace },
-      fetchAllDatasetModelsAttributes, fetchAllDocumentModelsAttributes, fetchAllDataAttributes,
+      adminForm: {
+        changeField, isCreating, currentNamespace,
+      },
+      fetchDatasets, fetchDatasetModels,
     } = this.props
     // 1 - Initialize form module state when creating a new module
     if (isCreating) {
       changeField(currentNamespace, INITIAL_FORM_STATE)
     }
-    // 2 - pull required data
-    Promise.all([
-      fetchAllDatasetModelsAttributes(),
-      fetchAllDocumentModelsAttributes(),
-      fetchAllDataAttributes(),
-    ]).then(() => this.setState({ isLoading: false }))
+    // 2 - Load initial attributes and datasets
+    Promise.all([fetchDatasets(), fetchDatasetModels()]).then(() => this.setState({ hasLoadedDatasetsAndModels: true }))
+    // 3 - Initialize available attributes through onPropertiesUpdated
+    this.onPropertiesUpdated(null, this.props)
   }
 
   /**
@@ -162,16 +185,65 @@ export class AdminContainer extends React.Component {
 
   /**
    * Properties change detected: update local state
-   * @param oldProps previous component properties
+   * @param oldProps previous component properties (null when none)
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    // When view data change, or views are enabled / disabled, rebuild the left tree model for available sections and pages
-    const oldViewsData = AdminContainer.extractViewsGroupData(oldProps)
+    // 1 - When view data change, or views are enabled / disabled, rebuild the left tree model for available sections and pages
+    const oldViewsData = AdminContainer.extractViewsGroupData(oldProps || {})
     const newViewsData = AdminContainer.extractViewsGroupData(newProps)
+    let nextState = { } // only diff with previous state
     if (!isEqual(oldViewsData, newViewsData)) {
-      this.setState(AdminContainer.buildNavigationTree(newViewsData))
+      nextState = {
+        ...nextState,
+        ...AdminContainer.buildNavigationTree(newViewsData, get(newProps.adminForm, 'conf.forbidRestrictions')),
+      }
     }
+    // 2 - When auto-controlled (not externally driven)
+    const {
+      adminForm: { form, currentNamespace, conf },
+    } = newProps
+    const isAutoControlled = !(conf && conf.selectableDataObjectsAttributes && conf.selectableDataSetsAttributes)
+    if (isAutoControlled) {
+      // ... If the dataset restrictions changed, or at initialization, update locally available attributes
+      // a - recover current restrictions from form values (or default ones)
+      const datasetRescriction = get(form, `${currentNamespace}.restrictions.byDataset`, {
+        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        selection: [],
+      })
+      // b - recover previous restrictions (or default ones)
+      const oldAdminForm = get(oldProps, 'adminForm', {})
+      const oldDatasetRestrictions = get(oldAdminForm, `form.${oldAdminForm.currentNamespace}.restrictions.byDataset`, {
+        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        selection: [],
+      })
+      if (!oldProps || !isEqual(oldDatasetRestrictions, datasetRescriction)) {
+        this.onDatasetRestrictionsUpdate(datasetRescriction.type, datasetRescriction.selection)
+      }
+    } else if (!oldProps) {
+      // handle non auto-controlled case initialization
+      nextState = {
+        ...nextState,
+        hasLoadedInitialAttributes: true, // immediately done as the attributes are provided
+      }
+    }
+    if (!isEmpty(nextState)) {
+      this.setState(nextState)
+    }
+  }
+
+  /**
+   * Updates the list of selectable attributes on dataset restrictions change
+   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM values
+   * @param {[string]} selection applying selection for restriction type
+   */
+  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection = []) => {
+    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
+    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
+    return Promise.all([
+      this.props.fetchDataObjectAttributes(modelNames, datasetIds),
+      this.props.fetchDataSetAttributes(modelNames, datasetIds),
+    ]).then(() => this.setState({ hasLoadedInitialAttributes: true })) // handle init case
   }
 
   /**
@@ -195,19 +267,20 @@ export class AdminContainer extends React.Component {
 
   render() {
     const {
-      isLoading, navigationSections, selectedSectionType, selectedPageType,
+      hasLoadedDatasetsAndModels, hasLoadedInitialAttributes, navigationSections, selectedSectionType, selectedPageType,
     } = this.state
     const {
-      dataAttributeModels, datasetAttributeModels, documentAttributeModels,
+      datasets, datasetModels,
+      dataAttributeModels, datasetAttributeModels,
       adminForm: {
-        form = {}, currentNamespace, changeField, conf = {},
+        form, currentNamespace, changeField,
       },
     } = this.props
     if (form && navigationSections.length && selectedSectionType && selectedPageType) {
       return (
         <LoadableContentDisplayDecorator
           // wait for form initialization and data loading
-          isLoading={isLoading}
+          isLoading={!hasLoadedDatasetsAndModels || !hasLoadedInitialAttributes}
         >
           <MainFormComponent
             navigationSections={navigationSections}
@@ -216,12 +289,11 @@ export class AdminContainer extends React.Component {
 
             currentNamespace={currentNamespace}
             currentFormValues={get(form, currentNamespace)}
-            documentsForbidden={!!conf.documentsForbidden}
 
-            // use restricted attributes models from conf or fetched ones
-            dataAttributeModels={conf.selectableDataObjectsAttributes || dataAttributeModels}
-            datasetAttributeModels={conf.selectableDataSetsAttributes || datasetAttributeModels}
-            documentAttributeModels={documentAttributeModels}
+            datasets={datasets}
+            datasetModels={datasetModels}
+            dataAttributeModels={dataAttributeModels}
+            datasetAttributeModels={datasetAttributeModels}
 
             changeField={changeField}
             onBrowseToPage={this.onBrowseToPage}

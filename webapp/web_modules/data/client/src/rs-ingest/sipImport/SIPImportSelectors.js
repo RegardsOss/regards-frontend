@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,10 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicArraySelectors } from '@regardsoss/store-utils'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
+
 
 /**
  * Store selector to SIP entities.
  * @author Maxime Bouveron
  */
-export default storePath => new BasicArraySelectors(storePath)
+class SIPImportSelectors extends BasicSignalSelectors {
+  /**
+   * Selects last import operation submission status
+   * @param {*} state redux state
+   * @return {*} matching IngestShapes.SIPSubmissionResponse
+   */
+  getSubmissionResponse(state) {
+    return this.getResult(state)
+  }
+}
+
+
+export default storePath => new SIPImportSelectors(storePath)

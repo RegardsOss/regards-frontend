@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import size from 'lodash/size'
 import FlatButton from 'material-ui/FlatButton'
-import AddItemIcon from 'material-ui/svg-icons/av/playlist-add'
+import AddManyIcon from 'mdi-material-ui/PlaylistPlus'
+import AddOneIcon from 'mdi-material-ui/Plus'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -43,8 +45,10 @@ class AttributeListTableComponent extends React.Component {
     allowLabel: PropTypes.bool.isRequired,
 
     // callbacks
-    // on show add dialog: () => ()
-    onAdd: PropTypes.func.isRequired,
+    // on show add one item dialog: () => ()
+    onAddOneItem: PropTypes.func.isRequired,
+    // on show add many items dialog: () => ()
+    onAddManyItems: PropTypes.func.isRequired,
     // on show edit dialog: (itemIndex:number) => ()
     onEdit: PropTypes.func.isRequired,
     // on show delete dialog: (itemIndex:number) => ()
@@ -110,7 +114,9 @@ class AttributeListTableComponent extends React.Component {
   }
 
   render() {
-    const { hintMessageKey, attributesList, onAdd } = this.props
+    const {
+      hintMessageKey, attributesList, attributeModels, onAddOneItem, onAddManyItems,
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { configuration: { tableContainer } } } = this.context
     return (
       <div style={tableContainer}>
@@ -121,11 +127,19 @@ class AttributeListTableComponent extends React.Component {
             {/* 2 - table options  */}
             <TableHeaderOptionsArea>
               <TableHeaderOptionGroup>
-                {/* Add element  */}
+                {/* Add one element  */}
                 <FlatButton
-                  label={formatMessage({ id: 'attributes.configuration.add.item.label' })}
-                  icon={<AddItemIcon />}
-                  onClick={onAdd}
+                  label={formatMessage({ id: 'attributes.configuration.add.one.item.label' })}
+                  icon={<AddOneIcon />}
+                  onClick={onAddOneItem}
+                  disabled={!size(attributeModels)}
+                />
+                {/* Add many elements */}
+                <FlatButton
+                  label={formatMessage({ id: 'attributes.configuration.add.many.items.label' })}
+                  icon={<AddManyIcon />}
+                  onClick={onAddManyItems}
+                  disabled={!size(attributeModels)}
                 />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,6 +18,7 @@
  **/
 import { RSAA } from 'redux-api-middleware'
 import BasicListActions from '../list/BasicListActions'
+import BasicActions from '../BasicActions'
 /**
  *  Provide actions for a specific type of entity pageable list
  *
@@ -43,23 +44,19 @@ class BasicPageableActions extends BasicListActions {
    * @returns string request endpoint
    */
   getRequestEndpoint(pageNumber, size, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-
-    // force paging return value in development mode
-    if (process.env.NODE_ENV === 'development') {
-      endpoint = this.handleRequestQueryParams(endpoint, {
-        offset: 0,
-        page: pageNumber || 0,
-        size: size || 1000,
-      })
-    } else {
-      endpoint = this.handleRequestQueryParams(endpoint, {
-        page: pageNumber || 0,
-        size: size || 2000,
-      })
+    const pageParameters = process.env.NODE_ENV === 'development' ? {
+      // development mode page parameters managament
+      offset: 0,
+      page: pageNumber || 0,
+      size: size || 1000,
+    } : { // default page parameters managament
+      page: pageNumber || 0,
+      size: size || 2000,
     }
-    return endpoint
+    return BasicActions.buildURL(this.entityEndpoint, pathParams, {
+      ...pageParameters,
+      ...(queryParams || {}),
+    })
   }
 
   /**
@@ -91,9 +88,9 @@ class BasicPageableActions extends BasicListActions {
     }
   }
 
-  fetchPagedEntityListByPost(pageNumber, size, pathParams, bodyParams) {
+  fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams, bodyParams) {
     // Compute the endpoint URI
-    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, {})
+    const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
     return {
       [RSAA]: {
         types: [

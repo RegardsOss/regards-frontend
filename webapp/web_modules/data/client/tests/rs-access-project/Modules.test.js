@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '../../src/main'
@@ -23,12 +24,12 @@ import ModulesListDump from './ModulesList.dump'
 
 const backendServerResultList = ModulesListDump
 const options = {
-  pathParams: { applicationId: 'user' },
+  pathParams: { applicationId: UIDomain.APPLICATIONS_ENUM.USER },
 }
 
 const ModulesActions = new AccessProjectClient.ModuleActions('test/action')
-const ModulesReducer = AccessProjectClient.ModuleReducers('test/action')
-const ModulesSelector = AccessProjectClient.ModuleSelectors(['test', 'modules'])
+const ModulesReducer = AccessProjectClient.getModuleReducer('test/action')
+const ModulesSelector = AccessProjectClient.getModuleSelectors(['test', 'modules'])
 const entityTester = new ReduxEntityTester(ModulesActions, ModulesReducer, ModulesSelector, AccessShapes.ModuleList.isRequired, backendServerResultList, options)
 
 /**

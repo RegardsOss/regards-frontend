@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,8 +19,8 @@
 import isEmpty from 'lodash/isEmpty'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import CartIcon from 'material-ui/svg-icons/action/shopping-cart'
-import NotLoggedIcon from 'material-ui/svg-icons/action/lock'
+import CartIcon from 'mdi-material-ui/Cart'
+import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -110,8 +110,8 @@ class OrderCartComponent extends React.Component {
           {/* 1.a - Empty basket display */}
           <NoContentMessageInfo
             noContent={isNoContent}
-            title={formatMessage({ id: noContentTitleKey })}
-            message={formatMessage({ id: noContentMesageKey })}
+            titleKey={noContentTitleKey}
+            messageKey={noContentMesageKey}
             Icon={NoContentIconConstructor}
           >
             {/* 1.b - content  */}

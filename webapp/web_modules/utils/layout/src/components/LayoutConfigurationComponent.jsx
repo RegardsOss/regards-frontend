@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -52,9 +52,13 @@ class LayoutConfigurationComponent extends React.Component {
    * @param container
    */
   onUpdate = (container) => {
-    const newLayout = ContainerHelper.replaceContainerInLayout(container, this.props.layout)
+    const nextContainer = {
+      ...this.state.containerToEdit, // recover previously set values
+      ...container,
+    }
+    const newLayout = ContainerHelper.replaceContainerInLayout(nextContainer, this.props.layout)
     // Deselect the previous dynamic container if the new one is dynamic
-    ContainerHelper.selectDynamicContainerInLayout(container, newLayout)
+    ContainerHelper.selectDynamicContainerInLayout(nextContainer, newLayout)
     this.props.onChange(newLayout)
     this.handleClose()
   }
@@ -75,7 +79,7 @@ class LayoutConfigurationComponent extends React.Component {
    * Close container edition dialog
    */
   handleClose = () => {
-    this.setState({ editorOpened: false })
+    this.setState({ containerToEdit: null, editorOpened: false })
   }
 
   /**
@@ -128,7 +132,6 @@ class LayoutConfigurationComponent extends React.Component {
           mainContainer
         />
         <ContainerConfigurationProvider
-          key={this.state.containerToEdit ? this.state.containerToEdit.id : 'create'}
           container={this.state.containerToEdit}
           hideDynamicContentOption={this.props.hideDynamicContentOption}
           open={this.state.editorOpened}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -50,6 +50,7 @@ class ConfirmDialogComponent extends React.Component {
     message: PropTypes.string, // optional
     errorMessage: PropTypes.string, // optional
     onConfirm: PropTypes.func.isRequired,
+    confirmMessageKey: PropTypes.string,
     // onClose is always called whether the popup is closed or submitted
     onClose: PropTypes.func.isRequired,
     open: PropTypes.bool,
@@ -90,18 +91,18 @@ class ConfirmDialogComponent extends React.Component {
   renderActions = () => {
     const { dialogType, onClose } = this.props
     const { intl: { formatMessage } } = this.context
-    const confirmMessageKey = dialogType.messageId
+    const confirmMessageKey = this.props.confirmMessageKey || dialogType.messageId
     return [
       <FlatButton
         key="cancel"
         id="confirm.dialog.cancel"
         label={formatMessage({ id: 'confirm.dialog.cancel' })}
-        primary
-        keyboardFocused
         onClick={onClose}
       />,
       <FlatButton
         key={confirmMessageKey}
+        primary
+        keyboardFocused
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: confirmMessageKey })}
         onClick={this.handleConfirm}
@@ -136,4 +137,4 @@ class ConfirmDialogComponent extends React.Component {
   }
 }
 
-export default withI18n(messages)(ConfirmDialogComponent)
+export default withI18n(messages, true)(ConfirmDialogComponent)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,7 @@ import { pluginUIDependencies } from '@regardsoss/admin-ui-plugin-management'
 import { moduleUIDependencies } from '@regardsoss/admin-ui-module-management'
 import { layoutUIDependencies } from '@regardsoss/admin-ui-layout-management'
 import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
+import { uiSettingsDependencies } from '@regardsoss/admin-ui-settings-management'
 
 /**
  * The list of dependencies that this modules used across its childs
@@ -34,14 +35,10 @@ import { serviceUIDependencies } from '@regardsoss/admin-ui-service-management'
  * @type {Array}
  */
 export default [
-  ...themeUIDependencies.boardAddRequiredDependencies,
-  ...themeUIDependencies.boardListRequiredDependencies,
-  ...pluginUIDependencies.boardAddRequiredDependencies,
-  ...pluginUIDependencies.boardListRequiredDependencies,
-  ...moduleUIDependencies.boardAddRequiredDependencies,
-  ...moduleUIDependencies.boardListRequiredDependencies,
-  ...layoutUIDependencies.boardAddRequiredDependencies,
-  ...layoutUIDependencies.boardSeeRequiredDependencies,
-  ...serviceUIDependencies.boardListRequiredDependencies,
-  ...serviceUIDependencies.boardAddRequiredDependencies,
+  [...themeUIDependencies.boardAddRequiredDependencies, ...themeUIDependencies.boardListRequiredDependencies],
+  [...pluginUIDependencies.boardAddRequiredDependencies, ...pluginUIDependencies.boardListRequiredDependencies],
+  [...moduleUIDependencies.boardAddRequiredDependencies, ...moduleUIDependencies.boardListRequiredDependencies],
+  [...layoutUIDependencies.boardAddRequiredDependencies, ...layoutUIDependencies.boardSeeRequiredDependencies],
+  [...serviceUIDependencies.boardListRequiredDependencies, ...serviceUIDependencies.boardAddRequiredDependencies],
+  uiSettingsDependencies.editSettingsDependencies,
 ]

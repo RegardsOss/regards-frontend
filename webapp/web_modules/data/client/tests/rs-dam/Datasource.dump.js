@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,26 +20,25 @@ export default [{
   content: {
     label: 'Ma datasource simple',
     id: 1357,
+    businessId: 'simple',
     version: '0.0',
     priorityOrder: 0,
     active: true,
-    pluginClassName: 'fr.cnes.regards.modules.datasources.plugins.PostgreDataSourceFromSingleTablePlugin',
-    interfaceNames: ['fr.cnes.regards.modules.datasources.plugins.interfaces.IDBDataSourceFromSingleTablePlugin', 'fr.cnes.regards.modules.datasources.plugins.interfaces.IDataSourcePlugin'],
     parameters: [{
       id: 59,
       name: 'connection',
-      pluginConfiguration: {
-        id: 159,
-      },
+      value: 'toulouse',
+      type: 'PLUGIN',
     }, {
       id: 60,
       name: 'table',
       value: 't_fragment',
-      dynamic: false,
-      dynamicsValues: [],
+      type: 'STRING',
     }, {
       id: 61,
       name: 'model',
+      type: 'POJO',
+      clazz: 'fr.test',
       value: {
         model: 1,
         attributesMapping: [{
@@ -67,8 +66,7 @@ export default [{
       id: 854,
       name: 'refreshRate',
       value: 864000,
-      dynamic: false,
-      dynamicsValues: [],
+      type: 'INTEGER',
     }],
   },
 },

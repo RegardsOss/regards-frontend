@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -47,53 +47,47 @@ describe('[Client] Testing ResultsContextSelectors', () => {
     let fakeStore = mockReduce(buildMockStore(), testActions.setContext('module1', {
       name: 'module1',
       criteria: {
-        tags: [],
+        levels: [],
         contextTags: [{ label: 'idk' }],
       },
     }))
     assert.deepEqual(testSelectors.getResultsContext(fakeStore, 'module1'), {
       name: 'module1',
       criteria: {
-        tags: [],
+        levels: [],
         contextTags: [{ label: 'idk' }],
       },
     })
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module1'), [{ label: 'idk' }])
-    assert.deepEqual(testSelectors.getTags(fakeStore, 'module1'), [])
     assert.isNotOk(testSelectors.getResultsContext(fakeStore, 'module2'))
 
     // create module 2 context
     fakeStore = mockReduce(fakeStore, testActions.setContext('module2', {
       name: 'module2',
       criteria: {
-        tags: [{ label: 'idk2' }],
+        levels: [{ label: 'idk2' }],
         contextTags: [],
       },
     }))
     assert.deepEqual(testSelectors.getResultsContext(fakeStore, 'module1'), {
       name: 'module1',
       criteria: {
-        tags: [],
+        levels: [],
         contextTags: [{ label: 'idk' }],
       },
     })
     assert.deepEqual(testSelectors.getResultsContext(fakeStore, 'module2'), {
       name: 'module2',
       criteria: {
-        tags: [{ label: 'idk2' }],
+        levels: [{ label: 'idk2' }],
         contextTags: [],
       },
     })
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module1'), [{ label: 'idk' }])
-    assert.deepEqual(testSelectors.getTags(fakeStore, 'module1'), [])
-    assert.deepEqual(testSelectors.getContextTags(fakeStore, 'module2'), [])
-    assert.deepEqual(testSelectors.getTags(fakeStore, 'module2'), [{ label: 'idk2' }])
     // Update module 1
     fakeStore = mockReduce(fakeStore, testActions.updateResultsContext('module1', {
       name: 'module1',
       props: 'why not?',
       criteria: {
-        tags: [{ label: 'idk3' }, { label: 'idk4' }],
+        levels: [{ label: 'idk3' }, { label: 'idk4' }],
         contextTags: [{ label: 'idk5' }],
       },
     }))
@@ -101,14 +95,14 @@ describe('[Client] Testing ResultsContextSelectors', () => {
       name: 'module1',
       props: 'why not?',
       criteria: {
-        tags: [{ label: 'idk3' }, { label: 'idk4' }],
+        levels: [{ label: 'idk3' }, { label: 'idk4' }],
         contextTags: [{ label: 'idk5' }],
       },
     })
     assert.deepEqual(testSelectors.getResultsContext(fakeStore, 'module2'), {
       name: 'module2',
       criteria: {
-        tags: [{ label: 'idk2' }],
+        levels: [{ label: 'idk2' }],
         contextTags: [],
       },
     })

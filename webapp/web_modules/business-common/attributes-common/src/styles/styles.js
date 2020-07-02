@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,21 +18,26 @@
  **/
 
 export default theme => ({
-  thumbnailRoot: {
+  defaultThumbnailDimensions: {
+    width: theme.components.infiniteTable.lineHeight,
+    height: theme.components.infiniteTable.lineHeight,
+  },
+  thumbnailPicture: {
+    cursor: 'pointer',
     height: '100%',
     width: '100%',
-  },
-  thumbnailCell: {
-    display: 'block',
-    cursor: 'pointer',
-    maxWidth: '100%',
-    maxHeight: '100%',
+    objectFit: 'contain',
     padding: theme.components.infiniteTable.thumbnailPadding,
   },
   noThumbnailIcon: {
-    padding: 5,
+    padding: theme.components.infiniteTable.thumbnailPadding,
     height: '100%',
     width: '100%',
+  },
+  thumbnailDialog: {
+    content: {
+      padding: 0,
+    },
   },
   // attributes configuration
   configuration: {
@@ -47,6 +52,31 @@ export default theme => ({
       borderWidth: '1px 0 0 0',
       borderStyle: 'solid',
       borderColor: theme.palette.borderColor,
+    },
+    addManyDialog: {
+      widthPercent: 40,
+      heightPercent: 80,
+      dialogBodyStyle: { paddingBottom: 0 },
+      contentStyle: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        flexGrow: 1,
+        flexShrink: 1,
+        minHeight: 0, // mandatory to get scroll area working on firefox (Thor #183319)
+      },
+      scrollableAreaStyle: {
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      actionsStyle: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexGrow: 0,
+        flexShrink: 0,
+        padding: '10px 0',
+      },
     },
     editDialog: {
       widthPercent: 80,

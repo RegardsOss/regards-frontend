@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,11 +21,10 @@ import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
 export const Datasource = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
-    pluginClassName: PropTypes.string,
     pluginId: PropTypes.string,
+    businessId: PropTypes.string,
     label: PropTypes.string,
     version: PropTypes.string,
-    interfaceNames: PropTypes.arrayOf(PropTypes.string),
     parameters: PropTypes.arrayOf(PluginParameterContent).isRequired,
   }),
 })

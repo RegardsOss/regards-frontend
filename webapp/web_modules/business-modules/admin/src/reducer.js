@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,6 +26,7 @@ import { acquisitionReducers } from '@regardsoss/admin-board-acquisition'
 import { collectionsReducers } from '@regardsoss/admin-board-collections'
 import { dataAccessReducers } from '@regardsoss/admin-board-dataaccess'
 import { modelsReducers } from '@regardsoss/admin-board-models'
+import { commandsReducers } from '@regardsoss/admin-board-commands'
 
 import { waitingAccessUsersEntitiesReducer } from './clients/WaitingAccessUsersEntitiesClient'
 
@@ -46,6 +47,7 @@ const adminReducer = combineReducers({
   collections: collectionsReducers,
   models: modelsReducers,
   dataaccess: dataAccessReducers,
+  commands: commandsReducers,
 })
 
 export default adminReducer

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { CommonClient, CatalogClient } from '@regardsoss/client'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
 import { AccessShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
+import { LocalURLProvider } from '@regardsoss/display-control'
 import { FileContentDisplayer } from '@regardsoss/components'
 import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
@@ -66,10 +66,6 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     dispatchFetchPluginConfiguration: PropTypes.func.isRequired,
     dispatchFetchPluginMetaData: PropTypes.func.isRequired,
     dispatchFetchPluginResult: PropTypes.func.isRequired,
-  }
-
-  static contextTypes = {
-    ...i18nContextType,
   }
 
   static DEFAULT_STATE = {
@@ -178,7 +174,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       const fileName = (resultFile.contentDisposition || '').split('filename=')[1]
       this.setState({
         step: RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT,
-        localAccessURL: resultFile && resultFile.content ? FileContentDisplayer.buildLocalAccessURL(resultFile.content) : null,
+        localAccessURL: resultFile && resultFile.content ? LocalURLProvider.buildLocalAccessURL(resultFile.content) : null,
         fileName,
         resultFile,
       })
@@ -202,7 +198,6 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * }
    */
   renderCurrentStep = () => {
-    const { intl: { formatMessage } } = this.context
     const {
       step, resolvedParameters, userParametersValues, resultFile, localAccessURL, fileName,
     } = this.state
@@ -210,21 +205,19 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       // loading states
       case RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION:
       case RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_METADATA:
-        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.plugin.information' }))
+        return RunServiceDialogComponent.buildLoadingStep()
       case RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE:
-        return RunServiceDialogComponent.buildLoadingStep(formatMessage({ id: 'entities.common.services.loading.results' }))
+        return RunServiceDialogComponent.buildLoadingStep()
       // error states
       case RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR:
       case RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.loading.plugin.failed' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.loading.plugin.failed', true)
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR:
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.parameters.error' }), true)
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.parameters.error', true)
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR:
         // error after results, allow back if there was plugin configuration
-        return RunServiceDialogComponent.buildMessageStep(
-          formatMessage({ id: 'entities.common.services.plugin.run.failed' }), true,
-          [this.renderPreviousOption()],
-        )// custom options: previous
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.run.failed', true,
+          [this.renderPreviousOption()])// custom options: previous
       // configuration state
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
@@ -232,17 +225,21 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       case RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_RESULT: {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
-          return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer fileAccessURL={localAccessURL} file={resultFile} />, [
+          return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
+            loading={false}
+            error={false}
+            file={resultFile}
+          />, [
             <DownloadResultButton
               key="download.button"
               localAccessURL={localAccessURL}
               fileName={fileName}
-              forcedownload={!FileContentDisplayer.isSupportedMIMEType(resultFile)}
+              forcedownload={!FileContentDisplayer.isSupportedFileType(resultFile)}
             />, // custom options: download
             this.renderPreviousOption()]) // custom options: previous
         }
         // 2 - No: just provide a message step saying everything went right
-        return RunServiceDialogComponent.buildMessageStep(formatMessage({ id: 'entities.common.services.plugin.run.empty' }), false, [this.renderPreviousOption()])
+        return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.run.empty', false, [this.renderPreviousOption()])
       }
       default:
         throw new Error(`Unknown catalog plugin service launchin step: ${step}`)

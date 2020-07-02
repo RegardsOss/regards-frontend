@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,6 +19,7 @@
 import keys from 'lodash/keys'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Field, FieldArray } from '@regardsoss/form-utils'
 import { HOME_ICON_TYPES_ENUM } from '../../../src/domain/HomeIconType'
@@ -51,11 +52,12 @@ describe('[Menu] Testing ModuleFormComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-      appName: 'any',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'any',
       roleList,
       adminForm: {
         changeField: () => { },
+        isPage: false,
         currentNamespace: 'conf',
         form: {},
       },
@@ -76,12 +78,13 @@ describe('[Menu] Testing ModuleFormComponent', () => {
   })
   it('should disable/enable home icon URL field on home icon type', () => {
     const props = {
-      appName: 'any',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'any',
       roleList,
       adminForm: {
         changeField: () => { },
         currentNamespace: 'conf',
+        isPage: false,
         form: {
           conf: {
             home: {
@@ -122,11 +125,12 @@ describe('[Menu] Testing ModuleFormComponent', () => {
   })
   it('should report the right configuration to navigation and preview', () => {
     const props = {
-      appName: 'any',
+      appName: UIDomain.APPLICATIONS_ENUM.USER,
       project: 'any',
       roleList,
       dynamicModule: [],
       adminForm: {
+        isPage: false,
         changeField: () => { },
         currentNamespace: 'conf',
         form: {
@@ -154,5 +158,32 @@ describe('[Menu] Testing ModuleFormComponent', () => {
       project: props.project,
       moduleConfiguration: props.adminForm.form.conf,
     }, 'It should report the right properties and set up display mode as preview')
+  })
+  it('should render correctly for portal, showing only available options', () => {
+    const props = {
+      appName: UIDomain.APPLICATIONS_ENUM.PORTAL,
+      project: 'any',
+      roleList,
+      adminForm: {
+        changeField: () => { },
+        isPage: false,
+        currentNamespace: 'conf',
+        form: {},
+      },
+    }
+    const enzymeWrapper = shallow(<ModuleFormComponent {...props} />, { context })
+    // check presence of each field by its name
+    const instance = enzymeWrapper.instance()
+    const expectedPortalConfigurationFields = [instance.CONF_CONTACTS, instance.CONF_ABOUT_PAGE, instance.CONF_LOCALE, instance.CONF_THEME]
+    const fields = enzymeWrapper.find(Field)
+    assert.lengthOf(fields, expectedPortalConfigurationFields.length, 'There should be exactly one field for each expected field name')
+    assert.isEmpty(enzymeWrapper.find(FieldArray), 'No field array expected for portal')
+
+    expectedPortalConfigurationFields.forEach((fieldName) => {
+      const found = fields.findWhere(n => n.props().name === fieldName)
+      assert.lengthOf(found, 1, `There should be a field with name "${fieldName}"`)
+    })
+
+    assert.lengthOf(enzymeWrapper.find(MenuPreviewComponent), 1, 'There should be the preview')
   })
 })

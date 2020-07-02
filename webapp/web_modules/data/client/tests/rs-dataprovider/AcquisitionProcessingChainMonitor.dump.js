@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,8 +27,6 @@ export default {
           id: 2,
           label: 'tototo',
           active: false,
-          generationRetryEnabled: true,
-          submissionRetryEnabled: true,
           mode: 'AUTO',
           locked: false,
           lastActivationDate: '2018-02-20T09:32:10.722Z',
@@ -104,7 +102,6 @@ export default {
         nbProductsInProgress: 1,
         nbProductAcquisitionJob: 0,
         nbSIPGenerationJobs: 0,
-        nbSIPSubmissionJobs: 0,
         active: false,
       },
       links: [],
@@ -114,8 +111,6 @@ export default {
           id: 1,
           label: 'Test première chaîne acquisition',
           active: true,
-          generationRetryEnabled: true,
-          submissionRetryEnabled: true,
           mode: 'MANUAL',
           session: 'session-test',
           locked: false,
@@ -193,7 +188,6 @@ export default {
         nbProductsInProgress: 0,
         nbProductAcquisitionJob: 0,
         nbSIPGenerationJobs: 0,
-        nbSIPSubmissionJobs: 0,
         active: false,
       },
       links: [{ rel: 'start', href: 'http://172.26.47.52/api/v1/rs-dataprovider/chains/1/start', template: { variables: { variables: [] }, baseUri: 'http://172.26.47.52/api/v1/rs-dataprovider/chains/1/start' } }],

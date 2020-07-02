@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,12 +24,13 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
+import Settings from 'mdi-material-ui/VideoInputComponent'
 import { FormattedMessage } from 'react-intl'
+import { AdminDomain } from '@regardsoss/domain'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
-import Settings from 'material-ui/svg-icons/action/settings-input-component'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'
@@ -75,16 +76,29 @@ export class RoleListComponent extends React.Component {
   }
 
   /**
-   * Return the parent role as string
-   * @param parentRole Role
-   * @returns {string}
+   * Returns role label for role name as parameter
+   * @param {string}  name (may be undefined)
+   * @return {string} label to use
    */
-  getParentRoleName = (parentRole) => {
-    if (parentRole) {
-      return parentRole.name
+  getRoleLabel = (name) => {
+    const { intl: { formatMessage } } = this.context
+    if (name) {
+      if (AdminDomain.DEFAULT_ROLES.includes(name)) {
+        // format a default role
+        return formatMessage({ id: `role.name.${name}` })
+      }
+      // custom role: return its name
+      return name
     }
-    return ''
+    return formatMessage({ id: 'role.name.empty' })
   }
+
+  /**
+   * Return the parent role label
+   * @param {*} parentRole optionnal parent role
+   * @returns {string} label to use
+   */
+  getParentRoleLabel = parentRole => this.getRoleLabel(parentRole ? parentRole.name : null)
 
   /**
    *
@@ -140,6 +154,10 @@ export class RoleListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
+    const roleStyle = {
+      color: this.context.muiTheme.palette.accent1Color,
+    }
+    const roleListStyle = { marginLeft: '20px' }
     const linkRoleResourceIconTitle = this.context.intl.formatMessage({ id: 'role.edit.resource.action.title' })
     const editRoleIconTitle = this.context.intl.formatMessage({ id: 'role.edit.action.title' })
     const deleteRoleIconTitle = this.context.intl.formatMessage({ id: 'role.delete.action.title' })
@@ -147,9 +165,33 @@ export class RoleListComponent extends React.Component {
       <Card>
         <CardTitle
           title={this.context.intl.formatMessage({ id: 'role.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
+          subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
+          <div style={roleListStyle}>
+            <ul>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.public.name" /></span>
+                <FormattedMessage id="role.list.public.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.registered.user.name" /></span>
+                <FormattedMessage id="role.list.registered.user.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.exploit.name" /></span>
+                <FormattedMessage id="role.list.exploit.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.admin.name" /></span>
+                <FormattedMessage id="role.list.admin.description" />
+              </li>
+              <li>
+                <span style={roleStyle}><FormattedMessage id="role.list.admin.project.name" /></span>
+                <FormattedMessage id="role.list.admin.project.description" />
+              </li>
+            </ul>
+          </div>
           {this.renderDeleteConfirmDialog()}
           <Table
             selectable={false}
@@ -172,8 +214,8 @@ export class RoleListComponent extends React.Component {
             >
               {map(roleList, (role, i) => (
                 <TableRow key={i}>
-                  <TableRowColumn>{role.content.name}</TableRowColumn>
-                  <TableRowColumn>{this.getParentRoleName(role.content.parentRole)}</TableRowColumn>
+                  <TableRowColumn>{this.getRoleLabel(role.content.name)}</TableRowColumn>
+                  <TableRowColumn>{this.getParentRoleLabel(role.content.parentRole) }</TableRowColumn>
                   <TableRowColumn>
                     <HateoasIconAction
                       entityLinks={role.links}

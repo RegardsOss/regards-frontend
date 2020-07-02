@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,10 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isUndefined from 'lodash/isUndefined'
-import { PluginParameterTypes, JavaPrimitiveTypes } from '@regardsoss/domain/common'
+import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { RuntimeTargetTypes } from '@regardsoss/domain/access'
-import { OpenSearchQuery } from '@regardsoss/domain/catalog'
+import { OpenSearchQuery, OpenSearchQueryParameter } from '@regardsoss/domain/catalog'
 import { ValidationHelpers } from '@regardsoss/form-utils'
+import { CommonDomain } from '@regardsoss/domain'
 import { Parameter } from './parameters/Parameter'
 
 /**
@@ -36,15 +37,22 @@ function selectDefaultValuesIn(adminValue, devValue) {
 }
 
 const validatorByJavaType = {
-  [JavaPrimitiveTypes.BYTE]: ValidationHelpers.javaByteValidator,
-  [JavaPrimitiveTypes.CHARACTER]: ValidationHelpers.characterValidator,
-  [JavaPrimitiveTypes.DOUBLE]: ValidationHelpers.javaDoubleValidator,
-  [JavaPrimitiveTypes.FLOAT]: ValidationHelpers.javaFloatValidator,
-  [JavaPrimitiveTypes.INTEGER]: ValidationHelpers.javaIntegerValidator,
-  [JavaPrimitiveTypes.LONG]: ValidationHelpers.javaLongValidator,
-  [JavaPrimitiveTypes.SHORT]: ValidationHelpers.javaShortValidator,
-  [JavaPrimitiveTypes.STRING]: null,
+  [PluginParameterTypes.BYTE]: ValidationHelpers.javaByteValidator,
+  [PluginParameterTypes.CHARACTER]: ValidationHelpers.characterValidator,
+  [PluginParameterTypes.DOUBLE]: ValidationHelpers.javaDoubleValidator,
+  [PluginParameterTypes.FLOAT]: ValidationHelpers.javaFloatValidator,
+  [PluginParameterTypes.INTEGER]: ValidationHelpers.javaIntegerValidator,
+  [PluginParameterTypes.LONG]: ValidationHelpers.javaLongValidator,
+  [PluginParameterTypes.SHORT]: ValidationHelpers.javaShortValidator,
+  [PluginParameterTypes.STRING]: null,
 }
+
+const COMPLEX_TYPES = [
+  CommonDomain.PluginParameterTypes.PLUGIN,
+  CommonDomain.PluginParameterTypes.COLLECTION,
+  CommonDomain.PluginParameterTypes.POJO,
+  CommonDomain.PluginParameterTypes.MAP,
+]
 
 /**
  * Converts the parameter using metadata
@@ -55,17 +63,17 @@ const validatorByJavaType = {
 export function convertParameter({
   name, value: adminValue, dynamicsValues,
 }, {
-  type, paramType, defaultValue: devValue, optional, label, description,
+  type, defaultValue: devValue, optional, label, description,
 }) {
-  // 1 - check that the parameter type is not plugin (strictly forbidden in plugin service)
-  if (paramType !== PluginParameterTypes.PRIMITIVE) {
-    throw new Error(`Unsupported plugin parameter type at runtime ${paramType}`)
+  // 1 - check that the parameter type is not complex (can only edit / show simple types here)
+  if (COMPLEX_TYPES.includes(type)) {
+    throw new Error(`Unsupported plugin parameter type at runtime ${type}`)
   }
 
   const specDefaultValue = selectDefaultValuesIn(adminValue, devValue)
 
   // A boolean parameter
-  if (type === JavaPrimitiveTypes.BOOLEAN) {
+  if (type === PluginParameterTypes.BOOLEAN) {
     // default value: make sure it some boolean (false when not specified)
     return Parameter.buildBooleanEditor(name, !!specDefaultValue, !optional, label, description)
   }
@@ -118,8 +126,12 @@ export function packTargetParameters(target) {
     case RuntimeTargetTypes.QUERY:
       return {
         entityType: target.entityType,
-        q: new OpenSearchQuery(target.requestParameters.q,
-          [OpenSearchQuery.buildIDParameter(target.excludedIDs, true)]).toQueryString(),
+        q: new OpenSearchQuery(target.requestParameters.q, target.excludedIDs[
+          new OpenSearchQueryParameter(
+            OpenSearchQuery.ID_PARAM_NAME,
+            OpenSearchQueryParameter.toStrictStringEqual(
+              target.excludedIDs, OpenSearchQueryParameter.AND_SEPARATOR, true))])
+          .toQueryString(),
       }
     default:
       throw new Error('Invalid target') // development error only

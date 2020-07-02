@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,7 +23,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import EntityTypeConfigurationComponent from '../../../../src/components/admin/content/EntityTypeConfigurationComponent'
 import styles from '../../../../src/styles'
 import { configuration as dataConfiguration } from '../../../dumps/data.configuration.dump'
-import { configuration as documentsConfiguration } from '../../../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -46,10 +45,6 @@ describe('[SEARCH RESULTS] Testing EntityTypeConfigurationComponent', () => {
     type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     values: dataConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DATASET],
     shouldHaveEnableDownload: false,
-  }, {
-    type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-    values: documentsConfiguration.viewsGroups[DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
-    shouldHaveEnableDownload: true,
   }]
 
   testCases.forEach(({ type, values, shouldHaveEnableDownload }) => it(`should render correctly with ${type} form values`, () => {

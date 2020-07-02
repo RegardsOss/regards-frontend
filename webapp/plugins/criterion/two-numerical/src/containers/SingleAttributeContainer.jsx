@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -82,7 +82,9 @@ export class SingleAttributeContainer extends React.Component {
    */
   static convertToRequestParameters({ value1, value2 }, attribute) {
     // Using common toolbox to build range query
-    return { q: numberRangeHelper.getNumberAttributeQueryPart(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2)) }
+    return {
+      q: numberRangeHelper.getNumberQueryParameter(attribute.jsonPath, new numberRangeHelper.NumberRange(value1, value2)).toQueryString(),
+    }
   }
 
 

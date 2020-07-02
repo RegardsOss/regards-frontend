@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -78,6 +78,7 @@ export const moduleAdminForm = PropTypes.shape({
   isCreating: PropTypes.bool,
   isDuplicating: PropTypes.bool,
   isEditing: PropTypes.bool,
+  isPage: PropTypes.bool.isRequired,
   // Form changeField function.
   changeField: PropTypes.func,
   // Configuration from another admin module

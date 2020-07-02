@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,7 +27,7 @@ const ENTITIES_STORE_PATH = ['common', 'project']
 const REDUX_ACTION_NAMESPACE = 'project-handler'
 
 const projectReducers = AdminClient.ProjectReducers(REDUX_ACTION_NAMESPACE)
-const projectActions = new AdminClient.ProjectActions(REDUX_ACTION_NAMESPACE)
+const projectActions = new AdminClient.PublicProjectActions(REDUX_ACTION_NAMESPACE)
 const projectSelectors = AdminClient.ProjectSelectors(ENTITIES_STORE_PATH)
 
 export default {

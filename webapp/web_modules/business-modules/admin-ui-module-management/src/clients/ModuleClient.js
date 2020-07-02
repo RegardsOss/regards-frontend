@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,6 +26,6 @@ import { AccessProjectClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'ui', 'module', 'modules']
 const REDUX_ACTION_NAMESPACE = 'admin-ui-module-management-new/modules'
 
-export const moduleReducers = AccessProjectClient.ModuleReducers(REDUX_ACTION_NAMESPACE)
+export const moduleReducers = AccessProjectClient.getModuleReducer(REDUX_ACTION_NAMESPACE)
 export const moduleActions = new AccessProjectClient.ModuleActions(REDUX_ACTION_NAMESPACE)
-export const moduleSelectors = AccessProjectClient.ModuleSelectors(ENTITIES_STORE_PATH)
+export const moduleSelectors = AccessProjectClient.getModuleSelectors(ENTITIES_STORE_PATH)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,8 +20,9 @@ import { DamDomain } from '@regardsoss/domain'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
-import { PageableInfiniteTableContainer, TableLayout, TableHeaderLineLoadingAndResults } from '@regardsoss/components'
-import SelectionDetailNoDataComponent from './SelectionDetailNoDataComponent'
+import {
+  PageableInfiniteTableContainer, TableLayout, TableHeaderLineLoadingAndResults, NoContentComponent,
+} from '@regardsoss/components'
 
 /**
 * Shows details results in a search results table (only the common attributes columns, we cannot have better assertions here)
@@ -59,7 +60,10 @@ class SelectionDetailResultsTableComponent extends React.Component {
   }))
 
   /** static rendering component (it will update itself with context changes) */
-  static NO_DATA_COMPONENT = <SelectionDetailNoDataComponent />
+  static NO_DATA_COMPONENT = <NoContentComponent
+    titleKey="order-cart.module.basket.items.group.selection.detail.no.data.title"
+    messageKey="order-cart.module.basket.items.group.selection.detail.no.data.message"
+  />
 
   /** Min page size for table */
   static MIN_TABLE_PAGE_SIZE = 5

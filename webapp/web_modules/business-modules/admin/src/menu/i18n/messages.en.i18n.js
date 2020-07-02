@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,6 +32,7 @@ const messages = {
   'menu.dataacquisition': 'Add data',
   'menu.instance': 'Instance administration',
   'menu.back': 'Back',
+  'menu.commands': 'Commands',
 }
 
 export default messages

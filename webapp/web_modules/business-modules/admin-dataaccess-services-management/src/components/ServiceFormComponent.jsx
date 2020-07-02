@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
-import MoodIcon from 'material-ui/svg-icons/social/mood'
+import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
@@ -73,7 +73,7 @@ export class ServiceFormComponent extends React.Component {
     if (mode !== 'create' && !pluginConfiguration) {
       return (
         <NoContentComponent
-          title={formatMessage({ id: 'dataaccess.services.form.invalid.id' })}
+          titleKey="dataaccess.services.form.invalid.id"
           Icon={MoodIcon}
         />
       )

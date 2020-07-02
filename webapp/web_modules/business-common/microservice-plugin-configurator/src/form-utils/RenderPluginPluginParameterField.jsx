@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -28,10 +28,10 @@ import Subheader from 'material-ui/Subheader'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'
 import IconButton from 'material-ui/IconButton'
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import ArrowDropRight from 'mdi-material-ui/MenuRight'
+import MoreVertIcon from 'mdi-material-ui/DotsVertical'
 import Divider from 'material-ui/Divider'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Delete from 'mdi-material-ui/Delete'
 import { fieldInputPropTypes } from 'redux-form'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonShapes } from '@regardsoss/shape'
@@ -97,16 +97,16 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     } = this.props
     const pluginId = this.props.input.value
 
-    if (pluginParameterType.type) {
+    if (pluginParameterType.pluginType) {
       // 1. Retrieve pluginMetadatas for the microservice.
-      fetchPluginMetadataList(microserviceName, pluginParameterType.type).then((actionResults) => {
+      fetchPluginMetadataList(microserviceName, pluginParameterType.pluginType).then((actionResults) => {
         this.setState({
           pluginMetaDataList: values(get(actionResults, 'payload.entities.pluginMetaData', {})),
         })
       })
 
       // 2. Retrieve all plugin configuration available for the plugin type.
-      fetchPluginConfigurationList(pluginParameterType.type, microserviceName).then((actionResults) => {
+      fetchPluginConfigurationList(pluginParameterType.pluginType, microserviceName).then((actionResults) => {
         const pluginConfigurationList = values(get(actionResults, 'payload.entities.pluginConfiguration', {}))
         const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === parseInt(pluginId, 10))
         this.setState({

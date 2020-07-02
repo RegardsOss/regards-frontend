@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,8 +22,8 @@ import isString from 'lodash/isString'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
-import AddBoxIcon from 'material-ui/svg-icons/content/add-box'
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert'
+import AddBoxIcon from 'mdi-material-ui/PlusBox'
+import MoreVertIcon from 'mdi-material-ui/DotsVertical'
 import IconButton from 'material-ui/IconButton'
 import IconMenu from 'material-ui/IconMenu'
 import MenuItem from 'material-ui/MenuItem'

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
-import Clear from 'material-ui/svg-icons/content/backspace'
+import Clear from 'mdi-material-ui/Backspace'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { DatePickerField } from '@regardsoss/components'
 import styles from '../styles'

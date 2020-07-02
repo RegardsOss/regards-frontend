@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDialogContainer } from '../../src/dialogs/LoadableContentDialogContainer'
-import DialogLoadingComponent from '../../src/dialogs/DialogLoadingComponent'
+import ContentLoadingComponent from '../../src/content/feedback/ContentLoadingComponent'
 
 describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
   before(testSuiteHelpers.before)
@@ -40,7 +40,7 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
       >
         <div id="testDiv" />
       </LoadableContentDialogContainer>)
-    assert.lengthOf(enzymeWrapper.find(DialogLoadingComponent), 1, 'It should display loading')
+    assert.lengthOf(enzymeWrapper.find(ContentLoadingComponent), 1, 'It should display loading')
 
     const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')
@@ -60,7 +60,7 @@ describe('[COMPONENTS] Testing LoadableContentDialogContainer', () => {
       >
         <div id="testDiv" />
       </LoadableContentDialogContainer>)
-    assert.lengthOf(enzymeWrapper.find(DialogLoadingComponent), 0, 'It should not display loading')
+    assert.lengthOf(enzymeWrapper.find(ContentLoadingComponent), 0, 'It should not display loading')
 
     const testDivs = enzymeWrapper.findWhere(n => n.props().id === 'testDiv')
     assert.lengthOf(testDivs, 1, 'The children should be added')

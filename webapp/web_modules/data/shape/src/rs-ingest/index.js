@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,4 +25,9 @@ export {
 export {
   IngestSession, IngestSessionContent, IngestSessionList, IngestSessionArray,
 } from './IngestSession'
-export { SIPSubmited } from './SIPSubmited'
+export { SIP, SIPEntity } from './SIPEntity'
+export { AIP } from './AIP'
+export { AIPEntityContent, AIPEntity } from './AIPEntity'
+export { AIPEntityIngestMetadataStorages, AIPEntityIngestMetadata } from './AIPEntityIngestMetadata'
+export { SIPSubmissionResponse } from './SIPSubmissionResponse'
+export { Request, RequestEntity } from './Request'

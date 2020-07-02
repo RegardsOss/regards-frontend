@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,17 +18,24 @@
  **/
 import { DATASOURCE_PLUGIN_TYPE_ENUM } from '@regardsoss/domain/dam'
 
+/** Available database related datasources plugins */
+const DB_DATASOURCE_PUGINS = [
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_ORACLE,
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES,
+  DATASOURCE_PLUGIN_TYPE_ENUM.DB_POSTGRES_SINGLE_TABLE,
+]
+
 export class EditionHelper {
   static getDatasourcePluginType(datasource) {
     let type = ''
-    if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
+    if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
       type = 'aip'
-    } else if (datasource.content.pluginClassName === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
+    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
       type = 'opensearch'
-    } else if (datasource.content.interfaceNames.includes(DATASOURCE_PLUGIN_TYPE_ENUM.DB)) {
+    } else if (DB_DATASOURCE_PUGINS.includes(datasource.content.pluginId)) {
       type = 'db'
     } else {
-      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginClassName)
+      throw new Error('Datasource Plugin type not recognized :', datasource.content.pluginId)
     }
 
     return type

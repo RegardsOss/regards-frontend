@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -33,27 +33,24 @@ export default theme => ({
   },
   expandCell: {
     style: {
-      height: 48,
-      width: 48,
+      height: theme.button.iconButtonSize,
+      width: theme.button.iconButtonSize,
       padding: 0,
     },
   },
   expandButton: {
     style: {
-      height: 48,
-      width: 48,
-      padding: 0,
+      height: theme.button.iconButtonSize,
+      width: theme.button.iconButtonSize,
+      padding: theme.components.treeTable.expandIconPadding,
     },
   },
   expandIcon: {
     style: {
-      width: 32,
-      height: 32,
-      cursor: 'pointer',
+      width: theme.components.treeTable.expandIconSize,
+      height: theme.components.treeTable.expandIconSize,
+      // cursor: 'pointer',
       color: theme.palette.accent1Color,
     },
-  },
-  firstCell: {
-    leftMarginForLevel: theme.tableRowColumn.spacing,
   },
 })

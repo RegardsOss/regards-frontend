@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,6 +18,7 @@
  **/
 export { default as formatStorageCapacity } from './formatStorageCapacity'
 export { default as FormattedStorageCapacity } from './FormattedStorageCapacity'
+export { default as FormattedStorageUnit } from './FormattedStorageUnit'
 export { default as messages } from './i18n'
 export { StorageCapacityShape, StorageCapacity } from './StorageCapacity'
 export { StorageUnitScale, StorageUnits, StorageUnitScaleShape } from './StorageUnit'

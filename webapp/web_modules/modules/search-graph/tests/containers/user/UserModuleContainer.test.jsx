@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
+import DescriptionProviderContainer from '../../../src/containers/user/DescriptionProviderContainer'
 import SearchGraph from '../../../src/components/user/SearchGraph'
 import styles from '../../../src/styles/styles'
 import { configuration1 } from '../../dumps/configuration.dump'
@@ -54,5 +55,6 @@ describe('[Search Graph] Testing UserModuleContainer', () => {
     }
     const enzymeWrapper = shallow(<UserModuleContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SearchGraph), 1, 'The corresponding component should be rendered')
+    assert.lengthOf(enzymeWrapper.find(DescriptionProviderContainer), 1, 'There should be the description provider HOC')
   })
 })

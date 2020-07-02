@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import DownloadIcon from 'material-ui/svg-icons/file/file-download'
+import DownloadIcon from 'mdi-material-ui/Download'
 
 /**
 * A download button, can be used with any material UI button types
@@ -31,7 +31,6 @@ class DownloadButton extends React.Component {
     tooltip: PropTypes.string,
     disabled: PropTypes.bool,
     downloadURL: PropTypes.string.isRequired,
-    // xxx-later versions check that the use of download option is ok with all navigators. In some navigator, the file can be displayed instead of force download. (try with pdf)
     downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }
@@ -39,6 +38,7 @@ class DownloadButton extends React.Component {
   static defaultProps = {
     ButtonConstructor: FlatButton,
     ButtonIcon: DownloadIcon,
+    downloadName: 'download',
   }
 
   static UNDECORATED_LINK_STYLE = {

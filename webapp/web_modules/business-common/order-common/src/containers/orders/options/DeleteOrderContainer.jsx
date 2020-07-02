@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -91,7 +91,6 @@ export class DeleteOrderContainer extends React.Component {
 
   /** States in which the order can be superficially deleted */
   static SUPERFICIALLY_DELETABLE_STATES = [
-    OrderDomain.ORDER_STATUS_ENUM.PENDING,
     OrderDomain.ORDER_STATUS_ENUM.PAUSED,
   ]
 

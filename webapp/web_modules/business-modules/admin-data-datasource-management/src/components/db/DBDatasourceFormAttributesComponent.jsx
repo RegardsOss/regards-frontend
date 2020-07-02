@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -88,6 +88,7 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
   handleInitialize = () => {
     if (!this.state.isCreating) {
       const { currentDatasource } = this.props
+
       const refreshRate = get(findParam(currentDatasource, IDBDatasourceParamsEnum.REFRESH_RATE), 'value')
       const modelName = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL), 'value')
       const tags = get(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS), 'value', [])
@@ -95,7 +96,7 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
       const initialValues = {
         label: currentDatasource.content.label,
         model: modelName,
-        pluginClassName: currentDatasource.content.pluginClassName,
+        pluginId: currentDatasource.content.pluginId,
         refreshRate,
         tags,
       }
@@ -112,6 +113,7 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
       currentConnection, modelList, pluginMetaDataList, submitting, invalid, backUrl,
     } = this.props
     const title = this.getTitle()
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -167,19 +169,19 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
               ))}
             </Field>
             <Field
-              name="pluginClassName"
+              name="pluginId"
               fullWidth
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'datasource.form.pluginConfiguration' })}
               disabled={!this.state.isCreating}
               validate={ValidationHelpers.required}
             >
-              {map(pluginMetaDataList, (pluginMetaData, id) => (
+              {map(pluginMetaDataList, ({ content: { pluginId, version } }) => (
                 <MenuItem
-                  value={pluginMetaData.content.pluginClassName}
-                  key={id}
-                  primaryText={`${pluginMetaData.content.pluginId}: ${pluginMetaData.content.version}`}
-                  className={`selenium-pickPlugin-${pluginMetaData.content.pluginId}`}
+                  key={pluginId}
+                  value={pluginId}
+                  primaryText={`${pluginId}: ${version}`}
+                  className={`selenium-pickPlugin-${pluginId}`}
                 />
               ))}
             </Field>

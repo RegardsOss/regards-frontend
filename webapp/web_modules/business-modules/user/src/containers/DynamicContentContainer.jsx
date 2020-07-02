@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,7 +24,7 @@ import { AccessShapes } from '@regardsoss/shape'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 
 // get default modules client selector
-const modulesSelectors = AccessProjectClient.ModuleSelectors()
+const modulesSelectors = AccessProjectClient.getModuleSelectors()
 // get default selected dynamic module actions (to update store when it changed)
 const selectedDynamicModuleActions = new UIClient.SelectedDynamicModuleActions()
 

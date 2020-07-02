@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,8 +23,8 @@ import { FormattedMessage } from 'react-intl'
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import KeyIcon from 'material-ui/svg-icons/communication/vpn-key'
-import CheckIcon from 'material-ui/svg-icons/navigation/check'
+import KeyIcon from 'mdi-material-ui/Key'
+import CheckIcon from 'mdi-material-ui/Check'
 import { CardTitle } from 'material-ui/Card'
 
 /*

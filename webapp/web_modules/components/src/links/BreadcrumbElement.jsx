@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,7 +32,7 @@ class BreadcrumbElement extends React.Component {
     onAction: PropTypes.func.isRequired, // callback (element, index) => void
     label: PropTypes.string.isRequired,
     navigationAllowed: PropTypes.bool.isRequired,
-    rootIcon: PropTypes.node,
+    icon: PropTypes.node,
   }
 
   static contextTypes = {
@@ -54,18 +54,20 @@ class BreadcrumbElement extends React.Component {
 
   render() {
     const {
-      isFirst, isLast, label, rootIcon, navigationAllowed,
+      isFirst, isLast, label, icon, navigationAllowed,
     } = this.props
     const {
-      iconStyle,
+      breadcrumbIcon,
       element: {
         navigable, nonNavigable, selectedLabelStyle, defaultLabelStyle,
       },
     } = this.context.moduleTheme.breadcrumb
     // is element selected? (last item, when it is not the first)
     const isSelected = isLast && !isFirst
-    // show root icon for first item (don't show item icon otherwise)
-    const icon = isFirst ? HOCUtils.cloneChildrenWith(rootIcon, { style: iconStyle }) : null
+    // When there is an icon, apply styles for it. (leave null otherwise)
+    const styledIcon = icon ? HOCUtils.cloneChildrenWith(icon, {
+      style: isSelected ? breadcrumbIcon.selectedStyle : breadcrumbIcon.defaultStyle,
+    }) : null
     // compute root div style (to not show cursor when navigation is not allowed)
     let rootDivStyle = null
     if (isSelected) {
@@ -82,7 +84,7 @@ class BreadcrumbElement extends React.Component {
         title={label}
       >
         {
-          icon
+          styledIcon
         }
         <div style={isSelected ? selectedLabelStyle : defaultLabelStyle}>
           {label}

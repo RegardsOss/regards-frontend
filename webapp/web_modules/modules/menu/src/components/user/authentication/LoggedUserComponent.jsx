@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,15 +21,16 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
-import LoginIcon from 'material-ui/svg-icons/action/account-circle'
-import AccountMenuIcon from 'material-ui/svg-icons/action/account-box'
-import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app'
-import ChangeRole from 'material-ui/svg-icons/maps/directions-run'
-import ArrowDropRight from 'material-ui/svg-icons/navigation-arrow-drop-right'
-import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
+import LoginIcon from 'mdi-material-ui/AccountCircle'
+import AccountMenuIcon from 'mdi-material-ui/AccountBox'
+import ActionExitToApp from 'mdi-material-ui/ExitToApp'
+import ChangeRole from 'mdi-material-ui/Run'
+import ArrowDropRight from 'mdi-material-ui/MenuRight'
+import { AdminDomain } from '@regardsoss/domain'
+import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AdminShapes } from '@regardsoss/shape'
+import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
 
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
 
@@ -108,7 +109,7 @@ class LoggedUserComponent extends React.Component {
                     return (<MenuItem
                       onClick={() => onBorrowRole(roleName)}
                       key={roleName}
-                      primaryText={roleName}
+                      primaryText={AdminDomain.DEFAULT_ROLES.includes(roleName) ? this.context.intl.formatMessage({ id: `role.name.${roleName}` }) : roleName}
                       checked={roleName === currentRole}
                       insetChildren
                     />)

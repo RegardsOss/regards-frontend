@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -38,6 +38,6 @@ export default class QueryParameter {
    * @return parameter query string when parameter is valid and has a value, null otherwise
    */
   toQueryString() {
-    return !this.name || !this.value ? null : `${this.name}${this.valueSeparator}${this.value}`
+    return this.name && this.value ? `${this.name}${this.valueSeparator}${this.value}` : null
   }
 }

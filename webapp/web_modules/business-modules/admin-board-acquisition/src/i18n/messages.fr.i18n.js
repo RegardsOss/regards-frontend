@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,33 +20,30 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
-  'ingest.board.title': 'Ingestion (SIP)',
-  'ingest.board.description': 'Permet d\'ingérer des données qui sont déjà sous la forme de SIP. Un paquet de soumission ou SIP contient toutes les informations nécessaires pour à la fois décrire les données et définir comment accéder aux fichiers physiques associés.',
-  'ingest.board.action.chain.list.tooltip': 'Configurer les chaînes d\'ingestion',
-  'ingest.board.action.monitor.tooltip': 'Visualiser les ingestions',
-  'ingest.board.action.sumition.tooltip': 'Ingérer des SIP',
-
   'data-provider.board.title': 'Acquisition de données',
   'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
-  'data-provider.board.action.chain.list.tooltip': 'Configurer les chaînes d\'acquisition',
-  'data-provider.board.action.monitoring.tooltip': 'Suivre l\'activité des chaînes d\'acquisition',
+  'data-provider.board.action.configure.tooltip': 'Chaînes d\'acquisition',
+  'data-provider.board.action.sessions.tooltip': 'Sessions d\'acquisition',
+
+  'data.board.oais.title': 'Gestionnaire de produits (OAIS)',
+  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les produits. Un produit est une association entre un SIP (Submission Information Package) et un AIP (Archive Information Package).',
+  'data.board.oais.tooltip.see': 'Consulter les produits',
+  'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
+  'data.board.oais.tooltip.submition': 'Soumettre des produits',
 
   'ingest.board.external.datasources.title': 'Aspiration',
   'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
-  'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations',
-  'ingest.board.action.connection.list.tooltip': 'Sources de données externes',
-  'ingest.board.action.datasource.monitor.tooltip': 'Suivi des aspirations de données',
-
-  'data.board.document.title': 'Documents',
-  'data.board.document.description': 'Consulter/ajouter des documents. Les documents sont des données consultables par prévisualisation ou par téléchargement depuis l\'interface utilisateur.',
+  'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations de données',
+  'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
+  'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
+  'ingest.board.index.delete': 'Réinitialiser le catalogue',
+  'ingest.board.index.delete.confirm': 'Attention, si vous lancez la réinitialisation du catalogue de données, toutes les données seront supprimées du catalogue. Ce dernier sera alors reconstruit automatiquement par les aspirations de données configurées.',
+  'ingest.board.index.delete.error.message': 'Une erreur est survenue durant la réinitialisation du catalogue de données.',
 
   'data.board.storage.title': 'Stockage',
-  'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage des données ainsi que la stratégie de répartition que le système utilisera.',
+  'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
-  'data.board.action.allocations.tooltip': 'Stratégies de répartition',
-  'data.board.action.monitoring.tooltip': 'Taux d\'occupation des espaces de stockage',
-  'data.board.action.security.tooltip': 'Configurer les droits d\'accès aux fichiers archivés',
-  'data.board.action.aip-management.tooltip': 'Visualiser les AIPs',
+
 }
 
 export default messages

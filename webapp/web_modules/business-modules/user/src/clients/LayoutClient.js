@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,5 +20,5 @@ import { AccessProjectClient } from '@regardsoss/client'
 
 // get default instances (default values are configured for user app)
 export const layoutActions = new AccessProjectClient.LayoutActions()
-export const layoutReducer = AccessProjectClient.LayoutReducers()
-export const layoutSelectors = AccessProjectClient.LayoutSelectors()
+export const layoutReducer = AccessProjectClient.getLayoutReducer()
+export const layoutSelectors = AccessProjectClient.getLayoutSelectors()

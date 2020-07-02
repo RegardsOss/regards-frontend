@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,7 @@ import omit from 'lodash/omit'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { i18nContextType, i18nSelectors } from '@regardsoss/i18n'
+import { i18nContextType } from '@regardsoss/i18n'
 import { AutoCompleteTextField } from '@regardsoss/components'
 import AttributeRender from '../../render/AttributeRender'
 
@@ -31,18 +31,6 @@ import AttributeRender from '../../render/AttributeRender'
  * @author Raphaël Mechali
  */
 export class SingleAttributeFieldRender extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      locale: i18nSelectors.getLocale(state), // bind locale to get componentWillReceiveProps called and thus update filtering
-    }
-  }
-
   static propTypes = {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     input: PropTypes.shape({
@@ -55,11 +43,11 @@ export class SingleAttributeFieldRender extends React.Component {
     }),
     label: PropTypes.string.isRequired,
     // From mapStateToProps
-    locale: PropTypes.string,
+    i18n: PropTypes.string, // automatically add by REGARDS connect method
   }
 
   static defaultProps = {
-    locale: UIDomain.LOCALES_ENUM.en,
+    i18n: UIDomain.LOCALES_ENUM.en,
   }
 
   static contextTypes = {
@@ -93,7 +81,7 @@ export class SingleAttributeFieldRender extends React.Component {
     'input',
     'meta',
     'label',
-    'locale',
+    'i18n',
     'dispatch',
   ]
 
@@ -115,6 +103,7 @@ export class SingleAttributeFieldRender extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const newState = {}
+    // TODO V1: Locale: wrong solution here: context has not yet been updated (only locale is)
     // update current text and available filtered attribute models list
     const newInputValue = newProps.input.value
     newState.inputValue = newProps.input.value
@@ -165,4 +154,4 @@ export class SingleAttributeFieldRender extends React.Component {
   }
 }
 
-export default connect(SingleAttributeFieldRender.mapStateToProps)(SingleAttributeFieldRender)
+export default connect()(SingleAttributeFieldRender)

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,6 +21,7 @@ export { default as getAccountPasswordReducer } from './accounts/AccountPassword
 export { default as getAccountPasswordSelectors } from './accounts/AccountPasswordSelectors'
 
 export { default as ProjectActions } from './project/ProjectActions'
+export { default as PublicProjectActions } from './project/PublicProjectActions'
 export { default as ProjectSelectors } from './project/ProjectSelectors'
 export { default as ProjectReducers } from './project/ProjectReducers'
 
@@ -107,3 +108,18 @@ export { default as getProjectUserSignalSelectors } from './user/ProjectUserSign
 export { default as EndpointActions } from './endpoint/EndpointActions'
 export { default as getEndpointReducers } from './endpoint/EndpointReducers'
 export { default as getEndpointSelectors } from './endpoint/EndpointSelectors'
+
+export { default as SessionsActions } from './session/SessionsActions'
+export { default as getSessionsReducer } from './session/SessionsReducer'
+export { default as getSessionsSelectors } from './session/SessionsSelectors'
+
+export { default as SearchSessionsActions } from './session/SearchSessionsActions'
+export { default as getSearchSessionsReducer } from './session/SearchSessionsReducer'
+export { default as getSearchSessionsSelectors } from './session/SearchSessionsSelectors'
+
+export { default as SearchSourcesActions } from './session/SearchSourcesActions'
+export { default as getSearchSourcesReducer } from './session/SearchSourcesReducer'
+export { default as getSearchSourcesSelectors } from './session/SearchSourcesSelectors'
+
+export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
+export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'

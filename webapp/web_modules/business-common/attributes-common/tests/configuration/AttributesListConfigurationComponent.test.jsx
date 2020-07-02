@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,6 +22,7 @@ import { DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AttributesListConfigurationComponent } from '../../src/configuration/AttributesListConfigurationComponent'
 import AttributeListTableComponent from '../../src/configuration/table/AttributeListTableComponent'
+import AddManyDialog from '../../src/configuration/dialog/add/AddManyDialog'
 import EditItemDialog from '../../src/configuration/dialog/edit/EditItemDialog'
 import styles from '../../src/styles'
 import { attributeModelsDictionnary, attributeModelsArray } from '../dumps/AttributeModels.dump'
@@ -52,16 +53,24 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     const enzymeWrapper = shallow(<AttributesListConfigurationComponent {...props} />, { context })
     const wrapperInstance = enzymeWrapper.instance()
     const wrapperState = enzymeWrapper.state()
-    // check dialog
-    const dialogWrapper = enzymeWrapper.find(EditItemDialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be the dialog component')
-    testSuiteHelpers.assertWrapperProperties(dialogWrapper, {
+    // check dialogs
+    const editDialogWrapper = enzymeWrapper.find(EditItemDialog)
+    assert.lengthOf(editDialogWrapper, 1, 'There should be the edit dialog component')
+    testSuiteHelpers.assertWrapperProperties(editDialogWrapper, {
       allowLabel: props.allowLabel,
       allowAttributesRegroupements: props.allowAttributesRegroupements,
       attributeModels: wrapperState.attributeModels, // attribute models should be reported from the state
       editionData: null, // dialog should be hidden (edition is not in progress)
       onCancel: wrapperInstance.onCancelEdit,
       onConfirm: wrapperInstance.onConfirmEdit,
+    }, 'Edit dialog properties should be correctly computed and reported')
+
+    const addManyDialogWrapper = enzymeWrapper.find(AddManyDialog)
+    assert.lengthOf(addManyDialogWrapper, 1, 'There should be the dialog component')
+    testSuiteHelpers.assertWrapperProperties(addManyDialogWrapper, {
+      initialSelectionModel: wrapperState.multipleSelectionData,
+      onCancel: wrapperInstance.onCancelAddMany,
+      onConfirm: wrapperInstance.onConfirmAddMany,
     }, 'Dialog properties should be correctly computed and reported')
 
     // check table component

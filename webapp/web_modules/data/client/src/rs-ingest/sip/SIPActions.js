@@ -1,5 +1,5 @@
-/*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+/**
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -15,23 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { SIP, SIP_ARRAY } from '@regardsoss/api'
 import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Redux actions to handle SIP entities from backend server.
- * @author Maxime Bouveron
+ * Actions to send a request to delete a SIP
  */
 export default class SIPActions extends BasicPageableActions {
-  /**
-   * Construtor
-   * @param namespace
-   */
-  constructor(namespace) {
+  constructor(namespace, instance = false) {
     super({
-      namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/sips`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/sips`,
+      entityPathVariable: 'sipId',
       schemaTypes: {
         ENTITY: SIP,
         ENTITY_ARRAY: SIP_ARRAY,

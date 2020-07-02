@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ export { default as getAbstractEntityDescription } from './getAbstractEntityDesc
 export { default as getFullQualifiedAttributeName } from './getFullQualifiedAttributeName'
 export { ENTITY_TYPES, ENTITY_TYPES_ENUM } from './EntityTypes'
 
-export { default as MODEL_ATTR_TYPES } from './ModelAttrTypes'
+export { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES, THUMBNAIL_PSEUDO_TYPE } from './ModelAttrTypes'
 export { default as FRAGMENT_NONE, default as DEFAULT_FRAGMENT } from './FragmentNone'
 export { default as AttributeModelController } from './AttributeModelController'
 export {
@@ -37,8 +37,8 @@ export { default as IAIPDatasourceParamsEnum } from './IAIPDatasourceParamsEnum'
 
 export { default as DATASOURCE_PLUGIN_TYPE_ENUM } from './DatasourcePluginTypeEnum'
 
-export { DATATYPE, DATATYPE_ENUM } from './DataType'
-
 export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
 
 export { DataSourcesStatusEnum, DataSourcesStatusValues } from './DataSourcesStatusEnum'
+
+export { URLAttributeHelper } from './URLAttributeHelper'

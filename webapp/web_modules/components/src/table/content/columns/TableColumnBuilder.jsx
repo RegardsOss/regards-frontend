@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,13 +19,14 @@
 import get from 'lodash/get'
 import { GrowingColumnSize } from './size/GrowingColumnSize'
 import { OptionsColumnSize } from './size/OptionColumnSize'
+import { FixedColumnSize } from './size/FixedColumnSize'
 import StringValueRender from '../../../values/StringValueRender'
 import SortableColumnHeaderCell from './SortableColumnHeaderCell'
 import SimpleTitleColumnHeaderCell from './SimpleTitleColumnHeaderCell'
 import CheckboxColumnHeaderCell from './CheckboxColumnHeaderCell'
 import ValuesRenderCell from '../cells/ValuesRenderCell'
 import OptionsCell from '../cells/OptionsCell'
-import CheckBoxCell from '../cells/CheckBoxCell'
+import TableSelectionCell from '../cells/TableSelectionCell'
 import ProgressRenderCell from '../cells/ProgressRenderCell'
 import PercentProgressRenderCell from '../cells/PercentProgressRenderCell'
 
@@ -175,6 +176,10 @@ export default class TableColumnBuilder {
     return this.sizing(new OptionsColumnSize(optionsCount))
   }
 
+  fixedSizing(size) {
+    return this.sizing(new FixedColumnSize(size))
+  }
+
   /**
    * @param {[{getValue: {function}, RenderConstructor: {function}, props: {*}}]} values list of values extractators and (optional) matching render + props
    * @return {TableColumnBuilder} builder configured to let column render cells using values definitions as parameters
@@ -237,9 +242,15 @@ export default class TableColumnBuilder {
 
   /**
    * @return {TableColumnBuilder} builder configured for simple title header cell
+   * @param {String} tooltip  Optional tooltip text
    */
-  titleHeaderCell() {
-    return this.headerCellDefinition({ Constructor: SimpleTitleColumnHeaderCell })
+  titleHeaderCell(tooltip) {
+    return this.headerCellDefinition({
+      Constructor: SimpleTitleColumnHeaderCell,
+      props: {
+        tooltip,
+      },
+    })
   }
 
 
@@ -249,9 +260,10 @@ export default class TableColumnBuilder {
    * @param {function} onSort on sort callback like (columnKey: string, newOrder: string from SortOrdersEnum) => ()
    * @param {boolean} hideLabel Should hide column label
    * @param {boolean} sortable  Should allow sorting?
+   * @param {String} tooltip  Optional tooltip text
    * @return {TableColumnBuilder} builder configured for sortable header cell
    */
-  sortableHeaderCell(sortingOrder, sortIndex, onSort, hideLabel = false, sortable = true) {
+  sortableHeaderCell(sortingOrder, sortIndex, onSort, hideLabel = false, sortable = true, tooltip) {
     return this.headerCellDefinition({
       Constructor: SortableColumnHeaderCell,
       props: {
@@ -260,6 +272,7 @@ export default class TableColumnBuilder {
         sortingOrder,
         sortIndex,
         onSort,
+        tooltip,
       },
     })
   }
@@ -279,7 +292,7 @@ export default class TableColumnBuilder {
         },
       })
       .rowCellDefinition({
-        Constructor: CheckBoxCell,
+        Constructor: TableSelectionCell,
         props: { tableActions, tableSelectors },
       })
   }

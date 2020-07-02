@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,11 +29,11 @@ import {
   TableRowColumn,
 } from 'material-ui/Table'
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import ContentCopy from 'material-ui/svg-icons/content/content-copy'
-import Settings from 'material-ui/svg-icons/action/settings-input-component'
-import Delete from 'material-ui/svg-icons/action/delete'
-import ShowGroupUsersIcon from 'material-ui/svg-icons/action/open-in-new'
+import Edit from 'mdi-material-ui/Pencil'
+import ContentCopy from 'mdi-material-ui/ContentCopy'
+import Settings from 'mdi-material-ui/VideoInputComponent'
+import Delete from 'mdi-material-ui/Delete'
+import ShowGroupUsersIcon from 'mdi-material-ui/OpenInNew'
 import { FormattedMessage } from 'react-intl'
 import {
   HateoasKeys,

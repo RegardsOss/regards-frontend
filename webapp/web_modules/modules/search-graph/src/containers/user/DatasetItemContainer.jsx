@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import { TAG_TYPES_ENUM } from '@regardsoss/domain/catalog'
 import { AttributeModelController } from '@regardsoss/domain/dam'
 import { CatalogShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
-import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import { DatasetAttributesArrayForGraph } from '../../shapes/DatasetAttributesForGraph'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import GraphContextActions from '../../model/graph/GraphContextActions'
 import GraphContextSelectors from '../../model/graph/GraphContextSelectors'
 import DatasetItem from '../../components/user/DatasetItem'
@@ -47,19 +47,18 @@ export class DatasetItemContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, dataset }) => ({
     dispatchSelected: () => dispatch(GraphContextActions.selectEntity(levelIndex, dataset)),
-    dispatchSetSearchTag: () => dispatch(GraphContextActions.setSearchTag({ type: TAG_TYPES_ENUM.DATASET, data: dataset })),
   })
 
   static propTypes = {
+    dataset: CatalogShapes.Entity.isRequired,
     attributesVisible: PropTypes.bool.isRequired, // are dataset attributes currently visible?
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
-    dataset: CatalogShapes.Entity.isRequired,
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     // from map state to props
     locked: PropTypes.bool.isRequired,
     selected: PropTypes.bool.isRequired,
     // from map dispatch to props
     dispatchSelected: PropTypes.func.isRequired,
-    dispatchSetSearchTag: PropTypes.func.isRequired,
   }
 
 
@@ -79,11 +78,10 @@ export class DatasetItemContainer extends React.Component {
 
   onSelected = () => {
     const {
-      dispatchSelected, dispatchSetSearchTag, locked, dataset,
+      dispatchSelected, locked,
     } = this.props
     if (!locked) {
       dispatchSelected()
-      dispatchSetSearchTag({ type: TAG_TYPES_ENUM.DATASET, data: dataset })
     }
   }
 
@@ -95,7 +93,7 @@ export class DatasetItemContainer extends React.Component {
   storeDatasetAttributes = ({ dataset, graphDatasetAttributes = [] }) => this.setState({
     // build dataset attributes with only useful data for component: label, render, value or null / undefined
     datasetAttributes: graphDatasetAttributes.map(({
-      label, render, attributePath, unit,
+      label, render, attributePath, precision, unit,
     }) => {
       const attributeValue = AttributeModelController.getEntityAttributeValue(dataset, attributePath)
       return {
@@ -106,6 +104,7 @@ export class DatasetItemContainer extends React.Component {
         // render value, prepared for renderers
         renderValue: attributeValue || null,
         renderProps: {
+          precision,
           unit,
         },
       }
@@ -114,14 +113,15 @@ export class DatasetItemContainer extends React.Component {
 
   render() {
     const {
-      dataset, selected, locked, attributesVisible,
+      dataset, descriptionProperties, selected, locked, attributesVisible,
     } = this.props
     const { datasetAttributes } = this.state
     return (
       <DatasetItem
-        attributesVisible={attributesVisible}
         dataset={dataset}
+        attributesVisible={attributesVisible}
         datasetAttributes={datasetAttributes}
+        descriptionProperties={descriptionProperties}
         locked={locked}
         selected={selected}
         onSelect={this.onSelected}

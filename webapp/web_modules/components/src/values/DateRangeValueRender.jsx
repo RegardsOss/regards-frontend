@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
-import { getFormattedDate } from './DateValueRender'
-import { getFormattedRange } from './RangeValueRender'
+import DateValueRender from './DateValueRender'
+import RangeValueRenderDelegate from './RangeValueRenderDelegate'
 
 /**
  * Component to display Date range values group value
@@ -43,20 +43,20 @@ class DateRangeValueRender extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
   render() {
     const value = this.props.value || {}
     const { multilineDisplay } = this.props
-    const { intl, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
+    const { intl } = this.context
 
-    const textValue = getFormattedRange(intl, getFormattedDate(intl, value.lowerBound), getFormattedDate(intl, value.upperBound))
-      || intl.formatMessage({ id: 'value.render.no.value.label' })
     return (
-      <div style={multilineDisplay ? multilineTextRenderCell : textRenderCell} title={textValue}>
-        {textValue}
-      </div>)
+      <RangeValueRenderDelegate
+        noValue={isNil(this.props.value)}
+        lowerBound={DateValueRender.getFormattedDate(intl, value.lowerBound)}
+        upperBound={DateValueRender.getFormattedDate(intl, value.upperBound)}
+        multilineDisplay={multilineDisplay}
+      />)
   }
 }
 

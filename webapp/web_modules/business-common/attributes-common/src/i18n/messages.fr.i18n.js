@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,8 @@ const messages = {
   'attribute.render.label': '{label} ({path})',
   'attribute.render.path.join.string': '.',
   // Attributes configuration
-  'attributes.configuration.add.item.label': 'Ajouter',
+  'attributes.configuration.add.one.item.label': 'Ajout simple',
+  'attributes.configuration.add.many.items.label': 'Ajout multiple',
   'attributes.configuration.type.column': 'Type',
   'attributes.configuration.label.simple.column': 'Libellé',
   'attributes.configuration.label.english.column': 'Libellé anglais',
@@ -37,6 +38,9 @@ const messages = {
   'attributes.configuration.attributes.column': 'Attribut(s)',
   'attributes.configuration.edit.option.tooltip': 'Éditer l\'élément',
   'attributes.configuration.delete.option.tooltip': 'Supprimer l\'élément',
+  'attribute.configuration.add.many.items.title': 'Add many items',
+  'attribute.configuration.add.many.items.select.all.label': 'Tout sélectionner',
+  'attribute.configuration.add.many.items.select.none.label': 'Tout désélectionner',
   'attribute.configuration.new.item.title': 'Créer un élément',
   'attribute.configuration.edit.item.title': 'Modifier un élément',
   'attribute.configuration.cancel.edition': 'Annuler',

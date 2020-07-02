@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@
  * A storagae unit (o, Ko, Mo...)
  * @author Raphaël Mechali
  */
-class StorageUnit {
+export class StorageUnit {
   /**
    * constructor
    * @param symbol unit symbol, like b, B, mb, MB

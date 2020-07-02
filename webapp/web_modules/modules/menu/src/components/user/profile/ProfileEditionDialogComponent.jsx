@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,7 @@ import { CardActions } from 'material-ui/Card'
 import { PositionedDialog } from '@regardsoss/components'
 import Bell from 'mdi-material-ui/BellOutline'
 import FlatButton from 'material-ui/FlatButton'
-import Identity from 'material-ui/svg-icons/action/perm-identity'
+import Identity from 'mdi-material-ui/AccountOutline'
 import Subheader from 'material-ui/Subheader'
 import ProfileEditionFormComponent from './ProfileEditionFormComponent'
 import ProfileNotificationFormComponent from './ProfileNotificationFormComponent'

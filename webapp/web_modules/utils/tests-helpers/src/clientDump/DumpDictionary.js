@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -43,7 +43,8 @@ import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
 import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
-import AccessRightDump from '@regardsoss/client/tests/rs-dam/AccessRight.dump'
+import DatasetWithAccessRightDump from '@regardsoss/client/tests/rs-dam/DatasetWithAccessRight.dump'
+
 import DocumentDump from '@regardsoss/client/tests/rs-dam/Document.dump'
 
 import DatasetEntityDump from '@regardsoss/client/tests/rs-access-project/DatasetEntity.dump'
@@ -55,8 +56,7 @@ import AcquisitionFileDump from '@regardsoss/client/tests/rs-dataprovider/Acquis
 import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChain.dump'
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
-import PrioritizedDataStorageDump from '@regardsoss/client/tests/rs-storage/PrioritizedDataStorage.dump'
-import StorageMonitoringDump from '@regardsoss/client/tests/rs-storage/StorageMonitoring.dump'
+import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
 
 import {
 
@@ -75,8 +75,8 @@ import {
   ACCESS_GROUP_ARRAY,
   AccessGroupConfiguration,
 
-  ACCESS_RIGHT_ARRAY,
-  AccessRightConfiguration,
+  DATASET_WITH_ACCESS_RIGHT_ARRAY,
+  DatasetWithAccessRightConfiguration,
 
   // UIPluginConfiguration
   UI_PLUGIN_CONFIGURATION_ARRAY,
@@ -145,11 +145,8 @@ import {
   AcquisitionFileConfiguration,
   ACQUISITION_FILE_ARRAY,
 
-  PRIORIZED_DATASTORAGE_ARRAY,
-  PrioritizedDataStorageConfiguration,
-
-  STORAGE_MONITORING_ARRAY,
-  StorageMonitoringConfiguration,
+  STORAGE_LOCATION_ARRAY,
+  StorageLocationConfiguration,
 
   THEME_ARRAY,
   ThemeConfiguration,
@@ -165,17 +162,11 @@ import {
  */
 export default {
   StorageClient: {
-    PrioritizedDataStorage: {
+    StorageLocation: {
       isPageable: false,
-      dump: PrioritizedDataStorageDump,
-      ENTITY_ARRAY: PRIORIZED_DATASTORAGE_ARRAY,
-      normalizrKey: PrioritizedDataStorageConfiguration.normalizrKey,
-    },
-    StorageMonitoring: {
-      isPageable: false,
-      dump: StorageMonitoringDump,
-      ENTITY_ARRAY: STORAGE_MONITORING_ARRAY,
-      normalizrKey: StorageMonitoringConfiguration.normalizrKey,
+      dump: StorageLocationDump,
+      ENTITY_ARRAY: STORAGE_LOCATION_ARRAY,
+      normalizrKey: StorageLocationConfiguration.normalizrKey,
     },
   },
   AccessProjectClient: {
@@ -275,11 +266,11 @@ export default {
       ENTITY_ARRAY: ACCESS_GROUP_ARRAY,
       normalizrKey: AccessGroupConfiguration.normalizrKey,
     },
-    AccessRight: {
+    DatasetWithAccessRight: {
       isPageable: true,
-      dump: AccessRightDump,
-      ENTITY_ARRAY: ACCESS_RIGHT_ARRAY,
-      normalizrKey: AccessRightConfiguration.normalizrKey,
+      dump: DatasetWithAccessRightDump,
+      ENTITY_ARRAY: DATASET_WITH_ACCESS_RIGHT_ARRAY,
+      normalizrKey: DatasetWithAccessRightConfiguration.normalizrKey,
     },
     UserGroup: {
       isPageable: false,

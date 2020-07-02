@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,7 @@ import styles from '../../../../src/styles/styles'
 const context = buildTestContext(styles)
 
 const serviceConfiguration = {
-  configId: 1,
+  configId: '1',
   label: 'service1',
   icon: 'hellfire.png',
   applicationModes: [],

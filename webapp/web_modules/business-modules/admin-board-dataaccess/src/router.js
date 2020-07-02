@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -48,33 +48,11 @@ export const searchenginesManagementRouter = {
   },
 }
 
-export const accessGroupAdminRouter = {
-  path: 'access-group',
-  getChildRoutes(nextState, cb) {
-    const adminAccessGroupManagement = require('@regardsoss/admin-accessright-accessgroup-management')
-    require.ensure([], (require) => {
-      cb(null, [adminAccessGroupManagement.accessGroupManagementRouter])
-    })
-  },
-}
-
-export const accessRightsAdminRouter = {
-  path: 'access-rights',
-  getChildRoutes(nextState, cb) {
-    const adminDataAccessManagement = require('@regardsoss/admin-accessright-dataaccess-management')
-    require.ensure([], (require) => {
-      cb(null, [adminDataAccessManagement.accessRightManagementRouter])
-    })
-  },
-}
-
 const modelsRouter = {
   childRoutes: [
     boardRoute,
     servicesManagementRouter,
     searchenginesManagementRouter,
-    accessGroupAdminRouter,
-    accessRightsAdminRouter,
   ],
 }
 

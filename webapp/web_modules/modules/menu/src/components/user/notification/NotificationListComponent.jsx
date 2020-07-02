@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,11 +19,11 @@
 import get from 'lodash/get'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
-import NotificationNone from 'material-ui/svg-icons/social/notifications-none'
-import More from 'material-ui/svg-icons/navigation/chevron-right'
-import Less from 'material-ui/svg-icons/navigation/expand-more'
-import Notification from 'material-ui/svg-icons/social/notifications'
-import ClearAll from 'material-ui/svg-icons/communication/clear-all'
+import NotificationNone from 'mdi-material-ui/BellOutline'
+import More from 'mdi-material-ui/ChevronRight'
+import Less from 'mdi-material-ui/ChevronDown'
+import Notification from 'mdi-material-ui/Bell'
+import ClearAll from 'mdi-material-ui/NotificationClearAll'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {

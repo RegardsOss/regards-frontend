@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,3 +34,5 @@ export { default as LocationShape } from './LocationShape'
 export { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
 export { default as PageMetadata } from './PageMetadata'
 export { RequestParameters } from './RequestParameters'
+export { JSONObject } from './JSONObject'
+export { HateOASLink } from './HateOASLink'

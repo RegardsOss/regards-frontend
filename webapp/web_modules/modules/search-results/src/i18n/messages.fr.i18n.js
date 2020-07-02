@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,14 +30,12 @@ const messages = {
   ...storage.messages.fr,
 
   // Administration messages
-
-  // Configuration tab
   'search.results.form.configuration.tree.section.label.MAIN': 'Général',
+  'search.results.form.configuration.tree.section.label.FILTERS': 'Filtres',
+  'search.results.form.configuration.tree.section.label.RESTRICTIONS': 'Restriction des résultats',
   'search.results.form.configuration.tree.section.label.DATA': 'Données',
   'search.results.form.configuration.tree.section.label.DATASET': 'Jeux de données',
-  'search.results.form.configuration.tree.section.label.DOCUMENT': 'Documents',
   'search.results.form.configuration.tree.page.label.MAIN': 'Vue',
-  'search.results.form.configuration.tree.page.label.FILTERS': 'Filtres',
   'search.results.form.configuration.tree.page.label.SORTING': 'Tri',
   'search.results.form.configuration.tree.page.label.LIST_AND_TABLE': 'Liste et tableau',
   'search.results.form.configuration.tree.page.label.QUICKLOOKS': 'Imagettes',
@@ -45,7 +43,26 @@ const messages = {
   'search.results.form.main.configuration.display.types.message': 'Types de résultats à afficher',
   'search.results.form.main.configuration.display.types.data': 'Données',
   'search.results.form.configuration.result.type.data.and.datasets': 'Données et jeux de données',
-  'search.results.form.main.configuration.display.types.documents': 'Documents',
+  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions des résultats par les jeux de données',
+  'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
+  'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
+  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  } sélectionné{selectionCount, plural, 
+    =0 {} 
+    one {} 
+    other {s}
+  }`,
+  'search.results.form.restrictions.configuration.filter.by.name.message': 'Filtre',
+  'search.results.form.restrictions.configuration.no.data.title': 'Aucun élément',
+  'search.results.form.restrictions.configuration.no.dataset.existing.message': 'Il n\'y a aucun jeu de données, veuillez sélectionner un autre mode de restriction des résultats.',
+  'search.results.form.restrictions.configuration.no.dataset.matching.message': 'Il n\'y a aucun jeu de données correspondant au filtre saisi.',
+  'search.results.form.restrictions.configuration.no.dataset.model.existing.message': 'Il n\'y a aucun modèle de jeux de données, veuillez sélectionner un autre mode de restriction des résultats.',
+  'search.results.form.restrictions.configuration.no.dataset.model.matching.message': 'Il n\'y a aucun modèle de jeux de données correspondant au filtre saisi.',
   'search.results.form.configuration.result.type.tab.title.message': 'Titre de la vue',
   'search.results.form.configuration.result.type.tab.hint': 'Titre de l\'onglet pour ce type, laisser vide pour la valeur par défaut',
   'search.results.form.configuration.result.type.tab.label.en': 'Anglais',
@@ -58,8 +75,9 @@ const messages = {
   'search.results.form.configuration.result.options.title': 'Options',
   'search.results.form.configuration.result.options.enable.download': 'Activer le téléchargement des fichiers associés à l\'entité',
   'search.results.form.configuration.result.filters': 'Filtres',
-  'search.results.form.configuration.result.enable.filters': 'Activer les filtres',
-  'search.results.form.configuration.result.enable.filters.initially': 'Activer les filtres initialement',
+  'search.results.form.configuration.result.enable.filters.data': 'Proposer les filtres dans la vue des données',
+  'search.results.form.configuration.result.enable.filters.dataset': 'Proposer les filtres dans la vue des jeux de données',
+  'search.results.form.configuration.result.enable.filters.initially': 'Proposer les filtres initialement',
   'search.results.form.configuration.result.no.filter': 'Ajouter ici les attributs permettant à l\'utilisateur de filtrer les résultats',
   'search.results.form.configuration.result.sorting': 'Tri initial des résultats',
   'search.results.form.configuration.result.no.sorting': 'Ajouter ici les attributs à utiliser pour le tri initial des résultats',
@@ -75,6 +93,9 @@ const messages = {
   'search.results.form.configuration.result.MAP.background.layer.type': 'Type',
 
   // User messages
+  'search.results.tab.main.results': 'Résultats',
+  'search.results.tab.description': 'Description',
+  'search.results.tab.tag.results': '{tabLabel}',
   'search.results.configure.columns.option': 'Colonnes',
   'search.results.configure.columns.summary.text': '{columnsCount} colonnes disponibles pour ce tableau',
   'search.results.configure.columns.toggle.all.visible': 'Tout Afficher',
@@ -96,7 +117,6 @@ const messages = {
   'search.results.default.tab.label.for.DATA': 'Données',
   'search.results.default.tab.label.for.DATASET': 'Jeux de données',
   'search.results.default.tab.label.for.COLLECTION': 'Collections',
-  'search.results.default.tab.label.for.DOCUMENT': 'Documents',
   'search.results.toggle.filters': 'Filtres',
   'search.results.list.sort.label': 'Tri: {sortElement}',
   'search.results.list.sort.default.label': 'Initial',
@@ -110,7 +130,7 @@ const messages = {
   'download.no.online.file.tooltip': 'Tous les fichiers sont hors ligne',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
-  'search.related.objects': 'Voir le contenu du jeu',
+  'filter.related.data': 'Afficher les données',
   'add.to.cart.tooltip': 'Ajouter l\'élément à mon panier',
   'add.selection.to.cart.label': 'Ajouter au panier',
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',

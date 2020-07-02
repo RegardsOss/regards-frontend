@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -222,7 +222,6 @@ export class EditItemForm extends React.Component {
       <form onSubmit={handleSubmit(this.onSubmit)} style={editDialog.formStyle}>
         {/* All fields, in scroll area */}
         <ScrollArea
-          //height="100%"
           vertical
           style={editDialog.scrollableAreaStyle}
         >

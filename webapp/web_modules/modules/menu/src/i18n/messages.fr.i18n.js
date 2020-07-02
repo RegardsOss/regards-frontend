@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,6 +34,11 @@ const messages = {
   logoutLabel: 'Déconnexion',
   accountLabel: 'Mon compte',
   changeRole: 'Changer de rôle',
+  'role.name.PUBLIC': 'Publique',
+  'role.name.REGISTERED_USER': 'Utilisateur enregistré',
+  'role.name.EXPLOIT': 'Exploitant',
+  'role.name.ADMIN': 'Administrateur',
+  'role.name.PROJECT_ADMIN': 'Super Administrateur',
   resetRole: 'Rôle par défaut',
   contactTooltip: 'Nous contacter...',
   AboutPageTooltip: 'A propos...',

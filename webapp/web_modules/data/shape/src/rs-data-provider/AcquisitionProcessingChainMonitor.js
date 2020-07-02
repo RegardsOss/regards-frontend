@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,15 +26,7 @@ import { AcquisitionProcessingChainContent } from './AcquisitionProcessingChain'
 /** A dated selection item shape */
 export const AcquisitionProcessingChainMonitorContent = PropTypes.shape({
   chain: AcquisitionProcessingChainContent.isRequired,
-  nbFileErrors: PropTypes.number.isRequired,
-  nbFiles: PropTypes.number.isRequired,
-  nbFilesInProgress: PropTypes.number.isRequired,
-  nbProductErrors: PropTypes.number.isRequired,
-  nbProducts: PropTypes.number.isRequired,
-  nbProductsInProgress: PropTypes.number.isRequired,
-  nbProductAcquisitionJob: PropTypes.number.isRequired,
-  nbSIPGenerationJobs: PropTypes.number.isRequired,
-  nbSIPSubmissionJobs: PropTypes.number.isRequired,
+  active: PropTypes.bool.isRequired,
 })
 
 export const AcquisitionProcessingChainMonitor = PropTypes.shape({

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -48,6 +48,15 @@ class AuthenticateSelectors extends BasicSignalSelectors {
 
   getAccessToken(state) {
     return get(this.getAuthentication(state), 'result.access_token')
+  }
+
+  /**
+   * Is session locked?
+   * @param {*} state redux state
+   * @return {boolean} true when session locked, false otherwise
+   */
+  isSessionLocked(state) {
+    return this.getAuthentication(state).sessionLocked
   }
 
   /**

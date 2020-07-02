@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -66,9 +66,6 @@ class GraphContextSelectors extends BasicSelector {
    * @return bool
    */
   areDatasetAttributesVisible = state => this.uncombineStore(state).datasetsAttributesVisible
-
-  /** @return current search tag as a (see @regardsoss/domain/catalog/Tag)  */
-  getSearchTag = state => this.uncombineStore(state).searchTag
 }
 
 export default new GraphContextSelectors(['modules.search-graph', REDUCER_PATH])

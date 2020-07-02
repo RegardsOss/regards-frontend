@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,6 @@
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import { roleResourceAccessDependencies } from '@regardsoss/admin-user-role-resource-access-management'
-import { orderDependencies } from '@regardsoss/admin-order-management'
 
 /**
  * Module hateoas depencies
@@ -27,11 +26,10 @@ import { orderDependencies } from '@regardsoss/admin-order-management'
  */
 
 export default [
-  ...projectUserDependencies.listDependencies,
-  ...projectUserDependencies.addDependencies,
-  ...roleDependencies.addDependencies,
-  ...roleDependencies.listDependencies,
-  ...roleResourceAccessDependencies.addDependencies,
-  ...roleResourceAccessDependencies.listDependencies,
-  ...orderDependencies.listDependencies,
+  projectUserDependencies.listDependencies,
+  projectUserDependencies.addDependencies,
+  roleDependencies.addDependencies,
+  roleDependencies.listDependencies,
+  roleResourceAccessDependencies.addDependencies,
+  roleResourceAccessDependencies.listDependencies,
 ]

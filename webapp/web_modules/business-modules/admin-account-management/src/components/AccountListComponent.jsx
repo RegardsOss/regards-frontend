@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -28,8 +28,8 @@ import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import { FormattedMessage } from 'react-intl'
-import EditAccountIcon from 'material-ui/svg-icons/editor/mode-edit'
-import DeleteAccountIcon from 'material-ui/svg-icons/action/delete'
+import EditAccountIcon from 'mdi-material-ui/Pencil'
+import DeleteAccountIcon from 'mdi-material-ui/Delete'
 import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
 import RefuseAccountIcon from 'mdi-material-ui/AccountRemove'
 import EnabledAccountIcon from 'mdi-material-ui/AccountConvert'
@@ -232,8 +232,8 @@ export class AccountListComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage } } = this.context
     const emptyComponent = (<NoContentComponent
-      title={formatMessage({ id: 'account.list.table.no.content.title' })}
-      message={formatMessage({ id: tabContent.noDataMessageKey })}
+      titleKey="account.list.table.no.content.title"
+      messageKey={tabContent.noDataMessageKey}
     />)
 
     return (

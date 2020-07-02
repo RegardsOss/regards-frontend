@@ -1,6 +1,6 @@
 
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,9 +27,10 @@ import { DamDomain } from '@regardsoss/domain'
 
 export const FORM_SECTIONS_ENUM = {
   MAIN: 'MAIN', // main section
+  FILTERS: 'FILTERS', // filters section
+  RESTRICTIONS: 'RESTRICTIONS', // restrictions section
   [DamDomain.ENTITY_TYPES_ENUM.DATA]: DamDomain.ENTITY_TYPES_ENUM.DATA,
   [DamDomain.ENTITY_TYPES_ENUM.DATASET]: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-  [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT]: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
 }
 
 export const FORM_SECTIONS = values(FORM_SECTIONS_ENUM)

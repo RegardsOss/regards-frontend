@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -26,7 +26,6 @@ export const AccessGroupConfiguration = {
 }
 
 export const ACCESS_GROUP = new Schema(AccessGroupConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey]
-  ,
+  idAttribute: entity => entity.content[AccessGroupConfiguration.entityKey],
 })
 export const ACCESS_GROUP_ARRAY = arrayOf(ACCESS_GROUP)

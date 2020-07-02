@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,8 +35,9 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  Card, CardActions, CardText, CardTitle, MenuItem,
-} from 'material-ui'
+  Card, CardActions, CardText, CardTitle,
+} from 'material-ui/Card'
+import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent } from '@regardsoss/components'
 import { DescriptorHelper } from '../../../domain/opensearch/DescriptorHelper'
 import OSQueryFiltersFieldComponent from './OSQueryFiltersFieldComponent'

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -62,18 +62,18 @@ describe('[PLUGINS API] Testing NumberRangeHelper', () => {
   })
   it('should correctly generate query parts for numbers', () => {
     // 1 - It should not return query without attribute name, range or with infinity range
-    assert.isNotOk(numberRangeHelper.getNumberAttributeQueryPart(null, new numberRangeHelper.NumberRange(5, null)), 'It should not return query without attribute name')
-    assert.isNotOk(numberRangeHelper.getNumberAttributeQueryPart('my.attr', null), 'It should not return query without range')
-    assert.isNotOk(numberRangeHelper.getNumberAttributeQueryPart('my.attr', new numberRangeHelper.NumberRange()),
+    assert.isNotOk(numberRangeHelper.getNumberQueryParameter(null, new numberRangeHelper.NumberRange(5, null)).toQueryString(), 'It should not return query without attribute name')
+    assert.isNotOk(numberRangeHelper.getNumberQueryParameter('my.attr', null).toQueryString(), 'It should not return query without range')
+    assert.isNotOk(numberRangeHelper.getNumberQueryParameter('my.attr', new numberRangeHelper.NumberRange()).toQueryString(),
       'It should not return query with infinite range (no constraint on values)')
     // 2 - It should return valid requests URL for all ranges types, escaping negative values for opensearch parser
-    assert.equal(numberRangeHelper.getNumberAttributeQueryPart('my.attr', new numberRangeHelper.NumberRange(-0.125, -0.125)),
+    assert.equal(numberRangeHelper.getNumberQueryParameter('my.attr', new numberRangeHelper.NumberRange(-0.125, -0.125)).toQueryString(),
       'my.attr:\\-0.125')
-    assert.equal(numberRangeHelper.getNumberAttributeQueryPart('my.attr', new numberRangeHelper.NumberRange(-5, 88)),
+    assert.equal(numberRangeHelper.getNumberQueryParameter('my.attr', new numberRangeHelper.NumberRange(-5, 88)).toQueryString(),
       'my.attr:[\\-5 TO 88]')
-    assert.equal(numberRangeHelper.getNumberAttributeQueryPart('other.attr', new numberRangeHelper.NumberRange(null, 4)),
+    assert.equal(numberRangeHelper.getNumberQueryParameter('other.attr', new numberRangeHelper.NumberRange(null, 4)).toQueryString(),
       'other.attr:[* TO 4]')
-    assert.equal(numberRangeHelper.getNumberAttributeQueryPart('other.attr', new numberRangeHelper.NumberRange(-1.25, null)),
+    assert.equal(numberRangeHelper.getNumberQueryParameter('other.attr', new numberRangeHelper.NumberRange(-1.25, null)).toQueryString(),
       'other.attr:[\\-1.25 TO *]')
   })
   it('should correctly define number ranges', () => {

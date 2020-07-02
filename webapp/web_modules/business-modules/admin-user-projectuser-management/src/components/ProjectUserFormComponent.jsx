@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -39,7 +39,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import Chip from 'material-ui/Chip'
-import AddSvg from 'material-ui/svg-icons/content/add'
+import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
@@ -121,6 +121,14 @@ export class ProjectUserFormComponent extends React.Component {
       }
     })
     return currentUserGroups
+  }
+
+  getRoleName = (name = 'empty') => {
+    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formated !== `role.name.${name}`) {
+      return formated
+    }
+    return name
   }
 
   handleInitialize = () => {
@@ -316,7 +324,7 @@ export class ProjectUserFormComponent extends React.Component {
                 <MenuItem
                   value={role.content.name}
                   key={id}
-                  primaryText={role.content.name}
+                  primaryText={this.getRoleName(role.content.name)}
                 />
               ))}
             </Field>

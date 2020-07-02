@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 import FlatButton from 'material-ui/FlatButton'
-import PlayArrow from 'material-ui/svg-icons/av/play-arrow'
-import Check from 'material-ui/svg-icons/navigation/check'
-import Error from 'material-ui/svg-icons/alert/error'
-import Warning from 'material-ui/svg-icons/alert/warning'
+import PlayArrow from 'mdi-material-ui/Play'
+import Check from 'mdi-material-ui/Check'
+import Error from 'mdi-material-ui/AlertCircle'
+import Warning from 'mdi-material-ui/Alert'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Snackbar from 'material-ui/Snackbar'

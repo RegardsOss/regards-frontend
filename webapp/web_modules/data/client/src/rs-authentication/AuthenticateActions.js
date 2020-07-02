@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -69,10 +69,12 @@ export default class AuthenticateActions extends BasicSignalActions {
    * Notifies authentication state changed. Especially used for role borrowing, as we need a
    * new token / authentication date managed. May be used to change other authentication values later
    * @param result: new authentication state result (as returned by the server)
+   * @param {number} authenticateDate authenticateDate date as ms (defaults to NOW for common cases)
    */
-  notifyAuthenticationChanged(result) {
+  notifyAuthenticationChanged(result, authenticateDate = Date.now()) {
     return {
       type: this.AUTHENTICATION_CHANGED,
+      authenticateDate,
       result,
     }
   }

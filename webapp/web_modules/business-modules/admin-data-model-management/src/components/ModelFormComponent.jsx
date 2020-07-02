@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -167,7 +167,6 @@ export class ModelFormComponent extends React.Component {
               <MenuItem value="COLLECTION" primaryText={formatMessage({ id: 'model.type.collection' })} />
               <MenuItem value="DATA" primaryText={formatMessage({ id: 'model.type.data' })} />
               <MenuItem value="DATASET" primaryText={formatMessage({ id: 'model.type.dataset' })} />
-              <MenuItem value="DOCUMENT" primaryText={formatMessage({ id: 'model.type.document' })} />
             </Field>
             <ShowableAtRender show={isCreating}>
               <hr />

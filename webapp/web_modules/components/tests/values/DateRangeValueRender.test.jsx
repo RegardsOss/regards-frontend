@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import DateRangeValueRender from '../../src/values/DateRangeValueRender'
 import styles from '../../src/values/styles'
+import RangeValueRenderDelegate from '../../src/values/RangeValueRenderDelegate'
 
 const context = buildTestContext(styles)
 
@@ -37,82 +38,54 @@ describe('[COMPONENTS] Testing DateRangeValueRender', () => {
     assert.isDefined(DateRangeValueRender)
   })
 
-  it('Should render correctly a no data range', () => {
-    // undefined
-    let wrapper = shallow(<DateRangeValueRender />, { context })
-    assert.include(wrapper.text(), 'value.render.no.value.label', 'Undefined range should display no data text')
-
-    // null bounds
-    const props = {
-      value: {
-        lowerBound: null,
-        upperBound: null,
-      },
-    }
-    wrapper = shallow(<DateRangeValueRender {...props} />, { context })
-    assert.include(wrapper.text(), 'value.render.no.value.label', 'Null range should display no data text')
-
-    const props2 = {
-      value: {
-        lowerBound: 'DDD',
-        upperBound: 'CCC',
-      },
-    }
-    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'value.render.no.value.label', 'Non parsable range should display no data text')
-  })
-
-  it('Should render correctly a lower bound range (when upper is undefined or not parsable', () => {
-    // undefined upper
-    const props = {
-      value: {
-        lowerBound: '2017-01-07T12:00:00',
-      },
-    }
-    let wrapper = shallow(<DateRangeValueRender {...props} />, { context })
-    assert.include(wrapper.text(), 'value.render.range.lower.only.label', 'Undefined upper bound should show a lower range text')
-
-    // non parsable  upper
-    const props2 = {
-      value: {
-        lowerBound: '2017-01-07T12:00:00',
-        upperBound: 'CCC',
-      },
-    }
-    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'value.render.range.lower.only.label', 'Non parsable upper bound should show a lower range text')
-  })
-
-  it('Should render correctly an upper bound range (when lower is undefined or not parsable', () => {
-    // undefined upper
-    const props = {
-      value: {
-        upperBound: '2017-01-07T12:00:00',
-      },
-    }
-    let wrapper = shallow(<DateRangeValueRender {...props} />, { context })
-    assert.include(wrapper.text(), 'value.render.range.upper.only.label', 'Undefined lower bound should show a lower range text')
-
-    // non parsable  upper
-    const props2 = {
-      value: {
-        lowerBound: 'CCC',
-        upperBound: '2017-01-07T12:00:00',
-      },
-    }
-    wrapper = shallow(<DateRangeValueRender {...props2} />, { context })
-    assert.include(wrapper.text(), 'value.render.range.upper.only.label', 'Non parsable lower bound should show a lower range text')
-  })
-
-  it('Should render correctly a complete range when both bounds can be parsed', () => {
-    // undefined upper
-    const props = {
-      value: {
-        lowerBound: '2017-01-07T06:00:00',
-        upperBound: '2017-01-07T12:00:00',
-      },
-    }
-    const wrapper = shallow(<DateRangeValueRender {...props} />, { context })
-    assert.include(wrapper.text(), 'value.render.range.full.label', 'Undefined lower bound should show a lower range text')
-  })
+  const testCases = [{
+    label: 'no data range',
+    value: null,
+    expectedProps: {
+      noValue: true,
+      lowerBound: null,
+      upperBound: null,
+    },
+  }, {
+    label: 'infinite range',
+    value: {},
+    expectedProps: {
+      noValue: false,
+      lowerBound: null,
+      upperBound: null,
+    },
+  }, {
+    label: 'lower infinite range',
+    value: { upperBound: '2017-01-07T12:00:00' },
+    expectedProps: {
+      noValue: false,
+      lowerBound: null,
+      upperBound: 'value.render.date.value',
+    },
+  }, {
+    label: 'upper infinite range',
+    value: { lowerBound: '2017-01-07T12:00:00' },
+    expectedProps: {
+      noValue: false,
+      lowerBound: 'value.render.date.value',
+      upperBound: null,
+    },
+  }, {
+    label: 'finite range',
+    value: {
+      lowerBound: '2017-01-07T06:00:00',
+      upperBound: '2017-01-07T12:00:00',
+    },
+    expectedProps: {
+      noValue: false,
+      lowerBound: 'value.render.date.value',
+      upperBound: 'value.render.date.value',
+    },
+  }]
+  testCases.forEach(({ label, value, expectedProps }) => it(`should render correctly in ${label} case`, () => {
+    const enzymeWrapper = shallow(<DateRangeValueRender value={value} />, { context })
+    const delegateWrapper = enzymeWrapper.find(RangeValueRenderDelegate)
+    assert.lengthOf(delegateWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(delegateWrapper, expectedProps)
+  }))
 })

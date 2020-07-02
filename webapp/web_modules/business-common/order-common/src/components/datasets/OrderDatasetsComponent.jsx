@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,9 +23,9 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
   TableHeaderContentBox, TableHeaderOptionGroup, TableColumnsVisibilityOption, StorageCapacityRender,
+  NoContentComponent,
 } from '@regardsoss/components'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
-import NoDatasetComponent from './NoDatasetComponent'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import ShowDatasetFilesContainer from '../../containers/datasets/ShowDatasetFilesContainer'
 
@@ -58,7 +58,10 @@ class OrderDatasetsComponent extends React.Component {
   }
 
   /** No data component (avoids re-rendering it) */
-  static EMPTY_COMPONENT = <NoDatasetComponent />
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="datasets.list.no.dataset.information.title"
+    messageKey="datasets.list.no.dataset.information.message"
+  />
 
   /**
    * Builds table columns

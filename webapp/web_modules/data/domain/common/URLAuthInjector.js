@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -32,7 +32,9 @@ function URLAuthInjector(url, accessToken, projectName) {
     if (accessToken) {
       return `${url}${separator}token=${accessToken}`
     }
-    return `${url}${separator}scope=${projectName}`
+    if (projectName) {
+      return `${url}${separator}scope=${projectName}`
+    }
   }
   return url
 }

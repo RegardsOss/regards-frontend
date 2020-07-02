@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEmpty from 'lodash/isEmpty'
+import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { adminModuleActions, adminModuleSelectors } from '../../clients/ModulesListClient'
@@ -48,11 +49,10 @@ export class AdminContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { appName }) {
-    const userAppId = 'user'
+  static mapDispatchToProps(dispatch, props) {
     return {
-      fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(userAppId)),
-      fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: userAppId }, { sort: 'id,ASC' })),
+      fetchLayout: () => dispatch(adminLayoutActions.fetchEntity(props.appName)),
+      fetchModules: () => dispatch(adminModuleActions.fetchPagedEntityList(0, null, { applicationId: props.appName }, { sort: 'id,ASC' })),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
     }
   }
@@ -71,20 +71,25 @@ export class AdminContainer extends React.Component {
    * Lifecycle method component did mount. Used here to fetch layout and modules data (not fetched in common redux store by admin application)
    */
   componentDidMount = () => {
-    const { fetchLayout, fetchModules, fetchRoleList } = this.props
-    // fetch initial data as admin app doesn't fetch the layout and modules data in common store parts
-    fetchLayout()
-    fetchModules()
-    // fetch role list for form edition
-    fetchRoleList()
+    const {
+      fetchLayout, fetchModules, fetchRoleList, appName,
+    } = this.props
+    // fetch corresponding user application layout, modules and roles, except when editing portal menu as it doesn't use
+    // related functionnalities
+    if (appName !== UIDomain.APPLICATIONS_ENUM.PORTAL) {
+      fetchLayout()
+      fetchModules()
+      // fetch role list for form edition
+      fetchRoleList()
+    }
   }
 
   render() {
     const {
       appName, project, adminForm, roleList,
     } = this.props
-    if (isEmpty(roleList)) {
-      // prevent displayed before roles were fetched
+    if (isEmpty(roleList) && appName !== UIDomain.APPLICATIONS_ENUM.PORTAL) {
+      // prevent displayed before roles were fetched, except if portal (as portal doesn't show that option)
       return null
     }
     return (

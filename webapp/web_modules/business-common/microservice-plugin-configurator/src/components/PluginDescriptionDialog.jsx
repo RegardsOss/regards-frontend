@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Dialog } from 'material-ui'
+import Dialog from 'material-ui/Dialog'
 import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
 import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -76,7 +76,7 @@ class PluginDescriptionDialog extends React.Component {
         repositionOnUpdate={false}
       >
         <MarkdownFileContentDisplayer
-          heightToFit={400}
+          style={markdownDialog.markdownView}
           source={pluginMetaData.markdown}
         />
       </Dialog>

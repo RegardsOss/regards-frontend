@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -33,7 +33,7 @@ export class DBDatasourceFormAttributesContainer extends React.Component {
     currentDatasource: DataManagementShapes.Datasource,
     handleSave: PropTypes.func.isRequired,
     backUrl: PropTypes.string.isRequired,
-    currentConnectionId: PropTypes.number.isRequired,
+    currentConnectionId: PropTypes.string.isRequired,
     // from mapStateToProps
     modelList: DataManagementShapes.ModelList,
     pluginMetaDataList: CommonShapes.PluginMetaDataList,
@@ -88,7 +88,7 @@ export class DBDatasourceFormAttributesContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({
   modelList: modelSelectors.getList(state),
-  currentConnection: connectionSelectors.getById(state, parseInt(ownProps.currentConnectionId, 10)),
+  currentConnection: connectionSelectors.getByBusinessId(state, ownProps.currentConnectionId),
 })
 
 const mapDispatchToProps = dispatch => ({

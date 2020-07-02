@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,8 +31,8 @@ import filter from 'lodash/filter'
 import { CardText } from 'material-ui/Card'
 import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'mdi-material-ui/Pencil'
+import Delete from 'mdi-material-ui/Delete'
 import { DamDomain } from '@regardsoss/domain'
 import { CardActionsComponent, Title } from '@regardsoss/components'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'

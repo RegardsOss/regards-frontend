@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { i18nContextType } from '@regardsoss/i18n'
 import { NoContentComponent } from '@regardsoss/components'
 
 /**
@@ -28,17 +27,12 @@ class NoUserComponent extends React.Component {
     hasFilter: PropTypes.bool.isRequired,
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
   render() {
     const { hasFilter } = this.props
-    const { intl: { formatMessage } } = this.context
     return (
       <NoContentComponent
-        title={formatMessage({ id: 'projectUser.list.table.no.content.title' })}
-        message={formatMessage({ id: hasFilter ? 'projectUser.list.table.no.content.with.filter.message' : 'projectUser.list.table.no.content.without.filter.message' })}
+        titleKey="projectUser.list.table.no.content.title"
+        messageKey={hasFilter ? 'projectUser.list.table.no.content.with.filter.message' : 'projectUser.list.table.no.content.without.filter.message'}
       />
     )
   }

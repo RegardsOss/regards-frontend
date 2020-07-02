@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import flatMap from 'lodash/flatMap'
 import { assert } from 'chai'
-import { PluginParameterTypes, JavaPrimitiveTypes } from '@regardsoss/domain/common'
+import { PluginParameterTypes } from '@regardsoss/domain/common'
 import { convertParameter, resolveParametersWithTypes } from '../../src/definitions/CatalogPluginServiceHelper'
 import { Parameter } from '../../src/definitions/parameters/Parameter'
 
@@ -26,8 +26,8 @@ const getConfigParameter = (name, dynamicsValues, defaultValue = undefined, dyna
   name, dynamicsValues, value: defaultValue, dynamic,
 })
 
-const getMetaDataParameter = (name, type, defaultValue, paramType = PluginParameterTypes.PRIMITIVE, optional = false) => ({
-  name: 'common.field', type, paramType, defaultValue, optional,
+const getMetaDataParameter = (name, type, defaultValue, optional = false) => ({
+  name: 'common.field', type, defaultValue, optional,
 })
 
 /**
@@ -39,21 +39,21 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
   const basicTypesTests = [
     // boolean type isn't validated (not a text field).
     {
-      type: JavaPrimitiveTypes.BOOLEAN, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', validator: false,
+      type: PluginParameterTypes.BOOLEAN, correspondingFieldType: Parameter.EditorTypes.CHECKBOX, name: 'field1', validator: false,
     },
     {
-      type: JavaPrimitiveTypes.BYTE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true,
+      type: PluginParameterTypes.BYTE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, name: 'field2', validator: true,
     },
     {
-      type: JavaPrimitiveTypes.CHARACTER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, defaultValue: 'Z', validator: true,
+      type: PluginParameterTypes.CHARACTER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, defaultValue: 'Z', validator: true,
     },
-    { type: JavaPrimitiveTypes.DOUBLE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: JavaPrimitiveTypes.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: JavaPrimitiveTypes.INTEGER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: JavaPrimitiveTypes.LONG, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
-    { type: JavaPrimitiveTypes.SHORT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: PluginParameterTypes.DOUBLE, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: PluginParameterTypes.FLOAT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: PluginParameterTypes.INTEGER, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: PluginParameterTypes.LONG, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
+    { type: PluginParameterTypes.SHORT, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: true },
     // string type isn't validated (textfield input is always a valid string)
-    { type: JavaPrimitiveTypes.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: false },
+    { type: PluginParameterTypes.STRING, correspondingFieldType: Parameter.EditorTypes.TEXTFIELD, validator: false },
   ]
   basicTypesTests.map(({
     type, correspondingFieldType, validator, name = 'common.field',
@@ -73,9 +73,9 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
 
 
   const choiceTests = [
-    { type: JavaPrimitiveTypes.CHARACTER, dynamicsValues: ['Z', 'A'] },
-    { type: JavaPrimitiveTypes.DOUBLE, dynamicsValues: [1.5, 3.2] },
-    { type: JavaPrimitiveTypes.STRING, dynamicsValues: ['aaa', 'zzz'] },
+    { type: PluginParameterTypes.CHARACTER, dynamicsValues: ['Z', 'A'] },
+    { type: PluginParameterTypes.DOUBLE, dynamicsValues: [1.5, 3.2] },
+    { type: PluginParameterTypes.STRING, dynamicsValues: ['aaa', 'zzz'] },
   ]
   choiceTests.map(({ type, dynamicsValues, validator }) => it(`should convert any type (here ${type}) into a choice when dynamic values are provided`, () => {
     const configParam = getConfigParameter('common.field', dynamicsValues)
@@ -91,19 +91,19 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     const initValueTest = [
       // test admin value selection
       {
-        name: 't1', type: JavaPrimitiveTypes.STRING, configValue: 'a', metaValue: 'b', expectedValue: 'a',
+        name: 't1', type: PluginParameterTypes.STRING, configValue: 'a', metaValue: 'b', expectedValue: 'a',
       },
       // test dev value selection (no admin)
       {
-        name: 't2', type: JavaPrimitiveTypes.BOOLEAN, metaValue: true, expectedValue: true,
+        name: 't2', type: PluginParameterTypes.BOOLEAN, metaValue: true, expectedValue: true,
       },
       // test default value selection (no admin nor dev, with default value for boolean type)
-      { name: 't3', type: JavaPrimitiveTypes.BOOLEAN, expectedValue: false },
+      { name: 't3', type: PluginParameterTypes.BOOLEAN, expectedValue: false },
       // test default value selection (no admin nor dev, no default value for string editable type)
-      { name: 't4', type: JavaPrimitiveTypes.INTEGER, expectedValue: undefined },
+      { name: 't4', type: PluginParameterTypes.INTEGER, expectedValue: undefined },
       // test default value selection (no admin nor dev, with default value for choice type)
       {
-        name: 't5', type: JavaPrimitiveTypes.INTEGER, dynamicsValues: [1, 2], expectedValue: 1,
+        name: 't5', type: PluginParameterTypes.INTEGER, dynamicsValues: [1, 2], expectedValue: 1,
       },
     ]
     initValueTest.forEach(({
@@ -116,10 +116,10 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
     })
   })
   it('Should report optional when convering the parameter', () => {
-    const tests = flatMap([JavaPrimitiveTypes.STRING, JavaPrimitiveTypes.BOOLEAN], type => [{ type, optional: true }, { type, optional: false }])
+    const tests = flatMap([PluginParameterTypes.STRING, PluginParameterTypes.BOOLEAN], type => [{ type, optional: true }, { type, optional: false }])
     tests.forEach(({ type, optional }) => {
       const configParam = getConfigParameter('common.field')
-      const metaParam = getMetaDataParameter('common.field', type, undefined, PluginParameterTypes.PRIMITIVE, optional)
+      const metaParam = getMetaDataParameter('common.field', type, PluginParameterTypes.STRING, optional)
       const resolved = convertParameter(configParam, metaParam)
       assert.equal(resolved.required, !optional, 'The optional field value should be added')
     })
@@ -184,13 +184,13 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         licence: 'LGPLv3.0',
         parameters: [
           {
-            name: 'A bool', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+            name: 'A bool', type: 'BOOLEAN', optional: false,
           },
           {
-            name: 'A string', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'Default val', optional: false,
+            name: 'A string', type: 'STRING', defaultValue: 'Default val', optional: false,
           },
           {
-            name: 'A string choice', type: 'java.lang.String', paramType: 'PRIMITIVE', defaultValue: 'v', optional: false,
+            name: 'A string choice', type: 'STRING', defaultValue: 'v', optional: false,
           },
         ],
       },
@@ -233,7 +233,7 @@ describe('[Entities Common] Testing CatalogPluginServiceHelper', () => {
         licence: 'LGPLv3.0',
         parameters: [
           {
-            name: 'Ignored parameter', type: 'java.lang.Boolean', paramType: 'PRIMITIVE', optional: false,
+            name: 'Ignored parameter', type: 'BOOLEAN', optional: false,
           },
         ],
       },

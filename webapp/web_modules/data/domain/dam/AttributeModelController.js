@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,8 +22,7 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import isString from 'lodash/isString'
 
-import { DataTypesEnum } from '../common/DataTypes'
-import MODEL_ATTR_TYPES from './ModelAttrTypes'
+import { MODEL_ATTR_TYPES } from './ModelAttrTypes'
 
 /**
  * Enumeration and controller for AttributeModel entities
@@ -87,7 +86,7 @@ const standardAttributes = {
     id: -6,
     label: 'Thumbnail',
     type: MODEL_ATTR_TYPES.URL,
-    jsonPath: `files.${DataTypesEnum.THUMBNAIL}[0]`,
+    jsonPath: 'files', // render using file to be able fallbacking onto quicklooks if required
   },
   [standardAttributesKeys.geometry]: {
     key: standardAttributesKeys.geometry,

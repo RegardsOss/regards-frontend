@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -24,7 +24,7 @@ import size from 'lodash/size'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DamDomain, CommonDomain } from '@regardsoss/domain'
+import { CommonDomain } from '@regardsoss/domain'
 import { List, ListItem, makeSelectable } from 'material-ui/List'
 import Badge from 'material-ui/Badge'
 import Paper from 'material-ui/Paper'
@@ -36,10 +36,10 @@ import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ShowableAtRender, NoContentComponent } from '@regardsoss/components'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconButton from 'material-ui/IconButton'
-import Remove from 'material-ui/svg-icons/action/highlight-off'
-import Add from 'material-ui/svg-icons/content/add-circle-outline'
-import Download from 'material-ui/svg-icons/file/file-download'
-import IconEmptyList from 'material-ui/svg-icons/file/create-new-folder'
+import Remove from 'mdi-material-ui/CloseCircleOutline'
+import Add from 'mdi-material-ui/PlusCircleOutline'
+import Download from 'mdi-material-ui/FileDownload'
+import IconEmptyList from 'mdi-material-ui/FolderPlus'
 import EntitiesFilesRefFieldArray from './EntitiesFilesRefFieldArray'
 
 const SelectableList = makeSelectable(List)
@@ -90,7 +90,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     super(props)
     this.state = {
       nbInputs: 1,
-      type: get(props, 'allowedDataType[0]', DamDomain.DATATYPE_ENUM.DESCRIPTION),
+      type: get(props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
       state: STATE.INIT,
     }
   }
@@ -116,11 +116,11 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getAcceptTypesForFileInput = () => {
     switch (this.state.type) {
-      case DamDomain.DATATYPE_ENUM.THUMBNAIL:
+      case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return '.jpg,.jpeg,.png,.gif'
-      case DamDomain.DATATYPE_ENUM.DESCRIPTION:
+      case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
         return '.md,.pdf,.html'
-      case DamDomain.DATATYPE_ENUM.DOCUMENT:
+      case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
         return '.md,.pdf,.html,.zip,.tar,.rar'
       default:
         return ''
@@ -160,11 +160,11 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getMimeTypeAuthorised = () => {
     switch (this.state.type) {
-      case DamDomain.DATATYPE_ENUM.THUMBNAIL:
+      case CommonDomain.DATA_TYPES_ENUM.THUMBNAIL:
         return [CommonDomain.MimeTypes.jpg, CommonDomain.MimeTypes.png, CommonDomain.MimeTypes.gif]
-      case DamDomain.DATATYPE_ENUM.DESCRIPTION:
+      case CommonDomain.DATA_TYPES_ENUM.DESCRIPTION:
         return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html]
-      case DamDomain.DATATYPE_ENUM.DOCUMENT:
+      case CommonDomain.DATA_TYPES_ENUM.DOCUMENT:
         return [CommonDomain.MimeTypes.pdf, CommonDomain.MimeTypes.md, CommonDomain.MimeTypes.html, CommonDomain.MimeTypes.zip, CommonDomain.MimeTypes.tar, CommonDomain.MimeTypes.rar]
       default:
         return []
@@ -176,7 +176,7 @@ export class EntitiesFilesFormComponent extends React.Component {
    */
   getFilesRefProps = () => ({
     mimeTypeList: this.getMimeTypeAuthorised(),
-    allowImage: this.state.type === DamDomain.DATATYPE_ENUM.THUMBNAIL,
+    allowImage: this.state.type === CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
   })
 
   /**
@@ -303,9 +303,9 @@ export class EntitiesFilesFormComponent extends React.Component {
   renderTypeList = () => (
     <div className="col-sm-25">
       <SelectableList value={this.state.type} onChange={this.handleChangeDataType}>
-        {this.renderType(DamDomain.DATATYPE_ENUM.THUMBNAIL)}
-        {this.renderType(DamDomain.DATATYPE_ENUM.DOCUMENT)}
-        {this.renderType(DamDomain.DATATYPE_ENUM.DESCRIPTION)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.THUMBNAIL)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.DOCUMENT)}
+        {this.renderType(CommonDomain.DATA_TYPES_ENUM.DESCRIPTION)}
       </SelectableList>
     </div>
   )
@@ -318,8 +318,8 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { formatMessage } = this.context.intl
     const content = fileList.length === 0 ? (
       <NoContentComponent
-        title={this.context.intl.formatMessage({ id: 'entities-files.form.no-file.title' })}
-        message={formatMessage({ id: 'entities-files.form.no-file.message' })}
+        titleKey="entities-files.form.no-file.title"
+        messageKey="entities-files.form.no-file.message"
         Icon={IconEmptyList}
       />
     ) : map(this.getFileList(), file => (

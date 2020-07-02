@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -62,16 +62,12 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<OrderListFiltersComponent {...props} />, { context })
-    let { usersAsHints } = enzymeWrapper.state()
-    assert.lengthOf(usersAsHints, 2, 'There should be one item menu for each user')
     let autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
     assert.lengthOf(autocompleteWrapper, 1, 'There should be a table header autocomplete filter')
     testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
       hintText: 'order.list.filter.by.email.hint',
-      currentHintText: props.usersFilterText,
-      currentHints: usersAsHints,
+      currentHints: props.matchingUsers,
       isFetching: false,
-      isInError: false,
       onUpdateInput: props.onUpdateUsersFilter,
       onFilterSelected: props.onUserFilterSelected,
     }, 'Table header autocomplete filter should be correctly configured')
@@ -87,13 +83,10 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
       usersFilterText: 'anotherFilterText',
       matchingUsers: {},
     })
-    usersAsHints = enzymeWrapper.state().usersAsHints
-    assert.lengthOf(usersAsHints, 0, 'There should be no item menu as users list is empty')
     autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
     assert.lengthOf(autocompleteWrapper, 1, 'There should be a table header autocomplete filter')
     testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
-      currentHintText: 'anotherFilterText',
-      currentHints: usersAsHints,
+      currentHints: {},
     }, 'Table header autocomplete filter configuration should be correctly updated')
   })
   it('should render correctly when fetching', () => {
@@ -127,7 +120,7 @@ describe('[Admin Order Managament] Testing OrderListFiltersComponent', () => {
     const autocompleteWrapper = enzymeWrapper.find(TableHeaderAutoCompleteFilter)
     assert.lengthOf(autocompleteWrapper, 1, 'There should be a table header autocomplete filter')
     testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
-      isInError: true,
+      noData: true,
     }, 'Error state should be correctly reported to Table autocomplete filter')
   })
 })

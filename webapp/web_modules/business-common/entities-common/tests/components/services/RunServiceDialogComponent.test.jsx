@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,7 +41,7 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
   it('should render correctly in loading state', () => {
     const props = {
       serviceName: 'A service',
-      currentStep: RunServiceDialogComponent.buildLoadingStep('Loading message...'),
+      currentStep: RunServiceDialogComponent.buildLoadingStep(),
       onClose: () => { },
       handleSubmit: () => { },
       initialize: () => { },
@@ -58,7 +58,7 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
   it('should render correctly in error message state', () => {
     const props = {
       serviceName: 'A service',
-      currentStep: RunServiceDialogComponent.buildMessageStep('Hello error', true, [<div key="test.option" />]),
+      currentStep: RunServiceDialogComponent.buildMessageStep('message.key', true, [<div key="test.option" />]),
       onClose: () => { },
       handleSubmit: () => { },
       initialize: () => { },
@@ -77,14 +77,14 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     // find message displayer and verify it is visible with right properties
     const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.equal(messageDisplayer.props().message, 'Hello error', 'The message should be reported')
-    assert.equal(messageDisplayer.props().title, 'entities.common.services.error.title', 'The error title should be used')
+    assert.equal(messageDisplayer.props().messageKey, 'message.key', 'The message should be reported')
+    assert.equal(messageDisplayer.props().titleKey, 'entities.common.services.error.title', 'The error title should be used')
     assert.isTrue(messageDisplayer.props().noContent, 'The message should be displayed (using noContent:true property)')
   })
   it('should render correctly in information message state', () => {
     const props = {
       serviceName: 'A service',
-      currentStep: RunServiceDialogComponent.buildMessageStep('Hello info', false),
+      currentStep: RunServiceDialogComponent.buildMessageStep('hello.info', false),
       onClose: () => { },
       handleSubmit: () => { },
       initialize: () => { },
@@ -102,8 +102,8 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     // find message displayer and verify it is visible with right properties
     const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
     assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.equal(messageDisplayer.props().message, 'Hello info', 'The message should be reported')
-    assert.equal(messageDisplayer.props().title, 'entities.common.services.notice.title', 'The info title should be used')
+    assert.equal(messageDisplayer.props().messageKey, 'hello.info', 'The message should be reported')
+    assert.equal(messageDisplayer.props().titleKey, 'entities.common.services.notice.title', 'The info title should be used')
     assert.isTrue(messageDisplayer.props().noContent, 'The message should be displayed (using noContent:true property)')
   })
   it('should render correctly in configuration state', () => {

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,11 +19,11 @@
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CommonDomain } from '@regardsoss/domain'
+import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DataManagementShapes } from '@regardsoss/shape'
-import { DamDomain } from '@regardsoss/domain'
+import { CardActionsComponent } from '@regardsoss/components'
 import { EntitiesFilesFormContainer } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
@@ -44,7 +44,7 @@ export class DatasetEditFilesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  static allowedDataTypes = [DamDomain.DATATYPE_ENUM.DESCRIPTION, DamDomain.DATATYPE_ENUM.THUMBNAIL]
+  static allowedDataTypes = [CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, CommonDomain.DATA_TYPES_ENUM.THUMBNAIL]
 
   render() {
     const {

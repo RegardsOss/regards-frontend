@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
-import DissatisfiedIcon from 'material-ui/svg-icons/social/sentiment-dissatisfied'
+import DissatisfiedIcon from 'mdi-material-ui/EmoticonSadOutline'
 import { i18nContextType } from '@regardsoss/i18n'
 import DBDatasourceStepperComponent from './DBDatasourceStepperComponent'
 
@@ -42,8 +42,8 @@ export class DBDatasourceFormMappingEmptyDatabaseComponent extends React.Compone
           />
           <DBDatasourceStepperComponent stepIndex={2} />
           <NoContentComponent
-            title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.emptyDatabase.title' })}
-            message={this.context.intl.formatMessage({ id: 'datasource.form.mapping.emptyDatabase.message' })}
+            titleKey="datasource.form.mapping.emptyDatabase.title"
+            messageKey="datasource.form.mapping.emptyDatabase.message"
             Icon={DissatisfiedIcon}
           />
           <CardActions>

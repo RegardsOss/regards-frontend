@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,7 +25,7 @@ import { CommonDomain } from '@regardsoss/domain'
 
 // note downloadable (wrong type)
 export const notDownloadableFile = {
-  dataType: CommonDomain.DataTypesEnum.QUICKLOOK_MD,
+  dataType: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
   reference: false,
   uri: 'test:quicklook.png',
   mimeType: 'image/png',
@@ -37,7 +37,7 @@ export const notDownloadableFile = {
 
 // downloadable but offline
 export const offlineRawData = {
-  dataType: CommonDomain.DataTypesEnum.RAWDATA,
+  dataType: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
   reference: false,
   uri: 'test:offline-rawdata.css',
   mimeType: 'text/css',
@@ -47,7 +47,7 @@ export const offlineRawData = {
 
 // downloadable, from storage
 export const onlineRawData = {
-  dataType: CommonDomain.DataTypesEnum.RAWDATA,
+  dataType: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
   reference: false,
   uri: 'test:online-rawdata.css',
   mimeType: 'text/css',
@@ -57,7 +57,7 @@ export const onlineRawData = {
 
 // downloadable, external
 export const onlineDocRef = {
-  dataType: CommonDomain.DataTypesEnum.DOCUMENT,
+  dataType: CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
   reference: true,
   uri: 'test:external-dpcument.css',
   mimeType: 'text/css',

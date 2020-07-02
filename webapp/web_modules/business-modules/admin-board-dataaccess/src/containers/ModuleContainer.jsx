@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
+
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
-import { indexActions } from '../clients/IndexClient'
 import DataAccessBoardComponent from '../components/DataAccessBoardComponent'
 import messages from '../i18n'
 
@@ -26,19 +25,11 @@ import messages from '../i18n'
  * Main container to render for the Datamanagement module
  */
 class ModuleContainer extends React.Component {
-  static mapStateToProps = (dispatch, ownProps) => ({
-  })
-
-  static mapDispatchToProps = (dispatch, ownProps) => ({
-    resetIndex: () => dispatch(indexActions.resetIndex()),
-  })
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,
     }),
-    // From mapDispatchToProps
-    resetIndex: PropTypes.func.isRequired,
+
   }
 
   static contextTypes = {
@@ -49,10 +40,10 @@ class ModuleContainer extends React.Component {
     const { project } = this.props.params
     return (
       <I18nProvider messages={messages}>
-        <DataAccessBoardComponent project={project} onResetIndex={this.props.resetIndex} />
+        <DataAccessBoardComponent project={project} />
       </I18nProvider>
     )
   }
 }
 
-export default connect(ModuleContainer.mapStateToProps, ModuleContainer.mapDispatchToProps)(ModuleContainer)
+export default ModuleContainer

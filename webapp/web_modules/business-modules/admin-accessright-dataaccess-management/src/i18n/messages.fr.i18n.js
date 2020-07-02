@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,25 +41,14 @@ const messages = Object.assign({
   'accessright.form.data.accessLevel.NOT_APPLICABLE': 'Aucun accès',
   'accessright.form.dataAccessPlugin.title': 'Filtre d\'accès aux objets de données',
   'accessright.form.dataAccessPlugin.select.label': 'Sélectionner un filtre ...',
-  'accessright.form.checkDataAccessPlugin.title': 'Droits d\'accès aux fichiers',
-  'accessright.form.checkDataAccessPlugin.select.label': 'Sélectionner un mode d\'accès',
   'accessright.form.accessGroup': 'Groupe d\'accès aux données',
   'accessright.form.dataset.title': 'Liste des jeux de données',
   'accessright.form.dataset.input': 'Recherche par nom de collection',
   'accessright.form.action.save': 'Sauvegarder',
   'accessright.form.action.cancel': 'Annuler',
   'accessright.form.action.back': 'Retour',
-  'accessright.form.action.advanced.hide': 'Cacher',
-  'accessright.form.action.advanced.show': 'Afficher les paramètres avancés',
   'accessright.form.title': 'Droits d\'accès',
   'accessright.form.subtitle': 'Mise en place des droits d\'accès pour {nbSelectedDataset} jeux de données',
-  'accessright.form.quality': 'Qualité des données récupérées',
-  'accessright.form.quality.min': 'Qualité minimale requise',
-  'accessright.form.quality.max': 'Qualité maximale autorisée',
-  'accessright.form.quality.level': 'Niveau de qualité',
-  'accessright.form.quality.level.ACCEPTED': 'Jeux acceptés',
-  'accessright.form.quality.level.ACCEPTED_WITH_WARNINGS': 'Jeux acceptés avec avertissement(s)',
-  'accessright.form.quality.level.REJECTED': 'Jeux refusés',
   'accessright.form.error.message': 'Une erreur s\'est produite pendant la sauvegarde des droits d\'accès',
   'accessright.edit.tooltip': 'Configurer les droits d\'accès',
   'accessright.delete.tooltip': 'Retirer les droits d\'accès',

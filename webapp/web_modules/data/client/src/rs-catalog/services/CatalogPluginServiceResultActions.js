@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,20 +31,20 @@ export default class CatalogPluginServiceResultActions extends DownloadFileActio
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{pluginConfigurationId}/apply`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/services/{pluginConfigurationBusinessId}/apply`,
       headers: { Accept: '*/*' },
     })
   }
 
   /**
    * Fetches apply result
-   * @param {*} pluginConfigurationId plugin configuration ID
+   * @param {*} pluginConfigurationBusinessId plugin business ID
    * @param {*} dynamicParameters dynamic parameters
    * @param {*} targetParams plugin service target related parameters, one of the following structures:*
    * { entity } | { entities } | { q, entityType }
    * @return action to dispatch in order to fetch plugin service results
    */
-  fetchResult(pluginConfigurationId, dynamicParameters, targetParams) {
-    return this.download({ pluginConfigurationId }, null, 'POST', { dynamicParameters, ...targetParams })
+  fetchResult(pluginConfigurationBusinessId, dynamicParameters, targetParams) {
+    return this.download({ pluginConfigurationBusinessId }, null, 'POST', { dynamicParameters, ...targetParams })
   }
 }

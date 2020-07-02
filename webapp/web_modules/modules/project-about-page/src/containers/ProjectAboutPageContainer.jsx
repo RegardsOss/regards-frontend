@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,7 @@ import startsWith from 'lodash/startsWith'
 import { i18nContextType } from '@regardsoss/i18n'
 import FlatButton from 'material-ui/FlatButton'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import HomeIcone from 'material-ui/svg-icons/action/home'
+import HomeIcone from 'mdi-material-ui/Home'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { SingleContentURLDialogContainer } from '@regardsoss/components'
@@ -136,14 +136,12 @@ class ProjectAboutPageContainer extends React.Component {
         >
           <HomeIcone />
         </FloatingActionButton>)
-
     return (
       <div>
         {runtimeButton}
         <SingleContentURLDialogContainer
           open={dialogOpen}
           contentURL={this.getFullPath(htmlPath)}
-          loadingMessage={this.context.intl.formatMessage({ id: 'project.about.page.loading.message' })}
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}

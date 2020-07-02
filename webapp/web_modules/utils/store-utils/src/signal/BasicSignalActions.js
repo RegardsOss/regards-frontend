@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -44,8 +44,6 @@ class BasicSignalActions extends BasicActions {
    * @returns {{}}
    */
   sendSignal(verb, bodyParam, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
     let body
     if (!isEmpty(bodyParam)) {
       if (verb === 'GET') {
@@ -63,9 +61,10 @@ class BasicSignalActions extends BasicActions {
           ),
           this.buildFailureAction(this.SIGNAL_FAILURE),
         ],
-        headers: this.headers,
-        endpoint,
         method: verb,
+        endpoint: BasicActions.buildURL(this.entityEndpoint, pathParams, queryParams),
+        headers: this.headers,
+        options: this.options,
         body,
       },
     }
@@ -81,25 +80,15 @@ class BasicSignalActions extends BasicActions {
    * @returns {{}}
    */
   sendEntityUsingMultiPart(verb, objectValues, files, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesMap(objectValues, files)
-    return {
-      [RSAA]: {
-        types: [
-          this.SIGNAL_REQUEST,
-          this.buildSuccessAction(
-            this.SIGNAL_SUCCESS,
-            (action, state, res) => res.status === 204 ? null : this.buildResults(res),
-          ),
-          this.buildFailureAction(this.SIGNAL_FAILURE),
-        ],
-        endpoint,
-        method: verb,
-        body: formData,
-      },
-    }
+    return this.buildMultiPartsRSAAction(this.entityEndpoint, pathParams, queryParams,
+      BasicActions.createFormDataWithFilesMap(objectValues, files), [
+        this.SIGNAL_REQUEST,
+        this.buildSuccessAction(
+          this.SIGNAL_SUCCESS,
+          (action, state, res) => res.status === 204 ? null : this.buildResults(res),
+        ),
+        this.buildFailureAction(this.SIGNAL_FAILURE),
+      ], verb)
   }
 
 
@@ -112,25 +101,15 @@ class BasicSignalActions extends BasicActions {
    * @returns {{}}
    */
   sendEntityAndArrayOfFilesUsingMultiPart(verb, objectValues, files, fileKey, pathParams, queryParams) {
-    let endpoint = this.handleRequestQueryParams(this.entityEndpoint, queryParams)
-    endpoint = this.handleRequestPathParameters(endpoint, pathParams)
-    endpoint = BasicActions.useZuulSlugForMultiPartRoutes(endpoint)
-    const formData = BasicActions.createFormDataWithFilesList(objectValues, files, fileKey)
-    return {
-      [RSAA]: {
-        types: [
-          this.SIGNAL_REQUEST,
-          this.buildSuccessAction(
-            this.SIGNAL_SUCCESS,
-            (action, state, res) => res.status === 204 ? null : this.buildResults(res),
-          ),
-          this.buildFailureAction(this.SIGNAL_FAILURE),
-        ],
-        endpoint,
-        method: verb,
-        body: formData,
-      },
-    }
+    return this.buildMultiPartsRSAAction(this.entityEndpoint, pathParams, queryParams,
+      BasicActions.createFormDataWithFilesList(objectValues, files, fileKey), [
+        this.SIGNAL_REQUEST,
+        this.buildSuccessAction(
+          this.SIGNAL_SUCCESS,
+          (action, state, res) => res.status === 204 ? null : this.buildResults(res),
+        ),
+        this.buildFailureAction(this.SIGNAL_FAILURE),
+      ], verb)
   }
 
   /**

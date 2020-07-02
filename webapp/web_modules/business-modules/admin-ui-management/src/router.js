@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
 /**
  * UI-Configuration module routes.
  */
@@ -35,6 +36,35 @@ export const boardRoute = {
   },
 }
 
+export const settingsRoute = {
+  path: 'settings',
+  getChildRoutes(nextState, cb) {
+    const moduleUISettings = require('@regardsoss/admin-ui-settings-management')
+    require.ensure([], (require) => {
+      cb(null, [moduleUISettings.uiSettingsRouter])
+    })
+  },
+}
+
+export const layoutUiManagementRouter = {
+  path: 'layout',
+  getChildRoutes(nextState, cb) {
+    const layoutUiManagement = require('@regardsoss/admin-ui-layout-management')
+    require.ensure([], (require) => {
+      cb(null, [layoutUiManagement.layoutUIRouter])
+    })
+  },
+}
+
+export const themeUiManagementRouter = {
+  path: 'theme',
+  getChildRoutes(nextState, cb) {
+    const themeUiManagement = require('@regardsoss/admin-ui-theme-management')
+    require.ensure([], (require) => {
+      cb(null, [themeUiManagement.themeUIRouter])
+    })
+  },
+}
 
 export const moduleUiManagementRouter = {
   path: 'module',
@@ -67,26 +97,6 @@ export const serviceUiManagementRouter = {
   },
 }
 
-export const themeUiManagementRouter = {
-  path: 'theme',
-  getChildRoutes(nextState, cb) {
-    const themeUiManagement = require('@regardsoss/admin-ui-theme-management')
-    require.ensure([], (require) => {
-      cb(null, [themeUiManagement.themeUIRouter])
-    })
-  },
-}
-
-export const layoutUiManagementRouter = {
-  path: 'layout',
-  getChildRoutes(nextState, cb) {
-    const layoutUiManagement = require('@regardsoss/admin-ui-layout-management')
-    require.ensure([], (require) => {
-      cb(null, [layoutUiManagement.layoutUIRouter])
-    })
-  },
-}
-
 /**
  *
  * @type {{childRoutes: [*]}}
@@ -94,11 +104,12 @@ export const layoutUiManagementRouter = {
 const uiConfigurationRouter = {
   childRoutes: [
     boardRoute,
-    moduleUiManagementRouter,
-    serviceUiManagementRouter,
-    themeUiManagementRouter,
-    pluginUiManagementRouter,
+    settingsRoute,
     layoutUiManagementRouter,
+    themeUiManagementRouter,
+    moduleUiManagementRouter,
+    pluginUiManagementRouter,
+    serviceUiManagementRouter,
   ],
 }
 

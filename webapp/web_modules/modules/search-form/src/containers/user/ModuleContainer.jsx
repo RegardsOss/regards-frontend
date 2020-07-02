@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,12 +21,12 @@ import isNil from 'lodash/isNil'
 import isEmpty from 'lodash/isEmpty'
 import reduce from 'lodash/reduce'
 import { connect } from '@regardsoss/redux'
-import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { UIDomain } from '@regardsoss/domain'
 import { UIClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import { modulesManager } from '@regardsoss/modules'
 import { modulesHelper } from '@regardsoss/modules-api'
-import DatasetSelectionTypes from '../../domain/DatasetSelectionTypes'
 import { resultsContextActions } from '../../clients/ResultsContextClient'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 import FormContainer from './FormContainer'
@@ -77,36 +77,9 @@ export class ModuleContainer extends React.Component {
     dispatchUpdateSearchContext: PropTypes.func.isRequired,
   }
 
-  /**
-   * Get the default query and criterion for this form at initialization
-   * @param {{type: string, selectedDatasets: [string], selectedModels: [number]}} dataset restrictions from module configuration
-   * @return {{query:string, resultsCriteria:{*}} built context query and corresponding results context criteria
-   */
-  static buildContextQueryAndCriteria({ type, selectedDatasets, selectedModels }) {
-    // 1 - Build a open search parameters for context restriction
-    const parameters = []
-    switch (type) {
-      case DatasetSelectionTypes.DATASET_TYPE:
-        parameters.push(new CatalogDomain.OpenSearchQueryParameter(
-          CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
-          selectedDatasets.filter(id => !!id)))
-        break
-      case DatasetSelectionTypes.DATASET_MODEL_TYPE:
-        parameters.push(new CatalogDomain.OpenSearchQueryParameter(
-          CatalogDomain.OpenSearchQuery.DATASET_MODEL_IDS_PARAM,
-          selectedModels.filter(id => !!id).map(id => `${id}`))) // number to string array
-        break
-      default: // do nothin
-    }
-    const query = new CatalogDomain.OpenSearchQuery(null, parameters).toQueryString()
-    return {
-      query,
-      resultsCriteria: query ? [{
-        requestParameters: {
-          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: query,
-        },
-      }] : [],
-    }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   /**
@@ -121,29 +94,6 @@ export class ModuleContainer extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will mount. Initialize context query and state
-   */
-  componentWillMount = () => {
-    const { dispatchUpdateSearchContext } = this.props
-    // 1 - Prepare context query and corresponding results criteria
-    const { query, resultsCriteria } = ModuleContainer.buildContextQueryAndCriteria(get(this.props.moduleConf, 'datasets', {}))
-    // 2 - Initialize results context to set this context criteria if any (pre-filters results without searching)
-    if (resultsCriteria.length) {
-      // set this form criteria in otherFilters
-      dispatchUpdateSearchContext({
-        criteria: { otherFilters: resultsCriteria },
-      })
-    }
-
-    // ModuleContainer.buildRequestParameters(contextQuery, {}),
-    // 2 - Store context elements locally (avoids recomputing them later)
-    this.setState({
-      contextQuery: query,
-      contextResultsCriteria: resultsCriteria,
-    })
-  }
-
-  /**
    * On search callback: performs query update and shows results
    * @param {*} pluginsState map of plugins key with state
    * @param {boolean} isInitialization is initialization automatic research? (used to initialize the presentation panes states as they may not be
@@ -154,14 +104,17 @@ export class ModuleContainer extends React.Component {
       dispatchCollapseForm, dispatchExpandResults,
       dispatchInitializeWithOpenedResults, dispatchUpdateSearchContext,
     } = this.props
-    const { contextResultsCriteria } = this.state
-    // 1 - Publish new criteria list in otherFilters
+    // 1 - Publish new criteria list in results tab (otherFilters part), and select results tab
     dispatchUpdateSearchContext({
-      criteria: { // add both context and current criteria values
-        otherFilters: [
-          ...contextResultsCriteria,
-          ...ModuleContainer.buildResultsCriteria(pluginsState),
-        ],
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          criteria: {
+            otherFilters: [
+              ...ModuleContainer.buildResultsCriteria(pluginsState),
+            ],
+          },
+        },
       },
     })
     // 2 - Expand results and collapse form, when it is possible
@@ -178,22 +131,22 @@ export class ModuleContainer extends React.Component {
       project, appName, id, pluginsState,
       moduleConf: { preview, searchResult },
     } = this.props
-    const { contextQuery } = this.state
+    const { intl: { formatMessage } } = this.context
     return (
       <React.Fragment>
         {/* 1. Form */}
         <FormContainer
-          contextQuery={contextQuery}
           pluginsState={pluginsState}
           onSearch={this.onSearch}
           {...modulesHelper.getReportedUserModuleProps(this.props)}
         />
         {/* 2. Results, when not in preview */ }
         <ResultsContainer
-          preview={preview}
           id={id}
           appName={appName}
           project={project}
+          preview={preview}
+          resultsModuleTitle={formatMessage({ id: 'results.module.title' })}
           searchResultsConfiguration={searchResult}
         />
       </React.Fragment>

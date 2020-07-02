@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import endsWith from 'lodash/endsWith'
+import replace from 'lodash/replace'
 import map from 'lodash/map'
 import reject from 'lodash/reject'
 import get from 'lodash/get'
@@ -24,6 +26,7 @@ import filter from 'lodash/filter'
 import forEach from 'lodash/forEach'
 import isEmpty from 'lodash/isEmpty'
 import flow from 'lodash/flow'
+import find from 'lodash/find'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
 import {
@@ -163,23 +166,48 @@ export class AIPDatasourceFormComponent extends React.Component {
     this.props.onModelSelected(value)
   }
 
+  isMappableAttributKey = (key, attributes) => {
+    if (find(attributes, ['key', key])) {
+      return true
+    }
+    if (find(attributes, a => a.content.attribute.jsonPath === key)) {
+      return true
+    }
+
+    // Special  case of range attributes add lowerBound and upperBound at the end of the jsonPath
+    if (endsWith(key, '.upperBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.upperBound', ''))) {
+      return true
+    }
+    if (endsWith(key, '.lowerBound') && find(attributes, a => a.content.attribute.jsonPath === replace(key, '.lowerBound', ''))) {
+      return true
+    }
+    return false
+  }
+
   /**
    * Initialize form fields
    */
   handleInitialize = () => {
-    const { isCreating, currentDatasource } = this.props
+    const { isCreating, currentDatasource, modelAttributeList } = this.props
 
     if (!isCreating) {
       const refreshRate = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.REFRESH_RATE), 'value')
       const modelName = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.MODEL), 'value')
       const tags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.TAGS), 'value', [])
       const subsettingTags = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_TAGS), 'value', [])
+      const subsettingCategories = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES), 'value', [])
       const attributeFileSize = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE), 'value', '')
       const mappingRaw = get(findParam(currentDatasource, IAIPDatasourceParamsEnum.BINDMAP_MAP), 'value', [])
+      const mappableAttributs = this.getMappableAttributes(modelAttributeList)
+      const staticMappableAttributs = this.getMappingAttributes(StaticAttributeListAIP)
       // Replace the caracter . inside the binding into the caracter @
       const mapping = {}
       forEach(mappingRaw, (value, key) => {
-        mapping[key.replace(/\./g, '@')] = value
+        if (!find(staticMappableAttributs, ['key', key]) && !this.isMappableAttributKey(key, mappableAttributs)) {
+          console.error('unmappable attribute remove from conf', mappableAttributs, key)
+        } else {
+          mapping[key.replace(/\./g, '@')] = value
+        }
       })
       const initialValues = {
         label: currentDatasource.content.label,
@@ -187,6 +215,7 @@ export class AIPDatasourceFormComponent extends React.Component {
         refreshRate,
         tags,
         subsettingTags,
+        subsettingCategories,
         mapping,
         attributeFileSize,
       }
@@ -282,6 +311,11 @@ export class AIPDatasourceFormComponent extends React.Component {
               name="subsettingTags"
               component={RenderArrayTextField}
               fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingTags' })}
+            />
+            <FieldArray
+              name="subsettingCategories"
+              component={RenderArrayTextField}
+              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingCategories' })}
             />
             <ShowableAtRender
               show={modelAttributeFetched}

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import MainFormComponent from '../../src/components/admin/MainFormComponent'
 import { AdminContainer } from '../../src/containers/AdminContainer'
 import { FORM_SECTIONS_ENUM } from '../../src/domain/form/FormSectionsEnum'
@@ -28,7 +28,6 @@ import { PAGES_BY_TYPE } from '../../src/domain/form/FormPagesByType'
 import { configuration as dataConfiguration } from '../dumps/data.configuration.dump'
 import styles from '../../src/styles'
 import { attributes } from '../dumps/attributes.dump'
-import { configuration as documentsConfiguration } from '../dumps/documents.configuration.dump'
 
 const context = buildTestContext(styles)
 
@@ -58,65 +57,9 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
     },
     expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DATA],
   }, {
-    label: 'data and dataset (no configuration)',
+    label: 'data and dataset',
     formValues: dataConfiguration,
     expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
-  }, {
-    label: 'documents (no configuration)',
-    formValues: documentsConfiguration,
-    expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DOCUMENT],
-  }, {
-    label: 'data and dataset (with configuration)',
-    formValues: dataConfiguration,
-    expectedTypeSections: [DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET],
-    conf: {
-      selectableDataObjectsAttributes: {
-        ...attributes,
-        3: {
-          content: {
-            id: 3,
-            name: 'someDataAttr3',
-            label: 'Some data attribute 3',
-            jsonPath: 'frag3.someDataAttr3',
-            description: 'The data attribute 3',
-            type: 'STRING',
-            fragment: {
-              id: 3,
-              name: 'some.frag',
-              description: 'some.frag',
-            },
-            queryable: true,
-            facetable: true,
-            alterable: true,
-            optional: true,
-          },
-        },
-      },
-      selectableDataSetsAttributes: {
-        ...attributes,
-        4: {
-          content: {
-            id: 4,
-            name: 'someDatasetAttr4',
-            label: 'Some dataset attribute 4',
-            jsonPath: 'frag4.someDatasetAttr4',
-            description: 'The dataset attribute 4',
-            type: 'STRING',
-            fragment: {
-              id: 4,
-              name: 'some.frag',
-              description: 'some.frag',
-            },
-            queryable: true,
-            facetable: true,
-            alterable: true,
-            optional: true,
-          },
-        },
-      },
-      // Forbid documents displaying in module
-      documentsForbidden: true,
-    },
   }]
 
   testCases.forEach(({
@@ -129,33 +72,44 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       adminForm: {
         conf,
         currentNamespace: 'myForm',
+        isPage: true,
         form: {
           myForm: formValues,
         },
         changeField: () => {},
       },
+      datasets: {},
+      datasetModels: {},
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      documentAttributeModels: attributes,
-      fetchAllDataAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDatasetModelsAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDocumentModelsAttributes: () => new Promise(resolve => resolve()),
+      fetchDatasets: () => new Promise(resolve => resolve()),
+      fetchDatasetModels: () => new Promise(resolve => resolve()),
+      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
+      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    // 1 - check state is as expected
+    // 1 - check state
     const { navigationSections, selectedSectionType, selectedPageType } = enzymeWrapper.state()
     assert.equal(selectedSectionType, FORM_SECTIONS_ENUM.MAIN, 'Selected section type should be main initially')
     assert.equal(selectedPageType, FORM_PAGES_ENUM.MAIN, 'Selected section type should be main initially')
     // there should be the following sections:
     // - MAIN with page main only
+    // - RESTRICTIONS with page main only
     // - One section for each expected type
-    assert.lengthOf(navigationSections, 1 + expectedTypeSections.length, 'There should be sections MAIN plus one section by expected type')
+    assert.lengthOf(navigationSections, 3 + expectedTypeSections.length, 'There should be sections MAIN and RESTRICITONS plus one section by expected type')
     assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main')
     assert.lengthOf(navigationSections[0].pages, 1, 'Main section should have only one page')
     assert.equal(navigationSections[0].pages[0].type, FORM_PAGES_ENUM.MAIN, 'Main section single page should be main page')
-    for (let i = 1; i < navigationSections.length; i += 1) {
+    assert.equal(navigationSections[1].type, FORM_SECTIONS_ENUM.FILTERS, 'Second section should be filters')
+    assert.lengthOf(navigationSections[1].pages, 1, 'Filters section should have only one page')
+    assert.equal(navigationSections[1].pages[0].type, FORM_PAGES_ENUM.MAIN, 'Filters section single page should be main page')
+    assert.equal(navigationSections[2].type, FORM_SECTIONS_ENUM.RESTRICTIONS, 'Third section should be restrictions')
+    assert.lengthOf(navigationSections[2].pages, 1, 'Restrictions section should have only one page')
+    assert.equal(navigationSections[2].pages[0].type, FORM_PAGES_ENUM.MAIN, 'Restriction section single page should be main page')
+
+    for (let i = 3; i < navigationSections.length; i += 1) {
       const section = navigationSections[i]
-      const type = expectedTypeSections[i - 1]
+      const type = expectedTypeSections[i - 3]
       const expectedPages = PAGES_BY_TYPE[type]
       assert.lengthOf(section.pages, expectedPages.length, `Section for ${type} should have length ${expectedPages.length}`)
       section.pages.forEach((page, index) => {
@@ -172,10 +126,8 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       selectedPageType, // from state
       currentNamespace: 'myForm',
       currentFormValues: formValues,
-      documentsForbidden: conf ? conf.documentsForbidden : false,
-      dataAttributeModels: conf ? conf.selectableDataObjectsAttributes : props.dataAttributeModels,
-      datasetAttributeModels: conf ? conf.selectableDataSetsAttributes : props.datasetAttributeModels,
-      documentAttributeModels: props.documentAttributeModels,
+      dataAttributeModels: props.dataAttributeModels,
+      datasetAttributeModels: props.datasetAttributeModels,
       changeField: props.adminForm.changeField,
       onBrowseToPage: enzymeWrapper.instance().onBrowseToPage,
     }, 'Component should define the expected properties')
@@ -195,39 +147,79 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       type: 'any',
       adminForm: {
         currentNamespace: 'myForm',
+        isPage: true,
         form: {
           myForm: dataConfiguration,
         },
         changeField: () => {},
       },
+      datasets: {},
+      datasetModels: {},
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      documentAttributeModels: attributes,
-      fetchAllDataAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDatasetModelsAttributes: () => new Promise(resolve => resolve()),
-      fetchAllDocumentModelsAttributes: () => new Promise(resolve => resolve()),
+      fetchDatasets: () => new Promise(resolve => resolve()),
+      fetchDatasetModels: () => new Promise(resolve => resolve()),
+      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
+      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
-    // 1 - check state there are currently the main, data and dataset sections
-    let { navigationSections } = enzymeWrapper.state()
-    assert.lengthOf(navigationSections, 3, 'There should be 3 sections')
+    // 1 - check there are currently the main, data and dataset sections
+    const { navigationSections } = enzymeWrapper.state()
+    assert.lengthOf(navigationSections, 5, 'There should be 5 sections')
     assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main')
-    assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DATA, 'Second section should be data')
-    assert.equal(navigationSections[2].type, DamDomain.ENTITY_TYPES_ENUM.DATASET, 'Third section should be dataset')
-    // 2 - set in document view enabled mode
-    enzymeWrapper.setProps({
-      ...props,
+    assert.equal(navigationSections[1].type, FORM_SECTIONS_ENUM.FILTERS, 'Second section should be filters')
+    assert.equal(navigationSections[2].type, FORM_SECTIONS_ENUM.RESTRICTIONS, 'Thrid section should be restrictions')
+    assert.equal(navigationSections[3].type, DamDomain.ENTITY_TYPES_ENUM.DATA, 'Fourth section should be data')
+    assert.equal(navigationSections[4].type, DamDomain.ENTITY_TYPES_ENUM.DATASET, 'Fifth section should be dataset')
+    // 2 - Change to data only and check sections list do no longer contain dataset
+    enzymeWrapper.setProps(UIDomain.ResultsContextHelper.deepMerge(props, {
       adminForm: {
-        currentNamespace: 'myForm',
         form: {
-          myForm: documentsConfiguration,
+          myForm: {
+            viewsGroups: {
+              DATASET: {
+                enabled: false, // disable that view type
+              },
+            },
+          },
+        },
+      },
+    }))
+    const { navigationSections: updatedSections } = enzymeWrapper.state()
+    assert.lengthOf(updatedSections, 4, 'There should be 4 sections after update')
+    assert.equal(updatedSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main')
+    assert.equal(updatedSections[1].type, FORM_SECTIONS_ENUM.FILTERS, 'Second section should be filters')
+    assert.equal(updatedSections[2].type, FORM_SECTIONS_ENUM.RESTRICTIONS, 'Third section should be restrictions')
+    assert.equal(updatedSections[3].type, DamDomain.ENTITY_TYPES_ENUM.DATA, 'Fourth section should be data')
+  })
+  it('Should hide restrictions when configured by a parent module', () => {
+    const props = {
+      appName: 'anyApp',
+      project: 'someProject',
+      type: 'any',
+      adminForm: {
+        isPage: true,
+        currentNamespace: 'myForm',
+        conf: {
+          forbidRestrictions: true,
+        },
+        form: {
+          myForm: dataConfiguration,
         },
         changeField: () => {},
       },
-    })
-    navigationSections = enzymeWrapper.state().navigationSections
-    assert.lengthOf(navigationSections, 2, 'There should be 2 sections, after update')
-    assert.equal(navigationSections[0].type, FORM_SECTIONS_ENUM.MAIN, 'First section should be main, after update')
-    assert.equal(navigationSections[1].type, DamDomain.ENTITY_TYPES_ENUM.DOCUMENT, 'Second section should be document, after update')
+      datasets: {},
+      datasetModels: {},
+      dataAttributeModels: attributes,
+      datasetAttributeModels: attributes,
+      fetchDatasets: () => new Promise(resolve => resolve()),
+      fetchDatasetModels: () => new Promise(resolve => resolve()),
+      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
+      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
+    }
+    const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
+    // 1 - check there are currently the main, data and dataset sections
+    const { navigationSections } = enzymeWrapper.state()
+    assert.isFalse(navigationSections.some(section => section.type === FORM_SECTIONS_ENUM.RESTRICTIONS), 'Restriction section should be hidden')
   })
 })

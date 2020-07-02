@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -27,6 +27,7 @@ import { FORM_PAGES, FORM_PAGES_ENUM } from '../../domain/form/FormPagesEnum'
 import { FORM_SECTIONS, FORM_SECTIONS_ENUM } from '../../domain/form/FormSectionsEnum'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 import MainConfigurationComponent from './content/MainConfigurationComponent'
+import RestrictionsConfigurationComponent from './content/restrictions/RestrictionsConfigurationComponent'
 import EntityTypeConfigurationComponent from './content/EntityTypeConfigurationComponent'
 import FiltersConfigurationComponent from './content/FiltersConfigurationComponent'
 import SortingConfigurationComponent from './content/SortingConfigurationComponent'
@@ -46,11 +47,12 @@ class MainFormComponent extends React.Component {
     // current form and configuration
     currentNamespace: PropTypes.string.isRequired,
     currentFormValues: ModuleConfiguration.isRequired,
-    documentsForbidden: PropTypes.bool.isRequired,
+    // datasets and models
+    datasets: DataManagementShapes.DatasetList.isRequired,
+    datasetModels: DataManagementShapes.ModelList.isRequired,
     // Attributes pull by type
     dataAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     datasetAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
-    documentAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     // Callbacks
     // redux change field callback
     changeField: PropTypes.func.isRequired,
@@ -68,14 +70,12 @@ class MainFormComponent extends React.Component {
    * @return [*] available attributes, matching  DataManagementShapes.AttributeModelList shape
    */
   getAvailableAttributesFor = (sectionType) => {
-    const { dataAttributeModels, datasetAttributeModels, documentAttributeModels } = this.props
+    const { dataAttributeModels, datasetAttributeModels } = this.props
     switch (sectionType) {
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
         return dataAttributeModels
       case DamDomain.ENTITY_TYPES_ENUM.DATASET:
         return datasetAttributeModels
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT:
-        return documentAttributeModels
       default:
         throw new Error(`Cannot return attributes pool for type ${sectionType}`)
     }
@@ -87,7 +87,8 @@ class MainFormComponent extends React.Component {
   renderCurrentPage = () => {
     const {
       selectedSectionType, selectedPageType, changeField,
-      documentsForbidden, currentFormValues, currentNamespace,
+      datasets, datasetModels, dataAttributeModels,
+      currentFormValues, currentNamespace,
     } = this.props
     switch (selectedSectionType) {
       case FORM_SECTIONS_ENUM.MAIN:
@@ -96,12 +97,27 @@ class MainFormComponent extends React.Component {
           <MainConfigurationComponent
             currentNamespace={currentNamespace}
             currentFormValues={currentFormValues}
-            documentsForbidden={documentsForbidden}
+            changeField={changeField}
+          />)
+      case FORM_SECTIONS_ENUM.FILTERS:
+        return (
+          <FiltersConfigurationComponent
+            availableAttributes={dataAttributeModels}
+            currentNamespace={currentNamespace}
+            currentFormValues={currentFormValues}
+            changeField={changeField}
+          />)
+      case FORM_SECTIONS_ENUM.RESTRICTIONS:
+        return (
+          <RestrictionsConfigurationComponent
+            currentNamespace={currentNamespace}
+            currentRestrictionsValues={currentFormValues.restrictions}
+            datasets={datasets}
+            datasetModels={datasetModels}
             changeField={changeField}
           />)
       case DamDomain.ENTITY_TYPES_ENUM.DATA:
-      case DamDomain.ENTITY_TYPES_ENUM.DATASET:
-      case DamDomain.ENTITY_TYPES_ENUM.DOCUMENT: {
+      case DamDomain.ENTITY_TYPES_ENUM.DATASET: {
         // main case: section is edited entity type group
         const currentTypeNamespace = `${currentNamespace}.viewsGroups.${selectedSectionType}`
         const currentTypeFormValues = get(currentFormValues, `viewsGroups.${selectedSectionType}`)
@@ -113,14 +129,6 @@ class MainFormComponent extends React.Component {
                 type={selectedSectionType}
                 currentTypeNamespace={currentTypeNamespace}
                 currentTypeFormValues={currentTypeFormValues}
-              />)
-          case FORM_PAGES_ENUM.FILTERS:
-            return (
-              <FiltersConfigurationComponent
-                availableAttributes={availableAttributes}
-                currentTypeNamespace={currentTypeNamespace}
-                currentTypeFormValues={currentTypeFormValues}
-                changeField={changeField}
               />)
           case FORM_PAGES_ENUM.SORTING:
             return (

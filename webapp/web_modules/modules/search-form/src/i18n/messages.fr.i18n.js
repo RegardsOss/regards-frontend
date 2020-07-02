@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,7 +34,6 @@ const messages = {
 
   // Tabulation labels
   'form.configuration.tab.label': 'Résultats',
-  'form.dataset.selection.tab.label': 'Jeux',
   'form.layout.tab.label': 'Présentation',
   'form.criterions.tab.label': 'Critères',
   'form.criterion.tab.title': 'Configurez les critères de recherche de votre formulaire. Chaque critère peut être placé dans une section spécifique de votre agencement.',
@@ -64,14 +63,6 @@ const messages = {
   'form.attributes.regroupement.edit': 'Éditer',
   'form.attributes.delete.confirm.title': 'Supprimer le regroupement {name} ?',
   'form.attributes.regroupement.form.title.update': 'Mise à jour du regroupement : {name}',
-  // Datasets tab
-  'form.datasets.tab.title': 'Associer le formulaire de recherche aux jeux de données du catalogue',
-  'form.datasets.all.label': 'Associer à tous les jeux de données du catalogue',
-  'form.datasets.reset.all': 'Enlever toute association à ce formulaire',
-  'form.datasets.selected.label': 'Associer à des jeux de données',
-  'form.datasets.model.selected.label': 'Associer à des modèles de jeu de données',
-  'form.datasets.select.dataset.list.title': 'Jeux de données associés',
-  'form.datasets.select.dataset.models.list.title': 'Modèles de jeu de données associés',
   // Layout tab
   'form.layout.tab.title': 'Agencement des critères',
   'form.layout.tab.reset': 'Réinitialiser',

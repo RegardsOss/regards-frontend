@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,9 +25,9 @@ import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
-import Duplicate from 'material-ui/svg-icons/content/content-copy'
-import Delete from 'material-ui/svg-icons/action/delete'
+import Edit from 'mdi-material-ui/Pencil'
+import Duplicate from 'mdi-material-ui/ContentCopy'
+import Delete from 'mdi-material-ui/Delete'
 import {
   ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
 } from '@regardsoss/components'

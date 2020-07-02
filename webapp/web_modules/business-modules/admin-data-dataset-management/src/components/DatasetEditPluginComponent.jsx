@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -89,7 +89,7 @@ export class DatasetEditPluginComponent extends React.Component {
   }
 
   renderItemMetaData = (pluginMetaData, pluginConfigurationList) => {
-    const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginClassName === pluginMetaData.content.pluginClassName)
+    const pluginConfigurationAssociated = filter(pluginConfigurationList, pluginConfiguration => pluginConfiguration.content.pluginId === pluginMetaData.content.pluginId)
     return (
       <ShowableAtRender
         show={pluginConfigurationAssociated.length > 0}

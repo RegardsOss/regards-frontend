@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,7 +22,8 @@ import { CatalogShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { StringComparison } from '@regardsoss/form-utils'
-import { DatasetAttributesArrayForGraph } from '../../model/DatasetAttributesForGraph'
+import { DatasetAttributesArrayForGraph } from '../../shapes/DatasetAttributesForGraph'
+import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import DatasetItemContainer from '../../containers/user/DatasetItemContainer'
 import CollectionItemContainer from '../../containers/user/CollectionItemContainer'
 import GraphLevelLoadingDisplayer from './GraphLevelLoadingDisplayer'
@@ -34,6 +35,7 @@ import GraphLevelMessageDisplayer from './GraphLevelMessageDisplayer'
 class GraphLevelDispayer extends React.Component {
   static propTypes = {
     graphDatasetAttributes: DatasetAttributesArrayForGraph.isRequired, // graph dataset attributes, required, but empty array is allowed
+    descriptionProperties: DescriptionProperties.isRequired, // From description HOC
     isShowable: PropTypes.bool.isRequired, // is showable in current state?
     isLoading: PropTypes.bool.isRequired, // is loading
     isLastLevel: PropTypes.bool.isRequired, // is last level?
@@ -59,7 +61,8 @@ class GraphLevelDispayer extends React.Component {
 
   render() {
     const {
-      graphDatasetAttributes, isShowable, isLoading, isLastLevel, hasError, collections, datasets, levelIndex,
+      graphDatasetAttributes, descriptionProperties, isShowable, isLoading,
+      isLastLevel, hasError, collections, datasets, levelIndex,
     } = this.props
     const { user } = this.context.moduleTheme
     // note: is loading and has error are strictly exclusive (cannot be true at same time)
@@ -81,15 +84,17 @@ class GraphLevelDispayer extends React.Component {
               values(collections).sort(GraphLevelDispayer.compareEntities).map(collection => (<CollectionItemContainer
                 key={collection.content.id}
                 collection={collection}
+                descriptionProperties={descriptionProperties}
                 levelIndex={levelIndex}
                 isLastLevel={isLastLevel}
               />))
             }
             { // datasets
               values(datasets).sort(GraphLevelDispayer.compareEntities).map(dataset => (<DatasetItemContainer
-                graphDatasetAttributes={graphDatasetAttributes}
                 key={dataset.content.id}
                 dataset={dataset}
+                graphDatasetAttributes={graphDatasetAttributes}
+                descriptionProperties={descriptionProperties}
                 levelIndex={levelIndex}
               />))
             }

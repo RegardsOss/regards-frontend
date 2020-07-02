@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,8 +18,8 @@
  **/
 import { connect } from '@regardsoss/redux'
 import IconButton from 'material-ui/IconButton'
-import Checked from 'material-ui/svg-icons/toggle/check-box'
-import Unchecked from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import Checked from 'mdi-material-ui/CheckboxMarked'
+import Unchecked from 'mdi-material-ui/CheckboxBlankOutline'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { BasicPageableSelectors } from '@regardsoss/store-utils'

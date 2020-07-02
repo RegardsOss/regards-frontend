@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UnconnectedAdminContainer } from '../../../src/containers/admin/AdminContainer'
+import { AdminContainer } from '../../../src/containers/admin/AdminContainer'
 
 /**
  * Tests for AdminContainer
@@ -64,6 +64,6 @@ describe('[SEARCH FORM] Testing Admin Container', () => {
       fetchDataSetAttributes: () => { },
     }
 
-    shallow(<UnconnectedAdminContainer {...props} />)
+    shallow(<AdminContainer {...props} />)
   })
 })

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -25,12 +25,12 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import WarningIcon from 'material-ui/svg-icons/alert/warning'
-import TimeIcon from 'material-ui/svg-icons/device/access-time'
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh'
-import CheckedIcon from 'material-ui/svg-icons/action/check-circle'
+import WarningIcon from 'mdi-material-ui/Alert'
+import TimeIcon from 'mdi-material-ui/ClockOutline'
+import RefreshIcon from 'mdi-material-ui/Refresh'
+import CheckedIcon from 'mdi-material-ui/CheckCircle'
 import IconButton from 'material-ui/IconButton'
-import Edit from 'material-ui/svg-icons/editor/mode-edit'
+import Edit from 'mdi-material-ui/Pencil'
 import { FormattedMessage } from 'react-intl'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'

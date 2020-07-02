@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import AddIcon from 'material-ui/svg-icons/content/add-circle'
-import ViewLinesIcon from 'material-ui/svg-icons/action/view-headline'
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
+import AddIcon from 'mdi-material-ui/PlusCircle'
+import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import SettingsIcon from 'mdi-material-ui/Settings'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
-import { orderDependencies } from '@regardsoss/admin-order-management'
+import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 import { authenticationPluginManagementDependencies } from '@regardsoss/admin-user-authentication-plugins-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
 
@@ -75,17 +75,22 @@ export default (project, intl) => [
       hateoasDependencies: roleDependencies.addDependencies,
     }],
   },
-  // orders list card
   {
-    title: intl.formatMessage({ id: 'user.board.orders.title' }),
-    description: intl.formatMessage({ id: 'orders.board.orders.description' }),
+    title: intl.formatMessage({ id: 'accessright.board.accessgroup.title' }),
+    description: intl.formatMessage({ id: 'accessright.board.accessgroup.description' }),
     advanced: false,
     actions: [{
-      path: `/admin/${project}/user/order/list`,
+      path: `/admin/${project}/user/access-group/list`,
       icon: <ViewLinesIcon />,
-      className: 'selenium-ordersList',
-      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.list' }),
-      hateoasDependencies: orderDependencies.listDependencies,
+      className: 'selenium-accessgroupList',
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.list' }),
+      hateoasDependencies: accessGroupDependencies.listDependencies,
+    }, {
+      path: `/admin/${project}/user/access-group/create`,
+      icon: <AddIcon />,
+      className: 'selenium-accessgroupCreate',
+      tooltipMsg: intl.formatMessage({ id: 'accessright.board.tooltip.add' }),
+      hateoasDependencies: accessGroupDependencies.addDependencies,
     }],
   },
   {

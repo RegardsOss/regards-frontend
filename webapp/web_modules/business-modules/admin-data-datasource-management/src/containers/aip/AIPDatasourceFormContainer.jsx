@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,17 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import forEach from 'lodash/forEach'
+import { browserHistory } from 'react-router'
+import { getFormValues } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
-import { getFormValues } from 'redux-form'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { IAIPDatasourceParamsEnum } from '@regardsoss/domain/dam'
 import { PluginConfParamsUtils } from '@regardsoss/domain/common'
+import { CommonDomain } from '@regardsoss/domain'
 import AIPDatasourceFormComponent from '../../components/aip/AIPDatasourceFormComponent'
 import { modelAttributesActions, modelAttributesSelectors } from '../../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../../clients/ModelClient'
@@ -193,7 +195,7 @@ export class AIPDatasourceFormContainer extends React.Component {
    * @param updatedDatasource
    */
   handleUpdate = (updatedDatasource) => {
-    Promise.resolve(this.props.updateDatasource(updatedDatasource.id, updatedDatasource))
+    Promise.resolve(this.props.updateDatasource(updatedDatasource.businessId, updatedDatasource))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -222,42 +224,55 @@ export class AIPDatasourceFormContainer extends React.Component {
     const parameters = [
       {
         name: IAIPDatasourceParamsEnum.BINDMAP_MAP,
+        type: CommonDomain.PluginParameterTypes.MAP,
+        clazz: 'java.lang.String',
         value: mappings,
       },
       {
         name: IAIPDatasourceParamsEnum.MODEL,
+        type: CommonDomain.PluginParameterTypes.STRING,
         value: values.model,
       },
       {
         name: IAIPDatasourceParamsEnum.REFRESH_RATE,
+        type: CommonDomain.PluginParameterTypes.INTEGER,
         value: parseInt(values.refreshRate, 10),
       },
       {
         name: IAIPDatasourceParamsEnum.TAGS,
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
+        clazz: 'java.lang.String',
         value: values.tags,
       },
       {
         name: IAIPDatasourceParamsEnum.SUBSETTING_TAGS,
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
+        clazz: 'java.lang.String',
         value: values.subsettingTags,
+      },
+      {
+        name: IAIPDatasourceParamsEnum.SUBSETTING_CATEGORIES,
+        type: CommonDomain.PluginParameterTypes.COLLECTION,
+        clazz: 'java.lang.String',
+        value: values.subsettingCategories,
       },
     ]
     if (!isEmpty(values.attributeFileSize)) {
       parameters.push(
         {
           name: IAIPDatasourceParamsEnum.ATTRIBUTE_FILE_SIZE,
+          type: 'STRING',
           value: values.attributeFileSize,
         },
       )
     }
     if (isCreating) {
       const datasource = {
-        label: values.label,
-        pluginClassName: 'fr.cnes.regards.modules.dam.plugins.datasources.AipDataSourcePlugin',
         pluginId: 'aip-storage-datasource',
-        interfaceNames: ['fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin'],
+        label: values.label,
         parameters,
       }
-      this.handleCreate(datasource)
+      this.handleCreate(PluginFormUtils.formatPluginConf(datasource))
     } else {
       const updatedDatasource = {
         ...this.props.currentDatasource.content,

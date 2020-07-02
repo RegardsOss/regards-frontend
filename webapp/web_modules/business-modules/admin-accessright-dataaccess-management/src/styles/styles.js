@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -23,19 +23,6 @@
  * @author Sébastien Binda
  */
 const styles = theme => ({
-  action: {
-    classes: ['row'].join(' '),
-    styles: {
-      display: 'flex',
-      justifyContent: 'center',
-      marginTop: '30px',
-    },
-  },
-  layout: {
-    cardEspaced: {
-      marginTop: '20px',
-    },
-  },
   filter: {
     fieldStyle: {
       width: '190px',

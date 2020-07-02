@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,13 +35,17 @@ describe('[Search Graph] Testing DatasetItemContainer', () => {
   it('should render properly', () => {
     const props = {
       dataset: DumpProvider.getFirstEntity('AccessProjectClient', 'DatasetEntity'),
-      selected: false,
-      locked: false,
       attributesVisible: false,
       graphDatasetAttributes: [],
+      descriptionProperties: {
+        showDescriptionOption: true,
+        isDescriptionAvailableFor: () => true,
+        onShowDescription: () => {},
+      },
+      selected: false,
+      locked: false,
       // from map dispatch to props
       dispatchSelected: () => { },
-      dispatchSetSearchTag: () => { },
     }
     const enzymeWrapper = shallow(<DatasetItemContainer {...props} />, { context })
     const datasetItems = enzymeWrapper.find(DatasetItem)

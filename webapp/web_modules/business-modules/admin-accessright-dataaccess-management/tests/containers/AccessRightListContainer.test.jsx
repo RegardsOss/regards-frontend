@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,11 +30,6 @@ const context = buildTestContext(styles)
 const formValues = {
   access: AccessRightEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS,
   dataAccess: AccessRightEnum.DATA_ACCESS_ENUM.AUTHORIZED,
-  quality: {
-    max: 0,
-    min: 0,
-    level: AccessRightEnum.QUALITY_LEVEL_ENUM.ACCEPTED,
-  },
 }
 
 /**
@@ -106,10 +101,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
 
     const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
 
-    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
+    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, { context })
 
     const datasetWithAccessRight = {
       content: {
@@ -153,28 +145,16 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       createAccessRight: createSpy,
     }
 
-    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
-
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
-    const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
-
-    const datasetWithAccessRight = {
-      content: {
-        datasetIpId: 'dataset1',
-        dataset: dataset.content,
-        accessRight: accessRight.content,
-      },
-    }
+    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, { context })
+    const datasetWithAccessRight = DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight', 'content.datasetIpId',
+      'URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1')
 
     // Test create a new accessRightForm by using a dataset no defined in the datasets of the dump accessGroups
     assert.isFalse(createSpy.calledOnce, 'No creation should be fired at this state')
     assert.isFalse(updateSpy.calledOnce, 'No update should be fired at this state')
     enzymeWrapper.instance().onSubmit([datasetWithAccessRight], formValues)
-    assert.isFalse(createSpy.calledOnce, 'There should a creation of a new accessRights')
-    assert.isTrue(updateSpy.calledOnce, 'No update should be fired at this state')
+    assert.isFalse(createSpy.calledOnce, 'There should be no creation of a new accessRights')
+    assert.isTrue(updateSpy.calledOnce, 'Update should be fired at this state')
   })
 
 
@@ -204,19 +184,18 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       createAccessRight: createSpy,
     }
 
-    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, {
-      context,
-      lifecycleExperimental: true,
-    })
+    const enzymeWrapper = shallow(<AccessRightListContainer {...props} />, { context })
 
-    const accessRight = DumpProvider.getFirstEntity('DataManagementClient', 'AccessRight')
-    const dataset = DumpProvider.getFirstEntity('DataManagementClient', 'Dataset')
+    const { accessRight } = DumpProvider.getEntityBy('DataManagementClient', 'DatasetWithAccessRight',
+      'content.datasetIpId', 'URN:AIP:DATASET:project1:873b8085-e4f7-400a-ba4c-dc3f5cf88b7b:V1').content
+    const dataset = DumpProvider.get('DataManagementClient', 'Dataset')
+
 
     const datasetWithAccessRights = [{
       content: {
         datasetIpId: 'dataset1',
         dataset: dataset.content,
-        accessRight: accessRight.content,
+        accessRight,
       },
     }, {
       content: {
@@ -240,7 +219,7 @@ describe('[ADMIN ACCESSRIGHT MANAGEMENT] Testing  AccessRightListContainer', () 
       content: {
         datasetIpId: 'dataset5',
         dataset: dataset.content,
-        accessRight: accessRight.content,
+        accessRight,
       },
     }]
 

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,3 +20,4 @@ import { UIClient } from '@regardsoss/client'
 
 // Using default namespace and path to make sure client will be handled by the reducer installed in user app
 export const resultsContextActions = new UIClient.ResultsContextActions()
+export const resultsContextSelectors = UIClient.getResultsContextSelectors()

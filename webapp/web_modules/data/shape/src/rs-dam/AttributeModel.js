@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -29,7 +29,7 @@ export const attributeModelFields = {
   jsonPath: PropTypes.string,
   description: PropTypes.string,
   defaultValue: PropTypes.string,
-  type: PropTypes.oneOf(values(DamDomain.MODEL_ATTR_TYPES)).isRequired,
+  type: PropTypes.oneOf(values(DamDomain.PSEUDO_ATTR_TYPES)).isRequired,
   unit: PropTypes.string,
   precision: PropTypes.number,
   arraysize: PropTypes.number,

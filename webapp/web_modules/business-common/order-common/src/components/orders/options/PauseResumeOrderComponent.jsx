@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,8 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import PauseIcon from 'material-ui/svg-icons/av/pause'
-import ResumeIcon from 'material-ui/svg-icons/av/play-arrow'
+import PauseIcon from 'mdi-material-ui/Pause'
+import ResumeIcon from 'mdi-material-ui/Play'
 import { i18nContextType } from '@regardsoss/i18n'
 
 
@@ -26,7 +26,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  * Pause / resume order table option
  * @author Raphaël Mechali
  */
-class PauseResultOrderComponent extends React.Component {
+class PauseResumeOrderComponent extends React.Component {
   static propTypes = {
     canUpdate: PropTypes.bool.isRequired,
     isPaused: PropTypes.bool.isRequired,
@@ -60,4 +60,4 @@ class PauseResultOrderComponent extends React.Component {
     )
   }
 }
-export default PauseResultOrderComponent
+export default PauseResumeOrderComponent

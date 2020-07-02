@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -38,7 +38,7 @@ describe('[SEARCH RESULTS] Testing BrowsingTreeComponent', () => {
     assert.isDefined(BrowsingTreeComponent)
   })
 
-  // Render the 3 cases for tests: data only, data and dataset, documents
+  // Render the 2 cases for tests: data only, data and dataset
   const testCases = [{
     label: 'data',
     viewsGroups: [{
@@ -46,9 +46,6 @@ describe('[SEARCH RESULTS] Testing BrowsingTreeComponent', () => {
       enabled: true,
     }, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
       enabled: false,
     }],
   }, {
@@ -58,21 +55,6 @@ describe('[SEARCH RESULTS] Testing BrowsingTreeComponent', () => {
       enabled: true,
     }, {
       type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      enabled: true,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
-      enabled: false,
-    }],
-  }, {
-    label: 'documents',
-    viewsGroups: [{
-      type: DamDomain.ENTITY_TYPES_ENUM.DATA,
-      enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-      enabled: false,
-    }, {
-      type: DamDomain.ENTITY_TYPES_ENUM.DOCUMENT,
       enabled: true,
     }],
   }]

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -61,15 +61,12 @@ export { PluginMetaDataConfiguration, PLUGIN_META_DATA, PLUGIN_META_DATA_ARRAY }
 export { AdminPluginConfigurationSchemaConfiguration, PLUGIN_CONFIGURATION, PLUGIN_CONFIGURATION_ARRAY } from './common/PluginConfiguration'
 export { PLUGIN_PARAMETER_ARRAY, PLUGIN_PARAMETER, PluginParameterConfiguration } from './common/PluginParameter'
 // Storage
-export { PRIORIZED_DATASTORAGE, PRIORIZED_DATASTORAGE_ARRAY, PrioritizedDataStorageConfiguration } from './storage/PrioritizedDataStorage'
-export { StorageMonitoringConfiguration, STORAGE_MONITORING, STORAGE_MONITORING_ARRAY } from './storage/StorageMonitoring'
-export { AIP_STATUS, AIP_STATUS_ARRAY, AIPStatusConfiguration } from './storage/AIPStatus'
-export { AIPSessionConfiguration, AIP_SESSION_ARRAY, AIP_SESSION } from './storage/AIPSession'
-export { AIPConfiguration, AIP, AIP_ARRAY } from './storage/AIP'
-export { AIPFileConfiguration, AIP_FILE_ARRAY, AIP_FILE } from './storage/AIPFile'
+export { STORAGE_LOCATION, STORAGE_LOCATION_ARRAY, StorageLocationConfiguration } from './storage/StorageLocation'
+export { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY, StorageRequestConfiguration } from './storage/StorageRequest'
 // Admin
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
 export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
+export { SESSION, SESSION_ARRAY, SessionConfiguration } from './admin/Session'
 // Catalog
 export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
 export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'
@@ -81,7 +78,8 @@ export { ORDER_FILE, ORDER_FILE_ARRAY, OrderFileConfiguration } from './order/Or
 // Ingest
 export { PROCESSING_CHAIN, PROCESSING_CHAIN_ARRAY, ProcessingChainConfiguration } from './ingest/ProcessingChain'
 export { SIP, SIP_ARRAY, SIPConfiguration } from './ingest/SIP'
-export { SESSION, SESSION_ARRAY, SessionConfiguration } from './ingest/Session'
+export { AIPConfiguration, AIP, AIP_ARRAY } from './ingest/AIP'
+export { RequestConfiguration, REQUEST, REQUEST_ARRAY } from './ingest/Request'
 // Data Provider
 export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, AcquisitionProcessingChainConfiguration } from './data-provider/AcquisitionProcessingChain'
 export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'

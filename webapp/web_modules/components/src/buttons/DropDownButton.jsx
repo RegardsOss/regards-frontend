@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,10 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isArray from 'lodash/isArray'
 import FlatButton from 'material-ui/FlatButton'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import DrowDownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import DrowDownIcon from 'mdi-material-ui/MenuDown'
 
 /** No value label stub function (drop down button is not neccessarily used with values) */
 const noLabelStubFunction = () => {}
@@ -33,7 +34,10 @@ class DropDownButton extends React.Component {
   static propTypes = {
     ButtonConstructor: PropTypes.func,
     getLabel: PropTypes.func, // Generates label: (current value (optional)) => string
-    children: PropTypes.arrayOf(PropTypes.node), // Expected children: menu items
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]), // Expected children: menu items
     onChange: PropTypes.func, // on change listener
     disabled: PropTypes.bool,
     // eslint-disable-next-line react/forbid-prop-types
@@ -132,7 +136,14 @@ class DropDownButton extends React.Component {
    * @return children as they should be used
    */
   prepareChildren = (hasSubMenus, children) => {
-    if (!children || !children.length) {
+    if (!children) {
+      return null
+    }
+    if (!isArray(children)) {
+      // single non null element case
+      return children
+    }
+    if (!children.length) {
       return null
     }
     if (!hasSubMenus) {

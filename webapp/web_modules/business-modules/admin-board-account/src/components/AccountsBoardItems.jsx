@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SettingsIcon from 'material-ui/svg-icons/action/settings'
+import SettingsIcon from 'mdi-material-ui/Settings'
 import { dependencies } from '@regardsoss/admin-account-management'
 import AccountsListWithCountIconContainer from '../containers/AccountsListWithCountIconContainer'
 

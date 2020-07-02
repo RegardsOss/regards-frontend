@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,13 +19,15 @@
 import get from 'lodash/get'
 import root from 'window-or-global'
 import { browserHistory } from 'react-router'
-import { UIDomain } from '@regardsoss/domain'
-import { AccessShapes } from '@regardsoss/shape'
+import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AllCriteriaData, pluginStateActions, pluginStateSelectors } from '@regardsoss/plugins'
 import { modulesHelper } from '@regardsoss/modules-api'
+import { isEqual } from 'date-fns'
 import PluginsConfigurationProvider from './PluginsConfigurationProvider'
 import FormComponent from '../../components/user/FormComponent'
+import { resultsContextSelectors } from '../../clients/ResultsContextClient'
 
 /**
  * Container for module form. It handles:
@@ -42,8 +44,9 @@ export class FormContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapStateToProps(state) {
+  static mapStateToProps(state, { id }) {
     return {
+      resultsContext: resultsContextSelectors.getResultsContext(state, id),
       pluginsState: pluginStateSelectors.getAllCriteriaData(state),
     }
   }
@@ -64,10 +67,13 @@ export class FormContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    contextQuery: PropTypes.string.isRequired,
     onSearch: PropTypes.func.isRequired,
     // from mapStateToProps
     pluginsState: AllCriteriaData.isRequired,
+    resultsContext: PropTypes.oneOfType([
+      PropTypes.object, // during initialization
+      UIShapes.ResultsContext, // after initialization
+    ]),
     // from mapDispatchToProps
     dispatchClearAll: PropTypes.func.isRequired,
     publishAllStates: PropTypes.func.isRequired,
@@ -96,6 +102,40 @@ export class FormContainer extends React.Component {
    */
   static deserializePluginState(serializedState) {
     return JSON.parse(root.atob(serializedState))
+  }
+
+  /**
+   * Stores plugins state in URL and / or in local storage, according with parameters
+   * @param {string} appName application name
+   * @param {string} project project name
+   * @param {number} moduleId -
+   * @param {*} pluginsState plugins state to store
+   * @param {boolean} inURL should store in URL?
+   * @param {boolean} inLocalStorage should store in brwoser local storage
+   */
+  static storeState(appName, project, moduleId, pluginsState, inURL = true, inLocalStorage = true) {
+    // compute serialized state
+    const serializedState = FormContainer.serializePluginsState(pluginsState)
+
+    if (inURL) {
+      // Update browser URL so it can be shared with other users
+      const { pathname, query = {} } = browserHistory.getCurrentLocation()
+      const nextQuery = {
+        ...query,
+        [FormContainer.PLUGINS_STATE_PARAMETER]: serializedState,
+      }
+      browserHistory.replace({ pathname, query: nextQuery })
+    }
+
+    if (inLocalStorage) {
+    // Update local storage update (so user can retrieve form content when browsing through menu)
+      UIDomain.LocalStorageData.saveData(appName, project, moduleId, FormContainer.FORM_STORAGE_KEY, serializedState)
+    }
+  }
+
+  state = {
+    configurationQuery: '',
+    pluginsProps: { initialQuery: '' },
   }
 
   /**
@@ -130,6 +170,8 @@ export class FormContainer extends React.Component {
     } else if (psFromLocalStorage) { // case 2.
       searchImmediately = true
       initialPluginsState = FormContainer.deserializePluginState(psFromLocalStorage)
+      // When restoring from local storage, update URL immediately to ensure URL can be shared
+      FormContainer.storeState(appName, project, id, initialPluginsState, true, false)
     } // else: empty initial state (3)
 
     // B. Dispatch Redux plugins state initialization
@@ -138,7 +180,35 @@ export class FormContainer extends React.Component {
     if (searchImmediately) {
       onSearch(initialPluginsState, true)
     }
+    // D - Initialize state if context is already available
+    this.onPropertiesUpdated({}, this.props)
   }
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const nextState = { ...this.state }
+    const oldConfigurationRestrictions = get(oldProps, `resultsContext.tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`)
+    const newConfigurationRestrictions = get(newProps, `resultsContext.tabs.${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}.criteria.configurationRestrictions`, [])
+    if (!isEqual(oldConfigurationRestrictions, newConfigurationRestrictions)) {
+      const configurationParameters = UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(newConfigurationRestrictions)
+      nextState.configurationQuery = configurationParameters[CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME] || ''
+      nextState.pluginsProps = { initialQuery: nextState.configurationQuery }
+    }
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
+    }
+  }
+
 
   /**
    * On search callback
@@ -154,19 +224,8 @@ export class FormContainer extends React.Component {
       return
     }
 
-    // compute serialized state
-    const serializedState = FormContainer.serializePluginsState(pluginsState)
-
-    // Update browser URL so it can be shared with other users
-    const { pathname, query = {} } = browserHistory.getCurrentLocation()
-    const nextQuery = {
-      ...query,
-      [FormContainer.PLUGINS_STATE_PARAMETER]: serializedState,
-    }
-    browserHistory.replace({ pathname, query: nextQuery })
-
-    // Update local storage update (so user can retrieve form content when browsing through menu)
-    UIDomain.LocalStorageData.saveData(appName, project, id, FormContainer.FORM_STORAGE_KEY, serializedState)
+    // store state in URL and local storage
+    FormContainer.storeState(appName, project, id, pluginsState)
 
     // let parent handle objects research
     onSearch(pluginsState)
@@ -196,13 +255,13 @@ export class FormContainer extends React.Component {
   }
 
   render() {
-    const { moduleConf, contextQuery } = this.props
-    const pluginsProps = { initialQuery: contextQuery }
+    const { moduleConf } = this.props
+    const { configurationQuery, pluginsProps } = this.state
     return (
       <PluginsConfigurationProvider
         criteria={moduleConf.criterion}
         preview={moduleConf.preview}
-        contextQuery={contextQuery}
+        contextQuery={configurationQuery}
       >
         <FormComponent
           pluginsProps={pluginsProps}

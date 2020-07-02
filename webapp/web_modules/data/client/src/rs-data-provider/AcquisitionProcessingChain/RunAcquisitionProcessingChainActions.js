@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -39,8 +39,8 @@ class RunAcquisitionProcessingChainActions extends BasicSignalActions {
    * @param {string} onSuccessUrl callback on success
    * @return {type:{string}} redux action to dispatch the create order command
    */
-  run(chainId) {
-    return this.sendSignal('GET', null, { chainId })
+  run(chainId, sessionName) {
+    return this.sendSignal('GET', null, { chainId }, { session: sessionName })
   }
 }
 

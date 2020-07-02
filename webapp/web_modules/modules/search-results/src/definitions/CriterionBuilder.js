@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -49,8 +49,27 @@ export class CriterionBuilder {
   }
 
   /**
-   * Converts entity into a tag restriction criterion
-   * @param {*} entity entity to convert (manadatory), must respect Entity shape from catalog shapes
+   * Build tag restriction criterion from simple word tag
+   * @param {string} word word
+   * @return {*} tag criterion as specified by TagCriterion shape, from ResultsContext shapes
+   */
+  static buildWordTagCriterion(word) {
+    return {
+      label: word,
+      type: CatalogDomain.TAG_TYPES_ENUM.WORD,
+      searchKey: word,
+      requestParameters: {
+        [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(word)).toQueryString(),
+      },
+    }
+  }
+
+  /**
+   * Build tag restriction criterion from entity
+   * @param {*} entity entity (manadatory), must respect Entity shape from catalog shapes
    * @return {*} tag criterion as specified by TagCriterion shape, from ResultsContext shapes
    */
   static buildEntityTagCriterion({ content: { entityType, id, label } }) {
@@ -60,7 +79,9 @@ export class CriterionBuilder {
       searchKey: id,
       requestParameters: {
         [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
-          new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME, id).toQueryString(),
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
       },
     }
   }

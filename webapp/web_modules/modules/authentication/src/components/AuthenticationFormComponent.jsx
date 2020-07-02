@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -22,9 +22,9 @@ import {
 } from 'material-ui/Card'
 import { formValueSelector } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
-import UnlockAccountIcon from 'material-ui/svg-icons/action/lock'
-import ResetPasswordIcon from 'material-ui/svg-icons/action/restore-page'
-import ProjectAccessIcon from 'material-ui/svg-icons/action/assignment-ind'
+import UnlockAccountIcon from 'mdi-material-ui/Lock'
+import ResetPasswordIcon from 'mdi-material-ui/FileRestore'
+import ProjectAccessIcon from 'mdi-material-ui/ClipboardAccount'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
