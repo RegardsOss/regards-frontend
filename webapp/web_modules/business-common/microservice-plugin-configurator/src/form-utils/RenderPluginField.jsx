@@ -98,6 +98,7 @@ export class RenderPluginField extends React.PureComponent {
         handleSelect={this.handleSelectPluginMetaData}
         displayTitle={false}
         errorText={errorMessage}
+        displayMoreInfoButton
       />
     )
   }
