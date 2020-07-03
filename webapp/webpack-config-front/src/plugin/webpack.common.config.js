@@ -49,7 +49,7 @@ module.exports = function (projectContextPath, mode) {
         'web_modules',
         'node_modules',
       ],
-      alias: alias(path.join(projectContextPath, '../../..')),
+      alias: alias(path.join(projectContextPath, '../../..'), mode),
     },
     module: {
       rules: [

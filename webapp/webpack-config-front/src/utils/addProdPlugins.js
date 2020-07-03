@@ -8,6 +8,7 @@ module.exports = function (oldConf) {
     plugins: [
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
+        CESIUM_BASE_URL: JSON.stringify("/"),
         'process.env': {
           NODE_ENV: JSON.stringify('production'),
         },

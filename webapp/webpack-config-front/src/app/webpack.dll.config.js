@@ -16,7 +16,7 @@ module.exports = function (projectContextPath) {
       modules: [
         'node_modules',
       ],
-      alias: alias(projectContextPath),
+      alias: alias(projectContextPath, 'dev'),
     },
     devtool: 'source-map',
     output: {

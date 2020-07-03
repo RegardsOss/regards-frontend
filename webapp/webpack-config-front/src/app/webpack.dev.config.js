@@ -72,6 +72,7 @@ module.exports = function (projectContextPath) {
       }),
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
+        CESIUM_BASE_URL: JSON.stringify("/"),
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },

@@ -19,6 +19,7 @@
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
+import { CesiumAdapter } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
 
 /**
@@ -76,8 +77,8 @@ class MapComponent extends React.Component {
           handleChangeOpacity={this.handleChangeOpacity}
           opacity={staticLayerOpacity}
         />
-        <MizarAdapter
-          key="mizarAdapter"
+        <CesiumAdapter
+          key="cesiumAdapter"
           backgroundLayerUrl={backgroundLayerURL}
           backgroundLayerType={backgroundLayerType}
           backgroundLayerConf={backgroundLayerConf}
