@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
-import { MizarAdapter } from '@regardsoss/mizar-adapter'
+import { CesiumAdapter } from '@regardsoss/cesium-adapter'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
 import MapToolsComponent from '../../../../../../src/components/user/tabs/results/map/MapToolsComponent'
@@ -40,7 +40,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     assert.isDefined(MapComponent)
   })
 
-  it.skip('should render correctly empty', () => {
+  it('should render correctly empty', () => {
     const props = {
       featuresCollection: {
         features: [],
@@ -62,7 +62,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectionMode: props.selectionMode,
       onSetSelectionMode: props.onSetSelectionMode,
     }, 'Map tools component properties should be correctly set')
-    const map = enzymeWrapper.find(MizarAdapter)
+    const map = enzymeWrapper.find(CesiumAdapter)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
       backgroundLayerUrl: props.backgroundLayerURL,
@@ -76,7 +76,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     }, 'Map properties should be correctly set')
   })
 
-  it.skip('should render correctly with features', () => {
+  it('should render correctly with features', () => {
     const props = {
       featuresCollection: {
         features: [{
@@ -110,7 +110,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectionMode: props.selectionMode,
       onSetSelectionMode: props.onSetSelectionMode,
     }, 'Map tools component properties should be correctly set')
-    const map = enzymeWrapper.find(MizarAdapter)
+    const map = enzymeWrapper.find(CesiumAdapter)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
       backgroundLayerUrl: props.backgroundLayerURL,
