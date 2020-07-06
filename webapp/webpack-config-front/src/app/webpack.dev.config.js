@@ -71,10 +71,10 @@ module.exports = function (projectContextPath) {
         to: "cesium",
       }]),
       // Add Cesium inside html on dev
-      mode === 'dev' ? new HtmlWebpackIncludeAssetsPlugin({
+      new HtmlWebpackIncludeAssetsPlugin({
         append: false,
         assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
-      }) : null,
+      }),
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs

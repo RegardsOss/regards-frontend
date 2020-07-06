@@ -140,6 +140,7 @@ export default class CesiumAdapter extends React.Component {
     // https://github.com/darwin-education/resium/issues/88
     return (
       <Viewer
+        full
         timeline={false}
         onSelectedEntityChange={this.handleSelectedEntity}
         // sceneModePicker={false} allow user to switch between 2D and 3D

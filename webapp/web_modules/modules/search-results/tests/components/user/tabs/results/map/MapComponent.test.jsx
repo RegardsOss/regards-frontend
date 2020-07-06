@@ -40,7 +40,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     assert.isDefined(MapComponent)
   })
 
-  xit('should render correctly empty', () => {
+  it.skip('should render correctly empty', () => {
     const props = {
       featuresCollection: {
         features: [],
@@ -76,7 +76,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     }, 'Map properties should be correctly set')
   })
 
-  xit('should render correctly with features', () => {
+  it.skip('should render correctly with features', () => {
     const props = {
       featuresCollection: {
         features: [{
