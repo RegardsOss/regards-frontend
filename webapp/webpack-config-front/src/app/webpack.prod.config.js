@@ -2,8 +2,10 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin');
 const getCommonConfig = require('./webpack.common.config')
-
+const cesiumSource = "node_modules/cesium/Source";
+      
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'prod')
 
@@ -59,6 +61,18 @@ module.exports = function (projectContextPath) {
       },
     },
     plugins: [
+      // Copy cesium files
+      // Cesium bundled correctly by Webpack on prod
+      new CopyPlugin([
+        {
+          from: path.join(cesiumSource, "../Build/Cesium/Workers"),
+          to: "Workers",
+        },
+        {
+          from: path.join(cesiumSource, "Assets"),
+          to: "Assets",
+        },
+      ]),
       // Add a DLL for npm dependencies
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
