@@ -530,7 +530,6 @@ export class OAISPackageManagerComponent extends React.Component {
     const { isModifySelectionDialogOpened } = this.state
 
     if (isModifySelectionDialogOpened) {
-      console.error('this.state.contextRequestBodyParameters', this.state.modifyPayload)
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}
