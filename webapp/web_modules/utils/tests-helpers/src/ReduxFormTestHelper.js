@@ -33,7 +33,7 @@ function getInputFieldProps(name, value) {
   }
 }
 
-function getMetaFieldProps(error, invalid) {
+function getMetaFieldProps(error = undefined, invalid = false) {
   return {
     active: true,
     asyncValidating: true,

@@ -25,7 +25,7 @@ import { withConfirmDialog } from '@regardsoss/components'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
+export const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
 
 /**
  * Option to edit a configuration in list

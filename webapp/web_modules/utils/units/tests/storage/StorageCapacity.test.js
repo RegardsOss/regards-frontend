@@ -18,7 +18,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 import { StorageCapacity } from '../../src/storage/StorageCapacity'
 
 // Test capacity functions a components rendering

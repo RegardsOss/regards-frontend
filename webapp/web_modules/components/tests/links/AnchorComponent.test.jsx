@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
-import AnchorComponent from '../../src/links/AnchorComponent'
+import { AnchorComponent } from '../../src/links/AnchorComponent'
+import styles from '../../src/links/styles'
 
-const context = buildTestContext(() => { })
+const context = buildTestContext(styles)
 
 describe('[Components] Testing AnchorComponent', () => {
   before(testSuiteHelpers.before)

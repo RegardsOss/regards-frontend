@@ -45,7 +45,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormComponent',
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context })
     const formFields = enzymeWrapper.find(Field)
     const expectedNumberOfFields = 2
     assert.equal(formFields.length, expectedNumberOfFields, `The AccessGroupFormComponent should have ${expectedNumberOfFields}`)
@@ -67,7 +67,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormComponent',
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context })
     const formFields = enzymeWrapper.find(Field)
     const expectedNumberOfFields = 2
     assert.equal(formFields.length, expectedNumberOfFields, `The AccessGroupFormComponent should have ${expectedNumberOfFields}`)
@@ -89,7 +89,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormComponent',
       handleSubmit: () => {},
       initialize: () => {},
     }
-    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormComponent {...props} />, { context })
     const formFields = enzymeWrapper.find(Field)
     const expectedNumberOfFields = 2
     assert.equal(formFields.length, expectedNumberOfFields, `The AccessGroupFormComponent should have ${expectedNumberOfFields}`)

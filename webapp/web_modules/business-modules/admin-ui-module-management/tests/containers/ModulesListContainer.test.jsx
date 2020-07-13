@@ -52,11 +52,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules list container', () => {
     const wrapper = shallow(
       <UnconnectedModulesListContainer
         {...props}
-      />,
-      {
-        lifecycleExperimental: true,
-      },
-    )
+      />)
 
     assert.isTrue(wrapper.find(LoadableContentDisplayDecorator).length === 1, 'There should be a LoadableContentDisplayDecorator displayed')
     assert.isTrue(fetchModulesCallback.calledOnce, 'The container should fetch the modules list at mount')

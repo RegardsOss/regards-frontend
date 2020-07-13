@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DuplicateConfigurationComponent from '../../../src/components/options/DuplicateConfigurationComponent'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import DuplicateConfigurationComponent, { ResourceIconAction } from '../../../src/components/options/DuplicateConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,8 +37,15 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing DuplicateConfigurationComponent'
   })
   it('should render correctly', () => {
     const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      onDuplicate: () => {},
     }
-    shallow(<DuplicateConfigurationComponent {...props} />, { context })
-    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<DuplicateConfigurationComponent {...props} />, { context })
+    const action = enzymeWrapper.find(ResourceIconAction)
+    testSuiteHelpers.assertWrapperProperties(action, {
+      resourceDependencies: DuplicateConfigurationComponent.DEPENDENCY,
+      onClick: enzymeWrapper.instance().onDuplicate,
+      title: 'service.listconf.tooltip.duplicate',
+    })
   })
 })

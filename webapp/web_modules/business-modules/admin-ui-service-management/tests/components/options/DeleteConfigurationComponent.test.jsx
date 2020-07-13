@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DeleteConfigurationComponent from '../../../src/components/options/DeleteConfigurationComponent'
+import { HateoasKeys } from '@regardsoss/display-control'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import DeleteConfigurationComponent, { ConfirmableHateoasIconAction } from '../../../src/components/options/DeleteConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,8 +38,17 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing DeleteConfigurationComponent', (
   })
   it('should render correctly', () => {
     const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      onDelete: () => {},
     }
-    shallow(<DeleteConfigurationComponent {...props} />, { context })
-    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<DeleteConfigurationComponent {...props} />, { context })
+    const action = enzymeWrapper.find(ConfirmableHateoasIconAction)
+    testSuiteHelpers.assertWrapperProperties(action, {
+      entityLinks: props.uiPluginConfiguration.links,
+      hateoasKey: HateoasKeys.DELETE,
+      onClick: enzymeWrapper.instance().onDelete,
+      title: 'service.listconf.tooltip.delete',
+      dialogTitle: 'service.listconf.delete.confirm.title',
+    })
   })
 })

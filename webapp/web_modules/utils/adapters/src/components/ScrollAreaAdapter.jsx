@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { themeContextType } from '@regardsoss/theme'
-import { styles } from '../styles'
+import styles from '../styles'
 
 const HeadlessAdapter = ({ children }) => (<div>{children}</div>)
 HeadlessAdapter.propTypes = {

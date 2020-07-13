@@ -19,15 +19,15 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import AutoComplete from 'material-ui/AutoComplete'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { RenderAutoCompleteField } from '../../src/render/RenderAutoCompleteField'
 import styles from '../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
  * @author Sébastien Binda
  */
-const context = buildTestContext(styles)
-// Test a components rendering
 describe('[FORM UTILS] Testing RenderAutoCompleteField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
@@ -38,14 +38,8 @@ describe('[FORM UTILS] Testing RenderAutoCompleteField', () => {
   it('should retrieve the AutoComplete component', () => {
     const props = {
       label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: '',
-        onChange: () => { },
-      },
-      meta: {
-        error: 'false',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('isItInteresting', ''),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
       hintText: 'Some hint text',
       onNewRequest: () => { },
       onUpdateInput: () => { },

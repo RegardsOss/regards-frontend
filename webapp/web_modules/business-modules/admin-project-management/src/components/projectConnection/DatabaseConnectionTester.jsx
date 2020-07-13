@@ -102,11 +102,9 @@ class DatabaseConnectionTester extends React.Component {
 
   render() {
     const { projectConnection } = this.props
-    const { int: { formatMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
     const styles = moduleStyles(this.context.muiTheme)
 
-    // TODO that switch button is utterly wrong... lets create an HOC to swap components instead! And no Array in API!
-    // Best solution here: <HoverHoc><Button1NotHover/><Button2Hover/></HoverHoc>
     const testButton = (<FlatButton
       label={formatMessage({ id: 'database.connectionTester.start' })}
       icon={<PlayArrow />}

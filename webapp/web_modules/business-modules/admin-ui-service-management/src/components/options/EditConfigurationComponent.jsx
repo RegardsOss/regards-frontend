@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+export const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * Option to edit a configuration in list

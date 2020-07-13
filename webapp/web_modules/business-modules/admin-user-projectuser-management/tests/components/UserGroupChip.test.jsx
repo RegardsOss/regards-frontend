@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Chip from 'material-ui/Chip'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
@@ -36,8 +37,13 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing UserGroupChip', () => {
     assert.isDefined(UserGroupChip)
   })
   it('should render correctly', () => {
-    const props = {}
-    shallow(<UserGroupChip {...props} />, { context })
-    assert.fail('Implement me!')
+    const props = {
+      groupName: 'myGroup',
+      onRemoveGroup: () => {},
+    }
+    const enzymeWrapper = shallow(<UserGroupChip {...props} />, { context })
+    const chip = enzymeWrapper.find(Chip)
+    assert.equal(chip.props().onRequestDelete, enzymeWrapper.instance().onRemoveGroup)
+    assert.include(chip.debug(), props.groupName)
   })
 })

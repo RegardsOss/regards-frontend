@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import RenderSelectField from '../../src/render/RenderSelectField'
 
 // Test a components rendering
@@ -34,14 +34,8 @@ describe('[FORM UTILS] Testing RenderSelectField', () => {
   it('should retrieve the right child', () => {
     const props = {
       label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: 'value1',
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('isItInteresting', 'value1'),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
       children: [<MenuItem key="0" value="value0" />, <MenuItem key="1" value="value1" />],
     }
     const enzymeWrapper = shallow(<RenderSelectField {...props} />)

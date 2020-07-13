@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EnableConfigurationComponent from '../../../src/components/options/EnableConfigurationComponent'
+import { HateoasKeys } from '@regardsoss/display-control'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import EnableConfigurationComponent, { HateoasToggle } from '../../../src/components/options/EnableConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,8 +38,16 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing EnableConfigurationComponent', (
   })
   it('should render correctly', () => {
     const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      onToggleEnabled: () => {},
     }
-    shallow(<EnableConfigurationComponent {...props} />, { context })
-    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<EnableConfigurationComponent {...props} />, { context })
+    const toggle = enzymeWrapper.find(HateoasToggle)
+    testSuiteHelpers.assertWrapperProperties(toggle, {
+      entityLinks: props.uiPluginConfiguration.links,
+      hateoasKey: HateoasKeys.UPDATE,
+      toggled: props.uiPluginConfiguration.content.active,
+      onToggle: enzymeWrapper.instance().onToggleEnabled,
+    })
   })
 })

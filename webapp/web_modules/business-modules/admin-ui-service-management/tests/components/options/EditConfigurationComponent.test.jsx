@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EditConfigurationComponent from '../../../src/components/options/EditConfigurationComponent'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { HateoasKeys } from '@regardsoss/display-control'
+import EditConfigurationComponent, { HateoasIconAction } from '../../../src/components/options/EditConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,8 +38,16 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing EditConfigurationComponent', () 
   })
   it('should render correctly', () => {
     const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      onEdit: () => {},
     }
-    shallow(<EditConfigurationComponent {...props} />, { context })
-    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<EditConfigurationComponent {...props} />, { context })
+    const action = enzymeWrapper.find(HateoasIconAction)
+    testSuiteHelpers.assertWrapperProperties(action, {
+      entityLinks: props.uiPluginConfiguration.links,
+      hateoasKey: HateoasKeys.UPDATE,
+      onClick: enzymeWrapper.instance().onEdit,
+      title: 'service.listconf.tooltip.edit',
+    })
   })
 })

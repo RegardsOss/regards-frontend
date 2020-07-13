@@ -57,7 +57,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditUIServicesContainer', ()
       updateLinkUIPluginDataset: updateLinkUIPluginDatasetSpy,
     }
 
-    const enzymeWrapper = shallow(<DatasetEditUIServicesContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<DatasetEditUIServicesContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
     assert.isTrue(fetchUIPluginConfigurationListSpy.calledOnce, 'Fetched on initial render')

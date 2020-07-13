@@ -34,11 +34,8 @@ export class RequestRetryDialog extends React.Component {
     ...i18nContextType,
   }
 
-  /** User callback: on confirm retry */
-  onConfirmRetry = () => this.props.onConfirmRetry()
-
   renderActions = () => {
-    const { onClose } = this.props
+    const { onClose, onConfirmRetry } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       <FlatButton
@@ -53,9 +50,8 @@ export class RequestRetryDialog extends React.Component {
         key="retryRequestsIrrevocably"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'oais.requests.confirm.retry' })}
-        onClick={this.onConfirmRetry}
-      />,
-    ]
+        onClick={onConfirmRetry}
+      />]
   }
 
   render() {

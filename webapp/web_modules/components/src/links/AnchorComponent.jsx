@@ -28,7 +28,7 @@ import styles from './styles'
  * Displays an anchor helper, scrolling to view top when clicked
  * @author Léo Mieulet
  */
-class AnchorComponent extends React.Component {
+export class AnchorComponent extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

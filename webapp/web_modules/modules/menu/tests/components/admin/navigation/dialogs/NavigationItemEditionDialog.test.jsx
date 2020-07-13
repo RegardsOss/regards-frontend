@@ -73,7 +73,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.isFalse(editionDialog.props().open, 'Dialog should be hidden')
     const { actions, onRequestClose } = editionDialog.props()
     assert.equal(onRequestClose, props.onClose, 'Dialog close property should be reported')
-    assert.lengthOf(actions, 2, 'Dialog should have confirm and cancel options')
+    assert.isOk(actions, 'Dialog should have confirm and cancel options (in fragment)')
   })
   it('should render correctly when editing a module', () => {
     const props = {
@@ -102,9 +102,8 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     const editionDialog = enzymeWrapper.find(Dialog)
     assert.lengthOf(editionDialog, 1, 'There should be the dialog')
     assert.isTrue(editionDialog.props().open, 'Dialog should be visible')
-    const { actions, title, onRequestClose } = editionDialog.props()
+    const { title, onRequestClose } = editionDialog.props()
     assert.equal(onRequestClose, props.onClose, 'Dialog close property should be reported')
-    assert.lengthOf(actions, 2, 'Dialog should have confirm and cancel options')
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
     // check the fields for section are not added
@@ -155,9 +154,8 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     const editionDialog = enzymeWrapper.find(Dialog)
     assert.lengthOf(editionDialog, 1, 'There should be the dialog')
     assert.isTrue(editionDialog.props().open, 'Dialog should be visible')
-    const { actions, title, onRequestClose } = editionDialog.props()
+    const { title, onRequestClose } = editionDialog.props()
     assert.equal(onRequestClose, props.onClose, 'Dialog close property should be reported')
-    assert.lengthOf(actions, 2, 'Dialog should have confirm and cancel options')
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
     // check the fields for section are added, and verify their current value
@@ -465,7 +463,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
         navigationItems: aNavigationConfiguration,
         hasHome,
       },
-      selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is intial form value (before initial update)
+      selectedParentSection: NavigationItemEditionDialog.MAIN_BAR, // this is initial form value (before initial update)
       handleSubmit: (f) => f,
       initialize: () => { },
       change: () => { },

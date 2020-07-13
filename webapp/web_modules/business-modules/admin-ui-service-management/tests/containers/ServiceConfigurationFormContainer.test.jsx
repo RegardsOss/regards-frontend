@@ -54,7 +54,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationFormContaine
       createUIPluginConfiguration: createUIPluginConfigurationSpy,
     }
 
-    const enzymeWrapper = shallow(<ServiceConfigurationFormContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<ServiceConfigurationFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
     assert.isTrue(fetchUIPluginConfigurationSpy.calledOnce, 'Component should fetch entity on his initial componentDidMount')

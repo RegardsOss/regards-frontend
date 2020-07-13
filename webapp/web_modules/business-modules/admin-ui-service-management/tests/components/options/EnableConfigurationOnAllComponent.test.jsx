@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EnableConfigurationOnAllComponent from '../../../src/components/options/EnableConfigurationOnAllComponent'
+import { HateoasKeys } from '@regardsoss/display-control'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import EnableConfigurationOnAllComponent, { HateoasToggle } from '../../../src/components/options/EnableConfigurationOnAllComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,8 +38,17 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing EnableConfigurationOnAllComponen
   })
   it('should render correctly', () => {
     const props = {
+      uiPluginConfiguration: DumpProvider.getFirstEntity('AccessProjectClient', 'UIPluginConfiguration'),
+      onToggleEnabledForAll: () => {},
     }
-    shallow(<EnableConfigurationOnAllComponent {...props} />, { context })
-    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<EnableConfigurationOnAllComponent {...props} />, { context })
+    const toggle = enzymeWrapper.find(HateoasToggle)
+    testSuiteHelpers.assertWrapperProperties(toggle, {
+      entityLinks: props.uiPluginConfiguration.links,
+      hateoasKey: HateoasKeys.UPDATE,
+      toggled: props.uiPluginConfiguration.content.linkedToAllEntities,
+      disabled: !props.uiPluginConfiguration.content.active,
+      onToggle: enzymeWrapper.instance().onToggleEnabledForAll,
+    })
   })
 })

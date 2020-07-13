@@ -19,10 +19,12 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import Checkbox from 'material-ui/Checkbox'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
-import RenderCheckbox from '../../src/render/RenderCheckbox'
+import { testSuiteHelpers, buildTestContext, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
+import { RenderCheckbox } from '../../src/render/RenderCheckbox'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
+
 // Test a components rendering
 describe('[FORM UTILS] Testing RenderCheckbox', () => {
   before(testSuiteHelpers.before)
@@ -34,14 +36,8 @@ describe('[FORM UTILS] Testing RenderCheckbox', () => {
   it('should retrive the right child', () => {
     const props = {
       label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: false,
-        onChange: () => { },
-      },
-      meta: {
-        error: 'false',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('isItInteresting', false),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
     }
     const enzymeWrapper = shallow(<RenderCheckbox {...props} />, { context })
     const subComponent = enzymeWrapper.find(Checkbox)

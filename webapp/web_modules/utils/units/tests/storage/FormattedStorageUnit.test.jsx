@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FormattedStorageUnit } from '../../src/storage/FormattedStorageUnit'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 import messages from '../../src/storage/i18n'
 
 const context = buildTestContext()

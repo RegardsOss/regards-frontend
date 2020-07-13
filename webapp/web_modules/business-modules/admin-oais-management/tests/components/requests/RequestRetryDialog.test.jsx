@@ -47,7 +47,6 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestRetryDialog', () => {
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'The dialog should be opened')
 
-    assert.equal(dialogWrapper.props().onConfirmRetry, enzymeWrapper.instance().onConfirmRetry, 'onConfirmRetry callback should be correctly set')
-    assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')
+    assert.lengthOf(dialogWrapper.props().actions, 2, 'There should be confirm retry and close options')
   })
 })

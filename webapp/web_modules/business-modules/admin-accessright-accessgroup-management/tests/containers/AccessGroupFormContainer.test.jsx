@@ -57,7 +57,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       updateAccessGroup: () => { },
       createAccessGroup: () => { },
     }
-    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isFalse(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be false')
     assert.isFalse(fetchAccessGroupSpy.calledOnce, 'No access group should be fetch for a creation mode')
@@ -80,7 +80,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       updateAccessGroup: () => { },
       createAccessGroup: () => { },
     }
-    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'A loading component should be displayed during access group retrieve')
     assert.isTrue(fetchAccessGroupSpy.calledOnce, 'The fetchAccessGroup method should be called for an edition mode')
@@ -104,7 +104,7 @@ describe('[ADMIN USER ACCESSGROUP MANAGEMENT] Testing AccessGroupFormContainer',
       updateAccessGroup: () => { },
       createAccessGroup: () => { },
     }
-    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<AccessGroupFormContainer {...props} />, { context })
 
     let loader = enzymeWrapper.find(LoadableContentDisplayDecorator)
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)

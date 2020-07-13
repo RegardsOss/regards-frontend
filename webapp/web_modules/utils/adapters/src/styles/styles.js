@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-const buildStyles = (theme) => {
+export default (theme) => {
   const scrollContainerStyles = { zIndex: 5, background: 'rgba(0,0,0,0)' }
   const scrollbarStyles = {
     background: theme.palette.textColor,
@@ -40,8 +40,4 @@ const buildStyles = (theme) => {
       },
     },
   }
-}
-
-export default {
-  styles: buildStyles,
 }

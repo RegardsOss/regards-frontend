@@ -23,8 +23,9 @@ import { Field } from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
 import { ProjectUserFormComponent } from '../../src/components/ProjectUserFormComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 // Test a component rendering
 describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', () => {
@@ -149,7 +150,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
       handleSubmit: () => { },
       initialize: () => { },
     }
-    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
     const subComponent = enzymeWrapper.find(Field)
     expect(subComponent).to.have.length(7)
     let showableComps = enzymeWrapper.find(ShowableAtRender)

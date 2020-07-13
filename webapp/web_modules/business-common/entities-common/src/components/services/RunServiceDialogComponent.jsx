@@ -33,6 +33,14 @@ import ParametersConfigurationComponent from './parameters/ParametersConfigurati
 *  by both UI and catalog plugin services lifecycle)
 */
 export class RunServiceDialogComponent extends React.Component {
+  /** Possible steps in dialog */
+  static Steps = {
+    LOADING: 'LOADING',
+    MESSAGE: 'MESSAGE',
+    PARAMETERS_CONFIGURATION: 'PARAMETERS_CONFIGURATION',
+    RESULTS: 'RESULTS',
+  }
+
   static propTypes = {
     serviceName: PropTypes.string.isRequired,
     currentStep: PropTypes.oneOfType([
@@ -77,14 +85,6 @@ export class RunServiceDialogComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
-  }
-
-  /** Possible steps in dialog */
-  static Steps = {
-    LOADING: 'LOADING',
-    MESSAGE: 'MESSAGE',
-    PARAMETERS_CONFIGURATION: 'PARAMETERS_CONFIGURATION',
-    RESULTS: 'RESULTS',
   }
 
   /** Single empty react component reference */

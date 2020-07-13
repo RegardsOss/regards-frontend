@@ -21,7 +21,7 @@ import Checkbox from 'material-ui/Checkbox'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
 
-class RenderCheckbox extends React.Component {
+export class RenderCheckbox extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }

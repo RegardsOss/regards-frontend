@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { uiPluginConfigurationActions } from '../../clients/UIPluginConfigurationClient'
 
-const ResourceIconAction = withResourceDisplayControl(IconButton)
+export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Option to edit a configuration in list

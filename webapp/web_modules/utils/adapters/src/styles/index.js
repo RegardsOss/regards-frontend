@@ -16,5 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
-export { default as styles } from './styles'
+export default { styles }
