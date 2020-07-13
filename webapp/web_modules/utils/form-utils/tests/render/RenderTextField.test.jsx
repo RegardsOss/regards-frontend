@@ -19,11 +19,11 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import RenderTextField from '../../src/render/RenderTextField'
 
 // Test a components rendering
-describe('[FORM UTILS] Testing RenderSelectField', () => {
+describe('[FORM UTILS] Testing RenderTextField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -33,14 +33,8 @@ describe('[FORM UTILS] Testing RenderSelectField', () => {
   it('should retrive the right child', () => {
     const props = {
       label: 'Some label',
-      input: {
-        name: 'isItInteresting',
-        value: 'test',
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('isItInteresting', 'test'),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
       children: (<span />),
       fullWidth: true,
       type: 'password',

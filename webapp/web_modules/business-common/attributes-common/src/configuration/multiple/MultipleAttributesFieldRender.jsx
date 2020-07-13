@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { intlShape } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -33,15 +34,8 @@ class MultipleAttributesFieldRender extends React.Component {
   static propTypes = {
     allowRendererSelection: PropTypes.bool.isRequired,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
-    meta: PropTypes.shape({
-      invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-    }),
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
   }

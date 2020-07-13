@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import compose from 'lodash/fp/compose'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import File from 'mdi-material-ui/File'
 import Cancel from 'mdi-material-ui/Cancel'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -31,14 +32,8 @@ import styles from '../styles'
 */
 export class RenderFileFieldWithMui extends React.Component {
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-      onChange: PropTypes.func,
-      onBlur: PropTypes.func,
-    }),
-    meta: PropTypes.shape({
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     fullWidth: PropTypes.bool,
     accept: PropTypes.string,
     label: PropTypes.string,

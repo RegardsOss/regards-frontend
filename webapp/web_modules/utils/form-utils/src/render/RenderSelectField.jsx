@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import SelectField from 'material-ui/SelectField'
-import { fieldArrayMetaPropTypes } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import RenderHelper from './RenderHelper'
 
 /**
@@ -27,12 +27,8 @@ import RenderHelper from './RenderHelper'
  */
 class RenderSelectField extends React.Component {
   static propTypes = {
-    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
-    input: PropTypes.shape({
-      value: PropTypes.any,
-      name: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-    }),
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     children: PropTypes.arrayOf(PropTypes.element),
     fullWidth: PropTypes.bool,

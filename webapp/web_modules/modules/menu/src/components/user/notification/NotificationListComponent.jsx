@@ -119,14 +119,14 @@ class NotificationListComponent extends React.Component {
    * Sends notification to floating messages handler
    * @param {*} notification Notification as AdminShapes.Notification
    */
-  notify = (notification) => this.notificationSystem.current.addNotification({ // TODO wtf using a ref to do that???
+  notify = (notification) => this.notificationSystem.current.addNotification({
     message: <NotificationFloatingMessage notification={notification} />,
     level: NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL[notification.level]
       || NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL.DEFAULT,
     ...NotificationListComponent.NOTIFICATION_MESSAGE_CONSTANTS,
   })
 
-  handleOpen = (notification) => { // TODO wtf using a ref to do that???
+  handleOpen = (notification) => {
     this.notificationSystem.current.clearNotifications()
     if (this.state.openedNotification && notification.id !== this.state.openedNotification.id && notification.status === 'UNREAD') {
       this.props.readNotification(this.state.openedNotification)
@@ -136,7 +136,7 @@ class NotificationListComponent extends React.Component {
     })
   }
 
-  handleOpenModal = () => { // TODO wtf using a ref to do that???
+  handleOpenModal = () => {
     const { lastNotification, lastReadNotification } = this.props
     this.notificationSystem.current.clearNotifications()
     if (lastNotification) {
@@ -183,7 +183,7 @@ class NotificationListComponent extends React.Component {
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode, nbNotif) => { // TODO: pieace of crap code: COMMON EXTRACT A COMPONENT!!!!
+  renderNotificationList = (mode, nbNotif) => { // TODO: EXTRACT A COMPONENT
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     return [
       <List key={`title-${mode}`}>

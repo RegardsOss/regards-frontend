@@ -18,6 +18,7 @@
  **/
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -39,11 +40,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     datasets: DataManagementShapes.DatasetList.isRequired,
     datasetModels: DataManagementShapes.ModelList.isRequired,
     currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESCRICTIONS_TYPES).isRequired,
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {

@@ -19,6 +19,7 @@
 import values from 'lodash/values'
 import get from 'lodash/get'
 import map from 'lodash/map'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
@@ -61,18 +62,8 @@ class RenderPageableAutoCompleteField extends React.Component {
     entitiesPath: PropTypes.string,
     validate: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.func), PropTypes.func]),
     // From redux field
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-      ]),
-      name: PropTypes.string,
-    }),
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     // from mapDispatchToProps
     fetchEntities: PropTypes.func.isRequired,
   }

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { fieldArrayMetaPropTypes } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { ErrorDecoratorComponent } from '@regardsoss/components'
 import { AceEditorAdapter } from '@regardsoss/adapters'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -24,15 +24,11 @@ import styles from '../styles'
 
 class RenderJsonCodeEditorField extends React.Component {
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.object,
-      name: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     // Define label when you want a default value for hintText AND floatingLabelText
     // But label will be overridden if you specify hintText or floatingLabelText
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
   static contextTypes = {

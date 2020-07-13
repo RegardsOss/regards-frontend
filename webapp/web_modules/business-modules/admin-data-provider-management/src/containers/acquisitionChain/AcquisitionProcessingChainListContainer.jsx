@@ -18,6 +18,7 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
+import { fieldMetaPropTypes } from 'redux-form'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { IngestShapes } from '@regardsoss/shape'
@@ -30,8 +31,7 @@ import {
   MultiToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors,
 }
   from '../../clients/AcquisitionProcessingChainClient'
-import AcquisitionProcessingChainListComponent
-  from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
+import AcquisitionProcessingChainListComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import { tableSelectors } from '../../clients/TableClient'
 
 /**
@@ -39,41 +39,6 @@ import { tableSelectors } from '../../clients/TableClient'
 * @author Sébastien Binda
 */
 export class AcquisitionProcessingChainListContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    const toggledChains = tableSelectors.getToggledElementsAsList(state)
-
-    return {
-      meta: AcquisitionProcessingChainSelectors.getMetaData(state),
-      entitiesLoading: AcquisitionProcessingChainSelectors.isFetching(state),
-      toggledChains,
-      isOneCheckboxToggled: toggledChains.length > 0,
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
-      runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
-      stopChain: (chainId) => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
-      deleteChain: (id) => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
-      toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
-      multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
-    }
-  }
-
   static propTypes = {
     params: PropTypes.shape({
       project: PropTypes.string,
@@ -114,6 +79,41 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
 
   /** List of dependencies required for toggling multiple chains state  */
   static TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES = [MultiToggleAcquisitionProcessingChainActions.getDependency(RequestVerbEnum.PATCH)]
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    const toggledChains = tableSelectors.getToggledElementsAsList(state)
+
+    return {
+      meta: AcquisitionProcessingChainSelectors.getMetaData(state),
+      entitiesLoading: AcquisitionProcessingChainSelectors.isFetching(state),
+      toggledChains,
+      isOneCheckboxToggled: toggledChains.length > 0,
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
+      runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
+      stopChain: (chainId) => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
+      deleteChain: (id) => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
+      toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
+      multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
+    }
+  }
 
   /**
    * Callback to return to the acquisition board

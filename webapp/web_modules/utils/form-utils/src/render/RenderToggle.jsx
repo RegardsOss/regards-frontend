@@ -16,23 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import Toggle from 'material-ui/Toggle'
 
 class renderToggle extends React.Component {
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool, PropTypes.number]),
-      name: PropTypes.string,
-      onChange: PropTypes.func,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     defaultToggled: PropTypes.bool,
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),

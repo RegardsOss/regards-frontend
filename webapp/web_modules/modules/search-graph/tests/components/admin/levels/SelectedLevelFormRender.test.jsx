@@ -18,7 +18,7 @@
  */
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { InfiniteTableContainer } from '@regardsoss/components'
 import SelectedLevelFormRender from '../../../../src/components/admin/levels/SelectedLevelFormRender'
 import styles from '../../../../src/styles/styles'
@@ -35,9 +35,6 @@ describe('[Search Graph] Testing SelectedLevelFormRender', () => {
 
   it('should render properly', () => {
     // mimic the redux form fields methods
-    const fields = {
-      getAll: () => ['M1'],
-    }
     const props = {
       collectionModels: {
         1: {
@@ -56,10 +53,10 @@ describe('[Search Graph] Testing SelectedLevelFormRender', () => {
         },
       },
       meta: {
+        ...ReduxFormTestHelper.getMetaFieldProps(),
         touched: false,
-        error: null,
       },
-      fields,
+      fields: ReduxFormTestHelper.getFieldsProps(['M1']),
     }
     // simple render test
     const wrapper = shallow(<SelectedLevelFormRender {...props} />, { context })

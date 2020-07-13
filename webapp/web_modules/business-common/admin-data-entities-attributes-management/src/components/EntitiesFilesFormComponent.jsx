@@ -86,13 +86,10 @@ export class EntitiesFilesFormComponent extends React.Component {
     marginBottom: '20px',
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      nbInputs: 1,
-      type: get(props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
-      state: STATE.INIT,
-    }
+  state = {
+    nbInputs: 1,
+    type: get(this.props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
+    state: STATE.INIT,
   }
 
   /**

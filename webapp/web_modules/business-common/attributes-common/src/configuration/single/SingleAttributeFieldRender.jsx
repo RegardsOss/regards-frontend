@@ -18,6 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import compose from 'lodash/fp/compose'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { intlShape } from 'react-intl'
 import { UIDomain } from '@regardsoss/domain'
@@ -36,14 +37,8 @@ import messages from '../../i18n'
 export class SingleAttributeFieldRender extends React.Component {
   static propTypes = {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    input: PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      onChange: PropTypes.func.isRequired,
-    }).isRequired,
-    meta: PropTypes.shape({
-      invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     // From mapStateToProps

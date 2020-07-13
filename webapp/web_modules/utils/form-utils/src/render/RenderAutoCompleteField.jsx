@@ -18,6 +18,7 @@
  **/
 import find from 'lodash/find'
 import AutoComplete from 'material-ui/AutoComplete'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import RenderHelper from './RenderHelper'
@@ -46,21 +47,8 @@ export class RenderAutoCompleteField extends React.Component {
     filter: PropTypes.func, // see material-ui AutoComplete
     enableOnlyDatasourceValues: PropTypes.bool, // Does the search text is a valid value if it does not match one from the datasource ?
     // From redux form field
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number,
-        PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
-      ]),
-      name: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-      onBlur: PropTypes.func.isRequired,
-    }),
-
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
   }
 
   static defaultProps = {

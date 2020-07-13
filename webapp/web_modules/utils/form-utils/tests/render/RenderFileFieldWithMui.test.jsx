@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { storage } from '@regardsoss/units'
 import { RenderFileFieldWithMui } from '../../src/render/RenderFileFieldWithMui'
 import styles from '../../src/styles/styles'
@@ -39,18 +39,12 @@ describe('[FORM UTILS] Testing RenderFileFieldWithMui', () => {
   it('should render correctly', () => {
     const props = {
       label: 'some label',
-      input: {
-        name: 'test',
-        value: {
-          name: 'plop.txt',
-          type: 'application/txt',
-          size: 120,
-        },
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('test', {
+        name: 'plop.txt',
+        type: 'application/txt',
+        size: 120,
+      }),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
       changeLabel: 'change label',
     }
     const enzymeWrapper = shallow(<RenderFileFieldWithMui {...props} />, { context })
@@ -61,13 +55,8 @@ describe('[FORM UTILS] Testing RenderFileFieldWithMui', () => {
   it('should render correctly without file selected', () => {
     const props = {
       label: 'some label',
-      input: {
-        name: 'test',
-      },
-      meta: {
-        touched: true,
-        error: '',
-      },
+      input: ReduxFormTestHelper.getInputFieldProps('test'),
+      meta: ReduxFormTestHelper.getMetaFieldProps(),
       changeLabel: 'change label',
     }
     const enzymeWrapper = shallow(<RenderFileFieldWithMui {...props} />, { context })

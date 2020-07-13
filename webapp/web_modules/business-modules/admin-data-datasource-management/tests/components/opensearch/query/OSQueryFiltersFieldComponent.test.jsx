@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FlatButton from 'material-ui/FlatButton'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
+import FlatButton from 'material-ui/FlatButton'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { DescriptorHelper } from '../../../../src/domain/opensearch/DescriptorHelper'
 import OSQueryFiltersFieldComponent from '../../../../src/components/opensearch/query/OSQueryFiltersFieldComponent'
 import { openSearchDescriptor } from '../../../dumps/opensearch-descriptor.dump'
@@ -58,6 +58,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryFiltersFieldComponen
 
       availableParameters: urlDescriptor.parameter,
       fields: {
+        ...ReduxFormTestHelper.getFieldsProps(fieldValues),
         getAll: () => fieldValues, // currently selected parameters
         // simulate the mapping performed by redux form on values above
         map: (f) => fieldValues.map((v, index) => f(`myField[${index}]`, index)),

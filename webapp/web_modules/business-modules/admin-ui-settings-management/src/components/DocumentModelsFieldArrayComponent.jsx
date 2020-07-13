@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import identity from 'lodash/identity'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -33,13 +34,7 @@ import SelectDocumentModelOptionComponent from './SelectDocumentModelOptionCompo
 class DocumentModelsFieldArrayComponent extends React.Component {
   static propTypes = {
     dataModelNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-    fields: PropTypes.shape({
-      get: PropTypes.func.isRequired,
-      getAll: PropTypes.func.isRequired,
-      insert: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }).isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {

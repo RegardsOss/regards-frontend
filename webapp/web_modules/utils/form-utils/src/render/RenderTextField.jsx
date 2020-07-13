@@ -16,25 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import TextField from 'material-ui/TextField'
 import RenderHelper from './RenderHelper'
 
 class renderTextField extends React.Component {
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      name: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     // Define label when you want a default value for hintText AND floatingLabelText
     // But label will be overridden if you specify hintText or floatingLabelText
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.oneOfType([PropTypes.string, PropTypes.shape({
-        key: PropTypes.string,
-        props: PropTypes.object,
-      })]),
-    }),
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     // fullWidth: PropTypes.bool,
     type: PropTypes.string,
     intl: PropTypes.shape({

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import RaisedButton from 'material-ui/RaisedButton'
 import AddIcon from 'mdi-material-ui/Plus'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -31,13 +32,7 @@ import GroupComponent from './GroupComponent'
 class GroupsFieldComponent extends React.Component {
   static propTypes = {
     availableAttributes: DataManagementShapes.AttributeModelList.isRequired,
-    fields: PropTypes.shape({
-      get: PropTypes.func.isRequired,
-      getAll: PropTypes.func.isRequired,
-      insert: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }).isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {

@@ -18,6 +18,7 @@
  **/
 import isNil from 'lodash/isNil'
 import Checkbox from 'material-ui/Checkbox'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
 
@@ -28,16 +29,9 @@ export class RenderCheckbox extends React.Component {
 
   static propTypes = {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-      name: PropTypes.string,
-      onChange: PropTypes.func,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
     className: PropTypes.string,
-    meta: PropTypes.shape({
-      error: PropTypes.string,
-      touched: PropTypes.bool,
-    }),
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),

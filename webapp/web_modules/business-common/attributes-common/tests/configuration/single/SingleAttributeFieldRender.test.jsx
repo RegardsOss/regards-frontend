@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { AutoCompleteTextField } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import { SingleAttributeFieldRender } from '../../../src/configuration/single/SingleAttributeFieldRender'
 import styles from '../../../src/styles'
@@ -43,15 +43,12 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
     const props = {
       attributeModels: attributeModelsArray,
       input: {
-        value: '',
+        ...ReduxFormTestHelper.getInputFieldProps('X', ''),
         onChange: (value) => {
           spyUpdate.value = value
         },
       },
-      meta: {
-        invalid: true,
-        error: 'hello',
-      },
+      meta: ReduxFormTestHelper.getMetaFieldProps('hello', true),
       label: 'MEMEMEME',
       intl: context.intl,
     }
@@ -75,9 +72,9 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
 
     const props1 = {
       ...props,
-      meta: { invalid: false, error: null },
+      meta: ReduxFormTestHelper.getMetaFieldProps(null, false),
       input: {
-        value: spyUpdate.value,
+        ...ReduxFormTestHelper.getInputFieldProps('X', spyUpdate.value),
         onChange: props.input.onChange,
       },
     }
@@ -103,7 +100,7 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
     const props2 = {
       ...props,
       input: {
-        value: spyUpdate.value,
+        ...ReduxFormTestHelper.getInputFieldProps('X', spyUpdate.value),
         onChange: props.input.onChange,
       },
     }
@@ -124,7 +121,7 @@ describe('[Attributes Common] Testing SingleAttributeFieldRender', () => {
     const props3 = {
       ...props,
       input: {
-        value: spyUpdate.value,
+        ...ReduxFormTestHelper.getInputFieldProps('X', spyUpdate.value),
         onChange: props.input.onChange,
       },
     }

@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { fieldArrayMetaPropTypes } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { RadioButtonGroup } from 'material-ui/RadioButton'
 import isNil from 'lodash/isNil'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
 
 // TODO v1.3 ===> EVERY RENDER SHOULD BE EXPORTED WITH CONTEXT! (stop importing FormMessages eveywhere)
-// TODO v1.3 check each definition in app of meta: input: fields: ==> bind all onto redux-form equivalent (nota: fieldInputPropTypes no longer exists!)
 
 class RenderRadio extends React.Component {
   static contextTypes = {
@@ -31,12 +30,8 @@ class RenderRadio extends React.Component {
   }
 
   static propTypes = {
-    input: PropTypes.shape({
-      value: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
-      name: PropTypes.string,
-      onChange: PropTypes.func.isRequired,
-    }),
-    meta: PropTypes.shape(fieldArrayMetaPropTypes).isRequired,
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     intl: PropTypes.shape({
       formatMessage: PropTypes.func,
     }),

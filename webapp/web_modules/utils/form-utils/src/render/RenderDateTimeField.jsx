@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { intlShape } from 'react-intl'
-import { fieldInputPropTypes } from 'redux-form'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'mdi-material-ui/Backspace'
@@ -44,10 +44,7 @@ export class RenderDateTimeField extends React.Component {
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     displayTime: PropTypes.bool,
     intl: intlShape,
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      error: PropTypes.string,
-    }),
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     fullWidth: PropTypes.bool,
   }
 

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import Delete from 'mdi-material-ui/Close'
 import Add from 'mdi-material-ui/PlusCircleOutline'
 import FlatButton from 'material-ui/FlatButton'
@@ -33,8 +34,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
     constraints: PropTypes.arrayOf(PropTypes.any),
     // from redux form
     // the selected value as fields object (holds selected levels IDs)
-    // eslint-disable-next-line react/forbid-prop-types
-    fields: PropTypes.object.isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
