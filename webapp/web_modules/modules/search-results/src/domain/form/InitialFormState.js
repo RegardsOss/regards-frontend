@@ -35,7 +35,7 @@ export const INITIAL_FORM_STATE = {
   },
   restrictions: {
     byDataset: {
-      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+      type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
       selection: [],
     },
   },

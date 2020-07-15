@@ -25,7 +25,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  FieldArray, Field, reduxForm, RenderTextField, ValidationHelpers, FieldsGroup, FormRow, FormPresentation,
+  FieldArray, Field, reduxForm, RenderTextField, ValidationHelpers, FieldsGroup, FormRow, FormPresentation, RenderCheckbox,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { uiSettingsActions } from '../clients/UISettingsClient'
@@ -91,14 +91,21 @@ export class EditSettingsComponent extends React.Component {
           <CardText>
             <FormPresentation>
               <FormRow>
-                <Field
-                  name="primaryQuicklookGroup"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'ui.admin.settings.main.quicklook.group.key.label' })}
-                  validate={ValidationHelpers.required}
-                />
+                <FieldsGroup spanFullWidth>
+                  <Field
+                    name="showVersion"
+                    component={RenderCheckbox}
+                    label={formatMessage({ id: 'ui.admin.settings.show.product.version' })}
+                  />
+                  <Field
+                    name="primaryQuicklookGroup"
+                    fullWidth
+                    component={RenderTextField}
+                    type="text"
+                    label={formatMessage({ id: 'ui.admin.settings.main.quicklook.group.key.label' })}
+                    validate={ValidationHelpers.required}
+                  />
+                </FieldsGroup>
               </FormRow>
               <div style={modelsSpacer} />
               <FormRow>

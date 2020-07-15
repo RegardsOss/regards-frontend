@@ -172,7 +172,7 @@ export class ContextInitializationHelper {
     // Dataset ID / models restrictions
     const { type, selection } = get(restrictions, 'byDataset', {})
     switch (type) {
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
         return [{
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
@@ -180,7 +180,7 @@ export class ContextInitializationHelper {
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
         }]
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS:
         return [{
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(

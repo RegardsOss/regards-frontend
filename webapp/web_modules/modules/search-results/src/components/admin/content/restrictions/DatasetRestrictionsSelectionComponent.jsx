@@ -39,7 +39,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
   static propTypes = {
     datasets: DataManagementShapes.DatasetList.isRequired,
     datasetModels: DataManagementShapes.ModelList.isRequired,
-    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESCRICTIONS_TYPES).isRequired,
+    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESTRICTIONS_TYPES).isRequired,
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
@@ -80,7 +80,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
 
   /**
    * Elements list / restriction type or filter were updated. Update table elements in local state
-   * @param {string} restrictionType from UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM
+   * @param {string} restrictionType from UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM
    * @param {*} datasets matching DataManagementShapes.DatasetList
    * @param {*} datasetModels matching DataManagementShapes.ModelList
    * @param {string} filterText applying filter
@@ -89,13 +89,13 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     // 1 - Pick the right elements pool
     let selectableElements
     switch (restrictionType) {
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE:
         selectableElements = []
         break
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
         selectableElements = values(datasets).map(({ content: { feature: { id, label } } }) => ({ id, label }))
         break
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS:
         selectableElements = values(datasetModels).map(({ content: { name } }) => ({ id: name, label: name }))
         break
       default:
@@ -169,7 +169,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     const { selectableElements, visibleElements, filterText } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    if (currentRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE) {
+    if (currentRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE) {
       return null
     }
     const selection = getAll()

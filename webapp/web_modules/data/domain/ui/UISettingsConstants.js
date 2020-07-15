@@ -26,6 +26,7 @@ export class UISettingsConstants {
    * Default settings state, to use when none was set
    */
   static DEFAULT_SETTINGS = {
+    showVersion: true,
     documentModels: [],
     primaryQuicklookGroup: 'primary',
   }

@@ -45,7 +45,7 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
       fields: ReduxFormTestHelper.getFieldsProps(),
     }
     const enzymeWrapper = shallow(<DatasetRestrictionsSelectionComponent {...props} />, { context })
@@ -61,7 +61,7 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       fields: {
         ...ReduxFormTestHelper.getFieldsProps([dataset1.content.feature.id, dataset3.content.feature.id]),
         push: (key) => {
@@ -149,7 +149,7 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
       fields: {
         ...ReduxFormTestHelper.getFieldsProps([datasetModelsDump[2].content.name]),
         push: (key) => {
