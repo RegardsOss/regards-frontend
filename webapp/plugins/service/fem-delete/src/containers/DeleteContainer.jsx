@@ -19,7 +19,6 @@
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import Subheader from 'material-ui/Subheader'
-import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -54,7 +53,7 @@ export class DeleteContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { deleteClient }) {
     return {
-      deleteFeatures: searchContext => dispatch(deleteClient.actions.delete(searchContext)),
+      deleteFeatures: (searchContext) => dispatch(deleteClient.actions.delete(searchContext)),
     }
   }
 
@@ -104,14 +103,13 @@ export class DeleteContainer extends React.Component {
   render() {
     const { intl: { formatMessage }, moduleTheme } = this.context
     const { entitiesCount } = this.props.target
-    const msgValues = { nbElement: entitiesCount }
     return (
       <div style={moduleTheme.body}>
-        <Subheader><FormattedMessage id="plugin.title" /></Subheader>
+        <Subheader>{formatMessage({ id: 'plugin.title' })}</Subheader>
         <div style={moduleTheme.contentWrapper}>
-          <FormattedMessage id="plugin.message" values={msgValues} />
-          <FormattedMessage id="plugin.async.info" values={msgValues} />
-          <FormattedMessage id="plugin.question" />
+          {formatMessage({ id: 'plugin.message' }, { nbElement: entitiesCount })}
+          {formatMessage({ id: 'plugin.async.info' }, { nbElement: entitiesCount })}
+          {formatMessage({ id: 'plugin.question' })}
           <div style={moduleTheme.buttonsWrapper}>
             <RaisedButton
               label={formatMessage({ id: 'plugin.cancel' })}

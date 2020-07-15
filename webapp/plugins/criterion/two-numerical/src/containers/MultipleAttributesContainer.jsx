@@ -167,7 +167,6 @@ export class MultipleAttributesContainer extends React.Component {
     }
   }
 
-
   render() {
     const {
       label,

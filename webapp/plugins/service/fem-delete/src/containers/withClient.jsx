@@ -27,7 +27,11 @@ import { getRequestsClient } from '../clients/RequestsClient'
  * @returns React class that injects clients
  * @author Léo Mieulet
  */
-const withClient = Component => class WithClient extends React.Component {
+const withClient = (Component) => class WithClient extends React.Component {
+  static propTypes = {
+    pluginInstanceId: PropTypes.string.isRequired,
+  }
+
   render() {
     const { pluginInstanceId } = this.props
     const deleteClient = getRequestsClient(pluginInstanceId)

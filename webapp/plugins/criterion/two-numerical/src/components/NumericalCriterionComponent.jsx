@@ -87,7 +87,7 @@ export class NumericalCriterionComponent extends React.Component {
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = isNil(lowerBound) && isNil(upperBound)
     return (
-      <React.Fragment>
+      <>
         <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
           <NumericalComparatorSelector
             operator={comparator}
@@ -108,7 +108,7 @@ export class NumericalCriterionComponent extends React.Component {
             disabled={hasNoValue}
           />
         </td>
-      </React.Fragment>)
+      </>)
   }
 }
 

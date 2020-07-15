@@ -18,7 +18,6 @@
  **/
 import { getRequestsReducer } from './clients/RequestsClient'
 
-
 /**
  * Plugin reducer builder function.
  * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths

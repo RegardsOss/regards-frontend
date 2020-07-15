@@ -34,6 +34,7 @@ class ExampleChartContainer extends React.Component {
     // when build a chart, just provide the chart type constructor as string, then all the properties for that chart
     // The adapter will instantiate it and report the properties to it
     // 1 - example chart data
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
     const chartData = {
       labels: ['Before', 'After', 'Unknown'],
       datasets: [
@@ -49,6 +50,7 @@ class ExampleChartContainer extends React.Component {
       ],
     }
     // 2 - example options (see http://www.chartjs.org/docs/latest/)
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
     const chartOptions = {
       scales: {
         xAxes: [

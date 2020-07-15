@@ -1,4 +1,3 @@
-
 /*
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -30,10 +29,9 @@ const pluginName = 'fem-edit'
  * the store key used in reducer.js
  */
 const storeKey = 'attributes'
-const actionsBuilder = namespace => new CatalogClient.SearchEntitiesCommonModelAttributesActions(namespace)
-const reducerBuilder = namespace => CatalogClient.getSearchEntitiesCommonModelAttributesReducer(namespace)
-const selectorsBuilder = storePath => CatalogClient.getSearchEntitiesCommonModelAttributesSelectors(storePath)
-
+const actionsBuilder = (namespace) => new CatalogClient.SearchEntitiesCommonModelAttributesActions(namespace)
+const reducerBuilder = (namespace) => CatalogClient.getSearchEntitiesCommonModelAttributesReducer(namespace)
+const selectorsBuilder = (storePath) => CatalogClient.getSearchEntitiesCommonModelAttributesSelectors(storePath)
 
 // Provide to the ClientConfBuilder a way to create action, selector and reducer
 // These action, selector and reducer will be resolved on runtime with a local pluginInstanceId

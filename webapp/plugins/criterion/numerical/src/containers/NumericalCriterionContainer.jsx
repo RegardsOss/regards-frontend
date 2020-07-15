@@ -27,22 +27,21 @@ import NumericalCriterionComponent from '../components/NumericalCriterionCompone
  * @author Xavier-Alexandre Brochard
  */
 export class NumericalCriterionContainer extends React.Component {
-  /**
-   * Simple selector for attribute type
-   * @param {*} attributeType attribute type
-   * @param {*} integerTypesValue value to select when integer type
-   * @param {*} floatingTypesValue value to select when floating type
-   */
-  static selectForType(attributeType, integerTypesValue, floatingTypesValue) {
-    switch (attributeType) {
-      case DamDomain.MODEL_ATTR_TYPES.INTEGER:
-      case DamDomain.MODEL_ATTR_TYPES.LONG:
-        return integerTypesValue
-      case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
-        return floatingTypesValue
-      default:
-        throw new Error(`Invalid attribute type for configured searchField ${attributeType}`)
-    }
+  static propTypes = {
+    /** Configuration attributes, by attributes logical name (see plugin-info.json) */
+    attributes: PropTypes.shape({
+      searchField: AttributeModelWithBounds.isRequired,
+    }).isRequired,
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.shape({
+      error: PropTypes.bool.isRequired,
+      value: PropTypes.string,
+      operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+    }),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
+    publishState: PropTypes.func.isRequired,
   }
 
   /** Available comparison operators for integer attributes */
@@ -72,21 +71,22 @@ export class NumericalCriterionContainer extends React.Component {
     operator: CommonDomain.EnumNumericalComparator.GE,
   }
 
-  static propTypes = {
-    /** Configuration attributes, by attributes logical name (see plugin-info.json) */
-    attributes: PropTypes.shape({
-      searchField: AttributeModelWithBounds.isRequired,
-    }).isRequired,
-    // configured plugin label, where object key is locale and object value message
-    label: UIShapes.IntlMessage.isRequired,
-    // state shared and consumed by this criterion
-    state: PropTypes.shape({
-      error: PropTypes.bool.isRequired,
-      value: PropTypes.string,
-      operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    }),
-    // Callback to share state update with parent form like (state, requestParameters) => ()
-    publishState: PropTypes.func.isRequired,
+  /**
+   * Simple selector for attribute type
+   * @param {*} attributeType attribute type
+   * @param {*} integerTypesValue value to select when integer type
+   * @param {*} floatingTypesValue value to select when floating type
+   */
+  static selectForType(attributeType, integerTypesValue, floatingTypesValue) {
+    switch (attributeType) {
+      case DamDomain.MODEL_ATTR_TYPES.INTEGER:
+      case DamDomain.MODEL_ATTR_TYPES.LONG:
+        return integerTypesValue
+      case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
+        return floatingTypesValue
+      default:
+        throw new Error(`Invalid attribute type for configured searchField ${attributeType}`)
+    }
   }
 
   /**

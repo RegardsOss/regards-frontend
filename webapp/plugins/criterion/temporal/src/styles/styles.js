@@ -19,14 +19,14 @@
 
 /**
  * Styles for plugin
- * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ * @param theme Material UI theme, can be used to compute dynamic style values from current theme (automatically updated)
  * @author Raphaël Mechali
  */
-const pluginStyles = theme => ({
-  datePickerCell: {
-    ...theme.module.searchResults.searchPane.criteria.nextCell,
-    display: 'flex',
-  },
-})
-
-export default pluginStyles
+export default function getStyles(theme) {
+  return {
+    datePickerCell: {
+      ...theme.module.searchResults.searchPane.criteria.nextCell,
+      display: 'flex',
+    },
+  }
+}
