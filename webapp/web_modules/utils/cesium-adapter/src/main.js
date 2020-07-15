@@ -1,1 +1,1 @@
-export { default as CesiumAdapter } from './CesiumAdapter'
+export { default as CesiumProvider } from './CesiumProvider'

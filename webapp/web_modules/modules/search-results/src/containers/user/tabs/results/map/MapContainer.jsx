@@ -107,6 +107,8 @@ export class MapContainer extends React.Component {
     currentlyDrawingAreas: [],
     // holds the areas currently applying as geometry criteria
     criteriaAreas: [],
+    // holds the background layer conf
+    backgroundLayerConf: {},
   }
 
   /**
@@ -151,8 +153,8 @@ export class MapContainer extends React.Component {
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { backgroundLayer: oldBackgroundLayer, selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
@@ -163,6 +165,18 @@ export class MapContainer extends React.Component {
     if (!isEqual(get(oldTab, 'criteria.geometry'), tab.criteria.geometry)) {
       nextState.criteriaAreas = tab.criteria.geometry.map(
         ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
+    }
+
+    // Handle criteria update: pre-compute the list of areas in state
+    if (!isEqual(backgroundLayer, oldBackgroundLayer)) {
+      nextState.backgroundLayerConf = {}
+      if (backgroundLayer.conf) {
+        try {
+          nextState.backgroundLayerConf = JSON.parse(backgroundLayer.conf)
+        } catch (error) {
+          console.error('error', error)
+        }
+      }
     }
 
     // update state on change
@@ -295,19 +309,13 @@ export class MapContainer extends React.Component {
 
   render() {
     const { tabType, resultsContext } = this.props
-    const { featuresCollection, currentlyDrawingAreas, criteriaAreas } = this.state
+    const {
+      featuresCollection, currentlyDrawingAreas, criteriaAreas, backgroundLayerConf,
+    } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
     const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
-    let backgroundLayerConf = {}
-    if (backgroundLayer.conf) {
-      try {
-        backgroundLayerConf = JSON.parse(backgroundLayer.conf)
-      } catch (error) {
-        console.error('error', error)
-      }
-    }
     return (
       <MapComponent
         featuresCollection={featuresCollection}

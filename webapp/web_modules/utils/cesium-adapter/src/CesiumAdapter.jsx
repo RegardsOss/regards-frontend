@@ -18,37 +18,33 @@
  **/
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import { console } from 'window-or-global'
-import { UIDomain, CatalogDomain } from '@regardsoss/domain'
-
-
-export const HeadlessPlaceholder = props => (
-  <div>
-    <h1>Headless cesium placeholder</h1>
-    <h2>Properties: </h2>
-    <p>{JSON.stringify(props)}</p>
-  </div>
-)
-
+import { UIDomain } from '@regardsoss/domain'
+import { createRef } from 'react'
+import has from 'lodash/has'
+import {
+  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon,
+} from 'resium'
+import {
+  ScreenSpaceEventType, Color, OpenStreetMapImageryProvider, WebMapServiceImageryProvider, WebMapTileServiceImageryProvider, BingMapsImageryProvider,
+} from 'cesium'
+import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerComponent'
 
 /**
- * Mizar Adapter
+ * Cesium Adapter
  * Nota: it provides pick selection and draw selection gestures but caller should handle related updates and feedback
  */
 export default class CesiumAdapter extends React.Component {
   static propTypes = {
-    crsContext: PropTypes.string,
+    crsContext: PropTypes.string, // TODO used ?
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     backgroundLayerConf: PropTypes.object,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
-    staticLayerOpacity: PropTypes.number,
+    staticLayerOpacity: PropTypes.number, // TODO
     // selection management: when drawing selection is true, user draws a rectangle
-    // during that gestion, onDrawingSelectionUpdated will be called for the component parent to update feedback through drawnAreas
-    // at end, onDrawingSelectionDone will be called
     drawingSelection: PropTypes.bool.isRequired,
-    onDrawingSelectionUpdated: PropTypes.func, // (initPoint, currentPoint) => ()
     onDrawingSelectionDone: PropTypes.func, // (initPoint, finalPoint) => ()
     drawColor: PropTypes.string,
     // Currently shownig areas (may be used for selection feedback, currently applying areas, ...)
@@ -59,91 +55,86 @@ export default class CesiumAdapter extends React.Component {
 
 
   state = {
-    cesium: null,
-    resium: null,
-    Viewer: null,
-    imageryProvider: null,// background layer
-    cesiumFeaturesColor: null,// Cesium.Color objet for features
+    imageryProvider: null, // background layer
+    cesiumFeaturesColor: null, // Cesium.Color objet for features
+    cesiumDrawColor: null, // Cesium.Color objet for draw zone
+    nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
   }
 
+  /**
+   * Allows us to hide the Cesium logo
+   * but also hide credits from Map providers
+   */
+  virtualCredit = document.createElement('div');
 
-  virtualCredit = document.createElement("div");
-
+  /**
+   * Ref to the Cesium instance
+   */
+  ref = createRef()
 
   componentWillMount() {
+    // load Cesium and React component
+    const imageryProvider = this.getImageryProvider()
+    const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
+    const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
+    const nearlyTransparentColor = new Color(0, 0, 0, 0.01)
 
-    if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'coverage') {
-      // load required elements
-      require.ensure([], (require) => {
-        // On dev, we copy all cesium folder, in prod, Webpack detect what we requires and bundle only that in our chunk app
-        if (process.env.NODE_ENV === 'production') {
-          require("cesium/Widgets/widgets.css");
-        }
-        
-        // load Cesium and React component
-        const cesium = require('cesium')
-        const resium = require('resium')
-        const imageryProvider = this.getImageryProvider(cesium)
-        const cesiumFeaturesColor = cesium.Color.fromCssColorString(this.props.featuresColor)
+    // store libs in state
+    this.setState({
+      imageryProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+    })
+  }
 
-        // store libs in state
-        this.setState({ cesium, resium, imageryProvider, cesiumFeaturesColor })
-      })
+  componentDidMount() {
+    if (has(this.ref, 'current.cesiumElement')) {
+      // Remove the default event handler that zoom and track feature on double click
+      this.ref.current.cesiumElement.screenSpaceEventHandler.removeInputAction(ScreenSpaceEventType.LEFT_DOUBLE_CLICK)
     }
   }
 
-  getImageryProvider = (cesium) => {
-    const { backgroundLayerType, backgroundLayerUrl, backgroundLayerConf } = this.props
-    console.error(this.props, cesium)
+  getImageryProvider = () => {
+    const { backgroundLayerType, backgroundLayerUrl, backgroundLayerConf } = this.props
     switch (backgroundLayerType) {
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.OSM:
-        return new cesium.OpenStreetMapImageryProvider({
+        return new OpenStreetMapImageryProvider({
           ...backgroundLayerConf,
           maximumLevel: 19,
           url: backgroundLayerUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS:
-        return new cesium.WebMapServiceImageryProvider({
+        return new WebMapServiceImageryProvider({
           ...backgroundLayerConf,
           url: backgroundLayerUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
-        return new cesium.WebMapTileServiceImageryProvider({
+        return new WebMapTileServiceImageryProvider({
           ...backgroundLayerConf,
           url: backgroundLayerUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.Bing:
-        return new cesium.BingMapsImageryProvider({
+        return new BingMapsImageryProvider({
           ...backgroundLayerConf,
           url: backgroundLayerUrl,
         })
       default:
-        console.error("Unsupported background image, fallback to OSM")
+        console.error('Unsupported background image, fallback to OSM')
     }
-    return new cesium.OpenStreetMapImageryProvider()
-  }
-
-  handleSelectedEntity = (entity) => {
-    console.error("selected", entity)
+    return new OpenStreetMapImageryProvider()
   }
 
   render() {
-    const { featuresCollection } = this.props
-    const { cesium, resium, imageryProvider, cesiumFeaturesColor } = this.state
-    if (!cesium) {
-      return null // loading
-    }
-    const { Viewer, GeoJsonDataSource, Scene, SkyBox, SkyAtmosphere, Sun } = resium
-    const { Color, SceneMode } = cesium
-    // TODO : add interaction polygon
-    // https://github.com/leforthomas/cesium-drawhelper/blob/master/DrawHelper.js
-    // https://github.com/darwin-education/resium/issues/88
+    const {
+      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected,
+    } = this.props
+    const {
+      imageryProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+    } = this.state
     return (
       <Viewer
         full
+        ref={this.ref}
         timeline={false}
-        onSelectedEntityChange={this.handleSelectedEntity}
-        // sceneModePicker={false} allow user to switch between 2D and 3D
+        sceneModePicker={false} // allow user to switch between 2D and 3D
         homeButton={false}
         baseLayerPicker={false}// No background layer picker
         infoBox={false}// no feature info
@@ -152,22 +143,35 @@ export default class CesiumAdapter extends React.Component {
         imageryProvider={imageryProvider}
         animation={false}// Hide Cesium clock
         geocoder={false}// Hide widget for finding addresses and landmarks
+        selectionIndicator={false} // Hide green target when entity selected
         creditContainer={this.virtualCredit}
+        automaticallyTrackDataSourceClocks={false}
       >
         {/* Configurate the initial Scene */}
-        <Scene mode={SceneMode.SCENE3D} morphDuration={10} />
-        {/* Hide stars */}
-        <SkyBox show={false} />
-        {/* Hide atmosphere  */}
-        <SkyAtmosphere show={false} />
+        {/* <Scene mode={SceneMode.SCENE3D} morphDuration={10} /> */}
+        {/* Show stars */}
+        <SkyBox show />
+        {/* Show atmosphere  */}
+        <SkyAtmosphere show />
         {/* Hide sun */}
         <Sun show={false} />
+        {/* Hide moon */}
+        <Moon show={false} />
         {/* Display props features */}
         <GeoJsonDataSource
+          name="catalog-features"
           data={featuresCollection}
-          fill={Color.TRANSPARENT}
+          fill={nearlyTransparentColor}
           stroke={cesiumFeaturesColor}
           strokeWidth={1}
+        />
+        <CesiumEventAndPolygonDrawerComponent
+          cesiumContext={this.ref}
+          cesiumDrawColor={cesiumDrawColor}
+          drawingSelection={drawingSelection}
+          drawnAreas={drawnAreas}
+          onDrawingSelectionDone={onDrawingSelectionDone}
+          onFeaturesSelected={onFeaturesSelected}
         />
       </Viewer>
     )
