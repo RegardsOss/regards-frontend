@@ -71,6 +71,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
   }) => it(`should render correctly in edition when ${label}`, () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: ['model3'],
         primaryQuicklookGroup: 'customMain',
       },
@@ -87,7 +88,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
     const enzymeWrapper = shallow(<EditSettingsComponent {...props} />, { context })
     const fields = enzymeWrapper.find(Field)
     assert.lengthOf(fields, 2, 'There should be show version and main quicklook keyword fields')
-    testSuiteHelpers.assertWrapperProperties(fields.at(1), {
+    testSuiteHelpers.assertWrapperProperties(fields.at(0), {
       name: 'showVersion',
       component: RenderCheckbox,
     }, 'Show version field properties should be correctly set')

@@ -64,6 +64,7 @@ describe('[Description] Testing UserContainer', () => {
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
@@ -101,6 +102,7 @@ describe('[Description] Testing UserContainer', () => {
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
@@ -248,10 +250,12 @@ describe('[Description] Testing UserContainer', () => {
       },
       setSelectedPath: () => {},
       descriptionState: {
+        showVersion: true,
         descriptionPath: [],
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },

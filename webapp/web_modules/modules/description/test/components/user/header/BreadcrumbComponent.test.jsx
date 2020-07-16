@@ -40,6 +40,7 @@ describe('[Description] Testing BreadcrumbComponent', () => {
   it('should render correctly', () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },

@@ -69,6 +69,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
         showCoupling: true,
         showLinkedDocuments: true,
         showLinkedEntities: true,
+        showOtherVersions: false,
         showThumbnail: false,
         groups: [],
         attributeToDescriptionFiles: [],
@@ -140,6 +141,14 @@ class DescriptionConfigurationFormComponent extends React.Component {
               name={`${currentNamespace}.${entityType}.showLinkedEntities`}
               label={formatMessage({ id: 'module.description.configuration.show.linked.entities' })}
               component={RenderCheckbox}
+              fullWidth
+            />
+            {/* Show other versions (only for data currently) */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showOtherVersions`}
+              label={formatMessage({ id: 'module.description.configuration.show.other.versions' })}
+              component={RenderCheckbox}
+              disabled={entityType !== DamDomain.ENTITY_TYPES_ENUM.DATA}
               fullWidth
             />
             {/* Show thumbnail field */}

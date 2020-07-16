@@ -32,6 +32,9 @@ import { DescriptionEntityHelper } from './DescriptionEntityHelper'
 /** Builds actions to fetch single entities */
 const fetchEntityActions = new CatalogClient.SearchEntityActions('description-entity-resolver', true)
 
+/** Builds actions to entity versions */
+const fetchEntityVersionsActions = new CatalogClient.SearchEntityVersionsActions('description-entity-versions-resolver')
+
 /** Common UI settings selectors */
 const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
 
@@ -69,6 +72,7 @@ export class UserContainer extends React.Component {
       setModuleDescriptionPath: (path) => dispatch(descriptionStateActions.setDescriptionPath(path)),
       setSelectedTreeEntry: (entityIndex, treeEntry) => dispatch(descriptionStateActions.setSelectedTreeEntry(entityIndex, treeEntry)),
       fetchEntity: (id) => dispatch(fetchEntityActions.getEntity(id)),
+      fetchAllEntityVersions: (id, type) => dispatch(fetchEntityVersionsActions.fetchAllVersions(id, type)),
       fetchModelAttributes: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
     }
   }
@@ -90,6 +94,8 @@ export class UserContainer extends React.Component {
     fetchEntity: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     fetchModelAttributes: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchAllEntityVersions: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
     setSelectedTreeEntry: PropTypes.func.isRequired,
     setModuleDescriptionPath: PropTypes.func.isRequired,
   }
@@ -146,7 +152,7 @@ export class UserContainer extends React.Component {
   onDescriptionRequestUpdated = ({
     accessToken, projectName, descriptionState, settings,
     moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration },
-    fetchModelAttributes, fetchEntity, setModuleDescriptionPath,
+    fetchModelAttributes, fetchEntity, fetchAllEntityVersions, setModuleDescriptionPath,
   }, reloading) => {
     // A - Mark loading the elements that need to be reloaded
     const loadingDescriptionPath = descriptionPath.map((entity) => {
@@ -165,8 +171,8 @@ export class UserContainer extends React.Component {
         // start loading entities that required it through helper promise (should never enter in catch case)
         DescriptionEntityHelper.resolveDescriptionEntity(
           moduleConfiguration, descriptionEntity, settings,
-          fetchEntity, fetchModelAttributes, accessToken, projectName,
-          this.descriptionUpdateGroupId)
+          fetchEntity, fetchAllEntityVersions, fetchModelAttributes,
+          accessToken, projectName, this.descriptionUpdateGroupId)
           .then(this.onDescriptionEntityResolved)
       }
     })

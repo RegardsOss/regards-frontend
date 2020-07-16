@@ -42,6 +42,7 @@ describe('[Description] Testing MainModuleComponent', () => {
   it('should render correctly', () => {
     const props = {
       settings: {
+        showVersion: false,
         documentModels: ['any'],
         primaryQuicklookGroup: 'primary',
       },

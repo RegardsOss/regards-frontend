@@ -42,6 +42,7 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
   it('Should render a no data', () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
@@ -78,6 +79,7 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       },
       projectName: 'project',
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
       },
@@ -222,6 +224,7 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       value: files,
       projectName: 'project',
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primaryGroup',
       },

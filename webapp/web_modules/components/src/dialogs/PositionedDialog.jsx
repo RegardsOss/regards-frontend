@@ -46,7 +46,10 @@ class PositionedDialog extends React.Component {
     contentStyle: PropTypes.object, // allows locally overriding the styles
     // eslint-disable-next-line react/forbid-prop-types
     actionsContainerStyle: PropTypes.object, // allows locally overriding the styles
-    actions: PropTypes.arrayOf(PropTypes.node),
+    actions: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,

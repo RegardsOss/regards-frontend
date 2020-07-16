@@ -40,6 +40,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },
@@ -66,6 +67,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },
@@ -88,4 +90,5 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     callbackHolder.props().onClick()
     assert.equal(spyOnSelectEntityIndex.index, props.entityIndex, 'Callback should been invoked')
   })
+  // TODO add test here: version on data / !dataset!collection!document
 })

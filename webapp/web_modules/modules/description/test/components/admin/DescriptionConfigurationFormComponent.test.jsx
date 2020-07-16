@@ -68,6 +68,7 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showCoupling'), 1, 'there should be the showCoupling field')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showLinkedEntities'), 1, 'there should be the showLinkedEntities field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showOtherVersions'), 1, 'there should be the showOtherVersions field')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showThumbnail'), 1, 'there should be the showThumbnail field')
 
     const groupsField = enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.groups')

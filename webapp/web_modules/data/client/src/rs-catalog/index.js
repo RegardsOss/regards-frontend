@@ -36,12 +36,12 @@ export { default as getEnumeratedDOPropertyValuesSelectors } from './search/Enum
 export { default as SearchCollectionsActions } from './search/SearchCollectionsActions'
 export { default as SearchDataobjectsActions } from './search/SearchDataobjectsActions'
 export { default as SearchDatasetsFromDataObjectsActions } from './search/SearchDatasetsFromDataObjectsActions'
-export { default as SearchDocumentsActions } from './search/SearchDocumentsActions'
 export { default as SearchDatasetsActions } from './search/SearchDatasetsActions'
 export { default as SearchEntitiesActions } from './search/SearchEntitiesActions'
 export { default as getSearchEntitiesReducer } from './search/SearchEntitiesReducer'
 export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'
 export { default as SearchEntityActions } from './search/SearchEntityActions'
+export { default as SearchEntityVersionsActions } from './search/SearchEntityVersionsActions'
 
 export { default as SearchEntitiesCommonModelAttributesActions } from './search/SearchEntitiesCommonModelAttributesActions'
 export { default as getSearchEntitiesCommonModelAttributesSelectors } from './search/SearchEntitiesCommonModelAttributesSelectors'

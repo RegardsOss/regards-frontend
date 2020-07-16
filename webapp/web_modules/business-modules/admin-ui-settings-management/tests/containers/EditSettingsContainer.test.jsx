@@ -190,6 +190,7 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsContainer', () => {
       dataModels: modelsDump,
       fetchingSettings: false,
       settings: {
+        showVersion: false,
         documentModels: ['STAFnvc_model', 'CRAWL_DATA_MODEL'],
         primaryQuicklookGroup: 'meinGrüpe',
       },

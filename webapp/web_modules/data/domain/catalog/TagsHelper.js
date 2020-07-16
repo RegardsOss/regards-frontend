@@ -34,6 +34,14 @@ export class TagsHelper {
     return TagsHelper.URN_PATTERN.test(tag)
   }
 
+  /** Computes raw URN, vithout version
+   * @param {string} urn with version
+   * @return {string} urn without version
+   */
+  static getURNWithoutVersion(urn) {
+    return urn.substring(0, urn.lastIndexOf(':'))
+  }
+
   /** Coupling tag pattern */
   static COUPLING_PATTERN = /^coupling:(.*):(.*)$/
 
