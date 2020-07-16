@@ -314,8 +314,7 @@ export class MapContainer extends React.Component {
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
-    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
+    const { selectedModeState: { backgroundLayer, selectionMode, mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <MapComponent
         featuresCollection={featuresCollection}
@@ -335,6 +334,8 @@ export class MapContainer extends React.Component {
         backgroundLayerURL={backgroundLayer.url}
         backgroundLayerType={backgroundLayer.type}
         backgroundLayerConf={backgroundLayerConf}
+
+        mapEngine={mapEngine}
       />
     )
   }

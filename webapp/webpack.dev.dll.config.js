@@ -39,6 +39,7 @@ const conf = webpackConfigurator
         'moment',
         'normalizr',
         'react',
+        'resium',
         'react-chartjs-2',
         'react-dnd',
         'react-dnd-html5-backend',
