@@ -21,8 +21,9 @@ import { console } from 'window-or-global'
 import { UIDomain } from '@regardsoss/domain'
 import { createRef } from 'react'
 import has from 'lodash/has'
+import get from 'lodash/get'
 import {
-  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon,
+  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer,
 } from 'resium'
 import {
   ScreenSpaceEventType, Color, OpenStreetMapImageryProvider, WebMapServiceImageryProvider, WebMapTileServiceImageryProvider, BingMapsImageryProvider,
@@ -35,14 +36,13 @@ import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerC
  */
 export default class CesiumAdapter extends React.Component {
   static propTypes = {
-    crsContext: PropTypes.string, // TODO used ?
     backgroundLayerUrl: PropTypes.string.isRequired,
     backgroundLayerType: PropTypes.string.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     backgroundLayerConf: PropTypes.object,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
-    staticLayerOpacity: PropTypes.number, // TODO
+    staticLayerOpacity: PropTypes.number,
     // selection management: when drawing selection is true, user draws a rectangle
     drawingSelection: PropTypes.bool.isRequired,
     onDrawingSelectionDone: PropTypes.func, // (initPoint, finalPoint) => ()
@@ -56,6 +56,7 @@ export default class CesiumAdapter extends React.Component {
 
   state = {
     imageryProvider: null, // background layer
+    additionnalLayerProvider: null, // additionnal background layer
     cesiumFeaturesColor: null, // Cesium.Color objet for features
     cesiumDrawColor: null, // Cesium.Color objet for draw zone
     nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
@@ -73,15 +74,26 @@ export default class CesiumAdapter extends React.Component {
   ref = createRef()
 
   componentWillMount() {
-    // load Cesium and React component
-    const imageryProvider = this.getImageryProvider()
+    // Get the background layer
+    const { backgroundLayerType, backgroundLayerUrl, backgroundLayerConf } = this.props
+    const backgroundLayerInfo = {
+      type: backgroundLayerType,
+      baseUrl: backgroundLayerUrl,
+      conf: backgroundLayerConf,
+    }
+    const imageryProvider = this.getImageryProvider(backgroundLayerInfo)
+    const staticLayer = get(STATIC_CONF, 'MAP.STATIC_LAYER', null)
+    let additionnalLayerProvider
+    if (staticLayer) {
+      additionnalLayerProvider = this.getImageryProvider(staticLayer)
+    }
     const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
     const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
     const nearlyTransparentColor = new Color(0, 0, 0, 0.01)
 
     // store libs in state
     this.setState({
-      imageryProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      imageryProvider, additionnalLayerProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
     })
   }
 
@@ -92,29 +104,28 @@ export default class CesiumAdapter extends React.Component {
     }
   }
 
-  getImageryProvider = () => {
-    const { backgroundLayerType, backgroundLayerUrl, backgroundLayerConf } = this.props
-    switch (backgroundLayerType) {
+  getImageryProvider = ({ type, baseUrl, conf }) => {
+    switch (type) {
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.OSM:
         return new OpenStreetMapImageryProvider({
-          ...backgroundLayerConf,
+          ...conf,
           maximumLevel: 19,
-          url: backgroundLayerUrl,
+          url: baseUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS:
         return new WebMapServiceImageryProvider({
-          ...backgroundLayerConf,
-          url: backgroundLayerUrl,
+          ...conf,
+          url: baseUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
         return new WebMapTileServiceImageryProvider({
-          ...backgroundLayerConf,
-          url: backgroundLayerUrl,
+          ...conf,
+          url: baseUrl,
         })
       case UIDomain.MIZAR_LAYER_TYPES_ENUM.Bing:
         return new BingMapsImageryProvider({
-          ...backgroundLayerConf,
-          url: backgroundLayerUrl,
+          ...conf,
+          url: baseUrl,
         })
       default:
         console.error('Unsupported background image, fallback to OSM')
@@ -124,10 +135,10 @@ export default class CesiumAdapter extends React.Component {
 
   render() {
     const {
-      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected,
+      featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected, staticLayerOpacity,
     } = this.props
     const {
-      imageryProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      imageryProvider, additionnalLayerProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
     } = this.state
     return (
       <Viewer
@@ -157,6 +168,11 @@ export default class CesiumAdapter extends React.Component {
         <Sun show={false} />
         {/* Hide moon */}
         <Moon show={false} />
+        {/* Display additionnal layer */}
+        {additionnalLayerProvider && <ImageryLayer
+          imageryProvider={additionnalLayerProvider}
+          alpha={staticLayerOpacity}
+        />}
         {/* Display props features */}
         <GeoJsonDataSource
           name="catalog-features"

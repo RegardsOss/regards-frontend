@@ -2,8 +2,9 @@ import { GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import has from 'lodash/has'
 import {
-  ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty,
+  ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty, Color, Viewer,
 } from 'cesium'
 import {
   ScreenSpaceEventHandler, ScreenSpaceCameraController, ScreenSpaceEvent, Entity, RectangleGraphics,
@@ -22,11 +23,16 @@ const INTERACTION_DRAW = {
  */
 export default class CesiumEventAndPolygonDrawerComponent extends React.Component {
   static propTypes = {
-    cesiumContext: PropTypes.any,
-    cesiumDrawColor: PropTypes.any,
+    cesiumContext: PropTypes.shape({
+      current: PropTypes.shape({
+        cesiumElement: PropTypes.instanceOf(Viewer),
+      }),
+    }),
+    cesiumDrawColor: PropTypes.instanceOf(Color),
     drawingSelection: PropTypes.bool.isRequired,
     onDrawingSelectionDone: PropTypes.func.isRequired, // (initPoint, finalPoint) => ()
     // Currently shownig areas - ONLY used to display currently applyed areas
+    // eslint-disable-next-line react/no-unused-prop-types
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
     onFeaturesSelected: PropTypes.func.isRequired,
   }
@@ -137,7 +143,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     if (!isEmpty(pickedObjects)) {
       // Iterate over picked entites from Cesium and remove all objects not coming from REGARDS catalog
       const selectedEntities = compact(map(pickedObjects, (entity) => {
-        if (entity && entity.id && entity.id.id && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
+        if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
           return {
             feature: {
               id: entity.id.id,
@@ -171,6 +177,8 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
           case INTERACTION_DRAW.STARTED:
             this.handleSaveLastPoint(movement)
             break
+          default:
+            throw new Error(`Unexpected state ${this.currentInteractionState}`)
         }
       } else {
         // When drawing selection not active, intersect the cursor with the datasource

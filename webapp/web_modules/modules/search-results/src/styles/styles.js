@@ -586,6 +586,7 @@ const styles = theme => ({
         // overlay position
         position: 'absolute',
         top: 0,
+        zIndex: 1,
         // mimics table header styles
         backgroundColor: theme.palette.canvasColor,
         borderRight: `1px solid ${theme.tableRow.borderColor}`,

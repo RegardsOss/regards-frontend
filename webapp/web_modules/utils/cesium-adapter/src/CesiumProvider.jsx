@@ -27,6 +27,8 @@ export const HeadlessPlaceholder = props => (
 // On dev, we copy all cesium folder, in prod, Webpack detect what we requires directly from the code
 // and remove all the deadcode from that library
 if (process.env.NODE_ENV === 'production') {
+  // False eslint import issue as he doesn't know for the alias
+  // eslint-disable-next-line import/no-unresolved
   require('cesium/Widgets/widgets.css')
 }
 
