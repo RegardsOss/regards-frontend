@@ -64,17 +64,12 @@ export class DBDatasourceFormContainer extends React.Component {
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    const isCreating = props.params.datasourceId === undefined
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      isLoading: true,
-      state: states.FORM_ATTRIBUTE,
-      currentDatasource: null,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    isLoading: true,
+    state: states.FORM_ATTRIBUTE,
+    currentDatasource: null,
   }
 
   componentDidMount() {

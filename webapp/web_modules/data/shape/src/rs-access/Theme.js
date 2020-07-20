@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { HateOASLink } from '../rs-common'
+
 export const ThemeContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
@@ -25,7 +27,7 @@ export const ThemeContent = PropTypes.shape({
 
 export const Theme = PropTypes.shape({
   content: ThemeContent,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(HateOASLink),
 })
 
 export const ThemeList = PropTypes.objectOf(Theme)

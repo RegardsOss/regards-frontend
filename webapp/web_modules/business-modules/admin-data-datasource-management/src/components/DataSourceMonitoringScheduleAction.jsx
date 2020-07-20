@@ -18,7 +18,7 @@
  **/
 import Schedule from 'mdi-material-ui/ClockOutline'
 import IconButton from 'material-ui/IconButton'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DamDomain } from '@regardsoss/domain'
 
@@ -30,7 +30,7 @@ class DataSourceMonitoringScheduleAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataManagementShapes.CrawlerDatasourceContent.isRequired,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onSchedule: PropTypes.func.isRequired,
   }

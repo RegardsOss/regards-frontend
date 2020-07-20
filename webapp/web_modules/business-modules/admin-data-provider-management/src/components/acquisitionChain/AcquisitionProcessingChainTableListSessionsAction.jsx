@@ -18,7 +18,7 @@
  **/
 import RunIcon from 'mdi-material-ui/FormatListBulleted'
 import IconButton from 'material-ui/IconButton'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -29,7 +29,7 @@ class AcquisitionProcessingChainTableListSessionsAction extends React.Component 
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onListSessions: PropTypes.func.isRequired,
   }

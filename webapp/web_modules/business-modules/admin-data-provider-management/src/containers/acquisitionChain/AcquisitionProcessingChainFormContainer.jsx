@@ -82,15 +82,11 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
     changeField: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    const isLoadingChain = !(props.params.chainId === undefined)
-    this.state = {
-      isLoadingChain,
-      isLoadingChainError: false,
-      isLoadingStorages: true,
-      isLoadingStoragesError: false,
-    }
+  state = {
+    isLoadingChain: !(this.props.params.chainId === undefined),
+    isLoadingChainError: false,
+    isLoadingStorages: true,
+    isLoadingStoragesError: false,
   }
 
   componentDidMount() {

@@ -18,21 +18,19 @@
  **/
 import get from 'lodash/get'
 import map from 'lodash/map'
-import { fieldMetaPropTypes } from 'redux-form'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
   MultiToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors,
-}
-  from '../../clients/AcquisitionProcessingChainClient'
+} from '../../clients/AcquisitionProcessingChainClient'
 import AcquisitionProcessingChainListComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import { tableSelectors } from '../../clients/TableClient'
+import AcquisitionProcessingChainListFiltersComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
 
 /**
 * Container to handle AcquisitionProcessingChains.
@@ -57,7 +55,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     isOneCheckboxToggled: PropTypes.bool.isRequired,
     toggledChains: PropTypes.arrayOf(PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     })),
     availableDependencies: PropTypes.arrayOf(PropTypes.string),
 
@@ -76,9 +74,6 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
   }
 
   static PAGE_SIZE = 100
-
-  /** List of dependencies required for toggling multiple chains state  */
-  static TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES = [MultiToggleAcquisitionProcessingChainActions.getDependency(RequestVerbEnum.PATCH)]
 
   /**
    * Redux: map state to props function
@@ -190,7 +185,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
       meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
     } = this.props
 
-    const hasAccess = displayLogic(AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
+    const hasAccess = displayLogic(AcquisitionProcessingChainListFiltersComponent.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
     return (
       <AcquisitionProcessingChainListComponent
         project={project}

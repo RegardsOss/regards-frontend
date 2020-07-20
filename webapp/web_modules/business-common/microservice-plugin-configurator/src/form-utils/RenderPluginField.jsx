@@ -72,11 +72,8 @@ export class RenderPluginField extends React.Component {
     iconUrl: null,
   })
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPluginMetaData: null,
-    }
+  state = {
+    selectedPluginMetaData: null,
   }
 
   /**

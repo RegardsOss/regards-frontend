@@ -69,12 +69,8 @@ export class DBDatasourceFormMappingComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const currentTableSelected = props.isEditing && props.isSingleTable ? findParam(props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value : ''
-    this.state = {
-      currentTableSelected,
-    }
+  state = {
+    currentTableSelected: this.props.isEditing && this.props.isSingleTable ? findParam(this.props.currentDatasource, IDBDatasourceParamsEnum.TABLE).value : '',
   }
 
   componentDidMount() {

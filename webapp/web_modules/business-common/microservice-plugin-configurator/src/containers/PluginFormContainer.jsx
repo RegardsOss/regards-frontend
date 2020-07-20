@@ -96,15 +96,12 @@ export class PluginFormContainer extends React.Component {
     formMode: 'create',
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.formMode === 'edit',
-      currentPluginMetaData: null,
-      isPluginMetaDataFetching: true,
-      currentPluginConfiguration: props.pluginConfiguration,
-      isPluginConfigurationFetching: !props.pluginConfiguration && !!props.pluginConfigurationId,
-    }
+  state = {
+    isEditing: this.props.formMode === 'edit',
+    currentPluginMetaData: null,
+    isPluginMetaDataFetching: true,
+    currentPluginConfiguration: this.props.pluginConfiguration,
+    isPluginConfigurationFetching: !this.props.pluginConfiguration && !!this.props.pluginConfigurationId,
   }
 
   componentDidMount() {

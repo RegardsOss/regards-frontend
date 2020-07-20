@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 import Download from 'mdi-material-ui/Download'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl } from '@regardsoss/display-control'
 
@@ -32,7 +32,7 @@ class IngestProcessingChainTableExportAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     accessToken: PropTypes.string.isRequired,
   }

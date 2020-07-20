@@ -58,15 +58,11 @@ export class CollectionFormComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-
-  constructor(props) {
-    super(props)
-    const isCreating = isNil(props.currentCollection)
-    this.state = {
-      isCreating,
-      isDuplicating: props.isDuplicating,
-      isDisplayAttributeValue: !isCreating,
-    }
+  
+  state = {
+    isCreating: isNil(this.props.currentCollection),
+    isDuplicating: this.props.isDuplicating,
+    isDisplayAttributeValue: !isNil(this.props.currentCollection),
   }
 
   componentDidMount() {

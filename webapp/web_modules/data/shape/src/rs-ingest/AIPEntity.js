@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AIP } from './AIP'
+import { HateOASLink } from '../rs-common'
 
 /**
  * Describes an AIP Entity shape and related sub objects
@@ -36,11 +37,11 @@ export const AIPEntityContent = PropTypes.shape({
     sessionOwner: PropTypes.string.isRequired,
     state: PropTypes.string,
     storages: PropTypes.arrayOf(PropTypes.string),
-    tags: PropTypes.array,
+    tags: PropTypes.arrayOf(PropTypes.string),
   }),
 })
 
 export const AIPEntity = PropTypes.shape({
   content: AIPEntityContent.isRequired,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(HateOASLink),
 })

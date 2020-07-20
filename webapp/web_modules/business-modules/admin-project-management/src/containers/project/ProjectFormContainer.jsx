@@ -44,11 +44,8 @@ export class ProjectFormContainer extends React.Component {
     updateProject: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.params.project_name !== undefined,
-    }
+  state = {
+    isEditing: this.props.params.project_name !== undefined,
   }
 
   componentDidMount() {

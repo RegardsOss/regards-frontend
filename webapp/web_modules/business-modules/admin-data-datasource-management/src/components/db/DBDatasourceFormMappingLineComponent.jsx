@@ -50,13 +50,10 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      // Only used when onlyAdvancedConfiguration === false
-      showAdvanced: props.isEditingSQL || false,
-      prefix: props.onlyAdvancedConfiguration ? states.CUSTOM_FROM : states.FROM_TABLE,
-    }
+  state = {
+    // Only used when onlyAdvancedConfiguration === false
+    showAdvanced: this.props.isEditingSQL || false,
+    prefix: this.props.onlyAdvancedConfiguration ? states.CUSTOM_FROM : states.FROM_TABLE,
   }
 
   showIfOptional = (value) => {

@@ -47,7 +47,6 @@ import CollectionListEditAction from './CollectionListEditAction'
 import CollectionListDuplicateAction from './CollectionListDuplicateAction'
 import CollectionListDeleteAction from './CollectionListDeleteAction'
 import CollectionListFiltersComponent from './CollectionListFiltersComponent'
-import { CollectionListContainer } from '../containers/CollectionListContainer'
 import EntityInfoDialog from './EntityInfoDialog'
 import CollectionListInfoAction from './CollectionListInfoAction'
 import CopyToClipBoardAction from './CopyToClipBoardAction'
@@ -74,6 +73,8 @@ export class CollectionListComponent extends React.Component {
   }
 
   static CREATE_DEPENDENCIES = [collectionActions.getDependency(RequestVerbEnum.POST)]
+
+  static PAGE_SIZE = 100
 
   state = {
     deleteDialogOpened: false,
@@ -214,7 +215,7 @@ export class CollectionListComponent extends React.Component {
               pageActions={collectionActions}
               pageSelectors={collectionSelectors}
               tableActions={tableActions}
-              pageSize={CollectionListContainer.PAGE_SIZE}
+              pageSize={CollectionListComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
             />

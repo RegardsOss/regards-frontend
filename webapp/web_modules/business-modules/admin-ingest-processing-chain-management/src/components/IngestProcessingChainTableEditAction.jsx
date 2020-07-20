@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -30,7 +30,7 @@ class IngestProcessingChainTableEditAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onEdit: PropTypes.func.isRequired,
   }

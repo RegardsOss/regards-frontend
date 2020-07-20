@@ -36,19 +36,6 @@ import messages from '../../i18n'
 import styles from '../../styles'
 
 export class SessionsMonitoringContainer extends React.Component {
-  static mapDispatchToProps = (dispatch) => ({
-    fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
-    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
-    relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
-    relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
-    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, RequestVerbEnum.PATCH)),
-  })
-
-  static mapStateToProps = (state) => ({
-    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    ...RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors }),
-  })
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -98,6 +85,19 @@ export class SessionsMonitoringContainer extends React.Component {
     from: null,
     to: null,
   }
+
+  static mapDispatchToProps = (dispatch) => ({
+    fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
+    relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
+    relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
+    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, RequestVerbEnum.PATCH)),
+  })
+
+  static mapStateToProps = (state) => ({
+    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    ...RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors }),
+  })
 
   /**
    * Converts columns order and filters state into request parameters

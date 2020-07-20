@@ -53,12 +53,9 @@ export class PluginListContainer extends React.Component {
     fetchPlugins: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      pluginList: {},
-      isLoading: true,
-    }
+  state = {
+    pluginList: {},
+    isLoading: true,
   }
 
   componentDidMount() {

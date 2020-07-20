@@ -45,8 +45,6 @@ export class DatasetListContainer extends React.Component {
     deleteDataset: PropTypes.func,
   }
 
-  static PAGE_SIZE = 100
-
   state = {
     isLoading: true,
   }
@@ -64,7 +62,7 @@ export class DatasetListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchDatasetList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchDatasetList(0, DatasetListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
+    return fetchDatasetList(0, DatasetListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {

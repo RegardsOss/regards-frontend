@@ -83,11 +83,6 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
 
   static AUTO_REFRESH_PERIOD = 20000
 
-  static getColumnSortingData(columnsSorting, columnKey) {
-    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
-    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
-  }
-
   /**
    * Convert column id to query corresponding names
    */
@@ -101,6 +96,11 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   static COLUMN_ORDER_TO_QUERY = {
     [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
   }
 
   /**
@@ -393,9 +393,6 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           handleHateoas: true,
         },
       }]).build(),
-    ]
-
-    const actions = [,
     ]
 
     const defaultDateSessionName = new Date()

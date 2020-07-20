@@ -48,20 +48,6 @@ const deleteCompletelyDependencies = [orderStateActions.getDeleteCompletelyDepen
  * @author Raphaël Mechali
  */
 export class OrderListContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { ordersSelectors }) {
-    return {
-      isFetching: ordersSelectors.isFetching(state),
-      totalOrderCount: ordersSelectors.getResultsCount(state),
-      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    }
-  }
-
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
@@ -98,6 +84,20 @@ export class OrderListContainer extends React.Component {
     asynchRequestInformation: false,
     // current delete operation like {completeDelete: boolean, onDelete: function}, null when none
     deleteConfirmation: null,
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { ordersSelectors }) {
+    return {
+      isFetching: ordersSelectors.isFetching(state),
+      totalOrderCount: ordersSelectors.getResultsCount(state),
+      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    }
   }
 
   /**

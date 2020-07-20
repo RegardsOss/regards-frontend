@@ -75,6 +75,16 @@ export class StorageLocationListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static ICON_STYLE = {
+    margin: 5,
+  }
+
+  static EMPTY_COMPONENT = (
+    <NoContentComponent
+      titleKey="storage.location.list.empty.title"
+      Icon={AddToPhotos}
+    />)
+
   state = {
     entityTargeted: null,
     entitytoDeleteFiles: null,
@@ -390,15 +400,6 @@ export class StorageLocationListComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    const emptyComponent = (
-      <NoContentComponent
-        titleKey="storage.location.list.empty.title"
-        Icon={AddToPhotos}
-      />
-    )
-    const iconStyle = {
-      margin: 5,
-    }
     const orderTypes = {
       ONLINE: 1, NEARLINE: 2, OFFLINE: 3, CACHE: 4,
     }
@@ -429,20 +430,20 @@ export class StorageLocationListComponent extends React.Component {
                   label={formatMessage({ id: 'storage.data-storage.monitoring.button' })}
                   onClick={this.onRelaunchMonitoring}
                   primary
-                  style={iconStyle}
+                  style={StorageLocationListComponent.ICON_STYLE}
                 />
                 <RaisedButtonWithResourceDisplayControl
                   resourceDependencies={dependencies.stopDependencies}
                   label={formatMessage({ id: 'storage.data-storage.stop.button' })}
                   onClick={this.onSwitchConfirmStopDialog}
                   primary
-                  style={iconStyle}
+                  style={StorageLocationListComponent.ICON_STYLE}
                 />
                 <RaisedButton
                   label={formatMessage({ id: 'storage.data-storage.refresh.button' })}
                   onClick={this.props.onRefresh}
                   primary
-                  style={iconStyle}
+                  style={StorageLocationListComponent.ICON_STYLE}
                 />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
@@ -505,7 +506,7 @@ export class StorageLocationListComponent extends React.Component {
                 .build(),
             ]}
             entities={sortedEntities}
-            emptyComponent={emptyComponent}
+            emptyComponent={StorageLocationListComponent.EMPTY_COMPONENT}
             entitiesCount={entities.length}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}

@@ -80,16 +80,11 @@ export class AIPDatasourceFormContainer extends React.Component {
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.datasourceId === undefined
-
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      modelAttributeFetched: false,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    modelAttributeFetched: false,
+    isLoading: true,
   }
 
   componentDidMount() {

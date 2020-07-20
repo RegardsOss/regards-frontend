@@ -51,6 +51,21 @@ export class OSConfigurationFormContainer extends React.Component {
     fetchDatasource: PropTypes.func.isRequired,
   }
 
+  static STATE = {
+    CRAWLER: 'CRAWLER',
+    QUERY: 'QUERY',
+    RESULTS: 'RESULTS',
+  }
+
+  /** Initial values when in creation mode */
+  static INITIAL_CREATION_VALUES = {
+    crawler: {
+      refreshRate: '86400',
+    },
+    query: { },
+    results: { },
+  }
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -144,21 +159,6 @@ export class OSConfigurationFormContainer extends React.Component {
         clazz: 'fr.cnes.regards.modules.dam.plugins.datasources.webservice.configuration.ConversionConfiguration',
       }],
     }
-  }
-
-  static STATE = {
-    CRAWLER: 'CRAWLER',
-    QUERY: 'QUERY',
-    RESULTS: 'RESULTS',
-  }
-
-  /** Initial values when in creation mode */
-  static INITIAL_CREATION_VALUES = {
-    crawler: {
-      refreshRate: '86400',
-    },
-    query: { },
-    results: { },
   }
 
   state = {

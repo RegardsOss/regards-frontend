@@ -45,8 +45,6 @@ export class CollectionListContainer extends React.Component {
     deleteCollection: PropTypes.func,
   }
 
-  static PAGE_SIZE = 100
-
   state = {
     isLoading: true,
   }
@@ -64,7 +62,7 @@ export class CollectionListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchCollectionList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchCollectionList(0, CollectionListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
+    return fetchCollectionList(0, CollectionListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {

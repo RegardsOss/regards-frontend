@@ -58,12 +58,9 @@ export class PluginListComponent extends React.Component {
 
   static menuStyles = { top: '-7px' }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPluginId: props.defaultSelectedPluginId,
-      descriptionOpen: false,
-    }
+  state = {
+    selectedPluginId: this.props.defaultSelectedPluginId,
+    descriptionOpen: false,
   }
 
   UNSAFE_componentWillReceiveProps(newProps) {

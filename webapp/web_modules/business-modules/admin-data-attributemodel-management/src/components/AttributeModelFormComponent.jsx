@@ -113,19 +113,11 @@ export class AttributeModelFormComponent extends React.Component {
     DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY,
   ]
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.currentAttrModel === undefined
-    const shouldShowUnits = !isCreating && AttributeModelFormComponent.TYPES_WITH_UNIT.includes(props.currentAttrModel.content.type)
-    const shouldShowPrecision = !isCreating && AttributeModelFormComponent.TYPES_WITH_PRECISION.includes(props.currentAttrModel.content.type)
-    const shouldShowArraySize = !isCreating && AttributeModelFormComponent.ARRAY_TYPES.includes(props.currentAttrModel.content.type)
-
-    this.state = {
-      isCreating,
-      shouldShowUnits,
-      shouldShowPrecision,
-      shouldShowArraySize,
-    }
+  state = {
+    isCreating: this.props.currentAttrModel === undefined,
+    shouldShowUnits: this.props.currentAttrModel !== undefined && AttributeModelFormComponent.TYPES_WITH_UNIT.includes(this.props.currentAttrModel.content.type),
+    shouldShowPrecision: this.props.currentAttrModel !== undefined && AttributeModelFormComponent.TYPES_WITH_PRECISION.includes(this.props.currentAttrModel.content.type),
+    shouldShowArraySize: this.props.currentAttrModel !== undefined && AttributeModelFormComponent.ARRAY_TYPES.includes(this.props.currentAttrModel.content.type),
   }
 
   componentDidMount() {

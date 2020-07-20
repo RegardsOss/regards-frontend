@@ -19,7 +19,7 @@
 import RefreshIndicator from 'material-ui/RefreshIndicator'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 
 /**
 * Component to render the activity indicator for ne chain into the chain  list
@@ -29,7 +29,7 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
   }
 

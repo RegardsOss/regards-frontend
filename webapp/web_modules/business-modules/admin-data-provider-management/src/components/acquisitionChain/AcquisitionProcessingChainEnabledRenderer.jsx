@@ -19,7 +19,7 @@
 import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { withHateoasDisplayControl } from '@regardsoss/display-control'
 
 /** HATEOAS-able button, exported for tests */
@@ -33,7 +33,7 @@ export class AcquisitionProcessingChainEnabledRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onToggle: PropTypes.func.isRequired,
   }

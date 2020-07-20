@@ -34,11 +34,8 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     fetchAccessGroup: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-    }
+  state = {
+    loading: true,
   }
 
   componentDidMount() {

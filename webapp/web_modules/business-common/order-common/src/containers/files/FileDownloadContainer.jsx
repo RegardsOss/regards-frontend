@@ -31,18 +31,6 @@ const downloadOrderFileActions = new OrderClient.DownloadOrderFileActions()
  * @author Raphaël Mechali
  */
 export class FileDownloadContainer extends React.Component {
-  /**
-  * Redux: map state to props function
-  * @param {*} state: current redux state
-  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
-  */
-  static mapStateToProps(state) {
-    return {
-      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
-    }
-  }
-
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderFileWithContent,
@@ -59,6 +47,18 @@ export class FileDownloadContainer extends React.Component {
     OrderDomain.ORDER_FILE_STATUS_ENUM.DOWNLOAD_ERROR,
     OrderDomain.ORDER_FILE_STATUS_ENUM.ONLINE,
   ]
+
+  /**
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapStateToProps(state) {
+    return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+    }
+  }
 
   render() {
     const { entity: { content: { id, state } }, authentication } = this.props

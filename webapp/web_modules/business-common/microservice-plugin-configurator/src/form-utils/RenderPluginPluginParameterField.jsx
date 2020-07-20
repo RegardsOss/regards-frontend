@@ -81,14 +81,11 @@ export class RenderPluginPluginParameterField extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openMenu: false,
-      pluginMetaDataList: [],
-      pluginConfigurationList: [],
-      selectedPluginConfiguration: null,
-    }
+  state = {
+    openMenu: false,
+    pluginMetaDataList: [],
+    pluginConfigurationList: [],
+    selectedPluginConfiguration: null,
   }
 
   componentDidMount() {

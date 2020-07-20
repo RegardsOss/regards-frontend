@@ -42,6 +42,9 @@ class AvailableAttributesTable extends React.Component {
     ...themeContextType,
   }
 
+  /** Empty table component */
+  static EMPTY_COMPONENT = <TableNoDataMessage messageKey="attribute.configuration.selectable.attributes.no.data" />
+
   /**
    * Filters attributes models on filterText
    * @param {*} intl context
@@ -56,9 +59,6 @@ class AvailableAttributesTable extends React.Component {
       return lowerLabel.includes(lowerFilter)
     })
   }
-
-  /** Empty table component */
-  static EMPTY_COMPONENT = <TableNoDataMessage messageKey="attribute.configuration.selectable.attributes.no.data" />
 
   state = {
     filterText: '',

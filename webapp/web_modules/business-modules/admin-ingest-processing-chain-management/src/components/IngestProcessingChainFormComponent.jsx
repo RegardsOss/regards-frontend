@@ -63,11 +63,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.processingChain === undefined,
-    }
+  state = {
+    isCreating: this.props.processingChain === undefined,
   }
 
   componentDidMount() {

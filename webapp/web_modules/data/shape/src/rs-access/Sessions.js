@@ -69,7 +69,7 @@ export const Session = PropTypes.shape({
       }),
     }),
   }).isRequired,
-  links: PropTypes.arrayOf(HateOASLink).isRequired,
+  links: PropTypes.arrayOf(HateOASLink),
 })
 
 export const SessionList = PropTypes.objectOf(Session)

@@ -53,6 +53,16 @@ export class SingleAttributeFieldRender extends React.Component {
     ...i18nContextType,
   }
 
+  /** Name of properties to not report onto the autocomplete field */
+  static NON_REPORTED_PROPERTIES = [
+    'attributeModels',
+    'input',
+    'meta',
+    'label',
+    'i18n',
+    'dispatch',
+  ]
+
   /**
    * Filters attributes models on filterText and converts them into auto complete fields selectable items
    * @param {*} filterText filter text
@@ -70,16 +80,6 @@ export class SingleAttributeFieldRender extends React.Component {
         }] : acc, [])
       .sort(({ text: t1 }, { text: t2 }) => StringComparison.compare(t1, t2))
   }
-
-  /** Name of properties to not report onto the autocomplete field */
-  static NON_REPORTED_PROPERTIES = [
-    'attributeModels',
-    'input',
-    'meta',
-    'label',
-    'i18n',
-    'dispatch',
-  ]
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state

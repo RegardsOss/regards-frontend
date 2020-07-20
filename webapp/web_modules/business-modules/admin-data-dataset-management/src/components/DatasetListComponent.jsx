@@ -73,6 +73,8 @@ export class DatasetListComponent extends React.Component {
 
   static CREATE_DEPENDENCIES = [datasetActions.getDependency(RequestVerbEnum.POST)]
 
+  static PAGE_SIZE = 100
+
   state = {
     deleteDialogOpened: false,
     entityToDelete: null,
@@ -203,7 +205,7 @@ export class DatasetListComponent extends React.Component {
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
-              pageSize={DatasetListContainer.PAGE_SIZE}
+              pageSize={DatasetListComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
             />
