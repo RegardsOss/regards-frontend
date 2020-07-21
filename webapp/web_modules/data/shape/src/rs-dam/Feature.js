@@ -30,7 +30,7 @@ export default PropTypes.shape({
     PropTypes.arrayOf(PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.bool
+      PropTypes.bool,
     ])),
     PropTypes.objectOf(PropTypes.oneOfType([
       PropTypes.string,
@@ -39,7 +39,7 @@ export default PropTypes.shape({
       PropTypes.arrayOf(PropTypes.oneOfType([
         PropTypes.string,
         PropTypes.number,
-        PropTypes.bool
+        PropTypes.bool,
       ])),
     ])),
   ])),
