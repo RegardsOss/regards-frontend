@@ -64,6 +64,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -97,6 +98,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -134,6 +136,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -275,7 +278,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     expectedProperties: {
       uri: resolvedDataEntity.displayModel.otherFiles[0].uri,
     },
-  }]
+  }] // TODO: other versions section
   testCases.forEach(({
     label, selectedTreeEntry, descriptionEntity, ExpectedComponent, expectedProperties,
   }) => it(`should render correctly ${label}`, () => {

@@ -28,6 +28,8 @@ export default {
       entityType: 'COLLECTION',
       providerId: 'TestCollection1',
       id: 'URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1',
+      version: 1,
+      last: true,
       model: '1',
       label: 'collection1',
       tags: [],

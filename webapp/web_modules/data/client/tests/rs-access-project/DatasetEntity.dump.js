@@ -28,6 +28,8 @@ export default {
       entityType: 'DATASET',
       providerId: 'dataset1',
       id: 'URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1',
+      version: 1,
+      last: true,
       label: 'validation_jeu_1',
       model: 'VALIDATION_DATASET_MODEL_1',
       tags: [],

@@ -147,6 +147,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
       DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
     ], [ // field 3: long / double / Integer attributes
       attributes[3],
+      DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.version),
     ], [ // field 4: date attributes
       attributes[4],
     ]]
@@ -248,11 +249,11 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
         1001: {
           content: {
             id: 1001,
-            name: 'attrBoolean',
-            label: 'attribute boolean',
-            jsonPath: 'test.attr.boolean',
-            description: 'The attribute boolean for test',
-            type: DamDomain.MODEL_ATTR_TYPES.BOOLEAN,
+            name: 'attrDateInterval',
+            label: 'attribute date array',
+            jsonPath: 'test.attr.dateArray',
+            description: 'The attribute date array for test',
+            type: DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY,
           },
         },
       },
@@ -277,7 +278,7 @@ describe('[SEARCH RESULTS] Testing CriterionConfigurationDialogComponent', () =>
     assert.equal(enzymeWrapper.instance().validateAttribute(attributes[3].content.jsonPath, {}, props, 'attributes.f1'),
       'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type')
     // 4 - A valid attribute (expected undefined, as anything else is an error in redux form)
-    assert.isUndefined(enzymeWrapper.instance().validateAttribute('test.attr.boolean', {}, props, 'attributes.f1'),
+    assert.isUndefined(enzymeWrapper.instance().validateAttribute('test.attr.dateArray', {}, props, 'attributes.f1'),
       'There should be no error for matching type')
     assert.isUndefined(enzymeWrapper.instance().validateAttribute('test.attr.dateInterval', {}, props, 'attributes.f1'),
       'There should be no error for matching type')

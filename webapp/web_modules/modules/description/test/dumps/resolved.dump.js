@@ -47,6 +47,7 @@ export const resolvedDataEntity = {
       },
       tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
       id: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
+      version: 1,
       geometry: null,
       normalizedGeometry: null,
       properties: {
@@ -300,6 +301,7 @@ export const resolvedDataEntity = {
     otherFiles: [{ label: 'simple_sip_01.dat', available: true, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333' }],
     wordTags: ['DATASET_CHRIS_2', 'HELLO_REGARDS', 'QUICKLOOKS'],
     couplingTags: ['coupling:ref1:Couple 1', 'coupling:ref1:Couple 2'],
+    otherVersions: [],
     linkedEntities: [{
       content: {
         providerId: 'DATASET_CHRIS_2',
@@ -340,7 +342,8 @@ export const resolvedDataEntity = {
           }],
         },
         tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
-        id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
+        id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V2',
+        version: 2,
         properties: {
           // eslint-disable-next-line camelcase
           name: 'DATASET_CHRIS_2', Missions: ['None'], TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md', TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf', count: 12, values_l1_sum: 1350000, // eslint wont fix: mimics server format
@@ -370,7 +373,8 @@ export const resolvedDatasetEntity = {
         }],
       },
       tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
-      id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1',
+      id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V2',
+      version: 2,
       properties: {
         name: 'DATASET_CHRIS_2',
         Missions: ['None'],
@@ -433,6 +437,7 @@ export const resolvedDatasetEntity = {
     otherFiles: [],
     wordTags: [],
     couplingTags: [],
+    otherVersions: [],
     linkedEntities: [{
       content: {
         providerId: 'Collection 2269',
@@ -442,6 +447,7 @@ export const resolvedDatasetEntity = {
         files: {},
         tags: [],
         id: 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1',
+        version: 1,
         // eslint-disable-next-line camelcase
         properties: { coll_attr_1: '#plop' }, // eslint wont fix: mimics server format
         type: 'Feature',
@@ -456,6 +462,7 @@ export const resolvedDatasetEntity = {
         files: {},
         tags: [],
         id: 'URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1',
+        version: 1,
         properties: {
           type: 'TYPE_2', INSTRUMENT: 'Piano', INSTRUMENT_TYPE: 'MONOPOLE', MEASUREMENT_TYPE: 'ION_COMPOSITION',
         },
@@ -465,7 +472,18 @@ export const resolvedDatasetEntity = {
     }],
     linkedDocuments: [{
       content: {
-        providerId: '1', entityType: 'DATA', label: 'Data n°1', model: 'CRAWL_DATA_MODEL', files: {}, tags: ['URN:AIP:DATASET:project1:74a58e9c-4a23-44be-b75b-0577ba6d88ce:V1', 'URN:AIP:DATASET:project1:b496c034-6ca2-432e-9b00-0e5a310edd0c:V1', 'URN:AIP:DATASET:project1:5fe6c795-1d8d-4384-8cd9-4930aa127393:V1', 'URN:AIP:DATASET:project1:d2860dd1-8621-46b3-b18f-c9242e3d9c69:V1', 'URN:AIP:DATASET:project1:184bdbcc-4404-4e2e-bd82-632eb8ddbb0d:V1', 'URN:AIP:DATASET:project1:7695189e-91c2-4e4a-afbb-7da1e33f544a:V1'], id: 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1', geometry: null, properties: { IDENTIFIER: 1, CREATION_DATE: '2018-01-01T00:00:00Z', LABEL: 'Data n°1' }, type: 'Feature', crs: 'WGS_84',
+        providerId: '1',
+        entityType: 'DATA',
+        label: 'Data n°1',
+        model: 'CRAWL_DATA_MODEL',
+        files: {},
+        tags: ['URN:AIP:DATASET:project1:74a58e9c-4a23-44be-b75b-0577ba6d88ce:V1', 'URN:AIP:DATASET:project1:b496c034-6ca2-432e-9b00-0e5a310edd0c:V1', 'URN:AIP:DATASET:project1:5fe6c795-1d8d-4384-8cd9-4930aa127393:V1', 'URN:AIP:DATASET:project1:d2860dd1-8621-46b3-b18f-c9242e3d9c69:V1', 'URN:AIP:DATASET:project1:184bdbcc-4404-4e2e-bd82-632eb8ddbb0d:V1', 'URN:AIP:DATASET:project1:7695189e-91c2-4e4a-afbb-7da1e33f544a:V1'],
+        id: 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1',
+        version: 1,
+        geometry: null,
+        properties: { IDENTIFIER: 1, CREATION_DATE: '2018-01-01T00:00:00Z', LABEL: 'Data n°1' },
+        type: 'Feature',
+        crs: 'WGS_84',
       },
       links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/dataobjects/URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1' }],
     }],

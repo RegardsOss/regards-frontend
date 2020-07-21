@@ -56,8 +56,65 @@ export class EntitiesAttributeFormComponent extends React.Component {
     height: '95px',
   }
 
+  static getComplexRestriction(restriction) {
+    const restrictions = []
+    if (restriction) {
+      switch (restriction && restriction.type) {
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
+          restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
+          break
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE:
+          restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
+          break
+        default:
+        // Nothing to do
+      }
+    }
+    return restrictions
+  }
+
+  static getRestrictions(modelAttribute) {
+    const complexRestriction = EntitiesAttributeFormComponent.getComplexRestriction(modelAttribute.content.attribute.restriction)
+
+    switch (modelAttribute.content.attribute.type) {
+      case MODEL_ATTR_TYPES.STRING:
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
+        }
+        return [ValidationHelpers.string]
+      case MODEL_ATTR_TYPES.DOUBLE:
+      case MODEL_ATTR_TYPES.LONG:
+      case MODEL_ATTR_TYPES.INTEGER:
+      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
+      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
+      case MODEL_ATTR_TYPES.LONG_ARRAY:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
+        }
+        return complexRestriction
+      case MODEL_ATTR_TYPES.URL:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
+        }
+        return complexRestriction
+      case MODEL_ATTR_TYPES.BOOLEAN:
+      case MODEL_ATTR_TYPES.DATE:
+      case MODEL_ATTR_TYPES.DATE_ARRAY:
+      case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
+      case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
+      case MODEL_ATTR_TYPES.DATE_INTERVAL:
+      case MODEL_ATTR_TYPES.LONG_INTERVAL:
+      default:
+        return complexRestriction
+    }
+  }
+
+  /** Initial state */
   state = {
-    restrictions: this.getRestrictions(this.props.modelAttribute),
+    restrictions: EntitiesAttributeFormComponent.getRestrictions(this.props.modelAttribute),
   }
 
   getField = (modelAttribute) => {
@@ -184,62 +241,6 @@ export class EntitiesAttributeFormComponent extends React.Component {
       </Field>
     </div>
   )
-
-  getComplexRestriction = (restriction) => {
-    const restrictions = []
-    if (restriction) {
-      switch (restriction && restriction.type) {
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
-          restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
-          break
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE:
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE:
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE:
-          restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
-          break
-        default:
-        // Nothing to do
-      }
-    }
-    return restrictions
-  }
-
-  getRestrictions = (modelAttribute) => {
-    const complexRestriction = this.getComplexRestriction(modelAttribute.content.attribute.restriction)
-
-    switch (modelAttribute.content.attribute.type) {
-      case MODEL_ATTR_TYPES.STRING:
-      case MODEL_ATTR_TYPES.STRING_ARRAY:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
-        }
-        return [ValidationHelpers.string]
-      case MODEL_ATTR_TYPES.DOUBLE:
-      case MODEL_ATTR_TYPES.LONG:
-      case MODEL_ATTR_TYPES.INTEGER:
-      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
-      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
-      case MODEL_ATTR_TYPES.LONG_ARRAY:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
-        }
-        return complexRestriction
-      case MODEL_ATTR_TYPES.URL:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
-        }
-        return complexRestriction
-      case MODEL_ATTR_TYPES.BOOLEAN:
-      case MODEL_ATTR_TYPES.DATE:
-      case MODEL_ATTR_TYPES.DATE_ARRAY:
-      case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
-      case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
-      case MODEL_ATTR_TYPES.DATE_INTERVAL:
-      case MODEL_ATTR_TYPES.LONG_INTERVAL:
-      default:
-        return complexRestriction
-    }
-  }
 
   showStarIfInputRequired = (modelAttribute) => {
     if (!modelAttribute.optional) {

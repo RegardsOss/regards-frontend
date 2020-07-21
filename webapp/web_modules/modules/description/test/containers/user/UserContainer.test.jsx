@@ -70,6 +70,7 @@ describe('[Description] Testing UserContainer', () => {
       },
       fetchEntity: () => {},
       fetchModelAttributes: () => {},
+      fetchAllEntityVersions: () => {},
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
     }
@@ -108,6 +109,7 @@ describe('[Description] Testing UserContainer', () => {
       },
       fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
       fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchAllEntityVersions: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: (descriptionPath) => {
         spySetModuleDescriptionPath.descriptionPath = descriptionPath
@@ -261,6 +263,7 @@ describe('[Description] Testing UserContainer', () => {
       },
       fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
       fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchAllEntityVersions: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
     }

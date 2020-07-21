@@ -16,49 +16,44 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
 import { DamDomain } from '@regardsoss/domain'
 
 /**
- * Holds some entities dumps for tests, as CatalogShapes.Entity
- * @author Raphaël Mechali
- */
-export const entity1 = {
+  * Holds some entities dumps for test
+  * @author Raphaël Mechali
+  */
+export const data = {
   content: {
-    id: 'URN:DATA:V1',
-    version: 1,
-    model: 'model1',
-    providerId: 'providerData1',
-    label: 'Data 1',
-    entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    files: {},
-    properties: {},
-    tags: [],
-  },
-}
-export const entity2 = {
-  content: {
-    id: 'URN:DATA:V2',
+    id: 'URN:DATA:TEST:V2',
     version: 2,
-    model: 'model2',
-    providerId: 'providerData2',
-    label: 'Data 2',
+    model: 'aModel',
+    providerId: 'Data test V2',
+    label: 'Data test V2',
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    files: {},
-    properties: {},
     tags: [],
   },
 }
-export const entity3 = {
+
+export const dataset = {
   content: {
-    id: 'URN:DATA:V3',
-    version: 3,
-    model: 'model3',
-    providerId: 'providerData3',
-    label: 'Data 3',
-    entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    files: {},
-    properties: {},
+    id: 'URN:DATASET:TEST:V4',
+    version: 4,
+    model: 'aModel',
+    providerId: 'Dataset test V4',
+    label: 'Dataset test V4',
+    entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
+    tags: [],
+  },
+}
+
+export const collection = {
+  content: {
+    id: 'URN:COLLECTION:TEST:V3',
+    version: 2,
+    model: 'aModel',
+    providerId: 'Collection test V2',
+    label: 'Collection test V2',
+    entityType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION,
     tags: [],
   },
 }

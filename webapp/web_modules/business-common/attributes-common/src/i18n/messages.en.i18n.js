@@ -79,6 +79,8 @@ const messages = {
   'attribute.configuration.renderer.DATE_INTERVAL.dateWithMilliseconds': 'Accurate date and time: MM/DD/YYYY HH:MM:SS.sss',
   'attribute.configuration.renderer.DATE_INTERVAL.time': 'Time: HH:MM:SS',
   'attribute.configuration.renderer.DATE_INTERVAL.timeWithMilliseconds': 'Accurate time: HH:MM:SS',
+  'attribute.render.version.label': '{label}:{version}',
+  'attribute.render.simple.label': '{label}',
   'attribute.configuration.label.en.field': 'English label',
   'attribute.configuration.label.fr.field': 'French label',
   'attribute.configuration.index.field': 'Order',

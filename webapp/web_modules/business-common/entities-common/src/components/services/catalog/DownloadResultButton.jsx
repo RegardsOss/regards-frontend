@@ -36,9 +36,12 @@ class DownloadResultButton extends React.Component {
     ...i18nContextType,
   }
 
+  /** Button reference */
+  downloadButtonRef = React.createRef
+
   componentDidMount() {
     if (this.props.forcedownload) {
-      this.downloadButton.forceDownload()
+      this.downloadButtonRef.current.forceDownload()
     }
   }
 
@@ -47,7 +50,7 @@ class DownloadResultButton extends React.Component {
     const { intl: { formatMessage } } = this.context
     return (
       <DownloadButton
-        ref={(input) => { this.downloadButton = input }}
+        ref={this.downloadButtonRef}
         label={formatMessage({ id: 'entities.common.services.download.service.result' })}
         tooltip={formatMessage({ id: 'entities.common.services.download.service.result' })}
         downloadURL={localAccessURL}

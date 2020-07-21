@@ -63,6 +63,13 @@ class AccessRightListFiltersComponent extends React.Component {
     }, () => this.props.onFilter(this.state.filters))
   }
 
+  /** On filter applied callback */
+  onFilter = () => {
+    const { onFilter } = this.props
+    const { filters } = this.state
+    onFilter(filters)
+  }
+
   render() {
     const { intl, moduleTheme: { filter } } = this.context
     return (
@@ -86,7 +93,7 @@ class AccessRightListFiltersComponent extends React.Component {
             <FlatButton
               label={intl.formatMessage({ id: 'accessright.table.filter.button' })}
               icon={<Filter />}
-              onClick={() => this.props.onFilter(this.state.filters)}
+              onClick={this.onFilter}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

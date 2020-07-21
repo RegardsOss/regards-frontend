@@ -26,6 +26,7 @@ export const datasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
     id: 'URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1',
+    version: 1,
     providerId: 'Provider1dataset',
     label: 'my dataset',
     model: '1',
@@ -37,7 +38,8 @@ export const datasetEntity = {
 export const anotherDatasetEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATASET,
-    id: 'URN:AIP:DATASET:project1:XXXX2:V1',
+    id: 'URN:AIP:DATASET:project1:XXXX2:V2',
+    version: 2,
     providerId: 'Provider2dataset',
     label: 'my dataset2',
     model: '1',
@@ -50,6 +52,7 @@ export const dataEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
     id: 'URN:AIP:DATA:project1:9bcec7er-3c14-4100-bcd1-c4f370e679a2:V1',
+    version: 1,
     providerId: 'Provider1',
     label: 'my data',
     model: '1',
@@ -133,7 +136,8 @@ export const dataEntityWithServices = {
 export const anotherDataEntity = {
   content: {
     entityType: DamDomain.ENTITY_TYPES_ENUM.DATA,
-    id: 'URN:AIP:DATA:project1:XXX:V1',
+    id: 'URN:AIP:DATA:project1:XXX:V2',
+    version: 2,
     providerId: 'Provider2',
     label: 'my data2',
     model: '1',

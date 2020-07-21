@@ -179,7 +179,7 @@ export class DescriptionEntityHelper {
           .then(({ payload }) => {
             const entitiesMap = get(payload, `entities.${EntityConfiguration.normalizrKey}`, {})
             // keep other versions but not self
-            resolve(values(entitiesMap.filter((e) => e.content.id !== id)))
+            resolve(values(entitiesMap).filter((e) => e.content.id !== id))
           }).catch(resolveEmpty)
       } else { // Not showing other versions for that entity type
         resolveEmpty()

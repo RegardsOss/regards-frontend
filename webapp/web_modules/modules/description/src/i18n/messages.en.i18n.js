@@ -18,6 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
+import { messages as attrMsg } from '@regardsoss/attributes-common'
 
 /**
  * Module english messages
@@ -99,6 +100,8 @@ const messages = {
   ...Locales.en,
   // Storage units messages
   ...storage.messages.en,
+  // Attributes messages
+  ...attrMsg.en,
 }
 
 export default messages

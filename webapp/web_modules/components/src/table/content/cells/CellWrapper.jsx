@@ -29,7 +29,7 @@ const NO_PROPS = {}
  * - getEntity: () => entity
  * @author Sébastien binda
  */
-class CellWrapper extends React.PureComponent {
+class CellWrapper extends React.Component {
   static propTypes = {
     stripeRows: PropTypes.bool,
     rowIndex: PropTypes.number, // provided by React infinite
