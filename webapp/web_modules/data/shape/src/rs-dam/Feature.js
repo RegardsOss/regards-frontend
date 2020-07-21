@@ -22,11 +22,27 @@ import { DataFile } from './DataFile'
 export default PropTypes.shape({
   id: PropTypes.string.isRequired,
   entityType: PropTypes.string,
-  files: PropTypes.objectOf(DataFile),
-  properties: PropTypes.oneOfType([
+  files: PropTypes.objectOf(PropTypes.arrayOf(DataFile)),
+  properties: PropTypes.objectOf(PropTypes.oneOfType([
     PropTypes.string,
-    PropTypes.objectOf(PropTypes.string),
-  ]),
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool
+    ])),
+    PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool
+      ])),
+    ])),
+  ])),
   model: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,
