@@ -25,8 +25,8 @@ export const Notification = PropTypes.shape({
   sender: PropTypes.string,
   status: PropTypes.string,
   type: PropTypes.string,
-  projectUserRecipients: PropTypes.array,
-  roleRecipients: PropTypes.array,
+  projectUserRecipients: PropTypes.arrayOf(PropTypes.string),
+  roleRecipients: PropTypes.arrayOf(PropTypes.string),
 })
 
 export const NotificationWithinContent = PropTypes.shape({

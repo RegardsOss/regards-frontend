@@ -26,6 +26,7 @@ const ModuleConfiguration = PropTypes.shape({
   // array of attributes to display on datasets in graph
   graphDatasetAttributes: AccessShapes.AttributeListConfigurationModel,
   // Save a search-result configuration
+  // eslint-disable-next-line react/forbid-prop-types
   searchResult: PropTypes.object,
 })
 

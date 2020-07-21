@@ -36,11 +36,12 @@ export default class ValuesRenderCell extends React.Component {
     entity: PropTypes.any.isRequired, // object, string, ... depends on values producer (getValue methods)
     // list of values extractors
     values: PropTypes.arrayOf(PropTypes.shape({
-      // vallue producer from entity
+      // value producer from entity
       getValue: PropTypes.func.isRequired,
       // value renderer, opional
       RenderConstructor: PropTypes.func,
       // optionnal render props
+      // eslint-disable-next-line react/forbid-prop-types
       props: PropTypes.object,
     })).isRequired,
   }

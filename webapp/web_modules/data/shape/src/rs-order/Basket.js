@@ -28,6 +28,7 @@ export const BasketSelelectionRequest = PropTypes.shape({
   datasetUrn: PropTypes.string, // optional dataset restriction
   entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
   entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  // eslint-disable-next-line react/forbid-prop-types
   searchParameters: PropTypes.object,
   selectionDate: PropTypes.string.isRequired,
 })

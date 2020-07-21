@@ -52,11 +52,8 @@ export class DatasetFormSubsettingComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      subsetting: get(props.currentDataset, 'content.openSearchSubsettingClause', ''),
-    }
+  state = {
+    subsetting: get(this.props.currentDataset, 'content.openSearchSubsettingClause', ''),
   }
 
   onSubsettingChange = (event, value) => {

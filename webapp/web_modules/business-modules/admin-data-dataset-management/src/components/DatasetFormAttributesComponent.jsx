@@ -62,12 +62,8 @@ export class DatasetFormAttributesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = isNil(props.currentDataset)
-    this.state = {
-      isDisplayAttributeValue: !isCreating,
-    }
+  state = {
+    isDisplayAttributeValue: !isNil(this.props.currentDataset),
   }
 
   componentDidMount() {

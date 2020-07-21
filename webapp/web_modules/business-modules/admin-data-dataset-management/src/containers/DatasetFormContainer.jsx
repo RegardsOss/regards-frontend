@@ -50,16 +50,12 @@ export class DatasetFormContainer extends React.Component {
     fetchDataset: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.datasetId === undefined
-    this.state = {
-      isCreating,
-      isEditing: props.params.datasetId !== undefined,
-      isLoading: !isCreating,
-      state: states.FORM_ATTRIBUTE,
-      currentDataset: null,
-    }
+  state = {
+    isCreating: this.props.params.datasetId === undefined,
+    isEditing: this.props.params.datasetId !== undefined,
+    isLoading: this.props.params.datasetId !== undefined,
+    state: states.FORM_ATTRIBUTE,
+    currentDataset: null,
   }
 
   componentDidMount() {

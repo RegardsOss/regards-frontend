@@ -26,7 +26,7 @@ const allRules = {
   'func-names': 0,
   'global-require': 0,
   // configure camelcase rule: warn all but...
-  camelcase: [2, {
+  camelcase: [0, {
     ignoreImports: true, // external format, should not be checked locally
     ignoreDestructuring: true, // especially for external JSON payloads
     allow: [
@@ -101,7 +101,10 @@ const allRules = {
   // This is not a security issue in REGARDS, as objects URL are stored database. Therefore, rendered files should be checked
   // as storage level (client network)
   'react/jsx-no-target-blank': 0,
-
+  'react-perf/jsx-no-new-function-as-prop': 0,
+  'react-perf/jsx-no-new-object-as-prop': 0,
+  'react-perf/jsx-no-new-array-as-prop': 0,
+  
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],
   // Disable useless rule (_.noop instead of empty annonnymous function)

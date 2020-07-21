@@ -43,16 +43,16 @@ export class DBDatasourceFormMappingContainer extends React.Component {
     handleSave: PropTypes.func,
     handleBack: PropTypes.func,
     // from mapStateToProps
-    tableList: PropTypes.shape({
+    tableList: PropTypes.objectOf(PropTypes.shape({
       name: PropTypes.string,
       schema: PropTypes.string,
       pKey: PropTypes.string,
-    }),
-    tableAttributeList: PropTypes.shape({
+    })),
+    tableAttributeList: PropTypes.objectOf(PropTypes.shape({
       name: PropTypes.string,
       javaSqlType: PropTypes.string,
       isPrimaryKey: PropTypes.bool,
-    }),
+    })),
     modelAttributeList: DataManagementShapes.ModelAttributeList,
     currentPluginMetaData: CommonShapes.PluginMetaData,
     // from mapDispatchToProps

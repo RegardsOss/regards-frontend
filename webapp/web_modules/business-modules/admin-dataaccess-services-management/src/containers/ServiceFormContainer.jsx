@@ -73,11 +73,8 @@ export class ServiceFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: !!get(props, 'params.pluginId', false),
-    }
+  state = {
+    isLoading: !!get(this.props, 'params.pluginId', false),
   }
 
   UNSAFE_componentWillMount() {

@@ -60,7 +60,7 @@ export class CollectionFormContainer extends React.Component {
     fetchModelAttributeList: PropTypes.func.isRequired,
     clearModelAttributeList: PropTypes.func.isRequired,
   }
-  
+
   state = {
     isCreating: this.props.params.collectionId === undefined,
     isEditing: this.props.params.collectionId !== undefined && this.props.params.mode === 'edit',

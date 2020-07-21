@@ -58,7 +58,7 @@ export class CollectionFormComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-  
+
   state = {
     isCreating: isNil(this.props.currentCollection),
     isDuplicating: this.props.isDuplicating,

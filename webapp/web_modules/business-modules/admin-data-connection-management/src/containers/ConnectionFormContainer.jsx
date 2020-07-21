@@ -83,14 +83,10 @@ export class ConnectionFormContainer extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.connectionId === undefined
-    this.state = {
-      isCreating,
-      isEditing: props.params.connectionId !== undefined,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.connectionId === undefined,
+    isEditing: this.props.params.connectionId !== undefined,
+    isLoading: true,
   }
 
   componentDidMount() {

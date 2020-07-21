@@ -46,11 +46,8 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentDatasource: undefined,
-    }
+  state = {
+    currentDatasource: undefined,
   }
 
   handleChange = (event, index, value) => {

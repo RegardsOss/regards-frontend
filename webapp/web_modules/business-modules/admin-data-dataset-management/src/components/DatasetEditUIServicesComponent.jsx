@@ -51,11 +51,8 @@ export class DatasetEditUIServicesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      linkUIPluginConfigurationActiveList: [...props.linkUIPluginDataset.content.services],
-    }
+  state = {
+    linkUIPluginConfigurationActiveList: [...this.props.linkUIPluginDataset.content.services],
   }
 
   getConfigurationListItems = (uiPluginDefinition) => {

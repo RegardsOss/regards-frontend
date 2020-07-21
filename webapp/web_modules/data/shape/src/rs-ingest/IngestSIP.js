@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import PropertiesShape from '../rs-common/IP'
+import { EntityGeoProperties } from '../rs-catalog'
 
 /**
  * Describes a SIP shape and related sub objects
@@ -48,7 +49,7 @@ export const IngestSIPContent = PropTypes.shape({
   sip: PropTypes.shape({
     ipType: PropTypes.string,
     id: PropTypes.string.isRequired,
-    geometry: PropTypes.any,
+    geometry: EntityGeoProperties,
     properties: PropertiesShape,
     type: PropTypes.string,
   }),

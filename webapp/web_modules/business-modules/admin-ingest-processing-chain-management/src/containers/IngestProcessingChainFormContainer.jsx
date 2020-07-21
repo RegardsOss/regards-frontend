@@ -27,13 +27,9 @@ export class IngestProcessingChainFormContainer extends React.Component {
     importChain: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.chain_name === undefined
-    this.state = {
-      isCreating,
-      isLoading: !isCreating,
-    }
+  state = {
+    isCreating: this.props.params.chain_name === undefined,
+    isLoading: this.props.params.chain_name !== undefined,
   }
 
   componentDidMount() {

@@ -43,11 +43,8 @@ export class ConnectionListContainer extends React.Component {
     deleteConnection: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   UNSAFE_componentWillMount() {

@@ -35,6 +35,7 @@ export const SearchCriterionRuntime = PropTypes.shape({
     fr: PropTypes.string, // french group label, optional
   }).isRequired,
   // from SearchCriterion
+  // eslint-disable-next-line react/forbid-prop-types
   state: PropTypes.object,
   requestParameters: CommonShapes.RequestParameters, // not mandatory in edition
   delayedRequestParameters: CommonShapes.RequestParameters, // delayed parameters

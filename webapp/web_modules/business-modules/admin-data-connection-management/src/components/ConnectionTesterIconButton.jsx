@@ -52,12 +52,9 @@ class ConnectionTesterIconButton extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      status: states.NOT_TESTED,
-      snackBarOpen: false,
-    }
+  state = {
+    status: states.NOT_TESTED,
+    snackBarOpen: false,
   }
 
   getSnackBarMessageId = (status) => {

@@ -19,6 +19,7 @@
 import { IngestDomain } from '@regardsoss/domain'
 import PropertiesShape from '../rs-common/IP'
 import { HateOASLink } from '../rs-common'
+import { EntityGeoProperties } from '../rs-catalog'
 
 /**
  * Describes an SIP Entity shape and related sub objects
@@ -28,8 +29,8 @@ export const SIP = PropTypes.shape({
   sip: PropTypes.shape({
     ipType: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,
-    geometry: PropTypes.any,
-    normalizedGeometry: PropTypes.any,
+    geometry: EntityGeoProperties,
+    normalizedGeometry: EntityGeoProperties,
     properties: PropertiesShape,
     type: PropTypes.string,
   }),

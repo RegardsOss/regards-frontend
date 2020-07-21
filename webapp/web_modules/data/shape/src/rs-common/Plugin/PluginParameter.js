@@ -20,6 +20,7 @@ import PluginParameterDynamicValue from './PluginParameterDynamicValue'
 
 const PluginParameterContent = PropTypes.shape({
   name: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.any,
   dynamic: PropTypes.bool,
   dynamicsValues: PropTypes.arrayOf(PluginParameterDynamicValue),

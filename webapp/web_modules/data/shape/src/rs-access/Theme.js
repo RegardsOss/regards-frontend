@@ -22,6 +22,7 @@ export const ThemeContent = PropTypes.shape({
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   active: PropTypes.bool,
+  // eslint-disable-next-line react/forbid-prop-types
   configuration: PropTypes.object,
 })
 

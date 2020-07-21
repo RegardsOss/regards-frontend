@@ -45,13 +45,9 @@ export class FragmentFormContainer extends React.Component {
     updateFragment: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isEditing = props.params.fragment_id !== undefined
-    this.state = {
-      isEditing,
-      isLoading: isEditing,
-    }
+  state = {
+    isEditing: this.props.params.fragment_id !== undefined,
+    isLoading: this.props.params.fragment_id !== undefined,
   }
 
   componentDidMount() {

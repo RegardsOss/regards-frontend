@@ -28,8 +28,8 @@ export const UIPluginInstanceContent = PropTypes.shape({
     styles: PropTypes.func,
   }),
   messages: PropTypes.shape({
-    fr: PropTypes.object,
-    en: PropTypes.object,
+    fr: PropTypes.objectOf(PropTypes.string),
+    en: PropTypes.objectOf(PropTypes.string),
   }),
   info: UIPluginInfoContent,
   error: PropTypes.bool,

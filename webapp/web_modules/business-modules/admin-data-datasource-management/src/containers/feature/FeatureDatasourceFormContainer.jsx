@@ -62,15 +62,10 @@ export class FeatureDatasourceFormContainer extends React.Component {
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.datasourceId === undefined
-
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    isLoading: true,
   }
 
   componentDidMount() {

@@ -47,7 +47,6 @@ import DatasetListEditAction from './DatasetListEditAction'
 import DatasetListDeleteAction from './DatasetListDeleteAction'
 import DatasetListInfoAction from './DatasetListInfoAction'
 import DatasetListFiltersComponent from './DatasetListFiltersComponent'
-import { DatasetListContainer } from '../containers/DatasetListContainer'
 import EntityInfoDialog from './EntityInfoDialog'
 import CopyToClipBoardAction from './CopyToClipBoardAction'
 

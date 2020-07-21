@@ -20,6 +20,7 @@
 const LocationShape = PropTypes.shape({
   pathname: PropTypes.string.isRequired,
   search: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   state: PropTypes.object,
   action: PropTypes.string.isRequired,
   key: PropTypes.string,
