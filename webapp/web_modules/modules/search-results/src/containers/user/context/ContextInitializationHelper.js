@@ -175,10 +175,8 @@ export class ContextInitializationHelper {
     if (lastVersionOnly) {
       restrictionCriteria.push({
         requestParameters: {
-          // [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
-          //   CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
           [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
-            CatalogDomain.OpenSearchQuery.SAPN.version, 1).toQueryString(),
+            CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
         },
       })
     }

@@ -27,7 +27,7 @@ export default class OpenSearchQuery extends Query {
   /** Parameters separator */
   static PARAMETERS_SEPARATOR = ' AND '
 
-  /** Standard Attributes Parameters name shortcut (avoids using DamDomain.AttributeController...) */
+  /** Standard Attributes Parameter Name shortcut (avoids using DamDomain.AttributeController...) */
   static SAPN = {
     id: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.id).content.jsonPath,
     providerId: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.providerId).content.jsonPath,
