@@ -44,7 +44,7 @@ export default class FetchEntityVersionsActions {
     return this.searchDelegates[type].fetchPagedEntityList(0, 10000, null, {
       q: new OpenSearchQuery([
         // Searching similar IDs with different versions
-        new OpenSearchQueryParameter(OpenSearchQuery.ID_PARAM_NAME,
+        new OpenSearchQueryParameter(OpenSearchQuery.SAPN.id,
           OpenSearchQueryParameter.toStringContained(CatalogDomain.TagsHelper.getURNWithoutVersion(id))),
       ]).toQueryString(),
     })

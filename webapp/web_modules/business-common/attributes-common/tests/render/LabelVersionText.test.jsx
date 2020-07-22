@@ -29,7 +29,7 @@ const context = buildTestContext(styles)
  * Test EntityLabelText
  * @author Raphaël Mechali
  */
-describe('[Entities Common] Testing EntityLabelText', () => {
+describe('[Entities Common] Testing LabelVersionText', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 

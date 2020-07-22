@@ -61,6 +61,7 @@ class SortingConfigurationComponent extends React.Component {
             attributesListFieldName={`${currentTypeNamespace}.sorting`}
             hintMessageKey="search.results.form.configuration.result.no.sorting"
             changeField={changeField}
+            allowRendererSelection={false}
           />
         </div>
       </FieldsGroup>

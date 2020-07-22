@@ -28,7 +28,7 @@ import TreeLinkComponent from './TreeLinkComponent'
 class VersionCellComponent extends React.Component {
   static propTypes = {
     entity: CatalogShapes.Entity,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
 
@@ -47,11 +47,11 @@ class VersionCellComponent extends React.Component {
   render() {
     const { entity } = this.props
     const { intl: { formatMessage } } = this.context
-    const { content: { label } } = entity // TODO: use version here now!!!
+    const { content: { version } } = entity
     return (
       <TreeLinkComponent
-        text={label}
-        tooltip={formatMessage({ id: 'module.description.tree.section.OTHER_VERSIONS.show.tooltip' })}
+        text={formatMessage({ id: 'module.description.common.version.link.label' }, { version })}
+        tooltip={formatMessage({ id: 'module.description.common.version.link.tooltip' })}
         disabled={false}
         selected={false} // cannot be selected
         onClick={this.onClick}

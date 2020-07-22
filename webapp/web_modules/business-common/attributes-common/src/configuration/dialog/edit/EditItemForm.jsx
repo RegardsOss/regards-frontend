@@ -264,13 +264,14 @@ export class EditItemForm extends React.Component {
                     label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
                     fullWidth
                   />
-                  <Field
-                    name="singleAttribute.renderer"
-                    component={RenderSelectField}
-                    label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
-                    fullWidth
-                  >
-                    { // render available options for current type
+                  { allowRendererSelection ? (
+                    <Field
+                      name="singleAttribute.renderer"
+                      component={RenderSelectField}
+                      label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
+                      fullWidth
+                    >
+                      { // render available options for current type
                       (() => {
                         if (editedSingleAttribute) {
                           const attr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(editedSingleAttribute.name, attributeModels)
@@ -295,7 +296,7 @@ export class EditItemForm extends React.Component {
                         ]
                       })()
                     }
-                  </Field>
+                    </Field>) : null}
                 </>)
           }
           {/* 2 position in columns list */}

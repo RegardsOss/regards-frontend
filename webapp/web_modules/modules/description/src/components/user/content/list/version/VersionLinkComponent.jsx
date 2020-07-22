@@ -19,17 +19,16 @@
 import DescriptionIcon from 'mdi-material-ui/InformationOutline'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import TreeLinkComponent from './TreeLinkComponent'
+import PageElement from '../common/PageElement'
+import PageLinkCellComponent from '../common/PageLinkCellComponent'
 
 /**
- * Displays an entity cell
+ * Display an entity version as link
  * @author Raphaël Mechali
  */
-class EntityCellComponent extends React.Component {
+class VersionLinkComponent extends React.Component {
   static propTypes = {
-    entity: CatalogShapes.Entity,
-    // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
-    isDescriptionAllowed: PropTypes.func.isRequired,
+    entity: CatalogShapes.Entity.isRequired,
     // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
@@ -39,29 +38,26 @@ class EntityCellComponent extends React.Component {
   }
 
   /**
-   * User clicked this link: propage show entity description request to parent
+   * User callback: on entity link clicked. Show entity description
    */
-  onClick = () => {
+  onSelectEntityLink = () => {
     const { entity, onSelectEntityLink } = this.props
     onSelectEntityLink(entity)
   }
 
   render() {
-    const { entity, isDescriptionAllowed } = this.props
+    const { entity: { content: { version } } } = this.props
     const { intl: { formatMessage } } = this.context
-    const { content: { label } } = entity
-    const disabled = !isDescriptionAllowed(entity)
     return (
-      <TreeLinkComponent
-        text={label}
-        // when available, show action tooltip, otherwise, show entity name
-        tooltip={disabled ? label : formatMessage({ id: 'module.description.common.show.entity.description.tootlip' }, { entityLabel: label })}
-        selected={false} // cannot be selected
-        disabled={disabled}
-        onClick={this.onClick}
-        IconConstructor={DescriptionIcon}
-        section={false}
-      />)
+      <PageElement>
+        <PageLinkCellComponent
+          text={formatMessage({ id: 'module.description.common.version.link.label' }, { version })}
+          tooltip={formatMessage({ id: 'module.description.common.version.link.tooltip' })}
+          LinkIconConstructor={DescriptionIcon}
+          disabled={false}
+          onClick={this.onSelectEntityLink}
+        />
+      </PageElement>)
   }
 }
-export default EntityCellComponent
+export default VersionLinkComponent

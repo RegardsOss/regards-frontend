@@ -132,7 +132,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           assert.deepEqual(criteriaList, [{
             requestParameters: {
               [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
-                CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+                CatalogDomain.OpenSearchQuery.SAPN.tags,
                 CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual('URN:DATASET:EXAMPLE1')).toQueryString(),
             },
           }], '[MAIN RESULTS] Configuration restriction should be restored')

@@ -379,7 +379,6 @@ export class AIPModifyDialogComponent extends React.Component {
             keyboardFocused
             onClick={this.onConfirmModify}
           />
-          ,
         </>}
         modal
         open

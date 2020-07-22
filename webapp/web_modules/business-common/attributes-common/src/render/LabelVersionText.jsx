@@ -55,7 +55,7 @@ class LabelVersionText extends React.Component {
    * @return {boolean} true if version should be shown, false otherwaise
    */
   static formatLabel(formatMessage, entity, settings) {
-    const { content: { label, version = 'TODO' } } = entity // TODO test with SVE!
+    const { content: { label, version } } = entity
     return LabelVersionText.shouldShowVersion(entity, settings)
       ? formatMessage({ id: 'attribute.render.version.label' }, { label, version: version.toString() })
       : formatMessage({ id: 'attribute.render.simple.label' }, { label })

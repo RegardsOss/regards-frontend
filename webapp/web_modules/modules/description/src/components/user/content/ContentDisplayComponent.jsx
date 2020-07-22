@@ -27,6 +27,7 @@ import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from './list/file/FilesSectionPageComponent'
 import QuicklookViewComponent from './quicklook/QuicklookViewComponent'
+import VersionSectionPageComponent from './list/version/VersionSectionPageComponent'
 
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
@@ -40,11 +41,11 @@ class ContentDisplayComponent extends React.Component {
     isDescriptionAllowed: PropTypes.func.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
     // Callback: user searched for a word tag (tag:string) => ()
     onSearchWord: PropTypes.func.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
   }
 
@@ -83,9 +84,9 @@ class ContentDisplayComponent extends React.Component {
     const {
       selectedTreeEntry: { section, child },
       displayModel: {
-        thumbnail, attributesGroups,
-        descriptionFiles, quicklookFiles, otherFiles,
-        wordTags, couplingTags, linkedEntities, linkedDocuments,
+        thumbnail, attributesGroups, descriptionFiles, quicklookFiles,
+        otherFiles, wordTags, couplingTags, linkedEntities,
+        linkedDocuments, otherVersions,
       },
     } = descriptionEntity
 
@@ -137,6 +138,13 @@ class ContentDisplayComponent extends React.Component {
             files={otherFiles}
             onSelectInnerLink={onSelectInnerLink}
           />) : <URIContentDisplayer uri={otherFiles[child].uri} />
+      case BROWSING_SECTIONS_ENUM.OTHER_VERSIONS:
+        return (
+          <VersionSectionPageComponent
+            entities={otherVersions}
+            onSelectEntityLink={onSelectEntityLink}
+          />
+        )
       default:
         throw new Error(`Unknown browsing section ${section}`)
     }

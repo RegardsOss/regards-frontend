@@ -37,7 +37,7 @@ class HeaderBarComponent extends React.Component {
     allowSearching: PropTypes.bool,
     // On selected entity index callback (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
   }
 

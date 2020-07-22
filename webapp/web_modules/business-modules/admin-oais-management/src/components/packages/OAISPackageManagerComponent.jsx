@@ -550,7 +550,8 @@ export class OAISPackageManagerComponent extends React.Component {
     const {
       contextRequestURLParameters, contextRequestBodyParameters,
     } = this.state
-    const columns = [
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const columns = [ // eslint wont fix: API issue
       // checkbox
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, aipTableActions, aipTableSelectors)

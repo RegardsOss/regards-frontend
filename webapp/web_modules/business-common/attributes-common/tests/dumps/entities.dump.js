@@ -26,6 +26,7 @@ export const data = {
   content: {
     id: 'URN:DATA:TEST:V2',
     version: 2,
+    last: false,
     model: 'aModel',
     providerId: 'Data test V2',
     label: 'Data test V2',
@@ -38,6 +39,7 @@ export const dataset = {
   content: {
     id: 'URN:DATASET:TEST:V4',
     version: 4,
+    last: true,
     model: 'aModel',
     providerId: 'Dataset test V4',
     label: 'Dataset test V4',
@@ -50,6 +52,7 @@ export const collection = {
   content: {
     id: 'URN:COLLECTION:TEST:V3',
     version: 2,
+    last: true,
     model: 'aModel',
     providerId: 'Collection test V2',
     label: 'Collection test V2',

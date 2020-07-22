@@ -27,6 +27,7 @@ export const entity1 = {
   content: {
     id: 'URN:DATA:V1',
     version: 1,
+    last: false,
     model: 'model1',
     providerId: 'providerData1',
     label: 'Data 1',
@@ -40,6 +41,7 @@ export const entity2 = {
   content: {
     id: 'URN:DATA:V2',
     version: 2,
+    last: true,
     model: 'model2',
     providerId: 'providerData2',
     label: 'Data 2',
@@ -53,6 +55,7 @@ export const entity3 = {
   content: {
     id: 'URN:DATA:V3',
     version: 3,
+    last: true,
     model: 'model3',
     providerId: 'providerData3',
     label: 'Data 3',

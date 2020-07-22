@@ -18,39 +18,31 @@
  **/
 import { CatalogShapes } from '@regardsoss/shape'
 import ListSectionPageComponent from '../common/ListSectionPageComponent'
-import EntityLinkComponent from './EntityLinkComponent'
+import VersionLinkComponent from './VersionLinkComponent'
 
 /**
- * Entities section page component
+ * Version section page component
  * @author Raphaël Mechali
  */
-class EntitiesSectionPageComponent extends React.Component {
+class VersionSectionPageComponent extends React.Component {
   static propTypes = {
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
-    isDescriptionAllowed: PropTypes.func.isRequired,
-    allowSearching: PropTypes.bool,
-    onSearchEntity: PropTypes.func.isRequired,
     // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
 
   /**
-   * Renders an entity
+   * Renders an entity version
    * @param {*} entity matching CatalogShapes.Entity
    * @return {React.ReactElement} render element
    */
   renderEntity = (entity) => {
-    const {
-      isDescriptionAllowed, allowSearching, onSelectEntityLink, onSearchEntity,
-    } = this.props
+    const { onSelectEntityLink } = this.props
     return (
-      <EntityLinkComponent
+      <VersionLinkComponent
         key={entity.content.id}
         entity={entity}
-        isDescriptionAllowed={isDescriptionAllowed}
-        allowSearching={allowSearching}
         onSelectEntityLink={onSelectEntityLink}
-        onSearchEntity={onSearchEntity}
       />)
   }
 
@@ -64,4 +56,4 @@ class EntitiesSectionPageComponent extends React.Component {
     )
   }
 }
-export default EntitiesSectionPageComponent
+export default VersionSectionPageComponent

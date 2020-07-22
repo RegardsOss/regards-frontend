@@ -169,28 +169,44 @@ export class ContextInitializationHelper {
    * @return {[*]} built criteria for configured restrictions
    */
   static buildConfigurationCriteria(restrictions) {
+    const restrictionCriteria = []
+    // 1 - Restrictions on data
+    const { lastVersionOnly = false } = get(restrictions, 'onData', { })
+    if (lastVersionOnly) {
+      restrictionCriteria.push({
+        requestParameters: {
+          // [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
+          //   CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.SAPN.version, 1).toQueryString(),
+        },
+      })
+    }
+    // 2 - Restrictions on datasets
     // Dataset ID / models restrictions
     const { type, selection } = get(restrictions, 'byDataset', {})
     switch (type) {
       case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
-        return [{
+        restrictionCriteria.push({
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
-              CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+              CatalogDomain.OpenSearchQuery.SAPN.tags,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
-        }]
+        })
+        break
       case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS:
-        return [{
+        restrictionCriteria.push({
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
               CatalogDomain.OpenSearchQuery.DATASET_MODEL_NAMES_PARAM,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
-        }]
-      default: // no restriction
-        return []
+        })
+        break
+      default: // no restriction: do nothing
     }
+    return restrictionCriteria
   }
 
   /**

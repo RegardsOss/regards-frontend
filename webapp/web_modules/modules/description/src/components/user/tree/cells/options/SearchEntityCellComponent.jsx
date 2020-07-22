@@ -27,7 +27,7 @@ import SearchOptionComponent from './SearchOptionComponent'
 class SearchEntityCellComponent extends React.Component {
   static propTypes = {
     entity: CatalogShapes.Entity.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
   }
 

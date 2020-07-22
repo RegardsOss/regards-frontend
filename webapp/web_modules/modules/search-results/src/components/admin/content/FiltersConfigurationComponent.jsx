@@ -81,6 +81,7 @@ class FiltersConfigurationComponent extends React.Component {
             hintMessageKey="search.results.form.configuration.result.no.filter"
             changeField={changeField}
             allowLabel
+            allowRendererSelection={false}
           />
         </div>
       </FieldsGroup>

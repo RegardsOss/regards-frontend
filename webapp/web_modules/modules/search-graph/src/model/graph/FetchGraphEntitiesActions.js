@@ -70,7 +70,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
       parentEntityIds.forEach((parentEntityId) => {
         openSearchParameters.push(
           new CatalogDomain.OpenSearchQueryParameter(
-            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQuery.SAPN.tags,
             CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(parentEntityId),
             CatalogDomain.OpenSearchQueryParameter.AND_SEPARATOR))
       })
@@ -79,7 +79,7 @@ class FetchGraphEntitiesActions extends BasicPageableActions {
     if (levelModelName) {
       openSearchParameters.push(
         new CatalogDomain.OpenSearchQueryParameter(
-          CatalogDomain.OpenSearchQuery.MODEL_PARAM_NAME,
+          CatalogDomain.OpenSearchQuery.SAPN.model,
           CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(levelModelName)))
     }
     // build search query and fetch server data (keep invocation context for action metadata)
