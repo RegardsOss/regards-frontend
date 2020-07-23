@@ -41,6 +41,7 @@ const messages = {
   'module.description.configuration.show.linked.entities': 'Display linked entities',
   'module.description.configuration.show.other.versions': 'Display other entity versions',
   'module.description.configuration.show.thumbnail': 'Display thumbnail',
+  'module.description.configuration.show.quicklooks': 'Display quicklooks',
   'module.description.configuration.description.files.title': 'Description files',
   'module.description.configuration.description.files.hint': 'Enter here URL attributes to use as description files',
   'module.description.configuration.add.group': 'Add display groups',

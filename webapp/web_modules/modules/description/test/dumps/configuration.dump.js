@@ -57,6 +57,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showOtherVersions: false,
     showThumbnail: false,
+    showQuicklooks: false,
     groups: [],
     attributeToDescriptionFiles: [],
   },
@@ -69,6 +70,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showOtherVersions: false,
     showThumbnail: false,
+    showQuicklooks: false,
     groups: [],
     attributeToDescriptionFiles: [],
   },
@@ -81,6 +83,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showOtherVersions: false,
     showThumbnail: false,
+    showQuicklooks: false,
     groups: [],
     attributeToDescriptionFiles: [],
   },
@@ -93,6 +96,7 @@ export const fullModuleConf = {
     showLinkedEntities: false,
     showOtherVersions: true,
     showThumbnail: true,
+    showQuicklooks: true,
     groups: someGroups,
     attributeToDescriptionFiles: [{
       attributes: [

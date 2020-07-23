@@ -71,6 +71,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
         showLinkedEntities: true,
         showOtherVersions: false,
         showThumbnail: false,
+        showQuicklooks: true,
         groups: [],
         attributeToDescriptionFiles: [],
       })
@@ -155,6 +156,13 @@ class DescriptionConfigurationFormComponent extends React.Component {
             <Field
               name={`${currentNamespace}.${entityType}.showThumbnail`}
               label={formatMessage({ id: 'module.description.configuration.show.thumbnail' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
+            {/* Show quicklooks section field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showQuicklooks`}
+              label={formatMessage({ id: 'module.description.configuration.show.quicklooks' })}
               component={RenderCheckbox}
               fullWidth
             />

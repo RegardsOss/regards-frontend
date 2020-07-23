@@ -394,7 +394,8 @@ export class DescriptionEntityHelper {
         available: true, // selected file is always available
         uri: thumbnailFile.uri,
       } : null,
-      quicklookFiles,
+      // quicklooks: provided it only when enabled for that type configuration (empty array will results in hidden tree section)
+      quicklookFiles: typeConfiguration.showQuicklooks ? quicklookFiles : [],
     }
   }
 
