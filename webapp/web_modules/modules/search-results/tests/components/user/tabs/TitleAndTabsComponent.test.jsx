@@ -22,9 +22,11 @@ import { AccessDomain, UIDomain } from '@regardsoss/domain'
 import { modulesManager } from '@regardsoss/modules'
 import { DefaultModuleTitleComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import TitleAndTabsComponent from '../../../../src/components/user/tabs/TitleAndTabsComponent'
+import TabContainer from '../../../../src/containers/user/tabs/TabContainer'
 import styles from '../../../../src/styles'
-import TabComponent from '../../../../src/components/user/tabs/TabComponent'
+import { dataEntity } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -65,10 +67,10 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
       description: props.description,
     }, 'Title properties should be correctly reported')
     // 2 - Tabs: none
-    const tabs = enzymeWrapper.find(TabComponent)
+    const tabs = enzymeWrapper.find(TabContainer)
     assert.lengthOf(tabs, 1, 'Tabs should remain visible when there is only one (main results)')
   })
-  it('should render correctly with only all tabs', () => {
+  it('should render correctly with all tabs', () => {
     const props = {
       page: {
         home: false,
@@ -87,7 +89,7 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
         tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
         selected: false,
         closable: true,
-        tabName: 'Potatoes',
+        contextCriterion: CriterionBuilder.buildEntityTagCriterion(dataEntity),
       }],
       onTabSelected: () => {},
       onTabClosed: () => {},
@@ -102,16 +104,11 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsComponent', () => {
       page: props.page,
     }, 'Title properties should be correctly reported')
     // 2 - Tabs: none
-    const tabs = enzymeWrapper.find(TabComponent)
+    const tabs = enzymeWrapper.find(TabContainer)
     assert.lengthOf(tabs, props.tabs.length, 'There should be each tag')
-    props.tabs.forEach(({
-      tabType, tabName, selected, closable,
-    }, index) => {
+    props.tabs.forEach((tab, index) => {
       testSuiteHelpers.assertWrapperProperties(tabs.at(index), {
-        tabType,
-        tabName,
-        selected,
-        closable,
+        tab,
         onTabSelected: props.onTabSelected,
         onTabClosed: props.onTabClosed,
       }, `Tab #${index} properties should be correctly reported`)

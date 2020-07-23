@@ -24,6 +24,7 @@ import { CatalogDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { EntityTypeIcon } from '@regardsoss/entities-common'
 import ApplyingCriterionComponent from './ApplyingCriterionComponent'
+import { TagLabelHelper } from '../../common/TagLabelHelper'
 
 /**
  * Shows an applying tag filter
@@ -33,6 +34,7 @@ import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 class TagCriterionComponent extends React.Component {
   static propTypes = {
     tagCriterion: UIShapes.TagCriterion.isRequired,
+    settings: UIShapes.UISettings.isRequired,
     onUnselectTagFilter: PropTypes.func.isRequired,
   }
 
@@ -63,15 +65,14 @@ class TagCriterionComponent extends React.Component {
   })
 
   render() {
+    const { tagCriterion, settings, onUnselectTagFilter } = this.props
     const { intl: { formatMessage } } = this.context
-    const { tagCriterion, onUnselectTagFilter } = this.props
-    const unresolved = tagCriterion.type === CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED
     return (
       <ApplyingCriterionComponent
-        label={unresolved ? formatMessage({ id: 'search.filter.geometry.entity.private' }) : tagCriterion.label}
+        label={TagLabelHelper.getLabel(formatMessage, tagCriterion, settings)}
         selectedCriterion={tagCriterion}
         onUnselectCriterion={onUnselectTagFilter}
-        error={unresolved}
+        error={tagCriterion.type === CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED}
         filterIcon={TagCriterionComponent.TAG_TYPE_TO_ICON[tagCriterion.type]}
       />
     )

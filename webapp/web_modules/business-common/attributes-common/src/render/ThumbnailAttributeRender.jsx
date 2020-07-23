@@ -64,7 +64,7 @@ export class ThumbnailAttributeRender extends React.Component {
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
     // From mapStateToProps
-    settings: UIShapes.UISettings.isRequired, // used in onPropertiesUpdated
+    settings: UIShapes.UISettings.isRequired,
   }
 
   static contextTypes = {

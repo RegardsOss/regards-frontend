@@ -29,7 +29,7 @@ const messages = {
   ...Locales.fr,
   // units messages
   ...storage.messages.fr,
-  // attributes common messages (used to format attributes locally)
+  // attributes common messages (used to format attributes locally and label/version)
   ...attributesCommonMsg.fr,
 
   // Administration messages

@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { modulesManager } from '@regardsoss/modules'
 import { DefaultModuleTitleComponent } from '@regardsoss/components'
-import TabComponent from './TabComponent'
+import TabContainer from '../../../containers/user/tabs/TabContainer'
+import { TabData } from './TabComponent'
 
 /**
  * Tabs component: tabs interactor (when more than one tab is available)
@@ -32,12 +32,7 @@ class TitleAndTabsComponent extends React.Component {
     description: PropTypes.string,
     page: AccessShapes.ModulePage,
     // list of visible tabs: contains at least results tab
-    tabs: PropTypes.arrayOf(PropTypes.shape({
-      tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
-      tabName: PropTypes.string, // specific parameter for tabs with name
-      selected: PropTypes.bool.isRequired,
-      closable: PropTypes.bool.isRequired,
-    })).isRequired,
+    tabs: PropTypes.arrayOf(TabData).isRequired,
     // selection control callback: (tabType: string) => ()
     onTabSelected: PropTypes.func.isRequired,
     // close control callback: (tabType: string) => ()
@@ -66,14 +61,9 @@ class TitleAndTabsComponent extends React.Component {
         {/* 2. tabs (center aligned) */ }
         <div style={tabsContainer}>
           { /** Show tabs only when more than 1 */
-             tabs.map(({
-               tabType, tabName, selected, closable,
-             }) => <TabComponent
-               key={tabType}
-               tabType={tabType}
-               tabName={tabName}
-               selected={selected}
-               closable={closable}
+             tabs.map((tab) => <TabContainer
+               key={tab.tabType}
+               tab={tab}
                onTabSelected={onTabSelected}
                onTabClosed={onTabClosed}
              />)

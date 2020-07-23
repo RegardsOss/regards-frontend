@@ -23,20 +23,20 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CriterionBuilder } from '../../../../../../src/definitions/CriterionBuilder'
 import ApplyingCriteriaHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/ApplyingCriteriaHeaderRowComponent'
-import TagCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/TagCriterionComponent'
 import SelectedBooleanFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedBooleanFacetComponent'
 import SelectedDateRangeFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedDateRangeFacetComponent'
 import SelectedNumberRangeFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedNumberRangeFacetComponent'
 import SelectedStringFacetComponent from '../../../../../../src/components/user/tabs/results/header/filter/facets/SelectedStringFacetComponent'
 import GeometryCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/EntitiesSelectionCriterionComponent'
+import TagCriterionContainer from '../../../../../../src/containers/user/tabs/results/header/filter/TagCriterionContainer'
+import SearchCriteriaComponent from '../../../../../../src/components/user/tabs/results/header/filter/SearchCriteriaComponent'
+import StaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/StaticParameterCriterionComponent'
+import ReactiveStaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/ReactiveStaticParameterCriterionComponent'
 import styles from '../../../../../../src/styles'
 import resultsDump from '../../../../../dumps/results.dump'
 import { datasetEntity } from '../../../../../dumps/entities.dump'
 import { attributes } from '../../../../../dumps/attributes.dump'
-import SearchCriteriaComponent from '../../../../../../src/components/user/tabs/results/header/filter/SearchCriteriaComponent'
-import StaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/StaticParameterCriterionComponent'
-import ReactiveStaticParameterCriterionComponent from '../../../../../../src/components/user/tabs/results/header/filter/ReactiveStaticParameterCriterionComponent'
 
 const context = buildTestContext(styles)
 
@@ -335,7 +335,7 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
     assert.lengthOf(showable, 1)
     assert.isTrue(showable.props().show)
 
-    const tagFilterComponent = enzymeWrapper.find(TagCriterionComponent)
+    const tagFilterComponent = enzymeWrapper.find(TagCriterionContainer)
     assert.lengthOf(tagFilterComponent, 1, 'There should be a tag criterion filter component')
     testSuiteHelpers.assertWrapperProperties(tagFilterComponent, {
       tagCriterion: aDatasetTag,

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,41 +18,39 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIDomain } from '@regardsoss/domain'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CriterionBuilder } from '../../../../../../../src/definitions/CriterionBuilder'
 import TagCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/TagCriterionComponent'
-import ApplyingCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/ApplyingCriterionComponent'
+import { TagCriterionContainer } from '../../../../../../../src/containers/user/tabs/results/header/filter/TagCriterionContainer'
 import styles from '../../../../../../../src/styles'
-import { datasetEntity } from '../../../../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
 /**
- * Test TagCriterionComponent
+ * Test TagCriterionContainer
  * @author Raphaël Mechali
  */
-describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
+describe('[SEARCH RESULTS] Testing TagCriterionContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(TagCriterionComponent)
+    assert.isDefined(TagCriterionContainer)
   })
-
   it('should render correctly', () => {
     const props = {
-      tagCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),
-      settings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
+      tagCriterion: CriterionBuilder.buildWordTagCriterion('anything'),
       onUnselectTagFilter: () => {},
+      settings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
     }
-    const enzymeWrapper = shallow(<TagCriterionComponent {...props} />, { context })
-    const delegateWrapper = enzymeWrapper.find(ApplyingCriterionComponent)
-    assert.lengthOf(delegateWrapper, 1)
-    testSuiteHelpers.assertWrapperProperties(delegateWrapper, {
-      label: 'attribute.render.simple.label', // rendered using common utils, in TagLabelHelper.test
-      selectedCriterion: props.tagCriterion,
-      onUnselectCriterion: props.onUnselectTagFilter,
-    })
+    const enzymeWrapper = shallow(<TagCriterionContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(TagCriterionComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      tagCriterion: props.tagCriterion,
+      settings: props.settings,
+      onUnselectTagFilter: props.onUnselectTagFilter,
+    }, 'Component should define the expected properties')
   })
 })

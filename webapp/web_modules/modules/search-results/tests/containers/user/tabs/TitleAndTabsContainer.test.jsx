@@ -80,19 +80,19 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     }, '1 - Current state should be correctly reported to component')
     assert.deepEqual(enzymeWrapper.state().tabs, [{
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      tabName: null,
       selected: false,
       closable: false,
+      contextCriterion: null,
     }, {
       tabType: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-      tabName: null,
       selected: true,
       closable: true,
+      contextCriterion: null,
     }, {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-      tabName: 'Hello tag',
       selected: false,
       closable: true,
+      contextCriterion: CriterionBuilder.buildWordTagCriterion('Hello tag'),
     }], '1 - Tabs list should be correctly computed')
     assert.deepEqual(spiedUpdateContext, { moduleId: null, resultsContext: null }, '1 - Update context should not have been called yet')
     // 2 - Check render with tags tab selected (using container callbacks)
@@ -113,19 +113,19 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     }, '2 - Current state should be correctly reported to component')
     assert.deepEqual(enzymeWrapper.state().tabs, [{
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      tabName: null,
       selected: false,
       closable: false,
+      contextCriterion: null,
     }, {
       tabType: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-      tabName: null,
       selected: false,
       closable: true,
+      contextCriterion: null,
     }, {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-      tabName: 'Hello tag',
       selected: true,
       closable: true,
+      contextCriterion: CriterionBuilder.buildWordTagCriterion('Hello tag'),
     }], '2 - Tabs list should be correctly computed')
     // 3 - close description tab (using container callbacks)
     enzymeWrapper.instance().onTabClosed(UIDomain.RESULTS_TABS_ENUM.DESCRIPTION)
@@ -144,14 +144,14 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     }, '3 - Current state should be correctly reported to component')
     assert.deepEqual(enzymeWrapper.state().tabs, [{
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      tabName: null,
       selected: false,
       closable: false,
+      contextCriterion: null,
     }, {
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-      tabName: 'Hello tag',
       selected: true,
       closable: true,
+      contextCriterion: CriterionBuilder.buildWordTagCriterion('Hello tag'),
     }], '3 - Tabs list should be correctly computed')
     // 4 - close tag results tab (using container callbacks)
     enzymeWrapper.instance().onTabClosed(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
@@ -170,9 +170,9 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
     }, '4 - Current state should be correctly reported to component')
     assert.deepEqual(enzymeWrapper.state().tabs, [{
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-      tabName: null,
       selected: true,
       closable: false,
+      contextCriterion: null,
     }], '4 - Tabs list should be correctly computed')
     // also check that context was modified back to default configuration context (ensures the component has no issue with context changes)
     assert.deepEqual(props4.resultsContext, dataContext, '4 - Should fallback on default configured state')

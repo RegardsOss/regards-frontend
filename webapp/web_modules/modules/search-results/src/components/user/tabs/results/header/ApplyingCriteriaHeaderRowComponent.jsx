@@ -30,7 +30,7 @@ import SelectedNumberRangeFacetComponent from './filter/facets/SelectedNumberRan
 import SelectedStringFacetComponent from './filter/facets/SelectedStringFacetComponent'
 import GeometryCriterionComponent from './filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from './filter/EntitiesSelectionCriterionComponent'
-import TagCriterionComponent from './filter/TagCriterionComponent'
+import TagCriterionContainer from '../../../../../containers/user/tabs/results/header/filter/TagCriterionContainer'
 import SearchCriteriaComponent from './filter/SearchCriteriaComponent'
 import StaticParameterCriterionComponent from './filter/StaticParameterCriterionComponent'
 import ReactiveStaticParameterCriterionComponent from './filter/ReactiveStaticParameterCriterionComponent'
@@ -88,7 +88,7 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                       onUnselectStaticParameter={onToggleStaticParameter}
                     />),
                   // 2 - Tag criteria
-                  ...tagsFiltering.map((tagCriterion) => <TagCriterionComponent
+                  ...tagsFiltering.map((tagCriterion) => <TagCriterionContainer
                     key={tagCriterion.searchKey}
                     tagCriterion={tagCriterion}
                     onUnselectTagFilter={onUnselectTagFilter}

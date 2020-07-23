@@ -22,6 +22,7 @@ import {
 import { RequestParameters } from '../../rs-common/RequestParameters'
 import { AttributeModel, AttributeModelContent } from '../../rs-dam/AttributeModel'
 import { EntityWithServices } from '../../rs-access/EntityWithServices'
+import { Entity } from '../../rs-catalog/entity/Entity'
 
 /**
  * Defines results module context definition
@@ -97,13 +98,37 @@ export const SelectedFacetCriterion = PropTypes.oneOfType([
   SelectedNumberRangeFacetCriterion,
   SelectedStringFacetCriterion])
 
-/** A tag criterion (with query parameters constraint) */
-export const TagCriterion = PropTypes.shape({
-  label: PropTypes.string, // label is optional: when absent it marks an entity that cannot be resolved for current user
-  type: PropTypes.oneOf(CatalogDomain.TAG_TYPES).isRequired,
-  searchKey: PropTypes.string.isRequired, // search key, which is word when a type is WORD and entity ID otherwise
+/** An entity tag criterion */
+export const EntityTagCriterion = PropTypes.shape({
+  type: PropTypes.oneOf([
+    CatalogDomain.TAG_TYPES_ENUM.COLLECTION,
+    CatalogDomain.TAG_TYPES_ENUM.DATA,
+    CatalogDomain.TAG_TYPES_ENUM.DATASET,
+  ]).isRequired,
+  entity: Entity.isRequired,
+  searchKey: PropTypes.string.isRequired,
   ...commonCriterionFields,
 })
+
+/** A simple word tag criterion */
+export const WordTagCriterion = PropTypes.shape({
+  type: PropTypes.oneOf([CatalogDomain.TAG_TYPES_ENUM.WORD]).isRequired,
+  searchKey: PropTypes.string.isRequired,
+  ...commonCriterionFields,
+})
+
+/** An unresolved tag (usually an entity that could not be retrieved, transitory state) */
+export const UnresolvedTagCriterion = PropTypes.shape({
+  type: PropTypes.oneOf([CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED]).isRequired,
+  searchKey: PropTypes.string.isRequired,
+  ...commonCriterionFields,
+})
+
+/** A tag criterion (with query parameters constraint) */
+export const TagCriterion = PropTypes.oneOfType([EntityTagCriterion, WordTagCriterion, UnresolvedTagCriterion])
+
+/** A tags array */
+export const TagsArray = PropTypes.arrayOf(TagCriterion)
 
 /** A geometry criterion */
 export const GeometryCriterion = PropTypes.shape({
@@ -119,9 +144,6 @@ export const EntitiesSelectionCriterion = PropTypes.shape({
   entitiesCount: PropTypes.number.isRequired,
   ...commonCriterionFields,
 })
-
-/** A tags array */
-export const TagsArray = PropTypes.arrayOf(TagCriterion)
 
 /** A sorting criterion */
 export const SortingCriterion = PropTypes.shape({

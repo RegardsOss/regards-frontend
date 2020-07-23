@@ -91,5 +91,4 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     callbackHolder.props().onClick()
     assert.equal(spyOnSelectEntityIndex.index, props.entityIndex, 'Callback should been invoked')
   })
-  // TODO add test here: version on data / !dataset!collection!document
 })

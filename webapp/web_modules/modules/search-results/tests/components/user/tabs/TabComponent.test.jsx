@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIDomain } from '@regardsoss/domain'
+import { CriterionBuilder } from '../../../../src/definitions/CriterionBuilder'
 import TabComponent from '../../../../src/components/user/tabs/TabComponent'
 import styles from '../../../../src/styles'
 
@@ -40,27 +41,35 @@ describe('[SEARCH RESULTS] Testing TabComponent', () => {
   })
 
   const testCases = [{
+    label: 'main tab',
     tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
-    selected: true,
     closable: false,
+    expectedLabel: 'search.results.tab.main.results',
   }, {
+    label: 'description tab',
     tabType: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
-    selected: false,
     closable: true,
+    expectedLabel: 'search.results.tab.description',
   }, {
+    label: 'tag result',
     tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-    selected: true,
     closable: true,
-  },
-
-  ]
-  testCases.forEach(({ tabType, selected, closable }) => it(`should render correctly for ${tabType}`, () => {
+    contextCriterion: CriterionBuilder.buildWordTagCriterion('simpleWord'),
+    expectedLabel: 'search.results.tab.tag.results',
+  }]
+  testCases.forEach(({
+    label, tabType, closable, contextCriterion, expectedLabel,
+  }) => [true, false].forEach((selected) => it(`should render correctly ${label} when ${selected ? 'selected' : 'unselected'}`, () => {
     let spiedTabSelected = null
     let spiedTabClosed = null
     const props = {
-      tabType,
-      selected,
-      closable,
+      tab: {
+        tabType,
+        selected,
+        closable,
+        contextCriterion,
+      },
+      settings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
       onTabSelected: (callbackTabType) => {
         spiedTabSelected = callbackTabType
       },
@@ -80,11 +89,14 @@ describe('[SEARCH RESULTS] Testing TabComponent', () => {
         },
       },
     } = context
-    // 1 - check selected state is rendered
+    // 1 - Check tab label (using corresponding div tooltip)
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === expectedLabel), 1, `Label ${expectedLabel} should be correctly rendered`)
+
+    // 2 - check selected state is rendered
     const selectedStateStyle = selected ? selectedContainer : unselectedContainer
     assert.lengthOf(enzymeWrapper.findWhere((n) => isEqual(n.props().style, selectedStateStyle)), 1, 'Selection state should be rendered')
 
-    // 2 - check closable state is rendered
+    // 3 - check closable state is rendered
     if (closable) {
       const closeButton = enzymeWrapper.find(IconButton)
       assert.lengthOf(closeButton, 1, 'There should be the close button')
@@ -93,21 +105,21 @@ describe('[SEARCH RESULTS] Testing TabComponent', () => {
       assert.isEmpty(enzymeWrapper.find(IconButton), 'There should be no close button')
     }
 
-    // 3 - Check right type icon and labels are rendered
+    // 4 - Check right type icon and labels are rendered
     const { labelKey, IconConstructor } = TabComponent.RENDER_DATA_BY_TYPE[tabType]
     assert.lengthOf(enzymeWrapper.find(IconConstructor), 1, 'Tab type icon should be rendered')
     assert.include(enzymeWrapper.debug(), labelKey, 'Tab type text should be rendered')
 
-    // 4 - Check selection callback is correctly set
+    // 5 - Check selection callback is correctly set
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onTabSelected), 1,
       'There should be a tab selection node')
 
-    // 5 - Check both callback are correctly working
+    // 6 - Check both callback are correctly working
     assert.isNull(spiedTabSelected, 'Tab selected should not have been called yet')
     assert.isNull(spiedTabClosed, 'Tab closed should not have been called yet')
     enzymeWrapper.instance().onTabSelected()
-    assert.equal(spiedTabSelected, props.tabType, 'Tab selected should have been called with the right tab type')
+    assert.equal(spiedTabSelected, tabType, 'Tab selected should have been called with the right tab type')
     enzymeWrapper.instance().onTabClosed()
-    assert.equal(spiedTabClosed, props.tabType, 'Tab closed should have been called with the right tab type')
-  }))
+    assert.equal(spiedTabClosed, tabType, 'Tab closed should have been called with the right tab type')
+  })))
 })
