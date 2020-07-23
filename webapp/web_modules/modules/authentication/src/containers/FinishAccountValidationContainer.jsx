@@ -20,7 +20,7 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { LoadingPaneComponent } from '@regardsoss/components'
 import VerifyEmailActions from '../model/creation/VerifyEmailActions'
-import VerifyEmailSelectors from '../model/creation/VerifyAccountSelectors'
+import VerifyEmailSelectors from '../model/creation/VerifyEmailSelectors'
 
 /**
  * Completes unlock account when back from mail or fails if token is now invalid

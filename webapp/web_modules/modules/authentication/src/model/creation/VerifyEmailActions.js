@@ -24,7 +24,8 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 class VerifyEmailActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/verifyEmail/{token}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/accesses/verifyEmail/{token}`,
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/accesses/verifyEmail/{token}`,
       namespace: 'accounts/verifyEmail',
       bypassErrorMiddleware: true,
     })
