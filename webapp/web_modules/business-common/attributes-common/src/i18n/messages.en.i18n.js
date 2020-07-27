@@ -24,8 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
 */
 const messages = {
   ...Locales.en, // form messages
-  'attribute.thumbnail.alt': 'No thumbnail',
-  'attribute.thumbnail.action.close': 'Close',
+  'attribute.thumbnail.alt': 'Thumbnail',
   'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Add one',

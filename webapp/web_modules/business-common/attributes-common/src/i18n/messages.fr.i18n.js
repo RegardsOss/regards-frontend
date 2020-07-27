@@ -24,8 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr, // form messages
-  'attribute.thumbnail.alt': 'Aucune vignette',
-  'attribute.thumbnail.action.close': 'Fermer',
+  'attribute.thumbnail.alt': 'Vignette"',
   'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Ajout simple',

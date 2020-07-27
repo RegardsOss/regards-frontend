@@ -18,26 +18,10 @@
  **/
 
 export default (theme) => ({
-  defaultThumbnailDimensions: {
+  defaultThumbnailStyle: {
     width: theme.components.infiniteTable.lineHeight,
     height: theme.components.infiniteTable.lineHeight,
-  },
-  thumbnailPicture: {
-    cursor: 'pointer',
-    height: '100%',
-    width: '100%',
-    objectFit: 'contain',
     padding: theme.components.infiniteTable.thumbnailPadding,
-  },
-  noThumbnailIcon: {
-    padding: theme.components.infiniteTable.thumbnailPadding,
-    height: '100%',
-    width: '100%',
-  },
-  thumbnailDialog: {
-    content: {
-      padding: 0,
-    },
   },
   // attributes configuration
   configuration: {

@@ -18,12 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import NoDataIcon from 'mdi-material-ui/Wallpaper'
-import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { CommonDomain } from '@regardsoss/domain'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
+import { ZoomablePicture } from '@regardsoss/components'
 import { ThumbnailAttributeRender } from '../../src/render/ThumbnailAttributeRender'
 import styles from '../../src/styles'
-import ThumbnailFullSizePictureDialog from '../../src/render/ThumbnailFullSizePictureDialog'
 
 const context = buildTestContext(styles)
 
@@ -40,6 +39,7 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
   })
 
   it('Should render a no data', () => {
+    // undefined value
     const props = {
       settings: {
         showVersion: true,
@@ -47,19 +47,28 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
         primaryQuicklookGroup: 'myMain',
       },
     }
-    // undefined value
     let wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
-    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'undefined file ==>  no data icon')
+    let picture = wrapper.find(ZoomablePicture)
+    assert.lengthOf(picture, 1)
+    testSuiteHelpers.assertWrapperProperties(picture, {
+      normalPicURL: undefined,
+      alt: 'attribute.thumbnail.alt',
+    })
     // null value
     const props2 = {
       ...props,
       value: null,
     }
     wrapper = shallow(<ThumbnailAttributeRender {...props2} />, { context })
-    assert.lengthOf(wrapper.find(NoDataIcon), 1, 'no file ==>  no data icon')
+    picture = wrapper.find(ZoomablePicture)
+    assert.lengthOf(picture, 1)
+    testSuiteHelpers.assertWrapperProperties(picture, {
+      normalPicURL: undefined,
+      alt: 'attribute.thumbnail.alt',
+    })
   })
 
-  it('Should render correctly thumbnail and allow full size displaying', () => {
+  it('Should render correctly thumbnail', () => {
     // 1 - Initial render
     const props = {
       value: {
@@ -85,37 +94,12 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       },
     }
     const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
-    const picture = wrapper.findWhere((n) => n.props().src === 'http://rd1.com?scope=project')
-    assert.lengthOf(picture, 1, 'There should be a picture with the right URL')
+    const picture = wrapper.find(ZoomablePicture)
+    assert.lengthOf(picture, 1)
     testSuiteHelpers.assertWrapperProperties(picture, {
+      normalPicURL: 'http://rd1.com?scope=project',
       alt: 'attribute.thumbnail.alt',
-      onClick: wrapper.instance().onShowFullSizeDialog,
-    }, 'Picture should define callback and alternative internationlized text ')
-    let fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
-    assert.lengthOf(fullSizeDialog, 1, '1 - There should be the full size dialog')
-    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
-      thumbnailURI: 'http://rd1.com?scope=project',
-      open: false,
-      onClose: wrapper.instance().onCloseFullSizeDialog,
-    }, '1 - Dialog should be closed and define the expected properties')
-    // 2 - Open full size picture
-    picture.props().onClick()
-    fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
-    assert.lengthOf(fullSizeDialog, 1, '2 - There should be the full size dialog')
-    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
-      thumbnailURI: 'http://rd1.com?scope=project',
-      open: true,
-      onClose: wrapper.instance().onCloseFullSizeDialog,
-    }, '2 - Dialog should be opened')
-    // 3 - Close full size dialog
-    fullSizeDialog.props().onClose()
-    fullSizeDialog = wrapper.find(ThumbnailFullSizePictureDialog)
-    assert.lengthOf(fullSizeDialog, 1, '3 - There should be the full size dialog')
-    testSuiteHelpers.assertWrapperProperties(fullSizeDialog, {
-      thumbnailURI: 'http://rd1.com?scope=project',
-      open: false,
-      onClose: wrapper.instance().onCloseFullSizeDialog,
-    }, '3 - Dialog should be closed')
+    })
   })
 
   function buildImgDataFile(dataType, {
@@ -230,12 +214,12 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
       },
     }
     const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
-    const picture = wrapper.find('img')
+    const picture = wrapper.find(ZoomablePicture)
+    assert.lengthOf(picture, 1, 'There should be the picture')
     if (expectedURI) {
-      assert.lengthOf(picture, 1, 'There should be the picture')
-      assert.equal(picture.props().src, expectedURI)
+      assert.equal(picture.props().normalPicURL, expectedURI)
     } else {
-      assert.lengthOf(picture, 0, 'There should be no picture')
+      assert.isUndefined(picture.props().normalPicURL)
     }
   }))
 })

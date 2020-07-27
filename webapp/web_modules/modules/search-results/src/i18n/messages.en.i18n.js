@@ -167,7 +167,7 @@ const messages = {
   'view.type.selector.tooltip.for.LIST': 'Display results as list',
   'view.type.selector.tooltip.for.TABLE': 'Display results in table',
   'view.type.selector.tooltip.for.MAP': 'Display results over map',
-  'view.type.selector.tooltip.for.QUICKLOOK': 'Display results as pictures quicklooks',
+  'view.type.selector.tooltip.for.QUICKLOOK': 'Display results as quicklooks',
   'search.results.show.search.pane.label': 'Search',
   'search.results.show.search.pane.title': 'Show search pane',
   'search.results.refresh.label': 'Refresh',
@@ -224,6 +224,7 @@ const messages = {
   'search.filter.search.criteria.label': 'Search',
   'search.filter.static.reactive': 'Reactive this criteria',
 
+  'results.quicklooks.picture.alt': 'Quicklook',
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',
   'results.map.tools.tooltip.opacity': 'Change layer opacity',

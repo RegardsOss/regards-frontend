@@ -358,11 +358,11 @@ export default (baseTheme) => ({
       list: {
         lineHeight: 160,
         rowsByColumnCount: 4,
-        thumbnailSize: 110,
-        thumbnailMargin: '0px 0px 10px 10px',
+        thumbnailSize: 100,
+        thumbnailMargin: '0 10px 10px 10px',
         attribute: {
-          labelMargin: '10px 0 5px 10px',
-          valueMargin: '5px 0 0 0',
+          labelMargin: '0 0 5px 0',
+          valueMargin: '0 15px 5px 10px',
         },
       },
       quicklooks: {
