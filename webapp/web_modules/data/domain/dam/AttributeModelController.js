@@ -43,7 +43,7 @@ const standardAttributesKeys = {
 }
 
 /**
- * Defines standard attributes OR standard concepts (Thumbnail and alike). TODO: I think that is pretty wrong now: introduce standard groups? or polish sort on type?
+ * Defines standard attributes OR standard concepts (Thumbnail and alike).
  * @type {string}
  */
 const standardAttributes = {
