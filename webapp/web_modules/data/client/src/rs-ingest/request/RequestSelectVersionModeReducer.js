@@ -15,22 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-import values from 'lodash/values'
+ */
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import RequestDeleteActions from './RequestDeleteActions'
 
 /**
- * Possible AIP request status
+ * Select version mode for request (selection) reducer
+ *
  * @author Raphaël Mechali
  */
-export const AIP_REQUEST_STATUS_ENUM = {
-  TO_SCHEDULE: 'TO_SCHEDULE',
-  CREATED: 'CREATED',
-  BLOCKED: 'BLOCKED',
-  WAITING_VERSIONING_MODE: 'WAITING_VERSIONING_MODE',
-  RUNNING: 'RUNNING',
-  ERROR: 'ERROR',
-  ABORTED: 'ABORTED',
+class RequestSelectVersionModeReducer extends BasicSignalReducers {
+  constructor(namespace) {
+    super(new RequestDeleteActions(namespace))
+  }
 }
 
-export const AIP_REQUEST_STATUS = values(AIP_REQUEST_STATUS_ENUM)
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new RequestSelectVersionModeReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
+}

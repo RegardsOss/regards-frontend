@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import NoMatchingDataIcon from 'mdi-material-ui/FilterRemoveOutline'
-import NoExistingDataIcon from 'mdi-material-ui/SettingsOutline'
+import NoExistingDataIcon from 'mdi-material-ui/CogOutline'
 import { UIDomain } from '@regardsoss/domain'
 import { NoContentComponent } from '@regardsoss/components'
 

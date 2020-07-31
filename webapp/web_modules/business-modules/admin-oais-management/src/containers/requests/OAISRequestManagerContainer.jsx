@@ -27,7 +27,7 @@ import OAISCriterionShape from '../../shapes/OAISCriterionShape'
 import OAISRequestManagerComponent from '../../components/requests/OAISRequestManagerComponent'
 import { requestDeleteActions } from '../../clients/RequestDeleteClient'
 import { requestRetryActions } from '../../clients/RequestRetryClient'
-import { requestAbortActions } from '../../clients/RequestAbortClient'
+import { requestSelectVersionModeActions } from '../../clients/RequestSelectVersionModeClient'
 
 /**
  * Displays the list of OAIS packages
@@ -55,7 +55,7 @@ export class OAISRequestManagerContainer extends React.Component {
     clearSelection: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
-    abortRequests: PropTypes.func.isRequired,
+    selectVersionOption: PropTypes.func.isRequired,
     // from mapStateToProps
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     selectionMode: PropTypes.string.isRequired,
@@ -90,12 +90,12 @@ export class OAISRequestManagerContainer extends React.Component {
    * @return {*} list of actions ready to be dispatched in the redux store
    */
   static mapDispatchToProps = (dispatch) => ({
-    fetchProcessingChains: (file) => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
+    fetchProcessingChains: () => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
     fetchPage: (pageIndex, pageSize, pathParams, requestParam, bodyParams) => dispatch(requestActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, requestParam, bodyParams)),
     clearSelection: () => dispatch(requestTableActions.unselectAll()),
     deleteRequests: (bodyParams) => dispatch(requestDeleteActions.sendSignal('POST', bodyParams)),
     retryRequests: (bodyParams) => dispatch(requestRetryActions.sendSignal('POST', bodyParams)),
-    abortRequests: () => dispatch(requestAbortActions.sendSignal('PUT')),
+    selectVersionOption: (versionBodyParams) => dispatch(requestSelectVersionModeActions.sendSignal('PUT', versionBodyParams)),
   })
 
   static extractStateFromURL = () => {
@@ -119,7 +119,9 @@ export class OAISRequestManagerContainer extends React.Component {
 
   render() {
     const {
-      featureManagerFilters, requestFilters, tableSelection, selectionMode, deleteRequests, retryRequests, abortRequests, updateStateFromRequestManager, meta, fetchPage, clearSelection,
+      featureManagerFilters, requestFilters, tableSelection, selectionMode,
+      selectVersionOption, deleteRequests, retryRequests,
+      updateStateFromRequestManager, meta, fetchPage, clearSelection,
     } = this.props
 
     return (
@@ -133,9 +135,9 @@ export class OAISRequestManagerContainer extends React.Component {
         clearSelection={clearSelection}
         tableSelection={tableSelection}
         selectionMode={selectionMode}
-        deleteRequests={deleteRequests}
+        selectVersionOption={selectVersionOption}
         retryRequests={retryRequests}
-        abortRequests={abortRequests}
+        deleteRequests={deleteRequests}
       />
     )
   }

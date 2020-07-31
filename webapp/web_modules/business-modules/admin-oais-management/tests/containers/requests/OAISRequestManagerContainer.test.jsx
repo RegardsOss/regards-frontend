@@ -63,7 +63,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
       clearSelection: () => {},
       deleteRequests: () => {},
       retryRequests: () => {},
-      abortRequests: () => {},
       updateStateFromRequestManager: () => {},
 
       featureManagerFilters: {

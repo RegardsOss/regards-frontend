@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,22 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-
-import values from 'lodash/values'
+ */
+import { IngestClient } from '@regardsoss/client'
 
 /**
- * Possible AIP request status
- * @author Raphaël Mechali
+ * Model attributes entities client.
+ *
+ * @author Simon MILHAU
  */
-export const AIP_REQUEST_STATUS_ENUM = {
-  TO_SCHEDULE: 'TO_SCHEDULE',
-  CREATED: 'CREATED',
-  BLOCKED: 'BLOCKED',
-  WAITING_VERSIONING_MODE: 'WAITING_VERSIONING_MODE',
-  RUNNING: 'RUNNING',
-  ERROR: 'ERROR',
-  ABORTED: 'ABORTED',
-}
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'oais', 'request-select-version-mode']
+const REDUX_ACTION_NAMESPACE = 'admin-oais-management/requests-select-version-mode'
 
-export const AIP_REQUEST_STATUS = values(AIP_REQUEST_STATUS_ENUM)
+export const requestSelectVersionModeActions = new IngestClient.RequestSelectVersionModeActions(REDUX_ACTION_NAMESPACE)
+export const requestSelectVersionModeReducer = IngestClient.getRequestSelectVersionModeReducer(REDUX_ACTION_NAMESPACE)
+export const requestSelectVersionModeSelectors = IngestClient.getRequestSelectVersionModeSelectors(ENTITIES_STORE_PATH)

@@ -184,6 +184,34 @@ const aipManagementStyles = (theme) => ({
     justifyContent: 'center',
     marginTop: '10px',
   },
+  requests: {
+    status: {
+      common: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      waitingAction: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: theme.palette.accent1Color,
+        animation: 'shake 3s infinite',
+        cursor: 'pointer',
+      },
+      action: {
+        marginLeft: 10,
+      },
+    },
+    selectionDialog: {
+      headerMessage: {
+        // fontSize: theme.raisedButton.fontSize,
+        color: theme.palette.secondaryTextColor,
+        lineHeight: `${theme.radioButton.size}px`,
+        marginBottom: theme.radioButton.size,
+      },
+    },
+  },
 })
 
 export default aipManagementStyles

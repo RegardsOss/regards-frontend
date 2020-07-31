@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SettingsIcon from 'mdi-material-ui/Settings'
+import SettingsIcon from 'mdi-material-ui/Cog'
 import ExtensionIcon from 'mdi-material-ui/Puzzle'
 import ViewQuilt from 'mdi-material-ui/ViewQuilt'
 import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'

@@ -46,7 +46,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
       clearSelection: () => {},
       deleteRequests: () => {},
       retryRequests: () => {},
-      abortRequests: () => {},
       selectionMode: '',
     }
     const enzymeWrapper = shallow(<OAISRequestManagerComponent {...props} />, { context })

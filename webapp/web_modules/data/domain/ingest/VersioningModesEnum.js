@@ -16,21 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
 import values from 'lodash/values'
 
 /**
- * Possible AIP request status
- * @author Raphaël Mechali
+ * Available versioning modes
+ * @author Léo Mieulet
  */
-export const AIP_REQUEST_STATUS_ENUM = {
-  TO_SCHEDULE: 'TO_SCHEDULE',
-  CREATED: 'CREATED',
-  BLOCKED: 'BLOCKED',
-  WAITING_VERSIONING_MODE: 'WAITING_VERSIONING_MODE',
-  RUNNING: 'RUNNING',
-  ERROR: 'ERROR',
-  ABORTED: 'ABORTED',
+export const VERSIONING_MODES_ENUM = {
+  /** Ignore a SIP that would create a new version */
+  IGNORE: 'IGNORE',
+  /** Increase product version when SIP creates a new version */
+  INC_VERSION: 'INC_VERSION',
+  /** Manual decision when a product creating a new is encountered */
+  MANUAL: 'MANUAL',
+  /** Replace previous product version when a new version is encountered */
+  REPLACE: 'REPLACE',
 }
 
-export const AIP_REQUEST_STATUS = values(AIP_REQUEST_STATUS_ENUM)
+export const VERSIONING_MODES = values(VERSIONING_MODES_ENUM)

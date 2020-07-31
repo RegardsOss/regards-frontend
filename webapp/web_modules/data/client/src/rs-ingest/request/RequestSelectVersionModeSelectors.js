@@ -16,21 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-import values from 'lodash/values'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Possible AIP request status
+ * Selector for RequestSelectVersionModeActions
  * @author Raphaël Mechali
  */
-export const AIP_REQUEST_STATUS_ENUM = {
-  TO_SCHEDULE: 'TO_SCHEDULE',
-  CREATED: 'CREATED',
-  BLOCKED: 'BLOCKED',
-  WAITING_VERSIONING_MODE: 'WAITING_VERSIONING_MODE',
-  RUNNING: 'RUNNING',
-  ERROR: 'ERROR',
-  ABORTED: 'ABORTED',
-}
-
-export const AIP_REQUEST_STATUS = values(AIP_REQUEST_STATUS_ENUM)
+export default (storePath) => new BasicPageableSelectors(storePath)

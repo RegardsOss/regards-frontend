@@ -17,7 +17,7 @@
  * along w
  * ith REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import GroupIcon from 'mdi-material-ui/Settings'
+import GroupIcon from 'mdi-material-ui/Cog'
 import { UIShapes } from '@regardsoss/shape'
 import ApplyingCriterionComponent from './ApplyingCriterionComponent'
 
