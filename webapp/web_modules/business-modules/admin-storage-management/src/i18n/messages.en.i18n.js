@@ -24,6 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = {
   'storage.location.list.title': 'Configure data storage locations',
   'storage.location.list.subtitle': 'This section allows you to configure storage locations and their priority. The priority is used by the system to determine on which storage location retrieve data if they are stored on many of them.',
+  'storage.location.form.help-message': 'Allocated size : This is the file storage size limit. If the storage is almost full, the service switch to a maintenance state. To disable this operation, do no enter an allocated size.',
   'storage.location.type.online.name': 'Online   : ',
   'storage.location.type.nearline.name': 'Nearline : ',
   'storage.location.type.offline.name': 'Offline  : ',
