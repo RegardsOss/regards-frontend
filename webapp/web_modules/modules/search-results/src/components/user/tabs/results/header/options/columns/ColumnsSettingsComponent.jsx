@@ -195,14 +195,14 @@ class ColumnsSettingsComponent extends React.Component {
         dialogHeightPercent={columnsDialog.heightPercent}
         open={open}
         modal
-        actions={<>
+        actions={[
           <FlatButton
             key="reset.button"
             label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
             title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
             icon={<ResetIcon />}
             onClick={onResetColumns}
-          />
+          />,
           <FlatButton
             key="hide.show.all.button"
             label={formatMessage({
@@ -212,20 +212,19 @@ class ColumnsSettingsComponent extends React.Component {
             })}
             icon={allVisible ? <HideAllIcon /> : <ShowAllIcon />}
             onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
-          />
-          <div key="actions.separator" style={columnsDialog.actionsSeparator} />
+          />,
+          <div key="actions.separator" style={columnsDialog.actionsSeparator} />,
           <FlatButton
             key="cancel.button"
             label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
             onClick={onClose}
-          />
+          />,
           <FlatButton
             key="confirm.button"
             label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
             disabled={!valid || !modified}
             onClick={this.onDone}
-          />
-        </>}
+          />]}
         actionsContainerStyle={columnsDialog.actionsContainer}
       >
         <TableLayout>

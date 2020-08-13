@@ -252,7 +252,7 @@ class StorageLocationFormComponent extends React.Component {
         />
         <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
-            <HelpMessageComponent message={formatMessage({ id: 'storage.location.form.help-message' })}/>
+            <HelpMessageComponent message={formatMessage({ id: 'storage.location.form.help-message' })} />
             {this.renderContent()}
           </CardText>
           <CardActions>

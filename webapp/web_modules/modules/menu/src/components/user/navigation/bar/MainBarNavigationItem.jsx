@@ -22,6 +22,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTyp
 import { NavigationItem } from '../../../../shapes/Navigation'
 import MainBarModuleLink from './MainBarModuleLink'
 import MainBarSectionButton from './MainBarSectionButton'
+import MainBarLinkButton from './MainBarLinkButton'
 
 /**
  * Item to display a navigation item (with or without subsections) in main app bar
@@ -65,17 +66,28 @@ class MainBarNavigationItem extends React.Component {
           >
             {
               // delegate link buttons rendering
-              item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE ? (
-                <MainBarModuleLink
-                  item={item}
-                  buildLinkURL={buildLinkURL}
-
-                />) : (
-                  <MainBarSectionButton
-                    item={item}
-                    buildLinkURL={buildLinkURL}
-                  />)
-            }
+              (function () {
+                switch (item.type) {
+                  case NAVIGATION_ITEM_TYPES_ENUM.MODULE:
+                    return <MainBarModuleLink
+                      item={item}
+                      buildLinkURL={buildLinkURL}
+                    />
+                  case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
+                    return <MainBarSectionButton
+                      item={item}
+                      buildLinkURL={buildLinkURL}
+                    />
+                  case NAVIGATION_ITEM_TYPES_ENUM.LINK:
+                    return <MainBarLinkButton
+                      item={item}
+                      buildLinkURL={buildLinkURL}
+                    />
+                  default:
+                    return null
+                }
+              }())
+              }
           </div>)}
       </Measure>)
   }

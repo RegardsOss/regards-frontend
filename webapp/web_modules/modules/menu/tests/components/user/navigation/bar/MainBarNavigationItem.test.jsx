@@ -54,7 +54,16 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     }
     shallow(<MainBarNavigationItem {...props} />, { context })
   })
-  it('should render correctly when hidden', () => {
+  it('should render correctly a link', () => {
+    const props = {
+      item: fullConvertedNavigationModel[2],
+      displayed: true,
+      buildLinkURL: () => { },
+      onItemResized: () => { },
+    }
+    shallow(<MainBarNavigationItem {...props} />, { context })
+  })
+  it('should render correctly when hidden (1)', () => {
     const props = {
       item: fullConvertedNavigationModel[1],
       displayed: false,
@@ -63,7 +72,7 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     }
     shallow(<MainBarNavigationItem {...props} />, { context })
   })
-  it('should call parent callback on resize', () => {
+  it('should call parent callback on resize (1)', () => {
     const spiedResizeParams = {}
     const props = {
       item: fullConvertedNavigationModel[1],
@@ -79,10 +88,51 @@ describe('[Menu] Testing MainBarNavigationItem', () => {
     assert.equal(spiedResizeParams.key, props.item.key, 'It should call parent callback with right parameters on resize')
     assert.equal(spiedResizeParams.width, 42, 'It should call parent callback with right parameters on resize')
   })
-  it('should block parent calls on resize when not visible', () => {
+  it('should block parent calls on resize when not visible (1)', () => {
     const spiedResizeParams = {}
     const props = {
       item: fullConvertedNavigationModel[1],
+      displayed: false,
+      buildLinkURL: () => { },
+      onItemResized: (key, width) => {
+        spiedResizeParams.key = key
+        spiedResizeParams.width = width
+      },
+    }
+    const wrapper = shallow(<MainBarNavigationItem {...props} />, { context })
+    wrapper.instance().onComponentResized({ measureDiv: { width: 42 } })
+    assert.isNotOk(spiedResizeParams.key, 'It should have blocked parent callback as it is not displayed (avoids 0 resize)')
+    assert.isNotOk(spiedResizeParams.width, 'It should have blocked parent callback as it is not displayed (avoids 0 resize)')
+  })
+  it('should render correctly when hidden (2)', () => {
+    const props = {
+      item: fullConvertedNavigationModel[2],
+      displayed: false,
+      buildLinkURL: () => { },
+      onItemResized: () => { },
+    }
+    shallow(<MainBarNavigationItem {...props} />, { context })
+  })
+  it('should call parent callback on resize (2)', () => {
+    const spiedResizeParams = {}
+    const props = {
+      item: fullConvertedNavigationModel[2],
+      displayed: true,
+      buildLinkURL: () => { },
+      onItemResized: (key, width) => {
+        spiedResizeParams.key = key
+        spiedResizeParams.width = width
+      },
+    }
+    const wrapper = shallow(<MainBarNavigationItem {...props} />, { context })
+    wrapper.instance().onComponentResized({ measureDiv: { width: 42 } })
+    assert.equal(spiedResizeParams.key, props.item.key, 'It should call parent callback with right parameters on resize')
+    assert.equal(spiedResizeParams.width, 42, 'It should call parent callback with right parameters on resize')
+  })
+  it('should block parent calls on resize when not visible (2)', () => {
+    const spiedResizeParams = {}
+    const props = {
+      item: fullConvertedNavigationModel[2],
       displayed: false,
       buildLinkURL: () => { },
       onItemResized: (key, width) => {

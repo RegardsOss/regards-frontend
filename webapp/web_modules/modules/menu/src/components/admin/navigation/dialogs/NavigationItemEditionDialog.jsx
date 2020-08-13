@@ -34,7 +34,7 @@ import {
 } from '@regardsoss/form-utils'
 import { ModuleTitleText } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
-import { NavigationEditionItem, EditionSection } from '../../../../shapes/ModuleConfiguration'
+import { NavigationEditionItem, EditionSection, EditionLink } from '../../../../shapes/ModuleConfiguration'
 import {
   findAll, getItemPathIn, getParentByPath, isSection, isChildOrSelf,
 } from '../../../../domain/NavigationTreeHelper'
@@ -54,6 +54,8 @@ export const VISIBLE_FOR_ROLE_FIELD = 'visibleForRole'
 
 export const PARENT_SECTION_FIELD = 'parentSection'
 export const AFTER_ELEMENT_FIELD = 'afterElement'
+
+export const URL_LINK_FIELD = 'urlLink'
 
 /**
  * Dialog form for navigation item creation / edition. Note: it requires enriched EditionModule elements to access their title and description
@@ -115,7 +117,7 @@ export class NavigationItemEditionDialog extends React.Component {
     // from redux selector, in current form values
     selectedIconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
     // eslint-disable-next-line react/no-unused-prop-types
-    selectedParentSection: PropTypes.oneOfType([EditionSection, PropTypes.oneOf([NavigationItemEditionDialog.MAIN_BAR])]), // used in onPropertiesUpdated
+    selectedParentSection: PropTypes.oneOfType([EditionSection, PropTypes.oneOf([NavigationItemEditionDialog.MAIN_BAR]), EditionLink]), // used in onPropertiesUpdated
     selectedVisibilityMode: PropTypes.oneOf(VISIBILITY_MODES),
     // from redux form
     submitting: PropTypes.bool,
@@ -170,10 +172,13 @@ export class NavigationItemEditionDialog extends React.Component {
           [VISIBLE_FOR_ROLE_FIELD]: item.visibleForRole,
         }
 
-        if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+        if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION || item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
           // initialize title and icon
           initialFormValues[COMMON_ICON_FIELD] = item.icon
           initialFormValues[COMMON_TITLE_FIELD] = item.title
+          if (item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+            initialFormValues[URL_LINK_FIELD] = item.url
+          }
         }
         // initialize parent section and index
         const parentSection = getParentByPath(navigationItems, itemPath)
@@ -213,6 +218,7 @@ export class NavigationItemEditionDialog extends React.Component {
         item, navigationItems, onDone,
       },
     } = this.props
+
     // provide an after element path (more convenient for calling component as it points out both the parent and the previous sibling)
     let insertAtPath
     const afterElement = values[AFTER_ELEMENT_FIELD]
@@ -233,10 +239,15 @@ export class NavigationItemEditionDialog extends React.Component {
       visibilityMode: values[VISIBILITY_MODE_FIELD],
       visibleForRole: values[VISIBLE_FOR_ROLE_FIELD],
     }
-    if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+    if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION || item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
       newItem.icon = values[COMMON_ICON_FIELD]
       newItem.title = values[COMMON_TITLE_FIELD]
     }
+
+    if (item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+      newItem.url = values[URL_LINK_FIELD]
+    }
+
     onDone(newItem, insertAtPath)
   }
 
@@ -304,8 +315,8 @@ export class NavigationItemEditionDialog extends React.Component {
         { /* Edition form */
           editionData ? ( // show form when edited item is available
             <div>
-              {/* A - Section edition fields if section */
-                editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION ? [
+              {/* A - Section and link edition fields if section or link*/
+                editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION || editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK ? [
                   // A.1 - section icon type
                   <Field
                     key="icon.type"
@@ -357,8 +368,20 @@ export class NavigationItemEditionDialog extends React.Component {
                     validate={ValidationHelpers.required}
                     fullWidth
                   />,
-
-                ] : null // a module model
+                ] : null
+              }
+              {
+                editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK
+                  ? <Field
+                    key="urlLink"
+                    name={URL_LINK_FIELD}
+                    type="text"
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.urlLink' })}
+                    validate={[ValidationHelpers.required, ValidationHelpers.url]}
+                    fullWidth
+                  />
+                  : null // a link model
               }
               {/* B - move and visibility fields (for both section and module) */}
               <Field

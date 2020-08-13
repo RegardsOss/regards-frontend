@@ -16,14 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import IconButton from 'material-ui/IconButton'
+import DeleteIcon from 'mdi-material-ui/Delete'
 /**
- * Possible navigation item types
- * @author Raphaël Mechali
+ * Delete link option for navigation edition table
+ * @author Théo Lasserre
  */
+class DeleteLinkOption extends React.Component {
+  static propTypes = {
+    id: PropTypes.number.isRequired,
+    onDeleteLink: PropTypes.func.isRequired,
+  }
 
-export const NAVIGATION_ITEM_TYPES_ENUM = {
-  MODULE: 'MODULE',
-  SECTION: 'SECTION',
-  LINK: 'LINK',
+  /** On delete clicked callback */
+  onDelete = () => {
+    const { id, onDeleteLink } = this.props
+    onDeleteLink(id)
+  }
+
+  render() {
+    return (
+      <IconButton onClick={this.onDelete}>
+        <DeleteIcon />
+      </IconButton>)
+  }
 }
+export default DeleteLinkOption

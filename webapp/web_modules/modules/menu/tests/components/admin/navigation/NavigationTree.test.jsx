@@ -24,6 +24,7 @@ import { TreeTableComponent } from '@regardsoss/components'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../src/domain/NavigationItemTypes'
 import NavigationTree from '../../../../src/components/admin/navigation/NavigationTree'
 import NewSectionOption from '../../../../src/components/admin/navigation/options/NewSectionOption'
+import NewLinkOption from '../../../../src/components/admin/navigation/options/NewLinkOption'
 import styles from '../../../../src/styles'
 import { aNavigationConfiguration, anHomeConfiguration } from '../../../dumps/configuration.dump'
 import { allDefaultConfigDumpModules } from '../../../dumps/modules.dump'
@@ -49,11 +50,16 @@ describe('[Menu] Testing NavigationTree', () => {
       onCreateSection: () => { },
       onEdit: () => { },
       onDeleteSection: () => { },
+      onCreateLink: () => { },
+      onDeleteLink: () => { },
     }
     const enzymeWrapper = shallow(<NavigationTree {...props} />, { context })
     const newSection = enzymeWrapper.find(NewSectionOption)
     assert.lengthOf(newSection, 1, 'There should be the new section option')
     assert.equal(newSection.props().onCreateSection, props.onCreateSection, 'Create section should be correctly reported')
+    const newLink = enzymeWrapper.find(NewLinkOption)
+    assert.lengthOf(newLink, '1', 'There should be the new link option')
+    assert.equal((newLink).props().onCreateLink, props.onCreateLink, 'Create link should be correctly reported')
 
     const tree = enzymeWrapper.find(TreeTableComponent)
     assert.lengthOf(tree, 1, 'There should be the tree')
@@ -73,6 +79,8 @@ describe('[Menu] Testing NavigationTree', () => {
       onCreateSection: () => { },
       onEdit: () => { },
       onDeleteSection: () => { },
+      onCreateLink: () => { },
+      onDeleteLink: () => { },
     }
     const enzymeWrapper = shallow(<NavigationTree {...props} />, { context })
     const treeRows = enzymeWrapper.instance().buildTreeTableRows(props.navigationItems)
@@ -88,6 +96,8 @@ describe('[Menu] Testing NavigationTree', () => {
         assert.include(row.key, correspondingModelItem.type.toLowerCase(), 'type should be correctly reported in key')
         if (correspondingModelItem.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
           assert.lengthOf(row.subRows, 0, 'Module item should have no sub row')
+        } else if (correspondingModelItem.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+          assert.lengthOf(row.subRows, 0, 'Link item should have no sub row')
         } else {
           // check recursively for sub items
           checkRowAndSubRows(row.subRows, correspondingModelItem.children)
