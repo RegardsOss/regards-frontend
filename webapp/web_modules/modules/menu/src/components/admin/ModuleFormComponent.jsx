@@ -111,6 +111,7 @@ class ModuleFormComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     const portal = appName === UIDomain.APPLICATIONS_ENUM.PORTAL
+
     return (
       <div>
         <Subheader style={firstSubheaderStyle}>
@@ -205,9 +206,9 @@ class ModuleFormComponent extends React.Component {
             <Field
               name={this.CONF_HOME_ICON_URL}
               disabled={
-            // enabled only when in custom URL mode
-            get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
-}
+                // enabled only when in custom URL mode
+                get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
+              }
               component={RenderTextField}
               fullWidth
               type="text"

@@ -24,6 +24,7 @@ import { VISIBILITY_MODES_ENUM } from './VisibilityModes'
 /**
  * Helpers for navigation tree items management
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 /**
@@ -88,14 +89,25 @@ export function filterItem(item, dynamicModules = [], homeItem) {
     }
   }
   // a section item: never filtered
-  const { items, homeItem: childHomeItem, newModules } = lazyFilterItems(item.children, dynamicModules, homeItem)
+  if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+    const { items, homeItem: childHomeItem, newModules } = lazyFilterItems(item.children, dynamicModules, homeItem)
+    return {
+      item: {
+        ...item, // report main section fields
+        children: items,
+      },
+      homeItem: homeItem || childHomeItem,
+      newModules,
+    }
+  }
+  // a link item: never filtered
+
   return {
     item: {
-      ...item, // report main section fields
-      children: items,
+      ...item,
     },
-    homeItem: homeItem || childHomeItem,
-    newModules,
+    homeItem,
+    newModules: dynamicModules,
   }
 }
 
@@ -237,6 +249,23 @@ export function isSection(item) {
  */
 export function findAllSections(items) {
   return findAll(items, isSection)
+}
+
+/**
+ * Simple link predicate
+ * @param {*} item item
+ * @return {boolean} true if item is a link
+ */
+export function isLink(item) {
+  return item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK
+}
+/**
+ * Finds all links in items as parameter
+ * @param {[{NavigationEditionItem}]} items items list
+ * @return [{NavigationEditionItem}] found links
+ */
+export function findAllLinks(items) {
+  return findAll(items, isLink)
 }
 
 /**

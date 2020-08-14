@@ -16,14 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import FlatButton from 'material-ui/FlatButton'
+import CreateLinkIcon from 'mdi-material-ui/LinkPlus'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * Possible navigation item types
- * @author Raphaël Mechali
+ * New link option
+ * @author Théo Lasserre
  */
+class NewLinkOption extends React.Component {
+  static propTypes = {
+    onCreateLink: PropTypes.func.isRequired,
+  }
 
-export const NAVIGATION_ITEM_TYPES_ENUM = {
-  MODULE: 'MODULE',
-  SECTION: 'SECTION',
-  LINK: 'LINK',
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { onCreateLink } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <FlatButton
+        icon={<CreateLinkIcon />}
+        label={formatMessage({ id: 'menu.form.navigation.create.link.button.label' })}
+        onClick={onCreateLink}
+        primary
+      />
+    )
+  }
 }
+export default NewLinkOption

@@ -59,7 +59,6 @@ class ProjectHandler extends React.Component {
     document.getElementsByTagName('head')[0].appendChild(link)
   }
 
-
   render() {
     return null
   }
