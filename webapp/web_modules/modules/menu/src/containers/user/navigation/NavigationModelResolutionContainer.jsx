@@ -259,7 +259,7 @@ export class NavigationModelResolutionContainer extends React.Component {
         const navigationItem = NavigationModelResolutionContainer.convertLink(item, role)
         return {
           remainingDynamicModules,
-          items: [...items, navigationItem], // preserve children order, don't push home in standard list
+          items: navigationItem ? [...items, navigationItem] : items, // preserve children order, don't push home in standard list
           homeItem, // preserve previously found home
         }
       }
