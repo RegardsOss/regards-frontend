@@ -27,6 +27,7 @@ import MainBarLinkButton from './MainBarLinkButton'
 /**
  * Item to display a navigation item (with or without subsections) in main app bar
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MainBarNavigationItem extends React.Component {
   static propTypes = {

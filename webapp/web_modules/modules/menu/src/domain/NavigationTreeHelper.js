@@ -24,6 +24,7 @@ import { VISIBILITY_MODES_ENUM } from './VisibilityModes'
 /**
  * Helpers for navigation tree items management
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 /**

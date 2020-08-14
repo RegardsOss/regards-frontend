@@ -34,6 +34,7 @@ import defaultLinkIconURL from '../../../../img/link.svg'
 /**
  * Main bar drop down button: shows a drop down button with a menu holding children navigation items
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MainBarDropMenuButton extends React.Component {
   static propTypes = {
@@ -75,8 +76,8 @@ class MainBarDropMenuButton extends React.Component {
     url,
   }, buildLinkURL) => {
     const { intl: { locale }, moduleTheme: { user: { selectedNavigationMenuItem } } } = this.context
-    let containerElement; let
-      defaultIconURL = null
+    let containerElement = null
+    let defaultIconURL = null
     switch (type) {
       case NAVIGATION_ITEM_TYPES_ENUM.SECTION: {
         containerElement = <Link to={buildLinkURL(module)} />

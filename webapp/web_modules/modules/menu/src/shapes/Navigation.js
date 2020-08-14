@@ -23,6 +23,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 /**
  * Navigation related shapes
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 const commonItemFields = {

@@ -22,6 +22,11 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 import { VISIBILITY_MODES } from '../domain/VisibilityModes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'
 
+/**
+* Shape for module configuration created/saved by admin part of the module an read by the user part of the module
+* @author Raphaël Mechali
+* @author Théo Lasserre
+ */
 /** Fields that are common to module and section items */
 const commonItemsFields = {
   id: PropTypes.number.isRequired, // external module id

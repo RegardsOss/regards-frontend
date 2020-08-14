@@ -37,6 +37,7 @@ const EMPTY_PAGE = {
  * Provides resolved navigation items list by comparing configuration with dynamic modules list.
  * Also resolves the home item with right label / icon
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class NavigationModelResolutionContainer extends React.Component {
   /** Standard public role */
