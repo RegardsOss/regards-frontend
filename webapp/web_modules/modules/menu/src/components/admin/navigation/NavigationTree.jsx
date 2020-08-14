@@ -323,24 +323,23 @@ class NavigationTree extends React.Component {
         }
         break
       }
-      case NavigationTree.COLUMNS_INDEX.EDIT_OPTION:
+      case NavigationTree.COLUMNS_INDEX.EDIT_OPTION: {
+        cellContent = <EditOption onEdit={onEdit} {...value} />
+        cellStyle = optionColumnStyle
+        break
+      }
+      case NavigationTree.COLUMNS_INDEX.DELETE_OPTION: {
         if (value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
-          cellContent = <EditOption onEdit={onEdit} {...value} />
+          cellContent = isNumber(value.id) ? <DeleteOption id={value.id} onDeleteSection={onDeleteSection} /> : null
         } else if (value.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
-          cellContent = <EditOption onEdit={onEdit} {...value} />
+          cellContent = isNumber(value.id) ? <DeleteLinkOption id={value.id} onDeleteLink={onDeleteLink} /> : null
         }
         cellStyle = optionColumnStyle
         break
-      case NavigationTree.COLUMNS_INDEX.DELETE_OPTION:
-        if (value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
-          cellContent = isNumber(value.id) ? <DeleteOption id={value.id} onDeleteSection={onDeleteSection} /> : 'hihi'
-        } else if (value.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
-          cellContent = isNumber(value.id) ? <DeleteLinkOption id={value.id} onDeleteLink={onDeleteLink} /> : 'huu'
-        }
-        cellStyle = optionColumnStyle
-        break
-      default:
+      }
+      default: {
         throw new Error(`Unknown column index ${column}`)
+      }
     }
     return (
       <TableRowColumn style={cellStyle} key={`cell-${column}`}>
