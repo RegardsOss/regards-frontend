@@ -49,6 +49,7 @@ const ITEM_WARNINGS_ENUM = {
 /**
  * Shows navigation edition tree
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class NavigationTree extends React.Component {
   static propTypes = {
@@ -242,8 +243,7 @@ class NavigationTree extends React.Component {
           return this.hasActiveChild(currentChild.children) // search in sub section items
         }
         case NAVIGATION_ITEM_TYPES_ENUM.LINK: {
-          const model = dynamicModules.find(({ content: { id } }) => currentChild.id === id)
-          return get(model, 'content.active', false)
+          return true
         }
         default: {
           throw new Error(`Unknown navigation item type ${currentChild.type} in ${JSON.stringify(currentChild)}`)
