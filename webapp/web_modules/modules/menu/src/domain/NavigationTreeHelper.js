@@ -209,7 +209,7 @@ export function findAll(items, predicate) { // recursive search for modules in d
       // item itself respects the predicate
       thisLevelItems.push(item)
     }
-    // B - Is it a section ? (if it is, search elements that respect predicate below)
+    // B - Is it a section ? (if it is, search elements that respect predicate below) - Push only if section is not already in list : avoid duplicated section
     if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
       thisLevelItems.push(...findAll(item.children, predicate))
     }

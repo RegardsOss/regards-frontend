@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
 import {
-  buildItemForModule, filterItems, findAllModules, findAllSections, findAllLinks,
+  buildItemForModule, filterItems, findAllSections, findAllLinks,
   getItemPathIn, getItemByPathIn, removeItemAt, moveItemAtPath,
 } from '../../../domain/NavigationTreeHelper'
 import NavigationTree from './NavigationTree'
@@ -35,6 +35,7 @@ import NavigationItemEditionDialog from './dialogs/NavigationItemEditionDialog'
 /**
  * Array field to edit navigation model
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class NavigationArrayFieldRender extends React.Component {
   /**
@@ -267,13 +268,20 @@ class NavigationArrayFieldRender extends React.Component {
     const sectionPath = getItemPathIn(navigationItems, { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, id })
     // 1 - gather all modules in section that will be deleted
     const sectionSubElements = sectionPath.reduce((itemsList, elementIndex) => itemsList[elementIndex].children, navigationItems)
-    const reportedModules = findAllModules(sectionSubElements)
-    // 2 - remove section in previous model
+    // 2 - we only want to get modules in the current section (we cannot use findAllModules)
+    const reportedModules = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)
+    // 3 - we only want to get sections in the current section (we cannot use findAllSections)
+    const reportedSections = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)
+    // 4 - We only want to get links in the current section (we cannot use findAllLinks)
+    const reportedLinks = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.LINK)
+    // 5 - remove section in previous model
     const newNavigationItems = removeItemAt(navigationItems, sectionPath)
-    // 3 - publish new field value with reported modules and without removed section and sub sections
+    // 6 - publish new field value with reported modules and without removed section and sub sections
     changeNavigationFieldValue([
       ...newNavigationItems, // report existing items as filtered
-      ...reportedModules, // report the modules that were in section at the end of the navigation tree
+      ...reportedModules, // report the modules that were in the current section
+      ...reportedSections, // report the sections that were in the current section
+      ...reportedLinks, // report the links that were in the current section
     ])
   }
 

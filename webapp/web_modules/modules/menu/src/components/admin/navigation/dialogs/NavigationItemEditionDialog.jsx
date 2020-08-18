@@ -289,14 +289,14 @@ export class NavigationItemEditionDialog extends React.Component {
     // extract edition data if available
     const titleKey = get(editionData, 'dialogTitleKey')
 
-    let label1, label2, label3
-    if(editionData) {
-      if(editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+    let label1; let label2; let
+      label3
+    if (editionData) {
+      if (editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
         label1 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.none' })
         label2 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.default' })
         label3 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.custom' })
-      }
-      else if (editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+      } else if (editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
         label1 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.link.none' })
         label2 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.link.default' })
         label3 = this.context.intl.formatMessage({ id: 'menu.form.navigation.edit.item.dialog.icon.link.custom' })
