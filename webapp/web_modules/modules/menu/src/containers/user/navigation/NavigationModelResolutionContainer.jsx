@@ -37,6 +37,7 @@ const EMPTY_PAGE = {
  * Provides resolved navigation items list by comparing configuration with dynamic modules list.
  * Also resolves the home item with right label / icon
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class NavigationModelResolutionContainer extends React.Component {
   /** Standard public role */
@@ -181,6 +182,25 @@ export class NavigationModelResolutionContainer extends React.Component {
   }
 
   /**
+   * Converts a link edited item and into corresponding runtime navigation item, or null if it shouldn't be displayed (no child)
+   * @param {EditionLink} navigationLinkItem link as edited by module administrator
+   * @param {string} role current role (null when user is not logged)
+   * @param {RoleList} borrowableRoles user borrowable roles (to retrieve current one)
+   * @return {LinkNavigationItem} built link or null
+   */
+  static convertLink(navigationLinkItem, role, borrowableRoles) {
+    return NavigationModelResolutionContainer.isNavigationItemAvailable(navigationLinkItem, role) ? {
+      key: `link.${navigationLinkItem.id}`,
+      type: navigationLinkItem.type,
+      title: navigationLinkItem.title,
+      iconType: navigationLinkItem.icon.type,
+      customIconURL: navigationLinkItem.icon.url,
+      selected: false,
+      url: navigationLinkItem.url,
+    } : null
+  }
+
+  /**
    * Resolves edition module as parameter or return null (updates the available modules list)
    * @param {EditionModule} navigationModuleItem  navigation module item as edited by the user
    * @param {ModuleArray} dynamicModules current dynamic modules in application
@@ -235,6 +255,14 @@ export class NavigationModelResolutionContainer extends React.Component {
           homeItem: isHome ? navigationItem : homeItem, // preverve previously found home if not that module
         }
       }
+      if (item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+        const navigationItem = NavigationModelResolutionContainer.convertLink(item, role)
+        return {
+          remainingDynamicModules,
+          items: navigationItem ? [...items, navigationItem] : items, // preserve children order, don't push home in standard list
+          homeItem, // preserve previously found home
+        }
+      }
       // section (recursively loop)
       const { remainingDynamicModules: sectionRDM, items: sectionItems, homeItem: sectionHomeItem } = NavigationModelResolutionContainer.resolveItems(item.children, remainingDynamicModules, homeConfiguration, role)
       const sectionItem = NavigationModelResolutionContainer.convertSection(item, sectionItems, role)
@@ -286,6 +314,9 @@ export class NavigationModelResolutionContainer extends React.Component {
       if (item.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
         // found module, is it the selected one?
         return { ...item, selected: item.module.id === selectedModuleId }
+      }
+      if (item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+        return { ...item, selected: false } // a link is never selected
       }
       // found section: does it contain the selected module?
       const updatedChildren = NavigationModelResolutionContainer.updateSelection(item.children, selectedModuleId)

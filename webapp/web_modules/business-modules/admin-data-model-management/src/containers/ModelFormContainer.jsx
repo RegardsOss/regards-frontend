@@ -43,14 +43,10 @@ export class ProjectFormContainer extends React.Component {
     createModelUsingFile: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.modelName === undefined
-    this.state = {
-      isCreating,
-      isLoading: !isCreating,
-      isEditing: props.params.mode === 'edit',
-    }
+  state = {
+    isCreating: this.props.params.modelName === undefined,
+    isLoading: this.props.params.modelName !== undefined,
+    isEditing: this.props.params.mode === 'edit',
   }
 
   componentDidMount() {

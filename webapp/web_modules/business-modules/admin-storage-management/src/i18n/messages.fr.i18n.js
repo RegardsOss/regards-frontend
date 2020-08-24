@@ -24,6 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
 const messages = {
   'storage.location.list.title': 'Configuration des espaces de stockage',
   'storage.location.list.subtitle': 'Permet de configurer les différents espaces de stockage utilisés par le système et de les prioriser. La priorité permet, dans le cas où des données sont stockées sur plusieurs espaces de stockage, de déterminer celui utilisé pour récupérer les données.',
+  'storage.location.form.help-message': 'Taille Allouée : C\'est la taille limite de stockage des fichiers. Si le stockage est presque plein, le service ce met en état de maintenance. Pour désactiver ce fonctionnement, ne saisissez pas de taille allouée.',
   'storage.location.type.online.name': 'Online   : ',
   'storage.location.type.nearline.name': 'Nearline : ',
   'storage.location.type.offline.name': 'Offline  : ',

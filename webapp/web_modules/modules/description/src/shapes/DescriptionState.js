@@ -33,6 +33,7 @@ export const RuntimeAttribute = PropTypes.shape({
   render: PropTypes.shape({
     Constructor: PropTypes.func.isRequired, // Render for the attribute (React constructor)
     props: PropTypes.shape({ // Render properties (including value plus whatever properties the constructor accepts...)
+      // eslint-disable-next-line react/forbid-prop-types
       value: PropTypes.any,
       // ...other properties
     }),

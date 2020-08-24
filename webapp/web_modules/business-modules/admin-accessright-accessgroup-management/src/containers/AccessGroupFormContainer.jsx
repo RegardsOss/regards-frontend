@@ -44,16 +44,12 @@ export class AccessGroupFormContainer extends React.Component {
     createAccessGroup: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.accessGroupName === undefined
-    this.state = {
-      isCreating,
-      isEditing: props.params.accessGroupName !== undefined && props.params.mode === 'edit',
-      isDuplicating: props.params.accessGroupName !== undefined && props.params.mode === 'duplicate',
-      isLoading: !isCreating,
-      isError: false,
-    }
+  state = {
+    isCreating: this.props.params.accessGroupName === undefined,
+    isEditing: this.props.params.accessGroupName !== undefined && this.props.params.mode === 'edit',
+    isDuplicating: this.props.params.accessGroupName !== undefined && this.props.params.mode === 'duplicate',
+    isLoading: this.props.params.accessGroupName !== undefined,
+    isError: false,
   }
 
   componentDidMount() {

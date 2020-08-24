@@ -58,11 +58,8 @@ export class AttributeModelFormContainer extends React.Component {
     fetchAttributeModelRestrictionList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.params.attrModel_id !== undefined,
-    }
+  state = {
+    isEditing: this.props.params.attrModel_id !== undefined,
   }
 
   componentDidMount() {

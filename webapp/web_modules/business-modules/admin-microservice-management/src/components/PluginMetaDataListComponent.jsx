@@ -85,11 +85,12 @@ export default class PluginMetaDataListComponent extends React.Component {
   constructor(props, context) {
     super(props)
     this.styles = moduleStyles(context.muiTheme).plugins
-    this.state = {
-      filterOpen: false,
-      displayedTypes: props.pluginTypes.sort(),
-      pluginDesc: null,
-    }
+  }
+
+  state = {
+    filterOpen: false,
+    displayedTypes: this.props.pluginTypes.sort(),
+    pluginDesc: null,
   }
 
   getActions = (plugin) => this.props.enableConfiguration ? (

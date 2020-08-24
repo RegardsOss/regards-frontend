@@ -74,6 +74,13 @@ const menuStyles = (theme) => ({
           color: theme.formsExtensions.validation.warningColor,
         },
       },
+      buttonsGrid: {
+        displayStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        },
+      },
     },
   },
   user: {

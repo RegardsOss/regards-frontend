@@ -16,17 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
-import ValidateAccountActions from './ValidateAccountActions'
-
-const instance = new BasicSignalReducers(ValidateAccountActions)
+import FlatButton from 'material-ui/FlatButton'
+import CreateLinkIcon from 'mdi-material-ui/LinkPlus'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
- * Return an function where the reducer instance exists
- * @param state redux previous state
- * @param action redux action received
- * @return new state
+ * New link option
+ * @author Théo Lasserre
  */
-export default (state, action) => instance.reduce(state, action)
+class NewLinkOption extends React.Component {
+  static propTypes = {
+    onCreateLink: PropTypes.func.isRequired,
+  }
 
-export const pathname = 'validateAccount'
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
+  render() {
+    const { onCreateLink } = this.props
+    const { intl: { formatMessage } } = this.context
+    return (
+      <FlatButton
+        icon={<CreateLinkIcon />}
+        label={formatMessage({ id: 'menu.form.navigation.create.link.button.label' })}
+        onClick={onCreateLink}
+        primary
+      />
+    )
+  }
+}
+export default NewLinkOption

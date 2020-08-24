@@ -62,12 +62,8 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = isNil(props.currentDatasource)
-    this.state = {
-      isCreating,
-    }
+  state = {
+    isCreating: isNil(this.props.currentDatasource),
   }
 
   componentDidMount() {

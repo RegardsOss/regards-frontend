@@ -53,11 +53,8 @@ export class DatasetEditPluginComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentLinkPluginDataset: cloneDeep(props.linkPluginDataset),
-    }
+  state = {
+    currentLinkPluginDataset: cloneDeep(this.props.linkPluginDataset),
   }
 
   /**

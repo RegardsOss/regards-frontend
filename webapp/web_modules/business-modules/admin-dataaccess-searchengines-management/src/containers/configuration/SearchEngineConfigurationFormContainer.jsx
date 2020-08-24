@@ -92,11 +92,8 @@ export class SearchEngineConfigurationFormContainer extends React.Component {
     fetchDatasetByUrn: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   UNSAFE_componentWillMount() {

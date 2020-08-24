@@ -32,8 +32,11 @@ import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/M
 import NewSectionOption from './options/NewSectionOption'
 import EditOption from './options/EditOption'
 import DeleteOption from './options/DeleteSectionOption'
+import NewLinkOption from './options/NewLinkOption'
+import DeleteLinkOption from './options/DeleteLinkOption'
 import defaultHomeIconURL from '../../../img/home.svg'
 import defaultSectionIconURL from '../../../img/section.svg'
+import defaultLinkIconURL from '../../../img/link.svg'
 import { VISIBILITY_MODES_ENUM } from '../../../domain/VisibilityModes'
 
 /** Possible items warnings */
@@ -46,6 +49,7 @@ const ITEM_WARNINGS_ENUM = {
 /**
  * Shows navigation edition tree
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class NavigationTree extends React.Component {
   static propTypes = {
@@ -58,6 +62,8 @@ class NavigationTree extends React.Component {
     onEdit: PropTypes.func.isRequired,
     // on delete section callback: (id) => {}
     onDeleteSection: PropTypes.func.isRequired,
+    onCreateLink: PropTypes.func.isRequired,
+    onDeleteLink: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -108,6 +114,8 @@ class NavigationTree extends React.Component {
         return this.buildModuleTreeTableRow(item)
       case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
         return this.buildSectionTreeTableRow(item)
+      case NAVIGATION_ITEM_TYPES_ENUM.LINK:
+        return this.buildLinkTreeTableRow(item)
       default:
         throw new Error(`Unknown field type ${item.type} in field ${JSON.stringify(item)}`)
     }
@@ -195,8 +203,28 @@ class NavigationTree extends React.Component {
     { visibilityMode, visibleForRole },
     this.hasActiveChild(children) ? ITEM_WARNINGS_ENUM.NONE : ITEM_WARNINGS_ENUM.EMPTY_SECTION,
     { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, id, canEdit: true }, // edit options parameters
-    { id }, // delete options parameters
+    { id, type: NAVIGATION_ITEM_TYPES_ENUM.SECTION }, // delete options parameters
   ], this.buildTreeTableRows(children), true) // build sub rows recursively
+
+  /**
+   * Builds a link tree table row
+   * @param {EditionModule} moduleItem module item
+   * @return {TreeTableRow} built row
+   */
+  buildLinkTreeTableRow = ({
+    id, title, icon,
+    visibilityMode, visibleForRole,
+  }) => new TreeTableRow(`link.${id}`, [
+    {
+      iconCellValue: { defaultIconURL: defaultLinkIconURL, iconDisplayMode: icon.type, customIconURL: icon.url },
+      titleCellValue: { title },
+    },
+    { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, parameter: null },
+    { visibilityMode, visibleForRole },
+    ITEM_WARNINGS_ENUM.NONE,
+    { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, id, canEdit: true }, // edit options parameters
+    { id, type: NAVIGATION_ITEM_TYPES_ENUM.LINK }, // delete options parameters
+  ])
 
   /**
    * Searches in a section items to find an active child
@@ -211,10 +239,15 @@ class NavigationTree extends React.Component {
           const model = dynamicModules.find(({ content: { id } }) => currentChild.id === id)
           return get(model, 'content.active', false)
         }
-        case NAVIGATION_ITEM_TYPES_ENUM.SECTION:
+        case NAVIGATION_ITEM_TYPES_ENUM.SECTION: {
           return this.hasActiveChild(currentChild.children) // search in sub section items
-        default:
+        }
+        case NAVIGATION_ITEM_TYPES_ENUM.LINK: {
+          return true
+        }
+        default: {
           throw new Error(`Unknown navigation item type ${currentChild.type} in ${JSON.stringify(currentChild)}`)
+        }
       }
     })
   }
@@ -236,16 +269,21 @@ class NavigationTree extends React.Component {
         },
       },
     } = this.context
-    const { onEdit, onDeleteSection } = this.props
+    const { onEdit, onDeleteSection, onDeleteLink } = this.props
     let cellContent = null
     let cellStyle
     switch (column) {
-      case NavigationTree.COLUMNS_INDEX.TYPE:
-        cellContent = value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION
-          ? formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' })
-          : formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
+      case NavigationTree.COLUMNS_INDEX.TYPE: {
+        if (value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+          cellContent = formatMessage({ id: 'menu.form.navigation.table.column.type.section.message' })
+        } else if (value.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE) {
+          cellContent = formatMessage({ id: 'menu.form.navigation.table.column.type.module.message' }, { moduleType: value.moduleType })
+        } else {
+          cellContent = formatMessage({ id: 'menu.form.navigation.table.column.type.link.message' })
+        }
         break
-      case NavigationTree.COLUMNS_INDEX.ICON_AND_TITLE:
+      }
+      case NavigationTree.COLUMNS_INDEX.ICON_AND_TITLE: {
         // show both icon and title
         cellContent = (
           <div>
@@ -253,7 +291,8 @@ class NavigationTree extends React.Component {
             <ModuleTitleText {...value.titleCellValue} />
           </div>)
         break
-      case NavigationTree.COLUMNS_INDEX.VISIBILITY:
+      }
+      case NavigationTree.COLUMNS_INDEX.VISIBILITY: {
         switch (value.visibilityMode) {
           case VISIBILITY_MODES_ENUM.ALWAYS:
             cellContent = formatMessage({ id: 'menu.form.navigation.table.column.visibility.always.message' })
@@ -265,30 +304,42 @@ class NavigationTree extends React.Component {
             cellContent = formatMessage({ id: 'menu.form.navigation.table.column.visibility.for.profile.message' }, { role: value.visibleForRole })
         }
         break
-      case NavigationTree.COLUMNS_INDEX.WARNINGS:
+      }
+      case NavigationTree.COLUMNS_INDEX.WARNINGS: {
         switch (value) {
-          case ITEM_WARNINGS_ENUM.DISABLED_MODULE:
+          case ITEM_WARNINGS_ENUM.DISABLED_MODULE: {
             cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.disabled.message' })
             cellStyle = warningCell
             break
-          case ITEM_WARNINGS_ENUM.EMPTY_SECTION:
+          }
+          case ITEM_WARNINGS_ENUM.EMPTY_SECTION: {
             cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.empty.section.message' })
             cellStyle = warningCell
             break
-          default:
+          }
+          default: {
             cellContent = formatMessage({ id: 'menu.form.navigation.table.column.warnings.none.message' })
+          }
         }
         break
-      case NavigationTree.COLUMNS_INDEX.EDIT_OPTION:
+      }
+      case NavigationTree.COLUMNS_INDEX.EDIT_OPTION: {
         cellContent = <EditOption onEdit={onEdit} {...value} />
         cellStyle = optionColumnStyle
         break
-      case NavigationTree.COLUMNS_INDEX.DELETE_OPTION:
-        cellContent = isNumber(value.id) ? <DeleteOption id={value.id} onDeleteSection={onDeleteSection} /> : null
+      }
+      case NavigationTree.COLUMNS_INDEX.DELETE_OPTION: {
+        if (value.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+          cellContent = isNumber(value.id) ? <DeleteOption id={value.id} onDeleteSection={onDeleteSection} /> : null
+        } else if (value.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+          cellContent = isNumber(value.id) ? <DeleteLinkOption id={value.id} onDeleteLink={onDeleteLink} /> : null
+        }
         cellStyle = optionColumnStyle
         break
-      default:
+      }
+      default: {
         throw new Error(`Unknown column index ${column}`)
+      }
     }
     return (
       <TableRowColumn style={cellStyle} key={`cell-${column}`}>
@@ -297,8 +348,8 @@ class NavigationTree extends React.Component {
   }
 
   render() {
-    const { onCreateSection, navigationItems } = this.props
-    const { moduleTheme: { admin: { navigation: { table: { style } } } } } = this.context
+    const { onCreateSection, navigationItems, onCreateLink } = this.props
+    const { moduleTheme: { admin: { navigation: { table: { style }, buttonsGrid: { displayStyle } } } } } = this.context
     return (
       <div style={style}>
         <TreeTableComponent
@@ -307,7 +358,10 @@ class NavigationTree extends React.Component {
           buildCellComponent={this.renderCellComponent}
           columns={this.buildColumns()}
         />
-        <NewSectionOption onCreateSection={onCreateSection} />
+        <div style={displayStyle}>
+          <NewSectionOption onCreateSection={onCreateSection} />
+          <NewLinkOption onCreateLink={onCreateLink} />
+        </div>
       </div>
     )
   }

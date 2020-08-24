@@ -40,11 +40,8 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     fetchDatasourceList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {

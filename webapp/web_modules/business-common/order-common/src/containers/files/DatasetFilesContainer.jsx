@@ -29,19 +29,6 @@ import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
 * @author Raphaël Mechali
 */
 export class DatasetFilesContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { orderFilesSelectors }) {
-    return {
-      isFetching: orderFilesSelectors.isFetching(state),
-      totalFilesCount: orderFilesSelectors.getResultsCount(state),
-    }
-  }
-
   static propTypes = {
     // selected order
     // eslint-disable-next-line react/no-unused-prop-types
@@ -60,6 +47,19 @@ export class DatasetFilesContainer extends React.Component {
     /** columns visibility map (no assertion on child columns keys) */
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
     pathParams: {},
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { orderFilesSelectors }) {
+    return {
+      isFetching: orderFilesSelectors.isFetching(state),
+      totalFilesCount: orderFilesSelectors.getResultsCount(state),
+    }
   }
 
   /**

@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 import RunIcon from 'mdi-material-ui/PlayCircleOutline'
 import IconButton from 'material-ui/IconButton'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -30,7 +30,7 @@ class AcquisitionProcessingChainTableRunAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onRunChain: PropTypes.func.isRequired,
   }

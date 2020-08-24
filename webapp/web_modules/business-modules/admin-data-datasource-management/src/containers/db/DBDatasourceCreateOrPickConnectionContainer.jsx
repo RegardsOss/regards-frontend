@@ -40,11 +40,8 @@ export class DBDatasourceCreateOrPickConnectionContainer extends React.Component
     fetchConnectionList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {

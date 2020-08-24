@@ -47,14 +47,12 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props, context) {
-    super(props, context)
-
-    this.state = {
-      status: EnumConnectivity.NOT_TESTED,
-      completed: 0,
-    }
+  state = {
+    status: EnumConnectivity.NOT_TESTED,
+    completed: 0,
   }
+
+  switchActions = [this.handleTouchTap, this.handleTouchTap]
 
   handleTouchTap = () => {
     this.setState({
@@ -88,22 +86,20 @@ class DatabaseConnectionTesterIconButton extends React.Component {
       </IconButton>
     )
 
-    const switchActions = [this.handleTouchTap, this.handleTouchTap]
-
     const successButton = (
-      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
+      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.success.tooltip' })}>
         <Check color={this.context.muiTheme.palette.primary1Color} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
     const warningButton = (
-      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
+      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.warn.tooltip' })}>
         <Warning color={this.context.muiTheme.palette.warningColor} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)
 
     const errorButton = (
-      <OnHoverSwitchIconButton onClick={switchActions} title={formatMessage({ id: 'database.connectionTester.error.tooltip' })}>
+      <OnHoverSwitchIconButton onClick={this.switchActions} title={formatMessage({ id: 'database.connectionTester.error.tooltip' })}>
         <Error color={this.context.muiTheme.palette.accent1Color} />
         <PlayArrow />
       </OnHoverSwitchIconButton>)

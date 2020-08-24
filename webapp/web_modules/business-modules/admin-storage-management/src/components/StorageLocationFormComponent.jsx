@@ -28,7 +28,7 @@ import {
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
+import { CardActionsComponent, NoContentComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
   RenderTextField, reduxForm, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -252,6 +252,7 @@ class StorageLocationFormComponent extends React.Component {
         />
         <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
+            <HelpMessageComponent message={formatMessage({ id: 'storage.location.form.help-message' })} />
             {this.renderContent()}
           </CardText>
           <CardActions>

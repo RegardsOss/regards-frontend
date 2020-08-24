@@ -28,6 +28,7 @@ import {
   NavigationItemEditionDialog, ICON_TYPE_FIELD, ICON_URL_FIELD, TITLE_EN_FIELD,
   TITLE_FR_FIELD, PARENT_SECTION_FIELD, AFTER_ELEMENT_FIELD,
   COMMON_ICON_FIELD, COMMON_TITLE_FIELD, VISIBILITY_MODE_FIELD, VISIBLE_FOR_ROLE_FIELD,
+  URL_LINK_FIELD,
 } from '../../../../../src/components/admin/navigation/dialogs/NavigationItemEditionDialog'
 import { VISIBILITY_MODES_ENUM } from '../../../../../src/domain/VisibilityModes'
 import styles from '../../../../../src/styles'
@@ -106,13 +107,14 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.equal(onRequestClose, props.onClose, 'Dialog close property should be reported')
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
-    // check the fields for section are not added
+    // check the fields for section and link are not added
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 0, 'Icon type field should be hidden for module edition')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 0, 'Icon URL field should be hidden for module edition')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 0, 'Title (en) field should be hidden for module edition')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 0, 'Title (fr) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === URL_LINK_FIELD), 0, 'Url field should be hidden for module edition')
 
-    // check common section / module fields are added
+    // check common section / module / link fields are added
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
@@ -159,14 +161,74 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
 
     // check the fields for section are added, and verify their current value
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 1, 'Icon type field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 1, 'Icon URL field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 1, 'Title (en) field should be hidden for module edition')
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 1, 'Title (fr) field should be hidden for module edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 1, 'Icon type field should be visible for section edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 1, 'Icon URL field should be visible for section edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 1, 'Title (en) field should be visible for section edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 1, 'Title (fr) field should be visible for section edition')
 
     // check common section / module fields are added
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move module')
-    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move module')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move section')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move section')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
+    // note: those fields are tested after
+
+    // check the fields for link are not added
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === URL_LINK_FIELD), 0, 'Url field should be hidden for section edition')
+
+    // there should be an option for each role
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere((n) => n.props().value === 'R1'), 1, 'R1 role option should be available')
+    assert.lengthOf(enzymeWrapper.find(MenuItem).findWhere((n) => n.props().value === 'R2'), 1, 'R2 role option should be available')
+  })
+
+  it('should render correctly when editing a link', () => {
+    const props = {
+      roleList,
+      onClose: () => { },
+      editionData: {
+        onDone: () => { },
+        dialogTitleKey: 'some.title.key',
+        item: {
+          id: 99,
+          type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
+          visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+          visibleForRole: null,
+          icon: {
+            type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
+          },
+          title: {
+            en: 'en title',
+            fr: 'fr title',
+          },
+          url: '',
+        },
+        itemPath: [], // a new item, by default in main bar
+        navigationItems: aNavigationConfiguration,
+        hasHome: true,
+      },
+      handleSubmit: (f) => f,
+      initialize: () => { },
+      change: () => { },
+    }
+    const enzymeWrapper = shallow(<NavigationItemEditionDialog {...props} />, { context })
+    // check dialog
+    const editionDialog = enzymeWrapper.find(Dialog)
+    assert.lengthOf(editionDialog, 1, 'There should be the dialog')
+    assert.isTrue(editionDialog.props().open, 'Dialog should be visible')
+    const { title, onRequestClose } = editionDialog.props()
+    assert.equal(onRequestClose, props.onClose, 'Dialog close property should be reported')
+    assert.equal(title, props.editionData.dialogTitleKey, 'title should be correctly reported')
+
+    // check the fields for link are added, and verify their current value
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_TYPE_FIELD), 1, 'Icon type field should be visible for link edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === ICON_URL_FIELD), 1, 'Icon URL field should be visible for link edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_EN_FIELD), 1, 'Title (en) field should be visible for link edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === TITLE_FR_FIELD), 1, 'Title (fr) field should be visible for link edition')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === URL_LINK_FIELD), 1, 'Url field should be visible for link edition')
+
+    // check common section / module fields are added
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === PARENT_SECTION_FIELD), 1, 'There should be the parent section field to move link')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === AFTER_ELEMENT_FIELD), 1, 'There should be the after element field to move link')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBILITY_MODE_FIELD), 1, 'The should be the visibility mode field')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === VISIBLE_FOR_ROLE_FIELD), 1, 'There should be visibility role field')
     // note: those fields are tested after
@@ -216,6 +278,27 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it can have as previous sibling: any root item of the navigation model, first position is forbidden on main bar (it is home position)
     expectedPossibleSibling: aNavigationConfiguration,
   }, {
+    label: 'a new link',
+    item: {
+      id: 777,
+      type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      visibleForRole: null,
+      icon: { type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT },
+      title: { en: 'new.link.en', fr: 'new.link.fr' },
+      url: '',
+    },
+    // by default, new items will be set at end of the main bar
+    itemPath: [aNavigationConfiguration.length],
+    hasHome: true,
+    expectedParent: NavigationItemEditionDialog.MAIN_BAR,
+    // MAIN_BAR and all sections could be the parent
+    expectedPossibleParents: mainBarAndAllSections,
+    // it should be after the last model item
+    expectedSibling: aNavigationConfiguration[aNavigationConfiguration.length - 1],
+    // it can have as previous sibling: any root item of the navigation model, first position is forbidden on main bar (it is home position)
+    expectedPossibleSibling: aNavigationConfiguration,
+  }, {
     label: 'an existing module in root (not first one, forbidden)',
     item: aNavigationConfiguration[2],
     itemPath: [2],
@@ -240,17 +323,17 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it can have as previous sibling: any root item of the navigation model and first position  BUT NOT itself
     expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration.slice(0, 2), ...aNavigationConfiguration.slice(3)],
   }, {
-    label: 'an existing section in root (last one)',
+    label: 'an existing section in root',
     item: aNavigationConfiguration[3],
     itemPath: [3],
     hasHome: true,
     expectedParent: NavigationItemEditionDialog.MAIN_BAR,
     // MAIN_BAR and all sections BUT THAT ONE could be the parent
-    expectedPossibleParents: mainBarAndAllSections.filter((item) => item.id !== 2),
+    expectedPossibleParents: mainBarAndAllSections.filter((item) => item.id !== 49),
     // it should be after the previous item...
     expectedSibling: aNavigationConfiguration[2],
     // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
-    expectedPossibleSibling: aNavigationConfiguration.slice(0, 3),
+    expectedPossibleSibling: [...aNavigationConfiguration.slice(0, 3), aNavigationConfiguration[4]],
   }, {
     label: 'an existing module in section [1,1], at end',
     item: aNavigationConfiguration[1].children[1].children[1],
@@ -262,7 +345,31 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it should be after the previous item
     expectedSibling: aNavigationConfiguration[1].children[1].children[0],
     // it can have as previous sibling: any child of the parent section AND FIRST_POSITION, but not itself
-    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, aNavigationConfiguration[1].children[1].children[0]],
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, aNavigationConfiguration[1].children[1].children[0], aNavigationConfiguration[1].children[1].children[2]],
+  }, {
+    label: 'an existing link in root (last one)',
+    item: aNavigationConfiguration[4],
+    itemPath: [4],
+    hasHome: true,
+    expectedParent: NavigationItemEditionDialog.MAIN_BAR,
+    // MAIN_BAR and all sections
+    expectedPossibleParents: mainBarAndAllSections,
+    // it should be after the previous item...
+    expectedSibling: aNavigationConfiguration[3],
+    // it can have as previous sibling: any root item of the navigation model, BUT NOT first position nor itself (cannot be after itself...)
+    expectedPossibleSibling: aNavigationConfiguration.slice(0, 4),
+  }, {
+    label: 'an existing link in section [1,1], at end',
+    item: aNavigationConfiguration[1].children[1].children[2],
+    itemPath: [1, 1, 2],
+    hasHome: true,
+    expectedParent: aNavigationConfiguration[1].children[1],
+    // MAIN_BAR and all sections could be the parent
+    expectedPossibleParents: mainBarAndAllSections,
+    // it should be after the previous item
+    expectedSibling: aNavigationConfiguration[1].children[1].children[1],
+    // it can have as previous sibling: any child of the parent section AND FIRST_POSITION, but not itself
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, aNavigationConfiguration[1].children[1].children[0], aNavigationConfiguration[1].children[1].children[1]],
   }, {
     label: 'an existing module in section [1], at start',
     item: aNavigationConfiguration[1].children[0],
@@ -276,7 +383,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     // it can have as previous sibling: any child of the parent section AND FIRST_POSITION, but not itself
     expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(1)],
   }, {
-    label: 'an existing section in section [1], at end',
+    label: 'an existing section in section [1]',
     item: aNavigationConfiguration[1].children[1],
     itemPath: [1, 1],
     hasHome: true,
@@ -285,7 +392,18 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[1], aNavigationConfiguration[3]],
     expectedSibling: aNavigationConfiguration[1].children[0],
     // it can have as previous sibling: any child of the parent section AND FIRST_POSITION, but not itself
-    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(0, 1)],
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(0, 1), aNavigationConfiguration[1].children[2]],
+  }, {
+    label: 'an existing link in section [1], at end',
+    item: aNavigationConfiguration[1].children[2],
+    itemPath: [1, 2],
+    hasHome: true,
+    expectedParent: aNavigationConfiguration[1],
+    // MAIN_BAR and all sections except itself
+    expectedPossibleParents: [NavigationItemEditionDialog.MAIN_BAR, aNavigationConfiguration[1], aNavigationConfiguration[1].children[1], aNavigationConfiguration[3]],
+    expectedSibling: aNavigationConfiguration[1].children[1],
+    // it can have as previous sibling: any child of the parent section AND FIRST_POSITION, but not itself
+    expectedPossibleSibling: [NavigationItemEditionDialog.FIRST_POSITION, ...aNavigationConfiguration[1].children.slice(0, 2)],
   }, {
     label: 'an existing section in root (to check children sections are excluded as parent)',
     item: aNavigationConfiguration[1],
@@ -354,6 +472,13 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
     if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
       assert.equal(spiedInitValues[COMMON_ICON_FIELD], item.icon, 'Section icon fields should be correctly reported')
       assert.equal(spiedInitValues[COMMON_TITLE_FIELD], item.title, 'Section title fields should be correctly reported')
+    }
+
+    // 4 - check initial links values
+    if (item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+      assert.equal(spiedInitValues[COMMON_ICON_FIELD], item.icon, 'Link icon fields should be correctly reported')
+      assert.equal(spiedInitValues[COMMON_TITLE_FIELD], item.title, 'Link title fields should be correctly reported')
+      assert.equal(spiedInitValues[URL_LINK_FIELD], item.url, 'Link url fields should be correctly reported')
     }
   }))
 
@@ -484,6 +609,7 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
       [COMMON_TITLE_FIELD]: { en: 'title-en', fr: 'title-fr' },
       [VISIBILITY_MODE_FIELD]: 'WHEN-I-WANT',
       [VISIBLE_FOR_ROLE_FIELD]: 'Teletobies',
+      [URL_LINK_FIELD]: 'www.teletobies.fr',
     })
     // check receive values
     const initialModel = getItemByPathIn(aNavigationConfiguration, itemPath)
@@ -496,6 +622,10 @@ describe('[Menu] Testing NavigationItemEditionDialog', () => {
       // title and icon should be set in item for sections
       expectedModel.icon = { type: 'potatoe-icon', url: 'many-potatoes.jpg' }
       expectedModel.title = { en: 'title-en', fr: 'title-fr' }
+    }
+    if (initialModel.type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+      // url should be set in item for links
+      expectedModel.url = 'www.teletobies.fr'
     }
     assert.deepEqual(spiedDoneValues.item, expectedModel, 'Edited item should be correctly reported')
     assert.deepEqual(spiedDoneValues.insertAtPath, expectedInsertAtPath)

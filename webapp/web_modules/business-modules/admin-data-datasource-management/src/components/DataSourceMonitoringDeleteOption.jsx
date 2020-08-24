@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 import Delete from 'mdi-material-ui/Delete'
 import IconButton from 'material-ui/IconButton'
-import { DataManagementShapes } from '@regardsoss/shape'
+import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -30,7 +30,7 @@ class DataSourceMonitoringDeleteOption extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataManagementShapes.CrawlerDatasourceContent.isRequired,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onDelete: PropTypes.func.isRequired,
   }

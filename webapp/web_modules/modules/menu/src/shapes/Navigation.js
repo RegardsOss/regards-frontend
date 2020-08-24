@@ -23,6 +23,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 /**
  * Navigation related shapes
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 const commonItemFields = {
@@ -54,9 +55,16 @@ const sectionFields = {
   type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
 }
 
-export const SectionNavigationItem = PropTypes.shape({
-  ...sectionFields,
-  children: PropTypes.arrayOf(PropTypes.oneOfType([ModuleNavigationItem, PropTypes.shape({ ...sectionFields })])).isRequired,
+/** Link item */
+export const LinkNavigationItem = PropTypes.shape({
+  ...commonItemFields,
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.LINK]).isRequired,
+  url: PropTypes.string.isRequired,
 })
 
-export const NavigationItem = PropTypes.oneOfType([ModuleNavigationItem, SectionNavigationItem])
+export const SectionNavigationItem = PropTypes.shape({
+  ...sectionFields,
+  children: PropTypes.arrayOf(PropTypes.oneOfType([ModuleNavigationItem, LinkNavigationItem, PropTypes.shape({ ...sectionFields })])).isRequired,
+})
+
+export const NavigationItem = PropTypes.oneOfType([ModuleNavigationItem, SectionNavigationItem, LinkNavigationItem])

@@ -44,15 +44,6 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Computes a number or text digits count
-   * @param {number|string} value value
-   * @return {number} digits count in text
-   */
-  static computeDigitsCount(value) {
-    return (`${value}`).length
-  }
-
   /** Max files count */
   static MAX_FILES_COUNT = 99
 
@@ -61,6 +52,15 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
 
   /** Replacement char for no digit */
   static NO_DIGIT_CHAR = '\u00A0'
+
+  /**
+   * Computes a number or text digits count
+   * @param {number|string} value value
+   * @return {number} digits count in text
+   */
+  static computeDigitsCount(value) {
+    return (`${value}`).length
+  }
 
   render() {
     const {

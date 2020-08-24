@@ -44,20 +44,12 @@ export class EnumerationComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const currentValues = get(props.currentAttrModel, 'content.restriction.acceptableValues', [])
-    const acceptableValues = []
-    currentValues.forEach((value) => {
-      acceptableValues.push({
-        value,
-        deleted: false,
-      })
-    })
-    this.state = {
-      acceptableValues,
-      newValue: '',
-    }
+  state = {
+    acceptableValues: map(get(this.props.currentAttrModel, 'content.restriction.acceptableValues', []), (value) => ({
+      value,
+      deleted: false,
+    })),
+    newValue: '',
   }
 
   onTextFieldChange = (event) => {

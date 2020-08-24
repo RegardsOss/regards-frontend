@@ -61,13 +61,10 @@ export class CollectionFormContainer extends React.Component {
     clearModelAttributeList: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.params.collectionId === undefined,
-      isEditing: props.params.collectionId !== undefined && props.params.mode === 'edit',
-      isDuplicating: props.params.collectionId !== undefined && props.params.mode === 'duplicate',
-    }
+  state = {
+    isCreating: this.props.params.collectionId === undefined,
+    isEditing: this.props.params.collectionId !== undefined && this.props.params.mode === 'edit',
+    isDuplicating: this.props.params.collectionId !== undefined && this.props.params.mode === 'duplicate',
   }
 
   componentDidMount() {

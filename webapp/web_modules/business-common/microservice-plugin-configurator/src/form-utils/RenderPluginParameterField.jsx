@@ -44,7 +44,6 @@ import { getPrimitiveJavaTypeRenderParameters, getPrimitiveJavaTypeValidators as
 import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
-
 /**
 * Redux-form compatible field component to display a PluginParameter configurator form.
 * @author Sébastien Binda

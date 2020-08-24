@@ -57,6 +57,7 @@ class ModuleFormComponent extends React.Component {
       isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
+      // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
     }),
     // from reduxForm
