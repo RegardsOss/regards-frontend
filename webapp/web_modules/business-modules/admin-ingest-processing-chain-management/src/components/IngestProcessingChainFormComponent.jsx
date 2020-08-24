@@ -161,7 +161,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.PRE_PROCESSING,
               preprocessingPlugin,
-              'preprocessingPlugin',
+              'preProcessingPlugin',
             )}
             {this.getPluginConfigurator(
               2, formatMessage({ id: 'processing-chain.form.validation.plugin.label' }),
@@ -191,7 +191,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.POST_PROCESSING,
               postprocessingPlugin,
-              'postprocessingPlugin',
+              'postProcessingPlugin',
             )}
           </CardText>
           <CardActions>
