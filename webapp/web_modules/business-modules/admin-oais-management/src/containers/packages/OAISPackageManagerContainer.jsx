@@ -126,19 +126,11 @@ export class OAISPackageManagerContainer extends React.Component {
 
   UNSAFE_componentWillMount() {
     this.initializeFiltersFromURL()
-    this.initializeContextFilters(this.props)
   }
 
   componentDidMount() {
     this.props.fetchProcessingChains()
     this.props.fetchStorages({}, {})
-  }
-
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    // if (nextProps.params.aip !== this.props.params.aip) {
-    // this.initializeFiltersFromURL()
-    // this.initializeContextFilters(nextProps)
-    // }
   }
 
   initializeFiltersFromURL = () => {
@@ -161,15 +153,6 @@ export class OAISPackageManagerContainer extends React.Component {
         urlFilters,
       })
     }
-  }
-
-  initializeContextFilters = (props) => {
-    // const { params: { aip } } = props
-    // const contextFilters = {}
-    // if (aip) {
-    //   contextFilters.providerId = aip
-    // }
-    // this.setState({ contextFilters })
   }
 
   onBack = () => {

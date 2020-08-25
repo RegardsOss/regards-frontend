@@ -27,4 +27,5 @@ export default PropTypes.shape({
   session: PropTypes.string,
   categories: PropTypes.arrayOf(PropTypes.string),
   storages: PropTypes.arrayOf(PropTypes.string),
+  last: PropTypes.bool, // true: only last / false: all but last / nil : all
 })

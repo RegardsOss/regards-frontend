@@ -26,8 +26,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { TableSelectionModes } from '@regardsoss/components'
 
-// TODO: handle [dependencies.selectVersionModeDependency],
-
 /**
  * Renders aip request status
  * @author Simon MILHAU
@@ -35,6 +33,7 @@ import { TableSelectionModes } from '@regardsoss/components'
 class RequestStatusRenderCell extends React.Component {
   static propTypes = {
     entity: IngestShapes.RequestEntity.isRequired,
+    modeSelectionAllowed: PropTypes.bool.isRequired, // version mode selection allowed to current user?
     onViewRequestErrors: PropTypes.func.isRequired,
     // callback like (selectionMode, [entity]) => ()
     onSelectVersionOption: PropTypes.func.isRequired,
@@ -62,12 +61,13 @@ class RequestStatusRenderCell extends React.Component {
   }
 
   render() {
-    const { entity: { content: { state, errors } } } = this.props
+    const { entity: { content: { state, errors } }, modeSelectionAllowed } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: { requests: { status: { common, waitingAction, action } } },
     } = this.context
-    const isWaitingAction = state === IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE
+    // waiting style and callback: when in waiting version mode and dependency allows user setting it
+    const isWaitingAction = state === IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE && modeSelectionAllowed
     return (
       <div
         title={formatMessage({ id: `oais.requests.status.${state}` })}

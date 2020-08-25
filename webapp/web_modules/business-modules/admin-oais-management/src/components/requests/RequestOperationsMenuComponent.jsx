@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import isEmpty from 'lodash/isEmpty'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
@@ -44,8 +43,8 @@ export default class RequestOperationsMenuComponent extends React.Component {
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
     onSelectVersionOption: PropTypes.func.isRequired,
     onRetrySelection: PropTypes.func.isRequired,
-    onAbort: PropTypes.func.isRequired,
     onDeleteSelection: PropTypes.func.isRequired,
+    onAbort: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -57,31 +56,21 @@ export default class RequestOperationsMenuComponent extends React.Component {
     // 1 - Select modified product version option
     key: 'select.version.option',
     dependencies: [dependencies.selectVersionModeDependency],
-    isDisabled: (selectionMode, selection, pageMeta) => {
-      switch (selectionMode) {
-        case TableSelectionModes.includeSelected:
-          // any waiting version mode selected?
-          return !selection.some((req) => req.content.state === IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE)
-        case TableSelectionModes.excludeSelected:
-        default:
-          // check if there could be any waiting selected (ie: not all elements unselected)
-          return selection.length >= pageMeta.totalElements
-      }
-    },
+    isDisabled: (selectionMode, selection, pageMeta) => !RequestOperationsMenuComponent.isEnabled(selectionMode, selection, pageMeta, RequestOperationsMenuComponent.isSelectVersionAllowed),
     onClickCallback: 'onSelectVersionOption',
     IconConstructor: SelectVersionOptionIcon,
     intlKey: 'oais.requests.list.filters.buttons.version.option',
   }, { // 2 - Retry option
     key: 'retry',
     dependencies: [dependencies.retryRequestDependency],
-    isDisabled: RequestOperationsMenuComponent.isEmptySelection, // TODO: we can certainly do better here...
+    isDisabled: (selectionMode, selection, pageMeta) => !RequestOperationsMenuComponent.isEnabled(selectionMode, selection, pageMeta, RequestOperationsMenuComponent.isRetryAllowed),
     onClickCallback: 'onRetry',
     IconConstructor: RetryIcon,
     intlKey: 'oais.requests.list.filters.buttons.retry',
   }, { // 3 - Delete option
     key: 'delete',
     dependencies: [dependencies.deleteRequestDependency],
-    isDisabled: RequestOperationsMenuComponent.isEmptySelection, // TODO: we can certainly do better here...
+    isDisabled: (selectionMode, selection, pageMeta) => !RequestOperationsMenuComponent.isEnabled(selectionMode, selection, pageMeta, RequestOperationsMenuComponent.isDeleteAllowed),
     onClickCallback: 'onDelete',
     IconConstructor: DeleteIcon,
     intlKey: 'oais.requests.list.filters.buttons.delete',
@@ -96,16 +85,47 @@ export default class RequestOperationsMenuComponent extends React.Component {
   }]
 
   /**
-   * Is empty selection?
-   * @param {string} selectionMode from TableSelectionModes
-   * @param {[*]} selection matching array of IngestShapes.RequestEntity
-   * @param {*} pageMeta results metadata matching CommonShapes.PageMetadata
-   * @return {boolean} true if selection is empty, false otherwise
+   * Is selection version mode allowed for request as parameter?
+   * @param {*} request matching IngestShapes.Request
+   * @return {boolean} true when select version mode is allowed
    */
-  static isEmptySelection(selectionMode, selection, pageMeta) {
-    // Empty when A) inclusive but no element included or B) exclusive but all elements excluded
-    return (selectionMode === TableSelectionModes.includeSelected && isEmpty(selection)) // A)
-    || (selectionMode === TableSelectionModes.excludeSelected && selection.length >= pageMeta.totalElements) // B)
+  static isSelectVersionAllowed(request) {
+    return request.content.state === IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE
+  }
+
+  /**
+   * Is retry allowed for request as parameter?
+   * @param {*} request matching IngestShapes.Request
+   * @return {boolean} true retry is allowed
+   */
+  static isRetryAllowed(request) {
+    return [IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR, IngestDomain.AIP_REQUEST_STATUS_ENUM.ABORT].includes(request.content.state)
+  }
+
+  /**
+   * Is delete allowed for request as parameter?
+   * @param {*} request matching IngestShapes.Request
+   * @return {boolean} true retry is allowed
+   */
+  static isDeleteAllowed(request) {
+    return request.content.state !== IngestDomain.AIP_REQUEST_STATUS_ENUM.RUNNING
+  }
+
+  /**
+   * Is operation enabled
+   * @param {string} selectionMode selection mode, from TableSelectionModes
+   * @param {[*]} selection as an array of IngestShapes.Request
+   * @param {Function} allowPredicate like (request) => (boolean). When true, operation is allowed
+   * @return {boolean} true when operation should be enabled for selection:
+   * (A) In inclusive mode, a valid request must be found
+   * 'B) In exclusive mode, selection must be non empty (infinite selection, finite case not tested)
+   */
+  static isEnabled(selectionMode, selection, pageMeta, allowPredicate) {
+    if (selectionMode === TableSelectionModes.includeSelected) { // A
+      return selection.length && selection.some((request) => allowPredicate(request))
+    }
+    // B
+    return selection.length < pageMeta.totalElements
   }
 
   /** On select version option callback */
@@ -166,8 +186,6 @@ export default class RequestOperationsMenuComponent extends React.Component {
       return acc
     }, { anyVisible: false, anyEnabled: false, components: [] })
   }
-
-  // TODO add here a dialog for abort!
 
   render() {
     const { intl: { formatMessage } } = this.context

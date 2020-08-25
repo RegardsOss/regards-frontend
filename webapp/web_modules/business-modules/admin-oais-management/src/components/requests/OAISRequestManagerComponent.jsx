@@ -50,6 +50,7 @@ import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
 import RequestTypeRenderCell from './RequestTypeRenderCell'
 import VersionOptionSelectionDialog from './VersionOptionSelectionDialog'
 import RequestOperationsMenuContainer from '../../containers/requests/RequestOperationsMenuContainer'
+import AbortAllRequestsDialog from './AbortAllRequestsDialog'
 
 /**
  * Displays the list of OAIS packages
@@ -57,18 +58,20 @@ import RequestOperationsMenuContainer from '../../containers/requests/RequestOpe
  */
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
-    updateStateFromRequestManager: PropTypes.func.isRequired,
     pageMeta: CommonShapes.PageMetadata.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
-    fetchPage: PropTypes.func.isRequired,
+    modeSelectionAllowed: PropTypes.bool.isRequired,
     clearSelection: PropTypes.func.isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
+    fetchPage: PropTypes.func.isRequired,
+    updateStateFromRequestManager: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     selectVersionOption: PropTypes.func.isRequired,
+    abortRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -82,6 +85,7 @@ export class OAISRequestManagerComponent extends React.Component {
     retryDialog: 'retryDialog',
     deleteDialog: 'deleteDialog',
     versionOptionSelectionDialog: 'versionOptionSelectionDialog',
+    abortDialog: 'abortDialog',
   }
 
   static EMPTY_COMPONENT = <NoContentComponent
@@ -162,6 +166,11 @@ export class OAISRequestManagerComponent extends React.Component {
     [OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog]: {
       open: false,
       mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
+    [OAISRequestManagerComponent.DIALOG_TYPES.abortDialog]: {
+      open: false,
+      mode: TableSelectionModes.excludeSelected,
       entities: [],
     },
   }
@@ -293,6 +302,9 @@ export class OAISRequestManagerComponent extends React.Component {
    */
   onDelete = (mode, entities) => this.onOpenActionDialog(mode, entities, OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog)
 
+  /** Callback: On delete requests for selection as parameter (shows corresponding dialog). Mode and selection are ignored (always all selected) */
+  onAbort = () => this.onOpenActionDialog(TableSelectionModes.excludeSelected, [], OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
+
   /**
    * Inner callback: closes dialog corresponding to request type
    * @param {string} dialogRequestType dialog type for the request to handle, from OAISRequestManagerComponent.DIALOG_TYPES
@@ -316,6 +328,9 @@ export class OAISRequestManagerComponent extends React.Component {
 
   /** Callback: closes delete dialog */
   onCloseDeleteDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog)
+
+  /** Callback: closes abort dialog */
+  onCloseAbortDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
 
   /**
    * Inner callback: confirms action dialog. It:
@@ -363,6 +378,13 @@ export class OAISRequestManagerComponent extends React.Component {
     deleteRequests(payload)
   }
 
+  /** Callback: applies abort */
+  onConfirmAbort = () => {
+    const { abortRequests } = this.props
+    this.onConfirmActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
+    abortRequests()
+  }
+
   getColumnSortingData = (sortKey) => {
     const { columnsSorting } = this.state
     const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
@@ -373,7 +395,8 @@ export class OAISRequestManagerComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      pageSize, tableSelection, selectionMode, requestFilters, pageMeta,
+      tableSelection, selectionMode, requestFilters, modeSelectionAllowed,
+      pageSize, pageMeta,
     } = this.props
     const { contextRequestURLParameters, contextRequestBodyParameters } = this.state
     return (
@@ -397,7 +420,7 @@ export class OAISRequestManagerComponent extends React.Component {
                   style={filter.fieldStyle}
                   hintText={formatMessage({ id: 'oais.packages.list.filters.state' })}
                   value={requestFilters ? requestFilters.state : null}
-                  onChange={this.onChangeStateFilter || ''}
+                  onChange={this.onChangeStateFilter}
                 >
                   <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.status.any' })} />
                   {IngestDomain.AIP_REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
@@ -414,6 +437,7 @@ export class OAISRequestManagerComponent extends React.Component {
                   onSelectVersionOption={this.onSelectVersionOption}
                   onRetrySelection={this.onRetry}
                   onDeleteSelection={this.onDelete}
+                  onAbort={this.onAbort}
                 />
                 {/* Data refresh */}
                 <FlatButton
@@ -449,6 +473,7 @@ export class OAISRequestManagerComponent extends React.Component {
                 .rowCellDefinition({
                   Constructor: RequestStatusRenderCell,
                   props: {
+                    modeSelectionAllowed,
                     onViewRequestErrors: this.onViewRequestErrors,
                     onSelectVersionOption: this.onSelectVersionOption,
                   },
@@ -503,6 +528,11 @@ export class OAISRequestManagerComponent extends React.Component {
           open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog].open}
           onConfirmDelete={this.onConfirmDelete}
           onClose={this.onCloseDeleteDialog}
+        />
+        <AbortAllRequestsDialog // 5. abort all
+          open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.abortDialog].open}
+          onConfirmAbort={this.onConfirmAbort}
+          onClose={this.onCloseAbortDialog}
         />
       </div>
     )

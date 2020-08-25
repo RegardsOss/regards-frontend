@@ -22,7 +22,6 @@ import { CommonShapes, IngestShapes } from '@regardsoss/shape'
 import { TableSelectionModes } from '@regardsoss/components'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import RequestOperationsMenuComponent from '../../components/requests/RequestOperationsMenuComponent'
-import { requestAbortActions } from '../../clients/RequestAbortClient'
 
 /**
  * Request operations menu container
@@ -36,11 +35,9 @@ export class RequestOperationsMenuContainer extends React.Component {
     onSelectVersionOption: PropTypes.func.isRequired,
     onRetrySelection: PropTypes.func.isRequired,
     onDeleteSelection: PropTypes.func.isRequired,
+    onAbort: PropTypes.func.isRequired,
     // from mapStateToProps
     availableEndpoints: PropTypes.arrayOf(PropTypes.string).isRequired,
-    // from mapDispatchToProps
-    // aborts all requests ("debug mode...")
-    sendAbortRequests: PropTypes.func.isRequired,
   }
 
   /**
@@ -55,23 +52,10 @@ export class RequestOperationsMenuContainer extends React.Component {
     }
   }
 
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      sendAbortRequests: () => dispatch(requestAbortActions.sendSignal('PUT')),
-    }
-  }
-
   render() {
     const {
       pageMeta, availableEndpoints, selectionMode, tableSelection,
-      onSelectVersionOption, onRetrySelection,
-      onDeleteSelection, sendAbortRequests,
+      onSelectVersionOption, onRetrySelection, onDeleteSelection, onAbort,
     } = this.props
     return (
       <RequestOperationsMenuComponent
@@ -82,11 +66,9 @@ export class RequestOperationsMenuContainer extends React.Component {
         onSelectVersionOption={onSelectVersionOption}
         onRetrySelection={onRetrySelection}
         onDeleteSelection={onDeleteSelection}
-        onAbort={sendAbortRequests}
+        onAbort={onAbort}
       />
     )
   }
 }
-export default connect(
-  RequestOperationsMenuContainer.mapStateToProps,
-  RequestOperationsMenuContainer.mapDispatchToProps)(RequestOperationsMenuContainer)
+export default connect(RequestOperationsMenuContainer.mapStateToProps)(RequestOperationsMenuContainer)

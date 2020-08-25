@@ -17,14 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-// TODO: self import not working!
-// import { UIDomain } from '@regardsoss/domain'
-
-// function n() {
-//   return UIDomain.APPLICATIONS_ENUM.ADMIN
-// }
-
-// n()
 
 /**
  * Possible acqisition processing chain

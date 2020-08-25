@@ -44,14 +44,12 @@ class ProjectHandler extends React.Component {
         if (root.document.title !== title) {
           root.document.title = title
         }
-        console.error('project', this.props.project)
         this.setFavicon(this.props.project.content.icon)
       }
     })
   }
 
   setFavicon = (icon = 'img/logo_regards_grey_black.png') => {
-    console.error('setting favicon', icon)
     const link = root.document.querySelector("link[rel*='icon']") || document.createElement('link')
     link.type = 'image/x-icon'
     link.rel = 'shortcut icon'

@@ -23,12 +23,12 @@ import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
 /**
- * Confirm action dialog component to delete selection
+ * Confirm action dialog component to abort all treatments
  */
-export class RequestDeleteDialog extends React.Component {
+export class AbortAllRequestsDialog extends React.Component {
   static propTypes = {
     open: PropTypes.bool.isRequired,
-    onConfirmDelete: PropTypes.func.isRequired,
+    onConfirmAbort: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -38,36 +38,35 @@ export class RequestDeleteDialog extends React.Component {
   }
 
   render() {
-    const { open, onConfirmDelete, onClose } = this.props
+    const { open, onConfirmAbort, onClose } = this.props
     const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
 
     return (
       <Dialog
-        title={formatMessage({ id: 'oais.requests.confirm.delete.title' })}
+        title={formatMessage({ id: 'oais.requests.confirm.abort.title' })}
         actions={<>
           <FlatButton
             key="cancel"
             id="confirm.dialog.cancel"
-            label={formatMessage({ id: 'oais.requests.confirm.delete.close' })}
+            label={formatMessage({ id: 'oais.requests.confirm.abort.cancel' })}
             primary
             keyboardFocused
             onClick={onClose}
           />
           <FlatButton
-            key="deleteRequestsIrrevocably"
-            className="selenium-confirmDialogButton"
-            label={formatMessage({ id: 'oais.requests.confirm.delete' })}
-            onClick={onConfirmDelete}
+            label={formatMessage({ id: 'oais.requests.confirm.abort.confirm' })}
+            onClick={onConfirmAbort}
           />
         </>}
         modal={false}
         open={open}
       >
-        <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' })}</div>
-        <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>
+
+        <div>{formatMessage({ id: 'oais.requests.confirm.abort.message' })}</div>
+        <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.abort.warning' })}</div>
       </Dialog>
     )
   }
 }
 
-export default withI18n(messages)(RequestDeleteDialog)
+export default withI18n(messages)(AbortAllRequestsDialog)

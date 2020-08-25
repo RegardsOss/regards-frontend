@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,48 +16,52 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { shallow } from 'enzyme'
 import Dialog from 'material-ui/Dialog'
+import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { RequestRetryDialog } from '../../../src/components/requests/RequestRetryDialog'
+import { AbortAllRequestsDialog } from '../../../src/components/requests/AbortAllRequestsDialog'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test RequestRetryDialog
- * @author Simon MILHAU
+ * Test AbortAllRequestsDialog
+ * @author Raphaël Mechali
  */
-describe('[OAIS AIP MANAGEMENT] Testing RequestRetryDialog', () => {
+describe('[OAIS AIP MANAGEMENT] Testing AbortAllRequestsDialog', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(RequestRetryDialog)
+    assert.isDefined(AbortAllRequestsDialog)
   })
-  it('should render correctly opened', () => {
+  it('should render correctly open', () => {
     const props = {
       open: true,
-      onConfirmRetry: () => {},
+      onConfirmAbort: () => {},
       onClose: () => {},
     }
-    const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
+    const enzymeWrapper = shallow(<AbortAllRequestsDialog {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isTrue(dialogWrapper.props().open, 'The dialog should be opened')
-    assert.lengthOf(dialogWrapper.props().actions, 2, 'There should be confirm retry and close options')
+    assert.lengthOf(dialogWrapper, 1)
+    testSuiteHelpers.assertWrapperProperties(dialogWrapper, {
+      title: 'oais.requests.confirm.abort.title',
+      open: true,
+    })
+    const dialogAsText = dialogWrapper.debug()
+    assert.include(dialogAsText, 'oais.requests.confirm.abort.message', 'Operation message should be displayed')
+    assert.include(dialogAsText, 'oais.requests.confirm.abort.warning', 'Specific warning should be displayed')
   })
   it('should render correctly closed', () => {
     const props = {
       open: false,
-      onConfirmRetry: () => {},
+      onConfirmAbort: () => {},
       onClose: () => {},
     }
-    const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
+    const enzymeWrapper = shallow(<AbortAllRequestsDialog {...props} />, { context })
     const dialogWrapper = enzymeWrapper.find(Dialog)
-    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
-    assert.isFalse(dialogWrapper.props().open, 'The dialog should be closed')
-    assert.lengthOf(dialogWrapper.props().actions, 2, 'There should be confirm retry and close options')
+    assert.lengthOf(dialogWrapper, 1)
+    assert.isFalse(dialogWrapper.props().open)
   })
 })
