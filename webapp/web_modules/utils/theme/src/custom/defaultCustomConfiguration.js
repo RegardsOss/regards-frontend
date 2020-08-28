@@ -411,6 +411,7 @@ export default (baseTheme) => ({
     sessionState: {
       errorColor: baseTheme.textField.errorColor,
     },
+    waitingVersionColor: baseTheme.palette.accent1Color,
     acquiredProductRunningColor: '#4CAF50',
   },
 })
