@@ -467,7 +467,6 @@ const styles = (theme) => ({
         alignItems: 'stretch',
       },
       labelColumnStyles: {
-        margin: '10px 0 10px 0',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
@@ -476,11 +475,10 @@ const styles = (theme) => ({
         flexShrink: 0,
       },
       labelCellStyle: {
+        margin: theme.module.searchResults.list.attribute.labelMargin,
         color: theme.palette.accent1Color,
-        margin: '5px 0 0 0',
       },
       valueColumnStyles: {
-        margin: theme.module.searchResults.list.attribute.labelMargin,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',

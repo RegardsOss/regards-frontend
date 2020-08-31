@@ -69,4 +69,8 @@ export { default as RequestRetryActions } from './request/RequestRetryActions'
 export { default as getRequestRetryReducer } from './request/RequestRetryReducer'
 export { default as getRequestRetrySelectors } from './request/RequestRetrySelectors'
 
+export { default as RequestSelectVersionModeActions } from './request/RequestSelectVersionModeActions'
+export { default as getRequestSelectVersionModeReducer } from './request/RequestSelectVersionModeReducer'
+export { default as getRequestSelectVersionModeSelectors } from './request/RequestSelectVersionModeSelectors'
+
 export { default as RequestAbortActions } from './request/RequestAbortActions'

@@ -38,10 +38,12 @@ const standardAttributesKeys = {
   tags: 'tags',
   thumbnail: 'thumbnail',
   geometry: 'geometry',
+  version: 'version',
+  last: 'last',
 }
 
 /**
- * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
+ * Defines standard attributes OR standard concepts (Thumbnail and alike).
  * @type {string}
  */
 const standardAttributes = {
@@ -93,6 +95,20 @@ const standardAttributes = {
     label: 'Geometry',
     type: MODEL_ATTR_TYPES.STRING,
     jsonPath: 'geometry',
+  },
+  [standardAttributesKeys.version]: {
+    key: standardAttributesKeys.version,
+    id: -8,
+    label: 'Version',
+    type: MODEL_ATTR_TYPES.INTEGER,
+    jsonPath: 'version',
+  },
+  [standardAttributesKeys.last]: {
+    key: standardAttributesKeys.version,
+    id: -9,
+    label: 'Last version',
+    type: MODEL_ATTR_TYPES.BOOLEAN,
+    jsonPath: 'last',
   },
 }
 

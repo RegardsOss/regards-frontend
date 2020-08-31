@@ -19,6 +19,7 @@
 const messages = {
   'ui.admin.settings.title': 'User interface settings',
   'ui.admin.settings.subtitle': 'Common user interface configuration, applying to all modules',
+  'ui.admin.settings.show.product.version': 'Show products version',
   'ui.admin.settings.main.quicklook.group.key.label': 'Main quicklook keyword',
   'ui.admin.settings.models.title': 'Data and documents models',
   'ui.admin.settings.data.models.header': 'Data models: {count}',

@@ -45,6 +45,7 @@ import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersC
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
 import ProductsComponent from '../product/ProductsComponent'
 import SessionDeleteDialogComponent from './SessionDeleteDialogComponent'
+import SessionsMonitoringVersionRenderer from './render/SessionsMonitoringVersionRenderer'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
@@ -113,6 +114,7 @@ export class SessionsMonitoringComponent extends React.Component {
     PRODUCTS: 'column.products',
     SIP: 'column.sip',
     AIP_GENERATED: 'column.aip-generated',
+    VERSION: 'column.version',
     AIP_STORED: 'column.aip-stored',
     INDEXED: 'column.indexed',
   }
@@ -341,6 +343,18 @@ export class SessionsMonitoringComponent extends React.Component {
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.version.tooltip' }))
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringVersionRenderer,
+          props: {
+            availableDependencies,
+            onViewRequestsOAIS,
+          },
+        })
+        .label(formatMessage({ id: 'acquisition-sessions.table.version' }))
+        .build(),
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.VERSION)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.VERSION, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
         .rowCellDefinition({
           Constructor: SessionsMonitoringProductsStoredRenderer,

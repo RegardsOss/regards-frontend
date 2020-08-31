@@ -87,8 +87,6 @@ export class StorageUnitScale {
   }
 }
 
-// TODO: static not working here? test!
-
 /** Scale steps (inner use only, to generate all units) **/
 StorageUnitScale.scalesSteps = ['k', 'm', 'g', 't', 'p', 'e', 'z', 'y']
 StorageUnitScale.bitsScale = new StorageUnitScale('bits', units.BIT, 'b', 10 ** 3, [

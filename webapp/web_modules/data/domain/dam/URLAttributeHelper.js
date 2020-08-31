@@ -38,10 +38,9 @@ export class URLAttributeHelper {
   /**
    * Parses URL parts in URL attribute value
    * @param {string} value value
-   * @param {number} partIndex requested part index
    * @return {{name: string, uri: string}} found part or null
    */
-  static parseURIValue(value, partIndex) {
+  static parseURIValue(value) {
     if (isString(value)) {
       const foundParts = value.match(URLAttributeHelper.URL_WITH_NAME_REGEXP)
       // is URL with name?

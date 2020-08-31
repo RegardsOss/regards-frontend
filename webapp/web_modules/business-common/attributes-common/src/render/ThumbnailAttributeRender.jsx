@@ -18,18 +18,17 @@
  **/
 import get from 'lodash/get'
 import compose from 'lodash/fp/compose'
-import NoDataIcon from 'mdi-material-ui/Wallpaper'
 import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { ZoomablePicture } from '@regardsoss/components'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { ThumbnailHelper } from '@regardsoss/domain/ui'
 import messages from '../i18n'
 import styles from '../styles'
-import ThumbnailFullSizePictureDialog from './ThumbnailFullSizePictureDialog'
 
 /** Default UI settings selectors instance, retrieving common user app settings data */
 const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
@@ -64,30 +63,12 @@ export class ThumbnailAttributeRender extends React.Component {
     projectName: PropTypes.string,
     accessToken: PropTypes.string,
     // From mapStateToProps
-    settings: UIShapes.UISettings.isRequired, // used in onPropertiesUpdated
+    settings: UIShapes.UISettings.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
-  }
-
-  state = {
-    showFullSizeDialog: false,
-  }
-
-  /**
-   * Callback: user clicked on cell, requesting full size picture dialog
-   */
-  onShowFullSizeDialog = () => {
-    this.setState({ showFullSizeDialog: true })
-  }
-
-  /**
-   * Callback: user closed full size picture dialog
-   */
-  onCloseFullSizeDialog = () => {
-    this.setState({ showFullSizeDialog: false })
   }
 
   /**
@@ -110,35 +91,14 @@ export class ThumbnailAttributeRender extends React.Component {
 
   render() {
     const { dimensions } = this.props
-    const { showFullSizeDialog } = this.state
-    // in resolved attributes, get the first data, if any
-    const { intl: { formatMessage }, moduleTheme: { defaultThumbnailDimensions, thumbnailPicture, noThumbnailIcon } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { defaultThumbnailStyle } } = this.context
 
-    const picture = this.getPictureFile()
-    return (
-      <div
-        style={dimensions || defaultThumbnailDimensions}
-        title={picture ? null : formatMessage({ id: 'attribute.thumbnail.alt' })}
-      >
-        {
-          picture ? (
-            <img
-              src={picture.uri}
-              style={thumbnailPicture}
-              alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
-              onClick={this.onShowFullSizeDialog}
-            />) : (
-              <NoDataIcon
-                style={noThumbnailIcon}
-              />)
-        }
-        <ThumbnailFullSizePictureDialog
-          thumbnailURI={picture ? picture.uri : null}
-          open={showFullSizeDialog}
-          onClose={this.onCloseFullSizeDialog}
-        />
-      </div>
-    )
+    const pictureURI = (this.getPictureFile() || {}).uri
+    return <ZoomablePicture
+      style={dimensions || defaultThumbnailStyle}
+      normalPicURL={pictureURI}
+      alt={formatMessage({ id: 'attribute.thumbnail.alt' })}
+    />
   }
 }
 

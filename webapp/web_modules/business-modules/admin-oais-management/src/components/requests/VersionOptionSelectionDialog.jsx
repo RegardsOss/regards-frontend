@@ -1,0 +1,123 @@
+/**
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import values from 'lodash/values'
+import Dialog from 'material-ui/Dialog'
+import { IngestShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { TableSelectionModes } from '@regardsoss/components'
+import { FlatButton, RadioButtonGroup } from 'material-ui'
+import { IngestDomain } from '@regardsoss/domain'
+import RadioButton from 'material-ui/RadioButton'
+
+/** Possible version options for products */
+const AVAILABLE_VERSION_OPTIONS = [
+  IngestDomain.VERSIONING_MODES_ENUM.IGNORE,
+  IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
+  IngestDomain.VERSIONING_MODES_ENUM.REPLACE,
+]
+
+/**
+ * Version option selection dialog: allows user selection a version option for a selection of waiting requests
+ *
+ * @author Raphaël Mechali
+ */
+export default function VersionOptionSelectionDialog(
+  { selection, onClose, onConfirm },
+  {
+    intl: { formatMessage },
+    moduleTheme: { requests: { selectionDialog: { headerMessage } } },
+  }) {
+  if (!selection.open) { // avoid computing anything while closed
+    return null
+  }
+  const [selectedOption, setSelectedOption] = React.useState(IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION)
+  const requestCount = selection.mode === TableSelectionModes.includeSelected
+    ? selection.entities.length // count: number of entities
+    : Number.MAX_SAFE_INTEGER // count doesn't matter, as long as it is plural
+  const isSingleElt = requestCount === 1
+
+  /** Callback: new radio selected */
+  function onOptionSelected(evt, option) {
+    setSelectedOption(option)
+  }
+
+  /** Callback: on confirm */
+  function onDialogConfirm() {
+    onConfirm(selectedOption)
+  }
+
+  return (
+    <Dialog
+      open
+      title={formatMessage({ id: 'oais.requests.selection.version.option.title' }, { requestCount })}
+      actions={
+        <>
+          <FlatButton
+            primary
+            label={formatMessage({ id: 'oais.requests.selection.version.option.cancel' })}
+            onClick={onClose}
+          />
+          <FlatButton
+            label={formatMessage({ id: 'oais.requests.selection.version.option.confirm' })}
+            onClick={onDialogConfirm}
+          />
+        </>
+      }
+    >
+      <div style={headerMessage}>
+        { /* Top message */
+        formatMessage({
+          id: `oais.requests.selection.version.option.${isSingleElt ? 'single' : 'many'}.message`,
+        }, {
+          providerId: isSingleElt ? selection.entities[0].content.providerId : null,
+        })
+      }
+      </div>
+      <div>
+        <RadioButtonGroup name="options.group" valueSelected={selectedOption} onChange={onOptionSelected}>
+          { /** Options */
+          AVAILABLE_VERSION_OPTIONS.map((opt) => (
+            <RadioButton
+              key={opt}
+              value={opt}
+              label={formatMessage({ id: `oais.requests.selection.version.option.${opt}` }, { requestCount })}
+            />
+          ))
+        }
+        </RadioButtonGroup>
+      </div>
+    </Dialog>
+  )
+}
+
+VersionOptionSelectionDialog.propTypes = {
+  selection: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+    mode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    entities: PropTypes.arrayOf(IngestShapes.RequestEntity).isRequired,
+  }),
+  onClose: PropTypes.func.isRequired,
+  onConfirm: PropTypes.func.isRequired,
+}
+
+VersionOptionSelectionDialog.contextTypes = {
+  ...i18nContextType,
+  ...themeContextType,
+}

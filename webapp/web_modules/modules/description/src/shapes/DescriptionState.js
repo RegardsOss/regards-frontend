@@ -92,6 +92,7 @@ export const DescriptionEntity = PropTypes.shape({
     couplingTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     linkedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     linkedDocuments: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    otherVersions: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }).isRequired,
 })
 

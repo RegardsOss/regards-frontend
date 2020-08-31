@@ -29,7 +29,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 export class DateValueRender extends React.Component {
   /** Default formatters */
-  static DEFAULT_FORMATTERS = { // TODO: test if it is possible, really not sure! (static references are after!)
+  static DEFAULT_FORMATTERS = {
     date: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.date' }, DateValueRender.getMessageParameters(date)),
     dateWithMinutes: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMinutes' }, DateValueRender.getMessageParameters(date)),
     dateWithSeconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithSeconds' }, DateValueRender.getMessageParameters(date)),

@@ -106,7 +106,7 @@ export class TitleAndTabsContainer extends React.Component {
     // compute tabs state
     newState.tabs = TitleAndTabsContainer.TABS_ORDER.reduce((acc, tabType) => {
       let tabVisible
-      let tabName = null
+      let contextCriterion = null
       switch (tabType) {
         case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
           tabVisible = true // always visible
@@ -119,11 +119,7 @@ export class TitleAndTabsContainer extends React.Component {
           const { contextTags } = resultsContext.tabs[tabType].criteria
           // visible when there is root context tag
           tabVisible = contextTags.length > 0 && contextTags[0].type !== CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED
-          tabName = tabVisible ? contextTags[0].label : null
-          if (tabName && CatalogDomain.TagsHelper.isCouplingTag(tabName)) {
-            // specific case of coupling tags: use only coupling label
-            tabName = CatalogDomain.TagsHelper.parseCouplingTag(tabName).label
-          }
+          contextCriterion = tabVisible ? contextTags[0] : null
           break
         }
         default:
@@ -132,7 +128,7 @@ export class TitleAndTabsContainer extends React.Component {
       return tabVisible ? [
         ...acc, {
           tabType,
-          tabName,
+          contextCriterion,
           selected: resultsContext.selectedTab === tabType,
           closable: TitleAndTabsContainer.CLOSABLE_TABS.includes(tabType),
         }] : acc

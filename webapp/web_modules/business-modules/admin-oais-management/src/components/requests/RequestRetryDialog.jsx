@@ -26,6 +26,7 @@ import messages from '../../i18n'
  */
 export class RequestRetryDialog extends React.Component {
   static propTypes = {
+    open: PropTypes.bool.isRequired,
     onConfirmRetry: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
@@ -55,6 +56,7 @@ export class RequestRetryDialog extends React.Component {
   }
 
   render() {
+    const { open } = this.props
     const { intl: { formatMessage } } = this.context
 
     return (
@@ -62,7 +64,7 @@ export class RequestRetryDialog extends React.Component {
         title={formatMessage({ id: 'oais.requests.confirm.retry.title' })}
         actions={this.renderActions()}
         modal={false}
-        open
+        open={open}
       >
         {formatMessage({ id: 'oais.requests.confirm.retry.message' })}
       </Dialog>

@@ -23,9 +23,11 @@ import isNil from 'lodash/isNil'
 import isString from 'lodash/isString'
 import root from 'window-or-global'
 import reduce from 'lodash/reduce'
+import values from 'lodash/values'
 import {
   CatalogDomain, CommonDomain, DamDomain, UIDomain,
 } from '@regardsoss/domain'
+import { EntityConfiguration, ModelAttributeConfiguration } from '@regardsoss/api'
 import { StringComparison } from '@regardsoss/form-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
 import { BROWSING_SECTIONS_ENUM } from '../../domain/BrowsingSections'
@@ -67,6 +69,7 @@ export class DescriptionEntityHelper {
         couplingTags: [],
         linkedEntities: [],
         linkedDocuments: [],
+        otherVersions: [],
       },
     }
   }
@@ -93,6 +96,7 @@ export class DescriptionEntityHelper {
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
    * @param {*} uiSettings matching UIShapes.UISettings
    * @param {function} fetchEntity function to fetch an entity: (id) => Promise
+   * @param {function} fetchAllEntityVersions function to fetch all versions of a given entity: (id) => Promise
    * @param {function} fetchModelAttributes function to fetch model attributes on model name: (name) => Promise
    * @param {string} accessToken when there is one
    * @param {string} projectName current project (tenant) name
@@ -101,45 +105,86 @@ export class DescriptionEntityHelper {
    */
   static resolveDescriptionEntity(
     moduleConfiguration, descriptionEntity, uiSettings,
-    fetchEntity, fetchModelAttributes, accessToken, projectName,
-    descriptionUpdateGroupId) {
-    const { entity: { content: { tags, model: modelName } } } = descriptionEntity
-    // 1 - resolve all tags (apply tags filter from configuration)
-    return new Promise((resolve) => Promise.all(tags
-      .map((tag) => DescriptionEntityHelper.resolveEntityTag(tag, fetchEntity))).then((resolvedTags) => {
-      // 2 - Retrieve or fetch model (prepare functions with local parameters)
-      /**
-       * Resolves with found model attributes or failure
-       * @param {*} attributes map of resolved attributes, matching AttributeModelList
-       * @param {boolean} modelRetrievalFailed has restrieval failed?
-       */
-      function resolveModelAttributes(modelAttributes = {}, modelRetrievalFailed = true) {
+    fetchEntity, fetchAllEntityVersions, fetchModelAttributes,
+    accessToken, projectName, descriptionUpdateGroupId) {
+    // extract type configuration (pseudo document type should be taken in account)
+    const { entity } = descriptionEntity
+    const typeConfiguration = moduleConfiguration[
+      UIDomain.isDocumentEntity(uiSettings, entity)
+        ? UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT // use document pseudo type configuration
+        : entity.content.entityType // use entity type configuration
+    ]
+    // resolve model attributes, other versions (when required) and tags
+    const {
+      content: {
+        id, tags, model, entityType,
+      },
+    } = entity
+    return Promise.all([
+      DescriptionEntityHelper.resolveModelAttributes(model, fetchModelAttributes),
+      DescriptionEntityHelper.resolveOtherVersions(id, entityType, typeConfiguration, fetchAllEntityVersions),
+      ...tags.map((tag) => DescriptionEntityHelper.resolveEntityTag(tag, fetchEntity)),
+    ]).then(([
+      { modelAttributes, modelRetrievalFailed },
+      otherVersions,
+      ...resolvedTags]) => ({ // Resolve entity runtime description model
+      descriptionEntity: DescriptionEntityHelper.buildFullDescriptionEntity(
+        uiSettings, typeConfiguration, modelAttributes, descriptionEntity,
+        otherVersions, resolvedTags, accessToken, projectName, modelRetrievalFailed),
+      descriptionUpdateGroupId,
+    }))
+  }
+
+  /**
+   * Resolves model attributes and provides resolution status. It keeps a buffer of previously resolved elements
+   * @param {string} modelName model name
+   * @param {function} fetchModelAttributes function to fetch model attributes on model name: (name) => Promise
+   * @returns {Promise} resolving with {{modelAttributes: string, modelRetrievalFailed: string}}
+   */
+  static resolveModelAttributes(modelName, fetchModelAttributes) {
+    return new Promise((resolve) => {
+      /** Resolution method: stores result in BUFFER then resolves **/
+      function resolveWithAttributes(modelAttributes, modelRetrievalFailed = true) {
         // store model attributes
-        DescriptionEntityHelper.FETCHED_MODELS_MAP[modelName] = {
-          modelAttributes,
-          failed: false,
-        }
+        DescriptionEntityHelper.FETCHED_MODELS_MAP[modelName] = { modelAttributes, modelRetrievalFailed }
         // resolve entity display model
-        resolve({
-          descriptionEntity: DescriptionEntityHelper.buildFullDescriptionEntity(
-            uiSettings, moduleConfiguration, modelAttributes, descriptionEntity,
-            resolvedTags, accessToken, projectName, modelRetrievalFailed),
-          descriptionUpdateGroupId,
-        })
+        resolve({ modelAttributes, modelRetrievalFailed })
       }
+      // Init code: search in buffer or pull model attributes
       const bufferingMapEntry = DescriptionEntityHelper.FETCHED_MODELS_MAP[modelName]
       if (bufferingMapEntry) {
-        // 2.1 - Locally buffered, skip fetching model
-        resolveModelAttributes(bufferingMapEntry.modelAttributes, bufferingMapEntry.failed)
+        resolve(bufferingMapEntry)
       } else {
-      // 2.2 - Locally unknown, fetch model
         fetchModelAttributes(modelName)
-          .then(({ payload, meta }) => {
-            const fetchedModelAttributes = get(payload, 'entities.modelattribute')
-            resolveModelAttributes(DescriptionEntityHelper.toSimpleAttributesMap(fetchedModelAttributes), meta.status >= 400)
-          }).catch(resolveModelAttributes)
+          .then(({ payload, meta }) => resolveWithAttributes(
+            DescriptionEntityHelper.toSimpleAttributesMap(get(payload, `entities.${ModelAttributeConfiguration.normalizrKey}`)), meta.status >= 400))
+          .catch(resolveWithAttributes)
       }
-    }))
+    })
+  }
+
+  /**
+   * Resolves other entity versions: performed only when module was configured to show other versions
+   * @param {string} id entity ID
+   * @param {string} entityType Entity actual type (not pseudo type), from DamDomain.ENTITY_TYPES_ENUM
+   * @param {*} typeConfiguration actual type configuration (considering pseudo type), matches ModuleConfiguration#DescriptionConfiguration
+   * @param {function} fetchAllEntityVersions function to fetch all versions, like (id, type) => Promise
+   * @returns {Promise} resolving with an array of CatalogShapes.Entity
+   */
+  static resolveOtherVersions(id, entityType, typeConfiguration, fetchAllEntityVersions) {
+    return new Promise((resolve) => {
+      const resolveEmpty = () => resolve([])
+      if (typeConfiguration.showOtherVersions) { // fetch all versions and resolve with result
+        fetchAllEntityVersions(id, entityType)
+          .then(({ payload }) => {
+            const entitiesMap = get(payload, `entities.${EntityConfiguration.normalizrKey}`, {})
+            // keep other versions but not self
+            resolve(values(entitiesMap).filter((e) => e.content.id !== id).sort((e1, e2) => e1.content.version - e2.content.version))
+          }).catch(resolveEmpty)
+      } else { // Not showing other versions for that entity type
+        resolveEmpty()
+      }
+    })
   }
 
   /**
@@ -173,9 +218,10 @@ export class DescriptionEntityHelper {
   /**
    * Packs entity with
    * @param {*} uiSettings matching UIShapes.UISettings
-   * @param {*} moduleConfiguration module configuration matching ModuleConfiguration shape
+   * @param {*} typeConfiguration type configuration matching ModuleConfiguration#DescriptionConfiguration shape
    * @param {*} attributes model attributes map as DataManagementShapes.AttributeModelList
    * @param {*} descriptionEntity description entity model matching DescriptionState.DescriptionEntity
+   * @param {[*]} otherVersions other versions of current entity, as an array of CatalogShapes.Entity
    * @param {string|*} tags resolved tags, containing either word tags or elements matching CatalogShapes.Entity
    * @param {string} accessToken when there is one
    * @param {string} projectName current project (tenant) name
@@ -183,14 +229,9 @@ export class DescriptionEntityHelper {
    * @return {*} build display model, matching DescriptionState.DescriptionEntity shape
    */
   static buildFullDescriptionEntity(
-    uiSettings, moduleConfiguration, attributes, descriptionEntity,
-    tags, accessToken, projectName, modelRetrievalFailed) {
+    uiSettings, typeConfiguration, attributes, descriptionEntity,
+    otherVersions, tags, accessToken, projectName, modelRetrievalFailed) {
     const { entity, displayModel: initialDisplayModel } = descriptionEntity
-    const typeConfiguration = moduleConfiguration[
-      UIDomain.isDocumentEntity(uiSettings, entity)
-        ? UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT // use document pseudo type configuration
-        : entity.content.entityType // use entity type configuration
-    ]
     const hasValidConfiguration = get(typeConfiguration, 'showDescription', false)
     return {
       ...descriptionEntity,
@@ -206,6 +247,7 @@ export class DescriptionEntityHelper {
         ...DescriptionEntityHelper.packPictures(typeConfiguration, uiSettings.primaryQuicklookGroup, entity, accessToken, projectName),
         // packs tags in corresponding fields
         ...DescriptionEntityHelper.splitAndSortTags(uiSettings, typeConfiguration, tags),
+        otherVersions,
       } : initialDisplayModel, // default to initial display model
     }
   }
@@ -352,7 +394,8 @@ export class DescriptionEntityHelper {
         available: true, // selected file is always available
         uri: thumbnailFile.uri,
       } : null,
-      quicklookFiles,
+      // quicklooks: provided it only when enabled for that type configuration (empty array will results in hidden tree section)
+      quicklookFiles: typeConfiguration.showQuicklooks ? quicklookFiles : [],
     }
   }
 

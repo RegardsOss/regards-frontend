@@ -22,6 +22,7 @@ import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { TableSelectionModes } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 
 /** HATEOAS-able button, exported for tests */
@@ -46,7 +47,7 @@ class RequestDeleteOption extends React.Component {
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    onDelete(entity)
+    onDelete(TableSelectionModes.includeSelected, [entity])
   }
 
   render() {

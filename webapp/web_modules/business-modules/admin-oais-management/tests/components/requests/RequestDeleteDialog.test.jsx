@@ -36,8 +36,9 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestDeleteDialog', () => {
   it('should exists', () => {
     assert.isDefined(RequestDeleteDialog)
   })
-  it('should render correctly in edition', () => {
+  it('should render correctly open', () => {
     const props = {
+      open: true,
       onConfirmDelete: () => {},
       onClose: () => {},
     }
@@ -46,6 +47,21 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestDeleteDialog', () => {
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'The dialog should be opened')
+
+    assert.equal(dialogWrapper.props().onConfirmDelete, enzymeWrapper.instance().onConfirmDelete, 'onConfirmDelete callback should be correctly set')
+    assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')
+  })
+  it('should render correctly closed', () => {
+    const props = {
+      open: false,
+      onConfirmDelete: () => {},
+      onClose: () => {},
+    }
+    const enzymeWrapper = shallow(<RequestDeleteDialog {...props} />, { context })
+
+    const dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
+    assert.isFalse(dialogWrapper.props().open, 'The dialog should be closed')
 
     assert.equal(dialogWrapper.props().onConfirmDelete, enzymeWrapper.instance().onConfirmDelete, 'onConfirmDelete callback should be correctly set')
     assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')

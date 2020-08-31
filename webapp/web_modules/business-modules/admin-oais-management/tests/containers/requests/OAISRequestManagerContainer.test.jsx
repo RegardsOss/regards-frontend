@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { TableSelectionModes } from '@regardsoss/components'
 import { OAISRequestManagerContainer } from '../../../src/containers/requests/OAISRequestManagerContainer'
 import styles from '../../../src/styles'
 import OAISRequestManagerComponent from '../../../src/components/requests/OAISRequestManagerComponent'
@@ -47,7 +48,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
   it('should exists', () => {
     assert.isDefined(OAISRequestManagerContainer)
   })
-  it('should render correctly', () => {
+  it('should render correctly with unresolved mode selection dependency', () => {
     const props = {
       params: {
         project: 'any',
@@ -57,14 +58,6 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
         size: 20,
         totalElements: 50,
       },
-
-      fetchProcessingChains: () => {},
-      fetchPage: () => {},
-      clearSelection: () => {},
-      deleteRequests: () => {},
-      retryRequests: () => {},
-      abortRequests: () => {},
-      updateStateFromRequestManager: () => {},
 
       featureManagerFilters: {
         state: '',
@@ -76,20 +69,68 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
         session: '',
         categories: [],
         storages: [],
+        last: false,
       },
-      selectionMode: '',
-
+      tableSelection: [],
+      selectionMode: TableSelectionModes.excludeSelected,
+      availableDependencies: [],
+      fetchProcessingChains: () => {},
+      fetchPage: () => {},
+      clearSelection: () => {},
+      deleteRequests: () => {},
+      retryRequests: () => {},
+      selectVersionOption: () => {},
+      abortRequests: () => {},
+      updateStateFromRequestManager: () => {},
     }
+
     const enzymeWrapper = shallow(<OAISRequestManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(OAISRequestManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      updateStateFromRequestManager: props.updateStateFromRequestManager,
       pageSize: OAISRequestManagerContainer.PAGE_SIZE,
+      pageMeta: props.meta,
       featureManagerFilters: props.featureManagerFilters,
       requestFilters: props.requestFilters,
+      modeSelectionAllowed: false, // from state, should be false as dependencies are not provided
+      fetchPage: props.fetchPage,
+      clearSelection: props.clearSelection,
+      tableSelection: props.tableSelection,
       selectionMode: props.selectionMode,
-      deleteRequests: props.deleteRequests,
+      selectVersionOption: props.selectVersionOption,
       retryRequests: props.retryRequests,
+      deleteRequests: props.deleteRequests,
+      abortRequests: props.abortRequests,
     }, 'Component should define the expected properties and callbacks')
+  })
+  it('should render correctly with resolved mode selection dependency', () => {
+    const props = {
+      params: {
+        project: 'any',
+      },
+      meta: {
+        number: 2,
+        size: 20,
+        totalElements: 50,
+      },
+      featureManagerFilters: {},
+      tableSelection: [],
+      selectionMode: TableSelectionModes.includeSelected,
+      availableDependencies: OAISRequestManagerContainer.SELECT_VERSION_DEPENDENCIES, // minimal dependencies to allow corresponding action
+      fetchProcessingChains: () => {},
+      fetchPage: () => {},
+      clearSelection: () => {},
+      deleteRequests: () => {},
+      retryRequests: () => {},
+      selectVersionOption: () => {},
+      abortRequests: () => {},
+      updateStateFromRequestManager: () => {},
+    }
+
+    const enzymeWrapper = shallow(<OAISRequestManagerContainer {...props} />, { context })
+    const componentWrapper = enzymeWrapper.find(OAISRequestManagerComponent)
+    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+    assert.isTrue(componentWrapper.props().modeSelectionAllowed)
   })
 })

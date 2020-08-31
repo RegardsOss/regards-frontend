@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../../../../../src/definitions/CriterionBuilder'
 import TagCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/TagCriterionComponent'
 import ApplyingCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/ApplyingCriterionComponent'
@@ -42,13 +43,14 @@ describe('[SEARCH RESULTS] Testing TagCriterionComponent', () => {
   it('should render correctly', () => {
     const props = {
       tagCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+      settings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
       onUnselectTagFilter: () => {},
     }
     const enzymeWrapper = shallow(<TagCriterionComponent {...props} />, { context })
     const delegateWrapper = enzymeWrapper.find(ApplyingCriterionComponent)
     assert.lengthOf(delegateWrapper, 1)
     testSuiteHelpers.assertWrapperProperties(delegateWrapper, {
-      label: props.tagCriterion.label,
+      label: 'attribute.render.simple.label', // rendered using common utils, in TagLabelHelper.test
       selectedCriterion: props.tagCriterion,
       onUnselectCriterion: props.onUnselectTagFilter,
     })

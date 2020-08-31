@@ -208,13 +208,13 @@ export class SessionsMonitoringContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  onViewRequestsOAIS = (source, session, error = false) => {
+  onViewRequestsOAIS = (source, session, state) => {
     const { params: { project } } = this.props
     const urlParams = {
       display: 'requests',
       source,
       session,
-      state: error ? 'ERROR' : undefined,
+      state,
     }
     const queryString = Object.keys(urlParams).map((key) => `${key}=${urlParams[key]}`).join('&')
     const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`

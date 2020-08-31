@@ -22,6 +22,7 @@ import AvReplay from 'mdi-material-ui/Replay'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { TableSelectionModes } from '@regardsoss/components'
 import dependencies from '../../dependencies'
 
 /** HATEOAS-able button, exported for tests */
@@ -46,7 +47,7 @@ class RequestRetryOption extends React.Component {
    */
   onClick = () => {
     const { entity, onRetry } = this.props
-    onRetry(entity)
+    onRetry(TableSelectionModes.includeSelected, [entity])
   }
 
   render() {

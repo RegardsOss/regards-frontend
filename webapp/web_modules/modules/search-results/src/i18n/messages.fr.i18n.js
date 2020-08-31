@@ -29,7 +29,7 @@ const messages = {
   ...Locales.fr,
   // units messages
   ...storage.messages.fr,
-  // attributes common messages (used to format attributes locally)
+  // attributes common messages (used to format attributes locally and label/version)
   ...attributesCommonMsg.fr,
 
   // Administration messages
@@ -88,7 +88,9 @@ const messages = {
   'search.results.form.configuration.search.pane.options.common.position.simple.reference': '#{index}',
   'search.results.form.configuration.search.pane.options.common.position.reference.with.label': '#{index} "{label}"',
   'search.results.form.configuration.search.pane.options.column.delete.tooltip': 'Supprimer',
-  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions des résultats par les jeux de données',
+  'search.results.form.restrictions.configuration.data.restrictions.title': 'Restrictions sur les données',
+  'search.results.form.restrictions.configuration.data.last.version.only': 'Dernière version uniquement',
+  'search.results.form.restrictions.configuration.dataset.restrictions.title': 'Restrictions par les jeux de données',
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
@@ -226,6 +228,7 @@ const messages = {
   'search.filter.search.criteria.label': 'Recherche',
   'search.filter.static.reactive': 'Réactiver ce critère',
 
+  'results.quicklooks.picture.alt': 'Imagette',
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Sélectionner des entités',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Dessiner une zone de recherche',
   'results.map.tools.tooltip.opacity': 'Changer l\'opacité de la couche',

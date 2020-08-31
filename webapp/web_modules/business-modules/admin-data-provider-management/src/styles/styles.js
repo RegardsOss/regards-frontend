@@ -206,6 +206,23 @@ const styles = (theme) => ({
           paddingLeft: '5px',
         },
       },
+      versioningState: {
+        waiting: {
+          container: {
+            paddingTop: '6px',
+            cursor: 'pointer',
+            animation: 'shake 3s infinite',
+          },
+          text: {
+            color: theme.sessionsMonitoring.waitingVersionColor,
+            display: 'inline-block',
+            height: 29,
+            fontWeight: 'bold',
+            marginRight: 12,
+          },
+          iconColor: theme.palette.textColor,
+        },
+      },
       acquiredProductState: {
         running: {
           color: theme.sessionsMonitoring.acquiredProductRunningColor,

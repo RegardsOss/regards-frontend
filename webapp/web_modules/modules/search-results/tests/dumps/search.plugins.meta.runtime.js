@@ -35,7 +35,7 @@ export const pluginMeta2 = {
       name: 'f1',
       description: 'Terminator doesn\'t need any human readable label',
       attributeType: [
-        DamDomain.MODEL_ATTR_TYPES.BOOLEAN,
+        DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY,
         DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL,
       ],
     }],

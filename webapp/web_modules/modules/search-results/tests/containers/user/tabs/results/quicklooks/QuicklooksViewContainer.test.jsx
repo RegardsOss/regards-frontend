@@ -66,6 +66,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       embedInMap: false,
       mapThumbnailHeight: null,
       settings: {
+        showVersion: true,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
       },
@@ -131,6 +132,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       embedInMap: true,
       mapThumbnailHeight: 55,
       settings: {
+        showVersion: false,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
       },

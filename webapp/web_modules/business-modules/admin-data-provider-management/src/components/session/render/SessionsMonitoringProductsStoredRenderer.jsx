@@ -25,7 +25,7 @@ import get from 'lodash/get'
 import Menu from 'mdi-material-ui/DotsVertical'
 import MenuItem from 'material-ui/MenuItem'
 import RunningIcon from 'mdi-material-ui/Play'
-import { AccessDomain } from '@regardsoss/domain'
+import { AccessDomain, IngestDomain } from '@regardsoss/domain'
 import { AccessShapes } from '@regardsoss/shape'
 import { IngestClient } from '@regardsoss/client'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -81,7 +81,7 @@ class SessionsMonitoringProductsStoredRenderer extends React.Component {
 
   onClickListRequestErrors = () => {
     const { entity, onViewRequestsOAIS } = this.props
-    onViewRequestsOAIS(entity.content.source, entity.content.name, true)
+    onViewRequestsOAIS(entity.content.source, entity.content.name, IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR)
   }
 
   getErrors = (entity) => {

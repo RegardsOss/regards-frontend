@@ -49,7 +49,7 @@ describe('[Description] Testing AttributesGroupComponent', () => {
         assert.include(debugContent, group.title.fr, 'Title should be shown')
       }
       // for each element, check label and value are displayed
-      // TODO-V0.5: waiting for next enzyme version, that will support search in fragments (not yet available in release)
+      // TODO-V1.3: waiting for next enzyme version, that will support search in fragments (not yet available in release)
       // group.elements.forEach(({ label: groupLabel, displayedAttributes }, elementIndex) => {
       //   const elementDiv = enzymeWrapper.children().find(n => console.info('x:', n.props().title) || n.props().title === groupLabel.fr)
       //   // Nota: we must here test on tooltip and not label, as label may be to long for enzyme to log it

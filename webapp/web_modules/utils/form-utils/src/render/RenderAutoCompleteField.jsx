@@ -128,7 +128,7 @@ export class RenderAutoCompleteField extends React.Component {
           onNewRequest={this.onNewRequest}
           searchText={input.value ? input.value : searchText || ''}
           onUpdateInput={this.onUpdateInput}
-          onClick={this.onClick()}
+          onClick={this.onClick}
           dataSource={dataSource}
           dataSourceConfig={dataSourceConfig}
           openOnFocus={openOnFocus}

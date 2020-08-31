@@ -18,6 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
+import { messages as attrMsg } from '@regardsoss/attributes-common'
 
 /**
  * Module french messages
@@ -38,7 +39,9 @@ const messages = {
   'module.description.configuration.show.coupling': 'Afficher les couplages liés',
   'module.description.configuration.show.linked.documents': 'Afficher les documents liés',
   'module.description.configuration.show.linked.entities': 'Afficher les entités liées',
+  'module.description.configuration.show.other.versions': 'Afficher les autres versions de l\'entité',
   'module.description.configuration.show.thumbnail': 'Afficher la vignette',
+  'module.description.configuration.show.quicklooks': 'Afficher les quicklooks',
   'module.description.configuration.description.files.title': 'Fichiers de description',
   'module.description.configuration.description.files.hint': 'Saisissez ici les attributs URL à utiliser comme fichiers de description',
   'module.description.configuration.add.group': 'Ajouter un groupe d\'attributs',
@@ -68,6 +71,8 @@ const messages = {
   'module.description.common.search.entity.tooltip': 'Rechercher les données liées à {entityLabel}',
   'module.description.common.download.file.tooltip': 'Télécharger le fichier {fileName}',
   'module.description.common.file.preview.tooltip': 'Afficher la prévisualisation de {fileName}',
+  'module.description.common.version.link.label': 'Version {version}',
+  'module.description.common.version.link.tooltip': 'Afficher la description de cette version',
   'module.description.header.toggle.tree.visible.tooltip': 'Afficher / cacher l\'arbre de navigation dans la description',
   'module.description.header.search.entity.label': 'Rechercher les données liées',
   'module.description.header.search.entity.tooltip': 'Rechercher les données liées à celle affichée',
@@ -87,6 +92,8 @@ const messages = {
   'module.description.tree.section.LINKED_DOCUMENTS.tooltip': 'Afficher la liste des documents liés',
   'module.description.tree.section.FILES.label': 'Fichiers',
   'module.description.tree.section.FILES.tooltip': 'Fichiers',
+  'module.description.tree.section.OTHER_VERSIONS.label': 'Autres versions',
+  'module.description.tree.section.OTHER_VERSIONS.tooltip': 'Autres version de l\'entité',
   'module.description.tree.show.entity.description.tooltip': 'Afficher la description de cette donnée',
   'module.description.content.parameters.thumbnail.alt.text': 'Vignette: {label}',
   'module.description.content.quicklook.group.unknown': 'Groupe anonyme',
@@ -95,6 +102,8 @@ const messages = {
   ...Locales.fr,
   // Storage units messages
   ...storage.messages.fr,
+  // Attributes messages
+  ...attrMsg.fr,
 }
 
 export default messages
