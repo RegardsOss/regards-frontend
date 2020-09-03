@@ -343,7 +343,7 @@ export class OAISRequestManagerComponent extends React.Component {
     const { mode, entities } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
     return {
-      contextRequestBodyParameters: this.state.contextRequestBodyParameters,
+      ...this.state.contextRequestBodyParameters,
       requestIdSelectionMode: mode === TableSelectionModes.includeSelected
         ? OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE
         : OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
