@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import { OrderShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
 import { Breadcrumb } from '@regardsoss/components'
 
 /**
@@ -41,10 +40,6 @@ class OrdersNavigationComponent extends React.Component {
     onResetTolevel: PropTypes.func.isRequired,
   }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
   /**
    * On user clicked a level (adapt for parent, to provide only level index)
    * @param {ROOT_MARKER|OrderWithContent|DatasetTask} element element clicked
@@ -60,14 +55,13 @@ class OrdersNavigationComponent extends React.Component {
    */
   getLabel = (element, index) => {
     const { title } = this.props
-    const { intl: { formatMessage } } = this.context
     switch (index) {
       case 0:
         // level 0: root, format according with calling module mode
         return title
       case 1:
         // level 1: order DTO
-        return formatMessage({ id: 'order.list.navigation.command.label' }, { number: get(element, 'content.id') })
+        return get(element, 'content.label')
       case 2:
         // level 2: dataset tasks
         return get(element, 'datasetLabel')

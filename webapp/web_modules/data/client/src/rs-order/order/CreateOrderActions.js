@@ -24,6 +24,12 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * @author Raphaël Mechali
  */
 class CreateOrderActions extends BasicSignalActions {
+  /** Possible server errors */
+  static SERVER_ERRORS = [
+    'TOO_MANY_CHARACTERS_IN_LABEL',
+    'LABEL_NOT_UNIQUE_FOR_OWNER',
+  ]
+
   /**
    * Constructor
    * @param {*} namespace actions namespace
@@ -36,11 +42,13 @@ class CreateOrderActions extends BasicSignalActions {
   }
 
   /**
-   * @param {string} onSuccessOrderUrl Url used by the email to redirect the user on its orders
-   * @return {type:{string}} redux action to dispatch the create order command
+   * Creates order with label as parameter
+   * @param {string} label new order label
+   * @param {string} onSuccessOrderUrl URL used by the email to redirect the user to its orders list
+   * @return {*} redux action to dispatch the create order command
    */
-  order(onSuccessOrderUrl) {
-    return this.sendSignal('POST', { onSuccessUrl: onSuccessOrderUrl })
+  order(label, onSuccessOrderUrl) {
+    return this.sendSignal('POST', { label, onSuccessUrl: onSuccessOrderUrl })
   }
 }
 
