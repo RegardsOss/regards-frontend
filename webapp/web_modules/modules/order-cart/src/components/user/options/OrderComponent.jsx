@@ -56,7 +56,10 @@ class OrderComponent extends React.Component {
     startingOrder: false,
   })
 
-  /** User callback: hides order start dialog */
+  /** User callback: cancels order (hides dialog) */
+  onCancelStartOrder = () => this.onHideDialog()
+
+  /** Inner callback: hides order start dialog then applies callback as parameter */
   onHideDialog = (callback = noop) => this.setState({
     dialogOpen: false,
     orderLabel: '',
@@ -79,9 +82,10 @@ class OrderComponent extends React.Component {
 
   /**
    * User callback: label input
-   * @param {*} text
+   * @param {*} evt MUI event, unused
+   * @param {string} text new text value
    */
-  onOrderLabelChanged = (text) => this.setState({ orderLabel: text })
+  onOrderLabelChanged = (evt, text) => this.setState({ orderLabel: text })
 
   render() {
     const { disabled, empty } = this.props
@@ -103,7 +107,7 @@ class OrderComponent extends React.Component {
           actions={<>
             <FlatButton
               label={formatMessage({ id: 'order-cart.module.order.confirmation.cancel' })}
-              onClick={this.onHideDialog}
+              onClick={this.onCancelStartOrder}
             />
             <FlatButton
               primary
@@ -123,8 +127,9 @@ class OrderComponent extends React.Component {
             onChange={this.onOrderLabelChanged}
             disabled={startingOrder}
             errorText={serverError ? formatMessage({ id: `order-cart.module.order.confirmation.server.error.${serverError}` }) : null}
-            floatingLabelText={formatMessage({ id: 'order-cart.module.order.confirmation.label.field' })}
+            // floatingLabelText={formatMessage({ id: 'order-cart.module.order.confirmation.label.field' })}
             hintText={formatMessage({ id: 'order-cart.module.order.confirmation.label.hint' })}
+            fullWidth
           />
         </Dialog>
       </>

@@ -38,6 +38,7 @@ class CreateOrderActions extends BasicSignalActions {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ORDER}/user/orders`,
       namespace,
+      bypassErrorMiddleware: true, // displayed locally
     })
   }
 

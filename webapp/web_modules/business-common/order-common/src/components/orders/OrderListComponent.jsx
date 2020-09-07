@@ -26,7 +26,7 @@ import { HOCUtils } from '@regardsoss/display-control'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
-  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent,
+  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent, StringValueRender,
 } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
@@ -236,7 +236,8 @@ class OrderListComponent extends React.Component {
           .build() : null,
 
       // label
-      new TableColumnBuilder(LABEL_KEY).titleHeaderCell().propertyRenderCell('content.label')
+      new TableColumnBuilder(LABEL_KEY).titleHeaderCell()
+        .propertyRenderCell('content.label', StringValueRender, { multilineDisplay: true })
         .visible(get(columnsVisibility, LABEL_KEY, true))
         .label(formatMessage({ id: 'order.list.column.label' }))
         .build(),

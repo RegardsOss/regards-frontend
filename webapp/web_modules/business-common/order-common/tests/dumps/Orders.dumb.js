@@ -23,6 +23,7 @@ export const SOME_ORDERS = {
     0: {
       content: {
         id: 0,
+        label: 'hello command 1',
         owner: 'hello@hello.com',
         creationDate: '2017-10-08T15:59:57.664Z',
         expirationDate: '2018-02-08T18:00:00.664Z',
@@ -54,6 +55,7 @@ export const SOME_ORDERS = {
     1: {
       content: {
         id: 1,
+        label: 'hello command 2',
         owner: 'hello@hello.com',
         creationDate: '2017-10-10T15:59:57.664Z',
         expirationDate: '2018-02-10T18:00:00.664Z',

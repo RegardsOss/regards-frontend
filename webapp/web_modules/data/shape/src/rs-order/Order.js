@@ -38,7 +38,7 @@ export const Order = PropTypes.shape({
   label: PropTypes.string.isRequired,
   owner: PropTypes.string.isRequired,
   creationDate: PropTypes.string.isRequired,
-  expirationDate: PropTypes.string.isRequired,
+  expirationDate: PropTypes.string, // lazy computed AFTER creation, maybe initially null
   percentCompleted: PropTypes.number.isRequired,
   filesInErrorCount: PropTypes.number,
   status: PropTypes.oneOf(OrderDomain.ORDER_STATUS).isRequired,
