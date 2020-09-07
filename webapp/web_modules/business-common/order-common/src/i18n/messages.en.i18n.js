@@ -22,9 +22,6 @@
 * @author Raphaël Mechali
 */
 const messages = {
-  // orders navigation
-  'order.list.navigation.command.label': 'Order {number}',
-
   // orders table
   'no.order.information.title': 'No order found',
   'no.order.information.message': 'You have currently no registered order.',
@@ -37,7 +34,7 @@ const messages = {
   'order.list.user.no.command.header.message': 'You have no order',
   'order.list.user.commands.header.message': 'You have {count} order(s)',
   'order.list.column.owner': 'User',
-  'order.list.column.number': 'Number',
+  'order.list.column.label': 'Label',
   'order.list.column.creation.date': 'Creation',
   'order.list.column.expiration.date': 'Expiration',
   'order.list.column.object.count': 'Objects count',
