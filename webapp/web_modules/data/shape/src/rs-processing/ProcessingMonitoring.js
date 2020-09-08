@@ -16,24 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import PluginParameterContent from './PluginParameter'
-
-export const PluginConfigurationContent = PropTypes.shape({
-  id: PropTypes.number,
-  pluginId: PropTypes.string,
-  label: PropTypes.string,
-  version: PropTypes.string,
-  priorityOrder: PropTypes.number,
-  active: PropTypes.bool,
-  pluginClassName: PropTypes.string,
-  interfacenames: PropTypes.arrayOf(PropTypes.string),
-  parameters: PropTypes.arrayOf(PluginParameterContent),
-  iconUrl: PropTypes.string,
-  businessId: PropTypes.string,
+const Steps = PropTypes.shape({
+    status: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired,
+    message: PropTypes.string,
 })
-export const PluginConfiguration = PropTypes.shape({
-  content: PluginConfigurationContent,
+export const ProcessingMonitoringContent = PropTypes.shape({
+    steps: PropTypes.arrayOf(Steps).isRequired,
+    userName: PropTypes.string.isRequired,
+    created: PropTypes.string.isRequired,
+    processName: PropTypes.string.isRequired,
+    lastUpdated: PropTypes.string.isRequired,
 })
-export const PluginConfigurationList = PropTypes.objectOf(PluginConfiguration)
-
-export const PluginConfigurationArray = PropTypes.arrayOf(PluginConfiguration)
+export const ProcessingMonitoring = PropTypes.shape({
+    content: ProcessingMonitoringContent,
+})
+export const ProcessingMonitoringList = PropTypes.objectOf(ProcessingMonitoring)
+export const ProcessingMonitoringArray = PropTypes.arrayOf(ProcessingMonitoring)

@@ -45,6 +45,7 @@ STATIC_CONF = {
     INGEST: 'rs-ingest',
     FEM: 'rs-fem',
     NOTIFIER: 'rs-notifier',
+    PROCESSING: 'rs-processing',
   },
   // Public proxixied microservice to access secured microservices from user interface.
   // Only some endpoints of associated microservices are availables. Reffer to gateway mircoservice configuration.
