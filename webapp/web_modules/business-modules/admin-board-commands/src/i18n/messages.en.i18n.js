@@ -20,6 +20,11 @@ const messages = {
   'commands.board.orders.title': 'Orders',
   'commands.board.orders.description': 'View and manage user orders on the project',
   'commands.board.tooltip.list': 'List',
+  'commands.board.processing.title': 'Processing',
+  'commands.board.processing.description': 'View and manage orders processing',
+  'commands.board.processing.tooltip.monitoring': 'Monitoring',
+  'commands.board.processing.tooltip.list': 'List',
+  'commands.board.processing.tooltip.add': 'Add',
 }
 
 export default messages
