@@ -56,8 +56,12 @@ export class EntitiesAttributeFormComponent extends React.Component {
     height: '95px',
   }
 
-  state = {
-    restrictions: this.getRestrictions(this.props.modelAttribute),
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      restrictions: this.getRestrictions(this.props.modelAttribute),
+    }
   }
 
   getField = (modelAttribute) => {
