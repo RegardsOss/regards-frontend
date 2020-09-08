@@ -64,7 +64,7 @@ export class TableHeaderAutoCompleteFilterContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     arrayActions: PropTypes.instanceOf(BasicArrayActions).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
-    arraySelectors: PropTypes.instanceOf(BasicArraySelectors).isRequired, // BasicPageableSelectors to retrieve entities from store
+    arraySelectors: PropTypes.instanceOf(BasicArraySelectors).isRequired, // to retrieve entities from store
     // eslint-disable-next-line react/no-unused-prop-types
     text: PropTypes.string.isRequired,
     onChangeText: PropTypes.func.isRequired,
