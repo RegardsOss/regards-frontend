@@ -49,7 +49,7 @@ const validateName = (value) => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
 class StorageLocationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    entity: StorageShapes.StorageMonitoring,
+    entity: StorageShapes.StorageLocation,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
