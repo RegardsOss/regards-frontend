@@ -15,12 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicListSelectors } from '@regardsoss/store-utils'
+ **/
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { ProcessingMetadataConfiguration } from '@regardsoss/api'
+import ProcessingMetadataActions from './ProcessingMetadataActions'
 
 /**
- * Export selectors builder on store path.
- * @param storePath redux store path to access reduced data
- * @return selectors instance
+ * Processing metadata reducer
+ * @author Théo Lasserre
  */
-export default (storePath) => new BasicListSelectors(storePath)
+class ProcessingMetadataReducer extends BasicListReducers {
+    constructor(namespace) {
+        super(ProcessingMetadataConfiguration, new ProcessingMetadataActions(namespace))
+    }
+}
+
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+    const instance = new ProcessingMetadataReducer(namespace)
+    return (state, action) => instance.reduce(state, action)
+}

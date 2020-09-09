@@ -15,34 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { LinkProcessingDatasetConfiguration } from '@regardsoss/api'
+import LinkProcessingDatasetActions from './LinkProcessingDatasetActions'
 
 /**
- * @author Sébastien Binda
+ * Processing fetch reducer
+ * @author Théo Lasserre
  */
-const storageManagementStyles = (theme) => ({
-  rootStyle: {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto',
-    padding: '0 15px 0 20px',
-  },
-  labelStyle: {
-    padding: theme.module.description.attributeLabelPadding,
-    textDecoration: theme.module.description.attributeLabelTextDecoration,
-    justifySelf: 'left',
-    lineHeight: 1,
-  },
-  valueStyle: {
-    padding: theme.module.description.attributeValuesPadding,
-    textDecoration: theme.module.description.attributeValuesTextDecoration,
-    justifySelf: 'stretch',
-    minWidth: 0,
-    lineHeight: 1,
-  },
-  cardTextTabStyle : {
-    maxWidth: "1200px",
-    margin: "0 auto",
-  }
-})
+class LinkProcessingDatasetReducer extends BasicListReducers {
+    constructor(namespace) {
+        super(LinkProcessingDatasetConfiguration, new LinkProcessingDatasetActions(namespace))
+    }
+}
 
-export default storageManagementStyles
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+    const instance = new LinkProcessingDatasetReducer(namespace)
+    return (state, action) => instance.reduce(state, action)
+}

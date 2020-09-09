@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { ProcessingClient } from '@regardsoss/client'
 import { processingActions } from './clients/ProcessingClient'
 import { processingMonitoringActions } from './clients/ProcessingMonitoringClient'
 

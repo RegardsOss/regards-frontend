@@ -30,6 +30,8 @@ import { linkPluginDatasetReducer } from './clients/LinkPluginDatasetClient'
 import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
+import { processingMetadataReducer } from './clients/ProcessingMetadataClient'
+import { linkProcessingDatasetReducer } from './clients/LinkProcessingDatasetClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
@@ -45,6 +47,8 @@ const datasetDataManagementReducer = combineReducers({
   'ui-plugin-definition': uiPluginDefinitionReducer,
   'link-ui-plugin-definition': linkUIPluginDatasetReducer,
   'dataset-valid-subsetting-test': datasetValidSubsettingTestReducer,
+  'processing-meta-data': processingMetadataReducer,
+  'link-processing-dataset': linkProcessingDatasetReducer,
 })
 
 export default datasetDataManagementReducer

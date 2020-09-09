@@ -15,13 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray
-} from './ProcessingMonitoring'
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
+
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default (storePath) => new BasicListSelectors(storePath)

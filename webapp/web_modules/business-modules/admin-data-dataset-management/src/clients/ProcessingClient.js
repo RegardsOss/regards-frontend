@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray
-} from './ProcessingMonitoring'
+import { ProcessingClient } from '@regardsoss/client'
+
+/**
+ * Processing entities client.
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing']
+const REDUX_ACTION_NAMESPACE = 'admin-processing-management/processing'
+
+export const processingReducer = ProcessingClient.getProcessingReducer(REDUX_ACTION_NAMESPACE)
+export const processingActions = new ProcessingClient.ProcessingActions(REDUX_ACTION_NAMESPACE)
+export const processingSelectors = ProcessingClient.getProcessingSelectors(ENTITIES_STORE_PATH)

@@ -16,12 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray
-} from './ProcessingMonitoring'
+
+import { Schema, arrayOf } from 'normalizr'
+
+/**
+ * Processing metadata plugin management for normalizr
+ */
+export const ProcessingMetadataConfiguration = {
+    entityKey: 'pluginId',
+    normalizrKey: 'processing-metadata-conf'
+}
+
+export const PROCESSING_METADATA = new Schema(ProcessingMetadataConfiguration.normalizrKey, {
+    idAttribute: (model) => model.content[ProcessingMetadataConfiguration.entityKey],
+})
+
+export const PROCESSING_METADATA_ARRAY = arrayOf(PROCESSING_METADATA)

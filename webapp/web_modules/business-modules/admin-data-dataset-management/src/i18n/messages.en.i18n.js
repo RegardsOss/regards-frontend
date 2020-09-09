@@ -54,18 +54,37 @@ const messages = {
   'dataset.form.links.action.next': 'Next',
   'dataset.form.links.action.cancel': 'Previous',
 
+  'dataset.form.pluginsUIProcessing.title': 'Manage Plugins - User interface services - Processing applied to this dataset',
+  'dataset.form.pluginsUIProcessing.subtitle': 'To process or add user interactions with the dataset, activate those plugins, services or processing',
+  'dataset.form.pluginsUIProcessing.action.next': 'Finish',
+  'dataset.form.pluginsUIProcessing.action.cancel': 'Previous',
+
   'dataset.form.plugin.title': 'Manage plugins applied to this dataset',
   'dataset.form.plugin.subtitle': 'To process the dataset, activate those plugins',
-  'dataset.form.plugin.services': 'Activate services',
+  'dataset.form.plugin.services': 'Plugins',
   'dataset.form.plugin.action.next': 'Next',
   'dataset.form.plugin.action.cancel': 'Previous',
+  'dataset.form.no.plugin.found': 'No plugins',
+  'dataset.form.no.plugin.found.create': 'Create your first plugin',
+  'dataset.form.no.plugin.found.message': 'These plugins are used to provide additional functionality to catalog data. This data will then be available for download as file(s)',
 
   'dataset.form.uiservices.title': 'Manage user interface services ',
   'dataset.form.uiservices.subtitle': 'To add user interactions with the dataset, activate those services.',
   'dataset.form.uiservices.action.next': 'Finish',
   'dataset.form.uiservices.action.cancel': 'Previous',
-  'dataset.form.uiservices.services': 'Services UI',
+  'dataset.form.uiservices.services': 'UI Services ',
   'dataset.form.uiservices.latestVersion': 'latest',
+  'dataset.form.no.uiservices.found': 'No UI Services',
+  'dataset.form.no.uiservices.found.create': 'Create your first UI Service',
+  'dataset.form.no.uiservices.found.create.message': 'These plugins are used to provide additional functionality to catalog data. This data will then be available for display on your browser',
+
+  'dataset.form.processing.services': 'Processing',
+  'dataset.form.no.processing.found': 'No Processing',
+  'dataset.form.no.processing.found.create': 'Create your first processing',
+  'dataset.form.no.processing.found.message': 'These process are used to transform data sets. They can be used by the user when he places an order',
+
+  'dataset.form.no.data.found': 'No data found',
+  'dataset.form.create.configuration': 'Create',
 
   'dataset.form.files.action.cancel': 'Back',
   'dataset.form.files.action.next': 'Next',
@@ -117,8 +136,7 @@ const messages = {
   'dataset.stepper.attributes': 'Attributes',
   'dataset.stepper.files': 'Associated files',
   'dataset.stepper.subsetting': 'Subsetting',
-  'dataset.stepper.plugins': 'Plugins',
-  'dataset.stepper.uiServices': 'UI services',
+  'dataset.stepper.pluginsUIProcessing': 'Plugins - UI services - Processing',
   ...Locales.en,
 }
 

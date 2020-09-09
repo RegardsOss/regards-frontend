@@ -25,6 +25,14 @@ export { default as ProcessingActions } from './processing/ProcessingActions'
 export { default as getProcessingReducer } from './processing/ProcessingReducers'
 export { default as getProcessingSelectors } from './processing/ProcessingSelectors'
 
+export { default as ProcessingMetadataActions } from './metadata/ProcessingMetadataActions'
+export { default as getProcessingMetadataReducer } from './metadata/ProcessingMetadataReducer'
+export { default as getProcessingMetadataSelectors } from './metadata/ProcessingMetadataSelectors'
+
+export { default as LinkProcessingDatasetActions } from './link/LinkProcessingDatasetActions'
+export { default as getLinkProcessingDatasetReducer } from './link/LinkProcessingDatasetReducer'
+export { default as getLinkProcessingDatasetSelectors } from './link/LinkProcessingDatasetSelectors'
+
 export { default as ProcessingMonitoringActions } from './monitoring/ProcessingMonitoringActions'
 export { default as getProcessingMonitoringReducer } from './monitoring/ProcessingMonitoringReducers'
 export { default as getProcessingMonitoringSelectors } from './monitoring/ProcessingMonitoringSelectors'

@@ -86,4 +86,6 @@ export { PRODUCT_ARRAY, PRODUCT, ProductConfiguration } from './data-provider/Pr
 export { ACQUISITION_FILE_ARRAY, ACQUISITION_FILE, AcquisitionFileConfiguration } from './data-provider/AcquisitionFile'
 // Processing
 export { PROCESSING , PROCESSING_ARRAY, ProcessingConfiguration } from './processing/Processing'
+export { PROCESSING_METADATA, PROCESSING_METADATA_ARRAY, ProcessingMetadataConfiguration } from './processing/ProcessingMetadata'
 export { PROCESSING_MONITORING, PROCESSING_MONITORING_ARRAY, ProcessingMonitoringConfiguration } from './processing/ProcessingMonitoring'
+export { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY, LinkProcessingDatasetConfiguration } from './processing/LinkProcessingDataset'

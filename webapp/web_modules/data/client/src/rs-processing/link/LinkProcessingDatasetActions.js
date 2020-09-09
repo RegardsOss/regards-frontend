@@ -16,33 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * @author Sébastien Binda
+ * Actions to get Processing metadata information
+ * @author Théo Lasserre
  */
-const storageManagementStyles = (theme) => ({
-  rootStyle: {
-    display: 'grid',
-    gridTemplateColumns: 'auto auto',
-    padding: '0 15px 0 20px',
-  },
-  labelStyle: {
-    padding: theme.module.description.attributeLabelPadding,
-    textDecoration: theme.module.description.attributeLabelTextDecoration,
-    justifySelf: 'left',
-    lineHeight: 1,
-  },
-  valueStyle: {
-    padding: theme.module.description.attributeValuesPadding,
-    textDecoration: theme.module.description.attributeValuesTextDecoration,
-    justifySelf: 'stretch',
-    minWidth: 0,
-    lineHeight: 1,
-  },
-  cardTextTabStyle : {
-    maxWidth: "1200px",
-    margin: "0 auto",
-  }
-})
+class LinkProcessingDatasetActions extends BasicListActions {
+    constructor(namespace) {
+        super({
+            namespace,
+            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/linkprocessdataset`,
+            entityPathVariable: 'datasetIpId',
+            schemaTypes: {
+                ENTITY: LINK_PROCESSING_DATASET,
+                ENTITY_ARRAY: LINK_PROCESSING_DATASET_ARRAY,
+            },
+        })
+    }
+}
 
-export default storageManagementStyles
+export default LinkProcessingDatasetActions

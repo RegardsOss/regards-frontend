@@ -16,12 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray
-} from './ProcessingMonitoring'
+/**
+ * Link processing dataset entity shape
+ * @author Théo Lasserre
+ */
+ export const LinkProcessingDataset = PropTypes.shape({
+     content: PropTypes.shape({
+         linkId: PropTypes.number,
+         datasetId: PropTypes.string.isRequired,
+         services: PropTypes.arrayOf(PropTypes.string).isRequired,
+     }).isRequired,
+ })
+
+ export const LinkProcessingDatasetList = PropTypes.objectOf(LinkProcessingDataset)

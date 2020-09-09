@@ -15,13 +15,26 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray
-} from './ProcessingMonitoring'
+ */
+import { PROCESSING_METADATA, PROCESSING_METADATA_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
+
+/**
+ * Actions to get Processing metadata information
+ * @author Théo Lasserre
+ */
+class ProcessingMetadataActions extends BasicListActions {
+    constructor(namespace) {
+        super({
+            namespace,
+            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/plugins`,
+            entityPathVariable: 'pluginId',
+            schemaTypes: {
+                ENTITY: PROCESSING_METADATA,
+                ENTITY_ARRAY: PROCESSING_METADATA_ARRAY,
+            },
+        })
+    }
+}
+
+export default ProcessingMetadataActions
