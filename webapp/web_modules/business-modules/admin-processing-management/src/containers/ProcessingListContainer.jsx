@@ -34,18 +34,6 @@ import { ProcessingShapes } from "@regardsoss/shape"
  */
 export class ProcessingListContainer extends React.Component {
 
-    static propTypes = {
-        // from router
-        params: PropTypes.shape({
-            project: PropTypes.string,
-        }),
-        // from mapStateToProp
-        entities: ProcessingShapes.ProcessingArray.isRequired,
-        // from mapDispatchToProps
-        fetchProcessingList: PropTypes.func.isRequired,
-        deleteProcessing: PropTypes.func.isRequired,
-    }
-
     /**
      * Redux: map state to props function
      * @param {*} state: current redux state
@@ -63,10 +51,21 @@ export class ProcessingListContainer extends React.Component {
      * @return {*} list of actions ready to be dispatched in the redux store
      */
     static mapDispatchToProps = (dispatch) => ({
-        fetchProcessingList: () => dispatch(processingActions.fetchEntityList()),
-        deleteProcessing: (entity) => dispatch(processingActions.deleteEntity(entity)),
+        fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
+        deleteProcessing: (businessId) => dispatch(processingActions.deleteEntity(businessId)),
     })
 
+    static propTypes = {
+        // from router
+        params: PropTypes.shape({
+            project: PropTypes.string,
+        }),
+        // from mapStateToProp
+        entities: ProcessingShapes.ProcessingArray.isRequired,
+        // from mapDispatchToProps
+        fetchProcessingList: PropTypes.func.isRequired,
+        deleteProcessing: PropTypes.func.isRequired,
+    }
 
     state = {
         isLoading: true,
@@ -83,10 +82,8 @@ export class ProcessingListContainer extends React.Component {
     }
 
     onRefresh = (filters) => {
-        //const { meta, fetchDatasetList } = this.props
-        //const curentPage = get(meta, 'number', 0)
-        //return fetchDatasetList(0, DatasetListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
-        //return this.props.fetchProcessingList(filters)
+        const { fetchProcessingList } = this.props
+        return fetchProcessingList({}, filters)
     }
 
     getCreateUrl = () => {
@@ -103,14 +100,14 @@ export class ProcessingListContainer extends React.Component {
         browserHistory.push(this.getCreateUrl())
     }
 
-    handleEdit = (processingId) => {
+    handleEdit = (businessId) => {
         const { params: { project } } = this.props
-        const url = `/admin/${project}/commands/processing/${processingId}/edit`
+        const url = `/admin/${project}/commands/processing/${businessId}/edit`
         browserHistory.push(url)
     }
 
-    handleDelete = (processingId) => {
-        this.props.deleteProcessing(processingId)
+    handleDelete = (businessId) => {
+        this.props.deleteProcessing(businessId)
     }
 
     render() {

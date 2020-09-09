@@ -25,7 +25,7 @@ const messages = {
   'processing.management.list.subtitle': 'List of current and done project processing',
   'processing.management.list.cancel.button': 'Cancel',
   'processing.management.list.delete.title': 'Delete the processing {name} ?',
-  'processing.management.list.no.processing.subtitle': 'Create your first processing',
+  'processing.management.list.no.processing.subtitle': 'Create your first process',
   'processing.management.list.no.processing.title': 'No processing',
   'processing.management.table.filter.processing.label': 'Processing',
   'processing.management.table.filter.clear.button': 'Clear',
@@ -35,7 +35,7 @@ const messages = {
   'processing.management.list.edit.button': 'Edit',
   'processing.management.list.delete.button': 'Delete',
 
-  /* Prcessing Monitoring */
+  /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'No processing available',
   'processing.monitoring.refresh.button': 'Refresh',
   'processing.monitoring.list.header.name.label': 'Process Name',
@@ -48,7 +48,7 @@ const messages = {
   'processing.monitoring.list.tooltip.info.title': 'Informations about processing {name}',
   'processing.monitoring.list.tooltip.no.info.title': 'No informations about {name}',
   'processing.monitoring.list.tooltip.info.message.label': 'Message:',
-  'processing.monitoring.filters.name-hint': 'Processing',
+  'processing.monitoring.filters.processName-hint': 'Processing',
   'processing.monitoring.filters.userName-hint': 'User',
   'processing.monitoring.filters.from.label': 'From',
   'processing.monitoring.filters.to.label': 'To',

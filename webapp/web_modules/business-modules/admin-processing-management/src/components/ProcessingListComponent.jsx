@@ -96,7 +96,7 @@ class ProcessingListComponent extends React.Component {
 
     renderDeleteConfirmDialog = () => {
         // TODO MODIF GET NAME SI QUAND LE BACK EST OK
-        const name = this.state.entityToDelete ? this.state.entityToDelete.content.pluginConfiguration.parameters[0].name : ' '
+        const name = this.state.entityToDelete ? this.state.entityToDelete.content.pluginConfiguration.parameters[0].value : ' '
         const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
         return (
             <ShowableAtRender show={this.state.deleteDialogOpened}>
@@ -161,7 +161,6 @@ class ProcessingListComponent extends React.Component {
 
         return (
             <Card>
-                {/* title */}
                 <CardTitle
                     title={this.context.intl.formatMessage({ id: 'processing.management.list.title' })}
                     subtitle={this.context.intl.formatMessage({ id: 'processing.management.list.subtitle' })}

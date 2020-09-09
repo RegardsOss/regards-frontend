@@ -48,7 +48,7 @@ const messages = {
   'processing.monitoring.list.tooltip.info.title': 'Informations sur le traitement {name}',
   'processing.monitoring.list.tooltip.no.info.title': 'Pas d\'informations sur le traitement {name}',
   'processing.monitoring.list.tooltip.info.message.label': 'Message:',
-  'processing.monitoring.filters.name-hint': 'Traitement',
+  'processing.monitoring.filters.processName-hint': 'Traitement',
   'processing.monitoring.filters.userName-hint': 'Utilisateur',
   'processing.monitoring.filters.from.label': 'From',
   'processing.monitoring.filters.to.label': 'To',

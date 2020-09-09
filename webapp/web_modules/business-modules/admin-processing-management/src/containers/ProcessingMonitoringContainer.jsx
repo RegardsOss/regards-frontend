@@ -28,6 +28,7 @@ import { processingMonitoringActions, processingMonitoringSelectors } from '../c
 import messages from '../i18n'
 import styles from '../styles'
 import ProcessingMonitoringComponent from '../components/ProcessingMonitoringComponent'
+import { ProcessingShapes } from '@regardsoss/shape'
 
 
 /**
@@ -35,25 +36,6 @@ import ProcessingMonitoringComponent from '../components/ProcessingMonitoringCom
  * @author Théo Lasserre
  */
 export class ProcessingMonitoringContainer extends React.Component {
-
-    static propTypes = {
-        meta: PropTypes.shape({
-            // use only in onPropertiesUpdate
-            number: PropTypes.number,
-            size: PropTypes.number,
-            totalElements: PropTypes.number,
-        }),
-        // from router
-        params: PropTypes.shape({
-            project: PropTypes.string,
-        }),
-        // from mapStateToProps
-        listEntities: PropTypes.object.isRequired,
-        // from mapDispatchToProps
-        fetchProcessingMonitorList: PropTypes.func,
-    }
-
-    static DATES_FIELDS = ["from", "to"]
 
     /**
      * Redux: map state to props function
@@ -75,53 +57,21 @@ export class ProcessingMonitoringContainer extends React.Component {
         fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
     })
 
-    /**
-     * Default state for filters edition
-     */
-    static DEFAULT_FILTERS_STATE = {
-        name: '',
-        userName: '',
-        status: {
-            SUCCESS: true,
-            FAILURE: true,
-            CANCELLED: true,
-            TIMEDOUT: true,
-            CLEANUP: true,
-            RUNNING: true,
-            PREPARE: true,
-            REGISTERED: true,
-        },
-        from: null,
-        to: null,
-    }
-
-    /**
-     * Converts column order and filters state into request parameters
-     * @param {[{columnKey: string, order: string}]} columnsSorting column sorting definition
-     * @param {*} applyingFiltersState filters state from component state
-     * @return {*} requestParameters as an object compound od string and string arrays
-     */
-    static buildRequestParameters(applyingFiltersState) {
-        const requestParameters = {}
-        if (applyingFiltersState.name) {
-            requestParameters.name = applyingFiltersState.name
-        }
-        if (applyingFiltersState.userName) {
-            requestParameters.userName = applyingFiltersState.userName
-        }
-        ProcessingMonitoringContainer.DATES_FIELDS.forEach((fieldName) => {
-            const date = applyingFiltersState[fieldName]
-            if (date) {
-                requestParameters[fieldName] = [new Date(date).toISOString()]
-            }
-        })
-        requestParameters.status = reduce(applyingFiltersState.status, (acc, valueStatus, filterStatus) => {
-            if (valueStatus) {
-                acc.push(filterStatus)
-            }
-            return acc
-        }, []).join(',')
-        return requestParameters
+    static propTypes = {
+        meta: PropTypes.shape({
+            // use only in onPropertiesUpdate
+            number: PropTypes.number,
+            size: PropTypes.number,
+            totalElements: PropTypes.number,
+        }),
+        // from router
+        params: PropTypes.shape({
+            project: PropTypes.string,
+        }),
+        // from mapStateToProps
+        listEntities: ProcessingShapes.ProcessingMonitoringList.isRequired,
+        // from mapDispatchToProps
+        fetchProcessingMonitorList: PropTypes.func,
     }
 
     /**
@@ -129,12 +79,6 @@ export class ProcessingMonitoringContainer extends React.Component {
      */
     state = {
         isLoading: true,
-        initialFiltersState: ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE,
-        editionFiltersState: ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE,
-        applyingFiltersState: ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE,
-        requestParameters: ProcessingMonitoringContainer.buildRequestParameters(ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE),
-        filtersEdited: false,
-        canEmptyFilters: false,
     }
 
     UNSAFE_componentWillMount() {
@@ -145,124 +89,12 @@ export class ProcessingMonitoringContainer extends React.Component {
             })
           }
         })
-        this.initializeFiltersFromURL()
-    }
-
-    initializeFiltersFromURL = () => {
-        const { query } = browserHistory.getCurrentLocation()
-        if (values(query).length > 0) {
-            const newState = {
-                ...this.state.initialFiltersState,
-                ...query,
-            }
-            this.setState({
-                initialFiltersState: newState,
-                editionFiltersState: newState,
-                applyingFiltersState: newState,
-            })
-        }
     }
 
     onRefresh = (filters) => {
         const { meta, fetchProcessingMonitorList } = this.props
         const curentPage = get(meta, 'number', 0)
         return fetchProcessingMonitorList(0, ProcessingMonitoringComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
-    }
-
-    /**
-     * Change processName filter
-     */
-    onChangeName = (newName) => {
-        const { editionFiltersState } = this.state
-        this.onStateUpdated({ 
-            editionFiltersState: {
-                ...editionFiltersState,
-                name: newName,
-            }
-        })
-    }
-
-    /**
-     * Change userName filter
-     */
-    onChangeUserName = (newUserName) => {
-        const { editionFiltersState } = this.state
-
-        this.onStateUpdated({
-            editionFiltersState: {
-                ...editionFiltersState,
-                userName: newUserName,
-            }
-        })
-    }
-
-    /**
-     * Toggle Status filter
-     */
-    onToggleStatus = (statusField) => {
-        const { editionFiltersState } = this.state
-        const newFilters = {}
-        newFilters.status[statusField] = !editionFiltersState.status[statusField]
-        this.onStateUpdated({
-            editionFiltersState: {
-                ...editionFiltersState,
-                ...newFilters,
-            }
-        })
-    }
-
-    /**
-     * Change Date From
-     */
-    onChangeFrom = (newDate) => {
-        const { editionFiltersState } = this.state
-        this.onStateUpdated({
-            editionFiltersState: {
-                ...editionFiltersState,
-                from: newDate,
-            }
-        })
-    }
-
-    /**
-     * Change Date To
-     */
-    onChangeTo = (newDate) => {
-        const { editionFiltersState } = this.state
-        this.onStateUpdated({
-            editionFiltersState: {
-                ...editionFiltersState,
-                to: newDate
-            }
-        })
-    }
-
-    /**
-     * User callback: Apply edited filters to current request
-     */
-    onApplyFilters = () => {
-        const { editionFiltersState } = this.state
-        this.onStateUpdated({ applyingFiltersState: editionFiltersState })
-        this.onRefresh()
-    }
-
-    /**
-     * User callback: Reset filter to default
-     */
-    onClearFilters = () => this.onStateUpdated({
-        applyingFiltersState: ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE,
-        editionFiltersState: ProcessingMonitoringContainer.DEFAULT_FILTERS_STATE,
-    })
-
-    /**
-     * Update full state based on changes
-     */
-    onStateUpdated = (stateDiff) => {
-        const nextState = { ...this.state, ...stateDiff }
-        nextState.filtersEdited = !isEqual(nextState.applyingFiltersState, nextState.editionFiltersState)
-        nextState.canEmptyFilters = !isEqual(nextState.editionFiltersState, nextState.initialFiltersState)
-        nextState.requestParameters = ProcessingMonitoringContainer.buildRequestParameters(nextState.applyingFiltersState)
-        this.setState(nextState)
     }
 
     getBackURL = () => {
@@ -274,24 +106,15 @@ export class ProcessingMonitoringContainer extends React.Component {
         const { isLoading, requestParameters, filtersEdited, canEmptyFilters, 
             editionFiltersState,
         } = this.state
+        const { listEntities } = this.props
+   
         return (
             <I18nProvider messages={messages}>
                 <LoadableContentDisplayDecorator isLoading={isLoading}>
                     <ProcessingMonitoringComponent
-                        backUrl={this.getBackURL()}
                         onRefresh={this.onRefresh}
-                        requestParameters={requestParameters}
-                        initialFilters={editionFiltersState}
-                        filtersEdited={filtersEdited}
-                        canEmptyFilters={canEmptyFilters}
-                        onApplyFilters={this.onApplyFilters}
-                        onClearFilters={this.onClearFilters}
-                        onChangeName={this.onChangeName}
-                        onChangeUserName={this.onChangeUserName}
-                        onChangeFrom={this.onChangeFrom}
-                        onChangeTo={this.onChangeTo}
-                        onToggleStatus={this.onToggleStatus}
-                        listEntities={this.props.listEntities}
+                        backUrl={this.getBackURL()}
+                        listEntities={listEntities}
                     />
                 </LoadableContentDisplayDecorator>
             </I18nProvider>

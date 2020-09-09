@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
-} from './Processing'
-export {
-    LinkProcessingDataset, LinkProcessingDatasetList
-} from './LinkProcessingDataset'
-export {
-    ProcessingMonitoring, ProcessingMonitoringArray, ProcessingMonitoringList
-} from './ProcessingMonitoring'
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
+
+const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing-monitoring-table']
+const REDUX_ACTION_NAMESPACE = ' admin-processing-management/processing-monitoring-table'
+
+
+export const tableActions = new TableActions(REDUX_ACTION_NAMESPACE)
+export const tableReducer = getTableReducer(REDUX_ACTION_NAMESPACE)
+export const tableSelectors = getTableSelectors(ENTITIES_STORE_PATH)

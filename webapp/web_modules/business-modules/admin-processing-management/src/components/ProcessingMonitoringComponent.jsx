@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import get from 'lodash/get'
 import { themeContextType } from "@regardsoss/theme"
 import { i18nContextType } from "@regardsoss/i18n"
 import {
@@ -26,9 +25,15 @@ import {
     TableColumnBuilder,
     TableLayout,
     PageableInfiniteTableContainer,
+    TableHeaderLine,
+    TableHeaderOptionsArea,
+    TableHeaderOptionGroup,
   } from '@regardsoss/components'
+import { ProcessingShapes } from '@regardsoss/shape'
+import Refresh from 'mdi-material-ui/Refresh'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import { processingMonitoringActions, processingMonitoringSelectors } from '../clients/ProcessingMonitoringClient'
+import { tableActions } from '../clients/TableClient'
 import ProcessingMonitoringStatusRenderer from './render/ProcessingMonitoringStatusRenderer'
 import ProcessingMonitoringInfo from './monitoring/ProccesingMonitoringInfo'
 import ProcessingMonitoringFiltersComponent from './monitoring/ProcessingMonitoringFiltersComponent'
@@ -37,7 +42,7 @@ import ProcessingMonitoringEntityInfoDialog from './monitoring/ProcessingMonitor
 import {
     Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { RaisedButton } from 'material-ui'
+import { RaisedButton, FlatButton } from 'material-ui'
 
  /**
  * Component to monitor processing in project
@@ -45,38 +50,20 @@ import { RaisedButton } from 'material-ui'
  */
 export class ProcessingMonitoringComponent extends React.Component {
     static propTypes = {
-        requestParameters: PropTypes.objectOf(PropTypes.string).isRequired,
-        initialFilters: PropTypes.shape({
-            name: PropTypes.string,
-            userName: PropTypes.string,
-            status: PropTypes.shape({
-                SUCCESS: PropTypes.bool.isRequired,
-                FAILURE: PropTypes.bool.isRequired,
-                CANCELLED: PropTypes.bool.isRequired,
-                TIMEDOUT: PropTypes.bool.isRequired,
-                CLEANUP: PropTypes.bool.isRequired,
-                RUNNING: PropTypes.bool.isRequired,
-                PREPARE: PropTypes.bool.isRequired,
-                REGISTERED: PropTypes.bool.isRequired,
-            }).isRequired,
-            from: PropTypes.instanceOf(Date),
-            to: PropTypes.instanceOf(Date),
-        }).isRequired,
-        onApplyFilters: PropTypes.func.isRequired,
-        onClearFilters: PropTypes.func.isRequired,
-        filtersEdited: PropTypes.bool.isRequired,
-        onChangeName: PropTypes.func.isRequired,
-        onChangeUserName: PropTypes.func.isRequired,
-        canEmptyFilters: PropTypes.bool.isRequired,
-        onToggleStatus: PropTypes.func.isRequired,
         onRefresh: PropTypes.func.isRequired,
         backUrl: PropTypes.string.isRequired,
-        listEntities: PropTypes.object.isRequired,
+        listEntities: ProcessingShapes.ProcessingMonitoringList.isRequired,
     }
 
     static contextTypes = {
         ...i18nContextType,
         ...themeContextType,
+    }
+
+    static PAGE_SIZE = 100
+
+    state = {
+        entityForInfos: null,
     }
 
     static EMPTY_COMPONENT = (
@@ -85,22 +72,8 @@ export class ProcessingMonitoringComponent extends React.Component {
             Icon={AddToPhotos}
         />)
 
-    static PAGE_SIZE = 100
-
-    static REFRESH_BUTTON_STYLE = {
-        margin: 5,
-    }
-
-    static ICON_STYLE = {
-        margin: 5,
-    }
-
-    state = {
-        entityForInfos: null,
-    }
-
     onCloseInfoDialog = () => this.showInformation(null)
-
+    
     showInformation = (entity) => {
         this.setState({
             entityForInfos: entity,
@@ -109,17 +82,12 @@ export class ProcessingMonitoringComponent extends React.Component {
 
     render() {
         const {
-            onRefresh, backUrl, initialFilters, filtersEdited,
-            requestParameters, canEmptyFilters,
-            onApplyFilters, onClearFilters,
-            onToggleStatus, onChangeName, onChangeUserName, onChangeFrom, onChangeTo,
-            listEntities,
+            onRefresh, backUrl, listEntities,
         } = this.props
         const { intl: { formatMessage }, muiTheme } = this.context
         const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
         const style = {
             hoverButtonEdit: muiTheme.palette.primary1Color,
-            hoverButtonDelete: muiTheme.palette.accent1Color,
         }
         const columns=[ // eslint wont fix: Major API rework required
             // 1 - process name column
@@ -129,15 +97,15 @@ export class ProcessingMonitoringComponent extends React.Component {
                 .label(formatMessage({ id: 'processing.monitoring.list.header.name.label' }))
                 .build(),
             // 2 - user name column
-            new TableColumnBuilder('column.created')
-                .titleHeaderCell()
-                .propertyRenderCell('content.created')
-                .label(formatMessage({ id: 'processing.monitoring.list.header.username.label' }))
-                .build(),
-            // 3 - created time column
             new TableColumnBuilder('column.userName')
                 .titleHeaderCell()
                 .propertyRenderCell('content.userName')
+                .label(formatMessage({ id: 'processing.monitoring.list.header.username.label' }))
+                .build(),
+            // 3 - created time column
+            new TableColumnBuilder('column.created')
+                .titleHeaderCell()
+                .propertyRenderCell('content.created')
                 .label(formatMessage({ id: 'processing.monitoring.list.header.created.label' }))
                 .build(),
             // 4 - status column
@@ -162,37 +130,33 @@ export class ProcessingMonitoringComponent extends React.Component {
                     subtitle={this.context.intl.formatMessage({ id: 'processing.management.list.subtitle' })}
                 />
                 <CardText>
-                    <RaisedButton
-                        label={formatMessage({ id: 'processing.monitoring.list.refresh.button' })}
-                        onClick={onRefresh}
-                        primary
-                        style={ProcessingMonitoringComponent.REFRESH_BUTTON_STYLE}
-                    />
                     <TableLayout>
                         <ProcessingMonitoringFiltersComponent 
-                            initialFilters={initialFilters}
-                            onApplyFilters={onApplyFilters}
-                            onClearFilters={onClearFilters}
-                            filtersEdited={filtersEdited}
-                            canEmptyFilters={canEmptyFilters}
-                            columns={columns}
-                            onChangeName={onChangeName}
-                            onChangeFrom={onChangeFrom}
-                            onChangeTo={onChangeTo}
-                            onChangeUserName={onChangeUserName}
-                            onToggleStatus={onToggleStatus}
                             listEntities={listEntities}
+                            onRefresh={onRefresh}
                         />
+                        <TableHeaderLine>
+                            <TableHeaderOptionsArea>
+                                <TableHeaderOptionGroup>
+                                    <FlatButton
+                                        label={formatMessage({ id: 'processing.monitoring.list.refresh.button' })}
+                                        icon={<Refresh />}
+                                        onClick={onRefresh}
+                                    />
+                                </TableHeaderOptionGroup>
+                            </TableHeaderOptionsArea>
+                        </TableHeaderLine>
                         <PageableInfiniteTableContainer 
                             // estlint-disable-next-line react-perf/jsx-no-new-array-as-prop
-                            requestParam={requestParameters}
-                            columns={columns}
-                            emptyComponent={ProcessingMonitoringComponent.EMPTY_COMPONENT}
+                            name="processing-monitoring-table"
                             minRowCount={minRowCount}
                             maxRowCount={maxRowCount}
                             pageActions={processingMonitoringActions}
                             pageSelectors={processingMonitoringSelectors}
-                            queryPageSize={ProcessingMonitoringComponent.PAGE_SIZE}
+                            tableActions={tableActions}
+                            pageSize={ProcessingMonitoringComponent.PAGE_SIZE}
+                            columns={columns}
+                            emptyComponent={ProcessingMonitoringComponent.EMPTY_COMPONENT}
                         />
                         <ProcessingMonitoringEntityInfoDialog
                             entity={this.state.entityForInfos}
