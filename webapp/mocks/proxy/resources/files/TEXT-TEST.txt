@@ -1,3 +1,0 @@
-This is raw text test
-
-And it should work
