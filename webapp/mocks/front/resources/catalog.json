@@ -1,0 +1,652 @@
+{
+  "modelTypes": [
+    {
+      "id": 0,
+      "name": "Missions",
+      "type": "COLLECTION",
+      "description": "Describes a mission collection"
+    },
+    {
+      "id": 1,
+      "name": "Experiments",
+      "type": "COLLECTION",
+      "description": "Experiments"
+    },
+    {
+      "id": 2,
+      "name": "Instruments",
+      "type": "COLLECTION",
+      "description": "Instruments"
+    },
+    {
+      "id": 3,
+      "name": "Results",
+      "type": "COLLECTION",
+      "description": "High resolution data files"
+    },
+    {
+      "id": 4,
+      "name": "Experiments dataset",
+      "type": "DATASET",
+      "description": "Experiment dataset"
+    },
+    {
+      "id": 5,
+      "name": "Instruments dataset",
+      "type": "DATASET",
+      "description": "instrument dataset"
+    },
+    {
+      "id": 6,
+      "name": "Results dataset",
+      "type": "DATASET",
+      "description": "Results dataset"
+    },
+    {
+      "id": 12,
+      "name": "Results dataset",
+      "type": "DATAOBJECT",
+      "description": "Results dataobject"
+    }
+  ],
+  "entities": [
+    {
+      "id": 0,
+      "model": {
+        "id": 0
+      },
+      "ipId": "URN:collection-mission-0",
+      "label": "Cassini",
+      "tags": [
+        "hello",
+        "coffee",
+        "patatoes",
+        "URN:collection-mission-1",
+        "URN:collection-mission-2"
+      ],
+      "descriptionFile": {
+        "type": "application/pdf"
+      },
+      "properties": {
+        "size": "3 Zo",
+        "type": "Monkey exploration mision",
+        "infos": {
+          "Investigator": "Jean Mi"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "model": {
+        "id": 0
+      },
+      "ipId": "URN:collection-mission-1",
+      "label": "Cluster",
+      "tags": [
+        "URN:collection-mission-2"
+      ],
+      "descriptionFile": {
+        "type": "text/markdown"
+      },
+      "properties": {
+        "size": "2.1 Mo",
+        "type": "Local cluster exploration",
+        "infos": {
+          "Investigator": "X"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "model": {
+        "id": 0
+      },
+      "ipId": "URN:collection-mission-2",
+      "label": "Demeter",
+      "tags": [],
+      "descriptionFile": {
+        "url": "http://172.26.47.52:4000/"
+      },
+      "properties": {
+        "size": "4.3 Go",
+        "type": "Meter and Demeter!"
+      }
+    },
+    {
+      "id": 3,
+      "model": {
+        "id": 1
+      },
+      "ipId": "URN:collection-cassini-experiments-0",
+      "label": "0-gravity monkeys",
+      "tags": [
+        "URN:collection-mission-0"
+      ]
+    },
+    {
+      "id": 4,
+      "model": {
+        "id": 1
+      },
+      "ipId": "URN:collection-cassini-experiments-1",
+      "label": "Sun blasting",
+      "tags": [
+        "URN:collection-mission-0"
+      ]
+    },
+    {
+      "id": 5,
+      "model": {
+        "id": 1
+      },
+      "ipId": "URN:collection-cassini-experiments-2",
+      "label": "Moon repositionning",
+      "tags": [
+        "URN:collection-mission-0"
+      ]
+    },
+    {
+      "id": 6,
+      "model": {
+        "id": 1
+      },
+      "ipId": "URN:collection-cassini-experiments-3",
+      "label": "Testing coffee on monkeys in space just to see what happens",
+      "tags": [
+        "URN:collection-mission-0"
+      ]
+    },
+    {
+      "id": 7,
+      "model": {
+        "id": 1
+      },
+      "ipId": "URN:collection-cassini-experiments-4",
+      "label": "Psychedelic Jupiter repainting in black and red just to see if it beats hypno crapo, which is very long to be 120 chars!",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-0",
+      "label": "Experiments schedule",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "creationDate": "2017-01-07T10:47:00",
+      "properties": {
+        "language": "French",
+        "format": "DVD",
+        "infos": {
+          "date": "2017-01-08T12:25:00"
+        }
+      },
+      "descriptionFile": {
+        "type": "application/pdf"
+      }
+    },
+    {
+      "id": 9,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-1",
+      "label": "Cassini experiments ethic stamps",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "creationDate": "2018-01-20T22:22:22",
+      "properties": {
+        "language": "French",
+        "format": "Blueray",
+        "infos": {
+          "date": "2018-04-05T05:02:01"
+        }
+      },
+      "descriptionFile": {
+        "type": "text/markdown"
+      }
+    },
+    {
+      "id": 10,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-2",
+      "label": "Life after sun expectations",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "creationDate": "2016-03-02T02:04:04",
+      "properties": {
+        "language": "English",
+        "format": "DVD",
+        "infos": {
+          "date": "2016-02-01T00:00:00"
+        }
+      },
+      "descriptionFile": {
+        "url": "http://172.26.47.52:4000/"
+      }
+    },
+    {
+      "id": 11,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-3",
+      "label": "Ice scream sales records related",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "creationDate": "2012-03-03T03:36:02",
+      "properties": {
+        "infos": {
+          "date": "2060-02-02T00:00:00"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-4",
+      "label": "About ice screams, monkeys and black holes",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "creationDate": "2006-11-30T13:42:01",
+      "properties": {
+        "language": "Zergon",
+        "format": "Prismachron",
+        "infos": {
+          "date": "2008-06-05T10:30:35"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:dataset-cassini-experiments-5",
+      "label": "No more ideas set",
+      "tags": [
+        "URN:collection-mission-0"
+      ],
+      "properties": {
+        "language": "Elvian",
+        "format": "old scroll",
+        "infos": {
+          "date": "2018-04-05T05:02:01"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "model": {
+        "id": 2
+      },
+      "ipId": "URN:collection-cassini-0-grav-instrument-0",
+      "label": "Monkey flight camera - front",
+      "tags": [
+        "URN:collection-cassini-experiments-0"
+      ]
+    },
+    {
+      "id": 15,
+      "model": {
+        "id": 2
+      },
+      "ipId": "URN:collection-cassini-0-grav-instrument-1",
+      "label": "Monkey flight camera - rear",
+      "tags": [
+        "collection-cassini-experiments-0"
+      ]
+    },
+    {
+      "id": 16,
+      "model": {
+        "id": 2
+      },
+      "ipId": "URN:collection-cassini-0-grav-instrument-2",
+      "label": "Monkey flight accelerometer",
+      "tags": [
+        "URN:collection-cassini-experiments-0"
+      ]
+    },
+    {
+      "id": 17,
+      "model": {
+        "id": 5
+      },
+      "ipId": "URN:dataset-cassini-0-grav-instrument-norms",
+      "label": "Monkey proof equipment norms",
+      "tags": [
+        "URN:collection-cassini-experiments-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "creationDate": "1987-07-29T06:48:35",
+      "properties": {
+        "language": "Chinese",
+        "format": "VHS",
+        "infos": {
+          "date": "2018-04-05T05:02:01"
+        }
+      }
+    },
+    {
+      "id": 18,
+      "model": {
+        "id": 3
+      },
+      "ipId": "URN:collection-cassini-0-grav-cam-left-result-0",
+      "label": "30 seconds records",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 19,
+      "model": {
+        "id": 3
+      },
+      "ipId": "URN:collection-cassini-0-grav-cam-left-result-1",
+      "label": "1 minute records",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 20,
+      "model": {
+        "id": 3
+      },
+      "ipId": "URN:collection-cassini-0-grav-cam-left-result-2",
+      "label": "Director's cut",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 21,
+      "model": {
+        "id": 3
+      },
+      "ipId": "URN:collection-cassini-0-grav-cam-left-result-3",
+      "label": "'To long to interest anyone' records",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 22,
+      "model": {
+        "id": 6
+      },
+      "ipId": "URN:datasets-cassini-0-grav-cam-left-result-0",
+      "label": "Fabulous flights data",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ],
+      "links": [
+        {
+          "rel": "dataobjects",
+          "href": "http://www.jesuisunefougere.com"
+        }
+      ],
+      "properties": {
+        "infos": {
+          "date": "2018-04-05T05:02:01"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "model": {
+        "id": 6
+      },
+      "ipId": "URN:datasets-cassini-0-grav-cam-left-result-1",
+      "label": "Mad monkeys hiting cam",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 24,
+      "model": {
+        "id": 6
+      },
+      "ipId": "URN:datasets-cassini-0-grav-cam-left-result-2",
+      "label": "Writing bibles parts",
+      "tags": [
+        "URN:collection-cassini-0-grav-instrument-0"
+      ]
+    },
+    {
+      "id": 25,
+      "model": {
+        "id": 4
+      },
+      "ipId": "URN:the-little-one-lost-at-last-level",
+      "label": "The little one lost at last level",
+      "tags": [
+        "URN:collection-cassini-0-grav-cam-left-result-0"
+      ]
+    }
+  ],
+  "localDescriptions": [
+    {
+      "entityIpId": "URN:collection-mission-0",
+      "file": "desc-entity-0.pdf",
+      "contentType": "application/pdf"
+    },
+    {
+      "entityIpId": "URN:collection-mission-1",
+      "file": "desc-entity-1.md",
+      "contentType": "text/markdown"
+    },
+    {
+      "entityIpId": "URN:dataset-cassini-experiments-0",
+      "file": "desc-entity-8.pdf",
+      "contentType": "application/pdf"
+    },
+    {
+      "entityIpId": "URN:dataset-cassini-experiments-1",
+      "file": "desc-entity-9.md",
+      "contentType": "text/markdown"
+    }
+  ],
+  "modelAttributesAssociations": [
+    {
+      "modelId": 0,
+      "associations": [
+        {
+          "id": 0,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "size",
+            "label": "Size",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 1,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "type",
+            "label": "Type",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 2,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "Investigator",
+            "label": "Investigator",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 1,
+              "name": "infos"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "modelId": 4,
+      "associations": [
+        {
+          "id": 3,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "language",
+            "label": "Language",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "format",
+            "label": "Format",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "date",
+            "label": "Date",
+            "type": "DATE_ISO8601",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 2,
+              "name": "infos"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "modelId": 12,
+      "associations": [
+        {
+          "id": 3,
+          "mode": "idc",
+          "attribute": {
+            "id": 0,
+            "name": "language",
+            "label": "Language",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 4,
+          "mode": "idc",
+          "attribute": {
+            "id": 1,
+            "name": "format",
+            "label": "Format",
+            "type": "string",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 0,
+              "name": "DEFAULT"
+            }
+          }
+        },
+        {
+          "id": 5,
+          "mode": "idc",
+          "attribute": {
+            "id": 2,
+            "name": "date",
+            "label": "Date",
+            "type": "DATE_ISO8601",
+            "jsonPath": "/local",
+            "fragment": {
+              "id": 2,
+              "name": "infos"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

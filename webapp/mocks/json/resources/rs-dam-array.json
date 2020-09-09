@@ -1,0 +1,21 @@
+{
+  "models-attributes-types": [
+    "INTEGER"
+  ],
+  "models-attributes-restrictions": [
+    "INTEGER_RANGE",
+    "FLOAT_RANGE",
+    "ENUMERATION",
+    "PATTERN"
+  ],
+  "plugintypes": [
+    {
+      "content": "fr.cnes.regards.framework.plugins.ISamplePlugin",
+      "links": []
+    },
+    {
+      "content": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
+      "links": []
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+[
+  {
+    "attributeName": "default.FORMAT",
+    "type": "STRING",
+    "values": [
+      {
+        "word": "vhs",
+        "count": 6,
+        "openSearchQuery": "default.FORMAT:vhs"
+      },
+      {
+        "word": "dvd",
+        "count": 9,
+        "openSearchQuery": "default.FORMAT:dvd"
+      },
+      {
+        "word": "blueray",
+        "count": 66,
+        "openSearchQuery": "default.FORMAT:blueray"
+      }
+    ]
+  },
+  {
+    "attributeName": "MISC_INFO.PUBLICATION_DATE",
+    "type": "DATE",
+    "values": [
+      {
+        "lowerBound": null,
+        "upperBound": "1960-04-30T18:20:02.056",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: (*..1960-04-30T18:20:02.056)"
+      },
+      {
+        "lowerBound": "1960-04-30T18:20:02.056",
+        "upperBound": "1972-04-30T01:00:00.000",
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1960-04-30T18:20:02.056..1972-04-30T01:00:00.000)"
+      },
+      {
+        "lowerBound": "1972-04-30T01:00:00.000",
+        "upperBound": "1982-06-22T06:45:30.000",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1972-04-30T01:00:00.000..1982-06-22T06:45:30.000)"
+      },
+      {
+        "lowerBound": "1982-06-22T06:45:30.033",
+        "upperBound": "1988-09-11T06:45:30.428",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1982-06-22T06:45:30.033..1988-09-11T06:45:30.428)"
+      },
+      {
+        "lowerBound": "1988-09-11T06:45:30.428",
+        "upperBound": "1995-03-04T08:10:00.998",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1988-09-11T06:45:30.428..1995-03-04T08:10:00.998)"
+      },
+      {
+        "lowerBound": "1995-03-04T08:10:00.998",
+        "upperBound": "1999-11-09T06:10:00.152",
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1995-03-04T08:10:00.998..1999-11-09T06:10:00.152)"
+      },
+      {
+        "lowerBound": "1999-11-09T06:10:00.152",
+        "upperBound": "2002-09-21T01:00:00.000",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [1999-11-09T06:10:00.152..2002-09-21T01:00:00.00)"
+      },
+      {
+        "lowerBound": "2004-04-01T05:38:22.025",
+        "upperBound": "2006-01-01T00:30:12.038",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [2004-04-01T05:38:22.025..2006-01-01T00:30:12.038)"
+      },
+      {
+        "lowerBound": "2006-01-01T00:30:12.038",
+        "upperBound": "2009-02-28T11:59:59.999",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [2006-01-01T00:30:12.038..2009-02-28T11:59:59.999)"
+      },
+      {
+        "lowerBound": "2009-02-28T11:59:59.999",
+        "upperBound": null,
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.PUBLICATION_DATE: [2009-02-28T11:59:59.999..*)"
+      }
+    ]
+  },
+  {
+    "attributeName": "MISC_INFO.SPECTATORS_COUNT",
+    "type": "NUMERIC",
+    "values": [
+      {
+        "upperBound": "10",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: (*..10)"
+      },
+      {
+        "lowerBound": "10",
+        "upperBound": "500560",
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [10..500560)"
+      },
+      {
+        "lowerBound": "500560",
+        "upperBound": "1022136",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [500560..1022136)"
+      },
+      {
+        "lowerBound": "1022136",
+        "upperBound": "1865622",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [1022136..1865622)"
+      },
+      {
+        "lowerBound": "1865622",
+        "upperBound": "3730021",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [1865622..3730021)"
+      },
+      {
+        "lowerBound": "3730021",
+        "upperBound": "5001580",
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [3730021..5001580)"
+      },
+      {
+        "lowerBound": "5001580",
+        "upperBound": "6301455",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [5001580:6301455)"
+      },
+      {
+        "lowerBound": "6301455",
+        "upperBound": "8881234",
+        "count": 8,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [6301455..8881234)"
+      },
+      {
+        "lowerBound": "8881234",
+        "upperBound": "10133423",
+        "count": 7,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [8881234..10133423)"
+      },
+      {
+        "lowerBound": "10133423",
+        "count": 9,
+        "openSearchQuery": "MISC_INFO.SPECTATORS_COUNT: [10133423..*)"
+      }
+    ]
+  }
+]

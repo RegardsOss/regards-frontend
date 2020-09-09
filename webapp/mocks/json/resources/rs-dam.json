@@ -1,0 +1,753 @@
+{
+  "models": [
+    {
+      "id": 0,
+      "name": "Premier Modele",
+      "description": "Description du premier modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 1,
+      "name": "Deuxieme Modele",
+      "description": "Description du deuxieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "DATASET"
+    }
+  ],
+  "attributes": [
+    {
+      "id": 0,
+      "name": "language",
+      "description": "Language for movies",
+      "label": "Language",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "default"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.language"
+    },
+    {
+      "id": 1,
+      "name": "format",
+      "label": "Format du support",
+      "description": "Format for movies",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "default"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.format"
+    },
+    {
+      "id": 2,
+      "name": "size",
+      "description": "Test for INTEGER attribute",
+      "label": "Size",
+      "defaultValue": null,
+      "type": "INTEGER",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.inos.size"
+    },
+    {
+      "id": 3,
+      "name": "weight",
+      "description": "Test for DOUBLE attribute",
+      "label": "Double",
+      "defaultValue": null,
+      "type": "DOUBLE",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.weight"
+    },
+    {
+      "id": 4,
+      "name": "date",
+      "description": "Test for DATE_ISO8601 attribute",
+      "label": "Date",
+      "defaultValue": null,
+      "type": "DATE_ISO8601",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.date"
+    },
+    {
+      "id": 5,
+      "name": "strings",
+      "description": "Test for STRING_ARRAY attribute",
+      "label": "Strings",
+      "defaultValue": null,
+      "type": "STRING_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.info.strings"
+    },
+    {
+      "id": 6,
+      "name": "ints",
+      "description": "Test for INTEGER_ARRAY attribute",
+      "label": "Ints",
+      "defaultValue": null,
+      "type": "INTEGER_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.ints"
+    },
+    {
+      "id": 7,
+      "name": "doubles",
+      "description": "Test for DOUBLE_ARRAY attribute",
+      "label": "Doubles",
+      "defaultValue": null,
+      "type": "DOUBLE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.info.doubles"
+    },
+    {
+      "id": 8,
+      "name": "dates",
+      "description": "Test for DATE_ARRAY attribute",
+      "label": "Dates",
+      "defaultValue": null,
+      "type": "DATE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.dates"
+    },
+    {
+      "id": 9,
+      "name": "intRange",
+      "description": "Test for INTEGER_INTERVAL attribute",
+      "label": "IntRange",
+      "defaultValue": null,
+      "type": "INTEGER_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.info.intRange"
+    },
+    {
+      "id": 10,
+      "name": "doubleRange",
+      "description": "Test for DOUBLE_INTERVAL attribute",
+      "label": "DoubleRange",
+      "defaultValue": null,
+      "type": "DOUBLE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.info.doubleRange"
+    },
+    {
+      "id": 11,
+      "name": "bool",
+      "description": "Test for BOOLEAN attribute",
+      "label": "Bool",
+      "defaultValue": null,
+      "type": "BOOLEAN",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.info.bool"
+    },
+    {
+      "id": 12,
+      "name": "url",
+      "description": "Test for URL attribute",
+      "label": "Lien",
+      "defaultValue": null,
+      "type": "URL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.url"
+    },
+    {
+      "id": 13,
+      "name": "geo",
+      "description": "Test for GEOMETRY attribute",
+      "label": "Geo",
+      "defaultValue": null,
+      "type": "GEOMETRY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.geo"
+    },
+    {
+      "id": 14,
+      "name": "long",
+      "description": "Test for LONG attribute",
+      "label": "Long",
+      "defaultValue": null,
+      "type": "LONG",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.long"
+    },
+    {
+      "id": 15,
+      "name": "longRange",
+      "description": "Test for LONG_INTERVAL attribute",
+      "label": "LongRange",
+      "defaultValue": null,
+      "type": "LONG_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.longRange"
+    },
+    {
+      "id": 16,
+      "name": "longs",
+      "description": "Test for LONG_ARRAY attribute",
+      "label": "Longs",
+      "defaultValue": null,
+      "type": "LONG_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.longs"
+    },
+    {
+      "id": 17,
+      "name": "dateRange",
+      "description": "Test for DATE_INTERVAL attribute",
+      "label": "DateRange",
+      "defaultValue": null,
+      "type": "DATE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "name": "infos"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.dateRange"
+    }
+  ],
+  "collections": [
+    {
+      "type": "COLLECTION",
+      "lastUpdate": "2017-01-30T11:16:23.919",
+      "creationDate": "2017-01-30T11:16:23.919",
+      "id": 1,
+      "ipId": "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+      "sipId": "SipId1",
+      "label": "label",
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1"
+      ],
+      "model": {
+        "id": 1,
+        "name": "modelName1",
+        "description": "model desc",
+        "type": "COLLECTION"
+      }
+    },
+    {
+      "type": "COLLECTION",
+      "lastUpdate": "2017-01-30T11:16:23.919",
+      "creationDate": "2017-01-30T11:16:23.919",
+      "id": 2,
+      "ipId": "URN:AIP:COLLECTION:PROJECT:c70a2428-8a93-4d06-a90a-f657c26d3930:V1",
+      "sipId": "SipId1",
+      "label": "Collection 2",
+      "tags": [],
+      "model": {
+        "id": 1,
+        "name": "modelName1",
+        "description": "model desc",
+        "type": "COLLECTION"
+      }
+    },
+    {
+      "type": "COLLECTION",
+      "lastUpdate": "2017-01-30T11:16:23.919",
+      "creationDate": "2017-01-30T11:16:23.919",
+      "id": 3,
+      "ipId": "URN:AIP:COLLECTION:PROJECT:sdfjkljsdklfj-8a93-4d06-a90a-f657c26d3930:V1",
+      "sipId": "SipId1",
+      "label": "Collection 3",
+      "tags": [],
+      "model": {
+        "id": 3,
+        "name": "modelName1",
+        "description": "model desc",
+        "type": "COLLECTION"
+      }
+    }
+  ],
+  "datasets": [
+    {
+      "label": "Premier dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": [],
+      "id": 1
+    },
+    {
+      "id": 2,
+      "label": "Deuxieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 3,
+      "label": "Troisieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 4,
+      "label": "Quatrieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "id": 5,
+      "label": "Cinquieme dataset de test",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": []
+    },
+    {
+      "label": "sdfqsdf",
+      "attributes": {
+        "Attribute_0_0": "QSDf",
+        "Fragment 2": {
+          "Attribute_4": "qsdf"
+        }
+      },
+      "model": {
+        "id": 2,
+        "name": "Mon nom de modèle"
+      },
+      "dataModel": 5,
+      "plgConfDataSource": 4,
+      "tags": [
+        "URN:AIP:COLLECTION:PROJECT:fdsfdsf15-8a93-4d06-a90a-f657c26d3930:V1",
+        "habla espanol"
+      ],
+      "subsetting": "fqsdsdf qsdf qsf sdf sf f",
+      "descriptionUrl": "http://www.google.fr",
+      "uiPluginConfIdList": [],
+      "id": 23
+    }
+  ],
+  "datasources": [
+    {
+      "id": 1,
+      "label": "Datasource #1"
+    },
+    {
+      "id": 2,
+      "label": "Datasource #2"
+    },
+    {
+      "id": 3,
+      "label": "Datasource #3"
+    }
+  ],
+  "accessgroups": [
+    {
+      "id": "AG1",
+      "name": "AG1",
+      "users": [
+        {
+          "email": "florian.philippot@facholand.fr"
+        },
+        {
+          "email": "mon@adresse.em"
+        },
+        {
+          "email": "hasbeen381@hotmail.com"
+        }
+      ],
+      "isPrivate": true
+    },
+    {
+      "id": "AG2",
+      "name": "AG2",
+      "users": [],
+      "isPrivate": true
+    }
+  ],
+  "accessRights": [
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessLevel": "INHERITED_ACCESS",
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup": "AG1",
+      "accessGroup": {
+        "id": 1,
+        "isPrivate": true,
+        "name": "AG1"
+      },
+      "dataset": {
+        "id": 1,
+        "label": "PremierDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 1
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessLevel": "INHERITED_ACCESS",
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup": "AG1",
+      "accessGroup": {
+        "id": 1,
+        "isPrivate": true,
+        "name": "AG1"
+      },
+      "dataset": {
+        "id": 4,
+        "label": "QuatriemDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 2
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "10",
+        "minScore": "0",
+        "qualityLevel": "ACCEPTED"
+      },
+      "dataAccessLevel": "INHERITED_ACCESS",
+      "accessLevel": "FULL_ACCESS",
+      "accessgroup": "AG1",
+      "accessGroup": {
+        "id": 1,
+        "isPrivate": true,
+        "name": "AG1"
+      },
+      "dataset": {
+        "id": 3,
+        "label": "TroisiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modele",
+          "description": "Description du premier modele de jeu de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 3
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "pluginConfiguration": 40,
+      "dataAccessLevel": "CUSTOM_ACCESS",
+      "accessLevel": "NO_ACCESS",
+      "accessgroup": "AG1",
+      "accessGroup": {
+        "id": 1,
+        "isPrivate": true,
+        "name": "AG1"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 4
+    },
+    {
+      "qualityFilter": {
+        "maxScore": "6",
+        "minScore": "4",
+        "qualityLevel": "REJECTED"
+      },
+      "dataAccessLevel": "CUSTOM_ACCESS",
+      "pluginConfiguration": 40,
+      "accessLevel": "NO_ACCESS",
+      "accessgroup": "AG2",
+      "accessGroup": {
+        "id": 2,
+        "isPrivate": true,
+        "name": "AG2"
+      },
+      "dataset": {
+        "id": 5,
+        "label": "CinquiemeDataSet",
+        "type": "DATASET",
+        "model": {
+          "id": 2,
+          "name": "Premier Modeleee",
+          "description": "Description du premier modele de jeux de données",
+          "type": "DATASET"
+        }
+      },
+      "id": 5
+    }
+  ]
+}

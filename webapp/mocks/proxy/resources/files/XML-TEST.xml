@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Content>
+  <Comment>This is a test</Comment>
+  <A>1</A>
+  <B>
+    <c>true</c>
+    <c>false</c>
+  </B>
+</Content>

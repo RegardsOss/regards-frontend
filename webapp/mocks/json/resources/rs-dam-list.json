@@ -1,0 +1,950 @@
+{
+  "models": [
+    {
+      "id": 0,
+      "name": "Premier Modele",
+      "description": "Description du premier modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 1,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "DATASET"
+    },
+    {
+      "id": 2,
+      "name": "Troisieme Modele",
+      "description": "Description du troisieme modele de jeux de données",
+      "type": "OBJECT"
+    },
+    {
+      "id": 3,
+      "name": "Missions",
+      "type": "COLLECTION",
+      "description": "Des missions, impossibles"
+    },
+    {
+      "id": 4,
+      "name": "Experiments",
+      "type": "COLLECTION",
+      "description": "Expérimenter et puis c'est tout!"
+    },
+    {
+      "id": 5,
+      "name": "Instruments",
+      "type": "COLLECTION",
+      "description": "Des instruments de musique"
+    },
+    {
+      "id": 6,
+      "name": "Results",
+      "type": "COLLECTION",
+      "description": "Des mesures et démesures"
+    }
+  ],
+  "models-attributes": [
+    {
+      "id": 0,
+      "pos": 0,
+      "mode": "GIVEN",
+      "model": {
+        "id": 5,
+        "name": "Deuxieme Modele",
+        "description": "Description du deuxieme modele de jeux de données",
+        "type": "DATASET"
+      },
+      "attribute": {
+        "id": 0,
+        "label": "Attribute_0_0",
+        "name": "Attribute_0_0",
+        "description": "Description de l'attribut 0 - 0",
+        "defaultValue": null,
+        "type": "STRING",
+        "unit": null,
+        "precision": null,
+        "arraysize": 0,
+        "queryable": true,
+        "facetable": true,
+        "alterable": true,
+        "optional": false,
+        "group": "leGroup",
+        "fragment": {
+          "id": 1,
+          "name": "Fragment1"
+        },
+        "jsonPath": "properties.Fragment1.Attribute_0_0"
+      }
+    },
+    {
+      "id": 1,
+      "pos": 0,
+      "mode": "GIVEN",
+      "model": {
+        "id": 5,
+        "name": "Deuxieme Modele",
+        "description": "Description du deuxieme modele de jeux de données",
+        "type": "DATASET"
+      },
+      "attribute": {
+        "id": 4,
+        "label": "Attribute_4",
+        "name": "Attribute_4",
+        "description": "Description de l'attribut 0 - 0",
+        "defaultValue": null,
+        "type": "STRING",
+        "unit": null,
+        "precision": null,
+        "arraysize": 0,
+        "queryable": true,
+        "facetable": true,
+        "alterable": true,
+        "optional": true,
+        "group": "leGroup",
+        "fragment": {
+          "id": 2,
+          "name": "Fragment2"
+        },
+        "jsonPath": "properties.Fragment2.Attribute_4"
+      }
+    }
+  ],
+  "attributes-models": [
+    {
+      "id": 0,
+      "name": "Attribute_0_0",
+      "label": "Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 1,
+        "name": "Default",
+        "description": "Default fragment"
+      },
+      "jsonPath": "properties.Attribute_0_0"
+    },
+    {
+      "id": 3,
+      "name": "Attribute_0_0",
+      "label": "Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 2,
+        "name": "Fragment2",
+        "description": "Fragment"
+      },
+      "jsonPath": "properties.Fragment2.Attribute_0_0"
+    },
+    {
+      "id": 2,
+      "name": "Attribute_0_0",
+      "label": "Attribute_0_0",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 3,
+        "name": "Fragment3",
+        "description": "Fragment"
+      },
+      "jsonPath": "properties.Fragment3.Attribute_0_0"
+    },
+    {
+      "id": 1,
+      "name": "Attribute_1_0",
+      "label": "Attribute_1_0",
+      "description": "Description de l'attribut 1 - 0",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 1,
+        "name": "Default",
+        "description": "Fragment"
+      },
+      "jsonPath": "properties.Attribute_1_0"
+    },
+    {
+      "id": 4,
+      "name": "Attribute_4",
+      "label": "Attribute_4",
+      "description": "Description de l'attribut 0 - 0",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "fragment": {
+        "id": 2,
+        "name": "Fragment2",
+        "description": "Fragment"
+      },
+      "jsonPath": "properties.Fragment2.Attribute_4"
+    },
+    {
+      "id": 20,
+      "name": "language",
+      "description": "Language for movies",
+      "label": "Language",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 1,
+        "name": "default",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.language"
+    },
+    {
+      "id": 21,
+      "name": "format",
+      "label": "Format du support",
+      "description": "Format for movies",
+      "defaultValue": null,
+      "type": "STRING",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 1,
+        "name": "default",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.format"
+    },
+    {
+      "id": 22,
+      "name": "size",
+      "description": "Test for INTEGER attribute",
+      "label": "Size",
+      "defaultValue": null,
+      "type": "INTEGER",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.size"
+    },
+    {
+      "id": 23,
+      "name": "weight",
+      "description": "Test for DOUBLE attribute",
+      "label": "Double",
+      "defaultValue": null,
+      "type": "DOUBLE",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.weight"
+    },
+    {
+      "id": 24,
+      "name": "date",
+      "description": "Test for DATE_ISO8601 attribute",
+      "label": "Date",
+      "defaultValue": null,
+      "type": "DATE_ISO8601",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.date"
+    },
+    {
+      "id": 25,
+      "name": "strings",
+      "description": "Test for STRING_ARRAY attribute",
+      "label": "Strings",
+      "defaultValue": null,
+      "type": "STRING_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.strings"
+    },
+    {
+      "id": 26,
+      "name": "ints",
+      "description": "Test for INTEGER_ARRAY attribute",
+      "label": "Ints",
+      "defaultValue": null,
+      "type": "INTEGER_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.ints"
+    },
+    {
+      "id": 27,
+      "name": "doubles",
+      "description": "Test for DOUBLE_ARRAY attribute",
+      "label": "Doubles",
+      "defaultValue": null,
+      "type": "DOUBLE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.doubles"
+    },
+    {
+      "id": 28,
+      "name": "dates",
+      "description": "Test for DATE_ARRAY attribute",
+      "label": "Dates",
+      "defaultValue": null,
+      "type": "DATE_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.dates"
+    },
+    {
+      "id": 29,
+      "name": "intRange",
+      "description": "Test for INTEGER_INTERVAL attribute",
+      "label": "IntRange",
+      "defaultValue": null,
+      "type": "INTEGER_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.intRange"
+    },
+    {
+      "id": 30,
+      "name": "doubleRange",
+      "description": "Test for DOUBLE_INTERVAL attribute",
+      "label": "DoubleRange",
+      "defaultValue": null,
+      "type": "DOUBLE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.doubleRange"
+    },
+    {
+      "id": 31,
+      "name": "bool",
+      "description": "Test for BOOLEAN attribute",
+      "label": "Bool",
+      "defaultValue": null,
+      "type": "BOOLEAN",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.bool"
+    },
+    {
+      "id": 32,
+      "name": "url",
+      "description": "Test for URL attribute",
+      "label": "Lien",
+      "defaultValue": null,
+      "type": "URL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.url"
+    },
+    {
+      "id": 33,
+      "name": "geo",
+      "description": "Test for GEOMETRY attribute",
+      "label": "Geo",
+      "defaultValue": null,
+      "type": "GEOMETRY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.geo"
+    },
+    {
+      "id": 34,
+      "name": "long",
+      "description": "Test for LONG attribute",
+      "label": "Long",
+      "defaultValue": null,
+      "type": "LONG",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.long"
+    },
+    {
+      "id": 35,
+      "name": "longRange",
+      "description": "Test for LONG_INTERVAL attribute",
+      "label": "LongRange",
+      "defaultValue": null,
+      "type": "LONG_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.lonRange"
+    },
+    {
+      "id": 36,
+      "name": "longs",
+      "description": "Test for LONG_ARRAY attribute",
+      "label": "Longs",
+      "defaultValue": null,
+      "type": "LONG_ARRAY",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.longs"
+    },
+    {
+      "id": 37,
+      "name": "dateRange",
+      "description": "Test for DATE_INTERVAL attribute",
+      "label": "DateRange",
+      "defaultValue": null,
+      "type": "DATE_INTERVAL",
+      "unit": null,
+      "precision": null,
+      "arraysize": 0,
+      "fragment": {
+        "id": 4,
+        "name": "infos",
+        "description": "Fragment"
+      },
+      "queryable": true,
+      "facetable": true,
+      "alterable": true,
+      "optional": true,
+      "group": "leGroup",
+      "jsonPath": "properties.infos.dateRange"
+    }
+  ],
+  "models-fragments": [
+    {
+      "id": 1,
+      "name": "Default",
+      "description": "Fragment"
+    },
+    {
+      "id": 2,
+      "name": "fragment 2",
+      "description": "Fragment"
+    },
+    {
+      "id": 3,
+      "name": "fragment 3",
+      "description": "Fragment"
+    }
+  ],
+  "connections": [
+    {
+      "id": 1352,
+      "pluginId": "fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin",
+      "label": "Hello Toulouse",
+      "version": "1.0-SNAPSHOT",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "fr.cnes.regards.modules.datasources.plugins.DefaultPostgreConnectionPlugin",
+      "parameters": [
+        {
+          "id": 1852,
+          "name": "user",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1853,
+          "name": "password",
+          "value": "azertyuiop123456789",
+          "dynamic": false
+        },
+        {
+          "id": 1854,
+          "name": "url",
+          "value": "jdbc:postgresql://172.26.47.52:5432/rs_testdb_cmertz",
+          "dynamic": false
+        },
+        {
+          "id": 1855,
+          "name": "driver",
+          "value": "org.postgresql.Driver",
+          "dynamic": false
+        },
+        {
+          "id": 1856,
+          "name": "maxPoolSize",
+          "value": "10",
+          "dynamic": false
+        },
+        {
+          "id": 1857,
+          "name": "minPoolSize",
+          "value": "1",
+          "dynamic": false
+        }
+      ]
+    }
+  ],
+  "plugins": [
+    {
+      "id": "aComplexErrorPlugin",
+      "pluginId": "aComplexErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexErrorPlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "param31",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param31"
+        },
+        {
+          "name": "param32",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param32"
+        },
+        {
+          "name": "param33",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "69"
+        },
+        {
+          "name": "param34",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": "this is the default value of param34"
+        },
+        {
+          "name": "param35",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "12"
+        }
+      ]
+    },
+    {
+      "id": "aSamplePlugin",
+      "pluginId": "aSamplePlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SamplePlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "12345-6789-11",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of suffix"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": 69
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": true
+        }
+      ]
+    },
+    {
+      "id": "aSampleErrorPlugin",
+      "pluginId": "aSampleErrorPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.SampleErrorPlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Sample plugin test",
+      "parameters": [
+        {
+          "name": "suffix",
+          "type": "java.lang.String",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": "this is the default value of suffix"
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE",
+          "optional": false,
+          "defaultValue": 69
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": true
+        }
+      ]
+    },
+    {
+      "id": "aComplexPlugin",
+      "pluginId": "aComplexPlugin",
+      "pluginClassName": "fr.cnes.regards.framework.plugins.ComplexPlugin",
+      "interfaceNames": [
+        "fr.cnes.regards.framework.plugins.ISamplePlugin"
+      ],
+      "author": "CSSI",
+      "version": "0.0.1",
+      "description": "Complex plugin test",
+      "parameters": [
+        {
+          "name": "plgInterface",
+          "type": "fr.cnes.regards.framework.plugins.IComplexInterfacePlugin",
+          "paramType": "PLUGIN",
+          "optional": true,
+          "defaultValue": 12
+        },
+        {
+          "name": "coeff",
+          "type": "java.lang.Integer",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": 4
+        },
+        {
+          "name": "isActive",
+          "type": "java.lang.Boolean",
+          "paramType": "PRIMITIVE",
+          "optional": true,
+          "defaultValue": true
+        }
+      ]
+    }
+  ],
+  "configurations": [
+    {
+      "id": 40,
+      "pluginId": "aComplexErrorPlugin",
+      "label": "a plugin configuration for the test",
+      "version": "12345-6789-11",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "param31",
+          "value": "red",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "red"
+            },
+            {
+              "value": "greeen"
+            },
+            {
+              "value": "blue"
+            }
+          ]
+        },
+        {
+          "name": "param32",
+          "value": "value32",
+          "dynamic": false,
+          "dynamicsValues": []
+        },
+        {
+          "name": "param33",
+          "value": "42",
+          "dynamic": true,
+          "dynamicsValues": [
+            {
+              "value": "12"
+            },
+            {
+              "value": "18"
+            }
+          ]
+        },
+        {
+          "name": "param34",
+          "value": "value34",
+          "dynamic": false,
+          "dynamicsValues": []
+        },
+        {
+          "name": "param35",
+          "value": "52",
+          "dynamic": false,
+          "dynamicsValues": []
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "pluginId": "aComplexPlugin",
+      "label": "This is a configuration",
+      "version": "1.2.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "42",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "true",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "pluginId": "aComplexPlugin",
+      "label": "A configuration",
+      "version": "1.0.0",
+      "priorityOrder": 0,
+      "active": true,
+      "pluginClassName": "java.lang.Integer",
+      "parameters": [
+        {
+          "name": "coeff",
+          "value": "43",
+          "dynamic": true
+        },
+        {
+          "name": "isActive",
+          "value": "false",
+          "dynamic": false
+        },
+        {
+          "name": "plgInterface",
+          "value": "40",
+          "dynamic": false
+        }
+      ]
+    }
+  ]
+}

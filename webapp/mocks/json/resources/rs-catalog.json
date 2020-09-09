@@ -1,0 +1,1500 @@
+{
+  "search": [
+    {
+      "id": 0,
+      "sipId": "100",
+      "ipId": "URN:AIP:DATA:0",
+      "label": "Le parain",
+      "entityType": "DATA",
+      "model": {
+        "id": 12
+      },
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
+          }
+        ],
+        "RAWDATA": [
+          {
+            "uri": "http://fr.web.img4.acsta.net/medias/nmedia/18/35/57/73/18660716.jpg"
+          }
+        ]
+      },
+      "tags": [
+        "col:movie",
+        "col:classic",
+        "col:action",
+        "ds:ParisLibrary"
+      ],
+      "geometry": {},
+      "properties": {
+        "format": "dvd",
+        "language": "English",
+        "infos": {
+          "size": 7,
+          "weight": 3.0670392995515527,
+          "text": "sa",
+          "date": "2017-01-07T10:47:00",
+          "strings": [
+            "adipiscing",
+            "elit",
+            "sed",
+            "do",
+            "eiusmod",
+            "tempor",
+            "incididunt",
+            "ut",
+            "labore",
+            "et"
+          ],
+          "ints": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "doubles": [
+            -300000000000,
+            1.54e-12,
+            1,
+            1.1234567891011122,
+            0
+          ],
+          "dates": [
+            "2017-01-07T12:00:00",
+            "2017-01-08T12:00:00",
+            "2017-01-09T12:00:00",
+            "2017-01-10T12:00:00",
+            "2017-01-11T12:00:00",
+            "2017-01-12T12:00:00",
+            "2017-01-13T12:00:00",
+            "2017-01-14T12:00:00",
+            "2017-01-15T12:00:00",
+            "2017-01-16T12:00:00"
+          ],
+          "dateRange": {
+            "lowerBound": "2017-01-07T12:00:00",
+            "upperBound": "2017-01-16T12:00:00"
+          },
+          "intRange": {
+            "lowerBound": 7,
+            "upperBound": 16
+          },
+          "doubleRange": {
+            "lowerBound": -300000000000,
+            "upperBound": 0
+          },
+          "bool": false,
+          "url": "http://www.google.fr"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "sipId": "101",
+      "ipId": "URN:AIP:DATA:1",
+      "label": "Matrix",
+      "entityType": "DATA",
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "https://images-na.ssl-images-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_UY1200_CR84,0,630,1200_AL_.jpg"
+          }
+        ]
+      },
+      "tags": [
+        "col:movie",
+        "col:science-fiction",
+        "ds:ParisLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 2,
+      "sipId": "102",
+      "ipId": "URN:AIP:DATA:2",
+      "label": "La grande vadrouille",
+      "entityType": "DATA",
+      "files": {
+        "THUMBNAIL": [
+          {
+            "uri": "http://fr.web.img5.acsta.net/pictures/16/06/16/12/01/072037.jpg"
+          }
+        ]
+      },
+      "tags": [
+        "col:movie",
+        "col:classic",
+        "col:aventure",
+        "ds:ParisLibrary",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 10,
+      "sipId": "110",
+      "ipId": "URN:AIP:DATA:3",
+      "label": "Matrix Reloaded",
+      "entityType": "DATA",
+      "files": {
+        "RAWDATA": [
+          {
+            "uri": "https://cnes.fr/sites/default/files/drupal/201511/image/is_venus-nasa.jpg"
+          }
+        ]
+      },
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 11,
+      "sipId": "111",
+      "ipId": "URN:AIP:DATA:4",
+      "label": "Matrix Revolution",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 12,
+      "sipId": "112",
+      "ipId": "URN:AIP:DATA:5",
+      "label": "Burn after reading",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 13,
+      "sipId": "113",
+      "ipId": "URN:AIP:DATA:6",
+      "label": "Starwars I",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 14,
+      "sipId": "114",
+      "ipId": "URN:AIP:DATA:7",
+      "label": "Starwars II",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 15,
+      "sipId": "115",
+      "ipId": "URN:AIP:DATA:8",
+      "label": "Starwars III",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 16,
+      "sipId": "116",
+      "ipId": "URN:AIP:DATA:9",
+      "label": "Starwars IV",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 17,
+      "sipId": "117",
+      "ipId": "URN:AIP:DATA:10",
+      "label": "Starwars V",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 18,
+      "sipId": "118",
+      "ipId": "URN:AIP:DATA:11",
+      "label": "Starwars VI",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 19,
+      "sipId": "119",
+      "ipId": "URN:AIP:DATA:12",
+      "label": "Starwars VII",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 20,
+      "sipId": "120",
+      "ipId": "URN:AIP:DATA:13",
+      "label": "Le diner de con",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 21,
+      "sipId": "121",
+      "ipId": "URN:AIP:DATA:14",
+      "label": "Polisse",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 22,
+      "sipId": "122",
+      "ipId": "URN:AIP:DATA:15",
+      "label": "Intouchable",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 23,
+      "sipId": "123",
+      "ipId": "URN:AIP:DATA:16",
+      "label": "Scarface",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 24,
+      "sipId": "124",
+      "ipId": "URN:AIP:DATA:17",
+      "label": "Pulp Fiction",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 25,
+      "sipId": "125",
+      "ipId": "URN:AIP:DATA:18",
+      "label": "Seven",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "vhs",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 26,
+      "sipId": "126",
+      "ipId": "URN:AIP:DATA:19",
+      "label": "Fight Club",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 27,
+      "sipId": "127",
+      "ipId": "URN:AIP:DATA:20",
+      "label": "La cité de la peur",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "French"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 28,
+      "sipId": "128",
+      "ipId": "URN:AIP:DATA:21",
+      "label": "Requiem for a dream",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "dvd",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 29,
+      "sipId": "129",
+      "ipId": "URN:AIP:DATA:22",
+      "label": "Sinister",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 30,
+      "sipId": "130",
+      "ipId": "URN:AIP:DATA:23",
+      "label": "Insidious",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 31,
+      "sipId": "131",
+      "ipId": "URN:AIP:DATA:24",
+      "label": "Insidious 2",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 32,
+      "sipId": "132",
+      "ipId": "URN:AIP:DATA:25",
+      "label": "Insidious 3",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 40,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:26",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 40,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:27",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 40,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:28",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 41,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:29",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 42,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:30",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 43,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:31",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 44,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:32",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 45,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:33",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 46,
+      "sipId": "140",
+      "ipId": "34",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 47,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:35",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 48,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:36",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 49,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:37",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 50,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:38",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 51,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:39",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 52,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:40",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 53,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:41",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 54,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:42",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 55,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:43",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 56,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:44",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 57,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:45",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 58,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:46",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 59,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:47",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 60,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:48",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 61,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:49",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 62,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:50",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 63,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:51",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 64,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:52",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 65,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:53",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 66,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:54",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 67,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:55",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 68,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:56",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 69,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:57",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 70,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:58",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 71,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:59",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 72,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:60",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 73,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:61",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 74,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:62",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 75,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:63",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 76,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:64",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 77,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:65",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 78,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:66",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 79,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:67",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 80,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:68",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 81,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:69",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 82,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:70",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 83,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:71",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 84,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:72",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 85,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:73",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 86,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:74",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 87,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:75",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 88,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:76",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 89,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:77",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 90,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:78",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 91,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:79",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 92,
+      "sipId": "140",
+      "ipId": "URN:AIP:DATA:80",
+      "label": "Film",
+      "entityType": "DATA",
+      "tags": [
+        "col:movie",
+        "ds:NYCLibrary"
+      ],
+      "properties": {
+        "format": "blueray",
+        "language": "English"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 3,
+      "sipId": "103",
+      "ipId": "URN:AIP:DATA:81",
+      "label": "movie",
+      "entityType": "COLLECTION",
+      "tags": [],
+      "properties": {},
+      "geometry": {}
+    },
+    {
+      "id": 4,
+      "sipId": "104",
+      "ipId": "URN:AIP:DATA:82",
+      "label": "classic",
+      "entityType": "COLLECTION",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {},
+      "geometry": {}
+    },
+    {
+      "id": 5,
+      "sipId": "105",
+      "ipId": "URN:AIP:DATA:83",
+      "label": "aventure",
+      "entityType": "COLLECTION",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {},
+      "geometry": {}
+    },
+    {
+      "id": 6,
+      "sipId": "106",
+      "ipId": "URN:AIP:DATA:84",
+      "label": "action",
+      "entityType": "COLLECTION",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {},
+      "geometry": {}
+    },
+    {
+      "id": 7,
+      "sipId": "107",
+      "ipId": "URN:AIP:DATA:85",
+      "label": "science-fiction",
+      "entityType": "COLLECTION",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {},
+      "geometry": {}
+    },
+    {
+      "id": 8,
+      "sipId": "108",
+      "ipId": "URN:AIP:DATA:86",
+      "label": "ParisLibrary",
+      "entityType": "DATASET",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {
+        "locattion": "Paris"
+      },
+      "geometry": {}
+    },
+    {
+      "id": 9,
+      "sipId": "109",
+      "ipId": "URN:AIP:DATA:87",
+      "label": "NYCLibrary",
+      "entityType": "DATASET",
+      "tags": [
+        "col:movie"
+      ],
+      "properties": {
+        "locattion": "NewYork"
+      },
+      "geometry": {}
+    }
+  ],
+  "linkplugindataset": [
+    {
+      "id": 23,
+      "datasetId": 23,
+      "converters": [],
+      "services": [],
+      "filters": []
+    }
+  ]
+}
