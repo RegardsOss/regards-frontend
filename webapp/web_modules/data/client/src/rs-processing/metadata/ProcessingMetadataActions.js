@@ -24,17 +24,17 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Théo Lasserre
  */
 class ProcessingMetadataActions extends BasicListActions {
-    constructor(namespace) {
-        super({
-            namespace,
-            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/plugins`,
-            entityPathVariable: 'pluginId',
-            schemaTypes: {
-                ENTITY: PROCESSING_METADATA,
-                ENTITY_ARRAY: PROCESSING_METADATA_ARRAY,
-            },
-        })
-    }
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/plugins`,
+      entityPathVariable: 'pluginId',
+      schemaTypes: {
+        ENTITY: PROCESSING_METADATA,
+        ENTITY_ARRAY: PROCESSING_METADATA_ARRAY,
+      },
+    })
+  }
 }
 
 export default ProcessingMetadataActions

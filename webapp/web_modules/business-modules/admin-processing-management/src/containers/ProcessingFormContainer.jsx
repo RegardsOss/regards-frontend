@@ -28,7 +28,6 @@ import ProcessingFormComponent from '../components/ProcessingFormComponent'
 * @author Théo Lasserre
 */
 export class ProcessingFormContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -71,7 +70,7 @@ export class ProcessingFormContainer extends React.Component {
 
   state = {
     isLoading: !!get(this.props, 'params.businessId', false),
-    mode: 'create'
+    mode: 'create',
   }
 
   UNSAFE_componentWillMount() {

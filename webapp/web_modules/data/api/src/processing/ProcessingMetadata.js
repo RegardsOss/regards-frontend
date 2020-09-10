@@ -23,12 +23,12 @@ import { Schema, arrayOf } from 'normalizr'
  * Processing metadata plugin management for normalizr
  */
 export const ProcessingMetadataConfiguration = {
-    entityKey: 'pluginId',
-    normalizrKey: 'processing-metadata-conf'
+  entityKey: 'pluginId',
+  normalizrKey: 'processing-metadata-conf',
 }
 
 export const PROCESSING_METADATA = new Schema(ProcessingMetadataConfiguration.normalizrKey, {
-    idAttribute: (model) => model.content[ProcessingMetadataConfiguration.entityKey],
+  idAttribute: (model) => model.content[ProcessingMetadataConfiguration.entityKey],
 })
 
 export const PROCESSING_METADATA_ARRAY = arrayOf(PROCESSING_METADATA)

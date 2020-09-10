@@ -17,18 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
- import { Schema, arrayOf } from 'normalizr'
+import { Schema, arrayOf } from 'normalizr'
 
- /**
+/**
   * Processing Monitor plugin management for normalizr
   */
- export const ProcessingMonitoringConfiguration = {
-     entityKey: 'id',
-     normalizrKey: 'processing-monitoring-conf'
- }
+export const ProcessingMonitoringConfiguration = {
+  entityKey: 'id',
+  normalizrKey: 'processing-monitoring-conf',
+}
 
- export const PROCESSING_MONITORING = new Schema(ProcessingMonitoringConfiguration.normalizrKey , {
-     idAttribute: (model) => model.content[ProcessingMonitoringConfiguration.entityKey],
- })
+export const PROCESSING_MONITORING = new Schema(ProcessingMonitoringConfiguration.normalizrKey, {
+  idAttribute: (model) => model.content[ProcessingMonitoringConfiguration.entityKey],
+})
 
- export const PROCESSING_MONITORING_ARRAY = arrayOf(PROCESSING_MONITORING)
+export const PROCESSING_MONITORING_ARRAY = arrayOf(PROCESSING_MONITORING)

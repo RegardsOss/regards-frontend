@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export {
-    Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent
+  Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent,
 } from './Processing'
 export {
-    LinkProcessingDataset, LinkProcessingDatasetList
+  LinkProcessingDataset, LinkProcessingDatasetList,
 } from './LinkProcessingDataset'
 export {
-    ProcessingMonitoring, ProcessingMonitoringArray, ProcessingMonitoringList
+  ProcessingMonitoring, ProcessingMonitoringArray, ProcessingMonitoringList,
 } from './ProcessingMonitoring'

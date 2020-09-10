@@ -40,7 +40,7 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
     if (!entity) {
       return null
     }
-    const message = entity.content.steps[entity.content.steps.length-1].message
+    const { message } = entity.content.steps[entity.content.steps.length - 1]
     let titleId
     message !== '' ? titleId = 'processing.monitoring.list.tooltip.info.title' : titleId = 'processing.monitoring.list.tooltip.no.info.title'
     return (
@@ -58,16 +58,16 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
         onRequestClose={onClose}
       >
         {
-          message !== '' ?
-            <div style={moduleTheme.rootStyle}>
+          message !== ''
+            ? <div style={moduleTheme.rootStyle}>
               <div style={moduleTheme.labelStyle}>
                 {formatMessage({ id: 'processing.monitoring.list.tooltip.info.message.label' })}
               </div>
               <div style={moduleTheme.valueStyle}>
                 {message}
               </div>
-          </div>
-          : null
+            </div>
+            : null
         }
       </Dialog>
     )

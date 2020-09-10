@@ -23,12 +23,12 @@ import { Schema, arrayOf } from 'normalizr'
  * Processing plugin management for normalizr
  */
 export const LinkProcessingDatasetConfiguration = {
-    entityKey: 'datasetId',
-    normalizrKey: 'linkprocessingdataset'
+  entityKey: 'datasetId',
+  normalizrKey: 'linkprocessingdataset',
 }
 
 export const LINK_PROCESSING_DATASET = new Schema(LinkProcessingDatasetConfiguration.normalizrKey, {
-    idAttribute: (entity) => entity.content[LinkProcessingDatasetConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[LinkProcessingDatasetConfiguration.entityKey],
 })
 
 export const LINK_PROCESSING_DATASET_ARRAY = arrayOf(LINK_PROCESSING_DATASET)

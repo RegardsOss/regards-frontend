@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 const messages = {
-  
+
   /* Processing */
   'processing.management.list.title': 'Processing',
   'processing.management.list.subtitle': 'List of current and done project processing',
@@ -54,6 +54,7 @@ const messages = {
   'processing.monitoring.filters.to.label': 'To',
   'processing.monitoring.filters.reset': 'Clear Filters',
   'processing.monitoring.filters.apply': 'Apply Filters',
+  'processing.monitoring.filters.status': 'Status',
   'processing.monitoring.filters.all-status': 'All Status',
   'processing.monitoring.filters.success-status': 'Success',
   'processing.monitoring.filters.failure-status': 'Failure',
@@ -68,12 +69,12 @@ const messages = {
   'processing.monitoring.list.refresh.button': 'Refresh',
 
   /* Processing Form */
-  'processing.form.edit.title' : 'Edit processing "{name}"',
-  'processing.form.create.title' : 'Add new processing',
-  'processing.form.submit.edit.button' : 'Modify',
-  'processing.form.submit.button' : 'Create',
-  'processing.form.subtitle' : 'First you have to select a processing. When its done, you have to configure the needed parameters.',
-  'processing.form.back.button' : 'Cancel',
+  'processing.form.edit.title': 'Edit processing "{name}"',
+  'processing.form.create.title': 'Add new processing',
+  'processing.form.submit.edit.button': 'Modify',
+  'processing.form.submit.button': 'Create',
+  'processing.form.subtitle': 'First you have to select a processing. When its done, you have to configure the needed parameters.',
+  'processing.form.back.button': 'Cancel',
   'processing.form.plugin.label': 'Processing plugin',
   'processing.form.invalid.id': 'Invalid ID',
 

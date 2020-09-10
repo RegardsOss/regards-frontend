@@ -19,24 +19,21 @@
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, withI18n } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { values, isEqual, reduce, get} from 'lodash'
-import compose from 'lodash/fp/compose'
 import { withModuleStyle } from '@regardsoss/theme'
-
-import { browserHistory } from 'react-router'
-import { processingMonitoringActions, processingMonitoringSelectors } from '../clients/ProcessingMonitoringClient'
+import { ProcessingShapes } from '@regardsoss/shape'
+import compose from 'lodash/fp/compose'
+import get from 'lodash/get'
+import { processingActions, processingSelectors } from '../clients/ProcessingClient'
+import { processingMonitoringActions } from '../clients/ProcessingMonitoringClient'
 import messages from '../i18n'
 import styles from '../styles'
 import ProcessingMonitoringComponent from '../components/ProcessingMonitoringComponent'
-import { ProcessingShapes } from '@regardsoss/shape'
-
 
 /**
  * List all the processing running or not
  * @author Théo Lasserre
  */
 export class ProcessingMonitoringContainer extends React.Component {
-
     /**
      * Redux: map state to props function
      * @param {*} state: current redux state
@@ -44,9 +41,9 @@ export class ProcessingMonitoringContainer extends React.Component {
      * @return {*} list of component properties extracted from redux state
      */
     static mapStateToProps = (state) => ({
-        listEntities: processingMonitoringSelectors.getList(state),
+      processingList: processingSelectors.getList(state),
     })
-    
+
     /**
      * Redux: map to dispatch to props function
      * @param {*} dispatch: redux dispatch function
@@ -54,74 +51,76 @@ export class ProcessingMonitoringContainer extends React.Component {
      * @return {*} list of actions ready to be dispatched in the redux store
      */
     static mapDispatchToProps = (dispatch) => ({
-        fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+      fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
+      fetchProcessingList: () => dispatch(processingActions.fetchEntityList())
     })
 
     static propTypes = {
-        meta: PropTypes.shape({
-            // use only in onPropertiesUpdate
-            number: PropTypes.number,
-            size: PropTypes.number,
-            totalElements: PropTypes.number,
-        }),
-        // from router
-        params: PropTypes.shape({
-            project: PropTypes.string,
-        }),
-        // from mapStateToProps
-        listEntities: ProcessingShapes.ProcessingMonitoringList.isRequired,
-        // from mapDispatchToProps
-        fetchProcessingMonitorList: PropTypes.func,
+      meta: PropTypes.shape({
+        // use only in onPropertiesUpdate
+        number: PropTypes.number,
+        size: PropTypes.number,
+        totalElements: PropTypes.number,
+      }),
+      // from router
+      params: PropTypes.shape({
+        project: PropTypes.string,
+      }),
+      // from mapStateToProps
+      processingList: ProcessingShapes.ProcessingList.isRequired,
+      // from mapDispatchToProps
+      fetchProcessingMonitorList: PropTypes.func,
+      fetchProcessingList: PropTypes.func
     }
 
     /**
      * Initial state
      */
     state = {
-        isLoading: true,
+      isLoading: true,
     }
 
     UNSAFE_componentWillMount() {
-        Promise.resolve(this.props.fetchProcessingMonitorList()).then((actionResult) => {
-          if (!actionResult.error) {
-            this.setState({
-              isLoading: false,
-            })
-          }
-        })
+      this.props.fetchProcessingList().then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      })
     }
 
     onRefresh = (filters) => {
-        const { meta, fetchProcessingMonitorList } = this.props
-        const curentPage = get(meta, 'number', 0)
-        return fetchProcessingMonitorList(0, ProcessingMonitoringComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
+      const { meta, fetchProcessingMonitorList } = this.props
+      const curentPage = get(meta, 'number', 0)
+      return fetchProcessingMonitorList(0, ProcessingMonitoringComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
     }
 
     getBackURL = () => {
-        const { params: { project } } = this.props
-        return `/admin/${project}/commands/board`
+      const { params: { project } } = this.props
+      return `/admin/${project}/commands/board`
     }
 
     render() {
-        const { isLoading, requestParameters, filtersEdited, canEmptyFilters, 
-            editionFiltersState,
-        } = this.state
-        const { listEntities } = this.props
-   
-        return (
-            <I18nProvider messages={messages}>
-                <LoadableContentDisplayDecorator isLoading={isLoading}>
-                    <ProcessingMonitoringComponent
-                        onRefresh={this.onRefresh}
-                        backUrl={this.getBackURL()}
-                        listEntities={listEntities}
-                    />
-                </LoadableContentDisplayDecorator>
-            </I18nProvider>
-        )
+      const {
+        isLoading
+      } = this.state
+      const { processingList } = this.props
+
+      return (
+        <I18nProvider messages={messages}>
+          <LoadableContentDisplayDecorator isLoading={isLoading}>
+            <ProcessingMonitoringComponent
+              onRefresh={this.onRefresh}
+              backUrl={this.getBackURL()}
+              processingList={processingList}
+            />
+          </LoadableContentDisplayDecorator>
+        </I18nProvider>
+      )
     }
 }
 
 export default compose(
-    connect(ProcessingMonitoringContainer.mapStateToProps, ProcessingMonitoringContainer.mapDispatchToProps),
-    withI18n(messages), withModuleStyle(styles))(ProcessingMonitoringContainer)
+  connect(ProcessingMonitoringContainer.mapStateToProps, ProcessingMonitoringContainer.mapDispatchToProps),
+  withI18n(messages), withModuleStyle(styles))(ProcessingMonitoringContainer)

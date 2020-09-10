@@ -20,7 +20,7 @@ import { ProcessingClient } from '@regardsoss/client'
 
 /**
  * Link Processing Datasets entities client
- * 
+ *
  * @author Théo Lasserre
  */
 const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'link-processing-dataset']

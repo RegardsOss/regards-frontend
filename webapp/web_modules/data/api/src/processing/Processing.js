@@ -17,18 +17,18 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
- import { Schema, arrayOf } from 'normalizr'
+import { Schema, arrayOf } from 'normalizr'
 
- /**
+/**
   * Processing plugin management for normalizr
   */
- export const ProcessingConfiguration = {
-     entityKey: 'businessId',
-     normalizrKey: 'processing-conf'
- }
+export const ProcessingConfiguration = {
+  entityKey: 'businessId',
+  normalizrKey: 'processing-conf',
+}
 
- export const PROCESSING = new Schema(ProcessingConfiguration.normalizrKey, {
-     idAttribute: (processing) => processing.content.pluginConfiguration[ProcessingConfiguration.entityKey],
- })
+export const PROCESSING = new Schema(ProcessingConfiguration.normalizrKey, {
+  idAttribute: (processing) => processing.content.pluginConfiguration[ProcessingConfiguration.entityKey],
+})
 
- export const PROCESSING_ARRAY = arrayOf(PROCESSING)
+export const PROCESSING_ARRAY = arrayOf(PROCESSING)

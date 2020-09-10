@@ -25,7 +25,7 @@ const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing-monitor']
 const REDUX_ACTION_NAMESPACE = 'admin-processing-management/processing-monitor'
 
 const {
-    ProcessingMonitoringActions, getProcessingMonitoringReducer, getProcessingMonitoringSelectors
+  ProcessingMonitoringActions, getProcessingMonitoringReducer, getProcessingMonitoringSelectors,
 } = ProcessingClient
 
 export const processingMonitoringReducer = getProcessingMonitoringReducer(REDUX_ACTION_NAMESPACE)

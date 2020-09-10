@@ -17,19 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const Steps = PropTypes.shape({
-    status: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    message: PropTypes.string,
+  status: PropTypes.string.isRequired,
+  time: PropTypes.string.isRequired,
+  message: PropTypes.string,
 })
 export const ProcessingMonitoringContent = PropTypes.shape({
-    steps: PropTypes.arrayOf(Steps).isRequired,
-    userName: PropTypes.string.isRequired,
-    created: PropTypes.string.isRequired,
-    processName: PropTypes.string.isRequired,
-    lastUpdated: PropTypes.string.isRequired,
+  steps: PropTypes.arrayOf(Steps).isRequired,
+  userName: PropTypes.string.isRequired,
+  created: PropTypes.string.isRequired,
+  processName: PropTypes.string.isRequired,
+  lastUpdated: PropTypes.string.isRequired,
 })
 export const ProcessingMonitoring = PropTypes.shape({
-    content: ProcessingMonitoringContent,
+  content: ProcessingMonitoringContent,
 })
 export const ProcessingMonitoringList = PropTypes.objectOf(ProcessingMonitoring)
 export const ProcessingMonitoringArray = PropTypes.arrayOf(ProcessingMonitoring)

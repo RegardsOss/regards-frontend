@@ -37,7 +37,7 @@ export const listProcessingRoute = {
         content: ProcessingListContainer.default,
       })
     })
-  }
+  },
 }
 
 export const addProcessingRoute = {
@@ -63,7 +63,7 @@ export const editProcessingRoute = {
     })
   },
 }
-  
+
 export default {
   childRoutes: [
     monitoringProcessingRoute,
@@ -72,4 +72,3 @@ export default {
     editProcessingRoute,
   ],
 }
-  

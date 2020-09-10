@@ -1,4 +1,4 @@
-import { capitalize } from "lodash";
+import { capitalize } from 'lodash'
 
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
@@ -19,25 +19,22 @@ import { capitalize } from "lodash";
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 export default (theme) => ({
-    processingMonitoring: {
-        cardTextStyle: {
-            paddingTop: 0,
-            paddingBottom: 0,
-        },
-        filters: {
-            autocomplete: {
-              marginRight: '10px',
-            },
-            checkboxLabel: {
-              whiteSpace: 'nowrap',
-              paddingRight: '20px',
-            },
-        },
+  processingMonitoring: {
+    cardTextStyle: {
+      paddingTop: 0,
+      paddingBottom: 0,
     },
-    processingList: {
-        cardTextStyle: {
-            paddingTop: 0,
-            paddingBottom: 0,
-        },
+    filters: {
+      autocomplete: {
+        marginRight: '10px',
+        marginLeft: '10px',
+      },
     },
+  },
+  processingList: {
+    cardTextStyle: {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
 })

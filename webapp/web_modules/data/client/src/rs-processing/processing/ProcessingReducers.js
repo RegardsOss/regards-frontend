@@ -25,9 +25,9 @@ import ProcessingActions from './ProcessingActions'
  * @author Théo Lasserre
  */
 class ProcessingReducers extends BasicListReducers {
-    constructor(namespace) {
-        super(ProcessingConfiguration, new ProcessingActions(namespace))
-    }
+  constructor(namespace) {
+    super(ProcessingConfiguration, new ProcessingActions(namespace))
+  }
 }
 
 /**
@@ -36,6 +36,6 @@ class ProcessingReducers extends BasicListReducers {
  * @returns {function} reduce function
  */
 export default (namespace) => {
-    const instance = new ProcessingReducers(namespace)
-    return (state, action) => instance.reduce(state, action)
+  const instance = new ProcessingReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

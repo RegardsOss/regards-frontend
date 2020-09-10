@@ -22,39 +22,30 @@ import {
   TableHeaderLine,
   TableHeaderOptionGroup,
   TableHeaderAutoCompleteFilter,
-  DatePickerField
+  DatePickerField,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { isEmpty, isEqual, filter } from 'lodash'
-import { SelectField, Checkbox } from 'material-ui'
-import { MenuItem } from 'material-ui/Menu'
+import { ProcessingDomain } from '@regardsoss/domain'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import map from 'lodash/map'
+import find from 'lodash/find'
+import filter from 'lodash/filter'
+import SelectField from 'material-ui/SelectField'
+import TextField from 'material-ui/TextField'
+import MenuItem from 'material-ui/MenuItem'
 import FlatButton from 'material-ui/FlatButton'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
+import Refresh from 'mdi-material-ui/Refresh'
 
-const FILTERS_ELEMENT = {
-  PROCESS_NAME: 'processName',
-  USER_NAME: 'userName',
-  DATE: {
-    FROM: 'from',
-    TO: 'to'
-  },
-  STATUS: [
-    'SUCCESS',
-    'FAILURE',
-    'CANCELLED',
-    'TIMED_OUT',
-    'CLEANUP',
-    'RUNNING',
-    'PREPARE',
-    'REGISTERED'
-  ]
-}
-
-const STATE_TYPE = {
-  AUTOCOMPLETE_LIST: 'autocompleteList',
-  FILTER: 'filter'
+const PROCESS_FILTER_PARAMS = {
+  NAME: 'processName',
+  USERNAME: 'userName',
+  FROM: 'from',
+  TO: 'to',
+  STATUS: 'status'
 }
 
 /**
@@ -62,9 +53,8 @@ const STATE_TYPE = {
  * @author Théo Lasserre
  */
 class ProcessingMonitoringFiltersComponent extends React.Component {
-
   static propTypes = {
-    listEntities: PropTypes.object.isRequired,
+    processingList: PropTypes.object.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 
@@ -77,153 +67,76 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    * Default state for filters edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [FILTERS_ELEMENT.PROCESS_NAME]: '',
-    [FILTERS_ELEMENT.USER_NAME]: '',
-    [FILTERS_ELEMENT.DATE.FROM]: null,
-    [FILTERS_ELEMENT.DATE.TO]: null,
-    [FILTERS_ELEMENT.STATUS] : [
-      'SUCCESS',
-      'FAILURE',
-      'CANCELLED',
-      'TIMED_OUT',
-      'CLEANUP',
-      'RUNNING',
-      'PREPARE',
-      'REGISTERED'
-    ]
+    [PROCESS_FILTER_PARAMS.NAME]: '',
+    [PROCESS_FILTER_PARAMS.USERNAME]: '',
+    [PROCESS_FILTER_PARAMS.FROM]: null,
+    [PROCESS_FILTER_PARAMS.TO]: null,
+    [PROCESS_FILTER_PARAMS.STATUS]: ProcessingDomain.PROCESS_STATUS_TYPES,
   }
 
   state = {
-    listAutoCompleteElements : {
-      [FILTERS_ELEMENT.PROCESS_NAME]: [],
-      [FILTERS_ELEMENT.USER_NAME]: []
-    },
-    filters: {
-      [FILTERS_ELEMENT.PROCESS_NAME]: '',
-      [FILTERS_ELEMENT.USER_NAME]: '',
-      [FILTERS_ELEMENT.DATE.FROM]: null,
-      [FILTERS_ELEMENT.DATE.TO]: null,
-      [FILTERS_ELEMENT.STATUS] : [
-        'SUCCESS',
-        'FAILURE',
-        'CANCELLED',
-        'TIMED_OUT',
-        'CLEANUP',
-        'RUNNING',
-        'PREPARE',
-        'REGISTERED'
-      ]
-    }
+    processNameHints : [],
+    filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
   }
 
+  /**
+   * Initialize processNameHints
+   */
   UNSAFE_componentWillMount() {
-    const { listEntities } = this.props
-    const autoCompleteElements = {
-      [FILTERS_ELEMENT.PROCESS_NAME]: [],
-      [FILTERS_ELEMENT.USER_NAME]: []
-    }
-    if (listEntities) {
-      Object.getOwnPropertyNames(listEntities).forEach(function (key) {
-        autoCompleteElements[FILTERS_ELEMENT.PROCESS_NAME].push(listEntities[key].content.processName)
-        autoCompleteElements[FILTERS_ELEMENT.USER_NAME].push(listEntities[key].content.userName)
-      })
-    }
     this.setState({
-      listAutoCompleteElements : {
-        [FILTERS_ELEMENT.PROCESS_NAME]: autoCompleteElements[FILTERS_ELEMENT.PROCESS_NAME],
-        [FILTERS_ELEMENT.USER_NAME]: autoCompleteElements[FILTERS_ELEMENT.USER_NAME]
-      }
+      processNameHints: this.getConfigurationProcessNames()
     })
   }
 
-  onUpdateInput = (inputValue, filterElement) => {
-    const { listEntities } = this.props
-    this.updateState(inputValue, filterElement, STATE_TYPE.FILTER)
-    if (filterElement === FILTERS_ELEMENT.PROCESS_NAME || filterElement === FILTERS_ELEMENT.USER_NAME) {
-      const names = []
-      Object.getOwnPropertyNames(listEntities).forEach(function (key) {
-        let name
-        filterElement === FILTERS_ELEMENT.PROCESS_NAME 
-          ? name = listEntities[key].content[FILTERS_ELEMENT.PROCESS_NAME] 
-          : name = listEntities[key].content[FILTERS_ELEMENT.USER_NAME]
-        names.push(name)
-      })
-      if (!isEmpty(names)) {
-        const newAutoCompleteList = names.filter(name => name.startsWith(inputValue))
-        this.updateState(newAutoCompleteList, filterElement, STATE_TYPE.AUTOCOMPLETE_LIST)
+  /**
+   * Used to set state's processNameHints values
+   * @param {*} inputValue 
+   */
+  getConfigurationProcessNames = (inputValue = '') => {
+    const { processingList } = this.props
+    const processNameList = map(processingList, processing => (
+      find(processing.content.pluginConfiguration.parameters, param => (
+        param.name === PROCESS_FILTER_PARAMS.NAME
+        )).value
+      ))
+    return !isEmpty(inputValue) ? filter(processNameList, processName => processName.startsWith(inputValue)) : processNameList
+  }
+
+  updateState(newStateValue, filterElement) {
+    const { filters, processNameHints } = this.state
+    const newState = {
+      filters: {
+        ...filters,
+        [filterElement]: newStateValue,
       }
     }
-  }
-
-  updateState(newStateValue, filterElement, stateType) {
-    const { filters, listAutoCompleteElements } = this.state
-    if(newStateValue !== undefined) {
-      if (stateType === STATE_TYPE.FILTER) {
-        if (filterElement === FILTERS_ELEMENT.PROCESS_NAME) {
-          this.setState({
-            filters: {
-              ...filters,
-              [FILTERS_ELEMENT.PROCESS_NAME]: newStateValue,
-            }
-          })
-        } else if (filterElement === FILTERS_ELEMENT.USER_NAME) {
-          this.setState({
-            filters: {
-              ...filters,
-              [FILTERS_ELEMENT.USER_NAME]: newStateValue,
-            }
-          })
-        } else if (filterElement === FILTERS_ELEMENT.DATE.FROM) {
-          this.setState({
-            filters: {
-              ...filters,
-              [FILTERS_ELEMENT.DATE.FROM]: newStateValue
-            }
-          })
-        } else if (filterElement === FILTERS_ELEMENT.DATE.TO) {
-          this.setState({
-            filters: {
-              ...filters,
-              [FILTERS_ELEMENT.DATE.TO]: newStateValue
-            }
-          })
-        } else if (filterElement === FILTERS_ELEMENT.STATUS) {
-          this.setState({
-            filters: {
-              ...filters,
-              [FILTERS_ELEMENT.STATUS] : newStateValue
-            }
-          })
-        }
-      } else if (stateType === STATE_TYPE.AUTOCOMPLETE_LIST) {
-        if (filterElement === FILTERS_ELEMENT.PROCESS_NAME) {
-          this.setState({
-            listAutoCompleteElements : {
-              ...listAutoCompleteElements,
-              [FILTERS_ELEMENT.PROCESS_NAME] : newStateValue
-            }
-          })
-        } else if (filterElement === FILTERS_ELEMENT.USER_NAME) {
-          this.setState({
-            listAutoCompleteElements : {
-              ...listAutoCompleteElements,
-              [FILTERS_ELEMENT.USER_NAME]: newStateValue
-            }
-          })
-        }
-      } 
+    if(filterElement === PROCESS_FILTER_PARAMS.NAME) {
+      newState.processNameHints = this.getConfigurationProcessNames(newStateValue)
     }
+    this.setState(newState)
   }
 
+  /**
+   * Used to build hint items correctly
+   * @param {*} element 
+   */
   prepareHints = (element) => ({ id: element, text: element, value: element })
 
   /**
    * User callback: Apply edited filters to current request
    */
   onApplyFilters = () => {
+    const { onRefresh } = this.props
     const { filters } = this.state
     if (!isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)) {
-      this.props.onRefresh(filters)
+      let filtersClean = {
+        ...filters,
+      }
+      // Remove from params the status field if it is still pristine 
+      if(filters[PROCESS_FILTER_PARAMS.STATUS].length === PROCESS_FILTER_PARAMS.STATUS.length){
+        delete filtersClean[PROCESS_FILTER_PARAMS.STATUS]
+      }
+      onRefresh(filtersClean)
     }
   }
 
@@ -232,75 +145,86 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    */
   onClearFilters = () => {
     this.setState({
-      filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE
+      filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
     })
   }
 
   render() {
-    const { intl: { formatMessage, locale } } = this.context
     const {
-      listAutoCompleteElements, filters
+      intl: { formatMessage, locale },
+      moduleTheme: { processingMonitoring: { filters: { autocomplete } } },
+    } = this.context
+    const {
+      processNameHints, filters,
     } = this.state
-    const { moduleTheme: { processingMonitoring: { filters: { autocomplete } } } } = this.context
-    return (
-      <TableHeaderLine>
-        <TableHeaderOptionsArea>
+
+    return [
+      <TableHeaderLine key="filters">
+        <TableHeaderOptionsArea >
           <TableHeaderOptionGroup>
             <TableHeaderAutoCompleteFilter
-              hintText={formatMessage({ id: `processing.monitoring.filters.${FILTERS_ELEMENT.PROCESS_NAME}-hint` })}
-              text={filters[FILTERS_ELEMENT.PROCESS_NAME]}
-              currentHints={listAutoCompleteElements[FILTERS_ELEMENT.PROCESS_NAME]}
-              onUpdateInput={(inputValue) => this.onUpdateInput(inputValue, FILTERS_ELEMENT.PROCESS_NAME)}
-              onFilterSelected={(inputValue) => this.updateState(inputValue, FILTERS_ELEMENT.PROCESS_NAME, STATE_TYPE.FILTER)}
+              hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.NAME}-hint` })}
+              text={filters[PROCESS_FILTER_PARAMS.NAME]}
+              currentHints={processNameHints}
+              onUpdateInput={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.NAME)}
+              onFilterSelected={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.NAME)}
               isFetching={false}
-              noData={!listAutoCompleteElements[FILTERS_ELEMENT.PROCESS_NAME].length}
+              noData={!processNameHints.length}
               prepareHints={this.prepareHints}
               style={autocomplete}
             />
-            <TableHeaderAutoCompleteFilter
-              hintText={formatMessage({ id: `processing.monitoring.filters.${FILTERS_ELEMENT.USER_NAME}-hint` })}
-              text={filters[FILTERS_ELEMENT.USER_NAME]}
-              currentHints={listAutoCompleteElements[FILTERS_ELEMENT.USER_NAME]}
-              onUpdateInput={(inputValue) => this.onUpdateInput(inputValue, FILTERS_ELEMENT.USER_NAME)}
-              onFilterSelected={(inputValue) => this.updateState(inputValue, FILTERS_ELEMENT.USER_NAME, STATE_TYPE.FILTER)}
-              isFetching={false}
-              noData={!listAutoCompleteElements[FILTERS_ELEMENT.USER_NAME].length}
-              prepareHints={this.prepareHints}
-              style={autocomplete}
+            <TextField
+              hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}-hint` })}
+              name={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}`}
+              type="text"
+              fullWidth
+              onChange={(event) => this.updateState(event.target.value, PROCESS_FILTER_PARAMS.USERNAME)}
+              value={filters[PROCESS_FILTER_PARAMS.USERNAME]}
             />
+            
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
             <DatePickerField
-              id={`filter.${FILTERS_ELEMENT.DATE.FROM}`}
-              dateHintText={formatMessage({ id: `processing.monitoring.filters.${FILTERS_ELEMENT.DATE.FROM}.label` })}
-              onChange={(inputValue) => this.updateState(inputValue, FILTERS_ELEMENT.DATE.FROM, STATE_TYPE.FILTER)}
+              id={`filter.${PROCESS_FILTER_PARAMS.FROM}`}
+              dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.FROM}.label` })}
+              onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.FROM)}
               locale={locale}
-              value={filters[FILTERS_ELEMENT.DATE.FROM]}
+              value={filters[PROCESS_FILTER_PARAMS.FROM]}
             />
             <DatePickerField
-              id={`filter.${FILTERS_ELEMENT.DATE.TO}`}
-              dateHintText={formatMessage({ id: `processing.monitoring.filters.${FILTERS_ELEMENT.DATE.TO}.label` })}
-              onChange={(inputValue) => this.updateState(inputValue, FILTERS_ELEMENT.DATE.TO, STATE_TYPE.FILTER)}
+              id={`filter.${PROCESS_FILTER_PARAMS.TO}`}
+              dateHintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.TO}.label` })}
+              onChange={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.TO)}
               locale={locale}
-              value={filters[FILTERS_ELEMENT.DATE.TO]}
-          />
+              value={filters[PROCESS_FILTER_PARAMS.TO]}
+            />
           </TableHeaderOptionGroup>
-          <TableHeaderOptionGroup>
-            <SelectField
-              id="test"
-              multiple
-              value={filters[FILTERS_ELEMENT.STATUS]}
-              onChange={(event, index, value) => this.updateState(value, FILTERS_ELEMENT.STATUS, STATE_TYPE.FILTER)}
-            >
-              {FILTERS_ELEMENT.STATUS.map((status) => (
-                <MenuItem key={status} value={status}>
-                  <Checkbox label={FILTERS_ELEMENT.STATUS[status]} checked={filters[FILTERS_ELEMENT.STATUS].indexOf(status) > -1} />
-                </MenuItem>
-              ))}
-            </SelectField>
-          </TableHeaderOptionGroup>
+          <TableHeaderOptionsArea>
+            <TableHeaderOptionGroup>
+              <SelectField
+                id="filter.select.field"
+                multiple
+                value={filters[PROCESS_FILTER_PARAMS.STATUS]}
+                floatingLabelText={formatMessage({ id: 'processing.monitoring.filters.status' })}
+                onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.STATUS)}
+              >
+                {map(ProcessingDomain.PROCESS_STATUS_TYPES, (status) => (
+                  <MenuItem key={status} value={status} primaryText={status} />
+                ))}
+              </SelectField>
+            </TableHeaderOptionGroup>
+          </TableHeaderOptionsArea>
         </TableHeaderOptionsArea>
+      </TableHeaderLine>, 
+      <TableHeaderLine key="table_actions">
         <TableHeaderOptionsArea>
+          <TableHeaderOptionGroup>
+            <FlatButton
+              label={formatMessage({ id: 'processing.management.table.refresh.button' })}
+              icon={<Refresh />}
+              onClick={this.props.onRefresh}
+            />
+          </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
             <FlatButton
               label={formatMessage({ id: 'processing.monitoring.filters.reset' })}
@@ -316,8 +240,8 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
-      </TableHeaderLine>
-    )
+      </TableHeaderLine>, 
+    ]
   }
 }
 export default ProcessingMonitoringFiltersComponent

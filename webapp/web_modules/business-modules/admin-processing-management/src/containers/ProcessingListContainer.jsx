@@ -16,24 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider, withI18n } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import compose from 'lodash/fp/compose'
 import { withModuleStyle } from '@regardsoss/theme'
-import { browserHistory } from 'react-router'
+import { ProcessingShapes } from '@regardsoss/shape'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
 import messages from '../i18n'
 import styles from '../styles'
 import ProcessingListComponent from '../components/ProcessingListComponent'
-import { ProcessingShapes } from "@regardsoss/shape"
 
 /**
  * Processing list container
  * @author Théo Lasserre
  */
 export class ProcessingListContainer extends React.Component {
-
     /**
      * Redux: map state to props function
      * @param {*} state: current redux state
@@ -41,7 +40,7 @@ export class ProcessingListContainer extends React.Component {
      * @return {*} list of component properties extracted from redux state
      */
     static mapStateToProps = (state) => ({
-        entities: processingSelectors.getOrderedList(state),
+      entities: processingSelectors.getOrderedList(state),
     })
 
     /**
@@ -51,86 +50,86 @@ export class ProcessingListContainer extends React.Component {
      * @return {*} list of actions ready to be dispatched in the redux store
      */
     static mapDispatchToProps = (dispatch) => ({
-        fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
-        deleteProcessing: (businessId) => dispatch(processingActions.deleteEntity(businessId)),
+      fetchProcessingList: (pathParams, queryParams) => dispatch(processingActions.fetchEntityList(pathParams, queryParams)),
+      deleteProcessing: (businessId) => dispatch(processingActions.deleteEntity(businessId)),
     })
 
     static propTypes = {
-        // from router
-        params: PropTypes.shape({
-            project: PropTypes.string,
-        }),
-        // from mapStateToProp
-        entities: ProcessingShapes.ProcessingArray.isRequired,
-        // from mapDispatchToProps
-        fetchProcessingList: PropTypes.func.isRequired,
-        deleteProcessing: PropTypes.func.isRequired,
+      // from router
+      params: PropTypes.shape({
+        project: PropTypes.string,
+      }),
+      // from mapStateToProp
+      entities: ProcessingShapes.ProcessingArray.isRequired,
+      // from mapDispatchToProps
+      fetchProcessingList: PropTypes.func.isRequired,
+      deleteProcessing: PropTypes.func.isRequired,
     }
 
     state = {
-        isLoading: true,
+      isLoading: true,
     }
 
     UNSAFE_componentWillMount() {
-        this.props.fetchProcessingList().then((actionResult) => {
-            if (!actionResult.error) {
-                this.setState({
-                    isLoading: false,
-                })
-            }
-        })
+      this.props.fetchProcessingList().then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            isLoading: false,
+          })
+        }
+      })
     }
 
     onRefresh = (filters) => {
-        const { fetchProcessingList } = this.props
-        return fetchProcessingList({}, filters)
+      const { fetchProcessingList } = this.props
+      return fetchProcessingList({}, filters)
     }
 
     getCreateUrl = () => {
-        const { params: { project } } = this.props
-        return `/admin/${project}/commands/processing/create`
+      const { params: { project } } = this.props
+      return `/admin/${project}/commands/processing/create`
     }
 
     getBackURL = () => {
-        const { params: { project } } = this.props
-        return `/admin/${project}/commands/board`
+      const { params: { project } } = this.props
+      return `/admin/${project}/commands/board`
     }
 
     navigateToCreateProcessing = () => {
-        browserHistory.push(this.getCreateUrl())
+      browserHistory.push(this.getCreateUrl())
     }
 
     handleEdit = (businessId) => {
-        const { params: { project } } = this.props
-        const url = `/admin/${project}/commands/processing/${businessId}/edit`
-        browserHistory.push(url)
+      const { params: { project } } = this.props
+      const url = `/admin/${project}/commands/processing/${businessId}/edit`
+      browserHistory.push(url)
     }
 
     handleDelete = (businessId) => {
-        this.props.deleteProcessing(businessId)
+      this.props.deleteProcessing(businessId)
     }
 
     render() {
-        const { entities } = this.props
-        const { isLoading } = this.state
-        return (
-            <I18nProvider messages={messages}>
-                <LoadableContentDisplayDecorator isLoading={isLoading}>
-                    <ProcessingListComponent
-                        entities={entities}
-                        handleDelete={this.handleDelete}
-                        handleEdit={this.handleEdit}
-                        backUrl={this.getBackURL()}
-                        createUrl={this.getCreateUrl()}
-                        navigateToCreateProcessing={this.navigateToCreateProcessing}
-                        onRefresh={this.onRefresh}
-                    />
-                </LoadableContentDisplayDecorator>
-            </I18nProvider>
-        )
+      const { entities } = this.props
+      const { isLoading } = this.state
+      return (
+        <I18nProvider messages={messages}>
+          <LoadableContentDisplayDecorator isLoading={isLoading}>
+            <ProcessingListComponent
+              entities={entities}
+              handleDelete={this.handleDelete}
+              handleEdit={this.handleEdit}
+              backUrl={this.getBackURL()}
+              createUrl={this.getCreateUrl()}
+              navigateToCreateProcessing={this.navigateToCreateProcessing}
+              onRefresh={this.onRefresh}
+            />
+          </LoadableContentDisplayDecorator>
+        </I18nProvider>
+      )
     }
 }
 
 export default compose(
-    connect (ProcessingListContainer.mapStateToProps, ProcessingListContainer.mapDispatchToProps),
-    withI18n(messages), withModuleStyle(styles))(ProcessingListContainer)
+  connect(ProcessingListContainer.mapStateToProps, ProcessingListContainer.mapDispatchToProps),
+  withI18n(messages), withModuleStyle(styles))(ProcessingListContainer)

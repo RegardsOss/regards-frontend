@@ -24,17 +24,17 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
  * @author Théo Lasserre
  */
 class ProcessingMonitoringActions extends BasicPageableActions {
-    constructor(namespace) {
-        super({
-            namespace,
-            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/monitoring/executions`,
-            entityPathVariable: 'id',
-            schemaTypes: {
-                ENTITY: PROCESSING_MONITORING,
-                ENTITY_ARRAY: PROCESSING_MONITORING_ARRAY,
-            }
-        })
-    }
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/monitoring/executions`,
+      entityPathVariable: 'id',
+      schemaTypes: {
+        ENTITY: PROCESSING_MONITORING,
+        ENTITY_ARRAY: PROCESSING_MONITORING_ARRAY,
+      },
+    })
+  }
 }
 
 export default ProcessingMonitoringActions

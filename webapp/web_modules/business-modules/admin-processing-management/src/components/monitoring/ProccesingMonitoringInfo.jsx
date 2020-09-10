@@ -27,13 +27,13 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ProccesingMonitoringInfo extends React.Component {
     static propTypes = {
-        hoverColor: PropTypes.string,
-        entity: ProcessingShapes.ProcessingMonitoring,
-        onClick: PropTypes.func.isRequired,
+      hoverColor: PropTypes.string,
+      entity: ProcessingShapes.ProcessingMonitoring,
+      onClick: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
-        ...i18nContextType,
+      ...i18nContextType,
     }
 
     static iconStyle = { height: 23, width: 23 }
@@ -41,22 +41,22 @@ class ProccesingMonitoringInfo extends React.Component {
     static buttonStyle = { padding: 0, height: 30, width: 30 }
 
     render() {
-        const { intl: { formatMessage } } = this.context
-        const {
-            entity, entity: { content }, onClick, hoverColor,
-        } = this.props
+      const { intl: { formatMessage } } = this.context
+      const {
+        entity, entity: { content }, onClick, hoverColor,
+      } = this.props
 
-        return (
-            <IconButton
-                className={`selenium-edit-${content.id}`}
-                title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
-                iconStyle={ProccesingMonitoringInfo.iconStyle}
-                style={ProccesingMonitoringInfo.buttonStyle}
-                onClick={() => onClick(entity)}
-            >
-                <DetailIcon hoverColor={hoverColor} />
-            </IconButton>
-        )
+      return (
+        <IconButton
+          className={`selenium-edit-${content.id}`}
+          title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
+          iconStyle={ProccesingMonitoringInfo.iconStyle}
+          style={ProccesingMonitoringInfo.buttonStyle}
+          onClick={() => onClick(entity)}
+        >
+          <DetailIcon hoverColor={hoverColor} />
+        </IconButton>
+      )
     }
 }
 

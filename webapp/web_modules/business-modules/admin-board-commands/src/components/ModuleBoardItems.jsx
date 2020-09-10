@@ -50,7 +50,7 @@ const items = (project, intl) => [
       icon: <PageView />,
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.monitoring' }),
-    },{
+    }, {
       path: `/admin/${project}/commands/processing/list`,
       icon: <ViewLinesIcon />,
       className: 'selenium-ordersList',

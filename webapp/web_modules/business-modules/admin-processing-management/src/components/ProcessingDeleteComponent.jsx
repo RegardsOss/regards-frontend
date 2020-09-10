@@ -28,12 +28,12 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ProcessingDeleteComponent extends React.Component {
     static propTypes = {
-        entity: ProcessingShapes.Processing.isRequired,
-        handleDelete: PropTypes.func.isRequired,
+      entity: ProcessingShapes.Processing.isRequired,
+      handleDelete: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
-        ...i18nContextType,
+      ...i18nContextType,
     }
 
     /**
@@ -41,20 +41,20 @@ class ProcessingDeleteComponent extends React.Component {
      * TODO : CHANGE WHEN BACK IS OK
      */
     onDelete = () => {
-        const { entity, handleDelete } = this.props
-        handleDelete(entity)
+      const { entity, handleDelete } = this.props
+      handleDelete(entity)
     }
 
     render() {
-        const { intl: { formatMessage } } = this.context
-        return (
-            <IconButton
-                title={formatMessage({ id: 'processing.management.list.delete.button' })}
-                onClick={this.onDelete}
-            >
-                <DeleteIcon />
-            </IconButton>
-        )
+      const { intl: { formatMessage } } = this.context
+      return (
+        <IconButton
+          title={formatMessage({ id: 'processing.management.list.delete.button' })}
+          onClick={this.onDelete}
+        >
+          <DeleteIcon />
+        </IconButton>
+      )
     }
 }
 

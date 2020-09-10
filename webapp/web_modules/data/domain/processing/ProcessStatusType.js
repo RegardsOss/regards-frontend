@@ -20,4 +20,13 @@
 /**
  * @author Théo Lasserre
  */
-export const PLUGIN_TYPE = 'fr.cnes.regards.modules.processing.plugins.IProcessDefinition'
+export const PROCESS_STATUS_TYPES = [
+    'SUCCESS',
+    'FAILURE',
+    'CANCELLED',
+    'TIMED_OUT',
+    'CLEANUP',
+    'RUNNING',
+    'PREPARE',
+    'REGISTERED'
+]

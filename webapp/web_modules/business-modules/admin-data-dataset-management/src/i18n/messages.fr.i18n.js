@@ -58,7 +58,7 @@ const messages = {
   'dataset.form.pluginsUIProcessing.subtitle': 'Réalisez des traitements sur le jeu de données',
   'dataset.form.pluginsUIProcessing.action.next': 'Terminer',
   'dataset.form.pluginsUIProcessing.action.cancel': 'Retour',
-  
+
   'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
   'dataset.form.plugin.subtitle': 'Réalisez des traitements sur le jeu de données en activant ces plugins',
   'dataset.form.plugin.services': 'Activation de services',

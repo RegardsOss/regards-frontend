@@ -25,9 +25,9 @@ import ProcessingMetadataActions from './ProcessingMetadataActions'
  * @author Théo Lasserre
  */
 class ProcessingMetadataReducer extends BasicListReducers {
-    constructor(namespace) {
-        super(ProcessingMetadataConfiguration, new ProcessingMetadataActions(namespace))
-    }
+  constructor(namespace) {
+    super(ProcessingMetadataConfiguration, new ProcessingMetadataActions(namespace))
+  }
 }
 
 /**
@@ -36,6 +36,6 @@ class ProcessingMetadataReducer extends BasicListReducers {
  * @returns {function} reduce function
  */
 export default (namespace) => {
-    const instance = new ProcessingMetadataReducer(namespace)
-    return (state, action) => instance.reduce(state, action)
+  const instance = new ProcessingMetadataReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

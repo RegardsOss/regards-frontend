@@ -20,13 +20,13 @@
 import { ProcessingShapes } from '@regardsoss/shape'
 import forEach from 'lodash/forEach'
 
- /**
+/**
   * ProcessingProcessNameRenderer
   * @author Théo Lasserre
   */
 class ProcessingProcessNameRenderer extends React.Component {
    static propTypes = {
-       entity: ProcessingShapes.Processing.isRequired,
+     entity: ProcessingShapes.Processing.isRequired,
    }
 
    render() {
@@ -36,6 +36,6 @@ class ProcessingProcessNameRenderer extends React.Component {
        <div>{entity.content.pluginConfiguration.parameters[0].value}</div>
      )
    }
-} 
+}
 
 export default ProcessingProcessNameRenderer

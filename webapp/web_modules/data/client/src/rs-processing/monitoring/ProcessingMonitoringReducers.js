@@ -25,9 +25,9 @@ import ProcessingMonitoringActions from './ProcessingMonitoringActions'
  * @author Théo Lasserre
  */
 class ProcessingMonitoringReducers extends BasicPageableReducers {
-    constructor(namespace) {
-        super(ProcessingMonitoringConfiguration, new ProcessingMonitoringActions(namespace))
-    }
+  constructor(namespace) {
+    super(ProcessingMonitoringConfiguration, new ProcessingMonitoringActions(namespace))
+  }
 }
 
 /**
@@ -36,6 +36,6 @@ class ProcessingMonitoringReducers extends BasicPageableReducers {
  * @returns {function} reduce function
  */
 export default (namespace) => {
-    const instance = new ProcessingMonitoringReducers(namespace)
-    return (state, action) => instance.reduce(state, action)
+  const instance = new ProcessingMonitoringReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

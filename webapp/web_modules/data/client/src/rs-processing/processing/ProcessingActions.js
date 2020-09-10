@@ -24,17 +24,17 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Théo Lasserre
  */
 class ProcessingActions extends BasicListActions {
-    constructor(namespace) {
-        super({
-            namespace,
-            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/process/config`,
-            entityPathVariable: 'id',
-            schemaTypes: {
-                ENTITY: PROCESSING,
-                ENTITY_ARRAY: PROCESSING_ARRAY,
-            },
-        })
-    }
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/process/config`,
+      entityPathVariable: 'id',
+      schemaTypes: {
+        ENTITY: PROCESSING,
+        ENTITY_ARRAY: PROCESSING_ARRAY,
+      },
+    })
+  }
 }
 
 export default ProcessingActions

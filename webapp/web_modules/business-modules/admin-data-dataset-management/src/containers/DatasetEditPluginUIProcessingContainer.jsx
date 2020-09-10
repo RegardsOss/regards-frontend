@@ -22,13 +22,15 @@ import compose from 'lodash/fp/compose'
 import { isEqual, isEmpty, map } from 'lodash'
 import { connect } from '@regardsoss/redux'
 import { ProcessingDomain } from '@regardsoss/domain'
-import { CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes } from '@regardsoss/shape'
+import {
+  CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
+} from '@regardsoss/shape'
 import { I18nProvider, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
-import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-import { allMatchHateoasDisplayLogic } from "@regardsoss/display-control"
+
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from '../clients/LinkUIPluginDatasetClient'
@@ -42,239 +44,239 @@ import DatasetEditPluginUIProcessingComponent, { DATASET_LINK_TYPE } from '../co
 import styles from '../styles'
 import messages from '../i18n'
 
- class DatasetEditPluginUIProcessingContainer extends React.Component {
-
+class DatasetEditPluginUIProcessingContainer extends React.Component {
     static mapStateToProps = (state, ownProps) => ({
-        // Plugins
-        pluginConfigurationList: pluginConfigurationSelectors.getList(state),
-        pluginMetaDataList: pluginMetaDataSelectors.getList(state),
-        linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
+      // Plugins
+      pluginConfigurationList: pluginConfigurationSelectors.getList(state),
+      pluginMetaDataList: pluginMetaDataSelectors.getList(state),
+      linkPluginDataset: linkPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 
-        // Services UI
-        uiPluginConfigurationList: uiPluginConfigurationSelectors.getList(state),
-        uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
-        linkUIPluginDataset: linkUIPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
+      // Services UI
+      uiPluginConfigurationList: uiPluginConfigurationSelectors.getList(state),
+      uiPluginDefinitionList: uiPluginDefinitionSelectors.getList(state),
+      linkUIPluginDataset: linkUIPluginDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 
-        // Processing
-        processingConfigurationList: processingSelectors.getList(state),
-        processingMetadataList: processingMetadataSelectors.getList(state),
-        linkProcessingDataset: linkProcessingDatasetSelectors.getById(state, ownProps.params.datasetIpId),
+      // Processing
+      processingConfigurationList: processingSelectors.getList(state),
+      processingMetadataList: processingMetadataSelectors.getList(state),
+      linkProcessingDataset: linkProcessingDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 
-        availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     })
 
     static mapDispatchToProps = (dispatch) => ({
-        // Plugins
-        fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
-            microserviceName: 'rs-catalog',
-        }, {
-            pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
-        })),
-        fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
-            microserviceName: 'rs-catalog',
-        }, {
-            pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
-        })),
-        fetchLinkPluginDataset: (datasetIpId) => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
-        updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
-        
-        // Services UI
-        fetchUIPluginConfigurationList: (uiPluginId) => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
-            // { isActive: true, isDefault: false }
-        )),
-        fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
-            0, 100, {},
-            { type: 'SERVICE' },
-        )),
-        fetchLinkUIPluginDataset: (id) => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
-        updateLinkUIPluginDataset: (id, linkUIPluginDataset) => dispatch(linkUIPluginDatasetActions.updateEntity(id, linkUIPluginDataset)),
+      // Plugins
+      fetchPluginConfigurationList: () => dispatch(pluginConfigurationActions.fetchEntityList({
+        microserviceName: 'rs-catalog',
+      }, {
+        pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
+      })),
+      fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
+        microserviceName: 'rs-catalog',
+      }, {
+        pluginType: 'fr.cnes.regards.modules.catalog.services.domain.plugins.IService',
+      })),
+      fetchLinkPluginDataset: (datasetIpId) => dispatch(linkPluginDatasetActions.fetchEntity(datasetIpId)),
+      updateLinkPluginDataset: (datasetIpId, linkPluginDataset) => dispatch(linkPluginDatasetActions.updateEntity(datasetIpId, linkPluginDataset)),
 
-        // Processing
-        fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
-        fetchProcessingMetadataList: () => dispatch(processingMetadataActions.fetchEntityList()), // TODO : MODIFIER SUIVANT ENDPOINT
-        fetchLinkProcessingDataset: (id) => dispatch(linkProcessingDatasetActions.fetchEntity(id)),
-        updateLinkProcessingDataset: (id, linkProcessingDataset) => dispatch(linkProcessingDatasetActions.updateEntity(id, linkProcessingDataset)),
+      // Services UI
+      fetchUIPluginConfigurationList: (uiPluginId) => dispatch(uiPluginConfigurationActions.fetchPagedEntityList(0, 100,
+        // { isActive: true, isDefault: false }
+      )),
+      fetchUIPluginDefinitionList: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(
+        0, 100, {},
+        { type: 'SERVICE' },
+      )),
+      fetchLinkUIPluginDataset: (id) => dispatch(linkUIPluginDatasetActions.fetchEntity(id)),
+      updateLinkUIPluginDataset: (id, linkUIPluginDataset) => dispatch(linkUIPluginDatasetActions.updateEntity(id, linkUIPluginDataset)),
+
+      // Processing
+      fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
+      fetchProcessingMetadataList: () => dispatch(processingMetadataActions.fetchEntityList()), // TODO : MODIFIER SUIVANT ENDPOINT
+      fetchLinkProcessingDataset: (id) => dispatch(linkProcessingDatasetActions.fetchEntity(id)),
+      updateLinkProcessingDataset: (id, linkProcessingDataset) => dispatch(linkProcessingDatasetActions.updateEntity(id, linkProcessingDataset)),
 
     })
 
     static propTypes = {
-        // from router
-        params: PropTypes.shape({
-            project: PropTypes.string.isRequired,
-            datasetId: PropTypes.string.isRequired,
-            datasetIpId: PropTypes.string.isRequired,
-        }).isRequired,
+      // from router
+      params: PropTypes.shape({
+        project: PropTypes.string.isRequired,
+        datasetId: PropTypes.string.isRequired,
+        datasetIpId: PropTypes.string.isRequired,
+      }).isRequired,
 
-        // from mapStateToProps
-        // Plugins
-        pluginConfigurationList: CommonShapes.PluginConfigurationList,
-        pluginMetaDataList: CommonShapes.PluginMetaDataList,
-        linkPluginDataset: CatalogShapes.LinkPluginDataset,
+      // from mapStateToProps
+      // Plugins
+      pluginConfigurationList: CommonShapes.PluginConfigurationList,
+      pluginMetaDataList: CommonShapes.PluginMetaDataList,
+      linkPluginDataset: CatalogShapes.LinkPluginDataset,
 
-        // Services UI
-        uiPluginConfigurationList: AccessShapes.UIPluginConfList,
-        uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
-        linkUIPluginDataset: AccessShapes.LinkUIPluginDataset,
+      // Services UI
+      uiPluginConfigurationList: AccessShapes.UIPluginConfList,
+      uiPluginDefinitionList: AccessShapes.UIPluginDefinitionList,
+      linkUIPluginDataset: AccessShapes.LinkUIPluginDataset,
 
-        // Processing
-        processingConfigurationList: ProcessingShapes.ProcessingList,
-        processingMetadataList: CommonShapes.PluginConfigurationList,
-        linkProcessingDataset: ProcessingShapes.LinkProcessingDataset,
+      // Processing
+      processingConfigurationList: ProcessingShapes.ProcessingList,
+      processingMetadataList: CommonShapes.PluginConfigurationList,
+      linkProcessingDataset: ProcessingShapes.LinkProcessingDataset,
 
-        // from mapDispatchToProps
-        // Plugins
-        fetchPluginConfigurationList: PropTypes.func,
-        fetchPluginMetaDataList: PropTypes.func,
-        fetchLinkPluginDataset: PropTypes.func,
-        updateLinkPluginDataset: PropTypes.func,
+      // from mapDispatchToProps
+      // Plugins
+      fetchPluginConfigurationList: PropTypes.func,
+      fetchPluginMetaDataList: PropTypes.func,
+      fetchLinkPluginDataset: PropTypes.func,
+      updateLinkPluginDataset: PropTypes.func,
 
-        // Services UI
-        fetchUIPluginConfigurationList: PropTypes.func,
-        fetchUIPluginDefinitionList: PropTypes.func,
-        fetchLinkUIPluginDataset: PropTypes.func,
-        updateLinkUIPluginDataset: PropTypes.func,
+      // Services UI
+      fetchUIPluginConfigurationList: PropTypes.func,
+      fetchUIPluginDefinitionList: PropTypes.func,
+      fetchLinkUIPluginDataset: PropTypes.func,
+      updateLinkUIPluginDataset: PropTypes.func,
 
-        // Processing
-        fetchProcessingConfigurationList: PropTypes.func,
-        fetchProcessingMetadataList: PropTypes.func,
-        fetchLinkProcessingDataset: PropTypes.func,
-        updateLinkProcessingDataset: PropTypes.func
+      // Processing
+      fetchProcessingConfigurationList: PropTypes.func,
+      fetchProcessingMetadataList: PropTypes.func,
+      fetchLinkProcessingDataset: PropTypes.func,
+      updateLinkProcessingDataset: PropTypes.func,
     }
 
     state = {
-       isLoading: true,
-       initialDatasetLinksByType: {},
+      isLoading: true,
+      initialDatasetLinksByType: {},
     }
 
     componentDidMount() {
-        const tasks = [
-            // Plugins
-            this.props.fetchPluginConfigurationList(),
-            this.props.fetchPluginMetaDataList(),
-            this.props.fetchLinkPluginDataset(this.props.params.datasetIpId),
+      const tasks = [
+        // Plugins
+        this.props.fetchPluginConfigurationList(),
+        this.props.fetchPluginMetaDataList(),
+        this.props.fetchLinkPluginDataset(this.props.params.datasetIpId),
 
-            // Services UI
-            this.props.fetchUIPluginDefinitionList(),
-            this.props.fetchUIPluginConfigurationList(),
-            this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
-        ]
-        // TODO : A REMETTRE QUAND MICROSERVICE RS-PROCESSING ACTIF
-        //if (allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies)) {
-             tasks.push(this.props.fetchProcessingConfigurationList())
-             tasks.push(this.props.fetchProcessingMetadataList())
-             /*tasks.push(this.props.fetchLinkProcessingDataset())
+        // Services UI
+        this.props.fetchUIPluginDefinitionList(),
+        this.props.fetchUIPluginConfigurationList(),
+        this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
+      ]
+      // TODO : A REMETTRE QUAND MICROSERVICE RS-PROCESSING ACTIF
+      //if (allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies)) {
+      tasks.push(this.props.fetchProcessingConfigurationList())
+      tasks.push(this.props.fetchProcessingMetadataList())
+      /*tasks.push(this.props.fetchLinkProcessingDataset())
              tasks.push(this.props.updateLinkProcessingDataset())*/ // TODO: QUAND LE END POINT SERA DISPO
-        //}
-         Promise.all(tasks)
+      //}
+      Promise.all(tasks)
         .then(() => {
-            const { pluginConfigurationList, pluginMetaDataList, linkPluginDataset,
-                    uiPluginConfigurationList, uiPluginDefinitionList, linkUIPluginDataset,
-                    processingConfigurationList, processingMetadataList
-                } = this.props
+          const {
+            pluginConfigurationList, pluginMetaDataList, linkPluginDataset,
+            uiPluginConfigurationList, uiPluginDefinitionList, linkUIPluginDataset,
+            processingConfigurationList, processingMetadataList,
+          } = this.props
 
-            // Rework of processingConfigurationList to match other conf shape
-            const newProcessingConfigurationList = processingConfigurationList
-            if(processingConfigurationList) {
-                for (const [key, object] of Object.entries(processingConfigurationList)) {
-                    newProcessingConfigurationList[key].content = {
-                        ...processingConfigurationList[key].content.pluginConfiguration,
-                        label: processingConfigurationList[key].content.pluginConfiguration.parameters[0].value, // TODO : A VERIFIER AVEC LE BACK
-                        pluginDefinition : {
-                            pluginId: processingConfigurationList[key].content.pluginConfiguration.pluginId
-                        }
-                    }
-                }
+          // Rework of processingConfigurationList to match other conf shape
+          const newProcessingConfigurationList = processingConfigurationList
+          if (processingConfigurationList) {
+            for (const [key, object] of Object.entries(processingConfigurationList)) {
+              newProcessingConfigurationList[key].content = {
+                ...processingConfigurationList[key].content.pluginConfiguration,
+                label: processingConfigurationList[key].content.pluginConfiguration.parameters[0].value, // TODO : A VERIFIER AVEC LE BACK
+                pluginDefinition: {
+                  pluginId: processingConfigurationList[key].content.pluginConfiguration.pluginId,
+                },
+              }
             }
+          }
 
-            // Create link object for processing
-            // TODO : Modifier QUAND BACK OK
-            const linkProcessingPluginDataset = {
-                content: {
-                    datasetId: this.props.datasetIpId,
-                    linkId: 1,
-                    services: [] // TODO : SI LE ENDPOINT LINKPROCESSINGDATASET RENVOIS QU'UNE LISTE ON LA CALE ICI
-                }
-            }
+          // Create link object for processing
+          // TODO : Modifier QUAND BACK OK
+          const linkProcessingPluginDataset = {
+            content: {
+              datasetId: this.props.datasetIpId,
+              linkId: 1,
+              services: [], // TODO : SI LE ENDPOINT LINKPROCESSINGDATASET RENVOIS QU'UNE LISTE ON LA CALE ICI
+            },
+          }
 
-            // Build a global model
-            const initialDatasetLinksByType = {
-                [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
-                [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset },
-                [DATASET_LINK_TYPE.PROCESSING] : { pluginConfs: newProcessingConfigurationList, metadatas: processingMetadataList, links: linkProcessingPluginDataset }
-            }
+          // Build a global model
+          const initialDatasetLinksByType = {
+            [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
+            [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset },
+            [DATASET_LINK_TYPE.PROCESSING]: { pluginConfs: newProcessingConfigurationList, metadatas: processingMetadataList, links: linkProcessingPluginDataset },
+          }
 
-            // editionModel will be modified by user, we will use it to call backend (if initialModel != editionModel) or not.
-            this.setState({
-                isLoading: false,
-                // la liste des processing ramnené au modele pivot
-                initialDatasetLinksByType,
-            })
+          // editionModel will be modified by user, we will use it to call backend (if initialModel != editionModel) or not.
+          this.setState({
+            isLoading: false,
+            // la liste des processing ramnené au modele pivot
+            initialDatasetLinksByType,
+          })
         })
     }
 
     redirectToListDataset = () => {
-         const { params: { project } } = this.props
-        browserHistory.push(`/admin/${project}/data/collections/dataset/list`)
+      const { params: { project } } = this.props
+      browserHistory.push(`/admin/${project}/data/collections/dataset/list`)
     }
 
     getBackUrl = () => {
-        const { params: { project, datasetId } } = this.props
-        return `/admin/${project}/data/collections/dataset/${datasetId}/links`
+      const { params: { project, datasetId } } = this.props
+      return `/admin/${project}/data/collections/dataset/${datasetId}/links`
     }
 
     onSubmit = (componentState) => {
-        const { initialDatasetLinksByType } = this.state
-        const updateTasks = []
-        if (!isEqual(componentState[DATASET_LINK_TYPE.PLUGIN], initialDatasetLinksByType[DATASET_LINK_TYPE.PLUGIN].links.content.services)) {
-            updateTasks.push(Promise.resolve(this.props.updateLinkPluginDataset(this.props.params.datasetIpId, 
-                { 
-                    ...initialDatasetLinksByType[DATASET_LINK_TYPE.PLUGIN].links.content,
-                    services: componentState[DATASET_LINK_TYPE.PLUGIN]
-                }
-            )))
-        }
-        if (!isEqual(componentState[DATASET_LINK_TYPE.UI_SERVICES], initialDatasetLinksByType[DATASET_LINK_TYPE.UI_SERVICES].links.content.services)) {
-            updateTasks.push(Promise.resolve(this.props.updateLinkUIPluginDataset(this.props.params.datasetIpId, 
-                { 
-                    ...initialDatasetLinksByType[DATASET_LINK_TYPE.UI_SERVICES].links.content,
-                    services: componentState[DATASET_LINK_TYPE.UI_SERVICES]
-                }
-            )))
-        }
-        // TODO AJOUTER UN IF SUR LE PROCESSING QUAND ENDPOINT OK
-        if (!isEmpty(updateTasks)) {
-            Promise.all(updateTasks)
-            .then(() => {
-                this.redirectToListDataset()
-            })
-        } else {
+      const { initialDatasetLinksByType } = this.state
+      const updateTasks = []
+      if (!isEqual(componentState[DATASET_LINK_TYPE.PLUGIN], initialDatasetLinksByType[DATASET_LINK_TYPE.PLUGIN].links.content.services)) {
+        updateTasks.push(Promise.resolve(this.props.updateLinkPluginDataset(this.props.params.datasetIpId,
+          {
+            ...initialDatasetLinksByType[DATASET_LINK_TYPE.PLUGIN].links.content,
+            services: componentState[DATASET_LINK_TYPE.PLUGIN],
+          },
+        )))
+      }
+      if (!isEqual(componentState[DATASET_LINK_TYPE.UI_SERVICES], initialDatasetLinksByType[DATASET_LINK_TYPE.UI_SERVICES].links.content.services)) {
+        updateTasks.push(Promise.resolve(this.props.updateLinkUIPluginDataset(this.props.params.datasetIpId,
+          {
+            ...initialDatasetLinksByType[DATASET_LINK_TYPE.UI_SERVICES].links.content,
+            services: componentState[DATASET_LINK_TYPE.UI_SERVICES],
+          },
+        )))
+      }
+      // TODO AJOUTER UN IF SUR LE PROCESSING QUAND ENDPOINT OK
+      if (!isEmpty(updateTasks)) {
+        Promise.all(updateTasks)
+          .then(() => {
             this.redirectToListDataset()
-        }
+          })
+      } else {
+        this.redirectToListDataset()
+      }
     }
 
     render() {
-        const { params: { project, datasetIpId, datasetId } } = this.props
-        const { isLoading, initialDatasetLinksByType } = this.state
+      const { params: { project, datasetIpId, datasetId } } = this.props
+      const { isLoading, initialDatasetLinksByType } = this.state
 
-        return (
-          <I18nProvider messages={messages}>
-            <LoadableContentDisplayDecorator
-              isLoading={isLoading}
-            > 
+      return (
+        <I18nProvider messages={messages}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
             <DatasetEditPluginUIProcessingComponent
-                project={project}
-                initialDatasetLinksByType={initialDatasetLinksByType}
-                onSubmit={this.onSubmit}
-                backUrl={this.getBackUrl()}
-                currentDatasetIpId={datasetIpId}
-                currentDatasetId={datasetId}
+              project={project}
+              initialDatasetLinksByType={initialDatasetLinksByType}
+              onSubmit={this.onSubmit}
+              backUrl={this.getBackUrl()}
+              currentDatasetIpId={datasetIpId}
+              currentDatasetId={datasetId}
             />
-            </LoadableContentDisplayDecorator>
-          </I18nProvider>
-        )
-      }
- }
+          </LoadableContentDisplayDecorator>
+        </I18nProvider>
+      )
+    }
+}
 
 export default compose(
-    connect(DatasetEditPluginUIProcessingContainer.mapStateToProps, DatasetEditPluginUIProcessingContainer.mapDispatchToProps),
-    withI18n(messages), withModuleStyle(styles))(DatasetEditPluginUIProcessingContainer)
+  connect(DatasetEditPluginUIProcessingContainer.mapStateToProps, DatasetEditPluginUIProcessingContainer.mapDispatchToProps),
+  withI18n(messages), withModuleStyle(styles))(DatasetEditPluginUIProcessingContainer)

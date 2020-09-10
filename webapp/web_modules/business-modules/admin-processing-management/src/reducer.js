@@ -22,7 +22,7 @@ import { processingMonitoringReducer } from './clients/ProcessingMonitoringClien
 
 const processingManagementReducer = combineReducers({
   processing: processingReducer,
-  'processing-monitor': processingMonitoringReducer
+  'processing-monitor': processingMonitoringReducer,
 })
 
 export default processingManagementReducer

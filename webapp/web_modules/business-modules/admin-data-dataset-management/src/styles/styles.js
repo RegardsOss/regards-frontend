@@ -39,10 +39,10 @@ const storageManagementStyles = (theme) => ({
     minWidth: 0,
     lineHeight: 1,
   },
-  cardTextTabStyle : {
-    maxWidth: "1200px",
-    margin: "0 auto",
-  }
+  cardTextTabStyle: {
+    maxWidth: '1200px',
+    margin: '0 auto',
+  },
 })
 
 export default storageManagementStyles

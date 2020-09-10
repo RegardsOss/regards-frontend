@@ -28,34 +28,34 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ProcessingEditComponent extends React.Component {
     static propTypes = {
-        entity: ProcessingShapes.Processing.isRequired,
-        handleEdit: PropTypes.func.isRequired,
+      entity: ProcessingShapes.Processing.isRequired,
+      handleEdit: PropTypes.func.isRequired,
     }
 
     static contextTypes = {
-        ...i18nContextType,
+      ...i18nContextType,
     }
 
     /**
      * User callback: on edit project user, locally wrapped
      */
     onEdit = () => {
-        const { entity, handleEdit } = this.props
-        // TODO : CHANGE WHEN BACK IS OK
-        handleEdit(entity.content.pluginConfiguration.businessId)
+      const { entity, handleEdit } = this.props
+      // TODO : CHANGE WHEN BACK IS OK
+      handleEdit(entity.content.pluginConfiguration.businessId)
     }
 
     render() {
-        const { intl: { formatMessage } } = this.context
-        
-        return (
-            <IconButton
-                title={formatMessage({ id: 'processing.management.list.edit.button' })}
-                onClick={this.onEdit}
-            >
-                <EditIcon />
-            </IconButton>
-        )
+      const { intl: { formatMessage } } = this.context
+
+      return (
+        <IconButton
+          title={formatMessage({ id: 'processing.management.list.edit.button' })}
+          onClick={this.onEdit}
+        >
+          <EditIcon />
+        </IconButton>
+      )
     }
 }
 

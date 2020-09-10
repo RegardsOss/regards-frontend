@@ -31,9 +31,9 @@ import { browserHistory } from 'react-router'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
+import { Math } from 'window-or-global'
 import messages from '../i18n'
 import styles from '../styles'
-import { Math } from 'window-or-global'
 
 /**
 * Component to create/edit/diplicate a processing plugin configuration
@@ -56,14 +56,13 @@ class ProcessingFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
 
   state = {
-    
+
   }
 
   UNSAFE_componentWillMount(prevProps) {
@@ -76,7 +75,7 @@ class ProcessingFormComponent extends React.Component {
       initialize({
         //businessId: get(entity, 'content.pluginConfiguration.businessId'),
         //pluginConfiguration: get(entity, 'content.configuration.pluginConfiguration'), // TODO CHANGE WHEN BACK IS OK
-        pluginConfiguration: get(entity, 'content.pluginConfiguration')
+        pluginConfiguration: get(entity, 'content.pluginConfiguration'),
       })
     }
   }
@@ -101,7 +100,7 @@ class ProcessingFormComponent extends React.Component {
         ...get(entity, 'content.configuration', {}),
         pluginConfiguration,
       },*/
-      pluginConfiguration
+      pluginConfiguration,
     }
     onUpdate(get(entity, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
@@ -125,8 +124,6 @@ class ProcessingFormComponent extends React.Component {
     const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
     const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
 
-    
-    
     /*const processingConf = {                      TODO :  A REMETTRE QUAND LE BACK SERA OK -> LA C'EST JUSTE POUR TEST
       configuration: {
         pluginConfiguration: formatedPluginConf,
@@ -138,9 +135,8 @@ class ProcessingFormComponent extends React.Component {
     const processingConf = {
       content: {
         pluginConfiguration: formatedPluginConf,
-      }
+      },
     }
-
 
     onCreate(processingConf).then((actionResults) => {
       if (!actionResults.error) {
@@ -182,7 +178,8 @@ class ProcessingFormComponent extends React.Component {
       pristine, invalid,
     } = this.props
 
-    let onSubmitAction, backUrl
+    let onSubmitAction; let
+      backUrl
     if (mode === 'create') {
       onSubmitAction = this.createProcessingConf
       backUrl = `/admin/${project}/commands/board`
@@ -204,7 +201,7 @@ class ProcessingFormComponent extends React.Component {
           title={title}
           subtitle={formatMessage({ id: 'processing.form.subtitle' })}
         />
-        {<form onSubmit={handleSubmit(onSubmitAction)}>
+        <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
             {this.renderContent()}
           </CardText>
@@ -217,7 +214,7 @@ class ProcessingFormComponent extends React.Component {
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
-        </form>}
+        </form>
       </Card>
     )
   }

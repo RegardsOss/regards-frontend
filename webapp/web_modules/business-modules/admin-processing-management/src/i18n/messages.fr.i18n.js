@@ -37,7 +37,7 @@ const messages = {
 
   /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'Aucun traitement défini',
-  'processing.monitoring.refresh.button' : 'Rafraichir',
+  'processing.monitoring.refresh.button': 'Rafraichir',
   'processing.monitoring.list.header.name.label': 'Traitement',
   'processing.monitoring.list.header.created.label': 'Crée',
   'processing.monitoring.list.header.username.label': 'Utilisateur',
@@ -50,10 +50,11 @@ const messages = {
   'processing.monitoring.list.tooltip.info.message.label': 'Message:',
   'processing.monitoring.filters.processName-hint': 'Traitement',
   'processing.monitoring.filters.userName-hint': 'Utilisateur',
-  'processing.monitoring.filters.from.label': 'From',
-  'processing.monitoring.filters.to.label': 'To',
+  'processing.monitoring.filters.from.label': 'Depuis',
+  'processing.monitoring.filters.to.label': 'Jusqu\'à',
   'processing.monitoring.filters.reset': 'Vider Les Filters',
   'processing.monitoring.filters.apply': 'Appliquer les Filtres',
+  'processing.monitoring.filters.status': 'Statuts',
   'processing.monitoring.filters.all-status': 'Tous les Statuts',
   'processing.monitoring.filters.success-status': 'Success',
   'processing.monitoring.filters.failure-status': 'Failure',
@@ -63,21 +64,19 @@ const messages = {
   'processing.monitoring.filters.running-status': 'Running',
   'processing.monitoring.filters.prepare-status': 'Prepare',
   'processing.monitoring.filters.registered-status': 'Registered',
-  'processing.monitoring.filters.select.field': '',
   'processing.monitoring.table.clear.button': 'Effacer',
   'processing.monitoring.table.filter.button': 'Appliquer',
   'processing.monitoring.list.refresh.button': 'Rafraîchir',
 
   /* Processing Form */
-  'processing.form.edit.title' : 'Configuration du traitements "{name}"',
-  'processing.form.create.title' : 'Configuration d\'un nouveau traitement',
-  'processing.form.submit.edit.button' : 'Modifier',
-  'processing.form.submit.button' : 'Créer',
-  'processing.form.subtitle' : 'Vous pouvez configurer votre traitement.',
-  'processing.form.back.button' : 'Annuler',
+  'processing.form.edit.title': 'Configuration du traitements "{name}"',
+  'processing.form.create.title': 'Configuration d\'un nouveau traitement',
+  'processing.form.submit.edit.button': 'Modifier',
+  'processing.form.submit.button': 'Créer',
+  'processing.form.subtitle': 'Vous pouvez configurer votre traitement.',
+  'processing.form.back.button': 'Annuler',
   'processing.form.plugin.label': 'Plugin de traitement',
   'processing.form.invalid.id': 'ID Invalide',
-  
 
   ...Locales.fr,
 }

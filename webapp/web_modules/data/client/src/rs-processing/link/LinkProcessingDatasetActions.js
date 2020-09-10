@@ -24,17 +24,17 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * @author Théo Lasserre
  */
 class LinkProcessingDatasetActions extends BasicListActions {
-    constructor(namespace) {
-        super({
-            namespace,
-            entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/linkprocessdataset`,
-            entityPathVariable: 'datasetIpId',
-            schemaTypes: {
-                ENTITY: LINK_PROCESSING_DATASET,
-                ENTITY_ARRAY: LINK_PROCESSING_DATASET_ARRAY,
-            },
-        })
-    }
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/linkprocessdataset`,
+      entityPathVariable: 'datasetIpId',
+      schemaTypes: {
+        ENTITY: LINK_PROCESSING_DATASET,
+        ENTITY_ARRAY: LINK_PROCESSING_DATASET_ARRAY,
+      },
+    })
+  }
 }
 
 export default LinkProcessingDatasetActions

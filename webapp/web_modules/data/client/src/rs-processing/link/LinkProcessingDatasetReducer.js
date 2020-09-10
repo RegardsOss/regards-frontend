@@ -25,9 +25,9 @@ import LinkProcessingDatasetActions from './LinkProcessingDatasetActions'
  * @author Théo Lasserre
  */
 class LinkProcessingDatasetReducer extends BasicListReducers {
-    constructor(namespace) {
-        super(LinkProcessingDatasetConfiguration, new LinkProcessingDatasetActions(namespace))
-    }
+  constructor(namespace) {
+    super(LinkProcessingDatasetConfiguration, new LinkProcessingDatasetActions(namespace))
+  }
 }
 
 /**
@@ -36,6 +36,6 @@ class LinkProcessingDatasetReducer extends BasicListReducers {
  * @returns {function} reduce function
  */
 export default (namespace) => {
-    const instance = new LinkProcessingDatasetReducer(namespace)
-    return (state, action) => instance.reduce(state, action)
+  const instance = new LinkProcessingDatasetReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
 }

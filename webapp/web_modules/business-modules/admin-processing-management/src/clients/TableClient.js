@@ -21,7 +21,6 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing-monitoring-table']
 const REDUX_ACTION_NAMESPACE = ' admin-processing-management/processing-monitoring-table'
 
-
 export const tableActions = new TableActions(REDUX_ACTION_NAMESPACE)
 export const tableReducer = getTableReducer(REDUX_ACTION_NAMESPACE)
 export const tableSelectors = getTableSelectors(ENTITIES_STORE_PATH)

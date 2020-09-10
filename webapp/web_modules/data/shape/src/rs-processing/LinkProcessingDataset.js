@@ -20,12 +20,12 @@
  * Link processing dataset entity shape
  * @author Théo Lasserre
  */
- export const LinkProcessingDataset = PropTypes.shape({
-     content: PropTypes.shape({
-         linkId: PropTypes.number,
-         datasetId: PropTypes.string.isRequired,
-         services: PropTypes.arrayOf(PropTypes.string).isRequired,
-     }).isRequired,
- })
+export const LinkProcessingDataset = PropTypes.shape({
+  content: PropTypes.shape({
+    linkId: PropTypes.number,
+    datasetId: PropTypes.string.isRequired,
+    services: PropTypes.arrayOf(PropTypes.string).isRequired,
+  }).isRequired,
+})
 
- export const LinkProcessingDatasetList = PropTypes.objectOf(LinkProcessingDataset)
+export const LinkProcessingDatasetList = PropTypes.objectOf(LinkProcessingDataset)

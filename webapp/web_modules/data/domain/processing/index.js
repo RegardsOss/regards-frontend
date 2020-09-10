@@ -17,4 +17,4 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { PLUGIN_TYPE } from './PluginType'
-export { PROCESSING_MONITORING, PROCESSING_MONITORING_VALUES } from './ProcessingMonitoringStatus'
+export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
