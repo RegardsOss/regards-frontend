@@ -20,6 +20,7 @@ import DetailIcon from 'mdi-material-ui/InformationOutline'
 import IconButton from 'material-ui/IconButton'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
  * Info action for processing monitoring
@@ -34,14 +35,14 @@ class ProccesingMonitoringInfo extends React.Component {
 
     static contextTypes = {
       ...i18nContextType,
+      ...themeContextType,
     }
 
-    static iconStyle = { height: 23, width: 23 }
-
-    static buttonStyle = { padding: 0, height: 30, width: 30 }
-
     render() {
-      const { intl: { formatMessage } } = this.context
+      const { 
+        intl: { formatMessage },
+        moduleTheme: { iconStyle, buttonStyle } 
+      } = this.context
       const {
         entity, entity: { content }, onClick, hoverColor,
       } = this.props
@@ -50,8 +51,8 @@ class ProccesingMonitoringInfo extends React.Component {
         <IconButton
           className={`selenium-edit-${content.id}`}
           title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
-          iconStyle={ProccesingMonitoringInfo.iconStyle}
-          style={ProccesingMonitoringInfo.buttonStyle}
+          iconStyle={iconStyle}
+          style={buttonStyle}
           onClick={() => onClick(entity)}
         >
           <DetailIcon hoverColor={hoverColor} />

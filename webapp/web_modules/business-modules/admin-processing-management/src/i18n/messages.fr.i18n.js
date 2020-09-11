@@ -78,7 +78,10 @@ const messages = {
   'processing.form.back.button': 'Annuler',
   'processing.form.plugin.label': 'Plugin de traitement',
   'processing.form.invalid.id': 'ID Invalide',
-  'processing.form.select.role': 'Sélectionnez le rôle minimal',
+  'processing.form.select.role': 'Sélectionnez un rôle',
+  'processing.form.select.role.help': 'Le rôle MINIMAL d\'utilisation du traitement peut être sélectionné. Par défaut : PUBLIC',
+  'processing.form.list.tooltip.info.button': 'Détails',
+  'processing.form.list.tooltip.info.close': 'Fermer',
 
   ...Locales.fr,
 }

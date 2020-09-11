@@ -36,8 +36,29 @@ export default (theme) => ({
     },
   },
   processingForm: {
+    selectUserRoleDiv: {
+      display: 'flex',
+    },
     selectUserRoleFieldDiv: {
       paddingLeft: '24px',
     },
+    selectUserRoleField: {
+
+    },
+    helpUserRoleIcon: {
+      paddingTop: '24px',
+      paddingLeft: '12px',
+      display:'flex',
+      alignItems: 'center'
+    }
   },
+  iconStyle: { 
+    height: '23px', 
+    width: '23px' 
+  },
+  buttonStyle: { 
+    padding: '0px', 
+    height: '30px', 
+    width: '30px' 
+  }
 })

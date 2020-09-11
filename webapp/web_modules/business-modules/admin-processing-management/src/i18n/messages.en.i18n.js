@@ -78,7 +78,10 @@ const messages = {
   'processing.form.back.button': 'Cancel',
   'processing.form.plugin.label': 'Processing plugin',
   'processing.form.invalid.id': 'Invalid ID',
-  'processing.form.select.role': 'Select the minimum user role',
+  'processing.form.select.role': 'Select a role',
+  'processing.form.select.role.help': 'The MINIMUM role of processing use can be selected. Default: PUBLIC',
+  'processing.form.list.tooltip.info.button': 'Details',
+  'processing.form.list.tooltip.info.close': 'Close',
 
   ...Locales.en,
 }

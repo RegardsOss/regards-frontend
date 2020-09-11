@@ -30,11 +30,15 @@ import {
 import get from 'lodash/get'
 import map from 'lodash/map'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
+import DetailIcon from 'mdi-material-ui/HelpCircle'
 import Card from 'material-ui/Card'
 import CardActions from 'material-ui/Card/CardActions'
 import CardText from 'material-ui/Card/CardText'
 import MenuItem from 'material-ui/MenuItem'
 import CardTitle from 'material-ui/Card/CardTitle'
+import IconButton from 'material-ui/IconButton'
+import FlatButton from 'material-ui/FlatButton'
+import Dialog from 'material-ui/Dialog'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -59,6 +63,10 @@ class ProcessingFormComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  state = {
+    isHelpUserRoleDialogOpen: false
   }
 
   UNSAFE_componentWillMount() {
@@ -132,7 +140,7 @@ class ProcessingFormComponent extends React.Component {
     const { mode, entity } = this.props
     const {
       intl: { formatMessage },
-      moduleTheme: { processingForm: { selectUserRoleFieldDiv, selectUserRoleField } },
+      moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle }
     } = this.context
     if (mode !== 'create' && !entity) {
       return (
@@ -155,10 +163,10 @@ class ProcessingFormComponent extends React.Component {
         hideDynamicParameterConf
         hideGlobalParameterConf
       />,
-        <div key="selectUserRole" style={selectUserRoleFieldDiv}>
+      <div key="selectUserRole" style={selectUserRoleDiv}>
+        <div style={selectUserRoleFieldDiv}>
           <Field
             name="userRole"
-            style={selectUserRoleField}
             component={RenderSelectField}
             type="text"
             label={formatMessage({ id: 'processing.form.select.role' })}
@@ -171,7 +179,52 @@ class ProcessingFormComponent extends React.Component {
               />
             ))}
           </Field>
+          </div>
+          <div style={helpUserRoleIcon}>
+            <IconButton
+              className='selenium-edit-detail-role-field'
+              title={formatMessage({ id: 'processing.form.list.tooltip.info.button' })}
+              iconStyle={iconStyle}
+              style={buttonStyle}
+              onClick={this.showOrCloseHelpUserRoleDialog}
+            >
+              <DetailIcon/>
+            </IconButton>
+          </div>
         </div>]
+    )
+  }
+
+  showOrCloseHelpUserRoleDialog = () => {
+    this.setState({
+      isHelpUserRoleDialogOpen: !this.state.isHelpUserRoleDialogOpen
+    })
+  }
+
+  helpUserRoleDialog = () => {
+    const { intl: { formatMessage }, moduleTheme } = this.context
+    return (
+      <Dialog
+          actions={<>
+            <FlatButton
+              key="close"
+              label={formatMessage({ id: 'processing.form.list.tooltip.info.close' })}
+              primary
+              onClick={this.showOrCloseHelpUserRoleDialog}
+            />
+          </>}
+          title={formatMessage({ id: 'processing.form.select.role' })}
+          open={this.state.isHelpUserRoleDialogOpen}
+          onRequestClose={this.showOrCloseHelpUserRoleDialog}
+        >
+          {
+            <div style={moduleTheme.rootStyle}>
+              <div style={moduleTheme.valueStyle}>
+                {formatMessage({ id: 'processing.form.select.role.help' })}
+              </div>
+            </div>
+          }
+        </Dialog>
     )
   }
 
@@ -207,6 +260,7 @@ class ProcessingFormComponent extends React.Component {
         <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
             {this.renderContent()}
+            {this.helpUserRoleDialog()}
           </CardText>
           <CardActions>
             <CardActionsComponent
