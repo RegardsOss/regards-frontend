@@ -38,7 +38,6 @@ class ProcessingDeleteComponent extends React.Component {
 
     /**
      * User callback: on delete project user, locally wrapped
-     * TODO : CHANGE WHEN BACK IS OK
      */
     onDelete = () => {
       const { entity, handleDelete } = this.props

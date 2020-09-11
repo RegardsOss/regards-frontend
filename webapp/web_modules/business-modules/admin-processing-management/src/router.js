@@ -52,7 +52,7 @@ export const addProcessingRoute = {
   },
 }
 
-export const editProcessingRoute = {
+export const editProcessingRoute = {
   path: ':businessId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {

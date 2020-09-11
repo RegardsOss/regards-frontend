@@ -39,13 +39,14 @@ import FlatButton from 'material-ui/FlatButton'
 import Filter from 'mdi-material-ui/Filter'
 import Close from 'mdi-material-ui/Close'
 import Refresh from 'mdi-material-ui/Refresh'
+import { ProcessingShapes } from '@regardsoss/shape'
 
 const PROCESS_FILTER_PARAMS = {
   NAME: 'processName',
   USERNAME: 'userName',
   FROM: 'from',
   TO: 'to',
-  STATUS: 'status'
+  STATUS: 'status',
 }
 
 /**
@@ -54,7 +55,7 @@ const PROCESS_FILTER_PARAMS = {
  */
 class ProcessingMonitoringFiltersComponent extends React.Component {
   static propTypes = {
-    processingList: PropTypes.object.isRequired,
+    processingList: ProcessingShapes.Processing.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 
@@ -75,7 +76,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   }
 
   state = {
-    processNameHints : [],
+    processNameHints: [],
     filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
   }
 
@@ -84,41 +85,27 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    */
   UNSAFE_componentWillMount() {
     this.setState({
-      processNameHints: this.getConfigurationProcessNames()
+      processNameHints: this.getConfigurationProcessNames(),
     })
   }
 
   /**
    * Used to set state's processNameHints values
-   * @param {*} inputValue 
+   * @param {*} inputValue
    */
   getConfigurationProcessNames = (inputValue = '') => {
     const { processingList } = this.props
-    const processNameList = map(processingList, processing => (
-      find(processing.content.pluginConfiguration.parameters, param => (
+    const processNameList = map(processingList, (processing) => (
+      find(processing.content.pluginConfiguration.parameters, (param) => (
         param.name === PROCESS_FILTER_PARAMS.NAME
-        )).value
-      ))
-    return !isEmpty(inputValue) ? filter(processNameList, processName => processName.startsWith(inputValue)) : processNameList
-  }
-
-  updateState(newStateValue, filterElement) {
-    const { filters, processNameHints } = this.state
-    const newState = {
-      filters: {
-        ...filters,
-        [filterElement]: newStateValue,
-      }
-    }
-    if(filterElement === PROCESS_FILTER_PARAMS.NAME) {
-      newState.processNameHints = this.getConfigurationProcessNames(newStateValue)
-    }
-    this.setState(newState)
+      )).value
+    ))
+    return !isEmpty(inputValue) ? filter(processNameList, (processName) => processName.startsWith(inputValue)) : processNameList
   }
 
   /**
    * Used to build hint items correctly
-   * @param {*} element 
+   * @param {*} element
    */
   prepareHints = (element) => ({ id: element, text: element, value: element })
 
@@ -129,11 +116,11 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     const { onRefresh } = this.props
     const { filters } = this.state
     if (!isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)) {
-      let filtersClean = {
+      const filtersClean = {
         ...filters,
       }
-      // Remove from params the status field if it is still pristine 
-      if(filters[PROCESS_FILTER_PARAMS.STATUS].length === PROCESS_FILTER_PARAMS.STATUS.length){
+      // Remove from params the status field if it is still pristine
+      if (filters[PROCESS_FILTER_PARAMS.STATUS].length === PROCESS_FILTER_PARAMS.STATUS.length) {
         delete filtersClean[PROCESS_FILTER_PARAMS.STATUS]
       }
       onRefresh(filtersClean)
@@ -149,6 +136,20 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     })
   }
 
+  updateState(newStateValue, filterElement) {
+    const { filters } = this.state
+    const newState = {
+      filters: {
+        ...filters,
+        [filterElement]: newStateValue,
+      },
+    }
+    if (filterElement === PROCESS_FILTER_PARAMS.NAME) {
+      newState.processNameHints = this.getConfigurationProcessNames(newStateValue)
+    }
+    this.setState(newState)
+  }
+
   render() {
     const {
       intl: { formatMessage, locale },
@@ -160,7 +161,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
 
     return [
       <TableHeaderLine key="filters">
-        <TableHeaderOptionsArea >
+        <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
             <TableHeaderAutoCompleteFilter
               hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.NAME}-hint` })}
@@ -181,7 +182,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
               onChange={(event) => this.updateState(event.target.value, PROCESS_FILTER_PARAMS.USERNAME)}
               value={filters[PROCESS_FILTER_PARAMS.USERNAME]}
             />
-            
+
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>
             <DatePickerField
@@ -215,7 +216,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
             </TableHeaderOptionGroup>
           </TableHeaderOptionsArea>
         </TableHeaderOptionsArea>
-      </TableHeaderLine>, 
+      </TableHeaderLine>,
       <TableHeaderLine key="table_actions">
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
@@ -240,7 +241,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
-      </TableHeaderLine>, 
+      </TableHeaderLine>,
     ]
   }
 }

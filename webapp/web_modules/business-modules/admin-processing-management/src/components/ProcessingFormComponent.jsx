@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
 import { ProcessingDomain } from '@regardsoss/domain'
 import { RenderPluginField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
-import { ProcessingShapes, CommonShapes } from '@regardsoss/shape'
+import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import {
-  RenderTextField, reduxForm, Field, ValidationHelpers,
+  reduxForm, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import get from 'lodash/get'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
-import { browserHistory } from 'react-router'
-import {
-  Card, CardActions, CardText, CardTitle,
-} from 'material-ui/Card'
-import { Math } from 'window-or-global'
+import Card from 'material-ui/Card'
+import CardActions from 'material-ui/Card/CardActions'
+import CardText from 'material-ui/Card/CardText'
+import CardTitle from 'material-ui/Card/CardTitle'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -39,9 +39,6 @@ import styles from '../styles'
 * Component to create/edit/diplicate a processing plugin configuration
 * @author Théo Lasserre
 */
-const validateName = (value) => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
-  ? 'invalid.name.expression' : undefined
-
 class ProcessingFormComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
@@ -61,10 +58,6 @@ class ProcessingFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  state = {
-
-  }
-
   UNSAFE_componentWillMount(prevProps) {
     this.handleInitialize()
   }
@@ -73,8 +66,6 @@ class ProcessingFormComponent extends React.Component {
     const { mode, entity, initialize } = this.props
     if (mode === 'edit' && entity) {
       initialize({
-        //businessId: get(entity, 'content.pluginConfiguration.businessId'),
-        //pluginConfiguration: get(entity, 'content.configuration.pluginConfiguration'), // TODO CHANGE WHEN BACK IS OK
         pluginConfiguration: get(entity, 'content.pluginConfiguration'),
       })
     }
@@ -94,12 +85,6 @@ class ProcessingFormComponent extends React.Component {
       ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
     } : null
     const processingConfToUpdate = {
-      // TODO: CHANGE WHEN BACK IS OK
-      /*name: get(entity, 'content.name'),
-      configuration: {
-        ...get(entity, 'content.configuration', {}),
-        pluginConfiguration,
-      },*/
       pluginConfiguration,
     }
     onUpdate(get(entity, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
@@ -114,23 +99,8 @@ class ProcessingFormComponent extends React.Component {
    */
   createProcessingConf = (fields) => {
     const { onCreate } = this.props
-
-    // TODO : Set business ID & id -> LE BACK S'EN OCCUPE ! SUPPRIMER CA QUAND BACK OK
-    // Generate an unique businessId (used for identification)
-    const id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1)
-    fields.pluginConfiguration.businessId = id
-    fields.pluginConfiguration.id = parseInt(id, 10) /// <--- JUSQUI ICI
-
     const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
     const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
-
-    /*const processingConf = {                      TODO :  A REMETTRE QUAND LE BACK SERA OK -> LA C'EST JUSTE POUR TEST
-      configuration: {
-        pluginConfiguration: formatedPluginConf,
-      },
-    }*/
-
-    console.error(fields)
 
     const processingConf = {
       content: {

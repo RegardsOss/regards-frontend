@@ -18,7 +18,7 @@
  **/
 
 import { ProcessingShapes } from '@regardsoss/shape'
-import forEach from 'lodash/forEach'
+import find from 'lodash/find'
 
 /**
   * ProcessingProcessNameRenderer
@@ -32,8 +32,15 @@ class ProcessingProcessNameRenderer extends React.Component {
    render() {
      const { entity } = this.props
      return (
-       // TODO : CHECK IF FIRST PARAMETERS IF ALWAYS PROCESSNAME WHEN BACK IS OK
-       <div>{entity.content.pluginConfiguration.parameters[0].value}</div>
+       <div>
+         {
+           entity
+             ? find(entity.content.pluginConfiguration.parameters, (param) => (
+               param.name === 'processName'
+             )).value
+             : 'processNameNotFound'
+         }
+       </div>
      )
    }
 }

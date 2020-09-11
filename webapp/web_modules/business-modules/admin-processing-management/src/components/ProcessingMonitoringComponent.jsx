@@ -57,15 +57,15 @@ export class ProcessingMonitoringComponent extends React.Component {
 
     static PAGE_SIZE = 100
 
-    state = {
-      entityForInfos: null,
-    }
-
     static EMPTY_COMPONENT = (
       <NoContentComponent
         titleKey="processing.monitoring.list.empty.title"
         Icon={AddToPhotos}
       />)
+
+    state = {
+      entityForInfos: null,
+    }
 
     onCloseInfoDialog = () => this.showInformation(null)
 
@@ -79,7 +79,7 @@ export class ProcessingMonitoringComponent extends React.Component {
       const {
         onRefresh, backUrl, processingList,
       } = this.props
-      const { intl: { formatMessage }, muiTheme, moduleTheme: { displayFilters } } = this.context
+      const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
       const style = {
         hoverButtonEdit: muiTheme.palette.primary1Color,

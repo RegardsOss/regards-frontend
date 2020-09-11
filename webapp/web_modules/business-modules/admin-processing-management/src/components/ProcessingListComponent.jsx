@@ -32,6 +32,7 @@ import { ProcessingShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { processingDependencies } from '@regardsoss/admin-processing-management'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import find from 'lodash/find'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Refresh from 'mdi-material-ui/Refresh'
 import Card from 'material-ui/Card'
@@ -93,15 +94,18 @@ class ProcessingListComponent extends React.Component {
     }
 
     renderDeleteConfirmDialog = () => {
-      // TODO MODIF GET NAME SI QUAND LE BACK EST OK
-      const name = this.state.entityToDelete ? this.state.entityToDelete.content.pluginConfiguration.parameters[0].value : ' '
+      const name = this.state.entityToDelete
+        ? find(this.state.entityToDelete.content.pluginConfiguration.parameters, (param) => (
+          param.name === 'processName'
+        )).value
+        : 'processNameNotFound'
       const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
       return (
         <ShowableAtRender show={this.state.deleteDialogOpened}>
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
             onConfirm={() => {
-              this.props.handleDelete(this.state.entityToDelete.content.pluginConfiguration.businessId) // TODO : CHANGE WHEN BACK IS OK
+              this.props.handleDelete(this.state.entityToDelete.content.pluginConfiguration.businessId)
             }}
             onClose={this.closeDeleteDialog}
             title={title}
@@ -128,7 +132,7 @@ class ProcessingListComponent extends React.Component {
           .rowCellDefinition({ Constructor: ProcessingProcessNameRenderer })
           .label(formatMessage({ id: 'processing.monitoring.list.header.name.label' }))
           .build(),
-        // 5 - Options
+        // 2 - Options
         new TableColumnBuilder('column.options')
           .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
           .optionsColumn([{

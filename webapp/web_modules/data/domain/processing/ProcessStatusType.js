@@ -21,12 +21,12 @@
  * @author Théo Lasserre
  */
 export const PROCESS_STATUS_TYPES = [
-    'SUCCESS',
-    'FAILURE',
-    'CANCELLED',
-    'TIMED_OUT',
-    'CLEANUP',
-    'RUNNING',
-    'PREPARE',
-    'REGISTERED'
+  'SUCCESS',
+  'FAILURE',
+  'CANCELLED',
+  'TIMED_OUT',
+  'CLEANUP',
+  'RUNNING',
+  'PREPARE',
+  'REGISTERED',
 ]

@@ -52,7 +52,7 @@ export class ProcessingMonitoringContainer extends React.Component {
      */
     static mapDispatchToProps = (dispatch) => ({
       fetchProcessingMonitorList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(processingMonitoringActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
-      fetchProcessingList: () => dispatch(processingActions.fetchEntityList())
+      fetchProcessingList: () => dispatch(processingActions.fetchEntityList()),
     })
 
     static propTypes = {
@@ -70,7 +70,7 @@ export class ProcessingMonitoringContainer extends React.Component {
       processingList: ProcessingShapes.ProcessingList.isRequired,
       // from mapDispatchToProps
       fetchProcessingMonitorList: PropTypes.func,
-      fetchProcessingList: PropTypes.func
+      fetchProcessingList: PropTypes.func,
     }
 
     /**
@@ -103,7 +103,7 @@ export class ProcessingMonitoringContainer extends React.Component {
 
     render() {
       const {
-        isLoading
+        isLoading,
       } = this.state
       const { processingList } = this.props
 

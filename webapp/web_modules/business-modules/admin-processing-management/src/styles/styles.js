@@ -1,5 +1,3 @@
-import { capitalize } from 'lodash'
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
