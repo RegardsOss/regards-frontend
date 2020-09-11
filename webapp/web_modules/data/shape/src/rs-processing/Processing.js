@@ -18,7 +18,6 @@
  **/
 
 import { PluginConfigurationContent } from '../rs-common'
-import { DatasetContent } from '../rs-dam'
 
 export const ProcessingConfiguration = PropTypes.shape({
   pluginConfiguration: PluginConfigurationContent,
@@ -26,11 +25,9 @@ export const ProcessingConfiguration = PropTypes.shape({
 
 export const RightsContent = PropTypes.shape({
   role: PropTypes.string,
-  datasets: PropTypes.arrayOf(DatasetContent),
 })
 
 export const ProcessingContent = PropTypes.shape({
-  //configuration: ProcessingConfiguration, // A REMETTRE QUAND LE BACK SERA OK -> LA C'EST JUSTE POUR TEST
   pluginConfiguration: PluginConfigurationContent,
   rights: RightsContent,
 })

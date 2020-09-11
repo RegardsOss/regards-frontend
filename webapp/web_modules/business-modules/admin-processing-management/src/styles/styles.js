@@ -35,4 +35,9 @@ export default (theme) => ({
       paddingBottom: 0,
     },
   },
+  processingForm: {
+    selectUserRoleFieldDiv: {
+      paddingLeft: '24px',
+    },
+  },
 })

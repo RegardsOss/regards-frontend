@@ -132,7 +132,13 @@ class ProcessingListComponent extends React.Component {
           .rowCellDefinition({ Constructor: ProcessingProcessNameRenderer })
           .label(formatMessage({ id: 'processing.monitoring.list.header.name.label' }))
           .build(),
-        // 2 - Options
+        // 2 - process user role
+        new TableColumnBuilder('column.userRole')
+          .titleHeaderCell()
+          .propertyRenderCell('content.rigths.role')
+          .label(formatMessage({ id: 'processing.monitoring.list.header.userRole' }))
+          .build(),
+        // 3 - Options
         new TableColumnBuilder('column.options')
           .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
           .optionsColumn([{

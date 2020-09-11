@@ -39,6 +39,7 @@ const messages = {
   'processing.monitoring.list.empty.title': 'Aucun traitement défini',
   'processing.monitoring.refresh.button': 'Rafraichir',
   'processing.monitoring.list.header.name.label': 'Traitement',
+  'processing.monitoring.list.header.userRole': 'Rôle',
   'processing.monitoring.list.header.created.label': 'Crée',
   'processing.monitoring.list.header.username.label': 'Utilisateur',
   'processing.monitoring.list.header.status': 'Statut',
@@ -77,6 +78,7 @@ const messages = {
   'processing.form.back.button': 'Annuler',
   'processing.form.plugin.label': 'Plugin de traitement',
   'processing.form.invalid.id': 'ID Invalide',
+  'processing.form.select.role': 'Sélectionnez le rôle minimal',
 
   ...Locales.fr,
 }

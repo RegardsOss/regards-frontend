@@ -41,7 +41,6 @@ class ProcessingEditComponent extends React.Component {
      */
     onEdit = () => {
       const { entity, handleEdit } = this.props
-      console.error(entity)
       handleEdit(entity.content.pluginConfiguration.businessId)
     }
 

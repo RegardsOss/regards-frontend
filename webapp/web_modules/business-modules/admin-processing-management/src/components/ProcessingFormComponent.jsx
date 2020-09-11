@@ -23,14 +23,17 @@ import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
+import { DEFAULT_ROLES_ENUM } from '@regardsoss/domain/admin'
 import {
-  reduxForm, Field, ValidationHelpers,
+  reduxForm, Field, ValidationHelpers, RenderSelectField,
 } from '@regardsoss/form-utils'
 import get from 'lodash/get'
+import map from 'lodash/map'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import Card from 'material-ui/Card'
 import CardActions from 'material-ui/Card/CardActions'
 import CardText from 'material-ui/Card/CardText'
+import MenuItem from 'material-ui/MenuItem'
 import CardTitle from 'material-ui/Card/CardTitle'
 import messages from '../i18n'
 import styles from '../styles'
@@ -58,7 +61,7 @@ class ProcessingFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  UNSAFE_componentWillMount(prevProps) {
+  UNSAFE_componentWillMount() {
     this.handleInitialize()
   }
 
@@ -67,6 +70,11 @@ class ProcessingFormComponent extends React.Component {
     if (mode === 'edit' && entity) {
       initialize({
         pluginConfiguration: get(entity, 'content.pluginConfiguration'),
+        userRole: get(entity, 'content.rigths.role'),
+      })
+    } else {
+      initialize({
+        userRole: DEFAULT_ROLES_ENUM.PUBLIC,
       })
     }
   }
@@ -77,7 +85,7 @@ class ProcessingFormComponent extends React.Component {
   }
 
   /**
-   * Update a processingConf entity from the given updated PluginConfiguration.
+   * Update a processingConf entity from the given updated PluginConfiguration & SelectedRole.
    */
   updateProcessingConf = (fields) => {
     const { onUpdate, entity } = this.props
@@ -86,6 +94,9 @@ class ProcessingFormComponent extends React.Component {
     } : null
     const processingConfToUpdate = {
       pluginConfiguration,
+      rigths: {
+        role: get(fields, 'userRole'),
+      },
     }
     onUpdate(get(entity, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
@@ -101,10 +112,12 @@ class ProcessingFormComponent extends React.Component {
     const { onCreate } = this.props
     const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
     const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
-
     const processingConf = {
       content: {
         pluginConfiguration: formatedPluginConf,
+        rigths: {
+          role: get(fields, 'userRole', DEFAULT_ROLES_ENUM.PUBLIC),
+        },
       },
     }
 
@@ -117,7 +130,10 @@ class ProcessingFormComponent extends React.Component {
 
   renderContent = () => {
     const { mode, entity } = this.props
-    const { intl: { formatMessage } } = this.context
+    const {
+      intl: { formatMessage },
+      moduleTheme: { processingForm: { selectUserRoleFieldDiv, selectUserRoleField } },
+    } = this.context
     if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
@@ -127,7 +143,7 @@ class ProcessingFormComponent extends React.Component {
       )
     }
     return (
-      <Field
+      [<Field
         key="processingPlugin"
         name="pluginConfiguration"
         component={RenderPluginField}
@@ -138,7 +154,24 @@ class ProcessingFormComponent extends React.Component {
         microserviceName={STATIC_CONF.MSERVICES.PROCESSING}
         hideDynamicParameterConf
         hideGlobalParameterConf
-      />
+      />,
+        <div key="selectUserRole" style={selectUserRoleFieldDiv}>
+          <Field
+            name="userRole"
+            style={selectUserRoleField}
+            component={RenderSelectField}
+            type="text"
+            label={formatMessage({ id: 'processing.form.select.role' })}
+          >
+            {map(DEFAULT_ROLES_ENUM, (value, key) => (
+              <MenuItem
+                key={key}
+                value={value}
+                primaryText={value}
+              />
+            ))}
+          </Field>
+        </div>]
     )
   }
 

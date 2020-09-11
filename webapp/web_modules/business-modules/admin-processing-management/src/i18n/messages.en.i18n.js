@@ -42,6 +42,7 @@ const messages = {
   'processing.monitoring.list.header.created.label': 'Created',
   'processing.monitoring.list.header.username.label': 'User',
   'processing.monitoring.list.header.status': 'Status',
+  'processing.monitoring.list.header.userRole': 'Role',
   'processing.monitoring.list.header.option': 'Options',
   'processing.monitoring.list.tooltip.info.button': 'Details',
   'processing.monitoring.list.tooltip.info.close': 'Close',
@@ -77,6 +78,7 @@ const messages = {
   'processing.form.back.button': 'Cancel',
   'processing.form.plugin.label': 'Processing plugin',
   'processing.form.invalid.id': 'Invalid ID',
+  'processing.form.select.role': 'Select the minimum user role',
 
   ...Locales.en,
 }
