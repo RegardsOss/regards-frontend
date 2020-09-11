@@ -39,9 +39,9 @@ class ProccesingMonitoringInfo extends React.Component {
     }
 
     render() {
-      const { 
+      const {
         intl: { formatMessage },
-        moduleTheme: { iconStyle, buttonStyle } 
+        moduleTheme: { iconStyle, buttonStyle },
       } = this.context
       const {
         entity, entity: { content }, onClick, hoverColor,

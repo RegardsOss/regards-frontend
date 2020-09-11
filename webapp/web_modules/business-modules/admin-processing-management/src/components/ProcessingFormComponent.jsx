@@ -66,7 +66,7 @@ class ProcessingFormComponent extends React.Component {
   }
 
   state = {
-    isHelpUserRoleDialogOpen: false
+    isHelpUserRoleDialogOpen: false,
   }
 
   UNSAFE_componentWillMount() {
@@ -140,7 +140,7 @@ class ProcessingFormComponent extends React.Component {
     const { mode, entity } = this.props
     const {
       intl: { formatMessage },
-      moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle }
+      moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle },
     } = this.context
     if (mode !== 'create' && !entity) {
       return (
@@ -163,32 +163,32 @@ class ProcessingFormComponent extends React.Component {
         hideDynamicParameterConf
         hideGlobalParameterConf
       />,
-      <div key="selectUserRole" style={selectUserRoleDiv}>
-        <div style={selectUserRoleFieldDiv}>
-          <Field
-            name="userRole"
-            component={RenderSelectField}
-            type="text"
-            label={formatMessage({ id: 'processing.form.select.role' })}
-          >
-            {map(DEFAULT_ROLES_ENUM, (value, key) => (
-              <MenuItem
-                key={key}
-                value={value}
-                primaryText={value}
-              />
-            ))}
-          </Field>
+        <div key="selectUserRole" style={selectUserRoleDiv}>
+          <div style={selectUserRoleFieldDiv}>
+            <Field
+              name="userRole"
+              component={RenderSelectField}
+              type="text"
+              label={formatMessage({ id: 'processing.form.select.role' })}
+            >
+              {map(DEFAULT_ROLES_ENUM, (value, key) => (
+                <MenuItem
+                  key={key}
+                  value={value}
+                  primaryText={value}
+                />
+              ))}
+            </Field>
           </div>
           <div style={helpUserRoleIcon}>
             <IconButton
-              className='selenium-edit-detail-role-field'
+              className="selenium-edit-detail-role-field"
               title={formatMessage({ id: 'processing.form.list.tooltip.info.button' })}
               iconStyle={iconStyle}
               style={buttonStyle}
               onClick={this.showOrCloseHelpUserRoleDialog}
             >
-              <DetailIcon/>
+              <DetailIcon />
             </IconButton>
           </div>
         </div>]
@@ -197,7 +197,7 @@ class ProcessingFormComponent extends React.Component {
 
   showOrCloseHelpUserRoleDialog = () => {
     this.setState({
-      isHelpUserRoleDialogOpen: !this.state.isHelpUserRoleDialogOpen
+      isHelpUserRoleDialogOpen: !this.state.isHelpUserRoleDialogOpen,
     })
   }
 
@@ -205,26 +205,24 @@ class ProcessingFormComponent extends React.Component {
     const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <Dialog
-          actions={<>
-            <FlatButton
-              key="close"
-              label={formatMessage({ id: 'processing.form.list.tooltip.info.close' })}
-              primary
-              onClick={this.showOrCloseHelpUserRoleDialog}
-            />
-          </>}
-          title={formatMessage({ id: 'processing.form.select.role' })}
-          open={this.state.isHelpUserRoleDialogOpen}
-          onRequestClose={this.showOrCloseHelpUserRoleDialog}
-        >
-          {
-            <div style={moduleTheme.rootStyle}>
-              <div style={moduleTheme.valueStyle}>
-                {formatMessage({ id: 'processing.form.select.role.help' })}
-              </div>
-            </div>
-          }
-        </Dialog>
+        actions={<>
+          <FlatButton
+            key="close"
+            label={formatMessage({ id: 'processing.form.list.tooltip.info.close' })}
+            primary
+            onClick={this.showOrCloseHelpUserRoleDialog}
+          />
+        </>}
+        title={formatMessage({ id: 'processing.form.select.role' })}
+        open={this.state.isHelpUserRoleDialogOpen}
+        onRequestClose={this.showOrCloseHelpUserRoleDialog}
+      >
+        <div style={moduleTheme.rootStyle}>
+          <div style={moduleTheme.valueStyle}>
+            {formatMessage({ id: 'processing.form.select.role.help' })}
+          </div>
+        </div>
+      </Dialog>
     )
   }
 

@@ -41,8 +41,11 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
       return null
     }
     const { message } = entity.content.steps[entity.content.steps.length - 1]
-    let titleId
-    message !== '' ? titleId = 'processing.monitoring.list.tooltip.info.title' : titleId = 'processing.monitoring.list.tooltip.no.info.title'
+    let titleId = 'processing.monitoring.list.tooltip.no.info.title'
+    if (message !== '') {
+      titleId = 'processing.monitoring.list.tooltip.info.title'
+    }
+
     return (
       <Dialog
         actions={<>

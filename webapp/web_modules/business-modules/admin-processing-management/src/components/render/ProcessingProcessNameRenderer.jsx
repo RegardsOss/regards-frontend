@@ -30,7 +30,7 @@ class ProcessingProcessNameRenderer extends React.Component {
    }
 
    render() {
-     const { entity } = this.props
+     const { entity } = this.props
      return (
        <div>
          {

@@ -29,7 +29,7 @@ class ProcessingMonitoringStatusRenderer extends React.Component {
     }
 
     render() {
-      const { entity: { content: { steps } } } = this.props
+      const { entity: { content: { steps } } } = this.props
 
       return steps.length > 0 ? (
         <div>{steps[steps.length - 1].status}</div>

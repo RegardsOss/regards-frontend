@@ -48,17 +48,17 @@ export default (theme) => ({
     helpUserRoleIcon: {
       paddingTop: '24px',
       paddingLeft: '12px',
-      display:'flex',
-      alignItems: 'center'
-    }
+      display: 'flex',
+      alignItems: 'center',
+    },
   },
-  iconStyle: { 
-    height: '23px', 
-    width: '23px' 
+  iconStyle: {
+    height: '23px',
+    width: '23px',
   },
-  buttonStyle: { 
-    padding: '0px', 
-    height: '30px', 
-    width: '30px' 
-  }
+  buttonStyle: {
+    padding: '0px',
+    height: '30px',
+    width: '30px',
+  },
 })
