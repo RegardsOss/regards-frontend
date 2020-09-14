@@ -22,10 +22,10 @@
  */
 export const LinkProcessingDataset = PropTypes.shape({
   content: PropTypes.shape({
-    linkId: PropTypes.number,
-    datasetId: PropTypes.string.isRequired,
-    services: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }).isRequired,
+    businessId: PropTypes.string,
+    label: PropTypes.string,
+  }),
 })
 
 export const LinkProcessingDatasetList = PropTypes.objectOf(LinkProcessingDataset)
+export const LinkProcessingDatasetArray = PropTypes.arrayOf(LinkProcessingDataset)

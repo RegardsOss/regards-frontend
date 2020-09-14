@@ -20,7 +20,7 @@ export {
   Processing, ProcessingList, ProcessingArray, ProcessingConfiguration, ProcessingContent,
 } from './Processing'
 export {
-  LinkProcessingDataset, LinkProcessingDatasetList,
+  LinkProcessingDataset, LinkProcessingDatasetList, LinkProcessingDatasetArray,
 } from './LinkProcessingDataset'
 export {
   ProcessingMonitoring, ProcessingMonitoringArray, ProcessingMonitoringList,

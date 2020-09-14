@@ -16,24 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY } from '@regardsoss/api'
-import { BasicListActions } from '@regardsoss/store-utils'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * Actions to get Processing metadata information
+ * Actions to get Links Processing Dataset information
  * @author Théo Lasserre
  */
-class LinkProcessingDatasetActions extends BasicListActions {
+class LinkProcessingDatasetActions extends BasicSignalActions {
   constructor(namespace) {
     super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/process/linkprocessdataset/{datasetIpId}`,
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/linkprocessdataset`,
-      entityPathVariable: 'datasetIpId',
-      schemaTypes: {
-        ENTITY: LINK_PROCESSING_DATASET,
-        ENTITY_ARRAY: LINK_PROCESSING_DATASET_ARRAY,
-      },
+      bypassErrorMiddleware: false,
     })
+  }
+
+  /**
+   * Sends a get process linked to dataset request
+   * @param {*} datasetIpId of a dataset
+   */
+  getLinkProcessDataset(datasetIpId) {
+    return this.sendSignal('GET', null, { datasetIpId })
+  }
+
+  /**
+   * Update process linked to dataset
+   * @param {*} datasetIpId  of a dataset
+   */
+  putLinkProcessDataset(datasetIpId, linkProcessingDataset) {
+    return this.sendSignal('PUT', linkProcessingDataset, { datasetIpId })
   }
 }
 

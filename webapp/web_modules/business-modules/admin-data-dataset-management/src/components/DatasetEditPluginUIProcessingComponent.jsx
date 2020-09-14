@@ -28,7 +28,6 @@ import {
 } from 'material-ui'
 import FactoryIcon from 'mdi-material-ui/Factory'
 import { processingDependencies } from '@regardsoss/admin-processing-management'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
 import {
   CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
 } from '@regardsoss/shape'
@@ -42,8 +41,6 @@ export const DATASET_LINK_TYPE = {
   UI_SERVICES: 'uiservices',
   PROCESSING: 'processing',
 }
-
-const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButton)
 
 /**
  * React component to edit plugins, pluginsUI and processing
@@ -66,13 +63,14 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
         [DATASET_LINK_TYPE.PROCESSING]: PropTypes.shape({
           pluginConfs: ProcessingShapes.ProcessingList,
           metadatas: CommonShapes.PluginMetaDataList,
-          //links: ProcessingShapes.LinkProcessingDataset,
+          links: ProcessingShapes.LinkProcessingDataset,
         }),
       }),
       backUrl: PropTypes.string.isRequired,
       onSubmit: PropTypes.func.isRequired,
       currentDatasetIpId: PropTypes.string.isRequired,
       currentDatasetId: PropTypes.string.isRequired,
+      processingDependencies: PropTypes.bool.isRequired,
     }
 
     static contextTypes = {
@@ -80,14 +78,34 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       ...i18nContextType,
     }
 
+    static getDatasetLinkId = (datasetLinkType) => {
+      switch (datasetLinkType) {
+        case DATASET_LINK_TYPE.UI_SERVICES:
+          return 'id'
+        case DATASET_LINK_TYPE.PROCESSING:
+        case DATASET_LINK_TYPE.PLUGIN:
+          return 'pluginId'
+      }
+    }
+
+    static getDatasetLinkPluginName = (datasetLinkType) => {
+      switch (datasetLinkType) {
+        case DATASET_LINK_TYPE.UI_SERVICES:
+          return 'name'
+        case DATASET_LINK_TYPE.PROCESSING:
+        case DATASET_LINK_TYPE.PLUGIN:
+          return 'pluginId'
+      }
+    }
+
     /**
-     * We initialize state with links between Plugin, UIPlugins and datasets
+     * We initialize state with links between Plugin, UIPlugins, Processing and datasets
      */
     state = {
       [DATASET_LINK_TYPE.PLUGIN]: [...this.props.initialDatasetLinksByType[DATASET_LINK_TYPE.PLUGIN].links.content.services],
       [DATASET_LINK_TYPE.UI_SERVICES]: [...this.props.initialDatasetLinksByType[DATASET_LINK_TYPE.UI_SERVICES].links.content.services],
-      [DATASET_LINK_TYPE.PROCESSING]: [...this.props.initialDatasetLinksByType[DATASET_LINK_TYPE.PROCESSING].links.content.services],
-      tabValue: 0,
+      [DATASET_LINK_TYPE.PROCESSING]: this.props.processingDependencies ? [...this.props.initialDatasetLinksByType[DATASET_LINK_TYPE.PROCESSING].links.content.services] : [],
+      tabValue: DATASET_LINK_TYPE.PLUGIN,
     }
 
     checkOnePluginConfByMetadataExist = (pluginConfs, metadatas, datasetLinkId) => {
@@ -126,25 +144,16 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       }
     }
 
-    // TODO : A TERMINER -> pourquoi dependencies marche pas ?
     createNoContentComponent = (datasetLinkType) => {
       const { intl: { formatMessage } } = this.context
-      let dependencies
-      switch (datasetLinkType) {
-        /*case DATASET_LINK_TYPE.PLUGIN:
-                dependencies = datasetDependencies.addPluginConfigurationDependencies
-                break;
-            case DATASET_LINK_TYPE.UI_SERVICES :
-                dependencies = datasetDependencies.addUIPluginConfigurationDependencies
-                break;*/
-        case DATASET_LINK_TYPE.PROCESSING:
-          dependencies = processingDependencies.addProcessingDependencies
-          break
+      let dependencies = []
+      // We need to check is rs-processing microservice is used and up in this project
+      if (datasetLinkType === DATASET_LINK_TYPE.PROCESSING) {
+        dependencies = processingDependencies.addProcessingDependencies
       }
 
       const emptyContentAction = (
-        <FlatButtonWithResourceDisplayControl
-          resourceDependencies={dependencies}
+        <FlatButton
           label={formatMessage({ id: `dataset.form.no.${datasetLinkType}.found.create` })}
           onClick={() => this.createConfiguration(datasetLinkType)}
           primary
@@ -162,24 +171,24 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
     }
 
     /**
-     * Render a List of checkable pluginConfs thanks to a model element
-     * @param {*} modelElement
-     * @param {*} modelElementType Used for list items keys
+     * Render a List of checkable pluginConfs
+     * @param {*} initialDatasetLinks
+     * @param {*} datasetLinkType
      */
     renderList = (initialDatasetLinks, datasetLinkType) => {
       const { pluginConfs, metadatas } = initialDatasetLinks
       const currentLinks = this.state[datasetLinkType]
-      const datasetLinkId = DATASET_LINK_TYPE.UI_SERVICES === datasetLinkType ? 'id' : 'pluginId'
-      const datasetPluginName = DATASET_LINK_TYPE.UI_SERVICES === datasetLinkType ? 'name' : 'pluginId'
+      const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
+      const datasetPluginName = DatasetEditPluginUIProcessingComponent.getDatasetLinkPluginName(datasetLinkType)
 
       // We check if at least one pluginConf will be displayed for Plugins, UIPlugins or Processing.
       // If not we display a NoContentCard and user can create a conf for Plugins, UIPlugins or Processing.
       if (this.checkOnePluginConfByMetadataExist(pluginConfs, metadatas, datasetLinkId)) {
-        // We wants a list for each type of element (each metadata of element)
+        // We wants a list for each metadata
         return map(metadatas, (metadata, id) => {
           // Retrieve the list of pluginConfs for the current metadata
           const pluginConfsByMetadata = filter(pluginConfs, (pluginConf) => (
-            // Plugins Metadata use pluginId & PluginsUI Metadata use Id
+            // Plugins and Processing Metadata use pluginId & PluginsUI Metadata use Id
             pluginConf.content.pluginDefinition[datasetLinkId] === metadata.content[datasetLinkId]
           ))
           return (
@@ -206,7 +215,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
                                           leftCheckbox={
                                             <Checkbox
                                               onCheck={() => this.handleCheck(currentLinks, datasetLinkType, pluginConf)}
-                                              checked={this.isActivated(currentLinks, pluginConf)}
+                                              checked={this.isActivated(currentLinks, pluginConf, datasetLinkType)}
                                               disabled={this.isActivatedForAllDatasets(pluginConf)}
                                             />
                                                 }
@@ -223,33 +232,35 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
     }
 
     /**
-     * Handle the click on the checkbox to toglle the association between the dataset and the Plugin, the UIPlugin or the Processing
+     * Handle the click on the checkbox to toggle the association between the dataset and the Plugin, the UIPlugin or the Processing
+     * @param {*} linkList
+     * @param {*} datasetLinkType
      * @param {*} pluginConf Plugin, UIPlugin or Processing
-     * @param {*} modelElement In order to get MODEL_TYPE
      */
     handleCheck = (linkList, datasetLinkType, pluginConf) => {
+      const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
       this.setState({
-        [datasetLinkType]: this.isActivated(linkList, pluginConf)
+        [datasetLinkType]: this.isActivated(linkList, pluginConf, datasetLinkType)
         // remove Plugin from list
-          ? linkList.filter((link) => pluginConf.content.id !== link.id)
+          ? linkList.filter((link) => pluginConf.content[datasetLinkId] !== link[datasetLinkId])
         // add Plugin in list
-          : [...linkList, { id: pluginConf.content.id }],
+          : [...linkList, { id: pluginConf.content[datasetLinkId] }],
       })
     }
 
     /**
      * Check if pluginConf is in state activated list
-     * @param {*} link
-     * @param {*} modelType
+     * @param {*} linkList
+     * @param {*} pluginConf
      */
-    isActivated = (linkList, pluginConf) => this.isActivatedForAllDatasets(pluginConf)
-            || some(linkList, (link) => link.id === pluginConf.content.id)
+    isActivated = (linkList, pluginConf, datasetLinkType) => {
+      const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
+      return this.isActivatedForAllDatasets(pluginConf)
+            || some(linkList, (link) => link[datasetLinkId] === pluginConf.content[datasetLinkId])
+    }
 
     isActivatedForAllDatasets = (pluginConf) => { get(pluginConf.content, 'linkedToAllEntities', false) }
 
-    /**
-     * We update links for Plugins and UIPlugins in editionModel
-     */
     handleSubmit = () => {
       this.props.onSubmit(this.state)
     }
@@ -266,7 +277,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage }, moduleTheme: { cardTextTabStyle } } = this.context
       const { tabValue } = this.state
-      let index = 0 // Use in Tabs to autoselect first tab
+      const index = -1 // Use in Tabs to autoselect first tab
       return (
         <Card>
           <CardTitle
@@ -289,7 +300,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
                 <Tab
                   key={datasetLinkType}
                   label={formatMessage({ id: `dataset.form.${datasetLinkType}.services` })}
-                  value={index++}
+                  value={datasetLinkType}
                 >
                   <List key={datasetLinkType}>
                     {this.renderList(initialDatasetLinks, datasetLinkType)}

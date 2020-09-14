@@ -23,7 +23,7 @@ import { Schema, arrayOf } from 'normalizr'
  * Processing plugin management for normalizr
  */
 export const LinkProcessingDatasetConfiguration = {
-  entityKey: 'datasetId',
+  entityKey: 'businessId',
   normalizrKey: 'linkprocessingdataset',
 }
 

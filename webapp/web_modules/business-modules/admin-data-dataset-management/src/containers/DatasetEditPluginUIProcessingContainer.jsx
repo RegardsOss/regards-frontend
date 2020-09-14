@@ -19,9 +19,10 @@
 
 import { browserHistory } from 'react-router'
 import compose from 'lodash/fp/compose'
-import { isEqual, isEmpty, map } from 'lodash'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
 import { connect } from '@regardsoss/redux'
-import { ProcessingDomain } from '@regardsoss/domain'
 import {
   CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
 } from '@regardsoss/shape'
@@ -30,7 +31,6 @@ import { withModuleStyle } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
-
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import { uiPluginDefinitionSelectors, uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from '../clients/LinkUIPluginDatasetClient'
@@ -45,6 +45,7 @@ import styles from '../styles'
 import messages from '../i18n'
 
 class DatasetEditPluginUIProcessingContainer extends React.Component {
+
     static mapStateToProps = (state, ownProps) => ({
       // Plugins
       pluginConfigurationList: pluginConfigurationSelectors.getList(state),
@@ -59,7 +60,6 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
       // Processing
       processingConfigurationList: processingSelectors.getList(state),
       processingMetadataList: processingMetadataSelectors.getList(state),
-      linkProcessingDataset: linkProcessingDatasetSelectors.getById(state, ownProps.params.datasetIpId),
 
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     })
@@ -92,10 +92,9 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
-      fetchProcessingMetadataList: () => dispatch(processingMetadataActions.fetchEntityList()), // TODO : MODIFIER SUIVANT ENDPOINT
-      fetchLinkProcessingDataset: (id) => dispatch(linkProcessingDatasetActions.fetchEntity(id)),
-      updateLinkProcessingDataset: (id, linkProcessingDataset) => dispatch(linkProcessingDatasetActions.updateEntity(id, linkProcessingDataset)),
-
+      fetchProcessingMetadataList: () => dispatch(processingMetadataActions.fetchEntityList()),
+      fetchLinkProcessingDataset: (datasetIpId) => dispatch(linkProcessingDatasetActions.getLinkProcessDataset(datasetIpId)),
+      updateLinkProcessingDataset: (datasetIpId, linkProcessingDataset) => dispatch(linkProcessingDatasetActions.putLinkProcessDataset(datasetIpId, linkProcessingDataset)),
     })
 
     static propTypes = {
@@ -120,7 +119,6 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
       // Processing
       processingConfigurationList: ProcessingShapes.ProcessingList,
       processingMetadataList: CommonShapes.PluginConfigurationList,
-      linkProcessingDataset: ProcessingShapes.LinkProcessingDataset,
 
       // from mapDispatchToProps
       // Plugins
@@ -140,11 +138,16 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
       fetchProcessingMetadataList: PropTypes.func,
       fetchLinkProcessingDataset: PropTypes.func,
       updateLinkProcessingDataset: PropTypes.func,
+
+      availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     }
 
     state = {
       isLoading: true,
       initialDatasetLinksByType: {},
+      linkProcessingDataset: [],
+      // TODO : A CHANGER QUAND RS-PROCESSING ACTIF
+      processingDependencies: true || allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies)
     }
 
     componentDidMount() {
@@ -160,55 +163,58 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
         this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
       ]
       // TODO : A REMETTRE QUAND MICROSERVICE RS-PROCESSING ACTIF
-      //if (allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies)) {
-      tasks.push(this.props.fetchProcessingConfigurationList())
-      tasks.push(this.props.fetchProcessingMetadataList())
-      /*tasks.push(this.props.fetchLinkProcessingDataset())
-             tasks.push(this.props.updateLinkProcessingDataset())*/ // TODO: QUAND LE END POINT SERA DISPO
-      //}
+      if (this.state.processingDependencies) {
+        tasks.push(this.props.fetchProcessingConfigurationList())
+        tasks.push(this.props.fetchProcessingMetadataList())
+        tasks.push(this.props.fetchLinkProcessingDataset(this.props.params.datasetIpId))
+      }
       Promise.all(tasks)
-        .then(() => {
+        .then((results) => {
           const {
             pluginConfigurationList, pluginMetaDataList, linkPluginDataset,
             uiPluginConfigurationList, uiPluginDefinitionList, linkUIPluginDataset,
-            processingConfigurationList, processingMetadataList,
+            processingConfigurationList, processingMetadataList,                                                                                                             gMetadataList,
           } = this.props
 
-          // Rework of processingConfigurationList to match other conf shape
-          const newProcessingConfigurationList = processingConfigurationList
-          if (processingConfigurationList) {
-            for (const [key, object] of Object.entries(processingConfigurationList)) {
-              newProcessingConfigurationList[key].content = {
-                ...processingConfigurationList[key].content.pluginConfiguration,
-                label: processingConfigurationList[key].content.pluginConfiguration.parameters[0].value, // TODO : A VERIFIER AVEC LE BACK
-                pluginDefinition: {
-                  pluginId: processingConfigurationList[key].content.pluginConfiguration.pluginId,
-                },
-              }
+          // Build a global model
+          let initialDatasetLinksByType = {
+            [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
+            [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset }
+          }
+
+          if (this.state.processingDependencies) {
+            // Rework of processingConfigurationList to match other conf shape
+            const newProcessingConfigurationList = processingConfigurationList
+            if (processingConfigurationList) {
+              map(newProcessingConfigurationList, (processingConfiguration) => {
+                processingConfiguration.content = {
+                  ...processingConfiguration.content.pluginConfiguration,
+                  label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => {
+                    parameter.name === 'processName'
+                  }).value,
+                  pluginDefinition: {
+                    pluginId: processingConfiguration.content.pluginConfiguration.pluginId,
+                  },
+                }
+              })
+            }
+
+            // Create link object for processing to match other shapes
+            const linkProcessingPluginDataset = {
+              content: {
+                datasetId: this.props.params.datasetIpId,
+                services: map(results[8].payload, (onePayload) => onePayload.content),
+              },
+            }
+
+            initialDatasetLinksByType = {
+              ...initialDatasetLinksByType,
+              [DATASET_LINK_TYPE.PROCESSING]: { pluginConfs: newProcessingConfigurationList, metadatas: processingMetadataList, links: linkProcessingPluginDataset },
             }
           }
 
-          // Create link object for processing
-          // TODO : Modifier QUAND BACK OK
-          const linkProcessingPluginDataset = {
-            content: {
-              datasetId: this.props.datasetIpId,
-              linkId: 1,
-              services: [], // TODO : SI LE ENDPOINT LINKPROCESSINGDATASET RENVOIS QU'UNE LISTE ON LA CALE ICI
-            },
-          }
-
-          // Build a global model
-          const initialDatasetLinksByType = {
-            [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
-            [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset },
-            [DATASET_LINK_TYPE.PROCESSING]: { pluginConfs: newProcessingConfigurationList, metadatas: processingMetadataList, links: linkProcessingPluginDataset },
-          }
-
-          // editionModel will be modified by user, we will use it to call backend (if initialModel != editionModel) or not.
           this.setState({
             isLoading: false,
-            // la liste des processing ramnené au modele pivot
             initialDatasetLinksByType,
           })
         })
@@ -243,7 +249,11 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
           },
         )))
       }
-      // TODO AJOUTER UN IF SUR LE PROCESSING QUAND ENDPOINT OK
+      if (this.state.processingDependencies && !isEqual(componentState[DATASET_LINK_TYPE.PROCESSING], initialDatasetLinksByType[DATASET_LINK_TYPE.PROCESSING].links.content.services)) {
+        // We need to rework links for processing because back wants something specific
+        const newBusinessIdList = map(componentState[DATASET_LINK_TYPE.PROCESSING], (link) => link.businessId)
+        updateTasks.push(Promise.resolve(this.props.updateLinkProcessingDataset(this.props.params.datasetIpId, newBusinessIdList)))
+      }
       if (!isEmpty(updateTasks)) {
         Promise.all(updateTasks)
           .then(() => {
@@ -270,6 +280,7 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
               backUrl={this.getBackUrl()}
               currentDatasetIpId={datasetIpId}
               currentDatasetId={datasetId}
+              processingDependencies={this.state.processingDependencies}
             />
           </LoadableContentDisplayDecorator>
         </I18nProvider>

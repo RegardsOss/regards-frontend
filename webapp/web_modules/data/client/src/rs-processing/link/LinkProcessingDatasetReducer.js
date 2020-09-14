@@ -16,17 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicListReducers } from '@regardsoss/store-utils'
-import { LinkProcessingDatasetConfiguration } from '@regardsoss/api'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
 import LinkProcessingDatasetActions from './LinkProcessingDatasetActions'
 
 /**
- * Processing fetch reducer
+ * LinkProcessingDataset fetch reducer
  * @author Théo Lasserre
  */
-class LinkProcessingDatasetReducer extends BasicListReducers {
+class LinkProcessingDatasetReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(LinkProcessingDatasetConfiguration, new LinkProcessingDatasetActions(namespace))
+    super(new LinkProcessingDatasetActions(namespace))
   }
 }
 
