@@ -22,6 +22,7 @@ import compose from 'lodash/fp/compose'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
+import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import {
   CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
@@ -182,16 +183,17 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
             [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset }
           }
 
+          // We add Processing to the model only if rs-microservice is up in this project
           if (this.state.processingDependencies) {
             // Rework of processingConfigurationList to match other conf shape
             const newProcessingConfigurationList = processingConfigurationList
-            if (processingConfigurationList) {
+            if (newProcessingConfigurationList) {
               map(newProcessingConfigurationList, (processingConfiguration) => {
                 processingConfiguration.content = {
                   ...processingConfiguration.content.pluginConfiguration,
-                  label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => {
+                  label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => (
                     parameter.name === 'processName'
-                  }).value,
+                  )).value,
                   pluginDefinition: {
                     pluginId: processingConfiguration.content.pluginConfiguration.pluginId,
                   },
