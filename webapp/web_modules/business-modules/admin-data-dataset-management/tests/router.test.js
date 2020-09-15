@@ -33,15 +33,14 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
 
   it('should return the correct value', () => {
     assert.isDefined(Routes)
-    expect(Routes.childRoutes).to.have.length(8)
+    expect(Routes.childRoutes).to.have.length(7)
     expect(Routes.childRoutes[0].path).to.eq('list')
     expect(Routes.childRoutes[1].path).to.eq('create/datasource')
     expect(Routes.childRoutes[2].path).to.eq('create/:datasourceId')
     expect(Routes.childRoutes[3].path).to.eq(':datasetId/edit')
     expect(Routes.childRoutes[4].path).to.eq(':datasetId/files')
     expect(Routes.childRoutes[5].path).to.eq(':datasetId/links')
-    expect(Routes.childRoutes[6].path).to.eq(':datasetId/:datasetIpId/plugins')
-    expect(Routes.childRoutes[7].path).to.eq(':datasetId/:datasetIpId/ui-services')
+    expect(Routes.childRoutes[7].path).to.eq(':datasetId/:datasetIpId/pluginsUIprocessing')
   })
   it('list should return DatasetListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -79,15 +78,9 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
       done()
     })
   })
-  it('edit should return DatasetEditPluginContainer', (done) => {
+  it('edit should return DatasetEditPluginUIProcessingContainer', (done) => {
     Routes.childRoutes[6].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(DatasetEditPluginContainer)
-      done()
-    })
-  })
-  it('create should return DatasetEditUIServicesContainer', (done) => {
-    Routes.childRoutes[7].getComponents(undefined, (smth, component) => {
-      expect(component.content).to.eq(DatasetEditUIServicesContainer)
+      expect(component.content).to.eq(DatasetEditPluginUIProcessingContainer)
       done()
     })
   })
