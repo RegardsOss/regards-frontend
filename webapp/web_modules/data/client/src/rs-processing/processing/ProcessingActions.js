@@ -28,7 +28,7 @@ class ProcessingActions extends BasicListActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/process/config`,
-      entityPathVariable: 'id',
+      entityPathVariable: 'businessId',
       schemaTypes: {
         ENTITY: PROCESSING,
         ENTITY_ARRAY: PROCESSING_ARRAY,
