@@ -20,3 +20,4 @@
 export { AIP_REQUEST_STATUS, AIP_REQUEST_STATUS_ENUM } from './AIPRequestStatusEnum'
 export { AIP_REQUEST_TYPES, AIP_REQUEST_TYPES_ENUM } from './AIPRequestTypesEnum'
 export { AIP_STATUS, AIP_STATUS_ENUM } from './AIPStatusEnum'
+export { VERSIONING_MODES_ENUM, VERSIONING_MODES } from './VersioningModesEnum'

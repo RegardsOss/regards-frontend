@@ -91,6 +91,8 @@ export { default as DefaultModuleTitleComponent } from './module/DefaultModuleTi
 
 export { default as URLPicture } from './picture/URLPicture'
 export { default as URLPictureResolver } from './picture/URLPictureResolver'
+export { default as ZoomablePicture } from './picture/ZoomablePicture'
+export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
 
 // Table

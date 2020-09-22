@@ -41,7 +41,7 @@ import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray, StringComparison,
 } from '@regardsoss/form-utils'
-import { DataProviderDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
@@ -84,15 +84,31 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     ...themeContextType,
   }
 
-  static getNewIntialValues = () => ({
-    active: true,
-    fileInfos: [{
-      mandatory: true,
-    }],
-    categories: [],
-    mode: 'MANUAL',
-    periodicity: '0 * * * * *',
-  })
+  static INGEST_PROCESSING_CHAIN_CONFIG = {
+    text: 'name',
+    value: 'name',
+  }
+
+  /** Order versioning mode, as displayed to user */
+  static ORDERED_VERSIONING_MODES = [
+    IngestDomain.VERSIONING_MODES_ENUM.IGNORE,
+    IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
+    IngestDomain.VERSIONING_MODES_ENUM.REPLACE,
+    IngestDomain.VERSIONING_MODES_ENUM.MANUAL,
+  ]
+
+  static getNewIntialValues() {
+    return {
+      active: true,
+      fileInfos: [{
+        mandatory: true,
+      }],
+      versioningMode: IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
+      mode: 'MANUAL',
+      periodicity: '0 * * * * *',
+      categories: [],
+    }
+  }
 
   /**
    * Duplicate the given chain by removing parameters [id,label,locked,lastDateActivation].
@@ -283,10 +299,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
         break
     }
 
-    const ingestProcessingChainConfig = {
-      text: 'name',
-      value: 'name',
-    }
     const componentProps = { changeField: this.props.changeField }
     return (
       <form
@@ -317,12 +329,28 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.active' })}
                 />
                 <Field
+                  key="versioningMode"
+                  name="versioningMode"
+                  fullWidth
+                  component={RenderSelectField}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.version.mode' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.version.mode' })}
+                  validate={required}
+                >
+                  {AcquisitionProcessingChainFormComponent.ORDERED_VERSIONING_MODES.map((versionMode) => (
+                    <MenuItem
+                      key={versionMode}
+                      value={versionMode}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.version.mode.${versionMode}` })}
+                    />))}
+                </Field>
+                <Field
                   key="mode"
                   name="mode"
                   fullWidth
                   component={RenderSelectField}
-                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
-                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.starting.mode' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.starting.mode' })}
                   validate={required}
                 >
                   {map(DataProviderDomain.AcquisitionProcessingChainModes, (activationMode, key) => (
@@ -330,7 +358,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                       className={`selenium-pick-mode-${activationMode}`}
                       value={activationMode}
                       key={key}
-                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.mode.${activationMode}` })}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.starting.mode.${activationMode}` })}
                     />
                   ))}
                 </Field>
@@ -366,7 +394,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   entitiesFilterProperty="name"
                   entityActions={ingestProcessingChainActions}
                   entitiesPayloadKey={ingestProcessingChainEntitiesKey}
-                  entitiesConfig={ingestProcessingChainConfig}
+                  entitiesConfig={AcquisitionProcessingChainFormComponent.INGEST_PROCESSING_CHAIN_CONFIG}
                   validate={required}
                 />
                 <FieldArray

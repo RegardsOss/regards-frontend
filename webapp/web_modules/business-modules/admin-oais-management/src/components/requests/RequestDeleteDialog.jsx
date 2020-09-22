@@ -23,10 +23,11 @@ import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
 /**
- * Confirm action dialog component. Switches dialog mode,
+ * Confirm action dialog component to delete selection
  */
 export class RequestDeleteDialog extends React.Component {
   static propTypes = {
+    open: PropTypes.bool.isRequired,
     onConfirmDelete: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
@@ -37,7 +38,7 @@ export class RequestDeleteDialog extends React.Component {
   }
 
   render() {
-    const { onConfirmDelete, onClose } = this.props
+    const { open, onConfirmDelete, onClose } = this.props
     const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
 
     return (
@@ -60,7 +61,7 @@ export class RequestDeleteDialog extends React.Component {
           />
         </>}
         modal={false}
-        open
+        open={open}
       >
         <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' })}</div>
         <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>

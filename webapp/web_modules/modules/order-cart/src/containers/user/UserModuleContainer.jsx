@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { modulesManager } from '@regardsoss/modules'
@@ -25,9 +26,11 @@ import { modulesHelper } from '@regardsoss/modules-api'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
+import { Error } from 'window-or-global'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
 import { ModuleConfigurationShape } from '../../shapes/ModuleConfigurationShape'
 import OrderCartComponent from '../../components/user/OrderCartComponent'
+import OrderComponent from '../../components/user/options/OrderComponent'
 
 // get default modules client actions and reducers instances - required to check a basket exists AND is in a dynamic container
 const modulesSelectors = AccessProjectClient.getModuleSelectors()
@@ -90,7 +93,7 @@ export class UserModuleContainer extends React.Component {
       dispatchGetBasket: () => dispatch(orderBasketActions.getBasket()),
       dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
-      dispatchStartOrder: (onSucceedOrderURL) => dispatch(createOrderActions.order(onSucceedOrderURL)),
+      dispatchStartOrder: (label, onSucceedOrderURL) => dispatch(createOrderActions.order(label, onSucceedOrderURL)),
     }
   }
 
@@ -123,15 +126,19 @@ export class UserModuleContainer extends React.Component {
 
   /**
    * On order callback: dispatches order action then redirects user on order list if it was successful
+   * @param {string} orderLabel (optional)
    */
-  onOrder = () => {
+  onOrder = (orderLabel) => {
     const {
       dispatchStartOrder, dispatchFlushBasket, project, modules,
     } = this.props
     const onSucceedOrderURL = this.getOnSucceedOrderURL()
     // 1 − dispatch start order
-    dispatchStartOrder(onSucceedOrderURL).then(({ error }) => {
-      if (!error) {
+    return dispatchStartOrder(orderLabel, onSucceedOrderURL).then(({ error, payload, ...otherFields }) => {
+      if (error) {
+        // 1.A - error: return through promise catch an error holding the error key
+        throw new Error(get(payload, 'response.messages[0]', OrderComponent.UNKNOWN_SERVER_ERROR))
+      } else {
         // 2 - when there is no error, flush basket (without server call)
         dispatchFlushBasket()
         // 3 - redirect user to his orders list if there is an order module
@@ -140,6 +147,13 @@ export class UserModuleContainer extends React.Component {
           browserHistory.push(UIDomain.getModuleURL(project, orderHistoryModule.content.id))
         }
       }
+    }).catch((err) => {
+      // 1.B - when the error has been produced by then, propage it unchanged. Otherwise propagate an unknown error
+      if (OrderClient.CreateOrderActions.SERVER_ERRORS.includes(err.message) || err.message === OrderComponent.UNKNOWN_SERVER_ERROR) {
+        throw err
+      }
+      // 1.C - any other type of error
+      throw new Error(OrderComponent.UNKNOWN_SERVER_ERROR)
     })
   }
 

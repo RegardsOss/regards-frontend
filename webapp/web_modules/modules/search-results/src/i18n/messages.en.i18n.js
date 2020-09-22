@@ -29,7 +29,7 @@ const messages = {
   ...Locales.en,
   // units messages
   ...storage.messages.en,
-  // attributes common messages (used to format attributes locally)
+  // attributes common messages (used to format attributes locally and label/version)
   ...attributesCommonMsg.en,
 
   // Administration messages
@@ -88,7 +88,9 @@ const messages = {
   'search.results.form.configuration.search.pane.options.common.position.simple.reference': '#{index}',
   'search.results.form.configuration.search.pane.options.common.position.reference.with.label': '#{index} "{label}"',
   'search.results.form.configuration.search.pane.options.column.delete.tooltip': 'Delete',
-  'search.results.form.restrictions.configuration.display.types.message': 'Restrictions on results by dataset',
+  'search.results.form.restrictions.configuration.data.restrictions.title': 'Restriction on data',
+  'search.results.form.restrictions.configuration.data.last.version.only': 'Last version only',
+  'search.results.form.restrictions.configuration.dataset.restrictions.title': 'Restriction by dataset',
   'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restrict to selected dataset models',
@@ -165,7 +167,7 @@ const messages = {
   'view.type.selector.tooltip.for.LIST': 'Display results as list',
   'view.type.selector.tooltip.for.TABLE': 'Display results in table',
   'view.type.selector.tooltip.for.MAP': 'Display results over map',
-  'view.type.selector.tooltip.for.QUICKLOOK': 'Display results as pictures quicklooks',
+  'view.type.selector.tooltip.for.QUICKLOOK': 'Display results as quicklooks',
   'search.results.show.search.pane.label': 'Search',
   'search.results.show.search.pane.title': 'Show search pane',
   'search.results.refresh.label': 'Refresh',
@@ -222,6 +224,7 @@ const messages = {
   'search.filter.search.criteria.label': 'Search',
   'search.filter.static.reactive': 'Reactive this criteria',
 
+  'results.quicklooks.picture.alt': 'Quicklook',
   'results.map.tools.tooltip.for.PICK_ON_CLICK': 'Pick entities',
   'results.map.tools.tooltip.for.DRAW_RECTANGLE': 'Draw search area',
   'results.map.tools.tooltip.opacity': 'Change layer opacity',

@@ -30,7 +30,7 @@ class RenderSelectField extends React.Component {
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-    children: PropTypes.arrayOf(PropTypes.element),
+    children: PropTypes.node,
     fullWidth: PropTypes.bool,
     disabled: PropTypes.bool,
     onSelect: PropTypes.func,

@@ -115,7 +115,6 @@ class InfiniteTableContainer extends React.Component {
 
   static DEFAULT_STATE = {
     entities: [],
-    entitiesCount: 0, // inhibits he pageable behavior
     allColumns: [],
     tableHeight: 1,
     measuredHeight: 1,

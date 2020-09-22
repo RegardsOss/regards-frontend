@@ -22,8 +22,6 @@ import isNil from 'lodash/isNil'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../styles'
 
-// TODO v1.3 ===> EVERY RENDER SHOULD BE EXPORTED WITH CONTEXT! (stop importing FormMessages eveywhere)
-
 class RenderRadio extends React.Component {
   static contextTypes = {
     ...themeContextType,

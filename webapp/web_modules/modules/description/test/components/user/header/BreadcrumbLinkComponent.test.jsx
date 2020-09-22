@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { LabelVersionText } from '@regardsoss/attributes-common'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BreadcrumbLinkComponent from '../../../../src/components/user/header/BreadcrumbLinkComponent'
 import styles from '../../../../src/styles'
@@ -40,6 +41,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },
@@ -51,8 +53,8 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
-    // 1 - check label is both displayed and shown as tooltip
-    const { label } = props.descriptionEntity.entity.content
+    // 1 - check label is displayed as text and tooltip
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
@@ -66,6 +68,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },
@@ -77,8 +80,8 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
-    // 1 - check label is both displayed and shown as tooltip
-    const { label } = props.descriptionEntity.entity.content
+    // 1 - check label is displayed as text and tooltip
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used

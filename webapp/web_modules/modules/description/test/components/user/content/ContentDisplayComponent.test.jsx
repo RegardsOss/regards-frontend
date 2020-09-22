@@ -26,6 +26,8 @@ import TagsSectionPageComponent from '../../../../src/components/user/content/li
 import EntitiesSectionPageComponent from '../../../../src/components/user/content/list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from '../../../../src/components/user/content/list/file/FilesSectionPageComponent'
 import QuicklookViewComponent from '../../../../src/components/user/content/quicklook/QuicklookViewComponent'
+import VersionSectionPageComponent from '../../../../src/components/user/content/list/version/VersionSectionPageComponent'
+import VersionLinkComponent from '../../../../src/components/user/content/list/version/VersionLinkComponent'
 import styles from '../../../../src/styles'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../../../dumps/resolved.dump'
 import { BROWSING_SECTIONS_ENUM } from '../../../../src/domain/BrowsingSections'
@@ -64,6 +66,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -97,6 +100,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -134,6 +138,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
       isDescriptionAllowed: () => true,
@@ -274,6 +279,17 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     ExpectedComponent: URIContentDisplayer,
     expectedProperties: {
       uri: resolvedDataEntity.displayModel.otherFiles[0].uri,
+    },
+  }, {
+    label: 'ovther versions list',
+    selectedTreeEntry: {
+      section: BROWSING_SECTIONS_ENUM.OTHER_VERSIONS,
+    },
+    descriptionEntity: resolvedDataEntity,
+    ExpectedComponent: VersionSectionPageComponent,
+    expectedProperties: {
+      entities: resolvedDataEntity.displayModel.otherVersions,
+      onSelectEntityLink,
     },
   }]
   testCases.forEach(({

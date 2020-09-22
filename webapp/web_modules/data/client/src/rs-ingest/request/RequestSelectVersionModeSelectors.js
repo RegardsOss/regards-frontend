@@ -16,14 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CatalogDomain } from '@regardsoss/domain'
-import SearchEntitiesActions from './SearchEntitiesActions'
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * Actions to search for catalog documents
+ * Selector for RequestSelectVersionModeActions
+ * @author Raphaël Mechali
  */
-export default class CatalogDocumentEntityActions extends SearchEntitiesActions {
-  constructor(namespace) {
-    super(namespace, `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.CATALOG}/engines/${CatalogDomain.LEGACY_SEARCH_ENGINE}/documents/search`)
-  }
-}
+export default (storePath) => new BasicPageableSelectors(storePath)

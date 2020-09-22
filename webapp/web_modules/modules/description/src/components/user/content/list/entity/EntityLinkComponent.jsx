@@ -33,7 +33,7 @@ class EntityLinkComponent extends React.Component {
     entity: CatalogShapes.Entity.isRequired,
     isDescriptionAllowed: PropTypes.func.isRequired,
     allowSearching: PropTypes.bool,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
     // on search word tag
     onSearchEntity: PropTypes.func.isRequired,

@@ -42,6 +42,7 @@ describe('[Description] Testing HeaderBarComponent', () => {
   it('should render correctly with search option', () => {
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
       },
@@ -72,6 +73,7 @@ describe('[Description] Testing HeaderBarComponent', () => {
   it('should render correctly without search option', () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: ['plop'],
         primaryQuicklookGroup: 'primary',
       },

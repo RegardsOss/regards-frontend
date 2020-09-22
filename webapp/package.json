@@ -149,7 +149,7 @@
     "isomorphic-fetch": "~2.2.1",
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",
-    "mdi-material-ui": "4.23.0",
+    "mdi-material-ui": "^4.28.0",
     "mizar": "https://codeload.github.com/MizarWeb/Mizar/tar.gz/79a1aaf2134f97a4c75de35c40238c602cba0df3",
     "normalizr": "^2.3.1",
     "plotly.js": "^1.36.0",

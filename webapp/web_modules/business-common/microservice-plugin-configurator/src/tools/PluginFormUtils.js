@@ -161,12 +161,12 @@ class PluginFormUtils {
   static formatPluginParameterConf(parameterConf, parameterMetaData, forInit = false) {
     if (!parameterMetaData) {
       // Only remove null values from parameters
-      return isNil(parameterConf.value) ? null : parameterConf
+      return isNil(parameterConf.value) && !parameterConf.dynamic ? null : parameterConf
     }
     if (parameterMetaData.unconfigurable) {
       return null
     }
-    if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== parameterMetaData.defaultValue) || parameterConf.dynamic === true)) {
+    if (parameterConf && ((!isNil(parameterConf.value) && parameterConf.value !== parameterMetaData.defaultValue) || parameterConf.dynamic)) {
       // For both initialization && submition, if a value is specified set the parameterConf with the given value or if not, set with default value
       const formatedParamterConf = cloneDeep(parameterConf)
       formatedParamterConf.value = PluginFormUtils.formatParameterConf(parameterConf.value, parameterMetaData, forInit)
@@ -215,7 +215,7 @@ class PluginFormUtils {
       const parameterMetaData = pluginMetaData ? find(pluginMetaData.parameters, { name: p.name }) : null
       const formatedParameter = PluginFormUtils.formatPluginParameterConf(p, parameterMetaData, forInit)
       if (formatedParameter !== null) {
-        if (forInit || (formatedParameter.value !== null && formatedParameter.value.length !== 0)) {
+        if (forInit || (formatedParameter.dynamic || (formatedParameter.value !== null && formatedParameter.value.length !== 0))) {
           parametersWithoutEmpty.push(formatedParameter)
         }
       }

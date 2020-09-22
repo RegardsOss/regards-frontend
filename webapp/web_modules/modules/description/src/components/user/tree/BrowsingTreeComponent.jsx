@@ -27,6 +27,7 @@ import SectionCellComponent from './cells/links/SectionCellComponent'
 import FileCellComponent from './cells/links/FileCellComponent'
 import TagCellComponent from './cells/links/TagCellComponent'
 import EntityCellComponent from './cells/links/EntityCellComponent'
+import VersionCellComponent from './cells/links/VersionCellComponent'
 import SearchEntityCellComponent from './cells/options/SearchEntityCellComponent'
 import SearchTagCellComonent from './cells/options/SearchTagCellComonent'
 import DownloadCellComponent from './cells/options/DownloadCellComponent'
@@ -44,11 +45,11 @@ class BrowsingTreeComponent extends React.Component {
     isDescriptionAllowed: PropTypes.func.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
     // Callback: user searched for a word tag (tag:string) => ()
     onSearchWord: PropTypes.func.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
   }
 
@@ -65,6 +66,7 @@ class BrowsingTreeComponent extends React.Component {
     DOWNLOAD_FILE: 'DOWNLOAD_FILE',
     ENTITY: 'ENTITY',
     SEARCH_ENTITY: 'SEARCH_ENTITY',
+    VERSION: 'VERSION',
     TAG: 'TAG',
     SEARCH_TAG: 'SEARCH_TAG',
     EMPTY_CELL: 'EMPTY_CELL',
@@ -197,6 +199,7 @@ class BrowsingTreeComponent extends React.Component {
       couplingTags,
       linkedEntities,
       linkedDocuments,
+      otherVersions,
     },
   }) => [
     // 1 - Parameters section row
@@ -227,6 +230,10 @@ class BrowsingTreeComponent extends React.Component {
     BrowsingTreeComponent.buildlListSectionRow(
       BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
       otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
+    // 9 - Other entity versions
+    BrowsingTreeComponent.buildlListSectionRow(
+      BROWSING_SECTIONS_ENUM.OTHER_VERSIONS, BrowsingTreeComponent.CELL_TYPES.VERSION, otherVersions,
+      null, selectedTreeEntry),
   ].filter((row) => !!row) // remove null rows
 
   /**
@@ -262,6 +269,7 @@ class BrowsingTreeComponent extends React.Component {
             case BrowsingTreeComponent.CELL_TYPES.COUPLED_TAGS:
             case BrowsingTreeComponent.CELL_TYPES.LINKED_DOCUMENTS:
             case BrowsingTreeComponent.CELL_TYPES.FILES:
+            case BrowsingTreeComponent.CELL_TYPES.OTHER_VERSIONS:
               return <SectionCellComponent type={type} selected={selected} onSelectInnerLink={onSelectInnerLink} />
             case BrowsingTreeComponent.CELL_TYPES.ENTITY:
               return <EntityCellComponent
@@ -286,6 +294,11 @@ class BrowsingTreeComponent extends React.Component {
                 />)
             case BrowsingTreeComponent.CELL_TYPES.DOWNLOAD_FILE:
               return <DownloadCellComponent file={data} />
+            case BrowsingTreeComponent.CELL_TYPES.VERSION:
+              return <VersionCellComponent
+                entity={data}
+                onSelectEntityLink={onSelectEntityLink}
+              />
             case BrowsingTreeComponent.CELL_TYPES.EMPTY_CELL:
               return null
             default:

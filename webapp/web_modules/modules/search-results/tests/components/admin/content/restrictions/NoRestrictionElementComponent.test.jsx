@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import NoMatchingDataIcon from 'mdi-material-ui/FilterRemoveOutline'
-import NoExistingDataIcon from 'mdi-material-ui/SettingsOutline'
+import NoExistingDataIcon from 'mdi-material-ui/CogOutline'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
@@ -41,7 +41,7 @@ describe('[SEARCH RESULTS] Testing NoRestrictionElementComponent', () => {
   })
   it('should render correctly when filter no data, for selected datasets restriction', () => {
     const props = {
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       allElements: [{
         id: 'ds1',
         label: 'Tests dataset 1',
@@ -58,7 +58,7 @@ describe('[SEARCH RESULTS] Testing NoRestrictionElementComponent', () => {
   })
   it('should render correctly when no dataset have been found, for selected datasets restriction', () => {
     const props = {
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       allElements: [],
     }
     const enzymeWrapper = shallow(<NoRestrictionElementComponent {...props} />, { context })
@@ -72,7 +72,7 @@ describe('[SEARCH RESULTS] Testing NoRestrictionElementComponent', () => {
   })
   it('should render correctly when filter no data, for selected dataset models restriction', () => {
     const props = {
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
       allElements: [{
         id: 'dsm1',
         label: 'Test dataset model 1',
@@ -89,7 +89,7 @@ describe('[SEARCH RESULTS] Testing NoRestrictionElementComponent', () => {
   })
   it('should render correctly when no dataset model have been found, for selected dataset models restriction', () => {
     const props = {
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
       allElements: [],
     }
     const enzymeWrapper = shallow(<NoRestrictionElementComponent {...props} />, { context })

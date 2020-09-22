@@ -30,7 +30,7 @@ class EntitiesSectionPageComponent extends React.Component {
     isDescriptionAllowed: PropTypes.func.isRequired,
     allowSearching: PropTypes.bool,
     onSearchEntity: PropTypes.func.isRequired,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
 

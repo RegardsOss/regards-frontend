@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { UIShapes } from '@regardsoss/shape'
-import { themeContextType } from '@regardsoss/theme'
-import { EntityTypeIcon } from '@regardsoss/entities-common'
 import { UIDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { LabelVersionText } from '@regardsoss/attributes-common'
+import { EntityTypeIcon } from '@regardsoss/entities-common'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 
 /**
@@ -37,6 +39,7 @@ class BreadcrumbLinkComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -50,6 +53,7 @@ class BreadcrumbLinkComponent extends React.Component {
 
   render() {
     const {
+      intl: { formatMessage },
       moduleTheme: {
         user: {
           header: {
@@ -64,11 +68,12 @@ class BreadcrumbLinkComponent extends React.Component {
       UIDomain.isDocumentEntity(settings, entity))
     // Select styles for entity state (selected or not)
     const { root, icon, text } = selected ? selectedLink : unselectedLink
+    const label = LabelVersionText.formatLabel(formatMessage, entity, settings)
     return (
       <div style={root} onClick={this.onClick}>
         <IconConstructor style={icon.style} color={icon.color} />
-        <div style={text} title={entity.content.label}>
-          {entity.content.label}
+        <div style={text} title={label}>
+          {label}
         </div>
       </div>
     )

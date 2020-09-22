@@ -213,13 +213,13 @@ export class AdminContainer extends React.Component {
       // ... If the dataset restrictions changed, or at initialization, update locally available attributes
       // a - recover current restrictions from form values (or default ones)
       const datasetRescriction = get(form, `${currentNamespace}.restrictions.byDataset`, {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
         selection: [],
       })
       // b - recover previous restrictions (or default ones)
       const oldAdminForm = get(oldProps, 'adminForm', {})
       const oldDatasetRestrictions = get(oldAdminForm, `form.${oldAdminForm.currentNamespace}.restrictions.byDataset`, {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
         selection: [],
       })
       if (!oldProps || !isEqual(oldDatasetRestrictions, datasetRescriction)) {
@@ -239,12 +239,12 @@ export class AdminContainer extends React.Component {
 
   /**
    * Updates the list of selectable attributes on dataset restrictions change
-   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM values
+   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM values
    * @param {[string]} selection applying selection for restriction type
    */
-  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection = []) => {
-    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
-    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
+  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE, selection = []) => {
+    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
+    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
     return Promise.all([
       this.props.fetchDataObjectAttributes(modelNames, datasetIds),
       this.props.fetchDataSetAttributes(modelNames, datasetIds),

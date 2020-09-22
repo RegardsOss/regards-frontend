@@ -37,7 +37,7 @@ export const configuration = {
   },
   restrictions: {
     byDataset: {
-      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       selection: ['URN:DATASET:EXAMPLE1'],
     },
   },

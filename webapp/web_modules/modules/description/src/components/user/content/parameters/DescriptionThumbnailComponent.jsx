@@ -18,6 +18,7 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { ZoomablePicture } from '@regardsoss/components'
 import { FileData } from '../../../../shapes/DescriptionState'
 
 /**
@@ -38,9 +39,9 @@ class ThumbnailComponent extends React.Component {
     const { thumbnail: { uri, label } } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { content: { parameters } } } } } = this.context
     return (
-      <img
-        src={uri}
+      <ZoomablePicture
         style={parameters.thumbnail}
+        normalPicURL={uri}
         alt={formatMessage({ id: 'module.description.content.parameters.thumbnail.alt.text' }, { label })}
       />)
   }

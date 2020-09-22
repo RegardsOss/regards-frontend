@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import NoMatchingDataIcon from 'mdi-material-ui/FilterRemoveOutline'
-import NoExistingDataIcon from 'mdi-material-ui/SettingsOutline'
+import NoExistingDataIcon from 'mdi-material-ui/CogOutline'
 import { UIDomain } from '@regardsoss/domain'
 import { NoContentComponent } from '@regardsoss/components'
 
@@ -27,7 +27,7 @@ import { NoContentComponent } from '@regardsoss/components'
  */
 class NoRestrictionElementComponent extends React.Component {
   static propTypes = {
-    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESCRICTIONS_TYPES).isRequired,
+    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESTRICTIONS_TYPES).isRequired,
     allElements: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
@@ -39,7 +39,7 @@ class NoRestrictionElementComponent extends React.Component {
     // Compute the current no data case: does it come for filtering or initial objects pool?
     const isFilterNoData = allElements.length > 0
     let messageKey
-    if (currentRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS) {
+    if (currentRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS) {
       messageKey = isFilterNoData
         ? 'search.results.form.restrictions.configuration.no.dataset.matching.message'
         : 'search.results.form.restrictions.configuration.no.dataset.existing.message'

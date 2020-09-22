@@ -30,7 +30,7 @@ class EntityCellComponent extends React.Component {
     entity: CatalogShapes.Entity,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
     isDescriptionAllowed: PropTypes.func.isRequired,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
 

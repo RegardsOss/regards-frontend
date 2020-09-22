@@ -308,6 +308,7 @@ const styles = (theme) => ({
             margin: theme.module.description.parameters.thumbnail.margin,
             objectFit: 'contain',
             alignSelf: 'flex-start',
+            cursor: 'zoom-in',
             flexGrow: 0,
             flexShrink: 0,
           },

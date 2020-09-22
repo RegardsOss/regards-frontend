@@ -63,26 +63,6 @@ export class I18nProvider extends React.Component {
     ...i18nContextType,
   }
 
-  /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
-   */
-  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
-
-  /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-  /**
-   * Properties change detected: update local state
-   * @param oldProps previous component properties
-   * @param newProps next component properties
-   */
-  onPropertiesUpdated = (oldProps, newProps) => {
-    // TODO
-  }
-
   render() {
     const { messages, stackCallingContext, locale } = this.props
     if (!messages) {

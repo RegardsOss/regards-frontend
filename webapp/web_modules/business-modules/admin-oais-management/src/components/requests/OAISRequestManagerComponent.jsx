@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import clone from 'lodash/clone'
 import isEqual from 'lodash/isEqual'
-import isEmpty from 'lodash/isEmpty'
+import map from 'lodash/map'
+import values from 'lodash/values'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -27,18 +27,15 @@ import NoContentIcon from 'mdi-material-ui/CropFree'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
-  TableSelectionModes, NoContentComponent,
+  TableSelectionModes, NoContentComponent, TableHeaderLine,
 } from '@regardsoss/components'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonDomain, IngestDomain } from '@regardsoss/domain'
 import FlatButton from 'material-ui/FlatButton'
-import AvReplay from 'mdi-material-ui/Replay'
-import Stop from 'mdi-material-ui/Stop'
-import Delete from 'mdi-material-ui/Delete'
+
 import Dialog from 'material-ui/Dialog'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { requestActions, requestSelectors } from '../../clients/RequestClient'
 import messages from '../../i18n'
 import styles from '../../styles'
@@ -51,9 +48,9 @@ import RequestRetryOption from './RequestRetryOption'
 import RequestStatusRenderCell from './RequestStatusRenderCell'
 import RequestErrorDetailsComponent from './RequestErrorDetailsComponent'
 import RequestTypeRenderCell from './RequestTypeRenderCell'
-import dependencies from '../../dependencies'
-
-const ResourceFlatButton = withResourceDisplayControl(FlatButton)
+import VersionOptionSelectionDialog from './VersionOptionSelectionDialog'
+import RequestOperationsMenuContainer from '../../containers/requests/RequestOperationsMenuContainer'
+import AbortAllRequestsDialog from './AbortAllRequestsDialog'
 
 /**
  * Displays the list of OAIS packages
@@ -61,27 +58,34 @@ const ResourceFlatButton = withResourceDisplayControl(FlatButton)
  */
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
-    updateStateFromRequestManager: PropTypes.func.isRequired,
-    pageMeta: PropTypes.shape({ // use only in onPropertiesUpdate
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
+    pageMeta: CommonShapes.PageMetadata.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
-    fetchPage: PropTypes.func.isRequired,
+    modeSelectionAllowed: PropTypes.bool.isRequired,
     clearSelection: PropTypes.func.isRequired,
-    selectionMode: PropTypes.string.isRequired,
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     tableSelection: PropTypes.arrayOf(IngestShapes.RequestEntity),
+    fetchPage: PropTypes.func.isRequired,
+    updateStateFromRequestManager: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
+    selectVersionOption: PropTypes.func.isRequired,
     abortRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  /** Possible dialog types for requests */
+  static DIALOG_TYPES = {
+    errorsDialog: 'errorsDialog',
+    retryDialog: 'retryDialog',
+    deleteDialog: 'deleteDialog',
+    versionOptionSelectionDialog: 'versionOptionSelectionDialog',
+    abortDialog: 'abortDialog',
   }
 
   static EMPTY_COMPONENT = <NoContentComponent
@@ -137,19 +141,38 @@ export class OAISRequestManagerComponent extends React.Component {
     return contextRequestBodyParameters
   }
 
+  static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+
   state = {
     contextRequestBodyParameters: {},
     contextRequestURLParameters: {},
     appliedFilters: {},
     columnsSorting: [],
-    // retryPayload: {},
-    // retryErrors: [],
-    isRetryDialogOpened: false,
-    isRetrySelectionDialogOpened: false,
-    // deletionPayload: {},
-    // deletionErrors: [],
-    isDeleteDialogOpened: false,
-    isDeleteSelectionDialogOpened: false,
+    [OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [], // included or excluded depending on mode
+    },
+    [OAISRequestManagerComponent.DIALOG_TYPES.versionOptionSelectionDialog]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
+    [OAISRequestManagerComponent.DIALOG_TYPES.retryDialog]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
+    [OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
+    [OAISRequestManagerComponent.DIALOG_TYPES.abortDialog]: {
+      open: false,
+      mode: TableSelectionModes.excludeSelected,
+      entities: [],
+    },
   }
 
   /**
@@ -198,14 +221,6 @@ export class OAISRequestManagerComponent extends React.Component {
     fetchPage(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
   }
 
-  getColumnSortingData = (sortKey) => {
-    const { columnsSorting } = this.state
-    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
-    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
-  }
-
-  buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISRequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
-
   onSort = (columnSortKey, order) => {
     const { columnsSorting } = this.state
 
@@ -221,7 +236,7 @@ export class OAISRequestManagerComponent extends React.Component {
     this.setState({
       columnsSorting: newColumnSorting,
       contextRequestURLParameters: {
-        sort: this.buildSortURL(newColumnSorting),
+        sort: OAISRequestManagerComponent.buildSortURL(newColumnSorting),
       },
     })
   }
@@ -234,331 +249,205 @@ export class OAISRequestManagerComponent extends React.Component {
     this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters)
   }
 
-  changeStateFilter = (event, index, values) => {
+  onChangeStateFilter = (event, index, filterValues) => {
     const { updateStateFromRequestManager } = this.props
-    const finalNewValue = values && values !== '' ? values : undefined
+    const finalNewValue = filterValues && filterValues !== '' ? filterValues : undefined
     updateStateFromRequestManager({ state: finalNewValue })
   }
 
-  changeTypeFilter = (event, index, values) => {
+  onChangeTypeFilter = (event, index, filterValues) => {
     const { updateStateFromRequestManager } = this.props
-    const finalNewValue = values && values !== '' ? values : undefined
+    const finalNewValue = filterValues && filterValues !== '' ? filterValues : undefined
     updateStateFromRequestManager({ type: finalNewValue })
   }
 
-  onViewRequestErrors = (requestErrorsToView) => {
-    this.setState({
-      requestErrorsToView: requestErrorsToView || null,
-    })
-  }
+  /**
+   * Inner callback: Opens dialog corresopnding to request type
+   * @param {string} mode selection mode from TableSelectionModes
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   * @param {string} dialogRequestType dialog type for the request to handle, from OAISRequestManagerComponent.DIALOG_TYPES
+   */
+  onOpenActionDialog = (mode, entities, dialogRequestType) => this.setState({
+    [dialogRequestType]: {
+      open: true,
+      mode,
+      entities,
+    },
+  })
 
-  onCloseRequestErrors = () => {
-    this.setState({
-      requestErrorsToView: null,
-    })
-  }
+  /**
+   * Callback: On view request error for request as parameter (shows corresponding dialog)
+   * @param {[*]} entity to view as an IngestShapes.RequestEntity
+   */
+  onViewRequestErrors = (entity) => this.onOpenActionDialog(TableSelectionModes.includeSelected, [entity], OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog)
 
-  renderRequestErrorsDetail = () => {
-    const { intl } = this.context
-    const { requestErrorsToView } = this.state
-    if (requestErrorsToView) {
-      return (
-        <Dialog
-          title={intl.formatMessage({ id: 'oais.aips.list.aip-details.title' })}
-          open
-        >
-          <RequestErrorDetailsComponent
-            entity={requestErrorsToView}
-            onClose={this.onCloseRequestErrors}
-          />
-        </Dialog>
-      )
+  /**
+   * Callback: On select version option for requests as parameter (shows corresponding dialog)
+   * @param {string} mode selection mode from TableSelectionModes
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onSelectVersionOption = (mode, entities) => this.onOpenActionDialog(mode, entities, OAISRequestManagerComponent.DIALOG_TYPES.versionOptionSelectionDialog)
+
+  /**
+   * Callback: On retry requests for selection as parameter (shows corresponding dialog)
+   * @param {string} mode selection mode from TableSelectionModes
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onRetry = (mode, entities) => this.onOpenActionDialog(mode, entities, OAISRequestManagerComponent.DIALOG_TYPES.retryDialog)
+
+  /**
+   * Callback: On delete requests for selection as parameter (shows corresponding dialog)
+   * @param {string} mode selection mode from TableSelectionModes
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onDelete = (mode, entities) => this.onOpenActionDialog(mode, entities, OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog)
+
+  /** Callback: On delete requests for selection as parameter (shows corresponding dialog). Mode and selection are ignored (always all selected) */
+  onAbort = () => this.onOpenActionDialog(TableSelectionModes.excludeSelected, [], OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
+
+  /**
+   * Inner callback: closes dialog corresponding to request type
+   * @param {string} dialogRequestType dialog type for the request to handle, from OAISRequestManagerComponent.DIALOG_TYPES
+   */
+  onCloseActionDialog = (dialogRequestType) => this.setState({
+    [dialogRequestType]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+    },
+  })
+
+  /** Callback: closes request errors dialog */
+  onCloseRequestErrors = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog)
+
+  /** Callback: closes version options selection dialog */
+  onCloseVersionOptionSelectionDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.versionOptionSelectionDialog)
+
+  /** Callback: closes retry dialog */
+  onCloseRetryDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.retryDialog)
+
+  /** Callback: closes delete dialog */
+  onCloseDeleteDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog)
+
+  /** Callback: closes abort dialog */
+  onCloseAbortDialog = () => this.onCloseActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
+
+  /**
+   * Inner callback: confirms action dialog. It:
+   * - Hides corresponding dialog
+   * - Converts payload to send server action
+   * @param {string} dialogRequestType dialog type for the request to handle, from OAISRequestManagerComponent.DIALOG_TYPES
+   * @return {*} payload for server action
+   */
+  onConfirmActionDialog = (dialogRequestType) => {
+    const { mode, entities } = this.state[dialogRequestType]
+    this.onCloseActionDialog(dialogRequestType)
+    return {
+      ...this.state.contextRequestBodyParameters,
+      requestIdSelectionMode: mode === TableSelectionModes.includeSelected
+        ? OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE
+        : OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
+      requestIds: entities.map((e) => e.content.id),
     }
-    return null
   }
 
+  /**
+   * User callback: version selection confirmed for selection as parameter, send to server
+   * @param {string} newVersioningMode selected by user in IngestDomain.VERSIONING_MODES_ENUM
+   */
+  onConfirmVersionOptionSelectionDialog = (newVersioningMode) => {
+    const { selectVersionOption } = this.props
+    const payload = this.onConfirmActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.versionOptionSelectionDialog)
+    selectVersionOption({
+      ...payload,
+      newVersioningMode,
+    })
+  }
+
+  /** User callback: retry confirmed for selection as parameter, send to server */
   onConfirmRetry = () => {
-    this.onCloseRetryDialog()
-    this.onCloseRetrySelectionDialog()
-    const { retryPayload, contextRequestBodyParameters } = this.state
     const { retryRequests } = this.props
-    const finalRetryPayload = {
-      ...contextRequestBodyParameters,
-      ...retryPayload,
-    }
-    retryRequests(finalRetryPayload)
+    const payload = this.onConfirmActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.retryDialog)
+    retryRequests(payload)
   }
 
-  onRetry = (requestToRetry) => {
-    this.setState({
-      isRetryDialogOpened: true,
-      retryPayload: {
-        selectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-        requestIds: [
-          requestToRetry.content.id,
-        ],
-      },
-    })
-  }
-
-  onCloseRetryDialog = () => {
-    this.setState({
-      isRetryDialogOpened: false,
-    })
-  }
-
-  renderRetryConfirmDialog = () => {
-    const { isRetryDialogOpened } = this.state
-    if (isRetryDialogOpened) {
-      return (
-        <RequestRetryDialog
-          onConfirmRetry={this.onConfirmRetry}
-          onClose={this.onCloseRetryDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  onRetrySelection = () => {
-    const { tableSelection, selectionMode } = this.props
-
-    switch (selectionMode) {
-      case TableSelectionModes.includeSelected:
-        this.setState({
-          isRetrySelectionDialogOpened: true,
-          retryPayload: {
-            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            requestIds: map(tableSelection, (entity) => entity.content.id),
-          },
-        })
-        break
-      case TableSelectionModes.excludeSelected:
-        this.setState({
-          isRetrySelectionDialogOpened: true,
-          retryPayload: {
-            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            requestIds: map(tableSelection, (entity) => entity.content.id),
-          },
-        })
-        break
-      default:
-        break
-    }
-  }
-
-  onCloseRetrySelectionDialog = () => {
-    this.setState({
-      isRetrySelectionDialogOpened: false,
-    })
-  }
-
-  renderRetrySelectionConfirmDialog = () => {
-    const { isRetrySelectionDialogOpened } = this.state
-
-    if (isRetrySelectionDialogOpened) {
-      return (
-        <RequestRetryDialog
-          onConfirmRetry={this.onConfirmRetry}
-          onClose={this.onCloseRetrySelectionDialog}
-        />
-      )
-    }
-    return null
-  }
-
+  /** User callback: delete confirmed for selection as parameter, send to server */
   onConfirmDelete = () => {
-    this.onCloseDeleteDialog()
-    this.onCloseDeleteSelectionDialog()
-    const { deletionPayload, contextRequestBodyParameters } = this.state
     const { deleteRequests } = this.props
-    const finalDeletionPayload = {
-      ...contextRequestBodyParameters,
-      ...deletionPayload,
-    }
-    deleteRequests(finalDeletionPayload)
+    const payload = this.onConfirmActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog)
+    deleteRequests(payload)
   }
 
-  onDelete = (requestToDelete) => {
-    this.setState({
-      isDeleteDialogOpened: true,
-      deletionPayload: {
-        selectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-        requestIds: [
-          requestToDelete.content.id,
-        ],
-      },
-    })
-  }
-
-  onCloseDeleteDialog = () => {
-    this.setState({
-      isDeleteDialogOpened: false,
-    })
-  }
-
-  renderDeleteConfirmDialog = () => {
-    const { isDeleteDialogOpened } = this.state
-    if (isDeleteDialogOpened) {
-      return (
-        <RequestDeleteDialog
-          onConfirmDelete={this.onConfirmDelete}
-          onClose={this.onCloseDeleteDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  onDeleteSelection = () => {
-    const { selectionMode } = this.props
-
-    switch (selectionMode) {
-      case TableSelectionModes.includeSelected:
-        this.setState({
-          isDeleteSelectionDialogOpened: true,
-          deletionPayload: {
-            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-          },
-        })
-        break
-      case TableSelectionModes.excludeSelected:
-        this.setState({
-          isDeleteSelectionDialogOpened: true,
-          deletionPayload: {
-            requestIdSelectionMode: OAISRequestManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-          },
-        })
-        break
-      default:
-        break
-    }
-  }
-
-  onCloseDeleteSelectionDialog = () => {
-    this.setState({
-      isDeleteSelectionDialogOpened: false,
-    })
-  }
-
-  renderDeleteSelectionConfirmDialog = () => {
-    const { isDeleteSelectionDialogOpened } = this.state
-    if (isDeleteSelectionDialogOpened) {
-      return (
-        <RequestDeleteDialog
-          onConfirmDelete={this.onConfirmDelete}
-          onClose={this.onCloseDeleteSelectionDialog}
-        />
-      )
-    }
-    return null
-  }
-
-  onAbortSelection = () => {
+  /** Callback: applies abort */
+  onConfirmAbort = () => {
     const { abortRequests } = this.props
+    this.onConfirmActionDialog(OAISRequestManagerComponent.DIALOG_TYPES.abortDialog)
     abortRequests()
+  }
+
+  getColumnSortingData = (sortKey) => {
+    const { columnsSorting } = this.state
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
   }
 
   render() {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      pageSize, tableSelection, selectionMode, requestFilters,
+      tableSelection, selectionMode, requestFilters, modeSelectionAllowed,
+      pageSize, pageMeta,
     } = this.props
     const { contextRequestURLParameters, contextRequestBodyParameters } = this.state
-    const columns = [
-      new TableColumnBuilder()
-        .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
-        .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ID).titleHeaderCell().propertyRenderCell('content.providerId')
-        .label(formatMessage({ id: 'oais.requests.list.filters.providerId' }))
-        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.ID), this.onSort)
-        .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell()
-        .propertyRenderCell('content.dtype', RequestTypeRenderCell)
-        .label(formatMessage({ id: 'oais.requests.list.filters.type' }))
-        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), this.onSort)
-        .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell()
-        .rowCellDefinition({ Constructor: RequestStatusRenderCell, props: { onViewRequestErrors: this.onViewRequestErrors } })
-        .label(formatMessage({ id: 'oais.requests.list.filters.state' }))
-        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.STATE), this.onSort)
-        .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
-        .label(formatMessage({ id: 'oais.requests.list.filters.lastSubmission' }))
-        .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED), this.onSort)
-        .build(),
-      new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
-        .label(formatMessage({ id: 'oais.requests.list.filters.actions' }))
-        .optionsColumn([
-          {
-            OptionConstructor: RequestRetryOption,
-            optionProps: { onRetry: this.onRetry },
-          },
-          {
-            OptionConstructor: RequestDeleteOption,
-            optionProps: { onDelete: this.onDelete },
-          }])
-        .build(),
-    ]
     return (
       <div>
         <TableLayout>
-          <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
-            <TableHeaderOptionGroup key="first">
-              <SelectField
-                autoWidth
-                style={filter.fieldStyle}
-                hintText={formatMessage({ id: 'oais.requests.list.filters.type' })}
-                value={requestFilters ? requestFilters.type : null}
-                onChange={this.changeTypeFilter}
-              >
-                <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.type.any' })} />
-                {IngestDomain.AIP_REQUEST_TYPES.map((type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.type.${type}` })} />)}
-              </SelectField>
-              <SelectField
-                autoWidth
-                style={filter.fieldStyle}
-                hintText={formatMessage({ id: 'oais.packages.list.filters.state' })}
-                value={requestFilters ? requestFilters.state : null}
-                onChange={this.changeStateFilter || ''}
-              >
-                <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.status.any' })} />
-                {IngestDomain.AIP_REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
-              </SelectField>
-            </TableHeaderOptionGroup>
-            <TableHeaderOptionGroup>
-              <ResourceFlatButton
-                resourceDependencies={dependencies.retryRequestDependency}
-                hideDisabled
-                key="retry"
-                label={formatMessage({ id: 'oais.requests.list.filters.buttons.retry' })}
-                icon={<AvReplay />}
-                onClick={this.onRetrySelection}
-                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
-              />
-              <ResourceFlatButton
-                resourceDependencies={dependencies.deleteRequestDependency}
-                hideDisabled
-                key="delete"
-                label={formatMessage({ id: 'oais.requests.list.filters.buttons.delete' })}
-                icon={<Delete />}
-                onClick={this.onDeleteSelection}
-                disabled={isEmpty(tableSelection) && selectionMode === TableSelectionModes.includeSelected}
-              />
-              <FlatButton
-                key="abort"
-                label={formatMessage({ id: 'oais.requests.list.filters.buttons.abort' })}
-                icon={<Stop />}
-                onClick={this.onAbortSelection}
-              />
-              <FlatButton
-                label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
-                icon={<Refresh />}
-                onClick={this.onRefresh}
-              />
-            </TableHeaderOptionGroup>
-          </TableHeaderOptionsArea>
+          <TableHeaderLine key="table.options">
+            <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
+              <TableHeaderOptionGroup key="first">
+                <SelectField
+                  autoWidth
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({ id: 'oais.requests.list.filters.type' })}
+                  value={requestFilters ? requestFilters.type : null}
+                  onChange={this.onChangeTypeFilter}
+                >
+                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.type.any' })} />
+                  {IngestDomain.AIP_REQUEST_TYPES.map((type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.requests.type.${type}` })} />)}
+                </SelectField>
+                <SelectField
+                  autoWidth
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({ id: 'oais.packages.list.filters.state' })}
+                  value={requestFilters ? requestFilters.state : null}
+                  onChange={this.onChangeStateFilter}
+                >
+                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'oais.requests.status.any' })} />
+                  {IngestDomain.AIP_REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `oais.requests.status.${status}` })} />)}
+                </SelectField>
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+            <TableHeaderOptionsArea key="options" reducible>
+              <TableHeaderOptionGroup>
+                {/* selection and advanced options */}
+                <RequestOperationsMenuContainer
+                  selectionMode={selectionMode}
+                  tableSelection={tableSelection}
+                  pageMeta={pageMeta}
+                  onSelectVersionOption={this.onSelectVersionOption}
+                  onRetrySelection={this.onRetry}
+                  onDeleteSelection={this.onDelete}
+                  onAbort={this.onAbort}
+                />
+                {/* Data refresh */}
+                <FlatButton
+                  label={formatMessage({ id: 'oais.packages.switch-to.refresh' })}
+                  icon={<Refresh />}
+                  onClick={this.onRefresh}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
           <PageableInfiniteTableContainer
             name="request-management-table"
             pageActions={requestActions}
@@ -566,18 +455,85 @@ export class OAISRequestManagerComponent extends React.Component {
             pageSize={pageSize}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
-            columns={columns}
+            // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+            columns={[ // eslint wont fix: API issue
+              new TableColumnBuilder()
+                .selectionColumn(true, requestSelectors, requestTableActions, requestTableSelectors)
+                .build(),
+              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ID).titleHeaderCell().propertyRenderCell('content.providerId')
+                .label(formatMessage({ id: 'oais.requests.list.filters.providerId' }))
+                .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.ID), this.onSort)
+                .build(),
+              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.TYPE).titleHeaderCell()
+                .propertyRenderCell('content.dtype', RequestTypeRenderCell)
+                .label(formatMessage({ id: 'oais.requests.list.filters.type' }))
+                .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.TYPE), this.onSort)
+                .build(),
+              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.STATE).titleHeaderCell()
+                .rowCellDefinition({
+                  Constructor: RequestStatusRenderCell,
+                  props: {
+                    modeSelectionAllowed,
+                    onViewRequestErrors: this.onViewRequestErrors,
+                    onSelectVersionOption: this.onSelectVersionOption,
+                  },
+                })
+                .label(formatMessage({ id: 'oais.requests.list.filters.state' }))
+                .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.STATE), this.onSort)
+                .build(),
+              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
+                .label(formatMessage({ id: 'oais.requests.list.filters.lastSubmission' }))
+                .sortableHeaderCell(...this.getColumnSortingData(OAISRequestManagerComponent.COLUMN_KEYS.LASTSUBMITTED), this.onSort)
+                .build(),
+              new TableColumnBuilder(OAISRequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+                .label(formatMessage({ id: 'oais.requests.list.filters.actions' }))
+                .optionsColumn([
+                  {
+                    OptionConstructor: RequestRetryOption,
+                    optionProps: { onRetry: this.onRetry },
+                  },
+                  {
+                    OptionConstructor: RequestDeleteOption,
+                    optionProps: { onDelete: this.onDelete },
+                  }])
+                .build(),
+            ]}
             requestParams={contextRequestURLParameters}
             bodyParams={contextRequestBodyParameters}
             emptyComponent={OAISRequestManagerComponent.EMPTY_COMPONENT}
             fetchUsingPostMethod
           />
         </TableLayout>
-        {this.renderRequestErrorsDetail()}
-        {this.renderRetryConfirmDialog()}
-        {this.renderRetrySelectionConfirmDialog()}
-        {this.renderDeleteConfirmDialog()}
-        {this.renderDeleteSelectionConfirmDialog()}
+        { /** -------- Dialogs -------- **/ }
+        <Dialog // 1. errors
+          title={formatMessage({ id: 'oais.aips.list.aip-details.title' })}
+          open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog].open}
+        >
+          <RequestErrorDetailsComponent
+            entity={this.state[OAISRequestManagerComponent.DIALOG_TYPES.errorsDialog].entities[0]}
+            onClose={this.onCloseRequestErrors}
+          />
+        </Dialog>
+        <VersionOptionSelectionDialog // 2. version option selection
+          selection={this.state[OAISRequestManagerComponent.DIALOG_TYPES.versionOptionSelectionDialog]}
+          onClose={this.onCloseVersionOptionSelectionDialog}
+          onConfirm={this.onConfirmVersionOptionSelectionDialog}
+        />
+        <RequestRetryDialog // 3. retry
+          open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.retryDialog].open}
+          onConfirmRetry={this.onConfirmRetry}
+          onClose={this.onCloseRetryDialog}
+        />
+        <RequestDeleteDialog // 4. delete
+          open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.deleteDialog].open}
+          onConfirmDelete={this.onConfirmDelete}
+          onClose={this.onCloseDeleteDialog}
+        />
+        <AbortAllRequestsDialog // 5. abort all
+          open={this.state[OAISRequestManagerComponent.DIALOG_TYPES.abortDialog].open}
+          onConfirmAbort={this.onConfirmAbort}
+          onClose={this.onCloseAbortDialog}
+        />
       </div>
     )
   }
