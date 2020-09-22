@@ -85,7 +85,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
     assert.lengthOf(cardActionsWrapper, 1, 'There should have a card action component')
     testSuiteHelpers.assertWrapperProperties(cardActionsWrapper, {
       secondaryButtonLabel: 'processing.management.list.cancel.button',
-      secondaryButtonUrl: props.backUrl
+      secondaryButtonUrl: props.backUrl,
     })
   })
 })
