@@ -23,6 +23,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import styles from '../../styles'
 
+/**
+ * Info dialog for ProcessingMonitoring component
+ * @author Théo Lasserre
+ */
 export class ProcessingMonitoringEntityInfoDialog extends React.Component {
   static propTypes = {
     entity: ProcessingShapes.ProcessingMonitoring,

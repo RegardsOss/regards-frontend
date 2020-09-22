@@ -23,7 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Info action for processing monitoring
+ * Info Icon component for processing monitoring
  * @author Théo Lasserre
  */
 class ProccesingMonitoringInfo extends React.Component {

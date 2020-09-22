@@ -93,7 +93,8 @@ export class ProcessingFormComponent extends React.Component {
   }
 
   /**
-   * Update a processingConf from the given updated PluginConfiguration & SelectedRole.
+   * Update a processingConf from the given updated PluginConfiguration fields & SelectedRole field.
+   * @param {*} fields
    */
   updateProcessingConf = (fields) => {
     const { onUpdate, processing } = this.props
@@ -114,7 +115,7 @@ export class ProcessingFormComponent extends React.Component {
   }
 
   /**
-   * Create a processingConf from the given updated PluginConfiguration.
+   * Create a processingConf from the given updated PluginConfiguration fields.
    */
   createProcessingConf = (fields) => {
     const { onCreate } = this.props

@@ -136,6 +136,11 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     })
   }
 
+  /**
+   * Update filters
+   * @param {*} newStateValue
+   * @param {*} filterElement
+   */
   updateState(newStateValue, filterElement) {
     const { filters } = this.state
     const newState = {

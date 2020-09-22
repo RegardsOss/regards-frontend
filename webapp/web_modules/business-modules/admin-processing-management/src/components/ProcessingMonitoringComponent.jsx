@@ -127,7 +127,7 @@ export class ProcessingMonitoringComponent extends React.Component {
           <CardText>
             <TableLayout>
               <ProcessingMonitoringFiltersComponent
-                processingList={processingList}
+                processingList={processingList} // processingList is used for hints in filters
                 onRefresh={onRefresh}
               />
               <PageableInfiniteTableContainer

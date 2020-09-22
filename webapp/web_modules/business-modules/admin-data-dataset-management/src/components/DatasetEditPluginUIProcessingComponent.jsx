@@ -118,6 +118,14 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
       tabValue: DATASET_LINK_TYPE.PLUGIN,
     }
 
+    /**
+     * We need to check if at least one conf exist for one metadata.
+     * Used in renderList to display confs or a NoContentComponent
+     * @param {*} pluginConfs
+     * @param {*} metadatas
+     * @param {*} datasetLinkId
+     * @param {*} datasetLinkType
+     */
     checkOnePluginConfByMetadataExist = (pluginConfs, metadatas, datasetLinkId, datasetLinkType) => {
       let ret = false
       if (!isEmpty(pluginConfs) && !isEmpty(metadatas)) {
@@ -126,6 +134,10 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
       return ret
     }
 
+    /**
+     * Browser redirections to create a conf (Plugin, UIPlugin or Processing)
+     * @param {*} datasetLinkType
+     */
     createConfiguration = (datasetLinkType) => {
       const { project } = this.props
       // First we submit change on this form
@@ -250,6 +262,7 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
      * Check if pluginConf is in state activated list
      * @param {*} linkList
      * @param {*} pluginConf
+     * @param {*} datasetLinkType
      */
     isActivated = (linkList, pluginConf, datasetLinkType) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)

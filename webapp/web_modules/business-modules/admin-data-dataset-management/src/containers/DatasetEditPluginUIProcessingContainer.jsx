@@ -176,13 +176,13 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
             processingConfigurationList, processingMetadataList,
           } = this.props
 
-          // Build a global model
+          // Build a global object
           let initialDatasetLinksByType = {
             [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
             [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset },
           }
 
-          // We add Processing to the model only if rs-microservice is up in this project
+          // We add Processing to the global object only if rs-microservice is up in this project
           if (this.state.processingDependencies && processingConfigurationList) {
             // Rework of processingConfigurationList to match other conf shape
             const newProcessingConfigurationList = map(processingConfigurationList, (processingConfiguration) => {
@@ -205,6 +205,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
               },
             }
 
+            // Add processing to the global object
             initialDatasetLinksByType = {
               ...initialDatasetLinksByType,
               [DATASET_LINK_TYPE.PROCESSING]: { pluginConfs: newProcessingConfigurationList, metadatas: processingMetadataList, links: linkProcessingPluginDataset },
@@ -228,6 +229,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
       return `/admin/${project}/data/collections/dataset/${datasetId}/links`
     }
 
+    // We update dataset only if there is a change in links
     onSubmit = (componentState) => {
       const { initialDatasetLinksByType } = this.state
       const updateTasks = []
@@ -248,7 +250,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
         )))
       }
       if (this.state.processingDependencies && !isEqual(componentState[DATASET_LINK_TYPE.PROCESSING], initialDatasetLinksByType[DATASET_LINK_TYPE.PROCESSING].links.content.services)) {
-        // We need to rework links for processing because back wants something specific
+        // We need to rework links for processing because back server wants something specific
         const newBusinessIdList = map(componentState[DATASET_LINK_TYPE.PROCESSING], (link) => link.businessId)
         updateTasks.push(Promise.resolve(this.props.updateLinkProcessingDataset(this.props.params.datasetIpId, newBusinessIdList)))
       }
