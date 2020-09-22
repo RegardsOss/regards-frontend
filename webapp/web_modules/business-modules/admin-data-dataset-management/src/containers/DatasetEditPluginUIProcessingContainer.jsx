@@ -148,7 +148,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
     state = {
       isLoading: true,
       initialDatasetLinksByType: {},
-      processingDependencies: true || allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies),
+      processingDependencies: allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies),
     }
 
     UNSAFE_componentWillMount() {
