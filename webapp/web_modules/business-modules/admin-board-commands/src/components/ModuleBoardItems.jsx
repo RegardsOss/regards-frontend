@@ -20,6 +20,7 @@ import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
 import AddIcon from 'mdi-material-ui/PlusCircle'
 import PageView from 'mdi-material-ui/CardSearch'
 import { orderDependencies } from '@regardsoss/admin-order-management'
+import { processingDependencies } from '@regardsoss/admin-processing-management'
 
 /**
  * BoardItems configuration for command board
@@ -50,17 +51,20 @@ const items = (project, intl) => [
       icon: <PageView />,
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.monitoring' }),
+      hateoasDependencies: processingDependencies.listMonitoringDependencies,
     }, {
       path: `/admin/${project}/commands/processing/list`,
       icon: <ViewLinesIcon />,
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.list' }),
+      hateoasDependencies: processingDependencies.listProcessingDependencies,
     },
     {
       path: `/admin/${project}/commands/processing/create`,
       icon: <AddIcon />,
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.add' }),
+      hateoasDependencies: processingDependencies.addProcessingDependencies,
     }],
   },
 ]
