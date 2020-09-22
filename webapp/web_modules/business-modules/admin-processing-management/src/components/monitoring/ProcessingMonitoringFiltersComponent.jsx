@@ -55,7 +55,7 @@ const PROCESS_FILTER_PARAMS = {
  */
 class ProcessingMonitoringFiltersComponent extends React.Component {
   static propTypes = {
-    processingList: ProcessingShapes.Processing.isRequired,
+    processingList: ProcessingShapes.ProcessingList.isRequired,
     onRefresh: PropTypes.func.isRequired,
   }
 

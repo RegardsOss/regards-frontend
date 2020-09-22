@@ -43,14 +43,14 @@ import messages from '../i18n'
 import styles from '../styles'
 
 /**
-* Component to create/edit/diplicate a processing plugin configuration
+* Component to create/edit a processing plugin configuration
 * @author Théo Lasserre
 */
-class ProcessingFormComponent extends React.Component {
+export class ProcessingFormComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
-    entity: ProcessingShapes.Processing,
+    processing: ProcessingShapes.Processing,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
     // from redux form
@@ -74,11 +74,11 @@ class ProcessingFormComponent extends React.Component {
   }
 
   handleInitialize = () => {
-    const { mode, entity, initialize } = this.props
-    if (mode === 'edit' && entity) {
+    const { mode, processing, initialize } = this.props
+    if (mode === 'edit' && processing) {
       initialize({
-        pluginConfiguration: get(entity, 'content.pluginConfiguration'),
-        userRole: get(entity, 'content.rigths.role'),
+        pluginConfiguration: get(processing, 'content.pluginConfiguration'),
+        userRole: get(processing, 'content.rigths.role'),
       })
     } else {
       initialize({
@@ -93,10 +93,10 @@ class ProcessingFormComponent extends React.Component {
   }
 
   /**
-   * Update a processingConf entity from the given updated PluginConfiguration & SelectedRole.
+   * Update a processingConf from the given updated PluginConfiguration & SelectedRole.
    */
   updateProcessingConf = (fields) => {
-    const { onUpdate, entity } = this.props
+    const { onUpdate, processing } = this.props
     const pluginConfiguration = fields.pluginConfiguration ? {
       ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
     } : null
@@ -106,7 +106,7 @@ class ProcessingFormComponent extends React.Component {
         role: get(fields, 'userRole'),
       },
     }
-    onUpdate(get(entity, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
+    onUpdate(get(processing, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
       if (!actionResults.error) {
         this.onBack()
       }
@@ -114,7 +114,7 @@ class ProcessingFormComponent extends React.Component {
   }
 
   /**
-   * Create a processingConf entity from the given updated PluginConfiguration.
+   * Create a processingConf from the given updated PluginConfiguration.
    */
   createProcessingConf = (fields) => {
     const { onCreate } = this.props
@@ -137,12 +137,12 @@ class ProcessingFormComponent extends React.Component {
   }
 
   renderContent = () => {
-    const { mode, entity } = this.props
+    const { mode, processing } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle },
     } = this.context
-    if (mode !== 'create' && !entity) {
+    if (mode !== 'create' && !processing) {
       return (
         <NoContentComponent
           titleKey="processing.form.invalid.id"
@@ -155,7 +155,7 @@ class ProcessingFormComponent extends React.Component {
         key="processingPlugin"
         name="pluginConfiguration"
         component={RenderPluginField}
-        defaultPluginConfLabel={get(entity, 'content.pluginConfiguration.pluginClassName')}
+        defaultPluginConfLabel={get(processing, 'content.pluginConfiguration.pluginClassName')}
         selectLabel={formatMessage({ id: 'processing.form.plugin.label' })}
         pluginType={ProcessingDomain.PLUGIN_TYPE}
         validate={ValidationHelpers.required}
@@ -228,7 +228,7 @@ class ProcessingFormComponent extends React.Component {
 
   render() {
     const {
-      project, handleSubmit, entity, mode,
+      project, handleSubmit, processing, mode,
       pristine, invalid,
     } = this.props
 
@@ -244,7 +244,7 @@ class ProcessingFormComponent extends React.Component {
 
     const { intl: { formatMessage }, moduleTheme } = this.context
     const title = mode === 'edit'
-      ? formatMessage({ id: 'processing.form.edit.title' }, { name: get(entity, 'content.name') })
+      ? formatMessage({ id: 'processing.form.edit.title' }, { name: get(processing, 'content.name') })
       : formatMessage({ id: 'processing.form.create.title' })
     const buttonTitle = mode === 'edit'
       ? formatMessage({ id: 'processing.form.submit.edit.button' })

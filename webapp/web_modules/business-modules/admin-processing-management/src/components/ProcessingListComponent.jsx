@@ -31,7 +31,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { processingDependencies } from '@regardsoss/admin-processing-management'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import find from 'lodash/find'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -40,7 +39,6 @@ import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
 import CardActions from 'material-ui/Card/CardActions'
 import FlatButton from 'material-ui/FlatButton'
-import { processingActions } from '../clients/ProcessingClient'
 import ProcessingListFiltersComponent from './ProcessingListFiltersComponent'
 import ProcessingProcessNameRenderer from './render/ProcessingProcessNameRenderer'
 import ProcessingEditComponent from './ProcessingEditComponent'
@@ -54,7 +52,7 @@ const FlatButtonWithResourceDisplayControl = withResourceDisplayControl(FlatButt
  */
 class ProcessingListComponent extends React.Component {
     static propTypes = {
-      entities: ProcessingShapes.ProcessingArray.isRequired,
+      processingList: ProcessingShapes.ProcessingArray.isRequired,
       handleDelete: PropTypes.func.isRequired,
       handleEdit: PropTypes.func.isRequired,
       createUrl: PropTypes.string.isRequired,
@@ -68,34 +66,32 @@ class ProcessingListComponent extends React.Component {
       ...i18nContextType,
     }
 
-    static CREATE_DEPENDENCIES = [processingActions.getDependency(RequestVerbEnum.POST)]
-
     static ICON_STYLE = {
       margin: 5,
     }
 
     state = {
-      entityToDelete: null,
+      processingToDelete: null,
       deleteDialogOpened: false,
     }
 
     closeDeleteDialog = () => {
       this.setState({
         deleteDialogOpened: false,
-        entityToDelete: null,
+        processingToDelete: null,
       })
     }
 
     openDeleteDialog = (entity) => {
       this.setState({
         deleteDialogOpened: true,
-        entityToDelete: entity,
+        processingToDelete: entity,
       })
     }
 
     renderDeleteConfirmDialog = () => {
-      const name = this.state.entityToDelete
-        ? find(this.state.entityToDelete.content.pluginConfiguration.parameters, (param) => (
+      const name = this.state.processingToDelete
+        ? find(this.state.processingToDelete.content.pluginConfiguration.parameters, (param) => (
           param.name === 'processName'
         )).value
         : 'processNameNotFound'
@@ -105,7 +101,7 @@ class ProcessingListComponent extends React.Component {
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
             onConfirm={() => {
-              this.props.handleDelete(this.state.entityToDelete.content.pluginConfiguration.businessId)
+              this.props.handleDelete(this.state.processingToDelete.content.pluginConfiguration.businessId)
             }}
             onClose={this.closeDeleteDialog}
             title={title}
@@ -116,7 +112,7 @@ class ProcessingListComponent extends React.Component {
 
     render() {
       const {
-        entities, handleEdit, createUrl, backUrl, onRefresh, navigateToCreateProcessing,
+        processingList, handleEdit, createUrl, backUrl, onRefresh, navigateToCreateProcessing,
       } = this.props
       const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -152,7 +148,7 @@ class ProcessingListComponent extends React.Component {
 
       const emptyContentAction = (
         <FlatButtonWithResourceDisplayControl
-          resourceDependencies={processingDependencies.addDependencies}
+          resourceDependencies={processingDependencies.addProcessingDependencies}
           label={formatMessage({ id: 'processing.management.list.no.processing.subtitle' })}
           onClick={navigateToCreateProcessing}
           primary
@@ -193,7 +189,7 @@ class ProcessingListComponent extends React.Component {
                 maxRowCount={maxRowCount}
                 columns={columns}
                 emptyComponent={emptyComponent}
-                entities={entities}
+                entities={processingList}
               />
             </TableLayout>
           </CardText>
@@ -201,7 +197,7 @@ class ProcessingListComponent extends React.Component {
             <CardActionsComponent
               mainButtonUrl={createUrl}
               mainButtonLabel={formatMessage({ id: 'processing.management.list.add.button' })}
-              mainHateoasDependencies={ProcessingListComponent.CREATE_DEPENDENCIES}
+              mainHateoasDependencies={processingDependencies.addProcessingDependencies}
               secondaryButtonLabel={formatMessage({ id: 'processing.management.list.cancel.button' })}
               secondaryButtonUrl={backUrl}
             />

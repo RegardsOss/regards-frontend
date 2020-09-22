@@ -16,92 +16,91 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export default [
-    {
-        content: {
-            pluginConfiguration: {
-                id: null,
-                pluginId: "UselessProcessPlugin",
-                version: "1.0.0-SNAPSHOT",
-                priorityOrder: 0,
-                active: true,
-                pluginClassName: "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
-                iconUrl: null,
-                businessId: "testProcess1",
-                parameters: [
-                    {
-                        name: "processName",
-                        type: "STRING",
-                        value: "testProcess1"
-                    },
-                    {
-                        name: "active",
-                        type: "BOOLEAN",
-                        value: false
-                    }
-                ]
-            },
-            rigths: {
-                role: "PUBLIC"
-            }
-        }
+export default [{
+  content: {
+    pluginConfiguration: {
+      id: null,
+      pluginId: 'UselessProcessPlugin',
+      version: '1.0.0-SNAPSHOT',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+      iconUrl: null,
+      businessId: 'testProcess1',
+      parameters: [
+        {
+          name: 'processName',
+          type: 'STRING',
+          value: 'testProcess1',
+        },
+        {
+          name: 'active',
+          type: 'BOOLEAN',
+          value: false,
+        },
+      ],
     },
-    {
-        content: {
-            pluginConfiguration: {
-                id: null,
-                pluginId: "UselessProcessPlugin",
-                version: "1.0.0-SNAPSHOT",
-                priorityOrder: 0,
-                active: true,
-                pluginClassName: "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
-                iconUrl: null,
-                businessId: "testProcess2",
-                parameters: [
-                    {
-                        name: "processName",
-                        type: "STRING",
-                        value: "testProcess2"
-                    },
-                    {
-                        name: "active",
-                        type: "BOOLEAN",
-                        value: false
-                    }
-                ]
-            },
-            rigths: {
-                role: "PUBLIC"
-            }
-        }
+    rigths: {
+      role: 'PUBLIC',
     },
-    {
-        content: {
-            pluginConfiguration: {
-                id: null,
-                pluginId: "UselessProcessPlugin",
-                version: "1.0.0-SNAPSHOT",
-                priorityOrder: 0,
-                active: true,
-                pluginClassName: "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
-                iconUrl: null,
-                businessId: "testProcess2",
-                parameters: [
-                    {
-                        name: "processName",
-                        type: "STRING",
-                        value: "testProcess2"
-                    },
-                    {
-                        name: "active",
-                        type: "BOOLEAN",
-                        value: false
-                    }
-                ]
-            },
-            rigths: {
-                role: "PUBLIC"
-            }
-        }
-    }
+  },
+},
+{
+  content: {
+    pluginConfiguration: {
+      id: null,
+      pluginId: 'UselessProcessPlugin',
+      version: '1.0.0-SNAPSHOT',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+      iconUrl: null,
+      businessId: 'testProcess2',
+      parameters: [
+        {
+          name: 'processName',
+          type: 'STRING',
+          value: 'testProcess2',
+        },
+        {
+          name: 'active',
+          type: 'BOOLEAN',
+          value: false,
+        },
+      ],
+    },
+    rigths: {
+      role: 'PUBLIC',
+    },
+  },
+},
+{
+  content: {
+    pluginConfiguration: {
+      id: null,
+      pluginId: 'UselessProcessPlugin',
+      version: '1.0.0-SNAPSHOT',
+      priorityOrder: 0,
+      active: true,
+      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+      iconUrl: null,
+      businessId: 'testProcess3',
+      parameters: [
+        {
+          name: 'processName',
+          type: 'STRING',
+          value: 'testProcess3',
+        },
+        {
+          name: 'active',
+          type: 'BOOLEAN',
+          value: false,
+        },
+      ],
+    },
+    rigths: {
+      role: 'PUBLIC',
+    },
+  },
+},
 ]

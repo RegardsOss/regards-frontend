@@ -36,7 +36,7 @@ export class ProcessingFormContainer extends React.Component {
    */
   static mapStateToProps(state, ownProps) {
     return {
-      entity: get(ownProps, 'params.businessId') ? processingSelectors.getById(state, ownProps.params.businessId) : null,
+      processing: get(ownProps, 'params.businessId') ? processingSelectors.getById(state, ownProps.params.businessId) : null,
     }
   }
 
@@ -49,8 +49,8 @@ export class ProcessingFormContainer extends React.Component {
   static mapDispatchToProps(dispatch, ownProps) {
     return {
       fetch: (businessId) => dispatch(processingActions.fetchEntity(businessId)),
-      create: (entity) => dispatch(processingActions.createEntity(entity)),
-      update: (entityId, entity) => dispatch(processingActions.updateEntity(entityId, entity)),
+      create: (processing) => dispatch(processingActions.createEntity(processing)),
+      update: (entityId, processing) => dispatch(processingActions.updateEntity(entityId, processing)),
     }
   }
 
@@ -61,7 +61,7 @@ export class ProcessingFormContainer extends React.Component {
       businessId: PropTypes.string,
     }),
     // from mapStateToProps
-    entity: ProcessingShapes.Processing,
+    processing: ProcessingShapes.Processing,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
@@ -74,30 +74,35 @@ export class ProcessingFormContainer extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    const { params: { businessId }, fetch } = this.props
+    const { params: { businessId } } = this.props
     if (businessId) {
-      fetch(businessId).then(() => this.setState({ isLoading: false, mode: 'edit' }))
+      this.props.fetch(businessId).then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            isLoading: false,
+            mode: 'edit',
+          })
+        }
+      })
     }
   }
 
   render() {
     const {
-      params: { project }, entity, update, create,
+      params: { project }, processing, update, create,
     } = this.props
 
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
       >
-        {() => (
-          <ProcessingFormComponent
-            project={project}
-            mode={this.state.mode}
-            entity={entity}
-            onUpdate={update}
-            onCreate={create}
-          />
-        )}
+        <ProcessingFormComponent
+          project={project}
+          mode={this.state.mode}
+          processing={processing}
+          onUpdate={update}
+          onCreate={create}
+        />
       </LoadableContentDisplayDecorator>
     )
   }

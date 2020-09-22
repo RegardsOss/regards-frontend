@@ -40,7 +40,7 @@ export class ProcessingListContainer extends React.Component {
      * @return {*} list of component properties extracted from redux state
      */
     static mapStateToProps = (state) => ({
-      entities: processingSelectors.getOrderedList(state),
+      processingList: processingSelectors.getOrderedList(state),
     })
 
     /**
@@ -60,7 +60,7 @@ export class ProcessingListContainer extends React.Component {
         project: PropTypes.string,
       }),
       // from mapStateToProp
-      entities: ProcessingShapes.ProcessingArray.isRequired,
+      processingList: ProcessingShapes.ProcessingArray.isRequired,
       // from mapDispatchToProps
       fetchProcessingList: PropTypes.func.isRequired,
       deleteProcessing: PropTypes.func.isRequired,
@@ -110,13 +110,14 @@ export class ProcessingListContainer extends React.Component {
     }
 
     render() {
-      const { entities } = this.props
+      const { processingList } = this.props
       const { isLoading } = this.state
+
       return (
         <I18nProvider messages={messages}>
           <LoadableContentDisplayDecorator isLoading={isLoading}>
             <ProcessingListComponent
-              entities={entities}
+              processingList={processingList}
               handleDelete={this.handleDelete}
               handleEdit={this.handleEdit}
               backUrl={this.getBackURL()}

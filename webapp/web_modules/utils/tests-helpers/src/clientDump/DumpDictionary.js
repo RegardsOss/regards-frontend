@@ -58,6 +58,9 @@ import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-d
 
 import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
 
+import ProcessingDump from '@regardsoss/client/tests/rs-processing/Processing.dump'
+import ProcessingMonitoringDump from '@regardsoss/client/tests/rs-processing/ProcessingMonitoring.dump'
+
 import {
 
   ROLE_ARRAY,
@@ -151,6 +154,12 @@ import {
   THEME_ARRAY,
   ThemeConfiguration,
 
+  // Processing
+  PROCESSING_ARRAY,
+  ProcessingConfiguration,
+  PROCESSING_MONITORING_ARRAY,
+  ProcessingMonitoringConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -161,6 +170,22 @@ import {
  * @author Léo Mieulet
  */
 export default {
+  ProcessingMonitoringClient: {
+    ProcessingMonitoring: {
+      isPageable: true,
+      dump: ProcessingMonitoringDump,
+      ENTITY_ARRAY: PROCESSING_MONITORING_ARRAY,
+      normalizrKey: ProcessingMonitoringConfiguration.normalizrKey,
+    },
+  },
+  ProcessingClient: {
+    Processing: {
+      isPageable: false,
+      dump: ProcessingDump,
+      ENTITY_ARRAY: PROCESSING_ARRAY,
+      normalizrKey: ProcessingConfiguration.normalizrKey,
+    },
+  },
   StorageClient: {
     StorageLocation: {
       isPageable: false,

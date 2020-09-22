@@ -39,14 +39,12 @@ import { linkPluginDatasetActions, linkPluginDatasetSelectors } from '../clients
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
-import { processingMetadataActions, processingMetadataSelectors } from '../clients/ProcessingMetadataClient'
-import { linkProcessingDatasetActions, linkProcessingDatasetSelectors } from '../clients/LinkProcessingDatasetClient'
+import { linkProcessingDatasetActions } from '../clients/LinkProcessingDatasetClient'
 import DatasetEditPluginUIProcessingComponent, { DATASET_LINK_TYPE } from '../components/DatasetEditPluginUIProcessingComponent'
 import styles from '../styles'
 import messages from '../i18n'
 
-class DatasetEditPluginUIProcessingContainer extends React.Component {
-
+export class DatasetEditPluginUIProcessingContainer extends React.Component {
     static mapStateToProps = (state, ownProps) => ({
       // Plugins
       pluginConfigurationList: pluginConfigurationSelectors.getList(state),
@@ -60,7 +58,7 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       processingConfigurationList: processingSelectors.getList(state),
-      processingMetadataList: processingMetadataSelectors.getList(state),
+      processingMetadataList: pluginMetaDataSelectors.getList(state),
 
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     })
@@ -93,7 +91,11 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
-      fetchProcessingMetadataList: () => dispatch(processingMetadataActions.fetchEntityList()),
+      fetchProcessingMetadataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
+        microserviceName: 'rs-processing',
+      }, {
+        pluginType: 'fr.cnes.regards.modules.processing.plugins.IProcessDefinition',
+      })),
       fetchLinkProcessingDataset: (datasetIpId) => dispatch(linkProcessingDatasetActions.getLinkProcessDataset(datasetIpId)),
       updateLinkProcessingDataset: (datasetIpId, linkProcessingDataset) => dispatch(linkProcessingDatasetActions.putLinkProcessDataset(datasetIpId, linkProcessingDataset)),
     })
@@ -119,7 +121,7 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       processingConfigurationList: ProcessingShapes.ProcessingList,
-      processingMetadataList: CommonShapes.PluginConfigurationList,
+      processingMetadataList: CommonShapes.PluginMetaDataList,
 
       // from mapDispatchToProps
       // Plugins
@@ -146,12 +148,10 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
     state = {
       isLoading: true,
       initialDatasetLinksByType: {},
-      linkProcessingDataset: [],
-      // TODO : A CHANGER QUAND RS-PROCESSING ACTIF
-      processingDependencies: true || allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies)
+      processingDependencies: true || allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies),
     }
 
-    componentDidMount() {
+    UNSAFE_componentWillMount() {
       const tasks = [
         // Plugins
         this.props.fetchPluginConfigurationList(),
@@ -163,7 +163,6 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
         this.props.fetchUIPluginConfigurationList(),
         this.props.fetchLinkUIPluginDataset(this.props.params.datasetIpId),
       ]
-      // TODO : A REMETTRE QUAND MICROSERVICE RS-PROCESSING ACTIF
       if (this.state.processingDependencies) {
         tasks.push(this.props.fetchProcessingConfigurationList())
         tasks.push(this.props.fetchProcessingMetadataList())
@@ -174,32 +173,29 @@ class DatasetEditPluginUIProcessingContainer extends React.Component {
           const {
             pluginConfigurationList, pluginMetaDataList, linkPluginDataset,
             uiPluginConfigurationList, uiPluginDefinitionList, linkUIPluginDataset,
-            processingConfigurationList, processingMetadataList,                                                                                                             gMetadataList,
+            processingConfigurationList, processingMetadataList,
           } = this.props
 
           // Build a global model
           let initialDatasetLinksByType = {
             [DATASET_LINK_TYPE.PLUGIN]: { pluginConfs: pluginConfigurationList, metadatas: pluginMetaDataList, links: linkPluginDataset },
-            [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset }
+            [DATASET_LINK_TYPE.UI_SERVICES]: { pluginConfs: uiPluginConfigurationList, metadatas: uiPluginDefinitionList, links: linkUIPluginDataset },
           }
 
           // We add Processing to the model only if rs-microservice is up in this project
-          if (this.state.processingDependencies) {
+          if (this.state.processingDependencies && processingConfigurationList) {
             // Rework of processingConfigurationList to match other conf shape
-            const newProcessingConfigurationList = processingConfigurationList
-            if (newProcessingConfigurationList) {
-              map(newProcessingConfigurationList, (processingConfiguration) => {
-                processingConfiguration.content = {
+            const newProcessingConfigurationList = map(processingConfigurationList, (processingConfiguration) => {
+              const newProcessingConfiguration = {
+                content: {
                   ...processingConfiguration.content.pluginConfiguration,
                   label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => (
                     parameter.name === 'processName'
                   )).value,
-                  pluginDefinition: {
-                    pluginId: processingConfiguration.content.pluginConfiguration.pluginId,
-                  },
-                }
-              })
-            }
+                },
+              }
+              return newProcessingConfiguration
+            })
 
             // Create link object for processing to match other shapes
             const linkProcessingPluginDataset = {

@@ -17,33 +17,33 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export default [
-    {
-        content: {
-            pluginConfiguration: {
-                id: null,
-                pluginId: "UselessProcessPlugin",
-                version: "1.0.0-SNAPSHOT",
-                priorityOrder: 0,
-                active: true,
-                pluginClassName: "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
-                iconUrl: null,
-                businessId: "aaaaaa",
-                parameters: [
-                    {
-                        name: "processName",
-                        type: "STRING",
-                        value: "dqd"
-                    },
-                    {
-                        name: "active",
-                        type: "BOOLEAN",
-                        value: false
-                    }
-                ]
-            },
-            rigths: {
-                role: "PROJECT_ADMIN"
-            }
-        }
-    }
+  {
+    content: {
+      pluginConfiguration: {
+        id: null,
+        pluginId: 'UselessProcessPlugin',
+        version: '1.0.0-SNAPSHOT',
+        priorityOrder: 0,
+        active: true,
+        pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+        iconUrl: null,
+        businessId: 'aaaaaa',
+        parameters: [
+          {
+            name: 'processName',
+            type: 'STRING',
+            value: 'dqd',
+          },
+          {
+            name: 'active',
+            type: 'BOOLEAN',
+            value: false,
+          },
+        ],
+      },
+      rigths: {
+        role: 'PROJECT_ADMIN',
+      },
+    },
+  },
 ]

@@ -76,7 +76,7 @@ const messages = {
   'dataset.form.uiservices.latestVersion': 'latest',
   'dataset.form.no.uiservices.found': 'No UI Services',
   'dataset.form.no.uiservices.found.create': 'Create your first UI Service',
-  'dataset.form.no.uiservices.found.create.message': 'These plugins are used to provide additional functionality to catalog data. This data will then be available for display on your browser',
+  'dataset.form.no.uiservices.found.message': 'These plugins are used to provide additional functionality to catalog data. This data will then be available for display on your browser',
 
   'dataset.form.processing.services': 'Processing',
   'dataset.form.no.processing.found': 'No Processing',

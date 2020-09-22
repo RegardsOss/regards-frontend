@@ -27,10 +27,6 @@ import {
   FlatButton, Checkbox, Tabs, Tab,
 } from 'material-ui'
 import FactoryIcon from 'mdi-material-ui/Factory'
-import { processingDependencies } from '@regardsoss/admin-processing-management'
-import {
-  CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
-} from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent, ShowableAtRender, NoContentComponent } from '@regardsoss/components'
@@ -46,26 +42,11 @@ export const DATASET_LINK_TYPE = {
  * React component to edit plugins, pluginsUI and processing
  * @author Théo Lasserre
  */
-class DatasetEditPluginUIProcessingComponent extends React.Component {
+export class DatasetEditPluginUIProcessingComponent extends React.Component {
     static propTypes = {
       project: PropTypes.string.isRequired,
-      initialDatasetLinksByType: PropTypes.shape({
-        [DATASET_LINK_TYPE.PLUGIN]: PropTypes.shape({
-          pluginConfs: CommonShapes.PluginConfigurationList,
-          metadatas: CommonShapes.PluginMetaDataList,
-          links: CatalogShapes.LinkPluginDataset,
-        }),
-        [DATASET_LINK_TYPE.UI_SERVICES]: PropTypes.shape({
-          pluginConfs: AccessShapes.UIPluginConfList,
-          metadatas: AccessShapes.UIPluginDefinitionList,
-          links: AccessShapes.LinkUIPluginDataset,
-        }),
-        [DATASET_LINK_TYPE.PROCESSING]: PropTypes.shape({
-          pluginConfs: ProcessingShapes.ProcessingList,
-          metadatas: CommonShapes.PluginMetaDataList,
-          links: ProcessingShapes.LinkProcessingDataset,
-        }),
-      }),
+      // eslint-disable-next-line react/forbid-prop-types
+      initialDatasetLinksByType: PropTypes.object.isRequired,
       backUrl: PropTypes.string.isRequired,
       onSubmit: PropTypes.func.isRequired,
       currentDatasetIpId: PropTypes.string.isRequired,
@@ -78,12 +59,27 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       ...i18nContextType,
     }
 
-    static getDatasetLinkId = (datasetLinkType) => {
+    static getPluginId = (datasetLinkType) => {
       switch (datasetLinkType) {
         case DATASET_LINK_TYPE.UI_SERVICES:
           return 'id'
         case DATASET_LINK_TYPE.PROCESSING:
         case DATASET_LINK_TYPE.PLUGIN:
+          return 'pluginId'
+        default:
+          return 'pluginId'
+      }
+    }
+
+    static getDatasetLinkId = (datasetLinkType) => {
+      switch (datasetLinkType) {
+        case DATASET_LINK_TYPE.UI_SERVICES:
+          return 'id'
+        case DATASET_LINK_TYPE.PROCESSING:
+          return 'businessId'
+        case DATASET_LINK_TYPE.PLUGIN:
+          return 'pluginId'
+        default:
           return 'pluginId'
       }
     }
@@ -95,6 +91,20 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
         case DATASET_LINK_TYPE.PROCESSING:
         case DATASET_LINK_TYPE.PLUGIN:
           return 'pluginId'
+        default:
+          return 'pluginId'
+      }
+    }
+
+    static getPluginDefinition = (pluginConf, datasetLinkType, datasetLinkId) => {
+      switch (datasetLinkType) {
+        case DATASET_LINK_TYPE.UI_SERVICES:
+          return pluginConf.content.pluginDefinition[datasetLinkId]
+        case DATASET_LINK_TYPE.PROCESSING:
+        case DATASET_LINK_TYPE.PLUGIN:
+          return pluginConf.content[datasetLinkId]
+        default:
+          return pluginConf.content[datasetLinkId]
       }
     }
 
@@ -108,20 +118,10 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       tabValue: DATASET_LINK_TYPE.PLUGIN,
     }
 
-    checkOnePluginConfByMetadataExist = (pluginConfs, metadatas, datasetLinkId) => {
+    checkOnePluginConfByMetadataExist = (pluginConfs, metadatas, datasetLinkId, datasetLinkType) => {
       let ret = false
       if (!isEmpty(pluginConfs) && !isEmpty(metadatas)) {
-        for (const metadata in metadatas) {
-          for (const pluginConf in pluginConfs) {
-            if (pluginConfs[pluginConf].content.pluginDefinition[datasetLinkId] === metadatas[metadata].content[datasetLinkId]) {
-              ret = true
-              break
-            }
-          }
-          if (ret) {
-            break
-          }
-        }
+        ret = some(metadatas, (metadata) => some(pluginConfs, (pluginConf) => DatasetEditPluginUIProcessingComponent.getPluginDefinition(pluginConf, datasetLinkType, datasetLinkId) === metadata.content[datasetLinkId]))
       }
       return ret
     }
@@ -141,16 +141,13 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
         case DATASET_LINK_TYPE.PROCESSING:
           browserHistory.push(`/admin/${project}/commands/processing/create`)
           break
+        default:
+          break
       }
     }
 
     createNoContentComponent = (datasetLinkType) => {
       const { intl: { formatMessage } } = this.context
-      let dependencies = []
-      // We need to check is rs-processing microservice is used and up in this project
-      if (datasetLinkType === DATASET_LINK_TYPE.PROCESSING) {
-        dependencies = processingDependencies.addProcessingDependencies
-      }
 
       const emptyContentAction = (
         <FlatButton
@@ -178,51 +175,52 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
     renderList = (initialDatasetLinks, datasetLinkType) => {
       const { pluginConfs, metadatas } = initialDatasetLinks
       const currentLinks = this.state[datasetLinkType]
-      const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
+      const datasetLinkId = DatasetEditPluginUIProcessingComponent.getPluginId(datasetLinkType)
       const datasetPluginName = DatasetEditPluginUIProcessingComponent.getDatasetLinkPluginName(datasetLinkType)
 
       // We check if at least one pluginConf will be displayed for Plugins, UIPlugins or Processing.
       // If not we display a NoContentCard and user can create a conf for Plugins, UIPlugins or Processing.
-      if (this.checkOnePluginConfByMetadataExist(pluginConfs, metadatas, datasetLinkId)) {
+      if (this.checkOnePluginConfByMetadataExist(pluginConfs, metadatas, datasetLinkId, datasetLinkType)) {
         // We wants a list for each metadata
-        return map(metadatas, (metadata, id) => {
+        return map(metadatas, (metadata) => {
           // Retrieve the list of pluginConfs for the current metadata
           const pluginConfsByMetadata = filter(pluginConfs, (pluginConf) => (
             // Plugins and Processing Metadata use pluginId & PluginsUI Metadata use Id
-            pluginConf.content.pluginDefinition[datasetLinkId] === metadata.content[datasetLinkId]
+            DatasetEditPluginUIProcessingComponent.getPluginDefinition(pluginConf, datasetLinkType, datasetLinkId) === metadata.content[datasetLinkId]
           ))
+
           return (
             <ShowableAtRender
               show={pluginConfsByMetadata.length > 0}
               key={metadata.content[datasetLinkId]}
             >
               <ListItem
-                key={id}
+                key={metadata}
                 primaryText={metadata.content[datasetPluginName]}
                 secondaryText={metadata.content.version}
                 disabled
                 open
                 autoGenerateNestedIndicator={false}
                 nestedItems={
-                                    map(pluginConfsByMetadata, (pluginConf, id) => (
-                                      <ShowableAtRender
-                                        show={pluginConf.content.active}
-                                        key={`${datasetLinkType}-configuration-${id}`}
-                                      >
-                                        <ListItem
-                                          key={id}
-                                          primaryText={pluginConf.content.label}
-                                          leftCheckbox={
-                                            <Checkbox
-                                              onCheck={() => this.handleCheck(currentLinks, datasetLinkType, pluginConf)}
-                                              checked={this.isActivated(currentLinks, pluginConf, datasetLinkType)}
-                                              disabled={this.isActivatedForAllDatasets(pluginConf)}
-                                            />
-                                                }
-                                        />
-                                      </ShowableAtRender>
-                                    ))
-                                }
+                  map(pluginConfsByMetadata, (pluginConf, id) => (
+                    <ShowableAtRender
+                      show={pluginConf.content.active}
+                      key={`${datasetLinkType}-configuration-${id}`}
+                    >
+                      <ListItem
+                        key={id}
+                        primaryText={pluginConf.content.label}
+                        leftCheckbox={
+                          <Checkbox
+                            onCheck={() => this.handleCheck(currentLinks, datasetLinkType, pluginConf)}
+                            checked={this.isActivated(currentLinks, pluginConf, datasetLinkType)}
+                            disabled={this.isActivatedForAllDatasets(pluginConf)}
+                          />
+                              }
+                      />
+                    </ShowableAtRender>
+                  ))
+              }
               />
             </ShowableAtRender>
           )
@@ -244,7 +242,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
         // remove Plugin from list
           ? linkList.filter((link) => pluginConf.content[datasetLinkId] !== link[datasetLinkId])
         // add Plugin in list
-          : [...linkList, { id: pluginConf.content[datasetLinkId] }],
+          : [...linkList, { [datasetLinkId]: pluginConf.content[datasetLinkId] }],
       })
     }
 
@@ -256,7 +254,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
     isActivated = (linkList, pluginConf, datasetLinkType) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
       return this.isActivatedForAllDatasets(pluginConf)
-            || some(linkList, (link) => link[datasetLinkId] === pluginConf.content[datasetLinkId])
+            || some(linkList, (link) => link[datasetLinkId] === pluginConf.content[datasetLinkId])
     }
 
     isActivatedForAllDatasets = (pluginConf) => { get(pluginConf.content, 'linkedToAllEntities', false) }
@@ -277,7 +275,7 @@ class DatasetEditPluginUIProcessingComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage }, moduleTheme: { cardTextTabStyle } } = this.context
       const { tabValue } = this.state
-      const index = -1 // Use in Tabs to autoselect first tab
+
       return (
         <Card>
           <CardTitle

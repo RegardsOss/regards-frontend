@@ -38,13 +38,13 @@ const selectors = getProcessingSelectors(['test', 'files'])
 const entityTester = new ReduxEntityTester(actions, reducer, selectors, ProcessingShapes.ProcessingArray.isRequired, dump, options)
 
 describe('[ADMIN CLIENT] Test client Processing', () => {
-    before(() => {
-        entityTester.beforeAll()
-    })
-    after(() => {
-        entityTester.afterAll()
-    })
-    it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
-        entityTester.runTests(done)
-    })
+  before(() => {
+    entityTester.beforeAll()
+  })
+  after(() => {
+    entityTester.afterAll()
+  })
+  it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+    entityTester.runTests(done)
+  })
 })

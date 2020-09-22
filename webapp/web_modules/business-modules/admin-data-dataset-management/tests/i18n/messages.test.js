@@ -31,6 +31,7 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing i18n', () => {
     assert.isDefined(MessagesEn)
   })
   it('should define same sentences', () => {
+    console.log(keys(MessagesFr))
     assert.deepEqual(keys(MessagesFr), keys(MessagesEn))
   })
 })

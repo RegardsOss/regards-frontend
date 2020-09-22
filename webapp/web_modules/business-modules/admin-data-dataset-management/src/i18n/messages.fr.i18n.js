@@ -83,6 +83,7 @@ const messages = {
   'dataset.form.no.processing.found.create': 'Créez votre premier traitement',
   'dataset.form.no.processing.found.message': 'Ces traitements servent à transformer des jeux de données. Ils sont utilisables par l\'utilisateur lorsque celui-ci passe une commande',
 
+  'dataset.form.no.data.found': 'Pas de données trouvées',
   'dataset.form.create.configuration': 'Créer',
 
   'dataset.form.files.action.cancel': 'Retour',

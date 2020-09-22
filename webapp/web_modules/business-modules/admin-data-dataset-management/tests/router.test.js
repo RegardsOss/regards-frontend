@@ -22,9 +22,8 @@ import Routes from '../src/router'
 import DatasetListContainer from '../src/containers/DatasetListContainer'
 import DatasetCreateOrPickDatasourceContainer from '../src/containers/DatasetCreateOrPickDatasourceContainer'
 import DatasetFormContainer from '../src/containers/DatasetFormContainer'
+import DatasetEditPluginUIProcessingContainer from '../src/containers/DatasetEditPluginUIProcessingContainer'
 import DatasetEditLinksContainer from '../src/containers/DatasetEditLinksContainer'
-import DatasetEditPluginContainer from '../src/containers/DatasetEditPluginContainer'
-import DatasetEditUIServicesContainer from '../src/containers/DatasetEditUIServicesContainer'
 import DatasetEditFilesContainer from '../src/containers/DatasetEditFilesContainer'
 
 describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
@@ -40,7 +39,7 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[3].path).to.eq(':datasetId/edit')
     expect(Routes.childRoutes[4].path).to.eq(':datasetId/files')
     expect(Routes.childRoutes[5].path).to.eq(':datasetId/links')
-    expect(Routes.childRoutes[7].path).to.eq(':datasetId/:datasetIpId/pluginsUIprocessing')
+    expect(Routes.childRoutes[6].path).to.eq(':datasetId/:datasetIpId/pluginsUIprocessing')
   })
   it('list should return DatasetListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
