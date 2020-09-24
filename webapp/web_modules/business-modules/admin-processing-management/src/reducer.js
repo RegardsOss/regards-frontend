@@ -19,10 +19,12 @@
 import { combineReducers } from 'redux'
 import { processingReducer } from './clients/ProcessingClient'
 import { processingMonitoringReducer } from './clients/ProcessingMonitoringClient'
+import { tableReducer } from './clients/TableClient'
 
 const processingManagementReducer = combineReducers({
   processing: processingReducer,
   'processing-monitor': processingMonitoringReducer,
+  'processing-monitoring-table': tableReducer,
 })
 
 export default processingManagementReducer
