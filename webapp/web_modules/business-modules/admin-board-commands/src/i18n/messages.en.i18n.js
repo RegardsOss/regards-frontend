@@ -22,8 +22,8 @@ const messages = {
   'commands.board.tooltip.list': 'List',
   'commands.board.processing.title': 'Processing',
   'commands.board.processing.description': 'View and manage orders processing',
-  'commands.board.processing.tooltip.monitoring': 'Monitoring of ongoing processing',
-  'commands.board.processing.tooltip.list': 'List of processing configurations',
+  'commands.board.processing.tooltip.monitoring': 'Monitor ongoing processing',
+  'commands.board.processing.tooltip.list': 'Processing configurations list',
   'commands.board.processing.tooltip.add': 'Create a processing configuration',
 }
 
