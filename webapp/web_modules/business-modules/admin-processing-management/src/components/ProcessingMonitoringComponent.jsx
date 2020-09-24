@@ -81,9 +81,6 @@ export class ProcessingMonitoringComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-      const style = {
-        hoverButtonEdit: muiTheme.palette.primary1Color,
-      }
       const columns = [ // eslint wont fix: Major API rework required
         // 1 - process name column
         new TableColumnBuilder('column.processName')
@@ -114,7 +111,7 @@ export class ProcessingMonitoringComponent extends React.Component {
           .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
           .optionsColumn([{
             OptionConstructor: ProcessingMonitoringInfo,
-            optionProps: { onClick: this.showInformation, hoverColor: style.hoverButtonEdit },
+            optionProps: { onClick: this.showInformation },
           }]).build(),
       ]
 
