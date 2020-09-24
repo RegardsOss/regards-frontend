@@ -31,12 +31,14 @@ import { uiPluginConfigurationReducer } from './clients/UIPluginConfigurationCli
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { linkUIPluginDatasetReducer } from './clients/LinkUIPluginDatasetClient'
 import { linkProcessingDatasetReducer } from './clients/LinkProcessingDatasetClient'
+import { processingReducer } from './clients/ProcessingClient'
 
 const datasetDataManagementReducer = combineReducers({
   collection: collectionReducer,
   dataset: datasetReducer,
   model: modelReducer,
   datasource: datasourceReducer,
+  processing: processingReducer,
   'model-attributes': modelAttributesReducer,
   'dataset-link': datasetLinkReducer,
   'plugin-configuration': pluginConfigurationReducer,

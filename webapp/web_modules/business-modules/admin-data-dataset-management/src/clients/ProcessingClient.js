@@ -22,7 +22,7 @@ import { ProcessingClient } from '@regardsoss/client'
  * Processing entities client.
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['admin', 'processing', 'processing']
+const ENTITIES_STORE_PATH = ['admin', 'collections', 'dataset', 'processing']
 const REDUX_ACTION_NAMESPACE = 'admin-processing-management/processing'
 
 export const processingReducer = ProcessingClient.getProcessingReducer(REDUX_ACTION_NAMESPACE)
