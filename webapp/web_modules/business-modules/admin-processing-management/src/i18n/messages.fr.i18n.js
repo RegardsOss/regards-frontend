@@ -70,10 +70,10 @@ const messages = {
   'processing.monitoring.list.refresh.button': 'Rafraîchir',
 
   /* Processing Form */
-  'processing.form.edit.title': 'Configuration du traitements "{name}"',
+  'processing.form.edit.title': 'Configuration du traitement "{name}"',
   'processing.form.create.title': 'Configuration d\'un nouveau traitement',
   'processing.form.submit.edit.button': 'Modifier',
-  'processing.form.submit.button': 'Créer',
+  'processing.form.submit.create.button': 'Créer',
   'processing.form.subtitle': 'Vous pouvez configurer votre traitement.',
   'processing.form.back.button': 'Annuler',
   'processing.form.plugin.label': 'Plugin de traitement',

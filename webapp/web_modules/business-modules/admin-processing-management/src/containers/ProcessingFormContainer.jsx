@@ -16,12 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
+import { PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { connect } from '@regardsoss/redux'
 import { ProcessingShapes } from '@regardsoss/shape'
+import { AdminDomain } from '@regardsoss/domain'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import get from 'lodash/get'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
-import ProcessingFormComponent from '../components/ProcessingFormComponent'
+import ProcessingFormComponent, { FORM_MODE }  from '../components/ProcessingFormComponent'
 
 /**
 * Container to handle create/edit/duplicate form of a storage location plugin
@@ -46,7 +49,7 @@ export class ProcessingFormContainer extends React.Component {
    * @param {*} ownProps: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, ownProps) {
+  static mapDispatchToProps(dispatch) {
     return {
       fetch: (businessId) => dispatch(processingActions.fetchEntity(businessId)),
       create: (processing) => dispatch(processingActions.createEntity(processing)),
@@ -59,6 +62,7 @@ export class ProcessingFormContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string.isRequired,
       businessId: PropTypes.string,
+      mode: PropTypes.string.isRequired,
     }),
     // from mapStateToProps
     processing: ProcessingShapes.Processing,
@@ -70,38 +74,118 @@ export class ProcessingFormContainer extends React.Component {
 
   state = {
     isLoading: !!get(this.props, 'params.businessId', false),
-    mode: 'create',
+    backUrl: ''
   }
 
   UNSAFE_componentWillMount() {
-    const { params: { businessId } } = this.props
+    const { params: { project, businessId, mode } } = this.props
+
+    // Fetch processing if exist
     if (businessId) {
       this.props.fetch(businessId).then((actionResult) => {
         if (!actionResult.error) {
           this.setState({
             isLoading: false,
-            mode: 'edit',
           })
         }
       })
     }
+
+    // Set backUrl
+    let backUrl
+    switch(mode) {
+      case FORM_MODE.CREATE:
+        backUrl = `/admin/${project}/commands/board`
+        break
+      case FORM_MODE.EDIT:
+        backUrl = `/admin/${project}/commands/processing/list`
+        break
+      default: ''
+    }
+    this.setState({
+      backUrl
+    })
+  }
+
+  onSubmit = (fields) => {
+    const { params: { mode } } = this.props
+    switch(mode) {
+      case FORM_MODE.CREATE:
+        this.createProcessingConf(fields)
+        break
+      case FORM_MODE.EDIT:
+        this.updateProcessingConf(fields)
+        break
+      default:
+        null
+    }
+  }
+
+  onBack = () => {
+    const { backUrl } = this.state
+    browserHistory.push(backUrl)
+  }
+
+  /**
+   * Create a processingConf from the given updated PluginConfiguration fields.
+   */
+  createProcessingConf = (fields) => {
+    const { create } = this.props
+    const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
+    const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
+    const processingConf = {
+      content: {
+        pluginConfiguration: formatedPluginConf,
+        rigths: {
+          role: get(fields, 'userRole', AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
+        },
+      },
+    }
+
+    create(processingConf).then((actionResults) => {
+      if (!actionResults.error) {
+        this.onBack()
+      }
+    })
+  }
+
+  /**
+   * Update a processingConf from the given updated PluginConfiguration fields & SelectedRole field.
+   * @param {*} fields
+   */
+  updateProcessingConf = (fields) => {
+    const { update, processing } = this.props
+    const pluginConfiguration = fields.pluginConfiguration ? {
+      ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
+    } : null
+    const processingConfToUpdate = {
+      pluginConfiguration,
+      rigths: {
+        role: get(fields, 'userRole'),
+      },
+    }
+    update(get(processing, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
+      if (!actionResults.error) {
+        this.onBack()
+      }
+    })
   }
 
   render() {
     const {
-      params: { project }, processing, update, create,
+      params: { mode }, processing,
     } = this.props
+    const { backUrl } = this.state
 
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}
       >
         <ProcessingFormComponent
-          project={project}
-          mode={this.state.mode}
+          mode={mode}
           processing={processing}
-          onUpdate={update}
-          onCreate={create}
+          onSubmit={this.onSubmit}
+          backUrl={backUrl}
         />
       </LoadableContentDisplayDecorator>
     )

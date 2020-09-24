@@ -16,19 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { browserHistory } from 'react-router'
 import { ProcessingDomain } from '@regardsoss/domain'
-import { RenderPluginField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
-import { DEFAULT_ROLES_ENUM } from '@regardsoss/domain/admin'
+import { AdminDomain } from '@regardsoss/domain'
 import {
   reduxForm, Field, ValidationHelpers, RenderSelectField,
 } from '@regardsoss/form-utils'
 import get from 'lodash/get'
 import map from 'lodash/map'
+import find from 'lodash/find'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import DetailIcon from 'mdi-material-ui/HelpCircle'
 import Card from 'material-ui/Card'
@@ -42,17 +42,21 @@ import Dialog from 'material-ui/Dialog'
 import messages from '../i18n'
 import styles from '../styles'
 
+export const FORM_MODE = {
+  CREATE: 'create',
+  EDIT: 'edit',
+}
+
 /**
 * Component to create/edit a processing plugin configuration
 * @author Théo Lasserre
 */
 export class ProcessingFormComponent extends React.Component {
   static propTypes = {
-    project: PropTypes.string.isRequired,
     mode: PropTypes.string.isRequired,
     processing: ProcessingShapes.Processing,
-    onUpdate: PropTypes.func.isRequired,
-    onCreate: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
+    backUrl: PropTypes.string.isRequired,
     // from redux form
     pristine: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -75,66 +79,21 @@ export class ProcessingFormComponent extends React.Component {
 
   handleInitialize = () => {
     const { mode, processing, initialize } = this.props
-    if (mode === 'edit' && processing) {
-      initialize({
-        pluginConfiguration: get(processing, 'content.pluginConfiguration'),
-        userRole: get(processing, 'content.rigths.role'),
-      })
-    } else {
-      initialize({
-        userRole: DEFAULT_ROLES_ENUM.PUBLIC,
-      })
+    switch(mode) {
+      case FORM_MODE.CREATE:
+        initialize({
+          userRole: AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC,
+        })
+        break
+      case FORM_MODE.EDIT:
+        initialize({
+          pluginConfiguration: get(processing, 'content.pluginConfiguration'),
+          userRole: get(processing, 'content.rigths.role'),
+        })
+        break
+      default:
+        null
     }
-  }
-
-  onBack = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/commands/processing/list`)
-  }
-
-  /**
-   * Update a processingConf from the given updated PluginConfiguration fields & SelectedRole field.
-   * @param {*} fields
-   */
-  updateProcessingConf = (fields) => {
-    const { onUpdate, processing } = this.props
-    const pluginConfiguration = fields.pluginConfiguration ? {
-      ...PluginFormUtils.formatPluginConf(fields.pluginConfiguration),
-    } : null
-    const processingConfToUpdate = {
-      pluginConfiguration,
-      rigths: {
-        role: get(fields, 'userRole'),
-      },
-    }
-    onUpdate(get(processing, 'content.pluginConfiguration.businessId'), processingConfToUpdate).then((actionResults) => {
-      if (!actionResults.error) {
-        this.onBack()
-      }
-    })
-  }
-
-  /**
-   * Create a processingConf from the given updated PluginConfiguration fields.
-   */
-  createProcessingConf = (fields) => {
-    const { onCreate } = this.props
-    const pluginConf = fields.pluginConfiguration ? fields.pluginConfiguration : null
-    const formatedPluginConf = PluginFormUtils.formatPluginConf(pluginConf)
-    const processingConf = {
-      content: {
-        pluginConfiguration: formatedPluginConf,
-        rigths: {
-          role: get(fields, 'userRole', DEFAULT_ROLES_ENUM.PUBLIC),
-        },
-      },
-    }
-
-    onCreate(processingConf).then((actionResults) => {
-      if (!actionResults.error) {
-        this.onBack()
-      }
-    })
   }
 
   renderContent = () => {
@@ -143,7 +102,7 @@ export class ProcessingFormComponent extends React.Component {
       intl: { formatMessage },
       moduleTheme: { processingForm: { selectUserRoleDiv, selectUserRoleFieldDiv, helpUserRoleIcon }, iconStyle, buttonStyle },
     } = this.context
-    if (mode !== 'create' && !processing) {
+    if (mode === FORM_MODE.EDIT && !processing) {
       return (
         <NoContentComponent
           titleKey="processing.form.invalid.id"
@@ -172,7 +131,7 @@ export class ProcessingFormComponent extends React.Component {
               type="text"
               label={formatMessage({ id: 'processing.form.select.role' })}
             >
-              {map(DEFAULT_ROLES_ENUM, (value, key) => (
+              {map(AdminDomain.DEFAULT_ROLES_ENUM, (value, key) => (
                 <MenuItem
                   key={key}
                   value={value}
@@ -229,34 +188,35 @@ export class ProcessingFormComponent extends React.Component {
 
   render() {
     const {
-      project, handleSubmit, processing, mode,
-      pristine, invalid,
+      onSubmit, handleSubmit, processing, mode,
+      pristine, invalid, backUrl
     } = this.props
 
-    let onSubmitAction; let
-      backUrl
-    if (mode === 'create') {
-      onSubmitAction = this.createProcessingConf
-      backUrl = `/admin/${project}/commands/board`
-    } else {
-      onSubmitAction = this.updateProcessingConf
-      backUrl = `/admin/${project}/commands/processing/list`
+    const { intl: { formatMessage }, moduleTheme } = this.context
+
+    const buttonTitle = formatMessage({ id: `processing.form.submit.${mode}.button` })
+    let title = ''
+    switch(mode) {
+      case FORM_MODE.CREATE:
+        title = formatMessage({ id: `processing.form.${mode}.title` })
+        break
+      case FORM_MODE.EDIT:
+        const processName = find(processing.content.pluginConfiguration.parameters, (parameter) => (
+          parameter.name === 'processName'
+        )).value
+        title = formatMessage({ id: `processing.form.${mode}.title` }, { name: processName })
+        break
+      default:
+        title = ''
     }
 
-    const { intl: { formatMessage }, moduleTheme } = this.context
-    const title = mode === 'edit'
-      ? formatMessage({ id: 'processing.form.edit.title' }, { name: get(processing, 'content.name') })
-      : formatMessage({ id: 'processing.form.create.title' })
-    const buttonTitle = mode === 'edit'
-      ? formatMessage({ id: 'processing.form.submit.edit.button' })
-      : formatMessage({ id: 'processing.form.submit.button' })
     return (
       <Card>
         <CardTitle
           title={title}
           subtitle={formatMessage({ id: 'processing.form.subtitle' })}
         />
-        <form onSubmit={handleSubmit(onSubmitAction)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <CardText style={moduleTheme.root}>
             {this.renderContent()}
             {this.helpUserRoleDialog()}

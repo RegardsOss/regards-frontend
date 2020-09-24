@@ -73,7 +73,7 @@ const messages = {
   'processing.form.edit.title': 'Edit processing "{name}"',
   'processing.form.create.title': 'Add new processing',
   'processing.form.submit.edit.button': 'Modify',
-  'processing.form.submit.button': 'Create',
+  'processing.form.submit.create.button': 'Create',
   'processing.form.subtitle': 'First you have to select a processing. When its done, you have to configure the needed parameters.',
   'processing.form.back.button': 'Cancel',
   'processing.form.plugin.label': 'Processing plugin',

@@ -41,7 +41,7 @@ export const listProcessingRoute = {
 }
 
 export const addProcessingRoute = {
-  path: 'create',
+  path: ':mode', // create mode
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProcessingFormContainer = require('./containers/ProcessingFormContainer')
@@ -53,7 +53,7 @@ export const addProcessingRoute = {
 }
 
 export const editProcessingRoute = {
-  path: ':businessId/edit',
+  path: ':businessId/:mode', // edit mode
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const ProcessingFormContainer = require('./containers/ProcessingFormContainer')
