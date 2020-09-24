@@ -22,9 +22,9 @@ const messages = {
   'commands.board.tooltip.list': 'Liste',
   'commands.board.processing.title': 'Traitements',
   'commands.board.processing.description': 'Consulter et gérer les traitements sur les commandes',
-  'commands.board.processing.tooltip.monitoring': 'Suivi',
-  'commands.board.processing.tooltip.list': 'Liste',
-  'commands.board.processing.tooltip.add': 'Ajouter',
+  'commands.board.processing.tooltip.monitoring': 'Monitoring des traitements en cours',
+  'commands.board.processing.tooltip.list': 'Liste des configurations de traitements',
+  'commands.board.processing.tooltip.add': 'Créer une configuration de traitement',
 }
 
 export default messages
