@@ -28,7 +28,6 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class ProccesingMonitoringInfo extends React.Component {
     static propTypes = {
-      hoverColor: PropTypes.string,
       entity: ProcessingShapes.ProcessingMonitoring,
       onClick: PropTypes.func.isRequired,
     }
@@ -45,7 +44,7 @@ class ProccesingMonitoringInfo extends React.Component {
         muiTheme
       } = this.context
       const {
-        entity, entity: { content }, onClick, hoverColor,
+        entity, entity: { content }, onClick,
       } = this.props
       const style = {
         hoverButtonEdit: muiTheme.palette.primary1Color,
