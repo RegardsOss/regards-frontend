@@ -44,7 +44,9 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
     if (!entity) {
       return null
     }
-    const { message } = entity.content.steps[entity.content.steps.length - 1]
+    const { message } = entity.content.steps.length > 0 
+            ? entity.content.steps[entity.content.steps.length - 1]
+            : ''
     let titleId = 'processing.monitoring.list.tooltip.no.info.title'
     if (message !== '') {
       titleId = 'processing.monitoring.list.tooltip.info.title'
