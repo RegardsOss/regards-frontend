@@ -120,7 +120,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
         ...filters,
       }
       // Remove from params the status field if it is still pristine
-      if (filters[PROCESS_FILTER_PARAMS.STATUS].length === PROCESS_FILTER_PARAMS.STATUS.length) {
+      if (filters[PROCESS_FILTER_PARAMS.STATUS].length === ProcessingDomain.PROCESS_STATUS_TYPES.length) {
         delete filtersClean[PROCESS_FILTER_PARAMS.STATUS]
       }
       onRefresh(filtersClean)
