@@ -41,10 +41,15 @@ class ProcessingListFiltersComponent extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    filters: {
+  /**
+   * Default state for filters edition
+   */
+  static DEFAULT_FILTERS_STATE = {
       processName: '',
-    },
+  }
+
+  state = {
+    filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE
   }
 
   changeProcessingFilter = (event, newValue) => {
@@ -52,14 +57,17 @@ class ProcessingListFiltersComponent extends React.Component {
   }
 
   handleClearFilters = () => {
-    this.setState(
-      {
-        filters: {
-          processName: '',
-        },
-      },
+    this.setState({
+      filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE
+    },
       () => this.props.onRefresh(this.state.filters),
     )
+  }
+
+  applyFilters = () => {
+    const { onRefresh } = this.props
+    const { filters } = this.state
+    onRefresh(filters)
   }
 
   render() {
@@ -84,7 +92,7 @@ class ProcessingListFiltersComponent extends React.Component {
             <FlatButton
               label={this.context.intl.formatMessage({ id: 'processing.management.table.filter.button' })}
               icon={<Filter />}
-              onClick={() => this.props.onRefresh(this.state.filters)}
+              onClick={this.applyFilters}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
