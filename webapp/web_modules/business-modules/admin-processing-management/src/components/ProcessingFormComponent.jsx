@@ -87,11 +87,11 @@ export class ProcessingFormComponent extends React.Component {
       case FORM_MODE.EDIT:
         initialize({
           pluginConfiguration: get(processing, 'content.pluginConfiguration'),
-          userRole: get(processing, 'content.rigths.role'),
+          userRole: get(processing, 'content.rigths.role', AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
         })
         break
       default:
-        break
+        throw new Error('FORM MODE Unknown')
     }
   }
 
@@ -207,7 +207,7 @@ export class ProcessingFormComponent extends React.Component {
         title = formatMessage({ id: `processing.form.${mode}.title` }, { name: processName })
         break
       default:
-        break
+        throw new Error('FORM MODE Unknown')
     }
 
     return (
