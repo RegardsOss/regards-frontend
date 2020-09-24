@@ -39,7 +39,7 @@ describe('[ADMIN DATA DATASET MANAGEMENT] Testing router', () => {
     expect(Routes.childRoutes[3].path).to.eq(':datasetId/edit')
     expect(Routes.childRoutes[4].path).to.eq(':datasetId/files')
     expect(Routes.childRoutes[5].path).to.eq(':datasetId/links')
-    expect(Routes.childRoutes[6].path).to.eq(':datasetId/:datasetIpId/pluginsUIprocessing')
+    expect(Routes.childRoutes[6].path).to.eq(':datasetId/:datasetIpId/plugins')
   })
   it('list should return DatasetListContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {

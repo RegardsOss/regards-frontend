@@ -41,7 +41,7 @@ class ProccesingMonitoringInfo extends React.Component {
       const {
         intl: { formatMessage },
         moduleTheme: { iconStyle, buttonStyle },
-        muiTheme
+        muiTheme,
       } = this.context
       const {
         entity, entity: { content }, onClick,

@@ -24,7 +24,7 @@ import { AdminDomain } from '@regardsoss/domain'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import get from 'lodash/get'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
-import ProcessingFormComponent, { FORM_MODE }  from '../components/ProcessingFormComponent'
+import ProcessingFormComponent, { FORM_MODE } from '../components/ProcessingFormComponent'
 
 /**
 * Container to handle create/edit/duplicate form of a storage location plugin
@@ -74,7 +74,7 @@ export class ProcessingFormContainer extends React.Component {
 
   state = {
     isLoading: !!get(this.props, 'params.businessId', false),
-    backUrl: ''
+    backUrl: '',
   }
 
   UNSAFE_componentWillMount() {
@@ -93,23 +93,24 @@ export class ProcessingFormContainer extends React.Component {
 
     // Set backUrl
     let backUrl
-    switch(mode) {
+    switch (mode) {
       case FORM_MODE.CREATE:
         backUrl = `/admin/${project}/commands/board`
         break
       case FORM_MODE.EDIT:
         backUrl = `/admin/${project}/commands/processing/list`
         break
-      default: ''
+      default:
+        break
     }
     this.setState({
-      backUrl
+      backUrl,
     })
   }
 
   onSubmit = (fields) => {
     const { params: { mode } } = this.props
-    switch(mode) {
+    switch (mode) {
       case FORM_MODE.CREATE:
         this.createProcessingConf(fields)
         break
@@ -117,7 +118,7 @@ export class ProcessingFormContainer extends React.Component {
         this.updateProcessingConf(fields)
         break
       default:
-        null
+        break
     }
   }
 

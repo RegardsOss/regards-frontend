@@ -45,11 +45,11 @@ class ProcessingListFiltersComponent extends React.Component {
    * Default state for filters edition
    */
   static DEFAULT_FILTERS_STATE = {
-      processName: '',
+    processName: '',
   }
 
   state = {
-    filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE
+    filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE,
   }
 
   changeProcessingFilter = (event, newValue) => {
@@ -58,9 +58,9 @@ class ProcessingListFiltersComponent extends React.Component {
 
   handleClearFilters = () => {
     this.setState({
-      filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE
+      filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE,
     },
-      () => this.props.onRefresh(this.state.filters),
+    () => this.props.onRefresh(this.state.filters),
     )
   }
 

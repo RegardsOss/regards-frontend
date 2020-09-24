@@ -46,6 +46,7 @@ describe('[ADMIN PROCESSING MANAGEMENT Test Processing form container', () => {
       params: {
         project: 'testProject',
         businessId: 'testBusinessId',
+        mode: 'create',
       },
       // from mapStateToProps
       processing: DumpProvider.getFirstEntity('ProcessingClient', 'Processing'),

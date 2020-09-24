@@ -16,13 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { ProcessingDomain } from '@regardsoss/domain'
+import { ProcessingDomain, AdminDomain } from '@regardsoss/domain'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
-import { AdminDomain } from '@regardsoss/domain'
 import {
   reduxForm, Field, ValidationHelpers, RenderSelectField,
 } from '@regardsoss/form-utils'
@@ -79,7 +78,7 @@ export class ProcessingFormComponent extends React.Component {
 
   handleInitialize = () => {
     const { mode, processing, initialize } = this.props
-    switch(mode) {
+    switch (mode) {
       case FORM_MODE.CREATE:
         initialize({
           userRole: AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC,
@@ -92,7 +91,7 @@ export class ProcessingFormComponent extends React.Component {
         })
         break
       default:
-        null
+        break
     }
   }
 
@@ -189,25 +188,26 @@ export class ProcessingFormComponent extends React.Component {
   render() {
     const {
       onSubmit, handleSubmit, processing, mode,
-      pristine, invalid, backUrl
+      pristine, invalid, backUrl,
     } = this.props
 
     const { intl: { formatMessage }, moduleTheme } = this.context
 
     const buttonTitle = formatMessage({ id: `processing.form.submit.${mode}.button` })
     let title = ''
-    switch(mode) {
+    let processName = ''
+    switch (mode) {
       case FORM_MODE.CREATE:
         title = formatMessage({ id: `processing.form.${mode}.title` })
         break
       case FORM_MODE.EDIT:
-        const processName = find(processing.content.pluginConfiguration.parameters, (parameter) => (
+        processName = find(processing.content.pluginConfiguration.parameters, (parameter) => (
           parameter.name === 'processName'
         )).value
         title = formatMessage({ id: `processing.form.${mode}.title` }, { name: processName })
         break
       default:
-        title = ''
+        break
     }
 
     return (
