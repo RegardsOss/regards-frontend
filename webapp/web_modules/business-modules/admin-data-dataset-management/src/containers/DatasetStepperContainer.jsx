@@ -115,7 +115,7 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   handlePluginsUIProcessingClick = () => {
-    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/pluginsUIprocessing`
+    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
     browserHistory.push(url)
   }
 

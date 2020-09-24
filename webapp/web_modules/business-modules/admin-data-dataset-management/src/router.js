@@ -89,7 +89,7 @@ export const editLinksDatasetRoute = {
 }
 
 export const editPluginUIProcessingRoute = {
-  path: ':datasetId/:datasetIpId/pluginsUIprocessing',
+  path: ':datasetId/:datasetIpId/plugins',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const DatasetEditPluginUIProcessingContainer = require('./containers/DatasetEditPluginUIProcessingContainer')
