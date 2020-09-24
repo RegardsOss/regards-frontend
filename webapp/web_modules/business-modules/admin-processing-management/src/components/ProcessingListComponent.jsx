@@ -30,7 +30,6 @@ import {
 import { i18nContextType } from '@regardsoss/i18n'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { processingDependencies } from '@regardsoss/admin-processing-management'
 import find from 'lodash/find'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -39,6 +38,7 @@ import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
 import CardActions from 'material-ui/Card/CardActions'
 import FlatButton from 'material-ui/FlatButton'
+import processingDependencies from '../dependencies'
 import ProcessingListFiltersComponent from './ProcessingListFiltersComponent'
 import ProcessingProcessNameRenderer from './render/ProcessingProcessNameRenderer'
 import ProcessingEditComponent from './ProcessingEditComponent'
@@ -116,10 +116,6 @@ class ProcessingListComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-      const style = {
-        hoverButtonEdit: muiTheme.palette.primary1Color,
-        hoverButtonDelete: muiTheme.palette.accent1Color,
-      }
 
       const columns = [
         // 1 - process name column
@@ -139,10 +135,10 @@ class ProcessingListComponent extends React.Component {
           .label(formatMessage({ id: 'processing.monitoring.list.header.option' }))
           .optionsColumn([{
             OptionConstructor: ProcessingEditComponent,
-            optionProps: { handleEdit, hoverColor: style.hoverButtonEdit },
+            optionProps: { handleEdit },
           }, {
             OptionConstructor: ProcessingDeleteComponent,
-            optionProps: { handleDelete: this.openDeleteDialog, hoverColor: style.hoverButtonDelete },
+            optionProps: { handleDelete: this.openDeleteDialog },
           }]).build(),
       ]
 

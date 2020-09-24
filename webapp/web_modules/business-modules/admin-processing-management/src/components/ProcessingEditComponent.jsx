@@ -19,6 +19,7 @@
 
 import IconButton from 'material-ui/IconButton'
 import EditIcon from 'mdi-material-ui/Pencil'
+import { themeContextType } from '@regardsoss/theme'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -34,6 +35,7 @@ class ProcessingEditComponent extends React.Component {
 
     static contextTypes = {
       ...i18nContextType,
+      ...themeContextType,
     }
 
     /**
@@ -45,14 +47,17 @@ class ProcessingEditComponent extends React.Component {
     }
 
     render() {
-      const { intl: { formatMessage } } = this.context
+      const { intl: { formatMessage }, muiTheme } = this.context
+      const style = {
+        hoverButtonEdit: muiTheme.palette.primary1Color,
+      }
 
       return (
         <IconButton
           title={formatMessage({ id: 'processing.management.list.edit.button' })}
           onClick={this.onEdit}
         >
-          <EditIcon />
+          <EditIcon hoverColor={style.hoverButtonEdit} />
         </IconButton>
       )
     }

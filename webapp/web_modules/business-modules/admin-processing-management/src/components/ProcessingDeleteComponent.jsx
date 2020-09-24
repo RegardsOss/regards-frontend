@@ -19,6 +19,7 @@
 
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
+import { themeContextType } from '@regardsoss/theme'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
@@ -34,6 +35,7 @@ class ProcessingDeleteComponent extends React.Component {
 
     static contextTypes = {
       ...i18nContextType,
+      ...themeContextType,
     }
 
     /**
@@ -45,13 +47,17 @@ class ProcessingDeleteComponent extends React.Component {
     }
 
     render() {
-      const { intl: { formatMessage } } = this.context
+      const { intl: { formatMessage }, muiTheme } = this.context
+      const style = {
+        hoverButtonDelete: muiTheme.palette.accent1Color,
+      }
+
       return (
         <IconButton
           title={formatMessage({ id: 'processing.management.list.delete.button' })}
           onClick={this.onDelete}
         >
-          <DeleteIcon />
+          <DeleteIcon hoverColor={style.hoverButtonDelete} />
         </IconButton>
       )
     }
