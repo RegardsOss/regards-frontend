@@ -23,7 +23,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
   TableHeaderContentBox, TableHeaderOptionGroup, TableColumnsVisibilityOption, StorageCapacityRender,
-  NoContentComponent,
+  NoContentComponent, StringValueRender,
 } from '@regardsoss/components'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
@@ -34,6 +34,7 @@ const LABEL_KEY = 'column.label'
 const OBJECT_COUNT_KEY = 'column.objects.count'
 const FILES_COUNT_KEY = 'column.files.count'
 const FILES_SIZE_KEY = 'column.files.size'
+const PROCESSING_KEY = 'column.processing' // TODO
 
 /**
  * Shows selected order datasets
@@ -89,6 +90,17 @@ class OrderDatasetsComponent extends React.Component {
       new TableColumnBuilder(FILES_SIZE_KEY).titleHeaderCell().propertyRenderCell('filesSize', StorageCapacityRender)
         .label(formatMessage({ id: 'datasets.list.column.files.size' }))
         .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
+        .build(),
+      // 5 - Processing label
+      new TableColumnBuilder(PROCESSING_KEY).titleHeaderCell()/*.propertyRenderCell('processing.label', StringValueRender)*/
+        .rowCellDefinition({ // TODO
+          Constructor: StringValueRender,
+          props: {
+            value: 'TOTO',
+          },
+        })
+        .label(formatMessage({ id: 'datasets.list.column.processing' }))
+        .visible(get(columnsVisibility, PROCESSING_KEY, true))
         .build(),
       // 5 - Options
       new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))

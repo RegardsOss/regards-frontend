@@ -17,11 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { OrderDomain } from '@regardsoss/domain'
+import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
 
 /**
  * Order shapes
  * @author Raphaël Mechali
  */
+
+/**
+ * An order dataset processing
+ */
+// TODO
+export const DatasetProcessing = PropTypes.shape({
+  uuid: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  parameters: PropTypes.arrayOf(PluginParameterContent),
+})
 
 /** An order dataset */
 export const DatasetTask = PropTypes.shape({
@@ -30,6 +41,7 @@ export const DatasetTask = PropTypes.shape({
   objectsCount: PropTypes.number.isRequired,
   filesCount: PropTypes.number.isRequired,
   filesSize: PropTypes.number.isRequired,
+  processing: DatasetProcessing,
 })
 
 /** An order */

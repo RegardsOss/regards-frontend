@@ -34,6 +34,8 @@ export const ORDER_FILE_STATUS_ENUM = {
   DOWNLOADED: 'DOWNLOADED',
   /** Error during download */
   DOWNLOAD_ERROR: 'DOWNLOAD_ERROR',
+  /** Error during processing */
+  PROCESSING_ERROR: 'PROCESSING_ERROR',
   /** Error during order (or any error) */
   ERROR: 'ERROR',
 }
