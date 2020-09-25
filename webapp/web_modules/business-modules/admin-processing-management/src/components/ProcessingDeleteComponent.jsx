@@ -47,17 +47,14 @@ class ProcessingDeleteComponent extends React.Component {
     }
 
     render() {
-      const { intl: { formatMessage }, muiTheme } = this.context
-      const style = {
-        hoverButtonDelete: muiTheme.palette.accent1Color,
-      }
+      const { intl: { formatMessage }, moduleTheme } = this.context
 
       return (
         <IconButton
           title={formatMessage({ id: 'processing.management.list.delete.button' })}
           onClick={this.onDelete}
         >
-          <DeleteIcon hoverColor={style.hoverButtonDelete} />
+          <DeleteIcon hoverColor={moduleTheme.hoverButtonDelete} />
         </IconButton>
       )
     }

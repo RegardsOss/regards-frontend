@@ -41,14 +41,11 @@ class ProccesingMonitoringInfo extends React.Component {
       const {
         intl: { formatMessage },
         moduleTheme: { iconStyle, buttonStyle },
-        muiTheme,
+        moduleTheme,
       } = this.context
       const {
         entity, entity: { content }, onClick,
       } = this.props
-      const style = {
-        hoverButtonEdit: muiTheme.palette.primary1Color,
-      }
 
       return (
         <IconButton
@@ -58,7 +55,7 @@ class ProccesingMonitoringInfo extends React.Component {
           style={buttonStyle}
           onClick={() => onClick(entity)}
         >
-          <DetailIcon hoverColor={style.hoverButtonEdit} />
+          <DetailIcon hoverColor={moduleTheme.hoverButtonEdit} />
         </IconButton>
       )
     }

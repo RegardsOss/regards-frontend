@@ -61,4 +61,6 @@ export default (theme) => ({
     height: '30px',
     width: '30px',
   },
+  hoverButtonEdit: theme.palette.primary1Color,
+  hoverButtonDelete: theme.palette.accent1Color,
 })

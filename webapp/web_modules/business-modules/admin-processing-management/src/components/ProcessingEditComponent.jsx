@@ -47,17 +47,14 @@ class ProcessingEditComponent extends React.Component {
     }
 
     render() {
-      const { intl: { formatMessage }, muiTheme } = this.context
-      const style = {
-        hoverButtonEdit: muiTheme.palette.primary1Color,
-      }
+      const { intl: { formatMessage }, moduleTheme } = this.context
 
       return (
         <IconButton
           title={formatMessage({ id: 'processing.management.list.edit.button' })}
           onClick={this.onEdit}
         >
-          <EditIcon hoverColor={style.hoverButtonEdit} />
+          <EditIcon hoverColor={moduleTheme.hoverButtonEdit} />
         </IconButton>
       )
     }
