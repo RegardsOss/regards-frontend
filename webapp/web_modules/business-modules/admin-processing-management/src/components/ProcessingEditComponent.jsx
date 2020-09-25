@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ProcessingEditComponent extends React.Component {
     static propTypes = {
-      processing: ProcessingShapes.Processing.isRequired,
+      entity: ProcessingShapes.Processing.isRequired,
       handleEdit: PropTypes.func.isRequired,
     }
 
@@ -42,8 +42,8 @@ class ProcessingEditComponent extends React.Component {
      * User callback: on edit project user, locally wrapped
      */
     onEdit = () => {
-      const { processing, handleEdit } = this.props
-      handleEdit(processing.content.pluginConfiguration.businessId)
+      const { entity, handleEdit } = this.props
+      handleEdit(entity.content.pluginConfiguration.businessId)
     }
 
     render() {

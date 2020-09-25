@@ -26,16 +26,16 @@ import find from 'lodash/find'
   */
 class ProcessingProcessNameRenderer extends React.Component {
    static propTypes = {
-     processing: ProcessingShapes.Processing.isRequired,
+     entity: ProcessingShapes.Processing.isRequired,
    }
 
    render() {
-     const { processing } = this.props
+     const { entity } = this.props
      return (
        <div>
          {
-           processing
-             ? find(processing.content.pluginConfiguration.parameters, (param) => (
+           entity
+             ? find(entity.content.pluginConfiguration.parameters, (param) => (
                param.name === 'processName'
              )).value
              : 'processNameNotFound'

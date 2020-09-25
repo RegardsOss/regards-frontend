@@ -23,12 +23,12 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Info Icon component for processing monitoring
+ * Info Icon component for entity monitoring
  * @author Théo Lasserre
  */
 class ProccesingMonitoringInfo extends React.Component {
     static propTypes = {
-      processing: ProcessingShapes.ProcessingMonitoring,
+      entity: ProcessingShapes.ProcessingMonitoring,
       onClick: PropTypes.func.isRequired,
     }
 
@@ -44,7 +44,7 @@ class ProccesingMonitoringInfo extends React.Component {
         moduleTheme,
       } = this.context
       const {
-        processing, processing: { content }, onClick,
+        entity, entity: { content }, onClick,
       } = this.props
 
       return (
@@ -53,7 +53,7 @@ class ProccesingMonitoringInfo extends React.Component {
           title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
           iconStyle={iconStyle}
           style={buttonStyle}
-          onClick={() => onClick(processing)}
+          onClick={() => onClick(entity)}
         >
           <DetailIcon hoverColor={moduleTheme.hoverButtonEdit} />
         </IconButton>
