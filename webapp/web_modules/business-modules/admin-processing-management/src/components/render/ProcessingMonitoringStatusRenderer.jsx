@@ -25,11 +25,11 @@ import { ProcessingShapes } from '@regardsoss/shape'
  */
 class ProcessingMonitoringStatusRenderer extends React.Component {
     static propTypes = {
-      entity: ProcessingShapes.ProcessingMonitoring.isRequired,
+      processing: ProcessingShapes.ProcessingMonitoring.isRequired,
     }
 
     render() {
-      const { entity: { content: { steps } } } = this.props
+      const { processing: { content: { steps } } } = this.props
 
       return steps.length > 0 ? (
         <div>{steps[steps.length - 1].status}</div>

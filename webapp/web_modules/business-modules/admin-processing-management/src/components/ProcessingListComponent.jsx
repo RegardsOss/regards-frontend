@@ -82,10 +82,10 @@ class ProcessingListComponent extends React.Component {
       })
     }
 
-    openDeleteDialog = (entity) => {
+    openDeleteDialog = (processing) => {
       this.setState({
         deleteDialogOpened: true,
-        processingToDelete: entity,
+        processingToDelete: processing,
       })
     }
 

@@ -28,7 +28,7 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class ProccesingMonitoringInfo extends React.Component {
     static propTypes = {
-      entity: ProcessingShapes.ProcessingMonitoring,
+      processing: ProcessingShapes.ProcessingMonitoring,
       onClick: PropTypes.func.isRequired,
     }
 
@@ -44,7 +44,7 @@ class ProccesingMonitoringInfo extends React.Component {
         moduleTheme,
       } = this.context
       const {
-        entity, entity: { content }, onClick,
+        processing, processing: { content }, onClick,
       } = this.props
 
       return (
@@ -53,7 +53,7 @@ class ProccesingMonitoringInfo extends React.Component {
           title={formatMessage({ id: 'processing.monitoring.list.tooltip.info.button' })}
           iconStyle={iconStyle}
           style={buttonStyle}
-          onClick={() => onClick(entity)}
+          onClick={() => onClick(processing)}
         >
           <DetailIcon hoverColor={moduleTheme.hoverButtonEdit} />
         </IconButton>

@@ -69,9 +69,9 @@ export class ProcessingMonitoringComponent extends React.Component {
 
     onCloseInfoDialog = () => this.showInformation(null)
 
-    showInformation = (entity) => {
+    showInformation = (processing) => {
       this.setState({
-        entityForInfos: entity,
+        entityForInfos: processing,
       })
     }
 
@@ -139,7 +139,7 @@ export class ProcessingMonitoringComponent extends React.Component {
                 emptyComponent={ProcessingMonitoringComponent.EMPTY_COMPONENT}
               />
               <ProcessingMonitoringEntityInfoDialog
-                entity={this.state.entityForInfos}
+                processing={this.state.entityForInfos}
                 onClose={this.onCloseInfoDialog}
               />
             </TableLayout>

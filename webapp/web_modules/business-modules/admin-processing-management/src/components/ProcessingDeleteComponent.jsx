@@ -29,7 +29,7 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ProcessingDeleteComponent extends React.Component {
     static propTypes = {
-      entity: ProcessingShapes.Processing.isRequired,
+      processing: ProcessingShapes.Processing.isRequired,
       handleDelete: PropTypes.func.isRequired,
     }
 
@@ -42,8 +42,8 @@ class ProcessingDeleteComponent extends React.Component {
      * User callback: on delete project user, locally wrapped
      */
     onDelete = () => {
-      const { entity, handleDelete } = this.props
-      handleDelete(entity)
+      const { processing, handleDelete } = this.props
+      handleDelete(processing)
     }
 
     render() {

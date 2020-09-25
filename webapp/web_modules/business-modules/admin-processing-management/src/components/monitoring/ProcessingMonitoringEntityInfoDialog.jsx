@@ -29,7 +29,7 @@ import styles from '../../styles'
  */
 export class ProcessingMonitoringEntityInfoDialog extends React.Component {
   static propTypes = {
-    entity: ProcessingShapes.ProcessingMonitoring,
+    processing: ProcessingShapes.ProcessingMonitoring,
     onClose: PropTypes.func.isRequired,
   }
 
@@ -39,13 +39,13 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
   }
 
   render() {
-    const { entity, onClose } = this.props
+    const { processing, onClose } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
-    if (!entity) {
+    if (!processing) {
       return null
     }
-    const message = entity.content.steps.length > 0
-      ? entity.content.steps[entity.content.steps.length - 1].message
+    const message = processing.content.steps.length > 0
+      ? processing.content.steps[processing.content.steps.length - 1].message
       : ''
     let titleId = 'processing.monitoring.list.tooltip.no.info.title'
     if (message !== '') {
@@ -62,7 +62,7 @@ export class ProcessingMonitoringEntityInfoDialog extends React.Component {
             onClick={onClose}
           />
         </>}
-        title={formatMessage({ id: titleId }, { name: entity.content.processName })}
+        title={formatMessage({ id: titleId }, { name: processing.content.processName })}
         open
         onRequestClose={onClose}
       >
