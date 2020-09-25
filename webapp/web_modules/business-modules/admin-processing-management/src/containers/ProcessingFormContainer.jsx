@@ -150,7 +150,7 @@ export class ProcessingFormContainer extends React.Component {
           mode={mode}
           processing={processing}
           onSubmit={this.onSubmit}
-          backUrl={this.getBackUrl}
+          backUrl={this.getBackUrl()}
         />
       </LoadableContentDisplayDecorator>
     )
