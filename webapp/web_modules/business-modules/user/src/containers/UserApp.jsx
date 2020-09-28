@@ -31,10 +31,10 @@ import { BrowserCheckerDialog } from '@regardsoss/components'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
-import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
+import { attributeModelActions } from '../clients/AttributeModelClient'
 import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
-import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClients'
+import { uiSettingsActions } from '../clients/UISettingsClients'
 import AuthenticationContainer from './AuthenticationContainer'
 
 /**

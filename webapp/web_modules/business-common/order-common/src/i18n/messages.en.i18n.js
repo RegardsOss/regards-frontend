@@ -103,6 +103,7 @@ const messages = {
   'datasets.list.column.files.count': 'Files count',
   'datasets.list.column.files.size': 'Files size',
   'datasets.list.column.processing': 'Processing',
+  'datasets.list.column.processing.undefined': 'Undefined',
   'datasets.list.column.options': 'Options',
   'datasets.list.option.cell.detail.title': 'Dataset files',
 

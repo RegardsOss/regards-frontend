@@ -19,34 +19,34 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { UserModuleContainer } from '../../../src/containers/user/UserModuleContainer'
-import OrderHistoryComponent from '../../../src/components/user/OrderHistoryComponent'
-
+import { ProcessingClient } from '@regardsoss/client'
+import { StringValueRender } from '@regardsoss/components'
+import { OrderDatasetsProcessingContainer } from '../../../src/containers/datasets/OrderDatasetsProcessingContainer'
 import styles from '../../../src/styles/styles'
+import { SOME_ORDERS } from '../../dumps/Orders.dumb'
+import { SOME_PROCESSING } from '../../dumps/Processing.dump'
 
 const context = buildTestContext(styles)
 
 /**
-* Test UserModuleContainer
-* @author Raphaël Mechali
-*/
-describe('[Order History] Testing UserModuleContainer', () => {
+ * Test OrderDatasetsProcessingContainer
+ * @author Théo Lasserre
+ */
+describe('[Order Common] Test OrderDatasetsProcessingContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(UserModuleContainer)
+    assert.isDefined(OrderDatasetsProcessingContainer)
   })
   it('should render correctly', () => {
     const props = {
-      appName: 'x',
-      project: 'y',
-      type: 'z',
-      description: 'Some module name',
-      fetchProcessingList: () => { },
-      availableDependencies: [],
+      entity: SOME_ORDERS.content[0].content.datasetTasks[0],
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      processingList: SOME_PROCESSING[0],
     }
-    const wrapper = shallow(<UserModuleContainer name {...props} />, { context })
-    assert.lengthOf(wrapper.find(OrderHistoryComponent), 1, 'It should render main module component')
+    const enzymeWrapper = shallow(<OrderDatasetsProcessingContainer {...props} />, { context })
+    const component = enzymeWrapper.find(StringValueRender)
+    assert.lengthOf(component, 1, 'The component should be rendered')
   })
 })

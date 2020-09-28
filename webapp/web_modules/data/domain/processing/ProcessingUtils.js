@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 
 export const getProcessingName = (processing) => (
-    find(processing.content.pluginConfiguration.parameters, (parameter) => (
-        parameter.name === 'processName'
-    )).value
+  find(processing.content.pluginConfiguration.parameters, (parameter) => (
+    parameter.name === 'processName'
+  )).value
 )
