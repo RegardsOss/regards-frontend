@@ -60,7 +60,7 @@ export class OrderDatasetsProcessingContainer extends React.Component {
       let processingLabel = formatMessage({ id: 'datasets.list.column.processing.undefined' })
       if (!isUndefined(entity.processing)) {
         const processingFound = find(processingList, (processing) => (
-          processing.content.pluginConfiguration.businessId === entity.processing.uuid
+            processing.content.pluginConfiguration.businessId === entity.processing.uuid
         ))
         processingLabel = ProcessingDomain.getProcessingName(processingFound)
       }
