@@ -16,31 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import find from 'lodash/find'
 
-import { ProcessingShapes } from '@regardsoss/shape'
-import { ProcessingDomain } from '@regardsoss/domain'
+export const getProcessingName = (processing) => (
+    find(processing.content.pluginConfiguration.parameters, (parameter) => (
+        parameter.name === 'processName'
+    )).value
+)
 
-/**
-  * ProcessingProcessNameRenderer
-  * @author Théo Lasserre
-  */
-class ProcessingProcessNameRenderer extends React.Component {
-   static propTypes = {
-     entity: ProcessingShapes.Processing.isRequired,
-   }
-
-   render() {
-     const { entity } = this.props
-     return (
-       <div>
-         {
-           entity
-             ? ProcessingDomain.getProcessingName(entity)
-             : 'processNameNotFound'
-         }
-       </div>
-     )
-   }
-}
-
-export default ProcessingProcessNameRenderer

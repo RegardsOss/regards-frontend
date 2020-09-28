@@ -22,11 +22,11 @@ import compose from 'lodash/fp/compose'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
-import find from 'lodash/find'
 import { connect } from '@regardsoss/redux'
 import {
   CatalogShapes, CommonShapes, AccessShapes, ProcessingShapes,
 } from '@regardsoss/shape'
+import { ProcessingDomain } from '@regardsoss/domain'
 import { I18nProvider, withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
@@ -189,9 +189,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
               const newProcessingConfiguration = {
                 content: {
                   ...processingConfiguration.content.pluginConfiguration,
-                  label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => (
-                    parameter.name === 'processName'
-                  )).value,
+                  label: ProcessingDomain.getProcessingName(processingConfiguration),
                 },
               }
               return newProcessingConfiguration

@@ -18,3 +18,4 @@
  **/
 export { PLUGIN_TYPE } from './PluginType'
 export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
+export { getProcessingName } from './ProcessingUtils'

@@ -22,9 +22,9 @@ import ListItem from 'material-ui/List'
 import Tabs from 'material-ui/Tabs'
 import Tab from 'material-ui/Tabs/Tab'
 import map from 'lodash/map'
-import find from 'lodash/find'
 import isEmpty from 'lodash/isEmpty'
 import { DumpProvider, buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ProcessingDomain } from '@regardsoss/domain'
 import { CardActionsComponent } from '@regardsoss/components'
 import { DatasetEditPluginUIProcessingComponent, DATASET_LINK_TYPE } from '../../src/components/DatasetEditPluginUIProcessingComponent'
 
@@ -86,9 +86,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginUIProcessingCompon
       const newProcessingConfiguration = {
         content: {
           ...processingConfiguration.content.pluginConfiguration,
-          label: find(processingConfiguration.content.pluginConfiguration.parameters, (parameter) => (
-            parameter.name === 'processName'
-          )).value,
+          label: ProcessingDomain.getProcessingName(processingConfiguration),
         },
       }
       return newProcessingConfiguration

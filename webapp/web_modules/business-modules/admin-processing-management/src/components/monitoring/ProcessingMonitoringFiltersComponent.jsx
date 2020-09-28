@@ -30,7 +30,6 @@ import { ProcessingDomain } from '@regardsoss/domain'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import map from 'lodash/map'
-import find from 'lodash/find'
 import filter from 'lodash/filter'
 import SelectField from 'material-ui/SelectField'
 import TextField from 'material-ui/TextField'
@@ -96,9 +95,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   getConfigurationProcessNames = (inputValue = '') => {
     const { processingList } = this.props
     const processNameList = map(processingList, (processing) => (
-      find(processing.content.pluginConfiguration.parameters, (param) => (
-        param.name === PROCESS_FILTER_PARAMS.NAME
-      )).value
+      ProcessingDomain.getProcessingName(processing)
     ))
     return !isEmpty(inputValue) ? filter(processNameList, (processName) => processName.startsWith(inputValue)) : processNameList
   }
