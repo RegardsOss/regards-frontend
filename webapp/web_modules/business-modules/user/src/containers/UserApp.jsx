@@ -51,7 +51,6 @@ export class UserApp extends React.Component {
       project: PropTypes.string,
     }),
     // Set by mapStateToProps
-    dataFetching: PropTypes.bool.isRequired,
     layout: AccessShapes.Layout,
     modules: AccessShapes.ModuleList,
     currentRole: PropTypes.string.isRequired,
@@ -82,10 +81,6 @@ export class UserApp extends React.Component {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       currentRole: (authenticationResult && authenticationResult.role) || '',
-      dataFetching: layoutSelectors.isFetching(state)
-    || moduleSelectors.isFetching(state)
-    || attributeModelSelectors.isFetching(state)
-    || uiSettingsSelectors.isFetching(state),
       layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
       modules: moduleSelectors.getList(state),
     }
@@ -109,6 +104,10 @@ export class UserApp extends React.Component {
     }
   }
 
+  state = {
+    isLoading: true,
+  }
+
   /**
    * At first render, fetch application layout and modules
    */
@@ -124,14 +123,22 @@ export class UserApp extends React.Component {
     // Redux store space init for user app
     initializeApplication(project)
 
-    // fetch endpoints (used to clear locally stored auth data on failure)
-    this.fetchEndpoints()
-
-    // Initialize mandatory shared data
-    fetchLayout()
-    fetchModules()
-    fetchAttributes()
-    fetchUISettings()
+    
+    Promise.all([
+      // fetch endpoints (used to clear locally stored auth data on failure)
+      this.fetchEndpoints(),
+      
+      // Initialize mandatory shared data
+      fetchLayout(),
+      fetchModules(),
+      fetchAttributes(),
+      fetchUISettings()
+    ])
+    .then(() => {
+      this.setState({
+        isLoading: false
+      })
+    })
   }
 
   /**
@@ -184,7 +191,7 @@ export class UserApp extends React.Component {
    * Handle fetch of available backend endpoints for current logged user.
    */
   fetchEndpoints() {
-    Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
+    return Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
       if (actionResult.error && UIDomain.LocalStorageUser.retrieve(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)) {
         // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
         UIDomain.LocalStorageUser.delete(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)
@@ -213,11 +220,12 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { dataFetching, params: { project } } = this.props
+    const { params: { project } } = this.props
+    const { isLoading  } = this.state
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
-          isLoading={dataFetching}
+          isLoading={isLoading}
           isContentError={!this.props.layout}
         >
           <AuthenticationContainer scope={project}>
