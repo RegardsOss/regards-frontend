@@ -123,22 +123,21 @@ export class UserApp extends React.Component {
     // Redux store space init for user app
     initializeApplication(project)
 
-    
     Promise.all([
       // fetch endpoints (used to clear locally stored auth data on failure)
       this.fetchEndpoints(),
-      
+
       // Initialize mandatory shared data
       fetchLayout(),
       fetchModules(),
       fetchAttributes(),
-      fetchUISettings()
+      fetchUISettings(),
     ])
-    .then(() => {
-      this.setState({
-        isLoading: false
+      .then(() => {
+        this.setState({
+          isLoading: false,
+        })
       })
-    })
   }
 
   /**
@@ -221,7 +220,7 @@ export class UserApp extends React.Component {
    */
   render() {
     const { params: { project } } = this.props
-    const { isLoading  } = this.state
+    const { isLoading } = this.state
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
