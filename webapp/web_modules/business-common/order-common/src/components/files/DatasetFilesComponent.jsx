@@ -93,7 +93,7 @@ class DatasetFilesComponent extends React.Component {
    * Return source of file. A processing for example
    */
   static getSource(file) {
-    return get(file, 'content.source', 'TOTO')
+    return get(file, 'content.source')
   }
 
   /**
