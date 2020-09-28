@@ -18,8 +18,4 @@
  **/
 export { PLUGIN_TYPE } from './PluginType'
 export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-<<<<<<< HEAD
 export { getProcessingName } from './ProcessingUtils'
-=======
-export { getProcessingName } from './ProcessingUtils'
->>>>>>> pm63_processing
