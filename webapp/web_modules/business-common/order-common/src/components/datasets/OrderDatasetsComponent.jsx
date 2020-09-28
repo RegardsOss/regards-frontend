@@ -20,21 +20,23 @@ import get from 'lodash/get'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 import {
   InfiniteTableContainer, TableColumnBuilder, TableLayout, TableHeaderLine, TableHeaderOptionsArea,
   TableHeaderContentBox, TableHeaderOptionGroup, TableColumnsVisibilityOption, StorageCapacityRender,
-  NoContentComponent, StringValueRender,
+  NoContentComponent,
 } from '@regardsoss/components'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsCountHeaderMessage from './OrderDatasetsCountHeaderMessage'
 import ShowDatasetFilesContainer from '../../containers/datasets/ShowDatasetFilesContainer'
+import OrderDatasetsProcessingContainer from '../../containers/datasets/OrderDatasetsProcessingContainer'
 
 // column keys
 const LABEL_KEY = 'column.label'
 const OBJECT_COUNT_KEY = 'column.objects.count'
 const FILES_COUNT_KEY = 'column.files.count'
 const FILES_SIZE_KEY = 'column.files.size'
-const PROCESSING_KEY = 'column.processing' // TODO
+const PROCESSING_KEY = 'column.processing'
 
 /**
  * Shows selected order datasets
@@ -46,6 +48,10 @@ class OrderDatasetsComponent extends React.Component {
     datasets: PropTypes.arrayOf(OrderShapes.DatasetTask).isRequired,
     // orders navigation actions (for sub containers)
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
+    // processing list selector (for sub container)
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    // boolean in order to display or not processing informations
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
     // columns visibility, like (string: columnKey):(boolean: column visible)
     columnsVisibility: PropTypes.objectOf(PropTypes.bool).isRequired,
     // callback: on change columns visibility
@@ -68,7 +74,7 @@ class OrderDatasetsComponent extends React.Component {
    * @return {*} Table columns
    */
   buildColumns = () => {
-    const { columnsVisibility, navigationActions } = this.props
+    const { columnsVisibility, navigationActions, isProcessingDependenciesExist } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - Dataset label
@@ -92,16 +98,8 @@ class OrderDatasetsComponent extends React.Component {
         .visible(get(columnsVisibility, FILES_SIZE_KEY, true))
         .build(),
       // 5 - Processing label
-      new TableColumnBuilder(PROCESSING_KEY).titleHeaderCell()/*.propertyRenderCell('processing.label', StringValueRender)*/
-        .rowCellDefinition({ // TODO
-          Constructor: StringValueRender,
-          props: {
-            value: 'TOTO',
-          },
-        })
-        .label(formatMessage({ id: 'datasets.list.column.processing' }))
-        .visible(get(columnsVisibility, PROCESSING_KEY, true))
-        .build(),
+      // Check if user have access to processing endpoint
+      ...isProcessingDependenciesExist ? [this.buildProcessingColumn()] : [],
       // 5 - Options
       new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .label(formatMessage({ id: 'datasets.list.column.options' }))
@@ -111,6 +109,19 @@ class OrderDatasetsComponent extends React.Component {
         }])
         .build(),
     ]
+  }
+
+  buildProcessingColumn() {
+    const { columnsVisibility, processingSelectors } = this.props
+    const { intl: { formatMessage } } = this.context
+    return new TableColumnBuilder(PROCESSING_KEY).titleHeaderCell()
+      .rowCellDefinition({
+        Constructor: OrderDatasetsProcessingContainer,
+        props: { processingSelectors },
+      })
+      .label(formatMessage({ id: 'datasets.list.column.processing' }))
+      .visible(get(columnsVisibility, PROCESSING_KEY, true))
+      .build()
   }
 
   render() {

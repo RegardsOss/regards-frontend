@@ -21,7 +21,7 @@ import values from 'lodash/values'
 import { connect } from '@regardsoss/redux'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { withI18n } from '@regardsoss/i18n'
 import { withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
@@ -66,6 +66,8 @@ export class OrderDisplayContainer extends React.Component {
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions),
     // eslint-disable-next-line react/no-unused-prop-types
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors), // used in mapStateToProps
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors),
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -81,7 +83,8 @@ export class OrderDisplayContainer extends React.Component {
   render() {
     const {
       navigationActions, navigationPath, displayMode, children,
-      ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions, orderFilesSelectors,
+      ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions,
+      orderFilesSelectors, processingSelectors, isProcessingDependenciesExist,
     } = this.props
     switch (navigationPath.length) {
       case 0:
@@ -103,7 +106,10 @@ export class OrderDisplayContainer extends React.Component {
           <OrderDatasetsContainer
             order={navigationPath[0]}
             navigationActions={navigationActions}
-          />)
+            processingSelectors={processingSelectors}
+            isProcessingDependenciesExist={isProcessingDependenciesExist}
+          />
+        )
       case 2:
         // cannot be shown when navigation is disabled
         return (

@@ -103,6 +103,7 @@ const messages = {
   'datasets.list.column.files.count': 'Nombre de fichiers',
   'datasets.list.column.files.size': 'Taille totale',
   'datasets.list.column.processing': 'Traitement',
+  'datasets.list.column.processing.undefined': 'Non-défini',
   'datasets.list.column.options': 'Options',
   'datasets.list.option.cell.detail.title': 'Fichiers du jeu de données',
 
