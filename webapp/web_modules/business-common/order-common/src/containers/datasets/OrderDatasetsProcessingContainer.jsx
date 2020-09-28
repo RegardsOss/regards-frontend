@@ -56,7 +56,6 @@ export class OrderDatasetsProcessingContainer extends React.Component {
     getProcessingLabel = () => {
       const { entity, processingList } = this.props
       const { intl: { formatMessage } } = this.context
-      console.error(processingList)
       let processingLabel = formatMessage({ id: 'datasets.list.column.processing.undefined' })
       if (!isUndefined(entity.processing)) {
         const processingFound = find(processingList, (processing) => (
