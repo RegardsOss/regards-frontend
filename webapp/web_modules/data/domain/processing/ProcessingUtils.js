@@ -16,6 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { PLUGIN_TYPE } from './PluginType'
-export { PROCESS_STATUS_TYPES } from './ProcessStatusType'
-export { getProcessingName } from './ProcessingUtils'
+import find from 'lodash/find'
+
+export const getProcessingName = (processing) => (
+  find(processing.content.pluginConfiguration.parameters, (parameter) => (
+    parameter.name === 'processName'
+  )).value
+)

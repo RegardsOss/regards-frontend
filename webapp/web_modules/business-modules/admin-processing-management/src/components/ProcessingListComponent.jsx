@@ -30,6 +30,7 @@ import {
 import { i18nContextType } from '@regardsoss/i18n'
 import { ProcessingShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ProcessingDomain } from '@regardsoss/domain'
 import find from 'lodash/find'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -91,9 +92,7 @@ class ProcessingListComponent extends React.Component {
 
     renderDeleteConfirmDialog = () => {
       const name = this.state.processingToDelete
-        ? find(this.state.processingToDelete.content.pluginConfiguration.parameters, (param) => (
-          param.name === 'processName'
-        )).value
+        ? ProcessingDomain.getProcessingName(this.state.processingToDelete)
         : 'processNameNotFound'
       const title = this.context.intl.formatMessage({ id: 'processing.management.list.delete.title' }, { name })
       return (

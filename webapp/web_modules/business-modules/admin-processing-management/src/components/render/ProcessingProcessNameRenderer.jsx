@@ -18,7 +18,7 @@
  **/
 
 import { ProcessingShapes } from '@regardsoss/shape'
-import find from 'lodash/find'
+import { ProcessingDomain } from '@regardsoss/domain'
 
 /**
   * ProcessingProcessNameRenderer
@@ -35,9 +35,7 @@ class ProcessingProcessNameRenderer extends React.Component {
        <div>
          {
            entity
-             ? find(entity.content.pluginConfiguration.parameters, (param) => (
-               param.name === 'processName'
-             )).value
+             ? ProcessingDomain.getProcessingName(entity)
              : 'processNameNotFound'
          }
        </div>

@@ -27,7 +27,6 @@ import {
 } from '@regardsoss/form-utils'
 import get from 'lodash/get'
 import map from 'lodash/map'
-import find from 'lodash/find'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
 import DetailIcon from 'mdi-material-ui/HelpCircle'
 import Card from 'material-ui/Card'
@@ -201,9 +200,7 @@ export class ProcessingFormComponent extends React.Component {
         title = formatMessage({ id: `processing.form.${mode}.title` })
         break
       case FORM_MODE.EDIT:
-        processName = find(processing.content.pluginConfiguration.parameters, (parameter) => (
-          parameter.name === 'processName'
-        )).value
+        processName = ProcessingDomain.getProcessingName(processing)
         title = formatMessage({ id: `processing.form.${mode}.title` }, { name: processName })
         break
       default:
