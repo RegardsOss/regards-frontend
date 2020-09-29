@@ -51,6 +51,7 @@ export class UserApp extends React.Component {
       project: PropTypes.string,
     }),
     // Set by mapStateToProps
+    dataFetching: PropTypes.bool.isRequired,
     layout: AccessShapes.Layout,
     modules: AccessShapes.ModuleList,
     currentRole: PropTypes.string.isRequired,
@@ -81,6 +82,10 @@ export class UserApp extends React.Component {
     return {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       currentRole: (authenticationResult && authenticationResult.role) || '',
+      dataFetching: layoutSelectors.isFetching(state)
+    || moduleSelectors.isFetching(state)
+    || attributeModelSelectors.isFetching(state)
+    || uiSettingsSelectors.isFetching(state),
       layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
       modules: moduleSelectors.getList(state),
     }
@@ -105,7 +110,7 @@ export class UserApp extends React.Component {
   }
 
   state = {
-    isLoading: true,
+    isInitialLoading: true,
   }
 
   /**
@@ -135,7 +140,7 @@ export class UserApp extends React.Component {
     ])
       .then(() => {
         this.setState({
-          isLoading: false,
+          isInitialLoading: false,
         })
       })
   }
@@ -219,12 +224,12 @@ export class UserApp extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    const { params: { project } } = this.props
-    const { isLoading } = this.state
+    const { dataFetching, params: { project } } = this.props
+    const { isInitialLoading } = this.state
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
-          isLoading={isLoading}
+          isLoading={dataFetching || isInitialLoading}
           isContentError={!this.props.layout}
         >
           <AuthenticationContainer scope={project}>
