@@ -19,13 +19,13 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Parameter } from '../../../../src/definitions/parameters/Parameter'
-import ParametersConfigurationComponent from '../../../../src/components/services/parameters/ParametersConfigurationComponent'
-import BooleanParameterField from '../../../../src/components/services/parameters/BooleanParameterField'
-import ChoiceParameterField from '../../../../src/components/services/parameters/ChoiceParameterField'
-import DateParameterField from '../../../../src/components/services/parameters/DateParameterField'
-import TextParameterField from '../../../../src/components/services/parameters/TextParameterField'
-import styles from '../../../../src/styles/styles'
+import { Parameter } from '../../src/definitions/parameters/Parameter'
+import ParametersConfigurationComponent from '../../src/components/ParametersConfigurationComponent'
+import BooleanParameterField from '../../src/common/BooleanParameterField'
+import ChoiceParameterField from '../../src/common/ChoiceParameterField'
+import DateParameterField from '../../src/common/DateParameterField'
+import TextParameterField from '../../src/common/TextParameterField'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 

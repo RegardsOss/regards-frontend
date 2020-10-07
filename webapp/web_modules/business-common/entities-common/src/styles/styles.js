@@ -43,5 +43,8 @@ export default (theme) => ({
     parameterDescriptionIcon: {
       marginTop: '12px',
     },
+    removeProcessingButton: {
+      color: 'red',
+    },
   },
 })

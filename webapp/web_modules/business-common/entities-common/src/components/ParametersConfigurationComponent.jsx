@@ -18,12 +18,12 @@
  **/
 import isUndefined from 'lodash/isUndefined'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Parameter } from '../../../definitions/parameters/Parameter'
-import BooleanParameterField from './BooleanParameterField'
-import ChoiceParameterField from './ChoiceParameterField'
-import DateParameterField from './DateParameterField'
-import TextParameterField from './TextParameterField'
-import ParameterPresentation from './ParameterPresentation'
+import { Parameter } from '../definitions/parameters/Parameter'
+import BooleanParameterField from '../common/BooleanParameterField'
+import ChoiceParameterField from '../common/ChoiceParameterField'
+import DateParameterField from '../common/DateParameterField'
+import TextParameterField from '../common/TextParameterField'
+import ParameterPresentation from '../common/ParameterPresentation'
 
 /**
  * Shows all plugin service parameters and allows editing them

@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ProcessingClient, CommonClient } from '@regardsoss/client'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
 import OrderCartContentSummaryComponent from '../../../src/components/user/OrderCartContentSummaryComponent'
 import styles from '../../../src/styles/styles'
@@ -43,6 +44,10 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       basket: undefined,
       showDatasets: true,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
@@ -59,6 +64,10 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       basket: mockBasket1,
       showDatasets: true,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       onShowDuplicatedMessage: () => { },
     }
     const enzymeWrapper = shallow(<OrderCartTableComponent {...props} />, { context })
@@ -76,6 +85,10 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets
         isFetching
+        isProcessingDependenciesExist={false}
+        processingSelectors={ProcessingClient.getProcessingSelectors()}
+        pluginMetaDataSelectors={CommonClient.getPluginMetaDataSelectors()}
+        linkProcessingDatasetActions={new ProcessingClient.LinkProcessingDatasetActions()}
         // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
         onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })
@@ -90,6 +103,10 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets
         isFetching
+        isProcessingDependenciesExist={false}
+        processingSelectors={ProcessingClient.getProcessingSelectors()}
+        pluginMetaDataSelectors={CommonClient.getPluginMetaDataSelectors()}
+        linkProcessingDatasetActions={new ProcessingClient.LinkProcessingDatasetActions()}
         // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
         onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })
@@ -108,6 +125,10 @@ describe('[OrderCart] Testing OrderCartTableComponent', () => {
       <OrderCartTableComponent
         showDatasets={false}
         isFetching
+        isProcessingDependenciesExist={false}
+        processingSelectors={ProcessingClient.getProcessingSelectors()}
+        pluginMetaDataSelectors={CommonClient.getPluginMetaDataSelectors()}
+        linkProcessingDatasetActions={new ProcessingClient.LinkProcessingDatasetActions()}
         // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
         onShowDuplicatedMessage={() => { }} // eslint wont fix: unnecessary in test code
       />, { context })

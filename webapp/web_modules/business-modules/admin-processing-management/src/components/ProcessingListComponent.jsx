@@ -125,7 +125,7 @@ class ProcessingListComponent extends React.Component {
         // 2 - process user role
         new TableColumnBuilder('column.userRole')
           .titleHeaderCell()
-          .propertyRenderCell('content.rigths.role')
+          .propertyRenderCell('content.rights.role')
           .label(formatMessage({ id: 'processing.monitoring.list.header.userRole' }))
           .build(),
         // 3 - Options

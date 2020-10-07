@@ -24,6 +24,7 @@ import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
 import { DynamicModulePane, NoContentMessageInfo } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import SelectionItemDetailContainer from '../../containers/user/detail/SelectionItemDetailContainer'
@@ -34,6 +35,7 @@ import OrderCartTableComponent from './OrderCartTableComponent'
 /**
  * Order cart content component
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class OrderCartComponent extends React.Component {
   static propTypes = {
@@ -46,6 +48,10 @@ class OrderCartComponent extends React.Component {
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
   }
 
   static contextTypes = {
@@ -85,7 +91,8 @@ class OrderCartComponent extends React.Component {
 
   render() {
     const {
-      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets,
+      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets, isProcessingDependenciesExist,
+      processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions,
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
@@ -120,6 +127,10 @@ class OrderCartComponent extends React.Component {
               basket={basket}
               showDatasets={showDatasets}
               onShowDuplicatedMessage={this.onShowDuplicatedMessage}
+              isProcessingDependenciesExist={isProcessingDependenciesExist}
+              processingSelectors={processingSelectors}
+              pluginMetaDataSelectors={pluginMetaDataSelectors}
+              linkProcessingDatasetActions={linkProcessingDatasetActions}
             />
           </NoContentMessageInfo>
         </DynamicModulePane>

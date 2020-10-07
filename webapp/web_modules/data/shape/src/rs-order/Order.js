@@ -27,7 +27,6 @@ import PluginParameterContent from '../rs-common/Plugin/PluginParameter'
 /**
  * An order dataset processing
  */
-// TODO
 export const DatasetProcessing = PropTypes.shape({
   uuid: PropTypes.string.isRequired,
   parameters: PropTypes.arrayOf(PluginParameterContent),

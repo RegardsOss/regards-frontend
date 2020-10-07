@@ -105,7 +105,7 @@ export class ProcessingFormContainer extends React.Component {
     const processingConf = {
       content: {
         pluginConfiguration,
-        rigths: {
+        rights: {
           role: get(fields, 'userRole'),
         },
       },

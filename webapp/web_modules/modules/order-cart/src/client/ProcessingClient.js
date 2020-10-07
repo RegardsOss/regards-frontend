@@ -16,11 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
-  BasketDatasetProcessingSelection,
-} from './Basket'
-export {
-  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing,
-} from './Order'
-export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'
+import { ProcessingClient } from '@regardsoss/client'
+
+/**
+ * Processing entities client.
+ * @author Théo Lasserre
+ */
+const ENTITIES_STORE_PATH = ['modules.order-cart', 'processing']
+const REDUX_ACTION_NAMESPACE = 'order-cart/processing'
+
+export const processingReducer = ProcessingClient.getProcessingReducer(REDUX_ACTION_NAMESPACE)
+export const processingActions = new ProcessingClient.ProcessingActions(REDUX_ACTION_NAMESPACE)
+export const processingSelectors = ProcessingClient.getProcessingSelectors(ENTITIES_STORE_PATH)

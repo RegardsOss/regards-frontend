@@ -40,7 +40,7 @@ export default [{
         },
       ],
     },
-    rigths: {
+    rights: {
       role: 'PUBLIC',
     },
   },
@@ -69,7 +69,7 @@ export default [{
         },
       ],
     },
-    rigths: {
+    rights: {
       role: 'PUBLIC',
     },
   },
@@ -78,14 +78,31 @@ export default [{
   content: {
     pluginConfiguration: {
       id: null,
-      pluginId: 'UselessProcessPlugin',
+      pluginId: 'SimpleShellProcessPlugin',
       version: '1.0.0-SNAPSHOT',
       priorityOrder: 0,
       active: true,
-      pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
+      pluginClassName: 'fr.cnes.regards.modules.processing.plugins.impl.SimpleShellProcessPlugin',
       iconUrl: null,
       businessId: 'testProcess3',
       parameters: [
+        {
+          name: 'shellScript',
+          type: 'STRING',
+          value: 'testScriptName',
+        },
+        {
+          name: 'sizeForecast',
+          type: 'STRING',
+          value: '15',
+          dynamic: true,
+        },
+        {
+          name: 'durationForecast',
+          type: 'STRING',
+          value: '15',
+          dynamic: true,
+        },
         {
           name: 'processName',
           type: 'STRING',
@@ -98,8 +115,8 @@ export default [{
         },
       ],
     },
-    rigths: {
-      role: 'PUBLIC',
+    rights: {
+      role: 'REGISTERED_USER',
     },
   },
 },

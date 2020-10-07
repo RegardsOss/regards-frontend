@@ -39,6 +39,18 @@ const messages = {
   'entities.common.services.download.service.result': 'Télécharger',
   'entities.common.services.ui.plugin.running.error': 'Une erreur est survenue pendant l\'exécution du service',
 
+  // backend / pluginBack
+  'entities.common.backend.pluginback.processing.dialog.title': 'Sélectionner un traitement',
+  'entities.common.backend.pluginback.processing.dialog.select.label': 'Traitement',
+  'entities.common.backend.pluginback.processing.dialog.remove': 'Supprimer',
+  'entities.common.backend.pluginback.processing.dialog.cancel': 'Annuler',
+  'entities.common.backend.pluginback.processing.dialog.confirm': 'Valider',
+  'entities.common.backend.pluginback.processing.button.label': 'Traitement',
+  'entities.common.backend.pluginback.processing.button.title': 'Configurer un traitement',
+  'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title': 'Supprimer le traitement',
+  'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message': 'Cette action supprimera le traitement {processingLabel} de ce jeu de données',
+  'entities.common.backend.pluginback.processing.dialog.remove.tooltip': 'Supprimer le traitement',
+
   ...Locales.fr,
 }
 

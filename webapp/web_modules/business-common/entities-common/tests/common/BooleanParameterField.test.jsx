@@ -19,28 +19,27 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import DateParameterField from '../../../../src/components/services/parameters/DateParameterField'
-import styles from '../../../../src/styles/styles'
+import BooleanParameterField from '../../src/common/BooleanParameterField'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test DateParameterField
+* Test BooleanParameterField
 * @author Raphaël Mechali
 */
-describe('[Entities Common] Testing DateParameterField', () => {
+describe('[Entities Common] Testing BooleanParameterField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(DateParameterField)
+    assert.isDefined(BooleanParameterField)
   })
-  it('should render correctly', () => {
+  it('should render properly', () => {
     const props = {
-      name: 'aDate',
-      label: 'A date',
-      required: true,
+      name: 'aBoolean',
+      label: 'aBoolean (*)',
     }
-    shallow(<DateParameterField {...props} />, { context })
+    shallow(<BooleanParameterField {...props} />, { context })
   })
 })

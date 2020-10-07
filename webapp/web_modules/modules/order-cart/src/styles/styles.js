@@ -46,6 +46,10 @@ const moduleStyles = (theme) => ({
             height: theme.button.iconButtonSize,
             padding: 0,
           },
+          processingStyle: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+          },
         },
         objectsCountRender: {
           style: {

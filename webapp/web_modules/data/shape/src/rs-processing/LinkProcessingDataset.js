@@ -21,10 +21,8 @@
  * @author Théo Lasserre
  */
 export const LinkProcessingDataset = PropTypes.shape({
-  content: PropTypes.shape({
-    businessId: PropTypes.string,
-    label: PropTypes.string,
-  }),
+  businessId: PropTypes.string,
+  label: PropTypes.string,
 })
 
 export const LinkProcessingDatasetList = PropTypes.objectOf(LinkProcessingDataset)

@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import TextParameterField from '../../../../src/components/services/parameters/TextParameterField'
-import styles from '../../../../src/styles/styles'
+import TextParameterField from '../../src/common/TextParameterField'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 

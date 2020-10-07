@@ -18,39 +18,32 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ParameterPresentation from '../../../../src/components/services/parameters/ParameterPresentation'
-import styles from '../../../../src/styles/styles'
+import MenuItem from 'material-ui/MenuItem'
+import ChoiceParameterField from '../../src/common/ChoiceParameterField'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test  ParameterPresentation
-* @author Sébastien Binda
+* Test ChoiceParameterField
+* @author Raphaël Mechali
 */
-describe('[Entities Common] Testing  ParameterPresentation', () => {
+describe('[Entities Common] Testing ChoiceParameterField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ParameterPresentation)
+    assert.isDefined(ChoiceParameterField)
   })
-  it('should render correctly with description', () => {
+  it('should render properly, with choices', () => {
     const props = {
-      label: 'label',
-      description: 'description',
+      name: 'aChoice',
+      label: 'AChoice',
+      choices: ['choice1', 'choice2'],
     }
-    const enzymeWrapper = shallow(<ParameterPresentation name {...props} />, { context })
-    const icon = enzymeWrapper.find(IconButton)
-    assert.lengthOf(icon, 1, 'The description icon should be displayed')
-  })
-  it('should render correctly without description', () => {
-    const props = {
-      label: 'label',
-    }
-    const enzymeWrapper = shallow(<ParameterPresentation name {...props} />, { context })
-    const icon = enzymeWrapper.find(IconButton)
-    assert.lengthOf(icon, 0, 'The description icon should not be displayed')
+    const enzymeWrapper = shallow(<ChoiceParameterField {...props} />, { context })
+    const menuItems = enzymeWrapper.find(MenuItem)
+    assert.lengthOf(menuItems, props.choices.length, 'There should be one menu item by choice value')
   })
 })

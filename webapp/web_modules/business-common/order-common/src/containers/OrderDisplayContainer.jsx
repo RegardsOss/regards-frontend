@@ -67,7 +67,7 @@ export class OrderDisplayContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors), // used in mapStateToProps
     processingSelectors: PropTypes.instanceOf(BasicListSelectors),
-    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool,
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),

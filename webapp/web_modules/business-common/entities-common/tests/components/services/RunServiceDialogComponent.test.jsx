@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsoss/components'
 import { RunServiceDialogComponent } from '../../../src/components/services/RunServiceDialogComponent'
-import ParametersConfigurationComponent from '../../../src/components/services/parameters/ParametersConfigurationComponent'
+import ParametersConfigurationComponent from '../../../src/components/ParametersConfigurationComponent'
 import { Parameter } from '../../../src/definitions/parameters/Parameter'
 import styles from '../../../src/styles/styles'
 

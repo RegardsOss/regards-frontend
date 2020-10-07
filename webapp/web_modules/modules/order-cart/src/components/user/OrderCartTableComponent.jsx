@@ -24,6 +24,8 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
+import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
+import { ManageDatasetProcessingContainer } from '@regardsoss/entities-common'
 import { TreeTableComponent, TreeTableRow, TableLayout } from '@regardsoss/components'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
@@ -42,6 +44,10 @@ export class OrderCartTableComponent extends React.Component {
     basket: OrderShapes.Basket,
     isFetching: PropTypes.bool.isRequired,
     onShowDuplicatedMessage: PropTypes.func.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
   }
 
   static contextTypes = {
@@ -54,6 +60,7 @@ export class OrderCartTableComponent extends React.Component {
     ID: 'id',
     OBJECTS_COUNT: 'objects.count',
     FILES_SIZE: 'files.size',
+    PROCESSING: 'processing',
     OPTIONS_DETAIL: 'options.detail',
     OPTIONS_DELETE: 'options.delete',
   }
@@ -63,6 +70,7 @@ export class OrderCartTableComponent extends React.Component {
     { key: OrderCartTableComponent.ColumnKeys.ID },
     { key: OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT, labelKey: 'order-cart.module.basket.table.column.objects.count' },
     { key: OrderCartTableComponent.ColumnKeys.FILES_SIZE, labelKey: 'order-cart.module.basket.table.column.files.size' },
+    { key: OrderCartTableComponent.ColumnKeys.PROCESSING, labelKey: null, isOption: false },
     { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL, labelKey: null, isOption: true },
     { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE, labelKey: null, isOption: true }]
 
@@ -153,12 +161,15 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dataset selection as parameter
    */
   buildDatasetSelectionRow = ({
-    id, datasetLabel, objectsCount, filesSize, itemsSelections = [],
+    id, datasetIpid, datasetLabel, objectsCount, filesSize, itemsSelections = [], process,
   }, rowExpanded) => new TreeTableRow(
     `dataset.selection.${id}`, [datasetLabel, {
       effectiveObjectsCount: objectsCount,
       totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
-    }, OrderCartTableComponent.getStorageCapacity(filesSize),
+    }, OrderCartTableComponent.getStorageCapacity(filesSize), {
+      datasetSelectionIpId: datasetIpid,
+      process,
+    },
     null, { // keep dataset selection id
       datasetSelectionId: id,
     }], itemsSelections.map((datedSelectionItem) => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
@@ -176,7 +187,7 @@ export class OrderCartTableComponent extends React.Component {
     // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
     effectiveObjectsCount: objectsCount,
     totalObjectsCount: objectsCount,
-  }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
+  }, OrderCartTableComponent.getStorageCapacity(filesSize), null, { // scale the size to the level its the more readable
     datasetLabel, date, selectionRequest,
   }, { // keep label, date and request for detail option
     datasetSelectionId, itemsSelectionDate: date,
@@ -193,13 +204,25 @@ export class OrderCartTableComponent extends React.Component {
   buildTableCell = (cellValue, level, columnIndex) => {
     const columnID = OrderCartTableComponent.COLUMN_KEY_BY_INDEX[columnIndex]
     const { moduleTheme: { user: { content: { table } } } } = this.context
+
+    // specify options columns styles
+    let style
+    switch (columnID) {
+      case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
+      case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE:
+        style = table.optionColumn.style
+        break
+      case OrderCartTableComponent.ColumnKeys.PROCESSING:
+        style = table.optionColumn.processingStyle
+        break
+      default:
+        style = undefined
+    }
+
     return (
       <TableRowColumn
         key={`cell-${columnIndex}`}
-        style={
-          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL // specify options columns styles
-            || columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
-        }
+        style={style}
       >
         {
           this.buildTableCellContent(cellValue, level, columnID)
@@ -212,7 +235,10 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, level, columnID) => {
     const { intl: { formatDate } } = this.context
-    const { showDatasets, isFetching, onShowDuplicatedMessage } = this.props
+    const {
+      showDatasets, isFetching, onShowDuplicatedMessage, isProcessingDependenciesExist, processingSelectors,
+      pluginMetaDataSelectors, linkProcessingDatasetActions,
+    } = this.props
 
     // is it a dataset cell or a dated item selection cell?
 
@@ -236,6 +262,21 @@ export class OrderCartTableComponent extends React.Component {
           />)
       case OrderCartTableComponent.ColumnKeys.FILES_SIZE:
         return <storage.FormattedStorageCapacity capacity={cellValue} />
+      // processing option
+      case OrderCartTableComponent.ColumnKeys.PROCESSING: {
+        // extract option parameters from cell value
+        return isDatasetCell && isProcessingDependenciesExist
+          // Only show processing button option for datasets
+          ? <ManageDatasetProcessingContainer
+            datasetIpid={cellValue.datasetSelectionIpId}
+            process={cellValue.process}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
+            linkProcessingDatasetActions={linkProcessingDatasetActions}
+            disabled={isFetching}
+          />
+          : null
+      }
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
         return isDatasetCell

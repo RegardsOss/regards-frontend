@@ -42,6 +42,12 @@ export const BasketDatedItemsSelection = PropTypes.shape({
   selectionRequest: BasketSelelectionRequest.isRequired,
 })
 
+/** A dataset processing selection shape */
+export const BasketDatasetProcessingSelection = PropTypes.shape({
+  processBusinessId: PropTypes.string.isRequired,
+  parameters: PropTypes.objectOf(PropTypes.any).isRequired,
+})
+
 /** A dataset selection shape, containing dated selection items */
 export const BasketDatasetSelection = PropTypes.shape({
   id: PropTypes.number.isRequired,
@@ -51,6 +57,7 @@ export const BasketDatasetSelection = PropTypes.shape({
   filesCount: PropTypes.number.isRequired,
   filesSize: PropTypes.number.isRequired,
   itemsSelections: PropTypes.arrayOf(BasketDatedItemsSelection).isRequired,
+  process: BasketDatasetProcessingSelection,
 })
 
 /** The basket shape */

@@ -22,8 +22,8 @@ import Dialog from 'material-ui/Dialog'
 import IconButton from 'material-ui/IconButton'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import styles from '../../../styles'
-import messages from '../../../i18n'
+import styles from '../styles'
+import messages from '../i18n'
 /**
 * Component to display persentation of a dynamic parameter during service application
 * @author Sébastien Binda

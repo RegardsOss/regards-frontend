@@ -23,6 +23,7 @@ import CartIcon from 'mdi-material-ui/Cart'
 import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NoContentMessageInfo } from '@regardsoss/components'
+import { ProcessingClient, CommonClient } from '@regardsoss/client'
 import SelectionItemDetailContainer from '../../../src/containers/user/detail/SelectionItemDetailContainer'
 import OrderCartComponent from '../../../src/components/user/OrderCartComponent'
 import OrderCartTableComponent from '../../../src/components/user/OrderCartTableComponent'
@@ -52,6 +53,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: false,
       basket: undefined,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       expanded: true,
       onClearCart: () => { },
       onOrder: () => { },
@@ -70,6 +75,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
     assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
+    assert.isFalse(orderCartTableWrapper.props().isProcessingDependenciesExist, 'Processing dependencies should not be resolved')
     // check detail container
     assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
@@ -82,6 +88,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: undefined,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       expanded: true,
       onClearCart: () => { },
       onOrder: () => { },
@@ -100,6 +110,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
     assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
+    assert.isFalse(orderCartTableWrapper.props().isProcessingDependenciesExist, 'Processing dependencies should not be resolved')
     // check detail container
     assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
@@ -112,6 +123,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: undefined,
       isFetching: true,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       expanded: true,
       onClearCart: () => { },
       onOrder: () => { },
@@ -125,6 +140,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
     assert.lengthOf(orderCartTableWrapper, 1, 'There should be a table component')
     assert.isTrue(orderCartTableWrapper.props().isFetching, 'Table should be marked loading')
+    assert.isFalse(orderCartTableWrapper.props().isProcessingDependenciesExist, 'Processing dependencies should not be resolved')
     // check detail container
     assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
@@ -137,6 +153,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       expanded: true,
       onClearCart: () => { },
       onOrder: () => { },
@@ -152,6 +172,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.equal(orderCartTableWrapper.props().basket, props.basket, 'Table should have the right basket value')
     assert.isFalse(orderCartTableWrapper.props().isFetching, 'Table should not be marked loading')
     assert.equal(orderCartTableWrapper.props().onShowDuplicatedMessage, enzymeWrapper.instance().onShowDuplicatedMessage, 'Table should have show message callback')
+    assert.isFalse(orderCartTableWrapper.props().isProcessingDependenciesExist, 'Processing dependencies should not be resolved')
     // check detail container
     assert.lengthOf(enzymeWrapper.find(SelectionItemDetailContainer), 1, 'This component should also add detail functionnality, using a detail container')
   })
@@ -164,6 +185,10 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
       isAuthenticated: true,
       basket: mockBasket1,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       expanded: true,
       onClearCart: () => { },
       onOrder: () => { },

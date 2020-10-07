@@ -86,7 +86,7 @@ export class ProcessingFormComponent extends React.Component {
       case FORM_MODE.EDIT:
         initialize({
           pluginConfiguration: get(processing, 'content.pluginConfiguration'),
-          userRole: get(processing, 'content.rigths.role', AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
+          userRole: get(processing, 'content.rights.role', AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
         })
         break
       default:

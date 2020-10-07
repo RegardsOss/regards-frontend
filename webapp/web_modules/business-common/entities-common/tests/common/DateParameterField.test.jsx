@@ -19,31 +19,28 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MenuItem from 'material-ui/MenuItem'
-import ChoiceParameterField from '../../../../src/components/services/parameters/ChoiceParameterField'
-import styles from '../../../../src/styles/styles'
+import DateParameterField from '../../src/common/DateParameterField'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test ChoiceParameterField
+* Test DateParameterField
 * @author Raphaël Mechali
 */
-describe('[Entities Common] Testing ChoiceParameterField', () => {
+describe('[Entities Common] Testing DateParameterField', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(ChoiceParameterField)
+    assert.isDefined(DateParameterField)
   })
-  it('should render properly, with choices', () => {
+  it('should render correctly', () => {
     const props = {
-      name: 'aChoice',
-      label: 'AChoice',
-      choices: ['choice1', 'choice2'],
+      name: 'aDate',
+      label: 'A date',
+      required: true,
     }
-    const enzymeWrapper = shallow(<ChoiceParameterField {...props} />, { context })
-    const menuItems = enzymeWrapper.find(MenuItem)
-    assert.lengthOf(menuItems, props.choices.length, 'There should be one menu item by choice value')
+    shallow(<DateParameterField {...props} />, { context })
   })
 })

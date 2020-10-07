@@ -18,28 +18,39 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import IconButton from 'material-ui/IconButton'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import BooleanParameterField from '../../../../src/components/services/parameters/BooleanParameterField'
-import styles from '../../../../src/styles/styles'
+import ParameterPresentation from '../../src/common/ParameterPresentation'
+import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Test BooleanParameterField
-* @author Raphaël Mechali
+* Test  ParameterPresentation
+* @author Sébastien Binda
 */
-describe('[Entities Common] Testing BooleanParameterField', () => {
+describe('[Entities Common] Testing  ParameterPresentation', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(BooleanParameterField)
+    assert.isDefined(ParameterPresentation)
   })
-  it('should render properly', () => {
+  it('should render correctly with description', () => {
     const props = {
-      name: 'aBoolean',
-      label: 'aBoolean (*)',
+      label: 'label',
+      description: 'description',
     }
-    shallow(<BooleanParameterField {...props} />, { context })
+    const enzymeWrapper = shallow(<ParameterPresentation name {...props} />, { context })
+    const icon = enzymeWrapper.find(IconButton)
+    assert.lengthOf(icon, 1, 'The description icon should be displayed')
+  })
+  it('should render correctly without description', () => {
+    const props = {
+      label: 'label',
+    }
+    const enzymeWrapper = shallow(<ParameterPresentation name {...props} />, { context })
+    const icon = enzymeWrapper.find(IconButton)
+    assert.lengthOf(icon, 0, 'The description icon should not be displayed')
   })
 })

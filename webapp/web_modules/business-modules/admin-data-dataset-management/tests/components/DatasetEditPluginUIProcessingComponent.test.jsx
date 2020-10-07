@@ -105,7 +105,7 @@ describe('[ADMIN DATASET MANAGEMENT] Testing DatasetEditPluginUIProcessingCompon
     assert.equal(wrapper.find(Tabs).length, 1, 'There should have a Tabs')
     assert.equal(wrapper.find(Tab).length, 3, 'There should have 3 Tab')
     const listItems = wrapper.find(ListItem).findWhere((n) => !isEmpty(n.props().nestedItems))
-    assert.equal(listItems.length, 5, 'There should have 5 ListItem (5 Metadatas are used by confs)')
+    assert.equal(listItems.length, 6, 'There should have 6 ListItem (6 Metadatas are used by confs)')
 
     // Check for buttons
     const cardActionsWrapper = wrapper.find(CardActionsComponent)

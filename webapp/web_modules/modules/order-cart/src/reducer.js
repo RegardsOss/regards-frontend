@@ -19,6 +19,9 @@
 import { createOrderReducer } from './client/CreateOrderClient'
 import { searchDataobjectsReducer } from './client/ComplexSearchClient'
 import { moduleDialogReducer } from './model/ModuleDialogReducer'
+import { processingReducer } from './client/ProcessingClient'
+import { linkProcessingDatasetReducer } from './client/LinkProcessingDatasetClient'
+import { pluginMetaDataReducer } from './client/PluginMetaDataClient'
 
 /**
  * Module reducer (configures there combined path at module level)
@@ -27,4 +30,7 @@ export default {
   createOrder: createOrderReducer,
   dialog: moduleDialogReducer,
   searchDataobjects: searchDataobjectsReducer,
+  processing: processingReducer,
+  'plugin-meta-data': pluginMetaDataReducer,
+  'link-processing-dataset': linkProcessingDatasetReducer,
 }
