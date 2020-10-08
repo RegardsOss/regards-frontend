@@ -30,6 +30,7 @@ const context = buildTestContext(styles)
 /**
 * Test UserModuleContainer
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 describe('[Order Cart] Testing UserModuleContainer', () => {
   before(testSuiteHelpers.before)

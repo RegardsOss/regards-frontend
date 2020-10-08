@@ -37,6 +37,7 @@ import styles from '../../styles'
 /**
 * Shows order cart content as a tree table
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 export class OrderCartTableComponent extends React.Component {
   static propTypes = {

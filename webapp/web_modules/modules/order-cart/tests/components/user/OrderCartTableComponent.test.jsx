@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
 * Test OrderCartTableComponent
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 describe('[OrderCart] Testing OrderCartTableComponent', () => {
   before(testSuiteHelpers.before)

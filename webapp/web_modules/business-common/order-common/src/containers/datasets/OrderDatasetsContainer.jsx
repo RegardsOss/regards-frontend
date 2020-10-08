@@ -24,6 +24,7 @@ import OrderDatasetsComponent from '../../components/datasets/OrderDatasetsCompo
 /**
  * Order datasets container
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class OrderDatasetsContainer extends React.Component {
   static propTypes = {

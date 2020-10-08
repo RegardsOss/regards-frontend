@@ -39,6 +39,7 @@ const NO_NAVIGATION_PATH = []
 /**
 * Root order display containers (switches sub component based on navigation state )
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 export class OrderDisplayContainer extends React.Component {
   /**
