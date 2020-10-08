@@ -85,6 +85,10 @@ export const mockBasket1 = {
           selectionDate: '2017-09-08T16:00:37.545Z',
         },
       }],
+      process: {
+        processBusinessId: '',
+        parameters: {},
+      },
     }, {
       id: 1,
       datasetIpid: 'TEST-DATASET:URN:2',
@@ -108,6 +112,10 @@ export const mockBasket1 = {
           selectionDate: '2017-09-08T16:00:02.625Z',
         },
       }],
+      process: {
+        processBusinessId: '',
+        parameters: {},
+      },
     }],
 }
 /**

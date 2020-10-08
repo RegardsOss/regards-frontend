@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import get from 'lodash/get'
 import { PositionedDialog } from '@regardsoss/components'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
@@ -95,6 +96,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingComponent', () => {
     const selectItemList = dialog.find(MenuItem)
     assert.lengthOf(selectItemList, 2, 'There should be 2 configurations')
 
+    // Check for parameterConf component
     const parameterComp = dialog.find(ParametersConfigurationComponent)
     assert.lengthOf(parameterComp, 0, 'The should be no parameters configuration')
   })
@@ -152,7 +154,15 @@ describe('[Entities Common] Testing ManageDatasetProcessingComponent', () => {
     const selectItemList = dialog.find(MenuItem)
     assert.lengthOf(selectItemList, 2, 'There should be 2 configurations')
 
+    // Check for parameterConf component
     const parameterComp = dialog.find(ParametersConfigurationComponent)
     assert.lengthOf(parameterComp, 1, 'The should be a parameters configuration')
+    // get selected processing conf object from processingConfParametersObjects collection
+    const processingConfParametersSelectedObject = get(props.processingConfParametersObjects, `${props.processingConfParametersSelected}`)
+    testSuiteHelpers.assertWrapperProperties(parameterComp, {
+      parameters: processingConfParametersSelectedObject.resolvedParameters,
+      parametersValues: processingConfParametersSelectedObject.parameters,
+      initialize: props.initialize,
+    })
   })
 })
