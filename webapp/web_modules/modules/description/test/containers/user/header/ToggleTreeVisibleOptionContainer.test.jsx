@@ -28,6 +28,7 @@ const context = buildTestContext(styles)
 /**
  * Test ToggleTreeVisibleOptionContainer
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing ToggleTreeVisibleOptionContainer', () => {
   before(testSuiteHelpers.before)
@@ -44,6 +45,7 @@ describe('[Description] Testing ToggleTreeVisibleOptionContainer', () => {
       setBrowsingTreeVisible: (treeVisible) => {
         spySetBrowsingTreeVisible.treeVisible = treeVisible
       },
+      toggleTreeButton: () => { },
     }
     const enzymeWrapper = shallow(<ToggleTreeVisibleOptionContainer {...props} />, { context })
     let componentWrapper = enzymeWrapper.find(ToggleTreeVisibleOptionComponent)

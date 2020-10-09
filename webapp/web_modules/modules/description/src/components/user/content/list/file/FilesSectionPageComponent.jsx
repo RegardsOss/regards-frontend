@@ -24,11 +24,13 @@ import FileLinkComponent from './FileLinkComponent'
 /**
  * Files section page component, showing files list
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class FilesSectionPageComponent extends React.Component {
   static propTypes = {
     section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
     files: PropTypes.arrayOf(FileData).isRequired,
+    scrollAreaHeight: PropTypes.number,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
   }
@@ -52,11 +54,12 @@ class FilesSectionPageComponent extends React.Component {
   }
 
   render() {
-    const { files } = this.props
+    const { files, scrollAreaHeight } = this.props
     return (
       <ListSectionPageComponent
         elements={files}
         buildElementNode={this.renderFile}
+        scrollAreaHeight={scrollAreaHeight}
       />
     )
   }

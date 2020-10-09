@@ -35,12 +35,14 @@ import DownloadCellComponent from './cells/options/DownloadCellComponent'
 /**
  * Component to display main browsing tree
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class BrowsingTreeComponent extends React.Component {
   static propTypes = {
     allowSearching: PropTypes.bool,
     browsingTreeVisible: PropTypes.bool.isRequired,
     descriptionEntity: DescriptionEntity.isRequired,
+    scrollAreaHeight: PropTypes.number,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
     isDescriptionAllowed: PropTypes.func.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
@@ -310,10 +312,17 @@ class BrowsingTreeComponent extends React.Component {
   }
 
   render() {
-    const { browsingTreeVisible, descriptionEntity } = this.props
+    const { browsingTreeVisible, descriptionEntity, scrollAreaHeight } = this.props
     const { moduleTheme: { user: { main: { tree: { scrollArea, scrollAreaContent } } } } } = this.context
+
+    // Compute scroll height area
+    const style = {
+      ...scrollArea,
+      height: scrollAreaHeight,
+    }
+
     return browsingTreeVisible ? (
-      <ScrollArea vertical contentStyle={scrollAreaContent} style={scrollArea}>
+      <ScrollArea vertical stopScrollPropagation contentStyle={scrollAreaContent} style={style}>
         <TreeTableComponent
           model={descriptionEntity}
           buildTreeTableRows={this.buildTreeTableRows}

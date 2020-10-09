@@ -23,10 +23,12 @@ import VersionLinkComponent from './VersionLinkComponent'
 /**
  * Version section page component
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class VersionSectionPageComponent extends React.Component {
   static propTypes = {
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    scrollAreaHeight: PropTypes.number,
     // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
@@ -47,11 +49,12 @@ class VersionSectionPageComponent extends React.Component {
   }
 
   render() {
-    const { entities } = this.props
+    const { entities, scrollAreaHeight } = this.props
     return (
       <ListSectionPageComponent
         elements={entities}
         buildElementNode={this.renderEntity}
+        scrollAreaHeight={scrollAreaHeight}
       />
     )
   }

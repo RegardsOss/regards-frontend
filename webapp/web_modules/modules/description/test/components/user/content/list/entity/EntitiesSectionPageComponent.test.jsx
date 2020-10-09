@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test EntitiesSectionPageComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing EntitiesSectionPageComponent', () => {
   before(testSuiteHelpers.before)
@@ -42,11 +43,13 @@ describe('[Description] Testing EntitiesSectionPageComponent', () => {
     entities: resolvedDataEntity.displayModel.linkedEntities,
     isDescriptionAllowed: () => true,
     allowSearching: true,
+    scrollAreaHeight: 760,
   }, {
     label: 'linked documents (without description and search)',
     entities: resolvedDatasetEntity.displayModel.linkedDocuments,
     isDescriptionAllowed: () => false,
     allowSearching: false,
+    scrollAreaHeight: 760,
   }]
   testCases.forEach(({
     label, entities, isDescriptionAllowed, allowSearching,
@@ -55,6 +58,7 @@ describe('[Description] Testing EntitiesSectionPageComponent', () => {
       entities,
       isDescriptionAllowed,
       allowSearching,
+      scrollAreaHeight: 760,
       onSearchEntity: () => {},
       onSelectEntityLink: () => {},
     }
@@ -64,6 +68,7 @@ describe('[Description] Testing EntitiesSectionPageComponent', () => {
     testSuiteHelpers.assertWrapperProperties(subcomponentWrapper, {
       elements: entities,
       buildElementNode: enzymeWrapper.instance().renderEntity,
+      scrollAreaHeight: props.scrollAreaHeight,
     }, 'List render properties should be correctly set')
     // Test inner render into entity link component
     entities.forEach((entity) => {

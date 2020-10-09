@@ -1,0 +1,132 @@
+[{
+    "content": {
+      "pluginConfiguration": {
+        "id": null,
+        "pluginId": "UselessProcessPlugin",
+        "version": "1.0.0-SNAPSHOT",
+        "priorityOrder": 0,
+        "active": true,
+        "pluginClassName": "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
+        "iconUrl": null,
+        "businessId": "testProcess1",
+        "parameters": [
+          {
+            "name": "processName",
+            "type": "STRING",
+            "value": "testProcess1"
+          },
+          {
+            "name": "active",
+            "type": "BOOLEAN",
+            "value": false
+          }
+        ]
+      },
+      "rights": {
+        "role": "PUBLIC"
+      }
+    }
+  },
+  {
+    "content": {
+      "pluginConfiguration": {
+        "id": null,
+        "pluginId": "UselessProcessPlugin",
+        "version": "1.0.0-SNAPSHOT",
+        "priorityOrder": 0,
+        "active": true,
+        "pluginClassName": "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
+        "iconUrl": null,
+        "businessId": "testProcess2",
+        "parameters": [
+          {
+            "name": "processName",
+            "type": "STRING",
+            "value": "testProcess2"
+          },
+          {
+            "name": "active",
+            "type": "BOOLEAN",
+            "value": false
+          }
+        ]
+      },
+      "rights": {
+        "role": "PUBLIC"
+      }
+    }
+  },
+  {
+    "content": {
+      "pluginConfiguration": {
+        "id": null,
+        "pluginId": "UselessProcessPlugin",
+        "version": "1.0.0-SNAPSHOT",
+        "priorityOrder": 0,
+        "active": true,
+        "pluginClassName": "fr.cnes.regards.modules.processing.controller.UselessProcessPlugin",
+        "iconUrl": null,
+        "businessId": "testProcess3",
+        "parameters": [
+          {
+            "name": "processName",
+            "type": "STRING",
+            "value": "testProcess3"
+          },
+          {
+            "name": "active",
+            "type": "BOOLEAN",
+            "value": false
+          }
+        ]
+      },
+      "rights": {
+        "role": "PUBLIC"
+      }
+    }
+  },{
+    "content": {
+      "pluginConfiguration": {
+        "id": null,
+        "pluginId": "SimpleShellProcessPlugin",
+        "version": "1.0.0-SNAPSHOT",
+        "priorityOrder": 0,
+        "active": true,
+        "pluginClassName": "fr.cnes.regards.modules.processing.plugins.impl.SimpleShellProcessPlugin",
+        "iconUrl": null,
+        "businessId": "testProcess4",
+        "parameters": [
+          {
+            "name": "shellScript",
+            "type": "STRING",
+            "value": "testScriptName"
+          },
+          {
+            "name": "sizeForecast",
+            "type": "STRING",
+            "value": "15",
+            "dynamic": true
+          },
+          {
+            "name": "durationForecast",
+            "type": "STRING",
+            "value": "15",
+            "dynamic": true
+          },
+          {
+            "name": "processName",
+            "type": "STRING",
+            "value": "testProcess4"
+          },
+          {
+            "name": "active",
+            "type": "BOOLEAN",
+            "value": false
+          }
+        ]
+      },
+      "rights": {
+        "role": "PUBLIC"
+      }
+    }
+  }]  
