@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
@@ -26,8 +27,8 @@ import { PresentationHelper } from './PresentationHelper'
 
 /**
  * Helper to create initial results context from module configuration
- *
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class ContextInitializationHelper {
   /**
@@ -171,7 +172,7 @@ export class ContextInitializationHelper {
   static buildConfigurationCriteria(restrictions) {
     const restrictionCriteria = []
     // 1 - Restrictions on data
-    const { lastVersionOnly = false } = get(restrictions, 'onData', { })
+    const lastVersionOnly = get(restrictions, 'onData.lastVersionOnly', false)
     if (lastVersionOnly) {
       restrictionCriteria.push({
         requestParameters: {
@@ -203,6 +204,15 @@ export class ContextInitializationHelper {
         })
         break
       default: // no restriction: do nothing
+    }
+    // 3 - Restrictions on OpenSearch request
+    const openSearchRequest = get(restrictions, 'byOpenSearch.openSearchRequest', '')
+    if (!isEmpty(openSearchRequest)) {
+      restrictionCriteria.push({
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: openSearchRequest,
+        },
+      })
     }
     return restrictionCriteria
   }

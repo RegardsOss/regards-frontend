@@ -20,6 +20,7 @@
 /**
  * Styles for module
  * @author Sébastien binda
+ * @author Théo Lasserre
  */
 const styles = (theme) => ({
   configuration: {
@@ -614,6 +615,27 @@ const styles = (theme) => ({
         MozBackgroundClip: 'padding',
         WebkitBackgroundClip: 'padding',
         backgroundClip: 'padding-box',
+      },
+    },
+    restrictionStyle: {
+      iconStyle: {
+        height: '23px',
+        width: '23px',
+      },
+      buttonStyle: {
+        paddingTop: '14px',
+        height: '30px',
+        width: '30px',
+      },
+      helpOpenSearchIcon: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      linkDivStyle: {
+        paddingTop: '10px',
+      },
+      linkStyle: {
+        color: theme.palette.textColor,
       },
     },
   },

@@ -17,13 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { FACET_TYPES, FACET_TYPES_ENUM } from './FacetType'
-export { TAG_TYPES_ENUM, TAG_TYPES } from './TagTypes'
-export { TagsHelper } from './TagsHelper'
-export { default as GEOMETRY_TYPES } from './geo/Geometry'
-export { LEGACY_SEARCH_ENGINE } from './SearchConstants'
-export { default as OpenSearchQuery } from './query/OpenSearchQuery'
-export { default as OpenSearchQueryParameter } from './query/OpenSearchQueryParameter'
-export { default as CatalogSearchQueryHelper } from './query/CatalogSearchQueryHelper'
-export { PluginTypeEnum, PluginTypeEnumValues } from './PluginTypeEnum'
-export { LINK_DOC_SEARCH_API } from './doc/DocLinks'
+/**
+ * Catalog documentation links
+ * @author Théo Lasserre
+ */
+
+export const LINK_DOC_SEARCH_API = 'https://regardsoss.github.io/development/regards/catalog/api/search-api/#string-searches'
