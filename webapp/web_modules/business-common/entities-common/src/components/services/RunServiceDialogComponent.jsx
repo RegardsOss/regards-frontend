@@ -26,6 +26,7 @@ import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsos
 import { reduxForm } from '@regardsoss/form-utils'
 import { Parameter } from '../../definitions/parameters/Parameter'
 import ParametersConfigurationComponent from './parameters/ParametersConfigurationComponent'
+import ServiceDescriptionComponent from './ServiceDescriptionComponent'
 
 /**
 * Dialog containing all the service run steps (not related with shown content):
@@ -58,6 +59,19 @@ export class RunServiceDialogComponent extends React.Component {
     messageKey,
     error,
     customOptions,
+  })
+
+  /**
+   * Builds parameter configuration step
+   * @param parameters parameters list
+   * @param parametersValues map <string, *> of user entered values (used to keep entered values on previous step request)
+   * @param onSubmit callback, user submitted parameters values
+   * @return usable step for this component
+   */
+  static buildDescriptionStep = (description, onSubmit) => ({
+    step: RunServiceDialogComponent.Steps.DESCRIPTION,
+    description,
+    onSubmit,
   })
 
   /**
@@ -100,6 +114,12 @@ export class RunServiceDialogComponent extends React.Component {
         error: PropTypes.bool.isRequired,
         // custom step dialog options as react components
         customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+      }),
+      // description step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.DESCRIPTION]),
+        description: PropTypes.string.isRequired,
+        onSubmit: PropTypes.func.isRequired,
       }),
       // parameters configuration step
       PropTypes.shape({
@@ -147,6 +167,7 @@ export class RunServiceDialogComponent extends React.Component {
     let otherActions
     switch (currentStep.step) {
       // submit option when configuring parameters
+      case RunServiceDialogComponent.Steps.DESCRIPTION:
       case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
         otherActions = [
           <FlatButton
@@ -179,6 +200,17 @@ export class RunServiceDialogComponent extends React.Component {
     ]
   }
 
+  renderStep = (currentStep, initialize) => {
+    switch (currentStep.step) {
+      case RunServiceDialogComponent.Steps.DESCRIPTION:
+        return <ServiceDescriptionComponent description={currentStep.description} />
+      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+        return <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} />
+      default:
+        return currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT
+    }
+  }
+
   render() {
     const {
       serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
@@ -206,11 +238,7 @@ export class RunServiceDialogComponent extends React.Component {
             messageKey={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.messageKey : null}
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
           >
-            { // render interactive steps: configuration or results
-              stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION
-                ? <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} /> // configuration step
-                : currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT // results step or none
-            }
+            {this.renderStep(currentStep, initialize)}
           </NoContentMessageInfo>
         </LoadableContentDialogContainer>
       </form>

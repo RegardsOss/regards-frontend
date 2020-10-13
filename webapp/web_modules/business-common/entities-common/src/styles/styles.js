@@ -45,4 +45,10 @@ export default theme => ({
       marginTop: '12px',
     },
   },
+  description: {
+    markdownView: {
+      width: '100%',
+      height: '200px',
+    },
+  },
 })
