@@ -20,7 +20,9 @@ import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
-import { Field, FieldArray, RenderCheckbox } from '@regardsoss/form-utils'
+import {
+  Field, FieldArray, RenderCheckbox, RenderTextField,
+} from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import RestrictionsConfigurationComponent from '../../../../../src/components/admin/content/restrictions/RestrictionsConfigurationComponent'
 import DatasetRestrictionsSelectionComponent from '../../../../../src/components/admin/content/restrictions/DatasetRestrictionsSelectionComponent'
@@ -33,6 +35,7 @@ const context = buildTestContext(styles)
 /**
  * Test RestrictionsConfigurationComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
   before(testSuiteHelpers.before)
@@ -56,6 +59,9 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
           type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
           selection: [],
         },
+        byOpenSearch: {
+          openSearchRequest: 'test=test',
+        },
       },
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
@@ -66,12 +72,18 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
     }
     const enzymeWrapper = shallow(<RestrictionsConfigurationComponent {...props} />, { context })
     // 0 - Check common fields
-    const fields = enzymeWrapper.find(Field)
-    assert.lengthOf(fields, 1, 'There should be lastVersionOnly field')
-    testSuiteHelpers.assertWrapperProperties(fields, {
+    const restrictionDataField = enzymeWrapper.find(Field).find({ name: 'myNamespace.restrictions.onData.lastVersionOnly' })
+    assert.lengthOf(restrictionDataField, 1, 'There should be lastVersionOnly field')
+    testSuiteHelpers.assertWrapperProperties(restrictionDataField, {
       name: 'myNamespace.restrictions.onData.lastVersionOnly',
       component: RenderCheckbox,
     }, 'lastVersionOnly field properties should be correctly set')
+    const openSearchField = enzymeWrapper.find(Field).find({ name: 'myNamespace.restrictions.byOpenSearch.openSearchRequest' })
+    assert.lengthOf(openSearchField, 1, 'There should be openSearch request field')
+    testSuiteHelpers.assertWrapperProperties(openSearchField, {
+      name: 'myNamespace.restrictions.byOpenSearch.openSearchRequest',
+      component: RenderTextField,
+    }, 'openSearch request field properties should be correctly set')
     // 1  - Check initial values
     let radioGroup = enzymeWrapper.find(RadioButtonGroup)
     assert.lengthOf(radioGroup, 1, 'There should be the radio buttons group')

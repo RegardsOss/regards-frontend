@@ -23,6 +23,7 @@ import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 /**
  * Module configuration shapes
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 /**
@@ -126,10 +127,16 @@ export const DatasetRestriction = PropTypes.oneOfType([
   DatasetModelsRestriction,
 ])
 
+/** Describe possible restriction on openSearch request */
+export const OpenSearchRestriction = PropTypes.shape({
+  openSearchRequest: PropTypes.string,
+})
+
 /** Configuration of results restrictions */
 export const RestrictionsConfiguration = PropTypes.shape({
   onData: DataRestriction,
   byDataset: DatasetRestriction,
+  byOpenSearch: OpenSearchRestriction,
 })
 
 /** A criterion configuration, with internationalized labels */
