@@ -118,7 +118,6 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * @param pluginConfiguration previously fetched plugin configuration
    **/
   onFetchMetaDataDone = ({ payload, error = false }, pluginConfiguration) => {
-    console.error('payload', payload)
     const pluginMetaData = get(payload, `entities.${PluginMetaDataConfiguration.normalizrKey}.${pluginConfiguration.content.pluginId}`)
     if (error || !pluginMetaData) {
       this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR)
