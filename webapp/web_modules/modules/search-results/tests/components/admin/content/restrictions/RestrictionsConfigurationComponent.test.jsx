@@ -78,10 +78,10 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       name: 'myNamespace.restrictions.onData.lastVersionOnly',
       component: RenderCheckbox,
     }, 'lastVersionOnly field properties should be correctly set')
-    const openSearchField = enzymeWrapper.find(Field).find({ name: 'myNamespace.restrictions.byOpenSearch.openSearchRequest' })
+    const openSearchField = enzymeWrapper.find(Field).find({ name: 'myNamespace.restrictions.onData.openSearchRequest' })
     assert.lengthOf(openSearchField, 1, 'There should be openSearch request field')
     testSuiteHelpers.assertWrapperProperties(openSearchField, {
-      name: 'myNamespace.restrictions.byOpenSearch.openSearchRequest',
+      name: 'myNamespace.restrictions.onData.openSearchRequest',
       component: RenderTextField,
     }, 'openSearch request field properties should be correctly set')
     // 1  - Check initial values

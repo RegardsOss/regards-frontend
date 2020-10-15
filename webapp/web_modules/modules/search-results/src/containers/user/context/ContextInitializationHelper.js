@@ -206,7 +206,7 @@ export class ContextInitializationHelper {
       default: // no restriction: do nothing
     }
     // 3 - Restrictions on OpenSearch request
-    const openSearchRequest = get(restrictions, 'byOpenSearch.openSearchRequest', '')
+    const openSearchRequest = get(restrictions, 'onData.openSearchRequest', '')
     if (!isEmpty(openSearchRequest)) {
       restrictionCriteria.push({
         requestParameters: {

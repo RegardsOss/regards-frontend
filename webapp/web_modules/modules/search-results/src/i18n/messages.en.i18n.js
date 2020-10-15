@@ -94,7 +94,6 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restrict to selected dataset models',
-  'search.results.form.restrictions.configuration.opensearch.title': 'Restriction by OpenSearch request',
   'search.results.form.restrictions.configuration.opensearch.request': 'OpenSearch Request',
   'search.results.form.restrictions.configuration.opensearch.hint': 'Request',
   'search.results.form.restrictions.configuration.opensearch.info.button': 'Details',

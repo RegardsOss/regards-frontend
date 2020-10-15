@@ -94,7 +94,6 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
-  'search.results.form.restrictions.configuration.opensearch.title': 'Restrictions par requête OpenSearch',
   'search.results.form.restrictions.configuration.opensearch.request': 'Requête OpenSearch',
   'search.results.form.restrictions.configuration.opensearch.hint': 'Requete',
   'search.results.form.restrictions.configuration.opensearch.info.button': 'Détails',

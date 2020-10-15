@@ -16,20 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Link } from 'react-router'
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { HelpDialogComponent } from '@regardsoss/components'
 
 import {
   FieldsGroup, Field, FieldArray, RenderCheckbox, RenderTextField,
 } from '@regardsoss/form-utils'
-import IconButton from 'material-ui/IconButton'
-import DetailIcon from 'mdi-material-ui/HelpCircle'
-import FlatButton from 'material-ui/FlatButton'
-import Dialog from 'material-ui/Dialog'
 import { RestrictionsConfiguration } from '../../../../shapes/ModuleConfiguration'
 import DatasetRestrictionsSelectionComponent from './DatasetRestrictionsSelectionComponent'
 
@@ -54,55 +50,6 @@ class RestrictionsConfigurationComponent extends React.Component {
   }
 
   /**
-   * Initial state
-   */
-  state = {
-    isHelpOpenSearchDialogOpen: false,
-  }
-
-  /**
-   * Display or not OpenSearch help dialog
-   */
-  showOrCloseHelpOpenSearchDialog = () => {
-    const { isHelpOpenSearchDialogOpen } = this.state
-    this.setState({
-      isHelpOpenSearchDialogOpen: !isHelpOpenSearchDialogOpen,
-    })
-  }
-
-  /**
-   * Dialog to help user to build an OpenSearch request
-   */
-  helpOpenSearchDialog = () => {
-    const { isHelpOpenSearchDialogOpen } = this.state
-    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { linkDivStyle, linkStyle } } } } = this.context
-    return (
-      <Dialog
-        actions={<>
-          <FlatButton
-            key="close"
-            label={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.close' })}
-            primary
-            onClick={this.showOrCloseHelpOpenSearchDialog}
-          />
-        </>}
-        title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.title' })}
-        open={isHelpOpenSearchDialogOpen}
-        onRequestClose={this.showOrCloseHelpOpenSearchDialog}
-      >
-        <div>
-          {formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.message' })}
-        </div>
-        <div style={linkDivStyle}>
-          <Link to={{ pathname: CatalogDomain.LINK_DOC_SEARCH_API }} target="_blank" style={linkStyle}>
-            {formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.link' })}
-          </Link>
-        </div>
-      </Dialog>
-    )
-  }
-
-  /**
    * Callbak: User changed dataset restriction type. Update for selected value
    * @param {*} event MUI event
    * @param {string} value selected value, one of DISPLAYED_TYPES_CHOICES
@@ -120,7 +67,7 @@ class RestrictionsConfigurationComponent extends React.Component {
       currentNamespace, currentRestrictionsValues,
       datasets, datasetModels,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { iconStyle, buttonStyle, helpOpenSearchIcon } } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { openSearchContent } } } } = this.context
     return (
       <>
         {/* Restrictions using data */ }
@@ -133,6 +80,23 @@ class RestrictionsConfigurationComponent extends React.Component {
             component={RenderCheckbox}
             label={formatMessage({ id: 'search.results.form.restrictions.configuration.data.last.version.only' })}
           />
+          <div style={openSearchContent}>
+            <Field
+              name={`${currentNamespace}.restrictions.onData.openSearchRequest`}
+              component={RenderTextField}
+              label={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.request' })}
+              hintText={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.hint' })}
+              fullWidth
+            />
+            <HelpDialogComponent
+              iconTitle={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.info.button' })}
+              title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.title' })}
+              message={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.message' })}
+              buttonLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.close' })}
+              link={CatalogDomain.LINK_DOC_SEARCH_API}
+              linkLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.link' })}
+            />
+          </div>
         </FieldsGroup>
         {/* Restrictions using dataset */}
         <FieldsGroup
@@ -161,32 +125,6 @@ class RestrictionsConfigurationComponent extends React.Component {
             currentRestrictionType={currentRestrictionsValues.byDataset.type}
           />
         </FieldsGroup>
-        {/* OpenSearch Request */}
-        <FieldsGroup
-          title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.title' })}
-          spanFullWidth
-          clearSpaceToChildren
-        >
-          <div style={helpOpenSearchIcon}>
-            <Field
-              name={`${currentNamespace}.restrictions.byOpenSearch.openSearchRequest`}
-              component={RenderTextField}
-              label={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.request' })}
-              hintText={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.hint' })}
-              fullWidth
-            />
-            <IconButton
-              className="selenium-edit-openSearch-field"
-              title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.info.button' })}
-              iconStyle={iconStyle}
-              style={buttonStyle}
-              onClick={this.showOrCloseHelpOpenSearchDialog}
-            >
-              <DetailIcon />
-            </IconButton>
-          </div>
-        </FieldsGroup>
-        {this.helpOpenSearchDialog()}
       </>
     )
   }

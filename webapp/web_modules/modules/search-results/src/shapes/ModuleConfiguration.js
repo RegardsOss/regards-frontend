@@ -103,6 +103,7 @@ export const DatasetViewsConfiguration = PropTypes.shape({
 /** Describes possible restriction on data */
 export const DataRestriction = PropTypes.shape({
   lastVersionOnly: PropTypes.bool,
+  openSearchRequest: PropTypes.string,
 })
 
 /** Possible restrictions on datasets to show: none, by dataset selection or by dataset models selection */
@@ -127,16 +128,10 @@ export const DatasetRestriction = PropTypes.oneOfType([
   DatasetModelsRestriction,
 ])
 
-/** Describe possible restriction on openSearch request */
-export const OpenSearchRestriction = PropTypes.shape({
-  openSearchRequest: PropTypes.string,
-})
-
 /** Configuration of results restrictions */
 export const RestrictionsConfiguration = PropTypes.shape({
   onData: DataRestriction,
   byDataset: DatasetRestriction,
-  byOpenSearch: OpenSearchRestriction,
 })
 
 /** A criterion configuration, with internationalized labels */
