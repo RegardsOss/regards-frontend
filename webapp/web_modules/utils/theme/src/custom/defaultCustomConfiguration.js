@@ -144,6 +144,10 @@ export default (baseTheme) => ({
       layoutOptionPadding: 3,
       layoutIconSize: 18,
       minContentHeight: 200,
+      downloads: {
+        quotaWarningColor: '#FF9800',
+        quotaConsumedColor: baseTheme.textField.errorColor,
+      },
     },
     // description module
     description: {

@@ -16,20 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { assert } from 'chai'
+import { CurrentQuotaInformationActions } from '../../../src/ui/quota/CurrentQuotaInformationActions'
 
-/**
- * Holds UI settings constants
- * @author Raphaël Mechali
- */
-export class UISettingsConstants {
-  /**
-   * Default settings state, to use when none was set
-   */
-  static DEFAULT_SETTINGS = {
-    showVersion: true,
-    documentModels: [],
-    primaryQuicklookGroup: 'primary',
-    quotaWarningCount: 100,
-    rateWarningCount: 10,
-  }
-}
+const testActions = new CurrentQuotaInformationActions('test-namespace')
+
+describe('[Search Results] Test CurrentQuotaInformationActions', () => {
+  it('should return a set quota action', () => {
+    assert.deepEqual(testActions.setQuotaInformation(8, 100, 2, 10), {
+      type: testActions.SET_QUOTA_INFORMATION,
+      currentQuota: 8,
+      maxQuota: 100,
+      currentRate: 2,
+      rateLimit: 10,
+    }, 'action to dispatch should have the expected shape and values')
+  })
+})

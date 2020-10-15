@@ -20,6 +20,11 @@
 // Description
 export { DescriptionHelper } from './definitions/DescriptionHelper'
 
+// Downloads
+export * from './containers/download/quota/withQuotaInfo'
+export * from './definitions/download/quota/QuotaInfoShape'
+export * from './definitions/download/quota/QuotaInfoStateEnum'
+
 // Services
 export { default as ServiceContainer } from './containers/services/ServiceContainer'
 export { TargetHelper } from './definitions/TargetHelper'

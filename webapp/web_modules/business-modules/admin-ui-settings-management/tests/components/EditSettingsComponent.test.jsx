@@ -74,6 +74,8 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
         showVersion: true,
         documentModels: ['model3'],
         primaryQuicklookGroup: 'customMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
       onBack: () => {},

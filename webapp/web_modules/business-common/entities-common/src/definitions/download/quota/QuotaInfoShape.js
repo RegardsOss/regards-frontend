@@ -16,21 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { QUOTA_INFO_STATES } from './QuotaInfoStateEnum'
 
 /**
- * UI settings shape
- *
+ * Quota information field, as added by withQuotaInfo
  * @author Raphaël Mechali
  */
-export const UISettings = PropTypes.shape({
-  // show products versions in project
-  showVersion: PropTypes.bool.isRequired,
-  // Identifies data model of entities to consider as documents
-  documentModels: PropTypes.arrayOf(PropTypes.string).isRequired,
-  // Datafile.types keyword: when present in a quicklook, marks its assignement in primary group (it is not a group name!)
-  primaryQuicklookGroup: PropTypes.string.isRequired,
-  // Quota warning: Used to warn user when maxQuota - quotaWarningCount < currentQuota
-  quotaWarningCount: PropTypes.number.isRequired,
-  // Rate warning: Used to warn user when rateLimit - rateWarningCount < currentRate
-  rateWarningCount: PropTypes.number.isRequired,
+export const QuotaInfo = PropTypes.shape({
+  currentQuota: PropTypes.number.isRequired,
+  maxQuota: PropTypes.number.isRequired,
+  quotaState: PropTypes.oneOf(QUOTA_INFO_STATES),
+  currentRate: PropTypes.number.isRequired,
+  rateLimit: PropTypes.number.isRequired,
+  rateState: PropTypes.oneOf(QUOTA_INFO_STATES),
+  downloadDisabled: PropTypes.bool,
+  inUserApp: PropTypes.bool,
 })

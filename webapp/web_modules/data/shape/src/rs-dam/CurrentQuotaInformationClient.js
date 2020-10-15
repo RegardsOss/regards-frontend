@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,20 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIClient } from '@regardsoss/client'
 
 /**
- * Holds UI settings constants
+ * Local quota information client, used to publish quota and rate related data locally (allows
+ * handling seamlessly situations where user is logged or anonymous).
  * @author Raphaël Mechali
  */
-export class UISettingsConstants {
-  /**
-   * Default settings state, to use when none was set
-   */
-  static DEFAULT_SETTINGS = {
-    showVersion: true,
-    documentModels: [],
-    primaryQuicklookGroup: 'primary',
-    quotaWarningCount: 100,
-    rateWarningCount: 10,
-  }
-}
+export const currentQuotaInformationActions = new UIClient.CurrentQuotaInformationActions()
+export const currentQuotaInformationReducer = UIClient.getCurrentQuotaInformationReducer()
+export const currentQuotaInformationSelectors = UIClient.getCurrentQuotaInformationSelectors()

@@ -55,3 +55,7 @@ export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSe
 export { UISettingsActions } from './settings/UISettingsActions'
 export { getUISettingsReducer } from './settings/UISettingsReducer'
 export { getUISettingsSelectors } from './settings/UISettingsSelectors'
+
+export { QuotaInformationActions } from './user/QuotaInformationActions'
+export { getQuotaInformationReducer } from './user/QuotaInformationReducer'
+export { getQuotaInformationSelectors } from './user/QuotaInformationSelectors'

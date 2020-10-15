@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,19 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { QuotaInformationActions } from './QuotaInformationActions'
+
 /**
- * Holds UI settings constants
+ * Logged user quota and rates information reducer.
+ * @param {string} namespace actions namespace (defaults to user app namespace)
+ * @returns {Function} reduce function
  * @author Raphaël Mechali
  */
-export class UISettingsConstants {
-  /**
-   * Default settings state, to use when none was set
-   */
-  static DEFAULT_SETTINGS = {
-    showVersion: true,
-    documentModels: [],
-    primaryQuicklookGroup: 'primary',
-    quotaWarningCount: 100,
-    rateWarningCount: 10,
-  }
+export function getQuotaInformationReducer(namespace) {
+  const reducerInst = new BasicSignalReducers(new QuotaInformationActions(namespace), null)
+  return (state, action) => reducerInst.reduce(state, action)
 }

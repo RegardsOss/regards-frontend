@@ -21,7 +21,6 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
-import LoginIcon from 'mdi-material-ui/AccountCircle'
 import AccountMenuIcon from 'mdi-material-ui/AccountBox'
 import ActionExitToApp from 'mdi-material-ui/ExitToApp'
 import ChangeRole from 'mdi-material-ui/Run'
@@ -30,15 +29,16 @@ import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { withQuotaInfo, QuotaInfo, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
-
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
+import LoginIconComponent from './LoginIconComponent'
 
 /**
  * Component to display action available on connected user.
  * @author Sébastien binda
  */
-class LoggedUserComponent extends React.Component {
+export class LoggedUserComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
@@ -47,6 +47,8 @@ class LoggedUserComponent extends React.Component {
     onLogout: PropTypes.func.isRequired,
     showProfileEdition: PropTypes.bool.isRequired,
     onShowProfileEdition: PropTypes.func.isRequired,
+    // from withQuotaInfo HOC
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -54,12 +56,10 @@ class LoggedUserComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getLabel = () => this.context.intl.formatMessage({ id: 'loggedButtonLabel' }, { login: this.props.name })
-
   render() {
     const { intl: { formatMessage }, moduleTheme: { user: { optionsLabelStyle } } } = this.context
     const {
-      name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition,
+      name, currentRole, borrowableRoles, quotaInfo, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition,
     } = this.props
     const showBorrowableRoles = keys(borrowableRoles).length > 1 // at least 2 roles, otherwise, there is only the current role
     const hasMoreOption = showProfileEdition || showBorrowableRoles
@@ -70,6 +70,7 @@ class LoggedUserComponent extends React.Component {
     const arrowIcon = <ArrowDropRight />
 
     const profileContainer = showProfileEdition ? <ProfileEditionContainer /> : null
+
     return (
       <div>
         { /* add the prodile edition capacity (external dialog) */
@@ -77,10 +78,13 @@ class LoggedUserComponent extends React.Component {
         }
         {/* Build and show drop down menu */}
         <DropDownButton
-          getLabel={this.getLabel}
+          label={formatMessage({ id: 'loggedButtonLabel' }, { login: this.props.name })}
           title={formatMessage({ id: 'loggedButtonTooltip' }, { login: name })}
-          icon={<LoginIcon />}
           labelStyle={optionsLabelStyle}
+          icon={<LoginIconComponent quotaState={quotaInfo.quotaState} rateState={quotaInfo.rateState} />}
+          login={name}
+          quotaState={QUOTA_INFO_STATE_ENUM.CONSUMED}//quotaInfo.quotaState}
+          rateState={QUOTA_INFO_STATE_ENUM.IDLE}//quotaInfo.rateState}
           hasSubMenus
         >
           { /* Access user profile (do not insert a showable to not block menu auto-closing) */
@@ -137,4 +141,4 @@ class LoggedUserComponent extends React.Component {
   }
 }
 
-export default LoggedUserComponent
+export default withQuotaInfo(LoggedUserComponent)

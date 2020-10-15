@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,19 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
+
 /**
- * Holds UI settings constants
+ * Store selector for logged user quota and rates
+ * @param {[string]} storePath path in store, default to user app path
+ * @returns {BasicSignalSelectors} selectors instance for path
  * @author Raphaël Mechali
  */
-export class UISettingsConstants {
-  /**
-   * Default settings state, to use when none was set
-   */
-  static DEFAULT_SETTINGS = {
-    showVersion: true,
-    documentModels: [],
-    primaryQuicklookGroup: 'primary',
-    quotaWarningCount: 100,
-    rateWarningCount: 10,
-  }
+export function getQuotaInformationSelectors(storePath = ['user', 'serverQuotaInformation']) {
+  return new BasicSignalSelectors(storePath)
 }

@@ -69,6 +69,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         showVersion: true,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       theme: {
         id: 11,
@@ -135,6 +137,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         showVersion: false,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       theme: {
         id: 11,

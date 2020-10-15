@@ -36,6 +36,7 @@ import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClients'
 import AuthenticationContainer from './AuthenticationContainer'
+import QuotaInformationUpdater from './QuotaInformationUpdater'
 
 /**
  * Provides the theme to sub containers
@@ -233,6 +234,8 @@ export class UserApp extends React.Component {
             }
             {/* Render network errors */}
             <ApplicationErrorContainer />
+            {/* Quota information retriever */}
+            <QuotaInformationUpdater />
           </AuthenticationContainer>
         </LoadableContentDisplayDecorator>
       </ThemeProvider>
