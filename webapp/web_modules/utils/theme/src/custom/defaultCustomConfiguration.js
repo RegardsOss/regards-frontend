@@ -107,6 +107,10 @@ export default (baseTheme) => ({
       iFrameBackground: 'white',
       markdownScrollbarColor: '#00202f',
     },
+    resizerSeparator: {
+      backgroundColor: baseTheme.palette.borderColor,
+      halfSize: 6,
+    },
   },
   formsExtensions: {
     dateField: {
@@ -172,7 +176,7 @@ export default (baseTheme) => ({
         },
       },
       tree: {
-        width: 400,
+        minWidth: 350,
         borderColor: baseTheme.toolbar.separatorColor,
         borderWidth: '0 1px 0 0',
         iconButtonPadding: 4,
@@ -193,7 +197,10 @@ export default (baseTheme) => ({
           fontWeight: 400,
         },
       },
-      contentPadding: '5px 21px 5px 21px',
+      content: {
+        padding: '5px 21px 5px 21px',
+        minWidth: 350,
+      },
       listPage: {
         element: {
           padding: 3,
@@ -383,10 +390,6 @@ export default (baseTheme) => ({
           columnWidth: 180,
           columnGap: 15,
           padding: '12px 5px 5px 0',
-        },
-        resizerSeparator: {
-          backgroundColor: baseTheme.palette.borderColor,
-          halfSize: 6,
         },
       },
       tabs: {

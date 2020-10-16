@@ -146,13 +146,13 @@ export class FileContentDisplayer extends React.Component {
                 // 3.2 - Other content types are rendered using local browser resource
                 return (
                   <LocalURLProvider blob={content} targetPropertyName="source">
-                    <IFrameURLContentDisplayer style={style} />
+                    <IFrameURLContentDisplayer />
                   </LocalURLProvider>)
               }
               if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
                 return (
                   <FileContentReader blob={content} targetPropertyName="source">
-                    <MarkdownFileContentDisplayer style={style} />
+                    <IFrameURLContentDisplayer />
                   </FileContentReader>)
               }
               return noPreviewComponent || null

@@ -138,12 +138,7 @@ class ContentDisplayComponent extends React.Component {
             files={descriptionFiles}
             onSelectInnerLink={onSelectInnerLink}
             scrollAreaHeight={scrollAreaHeight}
-          />) : <URIContentDisplayer
-            style={{
-              display: 'flex', minHeight: scrollAreaHeight, width: '100%',
-            }}
-            uri={descriptionFiles[child].uri}
-          /> // TODO: ajouter style ici
+          />) : <URIContentDisplayer uri={descriptionFiles[child].uri} />
       case BROWSING_SECTIONS_ENUM.FILES:
         return isNil(child) ? (
           <FilesSectionPageComponent
@@ -151,12 +146,7 @@ class ContentDisplayComponent extends React.Component {
             files={otherFiles}
             onSelectInnerLink={onSelectInnerLink}
             scrollAreaHeight={scrollAreaHeight}
-          />) : <URIContentDisplayer
-            style={{
-              display: 'flex', minHeight: scrollAreaHeight, width: '100%',
-            }}
-            uri={otherFiles[child].uri}
-          />
+          />) : <URIContentDisplayer uri={otherFiles[child].uri} />
       case BROWSING_SECTIONS_ENUM.OTHER_VERSIONS:
         return (
           <VersionSectionPageComponent

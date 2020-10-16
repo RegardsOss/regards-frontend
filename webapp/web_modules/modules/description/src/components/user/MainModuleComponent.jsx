@@ -97,7 +97,7 @@ class MainModuleComponent extends React.Component {
     this.setState({
       width: Math.ceil(width),
       height: Math.ceil(height),
-      currentReziserPos: muiTheme.module.description.tree.width,
+      currentReziserPos: muiTheme.module.description.tree.minWidth,
     })
   }
 
@@ -144,32 +144,28 @@ class MainModuleComponent extends React.Component {
                 pane2Style={pane2Style}
               >
                 {/* Left: Tree */}
-                <div height={height}>
-                  <BrowsingTreeComponent
-                    allowSearching={allowSearching}
-                    browsingTreeVisible={browsingTreeVisible}
-                    descriptionEntity={descriptionEntity}
-                    isDescriptionAllowed={isDescriptionAllowed}
-                    onSelectInnerLink={onSelectInnerLink}
-                    onSelectEntityLink={onSelectEntityLink}
-                    onSearchWord={onSearchWord}
-                    onSearchEntity={onSearchEntity}
-                    scrollAreaHeight={height}
-                  />
-                </div>
+                <BrowsingTreeComponent
+                  allowSearching={allowSearching}
+                  browsingTreeVisible={browsingTreeVisible}
+                  descriptionEntity={descriptionEntity}
+                  isDescriptionAllowed={isDescriptionAllowed}
+                  onSelectInnerLink={onSelectInnerLink}
+                  onSelectEntityLink={onSelectEntityLink}
+                  onSearchWord={onSearchWord}
+                  onSearchEntity={onSearchEntity}
+                  scrollAreaHeight={height}
+                />
                 {/* Right : Content */}
-                <div key={`content-view:width-${currentReziserPos}x${height}`}>
-                  <ContentDisplayComponent
-                    descriptionEntity={descriptionEntity}
-                    isDescriptionAllowed={isDescriptionAllowed}
-                    allowSearching={allowSearching}
-                    onSelectInnerLink={onSelectInnerLink}
-                    onSelectEntityLink={onSelectEntityLink}
-                    onSearchWord={onSearchWord}
-                    onSearchEntity={onSearchEntity}
-                    scrollAreaHeight={height}
-                  />
-                </div>
+                <ContentDisplayComponent
+                  descriptionEntity={descriptionEntity}
+                  isDescriptionAllowed={isDescriptionAllowed}
+                  allowSearching={allowSearching}
+                  onSelectInnerLink={onSelectInnerLink}
+                  onSelectEntityLink={onSelectEntityLink}
+                  onSearchWord={onSearchWord}
+                  onSearchEntity={onSearchEntity}
+                  scrollAreaHeight={height}
+                />
 
               </SplitPane>
             </div>

@@ -95,6 +95,7 @@ export { default as URLPictureResolver } from './picture/URLPictureResolver'
 export { default as ZoomablePicture } from './picture/ZoomablePicture'
 export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
+export * from './split/SplitResizerStyle'
 
 // Table
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'

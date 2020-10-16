@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { buildSplitResizerStyle } from '@regardsoss/components'
 
 /**
  * Module styles builder
@@ -128,33 +129,17 @@ const styles = (theme) => ({
         position: 'relative',
       },
       paneStyle: {
-        minWidth: 300,
+        minWidth: theme.module.description.tree.minWidth,
       },
       pane2Style: {
         flex: '1 1 0%',
+        alignItems: 'strecth',
         position: 'relative',
         outline: 'none',
-        minWidth: 300,
+        display: 'flex',
+        minWidth: theme.module.description.content.minWidth,
       },
-      resizer: {
-        backgroundColor: theme.module.searchResults.map.resizerSeparator.backgroundColor,
-        // Create an handle of 1 pixel visible but width half size * 2 (consume the remaining width on borders)
-        width: (theme.module.searchResults.map.resizerSeparator.halfSize * 2) + 1,
-        margin: `0 -${theme.module.searchResults.map.resizerSeparator.halfSize}px`,
-        borderLeft: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
-        borderRight: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
-        cursor: 'col-resize',
-
-        zIndex: 1,
-
-        MozBoxSizing: 'border-box',
-        WebkitBoxSizing: 'border-box',
-        boxSizing: 'border-box',
-
-        MozBackgroundClip: 'padding',
-        WebkitBackgroundClip: 'padding',
-        backgroundClip: 'padding-box',
-      },
+      resizer: buildSplitResizerStyle(theme),
       tree: {
         scrollArea: {
           flexBasis: theme.module.description.tree.width,
@@ -270,7 +255,7 @@ const styles = (theme) => ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            padding: theme.module.description.contentPadding,
+            padding: theme.module.description.content.padding,
           },
           elementContainer: {
             display: 'flex',
@@ -324,7 +309,7 @@ const styles = (theme) => ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            padding: theme.module.description.contentPadding,
+            padding: theme.module.description.content.padding,
           },
           thumbnail: {
             display: 'block',
