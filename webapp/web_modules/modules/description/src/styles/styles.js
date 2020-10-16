@@ -130,6 +130,12 @@ const styles = (theme) => ({
       paneStyle: {
         minWidth: 300,
       },
+      pane2Style: {
+        flex: '1 1 0%',
+        position: 'relative',
+        outline: 'none',
+        minWidth: 300,
+      },
       resizer: {
         backgroundColor: theme.module.searchResults.map.resizerSeparator.backgroundColor,
         // Create an handle of 1 pixel visible but width half size * 2 (consume the remaining width on borders)

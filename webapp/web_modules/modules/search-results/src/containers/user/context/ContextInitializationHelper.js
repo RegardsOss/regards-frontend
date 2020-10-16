@@ -172,12 +172,19 @@ export class ContextInitializationHelper {
   static buildConfigurationCriteria(restrictions) {
     const restrictionCriteria = []
     // 1 - Restrictions on data
-    const lastVersionOnly = get(restrictions, 'onData.lastVersionOnly', false)
+    const { openSearchRequest = '', lastVersionOnly = false } = get(restrictions, 'onData', {})
     if (lastVersionOnly) {
       restrictionCriteria.push({
         requestParameters: {
           [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
             CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
+        },
+      })
+    }
+    if (!isEmpty(openSearchRequest)) {
+      restrictionCriteria.push({
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: openSearchRequest,
         },
       })
     }
@@ -204,15 +211,6 @@ export class ContextInitializationHelper {
         })
         break
       default: // no restriction: do nothing
-    }
-    // 3 - Restrictions on OpenSearch request
-    const openSearchRequest = get(restrictions, 'onData.openSearchRequest', '')
-    if (!isEmpty(openSearchRequest)) {
-      restrictionCriteria.push({
-        requestParameters: {
-          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: openSearchRequest,
-        },
-      })
     }
     return restrictionCriteria
   }
