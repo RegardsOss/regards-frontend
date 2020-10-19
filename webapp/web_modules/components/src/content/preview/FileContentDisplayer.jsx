@@ -152,7 +152,7 @@ export class FileContentDisplayer extends React.Component {
               if (MarkdownFileContentDisplayer.isSupportedContentType(contentType)) {
                 return (
                   <FileContentReader blob={content} targetPropertyName="source">
-                    <IFrameURLContentDisplayer />
+                    <MarkdownFileContentDisplayer />
                   </FileContentReader>)
               }
               return noPreviewComponent || null

@@ -166,7 +166,6 @@ class MainModuleComponent extends React.Component {
                   onSearchEntity={onSearchEntity}
                   scrollAreaHeight={height}
                 />
-
               </SplitPane>
             </div>
           )}
