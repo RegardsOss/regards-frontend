@@ -50,6 +50,7 @@ class LoginIconComponent extends React.Component {
     const {
       quotaState, rateState, style, // provided by MUI to its components
     } = this.props
+    const { moduleTheme: { user: { profile: { mainIcon, quotaStatusIcon: { warning, consumed } } } } } = this.context
     return ( // root container: prepares overlay using 'relative' placement
       <div style={{ // TODO nop! watch style changes
         ...style,
@@ -57,39 +58,14 @@ class LoginIconComponent extends React.Component {
       }}
       >
         {/* profile icon (static position to ensure parent is based on its size)  */}
-        <LoginIcon style={{
-          // height: '50%',
-          // width: '50%',
-          // left: '50%',
-          // position: 'absolute',
-          // top: '50%',
-          // transform: 'translate(-50%, -50%)',
-          // -webkit-transform: translate(-50%, -50%);
-        }}
-        />
+        <LoginIcon style={mainIcon} />
         {/** overlay status icon if any is required */
           (() => {
             let locStyle = null
             if (quotaState === QUOTA_INFO_STATE_ENUM.CONSUMED || rateState === QUOTA_INFO_STATE_ENUM.CONSUMED) {
-              // TODO: NOPE: from styles.js
-              locStyle = {
-                width: 16,
-                height: 16,
-                color: 'red',
-                position: 'absolute',
-                top: 'calc(100% - 16px)',
-                left: 'calc(100% - 16px)',
-              }
+              locStyle = consumed
             } else if (quotaState === QUOTA_INFO_STATE_ENUM.WARNING || rateState === QUOTA_INFO_STATE_ENUM.WARNING) {
-              // TODO: NOPE: from styles.js
-              locStyle = {
-                width: 16,
-                height: 16,
-                color: 'orange',
-                position: 'absolute',
-                top: 'calc(100% - 16px)',
-                left: 'calc(100% - 16px)',
-              }
+              locStyle = warning
             } else {
               // exit case: no status icon (IDLE / UNLIMITED)
               return null

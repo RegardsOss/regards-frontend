@@ -36,6 +36,10 @@ export default (baseTheme) => ({
     editorACE: {
       theme: 'monokai',
     },
+    download: {
+      quotaWarningColor: '#FF9800',
+      quotaConsumedColor: baseTheme.textField.errorColor,
+    },
     scrollArea: {
       scrollingSidePadding: 15,
     },
@@ -144,10 +148,6 @@ export default (baseTheme) => ({
       layoutOptionPadding: 3,
       layoutIconSize: 18,
       minContentHeight: 200,
-      downloads: {
-        quotaWarningColor: '#FF9800',
-        quotaConsumedColor: baseTheme.textField.errorColor,
-      },
     },
     // description module
     description: {
@@ -279,6 +279,33 @@ export default (baseTheme) => ({
       separatorBorderRadius: 2,
       separatorBorderStyle: 'solid',
       separatorMargin: '12px 10px 12px 0',
+      quotaWarningIcon: {
+        size: 16,
+        left: 16,
+        top: 8,
+      },
+      quotaView: {
+        rootPadding: baseTheme.spacing.desktopGutter,
+        title: {
+          padding: '0 0 20px 0',
+          textPadding: '0 0 0 12px',
+        },
+        text: {
+          padding: '0 0 8px 0',
+        },
+        currentState: {
+          title: {
+            padding: '20px 0 20px 0',
+            textDecoration: 'underline',
+            fontWeight: 500,
+          },
+          value: {
+            padding: '0 0 8px 8px',
+            fontWeight: 500,
+            textPadding: '0 0 0 12px',
+          },
+        },
+      },
     },
     // order history module
     orderHistory: {

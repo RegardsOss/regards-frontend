@@ -15,33 +15,31 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { LoggedUserComponent } from '../../../../src/components/user/authentication/LoggedUserComponent'
-import styles from '../../../../src/styles/styles'
+import ProfileNotificationFormComponent from '../../../../src/components/user/profile/ProfileNotificationFormComponent'
+import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
 
-describe('[Menu] Testing LoggedUserComponent', () => {
+/**
+ * Test ProfileNotificationFormComponent
+ * @author Raphaël Mechali
+ */
+describe('[Menu] Testing ProfileNotificationFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(LoggedUserComponent)
+    assert.isDefined(ProfileNotificationFormComponent)
   })
-  it('should render properly', () => {
+  it('should render correctly', () => {
     const props = {
-      name: 'Oui-oui',
-      currentRole: 'Universe administrator',
-      borrowableRoles: {},
-      onBorrowRole: () => { },
-      onLogout: () => { },
-      showProfileEdition: true,
-      onShowProfileEdition: () => { },
+    //  TODO properties
     }
-    shallow(<LoggedUserComponent {...props} />, { context })
-    assert.fail('Need tests for quota status?')
+    const enzymeWrapper = shallow(<ProfileNotificationFormComponent {...props} />, { context })
+    assert.fail('TODO impl!')
   })
 })

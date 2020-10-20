@@ -15,23 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicSelector } from '@regardsoss/store-utils'
+ **/
+import values from 'lodash/values'
 
 /**
- * Profile edition dialog selectors
+ * Possible view states for profile dialog
+ * @author Raphaël Mechali
  */
-class ProfileDialogSelectors extends BasicSelector {
-  constructor() {
-    super(['modules.menu', 'profileDialog'])
-  }
-
-  /**
-   * Profile dialog state
-   * @param {*} state redux state
-   * @return {*} profile dialog state (see reducer for specific shape)
-   */
-  getProfileDialogState = (state) => this.uncombineStore(state)
+export const PROFILE_VIEW_STATE_ENUM = {
+  EDIT_PROFILE: 'EDIT_PROFILE',
+  EDIT_NOTIFICATIONS: 'EDIT_NOTIFICATIONS',
+  VIEW_QUOTA_INFORMATIONS: 'VIEW_QUOTA_INFORMATIONS',
 }
 
-export default new ProfileDialogSelectors()
+export const PROFILE_VIEW_STATES = values(PROFILE_VIEW_STATE_ENUM)
