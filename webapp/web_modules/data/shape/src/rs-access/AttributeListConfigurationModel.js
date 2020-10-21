@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { IntlMessage } from '../ui/IntlMessage'
 
 /**
  * Defines list of elements, each of them holding one or more attributes (used by modules for presentation, like
@@ -26,6 +27,7 @@
 /** Attribute configuration data: data that can be defined along with each attribute full qualified names */
 export const AttributeConfigurationData = PropTypes.shape({
   name: PropTypes.string.isRequired, // full qualified name
+  renderer: PropTypes.string, // optional specific renderer identifier (when not present, default one should be used)
 })
 
 
@@ -35,10 +37,7 @@ export const AttributeElementModel = PropTypes.shape({
   attributes: PropTypes.arrayOf(AttributeConfigurationData).isRequired,
   // ... other properties defined on a per group basis
   // internationalized label for presentation
-  label: PropTypes.shape({
-    en: PropTypes.string.isRequired,
-    fr: PropTypes.string.isRequired,
-  }),
+  label: IntlMessage,
 })
 
 export const AttributeListConfigurationModel = PropTypes.arrayOf(AttributeElementModel)

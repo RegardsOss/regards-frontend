@@ -22,20 +22,6 @@
  * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
  */
 const pluginStyles = theme => ({
-  rootStyle: {
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    minHeight: theme.criterion.minHeight,
-  },
-  labelSpanStyle: {
-    margin: '0px 10px',
-  },
-  textFieldStyle: {
-    top: -6,
-    width: 180,
-    margin: '0px 10px',
-  },
   menuStyle: {
     marginRight: 20,
   },

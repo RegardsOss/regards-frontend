@@ -18,6 +18,7 @@
  **/
 import values from 'lodash/values'
 import { DamDomain } from '@regardsoss/domain'
+import { StringComparison } from '@regardsoss/form-utils'
 
 /**
  * Descriptions attributes models dumps for module tests
@@ -27,7 +28,7 @@ import { DamDomain } from '@regardsoss/domain'
 /**
  * Models as returned by the server
  */
-export const attributeModelsDictionnary = {
+export const attributeModelsDictionary = {
   1: {
     content: {
       id: 1,
@@ -84,14 +85,15 @@ export const attributeModelsDictionnary = {
 
 /**
  * Models as built by the Attributes List configuration component on the previous server result
+ * (sorted alpha to make it easier for comparison)
  */
 export const attributeModelsArray = [
-  ...values(attributeModelsDictionnary), // attrX, alphabetically first
-  // emulate alphabetical sorting on standard attribute labels
+  ...values(attributeModelsDictionary),
+  DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.geometry),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.model),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.tags),
   DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.thumbnail),
-]
+].sort((attr1, attr2) => StringComparison.compare(attr1.content.jsonPath, attr2.content.jsonPath))

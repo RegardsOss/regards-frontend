@@ -117,7 +117,7 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
           }],
         },
       },
-      // from mapDispatchToProps
+      availableDependencies: ['rs-catalog@/services/{pluginConfigurationBusinessId}/apply@POST'],
       dispatchRunService: () => { },
     }
     const enzymeWrapper = shallow(<OneElementServicesContainer {...props} />, { context })

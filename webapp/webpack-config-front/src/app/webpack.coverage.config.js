@@ -41,7 +41,7 @@ module.exports = function (projectContextPath) {
           NODE_ENV: JSON.stringify('coverage'),
         },
         GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
-        API_URL: JSON.stringify('/api/v1/'),
+        API_URL: JSON.stringify('api/v1'),
         STATIC_CONF: JSON.stringify(STATIC_CONF),
       }),
       // Define the fetch as a global var

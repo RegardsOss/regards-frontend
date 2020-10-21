@@ -107,12 +107,13 @@ class QuicklookCellComponent extends React.PureComponent {
    * @param {string} primaryQuicklookGroup primary quicklook group key, from UI settings
    * @param {string} accessToken user access token
    * @param {string} projectName current project name
+   * @param {boolean} embedInMap is embed in map?
    * @return {*} picture to show, matching DataManagementShapes.DataFile, with valid dimensions or null
    */
-  static getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName) {
-    // build groups with fallback
-    const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName,
-      QuicklookCellComponent.canDisplayAsQuicklook)
+  static getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap) {
+    // build groups with fallback (nota: when embed in map, dimensions are not mandatory)
+    const isValidPicture = embedInMap ? DamDomain.DataFileController.isAvailableNow : QuicklookCellComponent.canDisplayAsQuicklook
+    const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName, isValidPicture)
     // 1 - Use thumbnail quicklook fallback system to compute the quicklook to use (primary group first, if it
     // exists, then smaller dimension first)
     const preferredQuicklook = ThumbnailHelper.getQuicklookFallback(groups)
@@ -121,8 +122,7 @@ class QuicklookCellComponent extends React.PureComponent {
     }
     // 2 - Attempt to replace by a thumbnail with dimensions when not found
     return ThumbnailHelper.getThumbnail(
-      get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName,
-      QuicklookCellComponent.canDisplayAsQuicklook)
+      get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName, isValidPicture)
   }
 
   /** Used by Infinite gallery API */
@@ -149,7 +149,7 @@ class QuicklookCellComponent extends React.PureComponent {
       + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
     }
     // Get quicklook to display
-    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName)
+    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
 
     // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
     if (image || embedInMap) {
@@ -262,7 +262,7 @@ class QuicklookCellComponent extends React.PureComponent {
     // select the actual image style
     const actualImageStyle = embedInMap ? quicklookImage : imageStyle
 
-    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName)
+    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
     return (
       <Card
         style={cardStyle}

@@ -77,13 +77,15 @@ export class RunServiceDialogComponent extends React.Component {
   /**
    * Builds results step
    * @param resultsComponent results component to show
-   * @param customOptions options for that step
+   * @param customOptions array of ReactElement options to add to the list of actions
+   * @param showButtonsBar plugin definition option to hide action bar during RESULT state
    * @return usable step for this component
    */
-  static buildResultsStep = (resultsComponent, customOptions = []) => ({
+  static buildResultsStep = (resultsComponent, customOptions = [], showButtonsBar = true) => ({
     step: RunServiceDialogComponent.Steps.RESULTS,
     resultsComponent,
     customOptions,
+    showButtonsBar,
   })
 
   static propTypes = {
@@ -115,6 +117,8 @@ export class RunServiceDialogComponent extends React.Component {
         onPrevious: PropTypes.func,
         // custom step dialog options as react components
         customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+        // plugin option to hide action bar for the RESULT step
+        showButtonsBar: PropTypes.bool.isRequired,
       }),
     ]).isRequired,
     onClose: PropTypes.func.isRequired,
@@ -143,31 +147,9 @@ export class RunServiceDialogComponent extends React.Component {
       onClose, currentStep, invalid, handleSubmit,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    // 1 - determinate if there is a second action in current state
-    let otherActions
-    switch (currentStep.step) {
-      // submit option when configuring parameters
-      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
-        otherActions = [
-          <FlatButton
-            key="submit.button"
-            disabled={invalid}
-            label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
-            type="submit"
-            onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
-          />]
-        break
-      // previous options (should be used after parameters configuration)
-      case RunServiceDialogComponent.Steps.MESSAGE:
-      case RunServiceDialogComponent.Steps.RESULTS:
-        otherActions = currentStep.customOptions
-        break
-      default:
-        otherActions = []
-    }
-    // 2 - render actions list
-    return [
-      ...otherActions,
+
+    // 1- init the render actions list
+    let actionsResult = [
       <FlatButton
         key="close.button"
         primary
@@ -177,6 +159,39 @@ export class RunServiceDialogComponent extends React.Component {
         onClick={onClose}
       />,
     ]
+
+    // 2 - determinate if there is a second action in current state
+    switch (currentStep.step) {
+      // submit option when configuring parameters
+      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+        actionsResult = [
+          <FlatButton
+            key="submit.button"
+            disabled={invalid}
+            label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
+            type="submit"
+            onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
+          />,
+          ...actionsResult,
+        ]
+        break
+      // previous options (should be used after parameters configuration)
+      case RunServiceDialogComponent.Steps.MESSAGE:
+      case RunServiceDialogComponent.Steps.RESULTS:
+        // may the list depending of the plugin configuration
+        if (currentStep.step === RunServiceDialogComponent.Steps.RESULTS && !currentStep.showButtonsBar) {
+          actionsResult = []
+        } else {
+          actionsResult = [
+            ...currentStep.customOptions,
+            ...actionsResult,
+          ]
+        }
+        break
+      default:
+        // nothing to do
+    }
+    return actionsResult
   }
 
   render() {

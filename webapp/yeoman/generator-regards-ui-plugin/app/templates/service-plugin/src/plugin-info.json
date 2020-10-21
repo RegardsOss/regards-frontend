@@ -29,6 +29,7 @@
         "type": "string",
         "required": false
       }
-    }
+    },
+    "showButtonsBar": false
   }
 }

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIShapes } from '@regardsoss/shape'
 import { AttributeModelWithBounds } from '@regardsoss/plugins-api'
 import MultipleAttributesContainer from '../containers/MultipleAttributesContainer'
 import SingleAttributeContainer from '../containers/SingleAttributeContainer'
@@ -28,19 +29,37 @@ import SingleAttributeContainer from '../containers/SingleAttributeContainer'
  */
 export class TwoNumericalCriteriaComponent extends React.Component {
   static propTypes = {
-    pluginInstanceId: PropTypes.string.isRequired,
     /** Configuration attributes, by attributes logical name (see plugin-info.json) */
     attributes: PropTypes.shape({
       firstField: AttributeModelWithBounds.isRequired,
       secondField: AttributeModelWithBounds.isRequired,
     }).isRequired,
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: PropTypes.oneOfType([SingleAttributeContainer.STATE_SHAPE, MultipleAttributesContainer.STATE_SHAPE]),
+    // Callback to share state update with parent form like (state, requestParameters) => ()
+    publishState: PropTypes.func.isRequired,
   }
 
   render() {
-    const { pluginInstanceId, attributes: { firstField, secondField } } = this.props
+    const {
+      attributes: { firstField, secondField },
+      label, state, publishState,
+    } = this.props
     return firstField.jsonPath === secondField.jsonPath // same attribute?
-      ? <SingleAttributeContainer pluginInstanceId={pluginInstanceId} searchField={firstField} />
-      : <MultipleAttributesContainer pluginInstanceId={pluginInstanceId} firstField={firstField} secondField={secondField} />
+      ? <SingleAttributeContainer
+        searchField={firstField}
+        label={label}
+        state={state || SingleAttributeContainer.DEFAULT_STATE} // ensure a default state for the component below
+        publishState={publishState}
+      /> : <MultipleAttributesContainer
+        firstField={firstField}
+        secondField={secondField}
+        label={label}
+        state={state || MultipleAttributesContainer.DEFAULT_STATE} // ensure a default state for the component below
+        publishState={publishState}
+      />
   }
 }
 

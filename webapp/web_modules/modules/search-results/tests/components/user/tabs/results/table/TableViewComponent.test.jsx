@@ -98,7 +98,7 @@ describe('[SEARCH RESULTS] Testing TableViewComponent', () => {
       requestParams: props.requestParameters,
       displayColumnsHeader: true,
       emptyComponent: TableViewComponent.EMPTY_COMPONENT,
-      queryPageSize: TableViewComponent.RESULTS_PAGE_SIZE,
+      queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE],
     })
     assert.isOk(tableWrapper.props().lineHeight, 'Line height should be provided')
     const columnModels = props.columnPresentationModels

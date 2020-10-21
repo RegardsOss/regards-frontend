@@ -138,7 +138,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
           loader: 'file-loader',
           options: {
             name: 'staticConfiguration.js',
-            outputPath: 'conf/',
+            outputPath: mode === 'dev' ? 'conf/' : 'conf-template/',
           },
         },
         {
@@ -167,6 +167,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         template: 'index.ejs',
         hash: true,
         isProduction: mode === 'prod',
+        chunksSortMode: 'none',
       }),
       // Allow to define React as a global variable for JSX.
       new webpack.ProvidePlugin({
@@ -231,7 +232,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.PrefetchPlugin('./web_modules/modules/licenses/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-cart/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/projects-list/src/main.js'),
-      new webpack.PrefetchPlugin('./web_modules/modules/search-form/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/embedded-html/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/menu/src/main.js'),
       new webpack.PrefetchPlugin('./web_modules/modules/order-history/src/main.js'),

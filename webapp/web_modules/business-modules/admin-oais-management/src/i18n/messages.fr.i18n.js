@@ -75,7 +75,7 @@ export default {
   'oais.packages.details.sip.title': 'Détails du SIP',
   'oais.packages.details.aip.title': 'Détail de l\'AIP',
 
-  'oais.packages.tooltip.providerId': 'Saisir l\'identifiant fournisseur. Le caractère % peut être utilisé à chaque extrémité de la saisie, représentant une suite de caractères optionnelle',
+  'oais.packages.tooltip.providerId': 'Saisir une partie de l\'identifiant fournisseur',
   'oais.packages.tooltip.type': 'Sélectionner le type des produits',
   'oais.packages.tooltip.state': 'Sélectionner le type des produits',
   'oais.packages.tooltip.storage': 'Sélectionner l\'espace de stockage du produit',

@@ -25,7 +25,7 @@ import AttributeListTableComponent from '../../src/configuration/table/Attribute
 import AddManyDialog from '../../src/configuration/dialog/add/AddManyDialog'
 import EditItemDialog from '../../src/configuration/dialog/edit/EditItemDialog'
 import styles from '../../src/styles'
-import { attributeModelsDictionnary, attributeModelsArray } from '../dumps/AttributeModels.dump'
+import { attributeModelsDictionary, attributeModelsArray } from '../dumps/AttributeModels.dump'
 
 const context = buildTestContext(styles)
 
@@ -44,7 +44,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     const props = {
       selectableAttributes: {},
       attributesList: [],
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       allowLabel: true,
       hintMessageKey: 'hello.table',
       attributesListFieldName: 'xxx',
@@ -58,7 +58,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
     assert.lengthOf(editDialogWrapper, 1, 'There should be the edit dialog component')
     testSuiteHelpers.assertWrapperProperties(editDialogWrapper, {
       allowLabel: props.allowLabel,
-      allowAttributesRegroupements: props.allowAttributesRegroupements,
+      allowAttributesGroups: props.allowAttributesGroups,
       attributeModels: wrapperState.attributeModels, // attribute models should be reported from the state
       editionData: null, // dialog should be hidden (edition is not in progress)
       onCancel: wrapperInstance.onCancelEdit,
@@ -80,7 +80,7 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
       hintMessageKey: props.hintMessageKey,
       attributesList: props.attributesList,
       attributeModels: wrapperState.attributeModels, // attribute models should be reported from the state
-      allowAttributesRegroupements: props.allowAttributesRegroupements,
+      allowAttributesGroups: props.allowAttributesGroups,
       allowLabel: props.allowLabel,
       onAdd: wrapperInstance.onShowAddDialog,
       onEdit: wrapperInstance.onShowEditDialog,
@@ -93,14 +93,14 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
   it('should render correctly with attributes and filter non existing ones', () => {
     let spiedChangeField = { name: null, value: null }
     const props = {
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       allowLabel: true,
       hintMessageKey: 'hello.table',
       attributesListFieldName: 'xxx',
       changeField: (name, value) => {
         spiedChangeField = { name, value }
       },
-      selectableAttributes: attributeModelsDictionnary,
+      selectableAttributes: attributeModelsDictionary,
       attributesList: [{ // first element: one existing server attribute, one none existing
         attributes: [{ name: 'properties.default.attr2' }, { name: 'unexisting attribute' }],
       }, { // second element: one existing standard attribute
@@ -124,17 +124,17 @@ describe('[Attributes Common] Testing AttributesListConfigurationComponent', () 
   })
   it('should filter available attributes using filter method as property', () => {
     const props = {
-      allowAttributesRegroupements: true,
+      allowAttributesGroups: true,
       allowLabel: true,
       hintMessageKey: 'hello.table',
       attributesListFieldName: 'xxx',
       changeField: () => { },
-      selectableAttributes: attributeModelsDictionnary,
+      selectableAttributes: attributeModelsDictionary,
       attributesFilter: attribute => attribute.content.name.includes('1'), // keep only attr1
       attributesList: [],
     }
     const enzymeWrapper = shallow(<AttributesListConfigurationComponent {...props} />, { context })
-    assert.deepEqual(enzymeWrapper.state().attributeModels, [attributeModelsDictionnary[1]],
+    assert.deepEqual(enzymeWrapper.state().attributeModels, [attributeModelsDictionary[1]],
       'Only attr1 should be available for selection')
   })
 })

@@ -51,6 +51,7 @@ class Table extends React.Component {
     // table configuration properties
     displayColumnsHeader: PropTypes.bool,
     lineHeight: PropTypes.number.isRequired,
+    stripeRows: PropTypes.bool,
 
     // dynamic properties
     entities: PropTypes.arrayOf(PropTypes.any), // Current fetched entities
@@ -65,13 +66,14 @@ class Table extends React.Component {
     width: PropTypes.number.isRequired,
   }
 
-  static contextTypes = {
-    ...themeContextType,
-  }
-
   static defaultProps = {
     displayColumnsHeader: true,
     entitiesCount: 0,
+    stripeRows: true,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
   }
 
   /**
@@ -185,7 +187,8 @@ class Table extends React.Component {
       return null
     }
     const {
-      entities, width, height, lineHeight, displayColumnsHeader, onScrollEnd,
+      entities, width, height, lineHeight,
+      stripeRows, displayColumnsHeader, onScrollEnd,
     } = this.props
     const { runtimeColumns } = this.state
     return (
@@ -215,7 +218,8 @@ class Table extends React.Component {
               }
               cell={
                 <CellWrapper
-                  lineHeight={this.props.lineHeight}
+                  stripeRows={stripeRows}
+                  lineHeight={lineHeight}
                   isLastColumn={index === runtimeColumns.length - 1}
                   getEntity={rowIndex => this.getEntity(rowIndex)}
                   rowCellDefinition={column.rowCellDefinition}

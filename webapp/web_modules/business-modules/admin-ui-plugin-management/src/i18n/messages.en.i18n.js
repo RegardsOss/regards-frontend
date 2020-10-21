@@ -28,6 +28,7 @@ const messages = Object.assign({
   'plugin.form.subtitle': 'Enter the path to your plugin JavaScript file and click search to valid it',
   'plugin.form.name': 'Name',
   'plugin.form.type': 'Type',
+  'plugin.form.role': 'Role',
   'plugin.form.sourcesPath': 'Path to the main JavaScript file of the plugin',
   'plugin.form.invalid.source.path': 'The plugin path must point to a JavaScript file (.js extension required)',
   'plugin.form.icon': 'Plugin icon (Https link)',
@@ -46,6 +47,13 @@ const messages = Object.assign({
   'plugins.list.action.add': 'Add a plugin',
   'plugins.list.action.cancel': 'Back',
   'plugin.description.url': 'Access to plugin description',
+
+  'role.name.PUBLIC': 'Public',
+  'role.name.REGISTERED_USER': 'Registered user',
+  'role.name.EXPLOIT': 'Operator',
+  'role.name.ADMIN': 'Administrator',
+  'role.name.PROJECT_ADMIN': 'Super Administrator',
+  'role.name.empty': ' - ',
 }, Locales.en)
 
 export default messages

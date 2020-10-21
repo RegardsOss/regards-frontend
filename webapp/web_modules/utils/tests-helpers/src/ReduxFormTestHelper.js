@@ -21,34 +21,68 @@
  * Return default props for input of a redux-form field
  * @author Sébastien Binda
  */
-const getInputFieldProps = (name, value) => ({
-  name,
-  value,
-  onBlur: () => { },
-  onChange: () => { },
-  onDragStart: () => { },
-  onDrop: () => { },
-  onFocus: () => { },
-})
+function getInputFieldProps(name, value) {
+  return {
+    name,
+    value,
+    onBlur: () => { },
+    onChange: () => { },
+    onDragStart: () => { },
+    onDrop: () => { },
+    onFocus: () => { },
+  }
+}
 
-const getMetaFieldProps = (error, invalid) => ({
-  active: true,
-  asyncValidating: true,
-  autofilled: true,
-  dirty: false,
-  dispatch: () => { },
-  error,
-  form: '',
-  invalid: !!invalid,
-  pristine: true,
-  submitting: false,
-  submitFailed: false,
-  touched: false,
-  valid: !error,
-  visited: true,
-})
+function getMetaFieldProps(error, invalid) {
+  return {
+    active: true,
+    asyncValidating: true,
+    autofilled: true,
+    dirty: false,
+    dispatch: () => { },
+    error,
+    form: '',
+    invalid: !!invalid,
+    pristine: true,
+    submitting: false,
+    submitFailed: false,
+    touched: false,
+    valid: !error,
+    visited: true,
+  }
+}
+
+/**
+ *
+ * @param {*} initialValue
+ * @param {*} name
+ * @return {*} partially filled redux mock (fill as required...)
+ */
+function getFieldsProps(initialValue = [], name = 'anything') {
+  const currentValue = [...initialValue]
+  return {
+    name,
+    forEach: () => {},
+    get: index => currentValue[index],
+    insert: () => {},
+    getAll: () => currentValue,
+    length: currentValue.length,
+    map: () => {},
+    move: () => {},
+    pop: () => currentValue.slice(0, -1),
+    push: () => {},
+    remove: () => {},
+    removeAll: () => {},
+    shift: () => currentValue.slice(1),
+    splice: () => {},
+    swap: () => {},
+    unshift: () => {},
+    reduce: () => {},
+  }
+}
 
 export default {
   getInputFieldProps,
   getMetaFieldProps,
+  getFieldsProps,
 }

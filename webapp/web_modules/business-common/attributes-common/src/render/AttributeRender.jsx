@@ -26,7 +26,10 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class AttributeRender extends React.Component {
   static propTypes = {
-    entity: DataManagementShapes.AttributeModel.isRequired,
+    entity: PropTypes.oneOfType([
+      DataManagementShapes.AttributeModelContent,
+      DataManagementShapes.AttributeModel,
+    ]).isRequired,
   }
 
   static contextTypes = {
@@ -43,15 +46,8 @@ class AttributeRender extends React.Component {
    * @return string to show as render
    */
   static getRenderLabel(attributeModel, intl) {
-    const { label, name, fragment } = attributeModel.content || attributeModel
-    const pathElements = []
-    // 1 - Build full path
-    if (fragment && fragment.name && !AttributeRender.NON_RENDERED_FRAGMENTS.includes(fragment.name)) {
-      pathElements.push(fragment.name)
-    }
-    pathElements.push(name)
-    const path = pathElements.join(intl.formatMessage({ id: 'attribute.render.path.join.string' }))
-    return intl.formatMessage({ id: 'attribute.render.label' }, { label, path })
+    const { jsonPath, label } = attributeModel.content || attributeModel
+    return intl.formatMessage({ id: 'attribute.render.label' }, { jsonPath, label })
   }
 
   render() {

@@ -19,6 +19,7 @@
 export { default as ShowableAtRender } from './ShowableAtRender'
 export { default as LoadableContentDisplayDecorator } from './async/LoadableContentDisplayDecorator'
 export { default as LoadingComponent } from './async/loading/LoadingComponent'
+export { StabilityDelayer } from './async/StabilityDelayer'
 export { default as FileContentReader } from './blob/FileContentReader'
 export { default as LocalURLProvider } from './blob/LocalURLProvider'
 export { default as withHateoasDisplayControl } from './hateoas/withHateoasDisplayControl'

@@ -33,7 +33,6 @@ import { datasetEntity, anotherDatasetEntity } from '../../../../dumps/entities.
 import { dataContext } from '../../../../dumps/data.context.dump'
 import { CriterionBuilder } from '../../../../../src/definitions/CriterionBuilder'
 import { attributes } from '../../../../dumps/attributes.dump'
-import { ToggleOnlyQuicklookContainer } from '../../../../../src/containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 
 const context = buildTestContext(styles)
 
@@ -114,7 +113,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
         'my.attr.1',
         'my.attr.2',
       ],
-      q: 'tags:"URN:DATASET:EXAMPLE1"',
+      q: ['tags:"URN:DATASET:EXAMPLE1"'],
     }, '(1) Request parameters should contain only configured restriction datasets')
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsActions, '(1) Search actions should be correctly computed for empty / DATASET')
 
@@ -142,7 +141,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
         'my.attr.1',
         'my.attr.2',
       ],
-      q: 'tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"coffee"',
+      q: ['tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"coffee"'],
     }, '(2) Request parameters should be correctly computed for DATASET with query')
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDatasetsActions, '(2) Search actions should be correctly computed for DATASET with query')
     // Enter data mode, add sorting, facets request, active facets, quicklook filter and a dataset filter tag
@@ -161,7 +160,6 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
               },
             }],
             tagsFiltering: [CriterionBuilder.buildEntityTagCriterion(anotherDatasetEntity)],
-            quicklooksFiltering: [ToggleOnlyQuicklookContainer.ONLY_QUICKLOOK_CRITERION],
             requestFacets: [{
               facetLabels: { en: 'idc.facet', fr: 'jmf.facette' },
               attribute: attributes[1],
@@ -189,11 +187,10 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
     state = enzymeWrapper.state()
     assert.deepEqual(state.restrictedDatasetsIds, [datasetEntity.content.id, anotherDatasetEntity.content.id], '(3) Dataset restrictions should be correctly computed for DATA with query')
     assert.deepEqual(state.requestParameters, {
-      // configuration, tags, applying facets and quicklooks restriction
-      q: 'tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"coffee" AND my.attr.1=coffee AND tags:"URN:AIP:DATASET:project1:XXXX2:V1"',
+      // configuration, tags and applying facets
+      q: ['tags:"URN:DATASET:EXAMPLE1" AND tags:"URN:AIP:DATASET:project1:3aeed1bc-3c14-4100-bcd1-c4f370e679a2:V1" AND tags:"coffee" AND my.attr.1=coffee AND tags:"URN:AIP:DATASET:project1:XXXX2:V1"'],
       sort: ['my.attr.1,DESC', 'my.attr.2,ASC'], // sort
       facets: ['my.attr.1'], // requested facets
-      hasImage: ['true'], // has image filter
     }, '(3) Request parameters should be correctly computed for DATA with query')
     assert.deepEqual(state.searchActions, getSearchCatalogClient(props.tabType).searchDataobjectsActions, '(3) Search actions should be correctly computed for DATA with query')
   })

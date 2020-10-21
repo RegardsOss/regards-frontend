@@ -26,17 +26,17 @@ describe('[Domain] Testing OpenSearchQuery', () => {
   after(testSuiteHelpers.after)
 
   it('Should display correctly an empty query', () => {
-    const query = new OpenSearchQuery('', [])
+    const query = new OpenSearchQuery([])
     assert.equal(query.toQueryString(), '', 'The empty query result should be empty')
   })
 
   it('Should display correctly the query basis', () => {
-    const query = new OpenSearchQuery('hello/world', [])
+    const query = new OpenSearchQuery([], 'hello/world')
     assert.equal(query.toQueryString(), 'hello/world', 'Query should display basiss and only basis')
   })
 
   it('Should display correctly with parameters and basis', () => {
-    const query = new OpenSearchQuery('bitmasks:less%20please', [
+    const query = new OpenSearchQuery([
       new OpenSearchQueryParameter('simple',
         OpenSearchQueryParameter.toStrictStringEqual(['yes', 'no'],
           OpenSearchQueryParameter.OR_SEPARATOR, false)),
@@ -52,7 +52,7 @@ describe('[Domain] Testing OpenSearchQuery', () => {
       new OpenSearchQueryParameter('hidden5',
         OpenSearchQueryParameter.toStringContained(
           ['', '', null, undefined], OpenSearchQueryParameter.OR_SEPARATOR, true)), // should be filtered
-    ])
-    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:("yes" OR "no") AND sucky:(yes\\+) AND cranky:NOT ("why")', 'Wrong generated URL')
+    ], 'bitmasks:less%20please')
+    assert.equal(query.toQueryString(), 'bitmasks:less%20please AND simple:("yes" OR "no") AND sucky:(yes\\+) AND cranky:(!("why"))', 'Wrong generated URL')
   })
 })

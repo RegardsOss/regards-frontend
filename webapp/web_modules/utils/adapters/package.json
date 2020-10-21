@@ -1,9 +1,9 @@
 {
   "name": "@regardsoss/adapters",
-  "version":"1.0.1",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
-  "sideEffects": false,
-  "description": "Provides components adapters from library to regards",
+  "sideEffects": true,
+  "description": "Provides components adapters from library to regards. Side effect is enabled for plugins consumption of chartJS (no longer used in main app)",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",
   "contributors": [

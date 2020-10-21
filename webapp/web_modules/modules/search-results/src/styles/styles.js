@@ -36,6 +36,9 @@ const styles = theme => ({
         borderWidth: '0 1px 0 0',
         borderStyle: 'solid',
       },
+      table: {
+        minWidth: 280,
+      },
       cell: {
         root: {
           display: 'flex',
@@ -79,7 +82,113 @@ const styles = theme => ({
         paddingLeft: 20,
       },
       tableFieldSpacer: {
-        marginTop: theme.components.infiniteTable.minHeaderRowHeight,
+        borderStyle: 'solid',
+        borderColor: theme.toolbar.separatorColor,
+        borderWidth: '1px 0 0',
+      },
+      searchPane: {
+        defaultRowsCount: 5,
+        showLabelColumnWidth: 100,
+        loading: {
+          size: 256,
+          thickness: 1.5,
+          style: {
+            display: 'block',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: 48,
+          },
+        },
+        empty: {
+          root: {
+            display: 'flex',
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: 48,
+            flexDirection: 'column',
+            alignItems: 'center',
+          },
+          message: {
+            color: theme.palette.secondaryTextColor,
+          },
+          button: {
+            marginTop: 20,
+          },
+        },
+        groupIdCell: {
+          root: {
+            flexGrow: 1,
+            display: 'inline-flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          },
+          icon: {
+            color: theme.palette.accent1Color,
+          },
+          text: {
+            color: theme.palette.accent1Color,
+            paddingLeft: 8,
+            fontWeight: 500,
+          },
+        },
+        commonCell: {
+          default: { // editable
+            padding: 5,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+            wordBreak: 'break-word',
+
+          },
+          inactive: { // not editable
+            padding: 5,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'default',
+            wordBreak: 'break-word',
+
+          },
+          error: {
+            padding: 5,
+            flexGrow: 1,
+            color: theme.formsExtensions.validation.errorColor,
+            textAlign: 'left',
+            cursor: 'pointer',
+            wordBreak: 'break-word',
+          },
+        },
+        criterionIdCell: {
+          default: {
+            paddingLeft: 32,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+          },
+          error: {
+            paddingLeft: 32,
+            color: theme.formsExtensions.validation.errorColor,
+            flexGrow: 1,
+            textAlign: 'left',
+            cursor: 'pointer',
+          },
+          menuItem: {
+            headerRow: {
+              display: 'flex',
+              justifyContent: 'space-between',
+            },
+            headerText: {
+              fontWeight: 500,
+              color: theme.palette.textColor,
+            },
+            authorText: {
+              color: theme.palette.textColor,
+              textDecoration: 'underline',
+            },
+            descriptionText: {
+              color: theme.palette.textColor,
+            },
+          },
+        },
       },
     },
   },
@@ -157,6 +266,66 @@ const styles = theme => ({
         },
       },
     },
+    searchPane: {
+      rootContainer: {
+        ...theme.module.searchResults.searchPane.root,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
+      },
+      title: {
+        container: {
+          height: theme.module.searchResults.searchPane.titleBar.height,
+          borderColor: theme.module.searchResults.searchPane.titleBar.borderColor,
+          borderWidth: theme.module.searchResults.searchPane.titleBar.borderWidth,
+          borderStyle: theme.module.searchResults.searchPane.titleBar.borderStyle,
+          backgroundColor: theme.module.searchResults.searchPane.titleBar.backgroundColor,
+          flexGrow: 0,
+          flexShrink: 0,
+          display: 'flex',
+          alignItems: 'center',
+        },
+        icon: {
+          width: theme.spacing.iconSize,
+          height: theme.spacing.iconSize,
+          margin: theme.module.searchResults.searchPane.titleBar.iconMargin,
+        },
+        text: {
+          fontSize: theme.module.searchResults.searchPane.titleBar.fontSize,
+          fontWeight: theme.module.searchResults.searchPane.titleBar.fontWeight,
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+      },
+      criteria: {
+        container: {
+          margin: theme.module.searchResults.searchPane.criteria.containerMargin,
+          flexGrow: 1,
+          flexShrink: 1,
+        },
+        scrollableContent: {
+          padding: theme.module.searchResults.searchPane.criteria.innerListMargin,
+        },
+        table: {
+          width: '100%',
+        },
+        groupTitle: {
+          ...theme.module.searchResults.searchPane.groupTitle,
+        },
+      },
+      buttons: {
+        container: {
+          display: 'flex',
+          justifyContent: 'center',
+          flexGrow: 0,
+          flexShrink: 0,
+          borderColor: theme.module.searchResults.searchPane.buttonsBar.borderColor,
+          borderWidth: theme.module.searchResults.searchPane.buttonsBar.borderWidth,
+          borderStyle: theme.module.searchResults.searchPane.buttonsBar.borderStyle,
+          padding: theme.module.searchResults.searchPane.buttonsBar.padding,
+        },
+      },
+    },
     rootModuleContainer: {
       flexGrow: 1,
       flexShrink: 1,
@@ -205,7 +374,7 @@ const styles = theme => ({
       minWidth: theme.button.iconButtonSize,
     },
     columnsDialog: {
-      widthPercent: 70,
+      widthPercent: 50,
       heightPercent: 80,
       actionsContainer: {
         display: 'flex',
@@ -219,18 +388,30 @@ const styles = theme => ({
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        flexGrow: 1,
+        flexShrink: 1,
+        textAlign: 'left',
       },
       hiddenColumnCell: {
         color: theme.palette.disabledColor,
         whiteSpace: 'nowrap',
         overflow: 'hidden',
         textOverflow: 'ellipsis',
+        flexGrow: 1,
+        flexShrink: 1,
+        textAlign: 'left',
       },
     },
     filters: {
       iconColor: theme.palette.accent1Color,
+      errorColor: theme.textField.errorColor,
+      disabledColor: theme.palette.textColor,
       style: {
         margin: '0 5px',
+      },
+      styleInactive: {
+        margin: '0 5px',
+        textDecoration: 'line-through',
       },
     },
     listViewStyles: {
@@ -399,6 +580,20 @@ const styles = theme => ({
         // mimics table header styles
         backgroundColor: theme.palette.canvasColor,
         borderRight: `1px solid ${theme.tableRow.borderColor}`,
+      },
+      opacityToolsBox: {
+        // overlay position
+        position: 'absolute',
+        top: 0,
+        // mimics table header styles
+        backgroundColor: theme.palette.canvasColor,
+        borderRight: `1px solid ${theme.tableRow.borderColor}`,
+        borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+        display: 'flex',
+        alignItems: 'center',
+        left: '166px',
+        width: '200px',
+        height: '40px',
       },
       iconToolButton: {
         minWidth: theme.button.iconButtonSize,

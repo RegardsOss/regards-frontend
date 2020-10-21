@@ -32,6 +32,7 @@ import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ScrollArea } from '@regardsoss/adapters'
+import { TargetEntitiesResolver } from '@regardsoss/plugins-api'
 import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
 
 /**
@@ -63,35 +64,28 @@ export class ExampleContainer extends React.Component {
    * @param {*} dispatch redux dispatch function
    * @param {*} props this properties (non redux injected)
    */
-  static mapDispatchToProps = (dispatch, { runtimeTarget }) => ({
+  static mapDispatchToProps = (dispatch, { target }) => ({
     // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-    getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
-    // We also demonstrate here how to use the fetch action directly. However, that method should not be priviledged
-    // as being more verbose
-    fetchSelectionThroughAction: (...args) => dispatch(runtimeTarget.getFetchAction(...args)),
+    getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
   })
 
   static propTypes = {
-    /** Plugin identifier (Note: wee keep that property only for demo purposes, as it is standard property
-     * for plugin services, but we do not use it. see below how we disable the eslint warning one one line only
-     * for a specific warning type (VS Code or IntelliJfetchSelectionThroughAction normally shows the corresponding rule as tooltip) */
     // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired,
+    pluginInstanceId: PropTypes.string.isRequired, // Plugin identifier (unused here)
     /** Runtime target: see regards documentation for more details */
-    runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     /** Static and dynamic configurations: see regards documentation for more details */
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapStateToProps
     user: PropTypes.string, // user login or null, see mapStateToProps
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
-    fetchSelectionThroughAction: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
+    // enable i18n access through this.context
     ...i18nContextType,
   }
 
@@ -117,13 +111,13 @@ export class ExampleContainer extends React.Component {
    * It is a good place to initialize component state.
    */
   componentWillMount() {
-    const { runtimeTarget } = this.props
+    const { target } = this.props
     //  set up in state some loading information for first rendering
     this.setState({
       loading: true,
       errorMessage: null, // will be set by promise catch
       currentIndex: 0,
-      totalElements: runtimeTarget.entitiesCount,
+      totalElements: target.entitiesCount,
       lastLoadedEntity: null, // will be set by the reducer, step by step
       results: null, // will be set after reducing promise returned
     })
@@ -153,11 +147,11 @@ export class ExampleContainer extends React.Component {
     // - There is a current limitation to 10 000 entities.
     getReducePromise((previousResult, entity, index) => {
       // R.1 - let's update the state, so that user can see the advancement
-      this.setState({ currentIndex: index, lastLoadedEntity: entity.label })// react is cool,ithe will only change those fields in state!
+      this.setState({ currentIndex: index, lastLoadedEntity: entity.content.label })// react is cool,ithe will only change those fields in state!
       // R.2 - check if STOP_DATE, from TIME_PERIOD fragment is before or after this date pameter. Note
       // that all fragments are set up in properties attribute. Also note that dates, in backend model, are actually saved as string
       let { beforeDateCount, afterDateCount, unknown } = previousResult
-      const entityStopDate = get(entity, 'properties.TIME_PERIOD.STOP_DATE')
+      const entityStopDate = get(entity, 'content.properties.date')
       if (!entityStopDate) {
         unknown += 1 // model date is not set
       } else {
@@ -182,9 +176,6 @@ export class ExampleContainer extends React.Component {
         console.error('An error occured: ', e)
         this.setState({ loading: false, errorMessage: e ? e.message : 'unknown error' })
       })
-
-    // For demo purpose, we demonstrate here the manual fetching
-    this.loadThroughActions()
   }
 
   /**
@@ -197,47 +188,6 @@ export class ExampleContainer extends React.Component {
    */
   onResultsCounted = (results) => {
     this.setState({ loading: false, results })
-  }
-
-  /**
-   * Demonstrates loading through fetch actions dispatching
-   */
-  loadThroughActions() {
-    // note: it is possible to access and dispatch the fetch actions manually, like demonstrated here.
-    // however, we do prefer most of the time the reduce method, as being less verbose and more functional oriented
-    const { runtimeTarget, fetchSelectionThroughAction } = this.props
-    switch (runtimeTarget.type) {
-      case AccessDomain.RuntimeTargetTypes.ONE:
-        // no parameter, one element
-        fetchSelectionThroughAction()
-          .then(result => console.info('[ONE] I fetched one element', result))
-          .catch(err => console.error('[ONE] I failed fetching, error says', err))
-        break
-      case AccessDomain.RuntimeTargetTypes.MANY:
-        // many elements: fetch all (map to a promise array)
-        Promise.all(runtimeTarget.entities.map(ipId => fetchSelectionThroughAction(ipId)))
-          .then(result => console.info('[MANY] I fetched many elements', result))
-          .catch(err => console.error('[MANY] I failed fetching, error says', err))
-        break
-      case AccessDomain.RuntimeTargetTypes.QUERY:
-        {
-          // query: lets fetch all pages. Note: this is a really wrong practice, as it may overflow the client browser memory
-          const total = runtimeTarget.entitiesCount
-          const pageSize = 4000
-          const pageCount = Math.ceil(total / pageSize)
-          const promises = []
-          for (let i = 0; i < pageCount; i += 1) {
-            promises.push(fetchSelectionThroughAction(i, pageSize))
-          }
-          Promise.all(promises)
-            // Note: here, we should exclude from handled elements the runtimeTarget.excludedIpIds (this is not automatic when using actions)
-            .then(result => console.info('[QUERY] I fetched query elements', result))
-            .catch(err => console.error('[QUERY] I failed fetching, error says', err))
-        }
-        break
-      default:
-        console.error('Unknown target type ', runtimeTarget.type)
-    }
   }
 
   /**
@@ -266,29 +216,11 @@ export class ExampleContainer extends React.Component {
     return `unknown value type ${value}`
   }
 
-  /**
-   * Standard react component render method
-   * Rendering considerations:
-   * - Regards is based, for rendering, on material UI. Hence, HTML styles are virgin,
-   * meaning, h1, h2, p and so on will not render correctly without CSS. Therefore, prefer using material components
-   * or inline 'style' attribute to get graphics rendered correctly
-   * - Regards uses and provides to plugins the following COTS:
-   *   - material UI, for general inputs and graphics see http://www.material-ui.com/#/components
-   *   - react-chartjs-2, for charts (see @regardsoss/adapters/ChartAdapter component and https://github.com/jerairrest/react-chartjs-2)
-   *   - react-ace, for code files displaying (see @regardsoss/adapters/AceEditorAdapter component and https://github.com/securingsincity/react-ace)
-   *   - react-scrollbar, for scrollable areas displaying (see @regardsoss/adapters/ScrollAreaAdapter and https://www.npmjs.com/package/react-scrollbar)
-   * - Regards provides re usable components in @regardsoss/components and in some of the utils modules (@regardsoss/display-control or
-   * @regardsoss/form-utils for instance)
-   * - Normally, react containers are not supposed carrying of the graphics (style and such), but for the demo pruposes, we did
-   * not split the code file in container / components files
-   * - we could access plugin styles using:
-   * const { moduleTheme } = this.context (styles function results is in moduleTheme variable)
-   */
   render() {
     const {
       loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results,
     } = this.state
-    const { configuration, runtimeTarget, user } = this.props
+    const { configuration, target, user } = this.props
     // here we render the whole content in vertical scrollable area, to not assert the client screen height is sufficient
     // please note that scroll area requires a height constraints when in vertical mode (height: '100%' here)
     return (
@@ -298,7 +230,7 @@ export class ExampleContainer extends React.Component {
           <Subheader><FormattedMessage id="title.plugin.top.message" /></Subheader>
           {(() => {
             let myWord = null
-            switch (runtimeTarget.type) {
+            switch (target.type) {
               case AccessDomain.RuntimeTargetTypes.ONE:
                 myWord = 'one element'
                 break

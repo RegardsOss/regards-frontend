@@ -19,12 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Chip from 'material-ui/Chip'
-import { CatalogDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CriterionBuilder } from '../../../../../../../src/definitions/CriterionBuilder'
 import ApplyingCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/ApplyingCriterionComponent'
 import styles from '../../../../../../../src/styles'
-import { attributes } from '../../../../../../dumps/attributes.dump'
-import resultsDump from '../../../../../../dumps/results.dump'
+import { datasetEntity } from '../../../../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -39,62 +38,45 @@ describe('[SEARCH RESULTS] Testing ApplyingCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(ApplyingCriterionComponent)
   })
-  it('should render correctly with a selected facet value', () => {
-    let spiedDeletedCrit = null
-    const props = {
-      label: 'my.custom.label1',
-      selectedCriterion: {
-        facetType: CatalogDomain.FACET_TYPES_ENUM.BOOLEAN,
-        facetValue: resultsDump.facets[3].values[0].value,
-        facetLabels: { en: 'EN3', fr: 'FR3' },
-        attribute: attributes[1],
-        requestParameters: {},
-      },
-      onUnselectCriterion: (crit) => {
-        spiedDeletedCrit = crit
-      },
-      filterIcon: <div />,
-    }
-    const enzymeWrapper = shallow(<ApplyingCriterionComponent {...props} />, { context })
-    const chipWrapper = enzymeWrapper.find(Chip)
-    assert.lengthOf(chipWrapper, 1)
-    assert.include(enzymeWrapper.debug(), props.label, 'Label should be display')
-    assert.equal(chipWrapper.props().onRequestDelete, enzymeWrapper.instance().onUnselectCriterion, 'Callback should be correctly reported')
-    // test delete callback
-    enzymeWrapper.instance().onUnselectCriterion()
-    assert.deepEqual(spiedDeletedCrit, props.selectedCriterion, 'Criterion shoud be correctly provided when deleting')
-  })
-  it('should render correctly with an entities selection', () => {
-    let spiedDeletedCrit = null
-    const props = {
-      label: 'my.custom.label1',
+
+  /** Prepare rendering for each possible case */
+  const testCases = [{
+    caseLabel: 'entities selection',
+    props: {
+      label: 'search.filter.entities.selection.label',
       selectedCriterion: {
         entitiesCount: 25,
         requestParameters: {},
       },
-      onUnselectCriterion: (crit) => {
-        spiedDeletedCrit = crit
-      },
-      filterIcon: <div />,
-    }
-    const enzymeWrapper = shallow(<ApplyingCriterionComponent {...props} />, { context })
-    const chipWrapper = enzymeWrapper.find(Chip)
-    assert.lengthOf(chipWrapper, 1)
-    assert.include(enzymeWrapper.debug(), props.label, 'Label should be display')
-    assert.equal(chipWrapper.props().onRequestDelete, enzymeWrapper.instance().onUnselectCriterion, 'Callback should be correctly reported')
-    // test delete callback
-    enzymeWrapper.instance().onUnselectCriterion()
-    assert.deepEqual(spiedDeletedCrit, props.selectedCriterion, 'Criterion shoud be correctly provided when deleting')
-  })
-  it('should render correctly with a selected geometry', () => {
-    let spiedDeletedCrit = null
-    const props = {
-      label: 'my.custom.label2',
+    },
+  }, {
+    caseLabel: 'geometry selection',
+    props: {
+      label: 'search.filter.geometry.label',
       selectedCriterion: {
         point1: [1, 2],
         point2: [3, 4],
-        requestParameters: {},
+        requestParameters: { geo: 'blabla' },
       },
+    },
+  }, {
+    caseLabel: 'Search criteria',
+    props: {
+      label: 'search.filter.search.criteria.label',
+      selectedCriterion: null,
+    },
+  }, {
+    caseLabel: 'Search criteria',
+    props: {
+      label: CriterionBuilder.buildEntityTagCriterion(datasetEntity).label,
+      selectedCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+    },
+  }]
+
+  testCases.forEach(({ caseLabel, props: testProps }) => it(`should render correctly for ${caseLabel}`, () => {
+    let spiedDeletedCrit = null
+    const props = {
+      ...testProps,
       onUnselectCriterion: (crit) => {
         spiedDeletedCrit = crit
       },
@@ -108,5 +90,5 @@ describe('[SEARCH RESULTS] Testing ApplyingCriterionComponent', () => {
     // test delete callback
     enzymeWrapper.instance().onUnselectCriterion()
     assert.deepEqual(spiedDeletedCrit, props.selectedCriterion, 'Criterion shoud be correctly provided when deleting')
-  })
+  }))
 })

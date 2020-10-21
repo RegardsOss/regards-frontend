@@ -31,6 +31,7 @@ const NO_PROPS = {}
  */
 class CellWrapper extends React.PureComponent {
   static propTypes = {
+    stripeRows: PropTypes.bool,
     rowIndex: PropTypes.number, // provided by React infinite
     lineHeight: PropTypes.number,
     isLastColumn: PropTypes.bool.isRequired,
@@ -40,6 +41,7 @@ class CellWrapper extends React.PureComponent {
 
   /** List of prop types that should not be reported to child */
   static NON_REPORTED_PROPS = [
+    'stripeRows',
     'lineHeight',
     'isLastColumn',
     'getEntity',
@@ -69,12 +71,13 @@ class CellWrapper extends React.PureComponent {
     // render with styles
     const styles = this.context.moduleTheme
     const {
-      isLastColumn, lineHeight, rowCellDefinition: { Constructor, props = NO_PROPS }, rowIndex,
+      isLastColumn, lineHeight, stripeRows,
+      rowCellDefinition: { Constructor, props = NO_PROPS }, rowIndex,
     } = this.props
 
     // 1 - Select style
     let basicCellStyle
-    if (rowIndex % 2) {
+    if (!stripeRows || rowIndex % 2) {
       // even cell
       basicCellStyle = isLastColumn ? styles.lastCellEven : styles.cellEven
     } else {

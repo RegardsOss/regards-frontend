@@ -17,12 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import omit from 'lodash/omit'
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
+import { intlShape } from 'react-intl'
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { AutoCompleteTextField } from '@regardsoss/components'
-import AttributeRender from '../../render/AttributeRender'
+import { StringComparison } from '@regardsoss/form-utils'
+import messages from '../../i18n'
 
 /**
  * Single attribute selection field render: it edits a simple string, showing to user the attribute label. But it publishes,
@@ -42,6 +45,7 @@ export class SingleAttributeFieldRender extends React.Component {
       error: PropTypes.string,
     }),
     label: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     // From mapStateToProps
     i18n: PropTypes.string, // automatically add by REGARDS connect method
   }
@@ -60,19 +64,16 @@ export class SingleAttributeFieldRender extends React.Component {
    * @param {*} attributeModels attribute models
    * @return [{*}] auto complete field items for current text
    */
-  static filterAndConvertAttributes(filterText = '', attributeModels, intl) {
-    return attributeModels.reduce((acc, attribute) => {
-      // to be more usable here, accept text in the anywhere in labels, case insensitive
-      const attributeLabel = AttributeRender.getRenderLabel(attribute, intl)
-      if (attributeLabel.toLowerCase().includes(filterText.toLowerCase())) {
-        return [...acc, { // prepare autocompletion field item:
-          id: attribute.content.jsonPath,
-          text: attributeLabel,
-          value: attribute.content.jsonPath,
-        }]
-      }
-      return acc
-    }, [])
+  static filterAndConvertAttributes(filterText = '', attributeModels) {
+    const lowerInputText = filterText.toLowerCase()
+    return attributeModels
+      .reduce((acc, { content: { jsonPath } }) => jsonPath.toLowerCase().includes(lowerInputText)
+        ? [...acc, {
+          id: jsonPath,
+          text: jsonPath,
+          value: jsonPath,
+        }] : acc, [])
+      .sort(({ text: t1 }, { text: t2 }) => StringComparison.compare(t1, t2))
   }
 
   /** Name of properties to not report onto the autocomplete field */
@@ -103,13 +104,6 @@ export class SingleAttributeFieldRender extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const newState = {}
-    // TODO V1: Locale: wrong solution here: context has not yet been updated (only locale is)
-    // update current text and available filtered attribute models list
-    const newInputValue = newProps.input.value
-    newState.inputValue = newProps.input.value
-    newState.filteredAttributes = SingleAttributeFieldRender.filterAndConvertAttributes(
-      newInputValue, newProps.attributeModels, this.context.intl)
-    // compute sub component properties
     newState.fieldProperties = omit(newProps, SingleAttributeFieldRender.NON_REPORTED_PROPERTIES)
     this.setState(newState)
   }
@@ -119,11 +113,8 @@ export class SingleAttributeFieldRender extends React.Component {
    * @param text current text
    */
   onUpdateInput = (text) => {
-    this.setState({
-      inputValue: text,
-      filteredAttributes: SingleAttributeFieldRender.filterAndConvertAttributes(
-        text, this.props.attributeModels, this.context.intl),
-    })
+    const { input: { onChange } } = this.props
+    onChange(text)
   }
 
   /**
@@ -136,15 +127,18 @@ export class SingleAttributeFieldRender extends React.Component {
 
 
   render() {
-    const { meta: { invalid, error }, label } = this.props
-    const { inputValue, filteredAttributes, fieldProperties } = this.state
+    const {
+      attributeModels, input: { value }, meta: { invalid, error }, label,
+    } = this.props
+    const { fieldProperties } = this.state
+    const { intl } = this.props
     return (
       <AutoCompleteTextField
         name="attributeSelector"
-        currentHintText={inputValue}
-        currentHints={filteredAttributes}
+        currentHintText={value}
+        currentHints={SingleAttributeFieldRender.filterAndConvertAttributes(value, attributeModels)}
         isInError={invalid}
-        errorMessage={invalid ? error : undefined}
+        errorMessage={invalid && error ? intl.formatMessage({ id: error }) : undefined}
         onUpdateInput={this.onUpdateInput}
         onFilterSelected={this.onAttributeSelected}
         floatingLabelText={label}
@@ -154,4 +148,5 @@ export class SingleAttributeFieldRender extends React.Component {
   }
 }
 
-export default connect()(SingleAttributeFieldRender)
+// as it may be consumed externally, export component with context and binding locale
+export default compose(connect(), withI18n(messages, true))(SingleAttributeFieldRender)

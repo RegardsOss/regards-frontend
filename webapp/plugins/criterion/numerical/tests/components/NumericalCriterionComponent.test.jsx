@@ -19,8 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { CommonDomain, DamDomain } from '@regardsoss/domain'
-import { NumericalComparator } from '@regardsoss/components'
+import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
+import { NumericalComparatorSelector } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import NumericalCriterionComponent from '../../src/components/NumericalCriterionComponent'
 import styles from '../../src/styles'
@@ -40,57 +40,86 @@ describe('[Numerical criterion] Testing NumericalCriterionComponent', () => {
   })
   it('should render self and subcomponents enabled with bounds data', () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
         criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
-      value: 25,
+      error: false,
+      value: '25',
       operator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
-      onTextInput: () => {},
+      onTextChange: () => {},
+      onOperatorSelected: () => {},
+    }
+    // test label rendering with each locale
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      assert.include(enzymeWrapper.debug(), props.label[locale], 'Label should be rendered with current locale')
+      const comparator = enzymeWrapper.find(NumericalComparatorSelector)
+      assert.lengthOf(comparator, 1, 'There should be the comparator')
+      testSuiteHelpers.assertWrapperProperties(comparator, {
+        operator: props.operator,
+        onSelect: props.onOperatorSelected,
+        operators: props.availableComparators,
+        disabled: false,
+      }, 'Comparator selector properties set should be correctly set')
+
+      const textField = enzymeWrapper.find(TextField)
+      assert.lengthOf(textField, 1, 'There should be the comparator')
+      testSuiteHelpers.assertWrapperProperties(textField, {
+        errorText: null,
+        value: props.value,
+        onChange: props.onTextChange,
+        disabled: false,
+      }, 'Value field properties should be correctly set')
+    })
+  })
+  it('should render xorrectly in error', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
+      error: true,
+      value: '105',
+      operator: CommonDomain.EnumNumericalComparator.LE,
+      availableComparators: CommonDomain.EnumNumericalComparators,
+      onTextChange: () => {},
       onOperatorSelected: () => {},
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
-    assert.lengthOf(comparator, 1, 'There should be the comparator')
-    testSuiteHelpers.assertWrapperProperties(comparator, {
-      value: props.operator,
-      onChange: props.onOperatorSelected,
-      comparators: props.availableComparators,
-      disabled: false,
-    }, 'Comparator selector properties set should be correctly set')
-
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the comparator')
-    testSuiteHelpers.assertWrapperProperties(textField, {
-      value: NumericalCriterionComponent.toText(props.value),
-      onChange: props.onTextInput,
-      disabled: false,
-    }, 'Value field properties should be correctly set')
+    assert.isOk(textField.props().errorText, 'Error should be displayed')
   })
   it('should render self and subcomponents disabled without bounds data', () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
         criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
-      value: -56.12,
+      error: false,
+      value: '-56.12',
       operator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
-      onTextInput: () => {},
+      onTextChange: () => {},
       onOperatorSelected: () => {},
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
+    const comparator = enzymeWrapper.find(NumericalComparatorSelector)
     assert.lengthOf(comparator, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(comparator, {
-      value: props.operator,
-      onChange: props.onOperatorSelected,
-      comparators: props.availableComparators,
+      operator: props.operator,
+      onSelect: props.onOperatorSelected,
+      operators: props.availableComparators,
       disabled: true,
     }, 'Comparator selector properties set should be correctly set')
 
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      value: NumericalCriterionComponent.toText(props.value),
-      onChange: props.onTextInput,
+      errorText: null,
+      value: props.value,
+      onChange: props.onTextChange,
       disabled: true,
     }, 'Value field properties should be correctly set')
   })

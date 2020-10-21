@@ -17,7 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isFunction from 'lodash/isFunction'
-import intlStub from './IntlStub'
+import { UIDomain } from '@regardsoss/domain'
+import { getLocalizedIntlStub } from './IntlStub'
 import themeStub from './MuiThemeStub'
 
 /**
@@ -36,9 +37,9 @@ function buildStyles(moduleStyles) {
  * @param {*} otherFields other field in context (not mandatory)
  * @return {*} appliable context
  */
-export default function buildTestContext(moduleStyles = () => { }, otherFields = {}) {
+export default function buildTestContext(moduleStyles = () => { }, locale = UIDomain.LOCALES_ENUM.en, otherFields = {}) {
   return {
-    intl: intlStub,
+    intl: getLocalizedIntlStub(locale),
     muiTheme: themeStub,
     mainTheme: themeStub,
     alternativeTheme: themeStub,

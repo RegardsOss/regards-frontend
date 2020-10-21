@@ -24,6 +24,7 @@ import FiltersIcon from 'mdi-material-ui/Filter'
 import RestrictionIcon from 'mdi-material-ui/FocusFieldHorizontal'
 import MainSettingIcon from 'mdi-material-ui/Settings'
 import ViewSettingIcon from 'mdi-material-ui/TableSettings'
+import SearchIcon from 'mdi-material-ui/Magnify'
 import { DamDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -56,6 +57,7 @@ class BrowsingTreeCell extends React.Component {
     [FORM_SECTIONS_ENUM.RESTRICTIONS]: RestrictionIcon,
     [DamDomain.ENTITY_TYPES_ENUM.DATA]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATA],
     [DamDomain.ENTITY_TYPES_ENUM.DATASET]: EntityTypeIcon.ICON_CONSTRUCTOR_BY_TYPE[DamDomain.ENTITY_TYPES_ENUM.DATASET],
+    [FORM_SECTIONS_ENUM.SEARCH]: SearchIcon,
   }
 
   /** Page icon constructors by page type */

@@ -23,15 +23,16 @@ import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguratio
 import { AccessShapes } from '@regardsoss/shape'
 import { LocalURLProvider } from '@regardsoss/display-control'
 import { FileContentDisplayer } from '@regardsoss/components'
-import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
 import PreviousButton from '../../../components/services/PreviousButton'
 import DownloadResultButton from '../../../components/services/catalog/DownloadResultButton'
-import { resolveParametersWithTypes, packTargetParameters } from '../../../definitions/CatalogPluginServiceHelper'
+import { resolveParametersWithTypes } from '../../../definitions/CatalogPluginServiceHelper'
+
 /**
-* Container to show configuration and run of a catalog plugin service
-* Note: it uses lifecycle (mount) to fetch plugin configuration and metadata, then it resolves edition parameters.
-*/
+ * Container to show configuration and run of a catalog plugin service
+ *
+ * @author Raphaël Mechali
+ */
 export class RunCatalogPluginServiceContainer extends React.Component {
   static Steps = {
     // Init 1: fetch plugin configuration
@@ -58,7 +59,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     // service to run
     service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: ServiceTargetShape.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
 
@@ -155,12 +156,10 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   /** Goes forward, after parameters configuration (if there was any) into the servie applying */
   onConfigurationDone = (formValues = {}) => {
     const { target, service, dispatchFetchPluginResult } = this.props
-    // 1 - prepare target parameters
-    const targetParams = packTargetParameters(target)
     // 2 - update state and dispatch
     const userParametersValues = formValues
     this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE, userParametersValues })
-    dispatchFetchPluginResult(service.configId, userParametersValues, targetParams)
+    dispatchFetchPluginResult(service.configId, userParametersValues, target.searchContext)
       .then(this.onServiceResult)
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR))
   }

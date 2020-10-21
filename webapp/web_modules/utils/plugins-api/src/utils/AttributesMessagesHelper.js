@@ -16,10 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNaN from 'lodash/isNaN'
 import isNil from 'lodash/isNil'
 import { DamDomain } from '@regardsoss/domain'
-import { NumberValueRender } from '@regardsoss/components'
+import { NumberValueRender, DateValueRender } from '@regardsoss/components'
 
 /**
  * Helper to format bounds messages according with attribute type and bounds state
@@ -72,29 +71,6 @@ export function formatBoundsStateHint(intl, attribute) {
 }
 
 /**
- * Formats a date bound value
- * Pre: value is not null nor empty
- * @param {*} intl intl context (holds format* methods from intl context)
- * @param {*} attribute an AttributeModelWithBounds
- * @param {string|number} value bound value
- * @return {string} bound value text
- * @throws Error when date parsing failed
- */
-export function formatDateBound(intl, attribute, value) {
-  const { formatMessage, formatDate, formatTime } = intl
-  // parse date and format it using intl
-  const dateWrapper = new Date(value)
-  if (!isNaN(dateWrapper.getDate())) {
-    return formatMessage({ id: 'criterion.attribute.bounds.value.date' }, {
-      date: formatDate(dateWrapper),
-      time: formatTime(dateWrapper),
-    })
-  }
-  throw new Error(`Attribute ${attribute.name} value cannot be parsed as a date: ${value}`)
-}
-
-
-/**
  * Formats a bound value
  * Pre: value is not null nor empty
  * @param {*} intl intl context (holds format* methods from intl context)
@@ -104,17 +80,23 @@ export function formatDateBound(intl, attribute, value) {
  * @throws Error when formatting failed
  */
 export function formatBoundValue(intl, attribute, value) {
+  let formattedValue = null
   switch (attribute.type) {
     case DamDomain.MODEL_ATTR_TYPES.DOUBLE:
     case DamDomain.MODEL_ATTR_TYPES.INTEGER:
     case DamDomain.MODEL_ATTR_TYPES.LONG:
       // Delegate onto number value render
-      return NumberValueRender.formatValue(intl, value, attribute.precision, attribute.unit)
+      formattedValue = NumberValueRender.formatValue(intl, value, attribute.precision, attribute.unit)
+      break
     case DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601:
-      return formatDateBound(intl, attribute, value)
-    default:
-      throw new Error(`Attribute ${attribute.name} should have no bound as its type is ${attribute.type}`)
+      formattedValue = DateValueRender.getFormattedDate(value, DateValueRender.DEFAULT_FORMATTERS.dateWithSeconds, intl.formatMessage)
+      break
+    default: // no fallback for default
   }
+  if (formattedValue) {
+    return formattedValue
+  }
+  throw new Error(`Attribute ${attribute.name} should have no bound as its type is ${attribute.type}`)
 }
 
 /**
@@ -225,7 +207,7 @@ export function formatHintText(intl, attribute, boundType = BOUND_TYPE.ANY_BOUND
  * @return {string} text to show as criterion field tooltip
  */
 export function formatTooltip(intl, attribute) {
-  // A -
+  // A - Loading / error / unexisting bounds
   const { formatMessage } = intl
   const typeText = getTypeText(intl, attribute)
   const { boundsInformation } = attribute
@@ -239,6 +221,6 @@ export function formatTooltip(intl, attribute) {
     return formatMessage({ id: 'criterion.attribute.tooltip.valueable.with.bounds' }, { typeText, range })
   }
 
-  // C -
+  // C - Unboundable type
   return formatMessage({ id: 'criterion.attribute.tooltip.valueable.without.bound' }, { typeText })
 }

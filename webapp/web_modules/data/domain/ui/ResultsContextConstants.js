@@ -89,11 +89,16 @@ const DEFAULT_RESULTS_CONTEXT = {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
-        otherFilters: [],
-        quicklookFiltering: [],
+        searchCriteria: [],
         appliedFacets: [],
         geometry: [],
         entitiesSelection: [],
@@ -106,17 +111,26 @@ const DEFAULT_RESULTS_CONTEXT = {
         [ENTITY_TYPES_ENUM.DATASET]: DISABLED_TYPE_STATE,
       },
     },
-    [RESULTS_TABS_ENUM.DESCRIPTION]: { descriptionPath: [], selectedIndex: 0 },
+    [RESULTS_TABS_ENUM.DESCRIPTION]: {
+      unresolvedRootEntityId: null,
+      descriptionPath: [],
+      selectedIndex: 0,
+    },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       facets: {
         enabled: false,
         list: [],
       },
+      search: {
+        enabled: false,
+        open: false,
+        groups: [],
+      },
       criteria: {
         configurationRestrictions: [],
+        staticParameters: [],
         contextTags: [],
-        otherFilters: [],
-        quicklookFiltering: [],
+        searchCriteria: [],
         appliedFacets: [],
         geometry: [],
         entitiesSelection: [],
@@ -215,6 +229,16 @@ function getNavigateToViewType(type) {
   return NAVIGATE_TO_VIEW_TYPE[type]
 }
 
+/**
+ * Maps each view type to the page size
+ */
+const PAGE_SIZE_FOR = {
+  [RESULTS_VIEW_MODES_ENUM.LIST]: 500,
+  [RESULTS_VIEW_MODES_ENUM.TABLE]: 500,
+  [RESULTS_VIEW_MODES_ENUM.MAP]: STATIC_CONF.MAP.PAGE_SIZE_MAP,
+  [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: 200,
+}
+
 export default {
   RESULTS_INITIAL_TYPE_PREFERENCE,
   DEFAULT_RESULTS_CONTEXT,
@@ -222,6 +246,7 @@ export default {
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
+  PAGE_SIZE_FOR,
   allowDownload,
   allowSorting,
   allowSelection,

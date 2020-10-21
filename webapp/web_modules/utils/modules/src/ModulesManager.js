@@ -39,7 +39,6 @@ const VisibleModuleTypes = {
   ORDER_HISTORY: 'order-history',
   PROJECT_ABOUT_PAGE: 'project-about-page',
   PROJECT_LIST: 'projects-list',
-  SEARCH_FORM: 'search-form',
   SEARCH_GRAPH: 'search-graph',
   SEARCH_RESULTS: 'search-results',
 }

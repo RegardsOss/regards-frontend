@@ -23,11 +23,13 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import { AccessProjectClient } from '@regardsoss/client'
 import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 import { LOCALES } from '../../../../data/domain/ui'
 import messages from '../i18n'
+import styles from '../styles'
 
 // get default layout client actions and reducers instances - required to check that containers are or not dynamic
 const layoutSelectors = AccessProjectClient.getLayoutSelectors()
@@ -121,6 +123,7 @@ export class ModuleContainer extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   state = {
@@ -131,7 +134,7 @@ export class ModuleContainer extends React.Component {
   render() {
     const { moduleConf: { previewLocale } } = this.props
     const { renderStyles, urlByLocale } = this.state
-    const { intl: { locale } } = this.context
+    const { intl: { locale }, moduleTheme: { user: { iFrame } } } = this.context
     // define the runtime locale (preview or context one when not in preview)
     const runtimeLocale = previewLocale || locale
     // URL: current locale URL if available. If not available, first available locale URL.
@@ -140,6 +143,7 @@ export class ModuleContainer extends React.Component {
       <IFrameURLContentDisplayer
         source={urlForLocale}
         style={renderStyles}
+        iFrameStyle={iFrame}
       />
     ) : null
   }
@@ -147,4 +151,5 @@ export class ModuleContainer extends React.Component {
 
 export default compose(
   connect(ModuleContainer.mapStateToProps),
-  withI18n(messages))(ModuleContainer)
+  withI18n(messages),
+  withModuleStyle(styles))(ModuleContainer)

@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FRAGMENT_NONE from './FragmentNone'
+import DEFAULT_FRAGMENT from './FragmentNone'
 
 function getFullQualifiedAttributeName(attribute) {
-  if (attribute.fragment.name === FRAGMENT_NONE) {
+  if (attribute.fragment.name === DEFAULT_FRAGMENT) {
     return `${attribute.name}`
   }
   return `${attribute.fragment.name} ${attribute.name}`

@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from '@regardsoss/redux'
+import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import { CommonDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
-import {
-  AttributeModelWithBounds, pluginStateActions, pluginStateSelectors, numberRangeHelper,
-} from '@regardsoss/plugins-api'
+import { UIShapes } from '@regardsoss/shape'
+import { AttributeModelWithBounds, NumberRange } from '@regardsoss/plugins-api'
+import { NumberHelper } from './NumberHelper'
 import MultipleAttributesComponent from '../components/MultipleAttributesComponent'
 
 /**
@@ -31,68 +32,50 @@ import MultipleAttributesComponent from '../components/MultipleAttributesCompone
 export class MultipleAttributesContainer extends React.Component {
   /** Default container state */
   static DEFAULT_STATE = {
-    value1: null,
+    error: false,
+    error1: false,
+    value1: '',
     comparator1: CommonDomain.EnumNumericalComparator.GE,
-    value2: null,
+    error2: false,
+    value2: '',
     comparator2: CommonDomain.EnumNumericalComparator.LE,
   }
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pluginInstanceId }) {
-    return {
-      // current state from redux store
-      state: pluginStateSelectors.getCriterionState(state, pluginInstanceId) || MultipleAttributesContainer.DEFAULT_STATE,
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
-    return {
-      publishState: (state, requestParameters) => dispatch(pluginStateActions.publishState(pluginInstanceId, state, requestParameters)),
-    }
-  }
-
+  /** Shape for this subtype of criterion */
+  static STATE_SHAPE = PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    error: PropTypes.bool.isRequired,
+    error1: PropTypes.bool.isRequired,
+    value1: PropTypes.string,
+    comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+    error2: PropTypes.bool.isRequired,
+    value2: PropTypes.string,
+    comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
+  })
 
   static propTypes = {
-    /** Plugin identifier */
-    // eslint-disable-next-line react/no-unused-prop-types
-    pluginInstanceId: PropTypes.string.isRequired, // used in mapStateToProps and mapDispatchToProps
     /** First configured field attribute */
     firstField: AttributeModelWithBounds.isRequired,
     /** Second configured field attribute */
     secondField: AttributeModelWithBounds.isRequired,
-    // From mapStateToProps...
-    state: PropTypes.shape({ // specifying here the state this criterion shares with parent search form
-      value1: PropTypes.number,
-      comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-      value2: PropTypes.number,
-      comparator2: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
-    }).isRequired,
-    // From mapDispatchToProps...
+    // configured plugin label, where object key is locale and object value message
+    label: UIShapes.IntlMessage.isRequired,
+    // state shared and consumed by this criterion
+    state: MultipleAttributesContainer.STATE_SHAPE.isRequired,
+    // Callback to share state update with parent form like (state, requestParameters) => ()
     publishState: PropTypes.func.isRequired,
   }
 
   /** Available comparison operators for integer numbers */
   static AVAILABLE_INT_COMPARATORS = [
+    CommonDomain.EnumNumericalComparator.LE,
     CommonDomain.EnumNumericalComparator.EQ,
     CommonDomain.EnumNumericalComparator.GE,
-    CommonDomain.EnumNumericalComparator.LE,
   ]
 
   /** Available comparison operators for floatting numbers */
   static AVAILABLE_FLOAT_COMPARATORS = [
-    CommonDomain.EnumNumericalComparator.GE,
     CommonDomain.EnumNumericalComparator.LE,
+    CommonDomain.EnumNumericalComparator.GE,
   ]
 
   /**
@@ -120,72 +103,98 @@ export class MultipleAttributesContainer extends React.Component {
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({
-    value1, comparator1, value2, comparator2,
+    error, value1, comparator1, value2, comparator2,
   }, firstAttribute, secondAttribute) {
-    // Using common toolbox to build range query
-    return {
-      q: new CatalogDomain.OpenSearchQuery('', [
+    // No query when: any field is in error or there is no field value
+    return error || (!value1 && !value2) ? {} : {
+      q: new CatalogDomain.OpenSearchQuery([
         // first attribute
-        numberRangeHelper.getNumberQueryParameter(firstAttribute.jsonPath,
-          numberRangeHelper.convertToRange(value1, comparator1)),
+        NumberRange.getNumberQueryParameter(firstAttribute.jsonPath,
+          NumberRange.convertToRange(NumberHelper.parse(value1).value, comparator1)),
         // second attribute
-        numberRangeHelper.getNumberQueryParameter(secondAttribute.jsonPath,
-          numberRangeHelper.convertToRange(value2, comparator2)),
+        NumberRange.getNumberQueryParameter(secondAttribute.jsonPath,
+          NumberRange.convertToRange(NumberHelper.parse(value2).value, comparator2)),
       ]).toQueryString(),
     }
   }
 
-
   /**
    * Callback: user changed value 1 number and / or operator
-   * @param {number} value1 as parsed by NumericalCriteriaComponent
+   * @param {number} value1 user input text
    * @param {string} comparator1 comparator, one of EnumNumericalComparator values
    */
-  onChangeValue1 = (value1, comparator1) => {
+  onValue1Changed = (value1, comparator1) => {
     const {
       state, publishState, firstField, secondField,
     } = this.props
-    const newState = { ...state, value1, comparator1 }
-    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    const { error, value } = NumberHelper.parse(value1)
+    const error1 = error || (!isNil(value) && !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1)))
+    const newState = {
+      ...state,
+      error1,
+      value1,
+      comparator1,
+      // common error state
+      error: error1 || state.error2,
+    }
+    if (!isEqual(newState, state)) {
+      publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    }
   }
 
   /**
    * Callback: user changed value 2 number and / or operator
-   * @param {number} value2 as parsed by NumericalCriteriaComponent
+   * @param {string} value2 user input text
    * @param {string} comparator2 operator, one of EnumNumericalComparator values
    */
-  onChangeValue2 = (value2, comparator2) => {
+  onValue2Changed = (value2, comparator2) => {
     const {
       state, publishState, firstField, secondField,
     } = this.props
-    const newState = { ...state, value2, comparator2 }
-    publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    const { error, value } = NumberHelper.parse(value2)
+    const error2 = error || (!isNil(value) && !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2)))
+    const newState = {
+      ...state,
+      // in error when text cannot be parsed or range is invalid
+      error2,
+      value2,
+      comparator2,
+      // common error state
+      error: error2 || state.error1,
+    }
+    if (!isEqual(newState, state)) {
+      publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
+    }
   }
+
 
   render() {
     const {
+      label,
       firstField, secondField,
       state: {
-        value1, comparator1, value2, comparator2,
+        error1, value1, comparator1, error2, value2, comparator2,
       },
     } = this.props
     return (
       <MultipleAttributesComponent
+        label={label}
+
         attribute1={firstField}
+        error1={error1}
         value1={value1}
         comparator1={comparator1}
         availableComparators1={MultipleAttributesContainer.getAvailableComparators(firstField)}
-        onChangeValue1={this.onChangeValue1}
+        onValue1Changed={this.onValue1Changed}
 
+        error2={error2}
         attribute2={secondField}
         value2={value2}
         comparator2={comparator2}
         availableComparators2={MultipleAttributesContainer.getAvailableComparators(secondField)}
-        onChangeValue2={this.onChangeValue2}
+        onValue2Changed={this.onValue2Changed}
       />)
   }
 }
 
-export default connect(
-  MultipleAttributesContainer.mapStateToProps,
-  MultipleAttributesContainer.mapDispatchToProps)(MultipleAttributesContainer)
+export default MultipleAttributesContainer

@@ -79,7 +79,7 @@ class AutoCompleteTextField extends React.Component {
   static defaultProps = {
     loadingMessageKey: 'autocomplete.filter.loading',
     noDataMessageKey: 'autocomplete.filter.empty',
-    errorMessage: AutoCompleteTextField.ERROR_EMPTY_MESSAGE,
+    errorMessage: ' ', // default message placeholder
     isInError: false,
     isFetching: false,
 
@@ -118,8 +118,6 @@ class AutoCompleteTextField extends React.Component {
   static DEFAULT_STATE = {
     errorText: null,
   }
-
-  static ERROR_EMPTY_MESSAGE = ' '
 
   /**
    * Lifecycle method: component did mount. Used here to request initial hints list
@@ -210,7 +208,6 @@ class AutoCompleteTextField extends React.Component {
     const { currentHintText, isInError, errorMessage } = this.props
     // prepare the properties to report  (exclude properties consumed by this component)
     const reportedProps = omit(this.props, AutoCompleteTextField.NON_REPORTED_PROPERTIES)
-
     return (
       <AutoComplete
         dataSource={this.getDatasource()}

@@ -33,10 +33,11 @@ export { default as BaseBoardItemComponent } from './board/BaseBoardItemComponen
 export { default as ClearFieldButton } from './buttons/ClearFieldButton'
 export { default as DownloadButton } from './buttons/DownloadButton'
 export { default as DropDownButton } from './buttons/DropDownButton'
+export { default as IconElementSelector } from './buttons/IconElementSelector'
+export { default as NumericalComparatorSelector } from './buttons/NumericalComparatorSelector'
 export { default as OnHoverSwitchFlatButton } from './buttons/OnHoverSwitchFlatButton'
 export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconButton'
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'
-export { default as NumericalComparator } from './buttons/NumericalComparator'
 
 export { default as ActionButtonComponent } from './cards/ActionButtonComponent'
 export { default as CardActionsComponent } from './cards/CardActionsComponent'
@@ -67,6 +68,8 @@ export { default as PageNotFoundComponent } from './error/PageNotFoundProvider'
 export { default as FormErrorMessage } from './error/FormErrorMessage'
 
 export { default as FeedbackDisplayer } from './feedback/FeedbackDisplayer'
+
+export { default as DatePickerField } from './fields/DatePickerField'
 
 export { default as HelpMessageComponent } from './help/HelpMessageComponent'
 
@@ -149,10 +152,8 @@ export { default as StringArrayValueRender } from './values/StringArrayValueRend
 export { default as StringValueRender } from './values/StringValueRender'
 export { default as URLValueRender } from './values/URLValueRender'
 export { default as DurationValueRender } from './values/DurationValueRender'
+export { default as RenderMessages } from './values/i18n'
 // use it in values render parent to connect with their context (stacking)
 export { default as withValueRenderContext } from './values/withValueRenderContext'
 
 export { default as InfiniteGalleryContainer } from './gallery/InfiniteGalleryContainer'
-
-// Date
-export { default as DatePickerField } from './date/DatePickerField'

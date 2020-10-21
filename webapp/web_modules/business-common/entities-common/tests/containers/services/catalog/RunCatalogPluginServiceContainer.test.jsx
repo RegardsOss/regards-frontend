@@ -20,12 +20,13 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
-import { AccessDomain, DamDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
 import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
-import { buildOneElementTarget, buildManyElementsTarget, buildQueryTarget } from '../../../../src/definitions/ServiceTarget'
+import { TargetHelper } from '../../../../src/definitions/TargetHelper'
 import { RunCatalogPluginServiceContainer } from '../../../../src/containers/services/catalog/RunCatalogPluginServiceContainer'
 import styles from '../../../../src/styles/styles'
+import { entity1, entity2, entity3 } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -66,7 +67,7 @@ const basicMetadata = {
 
 const commonProps = {
   service: serviceConfiguration,
-  target: buildOneElementTarget('x'),
+  target: TargetHelper.buildOneElementTarget(entity3),
   onQuit: () => { },
   dispatchFetchPluginConfiguration: () => new Promise((resolve, reject) => { }),
   dispatchFetchPluginMetaData: () => new Promise((resolve, reject) => { }),
@@ -367,7 +368,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
   it('should display empty results when service produced no result', () => {
     const props = {
       service: serviceConfiguration,
-      target: buildOneElementTarget('x'),
+      target: TargetHelper.buildOneElementTarget(entity1),
       onQuit: () => { },
       dispatchFetchPluginConfiguration: () => new Promise((resolve, reject) => { }),
       dispatchFetchPluginMetaData: () => new Promise((resolve, reject) => { }),
@@ -409,7 +410,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     const props1 = {
       ...commonProps,
       dispatchFetchPluginResult: spyFetch,
-      target: buildOneElementTarget('x'),
+      target: TargetHelper.buildOneElementTarget(entity2),
     }
     const enzymeWrapper = shallow(<RunCatalogPluginServiceContainer {...props1} />, { context })
     // simulate the configuration loading done event WITH the configuration
@@ -418,12 +419,16 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { entityId: 'x' }, 'One element target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.targetParameter, {
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+      searchParameters: { q: [`id:"${entity2.content.id}"`] },
+    },
+    'One element target - target should be corretly sent')
     // 2 - test many elements target
     const props2 = {
       ...commonProps,
       dispatchFetchPluginResult: spyFetch,
-      target: buildManyElementsTarget(['x', 'y']),
+      target: TargetHelper.buildManyElementsTarget([entity1, entity3]),
     }
     enzymeWrapper.setProps(props2)
     // simulate the configuration loading done event WITH the configuration
@@ -432,12 +437,16 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, { entitiesId: ['x', 'y'] }, 'Many elements target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.targetParameter, {
+      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+      searchParameters: { q: [`id:("${entity1.content.id}" OR "${entity3.content.id}")`] },
+    },
+    'Many elements target - target should be corretly sent')
     // 3 - test query target
     const props3 = {
       ...commonProps,
       dispatchFetchPluginResult: spyFetch,
-      target: buildQueryTarget({ q: 'model.age=22' }, DamDomain.ENTITY_TYPES_ENUM.DATA, 22, []),
+      target: TargetHelper.buildQueryTarget({ q: ['model.age=22'], geo: 'potatoesField' }, DamDomain.ENTITY_TYPES_ENUM.DATA, 22, [entity2, entity3]),
     }
     enzymeWrapper.setProps(props3)
     // simulate the configuration loading done event WITH the configuration
@@ -447,8 +456,13 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Query target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
     assert.deepEqual(
-      lastFetchParams.targetParameter, { q: 'model.age=22', entityType: DamDomain.ENTITY_TYPES_ENUM.DATA },
-      'Query target - target should be corretly sent',
+      lastFetchParams.targetParameter, {
+        engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+        searchParameters: {
+          geo: 'potatoesField',
+          q: [`model.age=22 AND id:(!("${entity2.content.id}" OR "${entity3.content.id}"))`],
+        },
+      }, 'Query target - target should be corretly sent',
     )
   })
 })

@@ -24,19 +24,6 @@
  */
 export default function buildCriterionStyles(theme) {
   return {
-    rootStyle: {
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      minHeight: theme.criterion.minHeight,
-    },
-    labelSpanStyle: {
-      margin: '0px 10px',
-    },
-    textFieldStyle: {
-      top: -18,
-      width: 180,
-      margin: '0px 10px',
-    },
+    // put here specific criterion styles (updated on theme change)
   }
 }

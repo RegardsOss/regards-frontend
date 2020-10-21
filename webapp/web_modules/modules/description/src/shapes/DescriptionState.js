@@ -42,10 +42,7 @@ export const RuntimeAttribute = PropTypes.shape({
 /** A displayable group row (label and 1 / many attribute values) */
 export const DisplayableGroupRow = PropTypes.shape({
   key: PropTypes.string.isRequired,
-  label: PropTypes.shape({
-    en: PropTypes.string.isRequired,
-    fr: PropTypes.string.isRequired,
-  }),
+  label: UIShapes.IntlMessage,
   displayedAttributes: PropTypes.arrayOf(RuntimeAttribute).isRequired,
 })
 
@@ -53,10 +50,7 @@ export const DisplayableGroupRow = PropTypes.shape({
 export const AttributeGroup = PropTypes.shape({
   key: PropTypes.string.isRequired,
   showTitle: PropTypes.bool.isRequired,
-  title: PropTypes.shape({
-    en: PropTypes.string, // english group label, optional
-    fr: PropTypes.string, // french group label, optional
-  }).isRequired, // labels dictionnary, required
+  title: UIShapes.IntlMessage.isRequired,
   elements: PropTypes.arrayOf(DisplayableGroupRow).isRequired,
 })
 

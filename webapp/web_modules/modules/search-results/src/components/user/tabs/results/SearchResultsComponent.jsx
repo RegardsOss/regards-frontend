@@ -23,6 +23,7 @@ import { TableLayout } from '@regardsoss/components'
 import OptionsHeaderRowComponent from './header/OptionsHeaderRowComponent'
 import ResultFacetsHeaderRowContainer from '../../../../containers/user/tabs/results/header/ResultFacetsHeaderRowContainer'
 import ApplyingCriteriaHeaderRowContainer from '../../../../containers/user/tabs/results/header/ApplyingCriteriaHeaderRowContainer'
+import SearchPaneContainer from '../../../../containers/user/tabs/results/search/SearchPaneContainer'
 import TableViewContainer from '../../../../containers/user/tabs/results/table/TableViewContainer'
 import ListViewContainer from '../../../../containers/user/tabs/results/list/ListViewContainer'
 import QuicklooksViewContainer from '../../../../containers/user/tabs/results/quickooks/QuicklooksViewContainer'
@@ -68,11 +69,19 @@ class SearchResultsComponent extends React.Component {
     const { tab } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <TableLayout>
+        {/* Above pane: search form displayer */}
+        <SearchPaneContainer
+          moduleId={moduleId}
+          tabType={tabType}
+          resultsContext={resultsContext}
+        />
         {/* First header row : switch view type and mode, other view options */}
         <OptionsHeaderRowComponent
           moduleId={moduleId}
           tabType={tabType}
           resultsContext={resultsContext}
+          requestParameters={requestParameters}
+          searchActions={searchActions}
           selectionServices={selectionServices}
           onStartSelectionService={onStartSelectionService}
           onAddSelectionToCart={onAddSelectionToCart}

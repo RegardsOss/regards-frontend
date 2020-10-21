@@ -20,13 +20,13 @@ import { BasicSignalReducers } from '@regardsoss/store-utils'
 import RequestDeleteActions from './RequestDeleteActions'
 
 class RequestDeleteReducer extends BasicSignalReducers {
-  constructor(namespace, instance) {
-    super(new RequestDeleteActions(namespace, instance))
+  constructor(namespace) {
+    super(new RequestDeleteActions(namespace))
   }
 }
 
 /** Closure builder for reducer function */
-export default (namespace, instance = false) => {
-  const reducerInstance = new RequestDeleteReducer(namespace, instance)
+export default (namespace) => {
+  const reducerInstance = new RequestDeleteReducer(namespace)
   return (state, action) => reducerInstance.reduce(state, action)
 }

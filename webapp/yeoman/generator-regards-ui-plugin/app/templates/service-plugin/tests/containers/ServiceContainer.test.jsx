@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, uiPluginServiceTestHelpers } from '@regardsoss/tests-helpers'
 import { ServiceContainer } from '../../src/containers/ServiceContainer'
 import styles from '../../src/styles/styles'
 
@@ -37,9 +37,17 @@ describe('[<%= name %>] Testing ServiceContainer', () => {
   })
   it('should render self and sub components', () => {
     const props = {
-      pluginInstanceId: 'any',
-      // component props
+      pluginInstanceId: 'stub.id',
+      // stub runtime configuration
+      runtimeTarget: uiPluginServiceTestHelpers.buildOneElementTarget('test-data-entity-ip-id'),
+      configuration: uiPluginServiceTestHelpers.buildConfiguration(),
+      // user is optional, let's not provide it here
+      // We also need to mock the methods provided by map dispatch to props, as we import component disconnected from redux
+      getReducePromise: () => new Promise(() => { }),
+      fetchSelectionThroughAction: () => new Promise(() => { }),
+      //component props
     }
     shallow(<ServiceContainer {...props} />, { context })
+    // TODO some tests here
   })
 })

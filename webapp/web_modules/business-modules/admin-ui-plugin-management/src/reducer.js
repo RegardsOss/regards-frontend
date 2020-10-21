@@ -16,6 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { combineReducers } from 'redux'
 import { uiPluginDefinitionReducers } from './clients/UIPluginDefinitionClient'
+import { roleReducer } from './clients/RoleClient'
 
-export default uiPluginDefinitionReducers
+const pluginReducer = combineReducers({
+  plugin: uiPluginDefinitionReducers,
+  role: roleReducer,
+})
+
+
+export default pluginReducer

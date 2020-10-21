@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { DamDomain } from '@regardsoss/domain'
 import MultipleAttributesFieldRender from '../../../src/configuration/multiple/MultipleAttributesFieldRender'
 import AvailableAttributesTable from '../../../src/configuration/multiple/available/AvailableAttributesTable'
 import SelectedAttributesTable from '../../../src/configuration/multiple/selected/SelectedAttributesTable'
@@ -40,17 +41,29 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
   })
   it('should render correctly', () => {
     const props = {
+      allowRendererSelection: true,
       attributeModels: attributeModelsArray,
       fields: {
-        getAll: () => [{ name: 'properties.attr2' }, { name: 'id' }],
+        getAll: () => [{
+          name: 'attr2',
+          jsonPath: 'properties.attr2',
+          label: 'Attr2',
+          type: DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL,
+        }, {
+          name: 'id',
+          jsonPath: 'id',
+          label: 'Id',
+          type: DamDomain.MODEL_ATTR_TYPES.STRING,
+        }],
         push: () => { },
         remove: () => { },
       },
       meta: {
-        invalid: false,
+        invalid: true,
         error: 'idk',
       },
       label: 'any',
+      intl: context.intl,
     }
     const enzymeWrapper = shallow(<MultipleAttributesFieldRender {...props} />, { context })
     // check that selected and available attributes are stored in state
@@ -68,8 +81,10 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
     const selectedAttributesTable = enzymeWrapper.find(SelectedAttributesTable)
     assert.lengthOf(selectedAttributesTable, 1, 'There should be the selected attributes table')
     testSuiteHelpers.assertWrapperProperties(selectedAttributesTable, {
+      allowRendererSelection: props.allowRendererSelection,
       selectedAttributes: state.selectedAttributes,
       attributeModels: props.attributeModels,
+      onRendererSelected: enzymeWrapper.instance().onRendererSelected,
       onRemove: enzymeWrapper.instance().onRemove,
       invalid: props.meta.invalid,
       error: props.meta.error,

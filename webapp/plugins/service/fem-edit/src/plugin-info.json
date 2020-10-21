@@ -1,0 +1,25 @@
+{
+  "name": "fem-edit",
+  "description": "Edit features using the fem",
+  "version": "1.0.0",
+  "author": "C-S",
+  "company": "C-S",
+  "email": "regards@c-s.fr",
+  "url": "https://regardsoss.github.io/",
+  "license": "GPL-V3",
+  "type": "SERVICE",
+  "conf": {
+    "applicationModes": [
+      "ONE",
+      "MANY"
+    ],
+    "entityTypes": [
+      "DATA"
+    ],
+    "static": {
+    },
+    "dynamic": {
+    },
+    "showButtonsBar": false
+  }
+}

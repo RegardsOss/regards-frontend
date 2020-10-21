@@ -21,6 +21,7 @@ import { datasetActions } from './clients/DatasetClient'
 import { datasetModelActions } from './clients/DatasetModelClient'
 import { dataObjectAttributesActions } from './clients/DataObjectAttributesClient'
 import { dataSetAttributesActions } from './clients/DataSetAttributesClient'
+import { uiPluginDefinitionActions } from './clients/UIPluginDefinitionClient'
 
 /**
  * Dependencies needed to display user page of the module
@@ -39,6 +40,7 @@ const admin = [
   dataSetAttributesActions.getDependency(RequestVerbEnum.POST),
   datasetActions.getDependency(RequestVerbEnum.GET_LIST),
   datasetModelActions.getDependency(RequestVerbEnum.GET_LIST),
+  uiPluginDefinitionActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
 export default {

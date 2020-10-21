@@ -51,7 +51,7 @@ class BasicActions {
     this.entityPathVariable = options.entityPathVariable
     this.FLUSH = `${options.namespace}/FLUSH`
     this.headers = options.headers || {}
-    this.bypassErrorMiddleware = !!options.bypassErrorMiddleware
+    this.bypassErrorMiddleware = !!options.bypassErrorMiddleware // default to false
     this.options = options.options
     this.resourcesEndpoint = options.resourcesEndpoint || options.entityEndpoint
   }

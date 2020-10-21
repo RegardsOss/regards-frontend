@@ -87,7 +87,7 @@ export class AttributeModelListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
-    const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
+    const name = get(this.state, 'entityToDelete.name', '')
     const title = this.context.intl.formatMessage({ id: 'attrmodel.list.delete.title' }, { name })
     return (
       <ShowableAtRender
@@ -96,7 +96,7 @@ export class AttributeModelListComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.id)
+            this.props.handleDelete(this.state.entityToDelete.id)
           }}
           onClose={this.closeDeleteDialog}
           title={title}

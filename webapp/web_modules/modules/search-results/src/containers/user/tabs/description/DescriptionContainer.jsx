@@ -141,9 +141,10 @@ export class DescriptionContainer extends React.Component {
             ...descriptionModule.conf,
             // add runtime render data
             runtime: {
-              // report descriptionPath and selectedIndex
-              ...descriptionState,
-              // provide call
+              // report state
+              descriptionPath: descriptionState.descriptionPath,
+              selectedIndex: descriptionState.selectedIndex,
+              // provide callbacks
               setDescriptionPath: this.setDescriptionPath,
               onSearchWord: this.onSearchWord,
               onSearchEntity: this.onSearchEntity,
@@ -164,6 +165,8 @@ export class DescriptionContainer extends React.Component {
     updateResultsContext(moduleId, {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          // mute any previous value of unresolvedRootEntityId
+          unresolvedRootEntityId: null,
           descriptionPath: newPath,
           selectedIndex,
         },
@@ -194,13 +197,14 @@ export class DescriptionContainer extends React.Component {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
           criteria: {
+            configurationRestrictions: [],
             contextTags: [initialTag],
-            // reset user filtering (they are probably wrong in that tag context)
+            searchCriteria: [],
             appliedFacets: [],
             geometry: [],
             entitiesSelection: [],
             tagsFiltering: [],
-            quicklookFiltering: [],
+            requestFacets: [],
           },
         },
       },

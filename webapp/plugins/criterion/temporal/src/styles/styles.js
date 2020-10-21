@@ -23,31 +23,9 @@
  * @author Raphaël Mechali
  */
 const pluginStyles = theme => ({
-  rootStyle: {
+  datePickerCell: {
+    ...theme.module.searchResults.searchPane.criteria.nextCell,
     display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    minHeight: theme.criterion.minHeight,
-  },
-  labelSpanStyle: {
-    margin: '0px 10px',
-  },
-  datePickerStyle: {
-    top: -13,
-    margin: '0px 10px',
-  },
-  comparatorButtonStyle: {
-    height: theme.button.iconButtonSize,
-    width: theme.button.iconButtonSize,
-    minWidth: 'initial',
-  },
-  comparatorMenuStyle: {
-    display: 'none',
-  },
-  comparatorMenuItemStyle: {
-    display: 'flex',
-    textTransform: 'uppercase',
-    justifyContent: 'center',
   },
 })
 

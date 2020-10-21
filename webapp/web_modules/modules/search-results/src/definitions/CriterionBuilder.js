@@ -16,7 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { CommonDomain, CatalogDomain } from '@regardsoss/domain'
+import get from 'lodash/get'
+import map from 'lodash/map'
+import isEmpty from 'lodash/isEmpty'
+import some from 'lodash/some'
+import { UIDomain, CommonDomain, CatalogDomain } from '@regardsoss/domain'
 
 /**
  * Small helper class that builds query criteria for results context
@@ -84,5 +88,97 @@ export class CriterionBuilder {
             CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
       },
     }
+  }
+
+  /**
+   * Builds an unresolved entity tag criterion
+   * @param {string} id entity ID
+   */
+  static buildUnresolvedEntityTagCriterion(id) {
+    return {
+      label: null,
+      type: CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED,
+      searchKey: id,
+      requestParameters: {
+        [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
+          new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
+      },
+    }
+  }
+
+
+  static STATIC_CRITERION_SERIALIZED = /(?<label>[^;]+);(?<attribute>[^=]+)=(?<criteria>[^,]+),?/g;
+
+  /**
+   * Deserialize a static criterion
+   * @param {String} criterionAsString The criterion serialized as string
+   */
+  static buildStaticCriterion(criterionAsString) {
+    let matches = []
+    const result = []
+    // eslint-disable-next-line no-cond-assign
+    while (matches = CriterionBuilder.STATIC_CRITERION_SERIALIZED.exec(criterionAsString)) {
+      const { label, attribute, criteria } = matches.groups
+      result.push({
+        label,
+        active: true,
+        parameters: { [attribute]: criteria },
+        requestParameters: { [attribute]: criteria },
+      })
+    }
+    return result
+  }
+
+  /**
+   * Serialize a static criterion
+   * @param {Object} criterion a static criterion
+   */
+  static buildStaticCriterionString(criterion) {
+    return map(criterion, (criteria) => {
+      const parameters = map(criteria.parameters, (val, key) => (
+        `${key}=${val}`
+      )).join(';')
+      return `${criteria.label};${parameters}`
+    }).join(',')
+  }
+
+  /**
+   * Update the existing staticParameter property with the active/unactive flag
+   * When active, requestParameters exists and equals to parameters, otherwise requestParameters empty
+   * @param {*} resultsContext
+   * @param {*} unactiveStaticParametersAsString
+   */
+  static buildUnactiveStaticCriterion(resultsContext, unactiveStaticParametersAsString) {
+    const unactiveStaticParameters = JSON.parse(unactiveStaticParametersAsString)
+    const currentStaticParameters = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.staticParameters
+    return ({
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          criteria: {
+            staticParameters: map(currentStaticParameters, (staticParameter, index) => ({
+              ...staticParameter,
+              active: !get(unactiveStaticParameters, index, false),
+              requestParameters: !get(unactiveStaticParameters, index, false) ? staticParameter.parameters : {},
+            })),
+          },
+        },
+      },
+    })
+  }
+
+  /**
+   * Build a string for unactive static criterion list
+   * @param {*} resultsContext
+   */
+  static buildUnactiveStaticCriterionString(resultsContext) {
+    const { staticParameters } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria
+    // Do not save this parameter if empty or all values are defaults ones
+    if (isEmpty(staticParameters) || !some(staticParameters, staticParameter => !staticParameter.active)) {
+      return null
+    }
+
+    return JSON.stringify(map(staticParameters, staticParameter => !staticParameter.active))
   }
 }

@@ -27,11 +27,13 @@ export default class AttributeModelActions extends BasicListActions {
   /**
    * Construtor
    * @param {string} namespace actions namespace, leave empty for default client actions (user app shared data)
+   * @param {boolean} isPublic Set to true to  use public access to microservice. Only few endpoints of the datamagenemt endpoints are available for user ihm
    */
-  constructor(namespace = 'user/models/attributes') {
+  constructor(namespace = 'user/models/attributes', isPublic = false) {
+    const ms = isPublic ? STATIC_CONF.MSERVICES_PUBLIC.DAM : STATIC_CONF.MSERVICES.DAM
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.DAM}/models/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${ms}/models/attributes`,
       resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/attributes`,
       schemaTypes: {
         ENTITY: ATTRIBUTE_MODEL,

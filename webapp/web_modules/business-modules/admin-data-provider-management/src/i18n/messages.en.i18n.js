@@ -82,6 +82,7 @@ const messages = Object.assign({
   // 2 Chain list
   // 2.1 Header
   'acquisition-chain.list.subtitle': 'Data acquisition chains management. This section allows you to configure, run and stop acquisition chains.',
+  'acquisition-product.help.deletion.message': 'To delete a chain, you have to desable it first.',
   'acquisition-chain.empty.title': 'No chain configured',
   'acquisition-chain-breadcrumb.label': 'Acquisition chains',
 
@@ -94,6 +95,7 @@ const messages = Object.assign({
   'acquisition-chain.list.state': 'State',
   'acquisition-chain.list.activity.not.running': 'Stopped',
   'acquisition-chain.list.activity.not.running.date': 'Stopped since {date}',
+  'acquisition-chain.list.activity.deletion.pending': 'Deletion pending',
   'acquisition-chain.list.total-nb-products': 'Products',
   'acquisition-chain.list.total-products.tooltip': 'Total number of products',
   'acquisition-chain.list.error-nb-products.tooltip': 'Products in error',

@@ -1,5 +1,3 @@
-import { FormattedMessage } from 'react-intl'
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -19,6 +17,7 @@ import { FormattedMessage } from 'react-intl'
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CommonDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeModelWithBounds, BOUND_TYPE } from '@regardsoss/plugins-api'
@@ -30,11 +29,13 @@ import NumericalCriterionComponent from './NumericalCriterionComponent'
  */
 class SingleAttributeComponent extends React.Component {
   static propTypes = {
+    label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
-    value1: PropTypes.number,
-    value2: PropTypes.number,
-    onChangeValue1: PropTypes.func.isRequired, // callback for value 1 updates, (number) => ()
-    onChangeValue2: PropTypes.func.isRequired, // callback for value 2 updates, (number) => ()
+    error: PropTypes.bool.isRequired,
+    min: PropTypes.string,
+    max: PropTypes.string,
+    onMinChanged: PropTypes.func.isRequired, // callback for value 1 updates, (number) => ()
+    onMaxChanged: PropTypes.func.isRequired, // callback for value 2 updates, (number) => ()
   }
 
   static contextTypes = {
@@ -42,46 +43,47 @@ class SingleAttributeComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Available comparison operators lower bound (greater than) */
+  static LOWER_BOUND_OPERATORS = [CommonDomain.EnumNumericalComparator.GE]
+
+  /** Available comparison operators lower bound (lesser than) */
+  static UPPER_BOUND_OPERATORS = [CommonDomain.EnumNumericalComparator.LE]
+
   render() {
     const {
-      searchAttribute, value1, value2, onChangeValue1, onChangeValue2,
+      label, searchAttribute, error, min, max,
+      onMinChanged, onMaxChanged,
     } = this.props
-    const {
-      moduleTheme: { rootStyle, labelSpanStyle },
-      intl: { formatMessage },
-    } = this.context
-
+    const { intl: { locale }, muiTheme } = this.context
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>
-          {formatMessage(
-            { id: 'criterion.aggregator.between' },
-            { label: searchAttribute.label },
-          )}
-        </span>
-        <NumericalCriterionComponent
-          searchAttribute={searchAttribute}
-          fieldBoundType={BOUND_TYPE.LOWER_BOUND}
-          value={value1}
-          comparator={CommonDomain.EnumNumericalComparator.GE}
-          onChange={onChangeValue1}
-          showAttributeLabel={false}
-          showComparator={false}
-        />
-        <span style={{ marginRight: 10 }}>
-          <FormattedMessage id="criterion.aggregator.and" />
-        </span>
-        <NumericalCriterionComponent
-          searchAttribute={searchAttribute}
-          fieldBoundType={BOUND_TYPE.UPPER_BOUND}
-          value={value2}
-          comparator={CommonDomain.EnumNumericalComparator.LE}
-          onChange={onChangeValue2}
-          showAttributeLabel={false}
-          showComparator={false}
-        />
-      </div>
-    )
+      <>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+            {label[locale] || searchAttribute.label}
+          </td>
+          <NumericalCriterionComponent
+            searchAttribute={searchAttribute}
+            fieldBoundType={BOUND_TYPE.LOWER_BOUND}
+            error={error}
+            value={min}
+            comparator={CommonDomain.EnumNumericalComparator.GE}
+            availableComparators={SingleAttributeComponent.LOWER_BOUND_OPERATORS}
+            onChange={onMinChanged}
+          />
+        </tr>
+        <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+          <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell} />
+          <NumericalCriterionComponent
+            searchAttribute={searchAttribute}
+            fieldBoundType={BOUND_TYPE.UPPER_BOUND}
+            error={error}
+            value={max}
+            comparator={CommonDomain.EnumNumericalComparator.LE}
+            availableComparators={SingleAttributeComponent.UPPER_BOUND_OPERATORS}
+            onChange={onMaxChanged}
+          />
+        </tr>
+      </>)
   }
 }
 export default SingleAttributeComponent

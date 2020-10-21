@@ -19,7 +19,8 @@
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonDomain } from '@regardsoss/domain'
-import { DatePickerField, NumericalComparator } from '@regardsoss/components'
+import { UIShapes } from '@regardsoss/shape'
+import { DatePickerField, NumericalComparatorSelector, DateValueRender } from '@regardsoss/components'
 import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
@@ -28,7 +29,9 @@ import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api
  */
 class TemporalCriterionComponent extends React.Component {
   static propTypes = {
-    // attribute currently searched
+    pluginInstanceId: PropTypes.string.isRequired,
+    error: PropTypes.bool.isRequired,
+    label: UIShapes.IntlMessage.isRequired,
     searchAttribute: AttributeModelWithBounds.isRequired,
     value: PropTypes.instanceOf(Date),
     operator: PropTypes.oneOf(CommonDomain.EnumNumericalComparators),
@@ -40,44 +43,70 @@ class TemporalCriterionComponent extends React.Component {
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
+    // enable i18n access through this.context
     ...i18nContextType,
   }
 
+  /** Error placeholder */
+  static ERROR_TEXT_PLACEHOLDER = ' '
+
   render() {
-    const { moduleTheme: { rootStyle, labelSpanStyle, datePickerStyle }, intl } = this.context
+    const { muiTheme, intl, moduleTheme: { datePickerCell } } = this.context
     const {
-      searchAttribute, value, operator, availableComparators,
+      pluginInstanceId, error, label,
+      searchAttribute, value,
+      operator, availableComparators,
       onDateChanged, onOperatorSelected,
     } = this.props
 
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
-
+    // Hint text computing: when lower than is selected, show lower bound, show upper bound otherwise (show bound limit)
+    let hintTextDate = null
+    if (operator === CommonDomain.EnumNumericalComparator.LE && lowerBound) {
+      hintTextDate = lowerBound
+    } else if (operator === CommonDomain.EnumNumericalComparator.GE && upperBound) {
+      hintTextDate = upperBound
+    }
     return (
-      <div style={rootStyle}>
-        <span style={labelSpanStyle}>{searchAttribute.label}</span>
-        <NumericalComparator
-          onChange={onOperatorSelected}
-          value={operator}
-          comparators={availableComparators}
-          disabled={hasNoValue} // disable when no value for attribute in current context
-        />
-        <DatePickerField
-          value={value}
-          onChange={onDateChanged}
-          locale={intl.locale}
-          style={datePickerStyle}
-          dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
-          timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
-          okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
-          cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
-          disabled={hasNoValue} // disable when no value in current context
-          tooltip={formatTooltip(intl, searchAttribute)} // format tooltip using parent method
-          displayTime
-        />
-      </div>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+        {/* 1. Label */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[intl.locale] || searchAttribute.label}
+        </td>
+        {/* 2. Comparison selector */}
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <NumericalComparatorSelector
+            operator={operator}
+            operators={availableComparators}
+            onSelect={onOperatorSelected}
+            disabled={hasNoValue}
+          />
+        </td>
+        {/* 3. Date selection */}
+        <td style={datePickerCell}>
+          <DatePickerField
+            id={pluginInstanceId}
+            value={value}
+            onChange={onDateChanged}
+            locale={intl.locale}
+            errorText={error ? TemporalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
+            dateHintText={hintTextDate
+              ? DateValueRender.getFormattedDate(hintTextDate, DateValueRender.DEFAULT_FORMATTERS.date, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.date.field.label' })}
+            timeHintText={hintTextDate
+              ? DateValueRender.getFormattedDate(hintTextDate, DateValueRender.DEFAULT_FORMATTERS.time, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.time.field.label' })}
+            okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
+            cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
+            disabled={hasNoValue} // disable when no value in current context
+            tooltip={formatTooltip(intl, searchAttribute)} // format tooltip using parent method
+            displayTime
+            fullWidth
+          />
+        </td>
+      </tr>
     )
   }
 }

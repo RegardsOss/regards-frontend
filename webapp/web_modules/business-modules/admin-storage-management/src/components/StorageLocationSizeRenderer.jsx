@@ -74,7 +74,7 @@ class StorageLocationSizeRenderer extends React.Component {
         </div>
       )
     }
-    return <div style={container} title={`${realWidth}%`}>
+    return <div style={container} title={`${formatMessage({ id: 'storage.location.list.size.no.quota' })}`}>
       <div style={size}>{`${usedSizeUnitConverted}`}</div>
     </div>
   }

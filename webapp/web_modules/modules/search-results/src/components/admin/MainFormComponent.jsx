@@ -22,9 +22,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DamDomain } from '@regardsoss/domain'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
-import { FormSection } from '../../shapes/form/FormSections'
 import { FORM_PAGES, FORM_PAGES_ENUM } from '../../domain/form/FormPagesEnum'
 import { FORM_SECTIONS, FORM_SECTIONS_ENUM } from '../../domain/form/FormSectionsEnum'
+import { FormSection } from '../../shapes/form/FormSections'
+import { PluginMeta } from '../../shapes/form/PluginMeta'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 import MainConfigurationComponent from './content/MainConfigurationComponent'
 import RestrictionsConfigurationComponent from './content/restrictions/RestrictionsConfigurationComponent'
@@ -32,6 +33,7 @@ import EntityTypeConfigurationComponent from './content/EntityTypeConfigurationC
 import FiltersConfigurationComponent from './content/FiltersConfigurationComponent'
 import SortingConfigurationComponent from './content/SortingConfigurationComponent'
 import ViewTypeConfigurationComponent from './content/ViewTypeConfigurationComponent'
+import SearchConfigurationComponent from './content/search/SearchConfigurationComponent'
 
 /**
  * Display form to configure main parameters of search form.
@@ -53,6 +55,9 @@ class MainFormComponent extends React.Component {
     // Attributes pull by type
     dataAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
     datasetAttributeModels: DataManagementShapes.AttributeModelList.isRequired,
+    // Plugins information
+    fetchingMetadata: PropTypes.bool, // not required as provided by HOC
+    pluginsMetadata: PropTypes.arrayOf(PluginMeta), // not required as provided by HOC
     // Callbacks
     // redux change field callback
     changeField: PropTypes.func.isRequired,
@@ -60,10 +65,17 @@ class MainFormComponent extends React.Component {
     onBrowseToPage: PropTypes.func.isRequired,
   }
 
+
+  static defaultProps = {
+    fetchingMetadata: true, // loading when unknown
+    pluginsMetadata: [],
+  }
+
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
+
 
   /**
    * @param {string} sectionType section type, which is also an entity type (precondition)
@@ -88,6 +100,7 @@ class MainFormComponent extends React.Component {
     const {
       selectedSectionType, selectedPageType, changeField,
       datasets, datasetModels, dataAttributeModels,
+      fetchingMetadata, pluginsMetadata,
       currentFormValues, currentNamespace,
     } = this.props
     switch (selectedSectionType) {
@@ -98,6 +111,14 @@ class MainFormComponent extends React.Component {
             currentNamespace={currentNamespace}
             currentFormValues={currentFormValues}
             changeField={changeField}
+          />)
+      case FORM_SECTIONS_ENUM.SEARCH:
+        return (
+          <SearchConfigurationComponent
+            fetchingMetadata={fetchingMetadata}
+            pluginsMetadata={pluginsMetadata}
+            availableAttributes={dataAttributeModels}
+            currentNamespace={currentNamespace}
           />)
       case FORM_SECTIONS_ENUM.FILTERS:
         return (

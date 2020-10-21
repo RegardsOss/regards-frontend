@@ -65,9 +65,9 @@ export class PluginLoader extends React.Component {
  * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
  * @return {*} list of component properties extracted from redux state
  */
-  static mapDispatchToProps(dispatch, { pluginPath, pluginInstanceId }) {
+  static mapDispatchToProps(dispatch, { pluginInstanceId }) {
     return {
-      doLoadPlugin: errorCallback => loadPlugin(pluginPath, errorCallback, dispatch),
+      doLoadPlugin: (pluginPath, errorCallback) => loadPlugin(pluginPath, errorCallback, dispatch),
       doInitPlugin: (loadedPlugin) => {
         // 1 - Let helper initialize the plugin (especially plugin redux store space)
         pluginReducerHelper.initializePluginReducer(loadedPlugin, pluginInstanceId, () => {
@@ -93,11 +93,13 @@ export class PluginLoader extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     pluginProps: PropTypes.object,
     displayPlugin: PropTypes.bool,
+    loadingComponent: PropTypes.element,
+    errorComponent: PropTypes.element,
     children: PropTypes.element,
     // eslint-disable-next-line react/no-unused-prop-types
     onErrorCallback: PropTypes.func,
     // From mapStateToProps
-    isInitialized: PropTypes.bool, // is instance intialized
+    isInitialized: PropTypes.bool, // is instance initialized
     loadedPlugin: AccessShapes.UIPluginInstanceContent,
     // From mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -106,16 +108,40 @@ export class PluginLoader extends React.Component {
     doInitPlugin: PropTypes.func.isRequired,
   }
 
+  static defaultProps = {
+    loadingComponent: <LoadableContentDisplayDecorator isLoading />,
+    errorComponent: <ErrorCardComponent message="Error loading plugin" />,
+  }
+
   /**
-   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   * Keeps track of the fetched plugins ID (avoid multiple loading of the same
+   * plugin path). Possible as the redux context is static here
+   */
+  static FETCHED_PLUGINS_PATH = []
+
+  /**
+   * Life cycle method: component will mount. Used here to detect first properties change and update local state
    */
   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * Life cycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * On load done: When not already loading / loaded by another instance:
+   * Marks plugin loading in static map (for other instances using that plugin) then performs plugin loading
+   */
+  onLoadPlugin = (doLoadPlugin, pluginPath) => {
+    if (!PluginLoader.FETCHED_PLUGINS_PATH.includes(pluginPath)) {
+      // light improvement and fix for the double mounting issue: avoid fetching
+      // multiple times the same plugin path (redux store is static here)
+      PluginLoader.FETCHED_PLUGINS_PATH.push(pluginPath)
+      doLoadPlugin(pluginPath, this.errorCallback)
+    }
+  }
 
   /**
    * Properties change detected: update local state
@@ -129,7 +155,7 @@ export class PluginLoader extends React.Component {
     } = newProps
     if (!loadedPlugin && oldProps.pluginPath !== pluginPath) {
       // Step 1: Load new plugin
-      doLoadPlugin(this.errorCallback)
+      this.onLoadPlugin(doLoadPlugin, pluginPath)
     } else if (loadedPlugin && loadedPlugin !== oldProps.loadedPlugin) {
       // Detected: new plugin loaded
       if (loadedPlugin.loadError) {
@@ -150,28 +176,36 @@ export class PluginLoader extends React.Component {
   }
 
   errorCallback = () => {
-    if (this.props.onErrorCallback) this.props.onErrorCallback()
+    const { onErrorCallback } = this.props
+    if (onErrorCallback) {
+      onErrorCallback()
+    }
   }
 
   renderPlugin() {
-    const { loadedPlugin, isInitialized } = this.props
+    const {
+      pluginInstanceId, isInitialized,
+      loadedPlugin,
+      displayPlugin, pluginConf, pluginProps,
+    } = this.props
     if (loadedPlugin && isInitialized) {
-      let element = null
-      if (this.props.displayPlugin) {
-        element = React.createElement(this.props.loadedPlugin.plugin, {
-          pluginInstanceId: this.props.pluginInstanceId,
-          ...this.props.pluginConf,
-          ...this.props.pluginProps,
-        })
+      if (this.props.children) {
+        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
+      }
+      if (displayPlugin) {
+        const { plugin: PluginRootComponent, messages, styles } = loadedPlugin
         return (
-          <I18nProvider messages={this.props.loadedPlugin.messages}>
-            <ModuleStyleProvider module={this.props.loadedPlugin.styles}>
-              {element}
+          <I18nProvider messages={messages}>
+            <ModuleStyleProvider module={styles}>
+              <PluginRootComponent
+                key={pluginInstanceId}
+                pluginInstanceId={pluginInstanceId}
+                {...pluginConf}
+                {...pluginProps}
+              />
             </ModuleStyleProvider>
           </I18nProvider>
         )
-      } if (this.props.children) {
-        return React.cloneElement(this.props.children, { plugin: this.props.loadedPlugin })
       }
       console.warn('No children defined for plugin provider')
       return null
@@ -180,25 +214,17 @@ export class PluginLoader extends React.Component {
   }
 
   render() {
-    const { loadedPlugin, pluginPath } = this.props
+    const { loadedPlugin, errorComponent, loadingComponent } = this.props
     // loading when plugin is not loaded and has not failed
     const loadError = !isNil(loadedPlugin) && loadedPlugin.loadError
-    const errorCause = loadedPlugin && loadedPlugin.errorCause ? loadedPlugin.errorCause : 'Unknown'
     const isLoading = !loadError && isNil(this.props.loadedPlugin)
     if (loadError) {
-      return (
-        <ErrorCardComponent
-          message={`Error loading plugin ${pluginPath}. Cause: ${errorCause}`}
-        />
-      )
+      return errorComponent
     }
-    return (
-      <LoadableContentDisplayDecorator
-        isLoading={isLoading}
-      >
-        {this.renderPlugin()}
-      </LoadableContentDisplayDecorator>
-    )
+    if (isLoading) {
+      return loadingComponent
+    }
+    return this.renderPlugin()
   }
 }
 

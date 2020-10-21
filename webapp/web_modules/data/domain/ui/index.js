@@ -18,6 +18,7 @@
  **/
 export { APPLICATIONS_ENUM, APPLICATIONS } from './Applications'
 export * from './DatasetRescrictionsTypes'
+export { KeyboardShortcuts } from './KeyboardShortcuts'
 export { default as LocalStorageUser } from './LocalStorageUser'
 export { default as LocalStorageData } from './LocalStorageData'
 export { LOCALES_ENUM, LOCALES } from './Locales'

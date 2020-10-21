@@ -82,9 +82,9 @@ const findMatchingDelegate = (delegates, relativePath) => {
     const findParamExp = /\/{([a-zA-Z0-9_\-.]+)}/g
     // store each found parameters, replace them with a group expression allowing to
     // get there value from index
-    const pathParametersDictionnary = []
+    const pathParametersDictionary = []
     const matchURLText = urlkey.replace(findParamExp, (match, paramName) => {
-      pathParametersDictionnary.push(paramName)
+      pathParametersDictionary.push(paramName)
       return '/([a-zA-Z0-9\\-_.:@]+)' // regexp to match parameter value
     })
     // match corresponding regexp againts current route
@@ -95,7 +95,7 @@ const findMatchingDelegate = (delegates, relativePath) => {
         urlkey,
         delegate: delegates[urlkey],
         // Convert found result and parameters into object like { paramName: paramValue }
-        pathParameters: pathParametersDictionnary.reduce((acc2, pathParam, index) => Object.assign({ [pathParam]: found[index + 1] }, acc2), {}),
+        pathParameters: pathParametersDictionary.reduce((acc2, pathParam, index) => Object.assign({ [pathParam]: found[index + 1] }, acc2), {}),
       }]) :
       acc
   }, [])

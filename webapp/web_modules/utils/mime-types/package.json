@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/mime-types",
-  "version":"1.0.1",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "List of most known mime types",

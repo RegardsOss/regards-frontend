@@ -84,7 +84,7 @@ export class BrowserCheckerDialog extends React.Component {
   /**
    * Checks browser state for requiremnts
    * @param {*} browser detected browser
-   * @param {*} browserRequirements browser requirements dictionnary (browser name is )
+   * @param {*} browserRequirements browser requirements dictionary (browser name is )
    * @return {BrowserCheckerDialog.BROWSER_ERROR_TYPES} found error or null
    */
   static checkBrowser(browser, browserRequirements) {

@@ -19,11 +19,10 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import FullTextCriterionComponent from '../../src/components/FullTextCriterionComponent'
 import styles from '../../src/styles'
-
-const context = buildTestContext(styles)
 
 /**
  * Test FullTextCriterionComponent
@@ -36,17 +35,23 @@ describe('[Full text criterion] Testing FullTextCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(FullTextCriterionComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly, using all locales', () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchText: 'Hello',
       onTextInput: () => {},
     }
-    const enzymeWrapper = shallow(<FullTextCriterionComponent {...props} />, { context })
-    const textfield = enzymeWrapper.find(TextField)
-    assert.lengthOf(textfield, 1, 'There should be a text field')
-    testSuiteHelpers.assertWrapperProperties(textfield, {
-      value: props.searchText,
-      onChange: props.onTextInput,
-    }, 'Text field properties should be correctly set')
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<FullTextCriterionComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      const textfield = enzymeWrapper.find(TextField)
+      assert.lengthOf(textfield, 1, 'There should be a text field')
+      testSuiteHelpers.assertWrapperProperties(textfield, {
+        hintText: props.label[locale],
+        value: props.searchText,
+        onChange: props.onTextInput,
+      }, 'Text field properties should be correctly set')
+    })
   })
 })

@@ -35,7 +35,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
 import MenuItem from 'material-ui/MenuItem'
 import { DamDomain } from '@regardsoss/domain'
-import { fragmentSelectors } from '../clients/FragmentClient'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
 import PatternComponent, { initializePatternForm } from './PatternComponent'
@@ -135,7 +134,7 @@ export class AttributeModelFormComponent extends React.Component {
   }
 
   getFragmentInitialValue = (currentAttrModel) => {
-    if (currentAttrModel.content.fragment.name === fragmentSelectors.noneFragmentName) {
+    if (currentAttrModel.content.fragment.name === DamDomain.DEFAULT_FRAGMENT) {
       return DEFAULT_FRAGMENT_NAME
     }
     return currentAttrModel.content.fragment.name

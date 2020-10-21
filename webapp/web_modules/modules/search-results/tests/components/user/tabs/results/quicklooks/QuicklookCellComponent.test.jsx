@@ -58,7 +58,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     locale: UIDomain.LOCALES_ENUM.en,
     expectedPictureURI: 'http://russia.clearly.ru/one-more-forbidden-file.png', // Nota auth data is not added as file is a reference
   }, {
-    label: 'data with broken quicklook, fallbacking on thumbnail (without services, description, cart, download and search, in map)',
+    label: 'data with broken quicklook, fallbacking on thumbnail (without services, description, cart, download and search, in quicklook view)',
     tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].presentationModels,
     entity: {
@@ -78,9 +78,33 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
     descriptionAvailable: false,
     enableCart: false,
     enableDownload: false,
-    embedInMap: true,
+    embedInMap: false,
     locale: UIDomain.LOCALES_ENUM.fr,
     expectedPictureURI: 'https://thumbnail.wide.com/willpaper.png?token=kikou',
+  }, {
+    label: 'data with broken quicklook. Quicklloks can be displayed in map view as meta dimension is not mandatory',
+    tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+    presentationModels: dataContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP].presentationModels,
+    entity: {
+      content: {
+        ...dataEntityWithServices.content,
+        files: {
+          ...dataEntityWithServices.content.files,
+          [CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD]: [{
+            ...dataEntityWithServices.content.files[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD][0],
+            imageWidth: null,
+            imageHeight: null,
+          }],
+        },
+      },
+    },
+    enableServices: false,
+    descriptionAvailable: false,
+    enableCart: false,
+    enableDownload: false,
+    embedInMap: true,
+    locale: UIDomain.LOCALES_ENUM.fr,
+    expectedPictureURI: 'http://russia.clearly.ru/one-more-forbidden-file.png',
   }, {
     label: 'data without quicklook nor thumbnail (services enabled but no entity service, description, cart and download, outside map)',
     tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,

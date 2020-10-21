@@ -92,19 +92,39 @@ class EntityTypeConfigurationComponent extends React.Component {
             fullWidth
           />
         </FieldsGroup>
-        {/* 3. Other options (download only so far, for types allowing it) */
+        <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.options.title' })}>
+          {/* 3. Other options
+              3.A - Refresh option */ }
+          <Field
+            name={`${currentTypeNamespace}.enableRefresh`}
+            fullWidth
+            component={RenderCheckbox}
+            label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.refresh' })}
+          />
+          { /** 3.B - Download */
             UIDomain.ResultsContextConstants.allowDownload(type)
               ? (
-                <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.options.title' })}>
-                  <Field
-                    name={`${currentTypeNamespace}.enableDownload`}
-                    fullWidth
-                    component={RenderCheckbox}
-                    label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.download' })}
-                  />
-                </FieldsGroup>)
+                <Field
+                  name={`${currentTypeNamespace}.enableDownload`}
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.download' })}
+                />)
               : null
-        }
+          }
+          { /** 3.C - Services */
+            UIDomain.ResultsContextConstants.allowServices(type)
+              ? (
+                <Field
+                  name={`${currentTypeNamespace}.enableServices`}
+                  fullWidth
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'search.results.form.configuration.result.options.enable.services' })}
+                />)
+              : null
+          }
+
+        </FieldsGroup>
       </div>
     )
   }

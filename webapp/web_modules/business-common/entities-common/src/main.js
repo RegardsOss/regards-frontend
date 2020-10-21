@@ -18,14 +18,12 @@
  **/
 
 // Description
-
 export { DescriptionHelper } from './definitions/DescriptionHelper'
 
 // Services
 export { default as ServiceContainer } from './containers/services/ServiceContainer'
-export { PluginServiceRunModel } from './definitions/PluginServiceRunModel'
-export { default as target } from './definitions/ServiceTarget'
-
+export { TargetHelper } from './definitions/TargetHelper'
+export { PluginServiceRunModel } from './shapes/PluginServiceRunModel'
 export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
 export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
 export { default as DateParameterField } from './components/services/parameters/DateParameterField'

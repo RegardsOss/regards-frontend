@@ -42,6 +42,8 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     const props = {
       selectionMode,
       onSetSelectionMode: () => {},
+      opacity: 1,
+      handleChangeOpacity: () => {},
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapSelectionModeOption)

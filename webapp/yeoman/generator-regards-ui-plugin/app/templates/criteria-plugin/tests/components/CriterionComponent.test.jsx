@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import CriterionComponent from '../../src/components/CriterionComponent'
 import styles from '../../src/styles'
@@ -37,21 +37,35 @@ describe('[<%= name %>] Testing CriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(CriterionComponent)
   })
-  it('should render correctly', () => {
+  it('should render correctly with all locales', () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
-      searchText: 'any',
+      searchText: 'xxx',
+      onSelectMode: () => {},
+    }
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<CriterionComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      assert.include(enzymeWrapper.debug(), props.label[locale])
+    })
+  })
+  it('should ...', () => {
+    // TODO other tests for view
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      searchText: 'xxx',
       onTextInput: () => {},
+      onSelectMode: () => {},
     }
     const enzymeWrapper = shallow(<CriterionComponent {...props} />, { context })
-    // Is there attribute label?
-    assert.include(enzymeWrapper.debug(), props.searchAttribute.label, 'Attribute label should be displayed')
-    // Check that text field properties are set from this component properties
     const textField = enzymeWrapper.find(TextField)
-    assert.lengthOf(TextField, 1, 'There should be the text field')
+    assert.lengthOf(textField, 1, 'There should be the textField')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      value: props.value,
+      value: props.searchText,
       onChange: props.onTextInput,
-    }, 'Text field properties should be correctly set')
+    })
   })
 })

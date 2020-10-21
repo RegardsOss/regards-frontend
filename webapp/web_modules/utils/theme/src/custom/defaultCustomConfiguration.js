@@ -258,6 +258,11 @@ export default baseTheme => ({
         },
       },
     },
+    embeddedHTML: {
+      iFrame: {
+        background: '',
+      },
+    },
     // menu module
     menu: {
       background: baseTheme.palette.canvasColor,
@@ -300,6 +305,56 @@ export default baseTheme => ({
     },
     // search results module
     searchResults: {
+      searchPane: {
+        width: 600,
+        root: {
+          opacity: 1,
+          borderColor: baseTheme.toolbar.separatorColor,
+          borderStyle: 'solid',
+          borderWidth: '0 0 0 1px',
+        },
+        titleBar: {
+          height: 52,
+          borderColor: baseTheme.toolbar.separatorColor,
+          borderWidth: '0 0 1px 0',
+          borderStyle: 'solid',
+          backgroundColor: baseTheme.raisedButton.secondaryColor,
+          iconMargin: '0 12px 0 12px',
+          fontSize: baseTheme.flatButton.fontSize,
+          fontWeight: baseTheme.flatButton.fontWeight,
+        },
+        criteria: {
+          containerMargin: '10px 0',
+          innerListMargin: '0 15px 0 10px',
+          defaultRow: {
+            height: 48,
+          },
+          firstCell: {
+            padding: 0,
+            whiteSpace: 'nowrap',
+          },
+          nextCell: {
+            padding: '0 0 0 8px',
+          },
+          optionStyle: {
+            width: undefined,
+            height: undefined,
+            padding: '4px 2px 0 2px',
+          },
+        },
+        groupTitle: {
+          fontSize: baseTheme.flatButton.fontSize,
+          fontWeight: baseTheme.flatButton.fontWeight,
+          color: baseTheme.flatButton.secondaryTextColor,
+          padding: '15px 0 10px 0',
+        },
+        buttonsBar: {
+          borderColor: baseTheme.toolbar.separatorColor,
+          borderWidth: '1px 0 0 0',
+          borderStyle: 'solid',
+          padding: '5px 0',
+        },
+      },
       list: {
         lineHeight: 160,
         rowsByColumnCount: 4,
@@ -350,23 +405,6 @@ export default baseTheme => ({
         tabBottomLineSize: 1,
       },
     },
-    searchForm: {
-      selectorButtonPadding: 6,
-    },
-    // storage plugins module
-    storagePlugins: {
-      usedSpaceColor: '#133e63',
-      unusedSpaceColor: '#FFFFFF',
-      chartBorderColor: baseTheme.toolbar.separatorColor,
-      chartBorderWidth: 1,
-      legendMarginTop: 16,
-      legendItemMarginTop: 8,
-      legendItemIconToText: 10,
-      circleIconSize: 12,
-    },
-  },
-  criterion: {
-    minHeight: 72,
   },
   sessionsMonitoring: {
     rowHeight: 120,

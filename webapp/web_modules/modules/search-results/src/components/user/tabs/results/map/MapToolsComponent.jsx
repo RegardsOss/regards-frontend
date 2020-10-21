@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import has from 'lodash/has'
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
-import { TableHeaderLine, TableHeaderOptionGroup } from '@regardsoss/components'
+import { TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsSeparator } from '@regardsoss/components'
 import MapSelectionModeOption from './options/MapSelectionModeOption'
+import MapOpacityOption from './options/MapOpacityOption'
+import MapOpacitySlider from './options/MapOpacitySlider'
 
 /**
  * Component to show map tools
@@ -29,18 +32,34 @@ class MapToolsComponent extends React.Component {
   static propTypes = {
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
     onSetSelectionMode: PropTypes.func.isRequired, // (mode) => ()
+    opacity: PropTypes.number.isRequired,
+    handleChangeOpacity: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  render() {
-    const { selectionMode: currentSelectionMode, onSetSelectionMode } = this.props
-    const { moduleTheme: { user: { mapViewStyles } } } = this.context
+  state = {
+    openOpacitySlider: false,
+  }
 
-    return (
-      <div style={mapViewStyles.toolsBox}>
+  handleToggleOpacitySlider = () => {
+    const { openOpacitySlider } = this.state
+    this.setState({
+      openOpacitySlider: !openOpacitySlider,
+    })
+  }
+
+  render() {
+    const {
+      selectionMode: currentSelectionMode, onSetSelectionMode, opacity, handleChangeOpacity,
+    } = this.props
+    const { moduleTheme: { user: { mapViewStyles } } } = this.context
+    const { openOpacitySlider } = this.state
+    const isOpacityConfigurable = has(STATIC_CONF, 'MAP.STATIC_LAYER')
+    return [
+      <div style={mapViewStyles.toolsBox} key="icons">
         <TableHeaderLine>
           <TableHeaderOptionGroup>
             { /** Show a selector for each available mode */
@@ -52,8 +71,20 @@ class MapToolsComponent extends React.Component {
             />)
           }
           </TableHeaderOptionGroup>
+          {isOpacityConfigurable && (<TableHeaderOptionsSeparator />)}
+          {isOpacityConfigurable && (<TableHeaderOptionGroup>
+            <MapOpacityOption
+              handleToggleOpacitySlider={this.handleToggleOpacitySlider}
+              open={openOpacitySlider}
+            />
+            </TableHeaderOptionGroup>
+          )}
         </TableHeaderLine>
-      </div>)
+      </div>,
+      openOpacitySlider && (<div style={mapViewStyles.opacityToolsBox} key="opacity">
+        <MapOpacitySlider opacity={opacity} handleChangeOpacity={handleChangeOpacity} />
+      </div>),
+    ]
   }
 }
 export default MapToolsComponent

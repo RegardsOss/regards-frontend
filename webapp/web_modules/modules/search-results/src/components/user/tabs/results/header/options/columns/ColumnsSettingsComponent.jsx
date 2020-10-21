@@ -18,16 +18,17 @@
  **/
 import isEqual from 'lodash/isEqual'
 import FlatButton from 'material-ui/FlatButton'
+import ResetIcon from 'mdi-material-ui/BackupRestore'
+import ShowAllIcon from 'mdi-material-ui/Eye'
+import HideAllIcon from 'mdi-material-ui/EyeOff'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  PositionedDialog, TableLayout, InfiniteTableContainer, TableHeaderLine,
-  TableHeaderOptionsArea, TableHeaderContentBox, TableColumnBuilder, TableHeaderText,
+  PositionedDialog, TableLayout, InfiniteTableContainer, TableColumnBuilder,
 } from '@regardsoss/components'
 import ColumnLabelRender from './ColumnLabelRender'
 import ColumnVisibleRender from './ColumnVisibleRender'
-import ColumnAttributesRender from './ColumnAttributesRender'
 import MoveColumnOption from './MoveColumnOption'
 
 /**
@@ -149,7 +150,7 @@ class ColumnsSettingsComponent extends React.Component {
   /** User callback: show all columns */
   onToggleAllVisible = () => this.onToggleAll(true)
 
-  /** @return [*] Buildt columns table columns */
+  /** @return [*] Builds table columns */
   buildColumns = () => {
     const { editionModels } = this.state
     const { intl: { formatMessage } } = this.context
@@ -171,13 +172,7 @@ class ColumnsSettingsComponent extends React.Component {
         .titleHeaderCell()
         .rowCellDefinition({ Constructor: ColumnLabelRender })
         .build(),
-      // 3 - Attributes
-      new TableColumnBuilder('column.attributes')
-        .label(formatMessage({ id: 'search.results.configure.columns.attribute.column' }))
-        .titleHeaderCell()
-        .rowCellDefinition({ Constructor: ColumnAttributesRender })
-        .build(),
-      // 4 - Options
+      // 3 - Options
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: MoveColumnOption,
         optionProps: {
@@ -194,58 +189,50 @@ class ColumnsSettingsComponent extends React.Component {
     const {
       valid, modified, allVisible, editionModels,
     } = this.state
+    const actions = [
+      <FlatButton
+        key="reset.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
+        title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
+        icon={<ResetIcon />}
+        onClick={onResetColumns}
+      />,
+      <FlatButton
+        key="hide.show.all.button"
+        label={formatMessage({
+          id: allVisible
+            ? 'search.results.configure.columns.toggle.all.hidden'
+            : 'search.results.configure.columns.toggle.all.visible',
+        })}
+        icon={allVisible ? <HideAllIcon /> : <ShowAllIcon />}
+        onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
+      />,
+      <div key="actions.separator" style={columnsDialog.actionsSeparator} />,
+      <FlatButton
+        key="cancel.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
+        onClick={onClose}
+      />,
+      <FlatButton
+        key="confirm.button"
+        label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
+        disabled={!valid || !modified}
+        onClick={this.onDone}
+      />]
     return (
       <PositionedDialog
         dialogWidthPercent={columnsDialog.widthPercent}
         dialogHeightPercent={columnsDialog.heightPercent}
         open={open}
         modal
-        actions={// render dialog actions
-          <div style={columnsDialog.actionsContainer}>
-            <FlatButton
-              key="reset.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
-              title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
-              onClick={onResetColumns}
-            />
-            <div style={columnsDialog.actionsSeparator} />
-            <FlatButton
-              key="cancel.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
-              onClick={onClose}
-            />
-            <FlatButton
-              key="confirm.button"
-              label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
-              disabled={!valid || !modified}
-              onClick={this.onDone}
-            />
-          </div>
-        }
+        actions={actions}
+        actionsContainerStyle={columnsDialog.actionsContainer}
       >
         <TableLayout>
-          <TableHeaderLine>
-            <TableHeaderContentBox>
-              <TableHeaderText text={formatMessage(
-                { id: 'search.results.configure.columns.summary.text' },
-                { columnsCount: editionModels.length })}
-              />
-            </TableHeaderContentBox>
-            <TableHeaderOptionsArea>
-              <FlatButton
-                label={formatMessage({
-                  id: allVisible
-                    ? 'search.results.configure.columns.toggle.all.hidden'
-                    : 'search.results.configure.columns.toggle.all.visible',
-                })}
-                onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
-              />
-            </TableHeaderOptionsArea>
-          </TableHeaderLine>
-          {/* Columns table */}
           <InfiniteTableContainer
             entities={editionModels}
             columns={this.buildColumns()}
+            displayColumnsHeader={false}
           />
         </TableLayout>
       </PositionedDialog>

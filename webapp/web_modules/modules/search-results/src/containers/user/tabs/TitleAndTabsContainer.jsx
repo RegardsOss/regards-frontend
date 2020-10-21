@@ -118,8 +118,8 @@ export class TitleAndTabsContainer extends React.Component {
         case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS: {
           const { contextTags } = resultsContext.tabs[tabType].criteria
           // visible when there is root context tag
-          tabVisible = contextTags.length > 0
-          tabName = contextTags.length > 0 ? contextTags[0].label : null
+          tabVisible = contextTags.length > 0 && contextTags[0].type !== CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED
+          tabName = tabVisible ? contextTags[0].label : null
           if (tabName && CatalogDomain.TagsHelper.isCouplingTag(tabName)) {
             // specific case of coupling tags: use only coupling label
             tabName = CatalogDomain.TagsHelper.parseCouplingTag(tabName).label

@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import concat from 'lodash/concat'
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { createLogger } from 'redux-logger'
 import root from 'window-or-global'
 import headersMiddleware from './headersMiddleware'
 import preloadedState from './preloadedState'
@@ -35,7 +33,7 @@ function configureStore(rootReducer) {
   const reducerRegistry = getReducerRegistry(rootReducer)
 
   // Define the used middlewares (order matters)
-  let middlewares = [
+  const middlewares = [
     thunk, // lets us dispatch() functions
     SessionLockedMiddleware, // Check if session is locked before forwarding actions
     headersMiddleware, // inject headers in all request actions, for authorization, content type and custom headers handling
@@ -43,20 +41,20 @@ function configureStore(rootReducer) {
     errorMiddleware,
   ]
 
-  if (process.env.NODE_ENV === 'development') {
-    // Pass an options object for specific configuration
-    const logger = createLogger({
-      level: 'log',
-      // Do not log these actions
-      predicate: (getState, action) => !action.type.match(/menu\/notification/)
-        && !action.type.match(/@@redux-form\/REGISTER_FIELD/)
-        && !action.type.match(/admin\/waiting-access-users/)
-        && !action.type.match(/common\/themes\//),
-    })
-    // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
-    middlewares = concat([], middlewares, [logger])
-  }
-
+  // Pass an options object for specific configuration (to be enabled by dev on need)
+  // if (process.env.NODE_ENV === 'development') {
+  // import { createLogger } from 'redux-logger'
+  //   const logger = createLogger({
+  //     level: 'log',
+  //     // Do not log these actions
+  //     predicate: (getState, action) => !action.type.match(/menu\/notification/)
+  //       && !action.type.match(/@@redux-form\/REGISTER_FIELD/)
+  //       && !action.type.match(/admin\/waiting-access-users/)
+  //       && !action.type.match(/common\/themes\//),
+  //   })
+  //   // Logger must be the last middleware in chain, otherwise it will log thunk and promise, not actual actions]
+  //   middlewares.push(logger)
+  // }
 
   // Create the application store
   /* eslint-disable no-underscore-dangle */

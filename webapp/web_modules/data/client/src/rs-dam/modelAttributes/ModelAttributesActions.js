@@ -23,10 +23,11 @@ import { BasicListActions } from '@regardsoss/store-utils'
  * Redux store action for association model to attribute model
  */
 export default class ModelAttributesActions extends BasicListActions {
-  constructor(namespace) {
+  constructor(namespace, isPublic = false) {
+    const ms = isPublic ? STATIC_CONF.MSERVICES_PUBLIC.DAM : STATIC_CONF.MSERVICES.DAM
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.DAM}/models/{modelName}/attributes`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${ms}/models/{modelName}/attributes`,
       resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DAM}/models/{modelName}/attributes`,
       entityPathVariable: 'attributeId',
       schemaTypes: {

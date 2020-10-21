@@ -50,6 +50,12 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_webapp.sh'
                     },
+                    plugin_criterion_data_with_picture_only: {
+                        sh 'docker run \
+                        --rm -i \
+                        -v ${WORKSPACE}/webapp:/app_to_build \
+                        rs_node ./build_plugin.sh criterion/data-with-picture-only'
+                    },
                     plugin_criterion_enumerated: {
                         sh 'docker run \
                             --rm -i \
@@ -90,6 +96,21 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh service/example'
+                    },
+                    plugin_service_fem_delete: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh service/fem-delete'
+                    },
+                    plugin_service_fem_notify: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh service/fem-notify'
+                    },
+                    plugin_service_fem_edit: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh service/fem-edit'
                     }
                 )
             }
@@ -107,28 +128,28 @@ pipeline {
         }
         stage('Deploy Maven artifact') {
             when {
-		expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
+		        expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
             }
             steps {
                 parallel(
                     sonar: {
-                      sh 'docker run \
-                          --rm -i \
-                          -v ${WORKSPACE}/webapp:/app_to_build \
-                          rs_node ./run_coverage.sh'
-                      sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
-                      sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
-                        docker run --rm \
-                        -w /data \
-                        -v ${WORKSPACE}/webapp:/data \
-                        skilldlabs/sonar-scanner:3.3 \
-                        sonar-scanner \
-                        -Dsonar.projectVersion=${TAG} \
-                        -Dsonar.branch.name=${BRANCH_NAME} \
-                        -Dsonar.projectBaseDir=/data \
-                        -Dsonar.host.url=http://172.26.47.129:9000/'
-		      sh 'docker run --rm -w /data -v ${WORKSPACE}/webapp:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/.scannerwork'
-                      sh 'rm -rf webapp/.scannerwork || true'
+                        sh 'docker run \
+                            --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./run_coverage.sh'
+                        sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
+                        sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
+                            docker run --rm \
+                            -w /data \
+                            -v ${WORKSPACE}/webapp:/data \
+                            skilldlabs/sonar-scanner:3.3 \
+                            sonar-scanner \
+                            -Dsonar.projectVersion=${TAG} \
+                            -Dsonar.branch.name=${BRANCH_NAME} \
+                            -Dsonar.projectBaseDir=/data \
+                            -Dsonar.host.url=http://172.26.47.129:9000/'
+		                sh 'docker run --rm -w /data -v ${WORKSPACE}/webapp:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/.scannerwork'
+                        sh 'rm -rf webapp/.scannerwork || true'
                     },
                     maven: {
                         sh 'docker run --rm -i \

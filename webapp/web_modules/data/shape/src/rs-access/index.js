@@ -20,11 +20,13 @@ export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './uiplugin/LinkUIP
 export { UIPluginInstanceContent } from './uiplugin/UIPluginInstanceContent'
 export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './uiplugin/UIPluginDefinition'
 export { UIPluginInfoContent } from './uiplugin/UIPluginInfoContent'
+export { UICriterionConfigurationContent } from './uiplugin/UICriterionConfigurationContent'
+export { UIServiceConfigurationContent } from './uiplugin/UIServiceConfigurationContent'
 export {
   UIPluginConfContent, UIPluginConf, UIPluginConfList, UIPluginConfArray,
 } from './uiplugin/UIPluginConf'
 export { RuntimeConfiguration } from './uiplugin/RuntimeConfiguration'
-export { RuntimeTarget } from './uiplugin/RuntimeTarget'
+export { PluginTarget } from './uiplugin/PluginTarget'
 
 
 export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'

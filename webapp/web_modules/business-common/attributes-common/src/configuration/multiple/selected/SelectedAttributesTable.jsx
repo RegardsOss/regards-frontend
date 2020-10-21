@@ -25,6 +25,7 @@ import {
 } from '@regardsoss/components'
 import RemoveOption from './RemoveOption'
 import AttributeRender from './AttributeRender'
+import RendererSelectionRender from './RendererSelectionRender'
 
 /**
  * Renders selected attributes
@@ -32,11 +33,13 @@ import AttributeRender from './AttributeRender'
  */
 class SelectedAttributesTable extends React.Component {
   static propTypes = {
+    allowRendererSelection: PropTypes.bool.isRequired,
     invalid: PropTypes.bool.isRequired,
     error: PropTypes.string,
     selectedAttributes: PropTypes.arrayOf(AccessShapes.AttributeConfigurationData).isRequired,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     // remove selected attribute callback: (row:number) => ()
+    onRendererSelected: PropTypes.func.isRequired,
     onRemove: PropTypes.func.isRequired,
   }
 
@@ -53,7 +56,9 @@ class SelectedAttributesTable extends React.Component {
    * @return {[*]} built columns
    */
   buildColumns = () => {
-    const { attributeModels, onRemove } = this.props
+    const {
+      allowRendererSelection, attributeModels, onRendererSelected, onRemove,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - attribute label
@@ -64,12 +69,20 @@ class SelectedAttributesTable extends React.Component {
           props: { attributeModels },
         }).titleHeaderCell()
         .build(),
-      // 2 - Add option
+      // 2 - Renderer selection if enabled
+      allowRendererSelection ? new TableColumnBuilder('renderer')
+        .label(formatMessage({ id: 'attribute.configuration.selected.attributes.table.renderer.column' }))
+        .rowCellDefinition({
+          Constructor: RendererSelectionRender,
+          props: { attributeModels, onRendererSelected },
+        }).titleHeaderCell()
+        .build() : null,
+      // 3 - Options
       new TableColumnBuilder().optionsColumn([{
         OptionConstructor: RemoveOption,
         optionProps: { onRemove },
       }]).build(),
-    ]
+    ].filter(c => !!c)
   }
 
   render() {

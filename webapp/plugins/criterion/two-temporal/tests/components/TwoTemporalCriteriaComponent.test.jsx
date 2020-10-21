@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import TwoTemporalCriteriaComponent from '../../src/components/TwoTemporalCriteriaComponent'
 import TemporalCriterionComponent from '../../src/components/TemporalCriterionComponent'
@@ -37,72 +37,84 @@ describe('[Two temporal criteria] Testing TwoTemporalCriteriaComponent', () => {
   it('should exists', () => {
     assert.isDefined(TwoTemporalCriteriaComponent)
   })
-  it('should render correctly for a single attribute (same attribute jsonPath)', () => {
-    const attribute = criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-      criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z'))
+
+  const attr1 = {
+    ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
+    jsonPath: 'x.attr1',
+  }
+  const attr2 = {
+    ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601),
+    jsonPath: 'y.attr2',
+  }
+
+  it('should render correctly with all locales', () => {
     const props = {
-      attribute1: attribute,
-      attribute2: attribute,
+      pluginInstanceId: 'any',
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      attribute1: attr1,
+      attribute2: attr2,
+      error: false,
       value1: new Date('2017-10-10T10:00:00.726Z'),
       value2: new Date('2017-10-10T20:00:0.726Z'),
       onDate1Changed: () => {},
       onDate2Changed: () => {},
     }
-    const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
-    const temporalCriterionWrappers = enzymeWrapper.find(TemporalCriterionComponent)
-    assert.lengthOf(temporalCriterionWrappers, 2, 'There should be criterion fields for each range value')
-    testSuiteHelpers.assertWrapperProperties(temporalCriterionWrappers.at(0), {
-      searchAttribute: attribute,
-      value: props.value1,
-      hintDate: attribute.boundsInformation.lowerBound,
-      onDateChanged: props.onDate1Changed,
-      isStopDate: false,
-    }, 'First temporal criterion should be correctly configured')
-    testSuiteHelpers.assertWrapperProperties(temporalCriterionWrappers.at(1), {
-      searchAttribute: attribute,
-      value: props.value2,
-      hintDate: attribute.boundsInformation.upperBound,
-      onDateChanged: props.onDate2Changed,
-      isStopDate: true,
-    }, 'Second temporal criterion should be correctly configured')
-    // The label rendered should be a range on single attribute
-    assert.include(enzymeWrapper.debug(), 'single.attributes.label', 'should render single range label')
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      assert.include(enzymeWrapper.debug(), props.label[locale])
+    })
   })
-  it('should render correctly for two different attributes', () => {
+
+  const testCases = [{
+    label: 'in single attribute mode, no error', // default case
+    props: { },
+  }, {
+    label: 'in dual attributes mode, no error',
+    props: { attribute2: attr2 },
+  }, {
+    label: 'in single attribute mode, with error',
+    props: { error: true },
+  }, {
+    label: 'in dual attributes mode, with error',
+    props: { attribute2: attr2, error: true },
+  }]
+
+  testCases.forEach(({ label, props: testProps }) => it(`should render correctly ${label}`, () => {
     const props = {
-      attribute1: {
-        ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
-        jsonPath: 'attr1',
-      },
-      attribute2: {
-        ...criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
-          criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, '2017-09-27T13:15:42.726Z', '2018-09-29T13:15:42.726Z')),
-        jsonPath: 'attr2',
-      },
+      pluginInstanceId: 'any',
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      attribute1: attr1,
+      attribute2: attr1,
+      error: false,
       value1: new Date('2017-10-10T10:00:00.726Z'),
       value2: new Date('2017-10-10T20:00:0.726Z'),
       onDate1Changed: () => {},
       onDate2Changed: () => {},
+      ...testProps, // test case specifics
     }
+
     const enzymeWrapper = shallow(<TwoTemporalCriteriaComponent {...props} />, { context })
     const temporalCriterionWrappers = enzymeWrapper.find(TemporalCriterionComponent)
     assert.lengthOf(temporalCriterionWrappers, 2, 'There should be criterion fields for each range value')
     testSuiteHelpers.assertWrapperProperties(temporalCriterionWrappers.at(0), {
+      error: props.error,
       searchAttribute: props.attribute1,
       value: props.value1,
       hintDate: props.attribute1.boundsInformation.lowerBound,
       onDateChanged: props.onDate1Changed,
+      lowerBound: true,
       isStopDate: false,
     }, 'First temporal criterion should be correctly configured')
     testSuiteHelpers.assertWrapperProperties(temporalCriterionWrappers.at(1), {
+      error: props.error,
       searchAttribute: props.attribute2,
       value: props.value2,
       hintDate: props.attribute2.boundsInformation.upperBound,
       onDateChanged: props.onDate2Changed,
+      lowerBound: false,
       isStopDate: true,
     }, 'Second temporal criterion should be correctly configured')
-    // The label rendered should be a range on two attributes
-    assert.include(enzymeWrapper.debug(), 'multiple.attributes.label', 'should render single range label')
-  })
+  }))
 })

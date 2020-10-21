@@ -34,6 +34,7 @@ import {
 } from '@regardsoss/form-utils'
 import SingleAttributeFieldRender from '../../single/SingleAttributeFieldRender'
 import MultipleAttributesFieldRender from '../../multiple/MultipleAttributesFieldRender'
+import { getTypeRendererKeys, DEFAULT_RENDERER_KEY } from '../../../render/AttributesTypeToRender'
 
 /**
  * Edit item form component. It switches form parts depending on the functionnalities enabled for
@@ -43,7 +44,8 @@ import MultipleAttributesFieldRender from '../../multiple/MultipleAttributesFiel
 export class EditItemForm extends React.Component {
   static propTypes = {
     allowLabel: PropTypes.bool.isRequired,
-    allowAttributesRegroupements: PropTypes.bool.isRequired,
+    allowRendererSelection: PropTypes.bool.isRequired,
+    allowAttributesGroups: PropTypes.bool.isRequired,
     // available attribute models
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     // edition data: this dialog is visible only when it is porvided
@@ -81,7 +83,7 @@ export class EditItemForm extends React.Component {
   static getAttributeLabel(qualifiedName, attributeModels) {
     const foundAttribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(qualifiedName,
       attributeModels)
-    return foundAttribute ? DamDomain.AttributeModelController.getAttributeModelFullLabel(foundAttribute) : null
+    return foundAttribute ? foundAttribute.content.label : null
   }
 
   /**
@@ -114,9 +116,11 @@ export class EditItemForm extends React.Component {
     const initialValues = {
       order: editedElementIndex,
       ...item,
-      // add the single element field for single attribute field for single attribute elements (it will be ignored if useless
-      // in on submit)
-      singleAttribute: get(item, 'attributes[0]', { name: '' }),
+      // add the single element field for single attribute elements (it will be ignored on submit when useless)
+      singleAttribute: {
+        name: get(item, 'attributes[0].name', ''),
+        renderer: get(item, 'attributes[0].renderer', DEFAULT_RENDERER_KEY),
+      },
     }
     initialize(initialValues)
   }
@@ -130,16 +134,16 @@ export class EditItemForm extends React.Component {
       if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes)
         || !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)
       ) {
-        const oldAutoLabel = nextProps.allowAttributesRegroupements
+        const oldAutoLabel = nextProps.allowAttributesGroups
           ? EditItemForm.buildAutoLabelForMultipleAttr(this.props.editedAttributes, nextProps.attributeModels)
           : EditItemForm.buildAutoLabelForSingleAttr(this.props.editedSingleAttribute, nextProps.attributeModels)
-        const nextAutoLabel = nextProps.allowAttributesRegroupements
+        const nextAutoLabel = nextProps.allowAttributesGroups
           ? EditItemForm.buildAutoLabelForMultipleAttr(nextProps.editedAttributes, nextProps.attributeModels)
           : EditItemForm.buildAutoLabelForSingleAttr(nextProps.editedSingleAttribute, nextProps.attributeModels)
-        const allLangugageKeys = keys(nextProps.editedLabel)
+        const allLangageKeys = keys(nextProps.editedLabel)
 
         // update each label that was not edited
-        const updatedWithAutoLabel = allLangugageKeys.reduce((acc, key) => {
+        const updatedWithAutoLabel = allLangageKeys.reduce((acc, key) => {
           const editedLanguageLabel = nextProps.editedLabel[key]
           return {
             ...acc,
@@ -153,6 +157,25 @@ export class EditItemForm extends React.Component {
         }
       }
     }
+    // check if render should be updated after an attribute was selected. That occurs when:
+    // - groups are forbidden (controlled externally otherwise)
+    // - render selection is allowed (useless otherwise)
+    // - state is not pristine (avoids changing model at mounting time)
+    // - single attribute (binded from redux) has changed
+    if (!nextProps.allowAttributesGroups && nextProps.allowRendererSelection && !nextProps.pristine
+        && !isEqual(this.props.editedSingleAttribute, nextProps.editedSingleAttribute)) {
+      const oldAttr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(
+        get(this.props, 'editedSingleAttribute.name'), nextProps.attributeModels)
+      const nextAttr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(
+        get(nextProps, 'editedSingleAttribute.name'), nextProps.attributeModels)
+      if (!isEqual(get(oldAttr, 'content.type'), get(nextAttr, 'content.type'))) {
+        // Type change: reset formatter if if was set
+        const oldFormatter = get(this.props, 'editedSingleAttribute.renderer')
+        if (oldFormatter !== DEFAULT_RENDERER_KEY) {
+          nextProps.change('singleAttribute.renderer', DEFAULT_RENDERER_KEY)
+        }
+      }
+    }
   }
 
 
@@ -162,10 +185,10 @@ export class EditItemForm extends React.Component {
   onSubmit = ({
     singleAttribute, attributes, order, ...values
   }) => {
-    const { allowAttributesRegroupements, onConfirm } = this.props
+    const { allowAttributesGroups, onConfirm } = this.props
     const newItem = {
       // when editing single attribute, push the singleAttribute field in attributes array
-      attributes: allowAttributesRegroupements ? attributes : [singleAttribute],
+      attributes: allowAttributesGroups ? attributes : [singleAttribute],
       ...values,
     }
     onConfirm(newItem, order)
@@ -175,12 +198,9 @@ export class EditItemForm extends React.Component {
    * Validates multiple attributes field value
    * @param {[string]} value attributes full qualified names
    */
-  validateMultipleAttributesField = (value) => {
-    const { intl: { formatMessage } } = this.context
-    return !value || !value.length
-      ? formatMessage({ id: 'attribute.configuration.selected.attributes.error' })
-      : undefined
-  }
+  validateMultipleAttributesField = value => !value || !value.length
+    ? 'attribute.configuration.selected.attributes.error'
+    : undefined
 
   /**
    * Validates single attribute field value
@@ -189,14 +209,13 @@ export class EditItemForm extends React.Component {
    */
   validateSingleAttributeNameField = (value) => {
     const { attributeModels } = this.props
-    const { intl: { formatMessage } } = this.context
     // 1 - check that attribute was specified
     if (!value) {
-      return formatMessage({ id: ErrorTypes.REQUIRED })
+      return ErrorTypes.REQUIRED
     }
     // 2 - check that it is a valid attribute
     const found = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(value, attributeModels)
-    return found ? undefined : formatMessage({ id: 'attribute.configuration.single.attribute.error' })
+    return found ? undefined : 'attribute.configuration.single.attribute.error'
   }
 
   /**
@@ -212,9 +231,9 @@ export class EditItemForm extends React.Component {
 
   render() {
     const {
-      allowLabel, allowAttributesRegroupements, attributeModels,
-      editionData: { attributesList, editedElementIndex },
-      pristine, invalid, submitting, onCancel, handleSubmit,
+      allowLabel, allowRendererSelection, allowAttributesGroups,
+      attributeModels, editionData: { attributesList, editedElementIndex },
+      editedSingleAttribute, pristine, invalid, submitting, onCancel, handleSubmit,
     } = this.props
     const { intl: { formatMessage, locale }, moduleTheme: { configuration: { editDialog } } } = this.context
 
@@ -225,27 +244,60 @@ export class EditItemForm extends React.Component {
           vertical
           style={editDialog.scrollableAreaStyle}
         >
-          { /** 1 - Attribute selector: when groups are allowed use attributes in a field array form property,
-              use singleAttribute formValue otherwise  */
-            allowAttributesRegroupements ? (
+          { /** 1 - Attribute selector: when groups are allowed use attributes in a field array form property.
+           * That field will be used to both configure attributes and render when allowed. Otherwise,
+           * configure singleAttribute through the name and renderer form values  */
+            allowAttributesGroups ? (
               <FieldArray // multiple elements field
                 name="attributes"
                 component={MultipleAttributesFieldRender}
-                allowMultiselection={allowAttributesRegroupements}
                 attributeModels={attributeModels}
+                allowRendererSelection={allowRendererSelection}
                 validate={this.validateMultipleAttributesField}
                 label={formatMessage({ id: 'attribute.configuration.multiple.attribute.field' })}
               />) : (
-                <Field // single element field
-                  key="field"
-                  name="singleAttribute.name"
-                  component={SingleAttributeFieldRender}
-                  attributeModels={attributeModels}
-                  format={this.formatSingleAttributeValue}
-                  validate={this.validateSingleAttributeNameField}
-                  label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
-                  fullWidth
-                />)
+                <>
+                  <Field // single element field
+                    name="singleAttribute.name"
+                    component={SingleAttributeFieldRender}
+                    attributeModels={attributeModels}
+                    validate={this.validateSingleAttributeNameField}
+                    label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
+                    fullWidth
+                  />
+                  <Field
+                    name="singleAttribute.renderer"
+                    component={RenderSelectField}
+                    label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
+                    fullWidth
+                  >
+                    { // render available options for current type
+                      (() => {
+                        if (editedSingleAttribute) {
+                          const attr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(editedSingleAttribute.name, attributeModels)
+                          if (attr) {
+                            const { content: { type } } = attr
+                            const rendererKeys = getTypeRendererKeys(type)
+                            return rendererKeys.map(key => (
+                              <MenuItem
+                                key={key}
+                                value={key}
+                                primaryText={formatMessage({ id: `attribute.configuration.renderer.${type}.${key}` })}
+                              />
+                            ))
+                          }
+                        }
+                        return [ // provide a common default render option
+                          <MenuItem
+                            key={DEFAULT_RENDERER_KEY}
+                            value={DEFAULT_RENDERER_KEY}
+                            primaryText={formatMessage({ id: 'attribute.configuration.renderer.unset.default' })}
+                          />,
+                        ]
+                      })()
+                    }
+                  </Field>
+                </>)
           }
           {/* 2 position in columns list */}
           <Field

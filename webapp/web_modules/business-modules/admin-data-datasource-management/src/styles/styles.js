@@ -107,4 +107,30 @@ export default theme => ({
       },
     },
   },
+  pickDatsource: {
+    pluginWrapper: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      width: '33%',
+    },
+    styleIcon: {
+      height: 108,
+      width: 108,
+      margin: '30px 0px',
+    },
+    styleButton: {
+      margin: '30px 0px',
+    },
+    contentWrapper: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      marginTop: '20px',
+      marginLeft: '15px',
+      flexWrap: 'wrap',
+      textAlign: 'center',
+    },
+  },
+
 })

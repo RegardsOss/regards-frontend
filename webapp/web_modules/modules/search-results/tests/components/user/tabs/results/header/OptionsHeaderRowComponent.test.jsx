@@ -19,19 +19,21 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import forEach from 'lodash/forEach'
-import reduce from 'lodash/reduce'
 import { DamDomain, AccessDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ResultsContextConstants } from '@regardsoss/domain/ui'
 import OptionsHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/OptionsHeaderRowComponent'
 import TypeTabContainer from '../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../../src/containers/user/tabs/results/header/options/ModeSelectorContainer'
 import SelectAllContainer from '../../../../../../src/containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../../src/containers/user/tabs/results/header/options/SingleSortingContainer'
-import ToggleOnlyQuicklookContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 import EditColumnsSettingsContainer from '../../../../../../src/containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
+import SearchOptionContainer from '../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from '../../../../../../src/components/user/tabs/results/header/options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../../../../../../src/components/user/tabs/results/header/options/AddSelectionToCartComponent'
+import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
+import RefreshTableComponent from '../../../../../../src/components/user/tabs/results/header/options/RefreshTableComponent'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -49,10 +51,26 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
     assert.isDefined(OptionsHeaderRowComponent)
   })
   const testCases = [{
-    context: dataContext,
+    label: 'with all options',
+    context: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+      tabs: {
+        // close main tab search pane
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          search: {
+            open: false,
+          },
+        },
+        // open tag tab search pane
+        [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+          search: {
+            open: true,
+          },
+        },
+      },
+    }),
     services: [{
       content: {
-        configId: 1,
+        configId: '1',
         label: 'service1',
         icon: 'any.png',
         applicationModes: [AccessDomain.applicationModes.ONE, AccessDomain.applicationModes.MANY],
@@ -61,7 +79,7 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
       },
     }, {
       content: {
-        configId: 2,
+        configId: '2',
         label: 'service2',
         icon: 'any2.png',
         applicationModes: [AccessDomain.applicationModes.MANY],
@@ -71,86 +89,104 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
     }],
     hasMultipleTypes: true,
   }, {
-    context: dataContext,
+    label: 'without option and DATASET view',
+    context: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
+      tabs: {
+        // close main tab search pane
+        [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+          search: {
+            enabled: false,
+          },
+          types: {
+            [DamDomain.ENTITY_TYPES_ENUM.DATASET]: UIDomain.ResultsContextConstants.DISABLED_TYPE_STATE,
+          },
+        },
+        // open tag tab search pane
+        [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
+          search: {
+            enabled: false,
+          },
+        },
+      },
+    }),
     services: [],
-    hasMultipleTypes: true,
-  },
-  ]
+    hasMultipleTypes: false,
+  }]
 
-  testCases.forEach(({ context, services, hasMultipleTypes }) => {
-    // render once for each available view and mode in context (allows testing all views of DATA, DATASET)
-    forEach(context.typeState, (groupState, groupType) => {
-      if (groupState.enabled) {
-        forEach(groupState.modeState, (modeState, modeType) => {
-          if (modeState.enabled) {
+  testCases.forEach(({
+    label, context, services, hasMultipleTypes,
+  }) => {
+    // render once for each available tab, view and mode in context (allows testing all views of DATA, DATASET)
+    forEach(context.tabs, (tab, tabKey) => {
+      forEach(tab.types, (tabType, typeKey) => {
+        forEach(tabType.modes, (typeMode, modeKey) => {
+          if (typeMode.enabled) {
             // test case is here!
-            it(`Should render correctly for type "${groupType}" in mode "${modeType}"`, () => {
+            it(`Should render correctly ${label}: ${tabKey} / ${typeKey} / ${modeKey}`, () => {
               const props = {
                 moduleId: 1,
-                resultsContext: {
-                  ...context,
-                  type: groupType,
-                  typeState: {
-                    ...context.typeState,
-                    [groupType]: {
-                      ...context.typeState[groupType],
-                      mode: modeType,
+                tabType: tabKey,
+                resultsContext: UIDomain.ResultsContextHelper.deepMerge(context, {
+                  selectedTab: tabKey,
+                  tabs: {
+                    [tabKey]: {
+                      selectedType: typeKey,
+                      types: {
+                        [typeKey]: {
+                          selectedMode: modeKey,
+                        },
+                      },
                     },
                   },
-                },
+                }),
+                requestParameters: {},
+                searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDataobjectsActions,
                 onAddSelectionToCart: () => {},
                 selectionServices: services,
                 onStartSelectionService: () => {},
               }
               const enzymeWrapper = shallow(<OptionsHeaderRowComponent {...props} />, { context: renderContext })
               // 1 - check tabs are shown / hidden
-              if (hasMultipleTypes) {
+              if (hasMultipleTypes && tabKey === UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS) { // Only main results currently enables multiple types tab view
                 assert.isTrue(enzymeWrapper.find(TypeTabContainer).length > 1, 'There should be type tabs')
               } else {
                 assert.lengthOf(enzymeWrapper.find(TypeTabContainer), 0, 'Type tabs should be hidden should be hidden')
               }
-              // 2 - Check all services are displayed
-              const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
-              assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
-              services.forEach((service) => {
-                const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
-                assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
-                assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
-                  `Start service callback should be correctly reported for service ${service.content.label}`)
-              })
+              // 2 - Check all services are displayed (when allowed for type)
+              if (ResultsContextConstants.allowServices(typeKey)) {
+                const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
+                assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
+                services.forEach((service) => {
+                  const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
+                  assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
+                  assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
+                    `Start service callback should be correctly reported for service ${service.content.label}`)
+                })
+              } else {
+                assert.lengthOf(enzymeWrapper.find(SelectionServiceComponent), 0, 'No service should be displayed when forbidden by type')
+              }
               // 3 - Add selection to cart
               const addToCartContainer = enzymeWrapper.find(AddSelectionToCartComponent)
               assert.lengthOf(addToCartContainer, 1, 'There should be add to cart container')
               assert.equal(addToCartContainer.props().onAddSelectionToCart, props.onAddSelectionToCart,
                 'Add to cart container callback should be correctly set')
-              // 4 - Data and dataset only: quiclooks filter
-              const quicklookFilterContainer = enzymeWrapper.find(ToggleOnlyQuicklookContainer)
-              if (groupType === DamDomain.ENTITY_TYPES_ENUM.DATA || groupType === DamDomain.ENTITY_TYPES_ENUM.DATASET) {
-                assert.lengthOf(quicklookFilterContainer, 1, 'There should be quicklook filter container')
-                testSuiteHelpers.assertWrapperProperties(quicklookFilterContainer, {
-                  moduleId: props.moduleId,
-                  resultsContext: props.resultsContext,
-                }, 'Quicklooks filter container properties should be correctly provided')
-              } else {
-                assert.lengthOf(quicklookFilterContainer, 0, 'Quicklook filter container should be hidden')
-              }
-              // 5 - Toggle filters (currently in all views and modes, due to configuration)
+              // 4 - Toggle filters (currently in all views and modes, due to configuration)
               const toggleFiltersContainer = enzymeWrapper.find(ToggleFiltersContainer)
               assert.lengthOf(toggleFiltersContainer, 1, 'Toggle filters container should be shown')
               testSuiteHelpers.assertWrapperProperties(toggleFiltersContainer, {
                 moduleId: props.moduleId,
                 resultsContext: props.resultsContext,
               }, 'Toggle filters container properties should be correctly set')
-              // 6 - Select all for view modes with selection (but not table)
+              // 5 - Select all for view modes with selection (but not table)
               const selectAllContainer = enzymeWrapper.find(SelectAllContainer)
-              if (modeState.enableSelection && modeType !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
+              if (typeMode.enableSelection && modeKey !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
                 assert.lengthOf(selectAllContainer, 1, 'There should be select all container')
               } else {
                 assert.lengthOf(selectAllContainer, 0, 'Select all container should be hidden')
               }
-              // 7 - Sort on single attributes for view types allowing sorting (but not in table mode)
+              // 6 - Sort on single attributes for view types allowing sorting (but not in table mode)
               const sortContainer = enzymeWrapper.find(SingleSortingContainer)
-              if (groupState.enableSorting && modeType !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
+              if (tabType.enableSorting && modeKey !== UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE) {
                 assert.lengthOf(sortContainer, 1, 'There should be sort container')
                 testSuiteHelpers.assertWrapperProperties(sortContainer, {
                   moduleId: props.moduleId,
@@ -159,30 +195,58 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.lengthOf(sortContainer, 0, 'Sort container should be hidden')
               }
-              // 8 - Columns settings (container is auto hiding when in table mode, not to be tested here)
+              // 7 - Columns settings (container is auto hiding when in table mode, not to be tested here)
               const columnsSettingsContainer = enzymeWrapper.find(EditColumnsSettingsContainer)
               assert.lengthOf(columnsSettingsContainer, 1, 'There should be columns settings container')
               testSuiteHelpers.assertWrapperProperties(columnsSettingsContainer, {
                 moduleId: props.moduleId,
                 resultsContext: props.resultsContext,
               }, 'Columns settings container properties should be correctly set')
-              // 9 - Check one mode selector is provided by enabled mode in group
-              const enabledModes = reduce(groupState.modeState,
-                (acc, modeState2, modeType2) => modeState2.enabled ? [...acc, modeType2] : acc, [])
+              // 8 - Check mode selectors (they must be disabled when mode is)
+              const enabledModes = OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.reduce(
+                (acc, mode) => tabType.modes[mode] && tabType.modes[mode].enabled ? [...acc, mode] : acc, [])
               const modeSelectors = enzymeWrapper.find(ModeSelectorContainer)
-              assert.lengthOf(modeSelectors, enabledModes.length, 'There should be a selector by enabled view mode in group')
-              enabledModes.forEach((enabledModeType) => {
-                const modeSelector = modeSelectors.findWhere(n => n.props().mode === enabledModeType)
-                assert.lengthOf(modeSelector, 1, `There should be ${enabledModeType} mode selector`)
-                testSuiteHelpers.assertWrapperProperties(modeSelector, {
+              assert.lengthOf(enabledModes, modeSelectors.length, 'There should be a mode selector for each enabled mode')
+              // Check each enabled mode is present, in right order
+              enabledModes.forEach((mode, index) => {
+                const currentModeSelector = modeSelectors.at(index)
+                testSuiteHelpers.assertWrapperProperties(currentModeSelector, {
                   moduleId: props.moduleId,
+                  tabType: props.tabType,
                   resultsContext: props.resultsContext,
-                }, `Mode ${enabledModeType} selector properties should be correctly set`)
+                  mode,
+                }, `Mode ${mode} properties should be correctly computed (and modes should be created in right order)`)
               })
+              // 8.B: check parent is shown when at least one mode selector is
+              if (modeSelectors.length) {
+                assert.isTrue(modeSelectors.at(0).parent().props().show, 'Mode selectors node should be displayed only when there are children')
+              }
+              // 9 - Search mode
+              const searchOptionWrapper = enzymeWrapper.find(SearchOptionContainer)
+              assert.lengthOf(searchOptionWrapper, 1, 'There should be search option')
+              testSuiteHelpers.assertWrapperProperties(searchOptionWrapper, {
+                moduleId: props.moduleId,
+                tabType: props.tabType,
+                open: props.resultsContext.tabs[props.tabType].search.open,
+              }, 'Search option wrapper should been displayed')
+              if (tab.search && tab.search.enabled) {
+                assert.isTrue(searchOptionWrapper.parent().props().show, 'Search option')
+              } else {
+                assert.isFalse(searchOptionWrapper.parent().props().show, 'Search option')
+              }
+              // 10 - Refresh table
+              const refreshTableComponent = enzymeWrapper.find(RefreshTableComponent)
+              assert.lengthOf(refreshTableComponent, 1, 'There should be refresh table container')
+              testSuiteHelpers.assertWrapperProperties(refreshTableComponent, {
+                tabType: props.tabType,
+                resultsContext: props.resultsContext,
+                requestParameters: props.requestParameters,
+                searchActions: props.searchActions,
+              }, 'Refresh table properties should be correctly set')
             })
           }
         })
-      }
+      })
     })
   })
 })

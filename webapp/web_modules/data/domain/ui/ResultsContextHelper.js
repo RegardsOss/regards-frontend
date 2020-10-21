@@ -18,9 +18,11 @@
  **/
 import forEach from 'lodash/forEach'
 import keys from 'lodash/keys'
-import isNil from 'lodash/isNil'
 import isArray from 'lodash/isArray'
+import isEmpty from 'lodash/isEmpty'
+import isNil from 'lodash/isNil'
 import isPlainObject from 'lodash/isPlainObject'
+import values from 'lodash/values'
 import { RESULTS_TABS } from './ResultsTabs'
 import ResultsContextConstants from './ResultsContextConstants'
 import { CatalogSearchQueryHelper } from '../catalog'
@@ -89,6 +91,16 @@ export class ResultsContextHelper {
   }
 
   /**
+   * Flattens all criteria arrays in map into a single criteria array
+   * @param {*} criteriaMap criteria holder (with field named 'criteria' and matching ResultsContext#Criteria field)
+   * @return {[*]} array of applying criteria in that holder
+   */
+  static getCriteriaMapAsArray(criteriaMap) {
+    return (isEmpty(criteriaMap) ? [] : values(criteriaMap))
+      .reduce((acc, criteriaForKey) => [...acc, ...(criteriaForKey || [])], [])
+  }
+
+  /**
    * Builds query for criteria array as parameter
    * @param {[*]} criteria array of criteria, matching UIShapes.BasicCriterion
    * @param {*} criteria parameters (where q parts have merged together)
@@ -99,7 +111,7 @@ export class ResultsContextHelper {
       const nextAcc = { ...acc }
       // Add in local accumulator all parameters of the current criterion (preserving other values)
       forEach(criterion.requestParameters || {}, (paramValue, paramKey) => {
-        if (paramValue && paramKey) { // avoid empty / null parmeter values
+        if (!isNil(paramKey) && !isNil(paramValue)) { // avoid empty / null parmeter values
           const previousParameterValues = nextAcc[paramKey]
           if (previousParameterValues && CatalogSearchQueryHelper.isAllowingMultipleValues(paramKey)) {
             // That parameter can accept many values, add new one at end
@@ -114,9 +126,8 @@ export class ResultsContextHelper {
     }, {})
     // group q parts into a single string for value
     const qValue = CatalogSearchQueryHelper.mergeQueryParameter(requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME])
-    if (qValue) {
-      requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue
-    }
+    // keep an array of queries for POST methods compatibility
+    requestParameters[CatalogSearchQueryHelper.Q_PARAMETER_NAME] = qValue ? [qValue] : []
     return requestParameters
   }
 

@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import TextField from 'material-ui/TextField'
 import { CommonDomain, DamDomain } from '@regardsoss/domain'
-import { NumericalComparator } from '@regardsoss/components'
+import { NumericalComparatorSelector } from '@regardsoss/components'
 import { BOUND_TYPE } from '@regardsoss/plugins-api'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import NumericalCriterionComponent from '../../src/components/NumericalCriterionComponent'
@@ -44,79 +44,76 @@ describe('[Two numerical criteria] Testing NumericalCriterionComponent', () => {
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
         criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
-      value: 25,
+      error: false,
+      value: '25',
       comparator: CommonDomain.EnumNumericalComparator.LE,
       availableComparators: CommonDomain.EnumNumericalComparators,
       onChange: () => {},
-      showAttributeLabel: true,
-      showComparator: true,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
+    const comparator = enzymeWrapper.find(NumericalComparatorSelector)
     assert.lengthOf(comparator, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(comparator, {
-      value: props.comparator,
-      onChange: enzymeWrapper.instance().onComparatorSelected,
-      comparators: props.availableComparators,
+      operator: props.comparator,
+      operators: props.availableComparators,
+      onSelect: enzymeWrapper.instance().onComparatorSelected,
       disabled: false,
     }, 'Comparator selector properties set should be correctly set')
 
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      value: NumericalCriterionComponent.toText(props.value),
-      onChange: enzymeWrapper.instance().onTextInput,
+      value: props.value,
+      onChange: enzymeWrapper.instance().onTextChange,
       disabled: false,
     }, 'Value field properties should be correctly set')
-
-    assert.include(enzymeWrapper.debug(), props.searchAttribute.label, 'Attribute label should be shown')
+    assert.isNotOk(textField.props().errorText, 'No error should be displayed')
   })
   it('should render self and subcomponents disabled without bounds data', () => {
     const props = {
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
         criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
-      value: -56.12,
+      error: false,
+      value: '-56.12',
       comparator: CommonDomain.EnumNumericalComparator.GE,
       availableComparators: [CommonDomain.EnumNumericalComparator.GE],
       onChange: () => {},
-      showAttributeLabel: true,
-      showComparator: true,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
-    const comparator = enzymeWrapper.find(NumericalComparator)
+    const comparator = enzymeWrapper.find(NumericalComparatorSelector)
     assert.lengthOf(comparator, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(comparator, {
-      value: props.comparator,
-      onChange: enzymeWrapper.instance().onComparatorSelected,
-      comparators: props.availableComparators,
+      operator: props.comparator,
+      operators: props.availableComparators,
+      onSelect: enzymeWrapper.instance().onComparatorSelected,
       disabled: true,
     }, 'Comparator selector properties set should be correctly set')
 
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the comparator')
     testSuiteHelpers.assertWrapperProperties(textField, {
-      value: NumericalCriterionComponent.toText(props.value),
-      onChange: enzymeWrapper.instance().onTextInput,
+      value: props.value,
+      onChange: enzymeWrapper.instance().onTextChange,
       disabled: true,
     }, 'Value field properties should be correctly set')
-
-    assert.include(enzymeWrapper.debug(), props.searchAttribute.label, 'Attribute label should be shown')
+    assert.isNotOk(textField.props().errorText, 'No error should be displayed')
   })
-  it('should be able hiding the attribute label and comparator selector', () => {
+  it('should render error status correctly', () => {
     const props = {
-      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.DOUBLE, null,
-        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false)),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.INTEGER, null,
+        criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, -1, 36)),
       fieldBoundType: BOUND_TYPE.ANY_BOUND,
-      value: -56.12,
-      comparator: CommonDomain.EnumNumericalComparator.GE,
-      availableComparators: [CommonDomain.EnumNumericalComparator.GE],
+      error: true,
+      value: '25',
+      comparator: CommonDomain.EnumNumericalComparator.LE,
+      availableComparators: CommonDomain.EnumNumericalComparators,
       onChange: () => {},
-      showAttributeLabel: false,
-      showComparator: false,
     }
     const enzymeWrapper = shallow(<NumericalCriterionComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(NumericalComparator), 0, 'Comparator selector should be hidden')
-    assert.notInclude(enzymeWrapper.debug(), props.searchAttribute.label, 'Attribute label should be hidden')
+
+    const textField = enzymeWrapper.find(TextField)
+    assert.lengthOf(textField, 1, 'There should be the comparator')
+    assert.isOk(textField.props().errorText, 'Some error text should be displayed')
   })
 })

@@ -22,9 +22,10 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { AccessDomain } from '@regardsoss/domain'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
-import { buildOneElementTarget } from '../../../../src/definitions/ServiceTarget'
+import { TargetHelper } from '../../../../src/definitions/TargetHelper'
 import { RunUIPluginServiceContainer } from '../../../../src/containers/services/ui/RunUIPluginServiceContainer'
 import styles from '../../../../src/styles/styles'
+import { entity2 } from '../../../dumps/entities.dump'
 
 const context = buildTestContext(styles)
 
@@ -39,7 +40,7 @@ const serviceConfiguration = {
 
 const commonProps = {
   service: serviceConfiguration,
-  target: buildOneElementTarget('x'),
+  target: TargetHelper.buildOneElementTarget(entity2),
   onQuit: () => { },
   dispatchFetchPluginConfiguration: () => new Promise((resolve, reject) => { }),
 }
@@ -225,6 +226,7 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     assert.isNotNull(componentStep, 'The component step should be defined')
     assert.equal(componentStep.step, RunServiceDialogComponent.Steps.RESULTS, 'The component should display in results state')
   })
+  //TODO-LEO add new plugin test for RESULTS state with pluginProps.onClose new property propaged to PluginLoader
   it('should resolve parameters (2) then enter resolution error step when is an invalid parameters configuration', () => {
     const enzymeWrapper = shallow(<RunUIPluginServiceContainer {...commonProps} />, { context })
     // simulate the configuration loading done event with the configuration and plugin instance

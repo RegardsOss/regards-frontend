@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import React from 'react'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
+import { TargetEntitiesResolver } from '@regardsoss/plugins-api'
 
 /**
  * Main <%= name %> plugin container
@@ -43,16 +43,16 @@ export class ServiceContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, { runtimeTarget }) {
+  static mapDispatchToProps(dispatch, { target }) {
     return {
       // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-      getReducePromise: (reducer, initialValue) => runtimeTarget.getReducePromise(dispatch, reducer, initialValue),
+      getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
     }
   }
 
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
-    runtimeTarget: AccessShapes.RuntimeTarget.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     configuration: AccessShapes.RuntimeConfiguration.isRequired,
     // From mapDispatchToProps
     getReducePromise: PropTypes.func.isRequired, // partially applied reduce promise, see mapStateToProps and later code demo
@@ -65,7 +65,7 @@ export class ServiceContainer extends React.Component {
   componentDidMount() {
     // Start fetching and converting entities: append each new entity in array
     // Note: It isn't a good pratice to keep complete entities in memory as it result
-    // in heavy memory load (just demonstrated here)
+    // in heavy memory load (just demonstrated here).
     const { getReducePromise } = this.props
 
     getReducePromise((previouslyRetrieved, entity) => [...previouslyRetrieved, entity], [])

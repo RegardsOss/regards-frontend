@@ -58,8 +58,6 @@ class ListViewComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
   }
 
-  static RESULTS_PAGE_SIZE = 500
-
   static contextTypes = {
     ...themeContextType,
   }
@@ -117,7 +115,7 @@ class ListViewComponent extends React.Component {
         displayColumnsHeader={false}
         lineHeight={lineHeight}
         columns={this.buildListColumn()}
-        queryPageSize={ListViewComponent.RESULTS_PAGE_SIZE}
+        queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]}
         requestParams={requestParameters}
         emptyComponent={ListViewComponent.EMPTY_COMPONENT}
       />

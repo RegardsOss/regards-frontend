@@ -18,17 +18,19 @@
  **/
 import reduce from 'lodash/reduce'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import { AccessShapes, CommonShapes, UIShapes } from '@regardsoss/shape'
 import { TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsArea } from '@regardsoss/components'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 import TypeTabContainer from '../../../../../containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../containers/user/tabs/results/header/options/ToggleFiltersContainer'
 import ModeSelectorContainer from '../../../../../containers/user/tabs/results/header/options/ModeSelectorContainer'
 import SelectAllContainer from '../../../../../containers/user/tabs/results/header/options/SelectAllContainer'
 import SingleSortingContainer from '../../../../../containers/user/tabs/results/header/options/SingleSortingContainer'
-import ToggleOnlyQuicklookContainer from '../../../../../containers/user/tabs/results/header/options/ToggleOnlyQuicklookContainer'
 import EditColumnsSettingsContainer from '../../../../../containers/user/tabs/results/header/options/EditColumnsSettingsContainer'
+import SearchOptionContainer from '../../../../../containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from './options/SelectionServiceComponent'
 import AddSelectionToCartComponent from './options/AddSelectionToCartComponent'
+import RefreshTableComponent from './options/RefreshTableComponent'
 
 /**
  * Options header row: shows options available (filters, services...) and allows user browing between available view mode and types
@@ -39,6 +41,8 @@ class OptionsHeaderRowComponent extends React.Component {
     moduleId: PropTypes.number.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
+    requestParameters: CommonShapes.RequestParameters.isRequired,
+    searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     onAddSelectionToCart: PropTypes.func,
     selectionServices: AccessShapes.PluginServiceWithContentArray,
     onStartSelectionService: PropTypes.func,
@@ -64,19 +68,10 @@ class OptionsHeaderRowComponent extends React.Component {
     DamDomain.ENTITY_TYPES_ENUM.DATA,
   ]
 
-  /**
-   * @param {*} tab tab results context (UIShapes.ResultsTab)
-   * @return {boolean} returns true when quicklooks filter should be shown, ie. quicklook or map view enabled for DATA in tab
-   */
-  static shouldShowQuicklooksFilter(tab) {
-    const dataViewsGroupState = tab.types[DamDomain.ENTITY_TYPES_ENUM.DATA].modes
-    return dataViewsGroupState[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP].enabled
-        || dataViewsGroupState[UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK].enabled
-  }
-
   render() {
     const {
       moduleId, tabType, resultsContext,
+      requestParameters, searchActions,
       onAddSelectionToCart,
       selectionServices, onStartSelectionService,
     } = this.props
@@ -86,6 +81,10 @@ class OptionsHeaderRowComponent extends React.Component {
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const showTypeTabs = reduce(tab.types, (count, typeState) => typeState.enabled ? count + 1 : count, 0) > 1
+    const showSelectionServices = selectedTypeState.enableServices
+      && !!onStartSelectionService
+      && !!selectionServices
+      && selectionServices.length > 0
     return (
       <TableHeaderLine key="table.options">
         {/* 1. Type selection tabs, on left, when many type can be selected, place holder otherwise */
@@ -107,46 +106,36 @@ class OptionsHeaderRowComponent extends React.Component {
         { /* 2. Mode selection and options, on right */}
         <TableHeaderOptionsArea reducible>
           {/* 2.A Selection related options (services and add to basket) */}
-          <TableHeaderOptionGroup show={
-            (!!onStartSelectionService && !!selectionServices && selectionServices.length > 0)
-            || !!onAddSelectionToCart
-          }
-          >
+          <TableHeaderOptionGroup show={showSelectionServices || !!onAddSelectionToCart}>
             { /* 2.A.1 Services */
-              selectionServices.map(service => (
+              showSelectionServices ? selectionServices.map(service => (
                 <SelectionServiceComponent
                   key={`${service.content.type}.service.${service.content.configId}`}
                   service={service}
                   onRunService={onStartSelectionService}
-                />))
+                />)) : null
             }
             { /** 2.A.2 - Add selection to cart */ }
             <AddSelectionToCartComponent onAddSelectionToCart={onAddSelectionToCart} />
           </TableHeaderOptionGroup>
-          {/* 2.B Extended options: filter quicklook only (when it can be applied) and toggle filters */}
-          <TableHeaderOptionGroup show={
-            OptionsHeaderRowComponent.shouldShowQuicklooksFilter(tab)
-            || selectedTypeState.facetsAllowed
-          }
-          >
-            { /** 2.B.1 - Filter entities with quicklook only (only when project configured quicklooks / map views and for DATA/DATASET types) */
-              OptionsHeaderRowComponent.shouldShowQuicklooksFilter(tab)
-                ? (
-                  <ToggleOnlyQuicklookContainer
-                    moduleId={moduleId}
-                    tabType={tabType}
-                    resultsContext={resultsContext}
-                  />)
-                : null
-            }
-            { /** 2.B.2 - Toggle filters selection bar */ }
+          {/* 2.B Extended options: Add refresh button */}
+          <TableHeaderOptionGroup show={selectedTypeState.enableRefresh}>
+            <RefreshTableComponent
+              tabType={tabType}
+              resultsContext={resultsContext}
+              requestParameters={requestParameters}
+              searchActions={searchActions}
+            />
+          </TableHeaderOptionGroup>
+          {/* 2.C Extended options: Toggle filters */}
+          <TableHeaderOptionGroup show={selectedTypeState.facetsAllowed}>
             <ToggleFiltersContainer
               moduleId={moduleId}
               tabType={tabType}
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.C - Results options:
+          {/* 2.D - Results options:
             1- select all / none (when mode allows selection but not in table mode as that option is provided through column headers)
             2- sort on single attribute (when type allows sorting but not in table mode as that option is provided through column headers)
           */}
@@ -171,7 +160,7 @@ class OptionsHeaderRowComponent extends React.Component {
                   ) : null
             }
           </TableHeaderOptionGroup>
-          {/* 2.4 - Configure table columns (available only for table mode) */}
+          {/* 2.E - Configure table columns (available only for table mode) */}
           <TableHeaderOptionGroup show={selectedMode === UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE}>
             <EditColumnsSettingsContainer
               moduleId={moduleId}
@@ -179,7 +168,7 @@ class OptionsHeaderRowComponent extends React.Component {
               resultsContext={resultsContext}
             />
           </TableHeaderOptionGroup>
-          {/* 2.5 - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
+          {/* 2.F - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
           <TableHeaderOptionGroup show={reduce(selectedTypeState.modes, (count, modeState) => modeState.enabled ? count + 1 : count, 0) > 1}>
             {
               OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.map(aMode => selectedTypeState.modes[aMode].enabled ? (
@@ -191,6 +180,10 @@ class OptionsHeaderRowComponent extends React.Component {
                   mode={aMode}
                 />) : null)
           }
+          </TableHeaderOptionGroup>
+          {/* 2.G - Search option, when it is available*/}
+          <TableHeaderOptionGroup show={tab.search.enabled}>
+            <SearchOptionContainer moduleId={moduleId} tabType={tabType} open={tab.search.open} />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>
       </TableHeaderLine>

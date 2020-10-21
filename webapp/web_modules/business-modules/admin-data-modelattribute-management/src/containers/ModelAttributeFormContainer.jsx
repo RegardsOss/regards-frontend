@@ -24,12 +24,12 @@ import some from 'lodash/some'
 import find from 'lodash/find'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DataManagementShapes } from '@regardsoss/shape'
+import { DamDomain } from '@regardsoss/domain'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import ModelAttributeFormComponent from '../components/ModelAttributeFormComponent'
 import { modelAttributesSelectors, modelAttributesActions } from '../clients/ModelAttributesClient'
 import { modelSelectors, modelActions } from '../clients/ModelClient'
 import { modelAttributesFragmentActions } from '../clients/ModelAttributesFragmentClient'
-import { fragmentSelectors } from '../clients/FragmentClient'
 import { modelAttributeComputationTypesActions } from '../clients/ModelAttributeComputationTypesClient'
 import messages from '../i18n'
 
@@ -123,7 +123,7 @@ export class ModelAttributeFormContainer extends React.Component {
   }
 
   isNotInFragment = attribute => (
-    attribute.content.fragment.name !== fragmentSelectors.noneFragmentName
+    attribute.content.fragment.name !== DamDomain.DEFAULT_FRAGMENT
   )
 
   /**

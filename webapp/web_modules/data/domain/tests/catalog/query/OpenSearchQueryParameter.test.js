@@ -48,7 +48,7 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
   }, {
     label: 'multiple values for strict equality (with espaced chars and negated)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]$$||+-', ''],
-    expected: 'NOT ("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-")',
+    expected: '(!("a+" OR "b\\"" OR "ab\\"c\\"1.56\\def(){}[]$$||+-"))',
     method: OpenSearchQueryParameter.toStrictStringEqual,
     separator: OpenSearchQueryParameter.AND_SEPARATOR,
     negate: true,
@@ -72,7 +72,7 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
   }, {
     label: 'multiple values for containing test (with espaced chars and negated)',
     value: ['a+', 'b"', null, 'ab"c"1.56\\def(){}[]&&||+-!^~*zz?: x', ''],
-    expected: 'NOT ((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x))',
+    expected: '(!((a\\+) AND (b\\") AND (ab\\"c\\"1.56\\\\def\\(\\)\\{\\}\\[\\]\\&&\\||\\+\\-\\!\\^\\~\\*zz\\?\\:\\ x)))',
     method: OpenSearchQueryParameter.toStringContained,
     separator: OpenSearchQueryParameter.OR_SEPARATOR,
     negate: true,

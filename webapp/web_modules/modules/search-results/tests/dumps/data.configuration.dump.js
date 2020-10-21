@@ -46,6 +46,7 @@ export const configuration = {
       enabled: true,
       initialMode: 'MAP',
       enableDownload: true,
+      enableServices: true,
       sorting: [{ attributes: [{ name: 'properties.start_date' }] }, { attributes: [{ name: 'label' }] }],
       views: {
         TABLE: {
@@ -89,4 +90,56 @@ export const configuration = {
       },
     },
   },
+  criteriaGroups: [{
+    showTitle: true,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'First group', [UIDomain.LOCALES_ENUM.fr]: 'Premier groupe' },
+    criteria: [{ // completely resolved
+      pluginId: 111,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'First criterion', [UIDomain.LOCALES_ENUM.fr]: 'Premier critère' },
+      conf: {
+        attributes: {
+          field1: 'my.attr.1',
+          field2: 'my.attr.2',
+        },
+      },
+    }, { // no attribute
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Second criterion', [UIDomain.LOCALES_ENUM.fr]: 'Second critère' },
+      pluginId: 833,
+      conf: { attributes: {} },
+    }, { // partially resolved
+      pluginId: 455,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Third criterion', [UIDomain.LOCALES_ENUM.fr]: 'Troisième critère' },
+      conf: {
+        attributes: {
+          field1: 'my.attr.1',
+          field2: 'my.attr.36',
+        },
+      },
+    }],
+  }, {
+    showTitle: false,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'Second group', [UIDomain.LOCALES_ENUM.fr]: 'Deuxième groupe' },
+    criteria: [{ // completely resolved
+      pluginId: 1025,
+      label: { [UIDomain.LOCALES_ENUM.en]: 'Fith criterion', [UIDomain.LOCALES_ENUM.fr]: 'Cinquième critère' },
+      conf: { // resolved using standard attributes
+        attributes: {
+          fieldX: 'my.attr.1',
+          fieldY: 'label',
+        },
+      },
+    }],
+  }, { // filtered group (empty after resolution attempt)
+    showTitle: true,
+    title: { [UIDomain.LOCALES_ENUM.en]: 'Third group', [UIDomain.LOCALES_ENUM.fr]: 'Troisième groupe' },
+    criteria: [{ // unresoved
+      pluginId: 1836,
+      label: { [UIDomain.LOCALES_ENUM.en]: '6th criterion', [UIDomain.LOCALES_ENUM.fr]: '6ème critère' },
+      conf: {
+        attributes: {
+          fieldX: 'my.unresolved.attr',
+        },
+      },
+    }],
+  }],
 }

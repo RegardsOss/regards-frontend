@@ -47,7 +47,7 @@ class TableActions {
   /**
    * Sets table selection
    * @param {*} selectionMode  selection mode
-   * @param {*} toggledElements toggled elements for that mode, as a dictionnary {[rowIndex:number]:object} (optional)
+   * @param {*} toggledElements toggled elements for that mode, as a dictionary {[rowIndex:number]:object} (optional)
    * @return action to dispatch
    */
   setSelection(selectionMode, toggledElements = {}) {

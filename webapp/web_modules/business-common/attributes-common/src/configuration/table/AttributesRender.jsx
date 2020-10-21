@@ -20,8 +20,7 @@ import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { StringArrayValueRender } from '@regardsoss/components'
-import AttributeLabelRender from '../../render/AttributeRender'
-
+import AttributeRenderDelegate from '../../render/AttributeRender'
 
 /**
  * Renders attribute / attributes list
@@ -42,11 +41,8 @@ class AttributesRender extends React.Component {
     const { intl } = this.context
     return (
       <StringArrayValueRender
-        value={entity.attributes.map( // map attribute names to attributes label to corresponding qualified label
-          ({ name }) => {
-            const attributeModel = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels)
-            return attributeModel ? AttributeLabelRender.getRenderLabel(attributeModel, intl) : ''
-          })
+        value={entity.attributes.map(({ name }) => AttributeRenderDelegate.getRenderLabel(
+          DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributeModels), intl))
         }
       />)
   }

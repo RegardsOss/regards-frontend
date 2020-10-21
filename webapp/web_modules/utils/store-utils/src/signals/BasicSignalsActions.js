@@ -51,4 +51,16 @@ export default class BasicSignalsActions {
   getSubActionKeys() {
     return this.subActionKeys
   }
+
+  /**
+   * Generates the main [microservice@resource@verb] string necessary for displaying the module from the entityEndpoint.
+   * For example:
+   * entityEndpoint = `${GATEWAY_HOSTNAME}/${API_URL}/rs-admin/users/{name}?status=VALID`
+   * Dependy = rs-admin@/users/{name}@verb
+   *
+   * @param actionKey
+   * @param verb
+   * @returns {string}
+   */
+  getDependency = (actionKey, verb) => this.getSubAction(actionKey).getDependency(verb)
 }

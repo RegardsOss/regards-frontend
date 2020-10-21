@@ -215,7 +215,7 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.deepEqual(dialog.props().editionData, editionData, 'The dialog edition data should be reported')
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.edit.section.dialog.title', 'dialogTitleKey should correctly reported')
-    const expectedPath = [1, 2]
+    const expectedPath = [1, 1]
     assert.deepEqual(editionData.item, getItemByPathIn(aNavigationConfiguration, expectedPath), 'Item should be correctly provided')
     assert.deepEqual(editionData.itemPath, expectedPath, 'Item path should be correctly provided')
     // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
@@ -243,7 +243,7 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.deepEqual(dialog.props().editionData, editionData, 'The dialog edition data should be reported')
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.edit.module.dialog.title', 'dialogTitleKey should correctly reported')
-    const expectedPath = [1, 2, 0]
+    const expectedPath = [1, 1, 0]
     assert.deepEqual(editionData.item, getItemByPathIn(aNavigationConfiguration, expectedPath), 'Item should be correctly provided')
     assert.deepEqual(editionData.itemPath, expectedPath, 'Item path should be correctly provided')
     // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
@@ -261,9 +261,9 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
       changeNavigationFieldValue: (value) => { spiedChangeFieldValue = value },
     }
     const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
-    // simulate moving section [1,2] into section [3] (first position)
+    // simulate moving section [1,1] into section [3] (first position)
     const wrapperInstance = wrapper.instance()
-    const initItemPath = [1, 2]
+    const initItemPath = [1, 1]
     const insertAtPath = [3, 0]
     const editedItem = getItemByPathIn(aNavigationConfiguration, initItemPath)
     wrapperInstance.onEditDone({

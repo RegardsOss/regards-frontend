@@ -22,9 +22,8 @@ import { AccessShapes } from '@regardsoss/shape'
 import { AccessProjectClient } from '@regardsoss/client'
 import { UIPluginConfConfiguration } from '@regardsoss/api'
 import { loadPlugin } from '@regardsoss/plugins'
-import { ServiceTargetShape } from '../../../model/ServiceTargetShape'
 import {
-  resolveParameters, packRuntimeTarget, packRuntimeConfiguration,
+  resolveParameters, packRuntimeConfiguration, packPluginProps,
 } from '../../../definitions/UIPluginServiceHelper'
 import PluginDisplayerContainer from './PluginDisplayerContainer'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../components/services/RunServiceDialogComponent'
@@ -58,10 +57,9 @@ export class RunUIPluginServiceContainer extends React.Component {
     // service to run
     service: AccessShapes.PluginService.isRequired,
     // service target (dataobject / dataset / selection) or null
-    target: ServiceTargetShape.isRequired,
+    target: AccessShapes.PluginTarget.isRequired,
     // on done / on quit service
     onQuit: PropTypes.func.isRequired,
-
     // from map dispatch to props
     dispatchFetchPluginConfiguration: PropTypes.func.isRequired,
   }
@@ -150,21 +148,21 @@ export class RunUIPluginServiceContainer extends React.Component {
   }
 
   /**
-   * Goes forward, after parameters configuration (if there was any) into the servie applying
+   * Goes forward, after parameters configuration (if there was any) into the service applying
    * @param userParametersValues user entered form values
    */
   onConfigurationDone = (userParametersValues = {}) => {
-    const { target } = this.props
-    // 1 - prepare plugin runtime target
-    const runtimeTarget = packRuntimeTarget(target)
-    // 2 - prepare plugin runtime configuration, using plugin data from this directly, see onInitializationDone
+    const { target, onQuit } = this.props
+    // 1 - prepare plugin runtime configuration, using plugin data from this directly, see onInitializationDone
     const configuration = packRuntimeConfiguration(this.pluginConfiguration, this.pluginInstance, userParametersValues)
-    const pluginConf = { runtimeTarget, configuration }
-    // 3 - enter running state (keep user values to be able reloading the plugin)
+    const pluginConf = { target, configuration }
+    // 3 - prepare plugin props
+    const pluginProps = packPluginProps(this.pluginInstance, { onClose: onQuit })
+    // 4 - enter running state (keep user values to be able reloading the plugin)
     this.setState({
       step: RunUIPluginServiceContainer.Steps.RUNNING_SERVICE,
       userParametersValues,
-      resultsComponent: this.renderPlugin(pluginConf),
+      resultsComponent: this.renderPlugin(pluginConf, pluginProps),
     })
   }
 
@@ -174,18 +172,22 @@ export class RunUIPluginServiceContainer extends React.Component {
   /** @return {function} previous handler if it should be displayed, nothing otherwise */
   hasPreviousStep = () => !!this.state.resolvedParameters.length
 
+  getPluginConfShowButtonsBar = () => get(this.pluginInstance, 'info.conf.showButtonsBar', true)
+
   /** Renders previous option if any */
   renderPreviousOption = () => this.hasPreviousStep()
     ? <PreviousButton key="previous.button" onPrevious={this.onPrevious} /> : null
 
   /**
    * Renders the plugin itself. Pre: pluginInstance has been retrieved and set in this instance
-   * @param pluginConf plugin configuration
+   * @param pluginProps plugin configuration
+   * @param pluginProps plugin props
    */
-  renderPlugin = pluginConf => (
+  renderPlugin = (pluginConf, pluginProps) => (
     <PluginDisplayerContainer
       pluginInstance={this.pluginInstance} // using pluginInstance from this directly, see onInitializationDone
       pluginConf={pluginConf}
+      pluginProps={pluginProps}
     />)
 
   /**
@@ -209,7 +211,7 @@ export class RunUIPluginServiceContainer extends React.Component {
       case RunUIPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       case RunUIPluginServiceContainer.Steps.RUNNING_SERVICE:
-        return RunServiceDialogComponent.buildResultsStep(this.state.resultsComponent, [this.renderPreviousOption()])
+        return RunServiceDialogComponent.buildResultsStep(this.state.resultsComponent, [this.renderPreviousOption()], this.getPluginConfShowButtonsBar())
       default:
         throw new Error(`Unknown UI plugin service launchin step: ${step}`)
     }

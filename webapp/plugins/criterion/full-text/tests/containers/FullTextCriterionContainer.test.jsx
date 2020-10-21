@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FullTextCriterionContainer } from '../../src/containers/FullTextCriterionContainer'
 import FullTextCriterionComponent from '../../src/components/FullTextCriterionComponent'
 import styles from '../../src/styles'
@@ -38,8 +38,7 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
-      // parent callbacks (required)
-      pluginInstanceId: 'any',
+      label: criterionTestSuiteHelpers.getLabelStub(),
       state: {
         searchText: 'Some research...',
       },
@@ -49,6 +48,7 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     const componentWrapper = enzymeWrapper.find(FullTextCriterionComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+      label: props.label,
       searchText: props.state.searchText,
       onTextInput: enzymeWrapper.instance().onTextInput,
     }, 'State and callback should be correctly provided to component')
@@ -60,8 +60,7 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
       requestParameters: null,
     }
     const props = {
-      // parent callbacks (required)
-      pluginInstanceId: 'any',
+      label: criterionTestSuiteHelpers.getLabelStub(),
       state: {
         searchText: '',
       },

@@ -165,6 +165,19 @@ class ViewTypeConfigurationComponent extends React.Component {
     return viewFormValues.enabled ? ValidationHelpers.required(value) || ValidationHelpers.url(value) : undefined
   }
 
+  validateBackgroundConf = (value) => {
+    if (value) {
+      try {
+        JSON.parse(value)
+        return undefined
+      } catch (error) {
+        console.error('error', error)
+        return 'search.results.form.configuration.result.MAP.background.layer.conf.invalid'
+      }
+    }
+    return undefined
+  }
+
   render() {
     const {
       pageType, availableAttributes,
@@ -193,8 +206,9 @@ class ViewTypeConfigurationComponent extends React.Component {
               attributesListFieldName={`${viewNamespace}.attributes`}
               hintMessageKey={`search.results.form.configuration.result.${viewType}.no.attribute`}
               changeField={changeField}
-              allowAttributesRegroupements={ViewTypeConfigurationComponent.TYPES_ALLOWING_GROUPS.includes(viewType)}
+              allowAttributesGroups={ViewTypeConfigurationComponent.TYPES_ALLOWING_GROUPS.includes(viewType)}
               allowLabel
+              allowRendererSelection
             />
           </div>
         </FieldsGroup>
@@ -222,6 +236,13 @@ class ViewTypeConfigurationComponent extends React.Component {
                 />))
               }
             </Field>
+            <Field
+              name={`${viewNamespace}.backgroundLayer.conf`}
+              component={RenderTextField}
+              label={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.layer.conf' })}
+              validate={this.validateBackgroundConf}
+              fullWidth
+            />
           </FieldsGroup>)
           : null
       }

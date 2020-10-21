@@ -16,19 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { intlShape } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AvailableAttributesTable from './available/AvailableAttributesTable'
 import SelectedAttributesTable from './selected/SelectedAttributesTable'
+import { DEFAULT_RENDERER_KEY } from '../../render/AttributesTypeToRender'
 
 /**
  * Table allowing multiple attributes selection
  * @author Raphaël Mechali
  */
-class AttributesSelectionTable extends React.Component {
+class MultipleAttributesFieldRender extends React.Component {
   static propTypes = {
+    allowRendererSelection: PropTypes.bool.isRequired,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     fields: PropTypes.shape({
       getAll: PropTypes.func.isRequired,
@@ -40,6 +43,7 @@ class AttributesSelectionTable extends React.Component {
       error: PropTypes.string,
     }),
     label: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
   }
 
   static contextTypes = {
@@ -80,8 +84,26 @@ class AttributesSelectionTable extends React.Component {
    * @param {string} name selected attribute full qualified name
    */
   onAdd = (name) => {
-    const { fields: { push } } = this.props
-    push({ name })
+    const { allowRendererSelection, fields: { push } } = this.props
+    const attributeConfiguration = { name }
+    if (allowRendererSelection) {
+      attributeConfiguration.renderer = DEFAULT_RENDERER_KEY
+    }
+    push(attributeConfiguration)
+  }
+
+  /**
+   * User callback: new renderer selected for configuration
+   * @param {number} attributeIndex
+   */
+  onRendererSelected = (attributeIndex, renderer) => {
+    const { fields } = this.props
+    const attr = fields.get(attributeIndex)
+    fields.remove(attributeIndex)
+    fields.insert(attributeIndex, {
+      ...attr,
+      renderer,
+    })
   }
 
   /**
@@ -94,10 +116,14 @@ class AttributesSelectionTable extends React.Component {
   }
 
   render() {
-    const { label, attributeModels, meta: { invalid, error } } = this.props
+    const {
+      label, attributeModels, allowRendererSelection,
+      meta: { invalid, error }, intl,
+    } = this.props
     const { availableAttributesModels, selectedAttributes } = this.state
     const {
-      rootStyle, fieldLabelStyle, verticalSeparatorStyle, tableHolderStyle,
+      rootStyle, fieldLabelStyle, verticalSeparatorStyle,
+      firstTableHolderStyle, secondTableHolderStyle,
     } = this.context.moduleTheme.configuration.editDialog.multipleSelector
     return (
       <React.Fragment>
@@ -105,20 +131,22 @@ class AttributesSelectionTable extends React.Component {
           {label}
         </Subheader>
         <div style={rootStyle}>
-          <div style={tableHolderStyle}>
+          <div style={firstTableHolderStyle}>
             <AvailableAttributesTable
               attributeModels={availableAttributesModels}
               onAdd={this.onAdd}
             />
           </div>
           <div style={verticalSeparatorStyle} />
-          <div style={tableHolderStyle}>
+          <div style={secondTableHolderStyle}>
             <SelectedAttributesTable
+              allowRendererSelection={allowRendererSelection}
               selectedAttributes={selectedAttributes}
               attributeModels={attributeModels}
+              onRendererSelected={this.onRendererSelected}
               onRemove={this.onRemove}
               invalid={invalid}
-              error={error}
+              error={invalid && error ? intl.formatMessage({ id: error }) : undefined}
             />
           </div>
         </div>
@@ -126,4 +154,4 @@ class AttributesSelectionTable extends React.Component {
     )
   }
 }
-export default AttributesSelectionTable
+export default MultipleAttributesFieldRender

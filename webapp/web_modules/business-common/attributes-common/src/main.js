@@ -18,13 +18,14 @@
  **/
 export { default as AttributeColumnBuilder } from './columns/AttributeColumnBuilder'
 
-// configuration component for lists and columns of attributes
+// configuration component for lists and columns of attributes, adn related elements
 export { default as AttributesListConfigurationComponent } from './configuration/AttributesListConfigurationComponent'
+export { default as SingleAttributeFieldRender } from './configuration/single/SingleAttributeFieldRender'
 
 // render get method for given type
 export { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'
-
 export { default as AttributeModelRender } from './render/AttributeRender'
+export { default as AttributeRender } from './render/AttributeRender'
 
 export { default as ThumbnailAttributeRender } from './render/ThumbnailAttributeRender'
 

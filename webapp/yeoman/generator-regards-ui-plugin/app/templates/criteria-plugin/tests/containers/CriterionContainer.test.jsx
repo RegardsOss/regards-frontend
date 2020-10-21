@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CatalogDomain, UIDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { CriterionContainer } from '../../src/containers/CriterionContainer'
 import CriterionComponent from '../../src/components/CriterionComponent'
@@ -38,31 +39,32 @@ describe('[<%= name %>] Testing CriterionContainer', () => {
   })
   it('should render self and sub components', () => {
     const props = {
-      // parent callbacks (required)
       pluginInstanceId: 'any',
+      searchContext: {
+        engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+        searchParameters: {},
+      },
+      label: {
+        [UIDomain.LOCALES_ENUM.en]: 'My label',
+        [UIDomain.LOCALES_ENUM.fr]: 'Mon libellé',
+      },
+      attributes: {
+        searchField: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      },
       state: {
         searchText: 'some research',
       },
-      attributes: {
-        searchField: {
-          name: 'searchField',
-          description: 'Attribute to search',
-          type: 'string',
-        },
-      },
+      publishState: () => {},
     }
     const enzymeWrapper = shallow(<CriterionContainer {...props} />, { context })
     const component = enzymeWrapper.find(CriterionComponent)
     assert.lengthOf(component, 1, 'There should be the component')
     testSuiteHelpers.assertWrapperProperties(component, {
+      label: props.label,
       searchAttribute: props.attributes.searchField,
-      searchText: props.state.searchText, // Make sure text field will update with state changes
-      onTextInput: enzymeWrapper.instance().onTextInput, // Callback is correctly set
+      searchText: props.state.searchText,
+      onTextInput: enzymeWrapper.instance().onTextInput,
     }, 'Component properties should be correctly set')
-  })
-  it('should convert correctly to open search queries', () => {
-    const attribute = { ...criterionTestSuiteHelpers.getAttributeStub(), jsonPath: 'x.y.z' }
-    assert.equal(CriterionContainer.convertToQuery({ searchText: ' aaa  ' }, attribute), { q: 'x.y.z="aaa"' }, 'Query should be correctly converted, triming white spaces')
-    assert.isNotOk(CriterionContainer.convertToQuery({ searchText: '' }, attribute).q, 'No query should be converted when there is no research')
+    // TODO: any other test...
   })
 })

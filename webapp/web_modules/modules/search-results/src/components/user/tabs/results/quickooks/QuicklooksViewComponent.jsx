@@ -25,9 +25,6 @@ import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesCli
 import EmptyTableComponent from '../common/EmptyTableComponent'
 import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellComponent'
 
-/** Page size for quicklooks */
-const QUICKLOOK_PAGE_SIZE = 100
-
 /**
  * Component displaying search results as quicklook list
  * @author Raphaël Mechali
@@ -57,6 +54,7 @@ class QuicklooksViewComponent extends React.Component {
     const { columnWidth, columnGap } = embedInMap
       ? searchResultsTheme.map.quicklooks
       : searchResultsTheme.quicklooks
+    const pageSize = UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[embedInMap ? UIDomain.RESULTS_VIEW_MODES_ENUM.MAP : UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]
     return (
       <InfiniteGalleryContainer
         itemComponent={QuicklookCellComponent}
@@ -65,7 +63,7 @@ class QuicklooksViewComponent extends React.Component {
         columnWidth={columnWidth}
         columnGutter={columnGap}
         requestParams={requestParameters}
-        queryPageSize={QUICKLOOK_PAGE_SIZE}
+        queryPageSize={pageSize}
         emptyComponent={QuicklooksViewComponent.EMPTY_COMPONENT}
         itemProps={cellProperties}
       />

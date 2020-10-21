@@ -75,7 +75,7 @@ export default {
   'oais.packages.details.sip.title': 'SIP Details',
   'oais.packages.details.aip.title': 'AIP Details',
 
-  'oais.packages.tooltip.providerId': 'Enter provider ID. % caracter can be used at each word end, representing an optional character sequence',
+  'oais.packages.tooltip.providerId': 'Enter a subset of the provider ID',
   'oais.packages.tooltip.type': 'Select product type',
   'oais.packages.tooltip.state': 'Select product state',
   'oais.packages.tooltip.storage': 'Select product storage',

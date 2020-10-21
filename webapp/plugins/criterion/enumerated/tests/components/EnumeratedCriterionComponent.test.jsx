@@ -18,23 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { AutoCompleteTextField } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import EnumeratedCriterionComponent from '../../src/components/EnumeratedCriterionComponent'
 import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
-
-/** Mock attribute for tests */
-const mockAttribute = {
-  label: 'label',
-  name: 'Label',
-  jsonPath: 'label',
-  type: DamDomain.MODEL_ATTR_TYPES.STRING,
-  boundsInformation: criterionTestSuiteHelpers.getBoundsInformationStub(),
-}
-
 /**
  * Test EnumeratedCriterionComponent
  * @author Raphaël Mechali
@@ -46,19 +36,22 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(EnumeratedCriterionComponent)
   })
-  it('should render correctly in nominal case', () => {
+  it('should render correctly label for locale (english)', () => {
     const props = {
-      searchAttribute: mockAttribute,
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: false,
       text: 'idk',
-      inError: false,
-      availablePropertyValues: [],
+      availablePropertyValues: ['a', 'b', 'c'],
       isFetching: false,
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
     }
-    const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, { context })
+    const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, {
+      context: buildTestContext(styles, UIDomain.LOCALES_ENUM.en),
+    })
     // 1 - check label is displayed
-    assert.isTrue(enzymeWrapper.debug().includes('label'), 'attribute label should be shown')
+    assert.isTrue(enzymeWrapper.debug().includes(props.label[UIDomain.LOCALES_ENUM.en]), 'attribute label should be shown for the right locale')
     // 2 - check autocomplete field is correctly configured
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
@@ -70,12 +63,55 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
       onFilterSelected: props.onFilterSelected,
     }, 'Properties should be correctly reported')
   })
+  it('should render correctly localized label and options', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: false,
+      text: 'idk2',
+      availablePropertyValues: ['a', 'b', 'c'],
+      isFetching: false,
+      onUpdateTextFilter: () => { },
+      onFilterSelected: () => { },
+    }
+    // Render with each locale
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      // 1 - check label is displayed
+      assert.include(enzymeWrapper.debug(), props.label[locale], 'attribute label should be shown for the current locale')
+      // 2 - check autocomplete field is correctly configured
+      const autocompleteWrapper = enzymeWrapper.find(AutoCompleteTextField)
+      assert.lengthOf(autocompleteWrapper, 1, 'The autocomplete field should be shown')
+      const stateComputedHints = enzymeWrapper.state().currentHints
+      testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
+        currentHintText: 'idk2', // field text being entered by the user
+        currentHints: stateComputedHints,
+        isFetching: false,
+        isInError: false,
+        onUpdateInput: props.onUpdateTextFilter,
+        onFilterSelected: props.onFilterSelected,
+      }, 'Properties should be correctly reported')
+      // 3 - check options were correctly computed
+      assert.lengthOf(stateComputedHints, props.availablePropertyValues.length, 'There should be the right count of hints')
+      enzymeWrapper.state().currentHints.forEach((computedHint, index) => {
+        const modelHint = props.availablePropertyValues[index]
+        assert.equal(computedHint.id, modelHint, `Hint #${index}: Id should worth hint text`)
+        assert.equal(computedHint.text, modelHint, `Hint #${index}: Text should worth hint text`)
+      })
+    })
+
+
+    // 1 - check label is displayed
+  })
   it('should render correctly fetching', () => {
     const props = {
-      searchAttribute: mockAttribute,
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: false,
       text: 'idk',
-      inError: false,
-      availablePropertyValues: [],
+      availablePropertyValues: ['a', 'b'],
       isFetching: true,
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
@@ -89,10 +125,11 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
   })
   it('should render correctly in error', () => {
     const props = {
-      searchAttribute: mockAttribute,
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
+      error: true,
       text: 'idk',
-      inError: true,
-      availablePropertyValues: [],
+      availablePropertyValues: ['a', 'b'],
       isFetching: false,
       onUpdateTextFilter: () => { },
       onFilterSelected: () => { },
@@ -103,47 +140,5 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
     assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
-  })
-  it('should convert hints list when receiving new available values', () => {
-    // function to check hints list
-    const checkHintsList = (wrapper, initialValues) => {
-      const convertedHints = wrapper.state().currentHints || []
-      assert.equal(convertedHints.length, initialValues.length, 'There should be the same count of converted hints')
-      for (let i = 0; i < convertedHints.length; i += 1) {
-        assert.equal(convertedHints[i].id, initialValues[i], 'ID should be correctly reported')
-        assert.equal(convertedHints[i].text, initialValues[i], 'Text should be correctly reported')
-        // No test for menu item as MUI is, in version 0.20.0, raising wrong warning, which would result in
-        // failing this test
-      }
-    }
-
-    // 1 - check initial conversion
-    const props = {
-      searchAttribute: mockAttribute,
-      text: 'idk',
-      inError: true,
-      availablePropertyValues: ['a'],
-      isFetching: false,
-      onUpdateTextFilter: () => { },
-      onFilterSelected: () => { },
-    }
-    const enzymeWrapper = shallow(<EnumeratedCriterionComponent {...props} />, { context })
-    checkHintsList(enzymeWrapper, props.availablePropertyValues)
-
-    // 2 - check changing list
-    const list2 = ['c', 'd', 'e']
-    enzymeWrapper.setProps({
-      ...props,
-      availablePropertyValues: list2,
-    })
-    checkHintsList(enzymeWrapper, list2)
-
-    // 3 - Also test a no data
-    const list3 = []
-    enzymeWrapper.setProps({
-      ...props,
-      availablePropertyValues: list3,
-    })
-    checkHintsList(enzymeWrapper, list3)
   })
 })

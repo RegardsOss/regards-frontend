@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { UIDomain, DamDomain } from '@regardsoss/domain'
-import { DataManagementShapes, AccessShapes } from '@regardsoss/shape'
+import { DataManagementShapes, AccessShapes, UIShapes } from '@regardsoss/shape'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 
 /**
@@ -78,6 +78,8 @@ const commonViewsGroupFields = {
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewConfiguration,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: MapViewConfiguration,
   }),
+  // is refresh button enabled
+  enableRefresh: PropTypes.bool,
 }
 
 /**
@@ -86,6 +88,7 @@ const commonViewsGroupFields = {
 export const DataViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
   enableDownload: PropTypes.bool,
+  enableServices: PropTypes.bool,
   sorting: AccessShapes.AttributeListConfigurationModel,
 })
 
@@ -122,6 +125,23 @@ export const RestrictionsConfiguration = PropTypes.shape({
   byDataset: DatasetRestriction,
 })
 
+/** A criterion configuration, with internationalized labels */
+export const CriterionConfiguration = PropTypes.shape({
+  // all fields are mandatory and present at user runtime. They are made optional only for edition runtime
+  label: UIShapes.OptionalIntlMessage.isRequired,
+  pluginId: PropTypes.number,
+  conf: PropTypes.shape({
+    attributes: PropTypes.objectOf(PropTypes.string),
+  }),
+})
+
+/** A criteria group, with optional title */
+export const CriteriaGroup = PropTypes.shape({
+  showTitle: PropTypes.bool.isRequired,
+  title: UIShapes.OptionalIntlMessage.isRequired,
+  criteria: PropTypes.arrayOf(CriterionConfiguration).isRequired,
+})
+
 /**
  * Module configuration
  */
@@ -130,13 +150,15 @@ const ModuleConfiguration = PropTypes.shape({
   selectableAttributes: DataManagementShapes.AttributeModelList,
   // Results facets configuration
   facets: FacetsConfiguration,
-  // Results restricitons
+  // Results restrictions
   restrictions: RestrictionsConfiguration,
   // Views configurations (by their entities type)
   viewsGroups: PropTypes.shape({
     [ENTITY_TYPES_ENUM.DATA]: DataViewsConfiguration,
     [ENTITY_TYPES_ENUM.DATASET]: DatasetViewsConfiguration,
   }),
+  // Criteria groups configuration
+  criteriaGroups: PropTypes.arrayOf(CriteriaGroup),
 })
 
 export default ModuleConfiguration

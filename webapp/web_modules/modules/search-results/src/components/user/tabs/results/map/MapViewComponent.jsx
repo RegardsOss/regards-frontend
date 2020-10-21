@@ -55,9 +55,6 @@ class MapViewComponent extends React.Component {
     ...themeContextType,
   }
 
-  /** Features page size for map */
-  static MAP_PAGE_SIZE = 100
-
   /** Initial state */
   state = {
     width: null,

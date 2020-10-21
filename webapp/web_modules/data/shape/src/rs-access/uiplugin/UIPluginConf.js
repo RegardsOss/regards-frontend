@@ -27,10 +27,7 @@ export const UIPluginConfContent = PropTypes.shape({
   id: PropTypes.number,
   active: PropTypes.bool,
   label: PropTypes.string,
-  pluginInstanceId: PropTypes.string, // unique plugin ID in module, only for list-able plugins like criteria
-  // conf as saved by the corresponding administration form:
-  // see admin-ui-service-management/src/containers/ServiceConfigurationFormContainer
-  // and search-form/src/containers/admin/AdminContainer
+  pluginInstanceId: PropTypes.string, // unique plugin ID in module
   conf: PropTypes.oneOfType([
     // A service configuration
     PropTypes.shape({

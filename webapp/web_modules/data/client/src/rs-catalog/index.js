@@ -43,8 +43,16 @@ export { default as getSearchEntitiesReducer } from './search/SearchEntitiesRedu
 export { default as getSearchEntitiesSelectors } from './search/SearchEntitiesSelectors'
 export { default as SearchEntityActions } from './search/SearchEntityActions'
 
+export { default as SearchEntitiesCommonModelAttributesActions } from './search/SearchEntitiesCommonModelAttributesActions'
+export { default as getSearchEntitiesCommonModelAttributesSelectors } from './search/SearchEntitiesCommonModelAttributesSelectors'
+export { default as getSearchEntitiesCommonModelAttributesReducer } from './search/SearchEntitiesCommonModelAttributesReducer'
+
 export { default as CatalogPluginServiceResultActions } from './services/CatalogPluginServiceResultActions'
 
 export { default as SearchEngineConfigurationsActions } from './search-engines/SearchEngineConfigurationsActions'
 export { default as getSearchEngineConfigurationsReducer } from './search-engines/SearchEngineConfigurationsReducer'
 export { default as getSearchEngineConfigurationsSelectors } from './search-engines/SearchEngineConfigurationsSelectors'
+
+export { default as FEMFeatureRequestsActions } from './femdriver/FEMFeatureRequestsActions'
+export { default as getFEMFeatureRequestsReducer } from './femdriver/FEMFeatureRequestsReducer'
+export { default as getFEMFeatureRequestsSelectors } from './femdriver/FEMFeatureRequestsSelectors'

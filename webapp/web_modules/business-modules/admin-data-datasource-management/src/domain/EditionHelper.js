@@ -30,6 +30,8 @@ export class EditionHelper {
     let type = ''
     if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.AIP) {
       type = 'aip'
+    } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.FEATURE) {
+      type = 'feature'
     } else if (datasource.content.pluginId === DATASOURCE_PLUGIN_TYPE_ENUM.OPENSEARCH) {
       type = 'opensearch'
     } else if (DB_DATASOURCE_PUGINS.includes(datasource.content.pluginId)) {

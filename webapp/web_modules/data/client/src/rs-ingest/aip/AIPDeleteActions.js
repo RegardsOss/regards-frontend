@@ -22,9 +22,9 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * Actions to send a request to delete a SIP
  */
 export default class AIPDeleteActions extends BasicSignalActions {
-  constructor(namespace, instance = false) {
+  constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/aips/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/aips/delete`,
       namespace,
       bypassErrorMiddleware: false,
     })

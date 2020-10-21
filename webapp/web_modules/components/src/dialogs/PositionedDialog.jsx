@@ -47,6 +47,7 @@ class PositionedDialog extends React.Component {
     contentStyle: PropTypes.object, // allows locally overriding the styles
     // eslint-disable-next-line react/forbid-prop-types
     actionsContainerStyle: PropTypes.object, // allows locally overriding the styles
+    actions: PropTypes.arrayOf(PropTypes.node),
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
       PropTypes.node,
@@ -63,6 +64,8 @@ class PositionedDialog extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
+
+  static BORDER_REGEX = new RegExp('^border', 'i');
 
   componentWillMount = () => this.updateDimensions()
 
@@ -123,14 +126,16 @@ class PositionedDialog extends React.Component {
 
   render() {
     const {
-      children, bodyStyle: userBodyStyle = {}, actionsContainerStyle: userActionsContainerStyle = {}, ...dialogProperties
+      children, bodyStyle: userBodyStyle, actionsContainerStyle: userActionsContainerStyle, actions, ...dialogProperties
     } = this.props
     const { layoutStyle } = this.state
     const { positionedDialog, dialogCommon } = this.context.moduleTheme
 
     // merge user and local styles
-    const bodyStyle = { ...userBodyStyle, ...positionedDialog.bodyStyle }
-    const actionsContainerStyle = { userActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
+    const bodyStyle = userBodyStyle ? { ...positionedDialog.bodyStyle, ...userBodyStyle } : positionedDialog.bodyStyle
+    const actionsContainerStyle = userActionsContainerStyle
+      ? { ...dialogCommon.actionsContainerStyle, ...userActionsContainerStyle }
+      : dialogCommon.actionsContainerStyle
 
     return (
       <SwitchThemeDecorator
@@ -141,6 +146,7 @@ class PositionedDialog extends React.Component {
           contentStyle={layoutStyle}
           bodyStyle={bodyStyle}
           actionsContainerStyle={actionsContainerStyle}
+          actions={actions}
           {...dialogProperties}
         >
           {HOCUtils.renderChildren(children)}

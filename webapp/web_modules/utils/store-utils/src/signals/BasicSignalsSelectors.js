@@ -23,6 +23,7 @@
 import BasicSignalSelectors from '../signal/BasicSignalSelectors'
 /**
  *  Provide an high level class to interact with entity stored in a list
+ *  All signals share the same reducer
  */
 class BasicSignalsSelectors extends BasicSignalSelectors {
 }

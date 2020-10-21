@@ -7,7 +7,7 @@ module.exports = function (oldConf, frontendWebappPath, pluginType, pluginName) 
     onBuildEnd: [
       'echo "Copying dev plugin into front dev"',
       `mkdir -p ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}`,
-      `cp -p ./target/dev/plugin.js ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}/plugin.js`,
+      `cp -p ./target/dev/plugin.js ./target/dev/plugin.js.map ${frontendWebappPath}/dist/dev/plugins/${pluginType}/${pluginName}/`,
     ],
   })
 }

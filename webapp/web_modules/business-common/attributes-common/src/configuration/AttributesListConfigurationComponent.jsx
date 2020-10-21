@@ -29,7 +29,6 @@ import AttributeListTableComponent from './table/AttributeListTableComponent'
 import styles from '../styles'
 import messages from '../i18n'
 import EditItemDialog from './dialog/edit/EditItemDialog'
-import AttributeRender from '../render/AttributeRender'
 import AddManyDialog from './dialog/add/AddManyDialog'
 
 /**
@@ -45,9 +44,11 @@ export class AttributesListConfigurationComponent extends React.Component {
     // Current list configuration (Marked here as a simple element list, but may contain all addition data for columns and such)
     attributesList: AccessShapes.AttributeListConfigurationModel,
     // should allow attributes regroupement configuration?
-    allowAttributesRegroupements: PropTypes.bool.isRequired,
+    allowAttributesGroups: PropTypes.bool,
     // should this edition component add columns properties into elements?
     allowLabel: PropTypes.bool,
+    // should this edition component a render properties
+    allowRendererSelection: PropTypes.bool,
     // List hint text, that should be shown while no element has been added
     hintMessageKey: PropTypes.string.isRequired,
     // Attributes filter: returns true when an attribute is allowed for current selection, false otherwise
@@ -64,6 +65,8 @@ export class AttributesListConfigurationComponent extends React.Component {
 
   static defaultProps = {
     allowLabel: false,
+    allowRendererSelection: false,
+    allowAttributesGroups: false,
     attributesFilter: AttributesListConfigurationComponent.filterNone,
     attributesList: [],
     i18n: UIDomain.LOCALES_ENUM.en,
@@ -143,9 +146,7 @@ export class AttributesListConfigurationComponent extends React.Component {
         ...DamDomain.AttributeModelController.standardAttributesAsModel, // all standard attributes
         ...values(selectableAttributes), // all server attributes
       ].filter(attributesFilter) // filter on allowed elements only
-        .sort((a1, a2) => StringComparison.compare( // sort on full label
-          AttributeRender.getRenderLabel(a1, this.context.intl),
-          AttributeRender.getRenderLabel(a2, this.context.intl)))
+        .sort(({ content: { jsonPath: j1 } }, { content: { jsonPath: j2 } }) => StringComparison.compare(j1, j2))
 
       // 1.b - Update current configurations when attribute models could be retrieved from server
       const updated = AttributesListConfigurationComponent.filterElementsList(attributesList, newState.attributeModels)
@@ -289,7 +290,8 @@ export class AttributesListConfigurationComponent extends React.Component {
 
   render() {
     const {
-      hintMessageKey, attributesList, allowAttributesRegroupements, allowLabel,
+      hintMessageKey, attributesList, allowAttributesGroups,
+      allowLabel, allowRendererSelection,
     } = this.props
     const { attributeModels, editionData, multipleSelectionData } = this.state
     return (
@@ -297,7 +299,8 @@ export class AttributesListConfigurationComponent extends React.Component {
         {/* 1. show edit dialog when there is edition data */}
         <EditItemDialog
           allowLabel={allowLabel}
-          allowAttributesRegroupements={allowAttributesRegroupements}
+          allowRendererSelection={allowRendererSelection}
+          allowAttributesGroups={allowAttributesGroups}
           attributeModels={attributeModels}
           editionData={editionData}
           onCancel={this.onCancelEdit}
@@ -314,7 +317,7 @@ export class AttributesListConfigurationComponent extends React.Component {
           hintMessageKey={hintMessageKey}
           attributesList={attributesList}
           attributeModels={attributeModels}
-          allowAttributesRegroupements={allowAttributesRegroupements}
+          allowAttributesGroups={allowAttributesGroups}
           allowLabel={allowLabel}
           // callbacks to show dialogs
           onAddOneItem={this.onShowAddOneItemDialog}

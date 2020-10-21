@@ -26,4 +26,4 @@ import { configuration } from './data.configuration.dump'
  * @author Raphaël Mechali
  */
 
-export const dataContext = ContextInitializationHelper.buildDefaultResultsContext(configuration, attributes)
+export const dataContext = ContextInitializationHelper.buildDefaultResultsContext(25, configuration, attributes)

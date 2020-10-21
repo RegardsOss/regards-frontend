@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import TextField from 'material-ui/TextField'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -29,6 +30,7 @@ import {
  */
 class CriterionComponent extends React.Component {
 static propTypes = {
+  label: UIShapes.IntlMessage.isRequired,
   // attribute currently searched
   searchAttribute: AttributeModelWithBounds.isRequired,
   // current search text
@@ -43,27 +45,38 @@ static contextTypes = {
 }
 
 render() {
-  const { searchText, searchAttribute, onTextInput } = this.props
   const {
-    intl,
-    moduleTheme: { rootStyle, labelSpanStyle, textFieldStyle },
-  } = this.context
+    label, searchText, searchAttribute, onTextInput,
+  } = this.props
+  const { intl, muiTheme } = this.context
+  /**
+   * Render in a table row (mandatory):
+   * First column: label
+   * Second column: operator (none here, simply consume it
+   * Third column: field itself
+   * That convention is followed by standard plugins. Thus it is not mandatory to
+   * respect it if your project is not using any standard plugin
+   */
   return (
-    <div style={rootStyle}>
-      <span style={labelSpanStyle}>
-        {searchAttribute.label}
-      </span>
-      <TextField
-        id="search"
-          // Genererate type label as floating text
-        floatingLabelText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
-        title={formatTooltip(intl, searchAttribute)}
-        value={searchText}
-        onChange={onTextInput}
-        style={textFieldStyle}
-      />
-    </div>
-  )
+    <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+      {/* 1. Label (using locale) */}
+      <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+        {label[intl.locale] || searchAttribute.label}
+      </td>
+      {/* 2. Options (empty here, just consume it) */}
+      <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell} />
+      {/* 3. Input */}
+      <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+        <TextField
+          hintText={formatHintText(intl, searchAttribute, BOUND_TYPE.NONE)}
+          title={formatTooltip(intl, searchAttribute)}
+          value={searchText}
+          onChange={onTextInput}
+          fullWidth
+        />
+      </td>
+    </tr>)
 }
 }
+
 export default CriterionComponent

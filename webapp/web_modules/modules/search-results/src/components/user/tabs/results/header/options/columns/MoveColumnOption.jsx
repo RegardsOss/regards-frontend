@@ -58,7 +58,7 @@ class MoveColumnOption extends React.Component {
   /**
    * @return {[React.Element]} list of rendered available options
    */
-  getAvailbleMoveOptions = () => {
+  getAvailableMoveOptions = () => {
     const { entity, models, rowIndex } = this.props
     const { intl: { locale, formatMessage } } = this.context
     // disable for options column
@@ -107,7 +107,7 @@ class MoveColumnOption extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const options = this.getAvailbleMoveOptions()
+    const options = this.getAvailableMoveOptions()
     return (
       <DropDownButton
         ButtonConstructor={IconButtonNoChild}

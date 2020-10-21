@@ -43,6 +43,8 @@ STATIC_CONF = {
     ORDER: 'rs-order',
     STORAGE: 'rs-storage',
     INGEST: 'rs-ingest',
+    FEM: 'rs-fem',
+    NOTIFIER: 'rs-notifier',
   },
   // Public proxixied microservice to access secured microservices from user interface.
   // Only some endpoints of associated microservices are availables. Reffer to gateway mircoservice configuration.
@@ -76,4 +78,16 @@ STATIC_CONF = {
     safari: '11.1',
     edge: '16.0',
   },
+  MAP : {
+    PAGE_SIZE_MAP: 400,
+    /**
+    STATIC_LAYER : {
+      name: 'Worldcover layer',
+      baseUrl: 'http://172.26.47.52:6280/map/tiles/1.0.0/landcover/EPSG3857',
+      type: 'OSM',
+      background: false,
+      visible: true,
+    }
+     */
+  }
 }

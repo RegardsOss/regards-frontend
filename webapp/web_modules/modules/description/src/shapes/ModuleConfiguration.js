@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
+import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
 
 /**
  * Describes module configuration shape
@@ -26,10 +26,7 @@ import { AccessShapes, CatalogShapes } from '@regardsoss/shape'
 
 export const DescriptionGroup = PropTypes.shape({
   showTitle: PropTypes.bool.isRequired,
-  title: PropTypes.shape({
-    en: PropTypes.string, // english group label, optional
-    fr: PropTypes.string, // french group label, optional
-  }).isRequired, // labels dictionnary, required
+  title: UIShapes.IntlMessage.isRequired,
   elements: AccessShapes.AttributeListConfigurationModel.isRequired, // attributes elements (groups or single), with labels
 })
 

@@ -22,11 +22,10 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
  * Actions to send a request to delete a request
  */
 export default class RequestDeleteActions extends BasicSignalActions {
-  constructor(namespace, instance = false) {
+  constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${instance ? STATIC_CONF.IMSERVICES.INGEST_INSTANCE : STATIC_CONF.MSERVICES.INGEST}/requests/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.INGEST}/requests/delete`,
       namespace,
-      bypassErrorMiddleware: false,
     })
   }
 }

@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AccessDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 
 /**
@@ -27,7 +28,7 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 const commonItemFields = {
   // map of title by locale
   key: PropTypes.string.isRequired,
-  title: PropTypes.objectOf(PropTypes.string),
+  title: UIShapes.IntlMessage,
   iconType: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES),
   customIconURL: PropTypes.string,
   selected: PropTypes.bool.isRequired,

@@ -18,13 +18,13 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import IconButton from 'material-ui/IconButton'
 import TextField from 'material-ui/TextField'
-import { DamDomain } from '@regardsoss/domain'
+import { DamDomain, UIDomain } from '@regardsoss/domain'
+import { IconElementSelector } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import StringCriterionComponent from '../../src/components/StringCriterionComponent'
+import { SEARCH_MODES_ENUM, SEARCH_MODES } from '../../src/domain/SearchMode'
 import styles from '../../src/styles'
-import { SEARCH_MODES_ENUM } from '../../src/domain/SearchMode'
 
 const context = buildTestContext(styles)
 
@@ -39,64 +39,47 @@ describe('[String criterion] Testing StringCriterionComponent', () => {
   it('should exists', () => {
     assert.isDefined(StringCriterionComponent)
   })
-  it('should render correctly in contains mode', () => {
+  it('should render correctly with all locales', () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       searchText: 'xxx',
       searchMode: SEARCH_MODES_ENUM.CONTAINS,
       onTextInput: () => {},
-      onSelectContainsMode: () => {},
-      onSelectStrictEqualMode: () => {},
-      onSelectRegexpMode: () => {},
+      onSelectMode: () => {},
     }
-    const enzymeWrapper = shallow(<StringCriterionComponent {...props} />, { context })
-    const textField = enzymeWrapper.find(TextField)
-    assert.lengthOf(textField, 1, 'There should be the text field')
-    testSuiteHelpers.assertWrapperProperties(textField, {
-      value: props.searchText,
-      onChange: props.onTextInput,
-    }, 'Text field properties should be correctly set')
-    const buttonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(buttonWrapper, 2, 'There should be 2 mode selectors')
-    testSuiteHelpers.assertWrapperProperties(buttonWrapper.at(0), {
-      iconStyle: context.moduleTheme.selectedIconStyle,
-      title: 'criterion.search.field.contains.selector.title',
-      onClick: props.onSelectContainsMode,
-    }, 'Contains mode selector properties should be correctly set')
-    testSuiteHelpers.assertWrapperProperties(buttonWrapper.at(1), {
-      iconStyle: context.moduleTheme.defaultIconStyle,
-      title: 'criterion.search.field.equals.selector.title',
-      onClick: props.onSelectStrictEqualMode,
-    }, 'Strict equal mode selector properties should be correctly set, it should not be selected')
+    UIDomain.LOCALES.forEach((locale) => {
+      const enzymeWrapper = shallow(<StringCriterionComponent {...props} />, {
+        context: buildTestContext(styles, locale),
+      })
+      assert.include(enzymeWrapper.debug(), props.label[locale])
+    })
   })
-  it('should render correctly in strictly equals mode', () => {
+  SEARCH_MODES.forEach(mode => it(`Should render correctly in mode "${mode}"`, () => {
     const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),
       searchText: 'xxx',
-      searchMode: SEARCH_MODES_ENUM.EQUALS,
+      searchMode: mode,
       onTextInput: () => {},
-      onSelectContainsMode: () => {},
-      onSelectStrictEqualMode: () => {},
-      onSelectRegexpMode: () => {},
+      onSelectMode: () => {},
     }
     const enzymeWrapper = shallow(<StringCriterionComponent {...props} />, { context })
+
+    const modeSelector = enzymeWrapper.find(IconElementSelector)
+    assert.lengthOf(modeSelector, 1, 'There should be mode selector')
+    testSuiteHelpers.assertWrapperProperties(modeSelector, {
+      value: props.searchMode,
+      choices: SEARCH_MODES,
+      choiceGraphics: StringCriterionComponent.MODES_DEFINITION,
+      onChange: props.onSelectMode,
+    })
+
     const textField = enzymeWrapper.find(TextField)
     assert.lengthOf(textField, 1, 'There should be the text field')
     testSuiteHelpers.assertWrapperProperties(textField, {
       value: props.searchText,
       onChange: props.onTextInput,
     }, 'Text field properties should be correctly set')
-    const buttonWrapper = enzymeWrapper.find(IconButton)
-    assert.lengthOf(buttonWrapper, 2, 'There should be 2 mode selectors')
-    testSuiteHelpers.assertWrapperProperties(buttonWrapper.at(0), {
-      iconStyle: context.moduleTheme.defaultIconStyle,
-      title: 'criterion.search.field.contains.selector.title',
-      onClick: props.onSelectContainsMode,
-    }, 'Contains mode selector properties should be correctly set')
-    testSuiteHelpers.assertWrapperProperties(buttonWrapper.at(1), {
-      iconStyle: context.moduleTheme.selectedIconStyle,
-      title: 'criterion.search.field.equals.selector.title',
-      onClick: props.onSelectStrictEqualMode,
-    }, 'Strict equal mode selector properties should be correctly set, it should not be selected')
-  })
+  }))
 })

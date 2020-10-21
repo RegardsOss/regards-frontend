@@ -29,7 +29,7 @@ export default [{
     pluginConfigurations: [],
     pluginMetaDatas: [{
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.IntSumComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       author: 'REGARDS Team',
       pluginId: 'IntSumComputePlugin',
       version: '1.0.0',
@@ -80,7 +80,7 @@ export default [{
       priorityOrder: 0,
       active: true,
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.MinDateComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       parameters: [{
         id: 3,
         name: 'parameterAttributeFragmentName',
@@ -108,7 +108,7 @@ export default [{
       priorityOrder: 0,
       active: true,
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.MinDateComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       parameters: [{
         id: 6,
         name: 'parameterAttributeFragmentName',
@@ -131,7 +131,7 @@ export default [{
     }],
     pluginMetaDatas: [{
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.MaxDateComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       author: 'REGARDS Team',
       pluginId: 'MaxDateComputePlugin',
       version: '1.0.0',
@@ -163,7 +163,7 @@ export default [{
       }],
     }, {
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.MinDateComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       author: 'REGARDS Team',
       pluginId: 'MinDateComputePlugin',
       version: '1.0.0',
@@ -270,7 +270,7 @@ export default [{
       priorityOrder: 0,
       active: true,
       pluginClassName: 'fr.cnes.regards.modules.dam.plugin.entities.CountPlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       parameters: [{
         id: 7,
         name: 'resultAttributeName',
@@ -286,7 +286,7 @@ export default [{
       priorityOrder: 0,
       active: true,
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.LongSumComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       parameters: [{
         id: 10,
         name: 'parameterAttributeFragmentName',
@@ -309,7 +309,7 @@ export default [{
     }],
     pluginMetaDatas: [{
       pluginClassName: 'fr.cnes.regards.modules.dam.plugin.entities.CountPlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       author: 'REGARDS Team',
       pluginId: 'CountPlugin',
       version: '1.0.0',
@@ -331,7 +331,7 @@ export default [{
       }],
     }, {
       pluginClassName: 'fr.cnes.regards.modules.entities.plugin.LongSumComputePlugin',
-      interfaceNames: ['fr.cnes.regards.modules.dam.domain.models.IComputedAttribute'],
+      interfaceNames: ['fr.cnes.regards.modules.model.domain.IComputedAttribute'],
       author: 'REGARDS Team',
       pluginId: 'LongSumComputePlugin',
       version: '1.0.0',
