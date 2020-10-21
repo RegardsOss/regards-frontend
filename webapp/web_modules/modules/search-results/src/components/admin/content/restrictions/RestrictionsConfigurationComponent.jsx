@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { UIDomain, CommonDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -93,7 +93,7 @@ class RestrictionsConfigurationComponent extends React.Component {
               title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.title' })}
               message={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.message' })}
               buttonLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.close' })}
-              link={CatalogDomain.LINK_DOC_SEARCH_API}
+              link={CommonDomain.LINK_DOC_SEARCH_API}
               linkLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.link' })}
             />
           </div>

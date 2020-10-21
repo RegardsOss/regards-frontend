@@ -18,8 +18,10 @@
  **/
 
 /**
- * Catalog documentation links
+ * Externals links to documentation
+ * TODO Change Links when user documentation is created
  * @author Théo Lasserre
  */
 
+/** Catalog documentation links */
 export const LINK_DOC_SEARCH_API = 'https://regardsoss.github.io/development/regards/catalog/api/search-api/#string-searches'
