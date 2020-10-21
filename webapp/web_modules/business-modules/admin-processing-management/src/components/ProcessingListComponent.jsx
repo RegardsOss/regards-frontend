@@ -66,10 +66,6 @@ class ProcessingListComponent extends React.Component {
       ...i18nContextType,
     }
 
-    static ICON_STYLE = {
-      margin: 5,
-    }
-
     state = {
       processingToDelete: null,
       deleteDialogOpened: false,
