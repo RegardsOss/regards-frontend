@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/webpack-config-front",
-  "version": "1.3.0-SNAPSHOT",
+  "version": "1.4.0-SNAPSHOT",
   "private": true,
   "description": "",
   "main": "src/main.js",

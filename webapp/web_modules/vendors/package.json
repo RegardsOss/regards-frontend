@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/vendors",
-  "version": "1.3.0-SNAPSHOT",
+  "version": "1.4.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Vendors whose sources need to be adapted to be used by Regards.",
