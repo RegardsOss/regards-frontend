@@ -91,6 +91,31 @@ export default {
   },
 
   /**
+   * Asserts a wrapper is displayed once in parent wrapper (by its class), with the right properties
+   * @param {*} parentWrapper parent wrapper
+   * @param {*} CompClass class of the component to find
+   * @param {*} expectedProperties expected properties for corresponding  wrapper
+   * @param message assertion fail message (optional)
+   * @return {Wrapper} found enzyme wrapper
+   */
+  assertCompWithProps(parentWrapper, CompClass, expectedProperties, message = `${CompClass.displayName} should be displayed with right properties`) {
+    const foundWrapper = parentWrapper.find(CompClass)
+    assert.lengthOf(foundWrapper, 1, message)
+    this.assertWrapperProperties(foundWrapper, expectedProperties, message)
+    return foundWrapper
+  },
+
+  /**
+   * Asserts a component is not displayed in parent wrapper (by its class)
+   * @param {*} parentWrapper parent wrapper
+   * @param {*} CompClass class of the component to find
+   * @param message assertion fail message (optional)
+   */
+  assertNotComp(parentWrapper, CompClass, message = `${CompClass.displayName} should not be displayed`) {
+    assert.lengthOf(parentWrapper.find(CompClass), 0, message)
+  },
+
+  /**
    * Provides a stub that reproduce the behavior of a React Container dispatchable method that retrieve data without issue
    * Usually used by Container that fetches data on their componentDidMount, UNSAFE_componentWillMount and user actions
    * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...

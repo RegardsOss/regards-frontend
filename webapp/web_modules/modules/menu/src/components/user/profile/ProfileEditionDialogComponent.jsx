@@ -29,9 +29,9 @@ import { MetadataList } from '@regardsoss/user-metadata-common'
 import { themeContextType } from '@regardsoss/theme'
 import { PositionedDialog } from '@regardsoss/components'
 import { QuotaInfo, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
+import { PROFILE_VIEW_STATES, PROFILE_VIEW_STATE_ENUM } from '../../../domain/ProfileViewStateEnum'
 import ProfileEditionFormComponent from './ProfileEditionFormComponent'
 import ProfileNotificationFormComponent from './ProfileNotificationFormComponent'
-import { PROFILE_VIEW_STATES, PROFILE_VIEW_STATE_ENUM } from '../../../domain/ProfileViewStateEnum'
 import ProfileQuotaInformationComponent from './ProfileQuotaInformationComponent'
 
 /**

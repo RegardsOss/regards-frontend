@@ -115,7 +115,8 @@ export class ProfileEditionContainer extends React.Component {
 
   render() {
     const {
-      quotaInfo, dialogState: { open, view }, onShowView, onHideDialog,
+      quotaInfo, dialogState: { open, view }, notificationSettings,
+      onShowView, onHideDialog,
     } = this.props
     const { userMetadata, isLoading } = this.state
 
@@ -128,7 +129,7 @@ export class ProfileEditionContainer extends React.Component {
         view={view}
         quotaInfo={quotaInfo}
         userMetadata={userMetadata}
-        notificationSettings={this.props.notificationSettings}
+        notificationSettings={notificationSettings}
         onShowView={onShowView}
         onEditProfile={this.onEditProfile}
         onEditNotificationSettings={this.onEditNotificationSettings}

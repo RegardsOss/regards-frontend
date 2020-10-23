@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { QUOTA_INFO_STATES, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import ProfileQuotaInformationComponent from '../../../../src/components/user/profile/ProfileQuotaInformationComponent'
 import styles from '../../../../src/styles'
 
@@ -35,11 +36,40 @@ describe('[Menu] Testing ProfileQuotaInformationComponent', () => {
   it('should exists', () => {
     assert.isDefined(ProfileQuotaInformationComponent)
   })
-  it('should render correctly', () => {
-    const props = {
-    //  TODO properties
-    }
-    const enzymeWrapper = shallow(<ProfileQuotaInformationComponent {...props} />, { context })
-    assert.fail('TODO impl!')
+
+  it('should render correctly with specific quota states', () => {
+    QUOTA_INFO_STATES.forEach((quotaState) => QUOTA_INFO_STATES.forEach((rateState) => {
+      const props = {
+        quotaInfo: {
+          currentQuota: 3,
+          maxQuota: 100,
+          quotaState,
+          currentRate: 8,
+          rateLimit: 10,
+          rateState,
+          downloadDisabled: false,
+          inUserApp: true,
+        },
+      }
+      const enzymeWrapper = shallow(<ProfileQuotaInformationComponent {...props} />, { context })
+      const renderAsText = enzymeWrapper.debug()
+      // 1. check common messages
+      assert.include(renderAsText, 'user.profile.quota.info.title')
+      assert.include(renderAsText, 'user.profile.quota.info.message.raw.data.download.definition')
+      assert.include(renderAsText, 'user.profile.quota.info.message.contact.notice')
+      assert.include(renderAsText, 'user.profile.quota.info.title.current.status')
+      // 2. Check quota state message
+      if (quotaState === QUOTA_INFO_STATE_ENUM.UNLIMITED) {
+        assert.include(renderAsText, 'user.profile.quota.info.message.unlimited.download')
+      } else {
+        assert.include(renderAsText, 'user.profile.quota.info.message.remaining.downloads')
+      }
+      // 2. Check rate state message
+      if (rateState === QUOTA_INFO_STATE_ENUM.UNLIMITED) {
+        assert.include(renderAsText, 'user.profile.quota.info.message.unlimited.rate')
+      } else {
+        assert.include(renderAsText, 'user.profile.quota.info.message.remaining.rate')
+      }
+    }))
   })
 })

@@ -18,8 +18,10 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ProfileNotificationFormComponent from '../../../../src/components/user/profile/ProfileNotificationFormComponent'
+import { ShowableAtRender } from '@regardsoss/components'
+import { ProfileNotificationFormComponent } from '../../../../src/components/user/profile/ProfileNotificationFormComponent'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -35,11 +37,54 @@ describe('[Menu] Testing ProfileNotificationFormComponent', () => {
   it('should exists', () => {
     assert.isDefined(ProfileNotificationFormComponent)
   })
-  it('should render correctly', () => {
+
+  const testCases = [{
+    label: 'with common frequency: DAILY',
+    frequency: 'DAILY',
+    expectCustomFields: false,
+  }, {
+    label: 'with common frequency: WEEKLY',
+    frequency: 'WEEKLY',
+    expectCustomFields: false,
+  }, {
+    label: 'with common frequency: MONTHLY',
+    frequency: 'MONTHLY',
+    expectCustomFields: false,
+  }, {
+    label: 'with parametrized frequency: CUSTOM',
+    frequency: 'CUSTOM',
+    expectCustomFields: true,
+  }]
+
+  testCases.forEach(({ label, frequency, expectCustomFields }) => it(`should render correctly ${label}`, () => {
     const props = {
-    //  TODO properties
+      // submit function
+      onEdit: () => {},
+      notificationSettings: {
+        id: 1,
+        days: 22,
+        hours: 10,
+        frequency,
+      },
+      pristine: true,
+      submitting: false,
+      invalid: true,
+      handleSubmit: () => {},
+      initialize: () => {},
+      change: () => {},
     }
     const enzymeWrapper = shallow(<ProfileNotificationFormComponent {...props} />, { context })
-    assert.fail('TODO impl!')
-  })
+    const fields = enzymeWrapper.find(Field)
+    // Fields: always displayed (parent showable controls display)
+    assert.lengthOf(fields.findWhere((n) => n.props().name === 'frequency'), 1, 'Frequency field should be displayed')
+    assert.lengthOf(fields.findWhere((n) => n.props().name === 'days'), 1, 'Days field should be displayed')
+    assert.lengthOf(fields.findWhere((n) => n.props().name === 'hours'), 1, 'hours field should be displayed')
+    // Check days and hours are shown only when in custom frequency
+    const showable = enzymeWrapper.find(ShowableAtRender)
+    if (expectCustomFields) {
+      assert.isTrue(showable.props().show, 'Custom fields should be displayed')
+    } else {
+      assert.isFalse(showable.props().show, 'Custom fields should be hidden')
+    }
+  }))
 })

@@ -44,9 +44,9 @@ export class LoggedUserComponent extends React.Component {
     name: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
     borrowableRoles: AdminShapes.RoleList.isRequired,
+    showProfileDialog: PropTypes.bool.isRequired,
     onBorrowRole: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    showProfileDialog: PropTypes.bool.isRequired,
     onShowProfileEdition: PropTypes.func.isRequired,
     onShowQuotaInformation: PropTypes.func.isRequired,
     // from withQuotaInfo HOC
@@ -153,7 +153,7 @@ export class LoggedUserComponent extends React.Component {
           </ShowableAtRender>
           { /* 2.d - Logout option */}
           <MenuItem
-            key="loggout"
+            key="logout"
             primaryText={formatMessage({ id: 'logoutLabel' })}
             leftIcon={<ActionExitToApp />}
             onClick={onLogout}

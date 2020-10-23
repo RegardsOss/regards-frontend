@@ -52,7 +52,7 @@ class LoginIconComponent extends React.Component {
     } = this.props
     const { moduleTheme: { user: { profile: { mainIcon, quotaStatusIcon: { warning, consumed } } } } } = this.context
     return ( // root container: prepares overlay using 'relative' placement
-      <div style={{ // TODO nop! watch style changes
+      <div style={{
         ...style,
         ...LoginIconComponent.ROOT_CONTAINER_STYLE,
       }}
