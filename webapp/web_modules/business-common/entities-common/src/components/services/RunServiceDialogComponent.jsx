@@ -26,6 +26,7 @@ import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsos
 import { reduxForm } from '@regardsoss/form-utils'
 import { Parameter } from '../../definitions/parameters/Parameter'
 import ParametersConfigurationComponent from './parameters/ParametersConfigurationComponent'
+import ServiceDescriptionComponent from './ServiceDescriptionComponent'
 
 /**
 * Dialog containing all the service run steps (not related with shown content):
@@ -41,6 +42,65 @@ export class RunServiceDialogComponent extends React.Component {
     RESULTS: 'RESULTS',
   }
 
+  /**
+   * Builds loading step
+   * @return usable step for this component
+   */
+  static buildLoadingStep = () => ({ step: RunServiceDialogComponent.Steps.LOADING })
+
+  /**
+   * Builds a message step, that can be used for both error and no data messages
+   * @param messageKey message key
+   * @param error is in error?
+   * @param customOptions options for that step
+   * @return usable step for this component
+   */
+  static buildMessageStep = (messageKey, error, customOptions = []) => ({
+    step: RunServiceDialogComponent.Steps.MESSAGE,
+    messageKey,
+    error,
+    customOptions,
+  })
+
+  /**
+   * Builds parameter configuration step
+   * @param parameters parameters list
+   * @param parametersValues map <string, *> of user entered values (used to keep entered values on previous step request)
+   * @param onSubmit callback, user submitted parameters values
+   * @return usable step for this component
+   */
+  static buildDescriptionStep = (description, onSubmit) => ({
+    step: RunServiceDialogComponent.Steps.DESCRIPTION,
+    description,
+    onSubmit,
+  })
+
+  /**
+   * Builds parameter configuration step
+   * @param parameters parameters list
+   * @param parametersValues map <string, *> of user entered values (used to keep entered values on previous step request)
+   * @param onSubmit callback, user submitted parameters values
+   * @return usable step for this component
+   */
+  static buildParametersConfigurationStep = (parameters, parametersValues = {}, onSubmit) => ({
+    step: RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION,
+    parameters,
+    parametersValues,
+    onSubmit,
+  })
+
+  /**
+   * Builds results step
+   * @param resultsComponent results component to show
+   * @param customOptions options for that step
+   * @return usable step for this component
+   */
+  static buildResultsStep = (resultsComponent, customOptions = []) => ({
+    step: RunServiceDialogComponent.Steps.RESULTS,
+    resultsComponent,
+    customOptions,
+  })
+
   static propTypes = {
     serviceName: PropTypes.string.isRequired,
     currentStep: PropTypes.oneOfType([
@@ -55,6 +115,12 @@ export class RunServiceDialogComponent extends React.Component {
         error: PropTypes.bool.isRequired,
         // custom step dialog options as react components
         customOptions: PropTypes.arrayOf(PropTypes.element).isRequired,
+      }),
+      // description step
+      PropTypes.shape({
+        step: PropTypes.oneOf([RunServiceDialogComponent.Steps.DESCRIPTION]),
+        description: PropTypes.string.isRequired,
+        onSubmit: PropTypes.func.isRequired,
       }),
       // parameters configuration step
       PropTypes.shape({
@@ -151,9 +217,28 @@ export class RunServiceDialogComponent extends React.Component {
       onClose, currentStep, invalid, handleSubmit,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    // A - Specific case: hidden buttons bar
-    if (currentStep.step === RunServiceDialogComponent.Steps.RESULTS && !currentStep.showButtonsBar) {
-      return null
+    // 1 - determinate if there is a second action in current state
+    let otherActions
+    switch (currentStep.step) {
+      // submit option when configuring parameters
+      case RunServiceDialogComponent.Steps.DESCRIPTION:
+      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+        otherActions = [
+          <FlatButton
+            key="submit.button"
+            disabled={invalid}
+            label={formatMessage({ id: 'entities.common.services.submit.parameters' })}
+            type="submit"
+            onClick={handleSubmit(this.onSubmit)} // it is required here to handle manually the submit button (tested)
+          />]
+        break
+      // previous options (should be used after parameters configuration)
+      case RunServiceDialogComponent.Steps.MESSAGE:
+      case RunServiceDialogComponent.Steps.RESULTS:
+        otherActions = currentStep.customOptions
+        break
+      default:
+        otherActions = []
     }
     // B - Button bar, according with step
     return <>
@@ -191,6 +276,17 @@ export class RunServiceDialogComponent extends React.Component {
     </>
   }
 
+  renderStep = (currentStep, initialize) => {
+    switch (currentStep.step) {
+      case RunServiceDialogComponent.Steps.DESCRIPTION:
+        return <ServiceDescriptionComponent description={currentStep.description} />
+      case RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION:
+        return <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} />
+      default:
+        return currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT
+    }
+  }
+
   render() {
     const {
       serviceName, currentStep, handleSubmit, initialize, ...otherDialogProps
@@ -218,11 +314,7 @@ export class RunServiceDialogComponent extends React.Component {
             messageKey={stepType === RunServiceDialogComponent.Steps.MESSAGE ? currentStep.messageKey : null}
             Icon={currentStep.error ? ErrorIcon : MessageIcon}
           >
-            { // render interactive steps: configuration or results
-              stepType === RunServiceDialogComponent.Steps.PARAMETERS_CONFIGURATION
-                ? <ParametersConfigurationComponent parameters={currentStep.parameters} parametersValues={currentStep.parametersValues} initialize={initialize} /> // configuration step
-                : currentStep.resultsComponent || RunServiceDialogComponent.EMPTY_COMPONENT // results step or none
-            }
+            {this.renderStep(currentStep, initialize)}
           </NoContentMessageInfo>
         </LoadableContentDialogContainer>
       </form>
