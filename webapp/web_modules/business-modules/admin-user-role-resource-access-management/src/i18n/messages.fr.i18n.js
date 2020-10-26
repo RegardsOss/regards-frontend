@@ -27,7 +27,7 @@ const messages = {
   'role.form.moreinfo': 'Plus d\'informations',
   'role.modal.title': 'Ressource {name}',
   'role.modal.action.back': 'Retour',
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',

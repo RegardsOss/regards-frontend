@@ -87,7 +87,7 @@ const messages = {
   'project.user.settings.action.confirm': 'Confirmer',
   'project.user.settings.action.cancel': 'Annuler',
 
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',
