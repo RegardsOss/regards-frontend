@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { DamDomain } from '@regardsoss/domain'
+import { CommonDomain, DamDomain } from '@regardsoss/domain'
 
 /**
  * Dump holding entities as resolved by DescriptionEntityHelper
@@ -299,7 +299,9 @@ export const resolvedDataEntity = {
         dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
       },
     }],
-    otherFiles: [{ label: 'simple_sip_01.dat', available: true, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333' }],
+    otherFiles: [{
+      label: 'simple_sip_01.dat', available: true, type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+    }],
     wordTags: ['DATASET_CHRIS_2', 'HELLO_REGARDS', 'QUICKLOOKS'],
     couplingTags: ['coupling:ref1:Couple 1', 'coupling:ref1:Couple 2'],
     otherVersions: [{
@@ -455,22 +457,32 @@ export const resolvedDatasetEntity = {
       label: 'http://172.26.47.107/public/MD-TEST.md',
       available: true,
       uri: 'http://172.26.47.107/public/MD-TEST.md',
+      type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
+      reference: false,
     }, {
       label: 'http://172.26.47.107/public/PDF-TEST.pdf',
       available: true,
       uri: 'http://172.26.47.107/public/PDF-TEST.pdf',
+      type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
+      reference: false,
     }, {
       label: 'dynamic-modules.md',
       available: true,
       uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
+      reference: false,
     }, {
       label: 'S1.pdf',
       available: true,
       uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
+      reference: false,
     }, {
       label: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
       available: true,
       uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyYXBoYWVsLm1lY2hhbGlAYy1zLmZyIiwiYXVkIjpbInJzLWF1dGhlbnRpY2F0aW9uIl0sInJvbGUiOiJQUk9KRUNUX0FETUlOIiwidXNlcl9uYW1lIjoiZnIuY25lcy5yZWdhcmRzLmZyYW1ld29yay5zZWN1cml0eS51dGlscy5qd3QuVXNlckRldGFpbHNANTg5ZWM4NDUiLCJzY29wZSI6WyJwcm9qZWN0MSJdLCJleHAiOjE1Njk5MjI3MTYsImF1dGhvcml0aWVzIjpbIlBST0pFQ1RfQURNSU4iXSwianRpIjoiYjk5YjZhYzctM2FiMS00YjZlLWEwNzgtNDY4MTViZGU5MGExIiwidGVuYW50IjoicHJvamVjdDEiLCJlbWFpbCI6InJhcGhhZWwubWVjaGFsaUBjLXMuZnIiLCJjbGllbnRfaWQiOiJjbGllbnQifQ._Z8hPqJ_3md_y_1JEFqmvf4nKyfRvfSAKuOl6gaiwe4&origin=http://localhost:3333',
+      type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
+      reference: false,
     }],
     quicklookFiles: [],
     otherFiles: [],

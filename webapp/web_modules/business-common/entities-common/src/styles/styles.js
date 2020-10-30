@@ -21,6 +21,25 @@
  * Builds module style on theme
  */
 export default (theme) => ({
+  downloadIcon: {
+    backgroundIcon: {
+      position: 'absolute',
+      top: -theme.spacing.iconSize / 2, // Due to SVG container drawing way (don't want to know more?...)
+      left: 0,
+      width: theme.spacing.iconSize,
+      height: theme.spacing.iconSize,
+    },
+    foregroundWarningIcon: {
+      position: 'absolute',
+      color: theme.components.download.quotaWarningColor,
+      ...theme.components.download.foregroundWarningPlacement,
+    },
+    foregroundConsumedIcon: {
+      position: 'absolute',
+      color: theme.components.download.quotaConsumedColor,
+      ...theme.components.download.foregroundWarningPlacement,
+    },
+  },
   pluginServiceDialog: {
     widthPercent: 70,
     heightPercent: 68,

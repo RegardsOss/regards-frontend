@@ -21,7 +21,7 @@ import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import FlatButton from 'material-ui/FlatButton'
 import { EnumConnectivity } from '@regardsoss/domain/admin'
-import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import { OnHoverSwitchFlatButton } from '@regardsoss/components'
 import DatabaseConnectionTester from '../../../src/components/projectConnection/DatabaseConnectionTester'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
 

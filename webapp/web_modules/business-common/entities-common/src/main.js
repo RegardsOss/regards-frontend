@@ -21,9 +21,11 @@
 export { DescriptionHelper } from './definitions/DescriptionHelper'
 
 // Downloads
+export * from './components/download/quota/DownloadIconComponent'
 export * from './containers/download/quota/withQuotaInfo'
 export * from './definitions/download/quota/QuotaInfoShape'
 export * from './definitions/download/quota/QuotaInfoStateEnum'
+export * from './definitions/download/quota/QuotaDownloadUtils'
 
 // Services
 export { default as ServiceContainer } from './containers/services/ServiceContainer'

@@ -51,9 +51,6 @@ describe('[Description] Testing FilesSectionPageComponent', () => {
       elements: props.files,
       buildElementNode: enzymeWrapper.instance().renderFile,
     }, 'List render properties should be correctly set')
-    // Test inner render into file link component
-    props.files.forEach((file, index) => {
-      shallow(enzymeWrapper.instance().renderFile(file, index), { context })
-    })
+    // Cannot test inner render into file link component (redux connection)
   })
 })

@@ -30,7 +30,7 @@ class DownloadButton extends React.Component {
     label: PropTypes.string, // not mandatory, can use a simple icon
     tooltip: PropTypes.string,
     disabled: PropTypes.bool,
-    downloadURL: PropTypes.string.isRequired,
+    downloadURL: PropTypes.string, // not mandatory, for disabled cases
     downloadName: PropTypes.string,
     // ... other button properties, provided at runtime to the button
   }

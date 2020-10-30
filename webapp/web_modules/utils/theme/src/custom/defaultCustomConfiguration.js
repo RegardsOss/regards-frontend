@@ -39,6 +39,12 @@ export default (baseTheme) => ({
     download: {
       quotaWarningColor: '#FF9800',
       quotaConsumedColor: baseTheme.textField.errorColor,
+      foregroundWarningPlacement: {
+        top: -2,
+        left: 12,
+        width: 16,
+        height: 16,
+      },
     },
     scrollArea: {
       scrollingSidePadding: 15,
@@ -205,11 +211,11 @@ export default (baseTheme) => ({
           fontWeight: 400,
           iconToTextGap: 5,
           linkTextDecoration: 'underline',
+          margin: '0 24px 0 0',
         },
         rightIconButton: {
           size: 24,
           padding: 0,
-          margin: '0 0 0 24px',
         },
       },
       parameters: {

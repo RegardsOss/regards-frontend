@@ -103,7 +103,7 @@ function start(gatewayURL) {
         logMessage(`Served ${request.method} ${request.url} ${code} in ${new Date().getTime() - timeBefore}ms`, false, 'Proxy server')
       }
 
-      // B - handler product treament
+      // B - handler product treatment
       const handlerProduct = serviceHandler(request, response, pathParameters, queryParameters, bodyParameters)
       if (handlerProduct instanceof Promise) {
         logMessage(`Serving ${request.method} ${request.url} through delayed promise`)
