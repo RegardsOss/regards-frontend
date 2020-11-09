@@ -54,9 +54,19 @@ const messages = {
   'order-cart.module.duplicate.objects.message.title': 'Duplicated objects found',
   'order-cart.module.duplicate.objects.message': 'During your successive selections, some identical data objects ({duplicatedObjectsCount}) have been added. Only unique data objects will be ordered ({effectiveObjectsCount}).',
   'order-cart.module.duplicate.objects.message.close': 'Close',
+  'order-cart.module.basket.table.column.selection': 'Selection',
   'order-cart.module.basket.table.column.objects.count': 'Objects count',
   'order-cart.module.basket.table.column.files.size': 'Total files size',
-  'order-cart.module.basket.table.column.options': 'Options',
+  'order-cart.module.basket.table.column.quota.summary': 'Consumed downloads',
+  'order-cart.module.basket.table.row.total.label': 'Total',
+  'order-cart.module.basket.table.cell.total.quota.label': '{totalQuota} ({allowedQuota} allowed)',
+  'order-cart.module.basket.table.cell.total.quota.tooltip': `{totalQuota} download{totalQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  } / {allowedQuota} allowed ({afterOrderQuota} remaining).{warningMessage}`,
+  'order-cart.module.basket.table.cell.total.quota.warning.message': ' Your remaining download count, after order download, will be low.',
+  'order-cart.module.basket.table.cell.total.quota.consumed.message': ' Your order will probably be partially downloaded.',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Remove this dataset selections dataobjects',
   'order-cart.module.basket.table.delete.dataset.confirm.message': 'That operation will remove all selections in this dataset and their dataobjects from basket. It cannot be undone',
   'order-cart.module.basket.table.delete.dataset.confirm.title': 'Remove dataset selections',

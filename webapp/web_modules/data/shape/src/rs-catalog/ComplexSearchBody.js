@@ -16,20 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { QUOTA_INFO_STATES } from './QuotaInfoStateEnum'
 
 /**
- * Quota information field, as added by withQuotaInfo
+ * Shapes related with Complex search endpoint
  * @author Raphaël Mechali
  */
-export const QuotaInfo = PropTypes.shape({
-  currentQuota: PropTypes.number.isRequired,
-  maxQuota: PropTypes.number.isRequired,
-  quotaState: PropTypes.oneOf(QUOTA_INFO_STATES),
-  currentRate: PropTypes.number.isRequired,
-  rateLimit: PropTypes.number.isRequired,
-  rateState: PropTypes.oneOf(QUOTA_INFO_STATES),
-  downloadDisabled: PropTypes.bool,
-  inUserApp: PropTypes.bool,
-  quotaWarningCount: PropTypes.number,
+
+export const ComplexSearchRequest = PropTypes.shape({
+  engineType: PropTypes.string.isRequired,
+  datasetUrn: PropTypes.string, // optional dataset restriction
+  entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
+  entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  searchParameters: PropTypes.objectOf(PropTypes.any),
+  searchDateLimit: PropTypes.string,
+})
+
+/**
+ * Complex search endpoint body
+ */
+export const ComplexSearchBody = PropTypes.shape({
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  requests: PropTypes.arrayOf(ComplexSearchRequest).isRequired,
 })

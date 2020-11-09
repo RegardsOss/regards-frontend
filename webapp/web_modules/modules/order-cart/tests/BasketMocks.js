@@ -35,13 +35,15 @@ export const mockBasket1 = {
       id: 0,
       datasetIpid: 'TEST-DATASET:URN:1',
       objectsCount: 2,
-      filesCount: 0,
+      quota: 3,
+      filesCount: 3,
       filesSize: 27730,
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
       itemsSelections: [{
         id: 0,
         objectsCount: 1,
+        quota: 2,
         filesCount: 0,
         filesSize: 1440,
         date: '2017-09-08T15:59:57.664Z',
@@ -56,8 +58,9 @@ export const mockBasket1 = {
       }, {
         id: 1,
         objectsCount: 1,
+        quota: 1,
         filesCount: 0,
-        filesSize: 1440,
+        filesSize: 1804,
         date: '2017-09-08T16:00:37.467Z',
         selectionRequest: {
           engineType: 'bing',
@@ -71,8 +74,9 @@ export const mockBasket1 = {
       {
         id: 2,
         objectsCount: 1,
+        quota: 1,
         filesCount: 0,
-        filesSize: 1440,
+        filesSize: 1280,
         date: '2017-09-08T16:00:37.545Z',
         selectionRequest: {
           engineType: 'yahoo',
@@ -89,12 +93,14 @@ export const mockBasket1 = {
       id: 1,
       datasetIpid: 'TEST-DATASET:URN:2',
       objectsCount: 25,
+      quota: 22,
       filesCount: 306,
       filesSize: 5048,
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
       itemsSelections: [{
         id: 3,
+        quota: 22,
         objectsCount: 25,
         filesCount: 306,
         filesSize: 5048,

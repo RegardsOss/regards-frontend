@@ -17,12 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 import root from 'window-or-global'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
-import { AccessShapes } from '@regardsoss/shape'
-import { quotaInformationActions, quotaInformationSelectors } from '../clients/QuotaInformationClient'
+import { quotaInformationActions } from '../clients/QuotaInformationClient'
 import { currentQuotaInformationActions } from '../clients/CurrentQuotaInformationClient'
 
 /**
@@ -34,8 +32,6 @@ import { currentQuotaInformationActions } from '../clients/CurrentQuotaInformati
 export class QuotaInformationUpdater extends React.Component {
   static propTypes = {
     // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    lastFetchedQuota: AccessShapes.QuotaInformation,
     authentication: AuthenticateShape,
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
@@ -56,7 +52,6 @@ export class QuotaInformationUpdater extends React.Component {
   static mapStateToProps(state) {
     return {
       authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
-      lastFetchedQuota: quotaInformationSelectors.getResult(state),
     }
   }
 
@@ -113,23 +108,13 @@ export class QuotaInformationUpdater extends React.Component {
     // Based on case detection, implement the following reaction:
     // (1) - Authentication state changed: start/restart recursive update loop (passing through (3) after fist fetch) or dispose previous control loop
     // (2) - Fetch back: If session is not locked and same user is still logged, publish fetched quota info and start next updater
-    const {
-      authentication, lastFetchedQuota, publishQuotaInformation, fetchQuotaInformation,
-    } = newProps
+    const { authentication, publishQuotaInformation, fetchQuotaInformation } = newProps
     const oldAuthData = QuotaInformationUpdater.getAuthData(oldProps.authentication)
     const { authenticated, sessionLocked } = QuotaInformationUpdater.getAuthData(authentication)
-    // (1) - log change
+    // (1) - log in / out
     if ((oldAuthData.authenticated !== authenticated)
       || oldAuthData.sessionLocked !== sessionLocked) {
       this.onAuthenticationUpdated(authenticated, sessionLocked, publishQuotaInformation, fetchQuotaInformation)
-    }
-    // (2) - Fetch performed (check, due to asynchronous operation that user is still logged in and session is not locked)
-    if (!isEqual(oldProps.lastFetchedQuota, lastFetchedQuota) && authenticated && !sessionLocked) {
-      publishQuotaInformation(
-        lastFetchedQuota.currentQuota,
-        lastFetchedQuota.maxQuota,
-        lastFetchedQuota.currentRate,
-        lastFetchedQuota.rateLimit)
     }
   }
 
@@ -146,24 +131,28 @@ export class QuotaInformationUpdater extends React.Component {
       publishQuotaInformation(0, 0, 0, 0) // A.1: no quota nor rate left for non authenticated user (or session locked users)
       this.onStopUpdateLoop() // A.2: stop current control loop
     } else { // Case B - the user logs in or its session is unlocked
-      this.onNextUpdateLoop(fetchQuotaInformation)
+      this.onNextUpdateLoop(publishQuotaInformation, fetchQuotaInformation)
     }
   }
 
   /**
    * Inner event: starts next update loop: fetch update then wait REFRESH_DELAY then enter next loop step
+   * @param {Function} publishQuotaInformation method to publish quota information
    * @param {Function} fetchQuotaInformation method to fetch quota information and then
    */
-  onNextUpdateLoop = (fetchQuotaInformation) => {
-    fetchQuotaInformation().then(() => {
-      root.setTimeout(() => {
-        // next loop when not cancelled and auth still valid
-        const { authentication } = this.props
-        const { authenticated, sessionLocked } = QuotaInformationUpdater.getAuthData(authentication)
-        if (!sessionLocked && authenticated) {
-          this.onNextUpdateLoop(fetchQuotaInformation)
+  onNextUpdateLoop = (publishQuotaInformation, fetchQuotaInformation) => {
+    fetchQuotaInformation().then(({ error, payload }) => {
+      const { authentication } = this.props
+      const { authenticated, sessionLocked } = QuotaInformationUpdater.getAuthData(authentication)
+      // next loop when not cancelled and auth still valid
+      if (!sessionLocked && authenticated) {
+        if (!error) {
+          publishQuotaInformation(payload.currentQuota, payload.maxQuota, payload.currentRate, payload.rateLimit)
         }
-      }, QuotaInformationUpdater.REFRESH_DELAY)
+        root.setTimeout(() => {
+          this.onNextUpdateLoop(publishQuotaInformation, fetchQuotaInformation)
+        }, QuotaInformationUpdater.REFRESH_DELAY)
+      }
     })
   }
 

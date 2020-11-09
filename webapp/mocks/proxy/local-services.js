@@ -112,17 +112,17 @@ function buildLocalServices(gatewayURL) {
         handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getResourcesDependencies)
       },
       // mock quota changes: 
-      // quota: {
-      //   url: 'rs-access-project/quota/current',
-      //   handler: () => ({
-      //     content: {
-      //     currentQuota: 1000,
-      //     maxQuota: 1000,
-      //     currentRate: 0,
-      //     rateLimit: 500,
-      //     }
-      //   })
-      // }
+      quota: {
+        url: 'rs-access-project/quota/current',
+        handler: () => ({
+          content: {
+          currentQuota: 992,
+          maxQuota: 1000,
+          currentRate: 0,
+          rateLimit: 20,
+          }
+        })
+      }
     },
     PUT: {
 

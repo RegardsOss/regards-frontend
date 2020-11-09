@@ -143,9 +143,9 @@ const messages = {
   'user.profile.quota.info.message.contact.notice': 'You can contact the project administrator to increase your data download capacities.',
   'user.profile.quota.info.title.current.status': 'Current status',
   'user.profile.quota.info.message.unlimited.download': 'Your downloads are not limited',
-  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} remaining download(s)',
+  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} allowed download(s)',
   'user.profile.quota.info.message.unlimited.rate': 'Your simultaneous downloads are not limited',
-  'user.profile.quota.info.message.remaining.rate': '{currentRate}/{rateLimit} simultaneous downloads',
+  'user.profile.quota.info.message.remaining.rate': '{currentRate}/{rateLimit} downloads in progress',
 
   // notifications
   'user.menu.notification.max.count': '{maxCount}+',

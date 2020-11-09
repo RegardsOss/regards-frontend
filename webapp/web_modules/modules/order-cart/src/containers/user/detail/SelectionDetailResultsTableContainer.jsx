@@ -85,7 +85,7 @@ export class SelectionDetailResultsTableContainer extends React.Component {
     if (oldProperties.selectionRequest !== newProperties.selectionRequest) {
       this.setState({
         // report the parameters that will be provided as requests parameters to ComplexSeachActions#fetchPagedEntityList
-        requestParams: {
+        bodyParams: {
           requests: SelectionDetailResultsTableContainer.toComplexSearchRequests(newProperties.selectionRequest),
         },
       })
@@ -94,12 +94,12 @@ export class SelectionDetailResultsTableContainer extends React.Component {
 
   render() {
     const { resultsCount, isFetching } = this.props
-    const { requestParams } = this.state
+    const { bodyParams } = this.state
     return (
       <SelectionDetailResultsTableComponent
         pageActions={searchDataobjectsActions}
         pageSelectors={searchDataobjectsSelectors}
-        requestParams={requestParams}
+        bodyParams={bodyParams}
         resultsCount={resultsCount}
         isFetching={isFetching}
       />

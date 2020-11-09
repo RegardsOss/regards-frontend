@@ -40,11 +40,34 @@ const moduleStyles = (theme) => ({
         paddingRight: theme.components.scrollArea.scrollingSidePadding,
       },
       table: {
+        firstColumnHeader: {
+          paddingLeft: theme.components.treeTable.firstLevelIndentation,
+        },
         optionColumn: {
-          style: {
-            width: theme.button.iconButtonSize,
-            height: theme.button.iconButtonSize,
-            padding: 0,
+          width: theme.button.iconButtonSize,
+          height: theme.button.iconButtonSize,
+          padding: 0,
+        },
+        totalRow: {
+          cell: {
+            color: theme.module.orderCart.totalRowFontColor,
+            fontWeight: theme.module.orderCart.totalRowFontWeight,
+          },
+          quotaCell: {
+            container: {
+              display: 'flex',
+              alignItems: 'center',
+            },
+            icon: {
+              warning: {
+                color: theme.components.download.quotaWarningColor,
+                marginLeft: theme.module.orderCart.textToQuotaWarningGap,
+              },
+              consumed: {
+                color: theme.components.download.quotaConsumedColor,
+                marginLeft: theme.module.orderCart.textToQuotaWarningGap,
+              },
+            },
           },
         },
         objectsCountRender: {

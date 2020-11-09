@@ -313,6 +313,15 @@ export default (baseTheme) => ({
         },
       },
     },
+    // order car module
+    orderCart: {
+      totalRowFontColor: baseTheme.palette.accent2Color,
+      totalRowFontWeight: 'bold',
+      textToQuotaWarningGap: 24,
+      selectionColumn: {
+        paddingLeft: 8,
+      },
+    },
     // order history module
     orderHistory: {
       // common

@@ -54,9 +54,27 @@ const messages = {
   'order-cart.module.duplicate.objects.message.title': 'Données ajoutées plusieurs fois',
   'order-cart.module.duplicate.objects.message': 'Lors de vos sélections successives, plusieurs données identiques ({duplicatedObjectsCount}) ont été ajoutées. Seules les données uniques ({effectiveObjectsCount}) seront commandées.',
   'order-cart.module.duplicate.objects.message.close': 'Fermer',
+  'order-cart.module.basket.table.column.selection': 'Sélection',
   'order-cart.module.basket.table.column.objects.count': 'Nombre d\'objets',
   'order-cart.module.basket.table.column.files.size': 'Taille totale des fichiers',
-  'order-cart.module.basket.table.column.options': 'Options',
+  'order-cart.module.basket.table.column.quota.summary': 'Téléchargements consommés',
+  'order-cart.module.basket.table.row.total.label': 'Total',
+  'order-cart.module.basket.table.cell.total.quota.label': `{totalQuota} ({allowedQuota} autorisé{allowedQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  })`,
+  'order-cart.module.basket.table.cell.total.quota.tooltip': `{totalQuota} téléchargement{totalQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  } / {allowedQuota} autorisé{allowedQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  } ({afterOrderQuota} restant).{warningMessage}`,
+  'order-cart.module.basket.table.cell.total.quota.warning.message': ' Votre nombre de téléchargement restant après commande sera faible.',
+  'order-cart.module.basket.table.cell.total.quota.consumed.message': ' Vous ne pourrez probablement pas télécharger intégralement la commande.',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les sélections d\'objets de ce jeu de données',
   'order-cart.module.basket.table.delete.dataset.confirm.message': 'Cette opération supprimera du panier tous les objets de toutes les sélections de ce jeu de données. Elle ne peut pas être annulée',
   'order-cart.module.basket.table.delete.dataset.confirm.title': 'Supprimer les sélections',

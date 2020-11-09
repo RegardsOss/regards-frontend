@@ -33,6 +33,30 @@ const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
 
 const getReactCompoName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
+/** Unlimited quota or rate value */
+const UNLIMITED_VALUE = -1
+
+/**
+ * Computes the state of quota related parameter
+ * @param {number} current value for parameter
+ * @param {number} max value for parameter
+ * @param {number} warningCount as a differential value from current value to max
+ * @return {string} from QUOTA_INFO_STATE_ENUM
+ **/
+export function computeQuotaState(current, max, warningCount) {
+  if (max === UNLIMITED_VALUE) {
+    return QUOTA_INFO_STATE_ENUM.UNLIMITED
+  }
+  const remainingQuota = max - current
+  if (remainingQuota <= 0) {
+    return QUOTA_INFO_STATE_ENUM.CONSUMED
+  }
+  if (remainingQuota <= warningCount) {
+    return QUOTA_INFO_STATE_ENUM.WARNING
+  }
+  return QUOTA_INFO_STATE_ENUM.IDLE
+}
+
 /**
  * Decorates a React component with Regards Quota and rate information and computed related information (quotaInfo field add).
  * That decorator is designed to be used in user app but supports being used outside for coding easiness (in such case, it
@@ -58,9 +82,6 @@ export const withQuotaInfo = (DecoratedComponent) => {
     }
 
     static displayName = `withQuotaInfo(${getReactCompoName(DecoratedComponent)})`
-
-    /** Unlimited quota or rate value */
-    static UNLIMITED_VALUE = -1
 
     /** Quota information used as a replacement in admin app */
     static ADMIN_QUOTA_INFO = {
@@ -90,27 +111,6 @@ export const withQuotaInfo = (DecoratedComponent) => {
     }
 
     /**
-     * Computes the state of quota related parameter
-     * @param {number} current value for parameter
-     * @param {number} max value for parameter
-     * @param {number} warningCount as a margin from current value to max
-     * @return {string} from QUOTA_INFO_STATE_ENUM
-     **/
-    static computeState(current, max, warningCount) {
-      if (max === WithQuotaInfo.UNLIMITED_VALUE) {
-        return QUOTA_INFO_STATE_ENUM.UNLIMITED
-      }
-      const remainingQuota = max - current
-      if (remainingQuota <= 0) {
-        return QUOTA_INFO_STATE_ENUM.CONSUMED
-      }
-      if (remainingQuota <= warningCount) {
-        return QUOTA_INFO_STATE_ENUM.WARNING
-      }
-      return QUOTA_INFO_STATE_ENUM.IDLE
-    }
-
-    /**
      * Extracts decorator props
      * @param {*} quotaInfo matching AccessShapes.QuotaInformation
      * @param {*} uiSettings matching UIShapes.UISettings
@@ -122,8 +122,8 @@ export const withQuotaInfo = (DecoratedComponent) => {
         currentQuota, maxQuota, currentRate, rateLimit,
       } = quotaInfo
       const { quotaWarningCount, rateWarningCount } = uiSettings
-      const quotaState = WithQuotaInfo.computeState(currentQuota, maxQuota, quotaWarningCount)
-      const rateState = WithQuotaInfo.computeState(currentRate, rateLimit, rateWarningCount)
+      const quotaState = computeQuotaState(currentQuota, maxQuota, quotaWarningCount)
+      const rateState = computeQuotaState(currentRate, rateLimit, rateWarningCount)
       return {
         currentQuota,
         maxQuota,
@@ -133,6 +133,7 @@ export const withQuotaInfo = (DecoratedComponent) => {
         rateState,
         downloadDisabled: quotaState === QUOTA_INFO_STATE_ENUM.CONSUMED || rateState === QUOTA_INFO_STATE_ENUM.CONSUMED,
         inUserApp: !isNil(dynamicModuleId),
+        quotaWarningCount,
       }
     }
 

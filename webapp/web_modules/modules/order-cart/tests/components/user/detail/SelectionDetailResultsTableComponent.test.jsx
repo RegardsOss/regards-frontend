@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PageableInfiniteTableContainer } from '@regardsoss/components'
+import { PageableInfiniteTableContainer, TableHeaderLineLoadingAndResults } from '@regardsoss/components'
+import { CatalogDomain } from '@regardsoss/domain'
 import { searchDataobjectsActions, searchDataobjectsSelectors } from '../../../../src/client/ComplexSearchClient'
 import SelectionDetailResultsTableComponent from '../../../../src/components/user/detail/SelectionDetailResultsTableComponent'
 import styles from '../../../../src/styles/styles'
@@ -37,17 +38,37 @@ describe('[Order Cart] Testing SelectionDetailResultsTableComponent', () => {
   it('should exists', () => {
     assert.isDefined(SelectionDetailResultsTableComponent)
   })
-  it('should render correctly and link page size with available height', () => {
+  it('should render correctly', () => {
     const props = {
       pageActions: searchDataobjectsActions,
       pageSelectors: searchDataobjectsSelectors,
-      requestParams: { idk: 'idk' },
+      bodyParams: {
+        requests: [{
+          engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
+          datasetUrn: 'URN:DATASET:anything-for-test:V1',
+          entityIdsToInclude: [],
+          entityIdsToExclude: ['URN:DATA:any-data-for-test:V1'],
+          searchParameters: { q: 'tag:shiny thing' },
+          searchDateLimit: '2017-01-07T12:00:00Z',
+        }],
+      },
       resultsCount: 22,
       isFetching: true,
-      availableHeight: 55,
     }
-    const renderWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
-    const tableContainer = renderWrapper.find(PageableInfiniteTableContainer)
+    const enzymeWrapper = shallow(<SelectionDetailResultsTableComponent {...props} />, { context })
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderLineLoadingAndResults, {
+      resultsCount: props.resultsCount,
+      isFetching: props.isFetching,
+    })
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, PageableInfiniteTableContainer, {
+      pageActions: props.pageActions,
+      pageSelectors: props.pageSelectors,
+      columns: enzymeWrapper.instance().renderColumns(),
+      bodyParams: props.bodyParams,
+      emptyComponent: SelectionDetailResultsTableComponent.NO_DATA_COMPONENT,
+      fetchUsingPostMethod: true,
+    })
+    const tableContainer = enzymeWrapper.find(PageableInfiniteTableContainer)
     assert.lengthOf(tableContainer, 1, 'There should be an infinite table to show results')
     assert.deepEqual(tableContainer.props().pathParams, props.pathParams)
   })
