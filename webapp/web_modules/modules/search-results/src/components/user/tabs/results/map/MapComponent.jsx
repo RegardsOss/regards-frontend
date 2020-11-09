@@ -19,6 +19,7 @@
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
+import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
 
 /**
@@ -43,6 +44,8 @@ class MapComponent extends React.Component {
     backgroundLayerType: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     backgroundLayerConf: PropTypes.object,
+    // Engine name
+    mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE).isRequired,
   }
 
   static contextTypes = {
@@ -61,13 +64,27 @@ class MapComponent extends React.Component {
 
   render() {
     const {
-      featuresCollection, displayedAreas,
+      featuresCollection, displayedAreas, mapEngine,
       selectionMode, onSetSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       onFeaturesPicked, backgroundLayerURL, backgroundLayerType, backgroundLayerConf,
     } = this.props
     const { staticLayerOpacity } = this.state
 
     const { featureColor, drawColor } = this.context.muiTheme.module.searchResults.map.mizar
+    const engineProps = {
+      backgroundLayerUrl: backgroundLayerURL,
+      backgroundLayerType,
+      backgroundLayerConf,
+      featuresCollection,
+      drawnAreas: displayedAreas,
+      onDrawingSelectionUpdated,
+      onDrawingSelectionDone,
+      drawingSelection: selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
+      onFeaturesSelected: onFeaturesPicked,
+      featuresColor: featureColor,
+      drawColor,
+      staticLayerOpacity,
+    }
     return (
       <>
         <MapToolsComponent
@@ -76,21 +93,8 @@ class MapComponent extends React.Component {
           handleChangeOpacity={this.handleChangeOpacity}
           opacity={staticLayerOpacity}
         />
-        <MizarAdapter
-          key="mizarAdapter"
-          backgroundLayerUrl={backgroundLayerURL}
-          backgroundLayerType={backgroundLayerType}
-          backgroundLayerConf={backgroundLayerConf}
-          featuresCollection={featuresCollection}
-          drawnAreas={displayedAreas}
-          onDrawingSelectionUpdated={onDrawingSelectionUpdated}
-          onDrawingSelectionDone={onDrawingSelectionDone}
-          drawingSelection={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE}
-          onFeaturesSelected={onFeaturesPicked}
-          featuresColor={featureColor}
-          drawColor={drawColor}
-          staticLayerOpacity={staticLayerOpacity}
-        />
+        {mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM && <CesiumProvider {...engineProps} />}
+        {mapEngine === UIDomain.MAP_ENGINE_ENUM.MIZAR && <MizarAdapter {...engineProps} />}
       </>
     )
   }

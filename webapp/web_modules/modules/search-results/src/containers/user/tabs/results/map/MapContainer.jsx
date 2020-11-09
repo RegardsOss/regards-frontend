@@ -106,7 +106,7 @@ export class MapContainer extends React.Component {
     currentlyDrawingAreas: [],
     // holds the areas currently applying as geometry criteria
     criteriaAreas: [],
-    /** Background layer configuration */
+    // holds the background layer conf
     backgroundLayerConf: {},
   }
 
@@ -152,8 +152,8 @@ export class MapContainer extends React.Component {
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode, backgroundLayer } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, backgroundLayer: oldBackgroundLayer } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { backgroundLayer: oldBackgroundLayer, selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
@@ -311,8 +311,7 @@ export class MapContainer extends React.Component {
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
-    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
+    const { selectedModeState: { backgroundLayer, selectionMode, mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <MapComponent
         featuresCollection={featuresCollection}
@@ -330,6 +329,8 @@ export class MapContainer extends React.Component {
         backgroundLayerURL={backgroundLayer.url}
         backgroundLayerType={backgroundLayer.type}
         backgroundLayerConf={backgroundLayerConf}
+
+        mapEngine={mapEngine}
       />
     )
   }

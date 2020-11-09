@@ -55,6 +55,7 @@ export class ContextInitializationHelper {
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
           // report map configuration and initial values
           modeState.backgroundLayer = modeConfiguration.backgroundLayer
+          modeState.mapEngine = modeConfiguration.mapEngine
           modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
           modeState.splitPosition = null
           break

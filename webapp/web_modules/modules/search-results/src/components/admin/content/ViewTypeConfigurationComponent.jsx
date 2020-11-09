@@ -212,7 +212,27 @@ class ViewTypeConfigurationComponent extends React.Component {
             />
           </div>
         </FieldsGroup>
-        {/* 3. Map backound, when in MAP */
+        {/* 3. Map engine, when in MAP */
+        viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
+          <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}>
+            <Field
+              name={`${viewNamespace}.mapEngine`}
+              component={RenderSelectField}
+              label={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}
+              fullWidth
+            >
+              { UIDomain.MAP_ENGINE.map(engine => (
+                <MenuItem
+                  key={engine}
+                  value={engine}
+                  primaryText={engine}
+                />))
+              }
+            </Field>
+          </FieldsGroup>)
+          : null}
+
+        {/* 4. Map backound, when in MAP */
         viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
           <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.title' })}>
             <Field
@@ -243,8 +263,7 @@ class ViewTypeConfigurationComponent extends React.Component {
               fullWidth
             />
           </FieldsGroup>)
-          : null
-      }
+          : null}
       </div>
     )
   }

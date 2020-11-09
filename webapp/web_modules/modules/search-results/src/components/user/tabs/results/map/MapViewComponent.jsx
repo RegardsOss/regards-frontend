@@ -123,14 +123,23 @@ class MapViewComponent extends React.Component {
     } = this.props
     const { width, height = 0 } = this.state
     const { moduleTheme: { user: { mapViewStyles } }, muiTheme } = this.context
+    // Get the map engine and optimize the rendering based on it
+    const { selectedModeState: { mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
     // inject theme context to force quicklooks container recomputing cells properties
     const { quicklooks, mizar } = muiTheme.module.searchResults.map
     const leftPaneWidth = this.getLeftPaneWidth()
-
     /*
      * XXX-Workaround-Force-Redraw: the split pane "forgets repainting" the property "size" changes.
      * Therefore, we force children repainting, using a key built on size
      */
+    let mapKey
+    if (mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM) {
+      // Cesium case : no need to hard refresh the component
+      mapKey = 'map-view'
+    } else {
+      mapKey = `map-view:width-${leftPaneWidth}`
+    }
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
@@ -149,7 +158,7 @@ class MapViewComponent extends React.Component {
                 width={leftPaneWidth}
                 height={height}
                 // see force redraw workaround comment above
-                key={`map-view:width-${leftPaneWidth}`}
+                key={mapKey}
               >
                 <MapContainer
                   moduleId={moduleId}

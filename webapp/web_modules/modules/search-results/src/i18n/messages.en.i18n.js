@@ -138,6 +138,7 @@ const messages = {
   'search.results.form.configuration.result.MAP.background.layer.type': 'Type',
   'search.results.form.configuration.result.MAP.background.layer.conf': 'Configuration (optional)',
   'search.results.form.configuration.result.MAP.background.layer.conf.invalid': 'Invalid JSON format',
+  'search.results.form.configuration.result.MAP.engine': 'Graphic engine',
 
   // User messages
   'search.results.tab.main.results': 'Results',

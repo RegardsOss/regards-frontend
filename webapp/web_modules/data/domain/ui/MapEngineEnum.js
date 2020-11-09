@@ -16,33 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
 /**
- * Each id provides the type of entity
+ * Available map engine
  * @author Léo Mieulet
  */
-import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
-
-function isDatasetURN(id) { return id.match(/URN:AIP:DATASET:.*/) }
-
-function isCollectionURN(id) { return id.match(/URN:AIP:COLLECTION:.*/) }
-
-function isDataURN(id) { return id.match(/URN:AIP:DATA:.*/) }
-
-function getTypeForURN(id) {
-  if (isCollectionURN(id)) {
-    return ENTITY_TYPES_ENUM.COLLECTION
-  } if (isDatasetURN(id)) {
-    return ENTITY_TYPES_ENUM.DATASET
-  } if (isDataURN(id)) {
-    return ENTITY_TYPES_ENUM.DATA
-  }
-  throw new Error(`Unknow id type received: ${id}`)
+export const MAP_ENGINE_ENUM = {
+  MIZAR: 'Mizar',
+  CESIUM: 'Cesium',
 }
-//TODO looks outdated
 
-export default {
-  isDatasetURN,
-  isCollectionURN,
-  isDataURN,
-  getTypeForURN,
-}
+export const MAP_ENGINE = values(MAP_ENGINE_ENUM)

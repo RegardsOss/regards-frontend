@@ -46,6 +46,7 @@ export const QuicklookViewConfiguration = PropTypes.shape({
 /** Map view */
 export const MapViewConfiguration = PropTypes.shape({
   ...commonViewFields,
+  mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE),
   backgroundLayer: PropTypes.shape({ // mandatory but cannot be granted when starting new module edition
     url: PropTypes.string,
     type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,

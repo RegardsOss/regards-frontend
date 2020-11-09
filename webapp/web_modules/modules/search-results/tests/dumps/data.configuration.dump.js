@@ -66,6 +66,7 @@ export const configuration = {
         },
         MAP: {
           enabled: true,
+          mapEngine: 'Cesium',
           attributes: [
             { attributes: [{ name: 'label' }], label: { en: 'Label', fr: 'Libellé' } },
             { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },

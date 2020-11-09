@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import { MizarAdapter } from '@regardsoss/mizar-adapter'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
@@ -46,6 +47,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         features: [],
         type: 'FeatureCollection',
       },
+      mapEngine: UIDomain.MAP_ENGINE_ENUM.CESIUM,
       displayedAreas: [],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
       onSetSelectionMode: () => {},
@@ -62,7 +64,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectionMode: props.selectionMode,
       onSetSelectionMode: props.onSetSelectionMode,
     }, 'Map tools component properties should be correctly set')
-    const map = enzymeWrapper.find(MizarAdapter)
+    const map = enzymeWrapper.find(CesiumProvider)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
       backgroundLayerUrl: props.backgroundLayerURL,
@@ -95,6 +97,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
           coordinates: [3, 4],
         },
       }],
+      mapEngine: UIDomain.MAP_ENGINE_ENUM.MIZAR,
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       onSetSelectionMode: () => {},
       onDrawingSelectionUpdated: () => {},

@@ -3,8 +3,10 @@ const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const alias = require('../utils/alias')
+const cesiumSource = "node_modules/cesium/Source";
 
 module.exports = function (projectContextPath, mode = 'dev') {
+
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -29,9 +31,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'web_modules',
         'node_modules',
       ],
-      alias: alias(projectContextPath),
+      alias: alias(projectContextPath, mode),
     },
     module: {
+      unknownContextCritical: false,
       rules: [
         mode === 'test' || mode === 'coverage' ? {
           test: /MizarLoader/,
@@ -78,6 +81,24 @@ module.exports = function (projectContextPath, mode = 'dev') {
             outputPath: 'mizar/',
           },
         },
+        // Special for Cesium
+        mode === 'prod' ? {
+            // Strip cesium pragmas
+            test: /\.js$/,
+            enforce: "pre",
+            include: path.resolve(__dirname, cesiumSource),
+            use: [
+              {
+                loader: "strip-pragma-loader",
+                options: {
+                  pragmas: {
+                    debug: false,
+                  },
+                },
+              },
+            ],
+          }
+        : {},
         {
           test: [
             /requirejs\//,
@@ -160,6 +181,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
       ],
     },
+    // Import Cesium as an outside dependency in dev
+    externals: mode === 'dev' ? {
+      cesium: "Cesium"
+    } :{},
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
@@ -176,6 +201,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
+
       // Using http://webpack.github.io/analyse/#hints
       // And npm run build:stats
       // We can start to prefetch these files before they are imported
