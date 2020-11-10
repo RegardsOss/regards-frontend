@@ -56,6 +56,12 @@ pipeline {
                         -v ${WORKSPACE}/webapp:/app_to_build \
                         rs_node ./build_plugin.sh criterion/data-with-picture-only'
                     },
+                    plugin_criterion_last_version: {
+                        sh 'docker run \
+                        --rm -i \
+                        -v ${WORKSPACE}/webapp:/app_to_build \
+                        rs_node ./build_plugin.sh criterion/last-version-only'
+                    },
                     plugin_criterion_enumerated: {
                         sh 'docker run \
                             --rm -i \
