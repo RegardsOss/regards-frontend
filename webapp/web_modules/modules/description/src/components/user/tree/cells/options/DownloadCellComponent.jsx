@@ -23,7 +23,6 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   DownloadIconComponent, QuotaInfo, QuotaDownloadUtils, withQuotaInfo,
 } from '@regardsoss/entities-common'
-import { DATA_TYPES_ENUM } from '@regardsoss/domain/common'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FileData } from '../../../../../shapes/DescriptionState'
 

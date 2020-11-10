@@ -186,7 +186,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
               text={formatMessage({
                 id: selectionCount
                   ? 'search.results.form.restrictions.configuration.selection.count.message'
-                  : 'search.results.form.restrictions.configuration.no.selection.messsage',
+                  : 'search.results.form.restrictions.configuration.no.selection.message',
               }, { selectionCount })}
               error={!selectionCount}
             />

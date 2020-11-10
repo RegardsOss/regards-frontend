@@ -94,7 +94,7 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
     =0 {} 
     one {} 

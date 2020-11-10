@@ -88,7 +88,6 @@ function withProxyFetcher(getProxiedURL, handler) {
 }
 
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
-  console.error('BADABOUM before?')
   return {
     content: {
       content: content.concat(MOCK_RESOURCES), 
@@ -111,18 +110,6 @@ function buildLocalServices(gatewayURL) {
         url: 'rs-admin/resources',
         handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getResourcesDependencies)
       },
-      // mock quota changes: 
-      quota: {
-        url: 'rs-access-project/quota/current',
-        handler: () => ({
-          content: {
-          currentQuota: 992,
-          maxQuota: 1000,
-          currentRate: 0,
-          rateLimit: 20,
-          }
-        })
-      }
     },
     PUT: {
 
