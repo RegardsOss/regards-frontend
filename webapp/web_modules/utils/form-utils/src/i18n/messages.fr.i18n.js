@@ -58,6 +58,9 @@ const messages = {
 
   'render.pageableAutoCompleteField.loading': 'Chargement ...',
 
+  'field.default.help.title': 'A propos de ce champs',
+  'field.help.close.button.label': 'Fermer',
+
   'render.array-field.values.title': 'Valeurs définies',
   'render.array-field.add.new.value.button': 'Ajouter',
   'render.array-field.new.value.hint': 'Nouvelle valeur ...',

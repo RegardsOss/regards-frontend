@@ -15,22 +15,32 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
-**/
-import keys from 'lodash/keys'
+ **/
+import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Locales from '../../src/i18n'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import FormPresentation from '../../../src/components/display/FormPresentation'
+import styles from '../../../src/styles'
 
-describe('[FORM UTILS] Testing i18n', () => {
+const context = buildTestContext(styles)
+
+/**
+ * Test FormPresentation
+ * @author Raphaël Mechali
+ */
+describe('[FORM UTILS] Testing FormPresentation', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-  it('should exist', () => {
-    assert.isDefined(Locales)
-    assert.isDefined(Locales.en)
-    assert.isDefined(Locales.fr)
+  it('should exists', () => {
+    assert.isDefined(FormPresentation)
   })
-  it('should define same sentences', () => {
-    assert.deepEqual(keys(Locales.fr), keys(Locales.en))
+  it('should render correctly with children', () => {
+    const enzymeWrapper = shallow(
+      <FormPresentation>
+        <div id="test.id" />
+      </FormPresentation>,
+      { context })
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'test.id'), 1)
   })
 })

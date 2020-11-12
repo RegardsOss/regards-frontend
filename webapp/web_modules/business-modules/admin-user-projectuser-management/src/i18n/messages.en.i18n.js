@@ -69,8 +69,8 @@ const messages = {
   'projectUser.create.message': 'Create a user for the project. {passwordRules}',
   'projectUser.create.input.role': 'Role',
   'projectUser.create.input.email': 'E-mail',
-  'projectUser.create.input.firstName': 'Firstname',
-  'projectUser.create.input.lastName': 'Lastname',
+  'projectUser.create.input.firstName': 'First name',
+  'projectUser.create.input.lastName': 'Last name',
   'projectUser.create.input.password': 'Password',
   'projectUser.create.input.password.confirm': 'Confirm password',
   'projectUser.create.input.status': 'Status',
@@ -84,6 +84,14 @@ const messages = {
   'project.user.settings.mode.field': 'Validation mode',
   'project.user.settings.mode.MANUAL': 'Manual: each project user creation request must be acknowledged by the administrator',
   'project.user.settings.mode.AUTO': 'Automatic: project user creation requests are automatically acknowledged',
+  'project.user.settings.max.quota.field': 'Default downloads max quota',
+  'project.user.settings.max.quota.help.message': `Default max quota is applied at new users creation. 
+  User max quota is the count of raw data files internally stored by REGARDS that he is allowed to download. 
+  Possible values are -1, for unlimited, 0, for none, or any positive integer for a precise count`,
+  'project.user.settings.rate.limit.field': 'Default downloads rate limit',
+  'project.user.settings.rate.limit.help.message': `Default rate limit is applied at new users creation. 
+  User rate limit is the number of raw data files internally stored by REGARDS that he is allowed to download simultaneously. 
+  Possible values are -1, for unlimited / 0, for none, or any positive integer for a precise count`,
   'project.user.settings.action.confirm': 'Confirm',
   'project.user.settings.action.cancel': 'Cancel',
 

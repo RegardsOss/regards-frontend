@@ -84,6 +84,14 @@ const messages = {
   'project.user.settings.mode.field': 'Mode de validation',
   'project.user.settings.mode.MANUAL': 'Manuel: chaque demande de création d\'un utilisateur projet doit être validée par l\'administrateur',
   'project.user.settings.mode.AUTO': 'Automatique: les demandes de création d\'un utilisateur projet sont automatiquement validées',
+  'project.user.settings.max.quota.field': 'Quota maximal de téléchargements par défaut',
+  'project.user.settings.max.quota.help.message': `Le quota maximal par défaut est appliqué à la création de nouveaux utilisateurs. 
+  Le quota maximal d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger. 
+  Les valeurs possibles sont -1, pour illimité, 0, pour aucun, ou tout autre entier positif, pour le nombre précisément autorisé`,
+  'project.user.settings.rate.limit.field': 'Vitesse maximale de téléchargement par défaut',
+  'project.user.settings.rate.limit.help.message': `La vitesse maximale de téléchargement est appliquée à la création de nouveaux utilisateurs. 
+  La vitesse maximale de téléchargement d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger simultanément. 
+  Les valeurs possibles sont -1, pour illimitée, 0, pour aucun, ou tout autre entier positif pour le nombre précisément autorisé`,
   'project.user.settings.action.confirm': 'Confirmer',
   'project.user.settings.action.cancel': 'Annuler',
 

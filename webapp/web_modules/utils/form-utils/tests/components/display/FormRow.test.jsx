@@ -16,20 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminDomain } from '@regardsoss/domain'
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import FormRow from '../../../src/components/display/FormRow'
+import styles from '../../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Project user settings shapes
+ * Test FormRow
  * @author Raphaël Mechali
  */
+describe('[FORM UTILS] Testing FormRow', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-export const ProjectUserSettings = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  mode: PropTypes.oneOf(AdminDomain.PROJECT_USER_SETTINGS_MODE).isRequired,
-  maxQuota: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-  rateLimit: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-})
-
-export const ProjectUserSettingsWithContent = PropTypes.shape({
-  content: ProjectUserSettings.isRequired,
+  it('should exists', () => {
+    assert.isDefined(FormRow)
+  })
+  it('should render correctly with children', () => {
+    const enzymeWrapper = shallow(
+      <FormRow>
+        <div id="test.id" />
+      </FormRow>,
+      { context })
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'test.id'), 1)
+  })
 })

@@ -15,21 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AdminDomain } from '@regardsoss/domain'
+**/
+import { shallow } from 'enzyme'
+import { expect, assert } from 'chai'
+import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import FormLoadingComponent from '../../src/components/FormLoadingComponent'
 
-/**
- * Project user settings shapes
- * @author Raphaël Mechali
- */
+// Test a components rendering
+describe('[FORM UTILS] Testing FormLoadingComponent', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-export const ProjectUserSettings = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  mode: PropTypes.oneOf(AdminDomain.PROJECT_USER_SETTINGS_MODE).isRequired,
-  maxQuota: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-  rateLimit: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-})
-
-export const ProjectUserSettingsWithContent = PropTypes.shape({
-  content: ProjectUserSettings.isRequired,
+  it('should exists', () => {
+    assert.isDefined(FormLoadingComponent)
+  })
+  it('should retrive the right child', () => {
+    const enzymeWrapper = shallow(<FormLoadingComponent />)
+    const subComponent = enzymeWrapper.find('span')
+    expect(subComponent).to.have.length(1)
+  })
 })

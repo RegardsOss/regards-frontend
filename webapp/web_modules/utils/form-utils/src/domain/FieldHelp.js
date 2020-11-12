@@ -16,20 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminDomain } from '@regardsoss/domain'
 
 /**
- * Project user settings shapes
+ * Holds field help content definitions
  * @author Raphaël Mechali
  */
+export class FieldHelp {
+  /** Possible content types */
+  static CONTENT_TYPES = {
+    /** A simple help box message  */
+    MESSAGE: 'MESSAGE',
+  }
 
-export const ProjectUserSettings = PropTypes.shape({
-  id: PropTypes.number.isRequired,
-  mode: PropTypes.oneOf(AdminDomain.PROJECT_USER_SETTINGS_MODE).isRequired,
-  maxQuota: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-  rateLimit: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-})
-
-export const ProjectUserSettingsWithContent = PropTypes.shape({
-  content: ProjectUserSettings.isRequired,
-})
+  /**
+   * Builds a dialog message help content
+   * @param {string} messageKey as listed in intl file (current context, mandatory)
+   * @param {string} messageKey as listed in intl file (current context, optional)
+   * @return {*} matching HelpContent.DialogMessageHelpContent
+   */
+  static buildDialogMessageHelp(messageKey, titleKey) {
+    return {
+      contentType: FieldHelp.CONTENT_TYPES.MESSAGE,
+      titleKey,
+      messageKey,
+    }
+  }
+}

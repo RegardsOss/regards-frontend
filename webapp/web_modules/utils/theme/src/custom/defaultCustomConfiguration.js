@@ -119,6 +119,9 @@ export default (baseTheme) => ({
     },
   },
   formsExtensions: {
+    fieldHelpButton: {
+      alignSelf: 'flex-end',
+    },
     dateField: {
       marginTop: 14,
       innerMargins: '0 10px 0 0',
