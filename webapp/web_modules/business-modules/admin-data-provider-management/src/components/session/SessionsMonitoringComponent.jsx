@@ -209,11 +209,23 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
-  onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => this.setState({
-    sessionToDisplayProducts: {
-      session: entity, isError, isInvalid, isIncomplet,
-    },
-  })
+  onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => {
+      this.setState({
+      sessionToDisplayProducts: {
+        session: entity, isError, isInvalid, isIncomplet,
+      },
+    })
+  }
+
+  onCloseDialog = () => {
+    this.setState({
+      sessionToDisplayProducts: {
+        session: null,
+        isError: true,
+        isIncomplete: false,
+      }
+    })
+  }
 
   renderShowProductsDialog() {
     const { intl: { formatMessage } } = this.context
@@ -241,7 +253,7 @@ export class SessionsMonitoringComponent extends React.Component {
           <FlatButton
             key="close"
             label="close"
-            onClick={this.onSwitchProductsDialog}
+            onClick={this.onCloseDialog}
           />
         </>}
         dialogHeightPercent={75}
