@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * REGARDS is distributed in the hope that it will be useful,
+ * REGARDS is distributed in t he hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -23,9 +23,8 @@ import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import {
-  FieldArray, Field, reduxForm, RenderTextField, ValidationHelpers, FieldsGroup, FormRow, FormPresentation, RenderCheckbox,
+  FieldArray, Field, reduxForm, RenderTextField, ValidationHelpers, FieldsGroup, FormRow, FormPresentation, RenderCheckbox, FieldHelp,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { uiSettingsActions } from '../clients/UISettingsClient'
@@ -51,13 +50,17 @@ export class EditSettingsComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
-    ...themeContextType,
   }
 
   /** Required dependencies to submit settings */
   static SUBMIT_DEPENDENCIES = [
     uiSettingsActions.getDependency(RequestVerbEnum.POST), // create first
     uiSettingsActions.getDependency(RequestVerbEnum.PUT), // update
+  ]
+
+  static QUOTA_WARNING_FIELDS_VALIDATORS = [
+    ValidationHelpers.required,
+    ValidationHelpers.getIntegerInRangeValidator(0, Number.MAX_SAFE_INTEGER),
   ]
 
   /**
@@ -70,19 +73,31 @@ export class EditSettingsComponent extends React.Component {
     const editedSettings = {
       ...editionSettings,
       documentModels: editionSettings.documentModels.filter((model) => dataModelNames.includes(model)),
+      quotaWarningCount: editionSettings.quotaWarningCount.toString(),
+      rateWarningCount: editionSettings.rateWarningCount.toString(),
     }
     initialize(editedSettings)
+  }
+
+  /** Form submission callback: used here to convert */
+  onSubmit = (values) => {
+    const { onSubmit } = this.props
+    onSubmit({
+      ...values,
+      quotaWarningCount: parseInt(values.quotaWarningCount, 10),
+      rateWarningCount: parseInt(values.rateWarningCount, 10),
+    })
   }
 
   render() {
     const {
       dataModelNames,
       submitting, pristine, invalid,
-      handleSubmit, onBack, onSubmit,
+      handleSubmit, onBack,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { modelsSpacer } } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <Card>
           <CardTitle
             title={formatMessage({ id: 'ui.admin.settings.title' })}
@@ -91,23 +106,44 @@ export class EditSettingsComponent extends React.Component {
           <CardText>
             <FormPresentation>
               <FormRow>
-                <FieldsGroup spanFullWidth>
-                  <Field
-                    name="showVersion"
-                    component={RenderCheckbox}
-                    label={formatMessage({ id: 'ui.admin.settings.show.product.version' })}
-                  />
+                <FieldsGroup
+                  title={formatMessage({ id: 'ui.admin.settings.data.presentation.title' })}
+                >
                   <Field
                     name="primaryQuicklookGroup"
                     fullWidth
                     component={RenderTextField}
-                    type="text"
                     label={formatMessage({ id: 'ui.admin.settings.main.quicklook.group.key.label' })}
+                    help={FieldHelp.buildDialogMessageHelp('ui.admin.settings.main.quicklook.group.key.help.message')}
                     validate={ValidationHelpers.required}
+                  />
+                  <Field
+                    name="showVersion"
+                    component={RenderCheckbox}
+                    label={formatMessage({ id: 'ui.admin.settings.show.product.version.label' })}
+                  />
+                </FieldsGroup>
+                <FieldsGroup
+                  title={formatMessage({ id: 'ui.admin.settings.quota.warning.title' })}
+                >
+                  <Field
+                    name="quotaWarningCount"
+                    fullWidth
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'ui.admin.settings.low.quota.warning.label' })}
+                    help={FieldHelp.buildDialogMessageHelp('ui.admin.settings.low.quota.warning.help.message')}
+                    validate={EditSettingsComponent.QUOTA_WARNING_FIELDS_VALIDATORS}
+                  />
+                  <Field
+                    name="rateWarningCount"
+                    fullWidth
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'ui.admin.settings.low.rate.warning.label' })}
+                    help={FieldHelp.buildDialogMessageHelp('ui.admin.settings.low.rate.warning.help.message')}
+                    validate={EditSettingsComponent.QUOTA_WARNING_FIELDS_VALIDATORS}
                   />
                 </FieldsGroup>
               </FormRow>
-              <div style={modelsSpacer} />
               <FormRow>
                 <FieldsGroup
                   title={formatMessage({ id: 'ui.admin.settings.models.title' })}
