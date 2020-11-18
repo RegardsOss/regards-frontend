@@ -15,10 +15,20 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { AccessProjectClient } from '@regardsoss/client'
+ */
+import { PROJECT_USER, PROJECT_USER_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
-const namespace = 'admin-user-projectuser-management/project-user-settings'
-export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
-export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
-export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+export default class ProjectUserActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/users`,
+      entityPathVariable: 'user_id',
+      schemaTypes: {
+        ENTITY: PROJECT_USER,
+        ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      },
+    })
+  }
+}

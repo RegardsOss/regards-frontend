@@ -99,7 +99,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
     const props = {
       ...initialProps,
       isLoading: false,
-      users: values(DumpProvider.get('AdminClient', 'ProjectUser')),
+      users: values(DumpProvider.get('AccessProjectClient', 'ProjectUser')),
       selectedGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
       groups: DumpProvider.get('DataManagementClient', 'AccessGroup'),
     }

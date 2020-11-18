@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { AdminShapes } from '@regardsoss/shape'
-import WaitingAccessUsersEntitiesActions from '../../src/rs-admin/user/WaitingAccessUsersEntitiesActions'
-import getWaitingAccessUsersEntitiesReducer from '../../src/rs-admin/user/WaitingAccessUsersEntitiesReducer'
-import getWaitingAccessUsersEntitiesSelectors from '../../src/rs-admin/user/WaitingAccessUsersEntitiesSelectors'
+import { AccessShapes } from '@regardsoss/shape'
+import WaitingAccessUsersEntitiesActions from '../../src/rs-access-project/user/WaitingAccessUsersEntitiesActions'
+import getWaitingAccessUsersEntitiesReducer from '../../src/rs-access-project/user/WaitingAccessUsersEntitiesReducer'
+import getWaitingAccessUsersEntitiesSelectors from '../../src/rs-access-project/user/WaitingAccessUsersEntitiesSelectors'
 import WaitingAccessUsersEntitiesDump from './WaitingAccessUsersEntities.dump'
 
 const options = {
@@ -30,7 +30,7 @@ const waitingAccessUsersEntitiesActions = new WaitingAccessUsersEntitiesActions(
 const waitingAccessUsersEntitiesReducer = getWaitingAccessUsersEntitiesReducer('test/action')
 const waitingAccessUsersEntitiesSelectors = getWaitingAccessUsersEntitiesSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, AdminShapes.ProjectUserList.isRequired, WaitingAccessUsersEntitiesDump, options)
+const entityTester = new ReduxEntityTester(waitingAccessUsersEntitiesActions, waitingAccessUsersEntitiesReducer, waitingAccessUsersEntitiesSelectors, AccessShapes.ProjectUserList.isRequired, WaitingAccessUsersEntitiesDump, options)
 
 describe('[ADMIN CLIENT] Testing client waitingAccessUsersEntities', () => {
   before(() => {
@@ -40,6 +40,7 @@ describe('[ADMIN CLIENT] Testing client waitingAccessUsersEntities', () => {
     entityTester.afterAll()
   })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+    throw new Error('change dump then re-run')
     entityTester.runTests(done)
   })
 })

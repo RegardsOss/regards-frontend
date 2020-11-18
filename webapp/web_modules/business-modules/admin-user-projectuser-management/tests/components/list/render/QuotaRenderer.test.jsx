@@ -16,18 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { shallow } from 'enzyme'
+import { assert } from 'chai'
+import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import QuotaRenderer from '../../../../src/components/list/render/QuotaRenderer'
+import styles from '../../../../src/styles'
+
+const context = buildTestContext(styles)
 
 /**
- * Describes quota information as provided by the backend
+ * Test QuotaRenderer
  * @author Raphaël Mechali
  */
-export const quotaFields = {
-  currentQuota: PropTypes.number,
-  maxQuota: PropTypes.number,
-  currentRate: PropTypes.number,
-  rateLimit: PropTypes.number,
-}
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing QuotaRenderer', () => {
+  before(testSuiteHelpers.before)
+  after(testSuiteHelpers.after)
 
-export const QuotaInformation = PropTypes.shape({
-  ...quotaFields,
+  it('should exists', () => {
+    assert.isDefined(QuotaRenderer)
+  })
+  it('should render correctly', () => {
+    const props = {
+    //  TODO properties
+    }
+    assert.fail('Implement me!')
+    const enzymeWrapper = shallow(<QuotaRenderer {...props} />, { context })
+    // TODO test
+  })
 })

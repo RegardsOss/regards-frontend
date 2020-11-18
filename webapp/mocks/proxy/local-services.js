@@ -101,7 +101,6 @@ function getResourcesDependencies({ content, links, metadata }, pathParams, quer
   }
 }
 
-
 function buildLocalServices(gatewayURL) {
   return {
     GET: {

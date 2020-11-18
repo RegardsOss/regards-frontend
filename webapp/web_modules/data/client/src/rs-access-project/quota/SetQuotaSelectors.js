@@ -16,29 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminShapes } from '@regardsoss/shape'
-import { i18nContextType } from '@regardsoss/i18n'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 /**
- * Display fragment name for an attribute model
- * @author Sébastien Binda
+ * Set quota selectors
+ * @author Raphaël Mechali
  */
-class RoleRenderer extends React.Component {
-  static propTypes = {
-    entity: AdminShapes.ProjectUser,
-  }
 
-  static contextTypes = {
-    ...i18nContextType,
-  }
-
-  render = () => {
-    const { entity } = this.props
-    const formatted = this.context.intl.formatMessage({ id: `role.name.${entity.content.role.name}` })
-    if (formatted !== `role.name.${entity.content.role.name}`) {
-      return formatted
-    }
-    return entity.content.role.name
-  }
+/**
+ * Selectors instance builders
+ * @param {[string]} storePath path to access state in redux store
+ * @return selectors instance
+ */
+export function getSetQuotaSelectors(storePath) {
+  return new BasicSignalSelectors(storePath)
 }
-export default RoleRenderer

@@ -16,9 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AccessProjectClient } from '@regardsoss/client'
+import { AdminDomain } from '@regardsoss/domain'
+import { quotaFields } from './QuotaInformation'
+import { MetadataContentArray } from '../rs-admin/Metadata'
 
-const namespace = 'admin-user-projectuser-management/project-user-settings'
-export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
-export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
-export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+export const ProjectUser = PropTypes.shape({
+  content: PropTypes.shape({
+    id: PropTypes.number,
+    role: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    email: PropTypes.string,
+    lastConnection: PropTypes.date,
+    status: PropTypes.oneOf(AdminDomain.PROJECT_USER_STATUS).isRequired,
+    lastUpdate: PropTypes.date,
+    metadata: MetadataContentArray,
+    ...quotaFields,
+  }),
+})
+export const ProjectUserList = PropTypes.objectOf(ProjectUser)

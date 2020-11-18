@@ -18,7 +18,7 @@
  **/
 import { AccessProjectClient } from '@regardsoss/client'
 
-const namespace = 'admin-user-projectuser-management/project-user-settings'
-export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
-export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
-export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+const namespace = 'admin-user-projectuser-management/ui-settings'
+export const uiSettingsActions = new AccessProjectClient.UISettingsActions(namespace)
+export const uiSettingsReducer = AccessProjectClient.getUISettingsReducer(namespace)
+export const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors(['admin', 'user-management', 'project-user-management', 'uiSettings'])

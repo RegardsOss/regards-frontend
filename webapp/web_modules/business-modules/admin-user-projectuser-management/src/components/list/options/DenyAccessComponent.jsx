@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import DenyIcon from 'mdi-material-ui/AccountRemove'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasKeys } from '@regardsoss/display-control'
 
@@ -28,7 +28,7 @@ import { HateoasKeys } from '@regardsoss/display-control'
  */
 class DenyAccessComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onDeny: PropTypes.func.isRequired,
     onDisable: PropTypes.func.isRequired,

@@ -19,7 +19,7 @@
 import IconButton from 'material-ui/IconButton'
 import { MenuItem } from 'material-ui/Menu'
 import ClearFilter from 'mdi-material-ui/Backspace'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -34,7 +34,7 @@ class OrderListFiltersComponent extends React.Component {
   static propTypes = {
     usersFilterText: PropTypes.string.isRequired, // current filter text
     // eslint-disable-next-line react/no-unused-prop-types
-    matchingUsers: AdminShapes.ProjectUserList, // used in onPropertiesUpdated, current users list
+    matchingUsers: AccessShapes.ProjectUserList, // used in onPropertiesUpdated, current users list
     isInError: PropTypes.bool.isRequired, // is currently in error?
     isFetching: PropTypes.bool.isRequired, // is current fetching?
     onUpdateUsersFilter: PropTypes.func.isRequired, // user entered some key value, callback to update matching users list

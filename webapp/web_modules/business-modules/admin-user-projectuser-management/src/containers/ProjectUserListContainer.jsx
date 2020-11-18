@@ -25,13 +25,18 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AdminDomain } from '@regardsoss/domain'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { projectUserSignalActions, projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
 import ProjectUserListComponent from '../components/list/ProjectUserListComponent'
 import messages from '../i18n'
 import styles from '../styles'
+import { uiSettingsActions, uiSettingsSelectors } from '../clients/UISettingsClient'
+import { setQuotaActions } from '../clients/SetQuotaClient'
 
 /** NO group filter */
 const NO_GROUP_FILTER = 'all'
@@ -40,6 +45,38 @@ const NO_GROUP_FILTER = 'all'
  * Show the user list for the current project
  */
 export class ProjectUserListContainer extends React.Component {
+  static propTypes = {
+    // from router
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+    // eslint-disable-next-line
+    location: PropTypes.object.isRequired, // this object cannot be typed has it doesnt have hasOwnProperty method. used only in onPropertiesUpdated
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    users: AccessShapes.ProjectUserList.isRequired, // used only in onPropertiesUpdated
+    groups: DataManagementShapes.AccessGroupList.isRequired,
+    isFetchingViewData: PropTypes.bool.isRequired,
+    isFetchingActions: PropTypes.bool.isRequired,
+    uiSettings: UIShapes.UISettings.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
+    // from mapDispatchToProps
+    fetchGroups: PropTypes.func.isRequired,
+    fetchUsers: PropTypes.func.isRequired,
+    fetchUISettings: PropTypes.func.isRequired,
+    denyProjectUser: PropTypes.func.isRequired,
+    validateProjectUser: PropTypes.func.isRequired,
+    deleteAccount: PropTypes.func.isRequired,
+    active: PropTypes.func.isRequired,
+    inactive: PropTypes.func.isRequired,
+    dispatchSetMaxQuota: PropTypes.func.isRequired,
+  }
+
+  /* local dependency on quota: instantiate and resolve */
+  static QUOTA_DEPENDENCY = [
+    setQuotaActions.getDependency(RequestVerbEnum.GET),
+  ]
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -52,8 +89,11 @@ export class ProjectUserListContainer extends React.Component {
       groups: accessGroupSelectors.getList(state),
       isFetchingViewData:
         projectUserSelectors.isFetching(state)
-        || accessGroupSelectors.isFetching(state),
+        || accessGroupSelectors.isFetching(state)
+        || uiSettingsSelectors.isFetching(state),
       isFetchingActions: projectUserSignalSelectors.isFetching(state),
+      uiSettings: uiSettingsSelectors.getSettings(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
@@ -67,43 +107,22 @@ export class ProjectUserListContainer extends React.Component {
     return {
       fetchGroups: () => dispatch(accessGroupActions.fetchPagedEntityList()),
       fetchUsers: () => dispatch(projectUserActions.fetchPagedEntityList()),
+      fetchUISettings: () => dispatch(uiSettingsActions.getSettings()),
       validateProjectUser: (userId) => dispatch(projectUserSignalActions.sendAccept(userId)),
       denyProjectUser: (userId) => dispatch(projectUserSignalActions.sendDeny(userId)),
       active: (userId) => dispatch(projectUserSignalActions.sendActive(userId)),
       inactive: (userId) => dispatch(projectUserSignalActions.sendInactive(userId)),
       deleteAccount: (userId) => dispatch(projectUserActions.deleteEntity(userId)),
+      dispatchSetMaxQuota: (user, maxQuota) => dispatch(setQuotaActions.setUserQuota(user.content.email, maxQuota, user.content.rateLimit)),
     }
-  }
-
-  static propTypes = {
-    // from router
-    params: PropTypes.shape({
-      project: PropTypes.string,
-    }),
-    // eslint-disable-next-line
-    location: PropTypes.object.isRequired, // this object cannot be typed has it doesnt have hasOwnProperty method. used only in onPropertiesUpdated
-    // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    users: AdminShapes.ProjectUserList.isRequired, // used only in onPropertiesUpdated
-    groups: DataManagementShapes.AccessGroupList.isRequired,
-    isFetchingViewData: PropTypes.bool.isRequired,
-    isFetchingActions: PropTypes.bool.isRequired,
-    // from mapDispatchToProps
-    fetchGroups: PropTypes.func.isRequired,
-    fetchUsers: PropTypes.func.isRequired,
-    denyProjectUser: PropTypes.func.isRequired,
-    validateProjectUser: PropTypes.func.isRequired,
-    deleteAccount: PropTypes.func.isRequired,
-    active: PropTypes.func.isRequired,
-    inactive: PropTypes.func.isRequired,
   }
 
   /**
    * Filters users list
-   * @param {ProjectUserList} users users
+   * @param {[*]} users users matching AccessShapes.ProjectUserList
    * @param {AccessGroup} group selected group
    * @param {boolean} onlyWaitingUsers should filter only waiting users
-   * @return [ProjectUser] filtered users as array
+   * @return {[*]} filtered users as array of AccessShapes.ProjectUser
    */
   static filterUserList(users, group, onlyWaitingUsers) {
     return reduce(users, (acc, user) => {
@@ -143,9 +162,10 @@ export class ProjectUserListContainer extends React.Component {
    */
   UNSAFE_componentWillMount = () => {
     // Fetch view data
-    const { fetchGroups, fetchUsers } = this.props
+    const { fetchGroups, fetchUsers, fetchUISettings } = this.props
     fetchGroups()
     fetchUsers()
+    fetchUISettings()
     // notify props changed
     this.onPropertiesUpdated({}, this.props)
   }
@@ -270,6 +290,16 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   /**
+   * User callback: save new maxQuota for a user
+   * @param {*} user matching AccessShapes.ProjectUser
+   * @param {number} maxQuota new max quota value
+   */
+  onSetMaxQuota = (user, maxQuota) => {
+    const { dispatchSetMaxQuota } = this.props
+    this.performThenUpdate([dispatchSetMaxQuota(user, maxQuota)])
+  }
+
+  /**
    * @return {string} back URL
    */
   getBackUrl = () => {
@@ -302,7 +332,10 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   render() {
-    const { groups, isFetchingActions, isFetchingViewData } = this.props
+    const {
+      groups, uiSettings, availableDependencies,
+      isFetchingActions, isFetchingViewData,
+    } = this.props
     const {
       users, waitingUsersCount, showOnlyWaitingUsers, selectedGroup,
     } = this.state
@@ -315,8 +348,10 @@ export class ProjectUserListContainer extends React.Component {
             waitingUsersCount={waitingUsersCount}
             selectedGroup={selectedGroup}
             groups={groups}
+            uiSettings={uiSettings}
             isLoading={isFetchingViewData || isFetchingActions}
             showOnlyWaitingUsers={showOnlyWaitingUsers}
+            showQuota={allMatchHateoasDisplayLogic(ProjectUserListContainer.QUOTA_DEPENDENCY, availableDependencies)}
 
             createUrl={this.getCreateUrl()}
             backUrl={this.getBackUrl()}
@@ -330,6 +365,7 @@ export class ProjectUserListContainer extends React.Component {
             onDisable={this.onDisable}
             onToggleOnlyWaitingUsers={this.onToggleOnlyWaitingUsers}
             onSelectGroup={this.onSelectGroup}
+            onSetMaxQuota={this.onSetMaxQuota}
           />
         </ModuleStyleProvider>
       </I18nProvider>

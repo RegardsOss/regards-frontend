@@ -16,58 +16,49 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
 import IconButton from 'material-ui/IconButton'
-import EditIcon from 'mdi-material-ui/Pencil'
+import EditQuotaIcon from 'mdi-material-ui/DownloadLock'
 import { AccessShapes } from '@regardsoss/shape'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { setQuotaActions } from '../../../clients/SetQuotaClient'
 
-// define Hatoas capable icon button (exported for tests)
-export const HatoasIconButton = withHateoasDisplayControl(IconButton)
+const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
- * Edit project user component option
+ * Option to show quota edition dialog
  * @author Raphaël Mechali
  */
-class EditProjectUserComponent extends React.Component {
+class EditQuotaComponent extends React.Component {
   static propTypes = {
     entity: AccessShapes.ProjectUser.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    onEdit: PropTypes.func.isRequired,
+    onShowEditQuotaDialog: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-  /**
-   * User callback: on edit project user, locally wrapped
-   */
-  onEdit = () => {
-    const { entity, onEdit } = this.props
-    onEdit(entity.content.id)
+  /** Action dependencies */
+  static DEPENDENCIES = [setQuotaActions.getDependency(RequestVerbEnum.PUT)]
+
+  /** Click callback: show dialog */
+  onClick = () => {
+    const { entity, onShowEditQuotaDialog } = this.props
+    onShowEditQuotaDialog(entity)
   }
 
   render() {
-    const { entity, isLoading } = this.props
     const { intl: { formatMessage } } = this.context
-
     return (
-      <HatoasIconButton
-        className="selenium-editButton"
-        disabled={isLoading}
-        title={formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
-        onClick={this.onEdit}
-        // HATOAS control
-        entityLinks={entity.links}
-        hateoasKey={HateoasKeys.UPDATE}
-        disableInsteadOfHide
+      <ResourceIconAction
+        title={formatMessage({ id: 'projectUser.list.table.action.edit.quota' })}
+        onClick={this.onClick}
+        resourceDependencies={EditQuotaComponent.DEPENDENCIES}
       >
-        <EditIcon />
-      </HatoasIconButton>
-    )
+        <EditQuotaIcon />
+      </ResourceIconAction>)
   }
 }
-
-export default EditProjectUserComponent
+export default EditQuotaComponent

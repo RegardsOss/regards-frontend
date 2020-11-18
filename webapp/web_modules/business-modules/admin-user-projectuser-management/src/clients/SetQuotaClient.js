@@ -18,7 +18,7 @@
  **/
 import { AccessProjectClient } from '@regardsoss/client'
 
-const namespace = 'admin-user-projectuser-management/project-user-settings'
-export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
-export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
-export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+const namespace = 'admin-user-projectuser-management/set-quota'
+export const setQuotaActions = new AccessProjectClient.SetQuotaActions(namespace)
+export const setQuotaReducer = AccessProjectClient.getSetQuotaReducer(namespace)
+export const setQuotaSelectors = AccessProjectClient.getSetQuotaSelectors(['admin', 'user-management', 'project-user-management', 'set-quota'])

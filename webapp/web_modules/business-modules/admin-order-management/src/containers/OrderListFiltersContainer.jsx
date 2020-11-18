@@ -19,7 +19,7 @@
 import throttle from 'lodash/throttle'
 import { connect } from '@regardsoss/redux'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import OrderListFiltersComponent from '../components/OrderListFiltersComponent'
@@ -74,7 +74,7 @@ export class OrderListFiltersContainer extends React.Component {
     onUserFilterSelected: PropTypes.func.isRequired,
     // from mapStateToProps
     isFetching: PropTypes.bool.isRequired,
-    users: AdminShapes.ProjectUserList,
+    users: AccessShapes.ProjectUserList,
     // from mapDispatchToProps
     dispatchGetUsers: PropTypes.func.isRequired,
   }

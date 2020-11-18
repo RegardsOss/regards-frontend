@@ -15,20 +15,35 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { PROJECT_USER, PROJECT_USER_ARRAY } from '@regardsoss/api'
-import { BasicPageableActions } from '@regardsoss/store-utils'
+ **/
+import { BasicSignalActions, RequestVerbEnum } from '@regardsoss/store-utils'
 
-export default class ProjectUserActions extends BasicPageableActions {
+/**
+ * Actions to set a user quota
+ * @author Raphaël Mechali
+ */
+export class SetQuotaActions extends BasicSignalActions {
+  /**
+   * Constructor
+   * @param {string} namespace  actions namespace
+   */
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/users`,
-      entityPathVariable: 'user_id',
-      schemaTypes: {
-        ENTITY: PROJECT_USER,
-        ENTITY_ARRAY: PROJECT_USER_ARRAY,
-      },
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/quota/{user_email}`,
     })
   }
+
+  /**
+   * Builds action to set a user quota
+   * @param {string} email
+   * @param {number} maxQuota
+   * @param {number} rateLimit
+   * @return {*} action to dispatch
+   */
+  setUserQuota = (email, maxQuota, rateLimit) => this.sendSignal(RequestVerbEnum.PUT, {
+    email,
+    maxQuota,
+    rateLimit,
+  }, { user_email: email })
 }

@@ -16,21 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminDomain } from '@regardsoss/domain'
-import { MetadataContentArray } from './Metadata'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { SetQuotaActions } from './SetQuotaActions'
 
-export const ProjectUser = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    role: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    }),
-    email: PropTypes.string,
-    lastConnection: PropTypes.date,
-    status: PropTypes.oneOf(AdminDomain.PROJECT_USER_STATUS).isRequired,
-    lastUpdate: PropTypes.date,
-    metadata: MetadataContentArray,
-  }),
-})
-export const ProjectUserList = PropTypes.objectOf(ProjectUser)
+/**
+ * Set quota reducer
+ * @author Raphaël Mechali
+ */
+
+/**
+ * Builds reduce closure on actions namespace
+ * @param {*} namespace namespace
+ * @return {function} reduce function (state, action) => state
+ */
+export function getSetQuotaReducer(namespace) {
+  const instance = new BasicSignalReducers(new SetQuotaActions(namespace), null)
+  return (state, action) => instance.reduce(state, action)
+}

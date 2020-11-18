@@ -28,7 +28,7 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-utils'
@@ -46,7 +46,7 @@ export class ProjectUserFormContainer extends React.Component {
     // from mapStateToProps
     roleList: AdminShapes.RoleList,
     groupList: DataManagementShapes.AccessGroupList,
-    user: AdminShapes.ProjectUser,
+    user: AccessShapes.ProjectUser,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from router
     params: PropTypes.shape({

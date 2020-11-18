@@ -17,11 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 
-import ProjectUserActions from '../../src/rs-admin/user/ProjectUserActions'
-import getProjectUserReducer from '../../src/rs-admin/user/ProjectUserReducer'
-import getProjectUserSelectors from '../../src/rs-admin/user/ProjectUserSelectors'
+import { Error } from 'window-or-global'
+import ProjectUserActions from '../../src/rs-access-project/user/ProjectUserActions'
+import getProjectUserReducer from '../../src/rs-access-project/user/ProjectUserReducer'
+import getProjectUserSelectors from '../../src/rs-access-project/user/ProjectUserSelectors'
 import ProjectUserDump from './ProjectUser.dump'
 
 const options = {
@@ -31,7 +32,7 @@ const projectUserActions = new ProjectUserActions('test/action')
 const projectUserReducer = getProjectUserReducer('test/action')
 const projectUserSelectors = getProjectUserSelectors(['test', 'modules'])
 
-const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, AdminShapes.ProjectUserList.isRequired, ProjectUserDump, options)
+const entityTester = new ReduxEntityTester(projectUserActions, projectUserReducer, projectUserSelectors, AccessShapes.ProjectUserList.isRequired, ProjectUserDump, options)
 
 describe('[ADMIN CLIENT] Testing client projectUser', () => {
   before(() => {
@@ -41,6 +42,7 @@ describe('[ADMIN CLIENT] Testing client projectUser', () => {
     entityTester.afterAll()
   })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
+    throw new Error('change dump then re-run')
     entityTester.runTests(done)
   })
 })

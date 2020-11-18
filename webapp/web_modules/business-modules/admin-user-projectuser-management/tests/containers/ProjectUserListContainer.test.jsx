@@ -47,7 +47,7 @@ function createGroups(groupDefinitions) {
  * @param {[{email: string, status: string}]} userDefinitions
  */
 function createUsers(userDefinitions) {
-  const userContentModel = DumpProvider.getFirstEntityContent('AdminClient', 'ProjectUser')
+  const userContentModel = DumpProvider.getFirstEntityContent('AccessProjectClient', 'ProjectUser')
   return userDefinitions.reduce((acc, { email, status }, index) => ({
     ...acc,
     [index]: {
@@ -73,7 +73,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list container', (
     const props = {
       params: { project: 'any' },
       // from mapStateToProps
-      users: DumpProvider.get('AdminClient', 'ProjectUser'),
+      users: DumpProvider.get('AccessProjectClient', 'ProjectUser'),
       groups: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       isFetchingViewData: true,
       isFetchingActions: true,

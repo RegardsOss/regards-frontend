@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import ValidateAllIcon from 'mdi-material-ui/PlaylistCheck'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
@@ -34,10 +34,13 @@ import AccessGroupFilterComponent from './AccessGroupFilterComponent'
 import EditProjectUserComponent from './options/EditProjectUserComponent'
 import DeleteProjectUserComponent from './options/DeleteProjectUserComponent'
 import NoUserComponent from './NoUserComponent'
-import ProjectUserStatusRenderCell from './ProjectUserStatusRenderCell'
+import ProjectUserStatusRenderCell from './render/ProjectUserStatusRenderCell'
+import RoleRenderer from './render/RoleRenderer'
+import QuotaRenderer from './render/QuotaRenderer'
 import AllowAccessComponent from './options/AllowAccessComponent'
 import DenyAccessComponent from './options/DenyAccessComponent'
-import RoleRenderer from './RoleRenderer'
+import EditQuotaComponent from './options/EditQuotaComponent'
+import MaxQuotaDialogComponent from './dialog/MaxQuotaDialogComponent'
 
 const MainActionButtonWithResourceDisplayControl = withResourceDisplayControl(MainActionButtonComponent)
 const SecondaryActionButtonWithResourceDisplayControl = withResourceDisplayControl(SecondaryActionButtonComponent)
@@ -47,12 +50,14 @@ const SecondaryActionButtonWithResourceDisplayControl = withResourceDisplayContr
  */
 export class ProjectUserListComponent extends React.Component {
   static propTypes = {
-    users: PropTypes.arrayOf(AdminShapes.ProjectUser).isRequired,
+    users: PropTypes.arrayOf(AccessShapes.ProjectUser).isRequired,
     waitingUsersCount: PropTypes.number.isRequired,
     selectedGroup: DataManagementShapes.AccessGroup,
     groups: DataManagementShapes.AccessGroupList.isRequired,
+    uiSettings: UIShapes.UISettings.isRequired,
     isLoading: PropTypes.bool.isRequired,
     showOnlyWaitingUsers: PropTypes.bool.isRequired,
+    showQuota: PropTypes.bool.isRequired,
 
     // control URLs and callbacks
     createUrl: PropTypes.string.isRequired,
@@ -66,6 +71,7 @@ export class ProjectUserListComponent extends React.Component {
     onDisable: PropTypes.func.isRequired,
     onSelectGroup: PropTypes.func.isRequired,
     onToggleOnlyWaitingUsers: PropTypes.func.isRequired,
+    onSetMaxQuota: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -80,6 +86,10 @@ export class ProjectUserListComponent extends React.Component {
 
   state = {
     deleteDialogOpened: false,
+    editQuotaDialog: {
+      open: false,
+      user: null,
+    },
   }
 
   /** User callback: close delete dialog */
@@ -98,7 +108,7 @@ export class ProjectUserListComponent extends React.Component {
 
   /**
    * User callback: open deleted dialog
-   * @param {ProjectUser} entity entity to delete
+   * @param {*} entity entity to delete, matching AccessShapes.ProjectUser
    */
   onOpenDeleteDialog = (entity) => {
     this.setState({
@@ -107,10 +117,42 @@ export class ProjectUserListComponent extends React.Component {
     })
   }
 
+  /**
+   * User callback: show edit quota dialog
+   * @param {*} user for which quota should be changed, matching AccessShapes.ProjectUser
+   */
+  onShowEditQuotaDialog = (user) => this.setState({
+    editQuotaDialog: {
+      open: true,
+      user,
+    },
+  })
+
+  /**
+   * User callback: close quota edition dialog
+   */
+  onCloseEditQuotaDialog = () => this.setState({
+    editQuotaDialog: {
+      open: false,
+      user: null,
+    },
+  })
+
+  /**
+   * User callback: confirm quota edition and close dialog
+   * @param {number} maxQuota new user max quota
+   */
+  onConfirmQuotaEdition = (maxQuota) => {
+    const { onSetMaxQuota } = this.props
+    onSetMaxQuota(this.state.editQuotaDialog.user, maxQuota)
+    this.onCloseEditQuotaDialog()
+  }
+
   /** @return [*]  built table columns */
   buildColumns = () => {
     const {
-      isLoading, onEdit, onValidate, onDeny, onEnable, onDisable,
+      isLoading, uiSettings, showQuota,
+      onEdit, onValidate, onDeny, onEnable, onDisable,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return [
@@ -129,12 +171,29 @@ export class ProjectUserListComponent extends React.Component {
       new TableColumnBuilder('status').label(formatMessage({ id: 'projectUser.list.table.status' })).titleHeaderCell()
         .propertyRenderCell('content.status', ProjectUserStatusRenderCell)
         .build(),
-      // 4 - last update column
+      // 4 - quota column
+      showQuota
+        ? new TableColumnBuilder('quota').label(formatMessage({ id: 'projectUser.list.table.quota' })).titleHeaderCell()
+          .rowCellDefinition({
+            Constructor: QuotaRenderer,
+            props: {
+              uiSettings,
+            },
+          })
+          .build()
+        : null,
+      // 5 - last update column
       new TableColumnBuilder('last.update').label(formatMessage({ id: 'projectUser.list.table.lastupdate' })).titleHeaderCell()
         .propertyRenderCell('content.lastUpdate', DateValueRender)
         .build(),
       // Options column
-      new TableColumnBuilder().optionsColumn([{
+      new TableColumnBuilder().optionsColumn([showQuota ? {
+        // Edit max quota option (only when showing quota column)
+        OptionConstructor: EditQuotaComponent,
+        optionProps: {
+          onShowEditQuotaDialog: this.onShowEditQuotaDialog,
+        },
+      } : null, {
         // Allow access options
         OptionConstructor: AllowAccessComponent,
         optionProps: {
@@ -158,40 +217,38 @@ export class ProjectUserListComponent extends React.Component {
         OptionConstructor: DeleteProjectUserComponent,
         optionProps: { isLoading, onDelete: this.onOpenDeleteDialog },
       }]).build(),
-    ]
-  }
-
-  /**
-   * @return {React.ReactElement} rendered delete dialog
-   */
-  renderDeleteConfirmDialog = () => {
-    const name = get(this.state.entityToDelete, 'content.email', ' ')
-    const title = this.context.intl.formatMessage({ id: 'projectUser.list.delete.message' }, { name })
-    return (
-      <ShowableAtRender
-        show={this.state.deleteDialogOpened}
-      >
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={this.onConfirmDelete}
-          onClose={this.onCloseDeleteDialog}
-          title={title}
-        />
-      </ShowableAtRender>
-    )
+    ].filter((c) => !!c) // remove any null
   }
 
   render() {
     const {
-      users, waitingUsersCount, selectedGroup, groups, isLoading, showOnlyWaitingUsers,
+      users, waitingUsersCount, uiSettings: { quotaWarningCount }, selectedGroup, groups, isLoading, showOnlyWaitingUsers,
       createUrl, backUrl, onValidateAll, onSelectGroup, onToggleOnlyWaitingUsers,
     } = this.props
+    const { entityToDelete, editQuotaDialog } = this.state
     const { intl: { formatMessage }, muiTheme, moduleTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     return (
       <Card>
-        {/* A. Dialog */}
-        {this.renderDeleteConfirmDialog()}
+        {/* A. Dialogs */}
+        <ShowableAtRender // A.1 - delete dialog
+          show={this.state.deleteDialogOpened}
+        >
+          <ConfirmDialogComponent
+            dialogType={ConfirmDialogComponentTypes.DELETE}
+            onConfirm={this.onConfirmDelete}
+            onClose={this.onCloseDeleteDialog}
+            title={formatMessage({ id: 'projectUser.list.delete.message' }, { name: get(entityToDelete, 'content.email', ' ') })}
+          />
+        </ShowableAtRender>
+        {/* A.2 Max quota dialog */}
+        <MaxQuotaDialogComponent
+          open={editQuotaDialog.open}
+          user={editQuotaDialog.user}
+          quotaWarningCount={quotaWarningCount}
+          onClose={this.onCloseEditQuotaDialog}
+          onConfirm={this.onConfirmQuotaEdition}
+        />
         {/* B. Card title */}
         <CardTitle title={formatMessage({ id: 'projectUser.list.card.title' })} subtitle={formatMessage({ id: 'projectUser.list.card.subtitle' })} />
         {/* C. Users table */}

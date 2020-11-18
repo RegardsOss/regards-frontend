@@ -21,9 +21,9 @@ import { assert } from 'chai'
 import { AdminDomain } from '@regardsoss/domain'
 import { StringValueRender } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ProjectUserStatusRenderCell from '../../../src/components/list/ProjectUserStatusRenderCell'
-import styles from '../../../src/styles'
-import messages from '../../../src/i18n'
+import ProjectUserStatusRenderCell from '../../../../src/components/list/render/ProjectUserStatusRenderCell'
+import styles from '../../../../src/styles'
+import messages from '../../../../src/i18n'
 
 const context = buildTestContext(styles)
 

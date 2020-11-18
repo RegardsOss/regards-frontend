@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { QuotaInfo } from '@regardsoss/entities-common'
 import profileDialogActions from '../../../model/ProfileDialogActions'
@@ -53,7 +53,7 @@ export class ProfileEditionContainer extends React.Component {
       open: PropTypes.bool.isRequired,
       view: PropTypes.oneOf(PROFILE_VIEW_STATES).isRequired,
     }).isRequired,
-    myUser: AdminShapes.ProjectUser,
+    myUser: AccessShapes.ProjectUser,
     notificationSettings: AdminShapes.NotificationSettings,
     // from mapDispatchToProps
     onShowView: PropTypes.func.isRequired,

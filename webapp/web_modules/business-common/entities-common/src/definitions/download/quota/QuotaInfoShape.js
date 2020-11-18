@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { AccessShapes } from '@regardsoss/shape'
 import { QUOTA_INFO_STATES } from './QuotaInfoStateEnum'
 
 /**
@@ -23,11 +24,8 @@ import { QUOTA_INFO_STATES } from './QuotaInfoStateEnum'
  * @author Raphaël Mechali
  */
 export const QuotaInfo = PropTypes.shape({
-  currentQuota: PropTypes.number.isRequired,
-  maxQuota: PropTypes.number.isRequired,
+  ...AccessShapes.quotaFields,
   quotaState: PropTypes.oneOf(QUOTA_INFO_STATES),
-  currentRate: PropTypes.number.isRequired,
-  rateLimit: PropTypes.number.isRequired,
   rateState: PropTypes.oneOf(QUOTA_INFO_STATES),
   downloadDisabled: PropTypes.bool,
   inUserApp: PropTypes.bool,

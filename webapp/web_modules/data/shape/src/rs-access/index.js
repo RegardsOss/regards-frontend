@@ -37,9 +37,10 @@ export {
   ModuleArray, moduleAdminForm, runtimeDispayModuleFields, runtimeConfigurationModuleFields,
 } from './Module'
 export { Project, ProjectList, ProjectArray } from './Project'
+export { ProjectUser, ProjectUserList } from './ProjectUser'
 
 export { PluginService, PluginServiceWithContent, PluginServiceWithContentArray } from './PluginService'
 export { EntityWithServices } from './EntityWithServices'
-export { QuotaInformation } from './QuotaInformation'
+export { quotaFields, QuotaInformation } from './QuotaInformation'
 export { Session, SessionArray, SessionList } from './Sessions'
 export { ThemeContent, Theme, ThemeList } from './Theme'

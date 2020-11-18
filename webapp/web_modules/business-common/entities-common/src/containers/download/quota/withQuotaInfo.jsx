@@ -24,6 +24,7 @@ import { AccessProjectClient, UIClient } from '@regardsoss/client'
 import { connect } from '@regardsoss/redux'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { QUOTA_INFO_STATE_ENUM } from '../../../definitions/download/quota/QuotaInfoStateEnum'
+import { QuotaInfoConstants } from '../../../definitions/download/quota/QuotaInfoConstants'
 
 /** Current quota information in user app context */
 const currentQuotaInformationSelectors = UIClient.getCurrentQuotaInformationSelectors()
@@ -33,9 +34,6 @@ const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
 
 const getReactCompoName = (WrappedComponent) => WrappedComponent.displayName || WrappedComponent.name || 'Component'
 
-/** Unlimited quota or rate value */
-const UNLIMITED_VALUE = -1
-
 /**
  * Computes the state of quota related parameter
  * @param {number} current value for parameter
@@ -44,7 +42,7 @@ const UNLIMITED_VALUE = -1
  * @return {string} from QUOTA_INFO_STATE_ENUM
  **/
 export function computeQuotaState(current, max, warningCount) {
-  if (max === UNLIMITED_VALUE) {
+  if (max === QuotaInfoConstants.UNLIMITED) {
     return QUOTA_INFO_STATE_ENUM.UNLIMITED
   }
   const remainingQuota = max - current

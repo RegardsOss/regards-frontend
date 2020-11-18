@@ -40,7 +40,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing DenyAccessComponent', () => {
   it('should render correctly loading', () => {
     const props = {
       entity: {
-        content: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser').content,
+        content: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser').content,
         links: [{ rel: HateoasKeys.INACTIVE }],
       },
       isLoading: true,
@@ -61,7 +61,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing DenyAccessComponent', () => {
     }
     const props = {
       entity: {
-        content: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser').content,
+        content: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser').content,
         links: [{ rel: HateoasKeys.INACTIVE }],
       },
       isLoading: false,
@@ -95,7 +95,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing DenyAccessComponent', () => {
     }
     const props = {
       entity: {
-        content: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser').content,
+        content: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser').content,
         links: [{ rel: HateoasKeys.DENY }],
       },
       isLoading: false,
@@ -124,7 +124,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing DenyAccessComponent', () => {
   it('should render correctly without any option', () => {
     const props = {
       entity: {
-        content: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser').content,
+        content: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser').content,
         links: [{ rel: HateoasKeys.CREATE }, { rel: HateoasKeys.DELETE }, { rel: HateoasKeys.LIST }],
       },
       isLoading: false,

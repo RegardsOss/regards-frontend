@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import ValidateIcon from 'mdi-material-ui/AccountCheck'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasKeys } from '@regardsoss/display-control'
 
@@ -28,7 +28,7 @@ import { HateoasKeys } from '@regardsoss/display-control'
  */
 class AllowAccessComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onValidate: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,

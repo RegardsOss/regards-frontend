@@ -34,7 +34,7 @@ import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import { FormattedMessage } from 'react-intl'
 import { formValueSelector } from 'redux-form'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -55,7 +55,7 @@ export class ProjectUserFormComponent extends React.Component {
   static POPOVER_ANCHOR_ORIGIN = { horizontal: 'left', vertical: 'top' }
 
   static propTypes = {
-    currentUser: AdminShapes.ProjectUser,
+    currentUser: AccessShapes.ProjectUser,
     userMetadata: MetadataList.isRequired,
     roleList: AdminShapes.RoleList,
     groupList: DataManagementShapes.AccessGroupList,
