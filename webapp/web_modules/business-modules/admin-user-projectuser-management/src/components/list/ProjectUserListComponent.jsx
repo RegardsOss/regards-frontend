@@ -56,8 +56,9 @@ export class ProjectUserListComponent extends React.Component {
     groups: DataManagementShapes.AccessGroupList.isRequired,
     uiSettings: UIShapes.UISettings.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    showOnlyWaitingUsers: PropTypes.bool.isRequired,
     showQuota: PropTypes.bool.isRequired,
+    showOnlyWaitingUsers: PropTypes.bool.isRequired,
+    showOnlyLowQuotaUsers: PropTypes.bool.isRequired,
 
     // control URLs and callbacks
     createUrl: PropTypes.string.isRequired,
@@ -71,6 +72,7 @@ export class ProjectUserListComponent extends React.Component {
     onDisable: PropTypes.func.isRequired,
     onSelectGroup: PropTypes.func.isRequired,
     onToggleOnlyWaitingUsers: PropTypes.func.isRequired,
+    onToggleOnlyLowQuotaUsers: PropTypes.func.isRequired,
     onSetMaxQuota: PropTypes.func.isRequired,
   }
 
@@ -222,8 +224,10 @@ export class ProjectUserListComponent extends React.Component {
 
   render() {
     const {
-      users, waitingUsersCount, uiSettings: { quotaWarningCount }, selectedGroup, groups, isLoading, showOnlyWaitingUsers,
-      createUrl, backUrl, onValidateAll, onSelectGroup, onToggleOnlyWaitingUsers,
+      users, waitingUsersCount, uiSettings: { quotaWarningCount }, selectedGroup, groups,
+      isLoading, showOnlyWaitingUsers, showQuota, showOnlyLowQuotaUsers,
+      createUrl, backUrl, onValidateAll, onSelectGroup,
+      onToggleOnlyWaitingUsers, onToggleOnlyLowQuotaUsers,
     } = this.props
     const { entityToDelete, editQuotaDialog } = this.state
     const { intl: { formatMessage }, muiTheme, moduleTheme } = this.context
@@ -265,6 +269,13 @@ export class ProjectUserListComponent extends React.Component {
             </TableHeaderContentBox>
             {/* right position: access group filters  */}
             <TableHeaderContentBox>
+              { showQuota ? (
+                <TableHeaderCheckbox
+                  checked={showOnlyLowQuotaUsers}
+                  label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
+                  disabled={isLoading}
+                  onCheck={onToggleOnlyLowQuotaUsers}
+                />) : null }
               <TableHeaderCheckbox
                 checked={showOnlyWaitingUsers}
                 label={formatMessage({ id: 'projectUser.list.only.waiting.users' })}
@@ -283,7 +294,7 @@ export class ProjectUserListComponent extends React.Component {
           <InfiniteTableContainer
             columns={this.buildColumns()}
             entities={users}
-            emptyComponent={<NoUserComponent key="no.content" hasFilter={!!selectedGroup || showOnlyWaitingUsers} />}
+            emptyComponent={<NoUserComponent key="no.content" hasFilter={!!selectedGroup || showOnlyWaitingUsers || showOnlyLowQuotaUsers} />}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
           />

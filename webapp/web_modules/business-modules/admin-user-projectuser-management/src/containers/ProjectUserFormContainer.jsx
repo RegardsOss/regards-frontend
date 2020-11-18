@@ -37,33 +37,79 @@ import { projectUserActions, projectUserSelectors } from '../clients/ProjectUser
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { accountPasswordActions, accountPasswordSelectors } from '../clients/AccountPasswordClient'
 import { userGroupActions } from '../clients/UserGroupClient'
+import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
 import ProjectUserFormComponent from '../components/ProjectUserFormComponent'
 import messages from '../i18n'
 import styles from '../styles'
 
 export class ProjectUserFormContainer extends React.Component {
   static propTypes = {
-    // from mapStateToProps
-    roleList: AdminShapes.RoleList,
-    groupList: DataManagementShapes.AccessGroupList,
-    user: AccessShapes.ProjectUser,
-    passwordRules: PropTypes.string.isRequired, // fetched password rules description
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
       // eslint-disable-next-line camelcase
       user_id: PropTypes.string, // eslint wont fix: expected parameter format
     }),
+    // from mapStateToProps
+    roleList: AdminShapes.RoleList,
+    groupList: DataManagementShapes.AccessGroupList,
+    user: AccessShapes.ProjectUser,
+    passwordRules: PropTypes.string.isRequired, // fetched password rules description
+    settings: AdminShapes.ProjectUserSettingsWithContent,
     // from mapDispatchToProps
-    createProjectUser: PropTypes.func,
-    updateProjectUser: PropTypes.func,
-    fetchUser: PropTypes.func,
-    fetchRoleList: PropTypes.func,
-    fetchGroupList: PropTypes.func,
+    createProjectUser: PropTypes.func.isRequired,
+    updateProjectUser: PropTypes.func.isRequired,
+    fetchUser: PropTypes.func.isRequired,
+    fetchSettings: PropTypes.func.isRequired,
+    fetchRoleList: PropTypes.func.isRequired,
+    fetchGroupList: PropTypes.func.isRequired,
     fetchPasswordRules: PropTypes.func.isRequired,
     fetchPasswordValidity: PropTypes.func.isRequired,
     assignGroup: PropTypes.func,
     unassignGroup: PropTypes.func,
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, ownProps) {
+    return {
+      roleList: roleSelectors.getList(state),
+      groupList: accessGroupSelectors.getList(state),
+      user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
+      passwordRules: accountPasswordSelectors.getRules(state),
+      settings: projectUserSettingsSelectors.getResult(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchUser: (userId) => dispatch(projectUserActions.fetchEntity(userId)),
+      fetchSettings: () => dispatch(projectUserSettingsActions.getSettings()),
+      createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserActions.createEntity(omit(values, ['useExistingAccount']))),
+      updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+      fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
+      assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, {
+        name: group,
+        email: user,
+      })),
+      unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, {
+        name: group,
+        email: user,
+      })),
+      fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
+      fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
+    }
   }
 
   /** Initial state */
@@ -74,6 +120,7 @@ export class ProjectUserFormContainer extends React.Component {
 
   UNSAFE_componentWillMount = () => {
     const tasks = [
+      this.props.fetchSettings(),
       this.props.fetchRoleList(),
       this.props.fetchGroupList(),
       this.props.fetchPasswordRules(),
@@ -84,7 +131,7 @@ export class ProjectUserFormContainer extends React.Component {
     }
 
     // whatever the case, initialize metadata
-    this.updateMetadata(this.props.user)
+    this.onMetadataUpdated(this.props.user)
 
     Promise.all(tasks)
       .then(() => {
@@ -98,7 +145,7 @@ export class ProjectUserFormContainer extends React.Component {
     // make sure metadata are living with current user
     // back from user fetching?
     if (this.props.user !== nextProps.user) {
-      this.updateMetadata(nextProps.user)
+      this.onMetadataUpdated(nextProps.user)
     }
   }
 
@@ -107,42 +154,33 @@ export class ProjectUserFormContainer extends React.Component {
     return `/admin/${project}/user/project-user/list`
   }
 
-  getFormComponent = () => {
-    const { userMetadata } = this.state
+  /**
+   * Callback: On submit form
+   * @return {Promise} submission promise
+   */
+  onSubmit = (values) => {
     if (this.state.isEditing) {
-      return (
-        <ProjectUserFormComponent
-          passwordRules={this.props.passwordRules}
-          currentUser={this.props.user}
-          userMetadata={userMetadata}
-          fetchPasswordValidity={this.props.fetchPasswordValidity}
-          onSubmit={this.handleUpdate}
-          onAddGroup={this.handleAddGroup}
-          backUrl={this.getBackUrl()}
-          roleList={this.props.roleList}
-          groupList={this.props.groupList}
-        />)
+      return this.onUpdate(values)
     }
-
-    return (<ProjectUserFormComponent
-      passwordRules={this.props.passwordRules}
-      userMetadata={userMetadata}
-      fetchPasswordValidity={this.props.fetchPasswordValidity}
-      onSubmit={this.handleCreate}
-      onAddGroup={this.handleAddGroup}
-      backUrl={this.getBackUrl()}
-      roleList={this.props.roleList}
-      groupList={this.props.groupList}
-    />)
+    return this.onCreate(values)
   }
 
-  handleUpdate = (values) => {
-    const { email, roleName, groups } = values
+  /**
+   * Callback: on update user
+   * @param {*} values form values
+   * @return {Promise} submission promise
+   */
+  onUpdate = (values) => {
+    const {
+      email, roleName, groups, maxQuota, rateLimit,
+    } = values
     const { user, groupList } = this.props
     const updatedUser = {
       ...user.content,
       email,
       role: { name: roleName },
+      maxQuota,
+      rateLimit,
       metadata: packMetadataField(user, values),
     }
     const updateUser = this.props.updateProjectUser(this.props.params.user_id, updatedUser)
@@ -158,7 +196,7 @@ export class ProjectUserFormContainer extends React.Component {
     )(groupList)
     const tasks = concat(updateUser, addUserToGroupTasks, removeUserFromGroupTasks)
 
-    Promise.all(tasks).then((actionResults) => {
+    return Promise.all(tasks).then((actionResults) => {
       if (tasks.length === 0 || every(actionResults, (actionResultUserToGroup) => !actionResultUserToGroup.error)) {
         const url = this.getBackUrl()
         browserHistory.push(url)
@@ -166,17 +204,24 @@ export class ProjectUserFormContainer extends React.Component {
     })
   }
 
-  handleCreate = (values) => {
+  /**
+   * Callback: on create user
+   * @param {*} values form values
+   * @return {Promise} submission promise
+   */
+  onCreate = (values) => {
     const { params, groupList } = this.props
     const projectName = params.project
     const frontendParameter = `${AuthenticationRouteParameters.mailAuthenticationAction.urlKey}=${AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail}`
 
-    Promise.resolve(this.props.createProjectUser({
+    return Promise.resolve(this.props.createProjectUser({
       email: values.email,
       roleName: values.roleName,
       firstName: values.firstName,
       lastName: values.lastName,
       password: values.password,
+      maxQuota: values.maxQuota,
+      rateLimit: values.rateLimit,
       metadata: packMetadataField({}, values),
       // Destination of logged users
       originUrl: '/',
@@ -191,13 +236,14 @@ export class ProjectUserFormContainer extends React.Component {
             fpfilter((currentGroup) => every(groupList[currentGroup].content.users, (userInfo) => userInfo.email !== values.email)),
             fpmap((currentGroup) => this.props.assignGroup(currentGroup, values.email)),
           )(values.groups)
-          Promise.all(addUserToGroupTasks).then((actionResults) => {
+          return Promise.all(addUserToGroupTasks).then((actionResults) => {
             if (addUserToGroupTasks.length === 0 || every(actionResults, (actionResultUserToGroup) => !actionResultUserToGroup.error)) {
               const url = this.getBackUrl()
               browserHistory.push(url)
             }
           })
         }
+        return null
       })
   }
 
@@ -206,17 +252,30 @@ export class ProjectUserFormContainer extends React.Component {
    * but when user is known, retrieves the current metadata values
    * @param user : myUser values
    */
-  updateMetadata = (user) => this.setState({ userMetadata: getMetadataArray(user) })
+  onMetadataUpdated = (user) => this.setState({ userMetadata: getMetadataArray(user) })
 
   render() {
-    const { isLoading } = this.state
+    const {
+      passwordRules, user, fetchPasswordValidity, settings, roleList, groupList,
+    } = this.props
+    const { isLoading, isEditing, userMetadata } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LoadableContentDisplayDecorator
             isLoading={isLoading}
           >
-            {this.getFormComponent}
+            <ProjectUserFormComponent
+              passwordRules={passwordRules}
+              userMetadata={userMetadata}
+              currentUser={isEditing ? user : null}
+              settings={settings}
+              fetchPasswordValidity={fetchPasswordValidity}
+              onSubmit={this.onSubmit}
+              backUrl={this.getBackUrl()}
+              roleList={roleList}
+              groupList={groupList}
+            />
           </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>
       </I18nProvider>
@@ -224,28 +283,4 @@ export class ProjectUserFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  roleList: roleSelectors.getList(state),
-  groupList: accessGroupSelectors.getList(state),
-  user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
-  passwordRules: accountPasswordSelectors.getRules(state),
-})
-const mapDispatchToProps = (dispatch) => ({
-  fetchUser: (userId) => dispatch(projectUserActions.fetchEntity(userId)),
-  createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserActions.createEntity(omit(values, ['useExistingAccount']))),
-  updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
-  fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
-  fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
-  assignGroup: (group, user) => dispatch(userGroupActions.sendSignal('PUT', null, {
-    name: group,
-    email: user,
-  })),
-  unassignGroup: (group, user) => dispatch(userGroupActions.sendSignal('DELETE', null, {
-    name: group,
-    email: user,
-  })),
-  fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
-  fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProjectUserFormContainer)
+export default connect(ProjectUserFormContainer.mapStateToProps, ProjectUserFormContainer.mapDispatchToProps)(ProjectUserFormContainer)

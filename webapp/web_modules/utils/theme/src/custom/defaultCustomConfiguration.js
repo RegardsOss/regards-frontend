@@ -62,6 +62,11 @@ export default (baseTheme) => ({
         fontSize: '10px',
         fontWeight: 'bold',
       },
+      header: {
+        checkbox: {
+          margin: '0 12px 0 12px',
+        },
+      },
       admin: {
         minRowCount: 2,
         maxRowCount: 10,

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNaN from 'lodash/isNaN'
 import QuotaStatusIcon from 'mdi-material-ui/DownloadCircle'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -41,7 +42,7 @@ class QuotaRenderer extends React.Component {
     const { entity: { content: { currentQuota, maxQuota } }, uiSettings: { quotaWarningCount } } = this.props
     const { intl: { formatMessage }, moduleTheme: { usersList: { quotaCell: { root, icon } } } } = this.context
 
-    const unlimitedQuota = !maxQuota || maxQuota === QuotaInfoConstants.UNLIMITED
+    const unlimitedQuota = isNaN(maxQuota) || maxQuota === QuotaInfoConstants.UNLIMITED
     const consumed = !unlimitedQuota && currentQuota >= maxQuota
     const warning = !unlimitedQuota && currentQuota + quotaWarningCount >= maxQuota
     return (

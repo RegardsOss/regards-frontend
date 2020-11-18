@@ -29,6 +29,7 @@ import { AccessShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { QuotaInfoConstants } from '@regardsoss/entities-common'
 import { projectUserActions, projectUserSelectors } from '../clients/ProjectUserClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { projectUserSignalActions, projectUserSignalSelectors } from '../clients/ProjectUserSignalClient'
@@ -122,9 +123,11 @@ export class ProjectUserListContainer extends React.Component {
    * @param {[*]} users users matching AccessShapes.ProjectUserList
    * @param {AccessGroup} group selected group
    * @param {boolean} onlyWaitingUsers should filter only waiting users
+   * @param {boolean} onlyLowQuotaUsers should filter only low quota users
+   * @param {number} quotaWarningCount remaining quota value from which a user is considered low quota
    * @return {[*]} filtered users as array of AccessShapes.ProjectUser
    */
-  static filterUserList(users, group, onlyWaitingUsers) {
+  static filterUserList(users, group, onlyWaitingUsers, onlyLowQuotaUsers, quotaWarningCount) {
     return reduce(users, (acc, user) => {
       // 1 - If group is required, user belongs it when
       // A - the group is public (for all users)
@@ -135,6 +138,13 @@ export class ProjectUserListContainer extends React.Component {
       if (onlyWaitingUsers && user.content.status !== AdminDomain.PROJECT_USER_STATUS_ENUM.WAITING_ACCESS) {
         // filtered as it is not waiting user
         return acc
+      }
+      if (onlyLowQuotaUsers) {
+        const { content: { currentQuota, maxQuota } } = user
+        if (maxQuota === QuotaInfoConstants.UNLIMITED || maxQuota - currentQuota > quotaWarningCount) {
+          // filtered as it is not in low quota
+          return acc
+        }
       }
       return [...acc, user]
     }, [])
@@ -154,6 +164,7 @@ export class ProjectUserListContainer extends React.Component {
     users: [], // filtered users array
     waitingUsersCount: 0,
     showOnlyWaitingUsers: false,
+    showOnlyLowQuotaUsers: false,
     selectedGroup: null,
   }
 
@@ -184,25 +195,27 @@ export class ProjectUserListContainer extends React.Component {
   onPropertiesUpdated = (oldProps, newProps) => {
     const newState = { ...this.state }
 
-    // 1 - recompute selected groups when it changes or group list was updated
+    // 1 - recompute selected group state
     const newGroup = get(newProps.location, 'query.group', NO_GROUP_FILTER)
-    if (!isEqual(get(oldProps, 'query.group'), newGroup)
-      || !isEqual(oldProps.groups, newProps.groups)) {
-      if (!newGroup || newGroup === NO_GROUP_FILTER) {
-        newState.selectedGroup = null
-      } else {
-        newState.selectedGroup = find(newProps.groups, ({ content: { name } }) => name === newGroup) || null
-      }
+    if (!newGroup || newGroup === NO_GROUP_FILTER) {
+      newState.selectedGroup = null
+    } else {
+      newState.selectedGroup = find(newProps.groups, ({ content: { name } }) => name === newGroup) || null
     }
     // 2 - recompute waiting users only state
-    const newShowOnlyWaitingUsers = get(newProps.location, 'query.onlyWaiting') === 'true'
-    if (!isEqual(get(oldProps.location, 'query.onlyWaiting') === 'true', newShowOnlyWaitingUsers)) {
-      newState.showOnlyWaitingUsers = newShowOnlyWaitingUsers
-    }
+    newState.showOnlyWaitingUsers = get(newProps.location, 'query.onlyWaiting') === 'true'
 
-    // 3 - check state updates: if it was updated or users list changed, apply new filters to user list then update state
-    if (!isEqual(this.state, newState) || !isEqual(oldProps.users, newProps.users)) {
-      newState.users = ProjectUserListContainer.filterUserList(newProps.users, newState.selectedGroup, newState.showOnlyWaitingUsers)
+    // 3 - recompute low quota users only state
+    newState.showOnlyLowQuotaUsers = get(newProps.location, 'query.onlyLowQuota') === 'true'
+
+    // 4 - check state updates: if it was updated or users list / warning quota changed, apply new filters to user list then update state
+    if (!isEqual(this.state.selectedGroup, newState.selectedGroup)
+      || !isEqual(this.state.showOnlyWaitingUsers, newState.showOnlyWaitingUsers)
+        || !isEqual(this.state.showOnlyLowQuotaUsers, newState.showOnlyLowQuotaUsers)
+        || !isEqual(oldProps.users, newProps.users)
+        || !isEqual(oldProps.uiSettings, newProps.uiSettings)) {
+      newState.users = ProjectUserListContainer.filterUserList(
+        newProps.users, newState.selectedGroup, newState.showOnlyWaitingUsers, newState.showOnlyLowQuotaUsers, newProps.uiSettings.quotaWarningCount)
       newState.waitingUsersCount = ProjectUserListContainer.countWaitingUsers(newState.users)
       this.setState(newState)
     }
@@ -273,21 +286,39 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   /**
-   * User callback: group filter selected
-   * @param {string} group selected group or null / undefined for all
+   * Inner callback: updates location with user state changes (not yet reflected in class state)
+   * @param {AccessGroup} selectedGroup (or null)
+   * @param {boolean} showOnlyWaitingUsers show only waiting users?
+   * @param {boolean} showOnlyLowQuotaUsers show only low quota users?
    */
-  onSelectGroup = (group) => {
-    const { pathname } = browserHistory.getCurrentLocation()
-    browserHistory.replace(`${pathname}?${this.buildQuery(get(group, 'content.name'), this.state.showOnlyWaitingUsers)}`)
+  onUpdateLocation = (group, showOnlyWaitingUsers, showOnlyLowQuotaUsers) => {
+    const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
+    browserHistory.replace({
+      pathname,
+      query: {
+        ...currentQuery,
+        group: group || NO_GROUP_FILTER,
+        onlyWaiting: showOnlyWaitingUsers,
+        onlyLowQuota: showOnlyLowQuotaUsers,
+      },
+    })
   }
 
   /**
-   * User callback: only waiting users filter was enabled / disabled. Update state and users list
+   * User callback: group filter selected
+   * @param {string} group selected group or null / undefined for all
    */
-  onToggleOnlyWaitingUsers = () => {
-    const { pathname } = browserHistory.getCurrentLocation()
-    browserHistory.replace(`${pathname}?${this.buildQuery(this.state.selectedGroup, !this.state.showOnlyWaitingUsers)}`)
-  }
+  onSelectGroup = (group) => this.onUpdateLocation(group, this.state.showOnlyWaitingUsers, this.state.showOnlyLowQuotaUsers)
+
+  /**
+   * User callback: toggle only waiting users filter
+   */
+  onToggleOnlyWaitingUsers = () => this.onUpdateLocation(this.state.group, !this.state.showOnlyWaitingUsers, this.state.showOnlyLowQuotaUsers)
+
+  /**
+   * User callback: toggle only low quota
+   */
+  onToggleOnlyLowQuotaUsers = () => this.onUpdateLocation(this.state.group, this.state.showOnlyWaitingUsers, !this.state.showOnlyLowQuotaUsers)
 
   /**
    * User callback: save new maxQuota for a user
@@ -316,13 +347,6 @@ export class ProjectUserListContainer extends React.Component {
   }
 
   /**
-   * Builds this component query for values as parameter
-   * @param {AccessGroup} selectedGroup (or null)
-   * @param {boolean} showOnlyWaitingUsers show only waiting users?
-   * @return {string} query for values as parameter*/
-  buildQuery = (group, showOnlyWaitingUsers) => `group=${group || NO_GROUP_FILTER}&onlyWaiting=${showOnlyWaitingUsers}`
-
-  /**
    * Waits for all promises as parameter then updates users list
    * @param promises promises
    */
@@ -337,7 +361,7 @@ export class ProjectUserListContainer extends React.Component {
       isFetchingActions, isFetchingViewData,
     } = this.props
     const {
-      users, waitingUsersCount, showOnlyWaitingUsers, selectedGroup,
+      users, waitingUsersCount, showOnlyWaitingUsers, showOnlyLowQuotaUsers, selectedGroup,
     } = this.state
     // provide group to component: group name or null / undefined when all
     return (
@@ -351,6 +375,7 @@ export class ProjectUserListContainer extends React.Component {
             uiSettings={uiSettings}
             isLoading={isFetchingViewData || isFetchingActions}
             showOnlyWaitingUsers={showOnlyWaitingUsers}
+            showOnlyLowQuotaUsers={showOnlyLowQuotaUsers}
             showQuota={allMatchHateoasDisplayLogic(ProjectUserListContainer.QUOTA_DEPENDENCY, availableDependencies)}
 
             createUrl={this.getCreateUrl()}
@@ -364,6 +389,7 @@ export class ProjectUserListContainer extends React.Component {
             onEnable={this.onEnable}
             onDisable={this.onDisable}
             onToggleOnlyWaitingUsers={this.onToggleOnlyWaitingUsers}
+            onToggleOnlyLowQuotaUsers={this.onToggleOnlyLowQuotaUsers}
             onSelectGroup={this.onSelectGroup}
             onSetMaxQuota={this.onSetMaxQuota}
           />
