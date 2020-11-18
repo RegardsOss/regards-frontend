@@ -48,7 +48,7 @@ const messages = {
   'entities-files.form.upload.action.cancel': 'Annuler',
 
   'entities-files.form.reference': 'Fichier référence n°',
-  'entities-files.form.uri': 'URI publique du fichier (*)',
+  'entities-files.form.uri': 'URI public du fichier (*)',
   'entities-files.form.mimeType': 'Type de media (*)',
   'entities-files.form.filename': 'Nom à afficher pour ce fichier (*)',
   'entities-files.form.imageWidth': 'Largeur de l\'image',

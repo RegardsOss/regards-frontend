@@ -102,8 +102,7 @@ const messages = {
 
   'storage.location.copy.from.label': 'From : ',
   'storage.location.copy.to.label': 'To : ',
-  'storage.location.copy.submit': 'Copy data files',
-  'storage.location.copy.submit.manifest': 'Copy manifests',
+  'storage.location.copy.submit': 'Copy files',
 
   'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',

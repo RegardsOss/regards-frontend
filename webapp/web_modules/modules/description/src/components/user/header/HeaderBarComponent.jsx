@@ -39,6 +39,7 @@ class HeaderBarComponent extends React.Component {
     onSelectEntityIndex: PropTypes.func.isRequired,
     // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
+    toggleTreeButton: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -48,13 +49,13 @@ class HeaderBarComponent extends React.Component {
   render() {
     const {
       settings, descriptionEntity, selectedEntityIndex, descriptionPath,
-      allowSearching, onSelectEntityIndex, onSearchEntity,
+      allowSearching, onSelectEntityIndex, onSearchEntity, toggleTreeButton,
     } = this.props
     const { moduleTheme: { user: { header: { leftGroup, rightGroup } } } } = this.context
     return (
       <TableHeaderLine>
         <div style={leftGroup}>
-          <ToggleTreeVisibleOptionContainer />
+          <ToggleTreeVisibleOptionContainer toggleTreeButton={toggleTreeButton} />
           <TableHeaderOptionsSeparator />
           <BreadcrumbComponent
             settings={settings}

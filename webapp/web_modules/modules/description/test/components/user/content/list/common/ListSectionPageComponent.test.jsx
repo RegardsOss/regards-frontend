@@ -27,6 +27,7 @@ const context = buildTestContext(styles)
 /**
  * Test ListSectionPageComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing ListSectionPageComponent', () => {
   before(testSuiteHelpers.before)
@@ -38,6 +39,7 @@ describe('[Description] Testing ListSectionPageComponent', () => {
   it('should render correctly', () => {
     const props = {
       elements: ['a', 'b', 'c'],
+      scrollAreaHeight: 760,
       buildElementNode: (elt) => <div key={elt} id={elt} />,
     }
     const enzymeWrapper = shallow(<ListSectionPageComponent {...props} />, { context })

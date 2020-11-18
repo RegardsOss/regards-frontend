@@ -16,22 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { MarkdownFileContentDisplayer } from '@regardsoss/components'
 
-import values from 'lodash/values'
+import styles from '../../styles'
 
 /**
- * Possible AIP request types
- * @author Raphaël Mechali
+ * Display markdown plugin catalog service description
  */
-export const AIP_REQUEST_TYPES_ENUM = {
-  STORAGE_DELETION: 'STORAGE_DELETION',
-  STORE_METADATA: 'STORE_METADATA',
-  UPDATE: 'UPDATE',
-  AIP_UPDATES_CREATOR: 'AIP_UPDATES_CREATOR',
-  INGEST: 'INGEST',
-  OAIS_DELETION_CREATOR: 'OAIS_DELETION_CREATOR',
-  OAIS_DELETION: 'OAIS_DELETION',
-  AIP_POST_PROCESS: 'AIP_POST_PROCESS',
+class ServideDescriptionComponent extends React.Component {
+  static propTypes = {
+    description: PropTypes.string.isRequired,
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+  }
+
+  render() {
+    const { moduleTheme: { description: { markdownView } } } = this.context
+    const { description } = this.props
+    return (<MarkdownFileContentDisplayer
+      style={markdownView}
+      source={description}
+    />)
+  }
 }
 
-export const AIP_REQUEST_TYPES = values(AIP_REQUEST_TYPES_ENUM)
+export default withModuleStyle(styles)(ServideDescriptionComponent)

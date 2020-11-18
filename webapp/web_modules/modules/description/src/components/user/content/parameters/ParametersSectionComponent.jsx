@@ -27,6 +27,7 @@ import ThumbnailComponent from './DescriptionThumbnailComponent'
 /**
  * Parameters section component: shows thumbnail,  attributes and groups
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class ParametersSectionComponent extends React.Component {
   static propTypes = {
@@ -34,6 +35,7 @@ class ParametersSectionComponent extends React.Component {
     attributesGroups: PropTypes.arrayOf(AttributeGroup).isRequired,
     // thumbnail,  provided only when it should be shown
     thumbnail: FileData,
+    scrollAreaHeight: PropTypes.number,
   }
 
   static contextTypes = {
@@ -41,7 +43,7 @@ class ParametersSectionComponent extends React.Component {
   }
 
   render() {
-    const { attributesGroups, thumbnail } = this.props
+    const { attributesGroups, thumbnail, scrollAreaHeight } = this.props
     const {
       moduleTheme: {
         user: {
@@ -57,6 +59,13 @@ class ParametersSectionComponent extends React.Component {
         },
       },
     } = this.context
+
+    // Compute scroll height area
+    const style = {
+      ...scrolling.scrollArea,
+      height: scrollAreaHeight,
+    }
+
     return !attributesGroups.length && !thumbnail
       ? (
         <NoContentComponent
@@ -65,7 +74,7 @@ class ParametersSectionComponent extends React.Component {
           Icon={NoParameterIcon}
         />)
       : (
-        <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={scrolling.scrollArea}>
+        <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={style}>
           <div style={root}>
             { /* 1. Thumbnail  */
             thumbnail ? <ThumbnailComponent thumbnail={thumbnail} /> : null

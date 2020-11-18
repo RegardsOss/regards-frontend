@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklookViewComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[ Module name] Testing QuicklookViewComponent', () => {
   before(testSuiteHelpers.before)
@@ -46,6 +47,7 @@ describe('[ Module name] Testing QuicklookViewComponent', () => {
         buildQuicklookGroupFor('g2', false),
         buildQuicklookGroupFor('g3', false),
       ],
+      scrollAreaHeight: 760,
     }
     // 1 - Render in initial mode
     const enzymeWrapper = shallow(<QuicklookViewComponent {...props} />, { context })
@@ -60,6 +62,7 @@ describe('[ Module name] Testing QuicklookViewComponent', () => {
       selectedIndex: 0,
       quicklookFiles: props.quicklookFiles,
       onSelectGroup: enzymeWrapper.instance().onSelectGroup,
+      scrollAreaHeight: props.scrollAreaHeight,
     }, '(1) Group list displayer properties should be correctly set')
     // 1.b - check picture is shown in normal mode displayer
     let normalModePictureWrapper = enzymeWrapper.find(NormalQuicklookPictureComponent)

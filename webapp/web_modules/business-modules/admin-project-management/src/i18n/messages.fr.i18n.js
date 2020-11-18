@@ -54,7 +54,7 @@ const messages = {
   'project.form.isAccessible': 'Projet accessible',
   'project.form.icon': 'Lien HTTP vers l\'icône du projet',
   'project.form.license': 'Lien HTTP vers la description de la licence du projet',
-  'project.form.host': 'Adresse publique de la passerelle de REGARDS *',
+  'project.form.host': 'Adresse public de la passerelle de REGARDS *',
   'project.form.crs': 'Système de référence des coordonnées géométriques (crs)',
   'project.form.crs.WGS_84': 'Terre - WGS_84',
   'project.form.crs.MARS_49900': 'Mars - MARS_49900',

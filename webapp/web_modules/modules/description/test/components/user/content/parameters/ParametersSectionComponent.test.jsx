@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
  * Test ParametersSectionComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing ParametersSectionComponent', () => {
   before(testSuiteHelpers.before)
@@ -43,6 +44,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
     const props = {
       attributesGroups: [],
       thumbnail: null,
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     const noContentWrapper = enzymeWrapper.find(NoContentComponent)
@@ -58,6 +60,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
     const props = {
       attributesGroups: resolvedDataEntity.displayModel.attributesGroups,
       thumbnail: null,
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')
@@ -79,6 +82,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         available: true,
         uri: 'http://this.is/a.test.png',
       },
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')
@@ -97,6 +101,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         available: true,
         uri: 'http://this.is/a.test.png',
       },
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')

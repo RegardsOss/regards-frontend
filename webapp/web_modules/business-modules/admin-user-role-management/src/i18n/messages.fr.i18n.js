@@ -43,7 +43,7 @@ const messages = {
   'role.edit.action.title': 'Éditer',
   'role.delete.action.title': 'Supprimer',
 
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',

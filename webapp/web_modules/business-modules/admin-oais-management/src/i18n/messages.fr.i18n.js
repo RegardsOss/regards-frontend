@@ -104,6 +104,7 @@ export default {
   'oais.requests.type.INGEST': 'Création',
   'oais.requests.type.OAIS_DELETION_CREATOR': 'Recherche de suppressions',
   'oais.requests.type.OAIS_DELETION': 'Suppressions',
+  'oais.requests.type.AIP_POST_PROCESS': 'Post traitement',
   'oais.requests.type.any': 'Tout type',
   'oais.requests.list.filters.state': 'État',
   'oais.requests.status.TO_SCHEDULE': 'En attente',

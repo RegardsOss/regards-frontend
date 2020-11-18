@@ -23,6 +23,7 @@ import ToggleTreeVisibleOptionComponent from '../../../components/user/header/To
 /**
  * Toggle tree visible option container
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class ToggleTreeVisibleOptionContainer extends React.Component {
   /**
@@ -50,6 +51,7 @@ export class ToggleTreeVisibleOptionContainer extends React.Component {
   }
 
   static propTypes = {
+    toggleTreeButton: PropTypes.func.isRequired,
     // from mapStateToProps
     browsingTreeVisible: PropTypes.bool.isRequired,
     // from mapDispatchToProps
@@ -60,8 +62,9 @@ export class ToggleTreeVisibleOptionContainer extends React.Component {
    * User callback: toggles browsing tree visible option
    */
   onToggleVisible = () => {
-    const { browsingTreeVisible, setBrowsingTreeVisible } = this.props
+    const { browsingTreeVisible, setBrowsingTreeVisible, toggleTreeButton } = this.props
     setBrowsingTreeVisible(!browsingTreeVisible)
+    toggleTreeButton()
   }
 
   render() {

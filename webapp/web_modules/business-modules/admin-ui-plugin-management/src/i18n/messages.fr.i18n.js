@@ -48,7 +48,7 @@ const messages = {
   'plugins.list.action.cancel': 'Retour',
   'plugin.description.url': 'Visualiser la description du plugin',
 
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',

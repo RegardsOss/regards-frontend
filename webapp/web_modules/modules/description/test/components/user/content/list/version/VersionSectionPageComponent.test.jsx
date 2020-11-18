@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test VersionSectionPageComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing VersionSectionPageComponent', () => {
   before(testSuiteHelpers.before)
@@ -40,6 +41,7 @@ describe('[Description] Testing VersionSectionPageComponent', () => {
   it('should render correctly', () => {
     const props = {
       entities: resolvedDataEntity.displayModel.otherVersions,
+      scrollAreaHeight: 760,
       onSelectEntityLink: () => {},
     }
     const enzymeWrapper = shallow(<VersionSectionPageComponent {...props} />, { context })
@@ -48,6 +50,7 @@ describe('[Description] Testing VersionSectionPageComponent', () => {
     testSuiteHelpers.assertWrapperProperties(subcomponentWrapper, {
       elements: props.entities,
       buildElementNode: enzymeWrapper.instance().renderEntity,
+      scrollAreaHeight: props.scrollAreaHeight,
     }, 'List render properties should be correctly set')
     // Test inner render into entity link component
     props.entities.forEach((entity) => {

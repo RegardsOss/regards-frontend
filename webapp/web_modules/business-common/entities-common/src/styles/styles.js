@@ -47,4 +47,10 @@ export default (theme) => ({
       color: 'red',
     },
   },
+  description: {
+    markdownView: {
+      width: '100%',
+      height: '200px',
+    },
+  },
 })
