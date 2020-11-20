@@ -263,42 +263,40 @@ export class ProjectUserFormComponent extends React.Component {
             />
             { /* Show account creation options when creating an account */}
             <ShowableAtRender show={!useExistingAccount && this.state.isCreating}>
-              <div>
-                <Field
-                  name="password"
-                  fullWidth
-                  component={RenderTextField}
-                  type="password"
-                  label={formatMessage({ id: 'projectUser.create.input.password' })}
-                  validate={ValidationHelpers.required}
-                  normalize={trim}
-                />
-                <Field
-                  name="confirmPassword"
-                  fullWidth
-                  component={RenderTextField}
-                  type="password"
-                  label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
-                  validate={ValidationHelpers.required}
-                  normalize={trim}
-                />
-                <Field
-                  name="firstName"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'projectUser.create.input.firstName' })}
-                  validate={ValidationHelpers.required}
-                />
-                <Field
-                  name="lastName"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'projectUser.create.input.lastName' })}
-                  validate={ValidationHelpers.required}
-                />
-              </div>
+              <Field
+                name="password"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={formatMessage({ id: 'projectUser.create.input.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
+              />
+              <Field
+                name="confirmPassword"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
+              />
+              <Field
+                name="firstName"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={formatMessage({ id: 'projectUser.create.input.firstName' })}
+                validate={ValidationHelpers.required}
+              />
+              <Field
+                name="lastName"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={formatMessage({ id: 'projectUser.create.input.lastName' })}
+                validate={ValidationHelpers.required}
+              />
             </ShowableAtRender>
             <Field
               name="roleName"

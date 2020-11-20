@@ -16,12 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export {
-  editorTypes,
-  editors,
-  getMetadataArray,
-  packMetadataField,
-} from './definitions/metadatav1'
+export * from './definitions/metadatav1'
 export { MetadataList } from './model/Metadata'
 export { default as MetadataField } from './components/MetadataField'
 export { default as Locales } from './i18n'

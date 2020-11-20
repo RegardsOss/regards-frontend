@@ -19,10 +19,11 @@
 import concat from 'lodash/concat'
 import every from 'lodash/every'
 import flow from 'lodash/flow'
-import omit from 'lodash/omit'
-import some from 'lodash/some'
+import isNil from 'lodash/isNil'
 import fpfilter from 'lodash/fp/filter'
 import fpmap from 'lodash/fp/map'
+import omit from 'lodash/omit'
+import some from 'lodash/some'
 import root from 'window-or-global'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
@@ -114,7 +115,7 @@ export class ProjectUserFormContainer extends React.Component {
 
   /** Initial state */
   state = {
-    isEditing: this.props.params.user_id !== undefined,
+    isEditing: !isNil(this.props.params.user_id),
     isLoading: true,
   }
 

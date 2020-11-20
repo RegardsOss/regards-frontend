@@ -16,9 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import QuotaStatusIcon from 'mdi-material-ui/DownloadCircle'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import QuotaRenderer from '../../../../src/components/list/render/QuotaRenderer'
 import styles from '../../../../src/styles'
 
@@ -35,12 +37,78 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing QuotaRenderer', () => {
   it('should exists', () => {
     assert.isDefined(QuotaRenderer)
   })
-  it('should render correctly', () => {
+
+  const testCases = [{
+    label: 'an unlimited quota',
+    props: {
+      userQuota: { currentQuota: 2546, maxQuota: -1 },
+    },
+    expected: {
+      message: 'projectUser.list.table.unlimited.quota.message',
+      icon: { visible: false },
+    },
+  }, {
+    label: 'an idle quota',
+    props: {
+      userQuota: { currentQuota: 1000, maxQuota: 6500 },
+      uiSettings: {
+        quotaWarningCount: 200,
+      },
+    },
+    expected: {
+      message: 'projectUser.list.table.current.quota.message',
+      icon: { visible: false },
+    },
+  }, {
+    label: 'a low quota warning',
+    props: {
+      userQuota: { currentQuota: 1000, maxQuota: 1100 },
+      uiSettings: {
+        quotaWarningCount: 200,
+      },
+    },
+    expected: {
+      message: 'projectUser.list.table.current.quota.message',
+      icon: { visible: true, style: context.moduleTheme.usersList.quotaCell.icon.warning },
+    },
+  }, {
+    label: 'a consumed quota',
+    props: {
+      userQuota: { currentQuota: 255, maxQuota: 250 },
+      uiSettings: {
+        quotaWarningCount: 200,
+      },
+    },
+    expected: {
+      message: 'projectUser.list.table.current.quota.message',
+      icon: { visible: true, style: context.moduleTheme.usersList.quotaCell.icon.consumed },
+    },
+  }]
+  testCases.forEach(({ label, props: { userQuota = {}, uiSettings = {} }, expected }) => it(`should render correctly with ${label}`, () => {
+    const aUser = DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')
     const props = {
-    //  TODO properties
+      entity: {
+        ...aUser,
+        content: {
+          ...aUser.content,
+          ...userQuota,
+        },
+      },
+      uiSettings: {
+        ...UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
+        ...uiSettings,
+      },
     }
-    assert.fail('Implement me!')
     const enzymeWrapper = shallow(<QuotaRenderer {...props} />, { context })
-    // TODO test
-  })
+    // 1 - check message
+    assert.include(enzymeWrapper.debug(), expected.message)
+    // 2 - check warning
+    if (expected.icon.visible) {
+      testSuiteHelpers.assertCompWithProps(enzymeWrapper, QuotaStatusIcon, {
+        style: expected.icon.style,
+      })
+    } else {
+      testSuiteHelpers.assertNotComp(enzymeWrapper, QuotaStatusIcon)
+    }
+  }))
 })

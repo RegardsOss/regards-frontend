@@ -24,7 +24,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { setQuotaActions } from '../../../clients/SetQuotaClient'
 
-const ResourceIconAction = withResourceDisplayControl(IconButton)
+export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Option to show quota edition dialog

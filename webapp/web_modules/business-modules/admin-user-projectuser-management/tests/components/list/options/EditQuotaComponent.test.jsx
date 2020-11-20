@@ -18,8 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EditQuotaComponent from '../../../../src/components/list/options/EditQuotaComponent'
+import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import EditQuotaComponent, { ResourceIconAction } from '../../../../src/components/list/options/EditQuotaComponent'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -36,11 +36,21 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing EditQuotaComponent', () => {
     assert.isDefined(EditQuotaComponent)
   })
   it('should render correctly', () => {
+    const spiedCallback = {}
     const props = {
-    //  TODO properties
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
+      onShowEditQuotaDialog: (e) => {
+        spiedCallback.entity = e
+      },
     }
-    assert.fail('DO IMPL')
     const enzymeWrapper = shallow(<EditQuotaComponent {...props} />, { context })
-    // TODO test
+    const btnWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, ResourceIconAction, {
+      title: 'projectUser.list.table.action.edit.quota',
+      onClick: enzymeWrapper.instance().onClick,
+      resourceDependencies: EditQuotaComponent.DEPENDENCIES,
+    })
+    // simulate callback
+    btnWrapper.props().onClick()
+    assert.deepEqual(spiedCallback.entity, props.entity, 'Callback should have been called with right parameters')
   })
 })

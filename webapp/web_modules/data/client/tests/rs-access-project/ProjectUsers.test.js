@@ -42,7 +42,6 @@ describe('[ADMIN CLIENT] Testing client projectUser', () => {
     entityTester.afterAll()
   })
   it('should retrieve the list of items, reduce it, and store it on the store.', (done) => {
-    throw new Error('change dump then re-run')
     entityTester.runTests(done)
   })
 })

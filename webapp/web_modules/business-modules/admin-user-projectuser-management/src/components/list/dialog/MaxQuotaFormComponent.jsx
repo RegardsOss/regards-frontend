@@ -144,7 +144,7 @@ export class MaxQuotaFormComponent extends React.Component {
           id="remainingQuota"
           value={remainingQuota === QuotaInfoConstants.UNLIMITED
             ? formatMessage({ id: 'projectUser.list.edit.quota.dialog.remaining.quota.unlimited' })
-            : remainingQuota}
+            : remainingQuota.toString()}
           floatingLabelText={formatMessage({ id: 'projectUser.list.edit.quota.dialog.remaining.quota.field' })}
           style={remainingField}
           fullWidth

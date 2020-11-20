@@ -68,7 +68,7 @@ const messages = {
   'projectUser.list.delete.message': 'Supprimer l\'utilisateur {name} ?',
   'projectUser.list.edit.quota.dialog.title': 'Editer le quota maximal de {name}',
   'projectUser.list.edit.quota.dialog.max.quota.field': 'Quota maximal (-1: illimité / entier positif ou nul: nombre de fichiers)',
-  'projectUser.list.edit.quota.dialog.current.quota.field': 'Quota courant',
+  'projectUser.list.edit.quota.dialog.current.quota.field': 'Quota consommé',
   'projectUser.list.edit.quota.dialog.remaining.quota.field': 'Quota restant',
   'projectUser.list.edit.quota.dialog.remaining.quota.unlimited': 'illimité',
   'projectUser.list.edit.quota.dialog.cancel': 'Annuler',

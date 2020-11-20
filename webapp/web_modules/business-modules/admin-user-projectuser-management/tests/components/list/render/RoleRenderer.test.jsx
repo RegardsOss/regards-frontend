@@ -18,9 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import RoleRenderer from '../../../../src/components/list/render/RoleRenderer'
 import styles from '../../../../src/styles'
+import messages from '../../../../src/i18n'
 
 const context = buildTestContext(styles)
 
@@ -35,12 +37,48 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing RoleRenderer', () => {
   it('should exists', () => {
     assert.isDefined(RoleRenderer)
   })
-  it('should render correctly', () => {
+
+  const testCases = [
+    // Common roles, internationalized
+    ...[
+      'PUBLIC',
+      'REGISTERED_USER',
+      'EXPLOIT',
+      'ADMIN',
+      'PROJECT_ADMIN',
+    ].map((r) => ({ label: `the common role ${r}`, role: r, expectedMessage: messages[UIDomain.LOCALES_ENUM.en][`role.name.${r}`] })), {
+      // Custom role, should be displayed unchanged
+      label: 'a custom role',
+      role: 'My_CUSTOM.ROLE',
+      expectedMessage: 'My_CUSTOM.ROLE',
+    },
+
+  ]
+
+  testCases.forEach(({ label, role, expectedMessage }) => it(`should render correctly ${label}`, () => {
+    const aUser = DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')
     const props = {
-    //  TODO properties
+      entity: {
+        ...aUser,
+        content: {
+          ...aUser.content,
+          role: {
+            ...aUser.content.role,
+            name: role,
+          },
+        },
+      },
     }
-    assert.fail('Implement me!')
-    const enzymeWrapper = shallow(<RoleRenderer {...props} />, { context })
-    // TODO test
-  })
+    // context: replace intl stub by a stub from real messages (otherwise, that test wont work as key is returned in tests)
+    const localContext = {
+      ...context,
+      intl: {
+        ...context.intl,
+        formatMessage: ({ id }) => messages[UIDomain.LOCALES_ENUM.en][id] || id,
+      },
+    }
+    // simple test here: i18n is not
+    const enzymeWrapper = shallow(<RoleRenderer {...props} />, { context: localContext })
+    assert.include(enzymeWrapper.debug(), expectedMessage)
+  }))
 })

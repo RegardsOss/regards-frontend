@@ -125,7 +125,14 @@ export default {
       foundWrapper = foundWrapper.findWhere((n) => reduce(expectedProperties,
         (acc, value, key) => acc && isEqual(value, n.props()[key]), true))
     }
-    assert.lengthOf(foundWrapper, 0, message)
+    if (foundWrapper.length === 1) {
+      // component found: check properties are different
+      const props = foundWrapper.props()
+      const asADifferentValue = reduce(expectedProperties, (foundDiff, expectedVal, expectedKey) => foundDiff || !isEqual(expectedVal, props[expectedVal]), false)
+      assert.isTrue(asADifferentValue, message)
+    } else {
+      assert.lengthOf(foundWrapper, 0, message)
+    }
   },
 
   /**

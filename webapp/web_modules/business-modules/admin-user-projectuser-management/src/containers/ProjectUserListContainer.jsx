@@ -73,8 +73,8 @@ export class ProjectUserListContainer extends React.Component {
     dispatchSetMaxQuota: PropTypes.func.isRequired,
   }
 
-  /* local dependency on quota: instantiate and resolve */
-  static QUOTA_DEPENDENCY = [
+  /* local dependencies on quota */
+  static QUOTA_DEPENDENCIES = [
     setQuotaActions.getDependency(RequestVerbEnum.GET),
   ]
 
@@ -297,9 +297,9 @@ export class ProjectUserListContainer extends React.Component {
       pathname,
       query: {
         ...currentQuery,
-        group: group || NO_GROUP_FILTER,
-        onlyWaiting: showOnlyWaitingUsers,
-        onlyLowQuota: showOnlyLowQuotaUsers,
+        group: group ? group.content.name : NO_GROUP_FILTER,
+        onlyWaiting: showOnlyWaitingUsers ? 'true' : 'false',
+        onlyLowQuota: showOnlyLowQuotaUsers ? 'true' : 'false',
       },
     })
   }
@@ -376,7 +376,7 @@ export class ProjectUserListContainer extends React.Component {
             isLoading={isFetchingViewData || isFetchingActions}
             showOnlyWaitingUsers={showOnlyWaitingUsers}
             showOnlyLowQuotaUsers={showOnlyLowQuotaUsers}
-            showQuota={allMatchHateoasDisplayLogic(ProjectUserListContainer.QUOTA_DEPENDENCY, availableDependencies)}
+            showQuota={allMatchHateoasDisplayLogic(ProjectUserListContainer.QUOTA_DEPENDENCIES, availableDependencies)}
 
             createUrl={this.getCreateUrl()}
             backUrl={this.getBackUrl()}
