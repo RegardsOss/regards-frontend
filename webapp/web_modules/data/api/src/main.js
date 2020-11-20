@@ -28,7 +28,7 @@
 export { AccountConfiguration, ACCOUNT, ACCOUNT_ARRAY } from './schemas/Account'
 export { ProjectConfiguration, PROJECT, PROJECT_ARRAY } from './schemas/Project'
 export { ProjectConnectionConfiguration, PROJECT_CONNECTION, PROJECT_CONNECTION_ARRAY } from './schemas/ProjectConnection'
-export { PROJECT_USER_ARRAY, PROJECT_USER, ProjectUserConfiguration } from './schemas/ProjectUser'
+export { PROJECT_USER_ARRAY, PROJECT_USER, ProjectUserConfiguration } from './access/ProjectUser'
 export { RoleConfiguration, ROLE, ROLE_ARRAY } from './schemas/Role'
 export { NOTIFICATION, NOTIFICATION_ARRAY, NotificationConfiguration } from './schemas/Notification'
 export { ModelConfiguration, MODEL, MODEL_ARRAY } from './schemas/Model'

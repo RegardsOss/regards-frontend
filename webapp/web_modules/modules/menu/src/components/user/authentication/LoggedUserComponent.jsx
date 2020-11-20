@@ -21,8 +21,8 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
-import LoginIcon from 'mdi-material-ui/AccountCircle'
 import AccountMenuIcon from 'mdi-material-ui/AccountBox'
+import DownloadsMenuIcon from 'mdi-material-ui/ProgressDownload'
 import ActionExitToApp from 'mdi-material-ui/ExitToApp'
 import ChangeRole from 'mdi-material-ui/Run'
 import ArrowDropRight from 'mdi-material-ui/MenuRight'
@@ -30,23 +30,27 @@ import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { withQuotaInfo, QuotaInfo, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { ShowableAtRender, DropDownButton } from '@regardsoss/components'
-
 import ProfileEditionContainer from '../../../containers/user/profile/ProfileEditionContainer'
+import LoginIconComponent from './LoginIconComponent'
 
 /**
  * Component to display action available on connected user.
  * @author Sébastien binda
  */
-class LoggedUserComponent extends React.Component {
+export class LoggedUserComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     currentRole: PropTypes.string.isRequired,
     borrowableRoles: AdminShapes.RoleList.isRequired,
+    showProfileDialog: PropTypes.bool.isRequired,
     onBorrowRole: PropTypes.func.isRequired,
     onLogout: PropTypes.func.isRequired,
-    showProfileEdition: PropTypes.bool.isRequired,
     onShowProfileEdition: PropTypes.func.isRequired,
+    onShowQuotaInformation: PropTypes.func.isRequired,
+    // from withQuotaInfo HOC
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -54,53 +58,76 @@ class LoggedUserComponent extends React.Component {
     ...i18nContextType,
   }
 
-  getLabel = () => this.context.intl.formatMessage({ id: 'loggedButtonLabel' }, { login: this.props.name })
-
   render() {
-    const { intl: { formatMessage }, moduleTheme: { user: { optionsLabelStyle } } } = this.context
     const {
-      name, currentRole, borrowableRoles, onBorrowRole, onLogout, showProfileEdition, onShowProfileEdition,
+      name, currentRole, borrowableRoles, quotaInfo, onBorrowRole, onLogout,
+      showProfileDialog, onShowProfileEdition, onShowQuotaInformation,
     } = this.props
+    const { intl: { formatMessage }, moduleTheme: { user: { optionsLabelStyle, profile: { menu: { item } } } }, muiTheme } = this.context
     const showBorrowableRoles = keys(borrowableRoles).length > 1 // at least 2 roles, otherwise, there is only the current role
-    const hasMoreOption = showProfileEdition || showBorrowableRoles
+    const hasMoreOption = showProfileDialog || showBorrowableRoles
 
-    const ActionExit = <ActionExitToApp />
-    const accountIcon = <AccountMenuIcon />
-    const changeRoleIcon = <ChangeRole />
-    const arrowIcon = <ArrowDropRight />
-
-    const profileContainer = showProfileEdition ? <ProfileEditionContainer /> : null
     return (
       <div>
-        { /* add the prodile edition capacity (external dialog) */
-          profileContainer
+        { /* 1 - Profile dialog, only when it can be used */
+          showProfileDialog ? <ProfileEditionContainer quotaInfo={quotaInfo} /> : null
         }
-        {/* Build and show drop down menu */}
+        {/* 2 - logged user menu */}
         <DropDownButton
-          getLabel={this.getLabel}
+          label={formatMessage({ id: 'loggedButtonLabel' }, { login: this.props.name })}
           title={formatMessage({ id: 'loggedButtonTooltip' }, { login: name })}
-          icon={<LoginIcon />}
           labelStyle={optionsLabelStyle}
+          icon={<LoginIconComponent quotaState={quotaInfo.quotaState} rateState={quotaInfo.rateState} />}
           hasSubMenus
         >
-          { /* Access user profile (do not insert a showable to not block menu auto-closing) */
-            showProfileEdition ? (
+          { /* 2.a - Access user profile  */
+            showProfileDialog ? (
               <MenuItem
                 key="profile.edition"
                 primaryText={formatMessage({ id: 'accountLabel' })}
-                leftIcon={accountIcon}
+                leftIcon={<AccountMenuIcon />}
                 onClick={onShowProfileEdition}
                 value={null}
               />)
               : null
           }
-          { /* Show borrowables roles submenu, only when there are borrowable roles (do not insert a showable to not block menu auto-closing) */
+          { /** 2.b - Access user quota status: only when there all are not unlimited */
+            (() => {
+              // 1 - show only when not unlimited and profile dialog available
+              if (!showProfileDialog || (quotaInfo.quotaState === QUOTA_INFO_STATE_ENUM.UNLIMITED && quotaInfo.rateState === QUOTA_INFO_STATE_ENUM.UNLIMITED)) {
+                return null
+              }
+              // 2 - compute warning / consumed states (consumed has higher precedence)
+              const consumed = quotaInfo.quotaState === QUOTA_INFO_STATE_ENUM.CONSUMED || quotaInfo.rateState === QUOTA_INFO_STATE_ENUM.CONSUMED
+              const warning = quotaInfo.quotaState === QUOTA_INFO_STATE_ENUM.WARNING || quotaInfo.rateState === QUOTA_INFO_STATE_ENUM.WARNING
+              // 3 - prepare warning / consumed and default styles for menu item and left icon
+              let menuItemStyle
+              let iconColor
+              if (consumed) {
+                menuItemStyle = item.consumed
+                iconColor = muiTheme.components.download.quotaConsumedColor
+              } else if (warning) {
+                menuItemStyle = item.warning
+                iconColor = muiTheme.components.download.quotaWarningColor
+              }
+              // 4 - render quota information menu item
+              return <MenuItem
+                key="quota.information"
+                primaryText={formatMessage({ id: 'quotaInformation' })}
+                innerDivStyle={menuItemStyle}
+                leftIcon={<DownloadsMenuIcon color={iconColor} />}
+                onClick={onShowQuotaInformation}
+                value={null}
+              />
+            })()
+          }
+          { /* 2.c - Show borrowables roles submenu, only when there are borrowable roles (do not insert a showable to not block menu auto-closing) */
             showBorrowableRoles ? (
               <MenuItem
                 key="borrowable.roles"
                 primaryText={formatMessage({ id: 'changeRole' })}
-                leftIcon={changeRoleIcon}
-                rightIcon={arrowIcon}
+                leftIcon={<ChangeRole />}
+                rightIcon={<ArrowDropRight />}
                 value={currentRole}
                 menuItems={
                   map(borrowableRoles, (role) => {
@@ -124,11 +151,11 @@ class LoggedUserComponent extends React.Component {
           >
             <Divider />
           </ShowableAtRender>
-          { /* Logout option */}
+          { /* 2.d - Logout option */}
           <MenuItem
-            key="loggout"
+            key="logout"
             primaryText={formatMessage({ id: 'logoutLabel' })}
-            leftIcon={ActionExit}
+            leftIcon={<ActionExitToApp />}
             onClick={onLogout}
           />
         </DropDownButton>
@@ -137,4 +164,4 @@ class LoggedUserComponent extends React.Component {
   }
 }
 
-export default LoggedUserComponent
+export default withQuotaInfo(LoggedUserComponent)

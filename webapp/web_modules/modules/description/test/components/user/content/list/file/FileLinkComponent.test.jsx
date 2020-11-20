@@ -17,16 +17,16 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FileIcon from 'mdi-material-ui/FileImage'
-import DownloadIcon from 'mdi-material-ui/Download'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { DownloadButton } from '@regardsoss/components'
+import { DownloadIconComponent, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { CommonDomain } from '@regardsoss/domain'
 import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
-import FileLinkComponent from '../../../../../../src/components/user/content/list/file/FileLinkComponent'
+import { FileLinkComponent } from '../../../../../../src/components/user/content/list/file/FileLinkComponent'
 import PageLinkCellComponent from '../../../../../../src/components/user/content/list/common/PageLinkCellComponent'
 import styles from '../../../../../../src/styles'
-import { resolvedDatasetEntity } from '../../../../../dumps/resolved.dump'
 import PageElementOption from '../../../../../../src/components/user/content/list/common/PageElementOption'
 
 const context = buildTestContext(styles)
@@ -42,67 +42,194 @@ describe('[Description] Testing FileLinkComponent', () => {
   it('should exists', () => {
     assert.isDefined(FileLinkComponent)
   })
-  it('should render, with download option, when file is available', () => {
-    const spyOnSelectInnerLink = {}
-    const props = {
-      section: BROWSING_SECTIONS_ENUM.INFORMATION,
-      index: 1,
-      file: resolvedDatasetEntity.displayModel.descriptionFiles[1],
-      onSelectInnerLink: (section, index) => {
-        spyOnSelectInnerLink.section = section
-        spyOnSelectInnerLink.index = index
+  const testCases = [{
+    label: 'disabled when file is not available',
+    testSpecs: [{
+      specLabel: 'description file',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, reference: false, available: false },
+      quotaInfo: { downloadDisabled: false },
+      accessToken: 'test-token',
+    }, {
+      specLabel: 'raw data file',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: false },
+      quotaInfo: { downloadDisabled: false },
+    }, {
+      specLabel: 'quicklook HD file',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, reference: false, available: false },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'test-token',
+    }],
+    expectations: {
+      link: {
+        disabled: true,
       },
-    }
-    const enzymeWrapper = shallow(<FileLinkComponent {...props} />, { context })
-    // 1 - Check main operation: navigate to file
-    const link = enzymeWrapper.find(PageLinkCellComponent)
-    testSuiteHelpers.assertWrapperProperties(link, {
-      text: props.file.label,
-      tooltip: 'module.description.common.file.preview.tooltip',
-      LinkIconConstructor: FileIcon,
-      disabled: false,
-      onClick: enzymeWrapper.instance().onFileLinkClicked,
-    }, 'Link properties should be correctly set and it should be enabled as file is available')
-    // check callback
-    assert.deepEqual(spyOnSelectInnerLink, {}, 'Callback should not have been called yet')
-    link.props().onClick()
-    assert.deepEqual(spyOnSelectInnerLink, {
-      section: props.section,
-      index: props.index,
-    }, 'Callback should have been invoked with right parameters')
+      option: {
+        visible: false,
+      },
+    },
+  }, {
+    label: 'disabled when file is internally stored raw data and user is not logged',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
+      quotaInfo: { downloadDisabled: false },
+      accessToken: null,
+    }],
+    expectations: {
+      link: {
+        disabled: true,
+      },
+      option: {
+        visible: false,
+      },
+    },
+  }, {
+    label: 'enabled when file is available and not internal raw data',
+    testSpecs: [
+      // all files types but raw data, as reference or internally stored, with / without token, quota consumed or not
+      ...CommonDomain.DATA_TYPES
+        .filter((t) => t !== CommonDomain.DATA_TYPES_ENUM.RAWDATA)
+        .reduce((acc, type) => [
+          ...acc,
+          ...[true, false].reduce((acc2, reference) => [
+            ...acc2,
+            ...[null, 'testToken'].reduce((acc3, accessToken) => [
+              ...acc3,
+              ...[true, false].map((downloadDisabled) => ({
+                specLabel: `type: ${type} / reference: ${reference} / with token: ${!!accessToken} / quota consumed: ${downloadDisabled}`,
+                file: { type, reference, available: true },
+                quotaInfo: { downloadDisabled },
+                accessToken,
+              })),
+            ], []),
+          ], []),
+        ], []),
+      // externally stored raw DATA with / without token, quota consumed or not
+      ...[null, 'testToken'].reduce((acc, accessToken) => [
+        ...acc,
+        ...[true, false].map((downloadDisabled) => ({
+          specLabel: `type: external raw data / with token: ${!!accessToken} / quota consumed: ${downloadDisabled}`,
+          file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: true, available: true },
+          quotaInfo: { downloadDisabled },
+          accessToken,
+        })),
+      ], []),
+    ],
+    expectations: {
+      link: {
+        disabled: false,
+      },
+      option: {
+        visible: true,
+        disabled: false,
+        displayQuotaWarnings: false,
+      },
+    },
+  }, {
+    label: 'enabled when file is available, internal raw data, user logged and quota is not consumed',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
+      quotaInfo: { downloadDisabled: false },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        disabled: false,
+      },
+      option: {
+        visible: true,
+        disabled: false,
+        displayQuotaWarnings: true,
+      },
+    },
+  }, {
+    label: 'disabled when file is available, internal raw data, user logged and quota is consumed',
+    testSpecs: [{
+      specLabel: 'internal raw data',
+      file: { type: CommonDomain.DATA_TYPES_ENUM.RAWDATA, reference: false, available: true },
+      quotaInfo: { downloadDisabled: true },
+      accessToken: 'testToken',
+    }],
+    expectations: {
+      link: {
+        disabled: true,
+      },
+      option: {
+        visible: true,
+        disabled: true,
+        displayQuotaWarnings: true,
+      },
+    },
+  }]
 
-    // 2 - Check download option is available
-    const downloadOption = enzymeWrapper.find(DownloadButton)
-    assert.lengthOf(downloadOption, 1, 'There should be download option as file is available')
-    testSuiteHelpers.assertWrapperProperties(downloadOption, {
-      ButtonConstructor: PageElementOption,
-      tooltip: 'module.description.common.download.file.tooltip',
-      downloadURL: props.file.uri,
-      IconConstructor: DownloadIcon,
-    }, 'Download option properties should be correctly set')
-  })
-  it('should render without download option and link when file is not available', () => {
-    const props = {
-      section: BROWSING_SECTIONS_ENUM.INFORMATION,
-      index: 0,
-      file: {
-        ...resolvedDatasetEntity.displayModel.descriptionFiles[0],
-        available: false,
-      },
-      onSelectInnerLink: () => {},
-    }
-    const enzymeWrapper = shallow(<FileLinkComponent {...props} />, { context })
-    // 1 - Check main operation: navigate to file
-    const link = enzymeWrapper.find(PageLinkCellComponent)
-    testSuiteHelpers.assertWrapperProperties(link, {
-      text: props.file.label,
-      tooltip: 'module.description.common.file.preview.tooltip',
-      LinkIconConstructor: FileIcon,
-      disabled: true,
-      onClick: enzymeWrapper.instance().onFileLinkClicked,
-    }, 'Link properties should be correctly set and it should be disabled as file is not available')
-    // 2 - Check download option is not available
-    const downloadOption = enzymeWrapper.find(DownloadButton)
-    assert.lengthOf(downloadOption, 0, 'There should not be download option as file is not available')
-  })
+  testCases.forEach(({ label, testSpecs, expectations }) => it(`should render ${label}`, () => {
+    // play each spec and check expectations
+    testSpecs.forEach(({
+      specLabel, file, quotaInfo, accessToken,
+    }) => {
+      const spyOnSelectInnerLink = {}
+      const props = {
+        section: BROWSING_SECTIONS_ENUM.INFORMATION,
+        index: 1,
+        file: {
+          label: 'aFile',
+          available: false,
+          uri: 'http://idk.com/aFile.any',
+          type: CommonDomain.DATA_TYPES_ENUM.OTHER,
+          reference: true,
+          ...file, // test specifics
+        },
+        onSelectInnerLink: (section, index) => {
+          spyOnSelectInnerLink.section = section
+          spyOnSelectInnerLink.index = index
+        },
+        accessToken,
+        quotaInfo: {
+          currentQuota: 0,
+          maxQuota: 1000,
+          quotaState: QUOTA_INFO_STATE_ENUM.IDLE,
+          currentRate: 0,
+          rateLimit: 50,
+          rateState: QUOTA_INFO_STATE_ENUM.IDLE,
+          downloadDisabled: false,
+          inUserApp: true,
+          ...quotaInfo, // test specifics
+        },
+      }
+      const enzymeWrapper = shallow(<FileLinkComponent {...props} />, { context })
+      // 1 - Check link
+      const link = enzymeWrapper.find(PageLinkCellComponent)
+      testSuiteHelpers.assertWrapperProperties(link, {
+        text: props.file.label,
+        tooltip: 'module.description.common.file.preview.tooltip',
+        LinkIconConstructor: FileIcon,
+        disabled: expectations.link.disabled,
+        onClick: enzymeWrapper.instance().onFileLinkClicked,
+      }, `${specLabel} | Link properties should be correctly set and it should be enabled as file is available`)
+      // 2 - when enabled, check callback
+      if (!expectations.link.disabled) {
+        assert.deepEqual(spyOnSelectInnerLink, {}, `${specLabel} | Link properties should be correctly set and it should be enabled as file is available`)
+        link.props().onClick()
+        assert.deepEqual(spyOnSelectInnerLink, {
+          section: props.section,
+          index: props.index,
+        }, `${specLabel} | Link properties should be correctly set and it should be enabled as file is available`)
+        // 2 - Check option
+        if (expectations.option.visible) {
+          testSuiteHelpers.assertCompWithProps(enzymeWrapper, DownloadButton, {
+            ButtonConstructor: PageElementOption,
+            disabled: expectations.option.disabled,
+            tooltip: 'module.description.common.download.file.tooltip',
+            downloadURL: props.file.uri,
+            IconConstructor: DownloadIconComponent,
+            constrainedByQuota: expectations.option.displayQuotaWarnings,
+            quotaInfo: props.quotaInfo,
+          }, `${specLabel} || option should match expected state`)
+        } else {
+          testSuiteHelpers.assertNotComp(enzymeWrapper, DownloadButton, `${specLabel} | option should be hidden`)
+        }
+      }
+    })
+  }))
 })

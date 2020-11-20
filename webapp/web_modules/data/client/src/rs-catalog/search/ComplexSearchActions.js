@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicPageableActions, BasicListActions } from '@regardsoss/store-utils'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 import { ENTITY, ENTITY_ARRAY } from '@regardsoss/api'
-
-const { RSAA } = require('redux-api-middleware')
 
 /**
  * Complex search entities actions
@@ -44,52 +42,20 @@ export default class ComplexSearchActions extends BasicPageableActions {
   }
 
   /**
-   * Fetch a page of entities: adapter to basic pageable API for consumers like infinite pageable table
+   * adapter for basic pageable API: reports page index and size in body, to match expected endpoint behavior
    *
-   * @param pageNumber pagination param : page number to request
-   * @param size pagination param : number of elements for the asked page
-   * @param pathParams path parameters (unused here)
-   * @param queryParams query parameters: must contain requests to put in body
+   * @param {number} pageNumber pagination param : page number to request
+   * @param {number} size pagination param : number of elements for the asked page
+   * @param {*} pathParams [optional] path parameters to replace in endpoint uri
+   * @param {*} queryParams [optional] query path parameters to add to the end of the endpoint uri
+   * @param {*} bodyParams [option] bodyParams to use for requests. see CatalogShapes.ComplexSearchBody for more information
    * @returns {*} redux action to dispatch
    */
-  fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
-    return this.search(pageNumber, size, queryParams.requests)
-  }
-
-  /**
-   * Builds and return action to dispatch to search results.
-   * Note: it replaces fetchPagedEntityList as this endpoint uses POST method and not GET (plus it has no parameter in URL),
-   * but does not match exactly the API (pathParams and queryParams are both replace with list of requests)
-   *
-   * @param {number} page page number to request
-   * @param {number} size number of elements for the page
-   * @param {[{ engineType: string, datasetUrn: string, searchParameters: {*}, entityIdsToInclude: [string], entityIdsToExclude: [string], searchDateLimit: string  }]} requests list of requests to join when building
-   * @return {*} redux action to fetch complex search results
-   */
-  search(page, size, requests = []) {
-    // the following code is partially copied from BasicPageableActions (class API does not allow
-    // removing pageSize and page number nor setting the request mode and body)
-    return {
-      [RSAA]: {
-        // MIMIC a common list request (to be able using the BasicPageableReducer)
-        types: [
-          this.ENTITY_LIST_REQUEST,
-          this.buildSuccessAction(
-            this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesPagePayload(json)),
-          ),
-          this.buildFailureAction(this.ENTITY_LIST_FAILURE),
-        ],
-        endpoint: this.entityEndpoint,
-        headers: this.headers,
-        method: 'POST',
-        // fr.cnes.regards.modules.search.domain.ComplexSearchRequest
-        body: JSON.stringify({
-          page,
-          size,
-          requests,
-        }),
-      },
-    }
+  fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams, bodyParams = {}) {
+    return super.fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams, {
+      page: pageNumber,
+      size,
+      ...bodyParams,
+    })
   }
 }

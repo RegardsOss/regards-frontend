@@ -77,6 +77,8 @@ describe('[Entities Common] Testing LabelVersionText', () => {
         showVersion,
         documentModels: [],
         primaryQuicklookGroup: 'pipou',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
     }
     const enzymeWrapper = shallow(<LabelVersionText {...props} />, { context })

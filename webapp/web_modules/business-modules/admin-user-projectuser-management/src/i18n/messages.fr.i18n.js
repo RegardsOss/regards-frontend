@@ -32,6 +32,7 @@ const messages = {
     other { (# nouveaux comptes)}
   }`,
   'projectUser.list.only.waiting.users': 'utilisateurs en attente',
+  'projectUser.list.only.low.quota': 'quota faible',
   'projectUser.list.filter.label': 'Filtre: {groupFilter}',
   'projectUser.list.filter.none': 'aucun',
   'projectUser.list.filter.title': 'Filtrer les utilisateurs par groupe d\'accès',
@@ -48,8 +49,12 @@ const messages = {
   'projectUser.list.table.status.label.ACCESS_GRANTED': 'Accès accordé',
   'projectUser.list.table.status.label.ACCESS_DENIED': 'Accès refusé',
   'projectUser.list.table.status.label.ACCESS_INACTIVE': 'Accès désactivé',
+  'projectUser.list.table.quota': 'Quota',
+  'projectUser.list.table.unlimited.quota.message': 'Illimité',
+  'projectUser.list.table.current.quota.message': '{currentQuota} / {maxQuota}',
   'projectUser.list.table.lastConnection': 'Dernière connexion',
   'projectUser.list.table.action': 'Actions',
+  'projectUser.list.table.action.edit.quota': 'Changer le quota maximal',
   'projectUser.list.table.action.accept': 'Accorder l\'accès',
   'projectUser.list.table.action.deny': 'Refuser l\'accès',
   'projectUser.list.table.action.enable': 'Ré-activer l\'accès',
@@ -61,6 +66,13 @@ const messages = {
   'projectUser.list.accept.all': 'Tout accepter',
   'projectUser.list.accept.all.tooltip': 'Accorder l\'accès à tous les nouveaux utilisateurs affichés dans le tableau',
   'projectUser.list.delete.message': 'Supprimer l\'utilisateur {name} ?',
+  'projectUser.list.edit.quota.dialog.title': 'Editer le quota maximal de {name}',
+  'projectUser.list.edit.quota.dialog.max.quota.field': 'Quota maximal (-1: illimité / entier positif ou nul: nombre de fichiers)',
+  'projectUser.list.edit.quota.dialog.current.quota.field': 'Quota consommé',
+  'projectUser.list.edit.quota.dialog.remaining.quota.field': 'Quota restant',
+  'projectUser.list.edit.quota.dialog.remaining.quota.unlimited': 'illimité',
+  'projectUser.list.edit.quota.dialog.cancel': 'Annuler',
+  'projectUser.list.edit.quota.dialog.confirm': 'Confirmer',
 
   'projectUser.edit.title': 'Éditer l\'utilisateur {email}',
   'projectUser.edit.action.save': 'Sauvegarder',
@@ -75,6 +87,12 @@ const messages = {
   'projectUser.create.input.password.confirm': 'Confirmer le mot de passe',
   'projectUser.create.input.status': 'Statut',
   'projectUser.create.input.groups': 'Groupes',
+  'projectUser.create.input.max.quota': 'Quota maximal',
+  'projectUser.create.input.max.quota.help.message': `Le quota maximal d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger. 
+Les valeurs possibles sont -1, pour illimité, 0, pour aucun, ou tout autre entier positif, pour le nombre précisément autorisé`,
+  'projectUser.create.input.rate.limit': 'Vitesse maximale de téléchargement',
+  'projectUser.create.input.rate.limit.help.message': `La vitesse maximale de téléchargement d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger simultanément. 
+Les valeurs possibles sont -1, pour illimitée, 0, pour aucun, ou tout autre entier positif pour le nombre précisément autorisé`,
   'projectUser.create.action.add': 'Ajouter',
   'projectUser.create.action.create': 'Créer',
   'projectUser.create.action.cancel': 'Annuler',
@@ -84,6 +102,14 @@ const messages = {
   'project.user.settings.mode.field': 'Mode de validation',
   'project.user.settings.mode.MANUAL': 'Manuel: chaque demande de création d\'un utilisateur projet doit être validée par l\'administrateur',
   'project.user.settings.mode.AUTO': 'Automatique: les demandes de création d\'un utilisateur projet sont automatiquement validées',
+  'project.user.settings.max.quota.field': 'Quota maximal par défaut',
+  'project.user.settings.max.quota.help.message': `Le quota maximal par défaut est appliqué à la création de nouveaux utilisateurs. 
+  Le quota maximal d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger. 
+  Les valeurs possibles sont -1, pour illimité, 0, pour aucun, ou tout autre entier positif, pour le nombre précisément autorisé`,
+  'project.user.settings.rate.limit.field': 'Vitesse maximale de téléchargement par défaut',
+  'project.user.settings.rate.limit.help.message': `La vitesse maximale de téléchargement est appliquée à la création de nouveaux utilisateurs. 
+  La vitesse maximale de téléchargement d'un utilisateur désigne le nombre de fichiers de donnée brute stockés en interne par REGARDS qu'il peut télécharger simultanément. 
+  Les valeurs possibles sont -1, pour illimitée, 0, pour aucun, ou tout autre entier positif pour le nombre précisément autorisé`,
   'project.user.settings.action.confirm': 'Confirmer',
   'project.user.settings.action.cancel': 'Annuler',
 

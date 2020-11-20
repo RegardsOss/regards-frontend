@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DownloadIcon from 'mdi-material-ui/Download'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
+import { DownloadIconComponent, QuotaInfo } from '@regardsoss/entities-common'
 
 /**
  * File download option cell component
@@ -27,6 +27,8 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class FileDownloadComponent extends React.Component {
   static propTypes = {
+    quotaInfo: QuotaInfo.isRequired,
+    constrainedByQuota: PropTypes.bool.isRequired,
     canDownload: PropTypes.bool.isRequired,
     downloadURL: PropTypes.string.isRequired,
   }
@@ -36,7 +38,9 @@ class FileDownloadComponent extends React.Component {
   }
 
   render() {
-    const { canDownload, downloadURL } = this.props
+    const {
+      canDownload, downloadURL, constrainedByQuota, quotaInfo,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <DownloadButton
@@ -46,7 +50,7 @@ class FileDownloadComponent extends React.Component {
         ButtonConstructor={IconButton}
         disabled={!canDownload}
       >
-        <DownloadIcon />
+        <DownloadIconComponent constrainedByQuota={constrainedByQuota} quotaInfo={quotaInfo} />
       </DownloadButton>
     )
   }

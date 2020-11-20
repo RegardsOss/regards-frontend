@@ -37,7 +37,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing EditProjectUserComponent', () =
   })
   it('should render correctly loading', () => {
     const props = {
-      entity: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser'),
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       isLoading: true,
       onEdit: () => { },
     }
@@ -52,7 +52,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing EditProjectUserComponent', () =
   it('should render correctly not loading', () => {
     let spiedEditCall = null
     const props = {
-      entity: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser'),
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       isLoading: false,
       onEdit: (id) => { spiedEditCall = id },
     }

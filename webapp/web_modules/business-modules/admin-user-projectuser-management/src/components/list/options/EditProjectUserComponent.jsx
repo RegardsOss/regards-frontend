@@ -19,7 +19,7 @@
 
 import IconButton from 'material-ui/IconButton'
 import EditIcon from 'mdi-material-ui/Pencil'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 
@@ -32,7 +32,7 @@ export const HatoasIconButton = withHateoasDisplayControl(IconButton)
  */
 class EditProjectUserComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
   }

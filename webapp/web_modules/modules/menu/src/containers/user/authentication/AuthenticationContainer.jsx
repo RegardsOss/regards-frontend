@@ -27,6 +27,7 @@ import { authenticationDialogActions } from '../../../clients/AuthenticationDial
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
 import LoginButton from '../../../components/user/authentication/LoginButton'
+import { PROFILE_VIEW_STATE_ENUM } from '../../../domain/ProfileViewStateEnum'
 
 /**
  * Authentication related container, that displays:
@@ -60,7 +61,7 @@ export class AuthenticationContainer extends React.Component {
       onLogout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
       sendBorrowRole: (roleName) => dispatch(borrowRoleActions.borrowRole(roleName)),
       dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
-      showProfileEdition: () => dispatch(profileDialogActions.showEdition()),
+      onShowProfile: (initialView) => dispatch(profileDialogActions.showDialog(initialView)),
       toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
     }
   }
@@ -80,7 +81,7 @@ export class AuthenticationContainer extends React.Component {
     onLogout: PropTypes.func.isRequired,
     sendBorrowRole: PropTypes.func.isRequired,
     dispatchRoleBorrowed: PropTypes.func.isRequired,
-    showProfileEdition: PropTypes.func.isRequired,
+    onShowProfile: PropTypes.func.isRequired,
     toggleAuthenticationDialogOpen: PropTypes.func.isRequired,
   }
 
@@ -112,7 +113,7 @@ export class AuthenticationContainer extends React.Component {
     if (roleName !== currentRole) {
       Promise.resolve(sendBorrowRole(roleName)).then((actionResult) => {
         if (!actionResult.error) {
-          this.goToHomePage()
+          this.onGoToHomePage()
         }
       })
     }
@@ -120,7 +121,7 @@ export class AuthenticationContainer extends React.Component {
 
   onLogout = () => {
     this.props.onLogout()
-    this.goToHomePage()
+    this.onGoToHomePage()
   }
 
   /** Callback to show authentication dialog */
@@ -134,7 +135,7 @@ export class AuthenticationContainer extends React.Component {
     this.props.toggleAuthenticationDialogOpen(authenticationVisible)
   }
 
-  goToHomePage = () => {
+  onGoToHomePage = () => {
     const { project, appName } = this.props
     let url
     if (project && project !== AuthenticationParametersActions.INSTANCE) {
@@ -145,18 +146,34 @@ export class AuthenticationContainer extends React.Component {
     browserHistory.push(url)
   }
 
+  /**
+   * On show profile edition: shows user profile dialog in profile state initially
+   */
+  onShowProfileEdition = () => {
+    const { onShowProfile } = this.props
+    onShowProfile(PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE)
+  }
+
+  /**
+   * On show quota information: shows user profile dialog in quota information initially
+   */
+  onShowQuotaInformation = () => {
+    const { onShowProfile } = this.props
+    onShowProfile(PROFILE_VIEW_STATE_ENUM.VIEW_QUOTA_INFORMATIONS)
+  }
+
   render() {
     const {
-      authenticationName, currentRole, borrowableRoles,
-      showProfileEdition, isInstance,
+      authenticationName, currentRole, borrowableRoles, isInstance,
     } = this.props
     if (authenticationName) {
       // user is logged
       return (
         <LoggedUserComponent
           name={authenticationName}
-          showProfileEdition={!isInstance}
-          onShowProfileEdition={showProfileEdition}
+          showProfileDialog={!isInstance}
+          onShowProfileEdition={this.onShowProfileEdition}
+          onShowQuotaInformation={this.onShowQuotaInformation}
           onLogout={this.onLogout}
           currentRole={currentRole}
           borrowableRoles={borrowableRoles}

@@ -276,13 +276,12 @@ const styles = (theme) => ({
             flexGrow: 0,
             flexShrink: 0,
           },
-          rigthIconButton: {
+          rightIconButton: {
             flexGrow: 0,
             flexShrink: 0,
             width: theme.module.description.listPage.rightIconButton.size,
             height: theme.module.description.listPage.rightIconButton.size,
             padding: theme.module.description.listPage.rightIconButton.padding,
-            margin: theme.module.description.listPage.rightIconButton.margin,
           },
           textCell: {
             flexGrow: 1,
@@ -293,6 +292,7 @@ const styles = (theme) => ({
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             cursor: 'default',
+            margin: theme.module.description.listPage.element.margin,
           },
           linkAndIconCell: {
             flexGrow: 1,
@@ -300,6 +300,7 @@ const styles = (theme) => ({
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer',
+            margin: theme.module.description.listPage.element.margin,
           },
           linkText: {
             flexGrow: 1,

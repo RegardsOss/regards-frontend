@@ -36,6 +36,16 @@ export default (baseTheme) => ({
     editorACE: {
       theme: 'monokai',
     },
+    download: {
+      quotaWarningColor: '#FF9800',
+      quotaConsumedColor: baseTheme.textField.errorColor,
+      foregroundWarningPlacement: {
+        top: -2,
+        left: 12,
+        width: 16,
+        height: 16,
+      },
+    },
     scrollArea: {
       scrollingSidePadding: 15,
     },
@@ -51,6 +61,11 @@ export default (baseTheme) => ({
         margin: '7px 0 -7px 0',
         fontSize: '10px',
         fontWeight: 'bold',
+      },
+      header: {
+        checkbox: {
+          margin: '0 12px 0 12px',
+        },
       },
       admin: {
         minRowCount: 2,
@@ -109,6 +124,9 @@ export default (baseTheme) => ({
     },
   },
   formsExtensions: {
+    fieldHelpButton: {
+      alignSelf: 'flex-end',
+    },
     dateField: {
       marginTop: 14,
       innerMargins: '0 10px 0 0',
@@ -201,11 +219,11 @@ export default (baseTheme) => ({
           fontWeight: 400,
           iconToTextGap: 5,
           linkTextDecoration: 'underline',
+          margin: '0 24px 0 0',
         },
         rightIconButton: {
           size: 24,
           padding: 0,
-          margin: '0 0 0 24px',
         },
       },
       parameters: {
@@ -275,6 +293,42 @@ export default (baseTheme) => ({
       separatorBorderRadius: 2,
       separatorBorderStyle: 'solid',
       separatorMargin: '12px 10px 12px 0',
+      quotaWarningIcon: {
+        size: 16,
+        left: 16,
+        top: 8,
+      },
+      quotaView: {
+        rootPadding: baseTheme.spacing.desktopGutter,
+        title: {
+          padding: '0 0 20px 0',
+          textPadding: '0 0 0 12px',
+        },
+        text: {
+          padding: '0 0 8px 0',
+        },
+        currentState: {
+          title: {
+            padding: '20px 0 20px 0',
+            textDecoration: 'underline',
+            fontWeight: 500,
+          },
+          value: {
+            padding: '0 0 8px 8px',
+            fontWeight: 500,
+            textPadding: '0 0 0 12px',
+          },
+        },
+      },
+    },
+    // order car module
+    orderCart: {
+      totalRowFontColor: baseTheme.palette.accent2Color,
+      totalRowFontWeight: 'bold',
+      textToQuotaWarningGap: 24,
+      selectionColumn: {
+        paddingLeft: 8,
+      },
     },
     // order history module
     orderHistory: {

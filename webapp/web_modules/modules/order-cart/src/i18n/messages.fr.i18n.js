@@ -28,9 +28,9 @@ const messages = {
   'order.cart.configuration.show.datasets': 'Afficher les jeux de données',
   'order-cart.module.title': 'Mon panier',
   'order-cart.module.not.logged.title': 'Utilisateur non authentifié',
-  'order-cart.module.not.logged.messsage': 'Le panier n\'est accessible qu\'aux utilisateurs authentifiés. Vous pouvez vous connecter en utilisant le bouton "Connexion"',
+  'order-cart.module.not.logged.message': 'Le panier n\'est accessible qu\'aux utilisateurs authentifiés. Vous pouvez vous connecter en utilisant le bouton "Connexion"',
   'order-cart.module.empty.basket.title': 'Panier vide',
-  'order-cart.module.empty.basket.messsage': 'Votre panier ne contient aucun objet à commander. Vous pouvez en ajouter via les pages de recherche, de graphe et de résultats disponibles dans le menu de navigation',
+  'order-cart.module.empty.basket.message': 'Votre panier ne contient aucun objet à commander. Vous pouvez en ajouter via les pages de recherche, de graphe et de résultats disponibles dans le menu de navigation',
   'order-cart.module.order.label': 'Commander',
   'order-cart.module.order.tooltip': 'Finaliser la commande du contenu du panier',
   'order-cart.module.order.confirmation.title': 'Commander',
@@ -54,9 +54,27 @@ const messages = {
   'order-cart.module.duplicate.objects.message.title': 'Données ajoutées plusieurs fois',
   'order-cart.module.duplicate.objects.message': 'Lors de vos sélections successives, plusieurs données identiques ({duplicatedObjectsCount}) ont été ajoutées. Seules les données uniques ({effectiveObjectsCount}) seront commandées.',
   'order-cart.module.duplicate.objects.message.close': 'Fermer',
+  'order-cart.module.basket.table.column.selection': 'Sélection',
   'order-cart.module.basket.table.column.objects.count': 'Nombre d\'objets',
   'order-cart.module.basket.table.column.files.size': 'Taille totale des fichiers',
-  'order-cart.module.basket.table.column.options': 'Options',
+  'order-cart.module.basket.table.column.quota.summary': 'Téléchargements consommés',
+  'order-cart.module.basket.table.row.total.label': 'Total',
+  'order-cart.module.basket.table.cell.total.quota.label': `{totalQuota} ({allowedQuota} autorisé{allowedQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  })`,
+  'order-cart.module.basket.table.cell.total.quota.tooltip': `{totalQuota} téléchargement{totalQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  } / {allowedQuota} autorisé{allowedQuota, plural, 
+    =0 {} 
+    one {}
+    other {s}
+  } ({afterOrderQuota} restant).{warningMessage}`,
+  'order-cart.module.basket.table.cell.total.quota.warning.message': ' Votre nombre de téléchargement restant après commande sera faible.',
+  'order-cart.module.basket.table.cell.total.quota.consumed.message': ' Vous ne pourrez probablement pas télécharger intégralement la commande.',
   'order-cart.module.basket.table.delete.dataset.tooltip': 'Supprimer les sélections d\'objets de ce jeu de données',
   'order-cart.module.basket.table.delete.dataset.confirm.message': 'Cette opération supprimera du panier tous les objets de toutes les sélections de ce jeu de données. Elle ne peut pas être annulée',
   'order-cart.module.basket.table.delete.dataset.confirm.title': 'Supprimer les sélections',

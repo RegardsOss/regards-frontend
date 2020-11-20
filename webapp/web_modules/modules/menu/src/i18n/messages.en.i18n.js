@@ -33,6 +33,7 @@ const messages = {
   loggedButtonTooltip: 'Logged as {login}',
   logoutLabel: 'Logout',
   accountLabel: 'My profile',
+  quotaInformation: 'Downloads',
   changeRole: 'Change role',
   'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Registered user',
@@ -135,6 +136,17 @@ const messages = {
   'edit.profile.notification.form.hours': 'Hours',
   'edit.profile.notification.form.save': 'Save',
 
+  // quota information (in user profile dialog)
+  'user.profile.quota.info.title': 'Data downloads',
+  'user.profile.quota.info.message.raw.data.download.definition': `Raw data file download can be performed by direct download (catalog, description, ...),
+  or by order (ZIP file, metalink, ....). Other file type downloads are ignored for below indicators computing.`,
+  'user.profile.quota.info.message.contact.notice': 'You can contact the project administrator to increase your data download capacities.',
+  'user.profile.quota.info.title.current.status': 'Current status',
+  'user.profile.quota.info.message.unlimited.download': 'Your downloads are not limited',
+  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} allowed download(s)',
+  'user.profile.quota.info.message.unlimited.rate': 'Your simultaneous downloads are not limited',
+  'user.profile.quota.info.message.remaining.rate': '{currentRate}/{rateLimit} downloads in progress',
+
   // notifications
   'user.menu.notification.max.count': '{maxCount}+',
   'user.menu.notification.elements.count.tooltip': `You have {elementsCount, plural,
@@ -154,6 +166,7 @@ const messages = {
   'user.menu.profile.leftbar.title': 'User options',
   'user.menu.profile.leftbar.profile': 'Profile',
   'user.menu.profile.leftbar.notification': 'Notifications',
+  'user.menu.profile.leftbar.quotaInformation': 'Downloads',
   'user.menu.profile.action.close': 'Close',
   ...Locales.en,
   ...MetadataLocales.en,

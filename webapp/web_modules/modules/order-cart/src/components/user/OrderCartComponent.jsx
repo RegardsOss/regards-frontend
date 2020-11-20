@@ -79,8 +79,18 @@ class OrderCartComponent extends React.Component {
    * @return [React.Element] options list
    */
   renderOptions = (onClearCart, onOrder, isFetching, isNoContent) => [
-    <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
-    <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
+    <OrderComponent
+      key="options.order"
+      isFetching={isFetching}
+      empty={isNoContent}
+      onOrder={onOrder}
+    />,
+    <ClearCartComponent
+      key="options.clear.cart"
+      isFetching={isFetching}
+      empty={isNoContent}
+      onClearCart={onClearCart}
+    />,
   ]
 
   render() {
@@ -96,7 +106,7 @@ class OrderCartComponent extends React.Component {
     // compute current no content data
     const isNoContent = (!isAuthenticated || emptyBasket) && !isFetching
     const noContentTitleKey = !isAuthenticated ? 'order-cart.module.not.logged.title' : 'order-cart.module.empty.basket.title'
-    const noContentMesageKey = !isAuthenticated ? 'order-cart.module.not.logged.messsage' : 'order-cart.module.empty.basket.messsage'
+    const noContentMesageKey = !isAuthenticated ? 'order-cart.module.not.logged.message' : 'order-cart.module.empty.basket.message'
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (

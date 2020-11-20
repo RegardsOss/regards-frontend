@@ -40,7 +40,7 @@ describe('[Order Cart] Testing OrderComponent', () => {
     const props = {
       onOrder: () => { },
       empty: true,
-      disabled: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
     // A - Button
@@ -56,11 +56,11 @@ describe('[Order Cart] Testing OrderComponent', () => {
     // assert.lengthOf(Dialog, 1, 'There should be the dialog')
     // that wont work as enzyme still doesn't support fragment children correctly. (07/09/2020)
   })
-  it('should render correctly when disabled', () => {
+  it('should render correctly when fetching', () => {
     const props = {
       onOrder: () => { },
       empty: false,
-      disabled: true,
+      isFetching: true,
     }
     const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
     // A - Button
@@ -78,7 +78,7 @@ describe('[Order Cart] Testing OrderComponent', () => {
     const props = {
       onOrder: () => { },
       empty: false,
-      disabled: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<OrderComponent {...props} />, { context })
     // A - Button

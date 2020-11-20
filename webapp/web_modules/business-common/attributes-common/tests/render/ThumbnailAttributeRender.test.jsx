@@ -45,6 +45,8 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
         showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
     }
     let wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
@@ -91,6 +93,8 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
         showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
     }
     const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })
@@ -211,6 +215,8 @@ describe('[Attributes Common] Testing ThumbnailAttributeRender', () => {
         showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primaryGroup',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
     }
     const wrapper = shallow(<ThumbnailAttributeRender {...props} />, { context })

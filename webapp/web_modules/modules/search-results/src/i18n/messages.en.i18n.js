@@ -94,7 +94,7 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'No restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restrict to selected datasets',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restrict to selected dataset models',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'No selection',
+  'search.results.form.restrictions.configuration.no.selection.message': 'No selection',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} selected element{selectionCount, plural, 
     =0 {} 
     one {} 
@@ -179,8 +179,8 @@ const messages = {
   'search.results.search.pane.search.label': 'Search',
   'search.results.search.pane.search.title': 'Apply current search filters',
   'download.tooltip': 'Download',
-  'no.download.tooltip': 'No file or insufficient user rights',
-  'download.no.online.file.tooltip': 'All files are offline',
+  'no.download.tooltip': 'No downloadable file',
+  'download.quota.consumed.tooltip': 'Download functionality disabled',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Details',
   'filter.related.data': 'Display data',

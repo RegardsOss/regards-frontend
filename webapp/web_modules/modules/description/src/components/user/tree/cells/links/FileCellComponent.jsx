@@ -18,6 +18,10 @@
  **/
 import FileIcon from 'mdi-material-ui/FileImage'
 import { i18nContextType } from '@regardsoss/i18n'
+import {
+  QuotaDownloadUtils, QuotaInfo, withQuotaInfo,
+} from '@regardsoss/entities-common'
+import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import { FileData } from '../../../../../shapes/DescriptionState'
 import TreeLinkComponent from './TreeLinkComponent'
@@ -26,7 +30,7 @@ import TreeLinkComponent from './TreeLinkComponent'
  * Shows a tree cell for file as parameter
  * @author Raphaël Mechali
  */
-class FileCellComponent extends React.Component {
+export class FileCellComponent extends React.Component {
   static propTypes = {
     type: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
     index: PropTypes.number.isRequired,
@@ -34,6 +38,10 @@ class FileCellComponent extends React.Component {
     selected: PropTypes.bool.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
+    // from withAuthInfo
+    accessToken: PropTypes.string,
+    // from with quota info
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -49,19 +57,24 @@ class FileCellComponent extends React.Component {
   }
 
   render() {
-    const { file: { label, available }, selected } = this.props
+    const {
+      selected, quotaInfo, accessToken, file: {
+        label, type, reference, available,
+      },
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <TreeLinkComponent
         text={label}
         // when available, show action tooltip, otherwise, show file name
-        tooltip={available ? formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label }) : label}
+        tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
         selected={selected}
         IconConstructor={FileIcon}
         section={false}
         onClick={this.onLinkClicked}
-        disabled={!available}
+        // disabled when file is not available, or when file is an internal raw data and quota is consumed
+        disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
       />)
   }
 }
-export default FileCellComponent
+export default withAuthInfo(withQuotaInfo(FileCellComponent))

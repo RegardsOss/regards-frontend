@@ -22,7 +22,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { PluginConfiguration } from '@regardsoss/api'
-import TestSuiteHelpers from '@regardsoss/tests-helpers/src/TestSuiteHelpers'
 import PluginLoader from '../../src/containers/PluginLoader'
 import { PluginProvider } from '../../src/containers/PluginProvider'
 
@@ -187,7 +186,7 @@ describe('[PLUGINS] Testing PluginProvider', () => {
         assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)
         assert.lengthOf(errorWrapper, 0, `Error should be hidden ${cycleMessage}`)
         assert.lengthOf(childWrapper, 1, `Child plugin loader should be displayed ${cycleMessage}`)
-        TestSuiteHelpers.assertWrapperProperties(childWrapper, {
+        testSuiteHelpers.assertWrapperProperties(childWrapper, {
           pluginInstanceId: props.pluginInstanceId,
           pluginName: pluginDefinition.content.name,
           pluginPath: pluginDefinition.content.sourcePath,

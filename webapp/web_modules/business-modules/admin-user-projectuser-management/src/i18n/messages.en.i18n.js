@@ -32,6 +32,7 @@ const messages = {
     other { (# new accounts)}
   }`,
   'projectUser.list.only.waiting.users': 'waiting users',
+  'projectUser.list.only.low.quota': 'Low quota users',
   'projectUser.list.filter.label': 'Filter: {groupFilter}',
   'projectUser.list.filter.none': 'none',
   'projectUser.list.filter.title': 'Filter users by access group',
@@ -48,8 +49,12 @@ const messages = {
   'projectUser.list.table.status.label.ACCESS_GRANTED': 'Project access granted',
   'projectUser.list.table.status.label.ACCESS_DENIED': 'Project access denied',
   'projectUser.list.table.status.label.ACCESS_INACTIVE': 'Access deactivated',
+  'projectUser.list.table.quota': 'Quota',
+  'projectUser.list.table.unlimited.quota.message': 'Unlimited',
+  'projectUser.list.table.current.quota.message': '{currentQuota} / {maxQuota}',
   'projectUser.list.table.lastConnection': 'Last connection',
   'projectUser.list.table.action': 'Actions',
+  'projectUser.list.table.action.edit.quota': 'Set max quota',
   'projectUser.list.table.action.accept': 'Accept access',
   'projectUser.list.table.action.deny': 'Deny access',
   'projectUser.list.table.action.enable': 'Enable access',
@@ -61,6 +66,13 @@ const messages = {
   'projectUser.list.accept.all': 'Accept all',
   'projectUser.list.accept.all.tooltip': 'Grant access to all new users displayed in table',
   'projectUser.list.delete.message': 'Remove user {name}?',
+  'projectUser.list.edit.quota.dialog.title': 'Edit {name} max quota',
+  'projectUser.list.edit.quota.dialog.max.quota.field': 'Max quota (-1: unlimited / positive or null integer: files count)',
+  'projectUser.list.edit.quota.dialog.current.quota.field': 'Consumed quota',
+  'projectUser.list.edit.quota.dialog.remaining.quota.field': 'Remaining quota',
+  'projectUser.list.edit.quota.dialog.remaining.quota.unlimited': 'unlimited',
+  'projectUser.list.edit.quota.dialog.cancel': 'Cancel',
+  'projectUser.list.edit.quota.dialog.confirm': 'Confirm',
 
   'projectUser.edit.title': 'Edit the user {email}',
   'projectUser.edit.action.save': 'Save',
@@ -69,12 +81,18 @@ const messages = {
   'projectUser.create.message': 'Create a user for the project. {passwordRules}',
   'projectUser.create.input.role': 'Role',
   'projectUser.create.input.email': 'E-mail',
-  'projectUser.create.input.firstName': 'Firstname',
-  'projectUser.create.input.lastName': 'Lastname',
+  'projectUser.create.input.firstName': 'First name',
+  'projectUser.create.input.lastName': 'Last name',
   'projectUser.create.input.password': 'Password',
   'projectUser.create.input.password.confirm': 'Confirm password',
   'projectUser.create.input.status': 'Status',
   'projectUser.create.input.groups': 'Groups',
+  'projectUser.create.input.max.quota': 'Max quota',
+  'projectUser.create.input.max.quota.help.message': `User max quota is the count of raw data files internally stored by REGARDS that he is allowed to download. 
+  Possible values are -1, for unlimited, 0, for none, or any positive integer for a precise count`,
+  'projectUser.create.input.rate.limit': 'Rate limit',
+  'projectUser.create.input.rate.limit.help.message': `User rate limit is the number of raw data files internally stored by REGARDS that he is allowed to download simultaneously. 
+  Possible values are -1, for unlimited / 0, for none, or any positive integer for a precise count`,
   'projectUser.create.action.add': 'Add',
   'projectUser.create.action.create': 'Create',
   'projectUser.create.action.cancel': 'Cancel',
@@ -84,6 +102,14 @@ const messages = {
   'project.user.settings.mode.field': 'Validation mode',
   'project.user.settings.mode.MANUAL': 'Manual: each project user creation request must be acknowledged by the administrator',
   'project.user.settings.mode.AUTO': 'Automatic: project user creation requests are automatically acknowledged',
+  'project.user.settings.max.quota.field': 'Default max quota',
+  'project.user.settings.max.quota.help.message': `Default max quota is applied at new users creation. 
+  User max quota is the count of raw data files internally stored by REGARDS that he is allowed to download. 
+  Possible values are -1, for unlimited, 0, for none, or any positive integer for a precise count`,
+  'project.user.settings.rate.limit.field': 'Default rate limit',
+  'project.user.settings.rate.limit.help.message': `Default rate limit is applied at new users creation. 
+  User rate limit is the number of raw data files internally stored by REGARDS that he is allowed to download simultaneously. 
+  Possible values are -1, for unlimited / 0, for none, or any positive integer for a precise count`,
   'project.user.settings.action.confirm': 'Confirm',
   'project.user.settings.action.cancel': 'Cancel',
 

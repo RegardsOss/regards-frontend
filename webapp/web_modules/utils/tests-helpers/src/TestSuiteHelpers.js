@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
+import isEqual from 'lodash/isEqual'
+import reduce from 'lodash/reduce'
 import Enzyme from 'enzyme'
 import { assert } from 'chai'
 import Adapter from 'enzyme-adapter-react-16'
@@ -82,12 +84,55 @@ export default {
 
   /**
    * Asserts a wrapper contains all expected properties
-   * @param {*} enzymeWrapper enzyme wrapper
+   * @param {ShallowWrapper} enzymeWrapper enzyme wrapper
    * @param {*} expectedProperties expected properties
    * @param message assertion fail message (optional)
    */
   assertWrapperProperties(enzymeWrapper, expectedProperties, message = 'Wrapper properties match failed') {
     this.assertAllProperties(enzymeWrapper.props(), expectedProperties, message)
+  },
+
+  /**
+   * Asserts a wrapper is displayed once in parent wrapper (by its class), with the right properties (if class is found many times, check by properties)
+   * @param {ShallowWrapper} parentWrapper parent wrapper
+   * @param {string|Function} CompClass class of the component to find
+   * @param {*} expectedProperties expected properties for corresponding  wrapper
+   * @param message assertion fail message (optional)
+   * @return {ShallowWrapper} found enzyme wrapper
+   */
+  assertCompWithProps(parentWrapper, CompClass, expectedProperties, message = `${CompClass.displayName} should be displayed with right properties`) {
+    let foundWrapper = parentWrapper.find(CompClass)
+    if (foundWrapper.length > 1) {
+      // many components of that class: find by expected properties
+      foundWrapper = foundWrapper.findWhere((n) => reduce(expectedProperties,
+        (acc, value, key) => acc && isEqual(value, n.props()[key]), true))
+    }
+    assert.lengthOf(foundWrapper, 1, message)
+    this.assertWrapperProperties(foundWrapper, expectedProperties, message)
+    return foundWrapper
+  },
+
+  /**
+   * Asserts a component is not displayed in parent wrapper (by its class)
+   * @param {ShallowWrapper} parentWrapper parent wrapper
+   * @param {string|Function} CompClass class of the component to NOT find
+   * @param message assertion fail message (optional)
+   * @param {*} expectedProperties expected properties for corresponding  wrapper
+   */
+  assertNotComp(parentWrapper, CompClass, message = `${CompClass.displayName} should not be displayed`, expectedProperties = {}) {
+    let foundWrapper = parentWrapper.find(CompClass)
+    if (foundWrapper.length > 1) {
+      foundWrapper = foundWrapper.findWhere((n) => reduce(expectedProperties,
+        (acc, value, key) => acc && isEqual(value, n.props()[key]), true))
+    }
+    if (foundWrapper.length === 1) {
+      // component found: check properties are different
+      const props = foundWrapper.props()
+      const asADifferentValue = reduce(expectedProperties, (foundDiff, expectedVal, expectedKey) => foundDiff || !isEqual(expectedVal, props[expectedVal]), false)
+      assert.isTrue(asADifferentValue, message)
+    } else {
+      assert.lengthOf(foundWrapper, 0, message)
+    }
   },
 
   /**

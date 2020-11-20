@@ -16,20 +16,49 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { PROFILE_VIEW_STATE_ENUM } from '../domain/ProfileViewStateEnum'
+
 /**
- * Actions to show / hide the profile edition
+ * Actions to show / hide the profile dialog
+ * @author Raphaël Mechali
  */
 export class ProfileDialogActions {
-  static SHOW_EDITION = 'menu/profile/show.edition'
+  /** Show dialog action type */
+  static SHOW_DIALOG = 'menu/profile/show.dialog'
 
-  static HIDE_EDITION = 'menu/profile/hide.edition'
+  /** Set view action type */
+  static SET_VIEW = 'menu/profile/set.view'
 
-  showEdition = () => ({
-    type: ProfileDialogActions.SHOW_EDITION,
+  /** Hide dialog action type */
+  static HIDE_DIALOG = 'menu/profile/hide.dialog'
+
+  /**
+   * Builds redux action to dispatch to show dialog
+   * @param {string} initialView from PROFILE_VIEW_STATE_ENUM
+   * @return {*} redux action
+   */
+  showDialog = (initialView = PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE) => ({
+    type: ProfileDialogActions.SHOW_DIALOG,
+    view: initialView,
   })
 
-  hideEdition = () => ({
-    type: ProfileDialogActions.HIDE_EDITION,
+  /**
+   * Builds redux action to dispatch to change dialog current view
+   * @param {string} view from PROFILE_VIEW_STATE_ENUM
+   * @return {*} redux action
+   */
+  setView = (view) => ({
+    type: ProfileDialogActions.SET_VIEW,
+    view,
+  })
+
+  /**
+   * Builds redux action to dispatch to change dialog current view
+   * @param {string} viewMode from PROFILE_VIEW_STATE_ENUM
+   * @return {*} redux action
+   */
+  hideDialog = () => ({
+    type: ProfileDialogActions.HIDE_DIALOG,
   })
 }
 

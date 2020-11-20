@@ -19,19 +19,23 @@
 import noop from 'lodash/noop'
 import FlatButton from 'material-ui/FlatButton'
 import OrderIcon from 'mdi-material-ui/CartArrowDown'
-import { i18nContextType } from '@regardsoss/i18n'
 import { Dialog } from 'material-ui'
 import TextField from 'material-ui/TextField'
+import {
+} from '@regardsoss/entities-common'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
-* Order button component, starts current basket order
-* @author Raphaël Mechali
-*/
-class OrderComponent extends React.Component {
+ * Order button component, starts current basket order
+ * - disabled when basket is empty, an option is fetching or quota is consumed
+ * - holds command name dialog box
+ * @author Raphaël Mechali
+ */
+export class OrderComponent extends React.Component {
   static propTypes = {
     onOrder: PropTypes.func.isRequired, // callback like (orderLabel:string) => Promise
     empty: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -88,7 +92,7 @@ class OrderComponent extends React.Component {
   onOrderLabelChanged = (evt, text) => this.setState({ orderLabel: text })
 
   render() {
-    const { disabled, empty } = this.props
+    const { isFetching, empty } = this.props
     const {
       dialogOpen, orderLabel, serverError, startingOrder,
     } = this.state
@@ -99,7 +103,7 @@ class OrderComponent extends React.Component {
           label={formatMessage({ id: 'order-cart.module.order.label' })}
           title={formatMessage({ id: 'order-cart.module.order.tooltip' })}
           icon={<OrderIcon />}
-          disabled={disabled || empty}
+          disabled={isFetching || empty}
           onClick={this.onShowDialog}
         />
         <Dialog

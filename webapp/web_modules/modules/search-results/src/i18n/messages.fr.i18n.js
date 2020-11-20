@@ -94,7 +94,7 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
     =0 {} 
     one {} 
@@ -183,8 +183,8 @@ const messages = {
   'search.results.search.pane.search.label': 'Rechercher',
   'search.results.search.pane.search.title': 'Appliquer les critères de recherches définis',
   'download.tooltip': 'Télécharger',
-  'no.download.tooltip': 'Aucun fichier ou droits utilisateurs insuffisant',
-  'download.no.online.file.tooltip': 'Tous les fichiers sont hors ligne',
+  'no.download.tooltip': 'Aucun fichier téléchargeable',
+  'download.quota.consumed.tooltip': 'Fonctionnalité de téléchargement désactivée',
   'show.entity.services.tooltip': 'Services',
   'show.description.tooltip': 'Détail',
   'filter.related.data': 'Afficher les données',

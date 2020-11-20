@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CommonDomain } from '@regardsoss/domain'
 import { NoContentComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ParametersSectionComponent from '../../../../../src/components/user/content/parameters/ParametersSectionComponent'
@@ -81,6 +82,8 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         label: 'My picture',
         available: true,
         uri: 'http://this.is/a.test.png',
+        type: CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
+        reference: true,
       },
       scrollAreaHeight: 760,
     }
@@ -100,6 +103,8 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         label: 'My picture',
         available: true,
         uri: 'http://this.is/a.test.png',
+        type: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
+        reference: false,
       },
       scrollAreaHeight: 760,
     }

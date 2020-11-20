@@ -44,6 +44,8 @@ describe('[Description] Testing MainModuleComponent', () => {
         showVersion: false,
         documentModels: ['any'],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDataEntity,
       selectedEntityIndex: 1,

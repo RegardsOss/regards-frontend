@@ -46,7 +46,7 @@ export const editors = {
   },
 }
 
-const METADATA_ARRAY_V1 = [{
+export const METADATA_ARRAY_V1 = [{
   key: 'address',
   labelKey: 'user.metadata.address',
   editor: editors.textEditor,

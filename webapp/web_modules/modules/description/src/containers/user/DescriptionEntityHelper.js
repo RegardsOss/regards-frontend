@@ -349,16 +349,18 @@ export class DescriptionEntityHelper {
   /**
    * Converts entity files into common description file data elements
    * @param {*} entity entity
-   * @param {*} fileDataType file data
+   * @param {string} type file type
    * @param {string} accessToken when there is one
    * @param {string} projectName current project (tenant) name
    * @return {[*]} converted files matching DescriptionState.FileData
    */
-  static toFileData(entity, fileDataType, accessToken, projectName) {
+  static toFileData(entity, type, accessToken, projectName) {
     const uriOriginParam = `&origin=${root.location.protocol}//${root.location.host}`
-    return get(entity.content, `files.${fileDataType}`, []).map((dataFile) => ({
+    return get(entity.content, `files.${type}`, []).map((dataFile) => ({
       label: dataFile.filename,
       available: DamDomain.DataFileController.isAvailableNow(dataFile),
+      type,
+      reference: dataFile.reference,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
       uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
     }))
@@ -393,6 +395,8 @@ export class DescriptionEntityHelper {
         label: thumbnailFile.filename,
         available: true, // selected file is always available
         uri: thumbnailFile.uri,
+        type: thumbnailFile.dataType,
+        reference: thumbnailFile.reference,
       } : null,
       // quicklooks: provided it only when enabled for that type configuration (empty array will results in hidden tree section)
       quicklookFiles: typeConfiguration.showQuicklooks ? quicklookFiles : [],

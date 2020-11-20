@@ -37,7 +37,7 @@ class DownloadResultButton extends React.Component {
   }
 
   /** Button reference */
-  downloadButtonRef = React.createRef
+  downloadButtonRef = React.createRef()
 
   componentDidMount() {
     if (this.props.forcedownload) {

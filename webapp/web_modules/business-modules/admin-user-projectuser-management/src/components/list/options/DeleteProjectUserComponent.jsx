@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 
@@ -30,7 +30,7 @@ export const HatoasIconButton = withHateoasDisplayControl(IconButton)
  */
 class DeleteProjectUserComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
   }

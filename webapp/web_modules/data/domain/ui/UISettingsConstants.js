@@ -29,5 +29,7 @@ export class UISettingsConstants {
     showVersion: true,
     documentModels: [],
     primaryQuicklookGroup: 'primary',
+    quotaWarningCount: 100,
+    rateWarningCount: 10,
   }
 }

@@ -43,6 +43,8 @@ describe('[Description] Testing BreadcrumbComponent', () => {
         showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       selectedEntityIndex: 0,
       descriptionPath: [resolvedDataEntity, resolvedDatasetEntity],

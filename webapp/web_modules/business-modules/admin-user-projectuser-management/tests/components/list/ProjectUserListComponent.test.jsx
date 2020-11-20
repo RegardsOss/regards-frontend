@@ -19,10 +19,14 @@
 import values from 'lodash/values'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { TableHeaderLoadingComponent, TableHeaderCheckbox, InfiniteTableContainer } from '@regardsoss/components'
+import { UIDomain } from '@regardsoss/domain'
+import {
+  TableHeaderLoadingComponent, TableHeaderCheckbox, InfiniteTableContainer, TableHeaderText,
+} from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import ProjectUserListComponent from '../../../src/components/list/ProjectUserListComponent'
 import AccessGroupFilterComponent from '../../../src/components/list/AccessGroupFilterComponent'
+import EditQuotaComponent from '../../../src/components/list/options/EditQuotaComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -30,11 +34,9 @@ const context = buildTestContext(styles)
 const initialProps = {
   users: [],
   waitingUsersCount: 0,
-  groups: {},
-  selectedGroup: null,
+  groups: DumpProvider.get('DataManagementClient', 'AccessGroup'),
   isLoading: false,
-  showOnlyWaitingUsers: false,
-
+  uiSettings: UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
   createUrl: 'url/create',
   backUrl: 'url/back',
   onEdit: () => { },
@@ -47,6 +49,8 @@ const initialProps = {
   onDisable: () => { },
   onSelectGroup: () => { },
   onToggleOnlyWaitingUsers: () => { },
+  onToggleOnlyLowQuotaUsers: () => {},
+  onSetMaxQuota: () => {},
 }
 
 // Test a component rendering
@@ -57,83 +61,90 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing project user list component', (
   it('should exists', () => {
     assert.isDefined(ProjectUserListComponent)
   })
-  it('should render self loading view data (no data)', () => {
+  it('should render self loading / unfiltered users / hiding quota', () => {
     const props = {
       ...initialProps,
       isLoading: true,
+      showQuota: false,
+      showOnlyWaitingUsers: false,
+      showOnlyLowQuotaUsers: false,
+      selectedGroup: null,
     }
     const enzymeWrapper = shallow(<ProjectUserListComponent {...props} />, { context })
-    const loaderWrapper = enzymeWrapper.find(TableHeaderLoadingComponent)
-    assert.lengthOf(loaderWrapper, 1, 'There should be the loader displayer')
-    assert.isTrue(loaderWrapper.props().loading, 'It should be marked loading')
-
-    // Check we can find other options in header and check there props
-    const checkbox = enzymeWrapper.find(TableHeaderCheckbox)
-    assert.lengthOf(checkbox, 1, 'There should be show only waiting users check box')
-    testSuiteHelpers.assertWrapperProperties(checkbox, {
-      checked: props.showOnlyWaitingUsers,
+    // check table header
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderText, {
+      text: 'projectUser.list.users.count',
+    }, 'Waiting users count should be displayed')
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderLoadingComponent, {
+      loading: true,
+    }, 'Loading header should be displayed in loading state')
+    testSuiteHelpers.assertNotComp(enzymeWrapper, TableHeaderCheckbox, 'Only low quota user should be hidden (quota not available)', {
+      label: 'projectUser.list.only.low.quota',
+    })
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderCheckbox, {
       label: 'projectUser.list.only.waiting.users',
-      disabled: props.isLoading,
+      checked: false,
+      disabled: true,
       onCheck: props.onToggleOnlyWaitingUsers,
-    }, 'Checkbox properties should be correctly computed')
-
-    const groupFilter = enzymeWrapper.find(AccessGroupFilterComponent)
-    assert.lengthOf(groupFilter, 1, 'There should be group filter')
-    testSuiteHelpers.assertWrapperProperties(groupFilter, {
+    }, 'Only waiting user should be displayed unchecked')
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, AccessGroupFilterComponent, {
       groups: props.groups,
-      selectedGroup: props.selectedGroup,
-      isLoading: props.isLoading,
+      selectedGroup: null,
+      isLoading: true,
       onSelectGroup: props.onSelectGroup,
-    }, 'Group filter properties should be correctly computed')
-
-    // Finally there should be the table
-    const table = enzymeWrapper.find(InfiniteTableContainer)
-    assert.lengthOf(table, 1, 'There should be users table')
-    const tableProps = table.props()
-    assert.isNotEmpty(tableProps.columns, 'There should be columns')
-    assert.equal(tableProps.entities, props.users, 'Table entities should be driven by parent through this props')
-    assert.isOk(tableProps.emptyComponent, 'There should be the empty component')
+    }, 'Group filter selector should be displayed with right properties')
+    const tableWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, InfiniteTableContainer, {
+      entities: props.users,
+    }, 'There should be table with right users list')
+    // check columns does contain quota related column and option
+    const { columns } = tableWrapper.props()
+    assert.isNotOk(columns.find((c) => c.key === 'quota'), 'There should not be quota column')
+    assert.isNotOk(columns[columns.length - 1].rowCellDefinition.props.optionsDefinitions.find((opt) => opt.OptionConstructor === EditQuotaComponent), 'There should not be quota option')
   })
-  it('should render self after loading (with data)', () => {
+  it('should render self loaded / filtering users / showing quota', () => {
     // other elements: tested in previous tests
     const props = {
       ...initialProps,
-      isLoading: false,
-      users: values(DumpProvider.get('AdminClient', 'ProjectUser')),
+      users: values(DumpProvider.get('AccessProjectClient', 'ProjectUser')),
       selectedGroup: DumpProvider.getFirstEntity('DataManagementClient', 'AccessGroup'),
-      groups: DumpProvider.get('DataManagementClient', 'AccessGroup'),
+      isLoading: false,
+      showQuota: true,
+      showOnlyWaitingUsers: true,
+      showOnlyLowQuotaUsers: true,
     }
 
     const enzymeWrapper = shallow(<ProjectUserListComponent {...props} />, { context })
-    const loaderWrapper = enzymeWrapper.find(TableHeaderLoadingComponent)
-    assert.lengthOf(loaderWrapper, 1, 'There should be the loader displayer')
-    assert.isFalse(loaderWrapper.props().loading, 'It should not be marked loading')
-
-    // Check we can find other options in header and check there props
-    const checkbox = enzymeWrapper.find(TableHeaderCheckbox)
-    assert.lengthOf(checkbox, 1, 'There should be show only waiting users check box')
-    testSuiteHelpers.assertWrapperProperties(checkbox, {
-      checked: props.showOnlyWaitingUsers,
+    // check table header
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderText, {
+      text: 'projectUser.list.users.count',
+    }, 'Waiting users count should be displayed')
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderLoadingComponent, {
+      loading: false,
+    }, 'Loading header should be displayed in idle state')
+    testSuiteHelpers.assertNotComp(enzymeWrapper, TableHeaderCheckbox, 'Only low quota user should be hidden (quota not available)', {
+      label: 'projectUser.list.only.low.quota',
+      checked: true,
+      disabled: false,
+      onCheck: props.onToggleOnlyLowQuotaUsers,
+    })
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, TableHeaderCheckbox, {
       label: 'projectUser.list.only.waiting.users',
-      disabled: props.isLoading,
+      checked: true,
+      disabled: false,
       onCheck: props.onToggleOnlyWaitingUsers,
-    }, 'Checkbox properties should be correctly computed')
-
-    const groupFilter = enzymeWrapper.find(AccessGroupFilterComponent)
-    assert.lengthOf(groupFilter, 1, 'There should be group filter')
-    testSuiteHelpers.assertWrapperProperties(groupFilter, {
+    }, 'Only waiting user should be displayed unchecked')
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, AccessGroupFilterComponent, {
       groups: props.groups,
       selectedGroup: props.selectedGroup,
-      isLoading: props.isLoading,
+      isLoading: false,
       onSelectGroup: props.onSelectGroup,
-    }, 'Group filter properties should be correctly computed')
-
-    // Finally there should be the table
-    const table = enzymeWrapper.find(InfiniteTableContainer)
-    assert.lengthOf(table, 1, 'There should be users table')
-    const tableProps = table.props()
-    assert.isNotEmpty(tableProps.columns, 'There should be columns')
-    assert.equal(tableProps.entities, props.users, 'Table entities should be driven by parent through this props')
-    assert.isOk(tableProps.emptyComponent, 'There should be the empty component')
+    }, 'Group filter selector should be displayed with right properties')
+    const tableWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, InfiniteTableContainer, {
+      entities: props.users,
+    }, 'There should be table with right users list')
+    // check columns does contain quota related column and option
+    const { columns } = tableWrapper.props()
+    assert.isOk(columns.find((c) => c.key === 'quota'), 'There should be quota column')
+    assert.isOk(columns[columns.length - 1].rowCellDefinition.props.optionsDefinitions.find((opt) => opt.OptionConstructor === EditQuotaComponent), 'There should be quota option')
   })
 })

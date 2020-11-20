@@ -33,6 +33,7 @@ const messages = {
   loggedButtonTooltip: 'Connecté en {login}',
   logoutLabel: 'Déconnexion',
   accountLabel: 'Mon compte',
+  quotaInformation: 'Téléchargements',
   changeRole: 'Changer de rôle',
   'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
@@ -135,6 +136,17 @@ const messages = {
   'edit.profile.notification.form.hours': 'Heures',
   'edit.profile.notification.form.save': 'Sauvegarder',
 
+  // quota information (in user profile dialog)
+  'user.profile.quota.info.title': 'Téléchargement de données',
+  'user.profile.quota.info.message.raw.data.download.definition': `Le téléchargement des fichiers de données (RAW DATA) est réalisé par téléchargement direct (catalogue, description, ...),
+  ou par commande (fichier ZIP, metalink, ....). Les autres types de fichiers sont ignorés dans le calcul des indicateurs ci-dessous.`,
+  'user.profile.quota.info.message.contact.notice': 'Vous pouvez contacter l\'administrateur du projet pour augmenter votre capacité de téléchargement de données.',
+  'user.profile.quota.info.title.current.status': 'État courrant',
+  'user.profile.quota.info.message.unlimited.download': 'Vos téléchargement ne sont pas limités',
+  'user.profile.quota.info.message.remaining.downloads': '{remainingQuota}/{maxQuota} téléchargements autorisés',
+  'user.profile.quota.info.message.unlimited.rate': 'Vos téléchargements simultanés ne sont pas limités',
+  'user.profile.quota.info.message.remaining.rate': '{currentRate}/{rateLimit} téléchargements en cours',
+
   // notifications
   'user.menu.notification.max.count': '{maxCount}+',
   'user.menu.notification.elements.count.tooltip': `{elementsCount, plural,
@@ -154,6 +166,7 @@ const messages = {
   'user.menu.profile.leftbar.title': 'Options utilisateur',
   'user.menu.profile.leftbar.profile': 'Profil',
   'user.menu.profile.leftbar.notification': 'Notifications',
+  'user.menu.profile.leftbar.quotaInformation': 'Téléchargements',
   'user.menu.profile.action.close': 'Fermer',
   ...Locales.fr,
   ...MetadataLocales.fr,

@@ -28,6 +28,8 @@ import { moduleReducer } from './clients/ModuleClient'
 import { moduleExpandedStateReducer } from './clients/ModuleExpandedStateClient'
 import { resultsContextReducer } from './clients/ResultsContextClient'
 import { uiSettingsReducer } from './clients/UISettingsClients'
+import { quotaInformationReducer } from './clients/QuotaInformationClient'
+import { currentQuotaInformationReducer } from './clients/CurrentQuotaInformationClient'
 
 /**
  * Reducers for user module
@@ -43,4 +45,6 @@ export default combineReducers({
   'order-basket': OrderClient.getOrderBasketReducer(), // install default order basket reducer reducer
   resultsContext: resultsContextReducer, // install results context sharing system
   uiSettings: uiSettingsReducer, // install common settings retrieval and sharing system
+  serverQuotaInformation: quotaInformationReducer, // server quota information pulling
+  currentQuotaInformation: currentQuotaInformationReducer, // local quota information management
 })

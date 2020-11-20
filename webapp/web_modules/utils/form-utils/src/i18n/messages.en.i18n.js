@@ -58,6 +58,9 @@ const messages = {
 
   'render.pageableAutoCompleteField.loading': 'loading ...',
 
+  'field.default.help.title': 'About field',
+  'field.help.close.button.label': 'Close',
+
   'render.array-field.values.title': 'Defined values',
   'render.array-field.add.new.value.button': 'Add',
   'render.array-field.new.value.hint': 'New value ...',

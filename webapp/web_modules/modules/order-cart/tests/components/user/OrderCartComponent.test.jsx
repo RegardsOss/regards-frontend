@@ -63,7 +63,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
     // Check specific messages for authentication
     assert.equal(noContentWrapper.props().titleKey, 'order-cart.module.not.logged.title', 'When not authenticated, title key should be correctly set up')
-    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.not.logged.messsage', 'When not authenticated, message key should be correctly set up')
+    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.not.logged.message', 'When not authenticated, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, NotLoggedIcon, 'When not authenticated, icon should be a NotLoggedIcon')
     // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
@@ -93,7 +93,7 @@ describe('[OrderCart] Testing OrderCartComponent', () => {
     assert.isTrue(noContentWrapper.props().noContent, 'No data component should be marked as no content')
     // Check specific messages for empty basket
     assert.equal(noContentWrapper.props().titleKey, 'order-cart.module.empty.basket.title', 'When basket is empty, title key should be correctly set up')
-    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.empty.basket.messsage', 'When basket is empty, message key should be correctly set up')
+    assert.equal(noContentWrapper.props().messageKey, 'order-cart.module.empty.basket.message', 'When basket is empty, message key should be correctly set up')
     assert.equal(noContentWrapper.props().Icon, CartIcon, 'When basket is empty, icon should be a NotLoggedIcon')
     // Check table
     const orderCartTableWrapper = enzymeWrapper.find(OrderCartTableComponent)
