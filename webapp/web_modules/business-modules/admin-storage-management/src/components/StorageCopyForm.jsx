@@ -25,19 +25,8 @@ import FlatButton from 'material-ui/FlatButton'
 import { StorageShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CommonDomain } from '@regardsoss/domain'
 import messages from '../i18n'
 import styles from '../styles'
-
-const typesWithoutAIP = [
-  CommonDomain.DATA_TYPES_ENUM.RAWDATA,
-  CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
-  CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD,
-  CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD,
-  CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
-  CommonDomain.DATA_TYPES_ENUM.DOCUMENT,
-  CommonDomain.DATA_TYPES_ENUM.DESCRIPTION,
-]
 
 /**
  * Display form to copy files from one storage to an other one
@@ -82,19 +71,11 @@ class StorageCopyform extends React.Component {
     const {
       copyPathSource, copyPathTarget, copyStorageTarget,
     } = this.state
-    this.props.onSubmit(this.props.storageLocation.content.name, copyPathSource, copyStorageTarget, copyPathTarget, typesWithoutAIP)
+    this.props.onSubmit(this.props.storageLocation.content.name, copyPathSource, copyStorageTarget, copyPathTarget, [])
     this.props.onClose()
   }
 
-  onSubmitManifest = () => {
-    const {
-      copyPathSource, copyPathTarget, copyStorageTarget,
-    } = this.state
-    this.props.onSubmit(this.props.storageLocation.content.name, copyPathSource, copyStorageTarget, copyPathTarget, [CommonDomain.DATA_TYPES_ENUM.AIP])
-    this.props.onClose()
-  }
-
-  isDisabled = (location) => (location.content.name === this.props.storageLocation.content.name) || get(location, 'content.configuration.storageType', null) === 'CACHE' || get(location, 'content.configuration.storageType', null) === 'OFFLINE'
+  isDisabled = location => (location.content.name === this.props.storageLocation.content.name) || get(location, 'content.configuration.storageType', null) === 'CACHE' || get(location, 'content.configuration.storageType', null) === 'OFFLINE'
 
   render = () => {
     const { storageLocation, availablableDestinations } = this.props
@@ -126,7 +107,7 @@ class StorageCopyform extends React.Component {
               onChange={this.handleStorageSelect}
               style={dropdown}
             >
-              {map(availablableDestinations, (dest) => (
+              {map(availablableDestinations, dest => (
                 <MenuItem
                   value={dest.content.name}
                   key={dest.content.name}
@@ -154,13 +135,6 @@ class StorageCopyform extends React.Component {
             label={formatMessage({ id: 'storage.location.copy.submit' })}
             primary
             onClick={this.onSubmit}
-            disabled={!copyStorageTarget}
-          />
-          <FlatButton
-            key="confirm"
-            label={formatMessage({ id: 'storage.location.copy.submit.manifest' })}
-            primary
-            onClick={this.onSubmitManifest}
             disabled={!copyStorageTarget}
           />
         </div>

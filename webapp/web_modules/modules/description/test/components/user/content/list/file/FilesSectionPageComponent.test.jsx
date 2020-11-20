@@ -30,6 +30,7 @@ const context = buildTestContext(styles)
 /**
  * Test FilesSectionPageComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing FilesSectionPageComponent', () => {
   before(testSuiteHelpers.before)
@@ -42,6 +43,7 @@ describe('[Description] Testing FilesSectionPageComponent', () => {
     const props = {
       section: BROWSING_SECTIONS_ENUM.FILES,
       files: resolvedDataEntity.displayModel.otherFiles,
+      scrollAreaHeight: 760,
       onSelectInnerLink: () => {},
     }
     const enzymeWrapper = shallow(<FilesSectionPageComponent {...props} />, { context })
@@ -50,6 +52,7 @@ describe('[Description] Testing FilesSectionPageComponent', () => {
     testSuiteHelpers.assertWrapperProperties(subcomponentWrapper, {
       elements: props.files,
       buildElementNode: enzymeWrapper.instance().renderFile,
+      scrollAreaHeight: props.scrollAreaHeight,
     }, 'List render properties should be correctly set')
     // Cannot test inner render into file link component (redux connection)
   })

@@ -27,10 +27,12 @@ import NormalQuicklookPictureComponent from './NormalQuicklookPictureComponent'
  * - Current quiclook view mode render on center
  * @author Léo Mieulet
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class QuicklookViewComponent extends React.Component {
   static propTypes = {
     quicklookFiles: PropTypes.arrayOf(UIShapes.QuicklookDefinition).isRequired,
+    scrollAreaHeight: PropTypes.number,
   }
 
   state = {
@@ -54,7 +56,7 @@ class QuicklookViewComponent extends React.Component {
   }
 
   render() {
-    const { quicklookFiles } = this.props
+    const { quicklookFiles, scrollAreaHeight } = this.props
     const { magnified, groupIndex } = this.state
     return (
       <>
@@ -64,6 +66,7 @@ class QuicklookViewComponent extends React.Component {
               selectedIndex={groupIndex}
               quicklookFiles={quicklookFiles}
               onSelectGroup={this.onSelectGroup}
+              scrollAreaHeight={scrollAreaHeight}
             />) : null
         }
         { /** Show current mode render */

@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test BrowsingTreeComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing BrowsingTreeComponent', () => {
   before(testSuiteHelpers.before)
@@ -42,6 +43,7 @@ describe('[Description] Testing BrowsingTreeComponent', () => {
       allowSearching: true,
       browsingTreeVisible: false,
       descriptionEntity: resolvedDataEntity,
+      scrollAreaHeight: 760,
       isDescriptionAllowed: () => true,
       onSelectInnerLink: () => {},
       onSelectEntityLink: () => {},
@@ -56,6 +58,7 @@ describe('[Description] Testing BrowsingTreeComponent', () => {
       allowSearching: true,
       browsingTreeVisible: true,
       descriptionEntity: resolvedDataEntity,
+      scrollAreaHeight: 760,
       isDescriptionAllowed: () => true,
       onSelectInnerLink: () => {},
       onSelectEntityLink: () => {},

@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/domain",
-  "version": "1.3.0-SNAPSHOT",
+  "version": "1.4.0-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "REGARDS Microservices contants, enums,...",

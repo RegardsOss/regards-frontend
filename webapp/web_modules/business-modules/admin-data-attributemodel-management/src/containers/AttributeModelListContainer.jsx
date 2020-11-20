@@ -77,7 +77,7 @@ export class AttributeModelListContainer extends React.Component {
   }
 
   handleDelete = (attrModelId) => {
-    this.props.throwError('Delete is not applicable on attributes yet.')
+    this.props.deleteAttrModel(attrModelId)
   }
 
   render() {

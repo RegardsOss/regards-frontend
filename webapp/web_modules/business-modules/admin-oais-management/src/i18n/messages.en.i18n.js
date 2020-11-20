@@ -104,6 +104,7 @@ export default {
   'oais.requests.type.INGEST': 'Create',
   'oais.requests.type.OAIS_DELETION_CREATOR': 'Delete research',
   'oais.requests.type.OAIS_DELETION': 'Delete',
+  'oais.requests.type.AIP_POST_PROCESS': 'Post process',
   'oais.requests.type.any': 'Any type',
   'oais.requests.list.filters.state': 'State',
   'oais.requests.status.TO_SCHEDULE': 'Waiting',

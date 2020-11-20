@@ -35,7 +35,7 @@ const messages = {
   accountLabel: 'Mon compte',
   quotaInformation: 'Téléchargements',
   changeRole: 'Changer de rôle',
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',

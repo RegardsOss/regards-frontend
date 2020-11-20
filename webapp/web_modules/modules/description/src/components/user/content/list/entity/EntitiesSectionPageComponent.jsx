@@ -23,6 +23,7 @@ import EntityLinkComponent from './EntityLinkComponent'
 /**
  * Entities section page component
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class EntitiesSectionPageComponent extends React.Component {
   static propTypes = {
@@ -30,6 +31,7 @@ class EntitiesSectionPageComponent extends React.Component {
     isDescriptionAllowed: PropTypes.func.isRequired,
     allowSearching: PropTypes.bool,
     onSearchEntity: PropTypes.func.isRequired,
+    scrollAreaHeight: PropTypes.number,
     // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
   }
@@ -55,11 +57,12 @@ class EntitiesSectionPageComponent extends React.Component {
   }
 
   render() {
-    const { entities } = this.props
+    const { entities, scrollAreaHeight } = this.props
     return (
       <ListSectionPageComponent
         elements={entities}
         buildElementNode={this.renderEntity}
+        scrollAreaHeight={scrollAreaHeight}
       />
     )
   }

@@ -32,11 +32,13 @@ import VersionSectionPageComponent from './list/version/VersionSectionPageCompon
 /**
  * Main component to display content area: shows loading / errors / content according with selected tree entry
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class ContentDisplayComponent extends React.Component {
   static propTypes = {
     allowSearching: PropTypes.bool,
     descriptionEntity: DescriptionEntity.isRequired,
+    scrollAreaHeight: PropTypes.number,
     // is description allowed function, like (entity: CatalogShapes.Entity) => (boolean)
     isDescriptionAllowed: PropTypes.func.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
@@ -57,6 +59,7 @@ class ContentDisplayComponent extends React.Component {
     const {
       descriptionEntity, isDescriptionAllowed, allowSearching,
       onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity,
+      scrollAreaHeight,
     } = this.props
     // loading
     if (descriptionEntity.loading) {
@@ -92,20 +95,22 @@ class ContentDisplayComponent extends React.Component {
 
     switch (section) {
       case BROWSING_SECTIONS_ENUM.PARAMETERS:
-        return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} />
+        return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} scrollAreaHeight={scrollAreaHeight} />
       case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
-        return <QuicklookViewComponent quicklookFiles={quicklookFiles} />
+        return <QuicklookViewComponent quicklookFiles={quicklookFiles} scrollAreaHeight={scrollAreaHeight} />
       case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
         return <TagsSectionPageComponent
           tags={wordTags}
           allowSearching={allowSearching}
           onSearchWord={onSearchWord}
+          scrollAreaHeight={scrollAreaHeight}
         />
       case BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
         return <TagsSectionPageComponent
           tags={couplingTags}
           allowSearching={allowSearching}
           onSearchWord={onSearchWord}
+          scrollAreaHeight={scrollAreaHeight}
         />
       case BROWSING_SECTIONS_ENUM.LINKED_ENTITIES:
         return <EntitiesSectionPageComponent
@@ -114,6 +119,7 @@ class ContentDisplayComponent extends React.Component {
           allowSearching={allowSearching}
           onSearchEntity={onSearchEntity}
           onSelectEntityLink={onSelectEntityLink}
+          scrollAreaHeight={scrollAreaHeight}
         />
       case BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS:
         return (
@@ -123,6 +129,7 @@ class ContentDisplayComponent extends React.Component {
             allowSearching={allowSearching}
             onSearchEntity={onSearchEntity}
             onSelectEntityLink={onSelectEntityLink}
+            scrollAreaHeight={scrollAreaHeight}
           />)
       case BROWSING_SECTIONS_ENUM.INFORMATION:
         return isNil(child) ? (
@@ -130,6 +137,7 @@ class ContentDisplayComponent extends React.Component {
             section={section}
             files={descriptionFiles}
             onSelectInnerLink={onSelectInnerLink}
+            scrollAreaHeight={scrollAreaHeight}
           />) : <URIContentDisplayer uri={descriptionFiles[child].uri} />
       case BROWSING_SECTIONS_ENUM.FILES:
         return isNil(child) ? (
@@ -137,12 +145,14 @@ class ContentDisplayComponent extends React.Component {
             section={section}
             files={otherFiles}
             onSelectInnerLink={onSelectInnerLink}
+            scrollAreaHeight={scrollAreaHeight}
           />) : <URIContentDisplayer uri={otherFiles[child].uri} />
       case BROWSING_SECTIONS_ENUM.OTHER_VERSIONS:
         return (
           <VersionSectionPageComponent
             entities={otherVersions}
             onSelectEntityLink={onSelectEntityLink}
+            scrollAreaHeight={scrollAreaHeight}
           />
         )
       default:

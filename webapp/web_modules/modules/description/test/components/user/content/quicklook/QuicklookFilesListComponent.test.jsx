@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklookFilesListComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing QuicklookFilesListComponent', () => {
   before(testSuiteHelpers.before)
@@ -47,6 +48,7 @@ describe('[Description] Testing QuicklookFilesListComponent', () => {
         buildQuicklookGroupFor('group3', false),
         buildQuicklookGroupFor(null, false),
       ],
+      scrollAreaHeight: 760,
       onSelectGroup: (selectedIndex) => {
         spyOnSelectGroup.selectedIndex = selectedIndex
       },

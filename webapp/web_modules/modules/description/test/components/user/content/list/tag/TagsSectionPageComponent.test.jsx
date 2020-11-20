@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test TagsSectionPageComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing TagsSectionPageComponent', () => {
   before(testSuiteHelpers.before)
@@ -41,6 +42,7 @@ describe('[Description] Testing TagsSectionPageComponent', () => {
     const props = {
       allowSearching: true,
       tags: resolvedDataEntity.displayModel.wordTags,
+      scrollAreaHeight: 760,
       onSearchWord: () => {},
     }
     const enzymeWrapper = shallow(<TagsSectionPageComponent {...props} />, { context })
@@ -49,6 +51,7 @@ describe('[Description] Testing TagsSectionPageComponent', () => {
     testSuiteHelpers.assertWrapperProperties(subcomponentWrapper, {
       elements: props.tags,
       buildElementNode: enzymeWrapper.instance().renderTag,
+      scrollAreaHeight: props.scrollAreaHeight,
     }, 'List render properties should be correctly set')
     // Test inner render into tag cell component
     props.tags.forEach((tag) => {
