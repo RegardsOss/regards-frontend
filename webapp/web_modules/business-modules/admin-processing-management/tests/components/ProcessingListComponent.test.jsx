@@ -81,7 +81,6 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing Processing list component', () =
     // Check Filter component
     const filters = wrapper.find(ProcessingListFiltersComponent)
     assert.lengthOf(filters, 1, 'There should be filters')
-    assert.equal(filters.props().onRefresh, props.onRefresh, 'Function onReshreh should be correctly passed')
 
     // Check for buttons
     const cardActionsWrapper = wrapper.find(CardActionsComponent)
@@ -130,7 +129,6 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing Processing list component', () =
     // Check Filter component
     const filters = wrapper.find(ProcessingListFiltersComponent)
     assert.lengthOf(filters, 1, 'There should be filters')
-    assert.equal(filters.props().onRefresh, props.onRefresh, 'Function onRefresh should be correctly passed')
 
     // Check for buttons
     const cardActionsWrapper = wrapper.find(CardActionsComponent)

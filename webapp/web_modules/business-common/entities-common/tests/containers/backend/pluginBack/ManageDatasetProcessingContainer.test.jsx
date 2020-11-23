@@ -93,6 +93,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
       const componentWrapper = enzymeWrapper.find(ManageDatasetProcessingComponent)
       const wrapperInstance = enzymeWrapper.instance()
       assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
+
       testSuiteHelpers.assertWrapperProperties(componentWrapper, {
         processingConfParametersObjects: {
           testProcess1: {

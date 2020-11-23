@@ -27,18 +27,8 @@ export default [{
       pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
       iconUrl: null,
       businessId: 'testProcess1',
-      parameters: [
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess1',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
-        },
-      ],
+      label: 'testProcess1',
+      parameters: [],
     },
     rights: {
       role: 'PUBLIC',
@@ -56,18 +46,8 @@ export default [{
       pluginClassName: 'fr.cnes.regards.modules.processing.controller.UselessProcessPlugin',
       iconUrl: null,
       businessId: 'testProcess2',
-      parameters: [
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess2',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
-        },
-      ],
+      label: 'testProcess2',
+      parameters: [],
     },
     rights: {
       role: 'PUBLIC',
@@ -85,6 +65,7 @@ export default [{
       pluginClassName: 'fr.cnes.regards.modules.processing.plugins.impl.SimpleShellProcessPlugin',
       iconUrl: null,
       businessId: 'testProcess3',
+      label: 'testProcess3',
       parameters: [
         {
           name: 'shellScript',
@@ -102,16 +83,6 @@ export default [{
           type: 'STRING',
           value: '15',
           dynamic: true,
-        },
-        {
-          name: 'processName',
-          type: 'STRING',
-          value: 'testProcess3',
-        },
-        {
-          name: 'active',
-          type: 'BOOLEAN',
-          value: false,
         },
       ],
     },

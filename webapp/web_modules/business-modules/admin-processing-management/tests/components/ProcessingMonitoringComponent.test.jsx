@@ -47,6 +47,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
 
   it('should render correctly', () => {
     const props = {
+      project:'test',
       processingList: DumpProvider.get('ProcessingMonitoringClient', 'ProcessingMonitoring'),
       onRefresh: () => { },
       backUrl: '#',
