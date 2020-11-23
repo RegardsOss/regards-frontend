@@ -34,7 +34,7 @@ import Close from 'mdi-material-ui/Close'
  */
 class ProcessingListFiltersComponent extends React.Component {
   static propTypes = {
-    onRefresh: PropTypes.func,
+    onApplyFilters: PropTypes.func,
   }
 
   static contextTypes = {
@@ -60,14 +60,13 @@ class ProcessingListFiltersComponent extends React.Component {
     this.setState({
       filters: ProcessingListFiltersComponent.DEFAULT_FILTERS_STATE,
     },
-    () => this.props.onRefresh(this.state.filters),
+    () => this.props.onApplyFilters(this.state.filters),
     )
   }
 
   applyFilters = () => {
-    const { onRefresh } = this.props
     const { filters } = this.state
-    onRefresh(filters)
+    this.props.onApplyFilters(filters)
   }
 
   render() {

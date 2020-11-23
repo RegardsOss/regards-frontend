@@ -54,8 +54,10 @@ const PROCESS_FILTER_PARAMS = {
  */
 class ProcessingMonitoringFiltersComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     processingList: ProcessingShapes.ProcessingList.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onApplyFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -110,18 +112,18 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    * User callback: Apply edited filters to current request
    */
   onApplyFilters = () => {
-    const { onRefresh } = this.props
+    const { onRefresh,onApplyFilters } = this.props
     const { filters } = this.state
     if (!isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)) {
       const filtersClean = {
         ...filters,
       }
-      // Remove from params the status field if it is still pristine
-      if (filters[PROCESS_FILTER_PARAMS.STATUS].length === ProcessingDomain.PROCESS_STATUS_TYPES.length) {
-        delete filtersClean[PROCESS_FILTER_PARAMS.STATUS]
-      }
-      onRefresh(filtersClean)
+      onApplyFilters(filtersClean)
     }
+  }
+
+  onRefresh = () => {
+    this.props.onRefresh({...this.state.filters, tenant: this.props.project})
   }
 
   /**
@@ -225,7 +227,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
             <FlatButton
               label={formatMessage({ id: 'processing.management.table.refresh.button' })}
               icon={<Refresh />}
-              onClick={this.props.onRefresh}
+              onClick={this.onRefresh}
             />
           </TableHeaderOptionGroup>
           <TableHeaderOptionGroup>

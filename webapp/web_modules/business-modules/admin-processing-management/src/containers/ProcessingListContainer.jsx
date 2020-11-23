@@ -106,7 +106,7 @@ export class ProcessingListContainer extends React.Component {
     }
 
     handleDelete = (businessId) => {
-      this.props.deleteProcessing(businessId)
+      return this.props.deleteProcessing(businessId)
     }
 
     render() {

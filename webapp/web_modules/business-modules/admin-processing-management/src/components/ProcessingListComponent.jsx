@@ -69,6 +69,7 @@ class ProcessingListComponent extends React.Component {
     state = {
       processingToDelete: null,
       deleteDialogOpened: false,
+      filters: {},
     }
 
     closeDeleteDialog = () => {
@@ -85,6 +86,19 @@ class ProcessingListComponent extends React.Component {
       })
     }
 
+    onApplyFilters = (filters) => {
+      this.setState({filters})
+      this.props.onRefresh(filters)
+    }
+
+    onRefresh = () => {
+      this.props.onRefresh(this.state.filters)
+    }
+
+    onDelete = () => {
+      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then( () => this.onRefresh())
+    }
+
     renderDeleteConfirmDialog = () => {
       const name = this.state.processingToDelete
         ? ProcessingDomain.getProcessingName(this.state.processingToDelete)
@@ -94,9 +108,7 @@ class ProcessingListComponent extends React.Component {
         <ShowableAtRender show={this.state.deleteDialogOpened}>
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
-            onConfirm={() => {
-              this.props.handleDelete(this.state.processingToDelete.content.pluginConfiguration.businessId)
-            }}
+            onConfirm={this.onDelete}
             onClose={this.closeDeleteDialog}
             title={title}
           />
@@ -106,7 +118,7 @@ class ProcessingListComponent extends React.Component {
 
     render() {
       const {
-        processingList, handleEdit, createUrl, backUrl, onRefresh, navigateToCreateProcessing,
+        processingList, handleEdit, createUrl, backUrl, navigateToCreateProcessing,
       } = this.props
       const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -162,14 +174,14 @@ class ProcessingListComponent extends React.Component {
           <CardText>
             {this.renderDeleteConfirmDialog()}
             <TableLayout>
-              <ProcessingListFiltersComponent onRefresh={onRefresh} />
+              <ProcessingListFiltersComponent onApplyFilters={this.onApplyFilters} />
               <TableHeaderLine>
                 <TableHeaderOptionsArea>
                   <TableHeaderOptionGroup>
                     <FlatButton
                       label={formatMessage({ id: 'processing.management.table.refresh.button' })}
                       icon={<Refresh />}
-                      onClick={this.props.onRefresh}
+                      onClick={this.onRefresh}
                     />
                   </TableHeaderOptionGroup>
                 </TableHeaderOptionsArea>

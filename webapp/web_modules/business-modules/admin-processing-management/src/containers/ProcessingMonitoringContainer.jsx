@@ -105,12 +105,13 @@ export class ProcessingMonitoringContainer extends React.Component {
       const {
         isLoading,
       } = this.state
-      const { processingList } = this.props
+      const { processingList, params: { project } } = this.props
 
       return (
         <I18nProvider messages={messages}>
           <LoadableContentDisplayDecorator isLoading={isLoading}>
             <ProcessingMonitoringComponent
+              project={project}
               onRefresh={this.onRefresh}
               backUrl={this.getBackURL()}
               processingList={processingList}

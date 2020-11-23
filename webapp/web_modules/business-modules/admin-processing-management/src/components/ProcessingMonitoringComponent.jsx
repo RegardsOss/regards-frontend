@@ -45,6 +45,7 @@ import ProcessingMonitoringEntityInfoDialog from './monitoring/ProcessingMonitor
  */
 export class ProcessingMonitoringComponent extends React.Component {
     static propTypes = {
+      project: PropTypes.string.isRequired,
       onRefresh: PropTypes.func.isRequired,
       backUrl: PropTypes.string.isRequired,
       processingList: ProcessingShapes.ProcessingList.isRequired,
@@ -65,6 +66,7 @@ export class ProcessingMonitoringComponent extends React.Component {
 
     state = {
       entityForInfos: null,
+      filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
     }
 
     onCloseInfoDialog = () => this.showInformation(null)
@@ -75,10 +77,15 @@ export class ProcessingMonitoringComponent extends React.Component {
       })
     }
 
+    applyFilters = (filters) => {
+      this.setState({filters})
+    }
+
     render() {
       const {
-        onRefresh, backUrl, processingList,
+        onRefresh, backUrl, processingList, project
       } = this.props
+      const { filters } = this.state
       const { intl: { formatMessage }, muiTheme } = this.context
       const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
       const columns = [ // eslint wont fix: Major API rework required
@@ -124,8 +131,10 @@ export class ProcessingMonitoringComponent extends React.Component {
           <CardText>
             <TableLayout>
               <ProcessingMonitoringFiltersComponent
+                project={project}
                 processingList={processingList} // processingList is used for hints in filters
                 onRefresh={onRefresh}
+                onApplyFilters={this.applyFilters}
               />
               <PageableInfiniteTableContainer
                 name="processing-monitoring-table"
@@ -134,6 +143,7 @@ export class ProcessingMonitoringComponent extends React.Component {
                 pageActions={processingMonitoringActions}
                 pageSelectors={processingMonitoringSelectors}
                 tableActions={tableActions}
+                requestParams={{...filters,tenant:project}}
                 pageSize={ProcessingMonitoringComponent.PAGE_SIZE}
                 columns={columns}
                 emptyComponent={ProcessingMonitoringComponent.EMPTY_COMPONENT}

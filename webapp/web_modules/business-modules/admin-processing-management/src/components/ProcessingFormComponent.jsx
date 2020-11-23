@@ -113,13 +113,12 @@ export class ProcessingFormComponent extends React.Component {
         key="processingPlugin"
         name="pluginConfiguration"
         component={RenderPluginField}
-        defaultPluginConfLabel={get(processing, 'content.pluginConfiguration.pluginClassName')}
         selectLabel={formatMessage({ id: 'processing.form.plugin.label' })}
         pluginType={ProcessingDomain.PLUGIN_TYPE}
         validate={ValidationHelpers.required}
         microserviceName={STATIC_CONF.MSERVICES.PROCESSING}
+        simpleGlobalParameterConf
         hideDynamicParameterConf
-        hideGlobalParameterConf
       />,
         <div key="selectUserRole" style={selectUserRoleDiv}>
           <div style={selectUserRoleFieldDiv}>

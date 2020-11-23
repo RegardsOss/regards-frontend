@@ -17,9 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
+import get from 'lodash/get'
 
-export const getProcessingName = (processing) => (
-  find(processing.content.pluginConfiguration.parameters, (parameter) => (
-    parameter.name === 'processName'
-  )).value
-)
+export const getProcessingName = (processing) => {
+  return get(processing,'content.pluginConfiguration.label','unknown')
+}
+
