@@ -25,7 +25,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 class LinkProcessingDatasetActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/process/linkprocessdataset/{datasetIpId}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.PROCESSING}/processplugins/linkprocessdataset/{datasetIpId}`,
       namespace,
       bypassErrorMiddleware: false,
     })

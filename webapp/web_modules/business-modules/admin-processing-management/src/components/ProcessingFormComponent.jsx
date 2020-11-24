@@ -23,7 +23,7 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
 import {
-  reduxForm, Field, ValidationHelpers, RenderSelectField,
+  reduxForm, Field, ValidationHelpers, RenderSelectField, RenderCheckbox,
 } from '@regardsoss/form-utils'
 import get from 'lodash/get'
 import map from 'lodash/map'
@@ -136,6 +136,11 @@ export class ProcessingFormComponent extends React.Component {
                 />
               ))}
             </Field>
+            <Field
+              name="isLinkedToAllDatasets"
+              component={RenderCheckbox}
+              label={formatMessage({ id: 'processing.form.select.isLinkedToAllDatasets' })}
+            />
           </div>
           <div style={helpUserRoleIcon}>
             <IconButton

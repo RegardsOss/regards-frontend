@@ -108,7 +108,7 @@ export class ProcessingFormContainer extends React.Component {
         rights: {
           datasets: [],
           role: get(fields, 'userRole'),
-        },
+          isLinkedToAllDatasets: get(fields, 'isLinkedToAllDatasets'),
       },
     }
 

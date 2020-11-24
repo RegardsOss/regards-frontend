@@ -79,6 +79,7 @@ const messages = {
   'processing.form.plugin.label': 'Plugin de traitement',
   'processing.form.invalid.id': 'ID Invalide',
   'processing.form.select.role': 'Sélectionnez un rôle',
+  'processing.form.select.isLinkedToAllDatasets' : 'Associer à tous les jeux de données',
   'processing.form.select.role.help': 'Le rôle MINIMAL d\'utilisation du traitement peut être sélectionné. Par défaut : PUBLIC',
   'processing.form.list.tooltip.info.button': 'Détails',
   'processing.form.list.tooltip.info.close': 'Fermer',
