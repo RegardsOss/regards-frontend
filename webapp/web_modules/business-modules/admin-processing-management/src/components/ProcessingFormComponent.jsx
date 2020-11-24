@@ -87,6 +87,7 @@ export class ProcessingFormComponent extends React.Component {
         initialize({
           pluginConfiguration: get(processing, 'content.pluginConfiguration'),
           userRole: get(processing, 'content.rights.role', AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
+          isLinkedToAllDatasets: get(processing, 'content.rights.isLinkedToAllDatasets', false),
         })
         break
       default:
