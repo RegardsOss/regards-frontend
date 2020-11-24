@@ -41,7 +41,7 @@ import Refresh from 'mdi-material-ui/Refresh'
 import { ProcessingShapes } from '@regardsoss/shape'
 
 const PROCESS_FILTER_PARAMS = {
-  NAME: 'processName',
+  NAME: 'processNameLike',
   USERNAME: 'userName',
   FROM: 'from',
   TO: 'to',

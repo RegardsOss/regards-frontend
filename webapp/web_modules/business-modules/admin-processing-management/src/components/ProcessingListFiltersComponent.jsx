@@ -45,7 +45,7 @@ class ProcessingListFiltersComponent extends React.Component {
    * Default state for filters edition
    */
   static DEFAULT_FILTERS_STATE = {
-    processName: '',
+    processNameLike: '',
   }
 
   state = {
@@ -53,7 +53,7 @@ class ProcessingListFiltersComponent extends React.Component {
   }
 
   changeProcessingFilter = (event, newValue) => {
-    this.setState({ filters: { processName: newValue } })
+    this.setState({ filters: { processNameLike: newValue } })
   }
 
   handleClearFilters = () => {
@@ -78,7 +78,7 @@ class ProcessingListFiltersComponent extends React.Component {
               hintText={this.context.intl.formatMessage({
                 id: 'processing.management.table.filter.processing.label',
               })}
-              value={this.state.filters.processName}
+              value={this.state.filters.processNameLike}
               onChange={this.changeProcessingFilter}
             />
             <FlatButton
