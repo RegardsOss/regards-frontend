@@ -162,7 +162,7 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dataset selection as parameter
    */
   buildDatasetSelectionRow = ({
-    id, datasetIpid, datasetLabel, objectsCount, filesSize, itemsSelections = [], process,
+    id, datasetIpid, datasetLabel, objectsCount, filesSize, itemsSelections = [], processDatasetDescription,
   }, rowExpanded) => new TreeTableRow(
     `dataset.selection.${id}`, [datasetLabel, {
       effectiveObjectsCount: objectsCount,
@@ -170,7 +170,7 @@ export class OrderCartTableComponent extends React.Component {
     }, OrderCartTableComponent.getStorageCapacity(filesSize), {
       datasetSelectionIpId: datasetIpid,
       datasetSelectionId: id,
-      process,
+      process: processDatasetDescription,
     },
     null, { // keep dataset selection id
       datasetSelectionId: id,
@@ -268,7 +268,6 @@ export class OrderCartTableComponent extends React.Component {
       case OrderCartTableComponent.ColumnKeys.PROCESSING: {
         // extract option parameters from cell value
         if (isDatasetCell && isProcessingDependenciesExist) {
-          console.error('cellValue',cellValue)
           // Only show processing button option for datasets
           return <ManageDatasetProcessingContainer
             datasetIpid={cellValue.datasetSelectionIpId}

@@ -169,16 +169,19 @@ export class ManageDatasetProcessingComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage } } = this.context
 
+      const pLabel = !isEmpty(processBusinessId) ? get(processingConfParametersObjects,`${processBusinessId}.label`, '') : ''
+      const title = !isEmpty(processBusinessId) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
+      const label = !isEmpty(processBusinessId) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
+      const icon = !isEmpty(processBusinessId) ? <Pencil /> : <AddIcon />
+
       return (
         <div>
           <FlatButton
             key="openDialog"
             id="openDialog"
-            label={formatMessage({ id: 'entities.common.backend.pluginback.processing.button.label' })}
-            title={formatMessage({ id: 'entities.common.backend.pluginback.processing.button.title' })}
-            icon={processBusinessId !== ''
-              ? <Pencil />
-              : <AddIcon />}
+            label={formatMessage({ id: label }, {label : pLabel})}
+            title={formatMessage({ id: title })}
+            icon={icon}
             disabled={disabled || isEmpty(processingConfParametersObjects)}
             onClick={this.openOrCloseManageProcessingDialog}
           />
