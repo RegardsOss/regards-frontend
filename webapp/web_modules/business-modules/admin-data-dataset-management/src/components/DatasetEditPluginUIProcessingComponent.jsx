@@ -252,9 +252,9 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
       this.setState({
         [datasetLinkType]: this.isActivated(linkList, pluginConf, datasetLinkType)
         // remove Plugin from list
-          ? linkList.filter((link) => pluginConf.content[datasetLinkId] !== link[datasetLinkId])
+          ? linkList.filter((link) => pluginConf[datasetLinkId] !== link[datasetLinkId])
         // add Plugin in list
-          : [...linkList, { [datasetLinkId]: pluginConf.content[datasetLinkId] }],
+          : [...linkList, { [datasetLinkId]: pluginConf[datasetLinkId] }],
       })
     }
 
@@ -266,11 +266,12 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
      */
     isActivated = (linkList, pluginConf, datasetLinkType) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
-      return this.isActivatedForAllDatasets(pluginConf)
-            || some(linkList, (link) => link[datasetLinkId] === pluginConf.content[datasetLinkId])
+      const pluginBusinessId = get(pluginConf,`content.${datasetLinkId}`,null)
+      return pluginConf ? this.isActivatedForAllDatasets(pluginConf)
+            || some(linkList, (link) => link[datasetLinkId] === pluginBusinessId) : false
     }
 
-    isActivatedForAllDatasets = (pluginConf) => { get(pluginConf.content, 'linkedToAllEntities', false) }
+    isActivatedForAllDatasets = (pluginConf) => get(pluginConf, 'content.isLinkedToAllDatasets', false)
 
     handleSubmit = () => {
       this.props.onSubmit(this.state)

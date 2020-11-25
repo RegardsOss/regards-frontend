@@ -48,12 +48,6 @@ const orderBasketActions = new OrderClient.OrderBasketActions()
 * @author Théo Lasserre
 */
 export class ManageDatasetProcessingContainer extends React.Component {
-  /**
-   * We create a static list of userRole because we need to guarantee order (values & keys from lodash dont)
-   */
-  static DEFAULT_USER_ROLE_LIST = [AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC, AdminDomain.DEFAULT_ROLES_ENUM.REGISTERED_USER,
-    AdminDomain.DEFAULT_ROLES_ENUM.EXPLOIT, AdminDomain.DEFAULT_ROLES_ENUM.ADMIN, AdminDomain.DEFAULT_ROLES_ENUM.PROJECT_ADMIN,
-    AdminDomain.DEFAULT_ROLES_ENUM.INSTANCE_ADMIN]
 
   /**
    * Redux: map state to props function
@@ -65,7 +59,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
     return {
       processingConfigurationList: processingSelectors.getList(state),
       processingMetadataList: pluginMetaDataSelectors.getList(state),
-      userRole: AuthenticationClient.authenticationSelectors.getAuthentication(state).result.role,
     }
   }
 
@@ -78,13 +71,14 @@ export class ManageDatasetProcessingContainer extends React.Component {
   static mapDispatchToProps(dispatch, { linkProcessingDatasetActions }) {
     return {
       fetchLinkProcessingDatasetList: (datasetSelectionIpId) => dispatch(linkProcessingDatasetActions.getLinkProcessDataset(datasetSelectionIpId)),
-      updateDatasetProcessing: (datasetSelectionIpId, process) => dispatch(orderBasketActions.updateDatasetProcessingSelection(datasetSelectionIpId, process)),
+      updateDatasetProcessing: (datasetSelectionId, process) => dispatch(orderBasketActions.updateDatasetProcessingSelection(datasetSelectionId, process)),
     }
   }
 
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetIpid: PropTypes.string.isRequired,
+    datasetSelectionId: PropTypes.number.isRequired,
     process: OrderShapes.BasketDatasetProcessingSelection,
     disabled: PropTypes.bool.isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
@@ -97,7 +91,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
     // from mapStateToProps
     processingConfigurationList: ProcessingShapes.ProcessingList,
     processingMetadataList: CommonShapes.PluginMetaDataList,
-    userRole: PropTypes.string.isRequired,
 
     // from mapDispatchToProps
     fetchLinkProcessingDatasetList: PropTypes.func,
@@ -109,6 +102,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     processingConfParametersSelected: '',
     isProcessingConfSelectedConfigurable: false,
     processingConfParametersObjects: {},
+    linkProcessingDatasetList: []
   }
 
   /**
@@ -117,39 +111,40 @@ export class ManageDatasetProcessingContainer extends React.Component {
   UNSAFE_componentWillMount = () => {
     const { fetchLinkProcessingDatasetList } = this.props
     fetchLinkProcessingDatasetList(this.props.datasetIpid)
-      .then((actionResult) => this.filterProcessingConfigurationList(actionResult))
+      .then((actionResult) => {
+        if (actionResult.error) {
+          console.error("Error retrieving linked process to dataset " + this.props.datasetIpid)
+        } else {
+          this.filterProcessingConfigurationList(actionResult.payload, this.props.processingConfigurationList)
+        }
+      })
+  }
+
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    if (!isEqual(this.props.processingConfigurationList,  nextProps.processingConfigurationList)) {
+      this.filterProcessingConfigurationList(this.state.linkProcessingDatasetList,nextProps.processingConfigurationList)
+    }
   }
 
   /**
    * Filter processing configuration list to keep usable ones (corresponding to actual links & actual user role)
    * @param {*} payload fetch result
    */
-  filterProcessingConfigurationList = ({ payload: linkProcessingDatasetList }) => {
-    const { processingConfigurationList } = this.props
+  filterProcessingConfigurationList = (linkProcessingDatasetList, processingConfigurationList) => {
     const processingConfigurationListFiltered = filter(processingConfigurationList, (processingConfiguration) => (
       some(linkProcessingDatasetList, (linkProcessingDataset) => linkProcessingDataset.processBusinessId === processingConfiguration.content.pluginConfiguration.businessId)
-      && this.isUserRoleOK(processingConfiguration)
     ))
-    this.createProcessingConfParametersList(processingConfigurationListFiltered)
-  }
-
-  /**
-   * We check if connected user have authorization to use this process conf
-   * @param {*} processingConfiguration
-   */
-  isUserRoleOK = (processingConfiguration) => {
-    const { userRole } = this.props
-    const processRight = get(processingConfiguration, 'content.rights.role')
-    const userRoleList = ManageDatasetProcessingContainer.DEFAULT_USER_ROLE_LIST
-    return indexOf(userRoleList, userRole) >= indexOf(userRoleList, processRight)
+    this.createProcessingConfParametersList(processingConfigurationListFiltered,  linkProcessingDatasetList)
   }
 
   /**
    * Manipulation of metadata, processingConf & links to create an easily exploitable object
    * @param {*} payload fetch result
    */
-  createProcessingConfParametersList = (processingConfigurationList) => {
-    const { processingMetadataList, process: { processBusinessId, parameters } } = this.props
+  createProcessingConfParametersList = (processingConfigurationList, linkProcessingDatasetList) => {
+    const { processingMetadataList } = this.props
+    const processBusinessId = get(this.props,'process.processBusinessId',null)
+    const parameters = get(this.props,'process.parameters',null)
     let isProcessingConfSelectedConfigurable = false
     // We create an object containing multiple processingConf and their parameters
     const processingConfParametersObjects = reduce(processingConfigurationList, (acc, processingConfiguration) => {
@@ -195,6 +190,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
       processingConfParametersSelected,
       isProcessingConfSelectedConfigurable,
       processingConfParametersObjects,
+      linkProcessingDatasetList,
     })
   }
 
@@ -224,9 +220,8 @@ export class ManageDatasetProcessingContainer extends React.Component {
    * @param {*} formValues
    */
   onConfigurationDone = (formValues = {}) => {
-    const {
-      datasetIpid, process: { processBusinessId }, updateDatasetProcessing,
-    } = this.props
+    const { datasetSelectionId, updateDatasetProcessing } = this.props
+    const processBusinessId = get(this.props,'process.processBusinessId',null)
     const { processingConfParametersSelected, processingConfParametersObjects } = this.state
     let processingConfParametersSelectedFound = get(processingConfParametersObjects, `${processingConfParametersSelected}`)
     // Update if there was a modification in select or form
@@ -249,17 +244,16 @@ export class ManageDatasetProcessingContainer extends React.Component {
       // Backend calls
       // We remove resolvedParameters properties since backend do not need it
       const processingConfParametersSelectedToSend = {
-        businessId: processingConfParametersSelectedFound.businessId,
-        label: processingConfParametersSelectedFound.label,
+        processBusinessId: processingConfParametersSelectedFound.businessId,
         parameters: processingConfParametersSelectedFound.parameters,
       }
-      updateDatasetProcessing(datasetIpid, processingConfParametersSelectedToSend)
+      updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
     }
   }
 
   onRemoveProcessing = () => {
-    const { datasetIpid, updateDatasetProcessing } = this.props
-    updateDatasetProcessing(datasetIpid, { businessId: '', label: '', parameters: {} })
+    const { datasetSelectionId, updateDatasetProcessing } = this.props
+    updateDatasetProcessing(datasetSelectionId, {})
   }
 
   render() {
@@ -267,7 +261,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
       disabled,
     } = this.props
     const { processingConfParametersObjects, processingConfParametersSelected, isProcessingConfSelectedConfigurable } = this.state
-    const { process: { processBusinessId } } = this.props
+    const processBusinessId = get(this.props, "process.processBusinessId",null)
 
     return (
       <LoadableContentDisplayDecorator

@@ -47,7 +47,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
       onSelectedProcessingConfChanged: PropTypes.func.isRequired,
       onConfigurationDone: PropTypes.func.isRequired,
       onRemoveProcessing: PropTypes.func.isRequired,
-      processBusinessId: PropTypes.string.isRequired,
+      processBusinessId: PropTypes.string,
       disabled: PropTypes.bool.isRequired,
 
       // from reduxForm
@@ -93,6 +93,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
 
       // get selected processing conf object from processingConfParametersObjects collection
       const processingConfParametersSelectedObject = get(processingConfParametersObjects, `${processingConfParametersSelected}`)
+      const  processingLabel = get(processingConfParametersSelectedObject,'label','unknown')
 
       return (
         <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
@@ -109,7 +110,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
                 key="delete"
                 id="delete"
                 dialogTitle={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title' })}
-                dialogMessage={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message' }, { processingLabel: processingConfParametersSelectedObject.label })}
+                dialogMessage={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message' }, { processingLabel: processingLabel })}
                 title={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove.tooltip' })}
                 label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove' })}
                 icon={<RemoveIcon />}

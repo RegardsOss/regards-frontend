@@ -169,6 +169,7 @@ export class OrderCartTableComponent extends React.Component {
       totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
     }, OrderCartTableComponent.getStorageCapacity(filesSize), {
       datasetSelectionIpId: datasetIpid,
+      datasetSelectionId: id,
       process,
     },
     null, { // keep dataset selection id
@@ -266,17 +267,19 @@ export class OrderCartTableComponent extends React.Component {
       // processing option
       case OrderCartTableComponent.ColumnKeys.PROCESSING: {
         // extract option parameters from cell value
-        return isDatasetCell && isProcessingDependenciesExist
+        if (isDatasetCell && isProcessingDependenciesExist) {
+          console.error('cellValue',cellValue)
           // Only show processing button option for datasets
-          ? <ManageDatasetProcessingContainer
+          return <ManageDatasetProcessingContainer
             datasetIpid={cellValue.datasetSelectionIpId}
+            datasetSelectionId={cellValue.datasetSelectionId}
             process={cellValue.process}
             processingSelectors={processingSelectors}
             pluginMetaDataSelectors={pluginMetaDataSelectors}
             linkProcessingDatasetActions={linkProcessingDatasetActions}
             disabled={isFetching}
           />
-          : null
+        } else {return  null }
       }
       // detail option
       case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:

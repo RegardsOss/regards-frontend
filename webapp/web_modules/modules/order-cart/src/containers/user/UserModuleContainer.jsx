@@ -18,6 +18,7 @@
  **/
 import keys from 'lodash/keys'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { modulesManager } from '@regardsoss/modules'
@@ -115,16 +116,12 @@ export class UserModuleContainer extends React.Component {
   }
 
   state = {
-    isProcessingDependenciesExist: allMatchHateoasDisplayLogic(processingActions.getDependency(RequestVerbEnum.GET), this.props.availableDependencies),
+    isProcessingDependenciesExist: allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
   }
 
   UNSAFE_componentWillMount() {
     if (this.state.isProcessingDependenciesExist) {
-      const tasks = [
-        this.props.fetchProcessingConfigurationList(),
-        this.props.fetchProcessingMetadataList(),
-      ]
-      Promise.all(tasks)
+      this.retrieveProcessingInfos()
     }
   }
 
@@ -153,8 +150,21 @@ export class UserModuleContainer extends React.Component {
         newProps.dispatchFlushBasket()
       }
     }
+    if (!isEqual(oldProps.availableDependencies,  newProps.availableDependencies)) {
+      const isProcessingDependenciesExist = allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], newProps.availableDependencies)
+      this.setState({
+        isProcessingDependenciesExist
+      })
+      if (isProcessingDependenciesExist) {
+        this.retrieveProcessingInfos()
+      }
+    }
   }
 
+  retrieveProcessingInfos = () => {
+    this.props.fetchProcessingConfigurationList()
+    this.props.fetchProcessingMetadataList()
+  }
   /**
    * On order callback: dispatches order action then redirects user on order list if it was successful
    * @param {string} orderLabel (optional)

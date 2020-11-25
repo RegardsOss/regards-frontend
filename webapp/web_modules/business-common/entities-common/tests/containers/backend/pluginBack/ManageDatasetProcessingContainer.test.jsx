@@ -31,6 +31,11 @@ const context = buildTestContext(styles)
 /**
  * Dataset list of links
  */
+const processingDatasetLinks1 = [{
+  processBusinessId: 'testProcess1',
+  label: 'testProcess1',
+}]
+
 const processingDatasetLinks = [{
   processBusinessId: 'testProcess1',
   label: 'testProcess1',
@@ -71,11 +76,12 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
   it('should exists', () => {
     assert.isDefined(ManageDatasetProcessingContainer)
   })
-  it('should render correctly without parameters & with role', (done) => {
-    const promiseFetchProcessingDatasetList = Promise.resolve({ payload: processingDatasetLinks, error: false })
+  it('should render correctly without parameters', (done) => {
+    const promiseFetchProcessingDatasetList = Promise.resolve({ payload: processingDatasetLinks1, error: false })
 
     const props = {
       datasetIpid: 'datasetTest',
+      datasetSelectionId: 123,
       process: datasetProcessLink1,
       disabled: false,
       processingSelectors: ProcessingClient.getProcessingSelectors(),
@@ -83,7 +89,6 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
       linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       processingConfigurationList: DumpProvider.get('ProcessingClient', 'Processing'),
       processingMetadataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      userRole: 'PUBLIC',
       fetchLinkProcessingDatasetList: sinon.stub().callsFake(() => promiseFetchProcessingDatasetList),
       updateDatasetProcessing: () => { },
     }
@@ -120,6 +125,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
 
     const props = {
       datasetIpid: 'datasetTest',
+      datasetSelectionId : 123,
       process: datasetProcessLink2,
       disabled: false,
       processingSelectors: ProcessingClient.getProcessingSelectors(),
@@ -127,7 +133,6 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
       linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       processingConfigurationList: DumpProvider.get('ProcessingClient', 'Processing'),
       processingMetadataList: DumpProvider.get('CommonClient', 'PluginMetaData'),
-      userRole: 'REGISTERED_USER',
       fetchLinkProcessingDatasetList: sinon.stub().callsFake(() => promiseFetchProcessingDatasetList),
       updateDatasetProcessing: () => { },
     }

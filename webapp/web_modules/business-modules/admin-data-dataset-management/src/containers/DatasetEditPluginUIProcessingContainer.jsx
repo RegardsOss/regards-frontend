@@ -19,6 +19,7 @@
 
 import { browserHistory } from 'react-router'
 import compose from 'lodash/fp/compose'
+import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
@@ -190,6 +191,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
                 content: {
                   ...processingConfiguration.content.pluginConfiguration,
                   label: ProcessingDomain.getProcessingName(processingConfiguration),
+                  isLinkedToAllDatasets: get(processingConfiguration,'content.rights.isLinkedToAllDatasets',false)
                 },
               }
               return newProcessingConfiguration
@@ -199,7 +201,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
             const linkProcessingPluginDataset = {
               content: {
                 datasetId: this.props.params.datasetIpId,
-                services: map(results[8].payload, (onePayload) => onePayload.content),
+                services: map(results[8].payload, (onePayload) => onePayload),
               },
             }
 
