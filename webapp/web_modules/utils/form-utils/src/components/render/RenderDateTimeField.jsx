@@ -123,6 +123,7 @@ export class RenderDateTimeField extends React.Component {
           locale={intl.locale}
           displayTime={displayTime}
           fullWidth={fullWidth}
+          style={dateFieldStyles.datePickerDivStyle}
         />
         {
           clearButtonDisplayed ? (

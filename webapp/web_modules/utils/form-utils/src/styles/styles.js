@@ -77,11 +77,15 @@ export default function styles(theme) {
     // date field
     dateFieldStyles: {
       fieldsLine: {
-        marginTop: theme.formsExtensions.dateField.marginTop,
         height: theme.formsExtensions.dateField.height,
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+      },
+      datePickerDivStyle: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        width: '75%',
       },
       datePicker: {
         margin: theme.formsExtensions.dateField.innerMargins,

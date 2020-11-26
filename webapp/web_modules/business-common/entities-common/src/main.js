@@ -32,10 +32,13 @@ export * from './containers/download/quota/withQuotaInfo'
 export { default as ServiceContainer } from './containers/services/ServiceContainer'
 export { TargetHelper } from './definitions/TargetHelper'
 export { PluginServiceRunModel } from './shapes/PluginServiceRunModel'
-export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
-export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
-export { default as DateParameterField } from './components/services/parameters/DateParameterField'
-export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+export { default as BooleanParameterField } from './common/BooleanParameterField'
+export { default as ChoiceParameterField } from './common/ChoiceParameterField'
+export { default as DateParameterField } from './common/DateParameterField'
+export { default as TextParameterField } from './common/TextParameterField'
+
+// PluginBack
+export { default as ManageDatasetProcessingContainer } from './containers/backend/pluginBack/ManageDatasetProcessingContainer'
 
 // Constants
 export { EntityTypeIcon } from './definitions/EntityTypeIcon'

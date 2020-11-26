@@ -274,24 +274,24 @@ export class StorageLocationListComponent extends React.Component {
 
   rendeStopConfirmDialog = () => {
     const { intl: { formatMessage } } = this.context
+    const actions = [
+      <FlatButton
+        key="close"
+        label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
+        onClick={this.onSwitchConfirmStopDialog}
+      />, <FlatButton
+        key="confirm"
+        label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
+        primary
+        onClick={this.onStop}
+      />,
+    ]
     return (
       <PositionedDialog
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
         title={formatMessage({ id: 'storage.location.stop.confirm.title' })}
         open={this.state.confirmStop}
-        actions={<>
-          <FlatButton
-            key="close"
-            label={formatMessage({ id: 'storage.location.dialogs.cancel' })}
-            onClick={this.onSwitchConfirmStopDialog}
-          />
-          <FlatButton
-            key="confirm"
-            label={formatMessage({ id: 'storage.location.dialogs.confirm' })}
-            primary
-            onClick={this.onStop}
-          />
-        </>}
+        actions={actions}
         dialogHeightPercent={20}
         dialogWidthPercent={50}
       >

@@ -25,7 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsoss/components'
 import { reduxForm } from '@regardsoss/form-utils'
 import { Parameter } from '../../definitions/parameters/Parameter'
-import ParametersConfigurationComponent from './parameters/ParametersConfigurationComponent'
+import ParametersConfigurationComponent from '../ParametersConfigurationComponent'
 import ServiceDescriptionComponent from './ServiceDescriptionComponent'
 
 /**

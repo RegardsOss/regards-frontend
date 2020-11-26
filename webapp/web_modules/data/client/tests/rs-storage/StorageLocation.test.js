@@ -21,7 +21,7 @@ import { StorageShapes } from '@regardsoss/shape'
 
 import EntityActions from '../../src/rs-storage/location/StorageLocationActions'
 import getEntityReducer from '../../src/rs-storage/location/StorageLocationReducers'
-import getEntitySelectors from '../../src/rs-storage/location/SotrageLocationSelectors'
+import getEntitySelectors from '../../src/rs-storage/location/StorageLocationSelectors'
 import dump from './StorageLocation.dump'
 
 const options = {

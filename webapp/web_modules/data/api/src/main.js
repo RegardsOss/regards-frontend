@@ -84,3 +84,7 @@ export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, Acqui
 export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'
 export { PRODUCT_ARRAY, PRODUCT, ProductConfiguration } from './data-provider/Product'
 export { ACQUISITION_FILE_ARRAY, ACQUISITION_FILE, AcquisitionFileConfiguration } from './data-provider/AcquisitionFile'
+// Processing
+export { PROCESSING, PROCESSING_ARRAY, ProcessingConfiguration } from './processing/Processing'
+export { PROCESSING_MONITORING, PROCESSING_MONITORING_ARRAY, ProcessingMonitoringConfiguration } from './processing/ProcessingMonitoring'
+export { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY, LinkProcessingDatasetConfiguration } from './processing/LinkProcessingDataset'

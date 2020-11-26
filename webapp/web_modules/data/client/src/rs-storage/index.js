@@ -19,7 +19,7 @@
 
 export { default as StorageLocationActions } from './location/StorageLocationActions'
 export { default as getStorageLocationReducers } from './location/StorageLocationReducers'
-export { default as getStorageLocationSelectors } from './location/SotrageLocationSelectors'
+export { default as getStorageLocationSelectors } from './location/StorageLocationSelectors'
 
 export { default as StorageLocationCopyFilesActions } from './location/StorageLocationCopyFilesActions'
 export { default as StorageLocationDeleteFilesActions } from './location/StorageLocationDeleteFilesActions'

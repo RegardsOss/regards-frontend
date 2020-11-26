@@ -18,7 +18,7 @@
  **/
 import { OrderClient } from '@regardsoss/client'
 import { AccessShapes } from '@regardsoss/shape'
-import { BasicPageableSelectors } from '@regardsoss/store-utils'
+import { BasicPageableSelectors, BasicListSelectors } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DynamicModulePane, ModuleIcon, ModuleTitleText } from '@regardsoss/components'
 import {
@@ -39,6 +39,8 @@ class OrderHistoryComponent extends React.Component {
     orderFilesSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
     navigationSelectors: PropTypes.instanceOf(OrdersNavigationSelectors).isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
     defaultIconURL: PropTypes.string.isRequired,
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
@@ -53,6 +55,7 @@ class OrderHistoryComponent extends React.Component {
       description, page, defaultIconURL,
       ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, navigationActions, navigationSelectors,
+      processingSelectors, isProcessingDependenciesExist,
     } = this.props
     const { intl: { locale } } = this.context
     return (
@@ -83,6 +86,8 @@ class OrderHistoryComponent extends React.Component {
           orderFilesSelectors={orderFilesSelectors}
           navigationActions={navigationActions}
           navigationSelectors={navigationSelectors}
+          processingSelectors={processingSelectors}
+          isProcessingDependenciesExist={isProcessingDependenciesExist}
           displayMode={ORDER_DISPLAY_MODES.USER}
         />
       </DynamicModulePane>

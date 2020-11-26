@@ -23,7 +23,7 @@ import isEqual from 'lodash/isEqual'
 import AutoCompleteTextField from '../../list/AutoCompleteTextField'
 
 /**
- * Session Filter AutoComplete
+ * Filter AutoComplete
  * @author Kévin Picart
  */
 class TableHeaderAutoCompleteFilter extends React.Component {

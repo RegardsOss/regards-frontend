@@ -38,6 +38,7 @@ export class RenderPluginField extends React.Component {
     pluginType: PropTypes.string.isRequired, // Type of plugin to configure
     microserviceName: PropTypes.string.isRequired, // Name of the microservice associated to the plugin type
     defaultPluginConfLabel: PropTypes.string, // If set, the label of a new plugin configuration is initialized with
+    simpleGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideGlobalParameterConf: PropTypes.bool, // Hide the global parameters configuration
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynmaic configuration of parameters
     // From redux field
@@ -48,6 +49,7 @@ export class RenderPluginField extends React.Component {
   static defaultProps = {
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
+    simpleGlobalParameterConf: false,
   }
 
   static listLabelStyle = { minWidth: '220px' }
@@ -105,7 +107,7 @@ export class RenderPluginField extends React.Component {
    */
   getPluginConfigurator = () => {
     const {
-      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,
+      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,simpleGlobalParameterConf,
     } = this.props
 
     if (this.state.selectedPluginMetaData) {
@@ -119,6 +121,7 @@ export class RenderPluginField extends React.Component {
             newPluginConfLabel={defaultPluginConfLabel}
             hideGlobalParameterConf={hideGlobalParameterConf}
             hideDynamicParameterConf={hideDynamicParameterConf}
+            simpleGlobalParameterConf={simpleGlobalParameterConf}
           />
         </SubSectionCard>
       )

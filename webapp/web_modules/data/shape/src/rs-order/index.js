@@ -18,8 +18,9 @@
  **/
 export {
   BasketSelelectionRequest, BasketDatedItemsSelection, BasketDatasetSelection, Basket,
+  BasketDatasetProcessingSelection,
 } from './Basket'
 export {
-  DatasetTask, Order, OrderWithContent, OrderList,
+  DatasetTask, Order, OrderWithContent, OrderList, DatasetProcessing,
 } from './Order'
 export { OrderFile, OrderFileWithContent, OrderFilesList } from './OrderFile'

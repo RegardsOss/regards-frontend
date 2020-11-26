@@ -123,7 +123,7 @@ pipeline {
         }
         stage('Deploy Docker image') {
 	    when {
-                expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
+                expression { BRANCH_NAME ==~ /(master|develop.*|release.*|feature.*)/ }
             }
             steps {
                 // Copy the bundle inside the folder where apache container will be bundled

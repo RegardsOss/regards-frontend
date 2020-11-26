@@ -69,6 +69,10 @@ const moduleStyles = (theme) => ({
               },
             },
           },
+          processingStyle: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+          },
         },
         objectsCountRender: {
           style: {

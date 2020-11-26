@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { OrderClient } from '@regardsoss/client'
+import { OrderClient, ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ORDER_DISPLAY_MODES } from '../../src/model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../src/model/OrdersNavigationActions'
@@ -51,6 +51,8 @@ describe('[Order Common] Testing OrderDisplayContainer', () => {
     orderFilesSelectors: OrderClient.getOrderDatasetFilesSelectors(['idk']),
     navigationActions: new OrdersNavigationActions('idk'),
     navigationSelectors: new OrdersNavigationSelectors(['osef']),
+    processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+    isProcessingDependenciesExist: true,
   }
 
   it('should render orders list at root', () => {

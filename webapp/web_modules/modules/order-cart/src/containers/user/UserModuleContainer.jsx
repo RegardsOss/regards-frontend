@@ -18,16 +18,23 @@
  **/
 import keys from 'lodash/keys'
 import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { modulesManager } from '@regardsoss/modules'
 import { UIDomain } from '@regardsoss/domain'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { modulesHelper } from '@regardsoss/modules-api'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { Error } from 'window-or-global'
 import { createOrderActions, createOrderSelectors } from '../../client/CreateOrderClient'
+import { processingActions, processingSelectors } from '../../client/ProcessingClient'
+import { pluginMetaDataActions, pluginMetaDataSelectors } from '../../client/PluginMetaDataClient'
+import { linkProcessingDatasetActions } from '../../client/LinkProcessingDatasetClient'
 import { ModuleConfigurationShape } from '../../shapes/ModuleConfigurationShape'
 import OrderCartComponent from '../../components/user/OrderCartComponent'
 import OrderComponent from '../../components/user/options/OrderComponent'
@@ -42,6 +49,7 @@ const orderBasketSelectors = OrderClient.getOrderBasketSelectors()
 /**
  * Order cart content container (fetches cart content related data for the corresponding component)
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class UserModuleContainer extends React.Component {
   static propTypes = {
@@ -58,10 +66,13 @@ export class UserModuleContainer extends React.Component {
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchGetBasket: PropTypes.func.isRequired,
+    availableDependencies: PropTypes.arrayOf(PropTypes.string).isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     dispatchFlushBasket: PropTypes.func.isRequired, // locally clears basket
     dispatchStartOrder: PropTypes.func.isRequired,
     dispatchClearCart: PropTypes.func.isRequired, // clears basket on server side
+    fetchProcessingConfigurationList: PropTypes.func.isRequired,
+    fetchProcessingMetadataList: PropTypes.func.isRequired,
   }
 
   static MODULE_PROPS = keys(AccessShapes.runtimeDispayModuleFields)
@@ -79,6 +90,7 @@ export class UserModuleContainer extends React.Component {
       hasError: orderBasketSelectors.hasError(state),
       isFetching: orderBasketSelectors.isFetching(state) || createOrderSelectors.isFetching(state),
       modules: modulesSelectors.getList(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     }
   }
 
@@ -94,6 +106,22 @@ export class UserModuleContainer extends React.Component {
       dispatchFlushBasket: () => dispatch(orderBasketActions.flushBasket()),
       dispatchClearCart: () => dispatch(orderBasketActions.clearBasket()),
       dispatchStartOrder: (label, onSucceedOrderURL) => dispatch(createOrderActions.order(label, onSucceedOrderURL)),
+      fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
+      fetchProcessingMetadataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
+        microserviceName: 'rs-processing',
+      }, {
+        pluginType: 'fr.cnes.regards.modules.processing.plugins.IProcessDefinition',
+      })),
+    }
+  }
+
+  state = {
+    isProcessingDependenciesExist: allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], this.props.availableDependencies),
+  }
+
+  UNSAFE_componentWillMount() {
+    if (this.state.isProcessingDependenciesExist) {
+      this.retrieveProcessingInfos()
     }
   }
 
@@ -122,8 +150,21 @@ export class UserModuleContainer extends React.Component {
         newProps.dispatchFlushBasket()
       }
     }
+    if (!isEqual(oldProps.availableDependencies,  newProps.availableDependencies)) {
+      const isProcessingDependenciesExist = allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], newProps.availableDependencies)
+      this.setState({
+        isProcessingDependenciesExist
+      })
+      if (isProcessingDependenciesExist) {
+        this.retrieveProcessingInfos()
+      }
+    }
   }
 
+  retrieveProcessingInfos = () => {
+    this.props.fetchProcessingConfigurationList()
+    this.props.fetchProcessingMetadataList()
+  }
   /**
    * On order callback: dispatches order action then redirects user on order list if it was successful
    * @param {string} orderLabel (optional)
@@ -171,6 +212,7 @@ export class UserModuleContainer extends React.Component {
     const {
       basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },
     } = this.props
+    const { isProcessingDependenciesExist } = this.state
     return (
       /* main view */
       <OrderCartComponent
@@ -181,6 +223,10 @@ export class UserModuleContainer extends React.Component {
         isAuthenticated={isAuthenticated}
         onClearCart={dispatchClearCart}
         onOrder={this.onOrder}
+        isProcessingDependenciesExist={isProcessingDependenciesExist}
+        processingSelectors={processingSelectors}
+        pluginMetaDataSelectors={pluginMetaDataSelectors}
+        linkProcessingDatasetActions={linkProcessingDatasetActions}
         {...modulesHelper.getReportedUserModuleProps(this.props)}
       />
     )

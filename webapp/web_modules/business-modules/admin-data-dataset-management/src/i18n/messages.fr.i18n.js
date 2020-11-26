@@ -54,18 +54,28 @@ const messages = {
   'dataset.form.links.action.next': 'Suivant',
   'dataset.form.links.action.cancel': 'Retour',
 
-  'dataset.form.plugin.title': 'Gestion des plugins appliqués au jeu de données',
-  'dataset.form.plugin.subtitle': 'Réalisez des traitements sur le jeu de données en activant ces plugins',
-  'dataset.form.plugin.services': 'Activation de services',
-  'dataset.form.plugin.action.next': 'Suivant',
-  'dataset.form.plugin.action.cancel': 'Retour',
+  'dataset.form.pluginsUIProcessing.title': 'Gestion des Plugins - Services IHM - Traitements sur le jeu de données',
+  'dataset.form.pluginsUIProcessing.subtitle': 'Réalisez des traitements sur le jeu de données',
+  'dataset.form.pluginsUIProcessing.action.next': 'Terminer',
+  'dataset.form.pluginsUIProcessing.action.cancel': 'Retour',
 
-  'dataset.form.uiservices.title': 'Gestion des services de l\'interface utilisateur',
-  'dataset.form.uiservices.subtitle': 'Ajoutez des interactions utilisateur avec le jeu de données en activant ces services.',
-  'dataset.form.uiservices.action.next': 'Terminer',
-  'dataset.form.uiservices.action.cancel': 'Retour',
+  'dataset.form.plugin.services': 'Activation de services',
+  'dataset.form.no.plugin.found': 'Pas de plugin',
+  'dataset.form.no.plugin.found.create': 'Créez votre premier plugin',
+  'dataset.form.no.plugin.found.message': 'Ces plugins servent à apporter des fonctionnalités supplémentaires sur les données du catalogue. Ces données seront ensuite disponible au téléchargement sous forme de fichier(s)',
+
   'dataset.form.uiservices.services': 'Services IHMs',
-  'dataset.form.uiservices.latestVersion': 'latest',
+  'dataset.form.no.uiservices.found': 'Pas de service IHM',
+  'dataset.form.no.uiservices.found.create': 'Créez votre premier service IHM',
+  'dataset.form.no.uiservices.found.message': 'Ces services servent à apporter des fonctionnalités supplémentaires sur les données du catalogue. Ces données seront ensuite disponible à l\'affichage sur votre navigateur',
+
+  'dataset.form.processing.services': 'Traitements',
+  'dataset.form.no.processing.found': 'Pas de traitement',
+  'dataset.form.no.processing.found.create': 'Créez votre premier traitement',
+  'dataset.form.no.processing.found.message': 'Ces traitements servent à transformer des jeux de données. Ils sont utilisables par l\'utilisateur lorsque celui-ci passe une commande',
+
+  'dataset.form.no.data.found': 'Pas de données trouvées',
+  'dataset.form.create.configuration': 'Créer',
 
   'dataset.form.files.action.cancel': 'Retour',
   'dataset.form.files.action.next': 'Suivant',
@@ -117,8 +127,7 @@ const messages = {
   'dataset.stepper.attributes': 'Saisie des attributs',
   'dataset.stepper.files': 'Fichiers associés',
   'dataset.stepper.subsetting': 'Filtrage',
-  'dataset.stepper.plugins': 'Plugins',
-  'dataset.stepper.uiServices': 'Services IHM',
+  'dataset.stepper.pluginsUIProcessing': 'Plugins - Services IHM - Traitements',
   ...Locales.fr,
 }
 

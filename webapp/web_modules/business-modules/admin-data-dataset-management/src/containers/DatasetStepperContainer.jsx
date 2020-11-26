@@ -38,8 +38,7 @@ const STEPS_ID = {
   SUBSETTING: 1, // Can't redirect to that page since it doesn't have a URL
   FILES: 2,
   LINKS: 3,
-  PLUGINS: 4,
-  UI_SERVICES: 5,
+  PLUGINS_UI_PROCESSING: 4,
 }
 export class DatasetStepperContainer extends React.Component {
   static propTypes = {
@@ -67,13 +66,14 @@ export class DatasetStepperContainer extends React.Component {
     ...i18nContextType,
   }
 
-  getPluginsStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.plugins" />)
-    if (!this.isDisabled(STEPS_ID.PLUGINS) && this.props.stepIndex !== STEPS_ID.PLUGINS) {
+  getPluginsUIProcessing = () => {
+    const text = (<FormattedMessage id="dataset.stepper.pluginsUIProcessing" />)
+    if (!this.isDisabled(STEPS_ID.PLUGINS_UI_PROCESSING) && this.props.stepIndex !== STEPS_ID.PLUGINS_UI_PROCESSING) {
       return (
-        <StepButton onClick={this.handlePluginsClick}>
+        <StepButton onClick={this.handlePluginsUIProcessingClick}>
           {text}
-        </StepButton>)
+        </StepButton>
+      )
     }
     return text
   }
@@ -114,19 +114,7 @@ export class DatasetStepperContainer extends React.Component {
     return text
   }
 
-  getUIServicesStep = () => {
-    const text = (
-      <FormattedMessage id="dataset.stepper.uiServices" />)
-    if (!this.isDisabled(STEPS_ID.UI_SERVICES) && this.props.stepIndex !== STEPS_ID.UI_SERVICES) {
-      return (
-        <StepButton onClick={this.handleUIServicesClick}>
-          {text}
-        </StepButton>)
-    }
-    return text
-  }
-
-  handlePluginsClick = () => {
+  handlePluginsUIProcessingClick = () => {
     const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/plugins`
     browserHistory.push(url)
   }
@@ -143,11 +131,6 @@ export class DatasetStepperContainer extends React.Component {
 
   handleLinksClick = () => {
     const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/links`
-    browserHistory.push(url)
-  }
-
-  handleUIServicesClick = () => {
-    const url = `/admin/${this.props.projectName}/data/collections/dataset/${this.props.currentDatasetId}/${this.props.currentDatasetIpId}/ui-services`
     browserHistory.push(url)
   }
 
@@ -203,16 +186,9 @@ export class DatasetStepperContainer extends React.Component {
               </Step>
               <Step>
                 <StepLabel
-                  disabled={this.isDisabled(STEPS_ID.PLUGINS)}
+                  disabled={this.isDisabled(STEPS_ID.PLUGINS_UI_PROCESSING)}
                 >
-                  {this.getPluginsStep()}
-                </StepLabel>
-              </Step>
-              <Step>
-                <StepLabel
-                  disabled={this.isDisabled(STEPS_ID.UI_SERVICES)}
-                >
-                  {this.getUIServicesStep()}
+                  {this.getPluginsUIProcessing()}
                 </StepLabel>
               </Step>
             </Stepper>

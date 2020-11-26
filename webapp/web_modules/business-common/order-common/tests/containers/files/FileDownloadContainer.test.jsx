@@ -55,6 +55,7 @@ describe('[Order Common] Testing FileDownloadContainer', () => {
     const NON_DOWNLOADABLE_STATES = [
       OrderDomain.ORDER_FILE_STATUS_ENUM.PENDING,
       OrderDomain.ORDER_FILE_STATUS_ENUM.ERROR,
+      OrderDomain.ORDER_FILE_STATUS_ENUM.PROCESSING_ERROR,
     ]
     NON_DOWNLOADABLE_STATES.forEach((state) => {
       mockFile.content.state = state

@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
 * Test OrderCartTableComponent
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 describe('[Order Cart] Testing OrderCartTableComponent', () => {
   before(testSuiteHelpers.before)
@@ -511,6 +512,10 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
       basket,
       showDatasets,
       isFetching: false,
+      isProcessingDependenciesExist: false,
+      processingSelectors: ProcessingClient.getProcessingSelectors(),
+      pluginMetaDataSelectors: CommonClient.getPluginMetaDataSelectors(),
+      linkProcessingDatasetActions: new ProcessingClient.LinkProcessingDatasetActions(),
       onShowDuplicatedMessage: () => { },
       quotaInfo: {
         currentQuota: 0,

@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { InfiniteTableContainer, TableLayout, TableColumnsVisibilityOption } from '@regardsoss/components'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
@@ -45,6 +46,8 @@ describe('[Order Common] Testing OrderDatasetsComponent', () => {
       navigationActions: new OrdersNavigationActions('any'),
       columnsVisibility: {},
       onChangeColumnsVisibility: () => { },
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderDatasetsComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -61,6 +64,8 @@ describe('[Order Common] Testing OrderDatasetsComponent', () => {
       navigationActions: new OrdersNavigationActions('any'),
       columnsVisibility: {},
       onChangeColumnsVisibility: () => { },
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderDatasetsComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

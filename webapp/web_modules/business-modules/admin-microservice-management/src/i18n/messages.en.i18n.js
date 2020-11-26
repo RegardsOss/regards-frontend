@@ -33,6 +33,7 @@ const messages = {
   'microservice-management.rs-dataprovider.description': 'Configure the data provider service. This service generate SIPs from new files scanned and sent them to the rs-ingest microservice.',
   'microservice-management.rs-fem.description': 'GeoJSON feature catalog with optional data storage management',
   'microservice-management.rs-notifier.description': ' Production ready notification service',
+  'microservice-management.rs-processing.description': 'Configure service for processing configuration',
 
   'microservice-management.configuration.tooltip': 'Configure',
   'microservice-management.plugins.tooltip': 'Plugins',

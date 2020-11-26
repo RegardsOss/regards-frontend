@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
-  TableColumnsVisibilityOption, StorageCapacityRender, NoContentComponent,
+  TableColumnsVisibilityOption, StorageCapacityRender, NoContentComponent, StringValueRender,
 } from '@regardsoss/components'
 import FileDownloadContainer from '../../containers/files/FileDownloadContainer'
 import DatasetFilesCountHeaderMessage from './DatasetFilesCountHeaderMessage'
@@ -36,6 +36,7 @@ const NAME_KEY = 'name.column'
 const SIZE_KEY = 'size.column'
 const TYPE_KEY = 'type.column'
 const STATUS_KEY = 'status.column'
+const SOURCE_KEY = 'source.column'
 
 /**
  * Displays an order dataset files
@@ -89,6 +90,13 @@ class DatasetFilesComponent extends React.Component {
   }
 
   /**
+   * Return source of file. A processing for example
+   */
+  static getSource(file) {
+    return get(file, 'content.source')
+  }
+
+  /**
    * Builds table columns
    * @return columns
    */
@@ -115,6 +123,11 @@ class DatasetFilesComponent extends React.Component {
       new TableColumnBuilder(STATUS_KEY).titleHeaderCell().visible(get(columnsVisibility, STATUS_KEY, true))
         .label(formatMessage({ id: 'files.list.column.status' }))
         .valuesRenderCell([{ getValue: DatasetFilesComponent.getStatus, RenderConstructor: OrderFileStatusRender }])
+        .build(),
+      // 5 - source column (either file or processing)
+      new TableColumnBuilder(SOURCE_KEY).titleHeaderCell().visible(get(columnsVisibility, SOURCE_KEY, true))
+        .label(formatMessage({ id: 'files.list.column.source' }))
+        .valuesRenderCell([{ getValue: DatasetFilesComponent.getSource, RenderConstructor: StringValueRender }])
         .build(),
       // 5 - options column
       new TableColumnBuilder().visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))

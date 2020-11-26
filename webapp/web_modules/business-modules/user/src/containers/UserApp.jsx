@@ -110,6 +110,10 @@ export class UserApp extends React.Component {
     }
   }
 
+  state = {
+    isInitialLoading: true,
+  }
+
   /**
    * At first render, fetch application layout and modules
    */
@@ -125,14 +129,21 @@ export class UserApp extends React.Component {
     // Redux store space init for user app
     initializeApplication(project)
 
-    // fetch endpoints (used to clear locally stored auth data on failure)
-    this.fetchEndpoints()
+    Promise.all([
+      // fetch endpoints (used to clear locally stored auth data on failure)
+      this.fetchEndpoints(),
 
-    // Initialize mandatory shared data
-    fetchLayout()
-    fetchModules()
-    fetchAttributes()
-    fetchUISettings()
+      // Initialize mandatory shared data
+      fetchLayout(),
+      fetchModules(),
+      fetchAttributes(),
+      fetchUISettings(),
+    ])
+      .then(() => {
+        this.setState({
+          isInitialLoading: false,
+        })
+      })
   }
 
   /**
@@ -185,7 +196,7 @@ export class UserApp extends React.Component {
    * Handle fetch of available backend endpoints for current logged user.
    */
   fetchEndpoints() {
-    Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
+    return Promise.resolve(this.props.fetchEndpoints()).then((actionResult) => {
       if (actionResult.error && UIDomain.LocalStorageUser.retrieve(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)) {
         // If unrecoverable error is thrown, then clear localStorage to avoid deadlock on IHM access
         UIDomain.LocalStorageUser.delete(this.props.params.project, UIDomain.APPLICATIONS_ENUM.USER)
@@ -215,10 +226,11 @@ export class UserApp extends React.Component {
    */
   render() {
     const { dataFetching, params: { project } } = this.props
+    const { isInitialLoading } = this.state
     return (
       <ThemeProvider>
         <LoadableContentDisplayDecorator
-          isLoading={dataFetching}
+          isLoading={dataFetching || isInitialLoading}
           isContentError={!this.props.layout}
         >
           <AuthenticationContainer scope={project}>

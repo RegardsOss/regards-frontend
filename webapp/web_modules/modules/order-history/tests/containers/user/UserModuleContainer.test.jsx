@@ -43,6 +43,8 @@ describe('[Order History] Testing UserModuleContainer', () => {
       project: 'y',
       type: 'z',
       description: 'Some module name',
+      fetchProcessingList: () => { },
+      availableDependencies: [],
     }
     const wrapper = shallow(<UserModuleContainer name {...props} />, { context })
     assert.lengthOf(wrapper.find(OrderHistoryComponent), 1, 'It should render main module component')

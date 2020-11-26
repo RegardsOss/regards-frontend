@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { ProcessingClient } from '@regardsoss/client'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { SOME_ORDERS } from '../../dumps/Orders.dumb'
 import { OrdersNavigationActions } from '../../../src/model/OrdersNavigationActions'
@@ -42,6 +43,8 @@ describe('[Order Common] Testing OrderDatasetsContainer', () => {
     const props = {
       order: SOME_ORDERS.content[0],
       navigationActions: new OrdersNavigationActions('any'),
+      processingSelectors: ProcessingClient.getProcessingSelectors(['idk']),
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderDatasetsContainer {...props} />, { context })
     const component = enzymeWrapper.find(OrderDatasetsComponent)

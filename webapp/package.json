@@ -88,6 +88,7 @@
     "@regardsoss/admin-microservice-management": "file:web_modules/business-modules/admin-microservice-management",
     "@regardsoss/admin-oais-management": "file:web_modules/business-modules/admin-oais-management",
     "@regardsoss/admin-order-management": "file:web_modules/business-modules/admin-order-management",
+    "@regardsoss/admin-processing-management": "file:web_modules/business-modules/admin-processing-management",
     "@regardsoss/admin-project-management": "file:web_modules/business-modules/admin-project-management",
     "@regardsoss/admin-storage-management": "file:web_modules/business-modules/admin-storage-management",
     "@regardsoss/admin-ui-layout-management": "file:web_modules/business-modules/admin-ui-layout-management",
