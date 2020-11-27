@@ -116,6 +116,12 @@ const validRequiredNumber = (value) => !isNil(value) && value !== '' && !isNaN(v
 
 const matchRegex = (regex) => (value) => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
+/**
+ * Redux-Form-style validator for Fields which content must be an valid absolute path directory.
+ * @param {*} value 
+ */
+const isValidAbsolutePath = (value) => !isNil(value) && (matchRegex(/^\/.+/)(value) === undefined) ? undefined : ErrorTypes.INVALID_ABSOLUTE_PATH
+
 const isInNumericRange = (lowerBound, upperBound, minExcluded, maxExcluded) => (value) => !isNaN(lowerBound) && !isNaN(upperBound) && ((maxExcluded && value < upperBound) || (!maxExcluded && value <= upperBound))
   && ((minExcluded && value > lowerBound) || (!minExcluded && value >= lowerBound)) ? undefined : ErrorTypes.invalidNumericRange(lowerBound, upperBound)
 
@@ -286,6 +292,7 @@ const javaFloatValidator = parsableNumberValidator(ErrorTypes.INVALID_FLOATING_N
 const characterValidator = (value) => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
 
 export default {
+  isValidAbsolutePath,
   isValidEmail,
   isValidUrl,
   isValidUri,

@@ -159,7 +159,7 @@ export default function styles(theme) {
         width: '100%',
       },
       leftColumnStyle: {
-        width: '33%',
+        width: '18%',
         borderRight: '1px solid',
         borderColor: theme.palette.borderColor,
         display: 'flex',

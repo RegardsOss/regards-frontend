@@ -420,6 +420,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
+                  fieldProps={componentProps}
                   elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
                   duplicationTransformation={AcquisitionProcessingChainFormComponent.duplicateFileInfo}

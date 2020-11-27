@@ -42,6 +42,7 @@ const messages = {
   'invalid.length.more.than': 'Use {number} characters or more',
   'invalid.less.than': '{number} or less',
   'invalid.more.than': '{number} or more',
+  'invalid.abs_path': 'Directory is not a valid absolute path. Should start with /',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Cancel',

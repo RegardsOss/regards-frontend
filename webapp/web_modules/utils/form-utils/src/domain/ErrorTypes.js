@@ -40,6 +40,7 @@ export default {
   INVALID_FLOATING_NUMBER: 'invalid.floating.number',
   INVALID_CHARACTER: 'invalid.character',
   INVALID_MIME_TYPE: 'invalid.mime_type',
+  INVALID_ABSOLUTE_PATH: 'invalid.abs_path',
   invalidRegex: (regexp) => ({
     key: 'invalid.regex.pattern',
     props: { regexp },
