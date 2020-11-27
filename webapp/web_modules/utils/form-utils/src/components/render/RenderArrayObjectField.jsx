@@ -58,6 +58,7 @@ class RenderArrayObjectField extends React.Component {
     fieldProps: PropTypes.object, // additional props to pass to the fieldComponent
     getEmptyObject: PropTypes.func, // Function to generate a new empty object value
     duplicationTransformation: PropTypes.func, // Function to transform object value when dulicating an element of the list
+    allowDuplicate: PropTypes.bool,
     canBeEmpty: PropTypes.bool, // If false, the list is not displayed if there is no element in it
     listHeight: PropTypes.string,
     disabled: PropTypes.bool,
@@ -67,6 +68,7 @@ class RenderArrayObjectField extends React.Component {
   }
 
   static defaultProps = {
+    allowDuplicate: true,
     displayLabel: true,
     disabled: false,
     canBeEmpty: true,
@@ -187,12 +189,13 @@ class RenderArrayObjectField extends React.Component {
         >
           {formatMessage({ id: 'render.array-object.delete.button' })}
         </MenuItem>
-        <MenuItem
+
+        { this.props.allowDuplicate ? <MenuItem
           // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
           onClick={() => this.onDuplicateObject(index)} // eslint wont fix: Cannot compose using MenuItems in MUI 0x (breaks menu auto closing system)
         >
           {formatMessage({ id: 'render.array-object.duplicate.button' })}
-        </MenuItem>
+        </MenuItem> : null}
       </IconMenu>
     )
 

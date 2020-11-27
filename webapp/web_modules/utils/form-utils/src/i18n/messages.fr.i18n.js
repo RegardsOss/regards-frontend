@@ -42,6 +42,7 @@ const messages = {
   'invalid.length.more.than': 'Utilisez {number} caractères ou plus',
   'invalid.less.than': '{number} ou moins',
   'invalid.more.than': '{number} ou plus',
+  'invalid.abs_path': 'Répertoire invalide. le répertoire doit commencer par \'/\'',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Annuler',

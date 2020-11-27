@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import last from 'lodash/last'
+import split from 'lodash/split'
 import AutoComplete from 'material-ui/AutoComplete'
 import {
   Field, RenderTextField, RenderAutoCompleteField,
-  RenderCheckbox, ValidationHelpers,
+  RenderCheckbox, ValidationHelpers, FieldArray, RenderArrayObjectField,
 } from '@regardsoss/form-utils'
 import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -27,6 +29,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { mimeTypesDefinitions } from '@regardsoss/mime-types'
 import { CommonDomain } from '@regardsoss/domain'
 import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainPluginTypes'
+import AcquisitionFileInfoScanDirComponent from './AcquisitionFileInfoScanDirComponent'
 import messages from '../../i18n'
 
 const {
@@ -42,11 +45,16 @@ const requiredMimeType = [required, validMimeType]
 export class AcquisitionFileInfoComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
+    changeField: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  renderScanDirInfoLabe = (item) => {
+    return item.scannedDirectory ? last(split(item.scannedDirectory,'/')) : 'New directory'
   }
 
   render() {
@@ -57,6 +65,7 @@ export class AcquisitionFileInfoComponent extends React.Component {
       text: 'label',
       value: 'mime',
     }
+    const componentProps = { changeField: this.props.changeField }
     return [
       <Field
         key="comment"
@@ -73,6 +82,17 @@ export class AcquisitionFileInfoComponent extends React.Component {
         fullWidth
         component={RenderCheckbox}
         label={formatMessage({ id: 'acquisition-chain.form.fileInfo.mandatory' })}
+      />,
+      <FieldArray
+        key="scanDirInfo"
+        name={`${name}.scanDirInfo`}
+        label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDirInfos' })}
+        component={RenderArrayObjectField}
+        fieldProps={componentProps}
+        elementLabel={this.renderScanDirInfoLabe}
+        fieldComponent={AcquisitionFileInfoScanDirComponent}
+        allowDuplicate={false}
+        validate={required}
       />,
       <Field
         key="scanPlugin"
