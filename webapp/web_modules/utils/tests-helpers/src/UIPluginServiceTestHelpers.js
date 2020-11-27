@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
-import { TargetHelper } from '@regardsoss/entities-common'
+import { TargetHelper } from '@regardsoss/entities-common/src/definitions/TargetHelper'
 
 /**
  * Provides some tools for UI plugins services test
