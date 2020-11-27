@@ -23,7 +23,7 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 
 const styles = (theme) => ({
   listItem: {
-    paddingLeft: 50,
+    padding: '0 50px 12px 100px',
   },
   listItemEven: {},
   listItemOdd: {
@@ -43,15 +43,23 @@ const styles = (theme) => ({
   chipByVerb: {
     [RequestVerbEnum.GET]: {
       backgroundColor: lightBlue200,
+      top: 12,
+      left: 0,
     },
     [RequestVerbEnum.POST]: {
       backgroundColor: green300,
+      top: 12,
+      left: 0,
     },
     [RequestVerbEnum.PUT]: {
       backgroundColor: yellow300,
+      top: 12,
+      left: 0,
     },
     [RequestVerbEnum.DELETE]: {
       backgroundColor: purple300,
+      top: 12,
+      left: 0,
     },
   },
   description: {
@@ -68,6 +76,10 @@ const styles = (theme) => ({
   },
   resourceIconStyle: {
     marginRight: 10,
+  },
+  resourceTitleStyle: {
+    padding: '12px 0 12px 0',
+    display: 'inline-block',
   },
   microserviceSplitPanel: {
     layoutStyle: {

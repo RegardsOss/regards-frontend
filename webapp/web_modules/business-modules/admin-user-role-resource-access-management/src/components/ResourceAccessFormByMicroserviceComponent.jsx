@@ -138,7 +138,9 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                     </Chip>
                     }
                 >
-                  {resource.content.resource}
+                  <div style={moduleTheme.resourceTitleStyle}>
+                    {resource.content.resource}
+                  </div>
                 </ListItem>))}
           />
         ))}
