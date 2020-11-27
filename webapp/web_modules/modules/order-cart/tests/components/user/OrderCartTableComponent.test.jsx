@@ -25,7 +25,7 @@ import { OrderCartTableComponent } from '../../../src/components/user/OrderCartT
 import { ProcessingClient, CommonClient } from '@regardsoss/client'
 import styles from '../../../src/styles/styles'
 
-import { emptyBasket, mockBasket1 } from '../../BasketMocks'
+import { emptyBasket, mockBasket1, mockBasket3 } from '../../BasketMocks'
 
 const context = buildTestContext(styles)
 
@@ -59,6 +59,133 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
     },
     expectedRows: [],
   }, {
+    caseLabel: 'when processing are applied (shwoing datasets)',
+    props: {
+      basket: mockBasket3,
+      quotaInfo: {
+        currentQuota: 250,
+        maxQuota: -1,
+        quotaState: QUOTA_INFO_STATE_ENUM.UNLIMITED,
+      },
+      showDatasets: true,
+    },
+    expectedRows: [
+      /* ds selection 1 */
+      new TreeTableRow('dataset.selection.0', [
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 1' },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 2, totalObjectsCount: 3 },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(27730) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0, datasetSelectionIpId: "TEST-DATASET:URN:1", process: {
+          "parameters": {
+            "param1": "value1",
+            "param2": "value2",
+          },
+          "processBusinessId": "123-456-789-000",
+        } },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0 }], [
+        /* dated selection 1.1 */
+        new TreeTableRow('dated.item.selection.0-2017-09-08T15:59:57.664Z', [
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T15:59:57.664Z' },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1440) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
+          {
+            type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+            datasetLabel: 'Fake dataset 1',
+            date: '2017-09-08T15:59:57.664Z',
+            selectionRequest: {
+              engineType: 'bing',
+              datasetUrn: null,
+              entityIdsToInclude: ['URN:DATA:COUCOU1'],
+              entityIdsToExclude: null,
+              searchParameters: {},
+              selectionDate: '2017-09-08T15:59:57.664Z',
+            },
+          },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, datasetSelectionId: 0, itemsSelectionDate: '2017-09-08T15:59:57.664Z' }]),
+        /* dated selection 1.2 */
+        new TreeTableRow('dated.item.selection.0-2017-09-08T16:00:37.467Z', [
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.467Z' },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1804) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
+          {
+            type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+            datasetLabel: 'Fake dataset 1',
+            date: '2017-09-08T16:00:37.467Z',
+            selectionRequest: {
+              engineType: 'bing',
+              datasetUrn: null,
+              entityIdsToInclude: ['URN:DATA:COUCOU2'],
+              entityIdsToExclude: null,
+              searchParameters: {},
+              selectionDate: '2017-09-08T16:00:37.467Z',
+            },
+          },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, datasetSelectionId: 0, itemsSelectionDate: '2017-09-08T16:00:37.467Z' }]),
+        /* dated selection 1.3 */
+        new TreeTableRow('dated.item.selection.0-2017-09-08T16:00:37.545Z', [
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.545Z' },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1280) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
+          {
+            type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+            datasetLabel: 'Fake dataset 1',
+            date: '2017-09-08T16:00:37.545Z',
+            selectionRequest: {
+              engineType: 'yahoo',
+              datasetUrn: null,
+              entityIdsToInclude: null,
+              entityIdsToExclude: null,
+              searchParameters: {
+                q: '"tag:fake-tag-index18"',
+              },
+              selectionDate: '2017-09-08T16:00:37.545Z',
+            },
+          },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, datasetSelectionId: 0, itemsSelectionDate: '2017-09-08T16:00:37.545Z' }]),
+      ], true),
+      new TreeTableRow('dataset.selection.1', [ // ds selection 2
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 2' },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1, datasetSelectionIpId: "TEST-DATASET:URN:2", process: null },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1 }], [
+        /* dated selection 2.1 */
+        new TreeTableRow('dated.item.selection.1-2017-09-08T16:00:02.625Z', [
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:02.625Z' },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
+          {
+            type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+            datasetLabel: 'Fake dataset 2',
+            date: '2017-09-08T16:00:02.625Z',
+            selectionRequest: {
+              engineType: 'qwoment',
+              datasetUrn: 'TEST-DATASET:URN:2',
+              entityIdsToInclude: null,
+              entityIdsToExclude: null,
+              searchParameters: {},
+              selectionDate: '2017-09-08T16:00:02.625Z',
+            },
+          },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, datasetSelectionId: 1, itemsSelectionDate: '2017-09-08T16:00:02.625Z' }]),
+      ], true),
+      /* Total row */
+      new TreeTableRow('total.row', [
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, effectiveObjectsCount: 27, totalObjectsCount: 28 },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+      ]),
+    ],
+  },{
     caseLabel: 'when hiding quota column (showing datasets)',
     props: {
       basket: mockBasket1,

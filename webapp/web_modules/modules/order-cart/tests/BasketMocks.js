@@ -228,6 +228,126 @@ export const mockBasket2 = {
     }],
 }
 /**
+ * A mock basket with two datasets and process associated to fist one
+ */
+export const mockBasket3 = {
+  id: 0,
+  email: 'test@mail.com',
+  datasetSelections: [
+    {
+      id: 0,
+      datasetIpid: 'TEST-DATASET:URN:1',
+      objectsCount: 2,
+      quota: 3,
+      filesCount: 3,
+      filesSize: 27730,
+      fileTypesSizes: {
+        'RAWDATA': 27730,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 3,
+      },
+      datasetLabel: 'Fake dataset 1',
+      openSearchRequest: null,
+      processDatasetDescription: {
+        processBusinessId: '123-456-789-000',
+        parameters: {
+          "param1": "value1",
+          "param2": "value2",
+        }
+      },
+      itemsSelections: [{
+        id: 0,
+        objectsCount: 1,
+        quota: 2,
+        filesCount: 0,
+        filesSize: 1440,
+        date: '2017-09-08T15:59:57.664Z',
+        selectionRequest: {
+          engineType: 'bing',
+          datasetUrn: null,
+          entityIdsToInclude: ['URN:DATA:COUCOU1'],
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T15:59:57.664Z',
+        },
+      }, {
+        id: 1,
+        objectsCount: 1,
+        quota: 1,
+        filesCount: 0,
+        filesSize: 1804,
+        date: '2017-09-08T16:00:37.467Z',
+        selectionRequest: {
+          engineType: 'bing',
+          datasetUrn: null,
+          entityIdsToInclude: ['URN:DATA:COUCOU2'],
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T16:00:37.467Z',
+        },
+      },
+      {
+        id: 2,
+        objectsCount: 1,
+        quota: 1,
+        filesCount: 0,
+        filesSize: 1280,
+        date: '2017-09-08T16:00:37.545Z',
+        selectionRequest: {
+          engineType: 'yahoo',
+          datasetUrn: null,
+          entityIdsToInclude: null,
+          entityIdsToExclude: null,
+          searchParameters: {
+            q: '"tag:fake-tag-index18"',
+          },
+          selectionDate: '2017-09-08T16:00:37.545Z',
+        },
+      }],
+      process: {
+        processBusinessId: '',
+        parameters: {},
+      },
+    }, {
+      id: 1,
+      datasetIpid: 'TEST-DATASET:URN:2',
+      objectsCount: 25,
+      quota: 22,
+      filesCount: 306,
+      filesSize: 5048,
+      fileTypesSizes: {
+        'RAWDATA': 5048,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 306,
+      },
+      datasetLabel: 'Fake dataset 2',
+      openSearchRequest: null,
+      processDatasetDescription: null,
+      itemsSelections: [{
+        id: 3,
+        quota: 22,
+        objectsCount: 25,
+        filesCount: 306,
+        filesSize: 5048,
+        date: '2017-09-08T16:00:02.625Z',
+        selectionRequest: {
+          engineType: 'qwoment',
+          datasetUrn: 'TEST-DATASET:URN:2',
+          entityIdsToInclude: null,
+          entityIdsToExclude: null,
+          searchParameters: {},
+          selectionDate: '2017-09-08T16:00:02.625Z',
+        },
+      }],
+      process: {
+        processBusinessId: '',
+        parameters: {},
+      },
+    }],
+}
+/**
  * Empty basket
  */
 export const emptyBasket = {
