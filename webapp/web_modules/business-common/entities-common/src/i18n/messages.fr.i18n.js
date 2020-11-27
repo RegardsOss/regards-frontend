@@ -45,13 +45,14 @@ const messages = {
   'entities.common.backend.pluginback.processing.dialog.remove': 'Supprimer',
   'entities.common.backend.pluginback.processing.dialog.cancel': 'Annuler',
   'entities.common.backend.pluginback.processing.dialog.confirm': 'Valider',
-  'entities.common.backend.pluginback.processing.button.add.label': 'Traitement',
-  'entities.common.backend.pluginback.processing.button.edit.label': '{label}',
-  'entities.common.backend.pluginback.processing.button.add.title': 'Selectionner un traitement',
-  'entities.common.backend.pluginback.processing.button.edit.title': 'Editer le traitement',
   'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title': 'Supprimer le traitement',
   'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message': 'Cette action supprimera le traitement {processingLabel} de ce jeu de données',
   'entities.common.backend.pluginback.processing.dialog.remove.tooltip': 'Supprimer le traitement',
+
+  'entities.common.backend.pluginback.processing.button.add.label': 'Traitement',
+  'entities.common.backend.pluginback.processing.button.add.title': 'Selectionner un traitement',
+  'entities.common.backend.pluginback.processing.button.edit.label': '{label}',
+  'entities.common.backend.pluginback.processing.button.edit.title': 'Editer le traitement',
 
   ...Locales.fr,
 }

@@ -22,6 +22,7 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { TreeTableRow } from '@regardsoss/components'
 import { OrderCartTableComponent } from '../../../src/components/user/OrderCartTableComponent'
+import { ProcessingClient, CommonClient } from '@regardsoss/client'
 import styles from '../../../src/styles/styles'
 
 import { emptyBasket, mockBasket1 } from '../../BasketMocks'
@@ -74,6 +75,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 1' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 2, totalObjectsCount: 3 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(27730) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0, datasetSelectionIpId: "TEST-DATASET:URN:1", process: null },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0 }], [
         /* dated selection 1.1 */
@@ -81,6 +83,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T15:59:57.664Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1440) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
             datasetLabel: 'Fake dataset 1',
@@ -100,6 +103,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.467Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1804) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
             datasetLabel: 'Fake dataset 1',
@@ -119,6 +123,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.545Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1280) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
             datasetLabel: 'Fake dataset 1',
@@ -140,6 +145,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 2' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1, datasetSelectionIpId: "TEST-DATASET:URN:2", process: null },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1 }], [
         /* dated selection 2.1 */
@@ -147,6 +153,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:02.625Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
             datasetLabel: 'Fake dataset 2',
@@ -169,6 +176,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
       ]),
     ],
   }, {
@@ -188,6 +196,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T15:59:57.664Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1440) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
           datasetLabel: 'Fake dataset 1',
@@ -207,6 +216,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.467Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1804) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
           datasetLabel: 'Fake dataset 1',
@@ -226,6 +236,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.545Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1280) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
           datasetLabel: 'Fake dataset 1',
@@ -247,6 +258,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:02.625Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
           datasetLabel: 'Fake dataset 2',
@@ -266,6 +278,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, effectiveObjectsCount: 27, totalObjectsCount: 28 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
       ]),
@@ -288,6 +301,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 1' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 2, totalObjectsCount: 3 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(27730) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0, datasetSelectionIpId: "TEST-DATASET:URN:1", process: null },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, quota: 3 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 0 }], [
@@ -296,6 +310,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T15:59:57.664Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1440) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 2 },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -316,6 +331,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.467Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1804) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 1 },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -336,6 +352,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.545Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1280) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 1 },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -358,6 +375,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetLabel: 'Fake dataset 2' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1, datasetSelectionIpId: "TEST-DATASET:URN:2", process: null },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, quota: 22 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW, datasetSelectionId: 1 }], [
@@ -366,6 +384,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:02.625Z' },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+          { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
           { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 22 },
           {
             type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -386,7 +405,9 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
       new TreeTableRow('total.row', [
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, effectiveObjectsCount: 27, totalObjectsCount: 28 },
-        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) }, {
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) }, 
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
           totalQuota: 25,
           currentQuota: 505,
@@ -414,6 +435,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T15:59:57.664Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1440) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 2 },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -434,6 +456,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.467Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1804) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 1 },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -454,6 +477,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:37.545Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 1, totalObjectsCount: 1 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(1280) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 1 },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -476,6 +500,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, date: '2017-09-08T16:00:02.625Z' },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, effectiveObjectsCount: 25, totalObjectsCount: 25 },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, capacity: OrderCartTableComponent.getStorageCapacity(5048) },
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW, quota: 22 },
         {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
@@ -495,7 +520,9 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
       new TreeTableRow('total.row', [
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
         { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, effectiveObjectsCount: 27, totalObjectsCount: 28 },
-        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) }, {
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW, capacity: OrderCartTableComponent.getStorageCapacity(32778) }, 
+        { type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW },
+        {
           type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
           totalQuota: 25,
           currentQuota: 950,

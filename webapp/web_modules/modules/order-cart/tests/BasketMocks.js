@@ -38,8 +38,15 @@ export const mockBasket1 = {
       quota: 3,
       filesCount: 3,
       filesSize: 27730,
+      fileTypesSizes: {
+        'RAWDATA': 27730,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 3,
+      },
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
+      processDatasetDescription: null,
       itemsSelections: [{
         id: 0,
         objectsCount: 1,
@@ -100,8 +107,15 @@ export const mockBasket1 = {
       quota: 22,
       filesCount: 306,
       filesSize: 5048,
+      fileTypesSizes: {
+        'RAWDATA': 5048,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 306,
+      },
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
+      processDatasetDescription: null,
       itemsSelections: [{
         id: 3,
         quota: 22,
@@ -139,8 +153,15 @@ export const mockBasket2 = {
       objectsCount: 5,
       filesCount: 0,
       filesSize: 27730,
+      fileTypesSizes: {
+        'RAWDATA': 27730,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 0,
+      },
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
+      processDatasetDescription: null,
       itemsSelections: [{
         id: 0,
         objectsCount: 5,
@@ -164,8 +185,15 @@ export const mockBasket2 = {
       objectsCount: 18,
       filesCount: 306,
       filesSize: 5048,
+      fileTypesSizes: {
+        'RAWDATA': 5048,
+      },
+      fileTypesCount: {
+        'RAWDATA' : 306,
+      },
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
+      processDatasetDescription: null,
       itemsSelections: [{
         id: 3,
         objectsCount: 15,

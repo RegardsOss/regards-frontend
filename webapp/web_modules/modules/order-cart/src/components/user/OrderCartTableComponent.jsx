@@ -254,7 +254,7 @@ export class OrderCartTableComponent extends React.Component {
    * @return TreeTableRow for the dataset selection as parameter
    */
   buildDatasetSelectionRow = ({
-    id, datasetSelectionIpId, datasetLabel, processDatasetDescription, objectsCount, filesSize, quota, itemsSelections = [],
+    id, datasetIpid, datasetLabel, processDatasetDescription, objectsCount, filesSize, quota, itemsSelections = [],
   }, showQuotaColumn, rowExpanded) => new TreeTableRow(`dataset.selection.${id}`, [
     { // 1. label cell
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
@@ -268,7 +268,7 @@ export class OrderCartTableComponent extends React.Component {
       capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
     }, { // 4. Processing cell
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      datasetSelectionIpId: datasetSelectionIpId,
+      datasetSelectionIpId: datasetIpid,
       datasetSelectionId: id,
       process: processDatasetDescription,
     },
