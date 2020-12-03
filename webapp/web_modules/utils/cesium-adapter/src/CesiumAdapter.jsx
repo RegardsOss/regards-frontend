@@ -17,17 +17,25 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
-import { console } from 'window-or-global'
+import { UIShapes } from '@regardsoss/shape'
 import { UIDomain } from '@regardsoss/domain'
+import { console } from 'window-or-global'
 import { createRef } from 'react'
+import isEqual from 'lodash/isEqual'
+import filter from 'lodash/filter'
+import find from 'lodash/find'
+import map from 'lodash/map'
 import has from 'lodash/has'
-import get from 'lodash/get'
+import last from 'lodash/last'
+import isEmpty from 'lodash/isEmpty'
 import {
-  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer,
+  Viewer, GeoJsonDataSource, SkyBox, SkyAtmosphere, Sun, Moon, ImageryLayer, CameraFlyTo, Scene,
 } from 'resium'
 import {
   ScreenSpaceEventType, Color, OpenStreetMapImageryProvider, WebMapServiceImageryProvider, WebMapTileServiceImageryProvider, BingMapsImageryProvider,
+  SceneMode, Rectangle,
 } from 'cesium'
+import toBBox from 'geojson-bounding-box'
 import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerComponent'
 
 /**
@@ -36,10 +44,7 @@ import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerC
  */
 export default class CesiumAdapter extends React.Component {
   static propTypes = {
-    backgroundLayerUrl: PropTypes.string.isRequired,
-    backgroundLayerType: PropTypes.string.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    backgroundLayerConf: PropTypes.object,
+    layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
     staticLayerOpacity: PropTypes.number,
@@ -51,14 +56,27 @@ export default class CesiumAdapter extends React.Component {
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
     // should notify parent on pick selection
     onFeaturesSelected: PropTypes.func,
+    // view management
+    viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
+    // product selection management
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    onProductSelected: PropTypes.func.isRequired,
+    selectedFeatureColor: PropTypes.string.isRequired,
+    selectedColorOutlineWidth: PropTypes.number,
   }
 
-
   state = {
-    imageryProvider: null, // background layer
-    additionnalLayerProvider: null, // additionnal background layer
-    cesiumFeaturesColor: null, // Cesium.Color objet for features
+    greyBackgroundProvider: null, // background layer
+    customLayerProviders: null, // custom layers
+    backgroundVisibleProvider: null,
+    selectedProducts: null,
+    cameraDestinationTime: null,
+    cameraDestination: null,
     cesiumDrawColor: null, // Cesium.Color objet for draw zone
+    cesiumFeaturesColor: null, // Cesium.Color objet for features
+    selectedFeatureColor: null,
+    selectedColorOutlineWidth: null,
     nearlyTransparentColor: null, // Transparent is unclickable, so we use our version of a transparent color
   }
 
@@ -73,27 +91,38 @@ export default class CesiumAdapter extends React.Component {
    */
   ref = createRef()
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // Get the background layer
-    const { backgroundLayerType, backgroundLayerUrl, backgroundLayerConf } = this.props
-    const backgroundLayerInfo = {
-      type: backgroundLayerType,
-      baseUrl: backgroundLayerUrl,
-      conf: backgroundLayerConf,
-    }
-    const imageryProvider = this.getImageryProvider(backgroundLayerInfo)
-    const staticLayer = get(STATIC_CONF, 'MAP.STATIC_LAYER', null)
-    let additionnalLayerProvider
-    if (staticLayer) {
-      additionnalLayerProvider = this.getImageryProvider(staticLayer)
-    }
+    const {
+      selectedColorOutlineWidth, viewMode, layers,
+    } = this.props
+
+    // Background layer with constrast
+    const greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
+
+    // We add another background layer which take all the globe surface. It will be resized when user draw an area.
+    const backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode)
+
+    // Load data layers if any exist
+    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode)
+    const customLayerProviders = map(layersInfo, (layerInfo) => this.getImageryProvider(layerInfo))
+
     const cesiumFeaturesColor = Color.fromCssColorString(this.props.featuresColor)
     const cesiumDrawColor = Color.fromCssColorString(this.props.drawColor)
     const nearlyTransparentColor = new Color(0, 0, 0, 0.01)
 
+    const selectedFeatureColor = Color.fromCssColorString(this.props.selectedFeatureColor)
+
     // store libs in state
     this.setState({
-      imageryProvider, additionnalLayerProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      greyBackgroundProvider,
+      customLayerProviders,
+      cesiumFeaturesColor,
+      cesiumDrawColor,
+      nearlyTransparentColor,
+      selectedFeatureColor,
+      selectedColorOutlineWidth,
+      backgroundVisibleProvider,
     })
   }
 
@@ -104,28 +133,121 @@ export default class CesiumAdapter extends React.Component {
     }
   }
 
-  getImageryProvider = ({ type, baseUrl, conf }) => {
+  /**
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+    * Properties change detected: update local state
+    * @param oldProps previous component properties
+    * @param newProps next component properties
+    */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      featuresCollection, selectedProducts, drawnAreas, drawingSelection, viewMode, layers,
+    } = newProps
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    this.ref.current.cesiumElement.cesiumWidget.resize()
+
+    console.error('ref : ', this.ref.current.cesiumElement)
+
+    // Manage selected features
+    if (!isEqual(this.props.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
+      const selectedFeatures = this.getSelectedFeatures(featuresCollection, selectedProducts)
+      newState.selectedProducts = {
+        ...featuresCollection,
+        features: !isEmpty(selectedFeatures) ? selectedFeatures : [],
+      }
+    }
+    if (!isEqual(this.props.drawnAreas, drawnAreas)) {
+      const rectangle = !isEmpty(drawnAreas) ? CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(drawnAreas[0].geometry) : null
+      newState.backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode, rectangle)
+    }
+    // Manage camera destination
+    if (!isEqual(oldProps.selectedProducts, selectedProducts) || !isEqual(this.props.drawnAreas, drawnAreas)) {
+      if (!isEqual(oldProps.selectedProducts, selectedProducts)) {
+        const selectedFeatures = this.getSelectedFeatures(featuresCollection, selectedProducts)
+        if (!isEmpty(selectedFeatures)) {
+          const lastFeatureSelected = last(selectedFeatures)
+          const { time, destination } = this.getNewCameraDestination(lastFeatureSelected.geometry)
+          newState.cameraDestination = destination
+          newState.cameraDestinationTime = time
+        }
+      } else if (!isEmpty(drawnAreas) && this.props.drawingSelection !== drawingSelection && drawingSelection === false) {
+        const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+        newState.cameraDestination = destination
+        newState.cameraDestinationTime = time
+      }
+    }
+    // Manage to load correct background layer when switch mode
+    if (!isEqual(this.props.viewMode, viewMode)) {
+      newState.greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
+  }
+
+  getSelectedFeatures = (featuresCollection, selectedProducts) => filter(featuresCollection.features, (feature) => find(selectedProducts, (selectedProduct) => feature.id === selectedProduct.id))
+
+  getGreyBackgroundProvider = (layers, viewMode) => {
+    const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode)
+    const greyBackgroundProvider = this.getImageryProvider(backgroundLayerInfo, null, 1)
+    greyBackgroundProvider.defaultContrast = 0.2
+    return greyBackgroundProvider
+  }
+
+  getBackgroundVisibleProvider = (layers, viewMode, rectangle) => {
+    const backgroundLayerInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode)
+    return this.getImageryProvider(backgroundLayerInfo, rectangle)
+  }
+
+  getNewCameraDestination = (geometry) => ({
+    time: new Date().getTime(),
+    destination: this.getCameraDestination(geometry),
+  })
+
+  /**
+   * Compute center point for camera destination
+   * @param {*} geometry
+   */
+  getCameraDestination = (geometry) => {
+    const bBox = toBBox(geometry)
+    return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
+  }
+
+  getImageryProvider = ({ type, baseUrl, conf }, rectangle = null, maximumLevel = 19) => {
     switch (type) {
-      case UIDomain.MIZAR_LAYER_TYPES_ENUM.OSM:
+      case UIDomain.CESIUM_LAYER_TYPES_ENUM.OSM:
         return new OpenStreetMapImageryProvider({
           ...conf,
-          maximumLevel: 19,
+          maximumLevel,
           url: baseUrl,
+          rectangle,
         })
-      case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS:
+      case UIDomain.CESIUM_LAYER_TYPES_ENUM.WMS:
         return new WebMapServiceImageryProvider({
           ...conf,
+          maximumLevel,
           url: baseUrl,
+          rectangle,
         })
-      case UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
+      case UIDomain.CESIUM_LAYER_TYPES_ENUM.WMTS:
         return new WebMapTileServiceImageryProvider({
           ...conf,
+          maximumLevel,
           url: baseUrl,
+          rectangle,
         })
-      case UIDomain.MIZAR_LAYER_TYPES_ENUM.Bing:
+      case UIDomain.CESIUM_LAYER_TYPES_ENUM.Bing:
         return new BingMapsImageryProvider({
           ...conf,
+          maximumLevel,
           url: baseUrl,
+          rectangle,
         })
       default:
         console.error('Unsupported background image, fallback to OSM')
@@ -136,10 +258,13 @@ export default class CesiumAdapter extends React.Component {
   render() {
     const {
       featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected, staticLayerOpacity,
+      viewMode, onProductSelected,
     } = this.props
     const {
-      imageryProvider, additionnalLayerProvider, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
+      selectedProducts, selectedFeatureColor, selectedColorOutlineWidth, cameraDestination, cameraDestinationTime, backgroundVisibleProvider,
     } = this.state
+
     return (
       <Viewer
         full
@@ -151,7 +276,7 @@ export default class CesiumAdapter extends React.Component {
         infoBox={false}// no feature info
         fullscreenButton={false}
         navigationHelpButton={false}// tuto for Cesium usage
-        imageryProvider={imageryProvider}
+        imageryProvider={greyBackgroundProvider}
         animation={false}// Hide Cesium clock
         geocoder={false}// Hide widget for finding addresses and landmarks
         selectionIndicator={false} // Hide green target when entity selected
@@ -159,7 +284,9 @@ export default class CesiumAdapter extends React.Component {
         automaticallyTrackDataSourceClocks={false}
       >
         {/* Configurate the initial Scene */}
-        {/* <Scene mode={SceneMode.SCENE3D} morphDuration={10} /> */}
+        <Scene
+          mode={viewMode === UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D ? SceneMode.SCENE3D : SceneMode.SCENE2D}
+        />
         {/* Show stars */}
         <SkyBox show />
         {/* Show atmosphere  */}
@@ -168,11 +295,20 @@ export default class CesiumAdapter extends React.Component {
         <Sun show={false} />
         {/* Hide moon */}
         <Moon show={false} />
-        {/* Display additionnal layer */}
-        {additionnalLayerProvider && <ImageryLayer
-          imageryProvider={additionnalLayerProvider}
-          alpha={staticLayerOpacity}
-        />}
+        {/* Display drawn area layer*/}
+        <ImageryLayer
+          imageryProvider={backgroundVisibleProvider}
+        />
+        {/* Display additionnal layers */}
+        {
+          map(customLayerProviders, (layerProvider, key) => (
+            <ImageryLayer
+              key={`${key}${viewMode}`}
+              imageryProvider={layerProvider}
+              alpha={staticLayerOpacity}
+            />
+          ))
+        }
         {/* Display props features */}
         <GeoJsonDataSource
           name="catalog-features"
@@ -181,6 +317,13 @@ export default class CesiumAdapter extends React.Component {
           stroke={cesiumFeaturesColor}
           strokeWidth={1}
         />
+        <GeoJsonDataSource
+          name="selected-features"
+          data={selectedProducts}
+          fill={nearlyTransparentColor}
+          stroke={selectedFeatureColor}
+          strokeWidth={selectedColorOutlineWidth}
+        />
         <CesiumEventAndPolygonDrawerComponent
           cesiumContext={this.ref}
           cesiumDrawColor={cesiumDrawColor}
@@ -188,7 +331,15 @@ export default class CesiumAdapter extends React.Component {
           drawnAreas={drawnAreas}
           onDrawingSelectionDone={onDrawingSelectionDone}
           onFeaturesSelected={onFeaturesSelected}
+          onProductSelected={onProductSelected}
         />
+        {
+          cameraDestination && <CameraFlyTo
+            key={cameraDestinationTime}
+            destination={cameraDestination}
+            once
+          />
+        }
       </Viewer>
     )
   }

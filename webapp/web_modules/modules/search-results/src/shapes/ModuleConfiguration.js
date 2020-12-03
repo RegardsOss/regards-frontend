@@ -23,6 +23,7 @@ import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 /**
  * Module configuration shapes
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 /**
@@ -43,14 +44,25 @@ export const QuicklookViewConfiguration = PropTypes.shape({
   ...commonViewFields,
 })
 
+/**
+ * Layer shape
+ */
+export const LayerConfiguration = PropTypes.shape({
+  layerName: PropTypes.string,
+  enabled: PropTypes.bool,
+  background: PropTypes.bool,
+  layerViewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES),
+  url: PropTypes.string,
+  type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES, UIDomain.CESIUM_LAYER_TYPES),
+  conf: PropTypes.string,
+})
+
 /** Map view */
 export const MapViewConfiguration = PropTypes.shape({
   ...commonViewFields,
   mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE),
-  backgroundLayer: PropTypes.shape({ // mandatory but cannot be granted when starting new module edition
-    url: PropTypes.string,
-    type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
-  }),
+  initialViewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES),
+  layers: PropTypes.arrayOf(LayerConfiguration),
 })
 
 /** Facets sub configuration */

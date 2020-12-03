@@ -21,38 +21,38 @@ import { assert } from 'chai'
 import FlatButton from 'material-ui/FlatButton'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import MapSelectionModeOption from '../../../../../../../src/components/user/tabs/results/map/options/MapSelectionModeOption'
+import MapViewModeOption from '../../../../../../../src/components/user/tabs/results/map/options/MapViewModeOption'
 import styles from '../../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test MapSelectionModeOption
- * @author Raphaël Mechali
+ * Test MapViewModeOption
  * @author Théo Lasserre
  */
-describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
+describe('[SEARCH RESULTS] Testing MapViewModeOption', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(MapSelectionModeOption)
+    assert.isDefined(MapViewModeOption)
   })
 
-  UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => {
-    [true, false].forEach((selected) => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
+  UIDomain.MAP_VIEW_MODES.forEach((viewMode) => {
+    [true, false].forEach((selected) => it(`Should render correctly for mode ${viewMode} when ${selected ? 'selected' : 'unselected'}`, () => {
       const props = {
         selected,
-        selectionMode,
+        viewMode,
         onToggleMode: () => {},
         index: 0,
+        addStylingOption: false,
       }
-      const enzymeWrapper = shallow(<MapSelectionModeOption {...props} />, { context })
+      const enzymeWrapper = shallow(<MapViewModeOption {...props} />, { context })
       const button = enzymeWrapper.find(FlatButton)
 
       testSuiteHelpers.assertWrapperProperties(button, {
         onClick: enzymeWrapper.instance().onClicked,
-        title: `results.map.tools.tooltip.for.${selectionMode}`,
+        title: `results.map.tools.tooltip.for.${viewMode}`,
         secondary: selected,
       }, 'Button properties should be correctly set')
       assert.isOk(button.props().icon, 'There should be an icon')

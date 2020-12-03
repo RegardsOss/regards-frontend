@@ -16,8 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
+import { UIDomain } from '@regardsoss/domain'
+
+/**
+ * A layer definition, as used by UI
+ * @author Théo Lasserre
+ */
+
+export const LayerDefinition = PropTypes.shape({
+  layerName: PropTypes.string.isRequired,
+  enabled: PropTypes.bool.isRequired,
+  background: PropTypes.bool.isRequired,
+  layerViewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
+  url: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES, UIDomain.CESIUM_LAYER_TYPES).isRequired,
+  conf: PropTypes.string,
+})

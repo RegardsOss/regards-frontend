@@ -40,6 +40,7 @@ class FakeItem extends React.PureComponent {
 /**
 * Test InfiniteGalleryComponent
 * @author Léo Mieulet
+* @author Théo Lasserre
 */
 describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
   before(testSuiteHelpers.before)
@@ -70,6 +71,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
@@ -98,6 +100,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
@@ -130,6 +133,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: 'idTest',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)

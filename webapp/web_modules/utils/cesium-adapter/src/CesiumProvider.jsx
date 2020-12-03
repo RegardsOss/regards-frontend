@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const HeadlessPlaceholder = props => (
+export const HeadlessPlaceholder = (props) => (
   <div>
     <h1>Headless cesiumAdapter placeholder</h1>
     <h2>Properties: </h2>
@@ -41,7 +41,7 @@ export default class CesiumProvider extends React.Component {
     CesiumAdapter: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     if (process.env.NODE_ENV !== 'test' || process.env.NODE_ENV !== 'coverage') {
       // load required elements
       require.ensure([], (require) => {
@@ -59,7 +59,9 @@ export default class CesiumProvider extends React.Component {
       return null // loading
     }
     return (
-      <CesiumAdapter {...this.props} />
+      <div height="50px">
+        <CesiumAdapter {...this.props} />
+      </div>
     )
   }
 }

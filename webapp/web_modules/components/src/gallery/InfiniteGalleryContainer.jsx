@@ -70,6 +70,8 @@ export class InfiniteGalleryContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
+
+    itemOfInterest: PropTypes.string, // a product id. Example: It is used in map view to highlight a particular product when selected
   }
 
   static defaultProps = {
@@ -199,9 +201,10 @@ export class InfiniteGalleryContainer extends React.Component {
     // except actions / selectors, we need all properties through
     const { entities } = this.state
     const {
-      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps,
+      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps, itemOfInterest,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
+
     return (
       <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize">
         <InfiniteGalleryComponent
@@ -217,6 +220,8 @@ export class InfiniteGalleryContainer extends React.Component {
           emptyComponent={emptyComponent}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
+
+          itemOfInterest={itemOfInterest}
         />
       </MeasureResultProvider>
     )

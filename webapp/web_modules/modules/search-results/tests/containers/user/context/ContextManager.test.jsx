@@ -226,11 +226,12 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       s: { crit4: 'I should be ignored', xzPotatoes: { a: 'b', b: '1' } },
       r: { x: [36, 55] },
     }]),
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: dataEntity.content.id, // description entity
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: anotherDatasetEntity.content.id, // tag view main tag
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: JSON.stringify([true, true]), // 2 unactives attributes
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: dataEntity.content.id, // description entity
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: anotherDatasetEntity.content.id, // tag view main tag
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: JSON.stringify([true, true]), // 2 unactives attributes
     [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
   }
 
@@ -324,9 +325,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         s: { crit2: 'somethingElse', val: 46 },
         r: { kappa: [46, 53], quoala: 'Coco' },
       }]),
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: 'URN:DATASET:UNEXISTING',
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: anotherDataEntity.content.id,
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: 'URN:DATASET:UNEXISTING',
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: anotherDataEntity.content.id,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
       [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
     },
     storageData: defaultLocalStorage,

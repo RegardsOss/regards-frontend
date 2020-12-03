@@ -10,7 +10,7 @@ import {
   ScreenSpaceEventHandler, ScreenSpaceCameraController, ScreenSpaceEvent, Entity, RectangleGraphics,
 } from 'resium'
 import compact from 'lodash/compact'
-import { CatalogDomain } from '@regardsoss/domain'
+import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 
 const INTERACTION_DRAW = {
   UNSTARTED: 'UNSTARTED',
@@ -35,7 +35,18 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     // eslint-disable-next-line react/no-unused-prop-types
     drawnAreas: PropTypes.arrayOf(GeoJsonFeature),
     onFeaturesSelected: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    onProductSelected: PropTypes.func.isRequired,
   }
+
+  static buildRectangleFromGeometry = (geometry) => Rectangle.fromCartographicArray([
+    Cartographic.fromDegrees(
+      geometry.coordinates[0][0][0],
+      geometry.coordinates[0][0][1]),
+    Cartographic.fromDegrees(
+      geometry.coordinates[0][2][0],
+      geometry.coordinates[0][2][1],
+    )])
 
   /**
    * The current Cesium object storing rectangle position
@@ -60,13 +71,13 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
- componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+ UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
  /**
  * Lifecycle method: component receive props. Used here to detect properties change and update local state
  * @param {*} nextProps next component properties
  */
- componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+ UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
  /**
  * Properties change detected: update local state
@@ -83,14 +94,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
    // Draw the rectangle if provided by parent, clear it if
    if (!isEqual(oldProps.drawnAreas, newProps.drawnAreas)) {
      if (!isEmpty(newProps.drawnAreas)) {
-       this.rectangle = Rectangle.fromCartographicArray([
-         Cartographic.fromDegrees(
-           newProps.drawnAreas[0].geometry.coordinates[0][0][0],
-           newProps.drawnAreas[0].geometry.coordinates[0][0][1]),
-         Cartographic.fromDegrees(
-           newProps.drawnAreas[0].geometry.coordinates[0][2][0],
-           newProps.drawnAreas[0].geometry.coordinates[0][2][1],
-         )])
+       this.rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(newProps.drawnAreas[0].geometry)
      } else {
        // When user clear the criteria
        this.rectangle = new Rectangle()
@@ -140,23 +144,22 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   handleSelectFeatures = (movement) => {
     const { cesiumContext } = this.props
     const pickedObjects = cesiumContext.current.cesiumElement.scene.drillPick(movement.position)
+    let selectedEntities = []
     if (!isEmpty(pickedObjects)) {
       // Iterate over picked entites from Cesium and remove all objects not coming from REGARDS catalog
-      const selectedEntities = compact(map(pickedObjects, (entity) => {
+      selectedEntities = compact(map(pickedObjects, (entity) => {
         if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
           return {
             feature: {
               id: entity.id.id,
+              label: entity.id.name,
             },
           }
         }
         return null
       }))
-      // Do not send event if there is no REGARDS feature selected
-      if (!isEmpty(selectedEntities)) {
-        this.props.onFeaturesSelected(selectedEntities)
-      }
     }
+    UIDomain.clickOnEntitiesHandler(selectedEntities, this.props.onProductSelected, this.props.onFeaturesSelected)
   }
 
   handleLeftClick = (movement) => {
@@ -181,7 +184,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
             throw new Error(`Unexpected state ${this.currentInteractionState}`)
         }
       } else {
-        // When drawing selection not active, intersect the cursor with the datasource
+        // When drawing selection not active
         this.handleSelectFeatures(movement)
       }
     }
@@ -191,7 +194,6 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     const {
       drawingSelection,
     } = this.props
-    // console.error("Mouse move :=)")
     // Ensure the drawing selection is active and movement usable
     if (drawingSelection && movement.endPosition != null && this.currentInteractionState === INTERACTION_DRAW.STARTED) {
       // the user is moving the mouse so rectangle too
@@ -234,7 +236,8 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     const {
       drawingSelection, cesiumDrawColor,
     } = this.props
-    return <React.Fragment>
+
+    return <>
       <Entity>
         <RectangleGraphics
           coordinates={this.callback}
@@ -254,6 +257,6 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
         <ScreenSpaceEvent action={this.handleLeftDown} type={ScreenSpaceEventType.LEFT_DOWN} />
         <ScreenSpaceEvent action={this.handleLeftUp} type={ScreenSpaceEventType.LEFT_UP} />
       </ScreenSpaceEventHandler>
-    </React.Fragment>
+    </>
   }
 }

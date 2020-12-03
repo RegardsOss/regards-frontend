@@ -17,23 +17,23 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FlatButton from 'material-ui/FlatButton'
-import PickOnClickSelectionMode from 'mdi-material-ui/MapMarkerRadius'
-import DrawRectangleSelectionMode from 'mdi-material-ui/Select'
+import Mode3D from 'mdi-material-ui/Earth'
+import Mode2D from 'mdi-material-ui/EarthBox'
 import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /**
- * Option to chose a selection mode
- * @author Raphaël Mechali
+ * Options to chose a view mode
  * @author Théo Lasserre
  */
-class MapSelectionModeOption extends React.Component {
+class MapViewModeOption extends React.Component {
   static propTypes = {
-    index: PropTypes.number.isRequired, // mandatory for styling purpose
     selected: PropTypes.bool.isRequired,
-    selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+    viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
     onToggleMode: PropTypes.func.isRequired, // (groupMode, mode) => ()
+    index: PropTypes.number.isRequired, // mandatory for styling purpose (last element)
+    addStylingOption: PropTypes.bool.isRequired, // add specific styling or not
   }
 
   static contextTypes = {
@@ -42,34 +42,36 @@ class MapSelectionModeOption extends React.Component {
   }
 
   static ICON_CONSTRUCTOR_BY_MODE = {
-    [UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK]: PickOnClickSelectionMode,
-    [UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE]: DrawRectangleSelectionMode,
+    [UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D]: Mode3D,
+    [UIDomain.MAP_VIEW_MODES_ENUM.MODE_2D]: Mode2D,
   }
 
   /**
    * Callback: user clicked on this selector, call parent callback to set corresponding mode
    */
   onClicked = () => {
-    const { selectionMode, onToggleMode } = this.props
-    onToggleMode(UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE, selectionMode)
+    const { viewMode, onToggleMode } = this.props
+    onToggleMode(UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE, viewMode)
   }
 
   render() {
-    const { selected, selectionMode, index } = this.props
+    const {
+      selected, viewMode, addStylingOption, index,
+    } = this.props
     const { moduleTheme: { user: { mapViewStyles } }, intl: { formatMessage } } = this.context
-    const IconConstructor = MapSelectionModeOption.ICON_CONSTRUCTOR_BY_MODE[selectionMode]
+    const IconConstructor = MapViewModeOption.ICON_CONSTRUCTOR_BY_MODE[viewMode]
     return (
-      <div style={index === 0 ? mapViewStyles.toolsBox.firstBoxStyle : null}>
+      <div style={addStylingOption && index === 1 ? mapViewStyles.toolsBox.lastBoxStyle : null}>
         <FlatButton
           onClick={this.onClicked}
           icon={<IconConstructor />}
           secondary={selected}
           style={mapViewStyles.iconToolButton}
-          title={formatMessage({ id: `results.map.tools.tooltip.for.${selectionMode}` })}
+          title={formatMessage({ id: `results.map.tools.tooltip.for.${viewMode}` })}
         />
       </div>
 
     )
   }
 }
-export default MapSelectionModeOption
+export default MapViewModeOption

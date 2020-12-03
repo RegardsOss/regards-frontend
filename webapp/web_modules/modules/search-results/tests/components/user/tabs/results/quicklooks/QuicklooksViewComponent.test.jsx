@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklooksViewComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
   before(testSuiteHelpers.before)
@@ -58,9 +59,11 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
         embedInMap: true,
         mapThumbnailHeight: 150,
         primaryQuicklookGroup: 'myMainGroup',
+        onProductSelected: () => {},
         locale: UIDomain.LOCALES_ENUM.en,
       },
       embedInMap: true,
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)
@@ -95,9 +98,11 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
         embedInMap: false,
         mapThumbnailHeight: 150,
         primaryQuicklookGroup: 'myMainGroup',
+        onProductSelected: () => {},
         locale: UIDomain.LOCALES_ENUM.fr,
       },
       embedInMap: false,
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)

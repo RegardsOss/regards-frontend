@@ -361,8 +361,16 @@ export default (baseTheme) => ({
         thumbnailSize: 100,
         thumbnailMargin: '0 10px 10px 10px',
         attribute: {
-          labelMargin: '0 0 5px 0',
-          valueMargin: '0 15px 5px 10px',
+          groupMargin: '5px 5px 0 5px',
+          label: {
+            margin: '0 0 5px 0',
+            color: baseTheme.palette.textColor,
+            textDecoration: 'underline',
+          },
+          value: {
+            margin: '0 0 5px 0',
+            color: baseTheme.palette.textColor,
+          },
         },
       },
       quicklooks: {
@@ -374,15 +382,19 @@ export default (baseTheme) => ({
         mizar: {
           minWidth: 500,
           initialRelativeWidth: 0.7,
-          featureColor: baseTheme.palette.accent1Color,
-          drawColor: baseTheme.palette.accent2Color,
+          featureColor: 'darkred',
+          drawColor: baseTheme.palette.accent1Color,
+          selectedFeatureColor: baseTheme.palette.accent1Color,
+          selectedColorOutlineWidth: 3,
+          selectedBackgroundColor: baseTheme.palette.accent1Color,
         },
         quicklooks: {
           minWidth: 260,
           thumbnailHeight: 160,
           columnWidth: 180,
           columnGap: 15,
-          padding: '12px 5px 5px 0',
+          padding: '12px 5px 5px 5px',
+          selectedColor: baseTheme.palette.accent1Color,
         },
         resizerSeparator: {
           backgroundColor: baseTheme.palette.borderColor,

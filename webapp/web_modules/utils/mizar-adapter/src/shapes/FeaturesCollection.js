@@ -28,6 +28,7 @@ import { CatalogShapes } from '@regardsoss/shape'
 export const GeoJsonFeature = PropTypes.shape({
   geometry: CatalogShapes.EntityGeoProperties.isRequired,
   bbox: PropTypes.arrayOf(PropTypes.number),
+  id: PropTypes.string.isRequired,
 })
 
 /** A GeoJson features collection with mandatory geometry */

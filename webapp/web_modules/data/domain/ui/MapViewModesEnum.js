@@ -16,8 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
+import values from 'lodash/values'
+/**
+ * Possible view modes on map
+ * @author Théo Lasserre
+ */
+export const MAP_VIEW_MODES_ENUM = {
+  MODE_3D: 'MODE_3D',
+  MODE_2D: 'MODE_2D',
+}
+
+export const MAP_VIEW_MODES = values(MAP_VIEW_MODES_ENUM)

@@ -142,6 +142,30 @@ export class ContextStorageHelper {
           },
         }
       },
+    }, {
+      name: 'mmv',
+      toParameterValue: (resultsContext) => {
+        const resultsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return resultsTab.types[resultsTab.selectedType].modes[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP].viewMode
+      },
+      fromParameterValue: (resultsContext, viewMode) => {
+        const resultsTab = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return {
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+              types: {
+                [resultsTab.selectedType]: {
+                  modes: {
+                    [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                      viewMode,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        }
+      },
     }, { // description entity
       name: 'd',
       toParameterValue: (resultsContext) => {

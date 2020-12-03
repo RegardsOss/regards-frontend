@@ -94,6 +94,39 @@ export class MapViewContainer extends React.Component {
     })
   }
 
+  /**
+   * Handle product selection in Mizar/Cesium & in Quicklooks
+   * @param {*} remove if true remove product from selectedProducts list
+   * @param {*} product product selected : id & label
+   */
+  onProductSelected = (remove, product) => {
+    const {
+      moduleId, tabType, resultsContext, updateResultsContext,
+    } = this.props
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // We deal with only one selectedProduct for the moment
+    // Change it later if we want to use more products
+    const newSelectedProducts = remove ? [] : [product]
+
+    // update current mode state by diff
+    updateResultsContext(moduleId, {
+      // update, for current tab and type, the split position in map mode state
+      tabs: {
+        [tabType]: {
+          types: {
+            [selectedType]: {
+              modes: {
+                [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                  selectedProducts: newSelectedProducts,
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+  }
+
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
@@ -116,6 +149,8 @@ export class MapViewContainer extends React.Component {
         projectName={projectName}
 
         onAddElementToCart={onAddElementToCart}
+
+        onProductSelected={this.onProductSelected}
 
         onSplitDropped={this.onSplitDropped}
       />)

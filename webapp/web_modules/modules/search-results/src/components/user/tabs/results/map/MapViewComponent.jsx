@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
+import get from 'lodash/get'
 import SplitPane from 'react-split-pane'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes, UIShapes } from '@regardsoss/shape'
@@ -28,8 +29,8 @@ import QuicklooksViewContainer from '../../../../../containers/user/tabs/results
 
 /**
  * Map view display component. It shows map on left and quicklooks on right
- *
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MapViewComponent extends React.Component {
   static propTypes = {
@@ -49,6 +50,8 @@ class MapViewComponent extends React.Component {
     onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
     // split management
     onSplitDropped: PropTypes.func.isRequired,
+    // product selection management
+    onProductSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -59,7 +62,14 @@ class MapViewComponent extends React.Component {
   state = {
     width: null,
     height: undefined, // leave undefined to use a default value
+    itemOfInterestPicked: new Date().getTime(),
   }
+
+  /**
+   * Check if item is the item of interested
+   * @param {*} item
+   */
+  getItemOfInterest = (item) => get(item, 'props.content.id', null) === this.state.itemOfInterestPicked
 
   /**
    * Split pane was dragged: store new position
@@ -115,13 +125,15 @@ class MapViewComponent extends React.Component {
     return mizar.minWidth
   }
 
+  // TODO DECLARATION FUNCTION getItemOfInterest (voir InfiniteGalleryComponent) + state itemOfInterestPicked (new Date().getTime())
+
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart,
+      accessToken, projectName, onAddElementToCart, onProductSelected,
     } = this.props
-    const { width, height = 0 } = this.state
+    const { width, height = 0, itemOfInterestPicked } = this.state
     const { moduleTheme: { user: { mapViewStyles } }, muiTheme } = this.context
     // Get the map engine and optimize the rendering based on it
     const { selectedModeState: { mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -164,6 +176,7 @@ class MapViewComponent extends React.Component {
                   moduleId={moduleId}
                   tabType={tabType}
                   resultsContext={resultsContext}
+                  onProductSelected={onProductSelected}
                 />
               </div>
               { /* Right: qiuicklooks container */ }
@@ -188,6 +201,9 @@ class MapViewComponent extends React.Component {
 
                   mapThumbnailHeight={quicklooks.thumbnailHeight}
                   embedInMap
+                  onProductSelected={onProductSelected}
+                  itemOfInterestPicked={itemOfInterestPicked}
+                  getItemOfInterest={this.getItemOfInterest}
                 />
               </div>
             </SplitPane>

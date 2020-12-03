@@ -33,6 +33,7 @@ const context = buildTestContext(styles)
 /**
  * Test ViewTypeConfigurationComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
   before(testSuiteHelpers.before)
@@ -108,15 +109,19 @@ describe('[SEARCH RESULTS] Testing ViewTypeConfigurationComponent', () => {
 
     // 3 - Check that map specific field are shown ONLY whend editing map type
     if (viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP) {
-      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 1,
-        'Map background URL field should be shown')
-      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 1,
-        'Map background type field should be shown')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.layers`), 1,
+        'Map layers field should be shown')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.mapEngine`), 1,
+        'Map engine field should be shown')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.initialViewMode`), 1,
+        'Map initial view mode field should be shown')
     } else {
-      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.url`), 0,
-        'Map background URL field should be hidden')
-      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.backgroundLayer.type`), 0,
-        'Map background type field should be hidden')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.layers`), 0,
+        'Map layers field should be hidden')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.mapEngine`), 0,
+        'Map engine field should be hidden')
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === `${rootViewNamespace}.initialViewMode`), 0,
+        'Map initial view mode field should be hidden')
     }
   }))
   // The following test checks that disabling the initial view type sets another one as initial in next form values

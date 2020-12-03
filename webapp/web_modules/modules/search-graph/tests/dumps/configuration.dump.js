@@ -54,7 +54,11 @@ export const configuration1 = {
             enabled: true,
             attributes: [
               { attributes: [{ name: 'label' }], label: { en: 'Label', fr: 'Libellé' } }],
-            backgroundLayer: { url: 'https://c.tile.openstreetmap.org/', type: 'OSM' },
+            layers: [
+              {
+                enabled: true, background: true, layerViewMode: 'MODE_3D', url: 'https://c.tile.openstreetmap.org/', type: 'OSM',
+              },
+            ],
           },
         },
       },
