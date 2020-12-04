@@ -34,6 +34,7 @@ const messages = {
   'processing.management.list.add.button': 'Créer',
   'processing.management.list.edit.button': 'Editer',
   'processing.management.list.delete.button': 'Supprimer',
+  'processing.management.list.delete.error' : 'Erreur durant la suppression du traitement.',
 
   /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'Aucun traitement défini',

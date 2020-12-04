@@ -20,6 +20,7 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   CardActionsComponent,
   ShowableAtRender,
+  ErrorDecoratorComponent,
   ConfirmDialogComponentTypes,
   TableHeaderOptionsArea,
   NoContentComponent, TableLayout,
@@ -70,6 +71,7 @@ class ProcessingListComponent extends React.Component {
       processingToDelete: null,
       deleteDialogOpened: false,
       filters: {},
+      errorMessage: null,
     }
 
     closeDeleteDialog = () => {
@@ -82,7 +84,7 @@ class ProcessingListComponent extends React.Component {
     openDeleteDialog = (processing) => {
       this.setState({
         deleteDialogOpened: true,
-        processingToDelete: processing,
+        processingToDelete: processing.content,
       })
     }
 
@@ -96,7 +98,15 @@ class ProcessingListComponent extends React.Component {
     }
 
     onDelete = () => {
-      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then( () => this.onRefresh())
+      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then( (actionResult) => 
+      {
+        if (actionResult.error) {
+          this.setState({errorMessage : this.context.intl.formatMessage({ id: 'processing.management.list.delete.error' })})
+        } else {
+          this.onRefresh()
+        }
+        this.closeDeleteDialog()
+      })
     }
 
     renderDeleteConfirmDialog = () => {
@@ -113,6 +123,17 @@ class ProcessingListComponent extends React.Component {
             title={title}
           />
         </ShowableAtRender>
+      )
+    }
+
+    renderErrors = () => {
+      if (this.state.errorMessage == null){
+        return null
+      }
+      return (
+        <ErrorDecoratorComponent>
+          <span>{this.state.errorMessage}</span>
+        </ErrorDecoratorComponent>
       )
     }
 
@@ -173,6 +194,7 @@ class ProcessingListComponent extends React.Component {
           />
           <CardText>
             {this.renderDeleteConfirmDialog()}
+            {this.renderErrors()}
             <TableLayout>
               <ProcessingListFiltersComponent onApplyFilters={this.onApplyFilters} />
               <TableHeaderLine>

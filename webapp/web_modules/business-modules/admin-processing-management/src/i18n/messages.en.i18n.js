@@ -34,6 +34,7 @@ const messages = {
   'processing.management.list.add.button': 'Create',
   'processing.management.list.edit.button': 'Edit',
   'processing.management.list.delete.button': 'Delete',
+  'processing.management.list.delete.error' : 'Error during process deletion.',
 
   /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'No processing available',
