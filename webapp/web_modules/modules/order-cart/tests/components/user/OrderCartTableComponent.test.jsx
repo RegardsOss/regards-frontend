@@ -664,6 +664,7 @@ describe('[Order Cart] Testing OrderCartTableComponent', () => {
   testCases.forEach(({ caseLabel, props: { basket, quotaInfo, showDatasets }, expectedRows }) => it(`should render correctly ${caseLabel}`, () => {
     const props = {
       basket,
+      refreshBasket: () => { },
       showDatasets,
       isFetching: false,
       isProcessingDependenciesExist: false,
