@@ -92,8 +92,8 @@ export class ManageDatasetProcessingComponent extends React.Component {
       const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
 
       // get selected processing conf object from processingConfParametersObjects collection
-      const processingConfParametersSelectedObject = get(processingConfParametersObjects, `${processingConfParametersSelected}`)
-      const  processingLabel = get(processingConfParametersSelectedObject,'label','unknown')
+      const processingConfParametersSelectedObject = get(processingConfParametersObjects, `${processingConfParametersSelected}`, {})
+      const processingLabel = get(processingConfParametersSelectedObject,'label','unknown')
 
       return (
         <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
@@ -152,7 +152,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
                 }
             </SelectField>
             {
-              isProcessingConfSelectedConfigurable ? <ParametersConfigurationComponent
+              isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelectedObject) ? <ParametersConfigurationComponent
                 parameters={processingConfParametersSelectedObject.resolvedParameters}
                 parametersValues={processingConfParametersSelectedObject.parameters}
                 initialize={initialize}

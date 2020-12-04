@@ -55,7 +55,7 @@ class Field extends React.Component {
     const { help, fullwidth, ...otherProps } = this.props
 
     return (
-      <div style={fullwidth ? Field.COMMON_STYLE : Field.COMMON_STYLE}>
+      <div style={fullwidth ? Field.FULLWIDTH_STYLE : Field.COMMON_STYLE}>
         <ReduxField intl={this.context.intl} {...otherProps} />
         { (() => {
           if (help) {

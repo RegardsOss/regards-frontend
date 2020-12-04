@@ -210,13 +210,14 @@ export class UserModuleContainer extends React.Component {
 
   render() {
     const {
-      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },dispatchGetBasket,
     } = this.props
     const { isProcessingDependenciesExist } = this.state
     return (
       /* main view */
       <OrderCartComponent
         basket={basket}
+        refreshBasket={dispatchGetBasket}
         showDatasets={showDatasets}
         hasError={hasError}
         isFetching={isFetching}

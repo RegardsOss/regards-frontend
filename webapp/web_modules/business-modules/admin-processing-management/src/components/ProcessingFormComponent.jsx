@@ -119,7 +119,6 @@ export class ProcessingFormComponent extends React.Component {
         validate={ValidationHelpers.required}
         microserviceName={STATIC_CONF.MSERVICES.PROCESSING}
         simpleGlobalParameterConf
-        hideDynamicParameterConf
       />,
         <div key="selectUserRole" style={selectUserRoleDiv}>
           <div style={selectUserRoleFieldDiv}>

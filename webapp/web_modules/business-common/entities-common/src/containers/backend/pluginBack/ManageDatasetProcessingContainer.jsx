@@ -87,6 +87,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
     linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
+    onProcessChanged: PropTypes.func.isRequired,
 
     // from mapStateToProps
     processingConfigurationList: ProcessingShapes.ProcessingList,
@@ -247,13 +248,21 @@ export class ManageDatasetProcessingContainer extends React.Component {
         processBusinessId: processingConfParametersSelectedFound.businessId,
         parameters: processingConfParametersSelectedFound.parameters,
       }
-      updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
+      this.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend)
     }
   }
 
   onRemoveProcessing = () => {
     const { datasetSelectionId, updateDatasetProcessing } = this.props
-    updateDatasetProcessing(datasetSelectionId, {})
+    this.updateDatasetProcessing(datasetSelectionId, {})
+  }
+
+  updateDatasetProcessing = (datasetSelectionId, processingConfParametersSelectedToSend) => {
+    this.props.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend).then(actionResult => {
+      if (!actionResult.error) {
+        this.props.onProcessChanged()
+      }
+    })
   }
 
   render() {

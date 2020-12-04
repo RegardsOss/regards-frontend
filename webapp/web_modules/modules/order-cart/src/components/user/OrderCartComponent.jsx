@@ -43,6 +43,7 @@ class OrderCartComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
 
     basket: OrderShapes.Basket,
+    refreshBasket: PropTypes.func.isRequired,
     showDatasets: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
@@ -102,7 +103,7 @@ class OrderCartComponent extends React.Component {
   render() {
     const {
       isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets, isProcessingDependenciesExist,
-      processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions,
+      processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
@@ -135,6 +136,7 @@ class OrderCartComponent extends React.Component {
             <OrderCartTableComponent
               isFetching={isFetching}
               basket={basket}
+              refreshBasket={refreshBasket}
               showDatasets={showDatasets}
               onShowDuplicatedMessage={this.onShowDuplicatedMessage}
               isProcessingDependenciesExist={isProcessingDependenciesExist}

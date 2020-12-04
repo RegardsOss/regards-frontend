@@ -45,6 +45,7 @@ export class OrderCartTableComponent extends React.Component {
   static propTypes = {
     showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
+    refreshBasket: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     onShowDuplicatedMessage: PropTypes.func.isRequired,
     isProcessingDependenciesExist: PropTypes.bool.isRequired,
@@ -194,10 +195,10 @@ export class OrderCartTableComponent extends React.Component {
 
     // update tree model each time basket / RELATED quota information changes (ignores rate related)
     if (!isEqual(oldProps.basket, basket)
-    || !isEqual(get(oldProps, 'quotaInfo.quotaState', quotaState))
-    || !isEqual(get(oldProps, 'quotaInfo.currentQuota', currentQuota))
-    || !isEqual(get(oldProps, 'quotaInfo.maxQuota', maxQuota))
-    || !isEqual(get(oldProps, 'quotaInfo.quotaWarningCount', quotaWarningCount))) {
+    || !isEqual(get(oldProps, 'quotaInfo.quotaState'), quotaState)
+    || !isEqual(get(oldProps, 'quotaInfo.currentQuota'), currentQuota)
+    || !isEqual(get(oldProps, 'quotaInfo.maxQuota'), maxQuota)
+    || !isEqual(get(oldProps, 'quotaInfo.quotaWarningCount'), quotaWarningCount)) {
       this.setState({
         treeTableModel: {
           basket,
@@ -407,7 +408,7 @@ export class OrderCartTableComponent extends React.Component {
   buildTableCellContent = (cellValue, columnKey) => {
     const { intl: { formatDate, formatMessage } } = this.context
     const { isFetching, onShowDuplicatedMessage, isProcessingDependenciesExist, processingSelectors,
-      pluginMetaDataSelectors, linkProcessingDatasetActions } = this.props
+      pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket } = this.props
 
     // transform content into element, according with column and level (dataset or selection)
     switch (columnKey) {
@@ -487,6 +488,7 @@ export class OrderCartTableComponent extends React.Component {
                <ManageDatasetProcessingContainer
                 datasetIpid={cellValue.datasetSelectionIpId}
                 datasetSelectionId={cellValue.datasetSelectionId}
+                onProcessChanged={refreshBasket}
                 process={cellValue.process}
                 processingSelectors={processingSelectors}
                 pluginMetaDataSelectors={pluginMetaDataSelectors}
