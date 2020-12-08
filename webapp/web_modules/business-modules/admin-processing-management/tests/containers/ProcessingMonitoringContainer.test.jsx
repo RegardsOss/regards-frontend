@@ -51,6 +51,7 @@ describe('[ADMIN PROCESSING MANAGEMENT] Test ProcessingMonitoring container', ()
       // from mapDispatchToProps
       fetchProcessingMonitorList: () => { },
       fetchProcessingList: sinon.stub().callsFake(() => promise),
+      entitiesLoading: false,
     }
 
     const wrapper = shallow(

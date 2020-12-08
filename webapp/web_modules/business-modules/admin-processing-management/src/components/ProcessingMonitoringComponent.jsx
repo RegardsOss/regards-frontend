@@ -25,6 +25,7 @@ import {
   TableColumnBuilder,
   TableLayout,
   PageableInfiniteTableContainer,
+  TableHeaderLineLoadingAndResults,
 } from '@regardsoss/components'
 import { ProcessingShapes } from '@regardsoss/shape'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
@@ -49,6 +50,8 @@ export class ProcessingMonitoringComponent extends React.Component {
       onRefresh: PropTypes.func.isRequired,
       backUrl: PropTypes.string.isRequired,
       processingList: ProcessingShapes.ProcessingList.isRequired,
+      entitiesLoading: PropTypes.bool.isRequired,
+      resultsCount: PropTypes.number.isRequired,
     }
 
     static contextTypes = {
@@ -83,7 +86,7 @@ export class ProcessingMonitoringComponent extends React.Component {
 
     render() {
       const {
-        onRefresh, backUrl, processingList, project
+        onRefresh, backUrl, processingList, project,entitiesLoading, resultsCount,
       } = this.props
       const { filters } = this.state
       const { intl: { formatMessage }, muiTheme } = this.context
@@ -136,6 +139,7 @@ export class ProcessingMonitoringComponent extends React.Component {
                 onRefresh={onRefresh}
                 onApplyFilters={this.applyFilters}
               />
+              <TableHeaderLineLoadingAndResults isFetching={entitiesLoading} resultsCount={resultsCount} />
               <PageableInfiniteTableContainer
                 name="processing-monitoring-table"
                 minRowCount={minRowCount}

@@ -51,6 +51,8 @@ describe('[ADMIN PROCESSING MANAGEMENT] Testing ProcessingMonitoring component',
       processingList: DumpProvider.get('ProcessingMonitoringClient', 'ProcessingMonitoring'),
       onRefresh: () => { },
       backUrl: '#',
+      entitiesLoading:   false,
+      resultsCount: 0,
     }
 
     const wrapper = shallow(

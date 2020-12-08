@@ -24,7 +24,7 @@ import { ProcessingShapes } from '@regardsoss/shape'
 import compose from 'lodash/fp/compose'
 import get from 'lodash/get'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
-import { processingMonitoringActions } from '../clients/ProcessingMonitoringClient'
+import { processingMonitoringActions, processingMonitoringSelectors } from '../clients/ProcessingMonitoringClient'
 import messages from '../i18n'
 import styles from '../styles'
 import ProcessingMonitoringComponent from '../components/ProcessingMonitoringComponent'
@@ -41,7 +41,9 @@ export class ProcessingMonitoringContainer extends React.Component {
      * @return {*} list of component properties extracted from redux state
      */
     static mapStateToProps = (state) => ({
+      meta: processingMonitoringSelectors.getMetaData(state),
       processingList: processingSelectors.getList(state),
+      entitiesLoading: processingMonitoringSelectors.isFetching(state),
     })
 
     /**
@@ -68,9 +70,16 @@ export class ProcessingMonitoringContainer extends React.Component {
       }),
       // from mapStateToProps
       processingList: ProcessingShapes.ProcessingList.isRequired,
+      entitiesLoading: PropTypes.bool,
       // from mapDispatchToProps
       fetchProcessingMonitorList: PropTypes.func,
       fetchProcessingList: PropTypes.func,
+    }
+
+    static defaultProps = {
+      meta: {
+        totalElements: 0,
+      },
     }
 
     /**
@@ -105,7 +114,7 @@ export class ProcessingMonitoringContainer extends React.Component {
       const {
         isLoading,
       } = this.state
-      const { processingList, params: { project } } = this.props
+      const { processingList, meta, entitiesLoading, params: { project } } = this.props
 
       return (
         <I18nProvider messages={messages}>
@@ -115,6 +124,8 @@ export class ProcessingMonitoringContainer extends React.Component {
               onRefresh={this.onRefresh}
               backUrl={this.getBackURL()}
               processingList={processingList}
+              resultsCount={meta.totalElements}
+              entitiesLoading={entitiesLoading}
             />
           </LoadableContentDisplayDecorator>
         </I18nProvider>
