@@ -38,6 +38,7 @@ class OrderListActions extends BasicPageableActions {
    */
   constructor(namespace, isAllUser = false) {
     super({
+      bypassErrorMiddleware : true,
       entityEndpoint: isAllUser ? OrderListActions.ALL_USERS_ORDERS_ENDPOINT : OrderListActions.MY_USER_ORDERS_ENDPOINT,
       namespace,
       schemaTypes: {
