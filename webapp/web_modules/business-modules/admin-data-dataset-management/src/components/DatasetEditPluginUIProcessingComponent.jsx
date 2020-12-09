@@ -249,12 +249,13 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
      */
     handleCheck = (linkList, datasetLinkType, pluginConf) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
+      const pluginBusinessId = get(pluginConf,`content.${datasetLinkId}`,null)
       this.setState({
         [datasetLinkType]: this.isActivated(linkList, pluginConf, datasetLinkType)
         // remove Plugin from list
-          ? linkList.filter((link) => pluginConf[datasetLinkId] !== link[datasetLinkId])
+          ? linkList.filter((link) => pluginBusinessId !== link[datasetLinkId])
         // add Plugin in list
-          : [...linkList, { [datasetLinkId]: pluginConf[datasetLinkId] }],
+          : [...linkList, { [datasetLinkId]: pluginBusinessId }],
       })
     }
 
@@ -267,8 +268,9 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
     isActivated = (linkList, pluginConf, datasetLinkType) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
       const pluginBusinessId = get(pluginConf,`content.${datasetLinkId}`,null)
-      return pluginConf ? this.isActivatedForAllDatasets(pluginConf)
-            || some(linkList, (link) => link[datasetLinkId] === pluginBusinessId) : false
+      const activated = pluginConf ? this.isActivatedForAllDatasets(pluginConf)
+      || some(linkList, (link) => link[datasetLinkId] === pluginBusinessId) : false
+      return activated
     }
 
     isActivatedForAllDatasets = (pluginConf) => get(pluginConf, 'content.isLinkedToAllDatasets', false)

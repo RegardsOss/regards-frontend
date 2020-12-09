@@ -20,7 +20,6 @@
  * @author Léo Mieulet
  */
 import { RSAA, getJSON } from 'redux-api-middleware'
-import isEmpty from 'lodash/isEmpty'
 import BasicActions from '../BasicActions'
 
 /**
@@ -45,7 +44,7 @@ class BasicSignalActions extends BasicActions {
    */
   sendSignal(verb, bodyParam, pathParams, queryParams) {
     let body
-    if (!isEmpty(bodyParam)) {
+    if (bodyParam !== null) {
       if (verb === 'GET') {
         throw new Error('There should be no body parameter on GET method')
       }

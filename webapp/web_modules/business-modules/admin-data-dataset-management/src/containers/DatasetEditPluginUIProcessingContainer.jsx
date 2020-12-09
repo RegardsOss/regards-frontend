@@ -201,7 +201,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
             const linkProcessingPluginDataset = {
               content: {
                 datasetId: this.props.params.datasetIpId,
-                services: map(results[8].payload, (onePayload) => onePayload),
+                services: map(results[8].payload, (onePayload) => { return { label: onePayload.label, businessId: onePayload.processBusinessId}}),
               },
             }
 
