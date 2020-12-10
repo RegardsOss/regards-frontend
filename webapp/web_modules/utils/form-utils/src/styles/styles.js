@@ -58,6 +58,7 @@ export default function styles(theme) {
     // json editor field
     jsonFieldStyles: {
       containerStyle: {
+        width: '100%',
         padding: theme.formsExtensions.jsonField.padding,
         lineHeight: theme.formsExtensions.jsonField.lineHeight,
       },
