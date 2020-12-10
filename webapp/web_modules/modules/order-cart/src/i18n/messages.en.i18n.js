@@ -25,6 +25,7 @@ import { storage } from '@regardsoss/units'
  */
 const messages = {
   ...Locales.en,
+  'order.cart.configuration.presentation.title': 'Display settings',
   'order.cart.configuration.show.datasets': 'Display datasets',
   'order-cart.module.title': 'My cart',
   'order-cart.module.not.logged.title': 'User not authenticated',
