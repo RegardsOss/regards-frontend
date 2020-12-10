@@ -39,6 +39,10 @@ class RenderRadio extends React.Component {
     children: PropTypes.arrayOf(PropTypes.element),
   }
 
+  static FULLWIDTH_STYLE = {
+    width: '100%',
+  }
+
   componentDidMount() {
     const { defaultSelected, input } = this.props
     if (isNil(input.value) || input.value === '') {
@@ -66,9 +70,10 @@ class RenderRadio extends React.Component {
     } = this.props
     const { moduleTheme: { field: { error: errorStyle } } } = this.context
     return (
-      <div>
+      <>
         <RadioButtonGroup
           {...input}
+          style={RenderRadio.FULLWIDTH_STYLE}
           defaultSelected={defaultSelected}
           valueSelected={(input.value || input.value === false) ? input.value : undefined}
           onChange={this.onSelect}
@@ -76,7 +81,7 @@ class RenderRadio extends React.Component {
           {children}
         </RadioButtonGroup>
         {touched && error && (<span style={errorStyle}>{intl.formatMessage({ id: error })}</span>)}
-      </div>
+      </>
     )
   }
 }

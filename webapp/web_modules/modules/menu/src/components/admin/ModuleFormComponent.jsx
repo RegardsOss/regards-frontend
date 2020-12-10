@@ -184,6 +184,7 @@ class ModuleFormComponent extends React.Component {
               name={this.CONF_HOME_ICON_TYPE}
               component={RenderRadio}
               defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+              fullWidth
             >
               <RadioButton
                 value={HOME_ICON_TYPES_ENUM.NONE}
