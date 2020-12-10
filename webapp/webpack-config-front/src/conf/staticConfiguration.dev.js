@@ -58,6 +58,8 @@ STATIC_CONF = {
   POLLING_TIMER_WAITING_USER: 60000,
   // Intervales in ms between two polls for Notifications
   POLLING_TIMER_NOTIFICATIONS: 30000,
+  // Intervales in ms between two polls for a user quota information update
+  POLLING_TIMER_QUOTA_UPDATES: 1000,
   // Static configuration for entity description dialog
   ENTITY_DESCRIPTION: {
     TAGS: {
@@ -73,7 +75,7 @@ STATIC_CONF = {
     safari: '11.1',
     edge: '16.0',
   },
-  MAP : {
+  MAP: {
     PAGE_SIZE_MAP: 400,
     /**
     STATIC_LAYER : {
@@ -84,5 +86,5 @@ STATIC_CONF = {
       visible: true,
     }
      */
-  }
+  },
 }

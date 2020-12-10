@@ -136,7 +136,7 @@ export class QuotaInformationUpdater extends React.Component {
   }
 
   /**
-   * Inner event: starts next update loop: fetch update then wait REFRESH_DELAY then enter next loop step
+   * Inner event: starts next update loop: fetch update then wait POLLING_TIMER_QUOTA_UPDATES, from configuration, then enter next loop step
    * @param {Function} publishQuotaInformation method to publish quota information
    * @param {Function} fetchQuotaInformation method to fetch quota information and then
    */
@@ -151,7 +151,7 @@ export class QuotaInformationUpdater extends React.Component {
         }
         root.setTimeout(() => {
           this.onNextUpdateLoop(publishQuotaInformation, fetchQuotaInformation)
-        }, QuotaInformationUpdater.REFRESH_DELAY)
+        }, STATIC_CONF.POLLING_TIMER_QUOTA_UPDATES)
       }
     })
   }

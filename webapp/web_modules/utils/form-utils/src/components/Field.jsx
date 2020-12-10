@@ -33,7 +33,7 @@ class Field extends React.Component {
     // optional help for field
     help: FieldHelpContent,
     // is full width? (as field is re-parented here, used for styling this section)
-    fullwidth: PropTypes.bool,
+    fullWidth: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -49,14 +49,16 @@ class Field extends React.Component {
   static FULLWIDTH_STYLE = {
     display: 'flex',
     width: '100%',
+    flexGrow: 1,
+    flexShrink: 1,
   }
 
   render() {
-    const { help, fullwidth, ...otherProps } = this.props
+    const { help, fullWidth, ...otherProps } = this.props
 
     return (
-      <div style={fullwidth ? Field.FULLWIDTH_STYLE : Field.COMMON_STYLE}>
-        <ReduxField intl={this.context.intl} {...otherProps} />
+      <div style={fullWidth ? Field.FULLWIDTH_STYLE : Field.COMMON_STYLE}>
+        <ReduxField intl={this.context.intl} fullWidth={fullWidth} {...otherProps} />
         { (() => {
           if (help) {
             switch (help.contentType) {

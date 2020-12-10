@@ -39,7 +39,7 @@ class ChoiceParameterField extends React.Component {
         name={name}
         label={label}
         component={RenderSelectField}
-        fullwidth
+        fullWidth
       >
         {
           choices.map((choice) => <MenuItem key={choice} value={choice} primaryText={choice} />)

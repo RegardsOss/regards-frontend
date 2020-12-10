@@ -116,8 +116,8 @@ export const withQuotaInfo = (DecoratedComponent) => {
      * @return {*} decorator props matching PropTypes.shape({ ...QuotaInfoDecoratorProperties })
      */
     static extractDecoratorProps(quotaInfo, uiSettings, dynamicModuleId) {
-      const {
-        currentQuota, maxQuota, currentRate, rateLimit,
+      const { // when storage is down, initialize to unlimited quota (no internal file to download anyways)
+        currentQuota = 0, maxQuota = -1, currentRate = 0, rateLimit = -1,
       } = quotaInfo
       const { quotaWarningCount, rateWarningCount } = uiSettings
       const quotaState = computeQuotaState(currentQuota, maxQuota, quotaWarningCount)

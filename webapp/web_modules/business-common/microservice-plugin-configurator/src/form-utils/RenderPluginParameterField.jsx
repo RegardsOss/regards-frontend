@@ -74,6 +74,10 @@ export class RenderPluginParameterField extends React.Component {
     whiteSpace: 'pre-wrap',
   }
 
+  static FULLWIDTH = {
+    width: '100%',
+  }
+
   static getFieldValidators(pluginParameterType) {
     const validators = []
     // 1 - By type validator
@@ -151,6 +155,7 @@ export class RenderPluginParameterField extends React.Component {
           component={RenderRadio}
           disabled={this.props.disabled}
           defaultSelected={false}
+          fullWidth
         >
           <RadioButton value={false} label={formatMessage({ id: 'plugin.parameter.static.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
           <RadioButton value label={formatMessage({ id: 'plugin.parameter.dynamic.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
@@ -199,7 +204,7 @@ export class RenderPluginParameterField extends React.Component {
       parameterElements.push(this.renderDescriptionDialog())
     }
     return (
-      <div>
+      <div style={RenderPluginParameterField.FULLWIDTH}>
         {header}
         <div style={dynamicParameter.layout}>
           {parameterElements}

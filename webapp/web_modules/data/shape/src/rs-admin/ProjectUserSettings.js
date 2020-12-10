@@ -26,8 +26,8 @@ import { AdminDomain } from '@regardsoss/domain'
 export const ProjectUserSettings = PropTypes.shape({
   id: PropTypes.number.isRequired,
   mode: PropTypes.oneOf(AdminDomain.PROJECT_USER_SETTINGS_MODE).isRequired,
-  maxQuota: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
-  rateLimit: PropTypes.number.isRequired, // [-1;+inf], -1 is unlimited
+  maxQuota: PropTypes.number, // [-1;+inf], -1 is unlimited. Not required as rs-storage may be offline
+  rateLimit: PropTypes.number, // [-1;+inf], -1 is unlimited. Not required as rs-storage may be offline
 })
 
 export const ProjectUserSettingsWithContent = PropTypes.shape({
