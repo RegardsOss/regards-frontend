@@ -118,24 +118,22 @@ export class RenderAutoCompleteField extends React.Component {
     const { moduleTheme: { autoCompleteFields: { listStyle } }, intl } = this.context
     const errorMessage = RenderHelper.getErrorMessage(touched, error, intl)
     return (
-      <div>
-        <AutoComplete
-          listStyle={listStyle}
-          errorText={errorMessage}
-          floatingLabelText={floatingLabelText}
-          hintText={hintText}
-          fullWidth={fullWidth}
-          onNewRequest={this.onNewRequest}
-          searchText={input.value ? input.value : searchText || ''}
-          onUpdateInput={this.onUpdateInput}
-          onClick={this.onClick}
-          dataSource={dataSource}
-          dataSourceConfig={dataSourceConfig}
-          openOnFocus={openOnFocus}
-          filter={filter}
-          name={input.name}
-        />
-      </div>
+      <AutoComplete
+        listStyle={listStyle}
+        errorText={errorMessage}
+        floatingLabelText={floatingLabelText}
+        hintText={hintText}
+        fullWidth={fullWidth}
+        onNewRequest={this.onNewRequest}
+        searchText={input.value ? input.value : searchText || ''}
+        onUpdateInput={this.onUpdateInput}
+        onClick={this.onClick}
+        dataSource={dataSource}
+        dataSourceConfig={dataSourceConfig}
+        openOnFocus={openOnFocus}
+        filter={filter}
+        name={input.name}
+      />
     )
   }
 }
