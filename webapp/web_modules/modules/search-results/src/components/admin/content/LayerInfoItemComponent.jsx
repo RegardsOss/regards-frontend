@@ -20,9 +20,8 @@
 import map from 'lodash/map'
 import { UIDomain } from '@regardsoss/domain'
 import {
-  RenderRadio, RenderSelectField, RenderTextField, ValidationHelpers, FieldsGroup,
+  RenderRadio, RenderSelectField, RenderTextField, ValidationHelpers, FieldsGroup, RenderCheckbox,
 } from '@regardsoss/form-utils'
-import { RenderCheckbox } from '@regardsoss/form-utils/src/render/RenderCheckbox'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RadioButton } from 'material-ui'
