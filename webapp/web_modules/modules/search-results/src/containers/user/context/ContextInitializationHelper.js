@@ -28,6 +28,7 @@ import { PresentationHelper } from './PresentationHelper'
  * Helper to create initial results context from module configuration
  *
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class ContextInitializationHelper {
   /**
@@ -54,9 +55,12 @@ export class ContextInitializationHelper {
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
           // report map configuration and initial values
-          modeState.backgroundLayer = modeConfiguration.backgroundLayer
-          modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.layers = modeConfiguration.layers
+          modeState.mapEngine = modeConfiguration.mapEngine
+          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE] = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
           modeState.splitPosition = null
+          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE] = modeConfiguration.initialViewMode
+          modeState.selectedProducts = []
           break
         // nothing to do for other modes
         case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:

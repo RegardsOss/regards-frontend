@@ -21,6 +21,8 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isNaN from 'lodash/isNaN'
 import isNil from 'lodash/isNil'
+import reduce from 'lodash/reduce'
+import find from 'lodash/find'
 import { ScrollArea } from '@regardsoss/adapters'
 import { ShowableAtRender, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
@@ -67,6 +69,9 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       width: PropTypes.number.isRequired,
       height: PropTypes.number.isRequired,
     }), // not required as it exists in HOC
+
+    itemOfInterestPicked: PropTypes.number,
+    getItemOfInterest: PropTypes.func,
   }
 
   static defaultProps = {
@@ -106,6 +111,14 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
     return false
   }
 
+  /** Scroll area reference  */
+  scrollArea = React.createRef()
+
+  /**
+   * Stores content node reference
+   */
+  node = React.createRef()
+
   state = { averageHeight: 400, pages: [] }
 
   /** Component will mount: used here to initialize inner layout variables */
@@ -129,13 +142,26 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       || !isEqual(nextProps.componentSize, this.props.componentSize)) {
       this.layout(nextProps)
     }
+    if (!isEqual(nextProps.itemOfInterestPicked, this.props.itemOfInterestPicked)) {
+      const itemFound = reduce(this.state.pages, (res, page) => (
+        res || find(page.items, this.props.getItemOfInterest)
+      ), undefined)
+
+      if (!this.scrollArea.current) {
+        throw new Error('Missing expected current attribute on scroll area component')
+      }
+
+      if (itemFound) {
+        this.scrollArea.current.scrollYTo(itemFound.top)
+      }
+    }
   }
 
   /** On user scroll detected (or initialization)
    * @param scrollEvent scroll event
    */
   onScroll = (scrollEvent) => {
-    if (!this.node || !scrollEvent || isNil(scrollEvent.topPosition)) {
+    if (!this.node.current || !scrollEvent || isNil(scrollEvent.topPosition)) {
       return
     }
     this.scrollBottom = scrollEvent.topPosition + get(scrollEvent, 'containerHeight', 0)
@@ -146,18 +172,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * On scroll update: performs bounds visibility check and starts loading data if required
    */
   onScrollUpdate = () => {
-    if (!this.node) {
+    if (!this.node.current) {
       return
     }
-    const bounds = this.node.getBoundingClientRect()
+    const bounds = this.node.current.getBoundingClientRect()
     this.checkVisibility()
     this.checkInfiniteLoad(bounds)
   }
-
-  /**
-   * Stores content node reference
-   */
-  onReference = (node) => { this.node = node }
 
   /**
    * @param {*} column  column index
@@ -287,7 +308,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
    * @param {boolean} rearrange should force re-layouting
    */
   layout(props, rearrange = false) {
-    if (!this.node) {
+    if (!this.node.current) {
       return
     }
     const {
@@ -503,7 +524,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       // Initialization case, just ignore bounds check
       return
     }
-    const contentHeight = this.node.getBoundingClientRect().height
+    const contentHeight = this.node.current.getBoundingClientRect().height
     // Update when content height > 0 (initialization of graphics constraints not respected)
     if (!!contentHeight && this.scrollBottom >= contentHeight * threshold) {
       onInfiniteLoad()
@@ -566,12 +587,13 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         emptyComponent={emptyComponent}
       >
         <ScrollArea
+          ref={this.scrollArea}
           onScroll={this.onScroll}
           style={componentSize}
           vertical
         >
           <div
-            ref={this.onReference}
+            ref={this.node}
             className={containerClassName}
           >
             <div

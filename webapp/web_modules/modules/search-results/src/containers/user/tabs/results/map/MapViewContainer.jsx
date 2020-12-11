@@ -62,6 +62,11 @@ export class MapViewContainer extends React.Component {
     dispatchSelectAll: PropTypes.func.isRequired,
   }
 
+  /** Initial state */
+  state = {
+    itemOfInterestPicked: null,
+  }
+
   UNSAFE_componentWillMount = () => {
     this.props.dispatchSelectAll()
   }
@@ -75,6 +80,7 @@ export class MapViewContainer extends React.Component {
       moduleId, tabType, resultsContext, updateResultsContext,
     } = this.props
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
     // update current mode state by diff
     updateResultsContext(moduleId, {
       // update, for current tab and type, the split position in map mode state
@@ -94,12 +100,50 @@ export class MapViewContainer extends React.Component {
     })
   }
 
+  /**
+   * Handle product selection in Mizar/Cesium & in Quicklooks
+   * @param {*} remove if true remove product from selectedProducts list
+   * @param {*} product product selected : id & label
+   */
+  onProductSelected = (remove, product) => {
+    const {
+      moduleId, tabType, resultsContext, updateResultsContext,
+    } = this.props
+    const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // We deal with only one selectedProduct for the moment
+    // Change it later if we want to use more products
+    const newSelectedProducts = remove ? [] : [product]
+    // update current mode state by diff
+    updateResultsContext(moduleId, {
+      // update, for current tab and type, the selectedProducts
+      tabs: {
+        [tabType]: {
+          types: {
+            [selectedType]: {
+              modes: {
+                [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                  selectedProducts: newSelectedProducts,
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+    this.setState({
+      itemOfInterestPicked: new Date().getTime(),
+    })
+  }
+
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
     } = this.props
+    const {
+      itemOfInterestPicked,
+    } = this.state
 
     return (
       <MapViewComponent
@@ -117,7 +161,10 @@ export class MapViewContainer extends React.Component {
 
         onAddElementToCart={onAddElementToCart}
 
+        onProductSelected={this.onProductSelected}
+
         onSplitDropped={this.onSplitDropped}
+        itemOfInterestPicked={itemOfInterestPicked}
       />)
   }
 }

@@ -19,6 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
+import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import { MizarAdapter } from '@regardsoss/mizar-adapter'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
@@ -31,6 +32,7 @@ const context = buildTestContext(styles)
 /**
  * Test MapComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing MapComponent', () => {
   before(testSuiteHelpers.before)
@@ -46,33 +48,49 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         features: [],
         type: 'FeatureCollection',
       },
+      mapEngine: UIDomain.MAP_ENGINE_ENUM.CESIUM,
       displayedAreas: [],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
-      onSetSelectionMode: () => {},
+      viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+      onToggleMode: () => {},
       onDrawingSelectionUpdated: () => {},
       onDrawingSelectionDone: () => {},
       onFeaturesPicked: () => {},
-      backgroundLayerURL: 'HELLO.touff',
-      backgroundLayerType: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
+      layers: [{
+        url: 'HELLO.touff',
+        type: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
+        layerViewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+        background: true,
+        enabled: true,
+        visible: true,
+        layerName: 'Hello',
+      }],
+      selectedProducts: [],
+      onProductSelected: () => {},
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)
     assert.lengthOf(mapTools, 1, 'Map tools should be rendered')
     testSuiteHelpers.assertWrapperProperties(mapTools, {
       selectionMode: props.selectionMode,
-      onSetSelectionMode: props.onSetSelectionMode,
+      onToggleMode: props.onToggleMode,
+      viewMode: props.viewMode,
+      selectedProducts: props.selectedProducts,
+      onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
-    const map = enzymeWrapper.find(MizarAdapter)
+    const map = enzymeWrapper.find(CesiumProvider)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
-      backgroundLayerUrl: props.backgroundLayerURL,
-      backgroundLayerType: props.backgroundLayerType,
+      layers: props.layers,
       featuresCollection: props.featuresCollection,
       drawnAreas: props.displayedAreas,
       onDrawingSelectionUpdated: props.onDrawingSelectionUpdated,
       onDrawingSelectionDone: props.onDrawingSelectionDone,
       drawingSelection: true,
       onFeaturesSelected: props.onFeaturesPicked,
+      viewMode: props.viewMode,
+      selectedProducts: props.selectedProducts,
+      onProductSelected: props.onProductSelected,
     }, 'Map properties should be correctly set')
   })
 
@@ -89,38 +107,56 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
         type: 'FeatureCollection',
       },
       displayedAreas: [{
+        id: '1',
         type: PropTypes.string.isRequired,
         geometry: {
           type: CatalogDomain.GEOMETRY_TYPES.Point,
           coordinates: [3, 4],
         },
       }],
+      mapEngine: UIDomain.MAP_ENGINE_ENUM.MIZAR,
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
-      onSetSelectionMode: () => {},
+      viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+      onToggleMode: () => {},
       onDrawingSelectionUpdated: () => {},
       onDrawingSelectionDone: () => {},
       onFeaturesPicked: () => {},
-      backgroundLayerURL: 'HELLO.touff',
-      backgroundLayerType: UIDomain.MIZAR_LAYER_TYPES_ENUM.Bing,
+      layers: [{
+        url: 'HELLO.touff',
+        type: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
+        layerViewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+        background: true,
+        enabled: true,
+        visible: true,
+        layerName: 'Hello',
+      }],
+      selectedProducts: [],
+      onProductSelected: () => {},
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)
     assert.lengthOf(mapTools, 1, 'Map tools should be rendered')
     testSuiteHelpers.assertWrapperProperties(mapTools, {
+      layers: props.layers,
       selectionMode: props.selectionMode,
-      onSetSelectionMode: props.onSetSelectionMode,
+      onToggleMode: props.onToggleMode,
+      viewMode: props.viewMode,
+      selectedProducts: props.selectedProducts,
+      onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
     const map = enzymeWrapper.find(MizarAdapter)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
-      backgroundLayerUrl: props.backgroundLayerURL,
-      backgroundLayerType: props.backgroundLayerType,
+      layers: props.layers,
       featuresCollection: props.featuresCollection,
       drawnAreas: props.displayedAreas,
       onDrawingSelectionUpdated: props.onDrawingSelectionUpdated,
       onDrawingSelectionDone: props.onDrawingSelectionDone,
       drawingSelection: false,
       onFeaturesSelected: props.onFeaturesPicked,
+      viewMode: props.viewMode,
+      selectedProducts: props.selectedProducts,
+      onProductSelected: props.onProductSelected,
     }, 'Map properties should be correctly set')
   })
 })

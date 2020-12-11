@@ -83,14 +83,5 @@ STATIC_CONF = {
   },
   MAP: {
     PAGE_SIZE_MAP: 400,
-    /**
-    STATIC_LAYER : {
-      name: 'Worldcover layer',
-      baseUrl: 'http://172.26.47.52:6280/map/tiles/1.0.0/landcover/EPSG3857',
-      type: 'OSM',
-      background: false,
-      visible: true,
-    }
-     */
   },
 }

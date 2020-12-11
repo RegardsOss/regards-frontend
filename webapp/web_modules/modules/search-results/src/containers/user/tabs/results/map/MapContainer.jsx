@@ -31,6 +31,7 @@ import { MizarAdapter } from '../../../../../../../../utils/mizar-adapter/src/ma
 /**
  * Map container: adapts current context and results to display it on a map. Provides corresponding callbacks
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class MapContainer extends React.Component {
   static propTypes = {
@@ -38,6 +39,8 @@ export class MapContainer extends React.Component {
     moduleId: PropTypes.number.isRequired,
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
+    // product selection management
+    onProductSelected: PropTypes.func.isRequired,
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
@@ -106,8 +109,10 @@ export class MapContainer extends React.Component {
     currentlyDrawingAreas: [],
     // holds the areas currently applying as geometry criteria
     criteriaAreas: [],
-    /** Background layer configuration */
+    // holds the background layer conf
     backgroundLayerConf: {},
+    /** Holds selected products */
+    selectedProducts: [],
   }
 
   /**
@@ -152,29 +157,23 @@ export class MapContainer extends React.Component {
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode, backgroundLayer } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, backgroundLayer: oldBackgroundLayer } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { selectionMode, selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, selectedProducts: oldSelectedProducts } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
       nextState.currentlyDrawingAreas = []
     }
 
+    // Handle selected product changes
+    if (!isEqual(oldSelectedProducts, selectedProducts)) {
+      nextState.selectedProducts = selectedProducts
+    }
+
     // Handle criteria update: pre-compute the list of areas in state
     if (!isEqual(get(oldTab, 'criteria.geometry'), tab.criteria.geometry)) {
       nextState.criteriaAreas = tab.criteria.geometry.map(
         ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
-    }
-
-    // Handle background layer configuration parsing on change (should only be performed at initialization currently, allows avoiding parsing at render time )
-    if (!isEqual(oldBackgroundLayer, backgroundLayer)) {
-      if (backgroundLayer.conf) {
-        try {
-          nextState.backgroundLayerConf = JSON.parse(backgroundLayer.conf)
-        } catch (error) {
-          nextState.backgroundLayerConf = {}
-        }
-      }
     }
 
     // update state on change
@@ -184,16 +183,17 @@ export class MapContainer extends React.Component {
   }
 
   /**
-   * User toggled on / off drawing area filter mode
-   * @param {string} selectionMode new selection mode, from UIDomain.MAP_SELECTION_MODES_ENUM
+   * User toggled on / off drawing area filter mode or view mode
+   * @param {string} groupMode selectionView or viewGroup
+   * @param {string} mode new mode, from UIDomain.MAP_SELECTION_MODES_ENUM or UIDomain.MAP_VIEW_MODES
    */
-  onSetSelectionMode = (selectionMode) => {
+  onToggleMode = (groupMode, mode) => {
     const {
       moduleId, tabType, updateResultsContext, resultsContext,
     } = this.props
     const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update only when there is some change
-    if (selectionMode !== selectedModeState.selectionMode) {
+    if (mode !== selectedModeState[groupMode]) {
       // update selection mode in mode state
       updateResultsContext(moduleId, {
         tabs: {
@@ -201,7 +201,9 @@ export class MapContainer extends React.Component {
             types: {
               [selectedType]: {
                 modes: {
-                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: { selectionMode },
+                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                    [groupMode]: mode,
+                  },
                 },
               },
             },
@@ -305,31 +307,40 @@ export class MapContainer extends React.Component {
   }
 
   render() {
-    const { tabType, resultsContext } = this.props
     const {
-      backgroundLayerConf, featuresCollection, currentlyDrawingAreas, criteriaAreas,
+      tabType, resultsContext, onProductSelected,
+    } = this.props
+    const {
+      featuresCollection, currentlyDrawingAreas, criteriaAreas, selectedProducts,
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
-    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
+    const {
+      selectedModeState: {
+        layers, selectionMode, mapEngine, viewMode,
+      },
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <MapComponent
         featuresCollection={featuresCollection}
         displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
           ? currentlyDrawingAreas /* drawing: show feedback area */
           : criteriaAreas /* not drawing: show criteria areas */}
+
         selectionMode={selectionMode}
-        onSetSelectionMode={this.onSetSelectionMode}
+        viewMode={viewMode}
+        onToggleMode={this.onToggleMode}
 
         onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
         onDrawingSelectionDone={this.onDrawingSelectionDone}
 
         onFeaturesPicked={this.onFeaturesPicked}
+        selectedProducts={selectedProducts}
+        onProductSelected={onProductSelected}
 
-        backgroundLayerURL={backgroundLayer.url}
-        backgroundLayerType={backgroundLayer.type}
-        backgroundLayerConf={backgroundLayerConf}
+        layers={layers}
+
+        mapEngine={mapEngine}
       />
     )
   }

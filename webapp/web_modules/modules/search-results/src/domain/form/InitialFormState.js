@@ -59,10 +59,17 @@ export const INITIAL_FORM_STATE = {
         [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
           enabled: false,
           attributes: [],
-          backgroundLayer: {
-            url: null,
-            type: UIDomain.MIZAR_LAYER_TYPES_ENUM.AsynchroneWMS,
-          },
+          mapEngine: UIDomain.MAP_ENGINE_ENUM.CESIUM,
+          layers: [
+            {
+              layerName: 'Layer',
+              enabled: false,
+              background: false,
+              layerViewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+              url: null,
+              type: UIDomain.CESIUM_LAYER_TYPES_ENUM.AsynchroneWMS,
+            },
+          ],
         },
       },
     },

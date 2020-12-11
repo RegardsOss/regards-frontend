@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test MapSelectionModeOption
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
   before(testSuiteHelpers.before)
@@ -43,7 +44,8 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
       const props = {
         selected,
         selectionMode,
-        onSetSelectionMode: () => {},
+        onToggleMode: () => {},
+        index: 0,
       }
       const enzymeWrapper = shallow(<MapSelectionModeOption {...props} />, { context })
       const button = enzymeWrapper.find(FlatButton)

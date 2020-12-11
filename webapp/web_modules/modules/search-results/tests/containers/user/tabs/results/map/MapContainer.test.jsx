@@ -32,6 +32,7 @@ const context = buildTestContext(styles)
 /**
  * Test MapContainer
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing MapContainer', () => {
   before(testSuiteHelpers.before)
@@ -56,6 +57,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
           },
         },
       }),
+      onProductSelected: () => {},
       entities: [
         // some entities (no valid geometry)
         ...resultsDump.content,
@@ -75,12 +77,21 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       },
       displayedAreas: [], // no area
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
-      onSetSelectionMode: enzymeWrapper.instance().onSetSelectionMode,
+      viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+      onToggleMode: enzymeWrapper.instance().onToggleMode,
       onDrawingSelectionUpdated: enzymeWrapper.instance().onDrawingSelectionUpdated,
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
       onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,
-      backgroundLayerURL: 'https://c.tile.openstreetmap.org/', // from configuration
-      backgroundLayerType: 'OSM', // from configuration
+      onProductSelected: props.onProductSelected,
+      layers: [{
+        layerName: 'Layer',
+        visible: true,
+        background: true,
+        enabled: true,
+        layerViewMode: 'MODE_3D',
+        type: 'OSM',
+        url: 'https://c.tile.openstreetmap.org/',
+      }], // from configuration
     }, 'Component should define the expected properties')
   })
 })

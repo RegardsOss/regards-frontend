@@ -21,6 +21,7 @@ import isFinite from 'lodash/isFinite'
 import Card from 'material-ui/Card/Card'
 import CardText from 'material-ui/Card/CardText'
 import isEqual from 'lodash/isEqual'
+import find from 'lodash/find'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
@@ -53,6 +54,9 @@ export const specificCellPropertiesFields = {
   embedInMap: PropTypes.bool,
   mapThumbnailHeight: PropTypes.number,
   primaryQuicklookGroup: PropTypes.string.isRequired,
+  // Product selection management
+  selectedProducts: PropTypes.arrayOf(PropTypes.object),
+  onProductSelected: PropTypes.func.isRequired,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
   // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
@@ -247,8 +251,9 @@ class QuicklookCellComponent extends React.PureComponent {
    onPropertiesUpdated = (oldProps, newProps) => {
      const nextState = { ...this.state }
      const {
-       left, top, width, gridWidth,
+       left, top, width, gridWidth, selectedProducts, entity, embedInMap,
      } = newProps
+     const { muiTheme } = this.context
      if (!isEqual(left, oldProps.left) || !isEqual(top, oldProps.top) || !isEqual(width, oldProps.width)) {
        nextState.cardStyle = {
          position: 'absolute',
@@ -266,6 +271,15 @@ class QuicklookCellComponent extends React.PureComponent {
          width: alignedWidth / 2,
          height: alignedWidth / 2,
          margin: `${alignedWidth / 10}px ${alignedWidth / 4}px`,
+       }
+     }
+
+     if (!isEqual(selectedProducts, oldProps.selectedProducts) && embedInMap) {
+       nextState.cardStyle = {
+         ...nextState.cardStyle,
+         backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
+           ? muiTheme.module.searchResults.map.quicklooks.selectedColor
+           : 'transparent',
        }
      }
 
@@ -287,6 +301,27 @@ class QuicklookCellComponent extends React.PureComponent {
 
   /** User callback: close zoom view */
   onCloseZoom = () => this.setState({ zoomOpen: false })
+
+  isProductSelected = (selectedProducts, productId) => find(selectedProducts, (selectedProduct) => (selectedProduct.id === productId))
+
+  onImageClicked = () => {
+    const {
+      onProductSelected, selectedProducts, embedInMap, entity,
+    } = this.props
+    // Handle product selection in map view
+    if (embedInMap) {
+      const entityContent = entity.content
+      const selectedProduct = {
+        id: entityContent.id,
+        label: entityContent.label,
+      }
+      // Handle second click on selectedProduct -> remove selection
+      const shouldRemove = this.isProductSelected(selectedProducts, entityContent.id)
+      onProductSelected(shouldRemove, selectedProduct)
+    } else {
+      this.onOpenZoom()
+    }
+  }
 
   render() {
     const {
@@ -332,7 +367,7 @@ class QuicklookCellComponent extends React.PureComponent {
                    src={defaultPic.uri}
                    alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
                    style={actualImageStyle}
-                   onClick={this.onOpenZoom}
+                   onClick={this.onImageClicked}
                  />)
                  : <ImageOff style={iconStyle} />
              }

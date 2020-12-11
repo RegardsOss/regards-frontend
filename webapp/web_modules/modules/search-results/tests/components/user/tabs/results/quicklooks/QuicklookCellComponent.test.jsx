@@ -37,6 +37,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklookCellComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
   before(testSuiteHelpers.before)
@@ -155,6 +156,8 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       embedInMap,
       mapThumbnailHeight: 100,
       primaryQuicklookGroup: 'myMainGroup',
+      selectedProducts: [],
+      onProductSelected: () => {},
       locale,
     }
     const enzymeWrapper = shallow(<QuicklookCellComponent {...props} />, { context })

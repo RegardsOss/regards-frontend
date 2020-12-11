@@ -23,6 +23,7 @@ import { RequestParameters } from '../../rs-common/RequestParameters'
 import { AttributeModel, AttributeModelContent } from '../../rs-dam/AttributeModel'
 import { EntityWithServices } from '../../rs-access/EntityWithServices'
 import { Entity } from '../../rs-catalog/entity/Entity'
+import { LayerDefinition } from '../LayerDefinition'
 
 /**
  * Defines results module context definition
@@ -219,11 +220,10 @@ const QuicklookViewModeState = PropTypes.shape({
 const MapViewModeState = PropTypes.shape({
   ...commonViewStateFields,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
-  backgroundLayer: PropTypes.shape({ // Background presentation
-    url: PropTypes.string.isRequired,
-    type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
-  }).isRequired,
+  layers: PropTypes.arrayOf(LayerDefinition).isRequired,
   selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
+  viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
+  selectedProducts: PropTypes.arrayOf(PropTypes.object),
   splitPosition: PropTypes.number, // current split position
 })
 

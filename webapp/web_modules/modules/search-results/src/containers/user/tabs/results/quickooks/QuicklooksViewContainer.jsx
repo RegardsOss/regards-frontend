@@ -71,6 +71,11 @@ export class QuicklooksViewContainer extends React.Component {
     mapThumbnailHeight: PropTypes.number, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
     settings: UIShapes.UISettings.isRequired, // used in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    onProductSelected: PropTypes.func.isRequired, // used in onPropertiesUpdated
+    // Manage selected product in quicklooks
+    itemOfInterestPicked: PropTypes.number,
+    getItemOfInterest: PropTypes.func.isRequired,
 
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -105,18 +110,18 @@ export class QuicklooksViewContainer extends React.Component {
     const {
       tabType, resultsContext, descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
-      embedInMap, mapThumbnailHeight, settings,
+      embedInMap, mapThumbnailHeight, settings, onProductSelected,
       theme, i18n,
     } = newProps
     const {
       selectedTypeState: { enableDownload, enableServices },
-      selectedModeState: { presentationModels },
+      selectedModeState: { presentationModels, selectedProducts },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     const { resultsContext: oldContext, tabType: oldTabType } = oldProps
     const {
       selectedTypeState: { enableDownload: oldEnableDownload, enableServices: oldEnableServices },
-      selectedModeState: { presentationModels: oldPresentationModels },
+      selectedModeState: { presentationModels: oldPresentationModels, selectedProducts: oldSelectedProducts },
     } = oldContext && oldTabType ? UIDomain.ResultsContextHelper.getViewData(oldProps.resultsContext, oldTabType) : {
       selectedTypeState: {},
       selectedModeState: {},
@@ -134,6 +139,8 @@ export class QuicklooksViewContainer extends React.Component {
       || !isEqual(oldProps.embedInMap, embedInMap)
       || !isEqual(oldProps.mapThumbnailHeight, mapThumbnailHeight)
       || !isEqual(oldProps.settings, settings)
+      || !isEqual(oldSelectedProducts, selectedProducts)
+      || !isEqual(oldProps.onProductSelected, onProductSelected)
       || !isEqual(oldProps.theme, theme)
       || !isEqual(oldProps.i18n, i18n)
     ) {
@@ -151,6 +158,8 @@ export class QuicklooksViewContainer extends React.Component {
           embedInMap,
           mapThumbnailHeight,
           primaryQuicklookGroup: settings.primaryQuicklookGroup,
+          selectedProducts,
+          onProductSelected,
           // Quicklooks cells are pure components so they require the theme and locale to redraw
           currentTheme: theme,
           locale: i18n,
@@ -161,7 +170,7 @@ export class QuicklooksViewContainer extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, embedInMap,
+      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, getItemOfInterest,
     } = this.props
     const { cellProperties } = this.state
 
@@ -172,6 +181,8 @@ export class QuicklooksViewContainer extends React.Component {
         searchActions={searchActions}
         cellProperties={cellProperties}
         embedInMap={embedInMap}
+        itemOfInterestPicked={itemOfInterestPicked}
+        getItemOfInterest={getItemOfInterest}
       />
     )
   }

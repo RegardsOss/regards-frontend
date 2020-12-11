@@ -473,10 +473,10 @@ const styles = (theme) => ({
         justifyContent: 'flex-start',
         flexGrow: 0,
         flexShrink: 0,
+        margin: theme.module.searchResults.list.attribute.groupMargin,
       },
       labelCellStyle: {
-        margin: theme.module.searchResults.list.attribute.labelMargin,
-        color: theme.palette.accent1Color,
+        ...theme.module.searchResults.list.attribute.label,
       },
       valueColumnStyles: {
         display: 'flex',
@@ -488,9 +488,10 @@ const styles = (theme) => ({
         flexGrow: 1,
         flexShrink: 1,
         minWidth: 0,
+        margin: theme.module.searchResults.list.attribute.groupMargin,
       },
       valueCellStyle: { // for groups
-        margin: theme.module.searchResults.list.attribute.valueMargin,
+        ...theme.module.searchResults.list.attribute.value,
         display: 'flex',
         justifyContent: 'flex-start',
         maxWidth: '100%', // required to diminish contained cells width (text 'pushes' column width otherwise)
@@ -575,22 +576,42 @@ const styles = (theme) => ({
         position: 'absolute',
         top: 0,
         left: 0,
+        zIndex: 1,
         // mimics table header styles
         backgroundColor: theme.palette.canvasColor,
         borderRight: `1px solid ${theme.tableRow.borderColor}`,
+        borderLeft: `1px solid ${theme.tableRow.borderColor}`,
+        firstBoxStyle: {
+          paddingLeft: '10px',
+        },
+        lastBoxStyle: {
+          width: '58px',
+        },
+      },
+      selectedProductBox: {
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: '5px',
+        labelStyle: {
+          marginTop: '5px',
+        },
       },
       opacityToolsBox: {
         // overlay position
         position: 'absolute',
-        top: 0,
+        top: '40px',
+        zIndex: 1,
         // mimics table header styles
         backgroundColor: theme.palette.canvasColor,
         borderRight: `1px solid ${theme.tableRow.borderColor}`,
         borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+        borderLeft: `1px solid ${theme.tableRow.borderColor}`,
         display: 'flex',
         alignItems: 'center',
-        left: '166px',
-        width: '200px',
+        left: 0,
+        paddingTop: '5px',
+        paddingRight: '5px',
+        width: '304px',
         height: '40px',
       },
       iconToolButton: {

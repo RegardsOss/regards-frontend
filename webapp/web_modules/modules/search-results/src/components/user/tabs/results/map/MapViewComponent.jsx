@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNumber from 'lodash/isNumber'
+import get from 'lodash/get'
+import find from 'lodash/find'
 import SplitPane from 'react-split-pane'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes, UIShapes } from '@regardsoss/shape'
@@ -28,8 +30,8 @@ import QuicklooksViewContainer from '../../../../../containers/user/tabs/results
 
 /**
  * Map view display component. It shows map on left and quicklooks on right
- *
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MapViewComponent extends React.Component {
   static propTypes = {
@@ -49,6 +51,9 @@ class MapViewComponent extends React.Component {
     onAddElementToCart: PropTypes.func, // used in onPropertiesUpdated
     // split management
     onSplitDropped: PropTypes.func.isRequired,
+    // product selection management
+    onProductSelected: PropTypes.func.isRequired,
+    itemOfInterestPicked: PropTypes.number,
   }
 
   static contextTypes = {
@@ -79,6 +84,19 @@ class MapViewComponent extends React.Component {
       width: Math.ceil(width),
       height: Math.ceil(height),
     })
+  }
+
+  /**
+   *
+   * @param {*} item
+   */
+  getItemOfInterest = (item) => {
+    const {
+      tabType, resultsContext,
+    } = this.props
+    const { selectedModeState: { selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const itemId = get(item, 'props.content.id', null)
+    return find(selectedProducts, (selectedProduct) => selectedProduct.id === itemId)
   }
 
   /**
@@ -119,18 +137,27 @@ class MapViewComponent extends React.Component {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart,
+      accessToken, projectName, onAddElementToCart, onProductSelected, itemOfInterestPicked,
     } = this.props
     const { width, height = 0 } = this.state
     const { moduleTheme: { user: { mapViewStyles } }, muiTheme } = this.context
+    // Get the map engine and optimize the rendering based on it
+    const { selectedModeState: { mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
     // inject theme context to force quicklooks container recomputing cells properties
     const { quicklooks, mizar } = muiTheme.module.searchResults.map
     const leftPaneWidth = this.getLeftPaneWidth()
-
     /*
      * XXX-Workaround-Force-Redraw: the split pane "forgets repainting" the property "size" changes.
      * Therefore, we force children repainting, using a key built on size
      */
+    let mapKey
+    if (mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM) {
+      // Cesium case : no need to hard refresh the component
+      mapKey = 'map-view'
+    } else {
+      mapKey = `map-view:width-${leftPaneWidth}`
+    }
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
@@ -149,12 +176,13 @@ class MapViewComponent extends React.Component {
                 width={leftPaneWidth}
                 height={height}
                 // see force redraw workaround comment above
-                key={`map-view:width-${leftPaneWidth}`}
+                key={mapKey}
               >
                 <MapContainer
                   moduleId={moduleId}
                   tabType={tabType}
                   resultsContext={resultsContext}
+                  onProductSelected={onProductSelected}
                 />
               </div>
               { /* Right: qiuicklooks container */ }
@@ -179,6 +207,9 @@ class MapViewComponent extends React.Component {
 
                   mapThumbnailHeight={quicklooks.thumbnailHeight}
                   embedInMap
+                  onProductSelected={onProductSelected}
+                  itemOfInterestPicked={itemOfInterestPicked}
+                  getItemOfInterest={this.getItemOfInterest}
                 />
               </div>
             </SplitPane>
