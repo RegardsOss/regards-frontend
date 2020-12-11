@@ -291,7 +291,6 @@ class ViewTypeConfigurationComponent extends React.Component {
                 fieldComponent={LayerInfoItemComponent}
                 duplicationTransformation={ViewTypeConfigurationComponent.duplicateLayerInfo}
                 canBeEmpty
-                mapEngine={viewFormValues.mapEngine}
                 fieldProps={this.getLayerProps(viewFormValues.mapEngine)}
                 listHeight="600px"
                 validate={required}

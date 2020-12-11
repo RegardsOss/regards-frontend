@@ -76,37 +76,97 @@ export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onFe
 }
 
 /**
-   * Get layers info depending on layerType and selected mode
+ * We get basic informations for all kind of layers
+ * @param {*} layer
+ * @param {*} mapEngine either Cesium or Mizar
+ */
+function getBasicLayerInfo(layer, mapEngine) {
+  // Common attributes
+  let basicLayerInfo = {
+    type: layer.type,
+    conf: layer.conf ? JSON.parse(layer.conf) : {},
+    baseUrl: layer.url,
+  }
+  // Specific attributes
+  switch (mapEngine) {
+    case UIDomain.MAP_ENGINE_ENUM.MIZAR:
+      basicLayerInfo = {
+        ...basicLayerInfo,
+        background: true,
+        visible: true,
+      }
+      break
+    default:
+  }
+  return basicLayerInfo
+}
+
+/**
+ * Add attributes for WMS and WMTS layer type depending on mapEngine
+ * @param {*} customLayerInfo basic custom layer info
+ * @param {*} customLayer layer defined by admin
+ * @param {*} mapEngine either Cesium or Mizar
+ */
+function addWMSCustomLayerInfo(customLayerInfo, customLayer, mapEngine) {
+  // Common attributes
+  let newCustomLayerInfo = {
+    ...customLayerInfo,
+    layers: customLayer.layersName,
+  }
+  // Specific attributes
+  switch (mapEngine) {
+    case UIDomain.MAP_ENGINE_ENUM.CESIUM:
+      newCustomLayerInfo = {
+        ...newCustomLayerInfo,
+        parameters: {
+          service: 'WMS',
+          version: '1.3.0',
+          request: 'getMap',
+          format: 'image/png',
+          transparent: true,
+        },
+      }
+      break
+    case UIDomain.MAP_ENGINE_ENUM.MIZAR:
+      newCustomLayerInfo = {
+        ...newCustomLayerInfo,
+        transparent: true,
+      }
+      break
+    default:
+  }
+  return newCustomLayerInfo
+}
+
+/**
+   * Get layers info depending on layerType, selected mode and mapEngine
    * Return only one background layer info or multiple data layer info
    * @param {*} layerType : either BACKGROUND or DATA
    * @param {*} viewMode : needed in arg to get correct value after properties update
+   * @param {*} mapEngine: either CESIUM or MIZAR
    */
-export function getLayersInfo(layers, layerType, viewMode) {
+export function getLayersInfo(layers, layerType, viewMode, mapEngine) {
   switch (layerType) {
     case UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND: {
       const backgroundLayer = find(layers, (layer) => layer.enabled && layer.background && layer.layerViewMode === viewMode)
       if (!backgroundLayer || !backgroundLayer.type || !backgroundLayer.url) {
         throw new Error(`There is no background layer for ${viewMode}`)
       }
-      return {
-        name: backgroundLayer.layerName,
-        type: backgroundLayer.type,
-        baseUrl: backgroundLayer.url,
-        conf: backgroundLayer.conf ? JSON.parse(backgroundLayer.conf) : {},
-        background: true,
-        visible: true,
-      }
+      return getBasicLayerInfo(backgroundLayer, mapEngine)
     }
     case UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM: {
       const customLayers = filter(layers, (layer) => !layer.background && layer.enabled && layer.layerViewMode === viewMode)
-      return map(customLayers, (customLayer) => ({
-        name: customLayer.layerName,
-        type: customLayer.type,
-        baseUrl: customLayer.url,
-        conf: customLayer.conf ? JSON.parse(customLayer.conf) : {},
-        background: false,
-        visible: true,
-      }))
+      return map(customLayers, (customLayer) => {
+        const customLayerInfo = getBasicLayerInfo(customLayer, mapEngine)
+
+        switch (customLayer.type) {
+          case UIDomain.CESIUM_LAYER_TYPES_ENUM.WMS || UIDomain.CESIUM_LAYER_TYPES_ENUM.WMTS
+          || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
+            return addWMSCustomLayerInfo(customLayerInfo, customLayer, mapEngine)
+          default:
+        }
+        return customLayerInfo
+      })
     }
     default:
       throw new Error(`Unexpected type ${layerType}`)

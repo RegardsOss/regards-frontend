@@ -25,6 +25,7 @@ import MapToolsComponent from '../../../../../../src/components/user/tabs/result
 import styles from '../../../../../../src/styles'
 import MapSelectionModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapSelectionModeOption'
 import MapViewModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapViewModeOption'
+import MapOpacityOption from '../../../../../../src/components/user/tabs/results/map/options/MapOpacityOption'
 
 const context = buildTestContext(styles)
 
@@ -124,7 +125,6 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     const removeSelected = enzymeWrapper.find(FlatButton)
     assert.equal(removeSelected.length, 1, 'There should be a remove selected product button')
   }))
-
   it('should render correctly with features', () => {
     const props = {
       layers: [{
@@ -149,5 +149,30 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapViewModeOption)
     assert.lengthOf(selectors, 1, 'There should be only one option')
+  })
+  it('should render correctly with CUSTOM Layer', () => {
+    const props = {
+      layers: [{
+        url: 'HELLO.touff',
+        type: UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS,
+        layerViewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+        background: false,
+        enabled: true,
+        layerName: 'Hello',
+      }],
+      selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+      viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
+      onToggleMode: () => {},
+      opacity: 1,
+      handleChangeOpacity: () => {},
+      selectedProducts: [{
+        id: 'TestID',
+        label: 'TestLabel',
+      }],
+      onProductSelected: () => {},
+    }
+    const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
+    const opacityOption = enzymeWrapper.find(MapOpacityOption)
+    assert.equal(opacityOption.length, 1, 'There should be an opacity option button')
   })
 })

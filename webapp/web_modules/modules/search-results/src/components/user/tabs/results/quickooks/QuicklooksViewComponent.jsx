@@ -37,7 +37,7 @@ class QuicklooksViewComponent extends React.Component {
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     cellProperties: SpecificCellProperties.isRequired,
     embedInMap: PropTypes.bool.isRequired,
-    itemOfInterestPicked: PropTypes.number.isRequired,
+    itemOfInterestPicked: PropTypes.number,
     getItemOfInterest: PropTypes.func.isRequired,
   }
 

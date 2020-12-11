@@ -40,7 +40,7 @@ export default class MizarAdapter extends React.Component {
     layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
-    staticLayerOpacity: PropTypes.number,
+    customLayersOpacity: PropTypes.number,
     // selection management: when drawing selection is true, user draws a rectangle
     // during that gestion, onDrawingSelectionUpdated will be called for the component parent to update feedback through drawnAreas
     // at end, onDrawingSelectionDone will be called
@@ -177,7 +177,7 @@ export default class MizarAdapter extends React.Component {
   UNSAFE_componentWillReceiveProps(nextProps) {
     // Add new geo features to display layer
     const {
-      featuresCollection, drawingSelection, drawnAreas, staticLayerOpacity, viewMode,
+      featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
       selectedProducts,
     } = nextProps
     if (!isEqual(this.props.featuresCollection, featuresCollection) || !isEqual(this.props.selectedProducts, selectedProducts)) {
@@ -199,8 +199,8 @@ export default class MizarAdapter extends React.Component {
       this.zoomOnGeometry(drawnAreas[0].geometry)
     }
     // remove old areas and add new ones
-    if (!isEqual(this.props.staticLayerOpacity, staticLayerOpacity)) {
-      this.onUpdateOpacity(staticLayerOpacity)
+    if (!isEqual(this.props.customLayersOpacity, customLayersOpacity)) {
+      this.onUpdateOpacity(customLayersOpacity)
     }
     // Handle change view mode
     if (!isEqual(this.props.viewMode, viewMode)) {
@@ -268,11 +268,11 @@ export default class MizarAdapter extends React.Component {
     this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mousedown', this.onLayerRelativeMouseDown)
 
     // 3 - Set up background layer
-    const baseLayer = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode)
+    const baseLayer = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
     this.mizar.instance.addLayer(baseLayer)
 
     // 4 - Store custom layers
-    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode)
+    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
     forEach(layersInfo, (layerInfo) => {
       this.mizar.instance.addLayer(layerInfo, (customLayerId) => {
         this.mizar.customLayers.push(this.mizar.instance.getLayerByID(customLayerId))
@@ -324,8 +324,6 @@ export default class MizarAdapter extends React.Component {
 
     //  7- Initialize draw selection from property
     this.onToggleDrawSelectionMode(drawingSelection)
-
-    console.error('mizar : ', this.mizar.customLayers)
   }
 
   /**
@@ -411,10 +409,13 @@ export default class MizarAdapter extends React.Component {
   }
 
   /**
+   * DISABLED. DOESN'T WORK.
    * Update the level of opacity of the static layer
    */
   onUpdateOpacity = (opacity) => {
-    this.mizar.staticLayer.setOpacity(opacity)
+    forEach(this.mizar.customLayers, (customLayer) => {
+      customLayer.setOpacity(opacity)
+    })
   }
 
   zoomOnGeometry = (geometry) => {

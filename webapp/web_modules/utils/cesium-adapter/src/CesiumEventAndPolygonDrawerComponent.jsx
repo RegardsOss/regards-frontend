@@ -249,8 +249,9 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
       </Entity>
       <ScreenSpaceEventHandler>
         <ScreenSpaceCameraController
-          enableRotate={!drawingSelection}
+          enableRotate={!drawingSelection} // used to lock the map in 3D mode for drawing purpose
           enableZoom={!drawingSelection}
+          enableTranslate={!drawingSelection} // used to lock the map in 2D mode for drawing purpose
         />
         <ScreenSpaceEvent action={this.handleMouseMove} type={ScreenSpaceEventType.MOUSE_MOVE} />
         <ScreenSpaceEvent action={this.handleLeftClick} type={ScreenSpaceEventType.LEFT_CLICK} />

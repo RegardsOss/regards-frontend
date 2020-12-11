@@ -55,6 +55,7 @@ export const LayerConfiguration = PropTypes.shape({
   url: PropTypes.string,
   type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES, UIDomain.CESIUM_LAYER_TYPES),
   conf: PropTypes.string,
+  layersName: PropTypes.string,
 })
 
 /** Map view */

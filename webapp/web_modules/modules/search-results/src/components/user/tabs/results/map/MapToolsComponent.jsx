@@ -20,6 +20,7 @@ import DeleteIcon from 'mdi-material-ui/CloseCircleOutline'
 import find from 'lodash/find'
 import last from 'lodash/last'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import uniq from 'lodash/uniq'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
@@ -65,15 +66,42 @@ class MapToolsComponent extends React.Component {
   UNSAFE_componentWillMount() {
     // Set up available modes
     const {
-      layers,
+      layers, viewMode,
     } = this.props
     const enabledBackgroundLayers = filter(layers, (layer) => layer.enabled && layer.background)
-    const dataLayerExist = find(layers, (layer) => layer.enabled && !layer.background)
+    const dataLayerExist = this.dataLayerExist(layers, viewMode)
     const availableModeList = uniq(map(enabledBackgroundLayers, (layer) => layer.layerViewMode))
     this.setState({
       availableModeList,
       dataLayerExist,
     })
+  }
+
+  dataLayerExist = (layers, viewMode) => find(layers, (layer) => layer.enabled && !layer.background && layer.layerViewMode === viewMode)
+
+  /**
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      viewMode, layers,
+    } = newProps
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    if (!isEqual(oldProps.viewMode, viewMode)) {
+      newState.dataLayerExist = this.dataLayerExist(layers, viewMode)
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   handleToggleOpacitySlider = () => {

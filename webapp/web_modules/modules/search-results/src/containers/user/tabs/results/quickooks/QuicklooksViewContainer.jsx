@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isEqual from 'lodash/isEqual'
-import last from 'lodash/last'
 import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient } from '@regardsoss/client'
@@ -75,7 +74,7 @@ export class QuicklooksViewContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired, // used in onPropertiesUpdated
     // Manage selected product in quicklooks
-    itemOfInterestPicked: PropTypes.number.isRequired,
+    itemOfInterestPicked: PropTypes.number,
     getItemOfInterest: PropTypes.func.isRequired,
 
     // From map state to props
@@ -184,7 +183,6 @@ export class QuicklooksViewContainer extends React.Component {
         embedInMap={embedInMap}
         itemOfInterestPicked={itemOfInterestPicked}
         getItemOfInterest={getItemOfInterest}
-        //itemOfInterest={last(cellProperties.selectedProductIds)} // TODO A CHANGER -> envoyer la liste
       />
     )
   }

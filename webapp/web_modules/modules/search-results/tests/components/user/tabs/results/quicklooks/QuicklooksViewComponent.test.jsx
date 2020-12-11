@@ -63,7 +63,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
         locale: UIDomain.LOCALES_ENUM.en,
       },
       embedInMap: true,
-      itemOfInterest: '',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)
@@ -102,7 +102,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewComponent', () => {
         locale: UIDomain.LOCALES_ENUM.fr,
       },
       embedInMap: false,
-      itemOfInterest: '',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewComponent {...props} />, { context })
     const galleryWrapper = enzymeWrapper.find(InfiniteGalleryContainer)

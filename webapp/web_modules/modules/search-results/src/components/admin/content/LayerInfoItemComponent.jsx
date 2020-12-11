@@ -38,13 +38,15 @@ const validString255 = [validStringSize(0, 255)]
  * Display a form to create or edit a Layer
  * @author Théo Lasserre
  */
-class LayerInfoItemComponent extends React.Component {
+export class LayerInfoItemComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
     mapEngine: PropTypes.string.isRequired,
     getMenuItems: PropTypes.func.isRequired,
     validateBackgroundURL: PropTypes.func.isRequired,
     validateBackgroundConf: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    entity: PropTypes.object.isRequired, // current selected form values from RenderArrayObjectField
   }
 
   static contextTypes = {
@@ -52,14 +54,31 @@ class LayerInfoItemComponent extends React.Component {
     ...themeContextType,
   }
 
+  displayLayersNameField = (layerType) => {
+    const {
+      name,
+    } = this.props
+    const { intl: { formatMessage } } = this.context
+    if (layerType === UIDomain.CESIUM_LAYER_TYPES_ENUM.WMS || layerType === UIDomain.CESIUM_LAYER_TYPES_ENUM.WMTS
+      || layerType === UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS || layerType === UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS) {
+      return <Field
+        name={`${name}.layersName`}
+        component={RenderTextField}
+        label={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.layersName' })}
+        fullWidth
+      />
+    }
+    return null
+  }
+
   render() {
     const {
-      name, mapEngine, getMenuItems, validateBackgroundURL, validateBackgroundConf,
+      name, mapEngine, getMenuItems, validateBackgroundURL, validateBackgroundConf, entity,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <>
-        <FieldsGroup clearSpaceToChildren>
+        <FieldsGroup name={`${name}.commonFields`} clearSpaceToChildren>
           <Field
             name={`${name}.layerName`}
             fullWidth
@@ -81,7 +100,7 @@ class LayerInfoItemComponent extends React.Component {
             label={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.background' })}
           />
         </FieldsGroup>
-        <FieldsGroup title={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.viewMode.title' })}>
+        <FieldsGroup name={`${name}.layerViewModeFields`} title={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.viewMode.title' })}>
           <Field name={`${name}.layerViewMode`} component={RenderRadio} defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}>
             {
               map(UIDomain.MAP_VIEW_MODES_ENUM, (mapViewMode) => (
@@ -111,6 +130,9 @@ class LayerInfoItemComponent extends React.Component {
             getMenuItems(mapEngine)
           }
         </Field>
+        {
+          this.displayLayersNameField(entity.type)
+        }
         <Field
           name={`${name}.conf`}
           component={RenderTextField}

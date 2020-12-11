@@ -79,6 +79,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -148,6 +149,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)

@@ -31,4 +31,5 @@ export const LayerDefinition = PropTypes.shape({
   url: PropTypes.string.isRequired,
   type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES, UIDomain.CESIUM_LAYER_TYPES).isRequired,
   conf: PropTypes.string,
+  layersName: PropTypes.string,
 })

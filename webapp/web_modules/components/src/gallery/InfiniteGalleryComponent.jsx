@@ -24,7 +24,6 @@ import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
 import find from 'lodash/find'
 import { ScrollArea } from '@regardsoss/adapters'
-import isNull from 'lodash/isNull'
 import { ShowableAtRender, LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 
 const noPage = { stop: 0 }
@@ -144,7 +143,6 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
       this.layout(nextProps)
     }
     if (!isEqual(nextProps.itemOfInterestPicked, this.props.itemOfInterestPicked)) {
-      console.error('LALA')
       const itemFound = reduce(this.state.pages, (res, page) => (
         res || find(page.items, this.props.getItemOfInterest)
       ), undefined)

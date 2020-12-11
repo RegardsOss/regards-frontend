@@ -59,9 +59,7 @@ export default class CesiumProvider extends React.Component {
       return null // loading
     }
     return (
-      <div height="50px">
-        <CesiumAdapter {...this.props} />
-      </div>
+      <CesiumAdapter {...this.props} />
     )
   }
 }

@@ -57,6 +57,8 @@ export const configuration1 = {
             layers: [
               {
                 enabled: true, background: true, layerViewMode: 'MODE_3D', url: 'https://c.tile.openstreetmap.org/', type: 'OSM',
+              }, {
+                enabled: true, background: false, layerViewMode: 'MODE_2D', url: 'testUrl', type: 'WMS', layerNames: 'test',
               },
             ],
           },

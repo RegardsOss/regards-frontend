@@ -18,6 +18,7 @@
  **/
 import isNumber from 'lodash/isNumber'
 import get from 'lodash/get'
+import find from 'lodash/find'
 import SplitPane from 'react-split-pane'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes, UIShapes } from '@regardsoss/shape'
@@ -52,6 +53,7 @@ class MapViewComponent extends React.Component {
     onSplitDropped: PropTypes.func.isRequired,
     // product selection management
     onProductSelected: PropTypes.func.isRequired,
+    itemOfInterestPicked: PropTypes.number,
   }
 
   static contextTypes = {
@@ -62,14 +64,7 @@ class MapViewComponent extends React.Component {
   state = {
     width: null,
     height: undefined, // leave undefined to use a default value
-    itemOfInterestPicked: new Date().getTime(),
   }
-
-  /**
-   * Check if item is the item of interested
-   * @param {*} item
-   */
-  getItemOfInterest = (item) => get(item, 'props.content.id', null) === this.state.itemOfInterestPicked
 
   /**
    * Split pane was dragged: store new position
@@ -89,6 +84,19 @@ class MapViewComponent extends React.Component {
       width: Math.ceil(width),
       height: Math.ceil(height),
     })
+  }
+
+  /**
+   *
+   * @param {*} item
+   */
+  getItemOfInterest = (item) => {
+    const {
+      tabType, resultsContext,
+    } = this.props
+    const { selectedModeState: { selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const itemId = get(item, 'props.content.id', null)
+    return find(selectedProducts, (selectedProduct) => selectedProduct.id === itemId)
   }
 
   /**
@@ -125,15 +133,13 @@ class MapViewComponent extends React.Component {
     return mizar.minWidth
   }
 
-  // TODO DECLARATION FUNCTION getItemOfInterest (voir InfiniteGalleryComponent) + state itemOfInterestPicked (new Date().getTime())
-
   render() {
     const {
       moduleId, tabType, resultsContext, requestParameters, searchActions,
       descriptionAvailable, onShowDescription,
-      accessToken, projectName, onAddElementToCart, onProductSelected,
+      accessToken, projectName, onAddElementToCart, onProductSelected, itemOfInterestPicked,
     } = this.props
-    const { width, height = 0, itemOfInterestPicked } = this.state
+    const { width, height = 0 } = this.state
     const { moduleTheme: { user: { mapViewStyles } }, muiTheme } = this.context
     // Get the map engine and optimize the rendering based on it
     const { selectedModeState: { mapEngine } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)

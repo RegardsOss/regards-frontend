@@ -258,7 +258,7 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
             checksum: '0',
             filename: 'myThumbnail', 
           }],
-          ...quicklooksDataFiles,
+          ...quicklooksDataFiles
         }
       },
       links,
@@ -468,6 +468,27 @@ function buildLocalServices(gatewayURL) {
           return { content: myMock }
         },
       },
+      /*getMetadataProcessing: {
+        url: 'rs-processing/plugins',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/processingMetadataList.json'))
+          return { content: myMock}
+        }
+      },
+      getLinkProcessingList: {
+        url: 'rs-processing/process/linkprocessdataset/{datasetIpId}',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/datasetLink.json'))
+          return { content: myMock }
+        }
+      },
+      getProcessingList: {
+        url: 'rs-processing/process/config',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/processingList.json'))
+          return { content: myMock }
+        }
+      }*/
     },
     PUT: {
       stateUpdate: {
@@ -477,12 +498,18 @@ function buildLocalServices(gatewayURL) {
           result.content.state= 'ACKNOWLEDGED'
           return { content: result }
         },
-      }
+      },
+      /*updateDatasetProcessing: {
+        url: 'rs-order/order/basket/dataset/{datasetIpId}/updateProcessing',
+        handler: (req, resp, pathParameters, queryParameters, bodyParameters) => {
+          return { content: bodyParameters}
+        }
+      }*/
     },
     POST: {
     },
     DELETE: {
-    }
+    },
   }
 }
 

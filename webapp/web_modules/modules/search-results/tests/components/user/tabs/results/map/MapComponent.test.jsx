@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import last from 'lodash/last'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import { MizarAdapter } from '@regardsoss/mizar-adapter'

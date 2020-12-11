@@ -62,6 +62,11 @@ export class MapViewContainer extends React.Component {
     dispatchSelectAll: PropTypes.func.isRequired,
   }
 
+  /** Initial state */
+  state = {
+    itemOfInterestPicked: null,
+  }
+
   UNSAFE_componentWillMount = () => {
     this.props.dispatchSelectAll()
   }
@@ -75,6 +80,7 @@ export class MapViewContainer extends React.Component {
       moduleId, tabType, resultsContext, updateResultsContext,
     } = this.props
     const { selectedType } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+
     // update current mode state by diff
     updateResultsContext(moduleId, {
       // update, for current tab and type, the split position in map mode state
@@ -107,10 +113,9 @@ export class MapViewContainer extends React.Component {
     // We deal with only one selectedProduct for the moment
     // Change it later if we want to use more products
     const newSelectedProducts = remove ? [] : [product]
-
     // update current mode state by diff
     updateResultsContext(moduleId, {
-      // update, for current tab and type, the split position in map mode state
+      // update, for current tab and type, the selectedProducts
       tabs: {
         [tabType]: {
           types: {
@@ -125,6 +130,9 @@ export class MapViewContainer extends React.Component {
         },
       },
     })
+    this.setState({
+      itemOfInterestPicked: new Date().getTime(),
+    })
   }
 
   render() {
@@ -133,6 +141,9 @@ export class MapViewContainer extends React.Component {
       descriptionAvailable, onShowDescription,
       accessToken, projectName, onAddElementToCart,
     } = this.props
+    const {
+      itemOfInterestPicked,
+    } = this.state
 
     return (
       <MapViewComponent
@@ -153,6 +164,7 @@ export class MapViewContainer extends React.Component {
         onProductSelected={this.onProductSelected}
 
         onSplitDropped={this.onSplitDropped}
+        itemOfInterestPicked={itemOfInterestPicked}
       />)
   }
 }

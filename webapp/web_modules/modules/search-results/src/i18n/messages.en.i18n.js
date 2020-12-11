@@ -144,6 +144,7 @@ const messages = {
   'search.results.form.configuration.result.MAP.layers.not.enabled': 'Disabled',
   'search.results.form.configuration.result.MAP.layers.url': 'URL',
   'search.results.form.configuration.result.MAP.layers.type': 'Type',
+  'search.results.form.configuration.result.MAP.layers.layersName': 'Layers name',
   'search.results.form.configuration.result.MAP.layers.conf': 'Configuration (optional)',
   'search.results.form.configuration.result.MAP.background.layer.conf.invalid': 'Invalid JSON format',
   'search.results.form.configuration.result.MAP.layers.title': 'Layer',

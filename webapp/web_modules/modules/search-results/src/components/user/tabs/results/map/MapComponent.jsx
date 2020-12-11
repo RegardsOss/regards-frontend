@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import last from 'lodash/last'
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
@@ -62,12 +61,12 @@ class MapComponent extends React.Component {
   }
 
   state = {
-    staticLayerOpacity: 1,
+    customLayersOpacity: 1,
   }
 
-  handleChangeOpacity = (staticLayerOpacity) => {
+  handleChangeOpacity = (customLayersOpacity) => {
     this.setState({
-      staticLayerOpacity,
+      customLayersOpacity,
     })
   }
 
@@ -79,7 +78,7 @@ class MapComponent extends React.Component {
       onFeaturesPicked, layers,
       selectedProducts, onProductSelected,
     } = this.props
-    const { staticLayerOpacity } = this.state
+    const { customLayersOpacity } = this.state
 
     const {
       featureColor, drawColor, selectedFeatureColor, selectedColorOutlineWidth,
@@ -94,7 +93,7 @@ class MapComponent extends React.Component {
       onFeaturesSelected: onFeaturesPicked,
       featuresColor: featureColor,
       drawColor,
-      staticLayerOpacity,
+      customLayersOpacity,
       selectedColorOutlineWidth,
       selectedFeatureColor,
       onProductSelected,
@@ -109,7 +108,7 @@ class MapComponent extends React.Component {
           viewMode={viewMode}
           onToggleMode={onToggleMode}
           handleChangeOpacity={this.handleChangeOpacity}
-          opacity={staticLayerOpacity}
+          opacity={customLayersOpacity}
           selectedProducts={selectedProducts}
           onProductSelected={onProductSelected}
         />
