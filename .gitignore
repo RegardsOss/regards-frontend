@@ -48,6 +48,3 @@ Thumbs.db
 # Logs
 ######################
 *.log
-
-
-webapp/web_modules/sip.json
