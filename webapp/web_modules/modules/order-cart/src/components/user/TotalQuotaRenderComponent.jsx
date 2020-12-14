@@ -49,7 +49,8 @@ class TotalQuotaRenderComponent extends React.Component {
     // Compute state after order
     const allowedQuota = Math.max(maxQuota - currentQuota, 0)
     const afterOrderQuota = Math.max(allowedQuota - totalQuota, 0)
-    const afterOrderStatus = computeQuotaState(currentQuota + totalQuota, maxQuota, quotaWarningCount)
+    // compute after order status (but display warning / consumed only when some quota is consumed)
+    const afterOrderStatus = !totalQuota ? QUOTA_INFO_STATE_ENUM.IDLE : computeQuotaState(currentQuota + totalQuota, maxQuota, quotaWarningCount)
     return (
       <div
         style={container}
