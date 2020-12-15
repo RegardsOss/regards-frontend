@@ -27,7 +27,7 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
 import { ProcessingDomain } from '@regardsoss/domain'
-import { withModuleStyle, themeContextType } from '@regardsoss/theme'
+import { withModuleStyle } from '@regardsoss/theme'
 import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
 import { ProcessingShapes, CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -94,10 +94,6 @@ export class ManageDatasetProcessingContainer extends React.Component {
     // from mapDispatchToProps
     fetchLinkProcessingDatasetList: PropTypes.func,
     updateDatasetProcessing: PropTypes.func,
-  }
-
-  static contextTypes = {
-    ...themeContextType,
   }
 
   state = {
@@ -182,10 +178,9 @@ export class ManageDatasetProcessingContainer extends React.Component {
     }, {})
 
     // Set selected conf to dataset process businessId if exist, if not set to first conf found in processingConfParameters collection
-    let processingConfParametersSelected = processBusinessId
-    if (processingConfParametersSelected === '') {
-      const processingConfParametersSelectedObject = get(processingConfParametersObjects, keys(processingConfParametersObjects)[0])
-      processingConfParametersSelected = processingConfParametersSelectedObject.businessId
+    let processingConfParametersSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
+    if (isEmpty(processingConfParametersSelected)) {
+      processingConfParametersSelected = get(processingConfParametersObjects, keys(processingConfParametersObjects)[0])
     }
 
     this.setState({
@@ -201,20 +196,20 @@ export class ManageDatasetProcessingContainer extends React.Component {
    * We need this to check if conf selected need parameters configuration
    * @param {*} businessId
    */
-  isParametersConfigurationNeeded = (processingConfParameters) => {
-    const { processingConfParametersObjects } = this.state
-    const processingConfParametersFound = get(processingConfParametersObjects, `${processingConfParameters}`)
-    return !isEmpty(processingConfParametersFound.resolvedParameters)
-  }
+  isParametersConfigurationNeeded = (processingConfParametersSelected) => !isEmpty(processingConfParametersSelected.resolvedParameters)
 
   /**
    * Handle selected change
    * @param {*} link
    */
   onSelectedProcessingConfChanged = (event, index, value) => {
+    const {
+      processingConfParametersObjects,
+    } = this.state
+    const processingConfParametersSelected = get(processingConfParametersObjects, `${value}`, {})
     this.setState({
-      processingConfParametersSelected: value,
-      isProcessingConfSelectedConfigurable: this.isParametersConfigurationNeeded(value),
+      processingConfParametersSelected,
+      isProcessingConfSelectedConfigurable: this.isParametersConfigurationNeeded(processingConfParametersSelected),
     })
   }
 
@@ -226,12 +221,12 @@ export class ManageDatasetProcessingContainer extends React.Component {
     const { datasetSelectionId } = this.props
     const processBusinessId = get(this.props, 'process.processBusinessId', null)
     const { processingConfParametersSelected, processingConfParametersObjects } = this.state
-    let processingConfParametersSelectedFound = get(processingConfParametersObjects, `${processingConfParametersSelected}`)
+    let processingConfParametersSelectedFound = processingConfParametersSelected
     // Update if there was a modification in select or form
-    if (processBusinessId !== processingConfParametersSelected || !isEqual(processingConfParametersSelectedFound.parameters, formValues)) {
+    if (processBusinessId !== processingConfParametersSelected.businessId || !isEqual(processingConfParametersSelected.parameters, formValues)) {
       // We need to create a new object instead of update it directly in state because we need it for backend call.
       // We update parameters values only if conf has parameters
-      if (this.isParametersConfigurationNeeded(processingConfParametersSelected)) {
+      if (this.isParametersConfigurationNeeded(processingConfParametersSelectedFound)) {
         processingConfParametersSelectedFound = {
           ...processingConfParametersSelectedFound,
           parameters: formValues,
@@ -241,7 +236,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
       this.setState({
         processingConfParametersObjects: {
           ...processingConfParametersObjects,
-          [processingConfParametersSelected]: processingConfParametersSelectedFound,
+          [processingConfParametersSelected.businessId]: processingConfParametersSelectedFound,
         },
       })
       // Backend calls
@@ -256,7 +251,11 @@ export class ManageDatasetProcessingContainer extends React.Component {
 
   onRemoveProcessing = () => {
     const { datasetSelectionId } = this.props
-    this.updateDatasetProcessing(datasetSelectionId, {})
+    const processingConfParametersSelected = {}
+    this.setState({
+      processingConfParametersSelected,
+    })
+    this.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelected)
   }
 
   updateDatasetProcessing = (datasetSelectionId, processingConfParametersSelectedToSend) => {
@@ -273,25 +272,22 @@ export class ManageDatasetProcessingContainer extends React.Component {
     } = this.props
     const { processingConfParametersObjects, processingConfParametersSelected, isProcessingConfSelectedConfigurable } = this.state
     const processBusinessId = get(this.props, 'process.processBusinessId', null)
-    const { moduleTheme: { processDiv } } = this.context
 
     return (
-      <div style={processDiv}>
-        <LoadableContentDisplayDecorator
-          isLoading={this.state.isLoading}
-        >
-          <ManageDatasetProcessingConnectedComponent
-            processingConfParametersObjects={processingConfParametersObjects}
-            processingConfParametersSelected={processingConfParametersSelected}
-            isProcessingConfSelectedConfigurable={isProcessingConfSelectedConfigurable}
-            onSelectedProcessingConfChanged={this.onSelectedProcessingConfChanged}
-            onConfigurationDone={this.onConfigurationDone}
-            onRemoveProcessing={this.onRemoveProcessing}
-            processBusinessId={processBusinessId}
-            disabled={disabled}
-          />
-        </LoadableContentDisplayDecorator>
-      </div>
+      <LoadableContentDisplayDecorator
+        isLoading={this.state.isLoading}
+      >
+        <ManageDatasetProcessingConnectedComponent
+          processingConfParametersObjects={processingConfParametersObjects}
+          processingConfParametersSelected={processingConfParametersSelected}
+          isProcessingConfSelectedConfigurable={isProcessingConfSelectedConfigurable}
+          onSelectedProcessingConfChanged={this.onSelectedProcessingConfChanged}
+          onConfigurationDone={this.onConfigurationDone}
+          onRemoveProcessing={this.onRemoveProcessing}
+          processBusinessId={processBusinessId}
+          disabled={disabled}
+        />
+      </LoadableContentDisplayDecorator>
     )
   }
 }

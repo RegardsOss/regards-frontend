@@ -39,6 +39,7 @@ import { linkUIPluginDatasetActions, linkUIPluginDatasetSelectors } from '../cli
 import { linkPluginDatasetActions, linkPluginDatasetSelectors } from '../clients/LinkPluginDatasetClient'
 import { pluginConfigurationActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
 import { pluginMetaDataActions, pluginMetaDataSelectors } from '../clients/PluginMetaDataClient'
+import { processingMetaDataActions, processingMetaDataSelectors } from '../clients/ProcessingMetaDataClient'
 import { processingActions, processingSelectors } from '../clients/ProcessingClient'
 import { linkProcessingDatasetActions } from '../clients/LinkProcessingDatasetClient'
 import DatasetEditPluginUIProcessingComponent, { DATASET_LINK_TYPE } from '../components/DatasetEditPluginUIProcessingComponent'
@@ -59,7 +60,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       processingConfigurationList: processingSelectors.getList(state),
-      processingMetadataList: pluginMetaDataSelectors.getList(state),
+      processingMetadataList: processingMetaDataSelectors.getList(state),
 
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
     })
@@ -92,7 +93,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
 
       // Processing
       fetchProcessingConfigurationList: () => dispatch(processingActions.fetchEntityList()),
-      fetchProcessingMetadataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
+      fetchProcessingMetadataList: () => dispatch(processingMetaDataActions.fetchEntityList({
         microserviceName: 'rs-processing',
       }, {
         pluginType: 'fr.cnes.regards.modules.processing.plugins.IProcessDefinition',
@@ -191,7 +192,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
                 content: {
                   ...processingConfiguration.content.pluginConfiguration,
                   label: ProcessingDomain.getProcessingName(processingConfiguration),
-                  isLinkedToAllDatasets: get(processingConfiguration,'content.rights.isLinkedToAllDatasets',false)
+                  isLinkedToAllDatasets: get(processingConfiguration, 'content.rights.isLinkedToAllDatasets', false),
                 },
               }
               return newProcessingConfiguration
@@ -201,7 +202,7 @@ export class DatasetEditPluginUIProcessingContainer extends React.Component {
             const linkProcessingPluginDataset = {
               content: {
                 datasetId: this.props.params.datasetIpId,
-                services: map(results[8].payload, (onePayload) => { return { label: onePayload.label, businessId: onePayload.processBusinessId}}),
+                services: map(results[8].payload, (onePayload) => ({ label: onePayload.label, businessId: onePayload.processBusinessId })),
               },
             }
 

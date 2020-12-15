@@ -400,6 +400,7 @@ export class OrderCartTableComponent extends React.Component {
           } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
             return optionColumn.processingStyle
           }
+          return null
         })()}
       >
         {

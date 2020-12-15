@@ -24,12 +24,11 @@ import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
 const {
-  required, validStringSize, validMimeType,isValidAbsolutePath,
+  required, validStringSize, validMimeType, isValidAbsolutePath,
 } = ValidationHelpers
 const validString255 = [validStringSize(0, 255)]
 const requiredMimeType = [required, validMimeType]
 export class AcquisitionFileInfoScanDirComponent extends React.Component {
-
   static propTypes = {
     name: PropTypes.string.isRequired,
     changeField: PropTypes.func.isRequired,
@@ -44,7 +43,7 @@ export class AcquisitionFileInfoScanDirComponent extends React.Component {
     const { name } = this.props
     const { intl: { formatMessage } } = this.context
 
-    console.error('name',this.props)
+    console.error('name', this.props)
 
     return [
       <Field
@@ -63,7 +62,7 @@ export class AcquisitionFileInfoScanDirComponent extends React.Component {
         fullWidth
         component={RenderDateTimeField}
         label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.lastModificationDate' })}
-      />
+      />,
     ]
   }
 }
