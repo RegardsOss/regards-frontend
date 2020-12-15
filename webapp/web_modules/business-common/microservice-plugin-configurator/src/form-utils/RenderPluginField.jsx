@@ -107,7 +107,7 @@ export class RenderPluginField extends React.Component {
    */
   getPluginConfigurator = () => {
     const {
-      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,simpleGlobalParameterConf,
+      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf, simpleGlobalParameterConf,
     } = this.props
 
     if (this.state.selectedPluginMetaData) {

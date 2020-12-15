@@ -89,7 +89,7 @@ class ProcessingListComponent extends React.Component {
     }
 
     onApplyFilters = (filters) => {
-      this.setState({filters})
+      this.setState({ filters })
       this.props.onRefresh(filters)
     }
 
@@ -98,10 +98,9 @@ class ProcessingListComponent extends React.Component {
     }
 
     onDelete = () => {
-      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then( (actionResult) => 
-      {
+      this.props.handleDelete(this.state.processingToDelete.pluginConfiguration.businessId).then((actionResult) => {
         if (actionResult.error) {
-          this.setState({errorMessage : this.context.intl.formatMessage({ id: 'processing.management.list.delete.error' })})
+          this.setState({ errorMessage: this.context.intl.formatMessage({ id: 'processing.management.list.delete.error' }) })
         } else {
           this.onRefresh()
         }
@@ -127,7 +126,7 @@ class ProcessingListComponent extends React.Component {
     }
 
     renderErrors = () => {
-      if (this.state.errorMessage == null){
+      if (this.state.errorMessage == null) {
         return null
       }
       return (

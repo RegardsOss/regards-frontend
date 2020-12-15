@@ -16,10 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import find from 'lodash/find'
 import get from 'lodash/get'
 
-export const getProcessingName = (processing) => {
-  return get(processing,'content.pluginConfiguration.label','unknown')
-}
-
+export const getProcessingName = (processing) => get(processing, 'content.pluginConfiguration.label', 'unknown')

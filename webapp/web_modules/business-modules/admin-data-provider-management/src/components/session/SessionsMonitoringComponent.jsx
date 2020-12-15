@@ -210,7 +210,7 @@ export class SessionsMonitoringComponent extends React.Component {
   }
 
   onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => {
-      this.setState({
+    this.setState({
       sessionToDisplayProducts: {
         session: entity, isError, isInvalid, isIncomplet,
       },
@@ -223,7 +223,7 @@ export class SessionsMonitoringComponent extends React.Component {
         session: null,
         isError: true,
         isIncomplete: false,
-      }
+      },
     })
   }
 

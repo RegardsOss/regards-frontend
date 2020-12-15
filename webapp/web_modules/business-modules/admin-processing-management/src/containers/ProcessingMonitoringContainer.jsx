@@ -114,7 +114,9 @@ export class ProcessingMonitoringContainer extends React.Component {
       const {
         isLoading,
       } = this.state
-      const { processingList, meta, entitiesLoading, params: { project } } = this.props
+      const {
+        processingList, meta, entitiesLoading, params: { project },
+      } = this.props
 
       return (
         <I18nProvider messages={messages}>

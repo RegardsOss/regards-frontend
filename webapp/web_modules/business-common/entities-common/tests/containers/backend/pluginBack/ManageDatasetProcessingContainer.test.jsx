@@ -126,7 +126,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingContainer', () => {
 
     const props = {
       datasetIpid: 'datasetTest',
-      datasetSelectionId : 123,
+      datasetSelectionId: 123,
       process: datasetProcessLink2,
       onProcessChanged: () => { },
       disabled: false,

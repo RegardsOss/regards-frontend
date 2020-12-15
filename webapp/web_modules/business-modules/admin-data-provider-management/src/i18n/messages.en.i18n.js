@@ -70,7 +70,7 @@ const messages = {
   'acquisition-chain.form.fileInfo.mandatory': 'Mandatory to build the product',
   'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
   'acquisition-chain.form.fileInfo.dataType': 'Data type (*)',
-  'acquisition-chain.form.fileInfo.scanDirInfos' : 'Scan dirctories (*)',
+  'acquisition-chain.form.fileInfo.scanDirInfos': 'Scan dirctories (*)',
   'acquisition-chain.form.fileInfo.scanDir.scannedDirectory': 'Directory to scan',
   'acquisition-chain.form.fileInfo.scanDir.lastModificationDate': 'Since',
   // 1.4 Plugins configuration section

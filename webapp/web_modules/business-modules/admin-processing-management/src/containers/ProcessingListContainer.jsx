@@ -105,9 +105,7 @@ export class ProcessingListContainer extends React.Component {
       browserHistory.push(url)
     }
 
-    handleDelete = (businessId) => {
-      return this.props.deleteProcessing(businessId)
-    }
+    handleDelete = (businessId) => this.props.deleteProcessing(businessId)
 
     render() {
       const { processingList } = this.props

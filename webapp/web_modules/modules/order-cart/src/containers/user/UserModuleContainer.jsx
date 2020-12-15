@@ -150,10 +150,10 @@ export class UserModuleContainer extends React.Component {
         newProps.dispatchFlushBasket()
       }
     }
-    if (!isEqual(oldProps.availableDependencies,  newProps.availableDependencies)) {
+    if (!isEqual(oldProps.availableDependencies, newProps.availableDependencies)) {
       const isProcessingDependenciesExist = allMatchHateoasDisplayLogic([processingActions.getDependency(RequestVerbEnum.GET)], newProps.availableDependencies)
       this.setState({
-        isProcessingDependenciesExist
+        isProcessingDependenciesExist,
       })
       if (isProcessingDependenciesExist) {
         this.retrieveProcessingInfos()
@@ -165,6 +165,7 @@ export class UserModuleContainer extends React.Component {
     this.props.fetchProcessingConfigurationList()
     this.props.fetchProcessingMetadataList()
   }
+
   /**
    * On order callback: dispatches order action then redirects user on order list if it was successful
    * @param {string} orderLabel (optional)
@@ -210,7 +211,7 @@ export class UserModuleContainer extends React.Component {
 
   render() {
     const {
-      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true },dispatchGetBasket,
+      basket, hasError, isAuthenticated, isFetching, dispatchClearCart, moduleConf: { showDatasets = true }, dispatchGetBasket,
     } = this.props
     const { isProcessingDependenciesExist } = this.state
     return (

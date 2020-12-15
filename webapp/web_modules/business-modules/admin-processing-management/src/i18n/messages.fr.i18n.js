@@ -34,7 +34,7 @@ const messages = {
   'processing.management.list.add.button': 'Créer',
   'processing.management.list.edit.button': 'Editer',
   'processing.management.list.delete.button': 'Supprimer',
-  'processing.management.list.delete.error' : 'Erreur durant la suppression du traitement.',
+  'processing.management.list.delete.error': 'Erreur durant la suppression du traitement.',
 
   /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'Aucun traitement défini',
@@ -80,7 +80,7 @@ const messages = {
   'processing.form.plugin.label': 'Plugin de traitement',
   'processing.form.invalid.id': 'ID Invalide',
   'processing.form.select.role': 'Sélectionnez un rôle',
-  'processing.form.select.isLinkedToAllDatasets' : 'Associer à tous les jeux de données',
+  'processing.form.select.isLinkedToAllDatasets': 'Associer à tous les jeux de données',
   'processing.form.select.role.help': 'Le rôle MINIMAL d\'utilisation du traitement peut être sélectionné. Par défaut : PUBLIC',
   'processing.form.list.tooltip.info.button': 'Détails',
   'processing.form.list.tooltip.info.close': 'Fermer',

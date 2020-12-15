@@ -118,7 +118,7 @@ const matchRegex = (regex) => (value) => isString(value) && (value.search(regex)
 
 /**
  * Redux-Form-style validator for Fields which content must be an valid absolute path directory.
- * @param {*} value 
+ * @param {*} value
  */
 const isValidAbsolutePath = (value) => !isNil(value) && (matchRegex(/^\/.+/)(value) === undefined) ? undefined : ErrorTypes.INVALID_ABSOLUTE_PATH
 

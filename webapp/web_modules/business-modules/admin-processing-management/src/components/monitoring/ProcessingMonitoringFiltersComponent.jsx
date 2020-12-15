@@ -112,7 +112,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    * User callback: Apply edited filters to current request
    */
   onApplyFilters = () => {
-    const { onRefresh,onApplyFilters } = this.props
+    const { onApplyFilters } = this.props
     const { filters } = this.state
     if (!isEqual(filters, ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE)) {
       const filtersClean = {
@@ -123,7 +123,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   }
 
   onRefresh = () => {
-    this.props.onRefresh({...this.state.filters, tenant: this.props.project})
+    this.props.onRefresh({ ...this.state.filters, tenant: this.props.project })
   }
 
   /**

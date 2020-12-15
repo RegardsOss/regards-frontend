@@ -34,7 +34,7 @@ const messages = {
   'processing.management.list.add.button': 'Create',
   'processing.management.list.edit.button': 'Edit',
   'processing.management.list.delete.button': 'Delete',
-  'processing.management.list.delete.error' : 'Error during process deletion.',
+  'processing.management.list.delete.error': 'Error during process deletion.',
 
   /* Processing Monitoring */
   'processing.monitoring.list.empty.title': 'No processing available',
@@ -80,7 +80,7 @@ const messages = {
   'processing.form.plugin.label': 'Processing plugin',
   'processing.form.invalid.id': 'Invalid ID',
   'processing.form.select.role': 'Select a role',
-  'processing.form.select.isLinkedToAllDatasets' : 'Associate this process to all datasets',
+  'processing.form.select.isLinkedToAllDatasets': 'Associate this process to all datasets',
   'processing.form.select.role.help': 'The MINIMUM role of processing use can be selected. Default: PUBLIC',
   'processing.form.list.tooltip.info.button': 'Details',
   'processing.form.list.tooltip.info.close': 'Close',

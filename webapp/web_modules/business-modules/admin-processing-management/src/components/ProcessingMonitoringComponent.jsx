@@ -81,12 +81,12 @@ export class ProcessingMonitoringComponent extends React.Component {
     }
 
     applyFilters = (filters) => {
-      this.setState({filters})
+      this.setState({ filters })
     }
 
     render() {
       const {
-        onRefresh, backUrl, processingList, project,entitiesLoading, resultsCount,
+        onRefresh, backUrl, processingList, project, entitiesLoading, resultsCount,
       } = this.props
       const { filters } = this.state
       const { intl: { formatMessage }, muiTheme } = this.context
@@ -147,7 +147,7 @@ export class ProcessingMonitoringComponent extends React.Component {
                 pageActions={processingMonitoringActions}
                 pageSelectors={processingMonitoringSelectors}
                 tableActions={tableActions}
-                requestParams={{...filters,tenant:project}}
+                requestParams={{ ...filters, tenant: project }}
                 pageSize={ProcessingMonitoringComponent.PAGE_SIZE}
                 columns={columns}
                 emptyComponent={ProcessingMonitoringComponent.EMPTY_COMPONENT}

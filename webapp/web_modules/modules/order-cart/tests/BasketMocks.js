@@ -39,10 +39,10 @@ export const mockBasket1 = {
       filesCount: 3,
       filesSize: 27730,
       fileTypesSizes: {
-        'RAWDATA': 27730,
+        RAWDATA: 27730,
       },
       fileTypesCount: {
-        'RAWDATA' : 3,
+        RAWDATA: 3,
       },
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
@@ -108,10 +108,10 @@ export const mockBasket1 = {
       filesCount: 306,
       filesSize: 5048,
       fileTypesSizes: {
-        'RAWDATA': 5048,
+        RAWDATA: 5048,
       },
       fileTypesCount: {
-        'RAWDATA' : 306,
+        RAWDATA: 306,
       },
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
@@ -154,10 +154,10 @@ export const mockBasket2 = {
       filesCount: 0,
       filesSize: 27730,
       fileTypesSizes: {
-        'RAWDATA': 27730,
+        RAWDATA: 27730,
       },
       fileTypesCount: {
-        'RAWDATA' : 0,
+        RAWDATA: 0,
       },
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
@@ -186,10 +186,10 @@ export const mockBasket2 = {
       filesCount: 306,
       filesSize: 5048,
       fileTypesSizes: {
-        'RAWDATA': 5048,
+        RAWDATA: 5048,
       },
       fileTypesCount: {
-        'RAWDATA' : 306,
+        RAWDATA: 306,
       },
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
@@ -242,19 +242,19 @@ export const mockBasket3 = {
       filesCount: 3,
       filesSize: 27730,
       fileTypesSizes: {
-        'RAWDATA': 27730,
+        RAWDATA: 27730,
       },
       fileTypesCount: {
-        'RAWDATA' : 3,
+        RAWDATA: 3,
       },
       datasetLabel: 'Fake dataset 1',
       openSearchRequest: null,
       processDatasetDescription: {
         processBusinessId: '123-456-789-000',
         parameters: {
-          "param1": "value1",
-          "param2": "value2",
-        }
+          param1: 'value1',
+          param2: 'value2',
+        },
       },
       itemsSelections: [{
         id: 0,
@@ -317,10 +317,10 @@ export const mockBasket3 = {
       filesCount: 306,
       filesSize: 5048,
       fileTypesSizes: {
-        'RAWDATA': 5048,
+        RAWDATA: 5048,
       },
       fileTypesCount: {
-        'RAWDATA' : 306,
+        RAWDATA: 306,
       },
       datasetLabel: 'Fake dataset 2',
       openSearchRequest: null,
