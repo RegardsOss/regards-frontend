@@ -26,10 +26,8 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import keys from 'lodash/keys'
-import indexOf from 'lodash/indexOf'
-import { AuthenticationClient } from '@regardsoss/authentication-utils'
-import { ProcessingDomain, AdminDomain } from '@regardsoss/domain'
-import { withModuleStyle } from '@regardsoss/theme'
+import { ProcessingDomain } from '@regardsoss/domain'
+import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
 import { ProcessingShapes, CommonShapes, OrderShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
@@ -48,7 +46,6 @@ const orderBasketActions = new OrderClient.OrderBasketActions()
 * @author Théo Lasserre
 */
 export class ManageDatasetProcessingContainer extends React.Component {
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -79,6 +76,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     datasetIpid: PropTypes.string.isRequired,
     datasetSelectionId: PropTypes.number.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     process: OrderShapes.BasketDatasetProcessingSelection,
     disabled: PropTypes.bool.isRequired,
     //eslint-disable-next-line react/no-unused-prop-types
@@ -98,12 +96,16 @@ export class ManageDatasetProcessingContainer extends React.Component {
     updateDatasetProcessing: PropTypes.func,
   }
 
+  static contextTypes = {
+    ...themeContextType,
+  }
+
   state = {
     isLoading: true,
     processingConfParametersSelected: '',
     isProcessingConfSelectedConfigurable: false,
     processingConfParametersObjects: {},
-    linkProcessingDatasetList: []
+    linkProcessingDatasetList: [],
   }
 
   /**
@@ -114,7 +116,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     fetchLinkProcessingDatasetList(this.props.datasetIpid)
       .then((actionResult) => {
         if (actionResult.error) {
-          console.error("Error retrieving linked process to dataset " + this.props.datasetIpid)
+          console.error(`Error retrieving linked process to dataset ${this.props.datasetIpid}`)
         } else {
           this.filterProcessingConfigurationList(actionResult.payload, this.props.processingConfigurationList)
         }
@@ -122,8 +124,8 @@ export class ManageDatasetProcessingContainer extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps = (nextProps) => {
-    if (!isEqual(this.props.processingConfigurationList,  nextProps.processingConfigurationList)) {
-      this.filterProcessingConfigurationList(this.state.linkProcessingDatasetList,nextProps.processingConfigurationList)
+    if (!isEqual(this.props.processingConfigurationList, nextProps.processingConfigurationList)) {
+      this.filterProcessingConfigurationList(this.state.linkProcessingDatasetList, nextProps.processingConfigurationList)
     }
   }
 
@@ -135,7 +137,7 @@ export class ManageDatasetProcessingContainer extends React.Component {
     const processingConfigurationListFiltered = filter(processingConfigurationList, (processingConfiguration) => (
       some(linkProcessingDatasetList, (linkProcessingDataset) => linkProcessingDataset.processBusinessId === processingConfiguration.content.pluginConfiguration.businessId)
     ))
-    this.createProcessingConfParametersList(processingConfigurationListFiltered,  linkProcessingDatasetList)
+    this.createProcessingConfParametersList(processingConfigurationListFiltered, linkProcessingDatasetList)
   }
 
   /**
@@ -144,8 +146,8 @@ export class ManageDatasetProcessingContainer extends React.Component {
    */
   createProcessingConfParametersList = (processingConfigurationList, linkProcessingDatasetList) => {
     const { processingMetadataList } = this.props
-    const processBusinessId = get(this.props,'process.processBusinessId',null)
-    const parameters = get(this.props,'process.parameters',null)
+    const processBusinessId = get(this.props, 'process.processBusinessId', null)
+    const parameters = get(this.props, 'process.parameters', null)
     let isProcessingConfSelectedConfigurable = false
     // We create an object containing multiple processingConf and their parameters
     const processingConfParametersObjects = reduce(processingConfigurationList, (acc, processingConfiguration) => {
@@ -221,8 +223,8 @@ export class ManageDatasetProcessingContainer extends React.Component {
    * @param {*} formValues
    */
   onConfigurationDone = (formValues = {}) => {
-    const { datasetSelectionId, updateDatasetProcessing } = this.props
-    const processBusinessId = get(this.props,'process.processBusinessId',null)
+    const { datasetSelectionId } = this.props
+    const processBusinessId = get(this.props, 'process.processBusinessId', null)
     const { processingConfParametersSelected, processingConfParametersObjects } = this.state
     let processingConfParametersSelectedFound = get(processingConfParametersObjects, `${processingConfParametersSelected}`)
     // Update if there was a modification in select or form
@@ -253,12 +255,12 @@ export class ManageDatasetProcessingContainer extends React.Component {
   }
 
   onRemoveProcessing = () => {
-    const { datasetSelectionId, updateDatasetProcessing } = this.props
+    const { datasetSelectionId } = this.props
     this.updateDatasetProcessing(datasetSelectionId, {})
   }
 
   updateDatasetProcessing = (datasetSelectionId, processingConfParametersSelectedToSend) => {
-    this.props.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend).then(actionResult => {
+    this.props.updateDatasetProcessing(datasetSelectionId, processingConfParametersSelectedToSend).then((actionResult) => {
       if (!actionResult.error) {
         this.props.onProcessChanged()
       }
@@ -270,23 +272,26 @@ export class ManageDatasetProcessingContainer extends React.Component {
       disabled,
     } = this.props
     const { processingConfParametersObjects, processingConfParametersSelected, isProcessingConfSelectedConfigurable } = this.state
-    const processBusinessId = get(this.props, "process.processBusinessId",null)
+    const processBusinessId = get(this.props, 'process.processBusinessId', null)
+    const { moduleTheme: { processDiv } } = this.context
 
     return (
-      <LoadableContentDisplayDecorator
-        isLoading={this.state.isLoading}
-      >
-        <ManageDatasetProcessingConnectedComponent
-          processingConfParametersObjects={processingConfParametersObjects}
-          processingConfParametersSelected={processingConfParametersSelected}
-          isProcessingConfSelectedConfigurable={isProcessingConfSelectedConfigurable}
-          onSelectedProcessingConfChanged={this.onSelectedProcessingConfChanged}
-          onConfigurationDone={this.onConfigurationDone}
-          onRemoveProcessing={this.onRemoveProcessing}
-          processBusinessId={processBusinessId}
-          disabled={disabled}
-        />
-      </LoadableContentDisplayDecorator>
+      <div style={processDiv}>
+        <LoadableContentDisplayDecorator
+          isLoading={this.state.isLoading}
+        >
+          <ManageDatasetProcessingConnectedComponent
+            processingConfParametersObjects={processingConfParametersObjects}
+            processingConfParametersSelected={processingConfParametersSelected}
+            isProcessingConfSelectedConfigurable={isProcessingConfSelectedConfigurable}
+            onSelectedProcessingConfChanged={this.onSelectedProcessingConfChanged}
+            onConfigurationDone={this.onConfigurationDone}
+            onRemoveProcessing={this.onRemoveProcessing}
+            processBusinessId={processBusinessId}
+            disabled={disabled}
+          />
+        </LoadableContentDisplayDecorator>
+      </div>
     )
   }
 }

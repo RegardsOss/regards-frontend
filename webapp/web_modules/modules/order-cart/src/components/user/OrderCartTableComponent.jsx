@@ -26,9 +26,11 @@ import { themeContextType } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
 import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
-import { ManageDatasetProcessingContainer } from '@regardsoss/entities-common'
+import {
+  ManageDatasetProcessingContainer, QUOTA_INFO_STATE_ENUM, QuotaInfo, withQuotaInfo,
+} from '@regardsoss/entities-common'
 import { TreeTableComponent, TreeTableRow, TableLayout } from '@regardsoss/components'
-import { QUOTA_INFO_STATE_ENUM, QuotaInfo, withQuotaInfo } from '@regardsoss/entities-common'
+
 import { UIDomain } from '@regardsoss/domain'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
@@ -73,8 +75,8 @@ export class OrderCartTableComponent extends React.Component {
     ID: 'id',
     OBJECTS_COUNT: 'objects.count',
     FILES_SIZE: 'files.size',
-    PROCESSING: 'processing',
     QUOTA_SUMMARY: 'quota.summary',
+    PROCESSING: 'processing',
     OPTIONS_DETAIL: 'options.detail',
     OPTIONS_DELETE: 'options.delete',
   }
@@ -84,8 +86,8 @@ export class OrderCartTableComponent extends React.Component {
     { key: OrderCartTableComponent.COLUMN_KEYS.ID, labelKey: 'order-cart.module.basket.table.column.selection' },
     { key: OrderCartTableComponent.COLUMN_KEYS.OBJECTS_COUNT, labelKey: 'order-cart.module.basket.table.column.objects.count' },
     { key: OrderCartTableComponent.COLUMN_KEYS.FILES_SIZE, labelKey: 'order-cart.module.basket.table.column.files.size' },
-    { key: OrderCartTableComponent.COLUMN_KEYS.PROCESSING, labelKey: null },
     { key: OrderCartTableComponent.COLUMN_KEYS.QUOTA_SUMMARY, labelKey: 'order-cart.module.basket.table.column.quota.summary' },
+    { key: OrderCartTableComponent.COLUMN_KEYS.PROCESSING, labelKey: null },
     { key: OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL, labelKey: null },
     { key: OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE, labelKey: null },
   ]
@@ -267,16 +269,18 @@ export class OrderCartTableComponent extends React.Component {
     }, { // 3. size cell (scaled for readability)
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
       capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
-    }, { // 4. Processing cell
+    },
+    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      quota,
+    }] : []),
+    { // 5. Processing cell
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
       datasetSelectionIpId: datasetIpid,
       datasetSelectionId: id,
       process: processDatasetDescription,
     },
-    ...(showQuotaColumn ? [{ // 5. quota cell, when quota is visible
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
-      quota,
-    }] : []), { // 6. Detail cell (disabled for dataset)
+    { // 6. Detail cell (disabled for dataset)
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
     }, { // 7. delete option cell
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
@@ -305,13 +309,15 @@ export class OrderCartTableComponent extends React.Component {
     }, { // 3. size cell (scaled for readability)
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
       capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
-    }, { // 4. Processing cell
-      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
     },
-    ...(showQuotaColumn ? [{ // 5. quota cell, when quota is visible
+    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
       quota,
-    }] : []), { // 6. Detail cell (enabled for dated selection)
+    }] : []),
+    { // 5. Processing cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+    },
+    { // 6. Detail cell (enabled for dated selection)
       type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
       datasetLabel,
       date,
@@ -350,16 +356,18 @@ export class OrderCartTableComponent extends React.Component {
       }, { // 3. size cell (scaled for readability)
         type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
         capacity: OrderCartTableComponent.getStorageCapacity(totalSize),
-      }, { // 4. Processing cell
-        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
       },
-      ...(showQuotaColumn ? [{ // 5. quota cell, when quota is visible
+      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
         type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
         totalQuota,
         currentQuota,
         maxQuota,
         quotaWarningCount,
-      }] : []), { // 6. Detail cell (disabled for total row)
+      }] : []),
+      { // 5. Processing cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+      { // 6. Detail cell (disabled for total row)
         type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
       }, { // 7. delete option cell (disabled for total raw)
         type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
@@ -389,9 +397,10 @@ export class OrderCartTableComponent extends React.Component {
           } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL // specify options columns styles
             || columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE) {
             return optionColumn // options columns graphics configuration
-          } if (columnKey == OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
+          } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
             return optionColumn.processingStyle
-          } })()}
+          }
+        })()}
       >
         {
           this.buildTableCellContent(cellValue, columnKey)
@@ -407,8 +416,10 @@ export class OrderCartTableComponent extends React.Component {
    */
   buildTableCellContent = (cellValue, columnKey) => {
     const { intl: { formatDate, formatMessage } } = this.context
-    const { isFetching, onShowDuplicatedMessage, isProcessingDependenciesExist, processingSelectors,
-      pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket } = this.props
+    const {
+      isFetching, onShowDuplicatedMessage, isProcessingDependenciesExist, processingSelectors,
+      pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
+    } = this.props
 
     // transform content into element, according with column and level (dataset or selection)
     switch (columnKey) {
@@ -484,17 +495,17 @@ export class OrderCartTableComponent extends React.Component {
         }
       }
       case OrderCartTableComponent.COLUMN_KEYS.PROCESSING: {
-            return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist) ?
-               <ManageDatasetProcessingContainer
-                datasetIpid={cellValue.datasetSelectionIpId}
-                datasetSelectionId={cellValue.datasetSelectionId}
-                onProcessChanged={refreshBasket}
-                process={cellValue.process}
-                processingSelectors={processingSelectors}
-                pluginMetaDataSelectors={pluginMetaDataSelectors}
-                linkProcessingDatasetActions={linkProcessingDatasetActions}
-                disabled={isFetching}
-              /> : null
+        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist)
+          ? <ManageDatasetProcessingContainer
+            datasetIpid={cellValue.datasetSelectionIpId}
+            datasetSelectionId={cellValue.datasetSelectionId}
+            onProcessChanged={refreshBasket}
+            process={cellValue.process}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
+            linkProcessingDatasetActions={linkProcessingDatasetActions}
+            disabled={isFetching}
+          /> : null
       }
       default:
         throw new Error(`Unknown column key ${columnKey}`)
