@@ -29,6 +29,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { ProcessingDomain } from '@regardsoss/domain'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import map from 'lodash/map'
 import filter from 'lodash/filter'
 import SelectField from 'material-ui/SelectField'
@@ -41,8 +42,8 @@ import Refresh from 'mdi-material-ui/Refresh'
 import { ProcessingShapes } from '@regardsoss/shape'
 
 const PROCESS_FILTER_PARAMS = {
-  NAME: 'processNameLike',
-  USERNAME: 'userName',
+  PROCESS_BID: 'processBusinessId',
+  USERNAME: 'userEmail',
   FROM: 'from',
   TO: 'to',
   STATUS: 'status',
@@ -69,7 +70,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
    * Default state for filters edition
    */
   static DEFAULT_FILTERS_STATE = {
-    [PROCESS_FILTER_PARAMS.NAME]: '',
+    [PROCESS_FILTER_PARAMS.PROCESS_BID]: '',
     [PROCESS_FILTER_PARAMS.USERNAME]: '',
     [PROCESS_FILTER_PARAMS.FROM]: null,
     [PROCESS_FILTER_PARAMS.TO]: null,
@@ -77,17 +78,7 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
   }
 
   state = {
-    processNameHints: [],
     filters: ProcessingMonitoringFiltersComponent.DEFAULT_FILTERS_STATE,
-  }
-
-  /**
-   * Initialize processNameHints
-   */
-  UNSAFE_componentWillMount() {
-    this.setState({
-      processNameHints: this.getConfigurationProcessNames(),
-    })
   }
 
   /**
@@ -148,36 +139,30 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
         [filterElement]: newStateValue,
       },
     }
-    if (filterElement === PROCESS_FILTER_PARAMS.NAME) {
-      newState.processNameHints = this.getConfigurationProcessNames(newStateValue)
-    }
     this.setState(newState)
   }
 
   render() {
     const {
       intl: { formatMessage, locale },
-      moduleTheme: { processingMonitoring: { filters: { autocomplete } } },
     } = this.context
-    const {
-      processNameHints, filters,
-    } = this.state
+    const { filters } = this.state
+    const { processingList } = this.props
 
     return [
       <TableHeaderLine key="filters">
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
-            <TableHeaderAutoCompleteFilter
-              hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.NAME}-hint` })}
-              text={filters[PROCESS_FILTER_PARAMS.NAME]}
-              currentHints={processNameHints}
-              onUpdateInput={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.NAME)}
-              onFilterSelected={(inputValue) => this.updateState(inputValue, PROCESS_FILTER_PARAMS.NAME)}
-              isFetching={false}
-              noData={!processNameHints.length}
-              prepareHints={this.prepareHints}
-              style={autocomplete}
-            />
+          <SelectField
+                id={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}`}
+                value={filters[PROCESS_FILTER_PARAMS.PROCESS_BID]}
+                floatingLabelText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}-hint` })}
+                onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.PROCESS_BID)}
+              >
+                {map(processingList, (process) => (
+                  <MenuItem key={get(process,'content.pluginConfiguration.label')} value={get(process,'content.pluginConfiguration.businessId')} primaryText={get(process,'content.pluginConfiguration.label')} />
+                ))}
+              </SelectField>
             <TextField
               hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}-hint` })}
               name={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}`}
