@@ -22,6 +22,7 @@ import filter from 'lodash/filter'
 import get from 'lodash/get'
 import some from 'lodash/some'
 import isEmpty from 'lodash/isEmpty'
+import find from 'lodash/find'
 import {
   Card, CardTitle, CardActions, CardText, List, ListItem,
   FlatButton, Checkbox, Tabs, Tab,
@@ -78,9 +79,9 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
         case DATASET_LINK_TYPE.PROCESSING:
           return 'businessId'
         case DATASET_LINK_TYPE.PLUGIN:
-          return 'pluginId'
+          return 'id'
         default:
-          return 'pluginId'
+          return 'id'
       }
     }
 
@@ -108,6 +109,21 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
       }
     }
 
+    static isActivatedForAllDatasets = (pluginConf, datasetLinkType) => {
+      switch (datasetLinkType) {
+        case DATASET_LINK_TYPE.UI_SERVICES:
+          return get(pluginConf, 'content.linkedToAllEntities', false)
+        case DATASET_LINK_TYPE.PROCESSING:
+          return get(pluginConf, 'content.isLinkedToAllDatasets', false)
+        case DATASET_LINK_TYPE.PLUGIN: {
+          const parameterFound = find(pluginConf.content.parameters, (parameter) => parameter.name === 'applyToAllDatasets')
+          return parameterFound ? parameterFound.value : false
+        }
+        default:
+          return false
+      }
+    }
+
     /**
      * We initialize state with links between Plugin, UIPlugins, Processing and datasets
      */
@@ -129,7 +145,7 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
     checkOnePluginConfByMetadataExist = (pluginConfs, metadatas, datasetLinkId, datasetLinkType) => {
       let ret = false
       if (!isEmpty(pluginConfs) && !isEmpty(metadatas)) {
-        ret = some(metadatas, (metadata) => some(pluginConfs, (pluginConf) => DatasetEditPluginUIProcessingComponent.getPluginDefinition(pluginConf, datasetLinkType, datasetLinkId) === metadata.content[datasetLinkId]))
+        ret = some(metadatas, (metadata) => some(pluginConfs, (pluginConf) => DatasetEditPluginUIProcessingComponent.getPluginDefinition(pluginConf, datasetLinkType, datasetLinkId) === metadata.content[datasetLinkId] && get(pluginConf, 'content.active', false)))
       }
       return ret
     }
@@ -145,10 +161,10 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
       // Then we redirect user to the correct form creation
       switch (datasetLinkType) {
         case DATASET_LINK_TYPE.PLUGIN:
-          browserHistory.push(`/admin/${project}/ui/plugin/create`)
+          browserHistory.push(`/admin/${project}/dataaccess/services/create`)
           break
         case DATASET_LINK_TYPE.UI_SERVICES:
-          browserHistory.push(`/admin/${project}/dataaccess/services/create`)
+          browserHistory.push(`/admin/${project}/ui/plugin/create`)
           break
         case DATASET_LINK_TYPE.PROCESSING:
           browserHistory.push(`/admin/${project}/commands/processing/create`)
@@ -226,7 +242,7 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
                           <Checkbox
                             onCheck={() => this.handleCheck(currentLinks, datasetLinkType, pluginConf)}
                             checked={this.isActivated(currentLinks, pluginConf, datasetLinkType)}
-                            disabled={this.isActivatedForAllDatasets(pluginConf)}
+                            disabled={DatasetEditPluginUIProcessingComponent.isActivatedForAllDatasets(pluginConf, datasetLinkType)}
                           />
                               }
                       />
@@ -249,7 +265,7 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
      */
     handleCheck = (linkList, datasetLinkType, pluginConf) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
-      const pluginBusinessId = get(pluginConf,`content.${datasetLinkId}`,null)
+      const pluginBusinessId = get(pluginConf, `content.${datasetLinkId}`, null)
       this.setState({
         [datasetLinkType]: this.isActivated(linkList, pluginConf, datasetLinkType)
         // remove Plugin from list
@@ -267,13 +283,11 @@ export class DatasetEditPluginUIProcessingComponent extends React.Component {
      */
     isActivated = (linkList, pluginConf, datasetLinkType) => {
       const datasetLinkId = DatasetEditPluginUIProcessingComponent.getDatasetLinkId(datasetLinkType)
-      const pluginBusinessId = get(pluginConf,`content.${datasetLinkId}`,null)
-      const activated = pluginConf ? this.isActivatedForAllDatasets(pluginConf)
+      const pluginBusinessId = get(pluginConf, `content.${datasetLinkId}`, null)
+      const activated = pluginConf ? DatasetEditPluginUIProcessingComponent.isActivatedForAllDatasets(pluginConf, datasetLinkType)
       || some(linkList, (link) => link[datasetLinkId] === pluginBusinessId) : false
       return activated
     }
-
-    isActivatedForAllDatasets = (pluginConf) => get(pluginConf, 'content.isLinkedToAllDatasets', false)
 
     handleSubmit = () => {
       this.props.onSubmit(this.state)

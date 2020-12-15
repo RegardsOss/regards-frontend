@@ -72,8 +72,4 @@ export default (theme) => ({
       height: '200px',
     },
   },
-  processDiv: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
 })

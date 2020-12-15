@@ -53,9 +53,7 @@ export class AcquisitionFileInfoComponent extends React.Component {
     ...themeContextType,
   }
 
-  renderScanDirInfoLabe = (item) => {
-    return item.scannedDirectory ? last(split(item.scannedDirectory,'/')) : 'New directory'
-  }
+  renderScanDirInfoLabe = (item) => item.scannedDirectory ? last(split(item.scannedDirectory, '/')) : 'New directory'
 
   render() {
     const { name } = this.props

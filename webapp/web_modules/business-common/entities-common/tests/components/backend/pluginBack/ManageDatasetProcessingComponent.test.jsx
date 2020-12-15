@@ -64,7 +64,12 @@ describe('[Entities Common] Testing ManageDatasetProcessingComponent', () => {
           },
         },
       },
-      processingConfParametersSelected: 'testProcess1',
+      processingConfParametersSelected: {
+        businessId: 'testProcess1',
+        label: 'testProcess1',
+        resolvedParameters: [],
+        parameters: {},
+      },
       isProcessingConfSelectedConfigurable: false,
       onSelectedProcessingConfChanged: () => { },
       onConfigurationDone: () => { },
@@ -122,7 +127,18 @@ describe('[Entities Common] Testing ManageDatasetProcessingComponent', () => {
           },
         },
       },
-      processingConfParametersSelected: 'testProcess3',
+      processingConfParametersSelected: {
+        businessId: 'testProcess3',
+        label: 'testProcess3',
+        resolvedParameters: [
+          new Parameter('TEXTFIELD', 'sizeForecast', '15', null, null, true, 'Size forecast', 'In order to decide before launching a batch execution whether it will overflow the size quota, we need to have an even imprecise forecast of how much space the execution will occupy. This is a string whose pattern is an optional \'*\', a number, a letter. The letter is the unit: \'b\' for byte, \'k\' for kilobytes, \'m\' for megabytes, \'g\' for gigabytes. If the value starts with \'*\', it will be a multiplier per megabyte of input data. For instance: \'1g\' means the result expected size is 1 gigabyte, no matter the input size. Whereas \'*2.5k\' means that for every megabyte in input, there wille be 2.5 kilobytes of data in the output.'),
+          new Parameter('TEXTFIELD', 'durationForecast', '15', null, null, true, 'Duration forecast', 'In order to detect executions which have silently stopped working, we need an even imprecise estimation of the duration the execution will take. The processing module will take this duration, and multiply by a constant configurable value in order to define a timeout. Examples: \'10s\' for 10 seconds, \'5min\' for 5 minutes, \'4h\' for 4 hours, \'2d\' for 2 days ; \'10s/m\' for 10 seconds per megabyte of input data ; \'4h/g\' for 4 hours per gigabyte of input data.'),
+        ],
+        parameters: {
+          durationForecast: '50',
+          sizeForecast: '50',
+        },
+      },
       isProcessingConfSelectedConfigurable: true,
       onSelectedProcessingConfChanged: () => { },
       onConfigurationDone: () => { },
@@ -158,7 +174,7 @@ describe('[Entities Common] Testing ManageDatasetProcessingComponent', () => {
     const parameterComp = dialog.find(ParametersConfigurationComponent)
     assert.lengthOf(parameterComp, 1, 'The should be a parameters configuration')
     // get selected processing conf object from processingConfParametersObjects collection
-    const processingConfParametersSelectedObject = get(props.processingConfParametersObjects, `${props.processingConfParametersSelected}`)
+    const processingConfParametersSelectedObject = get(props.processingConfParametersObjects, `${props.processingConfParametersSelected.businessId}`)
     testSuiteHelpers.assertWrapperProperties(parameterComp, {
       parameters: processingConfParametersSelectedObject.resolvedParameters,
       parametersValues: processingConfParametersSelectedObject.parameters,

@@ -42,7 +42,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
       // eslint-disable-next-line react/forbid-prop-types
       processingConfParametersObjects: PropTypes.object.isRequired,
       // eslint-disable-next-line react/forbid-prop-types
-      processingConfParametersSelected: PropTypes.string,
+      processingConfParametersSelected: PropTypes.object,
       isProcessingConfSelectedConfigurable: PropTypes.bool.isRequired,
       onSelectedProcessingConfChanged: PropTypes.func.isRequired,
       onConfigurationDone: PropTypes.func.isRequired,
@@ -91,9 +91,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage }, moduleTheme: { pluginServiceDialog } } = this.context
 
-      // get selected processing conf object from processingConfParametersObjects collection
-      const processingConfParametersSelectedObject = get(processingConfParametersObjects, `${processingConfParametersSelected}`, {})
-      const processingLabel = get(processingConfParametersSelectedObject, 'label', 'unknown')
+      const processingLabel = get(processingConfParametersSelected, 'label', 'unknown')
 
       return (
         <ShowableAtRender show={this.state.isManageProcessingDialogOpened}>
@@ -115,7 +113,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
                 label={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.remove' })}
                 icon={<RemoveIcon />}
                 onClick={this.onRemove}
-                disabled={isEmpty(processBusinessId)}
+                disabled={!processBusinessId}
                 style={pluginServiceDialog.removeProcessingButton}
               />
               <FlatButton
@@ -137,7 +135,7 @@ export class ManageDatasetProcessingComponent extends React.Component {
           >
             <SelectField
               floatingLabelText={formatMessage({ id: 'entities.common.backend.pluginback.processing.dialog.select.label' })}
-              value={processingConfParametersSelected}
+              value={processingConfParametersSelected.businessId}
               fullWidth
               onChange={onSelectedProcessingConfChanged}
             >
@@ -152,9 +150,9 @@ export class ManageDatasetProcessingComponent extends React.Component {
                 }
             </SelectField>
             {
-              isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelectedObject) ? <ParametersConfigurationComponent
-                parameters={processingConfParametersSelectedObject.resolvedParameters}
-                parametersValues={processingConfParametersSelectedObject.parameters}
+              isProcessingConfSelectedConfigurable && !isEmpty(processingConfParametersSelected) ? <ParametersConfigurationComponent
+                parameters={processingConfParametersSelected.resolvedParameters}
+                parametersValues={processingConfParametersSelected.parameters}
                 initialize={initialize}
               /> : null
             }
@@ -169,10 +167,11 @@ export class ManageDatasetProcessingComponent extends React.Component {
       } = this.props
       const { intl: { formatMessage } } = this.context
 
-      const pLabel = !isEmpty(processBusinessId) ? get(processingConfParametersObjects, `${processBusinessId}.label`, '') : ''
-      const title = !isEmpty(processBusinessId) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
-      const label = !isEmpty(processBusinessId) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
-      const icon = !isEmpty(processBusinessId) ? <Pencil /> : <AddIcon />
+      const processingSelected = get(processingConfParametersObjects, `${processBusinessId}`, {})
+      const pLabel = !isEmpty(processingSelected) ? get(processingSelected, 'label', '') : ''
+      const title = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.title' : 'entities.common.backend.pluginback.processing.button.add.title'
+      const label = !isEmpty(processingSelected) ? 'entities.common.backend.pluginback.processing.button.edit.label' : 'entities.common.backend.pluginback.processing.button.add.label'
+      const icon = !isEmpty(processingSelected) ? <Pencil /> : <AddIcon />
 
       return (
         <div>
