@@ -139,8 +139,8 @@ class AdminContainer extends React.Component {
         </div>
         {!reload
           ? <Paper
-            style={moduleTheme.iFrameWrapper}
-            zDepth={isLoading ? 0 : 3}
+              style={moduleTheme.iFrameWrapper}
+              zDepth={isLoading ? 0 : 3}
           >
             <IFrameURLContentDisplayer
               style={moduleTheme.iFrame}

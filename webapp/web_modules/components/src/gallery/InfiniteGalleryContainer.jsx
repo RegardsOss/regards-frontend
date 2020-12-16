@@ -215,14 +215,12 @@ export class InfiniteGalleryContainer extends React.Component {
           itemProps={itemProps}
           columnWidth={columnWidth}
           columnGutter={columnGutter}
-
           isEmpty={!currentTotalEntities}
           isLoading={entitiesFetching}
           loadingComponent={loadingComponent}
           emptyComponent={emptyComponent}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
-
           itemOfInterestPicked={itemOfInterestPicked}
           getItemOfInterest={getItemOfInterest}
         />

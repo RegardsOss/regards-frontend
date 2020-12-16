@@ -292,15 +292,12 @@ export class AdminContainer extends React.Component {
               navigationSections={navigationSections}
               selectedSectionType={selectedSectionType}
               selectedPageType={selectedPageType}
-
               currentNamespace={currentNamespace}
               currentFormValues={get(form, currentNamespace)}
-
               datasets={datasets}
               datasetModels={datasetModels}
               dataAttributeModels={dataAttributeModels}
               datasetAttributeModels={datasetAttributeModels}
-
               changeField={changeField}
               onBrowseToPage={this.onBrowseToPage}
             />

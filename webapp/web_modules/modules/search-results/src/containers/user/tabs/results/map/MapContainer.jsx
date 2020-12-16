@@ -326,20 +326,15 @@ export class MapContainer extends React.Component {
         displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
           ? currentlyDrawingAreas /* drawing: show feedback area */
           : criteriaAreas /* not drawing: show criteria areas */}
-
         selectionMode={selectionMode}
         viewMode={viewMode}
         onToggleMode={this.onToggleMode}
-
         onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
         onDrawingSelectionDone={this.onDrawingSelectionDone}
-
         onFeaturesPicked={this.onFeaturesPicked}
         selectedProducts={selectedProducts}
         onProductSelected={onProductSelected}
-
         layers={layers}
-
         mapEngine={mapEngine}
       />
     )

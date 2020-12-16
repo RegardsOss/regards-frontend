@@ -247,9 +247,9 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
           return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
-            loading={false}
-            error={false}
-            file={resultFile}
+              loading={false}
+              error={false}
+              file={resultFile}
           />, [
             <DownloadResultButton
               key="download.button"

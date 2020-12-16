@@ -109,16 +109,10 @@ class AdminApp extends React.Component {
     } = this.props
     const { isLoadingEndpoints } = this.state
 
-    const projectHandlerComp = isInstance || !project ? null
-      : (<ProjectHandler
-        projectName={project}
-        title="Administration"
-      />)
-
     return (
       <div>
         { /** Project handler */
-          projectHandlerComp
+          isInstance || !project ? null : <ProjectHandler projectName={project} title="Administration" />
         }
         <ThemeProvider>
           <I18nProvider messages={messages}>

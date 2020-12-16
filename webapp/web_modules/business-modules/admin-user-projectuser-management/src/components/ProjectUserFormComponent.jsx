@@ -235,11 +235,11 @@ export class ProjectUserFormComponent extends React.Component {
         <Card>
           {this.state.isCreating
             ? <CardTitle
-              title={formatMessage({ id: 'projectUser.create.title' })}
-              subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
+                title={formatMessage({ id: 'projectUser.create.title' })}
+                subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
             />
             : <CardTitle
-              title={formatMessage({ id: 'projectUser.edit.title' }, { email: currentUser.content.email })}
+                title={formatMessage({ id: 'projectUser.edit.title' }, { email: currentUser.content.email })}
             />}
           <CardText>
 

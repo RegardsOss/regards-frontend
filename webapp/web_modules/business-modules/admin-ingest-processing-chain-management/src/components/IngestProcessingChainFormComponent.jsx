@@ -131,12 +131,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
     return (
       <Card>
         {this.state.isCreating
-          ? <CardTitle
-            title={formatMessage({ id: 'processing-chain.form.create.title' })}
-          />
-          : <CardTitle
-            title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
-          />}
+          ? <CardTitle title={formatMessage({ id: 'processing-chain.form.create.title' })} />
+          : <CardTitle title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })} />}
         {// import button (when creating only)
           isCreating ? (
             <ImportFromFileDialogButton

@@ -20,7 +20,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
 import messages from '../i18n'
@@ -44,7 +43,6 @@ export class AttributeModelListContainer extends React.Component {
     fetchAttrModelList: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     deleteAttrModel: PropTypes.func,
-    throwError: PropTypes.func,
   }
 
   state = {
@@ -102,7 +100,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   fetchAttrModelList: () => dispatch(attributeModelActions.fetchEntityList()),
   deleteAttrModel: (id) => dispatch(attributeModelActions.deleteEntity(id)),
-  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelListContainer)

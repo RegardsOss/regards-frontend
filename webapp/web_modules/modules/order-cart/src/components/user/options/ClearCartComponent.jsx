@@ -46,7 +46,6 @@ class ClearCartComponent extends React.Component {
         onClick={onClearCart}
         dialogTitle={formatMessage({ id: 'order-cart.module.clear.confirmation.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.clear.confirmation.message' })}
-
         label={formatMessage({ id: 'order-cart.module.clear.label' })} // button properties
         title={formatMessage({ id: 'order-cart.module.clear.tooltip' })}
         icon={<ClearCartIcon />}

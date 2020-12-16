@@ -377,10 +377,8 @@ export class ProjectUserListContainer extends React.Component {
             showOnlyWaitingUsers={showOnlyWaitingUsers}
             showOnlyLowQuotaUsers={showOnlyLowQuotaUsers}
             showQuota={allMatchHateoasDisplayLogic(ProjectUserListContainer.QUOTA_DEPENDENCIES, availableDependencies)}
-
             createUrl={this.getCreateUrl()}
             backUrl={this.getBackUrl()}
-
             onEdit={this.onEdit}
             onDelete={this.onDelete}
             onValidate={this.onValidate}

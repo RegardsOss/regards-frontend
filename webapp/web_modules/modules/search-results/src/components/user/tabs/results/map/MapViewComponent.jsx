@@ -196,15 +196,11 @@ class MapViewComponent extends React.Component {
                   resultsContext={resultsContext}
                   requestParameters={requestParameters}
                   searchActions={searchActions}
-
                   descriptionAvailable={descriptionAvailable}
                   onShowDescription={onShowDescription}
-
                   accessToken={accessToken}
                   projectName={projectName}
-
                   onAddElementToCart={onAddElementToCart}
-
                   mapThumbnailHeight={quicklooks.thumbnailHeight}
                   embedInMap
                   onProductSelected={onProductSelected}

@@ -21,7 +21,6 @@ import {
   TableHeaderOptionsArea,
   TableHeaderLine,
   TableHeaderOptionGroup,
-  TableHeaderAutoCompleteFilter,
   DatePickerField,
 } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -153,16 +152,16 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
       <TableHeaderLine key="filters">
         <TableHeaderOptionsArea>
           <TableHeaderOptionGroup>
-          <SelectField
-                id={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}`}
-                value={filters[PROCESS_FILTER_PARAMS.PROCESS_BID]}
-                floatingLabelText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}-hint` })}
-                onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.PROCESS_BID)}
-              >
-                {map(processingList, (process) => (
-                  <MenuItem key={get(process,'content.pluginConfiguration.label')} value={get(process,'content.pluginConfiguration.businessId')} primaryText={get(process,'content.pluginConfiguration.label')} />
-                ))}
-              </SelectField>
+            <SelectField
+              id={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}`}
+              value={filters[PROCESS_FILTER_PARAMS.PROCESS_BID]}
+              floatingLabelText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.PROCESS_BID}-hint` })}
+              onChange={(event, index, value) => this.updateState(value, PROCESS_FILTER_PARAMS.PROCESS_BID)}
+            >
+              {map(processingList, (process) => (
+                <MenuItem key={get(process, 'content.pluginConfiguration.label')} value={get(process, 'content.pluginConfiguration.businessId')} primaryText={get(process, 'content.pluginConfiguration.label')} />
+              ))}
+            </SelectField>
             <TextField
               hintText={formatMessage({ id: `processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}-hint` })}
               name={`processing.monitoring.filters.${PROCESS_FILTER_PARAMS.USERNAME}`}

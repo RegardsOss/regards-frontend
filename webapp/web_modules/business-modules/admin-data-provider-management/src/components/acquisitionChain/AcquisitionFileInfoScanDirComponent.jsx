@@ -23,15 +23,9 @@ import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
-const {
-  required, validStringSize, validMimeType, isValidAbsolutePath,
-} = ValidationHelpers
-const validString255 = [validStringSize(0, 255)]
-const requiredMimeType = [required, validMimeType]
 export class AcquisitionFileInfoScanDirComponent extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired,
-    changeField: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -53,9 +47,9 @@ export class AcquisitionFileInfoScanDirComponent extends React.Component {
         component={RenderTextField}
         type="text"
         label={formatMessage({ id: 'acquisition-chain.form.fileInfo.scanDir.scannedDirectory' })}
-        validate={isValidAbsolutePath}
+        validate={ValidationHelpers.isValidAbsolutePath}
       />,
-      <br />,
+      <br key="separator" />,
       <Field
         key="lastModificationDate"
         name={`${name}.lastModificationDate`}

@@ -65,7 +65,6 @@ export class OrderListContainer extends React.Component {
       <OrderListComponent
         onUserFilterSelected={this.onUserFilterSelected}
         ordersRequestParameters={ordersRequestParameters}
-
         backUrl={this.getBackURL()}
         ordersActions={orderListActions}
         ordersSelectors={orderListSelectors}

@@ -47,7 +47,6 @@ class OneElementServicesComponent extends React.Component {
   render() {
     const { services, onServiceStarted, ...otherButtonProperties } = this.props
     const { intl: { formatMessage } } = this.context
-    //TODO-LEO add FR / EN
     return (
       <DropDownButton
         title={formatMessage({ id: 'show.entity.services.tooltip' })}

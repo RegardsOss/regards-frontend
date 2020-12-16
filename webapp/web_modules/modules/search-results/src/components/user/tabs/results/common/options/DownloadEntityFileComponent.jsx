@@ -176,7 +176,6 @@ export class DownloadEntityFileComponent extends React.Component {
         disabled={onlyConstrainedByQuota && quotaInfo.downloadDisabled} // disable button when all files are disabled
         title={formatMessage({ id: 'download.tooltip' })}
         style={style}
-
         // for icon graphics (see wrapper)
         constrainedByQuota={onlyConstrainedByQuota}
         quotaInfo={quotaInfo}
@@ -191,7 +190,6 @@ export class DownloadEntityFileComponent extends React.Component {
                   disabled={!QuotaDownloadUtils.canDownloadFile(file, quotaInfo, accessToken)}
                   downloadURL={DamDomain.DataFileController.getFileURI(file, accessToken, projectName)}
                   downloadName={file.filename}
-
                   primaryText={file.filename}
                   leftIcon={<DownloadIconComponent constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(file.dataType, file.reference)} quotaInfo={quotaInfo} />}
                 />))

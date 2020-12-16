@@ -152,17 +152,12 @@ export class MapViewContainer extends React.Component {
         resultsContext={resultsContext}
         requestParameters={requestParameters}
         searchActions={searchActions}
-
         descriptionAvailable={descriptionAvailable}
         onShowDescription={onShowDescription}
-
         accessToken={accessToken}
         projectName={projectName}
-
         onAddElementToCart={onAddElementToCart}
-
         onProductSelected={this.onProductSelected}
-
         onSplitDropped={this.onSplitDropped}
         itemOfInterestPicked={itemOfInterestPicked}
       />)

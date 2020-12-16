@@ -19,7 +19,6 @@
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
 import { AccessShapes } from '@regardsoss/shape'
 
-import { Error } from 'window-or-global'
 import ProjectUserActions from '../../src/rs-access-project/user/ProjectUserActions'
 import getProjectUserReducer from '../../src/rs-access-project/user/ProjectUserReducer'
 import getProjectUserSelectors from '../../src/rs-access-project/user/ProjectUserSelectors'

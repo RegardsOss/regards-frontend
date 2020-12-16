@@ -25,7 +25,6 @@ import { FileCellComponent } from '../../../../../../src/components/user/tree/ce
 import TreeLinkComponent from '../../../../../../src/components/user/tree/cells/links/TreeLinkComponent'
 import styles from '../../../../../../src/styles'
 import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
-import { resolvedDatasetEntity } from '../../../../../dumps/resolved.dump'
 
 const context = buildTestContext(styles)
 
