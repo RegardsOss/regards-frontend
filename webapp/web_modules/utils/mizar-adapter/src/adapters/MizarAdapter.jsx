@@ -19,9 +19,10 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
+import Mizar from 'mizar'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
-import './MizarLoader'
-import './rconfig'
+// import './MizarLoader'
+// import './rconfig'
 import './Mizar.css'
 /**
  * Mizar Adapter
@@ -121,9 +122,6 @@ export default class MizarAdapter extends React.Component {
     },
   }
 
-  /** Mizar library */
-  static MIZAR_LIBRARY = null
-
   // XXX : Workaround
   static MIZAR_Y_OFFSET = 180
 
@@ -143,13 +141,7 @@ export default class MizarAdapter extends React.Component {
    * Lifecycle method: component did mount. Used here to load and initialize the mizar component
    */
   componentDidMount = () => {
-    if (MizarAdapter.MIZAR_LIBRARY) {
-      // invoke on loaded directly as library was already loaded
-      this.onMizarLibraryLoaded(MizarAdapter.MIZAR_LIBRARY)
-    } else {
-      // load library then invoke on loaded
-      window.requirejs(['Mizar'], this.onMizarLibraryLoaded)
-    }
+    this.initMizarInstance()
   }
 
   /**
@@ -192,13 +184,9 @@ export default class MizarAdapter extends React.Component {
   }
 
   /**
-   * Called when the Mizar library is loaded
    * Configures and saves mizar instance
-   * @param {*} Mizar loaded library (expected Mizar class)
    */
-  onMizarLibraryLoaded = (Mizar) => {
-    // A - keep static reference to access library faster next times
-    MizarAdapter.MIZAR_LIBRARY = Mizar
+  initMizarInstance = () => {
     if (this.unmounted) {
       return
     }
@@ -350,7 +338,7 @@ export default class MizarAdapter extends React.Component {
     if (this.mouseDownEvent.layerX === event.layerX && this.mouseDownEvent.layerY === event.layerY) {
       const pickPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(event.layerX, event.layerY)
       // compute selection
-      const pickingManager = this.mizar.instance.getServiceByName(MizarAdapter.MIZAR_LIBRARY.SERVICE.PickingManager)
+      const pickingManager = this.mizar.instance.getServiceByName(Mizar.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
       // notify API user if callback was provided
       if (this.props.onFeaturesSelected) {
