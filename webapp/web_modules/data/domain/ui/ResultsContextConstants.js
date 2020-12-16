@@ -20,9 +20,9 @@ import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
 import { MAP_MODE_GROUPS_ENUM } from './MapModeGroupsEnum'
-import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
+import { MAP_ENGINE_ENUM } from './MapEngineEnum'
 
 /**
  * Holds constants and accessors related to results context
@@ -51,17 +51,12 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   enabled: false,
   enableSelection: false,
   presentationModels: [],
-  layers: [{
-    layerName: 'Layer',
-    url: '',
-    type: MIZAR_LAYER_TYPES_ENUM.OSM,
-    enabled: false,
-    background: false,
-    layerViewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
-  }],
+  mapEngine: MAP_ENGINE_ENUM.CESIUM,
+  layers: [],
   [MAP_MODE_GROUPS_ENUM.SELECTION_MODE]: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
   [MAP_MODE_GROUPS_ENUM.VIEW_MODE]: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
+  selectedProducts: [],
 }
 
 /** To be used as default */

@@ -219,12 +219,13 @@ const QuicklookViewModeState = PropTypes.shape({
  */
 const MapViewModeState = PropTypes.shape({
   ...commonViewStateFields,
+  mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE).isRequired,
   presentationModels: PropTypes.arrayOf(AttributePresentationModel).isRequired,
   layers: PropTypes.arrayOf(LayerDefinition).isRequired,
   selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
   viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
-  selectedProducts: PropTypes.arrayOf(PropTypes.object),
   splitPosition: PropTypes.number, // current split position
+  selectedProducts: PropTypes.arrayOf(PropTypes.object).isRequired,
 })
 
 /**

@@ -55,11 +55,11 @@ export class ContextInitializationHelper {
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
           // report map configuration and initial values
-          modeState.layers = modeConfiguration.layers
-          modeState.mapEngine = modeConfiguration.mapEngine
+          modeState.mapEngine = modeConfiguration.mapEngine || UIDomain.MAP_ENGINE_ENUM.CESIUM
+          modeState.layers = modeConfiguration.layers || []
           modeState[UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE] = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE] = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
-          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE] = modeConfiguration.initialViewMode
           modeState.selectedProducts = []
           break
         // nothing to do for other modes
