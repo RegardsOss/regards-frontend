@@ -30,7 +30,8 @@ export class RoleFormContainer extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      role_name: PropTypes.string,
+      // eslint-disable-next-line camelcase
+      role_name: PropTypes.string, // eslint wont fix: matches server format (although it is used here as local parameter)
     }),
     // from mapStateToProps
     roleList: AdminShapes.RoleList,
@@ -41,11 +42,8 @@ export class RoleFormContainer extends React.Component {
     updateRole: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.params.role_name !== undefined,
-    }
+  state = {
+    isEditing: this.props.params.role_name !== undefined,
   }
 
   componentDidMount() {
@@ -85,11 +83,12 @@ export class RoleFormContainer extends React.Component {
   handleUpdate = (values) => {
     const role = this.props.roleList[this.props.params.role_name]
     const authorizedAddresses = EnumInputsHelper.formValuesIntoApiData(values, 'authorizedAddresses')
-    const updatedRole = Object.assign({}, role.content, {
+    const updatedRole = {
+      ...role.content,
       authorizedAddresses,
       name: values.name,
       isCorsRequestsAuthorized: values.isCorsRequestsAuthorized,
-    })
+    }
     // The PUBLIC role doesn't have any parent
     if (this.props.params.role_name !== 'PUBLIC') {
       updatedRole.parentRole = this.props.roleList[values.parentRole].content
@@ -135,8 +134,8 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: roleSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  createRole: values => dispatch(roleActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  createRole: (values) => dispatch(roleActions.createEntity(values)),
   updateRole: (roleName, values) => dispatch(roleActions.updateEntity(roleName, values)),
   fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
 })

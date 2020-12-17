@@ -173,6 +173,7 @@ export default (theme) => {
       checkbox: {
         whiteSpace: 'nowrap',
         width: 'auto',
+        margin: theme.components.infiniteTable.header.checkbox.margin,
       },
       textfield: {
         textStyle: {

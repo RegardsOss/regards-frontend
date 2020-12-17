@@ -20,12 +20,12 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AceEditorAdapter } from '../../src/components/AceEditorAdapter'
-import styles from '../../src/styles/styles'
+import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
-* Component test. Comment Here
+* AceEditorAdapter Component test.
 * @author Raphaël Mechali
 */
 describe('[Adapters] Testing AceEditorAdapter', () => {

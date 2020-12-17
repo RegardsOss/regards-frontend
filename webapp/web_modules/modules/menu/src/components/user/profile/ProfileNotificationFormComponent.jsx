@@ -57,14 +57,11 @@ export class ProfileNotificationFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      showCustomFrequency: props.notificationSettings.frequency === NotificationSettingsFrequencies.CUSTOM,
-    }
+  state = {
+    showCustomFrequency: this.props.notificationSettings.frequency === NotificationSettingsFrequencies.CUSTOM,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.props.initialize({
       ...this.props.notificationSettings,
     })
@@ -98,7 +95,6 @@ export class ProfileNotificationFormComponent extends React.Component {
     } = this.props
     const { showCustomFrequency } = this.state
     const { moduleTheme: { user: { profile } } } = this.context
-
 
     return (
       <div>
@@ -151,6 +147,5 @@ export class ProfileNotificationFormComponent extends React.Component {
     )
   }
 }
-
 
 export default reduxForm({ form: 'profile-notif-form' })(ProfileNotificationFormComponent)

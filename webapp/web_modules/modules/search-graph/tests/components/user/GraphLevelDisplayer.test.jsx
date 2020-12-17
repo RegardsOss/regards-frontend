@@ -29,10 +29,10 @@ import GraphLevelMessageDisplayer from '../../../src/components/user/GraphLevelM
 const context = buildTestContext(styles)
 
 // define retrieval methods in component
-const isRootShowable = node => node.type() === ShowableAtRender
+const isRootShowable = (node) => node.type() === ShowableAtRender
   && node.children().length === 1 && node.children().at(0).type() === 'div'
 
-const isLoadingShowable = node => node.type() === ShowableAtRender
+const isLoadingShowable = (node) => node.type() === ShowableAtRender
   && node.children().length === 1 && node.children().at(0).type() === GraphLevelLoadingDisplayer
 
 const isMessageShowable = (node, key) => {
@@ -43,14 +43,14 @@ const isMessageShowable = (node, key) => {
   return false
 }
 
-const isErrorShowable = node => isMessageShowable(node, 'search.graph.level.fetch.model.failed')
-const isEmptyShowable = node => isMessageShowable(node, 'search.graph.level.no.model')
+const isErrorShowable = (node) => isMessageShowable(node, 'search.graph.level.fetch.model.failed')
+const isEmptyShowable = (node) => isMessageShowable(node, 'search.graph.level.no.model')
 
-const isContentShowable = node => node.type() === ShowableAtRender
+const isContentShowable = (node) => node.type() === ShowableAtRender
   && !isRootShowable(node) && !isLoadingShowable(node) && !isMessageShowable(node)
   && !isErrorShowable(node) && !isEmptyShowable(node)
 
-const getAllShowable = enzymeWrapper => ({
+const getAllShowable = (enzymeWrapper) => ({
   rootShowable: enzymeWrapper.findWhere(isRootShowable).at(0),
   loadingShowable: enzymeWrapper.findWhere(isLoadingShowable).at(0),
   errorShowable: enzymeWrapper.findWhere(isErrorShowable).at(0),
@@ -208,7 +208,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
     const generateCombination = (fields) => {
       if (fields.length === 1) {
         const { key, values } = fields[0]
-        return values.map(v => ({
+        return values.map((v) => ({
           // basic props
           graphDatasetAttributes: [],
           descriptionProperties: {
@@ -228,7 +228,7 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
       const nextFieldsResult = generateCombination(fields.slice(1))
       // combinate with this levels
       return nextFieldsResult.reduce((acc, combination) => {
-        const currentCombinations = values.map(v => ({
+        const currentCombinations = values.map((v) => ({
           [key]: v,
           ...combination,
         }))
@@ -245,9 +245,9 @@ describe('[Search Graph] Testing GraphLevelDisplayer', () => {
         loadingShowable, emptyShowable, errorShowable, contentShowable,
       } = getAllShowable(stateWrapper)
       const allChildrenShowables = [loadingShowable, emptyShowable, errorShowable, contentShowable]
-      const visibleElement = allChildrenShowables.filter(wrapper => wrapper.props().show)
+      const visibleElement = allChildrenShowables.filter((wrapper) => wrapper.props().show)
       assert.lengthOf(visibleElement, 1, `Invalid visible count (${visibleElement.length}) - there should be one and only one. 
-      Elements: ${JSON.stringify(visibleElement.map(n => n.text()))}
+      Elements: ${JSON.stringify(visibleElement.map((n) => n.text()))}
       State: ${JSON.stringify(combinedProperties)}`)
     })
   })

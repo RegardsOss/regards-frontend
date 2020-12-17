@@ -17,110 +17,126 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { assert } from 'chai'
+import { DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { getMetadataArray } from '@regardsoss/user-metadata-common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
+import { AdminDomain } from '@regardsoss/domain'
 import { ProjectUserFormContainer } from '../../src/containers/ProjectUserFormContainer'
 import ProjectUserFormComponent from '../../src/components/ProjectUserFormComponent'
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form container', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(ProjectUserFormContainer)
-    assert.isDefined(LoadableContentDisplayDecorator)
-    assert.isDefined(ProjectUserFormComponent)
   })
 
-  it('should render self and subcomponents', () => {
+  it('should render correctly in edition', () => {
     const props = {
-      // from mapStateToProps
-      roleList: {
-        PUBLIC: {
-          content: {
-            id: 1,
-            name: 'PUBLIC',
-            permissions: [],
-            authorizedAddresses: [],
-            isCorsRequestsAuthorized: true,
-            isDefault: true,
-            isNative: true,
-          },
-          links: [],
-        },
-      },
-      groupList: {
-        AG1: {
-          content: {
-            id: 1,
-            name: 'AG1',
-            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
-            accessRights: [],
-            isPrivate: true,
-          },
-          links: [],
-        },
-        AG2: {
-          content: {
-            id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true,
-          },
-          links: [],
-        },
-      },
-
-      user: {
-        content: {
-          id: 1,
-          email: 'mon@adresse.em',
-          lastUpdate: {
-            date: { year: '2017', month: '1', day: '9' },
-            time: {
-              hour: '15', minute: '46', second: '12', nano: '453000000',
-            },
-          },
-          status: 'WAITING_ACCESS',
-          metadata: [{
-            id: 1,
-            key: 'address',
-            value: '9 rue des moumouttes, 65000 Chauveland',
-          }], // container should also resolve non defined metadata
-          role: { name: 'REGISTERED_USER' },
-          permissions: [],
-        },
-        links: [],
-      },
-      // from router
       params: {
-        project: 'project-1',
+        project: 'test-project',
         user_id: '1',
       },
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+      groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
+      user: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       passwordRules: 'Open bar password',
+      settings: {
+        content: {
+          id: 0,
+          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          maxQuota: 500,
+          rateLimit: 50,
+        },
+      },
       // from mapDispatchToProps
-      fetchPasswordRules: () => { },
-      fetchPasswordValidity: () => { },
       createProjectUser: () => { },
       updateProjectUser: () => { },
-      fetchRoleList: () => { },
-      fetchGroupList: () => { },
-      assignGroup: () => { },
+      fetchUser: () => {},
+      fetchSettings: () => {},
+      fetchRoleList: () => {},
+      fetchGroupList: () => {},
+      fetchPasswordRules: () => {},
+      fetchPasswordValidity: () => {},
+      assignGroup: () => {},
+      unassignGroup: () => {},
     }
 
     const enzymeWrapper = shallow(<ProjectUserFormContainer {...props} />)
-    const subComponent = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    expect(subComponent).to.have.length(1)
-    assert.isFunction(subComponent.prop('children'))
-    assert.deepEqual(subComponent.prop('children'), enzymeWrapper.instance().getFormComponent)
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, LoadableContentDisplayDecorator, {
+      isLoading: true,
+    })
+    // simulate initial loading end
+    enzymeWrapper.setState({ isLoading: false })
+    const loadableWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, LoadableContentDisplayDecorator, {
+      isLoading: false,
+    })
+    // check data provided to form
+    testSuiteHelpers.assertCompWithProps(loadableWrapper, ProjectUserFormComponent, {
+      passwordRules: props.passwordRules,
+      userMetadata: getMetadataArray(DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')),
+      currentUser: props.user,
+      settings: props.settings,
+      fetchPasswordValidity: props.fetchPasswordValidity,
+      onSubmit: enzymeWrapper.instance().onSubmit,
+      backUrl: enzymeWrapper.instance().getBackUrl(),
+      roleList: props.roleList,
+      groupList: props.groupList,
+    })
+  })
+  it('should render correctly in creation', () => {
+    const props = {
+      params: {
+        project: 'test-project',
+      },
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+      groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
+      user: null,
+      passwordRules: 'Open bar password',
+      settings: {
+        content: {
+          id: 0,
+          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          maxQuota: 500,
+          rateLimit: 50,
+        },
+      },
+      // from mapDispatchToProps
+      createProjectUser: () => { },
+      updateProjectUser: () => { },
+      fetchUser: () => {},
+      fetchSettings: () => {},
+      fetchRoleList: () => {},
+      fetchGroupList: () => {},
+      fetchPasswordRules: () => {},
+      fetchPasswordValidity: () => {},
+      assignGroup: () => {},
+      unassignGroup: () => {},
+    }
 
-    // the metadata must be defined for sub component (in V1, metadata lives separately of user as it is defined by front end)
-    const metadata = enzymeWrapper.instance().getFormComponent().props.userMetadata
-    assert.lengthOf(metadata, getMetadataArray().length, 'Each metadata should be provided')
-    // the metadata value for field address should be defined
-    const addressMetadata = metadata.find(({ key }) => key === 'address')
-    assert.isDefined(addressMetadata, 'Address metadata should exist')
-    assert.equal(addressMetadata.currentValue, '9 rue des moumouttes, 65000 Chauveland', 'Address metadata value should be retrieved from known model')
-    // note : metadata recovering and updates are tests in user-metadata-common package
+    const enzymeWrapper = shallow(<ProjectUserFormContainer {...props} />)
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, LoadableContentDisplayDecorator, {
+      isLoading: true,
+    })
+    // simulate initial loading end
+    enzymeWrapper.setState({ isLoading: false })
+    const loadableWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, LoadableContentDisplayDecorator, {
+      isLoading: false,
+    })
+    // check data provided to form
+    testSuiteHelpers.assertCompWithProps(loadableWrapper, ProjectUserFormComponent, {
+      passwordRules: props.passwordRules,
+      userMetadata: getMetadataArray(),
+      currentUser: null,
+      settings: props.settings,
+      fetchPasswordValidity: props.fetchPasswordValidity,
+      onSubmit: enzymeWrapper.instance().onSubmit,
+      backUrl: enzymeWrapper.instance().getBackUrl(),
+      roleList: props.roleList,
+      groupList: props.groupList,
+    })
   })
 })

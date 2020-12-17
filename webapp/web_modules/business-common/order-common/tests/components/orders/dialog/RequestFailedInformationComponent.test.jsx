@@ -48,7 +48,7 @@ describe('[Order Common] Testing RequestFailedInformationComponent', () => {
     assert.isFalse(dialog.props().open, 'It should be closed')
   })
 
-  RequestFailedInformationComponent.KNOWN_ERROR_TYPES.forEach(errorType => it(`should render correctly the known error case ${errorType} `, () => {
+  RequestFailedInformationComponent.KNOWN_ERROR_TYPES.forEach((errorType) => it(`should render correctly the known error case ${errorType} `, () => {
     const props = {
       visible: true,
       requestResponse: {

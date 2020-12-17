@@ -36,13 +36,13 @@ function wrapState(ComposedComponent) {
       defaultValue: 0,
     }
 
-    componentWillMount() {
+    UNSAFE_componentWillMount() {
       this.setState({
         selectedIndex: this.props.defaultValue,
       })
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
       if (this.props.defaultValue !== nextProps.defaultValue) {
         this.setState({ selectedIndex: nextProps.defaultValue })
       }

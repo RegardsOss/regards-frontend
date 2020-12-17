@@ -86,6 +86,13 @@ export class AttributeModelListComponent extends React.Component {
     })
   }
 
+  /** User callback: delete confirmed */
+  onDeleteConfirmed = () => {
+    const { handleDelete } = this.props
+    const { entityToDelete } = this.state
+    handleDelete(entityToDelete.id)
+  }
+
   renderDeleteConfirmDialog = () => {
     const name = get(this.state, 'entityToDelete.name', '')
     const title = this.context.intl.formatMessage({ id: 'attrmodel.list.delete.title' }, { name })
@@ -95,9 +102,7 @@ export class AttributeModelListComponent extends React.Component {
       >
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.id)
-          }}
+          onConfirm={this.onDeleteConfirmed}
           onClose={this.closeDeleteDialog}
           title={title}
         />
@@ -111,37 +116,6 @@ export class AttributeModelListComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    // Table columns to display
-    const columns = [
-      new TableColumnBuilder('column.fragment').titleHeaderCell()
-        .label(formatMessage({ id: 'attrmodel.list.table.fragment' }))
-        .rowCellDefinition({
-          Constructor: AttributeModelListFragmentRenderer,
-          props: {
-            handleEdit,
-          },
-        })
-        .build(),
-      new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
-        .label(formatMessage({ id: 'attrmodel.list.table.name' }))
-        .build(),
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
-        .label(formatMessage({ id: 'attrmodel.list.table.label' }))
-        .build(),
-      new TableColumnBuilder('column.description').titleHeaderCell().propertyRenderCell('content.description')
-        .label(formatMessage({ id: 'attrmodel.list.table.description' }))
-        .build(),
-      new TableColumnBuilder('column.actions').titleHeaderCell()
-        .rowCellDefinition({
-          Constructor: AttributeModelListActionsRenderer,
-          props: {
-            openDeleteDialog: this.openDeleteDialog,
-            handleEdit,
-          },
-        })
-        .label(formatMessage({ id: 'attrmodel.list.table.actions' }))
-        .build(),
-    ]
 
     const emptyComponent = (
       <NoContentComponent
@@ -150,7 +124,7 @@ export class AttributeModelListComponent extends React.Component {
       />
     )
 
-    const filteredList = filter(attrModelArray, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
+    const filteredList = filter(attrModelArray, (a) => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
 
     return (
       <Card>
@@ -164,7 +138,37 @@ export class AttributeModelListComponent extends React.Component {
             <AttributeModelListFiltersComponent onFilter={this.onFilter} />
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={filteredList.length} />
             <InfiniteTableContainer
-              columns={columns}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: API issue, major rework required
+                new TableColumnBuilder('column.fragment').titleHeaderCell()
+                  .label(formatMessage({ id: 'attrmodel.list.table.fragment' }))
+                  .rowCellDefinition({
+                    Constructor: AttributeModelListFragmentRenderer,
+                    props: {
+                      handleEdit,
+                    },
+                  })
+                  .build(),
+                new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+                  .label(formatMessage({ id: 'attrmodel.list.table.name' }))
+                  .build(),
+                new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+                  .label(formatMessage({ id: 'attrmodel.list.table.label' }))
+                  .build(),
+                new TableColumnBuilder('column.description').titleHeaderCell().propertyRenderCell('content.description')
+                  .label(formatMessage({ id: 'attrmodel.list.table.description' }))
+                  .build(),
+                new TableColumnBuilder('column.actions').titleHeaderCell()
+                  .rowCellDefinition({
+                    Constructor: AttributeModelListActionsRenderer,
+                    props: {
+                      openDeleteDialog: this.openDeleteDialog,
+                      handleEdit,
+                    },
+                  })
+                  .label(formatMessage({ id: 'attrmodel.list.table.actions' }))
+                  .build(),
+              ]}
               entities={filteredList}
               emptyComponent={emptyComponent}
               entitiesCount={filteredList.length}

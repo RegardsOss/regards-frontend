@@ -29,6 +29,7 @@ export const PluginConfigurationContent = PropTypes.shape({
   interfacenames: PropTypes.arrayOf(PropTypes.string),
   parameters: PropTypes.arrayOf(PluginParameterContent),
   iconUrl: PropTypes.string,
+  businessId: PropTypes.string,
 })
 export const PluginConfiguration = PropTypes.shape({
   content: PluginConfigurationContent,

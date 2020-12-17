@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages English language
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'plugin.form.title.create': 'Add a plugin',
   'plugin.form.title.update': 'Edit existing plugin {name}',
   'plugin.form.subtitle': 'Enter the path to your plugin JavaScript file and click search to valid it',
@@ -54,6 +54,7 @@ const messages = Object.assign({
   'role.name.ADMIN': 'Administrator',
   'role.name.PROJECT_ADMIN': 'Super Administrator',
   'role.name.empty': ' - ',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

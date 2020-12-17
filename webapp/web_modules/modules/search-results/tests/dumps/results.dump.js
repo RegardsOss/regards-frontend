@@ -21,6 +21,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:100',
+        version: 100,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:100',
         label: 'Le parain',
@@ -53,6 +55,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:101',
+        version: 101,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:101',
         label: 'Matrix',
@@ -83,8 +87,9 @@ export default {
     },
     {
       content: {
-
         id: 'URN:DATA:102',
+        version: 102,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:102',
         label: 'La grande vadrouille',
@@ -118,6 +123,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:110',
+        version: 110,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:110',
         label: 'Matrix Reloaded',
@@ -137,6 +144,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:111',
+        version: 111,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:111',
         label: 'Matrix Revolution',
@@ -156,6 +165,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:112',
+        version: 112,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:112',
         label: 'Burn after reading',
@@ -175,6 +186,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:113',
+        version: 113,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:113',
         label: 'Starwars I',
@@ -194,6 +207,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:114',
+        version: 114,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:114',
         label: 'Starwars II',
@@ -213,6 +228,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:115',
+        version: 115,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:115',
         label: 'Starwars III',
@@ -232,6 +249,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:116',
+        version: 116,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:116',
         label: 'Starwars IV',
@@ -251,6 +270,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:117',
+        version: 117,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:117',
         label: 'Starwars V',
@@ -270,6 +291,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:118',
+        version: 118,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:118',
         label: 'Starwars VI',
@@ -289,6 +312,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:119',
+        version: 119,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:119',
         label: 'Starwars VII',
@@ -308,6 +333,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:120',
+        version: 120,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:120',
         label: 'Le diner de con',
@@ -327,6 +354,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:121',
+        version: 121,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:121',
         label: 'Polisse',
@@ -346,6 +375,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:122',
+        version: 122,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:122',
         label: 'Intouchable',
@@ -365,6 +396,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:123',
+        version: 123,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:123',
         label: 'Scarface',
@@ -384,6 +417,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:124',
+        version: 124,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:124',
         label: 'Pulp Fiction',
@@ -403,6 +438,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:125',
+        version: 125,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:125',
         label: 'Seven',
@@ -422,6 +459,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:126',
+        version: 126,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:126',
         label: 'Fight Club',
@@ -441,6 +480,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:127',
+        version: 127,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:127',
         label: 'La cité de la peur',
@@ -460,6 +501,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:128',
+        version: 128,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:128',
         label: 'Requiem for a dream',
@@ -479,6 +522,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:129',
+        version: 129,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:129',
         label: 'Sinister',
@@ -498,6 +543,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:130',
+        version: 130,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:130',
         label: 'Insidious',
@@ -517,6 +564,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:131',
+        version: 131,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:131',
         label: 'Insidious 2',
@@ -536,6 +585,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:132',
+        version: 132,
+        last: false,
         model: 'anyModel',
         providerId: 'URN:DATA:132',
         label: 'Insidious 3',
@@ -555,633 +606,8 @@ export default {
     {
       content: {
         id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
-        model: 'anyModel',
-        providerId: 'URN:DATA:140',
-        label: 'Film',
-        entityType: 'DATA',
-        tags: [
-          'col:movie',
-          'ds:NYCLibrary',
-        ],
-        properties: {
-          format: 'blueray',
-          language: 'English',
-        },
-        geometry: {},
-      },
-      links: [],
-    },
-    {
-      content: {
-        id: 'URN:DATA:140',
+        version: 140,
+        last: true,
         model: 'anyModel',
         providerId: 'URN:DATA:140',
         label: 'Film',

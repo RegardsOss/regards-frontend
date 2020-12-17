@@ -24,13 +24,13 @@ import { connect } from '@regardsoss/redux'
 export function ApplicationErrorComponent() {
   return (
     <div>
-        Application unavailable
+      Application unavailable
     </div>
   )
 }
 
 // Add theme from store to the components props
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   theme: state.theme,
 })
 export default connect(mapStateToProps)(ApplicationErrorComponent)

@@ -25,6 +25,6 @@ export const SIPConfiguration = {
 }
 
 export const SIP = new Schema(SIPConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[SIPConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[SIPConfiguration.entityKey],
 })
 export const SIP_ARRAY = arrayOf(SIP)

@@ -18,7 +18,6 @@
  **/
 import values from 'lodash/values'
 
-
 /**
  * Holds possible display modes for a menu module (within configuration)
  */

@@ -58,15 +58,12 @@ export class PluginListComponent extends React.Component {
 
   static menuStyles = { top: '-7px' }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPluginId: props.defaultSelectedPluginId,
-      descriptionOpen: false,
-    }
+  state = {
+    selectedPluginId: this.props.defaultSelectedPluginId,
+    descriptionOpen: false,
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.props.defaultSelectedPluginId !== newProps.defaultSelectedPluginId) {
       this.setState({
         selectedPluginId: newProps.defaultSelectedPluginId,
@@ -79,7 +76,7 @@ export class PluginListComponent extends React.Component {
    */
   handleSelect = (event, index, pluginId) => {
     this.setState({ selectedPluginId: pluginId })
-    const plugin = find(this.props.pluginList, p => p.content.pluginId === pluginId, null)
+    const plugin = find(this.props.pluginList, (p) => p.content.pluginId === pluginId, null)
     this.props.onChange(plugin ? plugin.content : null)
   }
 
@@ -135,7 +132,7 @@ export class PluginListComponent extends React.Component {
       return null
     }
     // Find plugin
-    const plugin = find(this.props.pluginList, p => p.content.pluginId === selectedPluginId)
+    const plugin = find(this.props.pluginList, (p) => p.content.pluginId === selectedPluginId)
     if (get(plugin, 'content.markdown') && displayMoreInfoButton) {
       button = (
         <a

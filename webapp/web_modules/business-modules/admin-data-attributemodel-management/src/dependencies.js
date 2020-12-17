@@ -19,7 +19,6 @@
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { attributeModelActions } from './clients/AttributeModelClient'
 
-
 /**
  * Mandatory Dependencies to display module in parent board
  * @type {Array}

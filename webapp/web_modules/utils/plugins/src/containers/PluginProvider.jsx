@@ -65,8 +65,8 @@ export class PluginProvider extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchPlugin: pluginId => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
-      onPluginLoadingStarted: pluginId => dispatch(pluginDefPartitionsActions.onDataLoadingStart(
+      fetchPlugin: (pluginId) => dispatch(uiPluginDefinitionActions.fetchEntity(pluginId)),
+      onPluginLoadingStarted: (pluginId) => dispatch(pluginDefPartitionsActions.onDataLoadingStart(
         PluginProvider.getPartitionKey(pluginId))),
       onPluginLoadingDone: (pluginId, pluginDefinition) => dispatch(pluginDefPartitionsActions.onDataLoadingDone(
         PluginProvider.getPartitionKey(pluginId), pluginDefinition)),
@@ -119,7 +119,7 @@ export class PluginProvider extends React.Component {
    * definition for all components working with that partition (Nota: component did mount will not work here, as all components
    * receive the same properties, captured just before redux store can update)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       pluginPartition, pluginId,
       fetchPlugin, onPluginLoadingStarted,
@@ -137,7 +137,7 @@ export class PluginProvider extends React.Component {
           }
           onPluginLoadingDone(pluginId, loadedDefinition)
         })
-        .catch(error => onPluginLoadingFailed(pluginId, `Failed resolving plugin definition with id ${pluginId}`))
+        .catch((error) => onPluginLoadingFailed(pluginId, `Failed resolving plugin definition with id ${pluginId}`))
     }
   }
 

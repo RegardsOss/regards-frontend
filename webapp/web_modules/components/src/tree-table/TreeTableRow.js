@@ -62,7 +62,7 @@ class TreeTableRow {
 
     // depth restoration
     this.subRows.forEach((thisSubRow, index) => {
-      const matchingOtherSubRow = otherRow.subRows.find(otherSubRow => thisSubRow.isSameRow(otherSubRow))
+      const matchingOtherSubRow = otherRow.subRows.find((otherSubRow) => thisSubRow.isSameRow(otherSubRow))
       if (matchingOtherSubRow) {
         // recursive sub levels restoration
         thisSubRow.restoreExpandedStatefrom(matchingOtherSubRow)

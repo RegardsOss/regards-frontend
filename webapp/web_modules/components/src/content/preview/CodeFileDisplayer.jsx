@@ -52,7 +52,7 @@ class CodeFileDisplayer extends React.Component {
    */
   static isSupportedContentType(contentType) {
     const lowerContentType = contentType.toLowerCase()
-    return CodeFileDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+    return CodeFileDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
   }
 
   static propTypes = {

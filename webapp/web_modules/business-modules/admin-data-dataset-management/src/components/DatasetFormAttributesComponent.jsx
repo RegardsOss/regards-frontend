@@ -34,7 +34,6 @@ import SelectField from 'material-ui/SelectField'
 import { EntitiesAttributesFormContainer, getInitialFormValues } from '@regardsoss/admin-data-entities-attributes-management'
 import DatasetStepperContainer from '../containers/DatasetStepperContainer'
 
-
 const labelValidators = [ValidationHelpers.required, ValidationHelpers.lengthLessThan(128)]
 
 /**
@@ -58,24 +57,18 @@ export class DatasetFormAttributesComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = isNil(props.currentDataset)
-    this.state = {
-      isDisplayAttributeValue: !isCreating,
-    }
+  state = {
+    isDisplayAttributeValue: !isNil(this.props.currentDataset),
   }
 
   componentDidMount() {
     this.handleInitialize()
   }
-
 
   getTitle = () => {
     let title

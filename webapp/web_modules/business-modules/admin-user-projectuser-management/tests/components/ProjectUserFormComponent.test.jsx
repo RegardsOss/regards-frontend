@@ -17,18 +17,21 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { shallow } from 'enzyme'
-import { expect, assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { Field } from '@regardsoss/form-utils'
+import { assert } from 'chai'
+import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import {
+  Field, FieldHelp, RenderCheckbox, RenderTextField, ValidationHelpers,
+} from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
+import { AdminDomain } from '@regardsoss/domain'
 import { ProjectUserFormComponent } from '../../src/components/ProjectUserFormComponent'
+import styles from '../../src/styles'
 
-
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 // Test a component rendering
-describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', () => {
+describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -37,130 +40,300 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing projectuser form component', ()
   })
 
   it('should render edit form', () => {
+    const spyInit = {}
     const props = {
-      currentUser: {
+      currentUser: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
+      userMetadata: getMetadataArray(DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')),
+      settings: {
         content: {
-          id: 1,
-          email: 'mon@adresse.em',
-          lastUpdate: {
-            date: { year: '2017', month: '1', day: '9' },
-            time: {
-              hour: '15', minute: '46', second: '12', nano: '453000000',
-            },
-          },
-          status: 'WAITING_ACCESS',
-          metadata: [], // leaving metadata blank (cannot test here the values)
-          role: { name: 'REGISTERED_USER' },
-          permissions: [],
-        },
-        links: [],
-      },
-      userMetadata: getMetadataArray(),
-      roleList: {
-        PUBLIC: {
-          content: {
-            id: 1,
-            name: 'PUBLIC',
-            permissions: [],
-            authorizedAddresses: [],
-            isCorsRequestsAuthorized: true,
-            isDefault: true,
-            isNative: true,
-          },
-          links: [],
+          id: 0,
+          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          maxQuota: 500,
+          rateLimit: 50,
         },
       },
-      groupList: {
-        AG1: {
-          content: {
-            id: 1,
-            name: 'AG1',
-            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
-            accessRights: [],
-            isPrivate: true,
-          },
-          links: [],
-        },
-        AG2: {
-          content: {
-            id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true,
-          },
-          links: [],
-        },
-      },
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+      groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       passwordRules: '',
       fetchPasswordValidity: () => { },
       onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form
       handleSubmit: () => { },
-      initialize: () => { },
+      initialize: (values) => { spyInit.values = values },
     }
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
-    // field count : 7 for account
-    expect(enzymeWrapper.find(Field)).to.have.length(7)
-    // Metadata field count: 1 for each metadata model (hold by front end in V1)
-    expect(enzymeWrapper.find(MetadataField)).to.have.length(getMetadataArray().length)
+    // A - init
+    assert.deepEqual(spyInit.values, {
+      groups: [],
+      email: props.currentUser.content.email,
+      roleName: props.currentUser.content.role.name,
+      maxQuota: props.currentUser.content.maxQuota,
+      rateLimit: props.currentUser.content.rateLimit,
+      useExistingAccount: true,
+      // with edited meta
+      ...props.userMetadata.reduce((acc, { currentValue, key }) => ({
+        ...acc,
+        [key]: (currentValue),
+      }), {}),
+    })
+    // B - project user fields
+    // use existing account field: hidden by parent
+    const useExistingAccField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'useExistingAccount',
+      component: RenderCheckbox,
+      label: 'projectUser.create.using.existing.account',
+    }, 'use existing account field should be displayed')
+    assert.isFalse(useExistingAccField.parent(ShowableAtRender).props().show, 'Use existing account field should be hidden in edition')
+    // email: disabled
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'email',
+      disabled: true,
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.email',
+      validate: ProjectUserFormComponent.EMAIL_FIELD_VALIDATORS,
+    }, 'Email field should be displayed, disabled in edition')
+    // password
+    const passwordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'password',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password',
+      validate: ValidationHelpers.required,
+    }, 'Password field should be displayed')
+    assert.isFalse(passwordField.parent(ShowableAtRender).props().show, 'Password field should be hidden in edition')
 
-    const showableComps = enzymeWrapper.find(ShowableAtRender)
-    assert.isFalse(showableComps.at(0).props().show, 'We are editing a user, re use account check box should be hidden')
-    assert.isFalse(showableComps.at(1).props().show, 'We are editing a user, The account fields should be hidden')
+    // confirm password
+    const confirmPasswordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'confirmPassword',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password.confirm',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isFalse(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be hidden in edition')
+    // first name
+    const firstNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'firstName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.firstName',
+      validate: ValidationHelpers.required,
+    }, 'Fist name field should be displayed')
+    assert.isFalse(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be hidden in edition')
+    // last name: hidden
+    const lastNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'lastName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.lastName',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isFalse(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be hidden in edition')
+    // max quota
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'maxQuota',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.max.quota',
+      help: FieldHelp.buildDialogMessageHelp('projectUser.create.input.max.quota.help.message'),
+      validate: ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS,
+    }, 'Max quota field should be displayed')
+    // rate limit quota
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'rateLimit',
+      label: 'projectUser.create.input.rate.limit',
+      help: FieldHelp.buildDialogMessageHelp('projectUser.create.input.rate.limit.help.message'),
+      validate: ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS,
+      component: RenderTextField,
+      type: 'text',
+    }, 'Max quota field should be displayed')
+
+    // check metadata fields
+    props.userMetadata.forEach((metadata) => {
+      testSuiteHelpers.assertCompWithProps(enzymeWrapper, MetadataField, {
+        metadata,
+      }, `There should be a field for metadata ${metadata.key}`)
+    })
   })
 
-  it('should render create form', () => {
+  it('should render create form for new account', () => {
+    const spyInit = {}
     const props = {
-      userMetadata: getMetadataArray(), // also provide metadata for new users
-      roleList: {
-        PUBLIC: {
-          content: {
-            id: 1,
-            name: 'PUBLIC',
-            permissions: [],
-            authorizedAddresses: [],
-            isCorsRequestsAuthorized: true,
-            isDefault: true,
-            isNative: true,
-          },
-          links: [],
+      currentUser: null,
+      userMetadata: getMetadataArray(),
+      settings: {
+        content: {
+          id: 0,
+          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          maxQuota: 500,
+          rateLimit: 50,
         },
       },
-      groupList: {
-        AG1: {
-          content: {
-            id: 1,
-            name: 'AG1',
-            users: [{ email: 'francois.durant@test.fr' }, { email: 'mon@adresse.em' }],
-            accessRights: [],
-            isPrivate: true,
-          },
-          links: [],
-        },
-        AG2: {
-          content: {
-            id: 2, name: 'AG2', users: [], accessRights: [], isPrivate: true,
-          },
-          links: [],
-        },
-      },
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+      groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       passwordRules: '',
       fetchPasswordValidity: () => { },
       onSubmit: () => { },
       backUrl: 'some/url',
       // from Redux Form
       handleSubmit: () => { },
-      initialize: () => { },
+      initialize: (values) => { spyInit.values = values },
     }
-    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context, lifecycleExperimental: true })
-    const subComponent = enzymeWrapper.find(Field)
-    expect(subComponent).to.have.length(7)
-    let showableComps = enzymeWrapper.find(ShowableAtRender)
-    assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
-    assert.isTrue(showableComps.at(1).props().show, 'The account fields should be visible')
+    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
+    // A - init
+    assert.deepEqual(spyInit.values, {
+      maxQuota: props.settings.content.maxQuota, // from tenant user settings
+      rateLimit: props.settings.content.rateLimit, // from tenant user settings
+      useExistingAccount: false, // by default
+      // with edited meta
+      ...props.userMetadata.reduce((acc, { currentValue, key }) => ({
+        ...acc,
+        [key]: (currentValue),
+      }), {}),
+    })
+    // B - project user fields
+    // use existing account field: hidden by parent
+    const useExistingAccField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'useExistingAccount',
+      component: RenderCheckbox,
+      label: 'projectUser.create.using.existing.account',
+    }, 'use existing account field should be displayed')
+    assert.isTrue(useExistingAccField.parent(ShowableAtRender).props().show, 'Use existing account field should be displayed in creation')
+    // email: disabled
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'email',
+      disabled: false,
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.email',
+      validate: ProjectUserFormComponent.EMAIL_FIELD_VALIDATORS,
+    }, 'Email field should be displayed, disabled in edition')
+    // password
+    const passwordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'password',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password',
+      validate: ValidationHelpers.required,
+    }, 'Password field should be displayed')
+    assert.isTrue(passwordField.parent(ShowableAtRender).props().show, 'Password field should be displayed in creation')
 
-    // Test if it hides Fields when using an existing REGARDS account
-    enzymeWrapper.setProps({ useExistingAccount: true })
-    showableComps = enzymeWrapper.find(ShowableAtRender)
-    assert.isTrue(showableComps.at(0).props().show, 'We are creating a user, re use account check box should be visible')
-    assert.isFalse(showableComps.at(1).props().show, 'The account fields should be visible')
+    // confirm password
+    const confirmPasswordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'confirmPassword',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password.confirm',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isTrue(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be displayed in creation')
+    // first name
+    const firstNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'firstName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.firstName',
+      validate: ValidationHelpers.required,
+    }, 'Fist name field should be displayed')
+    assert.isTrue(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be displayed in creation')
+    // last name: hidden
+    const lastNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'lastName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.lastName',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isTrue(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be displayed in creation')
+    // max quota
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'maxQuota',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.max.quota',
+      help: FieldHelp.buildDialogMessageHelp('projectUser.create.input.max.quota.help.message'),
+      validate: ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS,
+    }, 'Max quota field should be displayed')
+    // rate limit quota
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'rateLimit',
+      label: 'projectUser.create.input.rate.limit',
+      help: FieldHelp.buildDialogMessageHelp('projectUser.create.input.rate.limit.help.message'),
+      validate: ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS,
+      component: RenderTextField,
+      type: 'text',
+    }, 'Max quota field should be displayed')
+
+    // check metadata fields
+    props.userMetadata.forEach((metadata) => {
+      testSuiteHelpers.assertCompWithProps(enzymeWrapper, MetadataField, {
+        metadata,
+      }, `There should be a field for metadata ${metadata.key}`)
+    })
+  })
+  it('should render create form for reused account (only new user fields should be visible)', () => {
+    const spyInit = {}
+    const props = {
+      currentUser: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
+      userMetadata: getMetadataArray(DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')),
+      settings: {
+        content: {
+          id: 0,
+          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          maxQuota: 500,
+          rateLimit: 50,
+        },
+      },
+      roleList: DumpProvider.get('AdminClient', 'Role'),
+      groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
+      passwordRules: '',
+      fetchPasswordValidity: () => { },
+      onSubmit: () => { },
+      backUrl: 'some/url',
+      // from Redux Form
+      handleSubmit: () => { },
+      initialize: (values) => { spyInit.values = values },
+      useExistingAccount: true,
+    }
+    const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
+    // password
+    const passwordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'password',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password',
+      validate: ValidationHelpers.required,
+    }, 'Password field should be displayed')
+    assert.isFalse(passwordField.parent(ShowableAtRender).props().show, 'Password field should be hidden in when reusing an existing account')
+
+    // confirm password
+    const confirmPasswordField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'confirmPassword',
+      component: RenderTextField,
+      type: 'password',
+      label: 'projectUser.create.input.password.confirm',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isFalse(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be hidden in when reusing an existing account')
+    // first name
+    const firstNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'firstName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.firstName',
+      validate: ValidationHelpers.required,
+    }, 'Fist name field should be displayed')
+    assert.isFalse(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be hidden in when reusing an existing account')
+    // last name: hidden
+    const lastNameField = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'lastName',
+      component: RenderTextField,
+      type: 'text',
+      label: 'projectUser.create.input.lastName',
+      validate: ValidationHelpers.required,
+    }, 'Confirm password field should be displayed')
+    assert.isFalse(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be hidden in when reusing an existing account')
   })
 })

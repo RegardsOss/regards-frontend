@@ -86,13 +86,10 @@ export class EntitiesFilesFormComponent extends React.Component {
     marginBottom: '20px',
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      nbInputs: 1,
-      type: get(props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
-      state: STATE.INIT,
-    }
+  state = {
+    nbInputs: 1,
+    type: get(this.props, 'allowedDataType[0]', CommonDomain.DATA_TYPES_ENUM.DESCRIPTION),
+    state: STATE.INIT,
   }
 
   /**
@@ -225,7 +222,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     })
   }
 
-  renderFileInput = inputId => (
+  renderFileInput = (inputId) => (
     <div
       style={EntitiesFilesFormComponent.rowInputAndButtonStyle}
       key={inputId}
@@ -261,7 +258,7 @@ export class EntitiesFilesFormComponent extends React.Component {
       >
         <Paper style={EntitiesFilesFormComponent.paperStyle} zDepth={3}>
           <Subheader><FormattedMessage id="entities-files.form.upload.files.subtitle" /></Subheader>
-          {times(this.state.nbInputs, i => this.renderFileInput(i))}
+          {times(this.state.nbInputs, (i) => this.renderFileInput(i))}
           <Subheader><FormattedMessage id="entities-files.form.upload.refs.subtitle" /></Subheader>
           <FieldArray
             name="refs"
@@ -322,7 +319,7 @@ export class EntitiesFilesFormComponent extends React.Component {
         messageKey="entities-files.form.no-file.message"
         Icon={IconEmptyList}
       />
-    ) : map(this.getFileList(), file => (
+    ) : map(this.getFileList(), (file) => (
       <ListItem
         key={file.checksum}
         primaryText={file.filename}
@@ -362,7 +359,6 @@ export class EntitiesFilesFormComponent extends React.Component {
     )
   }
 }
-
 
 export default reduxForm({
   form: 'entities-files',

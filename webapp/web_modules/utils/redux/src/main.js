@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Main interface for regards redux tools
  * @author Sébastien Binda

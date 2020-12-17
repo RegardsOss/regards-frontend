@@ -34,7 +34,6 @@ class ShowDatedItemSelectionDetailComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { intl: { formatMessage } } = this.context
     const { disabled, onShowDetail } = this.props

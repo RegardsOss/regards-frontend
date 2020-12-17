@@ -58,7 +58,7 @@ class ActionButtonComponent extends React.Component {
    * Controls that props provided are correct
    * @param props
    */
-  componentWillReceiveProps(props) {
+  UNSAFE_componentWillReceiveProps(props) {
     if (props.type === 'submit') {
       // Clicking on this button will submit the parent form
     } else if (props.url === undefined && props.onClick === undefined) {

@@ -42,7 +42,6 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
     assert.isDefined(CriterionWrapperContainer)
   })
 
-
   it('should render correctly and fetch bounds taking all currently applying parameters except self criterion ones', (done) => {
     const spiedFetchBounds = {}
     let enzymeWrapper = null

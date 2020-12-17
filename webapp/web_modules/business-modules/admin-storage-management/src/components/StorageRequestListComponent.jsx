@@ -30,9 +30,12 @@ import messages from '../i18n'
 */
 class StorageRequestListComponent extends React.Component {
   static propTypes = {
-    storageLocation: PropTypes.string.isRequired,
-    requestsType: PropTypes.string.isRequired,
-    requestsStatus: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    storageLocation: PropTypes.string.isRequired, // eslint wont fix: used in onPropertiesUpdated (rule broken)
+    // eslint-disable-next-line react/no-unused-prop-types
+    requestsType: PropTypes.string.isRequired, // eslint wont fix: used in onPropertiesUpdated (rule broken)
+    // eslint-disable-next-line react/no-unused-prop-types
+    requestsStatus: PropTypes.string.isRequired, // eslint wont fix: used in onPropertiesUpdated (rule broken)
   }
 
   static contextTypes = {
@@ -40,38 +43,59 @@ class StorageRequestListComponent extends React.Component {
     ...themeContextType,
   }
 
+  static PAGE_SIZE = 100
+
+  static MIN_ROW_COUNT = 5
+
+  static MAX_ROW_COUNT = 8
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    this.setState({
+      pathParams: {
+        storage: newProps.storageLocation,
+        type: newProps.requestsType,
+      },
+      requestParameters: {
+        status: newProps.requestsStatus,
+      },
+    })
+  }
+
   render() {
-    const pageSize = 100
-    const minRowCount = 5
-    const maxRowCount = 8
-
-    const pathParams = {
-      storage: this.props.storageLocation,
-      type: this.props.requestsType,
-    }
-    const requestParameters = {
-      status: this.props.requestsStatus,
-    }
-
+    const { pathParams, requestParameters } = this.state
     const { intl: { formatMessage } } = this.context
-
-    const columns = [
-      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.label' })).propertyRenderCell('content.fileName')
-        .fixedSizing(300)
-        .build(),
-      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.error' })).propertyRenderCell('content.errorCause')
-        .build()]
-
     return (
       <TableLayout>
         <PageableInfiniteTableContainer
           name="request-list"
           pageActions={storageRequestActions}
           pageSelectors={storageRequestSelectors}
-          queryPageSize={pageSize}
-          minRowCount={minRowCount}
-          maxRowCount={maxRowCount}
-          columns={columns}
+          queryPageSize={StorageRequestListComponent.PAGE_SIZE}
+          minRowCount={StorageRequestListComponent.MIN_ROW_COUNT}
+          maxRowCount={StorageRequestListComponent.MAX_ROW_COUNT}
+          // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+          columns={[ // eslint wont fix: API issue, requires major rework
+            new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.label' })).propertyRenderCell('content.fileName')
+              .fixedSizing(300)
+              .build(),
+            new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'storage.location.errors.view.table.error' })).propertyRenderCell('content.errorCause')
+              .build()]}
           pathParams={pathParams}
           requestParams={requestParameters}
         />

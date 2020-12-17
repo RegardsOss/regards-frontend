@@ -19,12 +19,10 @@
 import find from 'lodash/find'
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
-import { FormattedMessage } from 'react-intl'
 import { CatalogShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
-
 
 export class SearchEngineConfigurationInfoDialog extends React.Component {
   static propTypes = {
@@ -40,7 +38,7 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
   }
 
   getSearchLink = (withAuth, type = 'search') => {
-    const searchLink = find(this.props.searchEngineConfiguration.links, l => l.rel === type)
+    const searchLink = find(this.props.searchEngineConfiguration.links, (l) => l.rel === type)
     if (searchLink) {
       return withAuth
         ? `${searchLink.href}?token=${this.props.accessToken}`
@@ -51,36 +49,18 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
 
   render() {
     const { searchEngineConfiguration, onClose } = this.props
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { searchEngineURLInfo } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { searchEngineURLInfo, emphasizedText } } = this.context
     if (!searchEngineConfiguration) {
       return null
     }
 
-    const actions = [
-      <FlatButton
-        key="close"
-        label={formatMessage({ id: 'dataaccess.searchengines.info.close' })}
-        primary
-        onClick={onClose}
-      />,
-    ]
-
     let content = null
     if (searchEngineConfiguration.content.dataset) {
-      const decoratedLabel = (
-        <span style={{ color: muiTheme.palette.accent1Color }}>
+      content = formatMessage({ id: 'dataaccess.searchengines.info.content.dataset' }, {
+        label: <span style={emphasizedText}>
           {searchEngineConfiguration.content.dataset.label}
-        </span>
-      )
-      const values = {
-        label: decoratedLabel,
-      }
-      content = (
-        <FormattedMessage
-          id="dataaccess.searchengines.info.content.dataset"
-          values={values}
-        />
-      )
+        </span>,
+      })
     } else {
       content = formatMessage({ id: 'dataaccess.searchengines.info.content.all' })
     }
@@ -89,11 +69,18 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
     const searchObjectsRootLink = this.getSearchLink(false, 'search-objects')
     const searchDatasetsRootLink = this.getSearchLink(false, 'search-datasets')
     const searchCollectionsRootLink = this.getSearchLink(false, 'search-collections')
-    const descriptortLink = this.getSearchLink(false, 'opensearchdescription.xml')
+    const descriptorLink = this.getSearchLink(false, 'opensearchdescription.xml')
 
     return (
       <Dialog
-        actions={actions}
+        actions={<>
+          <FlatButton
+            key="close"
+            label={formatMessage({ id: 'dataaccess.searchengines.info.close' })}
+            primary
+            onClick={onClose}
+          />
+        </>}
         title={formatMessage({ id: 'dataaccess.searchengines.info.title' }, { name: searchEngineConfiguration.content.label })}
         open
         onRequestClose={onClose}
@@ -102,7 +89,7 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
         <br />
         <br />
         {searchRootLink ? (
-          <React.Fragment>
+          <>
             <div style={searchEngineURLInfo}>
               {searchRootLink}
               {searchObjectsRootLink ? <br /> : null}
@@ -111,16 +98,16 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
               {searchDatasetsRootLink}
               {searchCollectionsRootLink ? <br /> : null}
               {searchCollectionsRootLink}
-              {descriptortLink ? <br /> : null}
-              {descriptortLink}
+              {descriptorLink ? <br /> : null}
+              {descriptorLink}
             </div>
             <br />
             <br />
-          </React.Fragment>
+          </>
         ) : null}
-        <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
+        <a style={emphasizedText} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
         <br />
-        {descriptortLink ? <a style={{ color: muiTheme.palette.accent1Color }} href={this.getSearchLink(true, 'opensearchdescription.xml')} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test.descriptor' })}</a> : null}
+        {descriptorLink ? <a style={emphasizedText} href={this.getSearchLink(true, 'opensearchdescription.xml')} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test.descriptor' })}</a> : null}
       </Dialog>
     )
   }

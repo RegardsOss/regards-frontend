@@ -100,9 +100,9 @@ class ModulesListContainer extends React.Component {
   }
 
   handleModuleActivation = (module) => {
-    const moduleToUpdate = Object.assign({}, module)
+    const moduleToUpdate = { ...module }
     moduleToUpdate.conf = JSON.stringify(moduleToUpdate.conf)
-    this.props.updateModule(this.props.params.applicationId, Object.assign({}, moduleToUpdate, { active: !module.active }))
+    this.props.updateModule(this.props.params.applicationId, { ...moduleToUpdate, active: !module.active })
   }
 
   render() {
@@ -120,8 +120,7 @@ class ModulesListContainer extends React.Component {
             onActivation={this.handleModuleActivation}
             backUrl={this.getBackUrl()}
             handleUpdate={this.props.updateModule}
-          />)
-          }
+          />)}
         </LoadableContentDisplayDecorator>
       </I18nProvider>
     )

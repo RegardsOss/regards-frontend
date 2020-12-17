@@ -29,7 +29,6 @@ import { SelectableList, CardActionsComponent } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { AdminDomain } from '@regardsoss/domain'
 import ResourceAccessFormByMicroserviceContainer from '../containers/ResourceAccessFormByMicroserviceContainer'
-import moduleStyles from '../styles/styles'
 
 /**
  * React container to edit resource access allowed for the
@@ -58,7 +57,7 @@ export class ResourceAccessFormComponent extends React.Component {
    * @param {string} name role name, mandatory
    * @return {string} label to use
    */
-  getRoleLabel = name => AdminDomain.DEFAULT_ROLES.includes(name) ? this.context.intl.formatMessage({ id: `role.name.${name}` }) : name
+  getRoleLabel = (name) => AdminDomain.DEFAULT_ROLES.includes(name) ? this.context.intl.formatMessage({ id: `role.name.${name}` }) : name
 
   activateTab = (microservice) => {
     this.setState({
@@ -68,13 +67,13 @@ export class ResourceAccessFormComponent extends React.Component {
 
   render() {
     const { backUrl, microserviceList, currentRole } = this.props
-    const styles = moduleStyles(this.context.muiTheme)
+    const { moduleTheme } = this.context
     const { activeMicroservice } = this.state
     const {
       microserviceSplitPanel: {
         layoutStyle, leftColumnStyle, rightColumnStyle, leftListStyle, titleStyle, contentStyle,
       },
-    } = styles
+    } = moduleTheme
     return (
       <Card>
         <CardTitle

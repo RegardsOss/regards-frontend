@@ -21,7 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import messages from '../../i18n'
-import styles from '../../styles/styles'
+import styles from '../../styles'
 import { sipImportActions } from '../../clients/SIPImportClient'
 import SIPsubmissionFormComponent from '../../components/submission/SIPSubmissionFormComponent'
 
@@ -36,8 +36,8 @@ export class SIPSubmissionFormContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps = dispatch => ({
-    submitSips: file => dispatch(sipImportActions.importSIPFeaturesCollection(file)),
+  static mapDispatchToProps = (dispatch) => ({
+    submitSips: (file) => dispatch(sipImportActions.importSIPFeaturesCollection(file)),
     flushSips: () => dispatch(sipImportActions.flush()),
   })
 
@@ -106,11 +106,9 @@ export class SIPSubmissionFormContainer extends React.Component {
   }
 
   render() {
-    const stylesObj = { styles }
-
     return (
       <I18nProvider messages={messages}>
-        <ModuleStyleProvider module={stylesObj}>
+        <ModuleStyleProvider module={styles}>
           <SIPsubmissionFormComponent
             isError={this.state.isError}
             isLoading={this.state.isLoading}

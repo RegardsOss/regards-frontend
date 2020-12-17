@@ -50,13 +50,10 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      // Only used when onlyAdvancedConfiguration === false
-      showAdvanced: props.isEditingSQL || false,
-      prefix: props.onlyAdvancedConfiguration ? states.CUSTOM_FROM : states.FROM_TABLE,
-    }
+  state = {
+    // Only used when onlyAdvancedConfiguration === false
+    showAdvanced: this.props.isEditingSQL || false,
+    prefix: this.props.onlyAdvancedConfiguration ? states.CUSTOM_FROM : states.FROM_TABLE,
   }
 
   showIfOptional = (value) => {
@@ -102,7 +99,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
       />),
       ...flow(
         fpsortBy(['name']),
-        fpmap(tableAttribute => (
+        fpmap((tableAttribute) => (
           <MenuItem
             value={tableAttribute.name}
             className={`selenium-pickMapping-${tableAttribute.name}`}
@@ -154,7 +151,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
       return (
         <div>
           <FormattedMessage id="datasource.form.mapping.table.fragment" />
-:
+          :
           {modelAttribute.content.attribute.fragment.name}
           <br />
         </div>
@@ -163,14 +160,13 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     return null
   }
 
-
   renderType = () => {
     const { isStaticAttribute, modelAttribute } = this.props
     if (!isStaticAttribute) {
       return (
         <div>
           <FormattedMessage id="datasource.form.mapping.table.type" />
-:
+          :
           {modelAttribute.content.attribute.type}
           <br />
         </div>
@@ -178,7 +174,6 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     }
     return null
   }
-
 
   render() {
     const { modelAttribute } = this.props
@@ -188,7 +183,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
         <TableRowColumn>
           {this.renderFragmentName()}
           <FormattedMessage id="datasource.form.mapping.table.attrName" />
-:
+          :
           {modelAttribute.content.attribute.name}
           <br />
           {this.renderType()}
@@ -201,6 +196,5 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     )
   }
 }
-
 
 export default DBDatasourceFormMappingLineComponent

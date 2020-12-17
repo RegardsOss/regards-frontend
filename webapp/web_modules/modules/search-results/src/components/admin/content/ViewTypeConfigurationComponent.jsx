@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import reduce from 'lodash/reduce'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
+import isEmpty from 'lodash/isEmpty'
 import MenuItem from 'material-ui/MenuItem'
 import Checkbox from 'material-ui/Checkbox'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
@@ -24,16 +27,23 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
-  FieldsGroup, Field, RenderSelectField, RenderTextField,
-  StringComparison, ValidationHelpers,
+  FieldsGroup, Field, RenderSelectField,
+  StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField,
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
+import { RadioButton } from 'material-ui'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
 import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
+import LayerInfoItemComponent from './LayerInfoItemComponent'
+
+const {
+  required,
+} = ValidationHelpers
 
 /**
  * Component to configure each view type (table (and list), quicklooks and map)
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class ViewTypeConfigurationComponent extends React.Component {
   static propTypes = {
@@ -70,6 +80,14 @@ class ViewTypeConfigurationComponent extends React.Component {
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: ViewTypeConfigurationComponent.allButThumbnail,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: ViewTypeConfigurationComponent.allButThumbnail,
   }
+
+  /** Background layer URL validators */
+  static BACKGROUND_LAYER_URL_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.url]
+
+  /** Sort available layer types (to not perform it at render time) */
+  static SORTED_MIZAR_LAYER_TYPES = UIDomain.MIZAR_LAYER_TYPES.sort(StringComparison.compare)
+
+  static SORTED_CESIUM_LAYER_TYPES = UIDomain.CESIUM_LAYER_TYPES.sort(StringComparison.compare)
 
   /**
    * Builds view type / namespace and extracts view form data
@@ -111,11 +129,7 @@ class ViewTypeConfigurationComponent extends React.Component {
     return attribute.content.name !== DamDomain.AttributeModelController.standardAttributesKeys.thumbnail
   }
 
-  /** Background layer URL validators */
-  static BACKGROUND_LAYER_URL_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.url]
-
-  /** Sort available layer types (to not perform it at render time) */
-  static SORTED_LAYER_TYPES = UIDomain.MIZAR_LAYER_TYPES.sort(StringComparison.compare)
+  static duplicateLayerInfo = (layerInfo) => layerInfo
 
   /**
    * User callback: enable view toggled. When disabling the view, make sure the group do not use that view
@@ -154,6 +168,14 @@ class ViewTypeConfigurationComponent extends React.Component {
     changeField(currentTypeNamespace, nextTypeFormValues)
   }
 
+  renderLayerInfoItemLabel = (item) => {
+    const layerName = item.layerName ? item.layerName : this.context.intl.formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.title' })
+    const isBackgroundText = item.background ? this.context.intl.formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.background' }) : ''
+    const viewMode = item.layerViewMode ? this.context.intl.formatMessage({ id: `search.results.form.configuration.result.MAP.viewMode.${item.layerViewMode}` }) : ''
+    const isNotEnabledText = !item.enabled ? this.context.intl.formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.not.enabled' }) : ''
+    return filter([layerName, isBackgroundText, viewMode, isNotEnabledText], (text) => !isEmpty(text)).join(' - ')
+  }
+
   /**
    * @param {*} value URL field value
    * @return error text when URL should be provided (view is enabled),
@@ -178,6 +200,39 @@ class ViewTypeConfigurationComponent extends React.Component {
     return undefined
   }
 
+  /**
+   * Define props to pass to FieldArray component
+   * @param {*} mapEngine : Either Mizar or Cesium. Allow to get correct menu item for each of them
+   */
+  getLayerProps = (mapEngine) => ({
+    mapEngine,
+    getMenuItems: this.getMenuItems,
+    validateBackgroundURL: this.validateBackgroundURL,
+    validateBackgroundConf: this.validateBackgroundConf,
+  })
+
+  /* Set menu items according to map engine selected */
+  getMenuItems = (mapEngine) => {
+    let sortedLayers = null
+    switch (mapEngine) {
+      case UIDomain.MAP_ENGINE_ENUM.MIZAR:
+        sortedLayers = ViewTypeConfigurationComponent.SORTED_MIZAR_LAYER_TYPES
+        break
+      case UIDomain.MAP_ENGINE_ENUM.CESIUM:
+        sortedLayers = ViewTypeConfigurationComponent.SORTED_CESIUM_LAYER_TYPES
+        break
+      default:
+    }
+
+    return map(sortedLayers, (type) => (
+      <MenuItem
+        key={type}
+        value={type}
+        primaryText={type}
+      />
+    ))
+  }
+
   render() {
     const {
       pageType, availableAttributes,
@@ -196,7 +251,56 @@ class ViewTypeConfigurationComponent extends React.Component {
             onCheck={this.onEnableViewToggled}
             disabled={ViewTypeConfigurationComponent.isLastEnabledInViewsGroup(currentTypeFormValues, viewFormValues)}
           />
-          {/* 2. Attributes / groups to display */}
+        </FieldsGroup>
+        {/* 2. Map engine, Map view mode (2D or 3D), background layers when in MAP */
+        viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
+          <>
+            <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}>
+              <Field
+                name={`${viewNamespace}.mapEngine`}
+                component={RenderSelectField}
+                label={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}
+                fullWidth
+              >
+                {UIDomain.MAP_ENGINE.map((engine) => (
+                  <MenuItem
+                    key={engine}
+                    value={engine}
+                    primaryText={engine}
+                  />))}
+              </Field>
+            </FieldsGroup>
+            <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.viewMode.title' })}>
+              <Field name={`${viewNamespace}.initialViewMode`} component={RenderRadio} defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}>
+                {
+                  map(UIDomain.MAP_VIEW_MODES_ENUM, (mapViewMode) => (
+                    <RadioButton
+                      key={mapViewMode}
+                      label={formatMessage({ id: `search.results.form.configuration.result.MAP.viewMode.${mapViewMode}` })}
+                      value={mapViewMode}
+                    />
+                  ))
+                }
+              </Field>
+            </FieldsGroup>
+            <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers' })}>
+              <FieldArray
+                name={`${viewNamespace}.layers`}
+                component={RenderArrayObjectField}
+                elementLabel={this.renderLayerInfoItemLabel}
+                fieldComponent={LayerInfoItemComponent}
+                duplicationTransformation={ViewTypeConfigurationComponent.duplicateLayerInfo}
+                canBeEmpty
+                fieldProps={this.getLayerProps(viewFormValues.mapEngine)}
+                listHeight="600px"
+                validate={required}
+              />
+            </FieldsGroup>
+          </>)
+          : null
+        }
+        {/* 4. Attributes / groups to display */}
+        <FieldsGroup spanFullWidth>
           <div style={content.tableFieldSpacer}>
             <AttributesListConfigurationComponent
               selectableAttributes={availableAttributes}
@@ -212,40 +316,6 @@ class ViewTypeConfigurationComponent extends React.Component {
             />
           </div>
         </FieldsGroup>
-        {/* 3. Map backound, when in MAP */
-        viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
-          <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.title' })}>
-            <Field
-              name={`${viewNamespace}.backgroundLayer.url`}
-              component={RenderTextField}
-              label={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.layer.url' })}
-              fullWidth
-              validate={this.validateBackgroundURL}
-            />
-            <Field
-              name={`${viewNamespace}.backgroundLayer.type`}
-              component={RenderSelectField}
-              label={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.layer.type' })}
-              fullWidth
-            >
-              { ViewTypeConfigurationComponent.SORTED_LAYER_TYPES.map(type => (
-                <MenuItem
-                  key={type}
-                  value={type}
-                  primaryText={type}
-                />))
-              }
-            </Field>
-            <Field
-              name={`${viewNamespace}.backgroundLayer.conf`}
-              component={RenderTextField}
-              label={formatMessage({ id: 'search.results.form.configuration.result.MAP.background.layer.conf' })}
-              validate={this.validateBackgroundConf}
-              fullWidth
-            />
-          </FieldsGroup>)
-          : null
-      }
       </div>
     )
   }

@@ -21,10 +21,12 @@ import { browserHistory } from 'react-router'
 import { AdminShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ProjectUserSettingsFormComponent from '../components/ProjectUserSettingsFormComponent'
 import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Project user settings form container
@@ -54,7 +56,7 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchSettings: () => dispatch(projectUserSettingsActions.getSettings()),
-      updateSettings: accountSettings => dispatch(projectUserSettingsActions.updateSettings(accountSettings)),
+      updateSettings: (accountSettings) => dispatch(projectUserSettingsActions.updateSettings(accountSettings)),
     }
   }
 
@@ -109,17 +111,19 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     const { isFetching, hasError, settings } = this.props
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isFetching}
-          isContentError={hasError}
-          isEmpty={!settings}
-        >
-          <ProjectUserSettingsFormComponent
-            settings={get(settings, 'content', null)}
-            onBack={this.onBack}
-            onSubmit={this.onSubmit}
-          />
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isFetching}
+            isContentError={hasError}
+            isEmpty={!settings}
+          >
+            <ProjectUserSettingsFormComponent
+              settings={get(settings, 'content', null)}
+              onBack={this.onBack}
+              onSubmit={this.onSubmit}
+            />
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

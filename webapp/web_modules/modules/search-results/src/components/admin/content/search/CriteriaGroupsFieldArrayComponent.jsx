@@ -209,7 +209,6 @@ class CriteriaGroupsFieldArrayComponent extends React.Component {
     fields.insert(toIndex, movedGroup)
   }
 
-
   render() {
     const {
       fetchingMetadata, fields, pluginsMetadata, availableAttributes,

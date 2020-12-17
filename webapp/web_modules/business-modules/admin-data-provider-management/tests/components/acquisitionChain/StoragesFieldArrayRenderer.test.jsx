@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { Field } from '@regardsoss/form-utils'
 import { StoragesFieldArrayRenderer } from '../../../src/components/acquisitionChain/StoragesFieldArrayRenderer'
 import styles from '../../../src/styles'
@@ -37,8 +37,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
     assert.isDefined(StoragesFieldArrayRenderer)
   })
   it('should render correctly', () => {
-    const fieldValues = [
-      {
+    const props = {
+      changeField: () => {},
+      fields: ReduxFormTestHelper.getFieldsProps([{
         active: true,
         label: 'LocalDataStorage',
         path: '/machin/chose',
@@ -53,17 +54,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
         label: 'Turkmenistan',
         path: '',
       },
-    ]
-    const props = {
-      changeField: () => {},
-      fields: {
-        getAll: () => fieldValues,
-        push: () => { },
-        remove: () => { },
-        map: f => fieldValues.map((member, index) => f(member, index, props.fields)),
-        get: i => fieldValues[i],
-        length: fieldValues.length,
-      },
+      ]),
     }
     const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
     const fields = enzymeWrapper.find(Field)
@@ -71,17 +62,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
     assert.notInclude(enzymeWrapper.debug(), 'acquisition-chain.form.general.section.info.storage.no.data', 'Error message should be displayed')
   })
   it('should render error when there is no storage', () => {
-    const fieldValues = []
     const props = {
       changeField: () => {},
-      fields: {
-        getAll: () => fieldValues,
-        push: () => { },
-        remove: () => { },
-        map: f => fieldValues.map((member, index) => f(member, index, props.fields)),
-        get: i => fieldValues[i],
-        length: fieldValues.length,
-      },
+      fields: ReduxFormTestHelper.getFieldsProps([]),
     }
     const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
     const fields = enzymeWrapper.find(Field)

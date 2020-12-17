@@ -18,9 +18,9 @@
  **/
 import reduce from 'lodash/reduce'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { styles } from '../styles'
+import styles from '../styles'
 
-const HeadlessAdapter = props => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
+const HeadlessAdapter = (props) => <div>{reduce(props, (acc, value, key) => `${acc}<br />${key}: ${value}`, '')}</div>
 
 /**
 * Ace editor adapter, to render headless instances
@@ -41,6 +41,20 @@ export class AceEditorAdapter extends React.Component {
     ...themeContextType,
   }
 
+  static propTypes = {
+    // one of the ace editor modes
+    mode: PropTypes.string.isRequired,
+    // note: any other ace editor property will be propagated to component below like
+    // value: editor content
+    // setOptions: editor options
+    // ...
+    onChange: PropTypes.func,
+  }
+
+  static editorProps = {
+    $blockScrolling: Infinity,
+  }
+
   /**
    * Initializes this adapter static data: loads the component or replace with headless
    * component when in headles environment
@@ -57,36 +71,19 @@ export class AceEditorAdapter extends React.Component {
         require.ensure([], (require) => {
           AceEditorAdapter.LOADED_COMPONENT = require('react-ace').default
           // supported themes
-          require('brace/theme/monokai')
-          // supported language
-          require('brace/mode/css')
-          require('brace/mode/javascript')
-          require('brace/mode/json')
-          require('brace/mode/xml')
+          require('ace-builds/src-noconflict/theme-monokai')
+          // supported languages
+          require('ace-builds/src-noconflict/mode-css')
+          require('ace-builds/src-noconflict/mode-javascript')
+          require('ace-builds/src-noconflict/mode-json')
+          require('ace-builds/src-noconflict/mode-xml')
           onAsyncLoadingDone()
         })
       }
     }
   }
 
-  static propTypes = {
-    // one of the ace editor modes
-    mode: PropTypes.string.isRequired,
-    // note: any other ace editor property will be propagated to component below like
-    // value: editor content
-    // setOptions: editor options
-    // ...
-    onChange: PropTypes.func,
-  }
-
-  static editorProps = {
-    $blockScrolling: Infinity,
-  }
-
-  constructor(props) {
-    super(props)
-    this.state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
-  }
+  state = { RenderComponent: AceEditorAdapter.LOADED_COMPONENT }
 
   componentDidMount() {
     // check if runtime data as initialize (callback is called only when there is something new loaded)

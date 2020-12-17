@@ -21,6 +21,6 @@
  * Module styles
  * @author Raphaël Mechali
  */
-export default theme => ({
+export default (theme) => ({
   // empty
 })

@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -38,10 +37,10 @@ class HeaderBarComponent extends React.Component {
     allowSearching: PropTypes.bool,
     // On selected entity index callback (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
+    toggleTreeButton: PropTypes.func.isRequired,
   }
-
 
   static contextTypes = {
     ...themeContextType,
@@ -50,13 +49,13 @@ class HeaderBarComponent extends React.Component {
   render() {
     const {
       settings, descriptionEntity, selectedEntityIndex, descriptionPath,
-      allowSearching, onSelectEntityIndex, onSearchEntity,
+      allowSearching, onSelectEntityIndex, onSearchEntity, toggleTreeButton,
     } = this.props
     const { moduleTheme: { user: { header: { leftGroup, rightGroup } } } } = this.context
     return (
       <TableHeaderLine>
         <div style={leftGroup}>
-          <ToggleTreeVisibleOptionContainer />
+          <ToggleTreeVisibleOptionContainer toggleTreeButton={toggleTreeButton} />
           <TableHeaderOptionsSeparator />
           <BreadcrumbComponent
             settings={settings}
@@ -68,8 +67,7 @@ class HeaderBarComponent extends React.Component {
         <div style={rightGroup}>
           {allowSearching ? (
             <SearchEntityOptionComponent descriptionEntity={descriptionEntity} onSearchEntity={onSearchEntity} />)
-            : null
-          }
+            : null}
         </div>
       </TableHeaderLine>
     )

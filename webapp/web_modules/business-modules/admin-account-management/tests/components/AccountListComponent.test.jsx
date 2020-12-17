@@ -55,8 +55,7 @@ const allAccounts = {
   },
 }
 
-
-const waitingAccounts = pickBy(allAccounts, account => account.content.status === 'PENDING')
+const waitingAccounts = pickBy(allAccounts, (account) => account.content.status === 'PENDING')
 
 const initialProps = {
   allAccounts: {},

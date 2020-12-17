@@ -43,7 +43,6 @@ export const PluginService = PropTypes.shape({
   type: PropTypes.oneOf(values(AccessDomain.pluginTypes)).isRequired,
 })
 
-
 /** Plugin service with content */
 export const PluginServiceWithContent = PropTypes.shape({
   content: PluginService,

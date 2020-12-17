@@ -26,7 +26,6 @@ class DatasetReducers extends BasicPageableReducers {
   }
 }
 
-
 export default (namespace) => {
   const instance = new DatasetReducers(namespace)
   return (state, action) => instance.reduce(state, action)

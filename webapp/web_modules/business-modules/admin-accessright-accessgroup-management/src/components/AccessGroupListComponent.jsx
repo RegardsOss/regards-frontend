@@ -118,7 +118,6 @@ export class AccessGroupListComponent extends React.Component {
     )
   }
 
-
   render() {
     const {
       accessGroupList, handleShowGroupUsers, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,

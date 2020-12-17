@@ -32,6 +32,6 @@ import SetMaintenanceModeActions from './SetMaintenanceModeActions'
  * @return new state
  */
 
-export default microservice => function (state, action) {
+export default (microservice) => function (state, action) {
   return new BasicSignalReducers(SetMaintenanceModeActions(microservice)).reduce(state, action)
 }

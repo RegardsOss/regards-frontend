@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'user.authentication.plugins.list.title': 'Configure authentication systems',
   'user.authentication.plugins.list.subtitle': 'This section allows you to configure authentication systems.',
   'user.authentication.plugins.list.header.id.label': 'Identifier',
@@ -47,7 +47,7 @@ const messages = Object.assign({
   'user.authentication.plugins.form.back.button': 'Cancel',
 
   'user.authentication.plugins.list.confirm.delete.title': 'Delete selected authentication system?',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

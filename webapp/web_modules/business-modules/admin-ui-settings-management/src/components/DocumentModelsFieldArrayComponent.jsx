@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import identity from 'lodash/identity'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -33,13 +34,7 @@ import SelectDocumentModelOptionComponent from './SelectDocumentModelOptionCompo
 class DocumentModelsFieldArrayComponent extends React.Component {
   static propTypes = {
     dataModelNames: PropTypes.arrayOf(PropTypes.string).isRequired,
-    fields: PropTypes.shape({
-      get: PropTypes.func.isRequired,
-      getAll: PropTypes.func.isRequired,
-      insert: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }).isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
@@ -59,7 +54,7 @@ class DocumentModelsFieldArrayComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize columns lists
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.dataModelColumns = [
       new TableColumnBuilder('name').valuesRenderCell([{ getValue: identity }]).build(), // render model name
       new TableColumnBuilder('options').optionsColumn([{ // add as document model option
@@ -94,12 +89,11 @@ class DocumentModelsFieldArrayComponent extends React.Component {
     fields.remove(documentModelIndex)
   }
 
-
   render() {
     const { dataModelNames, fields } = this.props
     const { intl: { formatMessage }, moduleTheme: { documentModels } } = this.context
     const documentModelNames = fields.getAll()
-    const remainingDataModelNames = dataModelNames.filter(m => !documentModelNames.includes(m))
+    const remainingDataModelNames = dataModelNames.filter((m) => !documentModelNames.includes(m))
     return (
       <div style={documentModels.root}>
         {/* 1 - Left table: data models */}

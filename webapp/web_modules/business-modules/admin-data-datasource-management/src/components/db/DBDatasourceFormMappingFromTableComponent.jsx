@@ -75,9 +75,9 @@ export class DBDatasourceFormMappingFromTableComponent extends React.Component {
     const { currentDatasource, tableAttributeList, isEditing } = this.props
     if (isEditing) {
       const attributesMapping = get(findParam(currentDatasource, IDBDatasourceParamsEnum.MAPPING), 'value', [])
-      const currentAttributeMapping = find(attributesMapping, attributeMapping => attributeMapping.name === modelAttribute.content.attribute.name)
+      const currentAttributeMapping = find(attributesMapping, (attributeMapping) => attributeMapping.name === modelAttribute.content.attribute.name)
       if (currentAttributeMapping) {
-        return !some(tableAttributeList, tableAttribute => currentAttributeMapping.nameDS === tableAttribute.name)
+        return !some(tableAttributeList, (tableAttribute) => currentAttributeMapping.nameDS === tableAttribute.name)
       }
     }
     return false
@@ -179,6 +179,5 @@ export class DBDatasourceFormMappingFromTableComponent extends React.Component {
     )
   }
 }
-
 
 export default DBDatasourceFormMappingFromTableComponent

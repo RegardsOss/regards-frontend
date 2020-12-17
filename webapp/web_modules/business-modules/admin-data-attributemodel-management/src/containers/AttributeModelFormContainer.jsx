@@ -58,11 +58,8 @@ export class AttributeModelFormContainer extends React.Component {
     fetchAttributeModelRestrictionList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.params.attrModel_id !== undefined,
-    }
+  state = {
+    isEditing: this.props.params.attrModel_id !== undefined,
   }
 
   componentDidMount() {
@@ -77,7 +74,7 @@ export class AttributeModelFormContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // if the store did not contained the entity, it will fetch it async
     // then when we retrieve the entity we need to fetch the corresponding entity restriction list
     if (this.state.isEditing && nextProps.attrModelRestrictionList.length === 0 && !this.props.attrModel && nextProps.attrModel) {
@@ -148,7 +145,7 @@ export class AttributeModelFormContainer extends React.Component {
       })
       // Handle enumeration
       if (values.restriction.ENUMERATION && values.restriction.ENUMERATION.active) {
-        const acceptableValues = map(values.restriction.ENUMERATION.inputs, val => val.length > 0 ? val : undefined)
+        const acceptableValues = map(values.restriction.ENUMERATION.inputs, (val) => val.length > 0 ? val : undefined)
         restriction = {
           type: 'ENUMERATION',
           acceptableValues,
@@ -167,7 +164,7 @@ export class AttributeModelFormContainer extends React.Component {
 
   getFragment = (values) => {
     if (values.fragment !== DEFAULT_FRAGMENT_NAME) {
-      const attrFragment = find(this.props.fragmentList, fragment => (fragment.content.name === values.fragment))
+      const attrFragment = find(this.props.fragmentList, (fragment) => (fragment.content.name === values.fragment))
       return attrFragment.content || null
     }
     return null
@@ -180,7 +177,8 @@ export class AttributeModelFormContainer extends React.Component {
   handleUpdate = (values) => {
     const restriction = this.getRestriction(values)
     const previousAttrModel = this.props.attrModel.content
-    const updatedAttrModel = Object.assign({}, previousAttrModel, {
+    const updatedAttrModel = {
+      ...previousAttrModel,
       label: values.label,
       description: values.description,
       type: values.type,
@@ -189,7 +187,7 @@ export class AttributeModelFormContainer extends React.Component {
       optional: values.optional,
       unit: values.unit,
       restriction,
-    })
+    }
     // Delete the object if it does not exists
     if (!restriction.type) {
       delete updatedAttrModel.restriction
@@ -255,17 +253,17 @@ const mapStateToProps = (state, ownProps) => ({
   isFragmentFetching: fragmentSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  createAttrModel: values => dispatch(attributeModelActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  createAttrModel: (values) => dispatch(attributeModelActions.createEntity(values)),
   updateAttrModel: (id, values) => dispatch(attributeModelActions.updateEntity(id, values)),
-  fetchAttrModel: id => dispatch(attributeModelActions.fetchEntity(id)),
+  fetchAttrModel: (id) => dispatch(attributeModelActions.fetchEntity(id)),
 
   fetchAttributeModelTypeList: () => dispatch(attributeModelTypeActions.fetchEntityList()),
 
-  fetchAttributeModelRestrictionList: type => dispatch(attributeModelRestrictionActions.getList(type)),
+  fetchAttributeModelRestrictionList: (type) => dispatch(attributeModelRestrictionActions.getList(type)),
   flushAttributeModelRestriction: () => dispatch(attributeModelRestrictionActions.flush()),
 
-  fetchFragmentList: type => dispatch(fragmentActions.fetchEntityList(type)),
+  fetchFragmentList: (type) => dispatch(fragmentActions.fetchEntityList(type)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelFormContainer)

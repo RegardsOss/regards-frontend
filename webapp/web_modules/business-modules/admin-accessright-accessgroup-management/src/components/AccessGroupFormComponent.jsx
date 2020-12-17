@@ -52,6 +52,8 @@ export class AccessGroupFormComponent extends React.Component {
     ...i18nContextType,
   }
 
+  static nameFieldValidations = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
+
   componentDidMount() {
     this.handleInitialize()
   }
@@ -82,11 +84,9 @@ export class AccessGroupFormComponent extends React.Component {
     }
   }
 
-
   render() {
     const { submitting, invalid, backUrl } = this.props
     const title = this.getTitle()
-    const nameFieldValidations = [ValidationHelpers.required, ValidationHelpers.string, ValidationHelpers.validAlphaNumericUnderscore]
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -102,7 +102,7 @@ export class AccessGroupFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               disabled={this.props.isEditing}
-              validate={nameFieldValidations}
+              validate={AccessGroupFormComponent.nameFieldValidations}
               label={this.context.intl.formatMessage({ id: 'group.form.name' })}
               normalize={trim}
             />

@@ -68,7 +68,6 @@ export class DraggableCard extends React.Component {
   }
 }
 
-
 /**
  * Define behaviour of items dragged
  * @type {{beginDrag: ((props)), endDrag: ((props, monitor))}}
@@ -95,4 +94,4 @@ function collect(connect, monitor) {
   }
 }
 
-export default DragSource(props => props.draggableToContainerType, CardSource, collect)(DraggableCard)
+export default DragSource((props) => props.draggableToContainerType, CardSource, collect)(DraggableCard)

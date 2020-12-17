@@ -52,9 +52,9 @@ class BasicListReducers extends BasicReducer {
   }
 
   rewriteEntity = function (state, action, stateUpdated) {
-    const newState = Object.assign({}, state, stateUpdated)
+    const newState = { ...state, ...stateUpdated }
     const entityId = action.payload.result
-    const items = Object.assign({}, newState.items)
+    const items = { ...newState.items }
     items[entityId] = action.payload.entities[this.normalizrKey][entityId]
     newState.items = items
     if (!includes(values(newState.results), entityId)) {
@@ -65,7 +65,7 @@ class BasicListReducers extends BasicReducer {
 
   deleteEntityFromState = function (state, action, stateUpdated) {
     const newState = { ...state, ...stateUpdated }
-    newState.items = omitBy(newState.items, proj => proj.content[this.entityKey] === action.payload)
+    newState.items = omitBy(newState.items, (proj) => proj.content[this.entityKey] === action.payload)
     newState.results = without(newState.results, action.payload)
     return newState
   }

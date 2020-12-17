@@ -73,20 +73,18 @@ class CronDescriptionDialog extends React.Component {
       intl: { formatMessage },
     } = this.context
 
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.close' })}
-        primary
-        onClick={onClose}
-      />,
-    ]
-
     return (
       <Dialog
         title={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.title' })}
         modal={false}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'acquisition-chain.form.general.section.cron.description.close' })}
+            primary
+            onClick={onClose}
+          />
+        </>}
         open={opened}
         onRequestClose={onClose}
         bodyStyle={markdownDialog.bodyStyle}

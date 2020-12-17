@@ -22,4 +22,4 @@ import { BasicSignalsSelectors } from '@regardsoss/store-utils'
  * Store selector on fem requests.
  * @author Léo Mieulet
  */
-export default storePath => new BasicSignalsSelectors(storePath)
+export default (storePath) => new BasicSignalsSelectors(storePath)

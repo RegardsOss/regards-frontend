@@ -76,22 +76,24 @@ class NotificationListComponent extends React.Component {
 
   static PAGE_SIZE = 40
 
-    /** Conversion map: notiication level to floating message level */
-    static NOTIFICATION_TO_MESSAGE_LEVEL = {
-      FATAL: 'error',
-      ERROR: 'warning',
-      WARNING: 'warning',
-      INFO: 'info',
-      DEFAULT: 'info',
-    }
+  /** Conversion map: notiication level to floating message level */
+  static NOTIFICATION_TO_MESSAGE_LEVEL = {
+    FATAL: 'error',
+    ERROR: 'warning',
+    WARNING: 'warning',
+    INFO: 'info',
+    DEFAULT: 'info',
+  }
 
-    /** Constants to display the notification as a floating message on screen */
-    static NOTIFICATION_MESSAGE_CONSTANTS = {
-      dismissible: true,
-      autoDismiss: 5,
-      position: 'br',
-    }
+  /** Constants to display the notification as a floating message on screen */
+  static NOTIFICATION_MESSAGE_CONSTANTS = {
+    dismissible: true,
+    autoDismiss: 5,
+    position: 'br',
+  }
 
+  /** Notification system component reference */
+  notificationSystem = React.createRef()
 
   state = {
     openedNotification: null,
@@ -117,7 +119,7 @@ class NotificationListComponent extends React.Component {
    * Sends notification to floating messages handler
    * @param {*} notification Notification as AdminShapes.Notification
    */
-  notify = notification => this.notificationSystem.addNotification({
+  notify = (notification) => this.notificationSystem.current.addNotification({
     message: <NotificationFloatingMessage notification={notification} />,
     level: NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL[notification.level]
       || NotificationListComponent.NOTIFICATION_TO_MESSAGE_LEVEL.DEFAULT,
@@ -125,7 +127,7 @@ class NotificationListComponent extends React.Component {
   })
 
   handleOpen = (notification) => {
-    this.notificationSystem.clearNotifications()
+    this.notificationSystem.current.clearNotifications()
     if (this.state.openedNotification && notification.id !== this.state.openedNotification.id && notification.status === 'UNREAD') {
       this.props.readNotification(this.state.openedNotification)
     }
@@ -136,7 +138,7 @@ class NotificationListComponent extends React.Component {
 
   handleOpenModal = () => {
     const { lastNotification, lastReadNotification } = this.props
-    this.notificationSystem.clearNotifications()
+    this.notificationSystem.current.clearNotifications()
     if (lastNotification) {
       this.setState({
         openedNotification: lastNotification.content,
@@ -177,24 +179,12 @@ class NotificationListComponent extends React.Component {
       })
   }
 
-
   /**
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode, nbNotif) => {
+  renderNotificationList = (mode, nbNotif) => { // TODO: EXTRACT A COMPONENT
     const { moduleTheme: { notifications: notificationStyle } } = this.context
-    const column = [
-      new TableColumnBuilder('label-notif').rowCellDefinition({
-        Constructor: NotificationItemComponent,
-        props: {
-          currentActiveEntity: this.state.openedNotification,
-          handleOpenNotif: this.handleOpen,
-          refetchData: this.refetchData,
-        },
-      }).build(),
-    ]
-    const values = { count: nbNotif }
     return [
       <List key={`title-${mode}`}>
         <Subheader
@@ -203,7 +193,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={values} />
+            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={{ count: nbNotif }} />
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
@@ -223,7 +213,17 @@ class NotificationListComponent extends React.Component {
           tableActions={tableActions}
           queryPageSize={NotificationListComponent.PAGE_SIZE}
           displayColumnsHeader={false}
-          columns={column}
+          // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+          columns={[ // eslint wont fix: infinite table API issue, requires API refactor
+            new TableColumnBuilder('label-notif').rowCellDefinition({
+              Constructor: NotificationItemComponent,
+              props: {
+                currentActiveEntity: this.state.openedNotification,
+                handleOpenNotif: this.handleOpen,
+                refetchData: this.refetchData,
+              },
+            }).build(),
+          ]}
           lineHeight={72}
           requestParams={this.getRequestParams(mode)}
         />
@@ -303,8 +303,7 @@ class NotificationListComponent extends React.Component {
             : formatMessage(
               { id: 'user.menu.notification.elements.count.tooltip' },
               { elementsCount: unreadCount },
-            )
-          }
+            )}
           style={notificationStyle.iconButton.style}
           iconStyle={notificationStyle.iconButton.iconStyle}
           disabled={unreadCount === 0 && readCount === 0}
@@ -329,9 +328,7 @@ class NotificationListComponent extends React.Component {
         </IconButton>
         {this.renderNotificationDialog()}
         <NotificationSystem
-          ref={(ref) => {
-            this.notificationSystem = ref
-          }}
+          ref={this.notificationSystem}
           style={notificationStyle.notificationSystem.style}
         />
       </div>

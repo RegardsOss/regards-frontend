@@ -49,10 +49,9 @@ class PluginListContainer extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchPlugins()
   }
-
 
   getBackUrl = () => {
     const { params: { project } } = this.props
@@ -98,14 +97,14 @@ class PluginListContainer extends React.Component {
 const UnconnectedPluginListContainer = PluginListContainer
 export { UnconnectedPluginListContainer }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   plugins: uiPluginDefinitionSelectors.getList(state),
   isFetching: uiPluginDefinitionSelectors.isFetching(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchPlugins: () => dispatch(uiPluginDefinitionActions.fetchPagedEntityList(0, 100)),
-  updatePlugin: plugin => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
-  deletePlugin: plugin => dispatch(uiPluginDefinitionActions.deleteEntity(plugin.id)),
+  updatePlugin: (plugin) => dispatch(uiPluginDefinitionActions.updateEntity(plugin.id, plugin)),
+  deletePlugin: (plugin) => dispatch(uiPluginDefinitionActions.deleteEntity(plugin.id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PluginListContainer)

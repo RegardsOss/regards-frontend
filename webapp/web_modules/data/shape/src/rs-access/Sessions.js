@@ -39,19 +39,29 @@ export const Session = PropTypes.shape({
         invalid: PropTypes.number,
         ingested: PropTypes.number,
         generated: PropTypes.number,
-        files_acquired: PropTypes.number,
-        generation_error: PropTypes.number,
+        // eslint-disable-next-line camelcase
+        files_acquired: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        generation_error: PropTypes.number, // eslint wont fix: matches server format
       }),
       oais: PropTypes.shape({
         products: PropTypes.number,
-        products_stored: PropTypes.number,
-        products_store_pending: PropTypes.number,
-        products_store_error: PropTypes.number,
-        products_meta_stored: PropTypes.number,
-        products_meta_store_pending: PropTypes.number,
-        products_gen_pending: PropTypes.number,
-        products_gen_error: PropTypes.number,
-        products_meta_store_error: PropTypes.number,
+        // eslint-disable-next-line camelcase
+        products_stored: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_store_pending: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_store_error: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_meta_stored: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_meta_store_pending: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_gen_pending: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_gen_error: PropTypes.number, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        products_meta_store_error: PropTypes.number, // eslint wont fix: matches server format
       }),
       catalog: PropTypes.shape({
         indexed: PropTypes.number,
@@ -59,7 +69,7 @@ export const Session = PropTypes.shape({
       }),
     }),
   }).isRequired,
-  links: PropTypes.arrayOf(HateOASLink).isRequired,
+  links: PropTypes.arrayOf(HateOASLink),
 })
 
 export const SessionList = PropTypes.objectOf(Session)

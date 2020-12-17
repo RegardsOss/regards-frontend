@@ -36,6 +36,6 @@ import isEmpty from 'lodash/isEmpty'
  * @return {boolean}
  * @author Sébastien Binda
  */
-const someListMatchHateoasDisplayLogic = (arrayOfrequiredEndpoints, availableEndpoints) => reduce(arrayOfrequiredEndpoints, (result, requiredEndpoints) => result || every(requiredEndpoints, item => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints), false)
+const someListMatchHateoasDisplayLogic = (arrayOfrequiredEndpoints, availableEndpoints) => reduce(arrayOfrequiredEndpoints, (result, requiredEndpoints) => result || every(requiredEndpoints, (item) => (includes(availableEndpoints, item))) || isEmpty(requiredEndpoints), false)
 
 export default someListMatchHateoasDisplayLogic

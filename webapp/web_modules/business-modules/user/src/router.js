@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Main route to access UI-Confiuration module fonctionalities
  * @author Sébastien binda

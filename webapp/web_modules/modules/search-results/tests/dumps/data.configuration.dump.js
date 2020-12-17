@@ -37,7 +37,7 @@ export const configuration = {
   },
   restrictions: {
     byDataset: {
-      type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       selection: ['URN:DATASET:EXAMPLE1'],
     },
   },
@@ -66,11 +66,18 @@ export const configuration = {
         },
         MAP: {
           enabled: true,
+          mapEngine: 'CESIUM',
+          selectedMode: 'PICK_ON_CLICK',
+          initialViewMode: 'MODE_3D',
           attributes: [
             { attributes: [{ name: 'label' }], label: { en: 'Label', fr: 'Libellé' } },
             { attributes: [{ name: 'my.attr.1' }], label: { en: 'My attribute 1', fr: 'Mon attribute 1' } },
             { attributes: [{ name: 'my.attr.2' }], label: { en: 'My attribute 2', fr: 'Mon attribute 2' } }],
-          backgroundLayer: { url: 'https://c.tile.openstreetmap.org/', type: 'OSM' },
+          layers: [
+            {
+              layerName: 'Layer', visible: true, enabled: true, background: true, layerViewMode: 'MODE_3D', url: 'https://c.tile.openstreetmap.org/', type: 'OSM',
+            },
+          ],
         },
       },
       tabTitle: { en: 'The data', fr: 'Les données' },

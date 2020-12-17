@@ -59,11 +59,8 @@ export class IngestProcessingChainListComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      chainToDelete: null,
-    }
+  state = {
+    chainToDelete: null,
   }
 
   onDelete = (chain) => {

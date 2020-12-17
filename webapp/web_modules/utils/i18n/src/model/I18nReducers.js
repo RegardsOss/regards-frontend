@@ -21,7 +21,6 @@ import { browserHistory } from 'react-router'
 import { UIDomain } from '@regardsoss/domain'
 import { SET_LOCALE } from './I18nActions'
 
-
 // 1 - Attempt retrieve language from navigator
 const navigatorRef = root.navigator || {}
 const navigatorLocale = navigatorRef.language || navigatorRef.userLanguage
@@ -36,7 +35,7 @@ const localeSeparators = ['-', '_']
  */
 export function parseLanguageLocaleIn(l = '') {
   let simpleLocale = l.toLowerCase() // 0 - By default considered as simple locale
-  const localeSeparator = localeSeparators.find(separator => l.includes(separator))
+  const localeSeparator = localeSeparators.find((separator) => l.includes(separator))
   if (localeSeparator) {
     // 1.a - This is a composed locale, split on separator and keep the language part
     const foundParts = l.split(localeSeparator)

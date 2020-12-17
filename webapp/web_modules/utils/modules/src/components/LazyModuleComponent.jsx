@@ -73,17 +73,20 @@ class LazyModuleComponent extends React.Component {
 
   state = {
     isLoaded: false,
-    module: null,
+    ModuleContainer: null,
+    moduleMessages: null,
+    moduleStyles: null,
+    moduleDependencies: [],
   }
 
   /**
-   * Before component is mount, Lazy load the module with require. The module will be displayed once the dependecy is loaded.
+   * Before component is mount, Lazy load the module with require. The module will be displayed once the dependency is loaded.
    */
   componentDidMount() {
     this.loadModule(this.props.module)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.module.type !== this.props.module.type) {
       this.loadModule(nextProps.module)
     }
@@ -100,7 +103,9 @@ class LazyModuleComponent extends React.Component {
           console.info(`Module ${module.type} does not contain an administration component`)
           self.setState({
             isLoaded: false,
-            module: null,
+            moduleDependencies: [],
+            ModuleContainer: null,
+            loadedModule: null,
           })
         } else if (!this.props.admin && !loadedModule.moduleContainer) {
           throw new Error(`Module ${module.type} does not contain a main component`)
@@ -111,10 +116,12 @@ class LazyModuleComponent extends React.Component {
             loadedModuleReducer[loadedModuleReducerName] = configureReducers(loadedModule.reducer)
             getReducerRegistry().register(loadedModuleReducer)
           }
-
           self.setState({
             isLoaded: true,
-            module: loadedModule,
+            moduleMessages: get(loadedModule, 'messages'),
+            moduleStyles: { styles: get(loadedModule, 'styles') },
+            moduleDependencies: get(loadedModule, `dependencies.${self.props.admin ? 'admin' : 'user'}`, []),
+            ModuleContainer: (self.props.admin ? loadedModule.adminContainer : loadedModule.moduleContainer) || null,
           })
         }
         if (this.props.onLoadAction) {
@@ -130,38 +137,18 @@ class LazyModuleComponent extends React.Component {
    * Render module if loaded or a loading message if not.
    */
   render() {
-    const { isLoaded, module } = this.state
+    const { admin, module: { active } } = this.props
+    const {
+      isLoaded, ModuleContainer, moduleMessages,
+      moduleStyles, moduleDependencies,
+    } = this.state
 
     // If module is loaded then render. The module load is asynchrone due to require.ensure method.
-    if (isLoaded) {
-      // Does the module is active ?
-      if (!this.props.module.active && !this.props.admin) {
-        return null
-      }
-
-      // The module exposes its messages
-      const moduleMessages = get(module, 'messages', {})
-
-
-      let ModuleContainer = null
-      let moduleDependencies = []
-
-      // Display module with admin or normal container ? (take dependencies in account)
-      if (this.props.admin && module.adminContainer) {
-        ModuleContainer = module.adminContainer
-        moduleDependencies = get(module, 'dependencies.admin', [])
-      } else if (!this.props.admin && module.moduleContainer) {
-        // eslint-disable-next-line prefer-destructuring
-        ModuleContainer = module.moduleContainer
-        moduleDependencies = get(module, 'dependencies.user', [])
-      }
-
+    if (isLoaded && (active || admin)) { // Hide non loaded modules or disabled modules in user app
       return (
         <I18nProvider messages={moduleMessages}>
-          <ModuleStyleProvider module={module}>
-            <WithResourcesHOC
-              resourceDependencies={moduleDependencies}
-            >
+          <ModuleStyleProvider module={moduleStyles}>
+            <WithResourcesHOC resourceDependencies={moduleDependencies}>
               <ModuleContainer
                 appName={this.props.appName}
                 project={this.props.project}

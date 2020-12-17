@@ -42,7 +42,7 @@ export class AccessGroupListContainer extends React.Component {
     deleteAccessGroup: PropTypes.func,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchAccessGroupList()
   }
 
@@ -87,7 +87,6 @@ export class AccessGroupListContainer extends React.Component {
     this.props.deleteAccessGroup(accessgroupName)
   }
 
-
   render() {
     const { accessGroupList, isFetching } = this.props
     return (
@@ -116,9 +115,9 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: accessGroupSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAccessGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList(0, 100)),
-  deleteAccessGroup: id => dispatch(accessGroupActions.deleteEntity(id)),
+  deleteAccessGroup: (id) => dispatch(accessGroupActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupListContainer)

@@ -30,7 +30,7 @@ class StorageLocationMonitoringActions extends BasicSignalActions {
     })
   }
 
-  relaunchMonitoring = reset => this.sendSignal(RequestVerbEnum.GET, {}, {}, { reset })
+  relaunchMonitoring = (reset) => this.sendSignal(RequestVerbEnum.GET, {}, {}, { reset })
 }
 
 export default StorageLocationMonitoringActions

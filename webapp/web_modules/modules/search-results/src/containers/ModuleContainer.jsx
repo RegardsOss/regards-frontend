@@ -56,7 +56,6 @@ export class ModuleContainer extends React.Component {
     attributeModels: DataManagementShapes.AttributeModelList.isRequired,
   }
 
-
   render() {
     const {
       id: moduleId, project, moduleConf,

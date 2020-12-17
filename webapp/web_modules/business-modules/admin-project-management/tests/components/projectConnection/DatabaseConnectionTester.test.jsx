@@ -21,13 +21,11 @@ import { expect, assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import FlatButton from 'material-ui/FlatButton'
 import { EnumConnectivity } from '@regardsoss/domain/admin'
-import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import { OnHoverSwitchFlatButton } from '@regardsoss/components'
 import DatabaseConnectionTester from '../../../src/components/projectConnection/DatabaseConnectionTester'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
 
-const options = {
-  context: buildTestContext(),
-}
+const context = buildTestContext()
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
@@ -55,7 +53,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
       },
       testConnection: () => {},
     }
-    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
+    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, { context })
     expect(enzymeWrapper.find(FlatButton)).to.have.length(1)
   })
 
@@ -76,7 +74,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
       },
       testConnection: () => {},
     }
-    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
+    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, { context })
     expect(enzymeWrapper.find(OnHoverSwitchFlatButton)).to.have.length(1)
   })
 
@@ -97,7 +95,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
       },
       testConnection: () => {},
     }
-    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
+    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, { context })
     expect(enzymeWrapper.find(OnHoverSwitchFlatButton)).to.have.length(1)
   })
 
@@ -118,7 +116,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
       },
       testConnection: () => {},
     }
-    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
+    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, { context })
     expect(enzymeWrapper.find(OnHoverSwitchFlatButton)).to.have.length(1)
   })
 
@@ -139,7 +137,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing DatabaseConnectionTester', () => {
       },
       testConnection: () => {},
     }
-    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, options)
+    const enzymeWrapper = shallow(<DatabaseConnectionTester {...props} />, { context })
     expect(enzymeWrapper.find(ConnectionTesterProgress)).to.have.length(1)
   })
 })

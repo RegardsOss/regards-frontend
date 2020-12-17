@@ -20,6 +20,9 @@ import ThemeListClientDump from '@regardsoss/client/tests/rs-access-project/Them
 import UIPluginConfigurationClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginConfiguration.dump'
 import UIPluginDefinitionClientDump from '@regardsoss/client/tests/rs-access-project/UIPluginDefinition.dump'
 import LinkUIPluginDatasetDump from '@regardsoss/client/tests/rs-access-project/LinkUIPluginDataset.dump'
+import ProjectUserDump from '@regardsoss/client/tests/rs-access-project/ProjectUser.dump'
+import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-access-project/WaitingAccessUsersEntities.dump'
+
 import FragmentClientDump from '@regardsoss/client/tests/rs-dam/Fragment.dump'
 import AttributeModelDump from '@regardsoss/client/tests/rs-dam/AttributeModel.dump'
 import ModelDump from '@regardsoss/client/tests/rs-dam/Model.dump'
@@ -39,8 +42,6 @@ import ModelAttributesComputationTypesDump from '@regardsoss/client/tests/rs-dam
 import ProjectDump from '@regardsoss/client/tests/rs-admin/Project.dump'
 import AccountDump from '@regardsoss/client/tests/rs-admin/Account.dump'
 import RoleDump from '@regardsoss/client/tests/rs-admin/Role.dump'
-import ProjectUserDump from '@regardsoss/client/tests/rs-admin/ProjectUser.dump'
-import WaitingAccessUsersEntitiesDump from '@regardsoss/client/tests/rs-admin/WaitingAccessUsersEntities.dump'
 import AccessGroupDump from '@regardsoss/client/tests/rs-dam/AccessGroup.dump'
 import UserGroupDump from '@regardsoss/client/tests/rs-dam/UserGroup.dump'
 import DatasetWithAccessRightDump from '@regardsoss/client/tests/rs-dam/DatasetWithAccessRight.dump'
@@ -57,6 +58,9 @@ import AcquisitionProcessingChainDump from '@regardsoss/client/tests/rs-dataprov
 import AcquisitionProcessingChainMonitorDump from '@regardsoss/client/tests/rs-dataprovider/AcquisitionProcessingChainMonitor.dump'
 
 import StorageLocationDump from '@regardsoss/client/tests/rs-storage/StorageLocation.dump'
+
+import ProcessingDump from '@regardsoss/client/tests/rs-processing/Processing.dump'
+import ProcessingMonitoringDump from '@regardsoss/client/tests/rs-processing/ProcessingMonitoring.dump'
 
 import {
 
@@ -151,6 +155,12 @@ import {
   THEME_ARRAY,
   ThemeConfiguration,
 
+  // Processing
+  PROCESSING_ARRAY,
+  ProcessingConfiguration,
+  PROCESSING_MONITORING_ARRAY,
+  ProcessingMonitoringConfiguration,
+
 } from '@regardsoss/api'
 
 /**
@@ -161,6 +171,22 @@ import {
  * @author Léo Mieulet
  */
 export default {
+  ProcessingMonitoringClient: {
+    ProcessingMonitoring: {
+      isPageable: true,
+      dump: ProcessingMonitoringDump,
+      ENTITY_ARRAY: PROCESSING_MONITORING_ARRAY,
+      normalizrKey: ProcessingMonitoringConfiguration.normalizrKey,
+    },
+  },
+  ProcessingClient: {
+    Processing: {
+      isPageable: false,
+      dump: ProcessingDump,
+      ENTITY_ARRAY: PROCESSING_ARRAY,
+      normalizrKey: ProcessingConfiguration.normalizrKey,
+    },
+  },
   StorageClient: {
     StorageLocation: {
       isPageable: false,
@@ -170,6 +196,36 @@ export default {
     },
   },
   AccessProjectClient: {
+    CollectionEntity: {
+      isPageable: true,
+      dump: CollectionEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    DataobjectEntity: {
+      isPageable: true,
+      dump: DataobjectEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    DatasetEntity: {
+      isPageable: true,
+      dump: DatasetEntityDump,
+      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
+      normalizrKey: EntityConfiguration.normalizrKey,
+    },
+    LinkUIPluginDataset: {
+      isPageable: false,
+      dump: LinkUIPluginDatasetDump,
+      ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
+      normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
+    },
+    ProjectUser: {
+      isPageable: true,
+      dump: ProjectUserDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
+    },
     Themes: {
       isPageable: true,
       dump: ThemeListClientDump,
@@ -188,29 +244,11 @@ export default {
       ENTITY_ARRAY: PLUGIN_ARRAY,
       normalizrKey: PluginConfiguration.normalizrKey,
     },
-    LinkUIPluginDataset: {
-      isPageable: false,
-      dump: LinkUIPluginDatasetDump,
-      ENTITY_ARRAY: LINK_PLUGIN_DATASET_ARRAY,
-      normalizrKey: LinkPluginDatasetConfiguration.normalizrKey,
-    },
-    DataobjectEntity: {
+    WaitingAccessUsersEntities: {
       isPageable: true,
-      dump: DataobjectEntityDump,
-      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
-      normalizrKey: EntityConfiguration.normalizrKey,
-    },
-    DatasetEntity: {
-      isPageable: true,
-      dump: DatasetEntityDump,
-      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
-      normalizrKey: EntityConfiguration.normalizrKey,
-    },
-    CollectionEntity: {
-      isPageable: true,
-      dump: CollectionEntityDump,
-      ENTITY_ARRAY: ENTITY_CATALOG_ARRAY,
-      normalizrKey: EntityConfiguration.normalizrKey,
+      dump: WaitingAccessUsersEntitiesDump,
+      ENTITY_ARRAY: PROJECT_USER_ARRAY,
+      normalizrKey: ProjectUserConfiguration.normalizrKey,
     },
   },
   AdminClient: {
@@ -219,18 +257,6 @@ export default {
       dump: RoleDump,
       ENTITY_ARRAY: ROLE_ARRAY,
       normalizrKey: RoleConfiguration.normalizrKey,
-    },
-    ProjectUser: {
-      isPageable: true,
-      dump: ProjectUserDump,
-      ENTITY_ARRAY: PROJECT_USER_ARRAY,
-      normalizrKey: ProjectUserConfiguration.normalizrKey,
-    },
-    WaitingAccessUsersEntities: {
-      isPageable: true,
-      dump: WaitingAccessUsersEntitiesDump,
-      ENTITY_ARRAY: PROJECT_USER_ARRAY,
-      normalizrKey: ProjectUserConfiguration.normalizrKey,
     },
     Account: {
       isPageable: true,

@@ -25,12 +25,12 @@
 	<groupId>fr.cnes.regards</groupId>
 	<artifactId>bootstrap-frontend</artifactId>
 	<packaging>war</packaging>
-	<version>1.2.0</version>
+	<version>1.4.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>fr.cnes.regards</groupId>
 		<artifactId>regards-boot-parent</artifactId>
-		<version>1.2.0</version>
+		<version>1.4.0-SNAPSHOT</version>
 		<relativePath></relativePath>
 	</parent>
 

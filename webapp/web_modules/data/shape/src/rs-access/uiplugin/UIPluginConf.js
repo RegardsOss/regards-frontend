@@ -32,12 +32,15 @@ export const UIPluginConfContent = PropTypes.shape({
     // A service configuration
     PropTypes.shape({
       // must be filled by the admin (empty if no parameter)
+      // eslint-disable-next-line react/forbid-prop-types
       static: PropTypes.object.isRequired,
       // can be, optionally, filled by the admin (empty if no parameter)
+      // eslint-disable-next-line react/forbid-prop-types
       dynamic: PropTypes.object.isRequired,
     }),
     // A criterion field configuration
     PropTypes.shape({
+      // eslint-disable-next-line react/forbid-prop-types
       attributes: PropTypes.object.isRequired,
     }),
   ]),

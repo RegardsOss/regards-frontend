@@ -27,6 +27,7 @@ export const CellDefinition = PropTypes.shape({
   // React cell content constructor
   Constructor: PropTypes.func,
   // built cell default properties
+  // eslint-disable-next-line react/forbid-prop-types
   props: PropTypes.object, // note: the style properties can be used here to override default cell styles
 })
 

@@ -56,9 +56,9 @@ export class ConnectionFormContainer extends React.Component {
    * @param {*} correspondingPluginMeta matching PluginMetaData shape
    * @return {[*]} list of parameters (matching PluginParameterType)
    */
-  static toParameters = (editedValues, correspondingPluginMeta) => map(ConnectionFormContainer.PLUGIN_ATTRS, attr => ({
+  static toParameters = (editedValues, correspondingPluginMeta) => map(ConnectionFormContainer.PLUGIN_ATTRS, (attr) => ({
     name: attr,
-    type: correspondingPluginMeta.content.parameters.find(p => p.name === attr).type,
+    type: correspondingPluginMeta.content.parameters.find((p) => p.name === attr).type,
     value: editedValues[attr],
     dynamic: false,
     dynamicsValues: [],
@@ -83,14 +83,10 @@ export class ConnectionFormContainer extends React.Component {
     }
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.connectionId === undefined
-    this.state = {
-      isCreating,
-      isEditing: props.params.connectionId !== undefined,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.connectionId === undefined,
+    isEditing: this.props.params.connectionId !== undefined,
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -163,9 +159,9 @@ const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchConnection: id => dispatch(connectionActions.fetchEntity(id)),
-  createConnection: values => dispatch(connectionActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchConnection: (id) => dispatch(connectionActions.fetchEntity(id)),
+  createConnection: (values) => dispatch(connectionActions.createEntity(values)),
   updateConnection: (id, values) => dispatch(connectionActions.updateEntity(id, values)),
   fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList({
     microserviceName: 'rs-dam',

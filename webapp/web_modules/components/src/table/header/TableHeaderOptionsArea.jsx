@@ -49,7 +49,6 @@ class TableHeaderOptionsArea extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const {
       children = null, SeparatorConstructor, reducible, alignLeft,
@@ -60,7 +59,7 @@ class TableHeaderOptionsArea extends React.Component {
     if (isArray(children)) {
       // 1 - filter only visible non null children (keep children that do not have show property)
       presentedChildren = flatMap(
-        children.filter(child => child && get(child, 'props.show', true)),
+        children.filter((child) => child && get(child, 'props.show', true)),
         // 2 - for each remaining child, add a separator if not the last one
         (visibleChild, index, array) => index < array.length - 1
           ? [visibleChild, <SeparatorConstructor key={`separator.${index}`} />] : [visibleChild],

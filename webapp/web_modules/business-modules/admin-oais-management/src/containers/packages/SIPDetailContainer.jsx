@@ -36,15 +36,14 @@ export class SIPDetailContainer extends React.Component {
     sip: props.sipId ? sipSelectors.getById(state, props.sipId) : null,
   })
 
-
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps = dispatch => ({
-    fetchSip: sipId => dispatch(sipActions.fetchEntity(sipId)),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchSip: (sipId) => dispatch(sipActions.fetchEntity(sipId)),
   })
 
   static propTypes = {

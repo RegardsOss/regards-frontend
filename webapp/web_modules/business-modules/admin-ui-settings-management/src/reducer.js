@@ -25,5 +25,4 @@ const uiSettingsRouter = combineReducers({
   uiSettings: uiSettingsReducer,
 })
 
-
 export default uiSettingsRouter

@@ -59,7 +59,7 @@ class ModelAttributeComponent extends React.Component {
    * When the user select a plugin configuration, send the updated value to the server
    * @param value the pluginConfiguration id
    */
-  onPluginConfigurationChange = value => this.props.handleComputationUpdate(value)
+  onPluginConfigurationChange = (value) => this.props.handleComputationUpdate(value)
 
   showIfAttributeIsNotOptional = (modelAttribute) => {
     if (!modelAttribute.content.attribute.optional) {
@@ -98,7 +98,7 @@ class ModelAttributeComponent extends React.Component {
     return null
   }
 
-  getAttrInfo = attr => (
+  getAttrInfo = (attr) => (
     compact([attr.label, attr.description]).join(' - ')
   )
 

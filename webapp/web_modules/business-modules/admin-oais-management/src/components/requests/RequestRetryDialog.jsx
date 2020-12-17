@@ -26,6 +26,7 @@ import messages from '../../i18n'
  */
 export class RequestRetryDialog extends React.Component {
   static propTypes = {
+    open: PropTypes.bool.isRequired,
     onConfirmRetry: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
@@ -35,7 +36,7 @@ export class RequestRetryDialog extends React.Component {
   }
 
   renderActions = () => {
-    const { onConfirmRetry, onClose } = this.props
+    const { onClose, onConfirmRetry } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       <FlatButton
@@ -50,12 +51,12 @@ export class RequestRetryDialog extends React.Component {
         key="retryRequestsIrrevocably"
         className="selenium-confirmDialogButton"
         label={formatMessage({ id: 'oais.requests.confirm.retry' })}
-        onClick={() => onConfirmRetry()}
-      />,
-    ]
+        onClick={onConfirmRetry}
+      />]
   }
 
   render() {
+    const { open } = this.props
     const { intl: { formatMessage } } = this.context
 
     return (
@@ -63,7 +64,7 @@ export class RequestRetryDialog extends React.Component {
         title={formatMessage({ id: 'oais.requests.confirm.retry.title' })}
         actions={this.renderActions()}
         modal={false}
-        open
+        open={open}
       >
         {formatMessage({ id: 'oais.requests.confirm.retry.message' })}
       </Dialog>

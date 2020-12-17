@@ -84,7 +84,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     return `mapping.properties@${modelAttribute.content.attribute.name}`
   }
 
-  getFieldTextField = modelAttribute => (
+  getFieldTextField = (modelAttribute) => (
     <Field
       className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={this.getFieldName(modelAttribute)}
@@ -96,7 +96,7 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     />
   )
 
-  getFieldIntervalField = modelAttribute => ([
+  getFieldIntervalField = (modelAttribute) => ([
     <Field
       key="lower"
       className={`selenium-fill-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
@@ -158,6 +158,5 @@ export class AIPDatasourceAttributeLineConfigurationComponent extends React.Comp
     )
   }
 }
-
 
 export default AIPDatasourceAttributeLineConfigurationComponent

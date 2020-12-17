@@ -52,6 +52,55 @@ export class AdminLayout extends React.Component {
     auth: AuthenticateResultShape.isRequired,
   }
 
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state) => ({
+    auth: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+  })
+
+  state = {
+    menuModuleConf: null,
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (oldProps.project !== newProps.project || !this.state.menuModuleConf) {
+      const isOnInstanceDashboard = !newProps.project
+      this.setState({
+        menuModuleConf: {
+          type: modulesManager.AllDynamicModuleTypes.MENU,
+          active: true,
+          conf: {
+            displayMode: isOnInstanceDashboard ? UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE : UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
+            title: 'REGARDS admin dashboard',
+            displayAuthentication: true,
+            displayNotificationsSelector: true,
+            displayLocaleSelector: true,
+            displayThemeSelector: true,
+          },
+        },
+      })
+    }
+  }
+
   getSidebar = (isInstanceDashboard) => {
     const {
       params: { project }, location, auth,
@@ -70,8 +119,9 @@ export class AdminLayout extends React.Component {
 
   render() {
     const { content, params: { project } } = this.props
+    const { menuModuleConf } = this.state
     const isOnInstanceDashboard = !project
-    const moduleStyles = getModuleStyles(this.context.muiTheme)
+    const moduleStyles = getModuleStyles(this.context.muiTheme) // TODO : we may use styles here no?
     const style = {
       app: {
         classes: moduleStyles.adminApp.layout.app.classes.join(' '),
@@ -89,20 +139,6 @@ export class AdminLayout extends React.Component {
         styles: moduleStyles.adminApp.layout.contentContainer.styles,
       },
     }
-
-    const menuModule = {
-      type: modulesManager.AllDynamicModuleTypes.MENU,
-      active: true,
-      conf: {
-        displayMode: isOnInstanceDashboard ? UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_INSTANCE : UIDomain.MENU_DISPLAY_MODES_ENUM.ADMIN_PROJECT,
-        title: 'REGARDS admin dashboard',
-        displayAuthentication: true,
-        displayNotificationsSelector: true,
-        displayLocaleSelector: true,
-        displayThemeSelector: true,
-      },
-    }
-
     // install notification manager and application error containers when starting app
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard}>
@@ -112,7 +148,7 @@ export class AdminLayout extends React.Component {
               <LazyModuleComponent
                 appName="admin"
                 project={project}
-                module={menuModule}
+                module={menuModuleConf}
               />
             </div>
             <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
@@ -131,8 +167,4 @@ export class AdminLayout extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  auth: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-})
-
-export default connect(mapStateToProps)(AdminLayout)
+export default connect(AdminLayout.mapStateToProps)(AdminLayout)

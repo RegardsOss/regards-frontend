@@ -73,8 +73,8 @@ export class I18nProvider extends React.Component {
       throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
     }
 
-
-    const subContextMessages = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const subContextMessages = { // eslint wont fix: context is provided only during runtime, no workaround
       ...(messages[locale] || messages[keys(messages)[0]]),
       ...(stackCallingContext ? callingContextMessages : {}),
     }
@@ -89,7 +89,6 @@ export class I18nProvider extends React.Component {
     )
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => ({
   locale: I18nSelectors.getLocale(state),

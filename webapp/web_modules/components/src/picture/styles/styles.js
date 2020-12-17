@@ -17,7 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default ({ palette: { textColor }, spacing: { iconSize } }) => ({
+export default ({
+  palette: { textColor },
+  spacing: { iconSize },
+}) => ({
   svgURLIconStyle: {
     display: 'inline-block',
     fill: textColor,
@@ -32,5 +35,26 @@ export default ({ palette: { textColor }, spacing: { iconSize } }) => ({
     display: 'inline-block',
     height: iconSize,
     width: iconSize,
+  },
+  clickablePicture: {
+    root: { // a default style for root container (can be overridden)
+      height: iconSize,
+      width: iconSize,
+    },
+    normalPicture: {
+      cursor: 'zoom-in',
+      height: '100%',
+      width: '100%',
+      objectFit: 'contain',
+    },
+    noPicture: {
+      height: '100%',
+      width: '100%',
+    },
+    dialog: {
+      content: {
+        padding: 0,
+      },
+    },
   },
 })

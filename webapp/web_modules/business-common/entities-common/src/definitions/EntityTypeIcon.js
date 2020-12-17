@@ -23,7 +23,6 @@ import CollectionIcon from 'mdi-material-ui/FolderMultiple'
 import DocumentIcon from 'mdi-material-ui/BookOpenPageVariant'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 
-
 export class EntityTypeIcon {
   /** Map of entity type / pseudo type to icon constructor */
   static ICON_CONSTRUCTOR_BY_TYPE = {

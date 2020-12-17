@@ -49,7 +49,7 @@ export class AuthenticationPluginFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityId => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
+      fetch: (entityId) => dispatch(pluginConfigurationActions.fetchEntity(entityId, { microserviceName: MICROSERVICE })),
       create: (entity, microserviceName, pluginId) => dispatch(pluginConfigurationByPluginIdActions.createEntity({
         ...entity,
         businessId: null, // clear source entity business ID for duplication case (later use cases?)
@@ -73,14 +73,12 @@ export class AuthenticationPluginFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: !!get(props, 'params.pluginId', false),
-    }
+  /** Initial state */
+  state = {
+    isLoading: !!get(this.props, 'params.pluginId', false),
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { params: { pluginId }, fetch } = this.props
     if (pluginId) {
       fetch(pluginId).then(() => this.setState({ isLoading: false }))
@@ -103,8 +101,7 @@ export class AuthenticationPluginFormContainer extends React.Component {
             onUpdate={update}
             onCreate={create}
           />
-        )
-        }
+        )}
       </LoadableContentDisplayDecorator>
     )
   }

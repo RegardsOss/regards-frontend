@@ -81,7 +81,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
     datasetSelector: 'all',
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const {
       searchEngineConfiguration,
       initialize,
@@ -249,7 +249,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
                 entitiesPayloadKey={DatasetConfiguration.normalizrKey}
                 entitiesConfig={datasetAutoCompletConfig}
                 entitiesPath="feature"
-                format={dataset => dataset ? dataset.label : ''}
+                format={(dataset) => dataset ? dataset.label : ''}
               />
             </SubSectionCard>
             : null

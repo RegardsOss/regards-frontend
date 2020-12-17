@@ -28,7 +28,7 @@ import isRestrictedWithEnum from './isRestrictedWithEnum'
  * @returns {Array}
  */
 const transformObjectValueIntoArray = (attrValue) => {
-  const attrValueSentToBack = map(attrValue, arrayValue => arrayValue.value)
+  const attrValueSentToBack = map(attrValue, (arrayValue) => arrayValue.value)
   return attrValueSentToBack
 }
 
@@ -38,7 +38,7 @@ const transformObjectValueIntoArray = (attrValue) => {
  * @returns {Array}
  */
 const transformObjectValueIntoArrayInteger = (attrValue) => {
-  const attrValueSentToBack = map(attrValue, arrayValue => parseInt(arrayValue.value, 10))
+  const attrValueSentToBack = map(attrValue, (arrayValue) => parseInt(arrayValue.value, 10))
   return attrValueSentToBack
 }
 
@@ -48,10 +48,9 @@ const transformObjectValueIntoArrayInteger = (attrValue) => {
  * @returns {Array}
  */
 const transformObjectValueIntoArrayFloat = (attrValue) => {
-  const attrValueSentToBack = map(attrValue, arrayValue => parseFloat(arrayValue.value, 10))
+  const attrValueSentToBack = map(attrValue, (arrayValue) => parseFloat(arrayValue.value, 10))
   return attrValueSentToBack
 }
-
 
 /**
  * Retrieve an attribute value, depending of its type
@@ -95,7 +94,6 @@ const getAttributeValue = (attrValue, modelAttribute) => {
   return null
 }
 
-
 /**
  * Generate the parameters object using a formValues
  * returns the value of entity.parameters that we can send to the API
@@ -106,7 +104,7 @@ const extractParametersFromFormValues = (formValues, modelAttributeList) => {
   const result = {}
   forEach(formValues.properties, (fragmentValues, fragmentName) => {
     forEach(fragmentValues, (attrValue, attrName) => {
-      const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName)
+      const modelAttr = find(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.name === attrName && modelAttribute.content.attribute.fragment.name === fragmentName)
       const { fragment } = modelAttr.content.attribute
       // Retrieve the value, depending of the modelAttr
       const attrValueSentToBack = getAttributeValue(attrValue, modelAttr)

@@ -68,10 +68,10 @@ export class SelectionDetailResultsTableContainer extends React.Component {
   }
 
   /** React lifecycle method: component will mount. Used here to detect properties changed */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
   /** React lifecycle method: component will receive new props. Used here to detect properties changed */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed:
@@ -85,7 +85,7 @@ export class SelectionDetailResultsTableContainer extends React.Component {
     if (oldProperties.selectionRequest !== newProperties.selectionRequest) {
       this.setState({
         // report the parameters that will be provided as requests parameters to ComplexSeachActions#fetchPagedEntityList
-        requestParams: {
+        bodyParams: {
           requests: SelectionDetailResultsTableContainer.toComplexSearchRequests(newProperties.selectionRequest),
         },
       })
@@ -94,12 +94,12 @@ export class SelectionDetailResultsTableContainer extends React.Component {
 
   render() {
     const { resultsCount, isFetching } = this.props
-    const { requestParams } = this.state
+    const { bodyParams } = this.state
     return (
       <SelectionDetailResultsTableComponent
         pageActions={searchDataobjectsActions}
         pageSelectors={searchDataobjectsSelectors}
-        requestParams={requestParams}
+        bodyParams={bodyParams}
         resultsCount={resultsCount}
         isFetching={isFetching}
       />

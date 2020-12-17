@@ -87,60 +87,10 @@ function withProxyFetcher(getProxiedURL, handler) {
   }
 }
 
-function addQuicklook({ content, links, metadata }, pathParams, queryParams, bodyParams) {
-  const contentWithQuicklook = content.map((entityContent) => {
-    if (Math.floor(Math.random() * 2) + 1 === -1) {
-
-      if (!entityContent.content.files) {
-        entityContent.content.files = {}
-      }
-
-      const hdW = Math.floor(Math.random() * 400) + 500
-      const hdH = Math.floor(Math.random() * 700) + 1000
-      entityContent.content.files.QUICKLOOK_HD = [{
-        uri: `http://lorempicsum.com/futurama/${hdW}/${hdH}/4`,
-        imageHeight: hdH,
-        imageWidth: hdW,
-      }]
-
-      const mdW = Math.floor(Math.random() * 300) + 200
-      const mdH = Math.floor(Math.random() * 300) + 400
-      entityContent.content.files.QUICKLOOK_MD = [{
-        uri: `http://lorempicsum.com/futurama/${mdW}/${mdH}/4`,
-        imageHeight: mdH,
-        imageWidth: mdW,
-      }]
-
-      const sdW = Math.floor(Math.random() * 250) + 100
-      const sdH = Math.floor(Math.random() * 250) + 50
-      entityContent.content.files.QUICKLOOK_SD = [{
-        uri: `http://lorempicsum.com/futurama/${sdW}/${sdH}/4`,
-        imageHeight: sdH,
-        imageWidth: sdW,
-      }]
-    }
-    return entityContent
-  })
-  return {
-    content: {
-      content: contentWithQuicklook,
-      // content: [],
-      links,
-      metadata
-      // metadata: {
-      //   number: 0,
-      //   size: 500,
-      //   totalElements: 0,
-      //   totalPages: 1,
-      // }
-    }
-  }
-}
-
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
   return {
     content: {
-      content: content.concat(MOCK_RESOURCES),
+      content: content.concat(MOCK_RESOURCES), 
       links,
       metadata: {
         size: metadata.size + MOCK_RESOURCES.length,
@@ -258,7 +208,7 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
             checksum: '0',
             filename: 'myThumbnail', 
           }],
-          ...quicklooksDataFiles,
+          ...quicklooksDataFiles
         }
       },
       links,
@@ -468,6 +418,27 @@ function buildLocalServices(gatewayURL) {
           return { content: myMock }
         },
       },
+      /*getMetadataProcessing: {
+        url: 'rs-processing/plugins',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/processingMetadataList.json'))
+          return { content: myMock}
+        }
+      },
+      getLinkProcessingList: {
+        url: 'rs-processing/process/linkprocessdataset/{datasetIpId}',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/datasetLink.json'))
+          return { content: myMock }
+        }
+      },
+      getProcessingList: {
+        url: 'rs-processing/process/config',
+        handler: (req, resp) => {
+          let myMock = JSON.parse(loadFile('mocks/proxy/resources/processingList.json'))
+          return { content: myMock }
+        }
+      }*/
     },
     PUT: {
       stateUpdate: {
@@ -477,12 +448,18 @@ function buildLocalServices(gatewayURL) {
           result.content.state= 'ACKNOWLEDGED'
           return { content: result }
         },
-      }
+      },
+      /*updateDatasetProcessing: {
+        url: 'rs-order/order/basket/dataset/{datasetIpId}/updateProcessing',
+        handler: (req, resp, pathParameters, queryParameters, bodyParameters) => {
+          return { content: bodyParameters}
+        }
+      }*/
     },
     POST: {
     },
     DELETE: {
-    }
+    },
   }
 }
 

@@ -20,16 +20,11 @@ import map from 'lodash/map'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Edit from 'mdi-material-ui/Pencil'
-import Delete from 'mdi-material-ui/Delete'
-import Settings from 'mdi-material-ui/VideoInputComponent'
 import { FormattedMessage } from 'react-intl'
 import { AdminDomain } from '@regardsoss/domain'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
@@ -38,8 +33,9 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
 import { roleActions } from '../clients/RoleClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+import EditRoleComponent from './EditRoleComponent'
+import EditResourceAccessComponent from './EditResourceAccessComponent'
+import DeleteRoleComponent from './DeleteRoleComponent'
 
 /**
  * React components to list project.
@@ -61,11 +57,15 @@ export class RoleListComponent extends React.Component {
 
   static CREATE_DEPENDENCIES = [roleActions.getDependency(RequestVerbEnum.POST)]
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
+  }
+
+  /** User callback on delete confirmed, performs deletion */
+  onDeleteConfirmed = () => {
+    const { handleDelete } = this.props
+    const { entityToDelete } = this.state
+    handleDelete(entityToDelete.content.name)
   }
 
   getBooleanAsString = (value) => {
@@ -98,7 +98,7 @@ export class RoleListComponent extends React.Component {
    * @param {*} parentRole optionnal parent role
    * @returns {string} label to use
    */
-  getParentRoleLabel = parentRole => this.getRoleLabel(parentRole ? parentRole.name : null)
+  getParentRoleLabel = (parentRole) => this.getRoleLabel(parentRole ? parentRole.name : null)
 
   /**
    *
@@ -127,17 +127,14 @@ export class RoleListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.email : ' '
-    const title = this.context.intl.formatMessage({ id: 'role.list.delete.message' }, { name })
+    const title = formatMessage({ id: 'role.list.delete.message' }, { name })
     return (
-      <ShowableAtRender
-        show={this.state.deleteDialogOpened}
-      >
+      <ShowableAtRender show={this.state.deleteDialogOpened}>
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
-          onConfirm={() => {
-            this.props.handleDelete(this.state.entityToDelete.content.name)
-          }}
+          onConfirm={this.onDeleteConfirmed}
           onClose={this.closeDeleteDialog}
           title={title}
         />
@@ -149,45 +146,34 @@ export class RoleListComponent extends React.Component {
     const {
       roleList, handleEdit, createUrl, handleEditResourceAccess,
     } = this.props
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
-    }
-    const roleStyle = {
-      color: this.context.muiTheme.palette.accent1Color,
-    }
-    const roleListStyle = { marginLeft: '20px' }
-    const linkRoleResourceIconTitle = this.context.intl.formatMessage({ id: 'role.edit.resource.action.title' })
-    const editRoleIconTitle = this.context.intl.formatMessage({ id: 'role.edit.action.title' })
-    const deleteRoleIconTitle = this.context.intl.formatMessage({ id: 'role.delete.action.title' })
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'role.list.title' })}
+          title={formatMessage({ id: 'role.list.title' })}
           subtitle={<FormattedMessage id="role.list.subtitle" />}
         />
         <CardText>
-          <div style={roleListStyle}>
+          <div style={moduleTheme.roleListCardStyle}>
             <ul>
               <li>
-                <span style={roleStyle}><FormattedMessage id="role.list.public.name" /></span>
+                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.public.name" /></span>
                 <FormattedMessage id="role.list.public.description" />
               </li>
               <li>
-                <span style={roleStyle}><FormattedMessage id="role.list.registered.user.name" /></span>
+                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.registered.user.name" /></span>
                 <FormattedMessage id="role.list.registered.user.description" />
               </li>
               <li>
-                <span style={roleStyle}><FormattedMessage id="role.list.exploit.name" /></span>
+                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.exploit.name" /></span>
                 <FormattedMessage id="role.list.exploit.description" />
               </li>
               <li>
-                <span style={roleStyle}><FormattedMessage id="role.list.admin.name" /></span>
+                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.admin.name" /></span>
                 <FormattedMessage id="role.list.admin.description" />
               </li>
               <li>
-                <span style={roleStyle}><FormattedMessage id="role.list.admin.project.name" /></span>
+                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.admin.project.name" /></span>
                 <FormattedMessage id="role.list.admin.project.description" />
               </li>
             </ul>
@@ -217,32 +203,9 @@ export class RoleListComponent extends React.Component {
                   <TableRowColumn>{this.getRoleLabel(role.content.name)}</TableRowColumn>
                   <TableRowColumn>{this.getParentRoleLabel(role.content.parentRole) }</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={role.links}
-                      hateoasKey="manage-resource-access"
-                      onClick={() => handleEditResourceAccess(role.content.name)}
-                      title={linkRoleResourceIconTitle}
-                    >
-                      <Settings />
-                    </HateoasIconAction>
-
-                    <HateoasIconAction
-                      entityLinks={role.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onClick={() => handleEdit(role.content.name)}
-                      title={editRoleIconTitle}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-
-                    <HateoasIconAction
-                      entityLinks={role.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onClick={() => this.openDeleteDialog(role)}
-                      title={deleteRoleIconTitle}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </HateoasIconAction>
+                    <EditResourceAccessComponent role={role} onEditResourceAccess={handleEditResourceAccess} />
+                    <EditRoleComponent role={role} onEdit={handleEdit} />
+                    <DeleteRoleComponent role={role} onDelete={this.openDeleteDialog} />
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -20,7 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import Chip from 'material-ui/Chip'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../../../../../src/definitions/CriterionBuilder'
+import { TagLabelHelper } from '../../../../../../../src/components/user/tabs/results/common/TagLabelHelper'
 import ApplyingCriterionComponent from '../../../../../../../src/components/user/tabs/results/header/filter/ApplyingCriterionComponent'
 import styles from '../../../../../../../src/styles'
 import { datasetEntity } from '../../../../../../dumps/entities.dump'
@@ -68,7 +70,10 @@ describe('[SEARCH RESULTS] Testing ApplyingCriterionComponent', () => {
   }, {
     caseLabel: 'Search criteria',
     props: {
-      label: CriterionBuilder.buildEntityTagCriterion(datasetEntity).label,
+      label: TagLabelHelper.getLabel(
+        context.intl.formatMessage,
+        CriterionBuilder.buildEntityTagCriterion(datasetEntity),
+        UIDomain.UISettingsConstants.DEFAULT_SETTINGS),
       selectedCriterion: CriterionBuilder.buildEntityTagCriterion(datasetEntity),
     },
   }]

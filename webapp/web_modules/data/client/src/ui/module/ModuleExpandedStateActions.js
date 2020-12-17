@@ -43,7 +43,6 @@ export default class ModuleExpandedStateActions {
     this.SET_STATE = `${namespace}/set-state`
   }
 
-
   /**
    * Initialize state for a given module type
    * @param {string} moduleType module type or any identifier for component instance
@@ -68,17 +67,17 @@ export default class ModuleExpandedStateActions {
    * @param {string} moduleType module type or any identifier for that pane
    * @return redux action to set module presentation as minimized
    */
-  setMinimized = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED)
+  setMinimized = (moduleType) => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MINIMIZED)
 
   /**
    * @param {string} moduleType module type or any identifier for that pane
    * @return redux action to set module presentation in normal state
    */
-  setNormal = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.NORMAL)
+  setNormal = (moduleType) => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.NORMAL)
 
   /**
    * @param {string} moduleType module type or any identifier for that pane
    * @return redux action to set module presentation in maximized state
    */
-  setMaximized = moduleType => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED)
+  setMaximized = (moduleType) => this.setState(moduleType, UIDomain.PRESENTATION_STATE_ENUM.MAXIMIZED)
 }

@@ -102,11 +102,11 @@ describe('[Order Common] Testing DeleteOrderContainer', () => {
         onShowDeleteConfirmation: () => { countDeleteConfirmationRequests += 1 },
         sendDeleteSuperficially: () => {
           deleteSuperficallyRequests += 1
-          return new Promise(resolve => resolve(true))
+          return new Promise((resolve) => resolve(true))
         },
         sendDeleteCompletely: () => {
           deleteCompletelyRequests += 1
-          return new Promise(resolve => resolve(true))
+          return new Promise((resolve) => resolve(true))
         },
         fetchOrders: () => { },
       }

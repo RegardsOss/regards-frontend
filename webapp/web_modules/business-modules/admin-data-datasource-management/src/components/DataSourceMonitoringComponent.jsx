@@ -80,7 +80,6 @@ class DataSourceMonitoringComponent extends React.Component {
     }
   }
 
-
   handleSnackbarClose = () => {
     this.setState({
       showSnackbar: false,
@@ -108,16 +107,6 @@ class DataSourceMonitoringComponent extends React.Component {
         })
       })
   }
-
-  getDialogActions = () => [
-    <FlatButton
-      key="cancel"
-      label={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.action.close' })}
-      primary
-      onClick={this.closeDialog}
-    />,
-  ]
-
 
   closeDeleteDialog = () => {
     this.setState({
@@ -166,7 +155,14 @@ class DataSourceMonitoringComponent extends React.Component {
         open={this.state.showModal}
         onRequestClose={this.closeDialog}
         autoScrollBodyContent
-        actions={this.getDialogActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            label={this.context.intl.formatMessage({ id: 'crawler.list.stacktrace.action.close' })}
+            primary
+            onClick={this.closeDialog}
+          />
+        </>}
       >
         <div style={DataSourceMonitoringComponent.wrapperPreserveWhitespace}>
           {this.state.stacktrace}

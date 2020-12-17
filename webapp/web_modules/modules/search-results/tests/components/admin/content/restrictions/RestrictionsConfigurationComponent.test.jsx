@@ -20,7 +20,7 @@ import { RadioButtonGroup } from 'material-ui/RadioButton'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
-import { FieldArray } from '@regardsoss/form-utils'
+import { Field, FieldArray, RenderCheckbox } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import RestrictionsConfigurationComponent from '../../../../../src/components/admin/content/restrictions/RestrictionsConfigurationComponent'
 import DatasetRestrictionsSelectionComponent from '../../../../../src/components/admin/content/restrictions/DatasetRestrictionsSelectionComponent'
@@ -49,8 +49,11 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
     const props = {
       currentNamespace: 'myNamespace',
       currentRestrictionsValues: {
+        onData: {
+          lastVersionOnly: true,
+        },
         byDataset: {
-          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+          type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
           selection: [],
         },
       },
@@ -62,6 +65,13 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<RestrictionsConfigurationComponent {...props} />, { context })
+    // 0 - Check common fields
+    const fields = enzymeWrapper.find(Field)
+    assert.lengthOf(fields, 1, 'There should be lastVersionOnly field')
+    testSuiteHelpers.assertWrapperProperties(fields, {
+      name: 'myNamespace.restrictions.onData.lastVersionOnly',
+      component: RenderCheckbox,
+    }, 'lastVersionOnly field properties should be correctly set')
     // 1  - Check initial values
     let radioGroup = enzymeWrapper.find(RadioButtonGroup)
     assert.lengthOf(radioGroup, 1, 'There should be the radio buttons group')
@@ -69,8 +79,8 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       onChange: enzymeWrapper.instance().onChangeDatasetRestrictionType,
       valueSelected: props.currentRestrictionsValues.byDataset.type,
     }, 'Radio buttons group properties should be correctly set')
-    UIDomain.DATASET_RESCRICTIONS_TYPES.forEach((restrictionType) => {
-      assert.lengthOf(radioGroup.findWhere(n => n.props().value === restrictionType), 1,
+    UIDomain.DATASET_RESTRICTIONS_TYPES.forEach((restrictionType) => {
+      assert.lengthOf(radioGroup.findWhere((n) => n.props().value === restrictionType), 1,
         'There should be one radio button for each possible restriction type')
     })
     let selectionField = enzymeWrapper.find(FieldArray)
@@ -83,19 +93,20 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       currentRestrictionType: props.currentRestrictionsValues.byDataset.type,
     }, 'Selection field properties should be correctly set')
     // 2 - Test changing selection type (test callback then set props to simulate redux behavior)
-    enzymeWrapper.instance().onChangeDatasetRestrictionType(null, UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS)
+    enzymeWrapper.instance().onChangeDatasetRestrictionType(null, UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS)
     assert.deepEqual(spyChangeField, {
       namespace: 'myNamespace.restrictions.byDataset',
       restrictions: {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
         selection: [],
       },
     }, '(2) Change field callback should be invoked with right parameters (empty selection array especially)')
     const props2 = {
       ...props,
       currentRestrictionsValues: {
+        ...props.currentRestrictionsValues,
         byDataset: {
-          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+          type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
           selection: [dataset2.content.feature.id], // add a selection to test callback reset
         },
       },
@@ -118,19 +129,20 @@ describe('[SEARCH RESULTS] Testing RestrictionsConfigurationComponent', () => {
       currentRestrictionType: props2.currentRestrictionsValues.byDataset.type,
     }, '(2) Selection field properties should be correctly updated')
     // 3 - Test changing selection type (test callback then set props to simulate redux behavior)
-    enzymeWrapper.instance().onChangeDatasetRestrictionType(null, UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS)
+    enzymeWrapper.instance().onChangeDatasetRestrictionType(null, UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS)
     assert.deepEqual(spyChangeField, {
       namespace: 'myNamespace.restrictions.byDataset',
       restrictions: {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
         selection: [],
       },
     }, '(3) Change field callback should be invoked with right parameters (empty selection array especially)')
     const props3 = {
       ...props,
       currentRestrictionsValues: {
+        ...props.currentRestrictionsValues,
         byDataset: {
-          type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+          type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
           selection: [datasetModelsDump[2].content.name],
         },
       },

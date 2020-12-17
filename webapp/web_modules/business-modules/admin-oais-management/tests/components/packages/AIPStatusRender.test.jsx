@@ -37,7 +37,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPStatusRender', () => {
   it('should exists', () => {
     assert.isDefined(AIPStatusRender)
   })
-  IngestDomain.AIP_STATUS.forEach(status => it(`should render correctly with status ${status}`, () => {
+  IngestDomain.AIP_STATUS.forEach((status) => it(`should render correctly with status ${status}`, () => {
     const props = {
       value: status,
     }

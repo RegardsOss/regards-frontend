@@ -74,12 +74,12 @@ export class RunUIPluginServiceContainer extends React.Component {
   /**
    * Component initialization: retrieve configuration (the plugin defintion comes within)
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState(RunUIPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
     const { configId } = service
     dispatchFetchPluginConfiguration(configId)
-      .then(result => this.onFetchConfigurationDone(result, configId))
+      .then((result) => this.onFetchConfigurationDone(result, configId))
       .catch(() => this.onFetchError(RunUIPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR))
   }
 
@@ -101,7 +101,7 @@ export class RunUIPluginServiceContainer extends React.Component {
         loadPlugin(
           pluginDefinition.sourcePath, () => reject(),
           // small hack here: behave like dispatch to get the plugin
-          pluginInstance => resolve({ pluginInstance, pluginConfiguration }),
+          (pluginInstance) => resolve({ pluginInstance, pluginConfiguration }),
         )
       }).then(this.onLoadPluginDone).catch(() => this.onFetchError(RunUIPluginServiceContainer.Steps.PLUGIN_INSTANCE_ERROR))
     }
@@ -125,7 +125,7 @@ export class RunUIPluginServiceContainer extends React.Component {
    * On fetch error handler
    * @param errorStep corresponding error step
    */
-  onFetchError = errorStep => this.setState({ step: errorStep })
+  onFetchError = (errorStep) => this.setState({ step: errorStep })
 
   /**
    * On initialization done: start normal component workflow (parameters edition and / or)
@@ -234,7 +234,7 @@ const pluginConfigurationActions = new AccessProjectClient.UIPluginConfiguration
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchFetchPluginConfiguration: configId => dispatch(pluginConfigurationActions.fetchEntity(configId)),
+    dispatchFetchPluginConfiguration: (configId) => dispatch(pluginConfigurationActions.fetchEntity(configId)),
   }
 }
 

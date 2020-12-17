@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 /**
  * Redux actions to fetch current user notification settings
  * @author Léo Mieulet
@@ -31,7 +30,8 @@ export default class NotificationSettingsActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/notifications/settings`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/notifications/settings`,
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/notifications/settings`,
     })
   }
 

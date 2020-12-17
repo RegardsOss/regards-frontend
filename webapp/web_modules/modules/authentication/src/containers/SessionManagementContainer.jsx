@@ -57,11 +57,10 @@ export class SessionManagementContainer extends React.Component {
     initialized: false,
   }
 
-
   /**
    * Lifecycle method component will mount: used here to listen for window focus events (broken timers workaround)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
     this.updateAuthenticationFromLocalStorage()
     this.setState({
@@ -72,7 +71,7 @@ export class SessionManagementContainer extends React.Component {
   /**
    * Lifecle method Component will receive props: used here to detect authentication state changes
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // check: if the authentication state changes, set up a timer to handle expiration
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = nextProps.authentication || {}
@@ -130,7 +129,6 @@ export class SessionManagementContainer extends React.Component {
     // Remove user connection information from localstorage
     UIDomain.LocalStorageUser.delete(project || 'instance', application)
   }
-
 
   /**
    * Action to update local storage with current user authentication informations
@@ -203,17 +201,16 @@ export class SessionManagementContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   hasUnlockingError: AuthenticationClient.authenticationSelectors.hasError(state),
   authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),
   logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
 })
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionManagementContainer)

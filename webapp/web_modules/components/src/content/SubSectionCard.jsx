@@ -40,14 +40,10 @@ export class SubSectionCard extends React.Component {
     ...themeContextType,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { moduleTheme: { subSection } } = this.context
-    this.pointerStyle = Object.assign({}, subSection.pointerStyle, {
-      marginLeft: `${this.props.marginLeft + this.props.arrowMarginLeft}px`,
-    })
-    this.sectionStyle = Object.assign({}, subSection.sectionStyle, {
-      marginLeft: `${this.props.marginLeft}px`,
-    })
+    this.pointerStyle = { ...subSection.pointerStyle, marginLeft: `${this.props.marginLeft + this.props.arrowMarginLeft}px` }
+    this.sectionStyle = { ...subSection.sectionStyle, marginLeft: `${this.props.marginLeft}px` }
     this.titleStyle = subSection.titleStyle
   }
 

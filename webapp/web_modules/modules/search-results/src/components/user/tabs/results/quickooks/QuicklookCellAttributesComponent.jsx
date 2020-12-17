@@ -23,7 +23,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
 
-
 /**
  * Renders the list of attributes in a quicklook cell
  * @author Raphaël Mechali
@@ -51,7 +50,7 @@ class QuicklookCellParametersComponent extends React.PureComponent {
       <div style={attributesStyles}>
         <div style={labelColumnStyles}>
           { /* Show label on first column */
-            map(presentationModels, attributePresentationModel => (
+            map(presentationModels, (attributePresentationModel) => (
               <div style={labelCellStyle} key={attributePresentationModel.key}>
                 {attributePresentationModel.label[locale]}
               </div>))
@@ -59,7 +58,7 @@ class QuicklookCellParametersComponent extends React.PureComponent {
         </div>
         <div style={valueColumnStyles}>
           { /* Show value on second column */
-            map(presentationModels, attributePresentationModel => (
+            map(presentationModels, (attributePresentationModel) => (
               <div style={valueCellStyle} key={attributePresentationModel.key}>
                 {
                     AttributeColumnBuilder.buildRenderDelegates(attributePresentationModel.attributes).map(({

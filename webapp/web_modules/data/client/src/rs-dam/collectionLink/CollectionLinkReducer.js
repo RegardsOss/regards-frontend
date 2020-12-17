@@ -34,7 +34,6 @@ class CollectionLinkReducers extends BasicSignalReducers {
   }
 }
 
-
 export default (namespace) => {
   const instance = new CollectionLinkReducers(namespace)
   return (state, action) => instance.reduce(state, action)

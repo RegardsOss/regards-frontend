@@ -23,7 +23,6 @@
  */
 import { mimeTypesDefinitions } from './MimeTypesEnum'
 
-
 /** Content type parmeter separator */
 const CONTENT_TYPE_PARAMETER_SEPARATOR = ';'
 /** MIME type parameter index when available */
@@ -37,7 +36,7 @@ const MIME_TYPE_PARAMETER_INDEX = 0
  * if any
  */
 function parseParameters(contentTypeValue = '') {
-  return contentTypeValue.split(CONTENT_TYPE_PARAMETER_SEPARATOR).map(p => p.trim())
+  return contentTypeValue.split(CONTENT_TYPE_PARAMETER_SEPARATOR).map((p) => p.trim())
 }
 
 /**

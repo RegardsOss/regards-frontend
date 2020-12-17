@@ -35,6 +35,8 @@ export const entityFiles = PropTypes.shape(CommonDomain.DATA_TYPES.reduce((acc, 
 /** Fields of an entity (for re-use) */
 export const entityFields = {
   id: PropTypes.string.isRequired,
+  version: PropTypes.number.isRequired,
+  last: PropTypes.bool.isRequired,
   model: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,

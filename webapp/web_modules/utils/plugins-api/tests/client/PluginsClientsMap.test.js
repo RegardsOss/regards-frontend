@@ -20,7 +20,6 @@
 import { assert } from 'chai'
 import PluginsClientsMap from '../../src/client/PluginsClientsMap'
 
-
 describe('[PLUGINS API] Testing PluginsClientsMap', () => {
   it('should initialize and manage map correctly', () => {
     // note: builders here do not return clients as it is not required for lazy map to work

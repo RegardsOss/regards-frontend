@@ -27,13 +27,13 @@ import BasicSelector from '../BasicSelector'
  *  Provide an high level class to interact with entity stored in a list
  */
 class BasicListSelectors extends BasicSelector {
-  getList = state => this.uncombineStore(state).items
+  getList = (state) => this.uncombineStore(state).items
 
-  getResults = state => this.uncombineStore(state).results
+  getResults = (state) => this.uncombineStore(state).results
 
   getOrderedList = createSelector(
     [this.getResults, this.getList],
-    (orderedResults, list) => map(orderedResults, entityId => list[entityId]),
+    (orderedResults, list) => map(orderedResults, (entityId) => list[entityId]),
   )
 
   getById(state, id) {

@@ -19,7 +19,7 @@
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   ...DataProviderDomain.enMessages,
   ...IngestDomain.enMessages,
 
@@ -41,10 +41,14 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.cron.description.title': 'Cron expression format',
   'acquisition-chain.form.general.section.cron.description.tooltip': 'Cron expression format',
   'acquisition-chain.form.general.section.cron.description.close': 'Close',
-  'acquisition-chain.form.general.section.session': 'Session name (*)',
-  'acquisition-chain.form.general.section.mode': 'Mode (*)',
-  'acquisition-chain.form.general.section.mode.AUTO': 'Automatic',
-  'acquisition-chain.form.general.section.mode.MANUAL': 'Manual',
+  'acquisition-chain.form.general.section.version.mode': 'Products versioning mode (*)',
+  'acquisition-chain.form.general.section.version.mode.IGNORE': 'Ignore modified products',
+  'acquisition-chain.form.general.section.version.mode.INC_VERSION': 'Create new version for modified products (default)',
+  'acquisition-chain.form.general.section.version.mode.REPLACE': 'Replace current products by modified products',
+  'acquisition-chain.form.general.section.version.mode.MANUAL': 'Chose operation when a modified product is detected',
+  'acquisition-chain.form.general.section.starting.mode': 'Starting mode (*)',
+  'acquisition-chain.form.general.section.starting.mode.AUTO': 'Automatic (periodic)',
+  'acquisition-chain.form.general.section.starting.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
   'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
@@ -66,6 +70,9 @@ const messages = Object.assign({
   'acquisition-chain.form.fileInfo.mandatory': 'Mandatory to build the product',
   'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
   'acquisition-chain.form.fileInfo.dataType': 'Data type (*)',
+  'acquisition-chain.form.fileInfo.scanDirInfos': 'Scan dirctories (*)',
+  'acquisition-chain.form.fileInfo.scanDir.scannedDirectory': 'Directory to scan',
+  'acquisition-chain.form.fileInfo.scanDir.lastModificationDate': 'Since',
   // 1.4 Plugins configuration section
   'acquisition-chain.form.plugins.section': 'Plugins',
   'acquisition-chain.form.plugins.select.label': 'Select a plugin ...',
@@ -151,12 +158,14 @@ const messages = Object.assign({
   'acquisition-sessions.table.creation-date': 'Creation Date',
   'acquisition-sessions.table.state': 'State',
   'acquisition-sessions.table.sip-generated': 'Processed products',
+  'acquisition-sessions.table.version': 'Versioning',
   'acquisition-sessions.table.aip-stored': 'Archived products',
   'acquisition-sessions.table.indexed': 'Indexed products',
   'acquisition-sessions.table.last-modification': 'Last modification',
 
   //3.2 Table Headers tooltip
   'acquisition-sessions.table.sip-generated.tooltip': 'Prepared products for ingestion (SIP processed)',
+  'acquisition-sessions.table.version.tooltip': 'Existing products version management',
   'acquisition-sessions.table.aip-stored.tooltip': 'Products stored (AIP stored)',
   'acquisition-sessions.table.indexed.tooltip': 'Indexed products in catalog',
 
@@ -167,6 +176,15 @@ const messages = Object.assign({
   'acquisition-sessions.states.files_acquired': 'Files scanned',
   'acquisition-sessions.states.error': 'Errors',
   'acquisition-sessions.states.pending': 'Pending',
+  'acquisition-sessions.states.ignored.label': 'Ignored:',
+  'acquisition-sessions.states.ignored.tooltip': 'Detected changes that were ignored',
+  'acquisition-sessions.states.replaced.label': 'Replaced:',
+  'acquisition-sessions.states.replaced.tooltip': 'Detected changes that gave rise to corresponding products version replacement',
+  'acquisition-sessions.states.new.version.label': 'New versions:',
+  'acquisition-sessions.states.new.version.tooltip': 'Detected changes that gave rise to new products version',
+  'acquisition-sessions.states.waiting.header': 'Waiting action...',
+  'acquisition-sessions.states.waiting.label': 'Waiting:',
+  'acquisition-sessions.states.waiting.tooltip': 'Detected changes awaiting on an administrator decision',
   'acquisition-sessions.states.storing': 'To store',
   'acquisition-sessions.states.stored': 'Stored',
   'acquisition-sessions.states.running': 'Running',
@@ -188,6 +206,8 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.show.incomplete': 'Display incomplete products',
   'acquisition-sessions.menus.products.show.invalids': 'Display invalid products',
   'acquisition-sessions.menus.products.delete': 'Delete products',
+  'acquisition-sessions.menus.versioning.view.ignored.requests': 'Display ignored changes',
+  'acquisition-sessions.menus.versioning.view.waiting.requests': 'Display waiting changes',
   'acquisition-sessions.menus.archives': 'Archive ready products',
   'acquisition-sessions.menus.archives.relaunch': 'Relaunch Processing in error',
   'acquisition-sessions.menus.archives.list': 'List products',
@@ -228,7 +248,7 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.close.button': 'Close',
 
   'invalid.cron.expression': 'Invalid cron',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

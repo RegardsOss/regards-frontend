@@ -36,7 +36,6 @@ class ToggleTreeVisibleOptionComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { browsingTreeVisible, onToggleVisible } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { header: { flatIconButtonStyle } } } } = this.context

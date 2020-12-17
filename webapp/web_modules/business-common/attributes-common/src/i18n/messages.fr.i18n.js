@@ -24,8 +24,7 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   ...Locales.fr, // form messages
-  'attribute.thumbnail.alt': 'Aucune vignette',
-  'attribute.thumbnail.action.close': 'Fermer',
+  'attribute.thumbnail.alt': 'Vignette"',
   'attribute.render.label': '{jsonPath} ({label})',
   // Attributes configuration
   'attributes.configuration.add.one.item.label': 'Ajout simple',
@@ -79,6 +78,8 @@ const messages = {
   'attribute.configuration.renderer.DATE_INTERVAL.dateWithMilliseconds': 'Date précise',
   'attribute.configuration.renderer.DATE_INTERVAL.time': 'Temps: HH:MM:SS',
   'attribute.configuration.renderer.DATE_INTERVAL.timeWithMilliseconds': 'Temps précis: HH:MM:SS.sss',
+  'attribute.render.version.label': '{label}:{version}',
+  'attribute.render.simple.label': '{label}',
   'attribute.configuration.label.en.field': 'Libellé anglais',
   'attribute.configuration.label.fr.field': 'Libellé français',
   'attribute.configuration.index.field': 'Ordre',

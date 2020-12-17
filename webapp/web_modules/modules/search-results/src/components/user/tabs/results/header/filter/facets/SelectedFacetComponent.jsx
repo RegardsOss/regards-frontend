@@ -48,5 +48,4 @@ class SelectedFacetComponent extends React.Component {
   }
 }
 
-
 export default SelectedFacetComponent

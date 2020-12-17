@@ -18,7 +18,6 @@
  **/
 import Info from 'mdi-material-ui/LightbulbOutline'
 
-
 export default class HelpMessageComponent extends React.Component {
   static propTypes = {
     message: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,

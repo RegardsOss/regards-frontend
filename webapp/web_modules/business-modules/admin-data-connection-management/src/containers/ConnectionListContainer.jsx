@@ -43,14 +43,11 @@ export class ConnectionListContainer extends React.Component {
     deleteConnection: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchConnectionList())
       .then(() => {
         this.setState({
@@ -79,7 +76,7 @@ export class ConnectionListContainer extends React.Component {
     this.props.deleteConnection(connectionId)
   }
 
-  handleTestConnection = connectionId => this.props.testConnection(connectionId)
+  handleTestConnection = (connectionId) => this.props.testConnection(connectionId)
 
   render() {
     const { isLoading } = this.state
@@ -103,15 +100,14 @@ export class ConnectionListContainer extends React.Component {
   }
 }
 
-
 const mapStateToProps = (state, ownProps) => ({
   connectionList: connectionSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchConnectionList: () => dispatch(connectionActions.fetchEntityList()),
-  deleteConnection: id => dispatch(connectionActions.deleteEntity(id)),
-  testConnection: id => dispatch(connectionTestActions.sendSignal('POST', null, { connectionId: id })),
+  deleteConnection: (id) => dispatch(connectionActions.deleteEntity(id)),
+  testConnection: (id) => dispatch(connectionTestActions.sendSignal('POST', null, { connectionId: id })),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConnectionListContainer)

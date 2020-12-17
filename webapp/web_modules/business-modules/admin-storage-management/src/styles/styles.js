@@ -20,7 +20,7 @@
 /**
  * @author Sébastien Binda
  */
-const storageManagementStyles = theme => ({
+const storageManagementStyles = (theme) => ({
   root: {
     position: 'relative',
     paddingBottom: 20,

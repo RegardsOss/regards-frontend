@@ -22,5 +22,5 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  * Store selector to clear plugin cache actions
  * @author Raphaël Mechali
  */
-const getClearPluginCacheSelectors = storePath => new BasicSignalSelectors(storePath)
+const getClearPluginCacheSelectors = (storePath) => new BasicSignalSelectors(storePath)
 export default getClearPluginCacheSelectors

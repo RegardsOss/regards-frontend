@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'collection.list.action.add': 'Ajouter',
   'collection.list.action.cancel': 'Annuler',
   'collection.list.title': 'Collections',
@@ -90,6 +90,7 @@ const messages = Object.assign({
   'collection.info.model.label': 'Modèle de collection : ',
   'collection.info.close': 'Fermer',
   'collection.info.title': 'Informations sur la collection {name}',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

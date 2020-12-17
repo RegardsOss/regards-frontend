@@ -33,7 +33,7 @@ class StorageArrayRender extends React.Component {
   render() {
     const { value } = this.props
     return (
-      <StringArrayValueRender value={value.map(storage => storage)} />
+      <StringArrayValueRender value={value.map((storage) => storage)} />
     )
   }
 }

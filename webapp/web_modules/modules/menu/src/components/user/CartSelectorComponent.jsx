@@ -42,11 +42,10 @@ class CartSelectorComponent extends React.Component {
 
   static MAX_ELEMENTS_COUNT = 9999
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // transient: create icon
     this.icon = <Cart />
   }
-
 
   render() {
     const { objectsCount, onCartClicked } = this.props

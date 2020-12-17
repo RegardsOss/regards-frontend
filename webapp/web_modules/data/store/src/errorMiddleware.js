@@ -34,7 +34,7 @@ function isSilentError(action) {
  */
 // const isSilentError = actionMeta => actionMeta && ()
 
-export default store => next => (action) => {
+export default (store) => (next) => (action) => {
   // Do not throw error for form validation errors.
   if (action.error && !isSilentError(action) && (action.type !== '@@redux-form/SET_SUBMIT_FAILED')) {
     if (action.payload) {

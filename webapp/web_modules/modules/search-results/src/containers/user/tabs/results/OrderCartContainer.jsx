@@ -54,45 +54,6 @@ export class OrderCartContainer extends React.Component {
   /** Required basket controller dependencies */
   static BASKET_DEPENDENCIES = basketDependencies
 
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { tabType }) {
-    const { tableSelectors } = getTableClient(tabType)
-    const { searchSelectors } = getSearchCatalogClient(tabType)
-    return {
-      // cart availability related
-      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-      modules: modulesSelectors.getList(state),
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-      // seletion and research related
-      toggledElements: tableSelectors.getToggledElements(state),
-      selectionMode: tableSelectors.getSelectionMode(state),
-      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch) {
-    return {
-      /**
-       * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
-       * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
-       * @param requestParameters Open search request parameters
-       * @return {Promise} add to cart promise
-       */
-      dispatchAddToCart: (includedIds, excludedIds, requestParameters, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, requestParameters, datasetUrn)),
-    }
-  }
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps
@@ -142,15 +103,54 @@ export class OrderCartContainer extends React.Component {
   }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { tabType }) {
+    const { tableSelectors } = getTableClient(tabType)
+    const { searchSelectors } = getSearchCatalogClient(tabType)
+    return {
+      // cart availability related
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+      modules: modulesSelectors.getList(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      // seletion and research related
+      toggledElements: tableSelectors.getToggledElements(state),
+      selectionMode: tableSelectors.getSelectionMode(state),
+      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      /**
+       * Dispatches add to cart action (sends add to cart command to server), showing then hiding feedback
+       * @param ids entities ID (URN) list to add to cart, when request is null, or to exclude from add request when it isn't
+       * @param requestParameters Open search request parameters
+       * @return {Promise} add to cart promise
+       */
+      dispatchAddToCart: (includedIds, excludedIds, requestParameters, datasetUrn) => dispatch(defaultBasketActions.addToBasket(includedIds, excludedIds, requestParameters, datasetUrn)),
+    }
+  }
+
+  /**
    * Lifecycle hook: component will mount, used here to update component state
    */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
   /**
    * Lifecycle hook: component will receive props, used here to update component state
    * @param nextProps component next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
   * Updates component state (recompute properties related elements)
@@ -242,7 +242,7 @@ export class OrderCartContainer extends React.Component {
     const {
       requestParameters, selectionMode, toggledElements, dispatchAddToCart,
     } = this.props
-    const ids = values(toggledElements).map(element => get(element, 'content.id'))
+    const ids = values(toggledElements).map((element) => get(element, 'content.id'))
     if (selectionMode === TableSelectionModes.includeSelected) {
       // inclusive selection: provide only included elements from selection (parameters useless)
       dispatchAddToCart(ids)
@@ -274,7 +274,7 @@ export class OrderCartContainer extends React.Component {
     // A - User is logged in
     if (isAuthenticated) {
       // B - There is / are active Order cart module(s)
-      const hasOrderCartModule = find((modules || {}), module => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
+      const hasOrderCartModule = find((modules || {}), (module) => (get(module, 'content.type', '') === modulesManager.AllDynamicModuleTypes.ORDER_CART
         && get(module, 'content.active', false)))
       if (hasOrderCartModule) {
         // C - Finally, user must have rights to manage the basket

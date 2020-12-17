@@ -62,15 +62,16 @@ describe('[Description] Testing DescriptionConfigurationFormComponent', () => {
     }
     const enzymeWrapper = shallow(<DescriptionConfigurationFormComponent {...props} />, { context })
     assert.isTrue(enzymeWrapper.children().length > 0, 'There should be children (shown)')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showDescription'), 1, 'there should be the showDescription field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.hideEmptyAttributes'), 1, 'There should be hide empty attributes field for current namespace')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showTags'), 1, 'there should be the showTags field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showCoupling'), 1, 'there should be the showCoupling field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showLinkedEntities'), 1, 'there should be the showLinkedEntities field')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.showThumbnail'), 1, 'there should be the showThumbnail field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showDescription'), 1, 'there should be the showDescription field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.hideEmptyAttributes'), 1, 'There should be hide empty attributes field for current namespace')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showTags'), 1, 'there should be the showTags field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showCoupling'), 1, 'there should be the showCoupling field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showLinkedDocuments'), 1, 'there should be the showLinkedDocuments field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showLinkedEntities'), 1, 'there should be the showLinkedEntities field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showOtherVersions'), 1, 'there should be the showOtherVersions field')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.showThumbnail'), 1, 'there should be the showThumbnail field')
 
-    const groupsField = enzymeWrapper.findWhere(n => n.props().name === 'test.DATA.groups')
+    const groupsField = enzymeWrapper.findWhere((n) => n.props().name === 'test.DATA.groups')
     assert.lengthOf(groupsField, 1, 'There should be groups field array')
     testSuiteHelpers.assertWrapperProperties(groupsField, {
       component: GroupsFieldComponent,

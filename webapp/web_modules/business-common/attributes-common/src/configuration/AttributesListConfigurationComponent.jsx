@@ -102,24 +102,22 @@ export class AttributesListConfigurationComponent extends React.Component {
     }, [])
   }
 
-
   state = {
     attributeModels: [], // list of models containing standard attributes
     editionData: null, // current edition data (for corresponding dialog)
     multipleSelectionData: null, // current multiple edition data
   }
 
-
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
   * Properties change detected: update local state
@@ -220,12 +218,12 @@ export class AttributesListConfigurationComponent extends React.Component {
     const { attributesList } = this.props
     this.setState({
       // Enable dialog by providing the edition list as [{attributeModel, selected}].
-      multipleSelectionData: values(attributeModels).map(attributeModel => ({
+      multipleSelectionData: values(attributeModels).map((attributeModel) => ({
         attributeModel,
         // Attribute is initially selected when there is no group using it
         selected: !attributesList.some(
-          attributesGroup => attributesGroup.attributes.some(
-            attrConf => attrConf.name === attributeModel.content.jsonPath)),
+          (attributesGroup) => attributesGroup.attributes.some(
+            (attrConf) => attrConf.name === attributeModel.content.jsonPath)),
       })),
     })
   }
@@ -261,7 +259,6 @@ export class AttributesListConfigurationComponent extends React.Component {
     ])
   }
 
-
   /**
    * Inner event: this component commits a new field value
    * @param newList new attributes list
@@ -295,7 +292,7 @@ export class AttributesListConfigurationComponent extends React.Component {
     } = this.props
     const { attributeModels, editionData, multipleSelectionData } = this.state
     return (
-      <React.Fragment>
+      <>
         {/* 1. show edit dialog when there is edition data */}
         <EditItemDialog
           allowLabel={allowLabel}
@@ -325,7 +322,7 @@ export class AttributesListConfigurationComponent extends React.Component {
           onEdit={this.onShowEditDialog}
           onDelete={this.onDelete}
         />
-      </React.Fragment>
+      </>
     )
   }
 }

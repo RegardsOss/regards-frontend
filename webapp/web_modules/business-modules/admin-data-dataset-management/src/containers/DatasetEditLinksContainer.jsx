@@ -80,7 +80,6 @@ export class DatasetEditLinksContainer extends React.Component {
     return `/admin/${project}/data/collections/dataset/${datasetId}/${currentDataset.content.feature.id}/plugins`
   }
 
-
   /**
    * Devide the collectionList into 2 sets, one linked to the current dataset
    * and remaining collection can be associated with current dataset
@@ -90,18 +89,16 @@ export class DatasetEditLinksContainer extends React.Component {
    */
   getRemainingCollection = (currentDataset, collectionList) => {
     const { collectionName } = this.state
-    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentDataset.content.tags, tag => tag === collection.content.feature.id))
-    return filter(collectionLinkedToCurrentCollection[1], remainingCollection => startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
+    const collectionLinkedToCurrentCollection = partition(collectionList, (collection) => some(currentDataset.content.tags, (tag) => tag === collection.content.feature.id))
+    return filter(collectionLinkedToCurrentCollection[1], (remainingCollection) => startsWith(remainingCollection.content.feature.label.toLowerCase(), collectionName))
   }
 
-
-  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
 
   partitionDatasetLinkedTags = (currentDataset) => {
-    const linkedTags = partition(currentDataset.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentDataset.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
-
 
   handleSearch = (event, collectionName) => {
     this.setState({
@@ -173,9 +170,9 @@ const mapStateToProps = (state, ownProps) => ({
   collectionList: collectionSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
-  fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
+  fetchDataset: (id) => dispatch(datasetActions.fetchEntity(id)),
   addTagToDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'associate' })),
   removeTagFromDataset: (datasetId, tags) => dispatch(datasetLinkActions.sendSignal('PUT', tags, { dataset_id: datasetId, operation: 'dissociate' })),
 })

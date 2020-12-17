@@ -62,7 +62,7 @@ describe('[Embedded-html] Testing AdminContainer', () => {
     const searchFields = ['CONF_HEIGHT', 'CONF_WIDTH', 'CONF_EN_URL', 'CONF_FR_URL']
     searchFields.forEach((field) => {
       const fieldName = wrapperInstance[field]
-      assert.lengthOf(allFields.findWhere(n => n.props().name === fieldName), 1,
+      assert.lengthOf(allFields.findWhere((n) => n.props().name === fieldName), 1,
         `There should be the field ${fieldName} (property ${field})`)
     })
 

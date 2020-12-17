@@ -18,7 +18,6 @@
  **/
 import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
-
 /**
  * Store selector to SIP entities.
  * @author Maxime Bouveron
@@ -34,5 +33,4 @@ class SIPImportSelectors extends BasicSignalSelectors {
   }
 }
 
-
-export default storePath => new SIPImportSelectors(storePath)
+export default (storePath) => new SIPImportSelectors(storePath)

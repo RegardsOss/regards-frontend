@@ -35,7 +35,6 @@ class OrderCountHeaderMessage extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { displayMode, totalOrderCount } = this.props
     const { intl: { formatMessage } } = this.context

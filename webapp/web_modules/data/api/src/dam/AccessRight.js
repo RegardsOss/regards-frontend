@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const AccessRightConfiguration = {
@@ -26,7 +25,7 @@ export const AccessRightConfiguration = {
 }
 
 export const ACCESS_RIGHT = new Schema(AccessRightConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[AccessRightConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[AccessRightConfiguration.entityKey]
   ,
 })
 export const ACCESS_RIGHT_ARRAY = arrayOf(ACCESS_RIGHT)

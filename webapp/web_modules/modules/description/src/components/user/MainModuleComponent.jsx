@@ -16,19 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import SplitPane from 'react-split-pane'
 import { UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { TableLayout } from '@regardsoss/components'
+import { Measure } from '@regardsoss/adapters'
 import { DescriptionEntity } from '../../shapes/DescriptionState'
 import HeaderBarComponent from './header/HeaderBarComponent'
 import ContentDisplayComponent from './content/ContentDisplayComponent'
 import BrowsingTreeComponent from './tree/BrowsingTreeComponent'
 
-
 /**
  * Main description module component. It show entity description view and breadcrumb in table layout.
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MainModuleComponent extends React.Component {
   static propTypes = {
@@ -42,11 +44,11 @@ class MainModuleComponent extends React.Component {
     isDescriptionAllowed: PropTypes.func.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
-    // Callback: user selected an entity link. (entity:CalaogShapes.Entity) => ()
+    // Callback: user selected an entity link. (entity:CatalogShapes.Entity) => ()
     onSelectEntityLink: PropTypes.func.isRequired,
     // Callback: user searched for a word tag (tag:string) => ()
     onSearchWord: PropTypes.func.isRequired,
-    // Callback: user searched for an entity tag (tag:CalaogShapes.Entity) => ()
+    // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
     // Callback: user selected an entity by its index in path (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
@@ -57,12 +59,56 @@ class MainModuleComponent extends React.Component {
     ...i18nContextType,
   }
 
+  /** Initial state */
+  state = {
+    width: null,
+    height: undefined, // leave undefined to use a default value
+    currentReziserPos: null,
+    isTreeButtonToggled: true,
+  }
+
+  /**
+   * Display or not tree pane
+   */
+  toggleTreeButton = () => {
+    const { isTreeButtonToggled } = this.state
+    this.setState({
+      isTreeButtonToggled: !isTreeButtonToggled,
+    })
+  }
+
+  /**
+   * Manage reziser in order to save his position in state (used for toggleOn/Off tree)
+   * @param {*} splitPosition
+   */
+  onSplitDroped = (splitPosition) => {
+    this.setState({
+      currentReziserPos: splitPosition,
+    })
+  }
+
+  /**
+   * Component was resized: store new position
+   * Init resizer pos
+   * @param {*} measuredElements measure elements with bounds
+   */
+  onComponentResized = ({ measureDiv: { width, height } }) => {
+    this.setState({
+      width: Math.ceil(width),
+      height: Math.ceil(height),
+      currentReziserPos: Math.ceil(width) / 2,
+    })
+  }
+
   render() {
     const {
       settings, descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
       selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
     } = this.props
-    const { moduleTheme: { user: { main: { root } } } } = this.context
+    const {
+      width, height, isTreeButtonToggled, currentReziserPos,
+    } = this.state
+    const { moduleTheme: { user: { main: { root, resizer, paneStyle } } } } = this.context
     return (
       <TableLayout>
         <HeaderBarComponent
@@ -73,28 +119,48 @@ class MainModuleComponent extends React.Component {
           allowSearching={allowSearching}
           onSelectEntityIndex={onSelectEntityIndex}
           onSearchEntity={onSearchEntity}
+          toggleTreeButton={this.toggleTreeButton}
         />
-        <div style={root}>
-          <BrowsingTreeComponent
-            allowSearching={allowSearching}
-            browsingTreeVisible={browsingTreeVisible}
-            descriptionEntity={descriptionEntity}
-            isDescriptionAllowed={isDescriptionAllowed}
-            onSelectInnerLink={onSelectInnerLink}
-            onSelectEntityLink={onSelectEntityLink}
-            onSearchWord={onSearchWord}
-            onSearchEntity={onSearchEntity}
-          />
-          <ContentDisplayComponent
-            descriptionEntity={descriptionEntity}
-            isDescriptionAllowed={isDescriptionAllowed}
-            allowSearching={allowSearching}
-            onSelectInnerLink={onSelectInnerLink}
-            onSelectEntityLink={onSelectEntityLink}
-            onSearchWord={onSearchWord}
-            onSearchEntity={onSearchEntity}
-          />
-        </div>
+        <Measure bounds onMeasure={this.onComponentResized}>
+          {({ bind }) => (
+            <div style={root} {...bind('measureDiv')}>
+              <SplitPane
+                split="vertical"
+                size={isTreeButtonToggled ? currentReziserPos : 0}
+                minSize={paneStyle.minWidth}
+                maxSize={width - paneStyle.minWidth}
+                resizerStyle={isTreeButtonToggled ? resizer : null}
+                onDragFinished={this.onSplitDroped}
+              >
+                {/* Left: Tree */}
+                <div height={height}>
+                  <BrowsingTreeComponent
+                    allowSearching={allowSearching}
+                    browsingTreeVisible={browsingTreeVisible}
+                    descriptionEntity={descriptionEntity}
+                    isDescriptionAllowed={isDescriptionAllowed}
+                    onSelectInnerLink={onSelectInnerLink}
+                    onSelectEntityLink={onSelectEntityLink}
+                    onSearchWord={onSearchWord}
+                    onSearchEntity={onSearchEntity}
+                    scrollAreaHeight={height}
+                  />
+                </div>
+                {/* Right : Content */}
+                <ContentDisplayComponent
+                  descriptionEntity={descriptionEntity}
+                  isDescriptionAllowed={isDescriptionAllowed}
+                  allowSearching={allowSearching}
+                  onSelectInnerLink={onSelectInnerLink}
+                  onSelectEntityLink={onSelectEntityLink}
+                  onSearchWord={onSearchWord}
+                  onSearchEntity={onSearchEntity}
+                  scrollAreaHeight={height}
+                />
+              </SplitPane>
+            </div>
+          )}
+        </Measure>
       </TableLayout>
     )
   }

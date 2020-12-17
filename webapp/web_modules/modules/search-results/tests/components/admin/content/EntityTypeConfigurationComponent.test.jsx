@@ -57,23 +57,23 @@ describe('[SEARCH RESULTS] Testing EntityTypeConfigurationComponent', () => {
     }
     const enzymeWrapper = shallow(<EntityTypeConfigurationComponent {...props} />, { context })
     // 1 - Initial mode field
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.initialMode`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.initialMode`), 1,
       'There should be initial view mode selection field')
     // 2 - Title fields
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.tabTitle.en`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.tabTitle.en`), 1,
       'There should be english title field')
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.tabTitle.fr`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.tabTitle.fr`), 1,
       'There should be french title field')
 
-    assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.enableRefresh`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.enableRefresh`), 1,
       'There should be enable refresh field')
 
     // 3 - Enable download field should be present for DATA
     if (shouldHaveEnableDownload) {
-      assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.enableDownload`), 1,
+      assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.enableDownload`), 1,
         'There should be enable download field')
     } else {
-      assert.lengthOf(enzymeWrapper.findWhere(c => c.props().name === `${rootNamespace}.enableDownload`), 0,
+      assert.lengthOf(enzymeWrapper.findWhere((c) => c.props().name === `${rootNamespace}.enableDownload`), 0,
         'There should not be enable download field')
     }
   }))

@@ -20,10 +20,11 @@ import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import { spy } from 'sinon'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import { Card } from 'material-ui/Card'
 import ServiceListComponent from '../../src/components/ServiceListComponent'
+import ServiceItemComponent from '../../src/components/ServiceItemComponent'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListComponent', () => {
   before(testSuiteHelpers.before)
@@ -31,7 +32,6 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListComponent', () => {
 
   it('should exists', () => {
     assert.isDefined(ServiceListComponent)
-    assert.isDefined(Card)
   })
 
   it('Render properly', () => {
@@ -45,8 +45,8 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListComponent', () => {
       handleBack: handleBackSpy,
     }
 
-    const enzymeWrapper = shallow(<ServiceListComponent {...props} />, { context, lifecycleExperimental: true })
-    expect(enzymeWrapper.find(Card)).to.have.length(6)
+    const enzymeWrapper = shallow(<ServiceListComponent {...props} />, { context })
+    expect(enzymeWrapper.find(ServiceItemComponent)).to.have.length(6)
     assert.isTrue(handleCreateSpy.notCalled, 'Not called yet')
     assert.isTrue(handleOpenSpy.notCalled, 'Not called yet')
     assert.isTrue(handleBackSpy.notCalled, 'Not called yet')

@@ -38,13 +38,13 @@ class DatasetLabel extends React.Component {
     this.saveLabel(value, datasetList)
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { value, datasetList } = nextProps
     this.saveLabel(value, datasetList)
   }
 
   saveLabel = (value, datasets) => {
-    const matchedDataset = find(datasets, dts => dts.content.feature.id === value)
+    const matchedDataset = find(datasets, (dts) => dts.content.feature.id === value)
     let datasetLabel = value || DatasetLabel.DEFAULT_DATASET_NAME
     if (matchedDataset) {
       datasetLabel = matchedDataset.content.feature.label

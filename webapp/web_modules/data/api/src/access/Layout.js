@@ -23,10 +23,9 @@ export const LayoutConfiguration = {
   normalizrKey: 'layout',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const LAYOUT = new Schema(LayoutConfiguration.normalizrKey, {
-  idAttribute: layout => layout.content[LayoutConfiguration.entityKey],
+  idAttribute: (layout) => layout.content[LayoutConfiguration.entityKey],
   assignEntity(output, key, value, input) {
     if (value && value.layout) {
       try {

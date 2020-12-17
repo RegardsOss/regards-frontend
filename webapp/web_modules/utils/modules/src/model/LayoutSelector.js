@@ -38,7 +38,7 @@ class LayoutsSelector extends BasicListSelectors {
 
   findDynamic(container) {
     if (!container.dynamicContent) {
-      return find(container.containers, lcontainer => this.findDynamic(lcontainer))
+      return find(container.containers, (lcontainer) => this.findDynamic(lcontainer))
     }
     return container
   }

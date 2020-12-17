@@ -51,11 +51,8 @@ export class AttributePluginFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(props, 'pluginConfiguration.content', null),
-    }
+  state = {
+    selectedPlugin: get(this.props, 'pluginConfiguration.content', null),
   }
 
   selectPluginType = (plugin) => {
@@ -103,8 +100,7 @@ export class AttributePluginFormComponent extends React.Component {
             hideDynamicParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+          /> : null}
       </div>
     )
   }
@@ -138,8 +134,7 @@ export class AttributePluginFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

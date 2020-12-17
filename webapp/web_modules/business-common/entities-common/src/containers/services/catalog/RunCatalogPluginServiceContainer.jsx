@@ -45,6 +45,8 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     PLUGIN_METADATA_ERROR: 'PLUGIN_METADATA_ERROR',
     // Post init error: configuration seems wrong
     PARAMETERS_CONVERSION_ERROR: 'PARAMETERS_CONVERSION_ERROR',
+    // Display service description
+    DESCRIPTION: 'DESCRIPTION',
     // Configuring parameters
     PARAMETERS_CONFIGURATION: 'PARAMETERS_CONFIGURATION',
     // Remote apply service
@@ -72,6 +74,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   static DEFAULT_STATE = {
     step: RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_CONFIGURATION, // init state
     resolvedParameters: [], // dynamic parameters as resolved using plugin conf and metadata
+    description: null, // Plugin description to display
     userParametersValues: {}, // user entered parameter values
     localAccessURL: null, // local file access URL
     resultFile: null, // apply result, when fetched. Contains content and contentType. It is optional
@@ -80,12 +83,12 @@ export class RunCatalogPluginServiceContainer extends React.Component {
   /**
    * Component initialization: retrieve configuration, then metadata and finally resolve parameters
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState(RunCatalogPluginServiceContainer.DEFAULT_STATE)
     const { service, dispatchFetchPluginConfiguration } = this.props
     const { configId } = service
     dispatchFetchPluginConfiguration(configId)
-      .then(result => this.onFetchConfigurationDone(result, configId))
+      .then((result) => this.onFetchConfigurationDone(result, configId))
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_CONFIGURATION_ERROR))
   }
 
@@ -104,7 +107,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
       const { dispatchFetchPluginMetaData } = this.props
       this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_PLUGIN_METADATA })
       dispatchFetchPluginMetaData(pluginConfiguration.content.pluginId)
-        .then(result => this.onFetchMetaDataDone(result, pluginConfiguration))
+        .then((result) => this.onFetchMetaDataDone(result, pluginConfiguration))
         .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.PLUGIN_METADATA_ERROR))
     }
   }
@@ -123,7 +126,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         // attempt to resolve the parameters
         const resolvedParameters = resolveParametersWithTypes(pluginConfiguration, pluginMetaData)
         // initialization is now complete
-        this.onInitializationDone(resolvedParameters)
+        this.onInitializationDone(resolvedParameters, pluginMetaData.content.markdown)
       } catch (e) {
         this.onFetchError(RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONVERSION_ERROR)
       }
@@ -134,18 +137,36 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    * On fetch error handler
    * @param errorStep corresponding error step
    */
-  onFetchError = errorStep => this.setState({ step: errorStep })
+  onFetchError = (errorStep) => this.setState({ step: errorStep })
 
   /**
    * On initialization done: start normal component workflow (parameters edition and / or)
    * @param resolvedParameters resolved parameters
    */
-  onInitializationDone = (resolvedParameters) => {
-    if (resolvedParameters.length) {
+  onInitializationDone = (resolvedParameters, description) => {
+    if (description) {
+      this.setState({
+        step: RunCatalogPluginServiceContainer.Steps.DESCRIPTION,
+        resolvedParameters,
+        description,
+      })
+    } else if (resolvedParameters.length) {
       // run through parameters configuration
       this.setState({
         step: RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
         resolvedParameters,
+      })
+    } else {
+      // No configuration, skip to direct application
+      this.onConfigurationDone()
+    }
+  }
+
+  onDescriptionDone = () => {
+    if (this.state.resolvedParameters.length) {
+      // run through parameters configuration
+      this.setState({
+        step: RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION,
       })
     } else {
       // No configuration, skip to direct application
@@ -180,7 +201,6 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     }
   }
 
-
   /** Enters back the parameters configuration */
   onPrevious = () => this.setState({ step: RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION })
 
@@ -198,7 +218,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
    */
   renderCurrentStep = () => {
     const {
-      step, resolvedParameters, userParametersValues, resultFile, localAccessURL, fileName,
+      step, resolvedParameters, userParametersValues, resultFile, localAccessURL, fileName, description,
     } = this.state
     switch (step) {
       // loading states
@@ -218,6 +238,8 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         return RunServiceDialogComponent.buildMessageStep('entities.common.services.plugin.run.failed', true,
           [this.renderPreviousOption()])// custom options: previous
       // configuration state
+      case RunCatalogPluginServiceContainer.Steps.DESCRIPTION:
+        return RunServiceDialogComponent.buildDescriptionStep(description, this.onDescriptionDone)
       case RunCatalogPluginServiceContainer.Steps.PARAMETERS_CONFIGURATION:
         return RunServiceDialogComponent.buildParametersConfigurationStep(resolvedParameters, userParametersValues, this.onConfigurationDone)
       // run results state
@@ -264,10 +286,10 @@ const catalogPluginServiceResultActions = new CatalogClient.CatalogPluginService
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatchFetchPluginConfiguration: configId => dispatch(pluginConfigurationActions.fetchEntity(configId, {
+    dispatchFetchPluginConfiguration: (configId) => dispatch(pluginConfigurationActions.fetchEntity(configId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginMetaData: pluginId => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
+    dispatchFetchPluginMetaData: (pluginId) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
     dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),

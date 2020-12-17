@@ -58,7 +58,7 @@ class SIPsubmissionSummaryComponent extends React.Component {
 
   render() {
     const { submissionResponse, onBack } = this.props
-    const { intl: { formatMessage }, moduleTheme: { summary: { granted: grantedStyles, denied: deniedStyles } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { summary: { granted: grantedStyles, denied: deniedStyles, gotoSubmission } } } = this.context
 
     const granted = get(submissionResponse, 'granted', {})
     const grantedCount = size(granted)
@@ -69,7 +69,6 @@ class SIPsubmissionSummaryComponent extends React.Component {
     const sessionOwner = get(submissionResponse, 'sessionOwner')
     const session = get(submissionResponse, 'session')
 
-    const iconStyle = { marginLeft: 20 }
     return (
       <Card>
         <CardTitle
@@ -77,22 +76,20 @@ class SIPsubmissionSummaryComponent extends React.Component {
           subtitle={formatMessage({ id: 'sips.submission-summary.subtitle' })}
         />
         <CardText>
-          { /** valid / errors messages OR no data */
-              // Render first granted elements then deied elements
-            <React.Fragment>
-              <div style={grantedStyles.mainMessage}>
-                { /* A.1 information or success icon for granted elements */
+          <>
+            <div style={grantedStyles.mainMessage}>
+              { /* A.1 information or success icon for granted elements */
                   grantedCount
                     ? <ValidIcon style={grantedStyles.icon.valid} />
                     : <InfoIcon style={grantedStyles.icon.info} />
                 }
-                { // A.2 - Granted features message
+              { // A.2 - Granted features message
                   formatMessage({ id: 'sips.submission-summary.granted.count.message' }, { count: grantedCount })
                 }
-              </div>
-              { // B - Denied features message
+            </div>
+            { // B - Denied features message
                 deniedCount ? (
-                  <React.Fragment>
+                  <>
                     { /* B.1 - Error icon */ }
                     <div style={deniedStyles.mainMessage}>
                       <ErrorIcon style={deniedStyles.icon} />
@@ -107,12 +104,12 @@ class SIPsubmissionSummaryComponent extends React.Component {
                         </div>
                       ))
                     }
-                  </React.Fragment>
+                  </>
                 ) : null
               }
-              <div>
-                <br />
-                {
+            <div>
+              <br />
+              {
                   grantedCount
                     ? <RaisedButton
                       onClick={this.goToSessionMonitoring}
@@ -122,16 +119,15 @@ class SIPsubmissionSummaryComponent extends React.Component {
                     />
                     : null
                 }
-                <RaisedButton
-                  onClick={this.props.goToSumissionForm}
-                  label={formatMessage({ id: 'sips.submission-summary.go.to.submission' })}
-                  secondary
-                  icon={<AddIcon />}
-                  style={iconStyle}
-                />
-              </div>
-            </React.Fragment>
-          }
+              <RaisedButton
+                onClick={this.props.goToSumissionForm}
+                label={formatMessage({ id: 'sips.submission-summary.go.to.submission' })}
+                secondary
+                icon={<AddIcon />}
+                style={gotoSubmission}
+              />
+            </div>
+          </>
         </CardText>
         <CardActions>
           <CardActionsComponent

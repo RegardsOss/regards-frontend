@@ -21,7 +21,6 @@ import { assert } from 'chai'
 import { DATA_TYPES_ENUM } from '../../common/DataTypes'
 import { ThumbnailHelper } from '../../ui/ThumbnailHelper'
 
-
 /**
  * Test ModulesManager
  * @author Raphaël Mechali
@@ -76,7 +75,7 @@ describe('[Domain] Testing ThumbnailHelper', () => {
       buildThumbnailFile('A2', false, false),
       buildThumbnailFile('B1', false, true),
     ],
-    filter: file => false,
+    filter: (file) => false,
     expectedSelectionIndex: null,
   }]
   getThumbnailTestCases.forEach(({

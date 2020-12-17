@@ -59,7 +59,6 @@ const props = {
   invalid: false,
 }
 
-
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionFormComponent', () => {
   before(testSuiteHelpers.before)

@@ -19,7 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
-import { FieldArray, Field, RenderTextField } from '@regardsoss/form-utils'
+import {
+  FieldArray, Field, RenderTextField, RenderCheckbox, FieldHelp,
+} from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { EditSettingsComponent } from '../../src/components/EditSettingsComponent'
@@ -69,10 +71,13 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
   }) => it(`should render correctly in edition when ${label}`, () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: ['model3'],
         primaryQuicklookGroup: 'customMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
-      dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
+      dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
       onBack: () => {},
       onSubmit: () => {},
       // from redux form
@@ -83,14 +88,37 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
       handleSubmit: () => {},
     }
     const enzymeWrapper = shallow(<EditSettingsComponent {...props} />, { context })
-    const quicklookMainField = enzymeWrapper.find(Field)
-    assert.lengthOf(quicklookMainField, 1, 'There should be main quicklook keyword field')
-    testSuiteHelpers.assertWrapperProperties(quicklookMainField, {
+
+    // A - Check fields
+    // 1. primaryQuicklookGroup
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
       name: 'primaryQuicklookGroup',
       component: RenderTextField,
-    }, 'Selection field properties should be correctly set')
+      label: 'ui.admin.settings.main.quicklook.group.key.label',
+      help: FieldHelp.buildDialogMessageHelp('ui.admin.settings.main.quicklook.group.key.help.message'),
+    }, 'There should be primaryQuicklookGroup field')
+    // 2. showVersion
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'showVersion',
+      component: RenderCheckbox,
+      label: 'ui.admin.settings.show.product.version.label',
+    }, 'There should be showVersion field')
+    // 3. quotaWarningCount
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'quotaWarningCount',
+      component: RenderTextField,
+      label: 'ui.admin.settings.low.quota.warning.label',
+      help: FieldHelp.buildDialogMessageHelp('ui.admin.settings.low.quota.warning.help.message'),
+    }, 'There should be quotaWarningCount field')
+    // 4. rateWarningCount
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'rateWarningCount',
+      component: RenderTextField,
+      label: 'ui.admin.settings.low.rate.warning.label',
+      help: FieldHelp.buildDialogMessageHelp('ui.admin.settings.low.rate.warning.help.message'),
+    }, 'There should be rateWarningCount field')
+
     const selectionField = enzymeWrapper.find(FieldArray)
-    assert.lengthOf(selectionField, 1, 'There should be the field array')
     assert.lengthOf(selectionField, 1, 'There should be the field array')
     testSuiteHelpers.assertWrapperProperties(selectionField, {
       name: 'documentModels',
@@ -109,13 +137,59 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
       secondaryButtonClick: props.onBack,
     })
   }))
-  it('should initialize correctly in creation mode', () => {
+
+  it('should convert correctly input model into edition model from defaults at settings creation', () => {
     const spyInitialize = {}
+    const spyValues = {}
     const props = {
       settings: null,
-      dataModelNames: [1, 2, 3, 4, 5].map(v => `model${v}`),
+      dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
       onBack: () => {},
-      onSubmit: () => {},
+      onSubmit: (values) => { spyValues.values = values },
+      // from redux form
+      submitting: false,
+      pristine: true,
+      invalid: false,
+      initialize: (values) => { spyInitialize.values = values },
+      handleSubmit: () => {},
+    }
+    const enzymeWrapper = shallow(<EditSettingsComponent {...props} />, { context })
+    // 1 - check initialization
+    assert.deepEqual(spyInitialize.values, {
+      ...UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
+      quotaWarningCount: UIDomain.UISettingsConstants.DEFAULT_SETTINGS.quotaWarningCount.toString(),
+      rateWarningCount: UIDomain.UISettingsConstants.DEFAULT_SETTINGS.rateWarningCount.toString(),
+    }, 'Default settings should be used when there is no saved settings (lifecycle initialization)')
+    // 2 - check submit conversion
+    enzymeWrapper.instance().onSubmit({
+      showVersion: false,
+      documentModels: [props.dataModelNames[0]],
+      primaryQuicklookGroup: 'secondary-just-because',
+      quotaWarningCount: '200',
+      rateWarningCount: '20',
+    })
+    assert.deepEqual(spyValues.values, {
+      showVersion: false,
+      documentModels: [props.dataModelNames[0]],
+      primaryQuicklookGroup: 'secondary-just-because',
+      quotaWarningCount: 200,
+      rateWarningCount: 20,
+    }, 'Committed values should be correctly converted to UI settings format')
+  })
+  it('should convert correctly input model into edition model from props at settings edition', () => {
+    const spyInitialize = {}
+    const spyValues = {}
+    const props = {
+      settings: {
+        showVersion: false,
+        documentModels: ['model1', 'missing-model'],
+        primaryQuicklookGroup: 'secondary-just-because',
+        quotaWarningCount: 200,
+        rateWarningCount: 20,
+      },
+      dataModelNames: [1, 2, 3, 4, 5].map((v) => `model${v}`),
+      onBack: () => {},
+      onSubmit: (values) => { spyValues.values = values },
       // from redux form
       submitting: false,
       pristine: true,
@@ -124,7 +198,13 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsComponent', () => {
       handleSubmit: () => {},
     }
     shallow(<EditSettingsComponent {...props} />, { context })
-    assert.deepEqual(spyInitialize.values, UIDomain.UISettingsConstants.DEFAULT_SETTINGS,
-      'Default settings should be used when there is no saved settings (lifecycle initialization)')
+    // 1 - check initialization
+    assert.deepEqual(spyInitialize.values, {
+      showVersion: false,
+      documentModels: ['model1'],
+      primaryQuicklookGroup: 'secondary-just-because',
+      quotaWarningCount: '200',
+      rateWarningCount: '20',
+    }, 'Initial form values should filter missing models and convert numbers into editable strings')
   })
 })

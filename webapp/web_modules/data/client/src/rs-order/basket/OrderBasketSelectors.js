@@ -35,7 +35,7 @@ class OrderBasketSelectors extends BasicSignalSelectors {
   }
 
   getObjectsCount = createSelector(
-    [state => this.getOrderBasket(state)],
+    [(state) => this.getOrderBasket(state)],
     (orderBasket) => {
       const datasetSelections = get(orderBasket, 'datasetSelections', [])
       return datasetSelections.reduce((acc, datasetSelection) => acc + datasetSelection.objectsCount, 0)

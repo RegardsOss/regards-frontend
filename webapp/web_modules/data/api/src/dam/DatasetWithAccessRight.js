@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const DatasetWithAccessRightConfiguration = {
@@ -26,7 +25,7 @@ export const DatasetWithAccessRightConfiguration = {
 }
 
 export const DATASET_WITH_ACCESS_RIGHT = new Schema(DatasetWithAccessRightConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[DatasetWithAccessRightConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[DatasetWithAccessRightConfiguration.entityKey]
   ,
 })
 export const DATASET_WITH_ACCESS_RIGHT_ARRAY = arrayOf(DATASET_WITH_ACCESS_RIGHT)

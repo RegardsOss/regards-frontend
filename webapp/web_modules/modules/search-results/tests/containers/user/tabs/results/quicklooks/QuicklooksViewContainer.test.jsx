@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklooksViewContainer
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
   before(testSuiteHelpers.before)
@@ -66,9 +67,13 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       embedInMap: false,
       mapThumbnailHeight: null,
       settings: {
+        showVersion: true,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
+      onProductSelected: () => {},
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -76,6 +81,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -99,6 +105,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         embedInMap: false,
         mapThumbnailHeight: null,
         primaryQuicklookGroup: 'myMainGroup',
+        selectedProducts: undefined,
+        onProductSelected: props.onProductSelected,
         currentTheme: props.theme,
         locale: props.i18n,
       },
@@ -115,7 +123,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
             selectedType: DamDomain.ENTITY_TYPES_ENUM.DATA,
             types: {
               [DamDomain.ENTITY_TYPES_ENUM.DATA]: {
-                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+                selectedMode: UIDomain.RESULTS_VIEW_MODES_ENUM.MAP,
               },
             },
           },
@@ -131,9 +139,13 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
       embedInMap: true,
       mapThumbnailHeight: 55,
       settings: {
+        showVersion: false,
         primaryQuicklookGroup: 'myMainGroup',
         documentModels: [''],
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
+      onProductSelected: () => {},
       theme: {
         id: 11,
         name: 'Fake thme',
@@ -141,6 +153,7 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         configuration: { fakeColor: '#Z0V5YY' },
       },
       i18n: 'en',
+      getItemOfInterest: () => {},
     }
     const enzymeWrapper = shallow(<QuicklooksViewContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(QuicklooksViewComponent)
@@ -164,6 +177,8 @@ describe('[SEARCH RESULTS] Testing QuicklooksViewContainer', () => {
         embedInMap: true,
         mapThumbnailHeight: 55,
         primaryQuicklookGroup: 'myMainGroup',
+        selectedProducts: [],
+        onProductSelected: props.onProductSelected,
         currentTheme: props.theme,
         locale: props.i18n,
       },

@@ -22,4 +22,4 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  * Store selector on model attributes shared accross several object models
  * @author Léo Mieulet
  */
-export default storePath => new BasicSignalSelectors(storePath)
+export default (storePath) => new BasicSignalSelectors(storePath)

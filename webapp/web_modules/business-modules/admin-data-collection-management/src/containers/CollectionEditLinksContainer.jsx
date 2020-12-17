@@ -72,12 +72,11 @@ export class CollectionEditLinksContainer extends React.Component {
   }
 
   partitionCollectionLinkedTags = (currentCollection) => {
-    const linkedTags = partition(currentCollection.content.tags, tag => tag.match(/URN:.*:COLLECTION.*/))
+    const linkedTags = partition(currentCollection.content.tags, (tag) => tag.match(/URN:.*:COLLECTION.*/))
     return linkedTags
   }
 
-  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, collectionIpId => find(collectionList, collection => collection.content.ipId === collectionIpId))
-
+  getCollectionLinked = (collectionIpIdList, collectionList) => map(collectionIpIdList, (collectionIpId) => find(collectionList, (collection) => collection.content.ipId === collectionIpId))
 
   getComponent = () => {
     const { currentCollection, collectionList } = this.props
@@ -115,11 +114,11 @@ export class CollectionEditLinksContainer extends React.Component {
    */
   getRemainingCollection = (currentCollection, collectionList) => {
     const { collectionName } = this.state
-    const collectionLinkedToCurrentCollection = partition(collectionList, collection => some(currentCollection.content.tags, tag => tag === collection.content.feature.id))
+    const collectionLinkedToCurrentCollection = partition(collectionList, (collection) => some(currentCollection.content.tags, (tag) => tag === collection.content.feature.id))
     return [
       collectionLinkedToCurrentCollection[0],
       // Remove the currentCollection from collectionList and use, if setup, the search input value
-      filter(collectionLinkedToCurrentCollection[1], collection => collection.content.id !== currentCollection.content.id && startsWith(collection.content.feature.label.toLowerCase(), collectionName)),
+      filter(collectionLinkedToCurrentCollection[1], (collection) => collection.content.id !== currentCollection.content.id && startsWith(collection.content.feature.label.toLowerCase(), collectionName)),
     ]
   }
 
@@ -130,7 +129,7 @@ export class CollectionEditLinksContainer extends React.Component {
   handleAdd = (tag) => {
     if (!isEmpty(tag)) {
       Promise.resolve(this.props.addTagToCollection(this.props.currentCollection.content.id, [tag]))
-        .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+        .then((actionResult) => this.props.fetchCollection(this.props.params.collectionId))
     }
   }
 
@@ -140,7 +139,7 @@ export class CollectionEditLinksContainer extends React.Component {
    */
   handleDelete = (tag) => {
     Promise.resolve(this.props.removeTagFromCollection(this.props.currentCollection.content.id, [tag]))
-      .then(actionResult => this.props.fetchCollection(this.props.params.collectionId))
+      .then((actionResult) => this.props.fetchCollection(this.props.params.collectionId))
   }
 
   handleSearch = (event, collectionName) => {
@@ -168,9 +167,9 @@ const mapStateToProps = (state, ownProps) => ({
   collectionList: collectionSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCollectionList: () => dispatch(collectionActions.fetchPagedEntityList(0)),
-  fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+  fetchCollection: (id) => dispatch(collectionActions.fetchEntity(id)),
   addTagToCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'associate' })),
   removeTagFromCollection: (collectionId, tags) => dispatch(collectionLinkActions.sendSignal('PUT', tags, { collection_id: collectionId, operation: 'dissociate' })),
 })

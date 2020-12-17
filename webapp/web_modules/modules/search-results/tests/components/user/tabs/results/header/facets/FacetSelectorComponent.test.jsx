@@ -79,7 +79,7 @@ describe('[SEARCH RESULTS] Testing FacetSelectorComponent', () => {
     const allMenuItems = enzymeWrapper.find(MenuItem)
     assert.equal(allMenuItems.length, size(facetWithOthers.values) + 1, 'There should be one item for each facet value plus one for message')
 
-    const messageItem = allMenuItems.findWhere(n => n.props().disabled)
+    const messageItem = allMenuItems.findWhere((n) => n.props().disabled)
     assert.lengthOf(messageItem, 1, 'There should be the message item')
     assert.equal(messageItem.props().primaryText, 'search.facets.filter.menu.others.message', 'It should have the right label')
   })

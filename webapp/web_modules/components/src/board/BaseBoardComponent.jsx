@@ -49,18 +49,16 @@ class BaseBoardComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      showAdvanced: false,
-    }
+  /** Initial state */
+  state = {
+    showAdvanced: false,
   }
 
   componentDidMount() {
     this.checkUrlAdvancedOption()
   }
 
-  componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps() {
     this.checkUrlAdvancedOption()
   }
 

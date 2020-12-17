@@ -31,4 +31,4 @@ class MyUserSelectors extends BasicSignalSelectors {
 /**
  * Builds selectors on expected store path
  */
-export default storePath => new MyUserSelectors(storePath)
+export default (storePath) => new MyUserSelectors(storePath)

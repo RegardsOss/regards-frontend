@@ -53,7 +53,6 @@ export const settingsAccountRoute = {
   },
 }
 
-
 const accountManagementRouter = {
   childRoutes: [
     editAccountRoute,

@@ -21,9 +21,10 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'storage.location.list.title': 'Configure data storage locations',
   'storage.location.list.subtitle': 'This section allows you to configure storage locations and their priority. The priority is used by the system to determine on which storage location retrieve data if they are stored on many of them.',
+  'storage.location.form.help-message': 'Allocated size : This is the file storage size limit. If the storage is almost full, the service switch to a maintenance state. To disable this operation, do no enter an allocated size.',
   'storage.location.type.online.name': 'Online   : ',
   'storage.location.type.nearline.name': 'Nearline : ',
   'storage.location.type.offline.name': 'Offline  : ',
@@ -101,8 +102,7 @@ const messages = Object.assign({
 
   'storage.location.copy.from.label': 'From : ',
   'storage.location.copy.to.label': 'To : ',
-  'storage.location.copy.submit': 'Copy data files',
-  'storage.location.copy.submit.manifest': 'Copy manifests',
+  'storage.location.copy.submit': 'Copy files',
 
   'storage.locations.size.title': 'Data storage locations occupancy rate',
   'storage.locations.configuration.title': 'Configure data storage locations',
@@ -114,6 +114,7 @@ const messages = Object.assign({
   'storage.type.OFFLINE': 'Offline',
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

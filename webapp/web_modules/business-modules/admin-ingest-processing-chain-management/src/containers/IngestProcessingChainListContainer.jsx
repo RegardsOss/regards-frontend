@@ -81,8 +81,8 @@ const mapStateToProps = (state, ownProps) => ({
   accessToken: authenticationSelectors.getAccessToken(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  deleteChain: name => dispatch(processingChainActions.deleteEntity(name)),
+const mapDispatchToProps = (dispatch) => ({
+  deleteChain: (name) => dispatch(processingChainActions.deleteEntity(name)),
   fetchPage: (pageIndex, pageSize) => dispatch(processingChainActions.fetchPagedEntityList(pageIndex, pageSize)),
 })
 

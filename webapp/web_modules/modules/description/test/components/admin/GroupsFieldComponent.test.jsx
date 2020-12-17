@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import RaisedButton from 'material-ui/RaisedButton'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import GroupsFieldComponent from '../../../src/components/admin/GroupsFieldComponent'
 import GroupComponent from '../../../src/components/admin/GroupComponent'
 import styles from '../../../src/styles'
@@ -41,13 +41,7 @@ describe('[Description] Testing GroupsFieldComponent', () => {
   it('should render correctly', () => {
     const props = {
       availableAttributes: {},
-      fields: {
-        get: () => { },
-        getAll: () => someGroups,
-        insert: () => { },
-        push: () => { },
-        remove: () => { },
-      },
+      fields: ReduxFormTestHelper.getFieldsProps(someGroups),
     }
     const enzymeWrapper = shallow(<GroupsFieldComponent {...props} />, { context })
     const instance = enzymeWrapper.instance()

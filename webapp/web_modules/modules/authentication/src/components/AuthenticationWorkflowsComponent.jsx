@@ -91,7 +91,7 @@ export default class AuthenticationStatesContainer extends React.Component {
     initialMode: PropTypes.oneOf(values(initialModes)).isRequired,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // initialize default view state
     this.updateState(this.props.initialMode, this.props.initialEmail, false)
   }
@@ -125,7 +125,6 @@ export default class AuthenticationStatesContainer extends React.Component {
     const mailParam = mailUpdate ? currentMailValue : null
     this.updateState(nextView, mailParam)
   }
-
 
   /**
    * Updates this state

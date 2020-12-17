@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages French language
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'plugin.form.title.create': 'Ajouter un plugin',
   'plugin.form.title.update': 'Mise à jour du plugin {name}',
   'plugin.form.subtitle': 'Entrez le chemin d\'accès vers votre plugin et lancez la recherche pour le valider avant ajout',
@@ -48,12 +48,13 @@ const messages = Object.assign({
   'plugins.list.action.cancel': 'Retour',
   'plugin.description.url': 'Visualiser la description du plugin',
 
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',
   'role.name.PROJECT_ADMIN': 'Super Administrateur',
   'role.name.empty': ' - ',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-ingest/session/SessionReducer'
 import getEntitySelectors from '../../src/rs-ingest/session/SessionSelectors'
 import dump from './Session.dump'
 
-
 const options = {
 }
 

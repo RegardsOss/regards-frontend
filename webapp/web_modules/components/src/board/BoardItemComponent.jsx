@@ -18,6 +18,7 @@
  **/
 import { Link } from 'react-router'
 import map from 'lodash/map'
+import noop from 'lodash/noop'
 import reduce from 'lodash/reduce'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -82,7 +83,7 @@ class BoardItemComponent extends React.Component {
     >
       <ConfirmDialogComponent
         dialogType={ConfirmDialogComponentTypes.CONFIRM}
-        onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : () => { }}
+        onConfirm={this.state.actionToConfirm ? this.state.actionToConfirm.touchTapAction : noop}
         errorMessage={this.state.actionToConfirm ? this.state.actionToConfirm.errorMessage : null}
         onClose={this.closeConfirmDialog}
         title={this.state.actionToConfirm ? this.state.actionToConfirm.confirmMessage : ''}
@@ -93,20 +94,6 @@ class BoardItemComponent extends React.Component {
   render() {
     const { item } = this.props
     const computedStyles = styles(this.context.muiTheme)
-    const actions = map(item.actions, (action, index) => (
-      <ListWithResourceDisplayControl
-        key={index}
-        resourceDependencies={action.hateoasDependencies}
-        to={action.path}
-        style={computedStyles.links}
-      >
-        <BoardItemAction
-          openConfirmDialog={this.openConfirmDialog}
-          action={action}
-        />
-      </ListWithResourceDisplayControl>
-    ))
-
     // Create list of all need endpoints for all board actions
     const actionsHateoasRequiredEndpoints = reduce(item.actions, (acc, action) => action.hateoasDependencies && action.hateoasDependencies.length
       ? [...acc, action.hateoasDependencies] : acc, [])
@@ -118,7 +105,19 @@ class BoardItemComponent extends React.Component {
         title={item.title}
         subtitle={item.subtitle}
         description={item.description}
-        actions={actions}
+        actions={map(item.actions, (action, index) => (
+          <ListWithResourceDisplayControl
+            key={index}
+            resourceDependencies={action.hateoasDependencies}
+            to={action.path}
+            style={computedStyles.links}
+          >
+            <BoardItemAction
+              openConfirmDialog={this.openConfirmDialog}
+              action={action}
+            />
+          </ListWithResourceDisplayControl>
+        ))}
         advanced={item.advanced}
         renderConfirmDialog={this.renderConfirmDialog}
       />

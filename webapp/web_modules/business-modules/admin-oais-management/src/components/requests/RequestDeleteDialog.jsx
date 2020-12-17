@@ -23,10 +23,11 @@ import { themeContextType } from '@regardsoss/theme'
 import messages from '../../i18n'
 
 /**
- * Confirm action dialog component. Switches dialog mode,
+ * Confirm action dialog component to delete selection
  */
 export class RequestDeleteDialog extends React.Component {
   static propTypes = {
+    open: PropTypes.bool.isRequired,
     onConfirmDelete: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
   }
@@ -36,37 +37,31 @@ export class RequestDeleteDialog extends React.Component {
     ...themeContextType,
   }
 
-
-  renderActions = () => {
-    const { onConfirmDelete, onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.requests.confirm.delete.close' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="deleteRequestsIrrevocably"
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.requests.confirm.delete' })}
-        onClick={() => onConfirmDelete()}
-      />,
-    ]
-  }
-
   render() {
+    const { open, onConfirmDelete, onClose } = this.props
     const { intl: { formatMessage }, moduleTheme: { noteStyle } } = this.context
 
     return (
       <Dialog
         title={formatMessage({ id: 'oais.requests.confirm.delete.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.requests.confirm.delete.close' })}
+            primary
+            keyboardFocused
+            onClick={onClose}
+          />
+          <FlatButton
+            key="deleteRequestsIrrevocably"
+            className="selenium-confirmDialogButton"
+            label={formatMessage({ id: 'oais.requests.confirm.delete' })}
+            onClick={onConfirmDelete}
+          />
+        </>}
         modal={false}
-        open
+        open={open}
       >
         <div>{formatMessage({ id: 'oais.requests.confirm.delete.message' })}</div>
         <div style={noteStyle}>{formatMessage({ id: 'oais.requests.confirm.delete.note' })}</div>

@@ -22,4 +22,4 @@ import { BasicArraySelectors } from '@regardsoss/store-utils'
  * Store selector to receive AIP Storage filter Actions.
  * @author Simon MILHAU
  */
-export default storePath => new BasicArraySelectors(storePath)
+export default (storePath) => new BasicArraySelectors(storePath)

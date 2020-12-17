@@ -26,7 +26,6 @@ import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/co
 const NAMESPACE = 'admin-oais-management/aip-tag-table'
 const STORE_PATH = ['admin', 'acquisition', 'oais', 'aip-tag-table']
 
-
 export const aipTagTableActions = new TableActions(NAMESPACE)
 export const aipTagTableReducer = getTableReducer(NAMESPACE)
 export const aipTagTableSelectors = getTableSelectors(STORE_PATH)

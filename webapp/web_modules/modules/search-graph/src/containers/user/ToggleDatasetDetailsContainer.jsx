@@ -47,7 +47,7 @@ export class ToggleDatasetDetailsContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      dispatchSetDatasetAttributesVisible: visible => dispatch(graphContextActions.setDatasetAttributesVisible(visible)),
+      dispatchSetDatasetAttributesVisible: (visible) => dispatch(graphContextActions.setDatasetAttributesVisible(visible)),
     }
   }
 

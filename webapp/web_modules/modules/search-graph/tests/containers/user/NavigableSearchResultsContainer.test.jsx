@@ -53,7 +53,7 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         stateUpdateCount += 1
       },
     }
-    const enzymeWrapper = shallow(<NavigableSearchResultsContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<NavigableSearchResultsContainer {...props} />, { context })
     const lazyModules = enzymeWrapper.find(LazyModuleComponent)
     assert.lengthOf(lazyModules, 1, 'There should be the results module')
     // Test corresponding module properties

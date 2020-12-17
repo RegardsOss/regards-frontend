@@ -56,8 +56,8 @@ export class EditContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     const { modelAttributesClient, editClient } = props
     return {
-      editFeatures: searchContext => dispatch(editClient.actions.update(searchContext)),
-      fetchModelAttributes: searchContext => dispatch(modelAttributesClient.actions.getCommonModelAttributes(searchContext)),
+      editFeatures: (searchContext) => dispatch(editClient.actions.update(searchContext)),
+      fetchModelAttributes: (searchContext) => dispatch(modelAttributesClient.actions.getCommonModelAttributes(searchContext)),
     }
   }
 

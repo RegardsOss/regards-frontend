@@ -124,9 +124,9 @@ describe('[SEARCH RESULTS] Testing OneElementServicesContainer', () => {
     const component = enzymeWrapper.find(OneElementServicesComponent)
     assert.lengthOf(component, 1, 'There should be the rendered component')
     const providedServices = component.props().services
-    assert.isOk(providedServices.find(s => s.content.label === 'test1'), 'The test1 service, available for ONE use case, should be present')
-    assert.isNotOk(providedServices.find(s => s.content.label === 'test2'), 'The test2 service, not available for ONE use case, should not be present')
-    assert.isOk(providedServices.find(s => s.content.label === 'test3'), 'The test3 service, available for DATA, should be present')
-    assert.isNotOk(providedServices.find(s => s.content.label === 'test4'), 'The test4 service, available for DATASET only, should not be present')
+    assert.isOk(providedServices.find((s) => s.content.label === 'test1'), 'The test1 service, available for ONE use case, should be present')
+    assert.isNotOk(providedServices.find((s) => s.content.label === 'test2'), 'The test2 service, not available for ONE use case, should not be present')
+    assert.isOk(providedServices.find((s) => s.content.label === 'test3'), 'The test3 service, available for DATA, should be present')
+    assert.isNotOk(providedServices.find((s) => s.content.label === 'test4'), 'The test4 service, available for DATASET only, should not be present')
   })
 })

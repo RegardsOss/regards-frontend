@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Provides notification dump
  * @author Raphaël Mechali
@@ -36,7 +35,6 @@ export const aNotif = {
   title: 'Storage of file 0c492eff219d9acaca15bacc493c5b80 failed',
   type: 'INFO',
 }
-
 
 export const generateNotification = (status, id) => ({
   ...aNotif,

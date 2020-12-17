@@ -23,7 +23,6 @@ import { ListItem } from 'material-ui/List'
 import CollectionEditLinksComponent from '../../src/components/CollectionEditLinksComponent'
 import CollectionStepperComponent from '../../src/components/CollectionStepperComponent'
 
-
 describe('[ADMIN DATA COLLECTION MANAGEMENT] Testing CollectionEditLinksComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)

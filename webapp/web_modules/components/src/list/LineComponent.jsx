@@ -51,6 +51,21 @@ class LineComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Root component style */
+  static ROOT_STYLE = { lineHeight: '38px' }
+
+  /** Checkbox container style */
+  static CHECKBOX_STYLE = { maxWidth: 150, display: 'inline-block' }
+
+  /** Element container styles */
+  static ELEMENT_STYLE = { display: 'inline-block' }
+
+  /** User callback: entity check */
+  onEntityCheck = () => {
+    const { entity, onEntityCheck } = this.props
+    onEntityCheck(entity.content)
+  }
+
   render() {
     if (this.props.entity) {
       const element = React.createElement(
@@ -61,10 +76,10 @@ class LineComponent extends React.Component {
       let checkbox = null
       if (this.props.displayCheckbox === true) {
         checkbox = (
-          <div style={{ maxWidth: 150, display: 'inline-block' }}>
+          <div style={LineComponent.CHECKBOX_STYLE}>
             <Checkbox
               checked={this.props.isSelected}
-              onCheck={() => this.props.onEntityCheck(this.props.entity.content)}
+              onCheck={this.onEntityCheck}
               disabled={this.props.disabled}
             />
           </div>
@@ -72,9 +87,9 @@ class LineComponent extends React.Component {
       }
 
       return (
-        <div className="infinite-list-item" style={{ lineHeight: '38px' }}>
+        <div className="infinite-list-item" style={LineComponent.ROOT_STYLE}>
           {checkbox}
-          <div style={{ display: 'inline-block' }}>
+          <div style={LineComponent.ELEMENT_STYLE}>
             {element}
           </div>
         </div>
@@ -83,10 +98,6 @@ class LineComponent extends React.Component {
 
     return null
   }
-}
-
-LineComponent.defaultProps = {
-  isSelected: false,
 }
 
 export default LineComponent

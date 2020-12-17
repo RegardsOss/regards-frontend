@@ -38,7 +38,7 @@ class StorageCapacityRender extends React.Component {
       PropTypes.instanceOf(storage.StorageCapacity).isRequired,
     ]),
     presentationScale: PropTypes.oneOf(storage.StorageUnitScale.all),
-    numberUnit: PropTypes.oneOf([storage.StorageUnits.BIT, storage.StorageUnits.BYTE]),
+    numberUnit: PropTypes.oneOf([storage.units.BIT, storage.units.BYTE]),
     // should diplay using multiple lines? (false by default)
     multilineDisplay: PropTypes.bool,
   }
@@ -46,9 +46,8 @@ class StorageCapacityRender extends React.Component {
   static defaultProps = {
     multilineDisplay: false,
     presentationScale: storage.StorageUnitScale.bytesScale,
-    numberUnit: storage.StorageUnits.BYTE,
+    numberUnit: storage.units.BYTE,
   }
-
 
   static contextTypes = {
     ...themeContextType,

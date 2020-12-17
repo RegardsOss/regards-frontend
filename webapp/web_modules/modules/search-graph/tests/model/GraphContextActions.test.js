@@ -21,7 +21,6 @@ import thunk from 'redux-thunk'
 import { assert } from 'chai'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 
-
 const middlewares = [thunk]
 const buildMockStore = configureStore(middlewares)
 

@@ -20,7 +20,6 @@ import { assert } from 'chai'
 import graphContextActions from '../../src/model/graph/GraphContextActions'
 import reduce, { DEFAULT_STATE } from '../../src/model/graph/GraphContextReducers'
 
-
 describe('[Search Graph] Test GraphContextReducers', () => {
   it('should return the initial state', () => {
     assert.deepEqual(reduce(undefined, {}), DEFAULT_STATE, 'Reducer should return an empty initial state')

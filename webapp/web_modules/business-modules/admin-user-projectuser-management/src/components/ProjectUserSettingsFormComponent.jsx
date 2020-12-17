@@ -25,7 +25,9 @@ import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CardActionsComponent } from '@regardsoss/components'
-import { RenderSelectField, Field, reduxForm } from '@regardsoss/form-utils'
+import {
+  RenderSelectField, Field, reduxForm, RenderTextField, ValidationHelpers, FieldHelp,
+} from '@regardsoss/form-utils'
 import dependencies from '../dependencies'
 
 /**
@@ -45,26 +47,52 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     handleSubmit: PropTypes.func.isRequired,
   }
 
+  static QUOTA_RESTRICTION_VALIDATORS = [
+    ValidationHelpers.required,
+    ValidationHelpers.getIntegerInRangeValidator(-1, Number.MAX_SAFE_INTEGER),
+  ]
+
+  /** Max quota field help content */
+  static MAX_QUOTA_HELP = FieldHelp.buildDialogMessageHelp('project.user.settings.max.quota.help.message')
+
+  /** Rate limit field help content */
+  static RATE_LIMIT_HELP = FieldHelp.buildDialogMessageHelp('project.user.settings.rate.limit.help.message')
+
   static contextTypes = {
     ...i18nContextType,
   }
 
   /** Lifecycle method component will mount, used here to initialize form values */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { settings, initialize } = this.props
     initialize({
       mode: settings.mode,
+      maxQuota: (settings.maxQuota || 0).toString(),
+      rateLimit: (settings.rateLimit || 0).toString(),
+    })
+  }
+
+  /**
+   * User callback: submit. Converts edited values into publishable values
+   * @param {*} values form edited values
+   */
+  onSubmit = (values) => {
+    const { onSubmit } = this.props
+    onSubmit({
+      mode: values.mode,
+      maxQuota: parseInt(values.maxQuota, 10),
+      rateLimit: parseInt(values.rateLimit, 10),
     })
   }
 
   render() {
     const {
       submitting, pristine, invalid,
-      handleSubmit, onBack, onSubmit,
+      handleSubmit, onBack,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(this.onSubmit)}>
         <Card>
           <CardTitle
             title={formatMessage({ id: 'project.user.settings.title' })}
@@ -87,6 +115,22 @@ export class ProjectUserSettingsFormComponent extends React.Component {
                   />))
               }
             </Field>
+            <Field
+              name="maxQuota"
+              fullWidth
+              component={RenderTextField}
+              validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
+              help={ProjectUserSettingsFormComponent.MAX_QUOTA_HELP}
+              label={formatMessage({ id: 'project.user.settings.max.quota.field' })}
+            />
+            <Field
+              name="rateLimit"
+              fullWidth
+              component={RenderTextField}
+              validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
+              help={ProjectUserSettingsFormComponent.RATE_LIMIT_HELP}
+              label={formatMessage({ id: 'project.user.settings.rate.limit.field' })}
+            />
           </CardText>
           <CardActions>
             <CardActionsComponent

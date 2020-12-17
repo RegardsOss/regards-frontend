@@ -66,12 +66,12 @@ export class SearchPaneContainer extends React.Component {
    */
   static packGroupModels(groupsConfiguration, storedApplyingCriteria = []) {
     // pack for each group...
-    return groupsConfiguration.map(g => ({
+    return groupsConfiguration.map((g) => ({
       ...g,
       // and each criteria...
       criteria: g.criteria.map((criterion) => {
         // A - The state and parameters to restore (undefined when not found)
-        const { state, requestParameters } = storedApplyingCriteria.find(c => c.pluginInstanceId === criterion.pluginInstanceId) || {}
+        const { state, requestParameters } = storedApplyingCriteria.find((c) => c.pluginInstanceId === criterion.pluginInstanceId) || {}
         // B - with the current configuration
         return {
         // report configuration
@@ -123,9 +123,9 @@ export class SearchPaneContainer extends React.Component {
    * @return {[*]} duplicated groups and criteria, with applied delayed request parameters (strict copy if there were none)
    */
   static applyDelayedParameters(groups) {
-    return groups.map(g => ({
+    return groups.map((g) => ({
       ...g,
-      criteria: g.criteria.map(criterion => ({
+      criteria: g.criteria.map((criterion) => ({
         ...criterion,
         // 1 - report delayed request parameters is that criterion has some
         requestParameters: isNil(criterion.delayedRequestParameters) ? criterion.requestParameters : criterion.delayedRequestParameters,
@@ -148,7 +148,7 @@ export class SearchPaneContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // Initialize from configuration and pack with runtime data
     const { resultsContext, tabType } = this.props
     const { tab: { criteria, search: { groups } } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -163,7 +163,7 @@ export class SearchPaneContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     const { resultsContext, tabType } = nextProps
     const { tab: { criteria } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update root context criteria when it changes
@@ -185,7 +185,7 @@ export class SearchPaneContainer extends React.Component {
     // disable search when there is no search criteria
     // or when any criterion is in error
     nextState.searchDisabled = !SearchPaneContainer.collectSearchCriteria(nextState.groups).length
-      || nextState.groups.some(({ criteria }) => criteria.some(criterion => get(criterion, 'state.error')))
+      || nextState.groups.some(({ criteria }) => criteria.some((criterion) => get(criterion, 'state.error')))
     if (!isEqual(this.state, nextState)) {
       this.setState(nextState)
     }

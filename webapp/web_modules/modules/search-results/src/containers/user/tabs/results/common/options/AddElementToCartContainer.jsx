@@ -78,7 +78,7 @@ export class AddElementToCartContainer extends React.Component {
     // Or : the object is a data object and it contains ar least one orderable file (any quicklook or any raw data)
     return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET // (A)
       || (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA
-        && AddElementToCartContainer.ORDERABLE_FILES_TYPES.some(fileType => get(files, `${fileType}.length`, 0) > 0))// (B)
+        && AddElementToCartContainer.ORDERABLE_FILES_TYPES.some((fileType) => get(files, `${fileType}.length`, 0) > 0))// (B)
   }
 
   render() {

@@ -18,7 +18,7 @@
  **/
 import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
-
+import { CellDefinition } from './model/TableColumnConfiguration'
 
 const NO_PROPS = {}
 
@@ -31,16 +31,12 @@ class ColumnHeaderWrapper extends React.Component {
     isLastColumn: PropTypes.bool.isRequired,
     columnKey: PropTypes.string.isRequired,
     label: PropTypes.string,
-    headerCellDefinition: PropTypes.shape({
-      Constructor: PropTypes.func,
-      props: PropTypes.object,
-    }),
+    headerCellDefinition: CellDefinition,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
-
 
   render() {
     const {

@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export const HeadlessPlaceholder = props => (
+export const HeadlessPlaceholder = (props) => (
   <div>
     <h1>Headless chart placeholder</h1>
     <h2>Properties: </h2>
@@ -36,7 +36,7 @@ export default class ChartAdapter extends React.Component {
     RenderComponent: null,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { ChartComponent } = this.props
 
     let RenderComponent

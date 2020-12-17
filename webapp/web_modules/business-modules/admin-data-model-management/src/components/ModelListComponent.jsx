@@ -162,7 +162,7 @@ export class ModelListComponent extends React.Component {
       />
     )
 
-    const filteredModelList = filter(modelList, a => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
+    const filteredModelList = filter(modelList, (a) => isEmpty(this.state.nameFilter) || startsWith(lowerCase(get(a, 'content.name', '')), lowerCase(this.state.nameFilter)))
 
     return (
       <Card>

@@ -22,7 +22,7 @@ import FlatButton from 'material-ui/FlatButton'
 import LinearProgress from 'material-ui/LinearProgress'
 import { SwitchThemeDecorator } from '@regardsoss/theme'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import ErrorDecoratorComponent from '../ErrorDecoratorComponent'
+import ErrorDecoratorComponent from '../error/ErrorDecoratorComponent'
 import messages from './i18n'
 
 /**
@@ -88,40 +88,36 @@ class ConfirmDialogComponent extends React.Component {
     }
   }
 
-  renderActions = () => {
-    const { dialogType, onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    const confirmMessageKey = this.props.confirmMessageKey || dialogType.messageId
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'confirm.dialog.cancel' })}
-        onClick={onClose}
-      />,
-      <FlatButton
-        key={confirmMessageKey}
-        primary
-        keyboardFocused
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: confirmMessageKey })}
-        onClick={this.handleConfirm}
-        disabled={this.state.loading}
-      />,
-    ]
-  }
-
   render() {
     const {
       title, message, onClose, open,
+      dialogType,
     } = this.props
+    const { intl: { formatMessage } } = this.context
+    const confirmMessageKey = this.props.confirmMessageKey || dialogType.messageId
     return (
       <SwitchThemeDecorator
         useMainTheme
       >
         <Dialog
           title={title}
-          actions={this.renderActions()}
+          actions={<>
+            <FlatButton
+              key="cancel"
+              id="confirm.dialog.cancel"
+              label={formatMessage({ id: 'confirm.dialog.cancel' })}
+              onClick={onClose}
+            />
+            <FlatButton
+              key={confirmMessageKey}
+              primary
+              keyboardFocused
+              className="selenium-confirmDialogButton"
+              label={formatMessage({ id: confirmMessageKey })}
+              onClick={this.handleConfirm}
+              disabled={this.state.loading}
+            />
+          </>}
           modal={false}
           open={open}
           onRequestClose={onClose}

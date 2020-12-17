@@ -39,7 +39,6 @@ export class CollectionItemContainer extends React.Component {
     dispatchSelected: () => dispatch(GraphContextActions.selectEntity(levelIndex, collection)),
   })
 
-
   static propTypes = {
     collection: CatalogShapes.Entity.isRequired,
     descriptionProperties: DescriptionProperties.isRequired, // From description HOC

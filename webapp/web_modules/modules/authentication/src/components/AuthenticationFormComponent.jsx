@@ -76,17 +76,34 @@ export class AuthenticationFormComponent extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     this.props.initialize(initialValues)
   }
 
+  /** User callback: go to create account */
+  onGotoCreateAccount = () => {
+    const { onGotoCreateAccount, currentMailValue } = this.props
+    onGotoCreateAccount(currentMailValue)
+  }
+
+  /** User callback: go to reset password */
+  onGotoResetPassword = () => {
+    const { onGotoResetPassword, currentMailValue } = this.props
+    onGotoResetPassword(currentMailValue)
+  }
+
+  /** User callback: go to unlock account */
+  onGotoUnlockAccount =() => {
+    const { onGotoUnlockAccount, currentMailValue } = this.props
+    onGotoUnlockAccount(currentMailValue)
+  }
+
   render() {
     const {
-      errorMessage, currentMailValue, initialMail, loading,
-      showAskProjectAccess, showCancel, onCancelAction, handleSubmit,
-      onLogin, onGotoUnlockAccount, onGotoResetPassword, onGotoCreateAccount,
+      errorMessage, initialMail, loading, showAskProjectAccess,
+      showCancel, onCancelAction, handleSubmit, onLogin,
     } = this.props
     const { moduleTheme } = this.context
     let cancelButtonElt
@@ -158,19 +175,19 @@ export class AuthenticationFormComponent extends React.Component {
                 disabled={!showAskProjectAccess}
                 IconComponent={ProjectAccessIcon}
                 text={this.context.intl.formatMessage({ id: 'authentication.goto.ask.access' })}
-                onAction={() => onGotoCreateAccount(currentMailValue)}
+                onAction={this.onGotoCreateAccount}
               />
               <PictureLinkComponent
                 className="selenium-resetPasswordButton"
                 IconComponent={ResetPasswordIcon}
                 text={this.context.intl.formatMessage({ id: 'authentication.goto.reset.password' })}
-                onAction={() => onGotoResetPassword(currentMailValue)}
+                onAction={this.onGotoResetPassword}
               />
               <PictureLinkComponent
                 className="selenium-unlockAccountButton"
                 IconComponent={UnlockAccountIcon}
                 text={this.context.intl.formatMessage({ id: 'authentication.goto.unlock.account' })}
-                onAction={() => onGotoUnlockAccount(currentMailValue)}
+                onAction={this.onGotoUnlockAccount}
               />
             </div>
           </Card>
@@ -188,6 +205,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(formId)
-export default connect(state => ({
+export default connect((state) => ({
   currentMailValue: selector(state, mailFieldId),
 }))(connectedReduxForm)

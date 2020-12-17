@@ -25,7 +25,6 @@ import testLayout from './TestLayout'
 import testModules from './TestModules'
 import Container from '../../src/components/Container'
 
-
 const context = buildTestContext()
 /**
  * Tests for ApplicationLayout

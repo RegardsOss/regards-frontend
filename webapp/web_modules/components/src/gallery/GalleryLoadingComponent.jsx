@@ -37,7 +37,6 @@ class GalleryLoadingComponent extends React.Component {
     justifyContent: 'center',
   }
 
-
   render() {
     const { moduleTheme: { header }, intl: { formatMessage } } = this.context
 

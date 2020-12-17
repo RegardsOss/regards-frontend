@@ -24,18 +24,17 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { AceEditorAdapter } from '@regardsoss/adapters'
 import { ErrorDecoratorComponent, HelpMessageComponent } from '@regardsoss/components'
-import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
 
 /**
- * React component to display module administration.
+ * React component to display module administration. Nota: in this module, configuration is silent (it
+ * is directly provided by the server to Mizar library)
+ *
  * @author Léo Mieulet
  */
 export class AdminContainer extends React.Component {
   static propTypes = {
     // default modules properties
     ...AccessShapes.runtimeConfigurationModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfigurationShape.isRequired,
   }
 
   static contextTypes = {
@@ -43,16 +42,16 @@ export class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.CONF_MIZAR = `${props.adminForm.currentNamespace}.conf`
-    this.state = {
-      value: JSON.stringify(get(this.props.adminForm.form, this.CONF_MIZAR, {}), null, '\t'),
-      jsonValid: true,
-    }
+  /** Mizar conf field name */
+  CONF_MIZAR = `${this.props.adminForm.currentNamespace}.conf`
+
+  /** initial state */
+  state = {
+    value: JSON.stringify(get(this.props.adminForm.form, this.CONF_MIZAR, {}), null, '\t'),
+    jsonValid: true,
   }
 
-  saveChanges = (newConf) => {
+  saveChanges = (newConf) => { // TODO legacy code, we have a JSON input field now
     let jsonValid = true
     try {
       this.props.adminForm.changeField(this.CONF_MIZAR, JSON.parse(newConf))

@@ -33,7 +33,6 @@ class AIPStatusRender extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { value: state } = this.props
     const { intl: { formatMessage } } = this.context

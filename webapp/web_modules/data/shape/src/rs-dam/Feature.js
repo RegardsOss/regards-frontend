@@ -17,11 +17,32 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { DataFile } from './DataFile'
+
 export default PropTypes.shape({
   id: PropTypes.string.isRequired,
   entityType: PropTypes.string,
-  files: PropTypes.any,
-  properties: PropTypes.any,
+  files: PropTypes.objectOf(PropTypes.arrayOf(DataFile)),
+  properties: PropTypes.objectOf(PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.bool,
+    PropTypes.arrayOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+    ])),
+    PropTypes.objectOf(PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.bool,
+      PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number,
+        PropTypes.bool,
+      ])),
+    ])),
+  ])),
   model: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   providerId: PropTypes.string.isRequired,

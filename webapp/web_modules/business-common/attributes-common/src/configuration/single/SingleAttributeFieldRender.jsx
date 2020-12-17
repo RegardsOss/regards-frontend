@@ -18,6 +18,7 @@
  **/
 import omit from 'lodash/omit'
 import compose from 'lodash/fp/compose'
+import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { connect } from '@regardsoss/redux'
 import { intlShape } from 'react-intl'
 import { UIDomain } from '@regardsoss/domain'
@@ -36,14 +37,8 @@ import messages from '../../i18n'
 export class SingleAttributeFieldRender extends React.Component {
   static propTypes = {
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    input: PropTypes.shape({
-      value: PropTypes.string.isRequired,
-      onChange: PropTypes.func.isRequired,
-    }).isRequired,
-    meta: PropTypes.shape({
-      invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-    }),
+    input: PropTypes.shape(fieldInputPropTypes).isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
     // From mapStateToProps
@@ -57,6 +52,16 @@ export class SingleAttributeFieldRender extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
+
+  /** Name of properties to not report onto the autocomplete field */
+  static NON_REPORTED_PROPERTIES = [
+    'attributeModels',
+    'input',
+    'meta',
+    'label',
+    'i18n',
+    'dispatch',
+  ]
 
   /**
    * Filters attributes models on filterText and converts them into auto complete fields selectable items
@@ -76,26 +81,16 @@ export class SingleAttributeFieldRender extends React.Component {
       .sort(({ text: t1 }, { text: t2 }) => StringComparison.compare(t1, t2))
   }
 
-  /** Name of properties to not report onto the autocomplete field */
-  static NON_REPORTED_PROPERTIES = [
-    'attributeModels',
-    'input',
-    'meta',
-    'label',
-    'i18n',
-    'dispatch',
-  ]
-
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -124,7 +119,6 @@ export class SingleAttributeFieldRender extends React.Component {
     const { input: { onChange } } = this.props
     onChange(id)
   }
-
 
   render() {
     const {

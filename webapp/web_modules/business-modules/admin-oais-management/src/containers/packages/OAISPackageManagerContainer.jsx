@@ -34,34 +34,6 @@ import OAISCriterionShape from '../../shapes/OAISCriterionShape'
  * @author Simon MILHAU
  */
 export class OAISPackageManagerContainer extends React.Component {
-  /**
-  * Redux: map state to props function
-  * @param {*} state: current redux state
-  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
-  */
-  static mapStateToProps = state => ({
-    meta: aipSelectors.getMetaData(state),
-    storages: aipStorageSearchSelectors.getArray(state),
-    tableSelection: aipTableSelectors.getToggledElementsAsList(state),
-    selectionMode: aipTableSelectors.getSelectionMode(state),
-  })
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps = dispatch => ({
-    fetchProcessingChains: file => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
-    fetchPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
-    fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
-    clearSelection: () => dispatch(aipTableActions.unselectAll()),
-    deleteAips: bodyParams => dispatch(aipDeleteActions.sendSignal('POST', bodyParams)),
-    modifyAips: bodyParams => dispatch(aipUpdateActions.sendSignal('POST', bodyParams)),
-  })
-
   static propTypes = {
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
@@ -99,6 +71,34 @@ export class OAISPackageManagerContainer extends React.Component {
 
   static PAGE_SIZE = 20
 
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state) => ({
+    meta: aipSelectors.getMetaData(state),
+    storages: aipStorageSearchSelectors.getArray(state),
+    tableSelection: aipTableSelectors.getToggledElementsAsList(state),
+    selectionMode: aipTableSelectors.getSelectionMode(state),
+  })
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps = (dispatch) => ({
+    fetchProcessingChains: (file) => dispatch(processingChainActions.fetchPagedEntityList(0, 1000)),
+    fetchPage: (pageIndex, pageSize, pathParams, queryParams, bodyParams) => dispatch(aipActions.fetchPagedEntityListByPost(pageIndex, pageSize, pathParams, queryParams, bodyParams)),
+    fetchStorages: (bodyParams, pathParams) => dispatch(aipStorageSearchActions.fetchEntityListByPost(pathParams, null, bodyParams)),
+    clearSelection: () => dispatch(aipTableActions.unselectAll()),
+    deleteAips: (bodyParams) => dispatch(aipDeleteActions.sendSignal('POST', bodyParams)),
+    modifyAips: (bodyParams) => dispatch(aipUpdateActions.sendSignal('POST', bodyParams)),
+  })
+
   static extractStateFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
     const urlFilters = {}
@@ -124,21 +124,13 @@ export class OAISPackageManagerContainer extends React.Component {
     urlFilters: {},
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.initializeFiltersFromURL()
-    this.initializeContextFilters(this.props)
   }
 
   componentDidMount() {
     this.props.fetchProcessingChains()
     this.props.fetchStorages({}, {})
-  }
-
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.params.aip !== this.props.params.aip) {
-    // this.initializeFiltersFromURL()
-    // this.initializeContextFilters(nextProps)
-    // }
   }
 
   initializeFiltersFromURL = () => {
@@ -161,15 +153,6 @@ export class OAISPackageManagerContainer extends React.Component {
         urlFilters,
       })
     }
-  }
-
-  initializeContextFilters = (props) => {
-    // const { params: { aip } } = props
-    // const contextFilters = {}
-    // if (aip) {
-    //   contextFilters.providerId = aip
-    // }
-    // this.setState({ contextFilters })
   }
 
   onBack = () => {

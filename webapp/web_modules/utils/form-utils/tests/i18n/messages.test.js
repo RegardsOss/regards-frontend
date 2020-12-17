@@ -19,7 +19,7 @@
 import keys from 'lodash/keys'
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import Locales from '../../src/i18n/Locales'
+import Locales from '../../src/i18n'
 
 describe('[FORM UTILS] Testing i18n', () => {
   before(testSuiteHelpers.before)

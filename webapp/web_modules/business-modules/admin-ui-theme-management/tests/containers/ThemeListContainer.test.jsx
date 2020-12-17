@@ -20,9 +20,8 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import ThemeListComponent from '../../src/components/ThemeListComponent'
+import ThemeListComponent from '../../src/components/list/ThemeListComponent'
 import ThemeListContainer from '../../src/containers/ThemeListContainer'
-
 
 const context = buildTestContext()
 

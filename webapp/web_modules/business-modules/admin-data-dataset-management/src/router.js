@@ -52,7 +52,6 @@ export const createDatasetRoute = {
   },
 }
 
-
 export const editDatasetRoute = {
   path: ':datasetId/edit',
   getComponents(nextState, cb) {
@@ -89,30 +88,17 @@ export const editLinksDatasetRoute = {
   },
 }
 
-export const editPluginDatasetRoute = {
+export const editPluginUIProcessingRoute = {
   path: ':datasetId/:datasetIpId/plugins',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const DatasetEditPluginContainer = require('./containers/DatasetEditPluginContainer')
+      const DatasetEditPluginUIProcessingContainer = require('./containers/DatasetEditPluginUIProcessingContainer')
       cb(null, {
-        content: DatasetEditPluginContainer.default,
+        content: DatasetEditPluginUIProcessingContainer.default,
       })
     })
   },
 }
-
-export const editUIServicesDatasetRoute = {
-  path: ':datasetId/:datasetIpId/ui-services',
-  getComponents(nextState, cb) {
-    require.ensure([], (require) => {
-      const DatasetEditUIServicesContainer = require('./containers/DatasetEditUIServicesContainer')
-      cb(null, {
-        content: DatasetEditUIServicesContainer.default,
-      })
-    })
-  },
-}
-
 
 const datasetDataManagementRouter = {
   childRoutes: [
@@ -122,8 +108,7 @@ const datasetDataManagementRouter = {
     editDatasetRoute,
     editFilesDatasetRoute,
     editLinksDatasetRoute,
-    editPluginDatasetRoute,
-    editUIServicesDatasetRoute,
+    editPluginUIProcessingRoute,
   ],
 }
 

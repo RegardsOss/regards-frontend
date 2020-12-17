@@ -48,9 +48,9 @@ class ModuleFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  static validateOptionalEmail = value => value && ValidationHelpers.email(value)
+  static validateOptionalEmail = (value) => value && ValidationHelpers.email(value)
 
-  static validateOptionalUrl = value => value && ValidationHelpers.url(value)
+  static validateOptionalUrl = (value) => value && ValidationHelpers.url(value)
 
   constructor(props) {
     super(props)
@@ -70,11 +70,10 @@ class ModuleFormComponent extends React.Component {
     this.CONF_NAVIGATION = `${currentNamespace}.navigation`
   }
 
-
   /**
    * Lifecycle method component will mount, used here to initialize default form values
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // initialize EN and FR titles
     const { adminForm: { form, changeField } } = this.props
     if (!get(form, this.CONF_HOME_TITLE_EN)) {
@@ -112,6 +111,7 @@ class ModuleFormComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { admin: { subheaderStyle, firstSubheaderStyle, radioButtonGroupLabelStyle } } } = this.context
     const portal = appName === UIDomain.APPLICATIONS_ENUM.PORTAL
+
     return (
       <div>
         <Subheader style={firstSubheaderStyle}>
@@ -136,7 +136,7 @@ class ModuleFormComponent extends React.Component {
         />
         { /** Authentication, basket and notifications: any but portal */
           portal ? null : (
-            <React.Fragment>
+            <>
               <Field
                 name={this.CONF_AUTH}
                 component={RenderCheckbox}
@@ -154,7 +154,7 @@ class ModuleFormComponent extends React.Component {
                 label={formatMessage({ id: 'menu.form.displaynotifications' })}
                 noSpacing
               />
-            </React.Fragment>)
+            </>)
         }
         {/* Locale: always available */}
         <Field
@@ -172,7 +172,7 @@ class ModuleFormComponent extends React.Component {
         />
         {/* Home page and navigation: any but portal */
         portal ? null : (
-          <React.Fragment>
+          <>
             <Subheader style={subheaderStyle}>
               {formatMessage({ id: 'user.menu.form.navigation.home.title' })}
             </Subheader>
@@ -184,6 +184,7 @@ class ModuleFormComponent extends React.Component {
               name={this.CONF_HOME_ICON_TYPE}
               component={RenderRadio}
               defaultSelected={HOME_ICON_TYPES_ENUM.DEFAULT_HOME_ICON}
+              fullWidth
             >
               <RadioButton
                 value={HOME_ICON_TYPES_ENUM.NONE}
@@ -206,8 +207,9 @@ class ModuleFormComponent extends React.Component {
             <Field
               name={this.CONF_HOME_ICON_URL}
               disabled={
-            // enabled only when in custom URL mode
-            get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON}
+                // enabled only when in custom URL mode
+                get(adminForm.form, this.CONF_HOME_ICON_TYPE) !== HOME_ICON_TYPES_ENUM.CUSTOM_URL_ICON
+              }
               component={RenderTextField}
               fullWidth
               type="text"
@@ -244,7 +246,7 @@ class ModuleFormComponent extends React.Component {
               navigationItems={get(adminForm, `form.${this.CONF_NAVIGATION}`, [])}
               changeNavigationFieldValue={this.changeNavigationFieldValue}
             />
-          </React.Fragment>)
+          </>)
         }
         {/* Preview: always available */}
         <Subheader style={subheaderStyle}>
@@ -260,6 +262,5 @@ class ModuleFormComponent extends React.Component {
     )
   }
 }
-
 
 export default ModuleFormComponent

@@ -58,12 +58,12 @@ export class MicroserviceBoardContainer extends React.Component {
 
   componentDidMount() {
     // For each microservice, check if it is up
-    return map(STATIC_CONF.MSERVICES, microservice => (
+    return map(STATIC_CONF.MSERVICES, (microservice) => (
       Promise.resolve(this.props.checkMicroserviceStatus(microservice)).then((actionResult) => {
         if (!actionResult.error) {
           // If microservice is Up, check related info
           this.setState({
-            microservicesUp: sortBy(concat([], this.state.microservicesUp, [microservice]), value => value),
+            microservicesUp: sortBy(concat([], this.state.microservicesUp, [microservice]), (value) => value),
           }, () => this.fetchRelatedInformations(microservice))
         }
         return actionResult
@@ -79,15 +79,15 @@ export class MicroserviceBoardContainer extends React.Component {
     this.props.fetchBackupConfStatus(microserviceName)
   }
 
-  isMicroserviceActive = microserviceName => get(this.props.maintenanceList(microserviceName), `content.${this.props.params.project}.active`, false)
+  isMicroserviceActive = (microserviceName) => get(this.props.maintenanceList(microserviceName), `content.${this.props.params.project}.active`, false)
 
-  isMicroserviceBackupable = microserviceName => this.props.backupConfAvailable(microserviceName)
+  isMicroserviceBackupable = (microserviceName) => this.props.backupConfAvailable(microserviceName)
 
   toggleMaintenance = (microserviceName) => {
     const isActive = this.isMicroserviceActive(microserviceName)
     const action = isActive ? MAINTENANCES_ACTIONS.DISABLE : MAINTENANCES_ACTIONS.ACTIVATE
     return Promise.resolve(this.props.setMaintenance(microserviceName, action))
-      .then(actionResult => this.props.fetchMaintenance(microserviceName))
+      .then((actionResult) => this.props.fetchMaintenance(microserviceName))
   }
 
   render() {
@@ -105,7 +105,7 @@ export class MicroserviceBoardContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   maintenanceList(microservice) {
     return MaintenanceModeSelectors(microservice).getResult(state)
   },
@@ -115,16 +115,15 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  checkMicroserviceStatus: microserviceName => dispatch(microserviceInfoActions.check(microserviceName)),
-  fetchMaintenance: microservice => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
-  fetchBackupConfStatus: microserviceName => dispatch(MicroserviceConfBackupStatusActions(microserviceName).check(microserviceName)),
+  checkMicroserviceStatus: (microserviceName) => dispatch(microserviceInfoActions.check(microserviceName)),
+  fetchMaintenance: (microservice) => dispatch(MaintenanceModeActions(microservice).sendSignal('GET')),
+  fetchBackupConfStatus: (microserviceName) => dispatch(MicroserviceConfBackupStatusActions(microserviceName).check(microserviceName)),
   setMaintenance: (microservice, action) => dispatch(SetMaintenanceModeActions(microservice).sendSignal('PUT', null, {
     microservice,
     action,
     tenant: ownProps.params.project,
   })),
 })
-
 
 // Decorate with hateoas display logic
 export default connect(mapStateToProps, mapDispatchToProps)(MicroserviceBoardContainer)

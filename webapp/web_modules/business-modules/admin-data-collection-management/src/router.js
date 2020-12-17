@@ -64,7 +64,6 @@ export const editCollectionFilesRoute = {
   },
 }
 
-
 export const editCollectionRoute = {
   path: ':collectionId/:mode',
   getComponents(nextState, cb) {
@@ -76,7 +75,6 @@ export const editCollectionRoute = {
     })
   },
 }
-
 
 const collectionDataManagementRouter = {
   childRoutes: [

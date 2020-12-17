@@ -52,6 +52,11 @@ class OrderBasketActions {
       entityEndpoint: `${rootEnpoint}/dataset/{datasetSelectionId}/{itemsSelectionDate}`,
       namespace: `${namespace}/dataset-item`,
     })
+    // update a processing of a dataset
+    this.updateProcessing = new BasicSignalActions({
+      entityEndpoint: `${rootEnpoint}/dataset/{datasetSelectionId}/updateProcessing`,
+      namespace: `${namespace}/dataset-update-processing`,
+    })
   }
 
   /**
@@ -118,7 +123,7 @@ class OrderBasketActions {
           }
           return acc
         }), {}),
-        q: [uiSearchParameters.q || ''], // q is expected to be an array ('' indicates that query matches ALL, when user filtered nothing)
+        q: uiSearchParameters.q || [''], // q is expected to be an array ('' indicates that query matches ALL, when user filtered nothing)
       }
     }
 
@@ -156,6 +161,18 @@ class OrderBasketActions {
     return this.datasetItemDelegate.sendSignal(RequestVerbEnum.DELETE, null, {
       datasetSelectionId,
       itemsSelectionDate,
+    })
+  }
+
+  /**
+   * Returns action to update a processing of a dataset in basket
+   * @param {*} datasetSelectionId parent dataset selection ID
+   * @param {*} process processing object containing conf parameters
+   * @return {type:string, ...} redux action (redux API middleware compatible) to update a processing of a dataset in basket
+   */
+  updateDatasetProcessingSelection(datasetSelectionId, process) {
+    return this.updateProcessing.sendSignal(RequestVerbEnum.PUT, process, {
+      datasetSelectionId,
     })
   }
 

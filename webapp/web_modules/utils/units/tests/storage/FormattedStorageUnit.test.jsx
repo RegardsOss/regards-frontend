@@ -21,7 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { FormattedStorageUnit } from '../../src/storage/FormattedStorageUnit'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 import messages from '../../src/storage/i18n'
 
 const context = buildTestContext()
@@ -42,7 +42,7 @@ describe('[Units] Testing FormattedStorageUnit', () => {
   const allENMsg = keys(messages.en)
   const allFRMsg = keys(messages.fr)
   StorageUnitScale.all
-    .forEach(scale => scale.units
+    .forEach((scale) => scale.units
       .forEach((unit, index) => it(`should render correctly unit "${unit.symbol}"`, () => {
         const wrapper = shallow(<FormattedStorageUnit unit={unit} />, { context })
         assert.include(wrapper.debug(), unit.messageKey)

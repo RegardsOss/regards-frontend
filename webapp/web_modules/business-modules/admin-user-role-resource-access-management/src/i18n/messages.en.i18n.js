@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'role.list.title': 'Authorized resources for {role} role',
   'role.list.subtitle': 'All system\'s functionalities. You can choose current role\'s accessibility for each one of them',
   'role.list.action.back': 'Back',
@@ -32,6 +32,7 @@ const messages = Object.assign({
   'role.name.EXPLOIT': 'Operator',
   'role.name.ADMIN': 'Administrator',
   'role.name.PROJECT_ADMIN': 'Super Administrator',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

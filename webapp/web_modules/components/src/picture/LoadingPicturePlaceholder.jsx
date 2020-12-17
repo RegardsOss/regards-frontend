@@ -42,7 +42,8 @@ export class LoadingPicturePlaceholder extends React.Component {
     const { style: userStyle } = this.props
     const { moduleTheme: { placeholderURLIconStyle } } = this.context
 
-    const renderStyle = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const renderStyle = { // eslint wont fix: user props and context merged (only available in render)
       ...placeholderURLIconStyle,
       ...userStyle,
     }

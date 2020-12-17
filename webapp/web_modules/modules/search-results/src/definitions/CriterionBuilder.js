@@ -59,13 +59,12 @@ export class CriterionBuilder {
    */
   static buildWordTagCriterion(word) {
     return {
-      label: word,
       type: CatalogDomain.TAG_TYPES_ENUM.WORD,
       searchKey: word,
       requestParameters: {
         [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
           new CatalogDomain.OpenSearchQueryParameter(
-            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQuery.SAPN.tags,
             CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(word)).toQueryString(),
       },
     }
@@ -76,16 +75,16 @@ export class CriterionBuilder {
    * @param {*} entity entity (manadatory), must respect Entity shape from catalog shapes
    * @return {*} tag criterion as specified by TagCriterion shape, from ResultsContext shapes
    */
-  static buildEntityTagCriterion({ content: { entityType, id, label } }) {
+  static buildEntityTagCriterion(entity) {
     return {
-      label,
-      type: entityType,
-      searchKey: id,
+      type: entity.content.entityType,
+      entity,
+      searchKey: entity.content.id,
       requestParameters: {
         [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
           new CatalogDomain.OpenSearchQueryParameter(
-            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
-            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
+            CatalogDomain.OpenSearchQuery.SAPN.tags,
+            CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(entity.content.id)).toQueryString(),
       },
     }
   }
@@ -96,18 +95,16 @@ export class CriterionBuilder {
    */
   static buildUnresolvedEntityTagCriterion(id) {
     return {
-      label: null,
       type: CatalogDomain.TAG_TYPES_ENUM.UNRESOLVED,
       searchKey: id,
       requestParameters: {
         [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
           new CatalogDomain.OpenSearchQueryParameter(
-            CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+            CatalogDomain.OpenSearchQuery.SAPN.tags,
             CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(id)).toQueryString(),
       },
     }
   }
-
 
   static STATIC_CRITERION_SERIALIZED = /(?<label>[^;]+);(?<attribute>[^=]+)=(?<criteria>[^,]+),?/g;
 
@@ -175,10 +172,10 @@ export class CriterionBuilder {
   static buildUnactiveStaticCriterionString(resultsContext) {
     const { staticParameters } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria
     // Do not save this parameter if empty or all values are defaults ones
-    if (isEmpty(staticParameters) || !some(staticParameters, staticParameter => !staticParameter.active)) {
+    if (isEmpty(staticParameters) || !some(staticParameters, (staticParameter) => !staticParameter.active)) {
       return null
     }
 
-    return JSON.stringify(map(staticParameters, staticParameter => !staticParameter.active))
+    return JSON.stringify(map(staticParameters, (staticParameter) => !staticParameter.active))
   }
 }

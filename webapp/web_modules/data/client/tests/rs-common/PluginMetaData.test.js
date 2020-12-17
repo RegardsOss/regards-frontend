@@ -28,7 +28,6 @@ const options = {
   pathParams: { microserviceName: 'rs-dam' },
 }
 
-
 const pluginMetaDataActions = new PluginMetaDataActions('test/action')
 const pluginMetaDataReducer = PluginMetaDataReducer('test/action')
 const pluginMetaDataSelectors = PluginMetaDataSelectors(['test', 'modules'])

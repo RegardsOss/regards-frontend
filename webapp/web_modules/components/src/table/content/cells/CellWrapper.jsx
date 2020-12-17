@@ -29,7 +29,7 @@ const NO_PROPS = {}
  * - getEntity: () => entity
  * @author Sébastien binda
  */
-class CellWrapper extends React.PureComponent {
+class CellWrapper extends React.Component {
   static propTypes = {
     stripeRows: PropTypes.bool,
     rowIndex: PropTypes.number, // provided by React infinite
@@ -66,7 +66,6 @@ class CellWrapper extends React.PureComponent {
    */
   hasEntity = () => !!this.getEntity()
 
-
   render() {
     // render with styles
     const styles = this.context.moduleTheme
@@ -85,7 +84,8 @@ class CellWrapper extends React.PureComponent {
       basicCellStyle = isLastColumn ? styles.lastCellOdd : styles.cellOdd
     }
     // merge styles with line height and cell wrapperStyle if any (those take precedence)
-    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(props.wrapperStyle || {}) }
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const completeCellStyle = { height: lineHeight, ...basicCellStyle, ...(props.wrapperStyle || {}) } // eslint wont fix: runtime data merged with context..
 
     // 2 - prepare table cell properties
     const cellProperties = omit(this.props, CellWrapper.NON_REPORTED_PROPS)

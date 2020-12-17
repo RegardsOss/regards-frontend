@@ -68,7 +68,6 @@ export class TypeTabContainer extends React.Component {
     // else: no need to update, already selected
   }
 
-
   render() {
     const { type, tabType, resultsContext } = this.props
     return (

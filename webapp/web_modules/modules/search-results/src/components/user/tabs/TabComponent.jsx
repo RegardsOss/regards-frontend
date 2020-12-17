@@ -21,8 +21,18 @@ import DescriptionIcon from 'mdi-material-ui/InformationOutline'
 import CloseIcon from 'mdi-material-ui/Close'
 import IconButton from 'material-ui/IconButton'
 import { UIDomain } from '@regardsoss/domain'
+import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { TagLabelHelper } from './results/common/TagLabelHelper'
+
+/** Defines expected tab data for rendering */
+export const TabData = PropTypes.shape({
+  tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+  selected: PropTypes.bool.isRequired,
+  closable: PropTypes.bool.isRequired,
+  contextCriterion: UIShapes.TagCriterion, // only for context tab, null otherwise
+})
 
 /**
  * Tab component: shows a single results module tab and allows switching / closing it
@@ -30,10 +40,8 @@ import { themeContextType } from '@regardsoss/theme'
  */
 class TabComponent extends React.Component {
   static propTypes = {
-    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
-    tabName: PropTypes.string, // specific parameter for tabs with name
-    selected: PropTypes.bool.isRequired,
-    closable: PropTypes.bool.isRequired,
+    tab: TabData.isRequired,
+    settings: UIShapes.UISettings.isRequired,
     // selection control callback: (tabType: string) => ()
     onTabSelected: PropTypes.func.isRequired,
     // close control callback: (tabType: string) => ()
@@ -65,7 +73,7 @@ class TabComponent extends React.Component {
    * User selected this tab: invoke parent callback with tab type
    */
   onTabSelected = () => {
-    const { tabType, onTabSelected } = this.props
+    const { tab: { tabType }, onTabSelected } = this.props
     onTabSelected(tabType)
   }
 
@@ -73,13 +81,16 @@ class TabComponent extends React.Component {
    * User closed this tab: invoke parent callback with tab type
    */
   onTabClosed = () => {
-    const { tabType, onTabClosed } = this.props
+    const { tab: { tabType }, onTabClosed } = this.props
     onTabClosed(tabType)
   }
 
   render() {
     const {
-      tabType, tabName, selected, closable,
+      tab: {
+        tabType, contextCriterion, selected, closable,
+      },
+      settings,
     } = this.props
     const {
       intl: { formatMessage },
@@ -96,8 +107,8 @@ class TabComponent extends React.Component {
     } = this.context
 
     const { labelKey, IconConstructor } = TabComponent.RENDER_DATA_BY_TYPE[tabType]
-
-    const labelText = formatMessage({ id: labelKey }, { tabLabel: tabName })
+    const tabLabel = contextCriterion ? TagLabelHelper.getLabel(formatMessage, contextCriterion, settings) : null
+    const labelText = formatMessage({ id: labelKey }, { tabLabel })
     return (
       <div style={selected ? selectedContainer : unselectedContainer}>
         {/* Icon and text group */}
@@ -112,8 +123,7 @@ class TabComponent extends React.Component {
             iconStyle={closeIcon}
           >
             <CloseIcon />
-          </IconButton>) : null
-        }
+          </IconButton>) : null}
       </div>
     )
   }

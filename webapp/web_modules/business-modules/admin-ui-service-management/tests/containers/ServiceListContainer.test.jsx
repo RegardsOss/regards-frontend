@@ -49,7 +49,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceListContainer', () => {
       }),
     }
 
-    const enzymeWrapper = shallow(<ServiceListContainer {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<ServiceListContainer {...props} />, { context })
     expect(enzymeWrapper.find(LoadableContentDisplayDecorator)).to.have.length(1)
     assert.isTrue(enzymeWrapper.find(LoadableContentDisplayDecorator).props().isLoading, 'Loading should be true')
     assert.isTrue(fetchUIPluginDefinitionListSpy.calledOnce, 'Component should fetch entity on his initial componentDidMount')

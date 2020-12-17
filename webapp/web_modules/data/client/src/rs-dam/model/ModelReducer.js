@@ -20,7 +20,6 @@ import { BasicListReducers } from '@regardsoss/store-utils'
 import { ModelConfiguration } from '@regardsoss/api'
 import ModelActions from './ModelActions'
 
-
 class ModelReducer extends BasicListReducers {
   constructor(namespace) {
     super(ModelConfiguration, new ModelActions(namespace))

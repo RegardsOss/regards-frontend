@@ -21,5 +21,5 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 /**
  * Store selector to Plugin MetaData entities.
  */
-const getPluginMetaDataSelectors = storePath => new BasicListSelectors(storePath)
+const getPluginMetaDataSelectors = (storePath) => new BasicListSelectors(storePath)
 export default getPluginMetaDataSelectors

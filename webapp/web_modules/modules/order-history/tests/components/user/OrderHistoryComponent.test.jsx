@@ -24,6 +24,7 @@ import { OrderDisplayContainer } from '@regardsoss/order-common'
 import { orderListActions, orderListSelectors } from '../../../src/client/OrderListClient'
 import { orderFilesActions, orderFilesSelectors } from '../../../src/client/OrderFilesClient'
 import { ordersNavigationActions, ordersNavigationSelectors } from '../../../src/client/OrdersNavigationClient'
+import { processingSelectors } from '../../../src/client/ProcessingClient'
 import OrderHistoryComponent from '../../../src/components/user/OrderHistoryComponent'
 import styles from '../../../src/styles/styles'
 
@@ -52,6 +53,8 @@ describe('[Order History] Testing OrderHistoryComponent', () => {
       navigationActions: ordersNavigationActions,
       navigationSelectors: ordersNavigationSelectors,
       defaultIconURL: 'any',
+      processingSelectors,
+      isProcessingDependenciesExist: true,
     }
     const enzymeWrapper = shallow(<OrderHistoryComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(DynamicModulePane), 1, 'Module should be rendered in a dynamic module component')

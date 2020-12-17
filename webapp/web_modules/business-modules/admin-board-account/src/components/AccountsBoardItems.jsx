@@ -16,17 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import SettingsIcon from 'mdi-material-ui/Settings'
+import SettingsIcon from 'mdi-material-ui/Cog'
 import { dependencies } from '@regardsoss/admin-account-management'
 import AccountsListWithCountIconContainer from '../containers/AccountsListWithCountIconContainer'
-
 
 /**
  * BoardItems configuration for Datamanagement module
  * @param projectName
  * @param intl
  */
-export default intl => [
+export default (intl) => [
   { // accounts
     title: intl.formatMessage({ id: 'data.board.accounts.title' }),
     description: intl.formatMessage({ id: 'data.board.accounts.description' }),

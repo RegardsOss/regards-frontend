@@ -25,7 +25,6 @@ import styles from '../../../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-
 /**
 * Test AsynchronousRequestInformationComponent
 * @author Raphaël Mechali

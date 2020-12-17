@@ -51,11 +51,9 @@ export class AuthenticationPluginFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(props, 'pluginConfiguration.content', null),
-    }
+  /** Initial state */
+  state = {
+    selectedPlugin: get(this.props, 'pluginConfiguration.content', null),
   }
 
   selectPluginType = (plugin) => {
@@ -103,8 +101,7 @@ export class AuthenticationPluginFormComponent extends React.Component {
             hideDynamicParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+          /> : null}
       </div>
     )
   }
@@ -138,8 +135,7 @@ export class AuthenticationPluginFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

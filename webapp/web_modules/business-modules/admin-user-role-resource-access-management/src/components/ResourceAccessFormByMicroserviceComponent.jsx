@@ -19,19 +19,13 @@
  **/
 import map from 'lodash/map'
 import find from 'lodash/find'
-import forEach from 'lodash/forEach'
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
-import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
-import Toggle from 'material-ui/Toggle'
-import { LoadingComponent, withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-import moduleStyles from '../styles/styles'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { LoadingComponent } from '@regardsoss/display-control'
+import ResourceToggleComponent from './ResourceToggleComponent'
 
 /**
  * React container to edit resource access allowed for the
@@ -53,123 +47,41 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const isControllerOpen = {}
-    forEach(props.controllerList, (controllerName) => {
-      isControllerOpen[controllerName] = false
-    })
-    this.state = {
-      isControllerOpen,
+  /** Placeholder for controller items at loading time */
+  static LOADING_PLACEHOLDER_ITEMS = [
+    <ListItem key={1}>
+      <LoadingComponent />
+    </ListItem>]
+
+  /** Initial state: no opened controller */
+  state = {
+    controller: null,
+  }
+
+  /**
+   * User callback: show controller as parameter
+   * @param {string} controller controller identifier
+   */
+  onShowController = (controller) => {
+    if (controller !== this.state.controller) {
+      if (controller) {
+        this.props.handleOpenController(controller)
+      }
+      this.setState({
+        controller,
+      })
     }
   }
 
-  getChipColor = (verb) => {
-    const styles = moduleStyles(this.context.muiTheme)
-    switch (verb) {
-      case 'GET':
-        return styles.getChip
-      case 'POST':
-        return styles.postChip
-      case 'DELETE':
-        return styles.deleteChip
-      case 'PUT':
-        return styles.putChip
-      default:
-        return {}
-    }
-  }
-
-  getResourceListItems() {
-    const { resourceList } = this.props
-    const styles = moduleStyles(this.context.muiTheme)
-    const resourceStyle = {
-      display: 'flex',
-      justifyContent: 'space-between',
-    }
-    return map(resourceList, (resource, id) => {
-      const listStyles = id % 2 === 0 ? styles.listItemOdd : {}
-      return (
-        <ListItem
-          style={listStyles}
-          key={id}
-          innerDivStyle={styles.listItem}
-          onClick={() => {
-            this.handleShowDialog(resource)
-          }}
-          rightIconButton={
-            this.getResourceToggle(resource)
-          }
-          secondaryText={
-            <div
-              style={resourceStyle}
-            >
-              <div style={styles.description.style} className={styles.description.class}>
-                {resource.content.description}
-              </div>
-              <span>
-                {this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
-              </span>
-            </div>
-          }
-          leftAvatar={
-            <Chip style={this.getChipColor(resource.content.verb)}>
-              {resource.content.verb}
-            </Chip>
-          }
-        >
-          {resource.content.resource}
-        </ListItem>
-      )
-    })
-  }
-
-  getResourceToggle = (resource) => {
-    const roleResource = this.getResource(resource)
-    const iconStyle = { marginRight: 10 }
-
-    if (roleResource) {
-      return (
-        <HateoasIconAction
-          disableInsteadOfHide
-          style={iconStyle}
-          onClick={() => {
-            this.props.handleToggleResourceAccess(resource, !!roleResource)
-            return false
-          }}
-          entityLinks={roleResource.links}
-          hateoasKey={HateoasKeys.DELETE}
-        >
-          <HateoasToggle
-            entityLinks={roleResource.links}
-            hateoasKey={HateoasKeys.DELETE}
-            toggled
-            value="on"
-          />
-        </HateoasIconAction>
-      )
-    }
-    return (
-      <IconButton
-        style={iconStyle}
-        onClick={() => {
-          this.props.handleToggleResourceAccess(resource, !!roleResource)
-          return false
-        }}
-      >
-        <Toggle
-          toggled={false}
-          value="off"
-        />
-      </IconButton>
-    )
+  handleShowDialog = (resource) => {
+    this.props.handleOpenResourceAccess(resource)
   }
 
   /**
    * Check if one of the roleResources match the given resource, return the roleResource or undefined
    * @param resource
    */
-  getResource = resource => find(this.props.roleResources, {
+  getResource = (resource) => find(this.props.roleResources, {
     content: {
       resource: resource.content.resource,
       microservice: resource.content.microservice,
@@ -177,51 +89,61 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
     },
   })
 
-  handleToggleController = (controller) => {
-    const { isControllerOpen } = this.state
-    forEach(isControllerOpen, (isOpen, controllerName) => {
-      if (controllerName === controller) {
-        isControllerOpen[controllerName] = !isOpen
-        if (isControllerOpen[controllerName]) {
-          this.props.handleOpenController(controllerName)
-        }
-      } else {
-        isControllerOpen[controllerName] = false
-      }
-    })
-    this.setState({
-      isControllerOpen,
-    })
-  }
-
-  handleShowDialog = (resource) => {
-    this.props.handleOpenResourceAccess(resource)
-  }
-
   render() {
-    const { controllerList, resourceListFetching } = this.props
-    const { isControllerOpen } = this.state
-    const items = resourceListFetching ? [
-      <ListItem key={1}>
-        <LoadingComponent />
-      </ListItem>] : this.getResourceListItems()
-
+    const {
+      controllerList, resourceListFetching, resourceList, handleToggleResourceAccess,
+    } = this.props
+    const { controller: openedController } = this.state
+    const { moduleTheme } = this.context
     return (
       <List>
-        {map(controllerList, (controller, id) => {
-          const hasChild = isControllerOpen[controller]
-          return (
-            <ListItem
-              key={id}
-              primaryText={controller}
-              initiallyOpen={false}
-              open={hasChild}
-              primaryTogglesNestedList
-              onNestedListToggle={() => this.handleToggleController(controller)}
-              nestedItems={items}
-            />
-          )
-        })}
+        {map(controllerList, (controller, id) => (
+          <ListItem
+            key={id}
+            primaryText={controller}
+            initiallyOpen={false}
+            open={controller === openedController}
+            primaryTogglesNestedList
+            // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+            onNestedListToggle={() => this.onShowController(controller)} // eslint wont fix: due to MUI 0x API (sub classing ListItems breaks nested items system)
+            nestedItems={resourceListFetching
+              ? ResourceAccessFormByMicroserviceComponent.LOADING_PLACEHOLDER_ITEMS
+              : map(resourceList, (resource, id2) => (
+                <ListItem
+                  style={id % 2 === 0 ? moduleTheme.listItemOdd : moduleTheme.listItemEven}
+                  key={id2}
+                  innerDivStyle={moduleTheme.listItem}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+                  onClick={() => this.handleShowDialog(resource)} // eslint wont fix: due to MUI 0x API (sub classing ListItems breaks nested items system)
+                  rightIconButton={<ResourceToggleComponent
+                    resource={resource}
+                    roleResource={this.getResource(resource)}
+                    onToggleResourceAccess={handleToggleResourceAccess}
+                  />}
+                  secondaryText={
+                    <div
+                      style={moduleTheme.resourceSecondaryStyle}
+                    >
+                      <div style={moduleTheme.description.style} className={moduleTheme.description.class}>
+                        {resource.content.description}
+                      </div>
+                      <span>
+                        {this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
+                      </span>
+                    </div>
+                    }
+                  leftAvatar={
+                    <Chip style={moduleTheme.chipByVerb[resource.content.verb]}>
+                      {resource.content.verb}
+                    </Chip>
+                    }
+                >
+                  <div style={moduleTheme.resourceTitleStyle}>
+                    {resource.content.resource}
+                  </div>
+                </ListItem>))}
+          />
+        ))}
       </List>
     )
   }

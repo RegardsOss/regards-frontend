@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 /**
  * Redux actions to fetch plugin services that can be applied in a given result context
  * @author Raphaël Mechali

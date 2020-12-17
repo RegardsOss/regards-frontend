@@ -18,7 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CommonDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ZoomablePicture } from '@regardsoss/components'
 import DescriptionThumbnailComponent from '../../../../../src/components/user/content/parameters/DescriptionThumbnailComponent'
 import styles from '../../../../../src/styles'
 
@@ -41,13 +43,15 @@ describe('[Description] Testing DescriptionThumbnailComponent', () => {
         label: 'My picture',
         available: true,
         uri: 'http://this.is/a.test.png',
+        type: CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
+        reference: true,
       },
     }
     const enzymeWrapper = shallow(<DescriptionThumbnailComponent {...props} />, { context })
-    const imgWrapper = enzymeWrapper.find('img')
+    const imgWrapper = enzymeWrapper.find(ZoomablePicture)
     assert.lengthOf(imgWrapper, 1, 'There should be the picture')
     testSuiteHelpers.assertWrapperProperties(imgWrapper, {
-      src: props.thumbnail.uri,
+      normalPicURL: props.thumbnail.uri,
       alt: 'module.description.content.parameters.thumbnail.alt.text',
     }, 'picture properties should be correctly set')
   })

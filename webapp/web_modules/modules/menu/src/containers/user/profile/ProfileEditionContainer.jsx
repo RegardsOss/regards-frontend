@@ -17,39 +17,47 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { connect } from '@regardsoss/redux'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes, AdminShapes } from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
+import { QuotaInfo } from '@regardsoss/entities-common'
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import profileDialogSelectors from '../../../model/ProfileDialogSelectors'
 import { myUserActions, myUserSelectors } from '../../../clients/MyUserClient'
 import { notificationSettingsActions, notificationSettingsSelectors } from '../../../clients/NotificationSettingsClient'
 import ProfileEditionDialogComponent from '../../../components/user/profile/ProfileEditionDialogComponent'
+import { PROFILE_VIEW_STATES } from '../../../domain/ProfileViewStateEnum'
 
 /**
  * Profile edition container
  */
 export class ProfileEditionContainer extends React.Component {
-  static mapStateToProps = state => ({
-    visible: profileDialogSelectors.isProfileEditionVisible(state),
+  static mapStateToProps = (state) => ({
+    dialogState: profileDialogSelectors.getProfileDialogState(state),
     myUser: myUserSelectors.getMyUser(state),
     notificationSettings: notificationSettingsSelectors.getResult(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    hideDialog: () => dispatch(profileDialogActions.hideEdition()),
+  static mapDispatchToProps = (dispatch) => ({
+    onShowView: (view) => dispatch(profileDialogActions.setView(view)),
+    onHideDialog: () => dispatch(profileDialogActions.hideDialog()),
     fetchMyUser: () => dispatch(myUserActions.fetchMyUser()),
-    updateMyUser: user => dispatch(myUserActions.updateMyUser(user)),
+    updateMyUser: (user) => dispatch(myUserActions.updateMyUser(user)),
     fetchNotificationSettings: () => dispatch(notificationSettingsActions.fetchNotificationSettings()),
-    updateNotificationSettings: settings => dispatch(notificationSettingsActions.updateNotificationSettings(settings)),
+    updateNotificationSettings: (settings) => dispatch(notificationSettingsActions.updateNotificationSettings(settings)),
   })
 
   static propTypes = {
+    quotaInfo: QuotaInfo.isRequired,
     // from mapStateToProps
-    visible: PropTypes.bool.isRequired,
-    myUser: AdminShapes.ProjectUser,
+    dialogState: PropTypes.shape({
+      open: PropTypes.bool.isRequired,
+      view: PropTypes.oneOf(PROFILE_VIEW_STATES).isRequired,
+    }).isRequired,
+    myUser: AccessShapes.ProjectUser,
     notificationSettings: AdminShapes.NotificationSettings,
     // from mapDispatchToProps
-    hideDialog: PropTypes.func.isRequired, // hide edition dialog (cancel)
+    onShowView: PropTypes.func.isRequired,
+    onHideDialog: PropTypes.func.isRequired, // hide edition dialog (cancel)
     fetchMyUser: PropTypes.func.isRequired, // fetch user data
     updateMyUser: PropTypes.func.isRequired, // update user data (which also updates user data by return value)
     fetchNotificationSettings: PropTypes.func.isRequired,
@@ -61,13 +69,13 @@ export class ProfileEditionContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // back from user fetching?
     if (this.props.myUser !== nextProps.myUser) {
       this.updateMetadata(nextProps.myUser)
     }
-    if (this.props.visible !== nextProps.visible) {
-      if (nextProps.visible) {
+    if (this.props.dialogState.open !== nextProps.dialogState.open) {
+      if (nextProps.dialogState.open) {
         // Load data
         this.props.fetchMyUser()
         this.props.fetchNotificationSettings()
@@ -81,8 +89,8 @@ export class ProfileEditionContainer extends React.Component {
     }
   }
 
-  /** Interaction: On edition done */
-  onEdit = (formValues) => {
+  /** Interaction: On profile edition done */
+  onEditProfile = (formValues) => {
     const { updateMyUser, myUser } = this.props
 
     // now rebuild a user as expected by server (remove the content)
@@ -93,33 +101,39 @@ export class ProfileEditionContainer extends React.Component {
     return updateMyUser(updatedUser)
   }
 
-  onEditNotificationSettings = newSettings => this.props.updateNotificationSettings(newSettings)
+  onEditNotificationSettings = (newSettings) => this.props.updateNotificationSettings(newSettings)
 
   /**
    * Updates userMetadata in state  from loaded myUser data. This method always returns a list of metadata,
    * but when user is known, retrieves the current metadata values
    * @param user : myUser values
    */
-  updateMetadata = user => this.setState({
+  updateMetadata = (user) => this.setState({
     userMetadata: getMetadataArray(user),
     isLoading: false,
   })
 
   render() {
-    const { visible, hideDialog } = this.props
+    const {
+      quotaInfo, dialogState: { open, view }, notificationSettings,
+      onShowView, onHideDialog,
+    } = this.props
     const { userMetadata, isLoading } = this.state
 
     // here we unmount the inner component when not visible, so that fields get resetted when dialog is closed
-    if (!visible || isLoading) {
+    if (!open || isLoading) {
       return null
     }
     return (
       <ProfileEditionDialogComponent
+        view={view}
+        quotaInfo={quotaInfo}
         userMetadata={userMetadata}
-        notificationSettings={this.props.notificationSettings}
-        onHideDialog={hideDialog}
-        onEdit={this.onEdit}
+        notificationSettings={notificationSettings}
+        onShowView={onShowView}
+        onEditProfile={this.onEditProfile}
         onEditNotificationSettings={this.onEditNotificationSettings}
+        onHideDialog={onHideDialog}
       />
     )
   }

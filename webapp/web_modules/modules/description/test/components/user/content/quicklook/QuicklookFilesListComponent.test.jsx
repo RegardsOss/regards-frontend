@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklookFilesListComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing QuicklookFilesListComponent', () => {
   before(testSuiteHelpers.before)
@@ -47,6 +48,7 @@ describe('[Description] Testing QuicklookFilesListComponent', () => {
         buildQuicklookGroupFor('group3', false),
         buildQuicklookGroupFor(null, false),
       ],
+      scrollAreaHeight: 760,
       onSelectGroup: (selectedIndex) => {
         spyOnSelectGroup.selectedIndex = selectedIndex
       },
@@ -55,7 +57,7 @@ describe('[Description] Testing QuicklookFilesListComponent', () => {
     const filePreviewComponents = enzymeWrapper.find(QuicklookFilePreviewComponent)
     // check each quicklook is rendered with selection state
     props.quicklookFiles.forEach((file, index) => {
-      const filePreviewWrapper = filePreviewComponents.findWhere(n => n.props().groupIndex === index)
+      const filePreviewWrapper = filePreviewComponents.findWhere((n) => n.props().groupIndex === index)
       assert.lengthOf(filePreviewWrapper, 1, `There should be file preview wrapper for group ${index}`)
       testSuiteHelpers.assertWrapperProperties(filePreviewWrapper, {
         groupIndex: index,

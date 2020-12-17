@@ -35,7 +35,6 @@ describe('[ADMIN BOARD COLLECTIONS] Testing collections board router', () => {
     expect(Routes.childRoutes[2].path).to.eq('dataset')
   })
 
-
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

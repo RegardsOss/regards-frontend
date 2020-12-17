@@ -36,18 +36,28 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestRetryDialog', () => {
   it('should exists', () => {
     assert.isDefined(RequestRetryDialog)
   })
-  it('should render correctly in edition', () => {
+  it('should render correctly opened', () => {
     const props = {
+      open: true,
       onConfirmRetry: () => {},
       onClose: () => {},
     }
     const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
-
     const dialogWrapper = enzymeWrapper.find(Dialog)
     assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
     assert.isTrue(dialogWrapper.props().open, 'The dialog should be opened')
-
-    assert.equal(dialogWrapper.props().onConfirmRetry, enzymeWrapper.instance().onConfirmRetry, 'onConfirmRetry callback should be correctly set')
-    assert.equal(dialogWrapper.props().onClose, enzymeWrapper.instance().onClose, 'onClose callback should be correctly set')
+    assert.lengthOf(dialogWrapper.props().actions, 2, 'There should be confirm retry and close options')
+  })
+  it('should render correctly closed', () => {
+    const props = {
+      open: false,
+      onConfirmRetry: () => {},
+      onClose: () => {},
+    }
+    const enzymeWrapper = shallow(<RequestRetryDialog {...props} />, { context })
+    const dialogWrapper = enzymeWrapper.find(Dialog)
+    assert.lengthOf(dialogWrapper, 1, 'There should be a dialog')
+    assert.isFalse(dialogWrapper.props().open, 'The dialog should be closed')
+    assert.lengthOf(dialogWrapper.props().actions, 2, 'There should be confirm retry and close options')
   })
 })

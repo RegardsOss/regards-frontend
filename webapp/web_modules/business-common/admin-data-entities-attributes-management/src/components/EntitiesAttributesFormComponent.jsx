@@ -75,5 +75,4 @@ export class EntitiesAttributesFormComponent extends React.Component {
   }
 }
 
-
 export default EntitiesAttributesFormComponent

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { BasicPageableActions } from '@regardsoss/store-utils'
 import { ORDER, ORDER_ARRAY } from '@regardsoss/api'
 
@@ -39,6 +38,7 @@ class OrderListActions extends BasicPageableActions {
    */
   constructor(namespace, isAllUser = false) {
     super({
+      bypassErrorMiddleware: true,
       entityEndpoint: isAllUser ? OrderListActions.ALL_USERS_ORDERS_ENDPOINT : OrderListActions.MY_USER_ORDERS_ENDPOINT,
       namespace,
       schemaTypes: {

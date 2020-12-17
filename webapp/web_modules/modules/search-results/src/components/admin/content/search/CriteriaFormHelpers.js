@@ -55,7 +55,7 @@ export class CriteriaFormHelper {
    * @return {*} PluginMeta found or null
    */
   static getPluginMetadata(pluginId, pluginsMetadata) {
-    return pluginsMetadata.find(meta => meta.pluginId === pluginId) || null
+    return pluginsMetadata.find((meta) => meta.pluginId === pluginId) || null
   }
 
   /**
@@ -80,7 +80,7 @@ export class CriteriaFormHelper {
       * @return {boolean} true when there is an error, false, otherwise
    */
   static isCriterionLabelInError(label) {
-    return UIDomain.LOCALES.some(locale => isEmpty(label[locale]))
+    return UIDomain.LOCALES.some((locale) => isEmpty(label[locale]))
   }
 
   /**
@@ -105,7 +105,7 @@ export class CriteriaFormHelper {
     // when showing title, there should be no locale for which title is empty
     // Otherwise, title should not be null / undefined
     const invalidCheckMethod = showTitle ? isEmpty : isNil
-    return UIDomain.LOCALES.some(locale => invalidCheckMethod(title[locale]))
+    return UIDomain.LOCALES.some((locale) => invalidCheckMethod(title[locale]))
   }
 
   /**
@@ -117,7 +117,7 @@ export class CriteriaFormHelper {
    */
   static isGroupInError(criteriaGroup, pluginsMetadata, attributes) {
     return CriteriaFormHelper.isGroupTitleInError(criteriaGroup.showTitle, criteriaGroup.title)
-    || criteriaGroup.criteria.some(c => CriteriaFormHelper.isCriterionInError(c, pluginsMetadata, attributes))
+    || criteriaGroup.criteria.some((c) => CriteriaFormHelper.isCriterionInError(c, pluginsMetadata, attributes))
   }
 
   /**
@@ -128,6 +128,6 @@ export class CriteriaFormHelper {
    * @return {booolean} true when there is an error, false, otherwise
    */
   static areGroupsInError(criteriaGroups, pluginsMetadata, attributes) {
-    return criteriaGroups.some(g => CriteriaFormHelper.isGroupInError(g, pluginsMetadata, attributes))
+    return criteriaGroups.some((g) => CriteriaFormHelper.isGroupInError(g, pluginsMetadata, attributes))
   }
 }

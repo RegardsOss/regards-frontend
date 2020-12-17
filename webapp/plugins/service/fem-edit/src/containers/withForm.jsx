@@ -29,7 +29,7 @@ import {
  * @returns React class that injects form
  * @author Léo Mieulet
  */
-export default Component => class WithForm extends React.Component {
+export default (Component) => class WithForm extends React.Component {
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
   }

@@ -20,7 +20,7 @@
 /**
  * @author Sébastien Binda
  */
-const storageManagementStyles = theme => ({
+const storageManagementStyles = (theme) => ({
   rootStyle: {
     display: 'grid',
     gridTemplateColumns: 'auto auto',
@@ -38,6 +38,10 @@ const storageManagementStyles = theme => ({
     justifySelf: 'stretch',
     minWidth: 0,
     lineHeight: 1,
+  },
+  cardTextTabStyle: {
+    maxWidth: '1200px',
+    margin: '0 auto',
   },
 })
 

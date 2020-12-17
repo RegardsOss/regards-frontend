@@ -58,13 +58,13 @@ class ColumnsSettingsComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to transform current presentation model into edition models
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to transform current presentation model into edition models
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -78,7 +78,7 @@ class ColumnsSettingsComponent extends React.Component {
       // update state through inner callback
       this.onEditionModelsUpdate(
         newProps.presentationModels,
-        newProps.presentationModels.map(model => ({ ...model })))
+        newProps.presentationModels.map((model) => ({ ...model })))
     }
   }
 
@@ -90,9 +90,9 @@ class ColumnsSettingsComponent extends React.Component {
     const { presentationModels: initialModels } = this.props
     this.setState({
       editionModels,
-      valid: editionModels.some(m => m.visible),
+      valid: editionModels.some((m) => m.visible),
       modified: !isEqual(initialModels, editionModels),
-      allVisible: !editionModels.find(m => !m.visible),
+      allVisible: !editionModels.find((m) => !m.visible),
     })
   }
 
@@ -114,7 +114,7 @@ class ColumnsSettingsComponent extends React.Component {
   onChangeVisibility = (presentationModel, visible) => {
     // update state through inner callback
     this.onEditionModelsUpdate(
-      this.state.editionModels.map(model => model.key === presentationModel.key ? { ...model, visible } : model))
+      this.state.editionModels.map((model) => model.key === presentationModel.key ? { ...model, visible } : model))
   }
 
   /**
@@ -142,7 +142,7 @@ class ColumnsSettingsComponent extends React.Component {
    * Inner callback: Toggles all columns visible state
    * @param {boolean} visible new visible state for all columns
    */
-  onToggleAll = visible => this.onEditionModelsUpdate(this.state.editionModels.map(m => ({ ...m, visible })))
+  onToggleAll = (visible) => this.onEditionModelsUpdate(this.state.editionModels.map((m) => ({ ...m, visible })))
 
   /** User callback: hide all columns */
   onToggleAllHidden = () => this.onToggleAll(false)
@@ -189,43 +189,42 @@ class ColumnsSettingsComponent extends React.Component {
     const {
       valid, modified, allVisible, editionModels,
     } = this.state
-    const actions = [
-      <FlatButton
-        key="reset.button"
-        label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
-        title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
-        icon={<ResetIcon />}
-        onClick={onResetColumns}
-      />,
-      <FlatButton
-        key="hide.show.all.button"
-        label={formatMessage({
-          id: allVisible
-            ? 'search.results.configure.columns.toggle.all.hidden'
-            : 'search.results.configure.columns.toggle.all.visible',
-        })}
-        icon={allVisible ? <HideAllIcon /> : <ShowAllIcon />}
-        onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
-      />,
-      <div key="actions.separator" style={columnsDialog.actionsSeparator} />,
-      <FlatButton
-        key="cancel.button"
-        label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="confirm.button"
-        label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
-        disabled={!valid || !modified}
-        onClick={this.onDone}
-      />]
     return (
       <PositionedDialog
         dialogWidthPercent={columnsDialog.widthPercent}
         dialogHeightPercent={columnsDialog.heightPercent}
         open={open}
         modal
-        actions={actions}
+        actions={[
+          <FlatButton
+            key="reset.button"
+            label={formatMessage({ id: 'search.results.configure.columns.dialog.reset' })}
+            title={formatMessage({ id: 'search.results.configure.columns.dialog.reset.tooltip' })}
+            icon={<ResetIcon />}
+            onClick={onResetColumns}
+          />,
+          <FlatButton
+            key="hide.show.all.button"
+            label={formatMessage({
+              id: allVisible
+                ? 'search.results.configure.columns.toggle.all.hidden'
+                : 'search.results.configure.columns.toggle.all.visible',
+            })}
+            icon={allVisible ? <HideAllIcon /> : <ShowAllIcon />}
+            onClick={allVisible ? this.onToggleAllHidden : this.onToggleAllVisible}
+          />,
+          <div key="actions.separator" style={columnsDialog.actionsSeparator} />,
+          <FlatButton
+            key="cancel.button"
+            label={formatMessage({ id: 'search.results.configure.columns.dialog.cancel' })}
+            onClick={onClose}
+          />,
+          <FlatButton
+            key="confirm.button"
+            label={formatMessage({ id: 'search.results.configure.columns.dialog.confirm' })}
+            disabled={!valid || !modified}
+            onClick={this.onDone}
+          />]}
         actionsContainerStyle={columnsDialog.actionsContainer}
       >
         <TableLayout>

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { intlShape } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -33,15 +34,8 @@ class MultipleAttributesFieldRender extends React.Component {
   static propTypes = {
     allowRendererSelection: PropTypes.bool.isRequired,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
-    meta: PropTypes.shape({
-      invalid: PropTypes.bool.isRequired,
-      error: PropTypes.string,
-    }),
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
   }
@@ -54,13 +48,13 @@ class MultipleAttributesFieldRender extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -126,7 +120,7 @@ class MultipleAttributesFieldRender extends React.Component {
       firstTableHolderStyle, secondTableHolderStyle,
     } = this.context.moduleTheme.configuration.editDialog.multipleSelector
     return (
-      <React.Fragment>
+      <>
         <Subheader style={fieldLabelStyle}>
           {label}
         </Subheader>
@@ -150,7 +144,7 @@ class MultipleAttributesFieldRender extends React.Component {
             />
           </div>
         </div>
-      </React.Fragment>
+      </>
     )
   }
 }

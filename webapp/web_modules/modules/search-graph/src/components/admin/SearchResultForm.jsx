@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isEqual from 'lodash/isEqual'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import ModuleConfiguration from '../../shapes/ModuleConfiguration'
 
@@ -36,21 +37,49 @@ class SearchResultFormComponent extends React.Component {
     }),
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { appName, adminForm } = newProps
+    const nextState = { ...(this.state || {}) }
+    if (!isEqual(oldProps.appName, appName)) {
+      nextState.module = {
+        type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
+        active: true,
+        applicationId: appName,
+      }
+    }
+    if (!isEqual(oldProps.adminForm, adminForm)) {
+      nextState.searchResultsAdminForm = {
+        ...adminForm,
+        currentNamespace: `${adminForm.currentNamespace}.searchResult`,
+        conf: {
+          forbidRestrictions: true,
+        },
+      }
+    }
+    if (!isEqual(this.state, nextState)) {
+      this.setState(nextState)
+    }
+  }
 
   render() {
-    const { project, appName, adminForm } = this.props
-    const module = {
-      type: modulesManager.AllDynamicModuleTypes.SEARCH_RESULTS,
-      active: true,
-      applicationId: this.props.appName,
-    }
-    const adminFormForSearchResult = {
-      ...adminForm,
-      currentNamespace: `${adminForm.currentNamespace}.searchResult`,
-      conf: {
-        forbidRestrictions: true,
-      },
-    }
+    const { project, appName } = this.props
+    const { module, searchResultsAdminForm } = this.state
 
     return (
       <LazyModuleComponent
@@ -58,7 +87,7 @@ class SearchResultFormComponent extends React.Component {
         appName={appName}
         module={module}
         admin
-        adminForm={adminFormForSearchResult}
+        adminForm={searchResultsAdminForm}
       />
     )
   }

@@ -61,7 +61,7 @@ class OAISFeatureManagerComponent extends React.Component {
     requestFilters: OAISRequestManagerContainer.extractStateFromURL(),
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const { query } = browserHistory.getCurrentLocation()
     if (values(query).length > 0) {
       const { display } = query
@@ -121,7 +121,7 @@ class OAISFeatureManagerComponent extends React.Component {
       <Breadcrumb
         rootIcon={<PageView />}
         elements={elements}
-        labelGenerator={label => label}
+        labelGenerator={(label) => label}
         onAction={this.onBack}
       />
     )

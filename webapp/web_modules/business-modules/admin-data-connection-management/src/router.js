@@ -40,7 +40,6 @@ export const createConnectionRoute = {
   },
 }
 
-
 export const editConnectionRoute = {
   path: ':connectionId/edit',
   getComponents(nextState, cb) {
@@ -52,7 +51,6 @@ export const editConnectionRoute = {
     })
   },
 }
-
 
 const connectionDataManagementRouter = {
   childRoutes: [

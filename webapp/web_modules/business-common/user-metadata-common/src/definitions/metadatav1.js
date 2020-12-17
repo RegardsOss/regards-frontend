@@ -39,14 +39,14 @@ export const editors = {
   },
   countriesEditor: {
     type: editorTypes.choice,
-    choices: countries.map(key => ({
+    choices: countries.map((key) => ({
       key,
       labelKey: `country.${key}`,
     })),
   },
 }
 
-const METADATA_ARRAY_V1 = [{
+export const METADATA_ARRAY_V1 = [{
   key: 'address',
   labelKey: 'user.metadata.address',
   editor: editors.textEditor,

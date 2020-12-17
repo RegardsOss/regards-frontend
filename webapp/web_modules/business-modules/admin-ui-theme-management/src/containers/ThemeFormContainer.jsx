@@ -23,7 +23,6 @@ import { browserHistory } from 'react-router'
 import ThemeFormComponent from '../components/ThemeFormComponent'
 import messages from '../i18n'
 
-
 /**
  * Handle theme list network operations
  * @author Léo Mieulet
@@ -42,12 +41,8 @@ export class ThemeFormContainer extends React.Component {
     createTheme: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isLoading: !props.isCreating,
-    }
+  state = {
+    isLoading: !this.props.isCreating,
   }
 
   componentDidMount() {
@@ -78,7 +73,7 @@ export class ThemeFormContainer extends React.Component {
   )
 
   handleSubmit = (values) => {
-    const themeToSave = Object.assign({}, values)
+    const themeToSave = { ...values }
     themeToSave.configuration = JSON.stringify(themeToSave.configuration)
     let task
     if (this.props.isCreating || this.props.isDuplicating) {
@@ -92,7 +87,6 @@ export class ThemeFormContainer extends React.Component {
       }
     })
   }
-
 
   render() {
     const { isLoading } = this.state

@@ -17,22 +17,40 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import DownloadIcon from 'mdi-material-ui/Download'
 import { DownloadButton } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import {
+  DownloadIconComponent, QuotaInfo, QuotaDownloadUtils, withQuotaInfo,
+} from '@regardsoss/entities-common'
+import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FileData } from '../../../../../shapes/DescriptionState'
 
 /** Button constructor for inner download button graphics */
-const DownloadInnerButton = props => <IconButton {...props}><DownloadIcon /></IconButton>
+export const DownloadInnerButton = ({ constrainedByQuota, quotaInfo, ...props }) => (
+  <IconButton {...props}>
+    <DownloadIconComponent
+      constrainedByQuota={constrainedByQuota}
+      quotaInfo={quotaInfo}
+    />
+  </IconButton>)
+
+DownloadInnerButton.propTypes = {
+  constrainedByQuota: PropTypes.bool.isRequired,
+  quotaInfo: QuotaInfo,
+}
 
 /**
  * Cell showing download option
  * @author Raphaël Mechali
  */
-class DownloadCellComponent extends React.Component {
+export class DownloadCellComponent extends React.Component {
   static propTypes = {
     file: FileData.isRequired,
+    // from withAuthInfo
+    accessToken: PropTypes.string,
+    // from withQuotaInfo
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -41,17 +59,29 @@ class DownloadCellComponent extends React.Component {
   }
 
   render() {
-    const { file: { available, label, uri } } = this.props
+    const {
+      quotaInfo, accessToken,
+      file: {
+        label, uri, available, type, reference,
+      },
+    } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
-    return available ? (
+    // this button should be shown only when the file can be downloaded AND is not constrained by quota OR user has a quota (=> not public)
+    return available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
       <DownloadButton
         ButtonConstructor={DownloadInnerButton}
+        ButtonIcon={null}
+        disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
         downloadName={label}
         downloadURL={uri}
         tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
+        // icon button props
         style={iconButton.style}
         iconStyle={iconButton.iconStyle}
+        // icon component props
+        constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
+        quotaInfo={quotaInfo}
       />) : null // hide option when not available
   }
 }
-export default DownloadCellComponent
+export default withAuthInfo(withQuotaInfo(DownloadCellComponent))

@@ -21,7 +21,6 @@ import { StorageClient } from '@regardsoss/client'
 import { pluginMetaDataActions } from './clients/PluginMetadataClient'
 import { pluginConfigurationActions } from './clients/PluginConfigurationClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

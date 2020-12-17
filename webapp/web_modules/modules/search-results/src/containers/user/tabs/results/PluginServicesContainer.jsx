@@ -33,7 +33,6 @@ import { getTableClient } from '../../../../clients/TableClient'
 import { getServicesClient } from '../../../../clients/PluginServiceClient'
 import { getRunServiceClient } from '../../../../clients/RunPluginServiceClient'
 
-
 // Determinate the required resource name to apply catalog plugins
 const tempActions = new CatalogClient.CatalogPluginServiceResultActions('entities-common/apply-catalog-service')
 const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
@@ -48,117 +47,6 @@ const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
  * @author Raphaël Mechali
  */
 export class PluginServicesContainer extends React.Component {
-  /**
-   * Retains plugin services that are present in both services list, by there configId
-   * @param services1
-   * @param services2
-   * @return common plugin services to both lists (services list intersection)
-   */
-  static retainCommon(services1 = [], services2 = []) {
-    services1.filter(({ configId: originId }) => services2.some(({ configId: targetId }) => originId === targetId))
-  }
-
-  /**
-   * Is usable selection service in context?
-   * @param service service as PluginService (wrapped in 'content:')
-   * @param viewObjectType current view object type
-   * @param availableDependencies available dependencies for current user
-   */
-  static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, viewObjectType, availableDependencies) {
-    return applicationModes.includes(AccessDomain.applicationModes.MANY)
-      && entityTypes.includes(viewObjectType)
-      // For catalog service only: the user must be allowed to run catalog plugin service
-      && (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
-  }
-
-  /**
-   * Computes the selection services available
-   * @param properties properties describing current selection state and global services
-   * @return [{PluginService}] services available for current selection
-   */
-  static getSelectionServices = ({
-    selectionMode, toggledElements, pageMetadata, emptySelection,
-    contextSelectionServices, viewObjectType, availableDependencies = [],
-    restrictedDatasetsIds,
-  }) => {
-    let selectionServices = []
-
-
-    if (!emptySelection) {
-      // 1 - Compute if there is a context
-      const hasDastasetContext = restrictedDatasetsIds && !!restrictedDatasetsIds.length
-      // 2 - recover context services
-      if (contextSelectionServices) {
-        // filter service for current context (only selection services, working with current objects type),
-        // then remove 'content' wrapper to have basic services shapes
-        selectionServices = filter(contextSelectionServices, service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
-      }
-      // 3 - Find every service that match all objects in selection
-      // Note 1: That operation cannot be performed when selection is exclusive.
-      // Note 2: It is useless when there is a dataset context ('MANY' services would then be in "contextSelectionServices")
-      if (!hasDastasetContext && selectionMode === TableSelectionModes.includeSelected) {
-        // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
-        // note: we remove doubles here to lower later complexity
-        const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
-        const filteredFirstEntityServices = allFirstEntityServices.filter(service => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies)
-          && !selectionServices.some(({ content: { configId, type } }) => configId === service.content.configId && type === service.content.type))
-
-        // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
-        const commonEntitiesSelectionServices = otherSelectedElements.reduce(
-          (commonServices, { content: { services: entityServices } }) => commonServices.filter(({ content: collectedService }) => entityServices && entityServices.some(({ content: entityService }) => entityService.configId === collectedService.configId && entityService.type === collectedService.type)),
-          filteredFirstEntityServices,
-        )
-
-
-        // store in resulting list
-        selectionServices = selectionServices.concat(commonEntitiesSelectionServices)
-      }
-    }
-    return selectionServices
-  }
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { tabType }) {
-    const { tableSelectors } = getTableClient(tabType)
-    const { searchSelectors } = getSearchCatalogClient(tabType)
-    const { servicesSelectors } = getServicesClient(tabType)
-    const { runServiceSelectors } = getRunServiceClient(tabType)
-    return {
-      // seletion related
-      selectionMode: tableSelectors.getSelectionMode(state),
-      toggledElements: tableSelectors.getToggledElements(state),
-      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
-      pageMetadata: searchSelectors.getMetaData(state),
-      // fetched service related
-      contextSelectionServices: servicesSelectors.getResult(state),
-      // running service related
-      serviceRunModel: runServiceSelectors.getServiceRunModel(state),
-      // logged user state related
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapDispatchToProps(dispatch, { tabType }) {
-    const { servicesActions } = getServicesClient(tabType)
-    const { runServiceActions } = getRunServiceClient(tabType)
-    return {
-      dispatchFetchPluginServices: datasetIds => dispatch(servicesActions.fetchPluginServices(datasetIds)),
-      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
-      dispatchCloseService: () => dispatch(runServiceActions.closeService()),
-    }
-  }
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps
@@ -212,15 +100,124 @@ export class PluginServicesContainer extends React.Component {
   }
 
   /**
+   * Retains plugin services that are present in both services list, by there configId
+   * @param services1
+   * @param services2
+   * @return common plugin services to both lists (services list intersection)
+   */
+  static retainCommon(services1 = [], services2 = []) {
+    services1.filter(({ configId: originId }) => services2.some(({ configId: targetId }) => originId === targetId))
+  }
+
+  /**
+   * Is usable selection service in context?
+   * @param service service as PluginService (wrapped in 'content:')
+   * @param viewObjectType current view object type
+   * @param availableDependencies available dependencies for current user
+   */
+  static isUsableSelectionService({ content: { applicationModes, entityTypes, type } }, viewObjectType, availableDependencies) {
+    return applicationModes.includes(AccessDomain.applicationModes.MANY)
+      && entityTypes.includes(viewObjectType)
+      // For catalog service only: the user must be allowed to run catalog plugin service
+      && (type !== AccessDomain.pluginTypes.CATALOG || availableDependencies.includes(catalogServiceDependency))
+  }
+
+  /**
+   * Computes the selection services available
+   * @param properties properties describing current selection state and global services
+   * @return [{PluginService}] services available for current selection
+   */
+  static getSelectionServices = ({
+    selectionMode, toggledElements, pageMetadata, emptySelection,
+    contextSelectionServices, viewObjectType, availableDependencies = [],
+    restrictedDatasetsIds,
+  }) => {
+    let selectionServices = []
+
+    if (!emptySelection) {
+      // 1 - Compute if there is a context
+      const hasDastasetContext = restrictedDatasetsIds && !!restrictedDatasetsIds.length
+      // 2 - recover context services
+      if (contextSelectionServices) {
+        // filter service for current context (only selection services, working with current objects type),
+        // then remove 'content' wrapper to have basic services shapes
+        selectionServices = filter(contextSelectionServices, (service) => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies))
+      }
+      // 3 - Find every service that match all objects in selection
+      // Note 1: That operation cannot be performed when selection is exclusive.
+      // Note 2: It is useless when there is a dataset context ('MANY' services would then be in "contextSelectionServices")
+      if (!hasDastasetContext && selectionMode === TableSelectionModes.includeSelected) {
+        // compute first element services (pre: toggled elements cannot be empty here since we are in 'includeSelected' mode)
+        // note: we remove doubles here to lower later complexity
+        const [{ content: { services: allFirstEntityServices = [] } }, ...otherSelectedElements] = values(toggledElements)
+        const filteredFirstEntityServices = allFirstEntityServices.filter((service) => PluginServicesContainer.isUsableSelectionService(service, viewObjectType, availableDependencies)
+          && !selectionServices.some(({ content: { configId, type } }) => configId === service.content.configId && type === service.content.type))
+
+        // compute next selected entities valid services intersection (contains only usable services in context since first element services have been filtered)
+        const commonEntitiesSelectionServices = otherSelectedElements.reduce(
+          (commonServices, { content: { services: entityServices } }) => commonServices.filter(({ content: collectedService }) => entityServices && entityServices.some(({ content: entityService }) => entityService.configId === collectedService.configId && entityService.type === collectedService.type)),
+          filteredFirstEntityServices,
+        )
+
+        // store in resulting list
+        selectionServices = selectionServices.concat(commonEntitiesSelectionServices)
+      }
+    }
+    return selectionServices
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { tabType }) {
+    const { tableSelectors } = getTableClient(tabType)
+    const { searchSelectors } = getSearchCatalogClient(tabType)
+    const { servicesSelectors } = getServicesClient(tabType)
+    const { runServiceSelectors } = getRunServiceClient(tabType)
+    return {
+      // seletion related
+      selectionMode: tableSelectors.getSelectionMode(state),
+      toggledElements: tableSelectors.getToggledElements(state),
+      emptySelection: tableSelectors.isEmptySelection(state, searchSelectors),
+      pageMetadata: searchSelectors.getMetaData(state),
+      // fetched service related
+      contextSelectionServices: servicesSelectors.getResult(state),
+      // running service related
+      serviceRunModel: runServiceSelectors.getServiceRunModel(state),
+      // logged user state related
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { servicesActions } = getServicesClient(tabType)
+    const { runServiceActions } = getRunServiceClient(tabType)
+    return {
+      dispatchFetchPluginServices: (datasetIds) => dispatch(servicesActions.fetchPluginServices(datasetIds)),
+      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
+      dispatchCloseService: () => dispatch(runServiceActions.closeService()),
+    }
+  }
+
+  /**
    * Lifecycle hook. Used here to detect properties change
    */
-  componentWillMount = () => this.onPropertiesChanged(this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged(this.props)
 
   /**
    * Lifecycle hook. Used here to detect properties change
    * @param {*} nextProps next component props
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(nextProps, this.props)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(nextProps, this.props)
 
   /**
    * Updates the component on properties changes (starts fetching, converts data, update state...)
@@ -290,7 +287,7 @@ export class PluginServicesContainer extends React.Component {
     const { dispatchCloseService, serviceRunModel } = this.props
     const { children } = this.state
     return (
-      <React.Fragment>
+      <>
         <ServiceContainer
           serviceRunModel={serviceRunModel} // running service display
           onQuit={dispatchCloseService}
@@ -298,7 +295,7 @@ export class PluginServicesContainer extends React.Component {
         { // render the children list (from pre rendered elements, see on properties changed)
           HOCUtils.renderChildren(children)
         }
-      </React.Fragment>
+      </>
     )
   }
 }

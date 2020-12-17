@@ -18,7 +18,7 @@
  **/
 import ContentCopy from 'mdi-material-ui/ContentCopy'
 import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import dependencies from '../../dependencies'
@@ -33,7 +33,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onDuplicate: PropTypes.func.isRequired,
   }

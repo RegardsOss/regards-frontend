@@ -40,6 +40,7 @@ class FakeItem extends React.PureComponent {
 /**
 * Test InfiniteGalleryComponent
 * @author Léo Mieulet
+* @author Théo Lasserre
 */
 describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
   before(testSuiteHelpers.before)
@@ -48,7 +49,6 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
   it('should exists', () => {
     assert.isDefined(InfiniteGalleryComponent)
   })
-
 
   it('should render correctly empty', () => {
     const props = {
@@ -71,6 +71,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
@@ -99,6 +100,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: '',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)
@@ -107,7 +109,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
     const loadingShowable = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(loadingShowable, 1, 'There should loading showable component')
     assert.equal(loadingShowable.props().show, true, 'Loading component should be shown')
-    assert.lengthOf(loadingShowable.findWhere(n => n.props().id === 'loading.component'), 1,
+    assert.lengthOf(loadingShowable.findWhere((n) => n.props().id === 'loading.component'), 1,
       'The loading component should be correctly reported from props')
   })
   it('should render correctly in nominal case', () => {
@@ -131,6 +133,7 @@ describe('[COMPONENTS] Testing InfiniteGalleryComponent', () => {
         width: 400,
         height: 400,
       },
+      itemOfInterest: 'idTest',
     }
     const enzymeWrapper = shallow(<InfiniteGalleryComponent {...props} />, { context })
     const loadableDecorator = enzymeWrapper.find(LoadableContentDisplayDecorator)

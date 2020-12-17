@@ -22,7 +22,6 @@ import { assert } from 'chai'
 import TableActions from '../../../src/table/model/TableActions'
 import TableSelectionModes from '../../../src/table/model/TableSelectionModes'
 
-
 const tableActionsInstance = new TableActions('test')
 const middlewares = [thunk]
 const buildMockStore = configureStore(middlewares)
@@ -58,7 +57,6 @@ describe('[Components] Test table actions', () => {
     }
     dispatchAndCheck(tableActionsInstance.unselectAll(), expectedAction, buildMockStore({}))
   })
-
 
   it('It should dispatch toggle element', () => {
     const expectedAction = {

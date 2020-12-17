@@ -45,7 +45,6 @@ class DateRelativeValueRender extends React.Component {
     return null
   }
 
-
   static propTypes = {
     value: PropTypes.string,
     // should diplay using multiple lines? (false by default)
@@ -79,7 +78,7 @@ class DateRelativeValueRender extends React.Component {
     }, this.setTimeOut)
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.updateRelativeDate()
   }
 

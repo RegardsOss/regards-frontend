@@ -25,7 +25,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../domain/NavigationItemTypes'
 import { HomeConfigurationShape, NavigationEditionItem } from '../../../shapes/ModuleConfiguration'
 import {
-  buildItemForModule, filterItems, findAllModules, findAllSections,
+  buildItemForModule, filterItems, findAllSections, findAllLinks,
   getItemPathIn, getItemByPathIn, removeItemAt, moveItemAtPath,
 } from '../../../domain/NavigationTreeHelper'
 import NavigationTree from './NavigationTree'
@@ -35,6 +35,7 @@ import NavigationItemEditionDialog from './dialogs/NavigationItemEditionDialog'
 /**
  * Array field to edit navigation model
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class NavigationArrayFieldRender extends React.Component {
   /**
@@ -93,7 +94,7 @@ class NavigationArrayFieldRender extends React.Component {
           title = get(correspondingModel, 'content.page.title')
         }
         description = get(correspondingModel, 'content.description')
-      } else { // A section: pack children items too
+      } else if (item.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) { // A section: pack children items too
         children = this.packItemsForDialog(homeTitle, dynamicModules, item.children)
       }
       return {
@@ -120,7 +121,6 @@ class NavigationArrayFieldRender extends React.Component {
     changeNavigationFieldValue: PropTypes.func.isRequired, // used only in onPropertiesUpdated
   }
 
-
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -134,7 +134,7 @@ class NavigationArrayFieldRender extends React.Component {
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update this field value
    * */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.onPropertiesUpdated({}, this.props)
   }
 
@@ -142,7 +142,7 @@ class NavigationArrayFieldRender extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -186,6 +186,33 @@ class NavigationArrayFieldRender extends React.Component {
     })
   }
 
+  /**
+   * User asked to create a link: initialize new link model and show edition dialog
+   */
+  onCreateLink = () => {
+    const { homeConfiguration, dynamicModules, navigationItems } = this.props
+    // 1 - get links to generate a unique ID greater than the last known link
+    const newLinkId = 1 + findAllLinks(navigationItems).reduce((foundMax, linkItem) => linkItem.id > foundMax ? linkItem.id : foundMax, 0)
+    // 2 - Pack edition data
+    this.setState({
+      editionData: {
+        onDone: this.onEditDone,
+        dialogTitleKey: 'menu.form.navigation.create.link.dialog.title',
+        item: {
+          id: newLinkId,
+          type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
+          visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+          visibleForRole: null,
+          icon: { type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT, url: '' },
+          title: { en: 'New link', fr: 'Nouveau lien' }, // no need for i18n here
+          url: '',
+        },
+        itemPath: [navigationItems.length], // added at end by default
+        navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
+        hasHome: NavigationArrayFieldRender.hasHome(dynamicModules),
+      },
+    })
+  }
 
   /**
    * User asked to edit an element: show corresponding dialog
@@ -198,11 +225,16 @@ class NavigationArrayFieldRender extends React.Component {
     const itemPath = getItemPathIn(navigationItems, { type, id })
 
     // 2 - pack edition data for edit dialog
-    const isModule = type === NAVIGATION_ITEM_TYPES_ENUM.MODULE
+    let str = 'menu.form.navigation.edit.module.dialog.title'
+    if (type === NAVIGATION_ITEM_TYPES_ENUM.SECTION) {
+      str = 'menu.form.navigation.edit.section.dialog.title'
+    } else if (type === NAVIGATION_ITEM_TYPES_ENUM.LINK) {
+      str = 'menu.form.navigation.edit.link.button.label'
+    }
     this.setState({
       editionData: {
         onDone: this.onEditDone,
-        dialogTitleKey: isModule ? 'menu.form.navigation.edit.module.dialog.title' : 'menu.form.navigation.edit.section.dialog.title',
+        dialogTitleKey: str,
         item: getItemByPathIn(navigationItems, itemPath),
         itemPath,
         navigationItems: NavigationArrayFieldRender.packItemsForDialog(homeConfiguration.title, dynamicModules, navigationItems),
@@ -227,7 +259,6 @@ class NavigationArrayFieldRender extends React.Component {
    */
   onEditClosed = () => this.setState({ editionData: null })
 
-
   /**
    * User asked to delete a section
    * @param {number} id : section id
@@ -237,13 +268,35 @@ class NavigationArrayFieldRender extends React.Component {
     const sectionPath = getItemPathIn(navigationItems, { type: NAVIGATION_ITEM_TYPES_ENUM.SECTION, id })
     // 1 - gather all modules in section that will be deleted
     const sectionSubElements = sectionPath.reduce((itemsList, elementIndex) => itemsList[elementIndex].children, navigationItems)
-    const reportedModules = findAllModules(sectionSubElements)
-    // 2 - remove section in previous model
+    // 2 - we only want to get modules in the current section (we cannot use findAllModules)
+    const reportedModules = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)
+    // 3 - we only want to get sections in the current section (we cannot use findAllSections)
+    const reportedSections = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)
+    // 4 - We only want to get links in the current section (we cannot use findAllLinks)
+    const reportedLinks = sectionSubElements.filter((element) => element.type === NAVIGATION_ITEM_TYPES_ENUM.LINK)
+    // 5 - remove section in previous model
     const newNavigationItems = removeItemAt(navigationItems, sectionPath)
-    // 3 - publish new field value with reported modules and without removed section and sub sections
+    // 6 - publish new field value with reported modules and without removed section and sub sections
     changeNavigationFieldValue([
       ...newNavigationItems, // report existing items as filtered
-      ...reportedModules, // report the modules that were in section at the end of the navigation tree
+      ...reportedModules, // report the modules that were in the current section
+      ...reportedSections, // report the sections that were in the current section
+      ...reportedLinks, // report the links that were in the current section
+    ])
+  }
+
+  /**
+   * User asked to delete a link
+   * @param {number} id : link id
+   */
+  onDeleteLink = (id) => {
+    const { navigationItems, changeNavigationFieldValue } = this.props
+    const linkPath = getItemPathIn(navigationItems, { type: NAVIGATION_ITEM_TYPES_ENUM.LINK, id })
+    // 1 - remove link in previous model
+    const newNavigationItems = removeItemAt(navigationItems, linkPath)
+    // 2 - publish new field value
+    changeNavigationFieldValue([
+      ...newNavigationItems, // report existing items as filtered
     ])
   }
 
@@ -251,7 +304,7 @@ class NavigationArrayFieldRender extends React.Component {
    * Publishes new items list in form
    * @param {[{NavigationEditionItem}]} newNavigationItems new items list
    */
-  publishNewItems = newNavigationItems => this.props.changeNavigationFieldValue(newNavigationItems)
+  publishNewItems = (newNavigationItems) => this.props.changeNavigationFieldValue(newNavigationItems)
 
   render() {
     const {
@@ -274,6 +327,8 @@ class NavigationArrayFieldRender extends React.Component {
               onEdit={this.onEditItem}
               onCreateSection={this.onCreateSection}
               onDeleteSection={this.onDeleteSection}
+              onCreateLink={this.onCreateLink}
+              onDeleteLink={this.onDeleteLink}
             />) : (
               // no dynamic module found
               <div style={noElementMessageStyle}>{formatMessage({ id: 'menu.form.navigation.no.module.message' })}</div>

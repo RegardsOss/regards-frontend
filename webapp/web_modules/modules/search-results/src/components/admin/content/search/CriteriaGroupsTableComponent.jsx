@@ -64,7 +64,6 @@ class CriteriaGroupsTableComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   /**
    * Converts defined groups into entities list for table
    * @param {[*]} groups configuration as an array of CriteriaGroup
@@ -104,13 +103,13 @@ class CriteriaGroupsTableComponent extends React.Component {
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
   * Properties change detected: update local state
@@ -137,7 +136,7 @@ class CriteriaGroupsTableComponent extends React.Component {
    * @param {*} criterion editable row matching CriteriaEditableRow, only for a criterion row with plugin metadata
    * and configuration (that must be granted by caller!)
    */
-  onShowConfigurationDialog = criterionRow => this.setState({
+  onShowConfigurationDialog = (criterionRow) => this.setState({
     configurationDialog: {
       open: true,
       criterionRow,
@@ -164,7 +163,6 @@ class CriteriaGroupsTableComponent extends React.Component {
     }, () => onUpdateCriterionConfiguration(groupIndex, criterionIndex, newConfiguration))
   }
 
-
   buildColumns = () => {
     const {
       groups, pluginsMetadata, availableAttributes,
@@ -188,7 +186,7 @@ class CriteriaGroupsTableComponent extends React.Component {
         })
         .build(),
       // label, by locale
-      ...UIDomain.LOCALES.map(locale => new TableColumnBuilder(`label.${locale}`)
+      ...UIDomain.LOCALES.map((locale) => new TableColumnBuilder(`label.${locale}`)
         .label(formatMessage({ id: 'search.results.form.configuration.search.pane.label.column.label' }, { locale }))
         .titleHeaderCell()
         .rowCellDefinition({

@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import ValidateIcon from 'mdi-material-ui/AccountCheck'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasKeys } from '@regardsoss/display-control'
 
@@ -28,7 +28,7 @@ import { HateoasKeys } from '@regardsoss/display-control'
  */
 class AllowAccessComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onValidate: PropTypes.func.isRequired,
     onEnable: PropTypes.func.isRequired,
@@ -61,14 +61,14 @@ class AllowAccessComponent extends React.Component {
 
   /**
    * User callback: option was clicked
-   * @param {string} optionKey current option key
    */
-  onClick = (optionKey) => {
+  onClick = () => {
     const {
       onValidate, onEnable, entity,
     } = this.props
     const userId = entity.content.id
-    switch (optionKey) {
+    const currentOption = this.getCurrentOption()
+    switch (currentOption.optionKey) {
       case AllowAccessComponent.OPTIONS_ENUM.ACCEPT:
         onValidate(userId)
         break
@@ -76,20 +76,27 @@ class AllowAccessComponent extends React.Component {
         onEnable(userId)
         break
       default:
-        throw new Error(`Unkown option key ${optionKey}`)
+        throw new Error(`Unkown option key ${currentOption.optionKey}`)
     }
   }
 
+  /**
+   * @return {*} current option
+   */
+  getCurrentOption = () => {
+    const { entity } = this.props
+    return AllowAccessComponent.AVAILABLE_ACCESS_OPTION.find(
+      (accessOption) => entity.links.some((link) => link.rel === accessOption.hateoasKey))
+  }
+
   render() {
-    const { entity, isLoading } = this.props
+    const { isLoading } = this.props
     const { intl: { formatMessage } } = this.context
 
     // 1 - retrieve the currently available option
-    let currentOption = AllowAccessComponent.AVAILABLE_ACCESS_OPTION.find(
-      accessOption => entity.links.some(link => link.rel === accessOption.hateoasKey))
+    let currentOption = this.getCurrentOption()
     const noOptionAvailable = !currentOption
     if (noOptionAvailable) {
-      // No option: render any option disabled
       currentOption = AllowAccessComponent.AVAILABLE_ACCESS_OPTION[0]
     }
 
@@ -98,7 +105,7 @@ class AllowAccessComponent extends React.Component {
       <IconButton
         disabled={noOptionAvailable || isLoading}
         title={formatMessage({ id: currentOption.tooltipKey })}
-        onClick={() => this.onClick(currentOption.optionKey)}
+        onClick={this.onClick}
         className={currentOption.className}
       >
         {currentOption.icon}

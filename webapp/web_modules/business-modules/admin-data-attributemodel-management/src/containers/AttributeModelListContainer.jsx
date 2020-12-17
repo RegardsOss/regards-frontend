@@ -20,7 +20,6 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { attributeModelActions, attributeModelSelectors } from '../clients/AttributeModelClient'
 import AttributeModelListComponent from '../components/AttributeModelListComponent'
 import messages from '../i18n'
@@ -44,14 +43,13 @@ export class AttributeModelListContainer extends React.Component {
     fetchAttrModelList: PropTypes.func,
     // eslint-disable-next-line react/no-unused-prop-types
     deleteAttrModel: PropTypes.func,
-    throwError: PropTypes.func,
   }
 
   state = {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchAttrModelList()
       .then(() => {
         this.setState({
@@ -77,7 +75,7 @@ export class AttributeModelListContainer extends React.Component {
   }
 
   handleDelete = (attrModelId) => {
-    this.props.throwError('Delete is not applicable on attributes yet.')
+    this.props.deleteAttrModel(attrModelId)
   }
 
   render() {
@@ -96,13 +94,12 @@ export class AttributeModelListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   attrModelArray: attributeModelSelectors.getArrayOrderedUsingFragmentAndAttributeName(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchAttrModelList: () => dispatch(attributeModelActions.fetchEntityList()),
-  deleteAttrModel: id => dispatch(attributeModelActions.deleteEntity(id)),
-  throwError: message => dispatch(ApplicationErrorAction.throwError(message)),
+  deleteAttrModel: (id) => dispatch(attributeModelActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AttributeModelListContainer)

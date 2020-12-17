@@ -66,7 +66,7 @@ class ConfigurationCellComponent extends React.Component {
     const error = CriteriaFormHelper.isCriterionConfigurationInError(entity.configuration, entity.pluginMetadata, availableAttributes)
     // label: attribute (if at least one is defined), placeholder otherwise
     const label = values(entity.configuration.attributes)
-      .filter(v => !!v)
+      .filter((v) => !!v)
       .map((jsonPath) => {
         const attribute = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(jsonPath, availableAttributes)
         return attribute ? AttributeRender.getRenderLabel(attribute, intl) : jsonPath

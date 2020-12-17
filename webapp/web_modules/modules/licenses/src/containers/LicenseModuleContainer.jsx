@@ -45,7 +45,7 @@ class LicenseModuleContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
 })
 

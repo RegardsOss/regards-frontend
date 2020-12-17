@@ -25,4 +25,5 @@
 export const NAVIGATION_ITEM_TYPES_ENUM = {
   MODULE: 'MODULE',
   SECTION: 'SECTION',
+  LINK: 'LINK',
 }

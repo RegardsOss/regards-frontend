@@ -23,7 +23,6 @@ import Refresh from 'mdi-material-ui/Refresh'
 import PictureLinkComponent from '../../src/links/PictureLinkComponent'
 import styles from '../../src/links/styles/styles'
 
-
 const context = buildTestContext(styles)
 
 describe('[COMPONENTS] Testing PictureLinkComponent', () => {

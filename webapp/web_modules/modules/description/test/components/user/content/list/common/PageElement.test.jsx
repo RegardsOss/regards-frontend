@@ -40,6 +40,6 @@ describe('[Description] Testing PageElement', () => {
       <PageElement>
         <div id="my.child" />
       </PageElement>, { context })
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().id === 'my.child'), 1, 'Child should be rendered by PageElement graphical HOC')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().id === 'my.child'), 1, 'Child should be rendered by PageElement graphical HOC')
   })
 })

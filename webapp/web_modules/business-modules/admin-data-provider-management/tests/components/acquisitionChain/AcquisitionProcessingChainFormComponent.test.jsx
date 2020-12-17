@@ -21,8 +21,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { Field, FieldArray } from '@regardsoss/form-utils'
-import { AcquisitionProcessingChainFormComponent }
-  from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormComponent'
+import { AcquisitionProcessingChainFormComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormComponent'
 import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormPluginsComponent'
 import styles from '../../../src/styles/styles'
 
@@ -114,9 +113,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 4, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
+    assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
@@ -203,9 +203,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     })
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 4, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
+    assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
@@ -258,9 +259,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.equal(initializeValues.fileInfos.length, chain.fileInfos.length, 'The fileInfos should be duplicated')
     // Check that all fields are rendered
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 4, 'There should be 4 parameter Field rendered in this form')
+    assert.equal(fields.length, 5, 'There should be 4 parameter Field rendered in this form')
     assert.isTrue(fields.find({ name: 'label' }).exists(), 'The label Field is missing')
     assert.isTrue(fields.find({ name: 'active' }).exists(), 'The active Field is missing')
+    assert.isTrue(fields.find({ name: 'versioningMode' }).exists(), 'The versioningMode Field is missing')
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)

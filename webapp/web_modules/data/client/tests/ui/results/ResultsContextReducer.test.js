@@ -20,10 +20,8 @@ import { assert } from 'chai'
 import ResultsContextActions from '../../../src/ui/results/ResultsContextActions'
 import getResultsContextReducer, { ResultsContextReducer } from '../../../src/ui/results/ResultsContextReducer'
 
-
 const testActions = new ResultsContextActions('tests')
 const testReduce = getResultsContextReducer('tests')
-
 
 /**
  * Test SelectedDynamicModuleReducer

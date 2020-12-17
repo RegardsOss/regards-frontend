@@ -45,7 +45,7 @@ describe('[OAIS AIP MANAGEMENT] Testing AIPModifyDeleteOption', () => {
       onDelete: () => { spiedCallbackData.count += 1 },
     }
     const enzymeWrapper = shallow(<AIPModifyDeleteOption {...props} />, { context })
-    const confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onDelete)
+    const confirmButton = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onDelete)
     assert.lengthOf(confirmButton, 1, 'There should be icon button')
     assert.equal(confirmButton.props().onClick, enzymeWrapper.instance().onDelete, 'Callback should be correctly set')
     // check callback calls props callback

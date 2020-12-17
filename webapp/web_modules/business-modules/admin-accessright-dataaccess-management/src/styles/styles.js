@@ -22,7 +22,7 @@
  * @param theme
  * @author Sébastien Binda
  */
-const styles = theme => ({
+const styles = (theme) => ({
   filter: {
     fieldStyle: {
       width: '190px',

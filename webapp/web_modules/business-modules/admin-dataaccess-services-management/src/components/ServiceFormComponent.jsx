@@ -51,11 +51,8 @@ export class ServiceFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(props, 'pluginConfiguration.content', null),
-    }
+  state = {
+    selectedPlugin: get(this.props, 'pluginConfiguration.content', null),
   }
 
   selectPluginType = (plugin) => {
@@ -102,8 +99,7 @@ export class ServiceFormComponent extends React.Component {
             simpleGlobalParameterConf
             onUpdatePluginConfiguration={onUpdate}
             onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+          /> : null}
       </div>
     )
   }
@@ -137,8 +133,7 @@ export class ServiceFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

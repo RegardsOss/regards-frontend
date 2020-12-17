@@ -55,7 +55,7 @@ export class FinishAccountUnlockingContainer extends React.Component {
     fetchRequestAction(token, mail)
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // Detect last fetch finished
     const { isFetching, onDone, onTokenExpired } = this.props
     if (isFetching && !nextProps.isFetching) {
@@ -86,8 +86,7 @@ const mapStatesToProps = (state) => {
   }
 }
 
-
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchRequestAction: (token, mail) => dispatch(sendFinishAccountUnlocking(token, mail)),
 })
 

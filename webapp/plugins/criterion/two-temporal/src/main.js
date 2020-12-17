@@ -22,5 +22,4 @@ import messages from './i18n'
 import styles from './styles'
 import pluginInfo from './plugin-info.json'
 
-
 initPlugin(TwoTemporalCriteriaContainer, pluginInfo, null, messages, styles)

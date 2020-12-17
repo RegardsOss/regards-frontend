@@ -42,6 +42,7 @@ const messages = {
   'invalid.length.more.than': 'Utilisez {number} caractères ou plus',
   'invalid.less.than': '{number} ou moins',
   'invalid.more.than': '{number} ou plus',
+  'invalid.abs_path': 'Répertoire invalide. le répertoire doit commencer par \'/\'',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Annuler',
@@ -57,6 +58,9 @@ const messages = {
   'renderer.fileField.no.file.selected': 'Aucun fichier sélectionné',
 
   'render.pageableAutoCompleteField.loading': 'Chargement ...',
+
+  'field.default.help.title': 'A propos de ce champs',
+  'field.help.close.button.label': 'Fermer',
 
   'render.array-field.values.title': 'Valeurs définies',
   'render.array-field.add.new.value.button': 'Ajouter',

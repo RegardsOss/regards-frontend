@@ -110,39 +110,6 @@ export class AttributePluginListComponent extends React.Component {
     } = this.props
     const { intl: { formatMessage }, moduleTheme } = this.context
 
-    // Table columns to display
-    const columns = [
-      new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.name.label' }))
-        .build(),
-      new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.pluginId')
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.type.label' }))
-        .build(),
-      new TableColumnBuilder('column.active').titleHeaderCell()
-        .rowCellDefinition({
-          Constructor: AttributePluginActivationAction, // custom cell
-          props: { onToggle: onActivateToggle },
-        })
-        .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.active.label' }))
-        .build(),
-      new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: AttributePluginEditAction,
-        optionProps: { onEdit },
-      }, {
-        OptionConstructor: AttributePluginListDuplicateAction,
-        optionProps: { onDuplicate },
-      }, {
-        OptionConstructor: TableDeleteOption,
-        optionProps: {
-          onDelete: this.onDelete,
-          fetchPage: onRefresh,
-          handleHateoas: true,
-          disableInsteadOfHide: true,
-          queryPageSize: 20,
-        },
-      }]).build(),
-    ]
-
     const emptyComponent = (
       <NoContentComponent
         titleKey="model.attribute.calculation.plugins.list.empty.title"
@@ -161,7 +128,38 @@ export class AttributePluginListComponent extends React.Component {
           <TableLayout>
             <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
             <InfiniteTableContainer
-              columns={columns}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: API issue, requires major rework
+                new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+                  .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.name.label' }))
+                  .build(),
+                new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.pluginId')
+                  .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.type.label' }))
+                  .build(),
+                new TableColumnBuilder('column.active').titleHeaderCell()
+                  .rowCellDefinition({
+                    Constructor: AttributePluginActivationAction, // custom cell
+                    props: { onToggle: onActivateToggle },
+                  })
+                  .label(formatMessage({ id: 'model.attribute.calculation.plugins.list.header.active.label' }))
+                  .build(),
+                new TableColumnBuilder().optionsColumn([{
+                  OptionConstructor: AttributePluginEditAction,
+                  optionProps: { onEdit },
+                }, {
+                  OptionConstructor: AttributePluginListDuplicateAction,
+                  optionProps: { onDuplicate },
+                }, {
+                  OptionConstructor: TableDeleteOption,
+                  optionProps: {
+                    onDelete: this.onDelete,
+                    fetchPage: onRefresh,
+                    handleHateoas: true,
+                    disableInsteadOfHide: true,
+                    queryPageSize: 20,
+                  },
+                }]).build(),
+              ]}
               entities={entities}
               emptyComponent={emptyComponent}
               entitiesCount={entities.length}

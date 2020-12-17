@@ -18,6 +18,7 @@
  **/
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -38,12 +39,8 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
   static propTypes = {
     datasets: DataManagementShapes.DatasetList.isRequired,
     datasetModels: DataManagementShapes.ModelList.isRequired,
-    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESCRICTIONS_TYPES).isRequired,
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
+    currentRestrictionType: PropTypes.oneOf(UIDomain.DATASET_RESTRICTIONS_TYPES).isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
@@ -60,13 +57,13 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
   * Properties change detected: update local state
@@ -83,7 +80,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
 
   /**
    * Elements list / restriction type or filter were updated. Update table elements in local state
-   * @param {string} restrictionType from UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM
+   * @param {string} restrictionType from UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM
    * @param {*} datasets matching DataManagementShapes.DatasetList
    * @param {*} datasetModels matching DataManagementShapes.ModelList
    * @param {string} filterText applying filter
@@ -92,13 +89,13 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     // 1 - Pick the right elements pool
     let selectableElements
     switch (restrictionType) {
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE:
         selectableElements = []
         break
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
         selectableElements = values(datasets).map(({ content: { feature: { id, label } } }) => ({ id, label }))
         break
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS:
         selectableElements = values(datasetModels).map(({ content: { name } }) => ({ id: name, label: name }))
         break
       default:
@@ -110,7 +107,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     const lowerFilterText = filterText.toLowerCase()
     const nextState = {
       selectableElements: sortedSelectableElements,
-      visibleElements: sortedSelectableElements.filter(element => element.label.toLowerCase().includes(lowerFilterText)),
+      visibleElements: sortedSelectableElements.filter((element) => element.label.toLowerCase().includes(lowerFilterText)),
       filterText,
     }
     if (!isEqual(this.state, nextState)) {
@@ -138,7 +135,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     // 1 - retrieve the element by its index in visible elements list
     const element = visibleElements[index]
     // 2 - Search for element in currently selected values
-    const selectedElementIndex = getAll().findIndex(selectedElement => selectedElement === element.id)
+    const selectedElementIndex = getAll().findIndex((selectedElement) => selectedElement === element.id)
 
     // 3 - Update selection
     if (selectedElementIndex < 0) {
@@ -154,7 +151,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
    * @param {[string]} selectedElements selected elements IDs
    * @return {[*]} built table columns
    */
-  buildColumns = selectedElements => [
+  buildColumns = (selectedElements) => [
     // Select / unselect column
     new TableColumnBuilder('selection.column').optionsColumn([{
       OptionConstructor: ToggleElementSelectionComponent,
@@ -167,13 +164,12 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
     new TableColumnBuilder('label.column').propertyRenderCell('label').build(),
   ]
 
-
   render() {
     const { currentRestrictionType, fields: { getAll } } = this.props
     const { selectableElements, visibleElements, filterText } = this.state
     const { intl: { formatMessage }, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-    if (currentRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE) {
+    if (currentRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE) {
       return null
     }
     const selection = getAll()
@@ -190,7 +186,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
               text={formatMessage({
                 id: selectionCount
                   ? 'search.results.form.restrictions.configuration.selection.count.message'
-                  : 'search.results.form.restrictions.configuration.no.selection.messsage',
+                  : 'search.results.form.restrictions.configuration.no.selection.message',
               }, { selectionCount })}
               error={!selectionCount}
             />

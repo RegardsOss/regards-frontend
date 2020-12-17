@@ -33,12 +33,13 @@ class ApplicationErrorContainer extends React.Component {
     closeDialog: PropTypes.func,
   }
 
+  static COMP_STYLE = {
+    height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line',
+  }
+
   render() {
     if (this.props.snackBarOpened) {
       const message = this.props.snackBarMessage
-      const style = {
-        height: 'auto', lineHeight: '28px', padding: 24, whiteSpace: 'pre-line',
-      }
       return (
         <Snackbar
           open={this.props.snackBarOpened}
@@ -46,7 +47,7 @@ class ApplicationErrorContainer extends React.Component {
           onRequestClose={this.props.closeDialog}
           onActionClick={this.props.closeDialog}
           action="OK"
-          bodyStyle={style}
+          bodyStyle={ApplicationErrorContainer.COMP_STYLE}
         />
       )
     }
@@ -54,13 +55,13 @@ class ApplicationErrorContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // Add theme from store to the components props
   snackBarOpened: state.common.error.opened ? state.common.error.opened : false,
   snackBarMessage: state.common.error.message ? state.common.error.message : '',
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   closeDialog: () => dispatch(closeErrorDialog()),
 })
 

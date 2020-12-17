@@ -23,6 +23,7 @@ import { FormLoadingComponent } from '@regardsoss/form-utils'
 import ProjectListComponent from '../components/ProjectListComponent'
 import ProjectsSelector from '../model/ProjectsSelector'
 import ProjectsAction from '../model/ProjectsAction'
+
 /**
  * Display news and project list on the homepage
  */
@@ -37,7 +38,31 @@ export class ModuleContainer extends React.Component {
     fetchProjects: PropTypes.func,
   }
 
-  componentWillMount() {
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, props) {
+    return {
+      projects: ProjectsSelector(props.appName).getList(state),
+      isFetching: ProjectsSelector(props.appName).isFetching(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchProjects: () => dispatch(ProjectsAction.fetchPagedEntityList(0, 100)),
+    }
+  }
+
+  UNSAFE_componentWillMount() {
     this.props.fetchProjects()
   }
 
@@ -45,6 +70,7 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
+    console.error('ME CALLED?')
     if (!this.props.projects && this.props.isFetching) {
       return (<FormLoadingComponent />)
     }
@@ -58,12 +84,6 @@ export class ModuleContainer extends React.Component {
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  projects: ProjectsSelector(props.appName).getList(state),
-  isFetching: ProjectsSelector(props.appName).isFetching(state),
-})
-const mapDispatchToProps = dispatch => ({
-  fetchProjects: () => dispatch(ProjectsAction.fetchPagedEntityList(0, 100)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ModuleContainer)
+export default connect(
+  ModuleContainer.mapStateToProps,
+  ModuleContainer.mapDispatchToProps)(ModuleContainer)

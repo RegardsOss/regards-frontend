@@ -24,7 +24,7 @@ export const FragmentConfiguration = {
 }
 
 export const FRAGMENT = new Schema(FragmentConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[FragmentConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[FragmentConfiguration.entityKey]
   ,
 })
 export const FRAGMENT_ARRAY = arrayOf(FRAGMENT)

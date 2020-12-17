@@ -39,6 +39,7 @@ const conf = webpackConfigurator
         'moment',
         'normalizr',
         'react',
+        'resium',
         'react-chartjs-2',
         'react-dnd',
         'react-dnd-html5-backend',
@@ -68,7 +69,6 @@ const conf = webpackConfigurator
         'intl',
         'react-ace',
         'react-notification-system',
-        'brace',
       ],
     },
     plugins: [

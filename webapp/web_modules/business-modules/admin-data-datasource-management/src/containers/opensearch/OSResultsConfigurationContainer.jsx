@@ -53,7 +53,7 @@ export class OSResultsConfigurationContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+      fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
       flushModelAttribute: () => dispatch(modelAttributesActions.flush()),
       fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
     }

@@ -62,7 +62,8 @@ class ProjectAboutPageLinkComponent extends React.Component {
     }
 
     // full about page view: let the module customize button to trigger the show about page event
-    const searchFacetsModule = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const searchFacetsModule = { // eslint wont fix : due to intl context system, resolved only at render, button cannot be created elsewhere
       type: modulesManager.AllDynamicModuleTypes.PROJECT_ABOUT_PAGE,
       active: true,
       applicationId: appName,

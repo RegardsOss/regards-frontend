@@ -16,11 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { OrderDomain } from '@regardsoss/domain'
 import { OrderShapes } from '@regardsoss/shape'
 import { OrderClient } from '@regardsoss/client'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
+import { QuotaDownloadUtils, QuotaInfo, withQuotaInfo } from '@regardsoss/entities-common'
 import FileDownloadComponent from '../../components/files/FileDownloadComponent'
 
 // create actions to get rights and download URL
@@ -31,21 +33,11 @@ const downloadOrderFileActions = new OrderClient.DownloadOrderFileActions()
  * @author Raphaël Mechali
  */
 export class FileDownloadContainer extends React.Component {
-  /**
-  * Redux: map state to props function
-  * @param {*} state: current redux state
-  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
-  */
-  static mapStateToProps(state) {
-    return {
-      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
-    }
-  }
-
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderFileWithContent,
+    // from withQuotaInfo
+    quotaInfo: QuotaInfo,
     // from map state to props
     authentication: AuthenticateShape.isRequired,
   }
@@ -60,17 +52,38 @@ export class FileDownloadContainer extends React.Component {
     OrderDomain.ORDER_FILE_STATUS_ENUM.ONLINE,
   ]
 
+  /**
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapStateToProps(state) {
+    return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+    }
+  }
 
   render() {
-    const { entity: { content: { id, state } }, authentication } = this.props
-    const canDownload = FileDownloadContainer.DOWNLOADABLE_FILE_STATES.includes(state)
-    const url = downloadOrderFileActions.getFileDownloadLink(id, authentication.result.access_token)
+    const {
+      entity: {
+        content: {
+          id, state, dataType, reference,
+        },
+      }, authentication, quotaInfo,
+    } = this.props
     return (
       <FileDownloadComponent
-        canDownload={canDownload}
-        downloadURL={url}
+        quotaInfo={quotaInfo}
+        constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(dataType, reference)}
+        canDownload={
+          QuotaDownloadUtils.canDownload(
+            FileDownloadContainer.DOWNLOADABLE_FILE_STATES.includes(state), // File is available only in those states
+            dataType, reference, quotaInfo, authentication.result.access_token)
+        }
+        downloadURL={downloadOrderFileActions.getFileDownloadLink(id, authentication.result.access_token)}
       />
     )
   }
 }
-export default connect(FileDownloadContainer.mapStateToProps)(FileDownloadContainer)
+export default compose(connect(FileDownloadContainer.mapStateToProps), withQuotaInfo)(FileDownloadContainer)

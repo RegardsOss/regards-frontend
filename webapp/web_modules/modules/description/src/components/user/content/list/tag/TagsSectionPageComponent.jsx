@@ -22,11 +22,13 @@ import TagCellComponent from './TagCellComponent'
 /**
  * Tags section page component, showing tags list
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class TagsSectionPageComponent extends React.Component {
   static propTypes = {
     allowSearching: PropTypes.bool,
     tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+    scrollAreaHeight: PropTypes.number,
     onSearchWord: PropTypes.func.isRequired,
   }
 
@@ -46,11 +48,12 @@ class TagsSectionPageComponent extends React.Component {
   }
 
   render() {
-    const { tags } = this.props
+    const { tags, scrollAreaHeight } = this.props
     return (
       <ListSectionPageComponent
         elements={tags}
         buildElementNode={this.renderTag}
+        scrollAreaHeight={scrollAreaHeight}
       />
     )
   }

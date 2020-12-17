@@ -20,5 +20,4 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
 import { AuthenticationRouteHelper } from '@regardsoss/authentication-utils'
 import { pathname } from './CreateUserReducers'
 
-
 export default new BasicSignalSelectors(AuthenticationRouteHelper.getSelectorPath(pathname))

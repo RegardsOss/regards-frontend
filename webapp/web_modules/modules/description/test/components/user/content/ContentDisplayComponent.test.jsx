@@ -26,6 +26,7 @@ import TagsSectionPageComponent from '../../../../src/components/user/content/li
 import EntitiesSectionPageComponent from '../../../../src/components/user/content/list/entity/EntitiesSectionPageComponent'
 import FilesSectionPageComponent from '../../../../src/components/user/content/list/file/FilesSectionPageComponent'
 import QuicklookViewComponent from '../../../../src/components/user/content/quicklook/QuicklookViewComponent'
+import VersionSectionPageComponent from '../../../../src/components/user/content/list/version/VersionSectionPageComponent'
 import styles from '../../../../src/styles'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../../../dumps/resolved.dump'
 import { BROWSING_SECTIONS_ENUM } from '../../../../src/domain/BrowsingSections'
@@ -35,6 +36,7 @@ const context = buildTestContext(styles)
 /**
  * Test ContentDisplayComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing ContentDisplayComponent', () => {
   before(testSuiteHelpers.before)
@@ -64,8 +66,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
+      scrollAreaHeight: 760,
       isDescriptionAllowed: () => true,
       onSelectInnerLink: () => {},
       onSelectEntityLink: () => {},
@@ -97,8 +101,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
+      scrollAreaHeight: 760,
       isDescriptionAllowed: () => true,
       onSelectInnerLink: () => {},
       onSelectEntityLink: () => {},
@@ -134,8 +140,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
           couplingTags: [],
           linkedEntities: [],
           linkedDocuments: [],
+          otherVersions: [],
         },
       },
+      scrollAreaHeight: 760,
       isDescriptionAllowed: () => true,
       onSelectInnerLink: () => {},
       onSelectEntityLink: () => {},
@@ -156,6 +164,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
   const onSearchEntity = () => {}
   const onSelectEntityLink = () => {}
   const onSelectInnerLink = () => {}
+  const scrollAreaHeight = 760
   const testCases = [{
     label: 'parameters',
     selectedTreeEntry: {
@@ -166,6 +175,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     expectedProperties: {
       thumbnail: resolvedDataEntity.displayModel.thumbnail,
       attributesGroups: resolvedDataEntity.displayModel.attributesGroups,
+      scrollAreaHeight,
     },
   }, {
     label: 'quicklooks',
@@ -176,6 +186,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     ExpectedComponent: QuicklookViewComponent,
     expectedProperties: {
       quicklookFiles: resolvedDataEntity.displayModel.quicklookFiles,
+      scrollAreaHeight,
     },
   }, {
     label: 'simple tags',
@@ -188,6 +199,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       tags: resolvedDataEntity.displayModel.wordTags,
       allowSearching: true,
       onSearchWord,
+      scrollAreaHeight,
     },
   }, {
     label: 'coupling tags',
@@ -200,6 +212,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       tags: resolvedDataEntity.displayModel.couplingTags,
       allowSearching: true,
       onSearchWord,
+      scrollAreaHeight,
     },
   }, {
     label: 'linked entities',
@@ -214,6 +227,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       allowSearching: true,
       onSearchEntity,
       onSelectEntityLink,
+      scrollAreaHeight,
     },
   }, {
     label: 'linked documents',
@@ -228,6 +242,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       allowSearching: true,
       onSearchEntity,
       onSelectEntityLink,
+      scrollAreaHeight,
     },
   }, {
     label: 'information files list',
@@ -240,6 +255,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       section: BROWSING_SECTIONS_ENUM.INFORMATION,
       files: resolvedDatasetEntity.displayModel.descriptionFiles,
       onSelectInnerLink,
+      scrollAreaHeight,
     },
   }, {
     label: 'an information file content',
@@ -263,6 +279,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
       section: BROWSING_SECTIONS_ENUM.FILES,
       files: resolvedDataEntity.displayModel.otherFiles,
       onSelectInnerLink,
+      scrollAreaHeight,
     },
   }, {
     label: 'an other file content',
@@ -275,6 +292,18 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     expectedProperties: {
       uri: resolvedDataEntity.displayModel.otherFiles[0].uri,
     },
+  }, {
+    label: 'ovther versions list',
+    selectedTreeEntry: {
+      section: BROWSING_SECTIONS_ENUM.OTHER_VERSIONS,
+    },
+    descriptionEntity: resolvedDataEntity,
+    ExpectedComponent: VersionSectionPageComponent,
+    expectedProperties: {
+      entities: resolvedDataEntity.displayModel.otherVersions,
+      onSelectEntityLink,
+      scrollAreaHeight,
+    },
   }]
   testCases.forEach(({
     label, selectedTreeEntry, descriptionEntity, ExpectedComponent, expectedProperties,
@@ -285,6 +314,7 @@ describe('[Description] Testing ContentDisplayComponent', () => {
         ...descriptionEntity,
         selectedTreeEntry, // override current path in tree
       },
+      scrollAreaHeight,
       isDescriptionAllowed,
       onSelectInnerLink,
       onSelectEntityLink,

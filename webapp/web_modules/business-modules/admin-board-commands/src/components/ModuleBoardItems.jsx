@@ -17,7 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
+import AddIcon from 'mdi-material-ui/PlusCircle'
+import PageView from 'mdi-material-ui/CardSearch'
 import { orderDependencies } from '@regardsoss/admin-order-management'
+import { processingDependencies } from '@regardsoss/admin-processing-management'
 
 /**
  * BoardItems configuration for command board
@@ -36,6 +39,32 @@ const items = (project, intl) => [
       className: 'selenium-ordersList',
       tooltipMsg: intl.formatMessage({ id: 'commands.board.tooltip.list' }),
       hateoasDependencies: orderDependencies.listDependencies,
+    }],
+  },
+  // processing card
+  {
+    title: intl.formatMessage({ id: 'commands.board.processing.title' }),
+    description: intl.formatMessage({ id: 'commands.board.processing.description' }),
+    advanced: false,
+    actions: [{
+      path: `/admin/${project}/commands/processing/monitoring`,
+      icon: <PageView />,
+      className: 'selenium-ordersList',
+      tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.monitoring' }),
+      hateoasDependencies: processingDependencies.listMonitoringDependencies,
+    }, {
+      path: `/admin/${project}/commands/processing/list`,
+      icon: <ViewLinesIcon />,
+      className: 'selenium-ordersList',
+      tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.list' }),
+      hateoasDependencies: processingDependencies.listProcessingDependencies,
+    },
+    {
+      path: `/admin/${project}/commands/processing/create`,
+      icon: <AddIcon />,
+      className: 'selenium-ordersList',
+      tooltipMsg: intl.formatMessage({ id: 'commands.board.processing.tooltip.add' }),
+      hateoasDependencies: processingDependencies.addProcessingDependencies,
     }],
   },
 ]

@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { LabelVersionText } from '@regardsoss/attributes-common'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import BreadcrumbLinkComponent from '../../../../src/components/user/header/BreadcrumbLinkComponent'
 import styles from '../../../../src/styles'
@@ -40,8 +41,11 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDataEntity,
       entityIndex: 25,
@@ -51,12 +55,12 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
-    // 1 - check label is both displayed and shown as tooltip
-    const { label } = props.descriptionEntity.entity.content
+    // 1 - check label is displayed as text and tooltip
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
-    const callbackHolder = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
+    const callbackHolder = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(callbackHolder, 1, 'There should be an element providing selection callback on click')
     assert.isNotOk(spyOnSelectEntityIndex.index, 'Callback should not have been invoked yet')
     callbackHolder.props().onClick()
@@ -66,8 +70,11 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     const spyOnSelectEntityIndex = {}
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDatasetEntity,
       entityIndex: 18,
@@ -77,12 +84,12 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
       },
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
-    // 1 - check label is both displayed and shown as tooltip
-    const { label } = props.descriptionEntity.entity.content
+    // 1 - check label is displayed as text and tooltip
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
-    const callbackHolder = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onClick)
+    const callbackHolder = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onClick)
     assert.lengthOf(callbackHolder, 1, 'There should be an element providing selection callback on click')
     assert.isNotOk(spyOnSelectEntityIndex.index, 'Callback should not have been invoked yet')
     callbackHolder.props().onClick()

@@ -198,7 +198,6 @@ export class ThemeFormComponent extends React.Component {
     }
   }
 
-
   /**
    *  Add to the alteration of the theme (=> its configuration) the base theme the user selected
    */
@@ -246,7 +245,7 @@ export class ThemeFormComponent extends React.Component {
    * Validates unique theme names
    * @return {string} error message key for duplicated names errors, undefined otherwise
    */
-  validateUniqueName = formName => find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
+  validateUniqueName = (formName) => find(this.props.themeList, ({ content: { name } }) => name === formName) ? 'theme.form.name.not.unique.error' : undefined
 
   /* Validators for name: varchar 16, no duplicated name */
   // eslint-disable-next-line react/sort-comp
@@ -257,7 +256,6 @@ export class ThemeFormComponent extends React.Component {
     ValidationHelpers.lengthLessThan(16),
     this.validateUniqueName,
   ]
-
 
   render() {
     const {

@@ -27,10 +27,12 @@ import NormalQuicklookPictureComponent from './NormalQuicklookPictureComponent'
  * - Current quiclook view mode render on center
  * @author Léo Mieulet
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class QuicklookViewComponent extends React.Component {
   static propTypes = {
     quicklookFiles: PropTypes.arrayOf(UIShapes.QuicklookDefinition).isRequired,
+    scrollAreaHeight: PropTypes.number,
   }
 
   state = {
@@ -41,7 +43,7 @@ class QuicklookViewComponent extends React.Component {
   /**
    * On user selected a group:
    */
-  onSelectGroup = groupIndex => this.setState({ groupIndex })
+  onSelectGroup = (groupIndex) => this.setState({ groupIndex })
 
   /**
    * On user click, toggle the zoom
@@ -54,16 +56,17 @@ class QuicklookViewComponent extends React.Component {
   }
 
   render() {
-    const { quicklookFiles } = this.props
+    const { quicklookFiles, scrollAreaHeight } = this.props
     const { magnified, groupIndex } = this.state
     return (
-      <React.Fragment>
+      <>
         { /** Show quicklook groups list, when there are multiple groups and state is not magnified  */
           quicklookFiles.length > 1 && !magnified ? (
             <QuicklookFilesListComponent
               selectedIndex={groupIndex}
               quicklookFiles={quicklookFiles}
               onSelectGroup={this.onSelectGroup}
+              scrollAreaHeight={scrollAreaHeight}
             />) : null
         }
         { /** Show current mode render */
@@ -78,7 +81,7 @@ class QuicklookViewComponent extends React.Component {
                 onToggleMagnified={this.onToggleMagnified}
               />)
         }
-      </React.Fragment>
+      </>
     )
   }
 }

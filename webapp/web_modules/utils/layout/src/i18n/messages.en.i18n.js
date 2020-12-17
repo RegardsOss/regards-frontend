@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
  * Modules english messages
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'container.form.id': 'Name',
   'container.form.type': 'Type',
   'container.form.classes': 'CSS Classes',
@@ -49,6 +49,7 @@ const messages = Object.assign({
   'container.type.content.column.50.percent.container': '50% width column',
   'container.type.content.column.25.percent.container': '25% width column',
   'container.configuration.edit.styles.error.json.format': ' - JSON format is invalid',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

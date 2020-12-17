@@ -23,7 +23,7 @@ import isEqual from 'lodash/isEqual'
 import AutoCompleteTextField from '../../list/AutoCompleteTextField'
 
 /**
- * Session Filter AutoComplete
+ * Filter AutoComplete
  * @author Kévin Picart
  */
 class TableHeaderAutoCompleteFilter extends React.Component {
@@ -50,13 +50,13 @@ class TableHeaderAutoCompleteFilter extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-    componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+    UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
    /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-   componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
    /**
     * Properties change detected: update local state
@@ -65,7 +65,7 @@ class TableHeaderAutoCompleteFilter extends React.Component {
     */
     onPropertiesUpdated = (oldProps, nextProps) => {
       if (!isEqual(oldProps, nextProps)) {
-        const nextHints = map(nextProps.currentHints, element => nextProps.prepareHints(element))
+        const nextHints = map(nextProps.currentHints, (element) => nextProps.prepareHints(element))
         this.setState({ currentHints: nextHints })
       }
     }

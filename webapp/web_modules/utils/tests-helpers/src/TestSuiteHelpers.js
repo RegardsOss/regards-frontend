@@ -17,6 +17,8 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
+import isEqual from 'lodash/isEqual'
+import reduce from 'lodash/reduce'
 import Enzyme from 'enzyme'
 import { assert } from 'chai'
 import Adapter from 'enzyme-adapter-react-16'
@@ -25,14 +27,12 @@ import 'mock-local-storage' // installs local storage mock
 // Initialize enzyme: it will be run only once (when initially loading this file)
 Enzyme.configure({ adapter: new Adapter() })
 
-
 // Store real console.error method in order to reuse it later
 const originalConsoleError = console.error
 
-
 /**
  * Provides a stub that reproduce the behavior of a React Container dispatchable method
- * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+ * Usually used by Container that fetches data on their componentDidMount, UNSAFE_componentWillMount and user actions
  * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
  * @param returnValue promise value returned on promise resolution
  * @param sideEffects function called before promise resolution
@@ -46,7 +46,6 @@ function getDispatchStub(returnValue = { error: false, payload: {} }, sideEffect
     resolve(returnValue)
   })
 }
-
 
 /**
  * Test suite helpers : initialize test suite and clears after run. Provides tools for tests
@@ -85,7 +84,7 @@ export default {
 
   /**
    * Asserts a wrapper contains all expected properties
-   * @param {*} enzymeWrapper enzyme wrapper
+   * @param {ShallowWrapper} enzymeWrapper enzyme wrapper
    * @param {*} expectedProperties expected properties
    * @param message assertion fail message (optional)
    */
@@ -94,8 +93,51 @@ export default {
   },
 
   /**
+   * Asserts a wrapper is displayed once in parent wrapper (by its class), with the right properties (if class is found many times, check by properties)
+   * @param {ShallowWrapper} parentWrapper parent wrapper
+   * @param {string|Function} CompClass class of the component to find
+   * @param {*} expectedProperties expected properties for corresponding  wrapper
+   * @param message assertion fail message (optional)
+   * @return {ShallowWrapper} found enzyme wrapper
+   */
+  assertCompWithProps(parentWrapper, CompClass, expectedProperties, message = `${CompClass.displayName} should be displayed with right properties`) {
+    let foundWrapper = parentWrapper.find(CompClass)
+    if (foundWrapper.length > 1) {
+      // many components of that class: find by expected properties
+      foundWrapper = foundWrapper.findWhere((n) => reduce(expectedProperties,
+        (acc, value, key) => acc && isEqual(value, n.props()[key]), true))
+    }
+    assert.lengthOf(foundWrapper, 1, message)
+    this.assertWrapperProperties(foundWrapper, expectedProperties, message)
+    return foundWrapper
+  },
+
+  /**
+   * Asserts a component is not displayed in parent wrapper (by its class)
+   * @param {ShallowWrapper} parentWrapper parent wrapper
+   * @param {string|Function} CompClass class of the component to NOT find
+   * @param message assertion fail message (optional)
+   * @param {*} expectedProperties expected properties for corresponding  wrapper
+   */
+  assertNotComp(parentWrapper, CompClass, message = `${CompClass.displayName} should not be displayed`, expectedProperties = {}) {
+    let foundWrapper = parentWrapper.find(CompClass)
+    if (foundWrapper.length > 1) {
+      foundWrapper = foundWrapper.findWhere((n) => reduce(expectedProperties,
+        (acc, value, key) => acc && isEqual(value, n.props()[key]), true))
+    }
+    if (foundWrapper.length === 1) {
+      // component found: check properties are different
+      const props = foundWrapper.props()
+      const asADifferentValue = reduce(expectedProperties, (foundDiff, expectedVal, expectedKey) => foundDiff || !isEqual(expectedVal, props[expectedVal]), false)
+      assert.isTrue(asADifferentValue, message)
+    } else {
+      assert.lengthOf(foundWrapper, 0, message)
+    }
+  },
+
+  /**
    * Provides a stub that reproduce the behavior of a React Container dispatchable method that retrieve data without issue
-   * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+   * Usually used by Container that fetches data on their componentDidMount, UNSAFE_componentWillMount and user actions
    * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
    * @param payloadContent the payload data
    * @param sideEffects function called before promise resolution
@@ -112,7 +154,7 @@ export default {
 
   /**
    * Provides a stub that reproduce the behavior of a React Container dispatchable method that fails to retrieve data
-   * Usually used by Container that fetches data on their componentDidMount, componentWillMount and user actions
+   * Usually used by Container that fetches data on their componentDidMount, UNSAFE_componentWillMount and user actions
    * The sideEffects function let you manipulate attributes passed to the dispatched functions, run spy, ...
    * @param sideEffects function called before promise resolution
    * @return {function} stub dispatch method returing a resolved promise

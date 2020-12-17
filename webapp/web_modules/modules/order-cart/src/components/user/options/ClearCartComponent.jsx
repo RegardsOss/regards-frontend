@@ -31,27 +31,25 @@ class ClearCartComponent extends React.Component {
   static propTypes = {
     onClearCart: PropTypes.func.isRequired,
     empty: PropTypes.bool.isRequired,
-    disabled: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
   }
 
-
   render() {
     const { intl: { formatMessage } } = this.context
-    const { disabled, empty, onClearCart } = this.props
+    const { isFetching, empty, onClearCart } = this.props
     return (
       <ButtonWithConfirmDialog
         onClick={onClearCart}
         dialogTitle={formatMessage({ id: 'order-cart.module.clear.confirmation.title' })}
         dialogMessage={formatMessage({ id: 'order-cart.module.clear.confirmation.message' })}
-
         label={formatMessage({ id: 'order-cart.module.clear.label' })} // button properties
         title={formatMessage({ id: 'order-cart.module.clear.tooltip' })}
         icon={<ClearCartIcon />}
-        disabled={disabled || empty}
+        disabled={isFetching || empty}
       />
     )
   }

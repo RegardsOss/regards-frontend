@@ -30,6 +30,7 @@ export const OrderFile = PropTypes.shape({
   id: PropTypes.number.isRequired,
   orderId: PropTypes.number.isRequired,
   state: PropTypes.oneOf(OrderDomain.ORDER_FILE_STATUS),
+  source: PropTypes.string,
   // common to all data files
   ...dataFileFields,
 })

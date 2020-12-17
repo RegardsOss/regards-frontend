@@ -46,6 +46,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
       settings: {
         content: {
           id: 1,
+          maxQuota: 1150,
+          rateLimit: 150,
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
         },
       },
@@ -84,6 +86,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
       settings: {
         content: {
           id: 1,
+          maxQuota: -1,
+          rateLimit: -1,
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
         },
       },
@@ -130,6 +134,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
       settings: {
         content: {
           id: 1,
+          maxQuota: -1,
+          rateLimit: 50,
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
         },
       },

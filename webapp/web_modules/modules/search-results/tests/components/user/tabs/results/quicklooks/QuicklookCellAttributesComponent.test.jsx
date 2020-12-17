@@ -58,7 +58,7 @@ describe('[SEARCH RESULTS] Testing QuicklookCellAttributesComponent', () => {
       const attributeValue = get(dataEntity, `content.${jsonPath}`)
       assert.isOk(attributeValue, `Attribute ${enLabel} value should be found`)
       const RenderConstructor = getTypeRender(type)
-      const renderComponent = enzymeWrapper.find(RenderConstructor).findWhere(comp => comp.props().value === attributeValue)
+      const renderComponent = enzymeWrapper.find(RenderConstructor).findWhere((comp) => comp.props().value === attributeValue)
       assert.lengthOf(renderComponent, 1, `There should be the rendered attribute ${enLabel} with value ${attributeValue}`)
     })
 

@@ -37,7 +37,6 @@ class TreeLinkComponent extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const {
       text, tooltip, selected, disabled,

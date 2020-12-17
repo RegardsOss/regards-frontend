@@ -52,7 +52,6 @@ export const editModelRoute = {
   },
 }
 
-
 const modelDataManagementRouter = {
   childRoutes: [
     listModelRoute,

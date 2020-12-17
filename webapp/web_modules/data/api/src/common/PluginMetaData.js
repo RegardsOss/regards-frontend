@@ -25,7 +25,7 @@ export const PluginMetaDataConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const PLUGIN_META_DATA = new Schema(PluginMetaDataConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[PluginMetaDataConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[PluginMetaDataConfiguration.entityKey]
   ,
 })
 export const PLUGIN_META_DATA_ARRAY = arrayOf(PLUGIN_META_DATA)

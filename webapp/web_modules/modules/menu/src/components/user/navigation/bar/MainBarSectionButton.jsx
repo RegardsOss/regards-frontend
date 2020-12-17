@@ -22,7 +22,6 @@ import { SectionNavigationItem } from '../../../../shapes/Navigation'
 import MainBarDropMenuButton from './MainBarDropMenuButton'
 import defaultSectionIconURL from '../../../../img/section.svg'
 
-
 /**
  * Section drop down button for the main bar
  * @author Raphaël Mechali
@@ -32,7 +31,6 @@ class MainBarSectionButton extends React.Component {
     item: SectionNavigationItem.isRequired,
     buildLinkURL: PropTypes.func.isRequired,
   }
-
 
   static contextTypes = {
     ...i18nContextType,

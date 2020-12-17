@@ -22,8 +22,6 @@ import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MainModuleComponent from '../../../src/components/user/MainModuleComponent'
 import styles from '../../../src/styles'
 import { resolvedDataEntity, resolvedDatasetEntity } from '../../dumps/resolved.dump'
-import ContentDisplayComponent from '../../../src/components/user/content/ContentDisplayComponent'
-import BrowsingTreeComponent from '../../../src/components/user/tree/BrowsingTreeComponent'
 import HeaderBarComponent from '../../../src/components/user/header/HeaderBarComponent'
 
 const context = buildTestContext(styles)
@@ -31,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test MainModuleComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing MainModuleComponent', () => {
   before(testSuiteHelpers.before)
@@ -42,8 +41,11 @@ describe('[Description] Testing MainModuleComponent', () => {
   it('should render correctly', () => {
     const props = {
       settings: {
+        showVersion: false,
         documentModels: ['any'],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDataEntity,
       selectedEntityIndex: 1,
@@ -70,29 +72,6 @@ describe('[Description] Testing MainModuleComponent', () => {
       onSearchEntity: props.onSearchEntity,
     }, 'Header properties should be correctly set')
 
-    const browsingTreeWrapper = enzymeWrapper.find(BrowsingTreeComponent)
-    assert.lengthOf(browsingTreeWrapper, 1, 'There should be the browsing tree')
-    testSuiteHelpers.assertWrapperProperties(browsingTreeWrapper, {
-      allowSearching: props.allowSearching,
-      browsingTreeVisible: props.browsingTreeVisible,
-      descriptionEntity: props.descriptionEntity,
-      isDescriptionAllowed: props.isDescriptionAllowed,
-      onSelectInnerLink: props.onSelectInnerLink,
-      onSelectEntityLink: props.onSelectEntityLink,
-      onSearchWord: props.onSearchWord,
-      onSearchEntity: props.onSearchEntity,
-    }, 'Browsing tree properties should be correctly set')
-
-    const contentDisplayWrapper = enzymeWrapper.find(ContentDisplayComponent)
-    assert.lengthOf(contentDisplayWrapper, 1, 'There should be the content displayer')
-    testSuiteHelpers.assertWrapperProperties(contentDisplayWrapper, {
-      descriptionEntity: props.descriptionEntity,
-      isDescriptionAllowed: props.isDescriptionAllowed,
-      allowSearching: props.allowSearching,
-      onSelectInnerLink: props.onSelectInnerLink,
-      onSelectEntityLink: props.onSelectEntityLink,
-      onSearchWord: props.onSearchWord,
-      onSearchEntity: props.onSearchEntity,
-    }, 'Content displayer properties should be correctly set')
+    // cannot test further due to Measure HOC
   })
 })

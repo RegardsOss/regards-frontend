@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 
-export const waitingAccessUsersEntitiesActions = new AdminClient.WaitingAccessUsersEntitiesActions()
-export const waitingAccessUsersEntitiesReducer = AdminClient.getWaitingAccessUsersEntitiesReducer()
-export const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors()
+export const waitingAccessUsersEntitiesActions = new AccessProjectClient.WaitingAccessUsersEntitiesActions()
+export const waitingAccessUsersEntitiesReducer = AccessProjectClient.getWaitingAccessUsersEntitiesReducer()
+export const waitingAccessUsersEntitiesSelectors = AccessProjectClient.getWaitingAccessUsersEntitiesSelectors()

@@ -19,12 +19,14 @@
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { PluginProvider } from '@regardsoss/plugins'
 import ServiceConfigurationFormComponent from '../components/ServiceConfigurationFormComponent'
 import { uiPluginConfigurationSelectors, uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Show the plugin service configuration form
@@ -36,8 +38,8 @@ export class ServiceConfigurationFormContainer extends React.Component {
     uiPluginConfiguration: ownProps.params.uiPluginConfId ? uiPluginConfigurationSelectors.getById(state, ownProps.params.uiPluginConfId) : null,
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchUIPluginConfiguration: id => dispatch(uiPluginConfigurationActions.fetchEntity(id)),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchUIPluginConfiguration: (id) => dispatch(uiPluginConfigurationActions.fetchEntity(id)),
     createUIPluginConfiguration: (entity, pathParams) => dispatch(uiPluginConfigurationActions.createEntity(entity, pathParams)),
     updateUIPluginConfiguration: (id, entity, pathParams) => dispatch(uiPluginConfigurationActions.updateEntity(id, entity, pathParams)),
   })
@@ -58,16 +60,14 @@ export class ServiceConfigurationFormContainer extends React.Component {
     createUIPluginConfiguration: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.uiPluginConfId === undefined
-
-    this.state = {
-      isCreating,
-      isLoading: !isCreating,
-      isEditing: props.params.uiPluginConfId !== undefined && props.params.mode === 'edit',
-      isDuplicating: props.params.uiPluginConfId !== undefined && props.params.mode === 'duplicate',
-    }
+  /**
+   * Initial state
+   */
+  state = {
+    isCreating: !this.props.params.uiPluginConfId,
+    isLoading: !!this.props.params.uiPluginConfId, // loading initially when not creating
+    isEditing: !!this.props.params.uiPluginConfId && this.props.params.mode === 'edit',
+    isDuplicating: !!this.props.params.uiPluginConfId && this.props.params.mode === 'duplicate',
   }
 
   componentDidMount() {
@@ -91,7 +91,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
   }
 
   handleUpdate = (values) => {
-    const updatedPluginConfiguration = Object.assign({}, {
+    const updatedPluginConfiguration = {
       id: this.props.uiPluginConfiguration.content.id,
       pluginDefinition: this.props.uiPluginConfiguration.content.pluginDefinition,
       label: values.label,
@@ -101,7 +101,7 @@ export class ServiceConfigurationFormContainer extends React.Component {
         static: values.static || {},
         dynamic: values.dynamic || {},
       },
-    })
+    }
     Promise.resolve(this.props.updateUIPluginConfiguration(this.props.params.uiPluginConfId, updatedPluginConfiguration))
       .then((actionResult) => {
         // We receive here the action
@@ -127,7 +127,10 @@ export class ServiceConfigurationFormContainer extends React.Component {
         dynamic: values.dynamic || {},
       },
     }
-    Promise.resolve(this.props.createUIPluginConfiguration(newPluginConfiguration, { plugin_id: this.props.params.uiPluginId }))
+    Promise.resolve(this.props.createUIPluginConfiguration(newPluginConfiguration, {
+      // eslint-disable-next-line camelcase
+      plugin_id: this.props.params.uiPluginId, // eslint wont fix: expected server format
+    }))
       .then((actionResult) => {
         // We receive here the action
         if (!actionResult.error) {
@@ -143,26 +146,28 @@ export class ServiceConfigurationFormContainer extends React.Component {
     } = this.state
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-        >
-          {() => (
-            <PluginProvider
-              pluginId={Number(uiPluginId)}
-              pluginInstanceId="something"
-              displayPlugin={false}
-            >
-              <ServiceConfigurationFormComponent
-                uiPluginConfiguration={uiPluginConfiguration}
-                isCreating={isCreating}
-                isEditing={isEditing}
-                isDuplicating={isDuplicating}
-                onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
-                backUrl={this.getBackUrl()}
-              />
-            </PluginProvider>
-          )}
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+          >
+            {() => (
+              <PluginProvider
+                pluginId={Number(uiPluginId)}
+                pluginInstanceId="something"
+                displayPlugin={false}
+              >
+                <ServiceConfigurationFormComponent
+                  uiPluginConfiguration={uiPluginConfiguration}
+                  isCreating={isCreating}
+                  isEditing={isEditing}
+                  isDuplicating={isDuplicating}
+                  onSubmit={isEditing ? this.handleUpdate : this.handleCreate}
+                  backUrl={this.getBackUrl()}
+                />
+              </PluginProvider>
+            )}
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

@@ -21,7 +21,6 @@ import { themeContextType, withModuleStyle, SwitchThemeDecorator } from '@regard
 import { HOCUtils } from '@regardsoss/display-control'
 import styles from './styles'
 
-
 /**
 * This dialog fits its children height and width
 */
@@ -55,9 +54,16 @@ class FitContentDialog extends React.Component {
     const { fitContentDialog, dialogCommon } = this.context.moduleTheme
 
     // merge custom and local styles
-    const actionsContainerStyle = { customActionsContainerStyle, ...dialogCommon.actionsContainerStyle }
-    const contentStyle = { customContentStyle, ...fitContentDialog.contentStyle }
-
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const actionsContainerStyle = { // eslint wont fix: merge props and context (accurate only in render)
+      customActionsContainerStyle,
+      ...dialogCommon.actionsContainerStyle,
+    }
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const contentStyle = { // eslint wont fix: merge props and context (accurate only in render)
+      customContentStyle,
+      ...fitContentDialog.contentStyle,
+    }
 
     return (
       <SwitchThemeDecorator

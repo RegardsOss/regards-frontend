@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'dataaccess.searchengines.list.title': 'Configure catalog search protocol',
   'dataaccess.searchengines.list.subtitle': 'Each protocol configuration can be associated to all catalog o to a specific dataset.',
   'dataaccess.searchengines.list.header.label': 'Label',
@@ -71,7 +71,7 @@ const messages = Object.assign({
   'plugin.configuration.form.description.more': 'Display protocol advanced description',
 
   'dataaccess.searchengines.list.confirm.delete.title': 'Delete selected protocol?',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

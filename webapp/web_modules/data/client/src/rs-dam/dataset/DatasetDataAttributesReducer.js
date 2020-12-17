@@ -30,7 +30,6 @@ class DatasetDataAttributesReducer extends BasicPageableReducers {
   }
 }
 
-
 export default (namespace) => {
   const instance = new DatasetDataAttributesReducer(namespace)
   return (state, action) => instance.reduce(state, action)

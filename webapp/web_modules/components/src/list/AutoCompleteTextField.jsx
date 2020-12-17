@@ -132,7 +132,7 @@ class AutoCompleteTextField extends React.Component {
    * (onUpdateInput should be correctly throttled to avoid this system sending to many requests)
    * @param {*} nextProps next properties
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const { currentHintText } = nextProps
     const { currentHintText: oldText } = this.props
     if (oldText !== currentHintText) {
@@ -150,7 +150,7 @@ class AutoCompleteTextField extends React.Component {
    */
   onUpdateInput = (newText = '') => {
     const { onUpdateInput } = this.props
-    // store a transient state to avoid calling onTextInput twice for the same event (see componentWillReceiveProps)
+    // store a transient state to avoid calling onTextInput twice for the same event (see UNSAFE_componentWillReceiveProps)
     this.lastUserInputText = newText
     onUpdateInput(newText)
   }
@@ -171,11 +171,10 @@ class AutoCompleteTextField extends React.Component {
       // user entered text, item is the text value here
       id = item
       // verify hints list to check wether the hint can be found
-      isInList = !!currentHints.find(hint => hint.text.toLowerCase() === item.toLowerCase())
+      isInList = !!currentHints.find((hint) => hint.text.toLowerCase() === item.toLowerCase())
     }
     onFilterSelected(id, isInList)
   }
-
 
   /**
    * Returns or create the current state datasource: switches real datasource in no data or loading cases

@@ -22,13 +22,17 @@ import { NAVIGATION_ITEM_TYPES_ENUM } from '../domain/NavigationItemTypes'
 import { VISIBILITY_MODES } from '../domain/VisibilityModes'
 import { HOME_ICON_TYPES } from '../domain/HomeIconType'
 
+/**
+* Shape for module configuration created/saved by admin part of the module an read by the user part of the module
+* @author Raphaël Mechali
+* @author Théo Lasserre
+ */
 /** Fields that are common to module and section items */
 const commonItemsFields = {
   id: PropTypes.number.isRequired, // external module id
   visibilityMode: PropTypes.oneOf(VISIBILITY_MODES).isRequired,
   visibleForRole: PropTypes.string, // provided only when mode is FOR_ROLE
 }
-
 
 /** A module as edited in module form */
 const EditionModule = PropTypes.shape({
@@ -40,9 +44,9 @@ const EditionModule = PropTypes.shape({
  * Note: recursive structure will work here (lazy loading hack is failing validation) therefore,
  * we assert section items have children!
  */
-const basicEditionSectionFields = {
+const basicEditionFields = {
   ...commonItemsFields,
-  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION]).isRequired,
+  type: PropTypes.oneOf([NAVIGATION_ITEM_TYPES_ENUM.SECTION, NAVIGATION_ITEM_TYPES_ENUM.LINK]).isRequired,
   icon: PropTypes.shape({
     type: PropTypes.oneOf(AccessDomain.PAGE_MODULE_ICON_TYPES).isRequired,
     url: PropTypes.string,
@@ -50,17 +54,23 @@ const basicEditionSectionFields = {
   title: UIShapes.IntlMessage.isRequired,
 }
 
+/** A link as edited in link form */
+export const EditionLink = PropTypes.shape({
+  ...basicEditionFields,
+  url: PropTypes.string.isRequired,
+})
+
 export const EditionSection = PropTypes.shape({
-  ...basicEditionSectionFields,
+  ...basicEditionFields,
   // only first level will be correctly validated
   children: PropTypes.arrayOf(PropTypes.oneOfType([
     EditionModule, PropTypes.shape({
-      ...basicEditionSectionFields,
+      ...basicEditionFields,
     })])).isRequired,
 })
 
 /** A navigation item */
-export const NavigationEditionItem = PropTypes.oneOfType([EditionModule, EditionSection])
+export const NavigationEditionItem = PropTypes.oneOfType([EditionModule, EditionSection, EditionLink])
 
 export const HomeConfigurationShape = PropTypes.shape({
   icon: PropTypes.shape({

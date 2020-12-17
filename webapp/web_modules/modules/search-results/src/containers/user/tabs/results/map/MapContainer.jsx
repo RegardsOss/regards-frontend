@@ -31,8 +31,34 @@ import { MizarAdapter } from '../../../../../../../../utils/mizar-adapter/src/ma
 /**
  * Map container: adapts current context and results to display it on a map. Provides corresponding callbacks
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class MapContainer extends React.Component {
+  static propTypes = {
+    // results context
+    moduleId: PropTypes.number.isRequired,
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+    resultsContext: UIShapes.ResultsContext.isRequired,
+    // product selection management
+    onProductSelected: PropTypes.func.isRequired,
+    // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
+    pageMetadata: PropTypes.shape({
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    // from mapDispatchToProps
+    updateResultsContext: PropTypes.func.isRequired,
+  }
+
+  /** Drawing selection feature ID */
+  static DRAWING_SELECTION_FEATURE_ID = 'DRAWING_SELECTION_FEATURE'
+
+  /** Drawing selection feature ID  (basis, use index to ensure unique)*/
+  static CURRENT_CRITERION_FEATURE_ID = 'CURRENT_SELECTION_FEATURE#'
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -60,23 +86,6 @@ export class MapContainer extends React.Component {
     }
   }
 
-  static propTypes = {
-    // results context
-    moduleId: PropTypes.number.isRequired,
-    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
-    resultsContext: UIShapes.ResultsContext.isRequired,
-    // from mapStateToProps
-    // eslint-disable-next-line react/no-unused-prop-types
-    entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
-    pageMetadata: PropTypes.shape({
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
-    // from mapDispatchToProps
-    updateResultsContext: PropTypes.func.isRequired,
-  }
-
   /**
    * Builds GeoJson features collections from regards catalog entities as parameter.
    * Removes entities with null geometry
@@ -85,17 +94,10 @@ export class MapContainer extends React.Component {
   static buildGeoJSONFeatureCollection(entities = []) {
     return {
       // REGARDS entities are features withing content field. Filter entities without geometry
-      features: entities.filter(e => !isNil(e.geometry) && !isEmpty(e.geometry)),
+      features: entities.filter((e) => !isNil(e.geometry) && !isEmpty(e.geometry)),
       type: 'FeatureCollection',
     }
   }
-
-  /** Drawing selection feature ID */
-  static DRAWING_SELECTION_FEATURE_ID = 'DRAWING_SELECTION_FEATURE'
-
-  /** Drawing selection feature ID  (basis, use index to ensure unique)*/
-  static CURRENT_CRITERION_FEATURE_ID = 'CURRENT_SELECTION_FEATURE#'
-
 
   /** Initial state */
   state = {
@@ -107,18 +109,22 @@ export class MapContainer extends React.Component {
     currentlyDrawingAreas: [],
     // holds the areas currently applying as geometry criteria
     criteriaAreas: [],
+    // holds the background layer conf
+    backgroundLayerConf: {},
+    /** Holds selected products */
+    selectedProducts: [],
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -145,18 +151,23 @@ export class MapContainer extends React.Component {
       nextState.loadedEntities = [
         ...entitiesToKeep,
         // add newly loaded entities, removing content field level, as expected for features
-        ...entities.map(e => e.content),
+        ...entities.map((e) => e.content),
       ]
       nextState.featuresCollection = MapContainer.buildGeoJSONFeatureCollection(nextState.loadedEntities)
     }
 
     // Handle feedback displayed area: each time selection mode change, reset it to empty
-    const { tab, selectedModeState: { selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode } } = oldResultsContext && oldTabType
+    const { tab, selectedModeState: { selectionMode, selectedProducts } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    const { tab: oldTab, selectedModeState: { selectionMode: oldSelectionMode, selectedProducts: oldSelectedProducts } } = oldResultsContext && oldTabType
       ? UIDomain.ResultsContextHelper.getViewData(oldResultsContext, oldTabType)
       : { tab: null, selectedModeState: {} }
     if (!isEqual(oldSelectionMode, selectionMode)) {
       nextState.currentlyDrawingAreas = []
+    }
+
+    // Handle selected product changes
+    if (!isEqual(oldSelectedProducts, selectedProducts)) {
+      nextState.selectedProducts = selectedProducts
     }
 
     // Handle criteria update: pre-compute the list of areas in state
@@ -172,16 +183,16 @@ export class MapContainer extends React.Component {
   }
 
   /**
-   * User toggled on / off drawing area filter mode
-   * @param {string} selectionMode new selection mode, from UIDomain.MAP_SELECTION_MODES_ENUM
+   * User toggled on / off view mode
+   * @param {string} mode new mode either MODE_3D or MODE_2D
    */
-  onSetSelectionMode = (selectionMode) => {
+  onToggleViewMode = (mode) => {
     const {
       moduleId, tabType, updateResultsContext, resultsContext,
     } = this.props
     const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update only when there is some change
-    if (selectionMode !== selectedModeState.selectionMode) {
+    if (mode !== selectedModeState.viewMode) {
       // update selection mode in mode state
       updateResultsContext(moduleId, {
         tabs: {
@@ -189,7 +200,39 @@ export class MapContainer extends React.Component {
             types: {
               [selectedType]: {
                 modes: {
-                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: { selectionMode },
+                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                    viewMode: mode,
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+    }
+  }
+
+  /**
+   * User toggled on / off selection mode
+   * @param {string} mode new mode either PICK_ON_CLICK or DRAW_RECTANGLE
+   */
+  onToggleSelectionMode = (mode) => {
+    const {
+      moduleId, tabType, updateResultsContext, resultsContext,
+    } = this.props
+    const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // update only when there is some change
+    if (mode !== selectedModeState.selectionMode) {
+      // update selection mode in mode state
+      updateResultsContext(moduleId, {
+        tabs: {
+          [tabType]: {
+            types: {
+              [selectedType]: {
+                modes: {
+                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                    selectionMode: mode,
+                  },
                 },
               },
             },
@@ -229,7 +272,6 @@ export class MapContainer extends React.Component {
       minX, maxX, minY, maxY, empty,
     } = MizarAdapter.toBoxCoordinates(point1, point2)
 
-
     // check area is not empty (empty area cannot be applied as criterion)
     if (!empty) {
       // update in results context, by diff
@@ -237,7 +279,7 @@ export class MapContainer extends React.Component {
         tabs: {
           [tabType]: {
             criteria: {
-              geometry: [{ // add or replace geomtry parameter
+              geometry: [{ // add or replace geometry parameter
                 point1,
                 point2,
                 requestParameters: {
@@ -267,7 +309,7 @@ export class MapContainer extends React.Component {
    * @param {*} selectedFeatures picked features list, matches Catalog.Entity shape (content)
    */
   onFeaturesPicked = (selectedFeatures) => {
-    // skip when sellection is empty
+    // skip when selection is empty
     if (!selectedFeatures.length) {
       return
     }
@@ -281,9 +323,9 @@ export class MapContainer extends React.Component {
               requestParameters: {
                 [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
                   new CatalogDomain.OpenSearchQuery([ // q: id=({selected ID 1} OR {selected ID 2} OR...)
-                    new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.ID_PARAM_NAME,
+                    new CatalogDomain.OpenSearchQueryParameter(CatalogDomain.OpenSearchQuery.SAPN.id,
                       CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(
-                        selectedFeatures.map(selectedFeature => selectedFeature.feature.id)))])
+                        selectedFeatures.map((selectedFeature) => selectedFeature.feature.id)))])
                     .toQueryString(),
               },
             }],
@@ -294,39 +336,36 @@ export class MapContainer extends React.Component {
   }
 
   render() {
-    const { tabType, resultsContext } = this.props
-    const { featuresCollection, currentlyDrawingAreas, criteriaAreas } = this.state
+    const {
+      tabType, resultsContext, onProductSelected,
+    } = this.props
+    const {
+      featuresCollection, currentlyDrawingAreas, criteriaAreas, selectedProducts,
+    } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
-    const { selectedModeState: { backgroundLayer, selectionMode } } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
-
-    let backgroundLayerConf = {}
-    if (backgroundLayer.conf) {
-      try {
-        backgroundLayerConf = JSON.parse(backgroundLayer.conf)
-      } catch (error) {
-        console.error('error', error)
-      }
-    }
+    const {
+      selectedModeState: {
+        layers, selectionMode, mapEngine, viewMode,
+      },
+    } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
       <MapComponent
         featuresCollection={featuresCollection}
         displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
-          ? currentlyDrawingAreas // drawing: show feedback area
-          : criteriaAreas // not drawing: show criteria areas
-        }
-
+          ? currentlyDrawingAreas /* drawing: show feedback area */
+          : criteriaAreas /* not drawing: show criteria areas */}
         selectionMode={selectionMode}
-        onSetSelectionMode={this.onSetSelectionMode}
-
+        viewMode={viewMode}
+        onToggleViewMode={this.onToggleViewMode}
+        onToggleSelectionMode={this.onToggleSelectionMode}
         onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
         onDrawingSelectionDone={this.onDrawingSelectionDone}
-
         onFeaturesPicked={this.onFeaturesPicked}
-
-        backgroundLayerURL={backgroundLayer.url}
-        backgroundLayerType={backgroundLayer.type}
-        backgroundLayerConf={backgroundLayerConf}
+        selectedProducts={selectedProducts}
+        onProductSelected={onProductSelected}
+        layers={layers}
+        mapEngine={mapEngine}
       />
     )
   }

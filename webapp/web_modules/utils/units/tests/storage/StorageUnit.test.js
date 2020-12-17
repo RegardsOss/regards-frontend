@@ -18,7 +18,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 
 // Test unit functions
 describe('[Storage Monitoring] Testing units', () => {
@@ -154,7 +154,7 @@ describe('[Storage Monitoring] Testing units', () => {
     })
   })
   it('should be storing units in scales, ordered from small to big', () => {
-    StorageUnitScale.all.forEach(unitScale => unitScale.units.reduce((previousUnit, currentUnit) => {
+    StorageUnitScale.all.forEach((unitScale) => unitScale.units.reduce((previousUnit, currentUnit) => {
       if (previousUnit) {
         assert.isAbove(currentUnit.toBits, previousUnit.toBits, `Inversed order in all units, between ${previousUnit.symbol} and ${currentUnit.symbol}`)
       }

@@ -21,7 +21,6 @@ import ResultsContextActions from '../../../src/ui/results/ResultsContextActions
 
 const testActions = new ResultsContextActions('tests')
 
-
 /**
  * Test SelectedDynamicModuleActions
  * @author Raphaël Mechali

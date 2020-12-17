@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'microservice-management.rs-access-project.description': 'Configuration du service de gestion de l\'interface utilisateur',
   'microservice-management.rs-access-instance.description': 'Configuration du service de gestion de l\'interface portail',
   'microservice-management.rs-admin.description': 'Configuration du service d\'administration du système',
@@ -33,6 +33,7 @@ const messages = Object.assign({
   'microservice-management.rs-dataprovider.description': 'Configuration du service d\'ajout automatique de données. Ce service génère des SIPs depuis un emplacement de fourniture de données. Les SIPs ainsi générés, sont ensuite envoyés au microservice rs-ingest.',
   'microservice-management.rs-fem.description': 'Catalogue d\'entités GeoJSON avec gestion optionelle du stockage des fichiers',
   'microservice-management.rs-notifier.description': ' Service de notifiation destiné à la production',
+  'microservice-management.rs-processing.description': 'Configuration du service de gestion des traitements',
 
   'microservice-management.configuration.tooltip': 'Configurer',
   'microservice-management.plugins.tooltip': 'Plugins',
@@ -88,7 +89,6 @@ const messages = Object.assign({
 
   'microservice-management.plugin.configurations.empty': 'Aucune configuration définie',
 
-
   'renderer.fileField.button.select.label': 'Sélectionner un fichier JSON',
   'microservice.conf-backup.title': 'Import et téléchargement de configuration de {name}',
   'microservice.conf-backup.action.export': 'Télécharger',
@@ -102,6 +102,7 @@ const messages = Object.assign({
   'microservice-management.backup-conf.tooltip': 'Gérer les backups',
 
   'plugin.description.more': 'Description détaillée ...',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

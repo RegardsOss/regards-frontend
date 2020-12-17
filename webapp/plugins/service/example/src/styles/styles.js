@@ -19,9 +19,11 @@
 
 /**
  * Styles for plugin
+ * @param theme Material UI theme, can be used to compute dynamic style values from current theme (automatically updated)
+ * @author Raphaël Mechali
  */
-const pluginStyles = theme => ({
-  // custom plugin styles here, can be computed from material UI theme as parameter
-})
-
-export default pluginStyles
+export default function getStyles(theme) {
+  return {
+    // no specific style
+  }
+}

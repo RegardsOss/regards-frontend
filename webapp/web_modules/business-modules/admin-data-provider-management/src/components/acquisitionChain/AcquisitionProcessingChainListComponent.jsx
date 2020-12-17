@@ -83,11 +83,6 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
 
   static AUTO_REFRESH_PERIOD = 20000
 
-  static getColumnSortingData(columnsSorting, columnKey) {
-    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
-    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
-  }
-
   /**
    * Convert column id to query corresponding names
    */
@@ -101,6 +96,11 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   static COLUMN_ORDER_TO_QUERY = {
     [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  static getColumnSortingData(columnsSorting, columnKey) {
+    const foundColumnIndex = columnsSorting.findIndex(({ columnKey: localColumnKey }) => localColumnKey === columnKey)
+    return foundColumnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[foundColumnIndex].order, foundColumnIndex]
   }
 
   /**
@@ -223,7 +223,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       <Breadcrumb
         rootIcon={<PageView />}
         elements={elements}
-        labelGenerator={label => label}
+        labelGenerator={(label) => label}
         onAction={() => { }}
       />
     )
@@ -255,7 +255,7 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
   onSort = (columnKey, order) => {
     const { columnsSorting } = this.state
     const newOrder = columnsSorting
-    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    const columnIndex = newOrder.findIndex((columnArray) => columnArray.columnKey === columnKey)
     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
       newOrder.splice(columnIndex, 1)
     } else if (columnIndex === -1) {
@@ -395,21 +395,6 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
       }]).build(),
     ]
 
-    const actions = [
-      <FlatButton
-        key="close"
-        label={formatMessage({ id: 'acquisition-product.run.dialog.close.button' })}
-        primary
-        onClick={this.onCloseDialog}
-      />,
-      <FlatButton
-        key="confirm"
-        label={formatMessage({ id: 'acquisition-product.run.dialog.confirm.button' })}
-        primary
-        onClick={this.onConfirmDialog}
-      />,
-    ]
-
     const defaultDateSessionName = new Date()
 
     return (
@@ -418,7 +403,20 @@ export class AcquisitionProcessingChainListComponent extends React.Component {
           title={formatMessage({ id: 'acquisition-product.run.dialog.title' })}
           open={this.state.sessionNameDialog}
           autoScrollBodyContent
-          actions={actions}
+          actions={<>
+            <FlatButton
+              key="close"
+              label={formatMessage({ id: 'acquisition-product.run.dialog.close.button' })}
+              primary
+              onClick={this.onCloseDialog}
+            />
+            <FlatButton
+              key="confirm"
+              label={formatMessage({ id: 'acquisition-product.run.dialog.confirm.button' })}
+              primary
+              onClick={this.onConfirmDialog}
+            />
+          </>}
           dialogWidthPercent={60}
           dialogHeightPercent={30}
           onRequestClose={this.onCloseDialog}

@@ -55,7 +55,6 @@ class CardActionsComponent extends React.Component {
           isSecondaryButtonDisabled={this.props.isSecondaryButtonDisabled}
           isSecondaryButtonVisible={this.props.isSecondaryButtonVisible}
           secondaryHateoasDependency={this.props.secondaryHateoasDependency}
-
           mainButtonClassName={this.props.mainButtonClassName}
           mainButtonUrl={this.props.mainButtonUrl}
           mainButtonLabel={this.props.mainButtonLabel}
@@ -64,7 +63,6 @@ class CardActionsComponent extends React.Component {
           isMainButtonVisible={this.props.isMainButtonVisible}
           isMainButtonDisabled={this.props.isMainButtonDisabled}
           mainHateoasDependencies={this.props.mainHateoasDependencies}
-
           theme={null}
         />
       </ThemeInjector>

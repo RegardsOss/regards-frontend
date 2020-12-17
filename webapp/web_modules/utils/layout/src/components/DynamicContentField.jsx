@@ -50,6 +50,9 @@ class DynamicContentField extends React.Component {
     ...i18nContextType,
   }
 
+  /** Dialog layout content style */
+  static DIALOG_CONTENT_STYLE = { width: 'auto' }
+
   state = {
     open: false,
   }
@@ -73,21 +76,6 @@ class DynamicContentField extends React.Component {
 
   render() {
     const { intl: { formatMessage }, muiTheme } = this.context
-    const actions = [
-      <FlatButton
-        key="cancel"
-        label={formatMessage({ id: 'container.form.dynamicContent.modal.cancel' })}
-        onClick={this.handleCancel}
-      />,
-      <FlatButton
-        key="confirm"
-        label={formatMessage({ id: 'container.form.dynamicContent.modal.ok' })}
-        onClick={this.handleConfirm}
-      />,
-    ]
-
-    const contentStyle = { width: 'auto' }
-
     return (
       <div style={dynamicContentWrapperStyle}>
         <Badge
@@ -100,7 +88,8 @@ class DynamicContentField extends React.Component {
               iconStyle={smallIconStyle}
             >
               <Help color={muiTheme.palette.disabledColor} />
-            </IconButton>}
+            </IconButton>
+}
         >
           <Field
             onChange={this.handleChange}
@@ -114,11 +103,24 @@ class DynamicContentField extends React.Component {
         </Badge>
         <Dialog
           title={formatMessage({ id: 'container.form.dynamicContent.modal.title' })}
-          actions={actions}
+          actions={
+            <>
+              <FlatButton
+                key="cancel"
+                label={formatMessage({ id: 'container.form.dynamicContent.modal.cancel' })}
+                onClick={this.handleCancel}
+              />
+              <FlatButton
+                key="confirm"
+                label={formatMessage({ id: 'container.form.dynamicContent.modal.ok' })}
+                onClick={this.handleConfirm}
+              />
+            </>
+          }
           modal={false}
           open={this.state.open}
           onRequestClose={this.handleClose}
-          contentStyle={contentStyle}
+          contentStyle={DynamicContentField.DIALOG_CONTENT_STYLE}
         >
           {formatMessage({ id: 'container.form.dynamicContent.modal.content' })}
         </Dialog>

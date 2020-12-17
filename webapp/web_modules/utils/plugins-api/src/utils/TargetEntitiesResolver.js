@@ -55,7 +55,7 @@ export class TargetEntitiesResolver {
    * @param {*} initialValue initial value
    */
   static getImmediateReducePromise(entities, reducer, initialValue) {
-    return new Promise(resolve => resolve(entities.reduce((acc, value, index) => reducer(acc, value, index), initialValue)))
+    return new Promise((resolve) => resolve(entities.reduce((acc, value, index) => reducer(acc, value, index), initialValue)))
   }
 
   /**
@@ -113,7 +113,7 @@ export class TargetEntitiesResolver {
             } else { // not done yet, loop into next page
               handleResultsPage(afterPageResult, pageIndex + 1)
             }
-          }).catch(e => reject(e)) // any page error must terminate the promise
+          }).catch((e) => reject(e)) // any page error must terminate the promise
       }
       // start resolving first page
       handleResultsPage(initialValue)

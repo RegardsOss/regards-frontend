@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'project.list.value.isPublic': 'Public',
   'project.list.value.isPrivate': 'Private',
   'project.list.value.isAccessible': 'Visible',
@@ -109,6 +109,7 @@ const messages = Object.assign({
   'database.form.action.previous': 'Previous',
   'database.form.action.cancel': 'Cancel',
   'database.form.input.cange.configuration.mode': 'Use this configuration for all microservices of the project',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

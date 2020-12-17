@@ -42,7 +42,6 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing DBDatasourceFormMappingCust
       change: () => { },
     }
 
-
     const enzymeWrapper = shallow(<DBDatasourceFormMappingCustomComponent {...props} />, { context })
     expect(enzymeWrapper.find(DBDatasourceFormMappingLineComponent)).to.have.length(8)
   })

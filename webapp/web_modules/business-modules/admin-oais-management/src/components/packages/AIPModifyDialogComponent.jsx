@@ -95,13 +95,13 @@ export class AIPModifyDialogComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
   * Lifecycle method: component receive props. Used here to detect properties change and update local state
   * @param {*} nextProps next component properties
   */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
     * Properties change detected: update local state
@@ -160,7 +160,7 @@ export class AIPModifyDialogComponent extends React.Component {
         this.setState({
           [toggledSection]: {
             ...this.state[toggledSection],
-            list: filter(this.state[toggledSection].list, e => e !== entity),
+            list: filter(this.state[toggledSection].list, (e) => e !== entity),
             toDelete: [
               ...this.state[toggledSection].toDelete,
               entity,
@@ -181,7 +181,7 @@ export class AIPModifyDialogComponent extends React.Component {
             ...this.state[toggledSection].list,
             entity,
           ],
-          toDelete: filter(this.state[toggledSection].toDelete, e => e !== entity),
+          toDelete: filter(this.state[toggledSection].toDelete, (e) => e !== entity),
         },
       })
     }
@@ -193,7 +193,7 @@ export class AIPModifyDialogComponent extends React.Component {
       this.setState({
         [toggledSection]: {
           ...this.state[toggledSection],
-          toAdd: filter(this.state[toggledSection].toAdd, e => e !== entity),
+          toAdd: filter(this.state[toggledSection].toAdd, (e) => e !== entity),
         },
       })
     }
@@ -226,6 +226,22 @@ export class AIPModifyDialogComponent extends React.Component {
     })
   }
 
+  /** Inner callback: change section */
+  onChangeSection = (section) => {
+    this.setState({
+      toggledSection: section,
+    })
+  }
+
+  /** User callback: show storage section */
+  onShowStorageSection = () => this.onChangeSection(AIPModifyDialogComponent.SECTION_TYPES.STORAGE)
+
+  /** User callback: show category section */
+  onShowCategorySection = () => this.onChangeSection(AIPModifyDialogComponent.SECTION_TYPES.CATEGORY)
+
+  /** User callback: show tag section */
+  onShowTagSection = () => this.onChangeSection(AIPModifyDialogComponent.SECTION_TYPES.TAG)
+
   renderPane = (sectionType) => {
     const {
       moduleTheme: {
@@ -236,35 +252,8 @@ export class AIPModifyDialogComponent extends React.Component {
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const paneObject = this.state[sectionType]
     const { deleteStorageError } = this.state
-    const listColumns = [
-      new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
-        .build(),
-      new TableColumnBuilder('column.actions').optionsColumn([{
-        OptionConstructor: AIPModifyDeleteOption,
-        optionProps: { onDelete: this.onDelete },
-      }])
-        .build(),
-    ]
-    const deleteColumns = [
-      new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
-        .build(),
-      new TableColumnBuilder('column.actions').optionsColumn([{
-        OptionConstructor: AIPModifyUndoOption,
-        optionProps: { onUndo: this.onUndoDelete },
-      }])
-        .build(),
-    ]
-    const addColumns = [
-      new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
-        .build(),
-      new TableColumnBuilder('column.actions').optionsColumn([{
-        OptionConstructor: AIPModifyAddOption,
-        optionProps: { onUndo: this.onUndoAdd },
-      }])
-        .build(),
-    ]
     return (
-      <React.Fragment>
+      <>
         <div style={aipModifyDialogSectionTable}>
           <TableLayout>
             <TableHeaderLine>
@@ -275,7 +264,16 @@ export class AIPModifyDialogComponent extends React.Component {
             </TableHeaderLine>
             <InfiniteTableContainer
               displayColumnsHeader={false}
-              columns={listColumns}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: Major API rework required here
+                new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
+                  .build(),
+                new TableColumnBuilder('column.actions').optionsColumn([{
+                  OptionConstructor: AIPModifyDeleteOption,
+                  optionProps: { onDelete: this.onDelete },
+                }])
+                  .build(),
+              ]}
               entities={paneObject.list}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
@@ -293,7 +291,16 @@ export class AIPModifyDialogComponent extends React.Component {
             </TableHeaderLine>
             <InfiniteTableContainer
               displayColumnsHeader={false}
-              columns={deleteColumns}
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: Major API rework required here
+                new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
+                  .build(),
+                new TableColumnBuilder('column.actions').optionsColumn([{
+                  OptionConstructor: AIPModifyUndoOption,
+                  optionProps: { onUndo: this.onUndoDelete },
+                }])
+                  .build(),
+              ]}
               entities={paneObject.toDelete}
               minRowCount={minRowCount}
               maxRowCount={maxRowCount}
@@ -311,7 +318,16 @@ export class AIPModifyDialogComponent extends React.Component {
               </TableHeaderLine>
               <InfiniteTableContainer
                 displayColumnsHeader={false}
-                columns={addColumns}
+                // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+                columns={[ // eslint wont fix: Major API rework required here
+                  new TableColumnBuilder('column.providerId').valuesRenderCell([{ getValue: identity }])
+                    .build(),
+                  new TableColumnBuilder('column.actions').optionsColumn([{
+                    OptionConstructor: AIPModifyAddOption,
+                    optionProps: { onUndo: this.onUndoAdd },
+                  }])
+                    .build(),
+                ]}
                 entities={paneObject.toAdd}
                 minRowCount={minRowCount}
                 maxRowCount={maxRowCount}
@@ -333,39 +349,12 @@ export class AIPModifyDialogComponent extends React.Component {
               />
             </div>
           </div>]) : null}
-      </React.Fragment>
+      </>
     )
   }
 
-  renderActions = () => {
-    const { onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.packages.modify.cancel' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="confirmModify"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.packages.modify.confirm' })}
-        keyboardFocused
-        onClick={this.onConfirmModify}
-      />,
-    ]
-  }
-
-  changeSection = (section) => {
-    this.setState({
-      toggledSection: section,
-    })
-  }
-
   render() {
+    const { onClose } = this.props
     const { moduleTheme: { aipModifyDialog, aipModifyDialogList }, intl: { formatMessage } } = this.context
     const { toggledSection } = this.state
 
@@ -374,15 +363,31 @@ export class AIPModifyDialogComponent extends React.Component {
         dialogWidthPercent={90}
         dialogHeightPercent={90}
         title={formatMessage({ id: 'oais.packages.modify.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.packages.modify.cancel' })}
+            primary
+            keyboardFocused
+            onClick={onClose}
+          />
+          <FlatButton
+            key="confirmModify"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.packages.modify.confirm' })}
+            keyboardFocused
+            onClick={this.onConfirmModify}
+          />
+        </>}
         modal
         open
       >
         <div style={aipModifyDialog}>
           <List style={aipModifyDialogList}>
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.STORAGE)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.CATEGORY)} />
-            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={() => this.changeSection(AIPModifyDialogComponent.SECTION_TYPES.TAG)} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.storage' })} leftIcon={<StoragesIcon />} onClick={this.onShowStorageSection} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.category' })} leftIcon={<CategoriesIcon />} onClick={this.onShowCategorySection} />
+            <ListItem primaryText={formatMessage({ id: 'oais.packages.modify.tag' })} leftIcon={<TagsIcon />} onClick={this.onShowTagSection} />
           </List>
           { this.renderPane(toggledSection) }
         </div>

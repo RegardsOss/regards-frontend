@@ -18,21 +18,12 @@
  **/
 import map from 'lodash/map'
 import AppBar from 'material-ui/AppBar'
-import { Card, CardActions, CardTitle } from 'material-ui/Card'
-import IconList from 'mdi-material-ui/FormatListBulleted'
-import IconAdd from 'mdi-material-ui/PlusCircle'
-import Back from 'mdi-material-ui/ArrowLeft'
 import IconButton from 'material-ui/IconButton'
+import Back from 'mdi-material-ui/ArrowLeft'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AccessShapes } from '@regardsoss/shape'
-import moduleStyles from '../styles/styles'
-import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
-
-const styles = moduleStyles()
-const ResourceIconAction = withResourceDisplayControl(IconButton)
+import ServiceItemComponent from './ServiceItemComponent'
 
 /**
  * Displays the list of PluginDefinition having the type service
@@ -52,53 +43,26 @@ class ServiceListComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Returns a tile displaying the passed plugin.
-   *
-   * @param plugin
-   */
-  renderPlugin = (uiPluginDefinition) => {
-    const { handleOpen, handleCreate } = this.props
-    return (
-      <div className={styles.plugins.tile.classes} key={uiPluginDefinition.content.id}>
-        <Card style={styles.plugins.tile.styles}>
-          <CardTitle
-            title={uiPluginDefinition.content.name}
-          />
-          <CardActions style={styles.service.list.optionsStyles}>
-            <ResourceIconAction
-              resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.GET_LIST)}
-              tooltip={this.context.intl.formatMessage({ id: 'service.list.open.tooltip' })}
-              onClick={() => handleOpen(uiPluginDefinition.content.id)}
-            >
-              <IconList />
-            </ResourceIconAction>
-            <ResourceIconAction
-              resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
-              tooltip={this.context.intl.formatMessage({ id: 'service.list.create.tooltip' })}
-              onClick={() => handleCreate(uiPluginDefinition.content.id)}
-            >
-              <IconAdd />
-            </ResourceIconAction>
-          </CardActions>
-        </Card>
-      </div>
-    )
-  }
-
-
   render() {
-    const { uiPluginDefinitionList, handleBack } = this.props
+    const {
+      uiPluginDefinitionList, handleOpen, handleCreate, handleBack,
+    } = this.props
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <div>
         <AppBar
-          title={this.context.intl.formatMessage({ id: 'service.list.title' })}
+          title={formatMessage({ id: 'service.list.title' })}
           iconElementLeft={<IconButton onClick={handleBack}><Back /></IconButton>}
         />
-        <div style={styles.plugins.root}>
-          <div style={styles.plugins.grid}>
-            {map(uiPluginDefinitionList, uiPluginDefinition => (
-              this.renderPlugin(uiPluginDefinition)
+        <div style={moduleTheme.plugins.root}>
+          <div style={moduleTheme.plugins.grid}>
+            {map(uiPluginDefinitionList, (uiPluginDefinition) => (
+              <ServiceItemComponent
+                key={uiPluginDefinition.content.id}
+                uiPluginDefinition={uiPluginDefinition}
+                onOpen={handleOpen}
+                onCreate={handleCreate}
+              />
             ))}
           </div>
         </div>

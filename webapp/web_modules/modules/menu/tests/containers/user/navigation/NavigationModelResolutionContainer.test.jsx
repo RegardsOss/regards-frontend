@@ -80,8 +80,8 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     })
     const afterModulesUpdateState = enzymeWrapper.state()
     assert.isOk(afterModulesUpdateState, 'The component should have a state after props update')
-    assert.lengthOf(afterModulesUpdateState.navigationElements, 0,
-      'It should have resolved after update the navigation elements from configuration (no more item)')
+    assert.lengthOf(afterModulesUpdateState.navigationElements, 2,
+      'It should have resolved after update the navigation elements from configuration')
   })
   it('should resolve correctly missing and disabled modules, clearing the empty sections', () => {
     // 1 - build a list of modules to match the specific test case:
@@ -109,8 +109,8 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
 
     // check resoluting model, element by element, we expect:
     // [M5, M7, M8] (M3, M4, M2 and M6 should be deleted as not present in dynamic modules OR inactive,
-    // S0, S1 and S2 should be deleted as empty after filtering (or holding only empty sections))
-    assert.lengthOf(resolvedElements, 3, 'There should be 3 root elements (empty section should have been removed, new modules added)')
+    // S1 and S2 should be deleted as empty after filtering (or holding only empty sections))
+    assert.lengthOf(resolvedElements, 5, 'There should be 5 root elements (empty section should have been removed, new modules added)')
 
     // M5
     const r0 = resolvedElements[0]
@@ -123,7 +123,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     assert.deepEqual(r0.title, props.homeConfiguration.title, 'Home module title should be retrieved from home configuration')
 
     // M7 (new module)
-    const r1 = resolvedElements[1]
+    const r1 = resolvedElements[3]
     assert.equal(r1.key, 'module.7', 'R1 should be the module 7, added from dynamic list')
     assert.deepEqual(r1.module, {
       id: 7,
@@ -133,7 +133,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
     assert.deepEqual(r1.title, targetModules[targetModules.length - 2].content.page.title, 'Standard module configuration should be retrieved from dynamic module')
 
     // M8 (new module)
-    const r2 = resolvedElements[2]
+    const r2 = resolvedElements[4]
     assert.equal(r2.key, 'module.8', 'R3 should be the module 8, added from dynamic list')
     assert.deepEqual(r2.module, {
       id: 8,
@@ -223,7 +223,7 @@ describe('[Menu] Testing NavigationModelResolutionContainer', () => {
       },
     }
     // provide dynamic modules (only IDs are changed here)
-    const dynamicModules = [1, 2, 3, 4, 5].map(id => ({
+    const dynamicModules = [1, 2, 3, 4, 5].map((id) => ({
       content: {
         id,
         active: true,

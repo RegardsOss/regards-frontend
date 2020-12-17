@@ -18,6 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 import { storage } from '@regardsoss/units'
+import { messages as attrMsg } from '@regardsoss/attributes-common'
 
 /**
  * Module english messages
@@ -38,7 +39,9 @@ const messages = {
   'module.description.configuration.show.coupling': 'Display related coupling',
   'module.description.configuration.show.linked.documents': 'Display linked documents',
   'module.description.configuration.show.linked.entities': 'Display linked entities',
+  'module.description.configuration.show.other.versions': 'Display other entity versions',
   'module.description.configuration.show.thumbnail': 'Display thumbnail',
+  'module.description.configuration.show.quicklooks': 'Display quicklooks',
   'module.description.configuration.description.files.title': 'Description files',
   'module.description.configuration.description.files.hint': 'Enter here URL attributes to use as description files',
   'module.description.configuration.add.group': 'Add display groups',
@@ -68,6 +71,8 @@ const messages = {
   'module.description.common.search.entity.tooltip': 'Search data linked to {entityLabel}',
   'module.description.common.download.file.tooltip': 'Download file {fileName}',
   'module.description.common.file.preview.tooltip': 'Show preview of {fileName}',
+  'module.description.common.version.link.label': 'Version {version}',
+  'module.description.common.version.link.tooltip': 'Show version description',
   'module.description.header.toggle.tree.visible.tooltip': 'Show / hide description browsing tree',
   'module.description.header.search.entity.label': 'Search related data',
   'module.description.header.search.entity.tooltip': 'Search data related with the one currenly displayed',
@@ -87,6 +92,8 @@ const messages = {
   'module.description.tree.section.LINKED_DOCUMENTS.tooltip': 'Display linked documents list',
   'module.description.tree.section.FILES.label': 'Files',
   'module.description.tree.section.FILES.tooltip': 'Files',
+  'module.description.tree.section.OTHER_VERSIONS.label': 'Other versions',
+  'module.description.tree.section.OTHER_VERSIONS.tooltip': 'Other entity versions',
   'module.description.tree.show.entity.description.tooltip': 'Show data description',
   'module.description.content.parameters.thumbnail.alt.text': 'Thumbnail: {label}',
   'module.description.content.quicklook.group.unknown': 'Unnamed group',
@@ -95,6 +102,8 @@ const messages = {
   ...Locales.en,
   // Storage units messages
   ...storage.messages.en,
+  // Attributes messages
+  ...attrMsg.en,
 }
 
 export default messages

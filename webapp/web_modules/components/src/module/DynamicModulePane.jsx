@@ -39,7 +39,6 @@ import styles from './styles'
 import messages from './i18n'
 import CardMediaWithCustomBG from './CardMediaWithCustomBG'
 
-
 /**
  * This module is intended to display dynamic modules user container. It can adapt to both user and admin interface (ie: user container
  * here is the 'view' part of the dynamic modules - legacy name)
@@ -55,43 +54,6 @@ import CardMediaWithCustomBG from './CardMediaWithCustomBG'
  * @author Raphaël Mechali
  */
 export class DynamicModulePane extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { type, id }) {
-    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
-    const presentationState = moduleExpandedStateSelectors.getPresentationState(state, presentationKey)
-    return {
-      expandable: moduleExpandedStateSelectors.isExpandable(state, presentationKey),
-      presentationState,
-      storedPresentationState: presentationState, // raw presentation state from redux
-      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
-    }
-  }
-
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch, { type, id }) {
-    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
-    // use store when in user app, ignore event in admin apps (not expandable when in admin app)
-    return {
-      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(presentationKey, expandable, expanded)),
-      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(presentationKey)),
-      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(presentationKey)),
-      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(presentationKey)),
-    }
-  }
-
   static propTypes = {
     // A - Module configuration related
     ...AccessShapes.runtimeDispayModuleFields,
@@ -159,9 +121,45 @@ export class DynamicModulePane extends React.Component {
   }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
+    const presentationState = moduleExpandedStateSelectors.getPresentationState(state, presentationKey)
+    return {
+      expandable: moduleExpandedStateSelectors.isExpandable(state, presentationKey),
+      presentationState,
+      storedPresentationState: presentationState, // raw presentation state from redux
+      fetching: CommonEndpointClient.endpointSelectors.isFetching(state) || AuthenticationClient.authenticationSelectors.isFetching(state),
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+      isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch, { type, id }) {
+    const presentationKey = UIClient.ModuleExpandedStateActions.getPresentationModuleKey(type, id)
+    // use store when in user app, ignore event in admin apps (not expandable when in admin app)
+    return {
+      dispatchSetInitialState: (expandable, expanded) => dispatch(moduleExpandedStateActions.initialize(presentationKey, expandable, expanded)),
+      dispatchSetMinimized: () => dispatch(moduleExpandedStateActions.setMinimized(presentationKey)),
+      dispatchSetNormal: () => dispatch(moduleExpandedStateActions.setNormal(presentationKey)),
+      dispatchSetMaximized: () => dispatch(moduleExpandedStateActions.setMaximized(presentationKey)),
+    }
+  }
+
+  /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const { storedPresentationState } = this.props
     // initialize redux store with this configuration, when layout options should be shown AND not yet initializd (keeps state while
     // user change pages)
@@ -175,12 +173,11 @@ export class DynamicModulePane extends React.Component {
     this.onPropertiesChanged({}, this.props)
   }
 
-
   /**
    * Lifecycle method, used here to recompute authentication and dependencies state
    * @param nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed: used to detect changes in incoming component properties

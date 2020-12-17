@@ -18,8 +18,6 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
-  'authentication.dialog.title': 'Login to {project} user interface',
-}, Locales.en)
+const messages = { 'authentication.dialog.title': 'Login to {project} user interface', ...Locales.en }
 
 export default messages

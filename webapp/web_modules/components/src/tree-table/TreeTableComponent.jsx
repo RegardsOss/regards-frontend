@@ -85,6 +85,9 @@ export class TreeTableComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** Root row unique ID */
+  static ROOT_ROW_KEY = 'inner.model.root.row'
+
   /**
    * Searches row by its index in rows list
    * @param {*} rowIndex -
@@ -105,16 +108,14 @@ export class TreeTableComponent extends React.Component {
     return flattenTreeRows[rowIndex]
   }
 
-  static ROOT_ROW_KEY = 'inner.model.root.row'
-
   /** Lyfecycle method: component will mount. Used here to rebuild rows and local model from model */
-  componentWillMount = () => this.onPropertiesChanged({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChanged({}, this.props)
 
   /**
    * Lyfecycle method: component receive props. Used here to rebuild rows and local model from model
    * @param nextProps next properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesChanged(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChanged(this.props, nextProps)
 
   /**
    * On properties changed detected: update local rows model
@@ -194,7 +195,6 @@ export class TreeTableComponent extends React.Component {
     return userCell
   }
 
-
   /**
    * Renders a tree table row
    * @param {TreeTableRow} row model
@@ -219,7 +219,8 @@ export class TreeTableComponent extends React.Component {
       // sadly here we have to use an inline lambda, because MUI table accept only MUI table rows
       <TableRow
         key={row.key}
-        onDoubleClick={() => this.onToggleExpanded(row)}
+        // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+        onDoubleClick={() => this.onToggleExpanded(row)} // eslint wont fix: during mapping (requires a subclass, which doesn't work with MUI 0x table API)
         style={stripeLevelColors && depthLevel % 2 === 1 ? oddLevelRowStyle : evenLevelRowStyle}
         displayBorder={displayTableRowBorder}
       >

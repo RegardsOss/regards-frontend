@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'project.list.value.isPublic': 'Public',
   'project.list.value.isPrivate': 'Privé',
   'project.list.value.isAccessible': 'Visible',
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'project.form.isAccessible': 'Projet accessible',
   'project.form.icon': 'Lien HTTP vers l\'icône du projet',
   'project.form.license': 'Lien HTTP vers la description de la licence du projet',
-  'project.form.host': 'Adresse publique de la passerelle de REGARDS *',
+  'project.form.host': 'Adresse public de la passerelle de REGARDS *',
   'project.form.crs': 'Système de référence des coordonnées géométriques (crs)',
   'project.form.crs.WGS_84': 'Terre - WGS_84',
   'project.form.crs.MARS_49900': 'Mars - MARS_49900',
@@ -109,6 +109,7 @@ const messages = Object.assign({
   'database.form.action.previous': 'Précédent',
   'database.form.action.cancel': 'Annuler',
   'database.form.input.cange.configuration.mode': 'Utiliser cette connexion pour tous les microservices du projet',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

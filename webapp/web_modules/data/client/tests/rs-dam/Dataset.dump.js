@@ -33,9 +33,11 @@ export default {
             'habla espanol',
           ],
           attributes: {
-            Attribute_0_0: 'QSDf',
+            // eslint-disable-next-line camelcase
+            Attribute_0_0: 'QSDf', // eslint wont fix: matches server format
             'Fragment 2': {
-              Attribute_4: 'qsdf',
+              // eslint-disable-next-line camelcase
+              Attribute_4: 'qsdf', // eslint wont fix: matches server format
             },
           },
           providerId: 'dataset1',

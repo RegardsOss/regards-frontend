@@ -21,7 +21,6 @@ import SelectedDynamicModuleActions from '../../../src/ui/module/SelectedDynamic
 
 const testActions = new SelectedDynamicModuleActions('tests')
 
-
 /**
  * Test SelectedDynamicModuleActions
  * @author Raphaël Mechali

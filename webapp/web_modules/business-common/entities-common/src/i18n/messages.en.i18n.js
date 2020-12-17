@@ -39,6 +39,21 @@ const messages = {
   'entities.common.services.download.service.result': 'Download',
   'entities.common.services.ui.plugin.running.error': 'Error during service execution',
 
+  // backend / pluginBack
+  'entities.common.backend.pluginback.processing.dialog.title': 'Choose a processing',
+  'entities.common.backend.pluginback.processing.dialog.select.label': 'Processing',
+  'entities.common.backend.pluginback.processing.dialog.remove': 'Remove',
+  'entities.common.backend.pluginback.processing.dialog.cancel': 'Cancel',
+  'entities.common.backend.pluginback.processing.dialog.confirm': 'Confirm',
+  'entities.common.backend.pluginback.processing.dialog.remove.confirmation.title': 'Remove Processing',
+  'entities.common.backend.pluginback.processing.dialog.remove.confirmation.message': 'This action will remove {processingLabel} processing from the dataset',
+  'entities.common.backend.pluginback.processing.dialog.remove.tooltip': 'Remove Processing',
+
+  'entities.common.backend.pluginback.processing.button.add.label': 'Process',
+  'entities.common.backend.pluginback.processing.button.add.title': 'Add a new process',
+  'entities.common.backend.pluginback.processing.button.edit.label': '{label}',
+  'entities.common.backend.pluginback.processing.button.edit.title': 'Edit selected process',
+
   ...Locales.en,
 }
 

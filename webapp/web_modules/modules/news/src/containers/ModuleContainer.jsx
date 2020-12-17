@@ -19,7 +19,7 @@
 import map from 'lodash/map'
 import { AccessShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { NewsItemComponent } from '@regardsoss/components'
+import NewsItemComponent from '../components/NewsItemComponent'
 
 /**
  * Show the list of public visible projects

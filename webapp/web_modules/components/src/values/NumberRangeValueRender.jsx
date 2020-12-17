@@ -22,7 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
 import RangeValueRenderDelegate from './RangeValueRenderDelegate'
 import { NumberValueRender } from './NumberValueRender'
 
-
 /**
  * Component to display Number range values
  * Note: this component API is compatible with a ValuesRenderCell, in infinite tables

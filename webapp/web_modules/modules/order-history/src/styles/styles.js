@@ -21,7 +21,7 @@
  * Exports modules styles builder on current theme values
  * @author Raphaël Mechali
  */
-const moduleStyles = theme => ({
+const moduleStyles = (theme) => ({
   // no specific styles
 })
 

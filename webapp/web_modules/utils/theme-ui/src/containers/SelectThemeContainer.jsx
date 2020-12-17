@@ -55,10 +55,20 @@ export class SelectThemeContainer extends React.Component {
 
   static targetOriginStyle = { horizontal: 'middle', vertical: 'bottom' }
 
+  /**
+   * Theme selected
+   * @param {*} event
+   * @param {number} value selected theme id
+   */
+  onChange = (event, value) => {
+    const { onChange } = this.props
+    onChange(value)
+  }
+
   render() {
-    const { currentTheme, themeList, onChange } = this.props
+    const { currentTheme, themeList } = this.props
     const { intl: { formatMessage } } = this.context
-    const items = map(themeList, item => (
+    const items = map(themeList, (item) => (
       <MenuItem value={item.content.id} key={item.content.id} primaryText={item.content.name} />
     ))
 
@@ -69,7 +79,7 @@ export class SelectThemeContainer extends React.Component {
           anchorOrigin={SelectThemeContainer.anchorOriginStyle}
           targetOrigin={SelectThemeContainer.targetOriginStyle}
           value={currentTheme.content.id}
-          onChange={(event, value) => onChange(value)}
+          onChange={this.onChange}
         >
           {items}
         </IconMenu>
@@ -78,14 +88,13 @@ export class SelectThemeContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   currentTheme: getCurrentTheme(state),
   themeList: ThemeSelectors.getList(state),
 })
-const mapDispatchToProps = dispatch => ({
-  onChange: themeId => dispatch(setCurrentTheme(themeId)),
+const mapDispatchToProps = (dispatch) => ({
+  onChange: (themeId) => dispatch(setCurrentTheme(themeId)),
 })
-
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

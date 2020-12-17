@@ -39,33 +39,6 @@ const catalogServiceDependency = tempActions.getDependency(RequestVerbEnum.POST)
 * @author Raphaël Mechali
 */
 export class OneElementServicesContainer extends React.Component {
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch, { tabType }) {
-    const { runServiceActions } = getRunServiceClient(tabType)
-    return {
-      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
-    }
-  }
-
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state) {
-    return {
-      // logged user state related
-      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    }
-  }
-
   static propTypes = {
     // tab type
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired, // used in mapStateToProps and mapDispatchToProps
@@ -88,6 +61,32 @@ export class OneElementServicesContainer extends React.Component {
   static NON_REPORTED_PROPS = ['tabType', 'entity', 'rowIndex', 'dispatchRunService', 'availableDependencies']
 
   /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch, { tabType }) {
+    const { runServiceActions } = getRunServiceClient(tabType)
+    return {
+      dispatchRunService: (service, serviceTarget) => dispatch(runServiceActions.runService(service, serviceTarget)),
+    }
+  }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      // logged user state related
+      availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    }
+  }
+
+  /**
    * Is usable selection service in context?
    * @param service service as PluginService (wrapped in 'content:')
    * @param currentEntityType current entity type
@@ -107,13 +106,13 @@ export class OneElementServicesContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

@@ -21,7 +21,7 @@ import BorrowRoleActions from './BorrowRoleActions'
 
 class BorrowRoleReducer extends BasicSignalReducers {
   constructor(namespace) {
-    super(new BorrowRoleActions(namespace))
+    super(new BorrowRoleActions(namespace), null)
   }
 }
 

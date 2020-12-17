@@ -1,5 +1,3 @@
-
-
 /**
  * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -19,12 +17,29 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+// TODO: next > check 1 by 1 each rule still exists
+// TODO every plugin!
 
 const allRules = {
   // eslint rules configuration
   // Allow annonymous functions
   'func-names': 0,
   'global-require': 0,
+  // configure camelcase rule: warn all but...
+  camelcase: [0, {
+    ignoreImports: true, // external format, should not be checked locally
+    ignoreDestructuring: true, // especially for external JSON payloads
+    allow: [
+      // react migration path elements
+      'UNSAFE_componentWillMount',
+      'UNSAFE_componentWillReceiveProps',
+      'UNSAFE_componentWillUpdate',
+      // oauth syntax (not controlled by frontend!)
+      'access_token',
+      'token_type',
+      'expires_in',
+    ],
+  }],
   'max-len': 0,
   'no-console': 0,
   // Do not check comments otherwise every files needs (License more exactly) would be linted
@@ -62,6 +77,9 @@ const allRules = {
   // To remove when module.exports will disappear
   'import/named': 0,
   'import/no-commonjs': [2, { allowRequire: true }],
+  // Custom: forbid self import and cycling import in modules
+  'import/no-self-import': 2, // TODO check with Leo
+  'import/no-cycle': 2, // TODO check with Leo
 
   // React rules configuration
   'react/jsx-uses-react': 2,
@@ -77,10 +95,16 @@ const allRules = {
   'react/jsx-wrap-multilines': 0,
   'react/no-access-state-in-setstate': 0,
   'react/jsx-closing-tag-location': 0,
+  'react/state-in-constructor': [2, 'never'],
+  'react/static-property-placement': [2, 'static public field'],
+  'react/jsx-props-no-spreading': 0,
   // This is not a security issue in REGARDS, as objects URL are stored database. Therefore, rendered files should be checked
   // as storage level (client network)
   'react/jsx-no-target-blank': 0,
-
+  'react-perf/jsx-no-new-function-as-prop': 0,
+  'react-perf/jsx-no-new-object-as-prop': 0,
+  'react-perf/jsx-no-new-array-as-prop': 0,
+  
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],
   // Disable useless rule (_.noop instead of empty annonnymous function)
@@ -144,6 +168,7 @@ module.exports = {
   ],
   plugins: [
     'react',
+    'import',
     'lodash',
     'mocha',
     'promise',

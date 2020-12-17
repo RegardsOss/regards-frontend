@@ -48,8 +48,8 @@ export class StorageLocationFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, ownProps) {
     return {
-      fetch: entityName => dispatch(storageLocationActions.fetchEntity(entityName)),
-      create: entity => dispatch(storageLocationActions.createEntity(entity)),
+      fetch: (entityName) => dispatch(storageLocationActions.fetchEntity(entityName)),
+      create: (entity) => dispatch(storageLocationActions.createEntity(entity)),
       update: (entityName, entity) => dispatch(storageLocationActions.updateEntity(entityName, entity)),
     }
   }
@@ -69,14 +69,11 @@ export class StorageLocationFormContainer extends React.Component {
     create: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: !!get(props, 'params.name', false),
-    }
+  state = {
+    isLoading: !!get(this.props, 'params.name', false),
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { params: { name }, fetch } = this.props
     if (name) {
       fetch(name).then(() => this.setState({ isLoading: false }))
@@ -99,8 +96,7 @@ export class StorageLocationFormContainer extends React.Component {
             onUpdate={update}
             onCreate={create}
           />
-        )
-        }
+        )}
       </LoadableContentDisplayDecorator>
     )
   }

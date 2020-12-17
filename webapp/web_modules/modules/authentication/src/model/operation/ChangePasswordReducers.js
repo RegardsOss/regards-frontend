@@ -19,7 +19,6 @@
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import { ChangePasswordActions } from './ChangePasswordActions'
 
-
 const instance = new BasicSignalReducers(ChangePasswordActions)
 
 /**

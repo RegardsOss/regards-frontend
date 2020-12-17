@@ -39,14 +39,14 @@ export default class Query {
    * @return parameter when found, undefined otherwise
    */
   getParameter(parameterName) {
-    return this.parameters.find(p => p.name === parameterName)
+    return this.parameters.find((p) => p.name === parameterName)
   }
 
   /**
    * @return {string} query string
    */
   toQueryString() {
-    const parametersText = this.parameters.map(p => p.toQueryString()).filter(p => !!p).join(this.separator)
+    const parametersText = this.parameters.map((p) => p.toQueryString()).filter((p) => !!p).join(this.separator)
     return `${this.rootQuery || ''}${this.rootQuery && parametersText ? this.separator : ''}${parametersText}`
   }
 }

@@ -68,7 +68,7 @@ class RendererSelectionRender extends React.Component {
         autoWidth
       >
         {
-        availableRenderers.map(key => (
+        availableRenderers.map((key) => (
           <MenuItem
             key={key}
             value={key}

@@ -59,7 +59,6 @@ export class SIPSubmissionSummaryContainer extends React.Component {
     browserHistory.push(url)
   }
 
-
   goToSessionMonitoring = (sessionOwner, session) => {
     const { params: { project } } = this.props
     const url = `/admin/${project}/data/acquisition/dataprovider/sessions?source=${sessionOwner}&session=${session}`

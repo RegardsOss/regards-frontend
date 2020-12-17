@@ -21,7 +21,6 @@ import LoginIcon from 'mdi-material-ui/AccountCircle'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 /**
  * Component to display a login button
  * @author Sébastien binda

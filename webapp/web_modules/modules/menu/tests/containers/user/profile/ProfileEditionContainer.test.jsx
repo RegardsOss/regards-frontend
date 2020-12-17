@@ -19,9 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import ProfileEditionDialogComponent from '../../../../src/components/user/profile/ProfileEditionDialogComponent'
 import { ProfileEditionContainer } from '../../../../src/containers/user/profile/ProfileEditionContainer'
 import styles from '../../../../src/styles/styles'
+import { PROFILE_VIEW_STATE_ENUM } from '../../../../src/domain/ProfileViewStateEnum'
 
 const context = buildTestContext(styles)
 
@@ -32,29 +34,83 @@ describe('[Menu] Testing ProfileEditionContainer', () => {
   it('should exists', () => {
     assert.isDefined(ProfileEditionContainer)
   })
-  it('should render properly', () => {
+  it('should render correctly visible', () => {
     const props = {
+      quotaInfo: {
+        currentQuota: 3,
+        maxQuota: 100,
+        quotaState: QUOTA_INFO_STATE_ENUM.IDLE,
+        currentRate: 8,
+        rateLimit: 10,
+        rateState: QUOTA_INFO_STATE_ENUM.WARNING,
+        downloadDisabled: false,
+        inUserApp: true,
+      },
+      dialogState: {
+        open: true,
+        view: PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE,
+      },
       visible: true,
       myUser: null,
-      hideDialog: () => { },
+      onShowView: () => {},
+      onHideDialog: () => {},
       fetchMyUser: () => { },
       updateMyUser: () => { },
       fetchNotificationSettings: () => { },
       updateNotificationSettings: () => { },
     }
     const enzymeWrapper = shallow(<ProfileEditionContainer {...props} />, { context })
-    // child should be unmounted when not visible
+    // A - mounting (still loading)
+    testSuiteHelpers.assertNotComp(enzymeWrapper, ProfileEditionContainer)
+    // B - mounted
     enzymeWrapper.setState({
       isLoading: false,
       userMetadata: [],
     })
-    assert.lengthOf(enzymeWrapper.find(ProfileEditionDialogComponent), 1, 'The corresponding component should be rendered')
-
-    // child should be unmounted when not visible
-    enzymeWrapper.setProps({
-      ...props,
-      visible: false,
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, ProfileEditionDialogComponent, {
+      view: props.dialogState.view,
+      quotaInfo: props.quotaInfo,
+      userMetadata: enzymeWrapper.state().userMetadata,
+      notificationSettings: props.notificationSettings,
+      onShowView: props.onShowView,
+      onEditProfile: enzymeWrapper.instance().onEditProfile,
+      onEditNotificationSettings: enzymeWrapper.instance().onEditNotificationSettings,
+      onHideDialog: props.onHideDialog,
     })
-    assert.lengthOf(enzymeWrapper.find(ProfileEditionDialogComponent), 0, 'The child should be unmounted for fields to reset')
+  })
+  it('should render correctly hidden', () => {
+    const props = {
+      quotaInfo: {
+        currentQuota: 3,
+        maxQuota: 100,
+        quotaState: QUOTA_INFO_STATE_ENUM.IDLE,
+        currentRate: 8,
+        rateLimit: 10,
+        rateState: QUOTA_INFO_STATE_ENUM.WARNING,
+        downloadDisabled: false,
+        inUserApp: true,
+      },
+      dialogState: {
+        open: false,
+        view: PROFILE_VIEW_STATE_ENUM.EDIT_NOTIFICATIONS,
+      },
+      visible: true,
+      myUser: null,
+      onShowView: () => {},
+      onHideDialog: () => {},
+      fetchMyUser: () => { },
+      updateMyUser: () => { },
+      fetchNotificationSettings: () => { },
+      updateNotificationSettings: () => { },
+    }
+    const enzymeWrapper = shallow(<ProfileEditionContainer {...props} />, { context })
+    // A - mounting (still loading)
+    testSuiteHelpers.assertNotComp(enzymeWrapper, ProfileEditionContainer)
+    // B - mounted but not visible
+    enzymeWrapper.setState({
+      isLoading: false,
+      userMetadata: [],
+    })
+    testSuiteHelpers.assertNotComp(enzymeWrapper, ProfileEditionDialogComponent)
   })
 })

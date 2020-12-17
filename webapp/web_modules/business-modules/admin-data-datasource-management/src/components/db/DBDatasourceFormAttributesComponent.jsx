@@ -62,12 +62,8 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = isNil(props.currentDatasource)
-    this.state = {
-      isCreating,
-    }
+  state = {
+    isCreating: isNil(this.props.currentDatasource),
   }
 
   componentDidMount() {
@@ -80,7 +76,6 @@ export class DBDatasourceFormAttributesComponent extends React.Component {
     }
     return this.context.intl.formatMessage({ id: 'datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
   }
-
 
   /**
    * Initialize form fields

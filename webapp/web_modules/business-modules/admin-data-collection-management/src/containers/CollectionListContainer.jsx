@@ -45,13 +45,11 @@ export class CollectionListContainer extends React.Component {
     deleteCollection: PropTypes.func,
   }
 
-  static PAGE_SIZE = 100
-
   state = {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchCollectionList()).then((actionResult) => {
       if (!actionResult.error) {
         this.setState({
@@ -64,7 +62,7 @@ export class CollectionListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchCollectionList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchCollectionList(0, CollectionListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
+    return fetchCollectionList(0, CollectionListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {
@@ -122,9 +120,9 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: collectionSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCollectionList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(collectionActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
-  deleteCollection: id => dispatch(collectionActions.deleteEntity(id)),
+  deleteCollection: (id) => dispatch(collectionActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CollectionListContainer)

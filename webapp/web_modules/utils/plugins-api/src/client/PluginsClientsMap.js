@@ -25,7 +25,6 @@ export default class PluginClientsMap {
   /** Map of plugin instance ID => builder => builderResult */
   instancesClientsMap = {}
 
-
   /**
    * Returns lazy built client for plugin instance and client builder as parameter (note: function is used here
    * as the key map to avoid parameters overload...)

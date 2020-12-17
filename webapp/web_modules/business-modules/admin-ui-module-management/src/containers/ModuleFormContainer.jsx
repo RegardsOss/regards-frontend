@@ -22,17 +22,19 @@ import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import { browserHistory } from 'react-router'
 import { getFormValues, change } from 'redux-form'
-import { I18nProvider } from '@regardsoss/i18n'
-import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
-import { connect } from '@regardsoss/redux'
 import { AccessShapes } from '@regardsoss/shape'
+import { CommonEndpointClient } from '@regardsoss/endpoints-common'
+import { I18nProvider } from '@regardsoss/i18n'
+import { connect } from '@regardsoss/redux'
+import { ModuleStyleProvider } from '@regardsoss/theme'
+import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ContainerHelper } from '@regardsoss/layout'
 import { modulesManager } from '@regardsoss/modules'
-import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import ModuleFormComponent from '../components/ModuleFormComponent'
 import NoContainerAvailables from '../components/NoContainerAvailables'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * React component to display a edition form for Module entity
@@ -45,8 +47,8 @@ class ModuleFormContainer extends React.Component {
     params: PropTypes.shape({
       project: PropTypes.string,
       applicationId: PropTypes.string,
-      module_id: PropTypes.string,
-      duplicate_module_id: PropTypes.string,
+      moduleId: PropTypes.string,
+      duplicateModuleId: PropTypes.string,
     }),
     updateModule: PropTypes.func,
     createModule: PropTypes.func,
@@ -72,20 +74,12 @@ class ModuleFormContainer extends React.Component {
     return allMatchHateoasDisplayLogic(moduleDependencies, endpoints)
   }
 
-  constructor(props) {
-    super(props)
-    const { module_id: editModuleId, duplicate_module_id: duplicateModuleId } = props.params
-    const isDuplicating = !isNil(duplicateModuleId)
-    const isEditing = !isNil(editModuleId)
-    const isCreating = !isEditing && !isDuplicating
-
-    this.state = {
-      availableModuleTypes: [],
-      isLoading: true,
-      isDuplicating,
-      isCreating,
-      isEditing,
-    }
+  state = {
+    availableModuleTypes: [],
+    isLoading: true,
+    isEditing: !isNil(this.props.params.moduleId),
+    isDuplicating: !isNil(this.props.params.duplicateModuleId),
+    isCreating: isNil(this.props.params.moduleId) && isNil(this.props.params.duplicateModuleId),
   }
 
   componentDidMount() {
@@ -95,7 +89,7 @@ class ModuleFormContainer extends React.Component {
     ]
     // Fetch the module we are editing or duplicating
     if (isDuplicating || isEditing) {
-      const moduleId = isDuplicating ? this.props.params.duplicate_module_id : this.props.params.module_id
+      const moduleId = isDuplicating ? this.props.params.duplicateModuleId : this.props.params.moduleId
       tasks.push(this.props.fetchModule(this.props.params.applicationId, moduleId))
     }
     // Initialize module list
@@ -131,7 +125,7 @@ class ModuleFormContainer extends React.Component {
     let fetchMethod
     if (isEditing) {
       // set ID to update
-      valuesToSave.id = this.props.params.module_id
+      valuesToSave.id = this.props.params.moduleId
       // update module promise builder
       fetchMethod = this.props.updateModule
     } else {
@@ -224,14 +218,16 @@ class ModuleFormContainer extends React.Component {
   render() {
     return (
       <I18nProvider messages={messages}>
-        {this.renderComponent()}
+        <ModuleStyleProvider module={styles}>
+          {this.renderComponent()}
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const { module_id: editModuleId, duplicate_module_id: duplicateModuleId } = ownProps.params
+  const { moduleId: editModuleId, duplicateModuleId } = ownProps.params
   const thisFormModuleId = editModuleId || duplicateModuleId
   return {
     module: ownProps.moduleSelectors.getContentById(state, thisFormModuleId),
@@ -241,7 +237,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   changeField: (field, value) => dispatch(change('edit-module-form', field, value)),
 })
 

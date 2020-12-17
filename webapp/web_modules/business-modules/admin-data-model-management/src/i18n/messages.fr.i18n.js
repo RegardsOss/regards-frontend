@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'model.list.title': 'Modèles',
   'model.list.subtitle': 'Tous les modèles de données du projet',
   'model.list.table.filter.name': 'Filtrer sur le nom des modèles',
@@ -51,7 +51,7 @@ const messages = Object.assign({
   'model.form.file': 'Ou envoyer un fichier XML contenant le modèle, ses fragments et ses attributs',
   'model.form.action.cancel': 'Annuler',
   'model.form.action.submit': 'Sauvegarder',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

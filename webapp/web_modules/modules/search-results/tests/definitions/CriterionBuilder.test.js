@@ -157,7 +157,6 @@ describe('[SEARCH RESULTS] Testing CriterionBuilder', () => {
     }
     assert.deepEqual(CriterionBuilder.buildUnactiveStaticCriterion(resultsContextTest, '[true,true]'), resultsContextAllInactive, 'all static properties unactives')
 
-
     const resultsContextHalfActive = {
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {

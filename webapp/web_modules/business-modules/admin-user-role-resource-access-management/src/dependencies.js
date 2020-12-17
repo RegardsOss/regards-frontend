@@ -31,7 +31,6 @@ const listDependencies = [
   roleActions.getDependency(RequestVerbEnum.GET_LIST),
 ]
 
-
 export default {
   listDependencies,
   addDependencies,

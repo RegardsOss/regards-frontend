@@ -36,7 +36,7 @@ describe('[Order Common] Testing OrderFileStatusRender', () => {
   it('should exists', () => {
     assert.isDefined(OrderFileStatusRender)
   })
-  OrderDomain.ORDER_FILE_STATUS.forEach(status => it(`should render correctly with status ${status}`, () => {
+  OrderDomain.ORDER_FILE_STATUS.forEach((status) => it(`should render correctly with status ${status}`, () => {
     const props = {
       value: status,
     }

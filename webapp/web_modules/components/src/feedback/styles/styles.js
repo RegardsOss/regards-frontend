@@ -22,7 +22,7 @@
  * @author Raphaël Mechali
  * @return {*} components style
  */
-export default theme => ({
+export default (theme) => ({
   feedbackDisplay: {
     paperProps: {
       style: {

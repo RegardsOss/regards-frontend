@@ -28,6 +28,16 @@ import { themeContextType } from '@regardsoss/theme'
  * @author Sébastien binda
  */
 export class DateValueRender extends React.Component {
+  /** Default formatters */
+  static DEFAULT_FORMATTERS = {
+    date: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.date' }, DateValueRender.getMessageParameters(date)),
+    dateWithMinutes: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMinutes' }, DateValueRender.getMessageParameters(date)),
+    dateWithSeconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithSeconds' }, DateValueRender.getMessageParameters(date)),
+    dateWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
+    time: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.time' }, DateValueRender.getMessageParameters(date)),
+    timeWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.timeWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
+  }
+
   /**
    * Formats a number on two digits
    * @param {number} value < 100
@@ -67,16 +77,6 @@ export class DateValueRender extends React.Component {
       seconds: DateValueRender.formatOn2Digits(date.getUTCSeconds()),
       milliseconds: DateValueRender.formatOn3Digit(date.getUTCMilliseconds()),
     }
-  }
-
-  /** Default formatters */
-  static DEFAULT_FORMATTERS = {
-    date: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.date' }, DateValueRender.getMessageParameters(date)),
-    dateWithMinutes: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMinutes' }, DateValueRender.getMessageParameters(date)),
-    dateWithSeconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithSeconds' }, DateValueRender.getMessageParameters(date)),
-    dateWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.dateWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
-    time: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.time' }, DateValueRender.getMessageParameters(date)),
-    timeWithMilliseconds: (date, formatMessage) => formatMessage({ id: 'date.value.render.type.timeWithMilliseconds' }, DateValueRender.getMessageParameters(date)),
   }
 
   /**

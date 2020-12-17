@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import { AdminShapes } from '@regardsoss/shape'
+import { withModuleStyle } from '@regardsoss/theme'
 import { ShowableAtRender } from '@regardsoss/components'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { controllerActions, controllerSelectors } from '../clients/ResourceControllerClient'
@@ -26,6 +28,7 @@ import { roleResourceActions } from '../clients/RoleResourceClient'
 import { resourceRolesActions, resourceRolesSelectors } from '../clients/ResourceRolesClient'
 import ResourceAccessFormByMicroserviceComponent from '../components/ResourceAccessFormByMicroserviceComponent'
 import ResourceAccessModalOverviewComponent from '../components/ResourceAccessModalOverviewComponent'
+import styles from '../styles'
 
 /**
  * React container to edit resource access allowed for the
@@ -52,16 +55,55 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
     fetchResourceRoles: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      modalResourceAccessId: undefined,
-      isModalOpen: false,
-      controllersLoading: true,
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state) {
+    return {
+      controllerList: controllerSelectors.getArray(state),
+      resourceList: resourceAccessSelectors.getOrderedList(state),
+      resourceListFetching: resourceAccessSelectors.isFetching(state),
+      resourceRoles: resourceRolesSelectors.getList(state),
+      getResource: (resourceId) => resourceAccessSelectors.getById(state, resourceId),
     }
   }
 
-  componentWillMount() {
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps(dispatch) {
+    return {
+      fetchControllerList: (microservicename) => dispatch(controllerActions.fetchEntityList({ microservicename })),
+      fetchResourceList: (microservicename, controllername) => dispatch(resourceAccessActions.fetchEntityList({
+        microservicename,
+        controllername,
+      })),
+      flushResourceList: () => dispatch(resourceAccessActions.flush()),
+      removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, {
+        // eslint-disable-next-line camelcase
+        role_name: role.content.name, // eslint wont fix: matches server format
+      })),
+      addRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.createEntity(resource.content, {
+        // eslint-disable-next-line camelcase
+        role_name: role.content.name, // eslint wont fix: matches server format
+      })),
+      fetchResourceRoles: (resource) => dispatch(resourceRolesActions.fetchEntityList({ resourceId: resource.content.id })),
+    }
+  }
+
+  state = {
+    modalResourceAccessId: undefined,
+    isModalOpen: false,
+    controllersLoading: true,
+  }
+
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchControllerList(this.props.microserviceName)).then(() => this.setState({
       controllersLoading: false,
     }))
@@ -128,31 +170,13 @@ export class ResourceAccessFormByMicroserviceContainer extends React.Component {
             handleOpenController={this.handleOpenController}
             handleToggleResourceAccess={this.handleToggleResourceAccess}
             handleOpenResourceAccess={this.handleOpenResourceAccessModal}
-          />)
-          }
+          />)}
         </LoadableContentDisplayDecorator>
       </div>
     )
   }
 }
-const mapStateToProps = state => ({
-  controllerList: controllerSelectors.getArray(state),
-  resourceList: resourceAccessSelectors.getOrderedList(state),
-  resourceListFetching: resourceAccessSelectors.isFetching(state),
-  resourceRoles: resourceRolesSelectors.getList(state),
-  getResource: resourceId => resourceAccessSelectors.getById(state, resourceId),
-})
 
-const mapDispatchToProps = dispatch => ({
-  fetchControllerList: microservicename => dispatch(controllerActions.fetchEntityList({ microservicename })),
-  fetchResourceList: (microservicename, controllername) => dispatch(resourceAccessActions.fetchEntityList({
-    microservicename,
-    controllername,
-  })),
-  flushResourceList: () => dispatch(resourceAccessActions.flush()),
-  removeRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.deleteEntity(resource.content.id, { role_name: role.content.name })),
-  addRoleResourceAccess: (role, resource) => dispatch(roleResourceActions.createEntity(resource.content, { role_name: role.content.name })),
-  fetchResourceRoles: resource => dispatch(resourceRolesActions.fetchEntityList({ resourceId: resource.content.id })),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ResourceAccessFormByMicroserviceContainer)
+export default compose(
+  connect(ResourceAccessFormByMicroserviceContainer.mapStateToProps, ResourceAccessFormByMicroserviceContainer.mapDispatchToProps),
+  withModuleStyle(styles))(ResourceAccessFormByMicroserviceContainer)

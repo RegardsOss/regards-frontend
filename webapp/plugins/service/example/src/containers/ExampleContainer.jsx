@@ -45,30 +45,6 @@ import ExampleChartDisplayer from '../components/ExampleChartDisplayer'
  * @author Leo Mieulet
  */
 export class ExampleContainer extends React.Component {
-  /**
-   * Redux connector to state: allows retrieving store elements. Used here to demo how to some fetched data from central store
-   * @param {*} state redux dispatch function
-   * note: non redux properties are also availble as second parameter
-   */
-  static mapStateToProps = (state) => {
-    // select the stuff we want in central redux store
-    const authenticationInfo = AuthenticationClient.authenticationSelectors.getAuthenticationResult(state)
-    // if there is some info, then return user login
-    return {
-      user: get(authenticationInfo, 'result.sub', null), // note : for bundle size issues, we should never import all lodash, but only the function required, here 'get'
-    }
-  }
-
-  /**
-   * Redux connector to dispatch: allows dispatching action. used here to demo the reduce promise on runtime target
-   * @param {*} dispatch redux dispatch function
-   * @param {*} props this properties (non redux injected)
-   */
-  static mapDispatchToProps = (dispatch, { target }) => ({
-    // we apply partially the method getReducePromise to ignore dispatch reference at runtime
-    getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
-  })
-
   static propTypes = {
     // eslint-disable-next-line react/no-unused-prop-types
     pluginInstanceId: PropTypes.string.isRequired, // Plugin identifier (unused here)
@@ -106,11 +82,39 @@ export class ExampleContainer extends React.Component {
     color: 'rgba(255, 255, 255, 0.85)',
   }
 
+  static INLINE_DIV_STYLE = { display: 'inline' }
+
   /**
-   * Standard lyfecycle method of a React component, componentWillMount is called before the the component mounts and renders.
+   * Redux connector to state: allows retrieving store elements. Used here to demo how to some fetched data from central store
+   * @param {*} state redux dispatch function
+   * note: non redux properties are also availble as second parameter
+   */
+  static mapStateToProps(state) {
+    // select the stuff we want in central redux store
+    const authenticationInfo = AuthenticationClient.authenticationSelectors.getAuthenticationResult(state)
+    return {
+      // if there is some info, then return user login
+      user: get(authenticationInfo, 'result.sub', null), // note : for bundle size issues, we should never import all lodash, but only the function required, here 'get'
+    }
+  }
+
+  /**
+   * Redux connector to dispatch: allows dispatching action. used here to demo the reduce promise on runtime target
+   * @param {*} dispatch redux dispatch function
+   * @param {*} props this properties (non redux injected)
+   */
+  static mapDispatchToProps(dispatch, { target }) {
+    return {
+      // we apply partially the method getReducePromise to ignore dispatch reference at runtime
+      getReducePromise: (reducer, initialValue) => TargetEntitiesResolver.getReducePromise(dispatch, target, reducer, initialValue),
+    }
+  }
+
+  /**
+   * Standard lifecycle method of a React component, UNSAFE_componentWillMount is called before the the component mounts and renders.
    * It is a good place to initialize component state.
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { target } = this.props
     //  set up in state some loading information for first rendering
     this.setState({
@@ -147,7 +151,7 @@ export class ExampleContainer extends React.Component {
     // - There is a current limitation to 10 000 entities.
     getReducePromise((previousResult, entity, index) => {
       // R.1 - let's update the state, so that user can see the advancement
-      this.setState({ currentIndex: index, lastLoadedEntity: entity.content.label })// react is cool,ithe will only change those fields in state!
+      this.setState({ currentIndex: index, lastLoadedEntity: entity.content.label })// react is cool,it will only change those fields in state!
       // R.2 - check if STOP_DATE, from TIME_PERIOD fragment is before or after this date pameter. Note
       // that all fragments are set up in properties attribute. Also note that dates, in backend model, are actually saved as string
       let { beforeDateCount, afterDateCount, unknown } = previousResult
@@ -221,6 +225,7 @@ export class ExampleContainer extends React.Component {
       loading, currentIndex, totalElements, lastLoadedEntity, errorMessage, results,
     } = this.state
     const { configuration, target, user } = this.props
+    const { intl: { formatMessage } } = this.context
     // here we render the whole content in vertical scrollable area, to not assert the client screen height is sufficient
     // please note that scroll area requires a height constraints when in vertical mode (height: '100%' here)
     return (
@@ -251,8 +256,7 @@ export class ExampleContainer extends React.Component {
                 {user || 'patient unknown person'}
               </div>
             )
-          })()
-          }
+          })()}
           { /* 2 - lets shows the static configuration, using i18n message.
         Note: it would normally be better place in a component, as it holds graphics notions (container should be
         reserved for logical operations like fetching data, converting, hiding / showing....
@@ -261,13 +265,13 @@ export class ExampleContainer extends React.Component {
           { // using lodash map, we extract parameters and keys to display them. Note that react needs keys in children arrays
             map(configuration.static, (value, key) => (
               <div style={ExampleContainer.CONTENT_STYLES} key={key}>
-                <div style={{ display: 'inline' }}>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>
                   <em>
                     {key}
                     :
                   </em>
                 </div>
-                <div style={{ display: 'inline' }}>{this.renderValue(value)}</div>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>{this.renderValue(value)}</div>
               </div>))
           }
           { /* 3 - now dynamic configurationcomponent  */}
@@ -275,13 +279,13 @@ export class ExampleContainer extends React.Component {
           { // very same mapping for dynamic elements
             map(configuration.dynamic, (value, key) => (
               <div style={ExampleContainer.CONTENT_STYLES} key={key}>
-                <div style={{ display: 'inline' }}>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>
                   <em>
                     {key}
                     :
                   </em>
                 </div>
-                <div style={{ display: 'inline' }}>{this.renderValue(value)}</div>
+                <div style={ExampleContainer.INLINE_DIV_STYLE}>{this.renderValue(value)}</div>
               </div>))
           }
           { /* 4 - now we show loading or the component, if loading is done  */}
@@ -289,26 +293,20 @@ export class ExampleContainer extends React.Component {
           {
             // 4.1 - loading rendering
             loading ? (
-              // show an updatable loading message with placeholders. Note that creating an object during render (values),
-              // is a usually bad practice. Note: 0 is false too in JS, hence the currentIndex || '0' instruction
-              // you see below how to disable the warning from eslint
+              // show an updatable loading message with placeholders
               <div style={ExampleContainer.CONTENT_STYLES}>
-                <FormattedMessage
-                  id="plugin.content.loading"
-                  // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-                  values={{ currentIndex: currentIndex || '0', totalElements, lastLoadedEntity: lastLoadedEntity || '-' }}
-                />
+                {formatMessage({ id: 'plugin.content.loading' }, {
+                  currentIndex: currentIndex || '0',
+                  totalElements,
+                  lastLoadedEntity: lastLoadedEntity || '-',
+                })}
               </div>) : null
           }
           {
             // 4.2 - error rendering
             errorMessage ? (
               <div style={ExampleContainer.CONTENT_STYLES}>
-                <FormattedMessage
-                  id="plugin.content.error"
-                  // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-                  values={{ errorMessage }}
-                />
+                {formatMessage({ id: 'plugin.content.error' }, { errorMessage })}
               </div>) : null
           }
           {
@@ -320,8 +318,7 @@ export class ExampleContainer extends React.Component {
               </div>) : null
           }
         </div>
-      </ScrollArea>
-    )
+      </ScrollArea>)
   }
 }
 

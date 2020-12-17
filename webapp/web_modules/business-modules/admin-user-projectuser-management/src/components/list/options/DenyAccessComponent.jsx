@@ -18,7 +18,7 @@
  **/
 import IconButton from 'material-ui/IconButton'
 import DenyIcon from 'mdi-material-ui/AccountRemove'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { HateoasKeys } from '@regardsoss/display-control'
 
@@ -28,7 +28,7 @@ import { HateoasKeys } from '@regardsoss/display-control'
  */
 class DenyAccessComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onDeny: PropTypes.func.isRequired,
     onDisable: PropTypes.func.isRequired,
@@ -68,7 +68,8 @@ class DenyAccessComponent extends React.Component {
       onDeny, onDisable, entity,
     } = this.props
     const userId = entity.content.id
-    switch (optionKey) {
+    const currentOption = this.getCurrentOption()
+    switch (currentOption.optionKey) {
       case DenyAccessComponent.OPTIONS_ENUM.DENY:
         onDeny(userId)
         break
@@ -80,13 +81,21 @@ class DenyAccessComponent extends React.Component {
     }
   }
 
+  /**
+   * @returns {*} current option if any
+   */
+  getCurrentOption = () => {
+    const { entity } = this.props
+    return DenyAccessComponent.AVAILABLE_ACCESS_OPTION.find(
+      (accessOption) => entity.links.some((link) => link.rel === accessOption.hateoasKey))
+  }
+
   render() {
-    const { entity, isLoading } = this.props
+    const { isLoading } = this.props
     const { intl: { formatMessage } } = this.context
 
     // 1 - retrieve the currently available option
-    let currentOption = DenyAccessComponent.AVAILABLE_ACCESS_OPTION.find(
-      accessOption => entity.links.some(link => link.rel === accessOption.hateoasKey))
+    let currentOption = this.getCurrentOption()
     const noOptionAvailable = !currentOption
     if (noOptionAvailable) {
       // No option: render any option disabled
@@ -98,7 +107,7 @@ class DenyAccessComponent extends React.Component {
       <IconButton
         disabled={noOptionAvailable || isLoading}
         title={formatMessage({ id: currentOption.tooltipKey })}
-        onClick={() => this.onClick(currentOption.optionKey)}
+        onClick={this.onClick}
         className={currentOption.className}
       >
         {currentOption.icon}

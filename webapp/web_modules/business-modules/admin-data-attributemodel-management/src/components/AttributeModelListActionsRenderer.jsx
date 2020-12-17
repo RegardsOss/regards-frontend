@@ -24,7 +24,6 @@ import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
-
 const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**

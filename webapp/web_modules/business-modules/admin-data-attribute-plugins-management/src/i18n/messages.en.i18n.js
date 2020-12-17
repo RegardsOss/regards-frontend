@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'model.attribute.calculation.plugins.list.title': 'Configure attribute calculation plugin',
   'model.attribute.calculation.plugins.list.subtitle': 'This section allows you to configure attribute calculation plugins used by system during new data acquisition.',
   'model.attribute.calculation.plugins.list.header.id.label': 'Identifier',
@@ -45,7 +45,7 @@ const messages = Object.assign({
   'model.attribute.calculation.plugins.form.type.select.label': 'Select a type ...',
   'model.attribute.calculation.plugins.form.invalid.id': 'Calculation plugin configuration selected does not exist anymore.',
   'model.attribute.calculation.plugins.form.back.button': 'Cancel',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

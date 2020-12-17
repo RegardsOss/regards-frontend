@@ -40,7 +40,7 @@ const visit = (container) => {
 /**
  * Retrieves recursively all containers in given layout as a flattened array
  */
-const getAllContainersInLayout = layout => flattenDeep(layout.containers.map(visit))
+const getAllContainersInLayout = (layout) => flattenDeep(layout.containers.map(visit))
 
 /**
  * Helper to navigate into applications layouts containers
@@ -225,7 +225,6 @@ class ContainerHelper {
     })
     return newContainers
   }
-
 
   /**
    * In a layout, only one container is allowed to be dynamic

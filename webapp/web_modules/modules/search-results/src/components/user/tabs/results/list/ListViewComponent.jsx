@@ -107,11 +107,9 @@ class ListViewComponent extends React.Component {
     return (
       <PageableInfiniteTableContainer
         key={type} // unmount the table when change entity type (using key trick)
-        // infinite table configuration
         pageActions={searchActions}
         pageSelectors={getSearchCatalogClient(tabType).searchSelectors}
         tableActions={getTableClient(tabType).tableActions}
-
         displayColumnsHeader={false}
         lineHeight={lineHeight}
         columns={this.buildListColumn()}

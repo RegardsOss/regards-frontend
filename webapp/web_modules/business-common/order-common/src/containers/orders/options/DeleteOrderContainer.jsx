@@ -28,34 +28,6 @@ import DeleteOrderComponent from '../../../components/orders/options/DeleteOrder
  * @author Raphaël Mechali
  */
 export class DeleteOrderContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { ordersSelectors }) {
-    return {
-      pageMetadata: ordersSelectors.getMetaData(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch, {
-    ordersActions, orderStateActions, entity, pathParams, requestParams,
-  }) {
-    return {
-      sendDeleteSuperficially: () => dispatch(orderStateActions.deleteSuperficiallyOrder(entity.content.id)),
-      sendDeleteCompletely: () => dispatch(orderStateActions.deleteCompletelyOrder(entity.content.id)),
-      fetchOrders: (pageIndex, pageSize) => dispatch(ordersActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
-    }
-  }
-
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderWithContent.isRequired,
@@ -106,10 +78,37 @@ export class DeleteOrderContainer extends React.Component {
   static DEFAULT_STATE = { isFetching: false }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { ordersSelectors }) {
+    return {
+      pageMetadata: ordersSelectors.getMetaData(state),
+    }
+  }
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch, {
+    ordersActions, orderStateActions, entity, pathParams, requestParams,
+  }) {
+    return {
+      sendDeleteSuperficially: () => dispatch(orderStateActions.deleteSuperficiallyOrder(entity.content.id)),
+      sendDeleteCompletely: () => dispatch(orderStateActions.deleteCompletelyOrder(entity.content.id)),
+      fetchOrders: (pageIndex, pageSize) => dispatch(ordersActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. used here to initialize the state
    */
-  componentWillMount = () => this.setFetching(false)
-
+  UNSAFE_componentWillMount = () => this.setFetching(false)
 
   /**
    * User asked for delete: show confirmation dialog, process only when confirmed
@@ -140,12 +139,11 @@ export class DeleteOrderContainer extends React.Component {
     })
   }
 
-
   /**
    * Sets fetching state
    * @param {boolean} isFetching is fetching?
    */
-  setFetching = isFetching => this.setState({ isFetching })
+  setFetching = (isFetching) => this.setState({ isFetching })
 
   /**
    * Refreshes table up to the current last page
@@ -173,7 +171,6 @@ export class DeleteOrderContainer extends React.Component {
     const { entity: { content: { status } }, hasDeleteSuperficially } = this.props
     return DeleteOrderContainer.SUPERFICIALLY_DELETABLE_STATES.includes(status) && hasDeleteSuperficially
   }
-
 
   render() {
     const { isFetching } = this.state

@@ -53,7 +53,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
   forEach(pluginMetaData.parameters, (parameter) => {
     it(`should render correctly field ${parameter.type}`, () => {
       assert.isDefined(parameter)
-      const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
+      const parameterConf = find(pluginConf.parameters, (p) => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
       const props = {
         microserviceName: 'rs-test',
@@ -106,7 +106,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderPluginParameterField'
     })
     it(`should render correctly field ${parameter.type} as disabled`, () => {
       assert.isDefined(parameter)
-      const parameterConf = find(pluginConf.parameters, p => p.name === parameter.name)
+      const parameterConf = find(pluginConf.parameters, (p) => p.name === parameter.name)
       assert.isDefined(parameterConf, `Parameter configuration does not contains a parameter named ${parameter.name}`)
       const props = {
         microserviceName: 'rs-test',

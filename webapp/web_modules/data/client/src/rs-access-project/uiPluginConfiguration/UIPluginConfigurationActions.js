@@ -56,7 +56,7 @@ export default class UIPluginConfigurationActions extends BasicPageableActions {
   static stringifyBeforeSendingUIPluginConf(entity) {
     if (entity && entity.conf) {
       try {
-        const entitySendeable = Object.assign({}, entity)
+        const entitySendeable = { ...entity }
         entitySendeable.conf = JSON.stringify(entity.conf)
         return entitySendeable
       } catch (e) {

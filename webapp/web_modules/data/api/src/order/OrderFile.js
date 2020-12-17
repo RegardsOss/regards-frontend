@@ -25,7 +25,7 @@ export const OrderFileConfiguration = {
 }
 
 export const ORDER_FILE = new Schema(OrderFileConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[OrderFileConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[OrderFileConfiguration.entityKey]
   ,
 })
 export const ORDER_FILE_ARRAY = arrayOf(ORDER_FILE)

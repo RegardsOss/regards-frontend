@@ -96,8 +96,7 @@ class SortableColumnHeaderCell extends React.Component {
                     default:
                       throw new Error(`Unknown sorting order ${sortingOrder}`)
                   }
-                })()
-                }
+                })()}
               </div>
             </IconButton>
           ) : null

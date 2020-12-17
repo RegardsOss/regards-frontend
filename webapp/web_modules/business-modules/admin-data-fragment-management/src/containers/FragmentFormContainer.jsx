@@ -45,13 +45,9 @@ export class FragmentFormContainer extends React.Component {
     updateFragment: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    const isEditing = props.params.fragment_id !== undefined
-    this.state = {
-      isEditing,
-      isLoading: isEditing,
-    }
+  state = {
+    isEditing: this.props.params.fragment_id !== undefined,
+    isLoading: this.props.params.fragment_id !== undefined,
   }
 
   componentDidMount() {
@@ -76,9 +72,7 @@ export class FragmentFormContainer extends React.Component {
    */
   handleUpdate = (values) => {
     const previousFragment = this.props.fragment.content
-    const updatedFragment = Object.assign({}, previousFragment, {
-      description: values.description,
-    })
+    const updatedFragment = { ...previousFragment, description: values.description }
     return Promise.resolve(this.props.updateFragment(previousFragment.id, updatedFragment))
       .then((actionResult) => {
         // We receive here the action
@@ -138,11 +132,11 @@ const mapStateToProps = (state, ownProps) => ({
   fragment: ownProps.params.fragment_id ? fragmentSelectors.getById(state, ownProps.params.fragment_id) : null,
 })
 
-const mapDispatchToProps = dispatch => ({
-  createFragment: values => dispatch(fragmentActions.createEntity(values)),
-  createFragmentUsingFile: file => dispatch(fragmentActions.createEntityUsingMultiPart({}, file)),
+const mapDispatchToProps = (dispatch) => ({
+  createFragment: (values) => dispatch(fragmentActions.createEntity(values)),
+  createFragmentUsingFile: (file) => dispatch(fragmentActions.createEntityUsingMultiPart({}, file)),
   updateFragment: (id, values) => dispatch(fragmentActions.updateEntity(id, values)),
-  fetchFragment: id => dispatch(fragmentActions.fetchEntity(id)),
+  fetchFragment: (id) => dispatch(fragmentActions.fetchEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentFormContainer)

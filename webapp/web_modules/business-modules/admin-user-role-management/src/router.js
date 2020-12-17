@@ -52,7 +52,6 @@ export const editRoleRoute = {
   },
 }
 
-
 const roleManagementRouter = {
   childRoutes: [
     listRoleRoute,

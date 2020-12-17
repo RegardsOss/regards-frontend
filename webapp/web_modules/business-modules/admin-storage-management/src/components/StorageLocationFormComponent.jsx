@@ -28,7 +28,7 @@ import {
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
+import { CardActionsComponent, NoContentComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
   RenderTextField, reduxForm, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -43,13 +43,13 @@ import styles from '../styles'
 * Component to create/edit/diplicate a storage location plugin configuration
 * @author Sébastien Binda
 */
-const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
+const validateName = (value) => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
   ? 'invalid.name.expression' : undefined
 
 class StorageLocationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    entity: StorageShapes.StorageMonitoring,
+    entity: StorageShapes.StorageLocation,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -161,13 +161,12 @@ class StorageLocationFormComponent extends React.Component {
 
   renderUnits = () => (
     <DropDownMenu value={this.state.unit} onChange={this.changeUnit}>
-      {map(storage.StorageUnitScale.bytesScale.units.slice(2), u => <MenuItem
+      {map(storage.StorageUnitScale.bytesScale.units.slice(2), (u) => <MenuItem
         key={u.symbol}
         value={u}
         primaryText={<storage.FormattedStorageUnit unit={u} />}
       />,
-      )
-    }
+      )}
     </DropDownMenu>
   )
 
@@ -253,6 +252,7 @@ class StorageLocationFormComponent extends React.Component {
         />
         <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
+            <HelpMessageComponent message={formatMessage({ id: 'storage.location.form.help-message' })} />
             {this.renderContent()}
           </CardText>
           <CardActions>

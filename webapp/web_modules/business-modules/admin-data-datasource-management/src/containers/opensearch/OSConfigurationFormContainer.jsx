@@ -32,7 +32,6 @@ import OSResultsConfigurationContainer from './OSResultsConfigurationContainer'
 import messages from '../../i18n'
 import styles from '../../styles'
 
-
 /**
  * Main container for OpenSearch crawler configuration
  */
@@ -50,6 +49,21 @@ export class OSConfigurationFormContainer extends React.Component {
     createDatasource: PropTypes.func.isRequired,
     updateDatasouce: PropTypes.func.isRequired,
     fetchDatasource: PropTypes.func.isRequired,
+  }
+
+  static STATE = {
+    CRAWLER: 'CRAWLER',
+    QUERY: 'QUERY',
+    RESULTS: 'RESULTS',
+  }
+
+  /** Initial values when in creation mode */
+  static INITIAL_CREATION_VALUES = {
+    crawler: {
+      refreshRate: '86400',
+    },
+    query: { },
+    results: { },
   }
 
   /**
@@ -74,9 +88,9 @@ export class OSConfigurationFormContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+      createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
       updateDatasouce: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
-      fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
+      fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
     }
   }
 
@@ -87,9 +101,9 @@ export class OSConfigurationFormContainer extends React.Component {
    */
   static getInitialEditionValues(datasource) {
     const { content: { parameters, label } } = datasource
-    const refreshRateParameter = parameters.find(config => config.name === 'refreshRate')
-    const { value: { opensearchDescriptorURL, ...webserviceValues } } = parameters.find(config => config.name === 'webserviceConfiguration')
-    const { value: conversionValues } = parameters.find(config => config.name === 'conversionConfiguration')
+    const refreshRateParameter = parameters.find((config) => config.name === 'refreshRate')
+    const { value: { opensearchDescriptorURL, ...webserviceValues } } = parameters.find((config) => config.name === 'webserviceConfiguration')
+    const { value: conversionValues } = parameters.find((config) => config.name === 'conversionConfiguration')
     return {
       crawler: {
         label,
@@ -147,21 +161,6 @@ export class OSConfigurationFormContainer extends React.Component {
     }
   }
 
-  static STATE = {
-    CRAWLER: 'CRAWLER',
-    QUERY: 'QUERY',
-    RESULTS: 'RESULTS',
-  }
-
-  /** Initial values when in creation mode */
-  static INITIAL_CREATION_VALUES = {
-    crawler: {
-      refreshRate: '86400',
-    },
-    query: { },
-    results: { },
-  }
-
   state = {
     // is in edition mode?
     isEditing: !isNil(this.props.params.datasourceId),
@@ -173,7 +172,6 @@ export class OSConfigurationFormContainer extends React.Component {
     formState: OSConfigurationFormContainer.STATE.CRAWLER,
   }
 
-
   /**
    * Lifecycle method: component did mount. Used here to fetch the data source the state
    */
@@ -183,17 +181,16 @@ export class OSConfigurationFormContainer extends React.Component {
     }
   }
 
-
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: Used here to update state when edition data has been fetched (useless

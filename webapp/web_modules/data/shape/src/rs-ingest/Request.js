@@ -18,6 +18,7 @@ import { IngestDomain } from '@regardsoss/domain'
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { HateOASLink } from '../rs-common'
 
 /**
  * Describes an AIP Entity shape and related sub objects
@@ -36,5 +37,5 @@ export const Request = PropTypes.shape({
 
 export const RequestEntity = PropTypes.shape({
   content: Request.isRequired,
-  links: PropTypes.array,
+  links: PropTypes.arrayOf(HateOASLink),
 })

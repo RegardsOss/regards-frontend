@@ -20,7 +20,6 @@ import flatMap from 'lodash/flatMap'
 import { themeContextType } from '@regardsoss/theme'
 import ValuesSeparator from './ValuesSeparator'
 
-
 const EMPTY_OBJECT = {}
 
 /**
@@ -37,11 +36,12 @@ export default class ValuesRenderCell extends React.Component {
     entity: PropTypes.any.isRequired, // object, string, ... depends on values producer (getValue methods)
     // list of values extractors
     values: PropTypes.arrayOf(PropTypes.shape({
-      // vallue producer from entity
+      // value producer from entity
       getValue: PropTypes.func.isRequired,
       // value renderer, opional
       RenderConstructor: PropTypes.func,
       // optionnal render props
+      // eslint-disable-next-line react/forbid-prop-types
       props: PropTypes.object,
     })).isRequired,
   }
@@ -56,9 +56,7 @@ export default class ValuesRenderCell extends React.Component {
     return flatMap(values, ({ getValue, RenderConstructor, props }, index) => [
       index > 0 ? <ValuesSeparator key={`separator.${index}`} /> : null,
       <div key={`value.${index}`} style={multipleCellValues}>
-        { // render using delegate if provided
-          <RenderConstructor value={getValue(entity)} {...(props || EMPTY_OBJECT)} />
-        }
+        <RenderConstructor value={getValue(entity)} {...(props || EMPTY_OBJECT)} />
       </div>,
     ])
   }

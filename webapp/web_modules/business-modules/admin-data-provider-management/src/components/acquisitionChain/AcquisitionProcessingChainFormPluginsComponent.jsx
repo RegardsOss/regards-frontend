@@ -30,7 +30,7 @@ import AcquisitionProcessingChainPluginTypes from './AcquisitionProcessingChainP
 * Component to configure plugins of a generation chain of DataProvider microservice
 * @author Sébastien Binda
 */
-class AcquisitionProcessingChainFormPluginsComponent extends React.PureComponent {
+class AcquisitionProcessingChainFormPluginsComponent extends React.Component {
   static propTypes = {
     chain: DataProviderShapes.AcquisitionProcessingChain,
   }

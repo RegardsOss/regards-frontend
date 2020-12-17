@@ -29,19 +29,6 @@ import DatasetFilesComponent from '../../components/files/DatasetFilesComponent'
 * @author Raphaël Mechali
 */
 export class DatasetFilesContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { orderFilesSelectors }) {
-    return {
-      isFetching: orderFilesSelectors.isFetching(state),
-      totalFilesCount: orderFilesSelectors.getResultsCount(state),
-    }
-  }
-
   static propTypes = {
     // selected order
     // eslint-disable-next-line react/no-unused-prop-types
@@ -63,15 +50,28 @@ export class DatasetFilesContainer extends React.Component {
   }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { orderFilesSelectors }) {
+    return {
+      isFetching: orderFilesSelectors.isFetching(state),
+      totalFilesCount: orderFilesSelectors.getResultsCount(state),
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

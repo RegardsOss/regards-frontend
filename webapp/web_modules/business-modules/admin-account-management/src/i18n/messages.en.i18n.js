@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'accounts.title': 'Accounts',
   'accounts.subtitle': 'Manage user accounts',
   'account.list.table.firstName': 'First name',
@@ -63,6 +63,7 @@ const messages = Object.assign({
   'account.settings.mode.AUTO': 'Automatic: account creation requests are automatically acknowledged',
   'account.settings.action.confirm': 'Confirm',
   'account.settings.action.cancel': 'Cancel',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

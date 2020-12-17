@@ -50,6 +50,18 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
       displayLogic: hateoasDisplayLogic,
     }
 
+    static displayName = `WithHateoasDisplayControl(${getDisplayName(DecoratedComponent)})`
+
+    /**
+     * Redux: map state to props function
+     * @param {*} state: current redux state
+     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+     * @return {*} list of component properties extracted from redux state
+     */
+    static mapStateToProps = (state) => ({
+      isInstance: AuthenticationParametersSelectors.isInstance(state),
+    })
+
     render() {
       // Remove from otherProps all props that doesn't need to be reinjected in children
       // eslint-disable-next-line no-unused-vars, react/prop-types
@@ -70,14 +82,7 @@ const withHateoasDisplayControl = (DecoratedComponent) => {
       )
     }
   }
-  // Ease debugging in the React Developer Tools by choosing a display name that communicates that it's the result of an HOC
-  WithHateoasDisplayControl.displayName = `WithHateoasDisplayControl(${getDisplayName(DecoratedComponent)})`
-
-  const mapStateToProps = state => ({
-    isInstance: AuthenticationParametersSelectors.isInstance(state),
-  })
-
-  return connect(mapStateToProps)(WithHateoasDisplayControl)
+  return connect(WithHateoasDisplayControl.mapStateToProps)(WithHateoasDisplayControl)
 }
 
 export default withHateoasDisplayControl

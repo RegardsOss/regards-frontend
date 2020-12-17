@@ -29,4 +29,4 @@ import { BasicArraySelectors } from '@regardsoss/store-utils'
  *
  * @author Sébastien Binda
  */
-export default storePath => new BasicArraySelectors(storePath)
+export default (storePath) => new BasicArraySelectors(storePath)

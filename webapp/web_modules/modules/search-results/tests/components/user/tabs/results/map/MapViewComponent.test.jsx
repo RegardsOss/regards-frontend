@@ -30,6 +30,7 @@ const context = buildTestContext(styles)
 /**
  * Test MapViewComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
   before(testSuiteHelpers.before)
@@ -65,6 +66,7 @@ describe('[SEARCH RESULTS] Testing MapViewComponent', () => {
       projectName: 'def',
       onAddElementToCart: () => {},
       onSplitDropped: () => {},
+      onProductSelected: () => {},
     }
     shallow(<MapViewComponent {...props} />, { context })
     // cannot test further due to Measure HOC

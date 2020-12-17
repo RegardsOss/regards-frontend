@@ -18,7 +18,7 @@
  **/
 import isString from 'lodash/isString'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import ErrorDecoratorComponent from '../ErrorDecoratorComponent'
+import ErrorDecoratorComponent from './ErrorDecoratorComponent'
 
 const FormErrorMessage = ({ children }) => {
   const active = isString(children) && children.length !== 0

@@ -22,7 +22,7 @@ import BasicPartitionReducers from '../../src/partition/BasicPartitionReducers'
 import BasicPartitionActions from '../../src/partition/BasicPartitionActions'
 
 const testActions = new BasicPartitionActions({ namespace: 'test-partitions' })
-const testReducer = new BasicPartitionReducers(testActions, num => num * 2)
+const testReducer = new BasicPartitionReducers(testActions, (num) => num * 2)
 const testReduce = (state, action) => testReducer.reduce(state, action)
 
 describe('[STORE UTILS] Testing partition reducer', () => {

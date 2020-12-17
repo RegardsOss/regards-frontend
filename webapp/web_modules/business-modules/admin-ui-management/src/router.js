@@ -76,7 +76,6 @@ export const moduleUiManagementRouter = {
   },
 }
 
-
 export const pluginUiManagementRouter = {
   path: 'plugin',
   getChildRoutes(nextState, cb) {

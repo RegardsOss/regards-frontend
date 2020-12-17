@@ -18,7 +18,6 @@
  **/
 import { BasicSignalActions } from '@regardsoss/store-utils'
 
-
 /**
  * Actions to send a borrow role request
  */
