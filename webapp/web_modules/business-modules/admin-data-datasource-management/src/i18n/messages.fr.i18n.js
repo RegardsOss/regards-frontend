@@ -119,7 +119,7 @@ const messages = {
   'datasource.form.create.pick-interface.title': 'Choisir le mode d\'aspiration',
   'datasource.form.create.pick-interface.subtitle': 'Veuillez sélectionner le type d\'aspiration que vous souhaitez créer, selon où ils sont stockés.',
   'datasource.form.create.pick-interface.description.aip': 'Ce mode permet d\'aspirer des AIPs au format GeoJSON',
-  'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une source de données externe',
+  'datasource.form.create.pick-interface.description.db': 'Ce mode permet d\'aspirer une base de données externe',
   'datasource.form.create.pick-interface.description.opensearch': "Ce mode permet d'aspirer une source OpenSearch",
   'datasource.form.create.pick-interface.description.feature': 'Ce mode permet d\'aspirer des features du feature manager',
   'datasource.form.create.pick-interface.action.select': 'Sélectionner',
