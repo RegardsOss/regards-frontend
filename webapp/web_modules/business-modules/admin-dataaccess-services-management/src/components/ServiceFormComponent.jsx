@@ -89,16 +89,16 @@ export class ServiceFormComponent extends React.Component {
         />
         {selectedPluginId
           ? <PluginFormContainer
-              key={`plugin-conf-${selectedPluginId}`}
-              microserviceName={STATIC_CONF.MSERVICES.CATALOG}
-              pluginId={selectedPluginId}
-              pluginConfiguration={pluginConfiguration}
-              formMode={mode}
-              backUrl={backUrl}
-              cardStyle={false}
-              simpleGlobalParameterConf
-              onUpdatePluginConfiguration={onUpdate}
-              onCreatePluginConfiguration={onCreate}
+            key={`plugin-conf-${selectedPluginId}`}
+            microserviceName={STATIC_CONF.MSERVICES.CATALOG}
+            pluginId={selectedPluginId}
+            pluginConfiguration={pluginConfiguration}
+            formMode={mode}
+            backUrl={backUrl}
+            cardStyle={false}
+            simpleGlobalParameterConf
+            onUpdatePluginConfiguration={onUpdate}
+            onCreatePluginConfiguration={onCreate}
           /> : null}
       </div>
     )

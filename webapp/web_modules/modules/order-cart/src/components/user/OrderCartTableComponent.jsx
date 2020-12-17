@@ -498,14 +498,14 @@ export class OrderCartTableComponent extends React.Component {
       case OrderCartTableComponent.COLUMN_KEYS.PROCESSING: {
         return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist)
           ? <ManageDatasetProcessingContainer
-              datasetIpid={cellValue.datasetSelectionIpId}
-              datasetSelectionId={cellValue.datasetSelectionId}
-              onProcessChanged={refreshBasket}
-              process={cellValue.process}
-              processingSelectors={processingSelectors}
-              pluginMetaDataSelectors={pluginMetaDataSelectors}
-              linkProcessingDatasetActions={linkProcessingDatasetActions}
-              disabled={isFetching}
+            datasetIpid={cellValue.datasetSelectionIpId}
+            datasetSelectionId={cellValue.datasetSelectionId}
+            onProcessChanged={refreshBasket}
+            process={cellValue.process}
+            processingSelectors={processingSelectors}
+            pluginMetaDataSelectors={pluginMetaDataSelectors}
+            linkProcessingDatasetActions={linkProcessingDatasetActions}
+            disabled={isFetching}
           /> : null
       }
       default:

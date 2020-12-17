@@ -39,7 +39,7 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
   it('should render correctly with an empty layer', () => {
     const props = {
       name: 'any',
-      mapEngine: 'Cesium',
+      mapEngine: 'CESIUM',
       getMenuItems: () => {},
       validateBackgroundURL: () => {},
       validateBackgroundConf: () => {},
@@ -79,7 +79,7 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
   it('should render correctly with an OSM layer', () => {
     const props = {
       name: 'any',
-      mapEngine: 'Cesium',
+      mapEngine: 'CESIUM',
       getMenuItems: () => {},
       validateBackgroundURL: () => {},
       validateBackgroundConf: () => {},
@@ -122,7 +122,7 @@ describe('[ Module name] Testing LayerInfoItemComponent', () => {
   it('should render correctly with an WMS layer', () => {
     const props = {
       name: 'any',
-      mapEngine: 'Cesium',
+      mapEngine: 'CESIUM',
       getMenuItems: () => {},
       validateBackgroundURL: () => {},
       validateBackgroundConf: () => {},
