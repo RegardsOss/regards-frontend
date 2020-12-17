@@ -22,12 +22,23 @@ import { criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { DateRange } from '../../src/utils/DateRange'
 
 describe('[PLUGINS API] Testing DateRange', () => {
+  // override timezone offset to make it constant for tests (+3h) - avoids tests issues on other timezones
+  let savedGetTimezoneOffset
+  before(() => {
+    savedGetTimezoneOffset = Date.prototype.getTimezoneOffset
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getTimezoneOffset = () => 180 // in minutes
+  })
+  after(() => {
+    // eslint-disable-next-line no-extend-native
+    Date.prototype.getTimezoneOffset = savedGetTimezoneOffset
+  })
   // Nota: time zone issues can not be strongly tested,
   // see https://medium.com/@toastui/handling-time-zone-in-javascript-547e67aa842d
   it('should convert correctly a time to OpenSearch date representation', () => {
     assert.equal(DateRange.toOpenSearchDate(Number.NEGATIVE_INFINITY), '*')
     assert.equal(DateRange.toOpenSearchDate(Number.POSITIVE_INFINITY), '*')
-    assert.equal(DateRange.toOpenSearchDate(new Date('2030-01-01T06:00:00.000Z').getTime()), '2030-01-01T06:00:00.000Z')
+    assert.equal(DateRange.toOpenSearchDate(new Date('2030-01-01T06:00:00.000Z').getTime()), '2030-01-01T03:00:00.000Z')
   })
   it('should convert correctly a range into request', () => {
     assert.isNotOk(DateRange.getDateQueryParameter('attr1',
@@ -42,23 +53,23 @@ describe('[PLUGINS API] Testing DateRange', () => {
 
     assert.equal(DateRange.getDateQueryParameter('attr1',
       new DateRange(null, new Date('2030-01-01T06:00:00.000Z').getTime())).toQueryString(),
-    'attr1:[* TO 2030-01-01T06:00:00.000Z]')
+    'attr1:[* TO 2030-01-01T03:00:00.000Z]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
       new DateRange(new Date('2030-01-01T06:00:00.000Z').getTime()), null).toQueryString(),
-    'attr1:[2030-01-01T06:00:00.000Z TO *]')
+    'attr1:[2030-01-01T03:00:00.000Z TO *]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
       new DateRange(new Date('2030-01-01T06:00:00.000Z').getTime(), new Date('2040-06-06T06:00:00.000Z').getTime())).toQueryString(),
-    'attr1:[2030-01-01T06:00:00.000Z TO 2040-06-06T06:00:00.000Z]')
+    'attr1:[2030-01-01T03:00:00.000Z TO 2040-06-06T03:00:00.000Z]')
 
     assert.equal(DateRange.getDateQueryParameter('attr1',
-      DateRange.convertToRange(new Date('2040-06-06T06:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.LE)).toQueryString(),
-    'attr1:[* TO 2040-06-06T06:00:00.000Z]')
+      DateRange.convertToRange(new Date('2040-06-06T00:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.LE)).toQueryString(),
+    'attr1:[* TO 2040-06-05T21:00:00.000Z]')
     assert.equal(DateRange.getDateQueryParameter('attr1',
       DateRange.convertToRange(new Date('2040-06-06T06:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.EQ)).toQueryString(),
-    'attr1:2040-06-06T06:00:00.000Z')
+    'attr1:2040-06-06T03:00:00.000Z')
     assert.equal(DateRange.getDateQueryParameter('attr1',
       DateRange.convertToRange(new Date('2040-06-06T06:00:00.000Z').getTime(), CommonDomain.EnumNumericalComparator.GE)).toQueryString(),
-    'attr1:[2040-06-06T06:00:00.000Z TO *]')
+    'attr1:[2040-06-06T03:00:00.000Z TO *]')
   })
 
   it('should compute correctly restriction validity on intersection', () => {
@@ -66,19 +77,21 @@ describe('[PLUGINS API] Testing DateRange', () => {
     const getAttrStub = (minDateISO, maxDateIso) => criterionTestSuiteHelpers.getAttributeStub(
       DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601, null,
       criterionTestSuiteHelpers.getBoundsInformationStub(true, false, false, minDateISO && new Date(minDateISO).getTime(), maxDateIso && new Date(maxDateIso).getTime()))
+    // Nota: Attributes ranges, as provided by the server, are expressed as UTC time. Constraints ranges, as provided by user,
+    // are expressed as local times
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2034-06-06T06:00:00.000Z', '2036-06-06T06:00:00.000Z')))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2036-06-06T06:00:00.000Z', '2050-06-06T06:00:00.000Z')))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2036-06-06T06:00:00.000Z', null)))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2036-06-06T06:00:00.000Z', '2050-06-06T06:00:00.000Z')))
-    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T06:00:00.000Z', null)))
+    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T09:00:00.000Z', null)))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, '2050-06-06T06:00:00.000Z')))
-    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('1901-06-06T06:00:00.000Z', '2030-06-06T06:00:00.000Z')))
+    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('1901-06-06T06:00:00.000Z', '2030-06-06T09:00:00.000Z')))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('1901-06-06T06:00:00.000Z', null)))
-    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, '2030-06-06T06:00:00.000Z')))
+    assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, '2030-06-06T09:00:00.000Z')))
     assert.isTrue(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, null)))
 
-    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T06:00:00.001Z', '2045-06-06T06:00:00.000Z')))
-    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T06:00:00.001Z', null)))
-    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, '2030-06-06T05:59:59.999Z')))
+    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T09:00:00.001Z', '2045-06-06T06:00:00.000Z')))
+    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange('2040-06-06T09:00:00.001Z', null)))
+    assert.isFalse(DateRange.isValidRestrictionOn(getAttrStub('2030-06-06T06:00:00.000Z', '2040-06-06T06:00:00.000Z'), getRange(null, '2030-06-06T08:59:59.999Z')))
   })
 })

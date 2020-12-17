@@ -126,43 +126,43 @@ pipeline {
                 sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
             }
         }
-    //     stage('Deploy Maven artifact') {
-    //         when {
-	// 	expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
-    //         }
-    //         steps {
-    //             parallel(
-    //                 sonar: {
-    //                   sh 'docker run \
-    //                       --rm -i \
-    //                       -v ${WORKSPACE}/webapp:/app_to_build \
-    //                       rs_node ./run_coverage.sh'
-    //                   sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
-    //                   sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
-    //                     docker run --rm \
-    //                     -w /data \
-    //                     -v ${WORKSPACE}/webapp:/data \
-    //                     skilldlabs/sonar-scanner:3.3 \
-    //                     sonar-scanner \
-    //                     -Dsonar.projectVersion=${TAG} \
-    //                     -Dsonar.branch.name=${BRANCH_NAME} \
-    //                     -Dsonar.projectBaseDir=/data \
-    //                     -Dsonar.host.url=http://172.26.47.129:9000/'
-	// 	      sh 'docker run --rm -w /data -v ${WORKSPACE}/webapp:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/.scannerwork'
-    //                   sh 'rm -rf webapp/.scannerwork || true'
-    //                 },
-    //                 maven: {
-    //                     sh 'docker run --rm -i \
-    //                         -v ${WORKSPACE}/frontend-boot:/app_to_build \
-    //                         -v ${WORKSPACE}/webapp/dist/prod:/webapp/dist/prod \
-    //                         -v /DATA/maven-multibranch-repository:/localRepository \
-    //                         -v /usr/bin/docker:/bin/docker \
-    //                         -v /var/run/docker.sock:/var/run/docker.sock \
-    //                         -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
-    //                         172.26.46.158/rs-maven'
-    //                 }
-    //             )
-    //         }
-    //     }
+        stage('Deploy Maven artifact') {
+            when {
+		        expression { BRANCH_NAME ==~ /(master|develop.*|release.*)/ }
+            }
+            steps {
+                parallel(
+                    sonar: {
+                        sh 'docker run \
+                            --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./run_coverage.sh'
+                        sh 'sed -i s/app_to_build/data/g webapp/reports/coverage/lcov.info'
+                        sh 'TAG=$(./jenkins/nginx/getPackageVersion.sh ./webapp) && \
+                            docker run --rm \
+                            -w /data \
+                            -v ${WORKSPACE}/webapp:/data \
+                            skilldlabs/sonar-scanner:3.3 \
+                            sonar-scanner \
+                            -Dsonar.projectVersion=${TAG} \
+                            -Dsonar.branch.name=${BRANCH_NAME} \
+                            -Dsonar.projectBaseDir=/data \
+                            -Dsonar.host.url=http://172.26.47.129:9000/'
+		                sh 'docker run --rm -w /data -v ${WORKSPACE}/webapp:/data  skilldlabs/sonar-scanner:3.3 chmod -R 0777 /data/.scannerwork'
+                        sh 'rm -rf webapp/.scannerwork || true'
+                    },
+                    maven: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/frontend-boot:/app_to_build \
+                            -v ${WORKSPACE}/webapp/dist/prod:/webapp/dist/prod \
+                            -v /DATA/maven-multibranch-repository:/localRepository \
+                            -v /usr/bin/docker:/bin/docker \
+                            -v /var/run/docker.sock:/var/run/docker.sock \
+                            -e BRANCH_NAME -e WORKSPACE -e CI_DIR=jenkins -e MODE=Deploy \
+                            172.26.46.158/rs-maven'
+                    }
+                )
+            }
+        }
     }
 }

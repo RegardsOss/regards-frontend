@@ -67,6 +67,19 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
     type, presentationModels, tabType, enableSelection, descriptionAvailable,
     enableDownload, enableCart, enableServices, enableSearchEntity,
   }) => it(`should render correctly for ${type}`, () => {
+    // prepare render data
+    const { th: thumbnailRenderData, gA: gridAttributesRenderData } = presentationModels.reduce(({ th, gA }, model) => {
+      if (model.attributes.length === 1
+        && model.attributes[0].model.content.type === DamDomain.PSEUDO_ATTR_TYPES.THUMBNAIL_PSEUDO_TYPE) {
+        return {
+          th: ListViewContainer.buildAttributeRenderData(model),
+          gA,
+        }
+      }
+      return {
+        th, gA: [...gA, ListViewContainer.buildAttributeRenderData(model)],
+      }
+    }, { th: null, gA: [] })
     const { searchDataobjectsActions, searchDatasetsActions, searchSelectors } = getSearchCatalogClient(tabType)
     const searchActions = type === DamDomain.ENTITY_TYPES_ENUM.DATASET ? searchDatasetsActions : searchDataobjectsActions
     const props = {
@@ -74,8 +87,8 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       tabType,
       requestParameters: {},
       searchActions,
-      thumbnailRenderData: ListViewContainer.buildThumbnailRenderData(presentationModels),
-      gridAttributesRenderData: ListViewContainer.buildGridAttributesRenderData(presentationModels),
+      thumbnailRenderData,
+      gridAttributesRenderData,
       enableSelection,
       descriptionAvailable,
       onShowDescription: () => {},
@@ -97,7 +110,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       requestParams: props.requestParameters,
       displayColumnsHeader: false,
 
-      queryPageSize: ListViewComponent.RESULTS_PAGE_SIZE,
+      queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST],
       emptyComponent: ListViewComponent.EMPTY_COMPONENT,
     })
     assert.isOk(tableWrapper.props().lineHeight, 'Line height should be set')

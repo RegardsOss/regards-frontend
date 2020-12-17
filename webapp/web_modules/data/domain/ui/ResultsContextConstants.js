@@ -229,6 +229,16 @@ function getNavigateToViewType(type) {
   return NAVIGATE_TO_VIEW_TYPE[type]
 }
 
+/**
+ * Maps each view type to the page size
+ */
+const PAGE_SIZE_FOR = {
+  [RESULTS_VIEW_MODES_ENUM.LIST]: 500,
+  [RESULTS_VIEW_MODES_ENUM.TABLE]: 500,
+  [RESULTS_VIEW_MODES_ENUM.MAP]: STATIC_CONF.MAP.PAGE_SIZE_MAP,
+  [RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: 200,
+}
+
 export default {
   RESULTS_INITIAL_TYPE_PREFERENCE,
   DEFAULT_RESULTS_CONTEXT,
@@ -236,6 +246,7 @@ export default {
   DISABLED_VIEW_MODE_STATE,
   DISABLED_MAP_VIEW_MODE_STATE,
   DISABLED_TYPE_STATE,
+  PAGE_SIZE_FOR,
   allowDownload,
   allowSorting,
   allowSelection,

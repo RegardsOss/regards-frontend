@@ -41,6 +41,7 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
   })
   it('should render correctly', () => {
     const props = {
+      allowRendererSelection: true,
       attributeModels: attributeModelsArray,
       fields: {
         getAll: () => [{
@@ -80,8 +81,10 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
     const selectedAttributesTable = enzymeWrapper.find(SelectedAttributesTable)
     assert.lengthOf(selectedAttributesTable, 1, 'There should be the selected attributes table')
     testSuiteHelpers.assertWrapperProperties(selectedAttributesTable, {
+      allowRendererSelection: props.allowRendererSelection,
       selectedAttributes: state.selectedAttributes,
       attributeModels: props.attributeModels,
+      onRendererSelected: enzymeWrapper.instance().onRendererSelected,
       onRemove: enzymeWrapper.instance().onRemove,
       invalid: props.meta.invalid,
       error: props.meta.error,

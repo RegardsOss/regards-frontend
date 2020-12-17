@@ -49,9 +49,6 @@ class MapComponent extends React.Component {
     ...themeContextType,
   }
 
-  /** Number of items by page for map (used by correlated quicklooks fetcher) */
-  static MAP_PAGE_SIZE = STATIC_CONF.MAP.PAGE_SIZE_MAP
-
   state = {
     staticLayerOpacity: 1,
   }

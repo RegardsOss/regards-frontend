@@ -45,6 +45,7 @@ export const INITIAL_FORM_STATE = {
       tabTitle: {},
       initialMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
       enableDownload: false,
+      enableRefresh: false,
       sorting: [],
       views: {
         [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: {
@@ -69,6 +70,7 @@ export const INITIAL_FORM_STATE = {
       enabled: false,
       tabTitle: {},
       initialMode: UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE,
+      enableRefresh: false,
       sorting: [],
       views: {
         [UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]: {

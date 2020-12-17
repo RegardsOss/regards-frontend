@@ -1,6 +1,6 @@
 {
   "name": "string-criteria-plugin",
-  "version":"1.1.2-SNAPSHOT",
+  "version": "1.2.0-SNAPSHOT",
   "private": true,
   "description": "String attribute criterion plugin for Regards search forms",
   "license": "GPL-3.0",

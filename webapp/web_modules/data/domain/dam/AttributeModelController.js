@@ -22,7 +22,7 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import isString from 'lodash/isString'
 
-import { MODEL_ATTR_TYPES } from './ModelAttrTypes'
+import { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES } from './ModelAttrTypes'
 
 /**
  * Enumeration and controller for AttributeModel entities
@@ -85,7 +85,7 @@ const standardAttributes = {
     key: standardAttributesKeys.thumbnail,
     id: -6,
     label: 'Thumbnail',
-    type: MODEL_ATTR_TYPES.URL,
+    type: PSEUDO_ATTR_TYPES.THUMBNAIL_PSEUDO_TYPE,
     jsonPath: 'files', // render using file to be able fallbacking onto quicklooks if required
   },
   [standardAttributesKeys.geometry]: {
@@ -181,32 +181,6 @@ function getEntityAttributeValue(entity, fullQualifiedPath) {
   return resolveAttribute(entity.content, path)
 }
 
-/**
- * Method to retrieve full label of a given AttributeModel. The full labels is a string composed with fragment and attribute names.
- * @param attribute
- * @returns {string}
- */
-function getAttributeModelFullLabel(attribute) {
-  let fullAttributeLabel = ''
-
-  const fragment = get(attribute, 'content.fragment.name')
-  const attributeLabel = get(attribute, 'content.label')
-  const attributeName = get(attribute, 'content.name')
-  if (fragment && (fragment !== DEFAULT_FRAGMENT)) {
-    fullAttributeLabel = `${fragment} - `
-  }
-
-  if (attributeLabel) {
-    fullAttributeLabel = `${fullAttributeLabel}${attributeLabel}`
-  } else if (attributeName) {
-    fullAttributeLabel = `${fullAttributeLabel}${attributeName}`
-  } else {
-    fullAttributeLabel = `${fullAttributeLabel}undefined`
-  }
-
-  return fullAttributeLabel
-}
-
 function getAttributeModelFullName(attribute) {
   let fullAttributeName = ''
   const fragment = get(attribute, 'content.fragment.name')
@@ -228,7 +202,6 @@ export default {
   getEntityAttributeValue,
   getStandardAttributeModel,
   findModelFromAttributeFullyQualifiedName,
-  getAttributeModelFullLabel,
   getAttributeModelFullName,
   isSearchableAttribute,
   standardAttributesKeys,

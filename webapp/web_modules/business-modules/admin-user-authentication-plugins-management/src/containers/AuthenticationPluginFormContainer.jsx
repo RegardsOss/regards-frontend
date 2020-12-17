@@ -82,9 +82,7 @@ export class AuthenticationPluginFormContainer extends React.Component {
 
   componentWillMount() {
     const { params: { pluginId }, fetch } = this.props
-    console.error('props', this.props)
     if (pluginId) {
-      console.error(`fetching ${pluginId} for ${MICROSERVICE}`)
       fetch(pluginId).then(() => this.setState({ isLoading: false }))
     }
   }
@@ -93,7 +91,6 @@ export class AuthenticationPluginFormContainer extends React.Component {
     const {
       params: { mode, project }, entity, update, create,
     } = this.props
-    console.error('entity', entity)
     return (
       <LoadableContentDisplayDecorator
         isLoading={this.state.isLoading}

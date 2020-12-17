@@ -23,6 +23,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AvailableAttributesTable from './available/AvailableAttributesTable'
 import SelectedAttributesTable from './selected/SelectedAttributesTable'
+import { DEFAULT_RENDERER_KEY } from '../../render/AttributesTypeToRender'
 
 /**
  * Table allowing multiple attributes selection
@@ -30,6 +31,7 @@ import SelectedAttributesTable from './selected/SelectedAttributesTable'
  */
 class MultipleAttributesFieldRender extends React.Component {
   static propTypes = {
+    allowRendererSelection: PropTypes.bool.isRequired,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
     fields: PropTypes.shape({
       getAll: PropTypes.func.isRequired,
@@ -82,8 +84,26 @@ class MultipleAttributesFieldRender extends React.Component {
    * @param {string} name selected attribute full qualified name
    */
   onAdd = (name) => {
-    const { fields: { push } } = this.props
-    push({ name })
+    const { allowRendererSelection, fields: { push } } = this.props
+    const attributeConfiguration = { name }
+    if (allowRendererSelection) {
+      attributeConfiguration.renderer = DEFAULT_RENDERER_KEY
+    }
+    push(attributeConfiguration)
+  }
+
+  /**
+   * User callback: new renderer selected for configuration
+   * @param {number} attributeIndex
+   */
+  onRendererSelected = (attributeIndex, renderer) => {
+    const { fields } = this.props
+    const attr = fields.get(attributeIndex)
+    fields.remove(attributeIndex)
+    fields.insert(attributeIndex, {
+      ...attr,
+      renderer,
+    })
   }
 
   /**
@@ -97,11 +117,13 @@ class MultipleAttributesFieldRender extends React.Component {
 
   render() {
     const {
-      label, attributeModels, meta: { invalid, error }, intl,
+      label, attributeModels, allowRendererSelection,
+      meta: { invalid, error }, intl,
     } = this.props
     const { availableAttributesModels, selectedAttributes } = this.state
     const {
-      rootStyle, fieldLabelStyle, verticalSeparatorStyle, tableHolderStyle,
+      rootStyle, fieldLabelStyle, verticalSeparatorStyle,
+      firstTableHolderStyle, secondTableHolderStyle,
     } = this.context.moduleTheme.configuration.editDialog.multipleSelector
     return (
       <React.Fragment>
@@ -109,17 +131,19 @@ class MultipleAttributesFieldRender extends React.Component {
           {label}
         </Subheader>
         <div style={rootStyle}>
-          <div style={tableHolderStyle}>
+          <div style={firstTableHolderStyle}>
             <AvailableAttributesTable
               attributeModels={availableAttributesModels}
               onAdd={this.onAdd}
             />
           </div>
           <div style={verticalSeparatorStyle} />
-          <div style={tableHolderStyle}>
+          <div style={secondTableHolderStyle}>
             <SelectedAttributesTable
+              allowRendererSelection={allowRendererSelection}
               selectedAttributes={selectedAttributes}
               attributeModels={attributeModels}
+              onRendererSelected={this.onRendererSelected}
               onRemove={this.onRemove}
               invalid={invalid}
               error={invalid && error ? intl.formatMessage({ id: error }) : undefined}

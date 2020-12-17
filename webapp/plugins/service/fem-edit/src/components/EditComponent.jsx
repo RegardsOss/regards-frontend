@@ -233,6 +233,7 @@ export class EditComponent extends React.Component {
             <ShowableAtRender show={hasSelectedAttributes || hasNoAttributes}>
               <ShowableAtRender show={hasSelectedAttributes}>
                 <FormattedMessage id="plugin.message" values={msgValues} />
+                <FormattedMessage id="plugin.async.info" />
                 <FormattedMessage id="plugin.question" />
               </ShowableAtRender>
               <ShowableAtRender show={hasNoAttributes}>

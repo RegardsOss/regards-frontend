@@ -55,7 +55,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
       fakeLocale: attribute.content.label,
     },
     visible: true,
-    attributes: [attribute],
+    attributes: [{ model: attribute }],
     enableSorting: false,
   }))
 
@@ -79,7 +79,6 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * @return [*] columns
    */
   renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-    // XXX-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
     model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {

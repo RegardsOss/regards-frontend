@@ -97,9 +97,10 @@ class ModuleForm extends React.Component {
                 attributesListFieldName={this.DATASET_ATTRIBUTES_FIELD_NAME}
                 changeField={adminForm.changeField}
                 hintMessageKey="search.graph.configuration.dataset.attributes.hint"
-                allowAttributesRegroupements={false}
+                allowAttributesGroups={false}
                 attributesFilter={DamDomain.AttributeModelController.isSearchableAttribute}
                 allowLabel
+                allowRendererSelection
               />
             </FieldsGroup>
           </FormPresentation>

@@ -76,7 +76,7 @@ export class DescriptionEntityHelper {
    * @param {*} modelAttributes map of model attributes by ID. Each map entry matches DataManagementShapes.ModelAttribute shape
    * @return {*} map of model attributes by ID where each entry match DataManagementShapes.AttributeModel
    */
-  static toSimpleAttributesMap(modelAttributes) {
+  static toSimpleAttributesMap(modelAttributes = {}) {
     return reduce(modelAttributes, (acc, { content: { attribute } }) => ({
       ...acc,
       [attribute.id]: {
@@ -134,12 +134,9 @@ export class DescriptionEntityHelper {
       } else {
       // 2.2 - Locally unknown, fetch model
         fetchModelAttributes(modelName)
-          .then(({ payload }) => {
+          .then(({ payload, meta }) => {
             const fetchedModelAttributes = get(payload, 'entities.modelattribute')
-            if (!fetchedModelAttributes) {
-              resolveModelAttributes()
-            }
-            resolveModelAttributes(DescriptionEntityHelper.toSimpleAttributesMap(fetchedModelAttributes), false)
+            resolveModelAttributes(DescriptionEntityHelper.toSimpleAttributesMap(fetchedModelAttributes), meta.status >= 400)
           }).catch(resolveModelAttributes)
       }
     }))
@@ -268,8 +265,8 @@ export class DescriptionEntityHelper {
    */
   static filterOrConvertElement({ label, attributes: confAttributes }, hideEmptyAttributes, attributes, entity, index) {
     // A - retrieve all attributes and their render data
-    const convertedAttributes = confAttributes.reduce((acc, attribute) => {
-      const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attribute.name, attributes)
+    const convertedAttributes = confAttributes.reduce((acc, { name, renderer }) => {
+      const model = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(name, attributes)
       // 1- retrieve attribute model
       if (model) {
         // attribute model is part of the current entity model
@@ -287,7 +284,7 @@ export class DescriptionEntityHelper {
           return [...acc, {
             key: jsonPath,
             render: {
-              Constructor: getTypeRender(type),
+              Constructor: getTypeRender(type, renderer),
               props: {
                 value: DamDomain.AttributeModelController.getEntityAttributeValue(entity, jsonPath),
                 precision,

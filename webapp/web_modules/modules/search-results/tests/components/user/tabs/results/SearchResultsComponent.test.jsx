@@ -74,6 +74,8 @@ describe('[SEARCH RESULTS] Testing SearchResultsComponent', () => {
       selectionServices: props.selectionServices,
       onStartSelectionService: props.onStartSelectionService,
       onAddSelectionToCart: props.onAddSelectionToCart,
+      requestParameters: props.requestParameters,
+      searchActions: props.searchActions,
     }, 'Options header row properties should be correctly set')
     const resultsFacetHeaderRow = enzymeWrapper.find(ResultFacetsHeaderRowContainer)
     assert.lengthOf(resultsFacetHeaderRow, 1, 'There should be results facets header row')

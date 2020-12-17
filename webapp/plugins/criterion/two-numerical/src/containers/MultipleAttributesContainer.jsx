@@ -32,6 +32,7 @@ import MultipleAttributesComponent from '../components/MultipleAttributesCompone
 export class MultipleAttributesContainer extends React.Component {
   /** Default container state */
   static DEFAULT_STATE = {
+    error: false,
     error1: false,
     value1: '',
     comparator1: CommonDomain.EnumNumericalComparator.GE,
@@ -42,6 +43,7 @@ export class MultipleAttributesContainer extends React.Component {
 
   /** Shape for this subtype of criterion */
   static STATE_SHAPE = PropTypes.shape({ // specifying here the state this criterion shares with parent search form
+    error: PropTypes.bool.isRequired,
     error1: PropTypes.bool.isRequired,
     value1: PropTypes.string,
     comparator1: PropTypes.oneOf(CommonDomain.EnumNumericalComparators).isRequired,
@@ -101,10 +103,10 @@ export class MultipleAttributesContainer extends React.Component {
    * @return {*} corresponding OpenSearch request parameters
    */
   static convertToRequestParameters({
-    error1, value1, comparator1, error2, value2, comparator2,
+    error, value1, comparator1, value2, comparator2,
   }, firstAttribute, secondAttribute) {
     // No query when: any field is in error or there is no field value
-    return error1 || error2 || (!value1 && !value2) ? {} : {
+    return error || (!value1 && !value2) ? {} : {
       q: new CatalogDomain.OpenSearchQuery([
         // first attribute
         NumberRange.getNumberQueryParameter(firstAttribute.jsonPath,
@@ -126,11 +128,14 @@ export class MultipleAttributesContainer extends React.Component {
       state, publishState, firstField, secondField,
     } = this.props
     const { error, value } = NumberHelper.parse(value1)
+    const error1 = error || (!isNil(value) && !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1)))
     const newState = {
       ...state,
-      error1: error || (!isNil(value) && !NumberRange.isValidRestrictionOn(firstField, NumberRange.convertToRange(value, comparator1))),
+      error1,
       value1,
       comparator1,
+      // common error state
+      error: error1 || state.error2,
     }
     if (!isEqual(newState, state)) {
       publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))
@@ -147,12 +152,15 @@ export class MultipleAttributesContainer extends React.Component {
       state, publishState, firstField, secondField,
     } = this.props
     const { error, value } = NumberHelper.parse(value2)
+    const error2 = error || (!isNil(value) && !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2)))
     const newState = {
       ...state,
       // in error when text cannot be parsed or range is invalid
-      error2: error || (!isNil(value) && !NumberRange.isValidRestrictionOn(secondField, NumberRange.convertToRange(value, comparator2))),
+      error2,
       value2,
       comparator2,
+      // common error state
+      error: error2 || state.error1,
     }
     if (!isEqual(newState, state)) {
       publishState(newState, MultipleAttributesContainer.convertToRequestParameters(newState, firstField, secondField))

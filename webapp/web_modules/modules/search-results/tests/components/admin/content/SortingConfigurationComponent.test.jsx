@@ -59,8 +59,6 @@ describe('[SEARCH RESULTS] Testing SortingConfigurationComponent', () => {
       attributesList: props.currentTypeFormValues.sorting,
       attributesListFieldName: `${rootNamespace}.sorting`,
       changeField: props.changeField,
-      allowAttributesRegroupements: false,
-      allowLabel: false,
     }, 'Attributes list field properties should be correctly set up')
   })
 })

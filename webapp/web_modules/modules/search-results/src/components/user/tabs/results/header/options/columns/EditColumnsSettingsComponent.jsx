@@ -86,7 +86,6 @@ class EditColumnsSettingsComponent extends React.Component {
           secondary={showDialog}
         />
         {/* 2. Dialog window */}
-        <div />
         <ColumnsSettingsComponent
           open={showDialog}
           presentationModels={presentationModels}

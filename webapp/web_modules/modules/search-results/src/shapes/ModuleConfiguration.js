@@ -78,6 +78,8 @@ const commonViewsGroupFields = {
     [UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK]: QuicklookViewConfiguration,
     [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: MapViewConfiguration,
   }),
+  // is refresh button enabled
+  enableRefresh: PropTypes.bool,
 }
 
 /**
@@ -86,6 +88,7 @@ const commonViewsGroupFields = {
 export const DataViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
   enableDownload: PropTypes.bool,
+  enableServices: PropTypes.bool,
   sorting: AccessShapes.AttributeListConfigurationModel,
 })
 

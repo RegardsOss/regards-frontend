@@ -130,7 +130,7 @@ export class MapContainer extends React.Component {
     const { entities: oldEntities, resultsContext: oldResultsContext, tabType: oldTabType } = oldProps
     const {
       entities,
-      pageMetadata = { number: 0, size: MapComponent.MAP_PAGE_SIZE },
+      pageMetadata = { number: 0, size: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP] },
       resultsContext,
       tabType,
     } = newProps

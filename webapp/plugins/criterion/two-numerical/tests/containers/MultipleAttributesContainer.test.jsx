@@ -93,6 +93,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set correct field 2 value',
       updateMethod: () => enzymeWrapper.instance().onValue2Changed('5', CommonDomain.EnumNumericalComparator.LE),
       expected: {
+        error: false,
         field1: { error: false, value: '', operator: CommonDomain.EnumNumericalComparator.GE },
         field2: { error: false, value: '5', operator: CommonDomain.EnumNumericalComparator.LE },
         query: { q: 'y.a2:[* TO 5]' },
@@ -101,6 +102,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set correct field 1 value',
       updateMethod: () => enzymeWrapper.instance().onValue1Changed('-0.5', CommonDomain.EnumNumericalComparator.LE),
       expected: {
+        error: false,
         field1: { error: false, value: '-0.5', operator: CommonDomain.EnumNumericalComparator.LE },
         field2: { error: false, value: '5', operator: CommonDomain.EnumNumericalComparator.LE },
         query: { q: 'x.a1:[* TO \\-0.5] AND y.a2:[* TO 5]' },
@@ -109,6 +111,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set invalid field 2 value (outside bounds)',
       updateMethod: () => enzymeWrapper.instance().onValue2Changed('11', CommonDomain.EnumNumericalComparator.GE),
       expected: {
+        error: true,
         field1: { error: false, value: '-0.5', operator: CommonDomain.EnumNumericalComparator.LE },
         field2: { error: true, value: '11', operator: CommonDomain.EnumNumericalComparator.GE },
         query: { },
@@ -117,6 +120,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set back field 2 in bounds',
       updateMethod: () => enzymeWrapper.instance().onValue2Changed('10', CommonDomain.EnumNumericalComparator.GE),
       expected: {
+        error: false,
         field1: { error: false, value: '-0.5', operator: CommonDomain.EnumNumericalComparator.LE },
         field2: { error: false, value: '10', operator: CommonDomain.EnumNumericalComparator.GE },
         query: { q: 'x.a1:[* TO \\-0.5] AND y.a2:[10 TO *]' },
@@ -125,6 +129,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set back field 1 in error (parsing)',
       updateMethod: () => enzymeWrapper.instance().onValue1Changed('qsd14', CommonDomain.EnumNumericalComparator.GE),
       expected: {
+        error: true,
         field1: { error: true, value: 'qsd14', operator: CommonDomain.EnumNumericalComparator.GE },
         field2: { error: false, value: '10', operator: CommonDomain.EnumNumericalComparator.GE },
         query: {},
@@ -133,6 +138,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Unset field 1 (check query is still built)',
       updateMethod: () => enzymeWrapper.instance().onValue1Changed('', CommonDomain.EnumNumericalComparator.GE),
       expected: {
+        error: false,
         field1: { error: false, value: '', operator: CommonDomain.EnumNumericalComparator.GE },
         field2: { error: false, value: '10', operator: CommonDomain.EnumNumericalComparator.GE },
         query: { q: 'y.a2:[10 TO *]' },
@@ -141,6 +147,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Set field 1 back',
       updateMethod: () => enzymeWrapper.instance().onValue1Changed('18.564', CommonDomain.EnumNumericalComparator.LE),
       expected: {
+        error: false,
         field1: { error: false, value: '18.564', operator: CommonDomain.EnumNumericalComparator.LE },
         field2: { error: false, value: '10', operator: CommonDomain.EnumNumericalComparator.GE },
         query: { q: 'x.a1:[* TO 18.564] AND y.a2:[10 TO *]' },
@@ -149,6 +156,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       label: 'Unset field 2 (check query is still built)',
       updateMethod: () => enzymeWrapper.instance().onValue2Changed('', CommonDomain.EnumNumericalComparator.LE),
       expected: {
+        error: false,
         field1: { error: false, value: '18.564', operator: CommonDomain.EnumNumericalComparator.LE },
         field2: { error: false, value: '', operator: CommonDomain.EnumNumericalComparator.LE },
         query: { q: 'x.a1:[* TO 18.564]' },
@@ -158,6 +166,7 @@ describe('[Two numerical criteria] Testing MultipleAttributesContainer', () => {
       updateMethod()
       // check published state
       assert.deepEqual(spiedPublishStateData.state, {
+        error: expected.error,
         error1: expected.field1.error,
         value1: expected.field1.value,
         comparator1: expected.field1.operator,

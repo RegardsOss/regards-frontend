@@ -74,6 +74,8 @@ export class IFrameURLContentDisplayer extends React.Component {
     onContentError: PropTypes.func,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
     style: PropTypes.objectOf(PropTypes.any),
+    // iFrame style: optional iFrame style, when globalTheme.fileContent.background should not be used
+    iFrameStyle: PropTypes.objectOf(PropTypes.any),
   }
 
   static defaultProps = {
@@ -95,11 +97,13 @@ export class IFrameURLContentDisplayer extends React.Component {
    * @return {*}
    */
   toIFrameStyle = (width, height) => {
-    const { moduleTheme: { fileContent: { iFrame } } } = this.context
+    const { moduleTheme: { fileContent: { iFrame: fileContentStyle } } } = this.context
+    const { iFrameStyle } = this.props
     return {
       width,
       height,
-      ...iFrame, // common styles
+      // user or common style
+      ...(iFrameStyle || fileContentStyle),
     }
   }
 
