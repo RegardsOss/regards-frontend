@@ -1,6 +1,6 @@
 {
   "name": "data-with-picture-only",
-  "version": "1.4.0-SNAPSHOT",
+  "version": "1.4.0",
   "private": true,
   "description": "Search only data with picture criterion plugin for Regards search forms",
   "license": "GPL-3.0",

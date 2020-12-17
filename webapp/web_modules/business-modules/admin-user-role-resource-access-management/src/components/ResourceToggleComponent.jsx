@@ -47,6 +47,7 @@ class ResourceToggleComponent extends React.Component {
    */
   onToggleResourceAccess = () => {
     const { resource, roleResource, onToggleResourceAccess } = this.props
+    console.error('Toggle resource')
     onToggleResourceAccess(resource, !!roleResource)
     return false
   }
@@ -59,7 +60,7 @@ class ResourceToggleComponent extends React.Component {
         <HateoasIconAction
           disableInsteadOfHide
           style={moduleTheme.resourceIconStyle}
-          onClick={this.handleToggleResourceAccess}
+          onClick={this.onToggleResourceAccess}
           entityLinks={roleResource.links}
           hateoasKey={HateoasKeys.DELETE}
         >
