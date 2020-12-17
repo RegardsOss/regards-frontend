@@ -19,7 +19,6 @@
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
 import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
-import { MAP_MODE_GROUPS_ENUM } from './MapModeGroupsEnum'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
 import { MAP_ENGINE_ENUM } from './MapEngineEnum'
@@ -53,8 +52,8 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   presentationModels: [],
   mapEngine: MAP_ENGINE_ENUM.CESIUM,
   layers: [],
-  [MAP_MODE_GROUPS_ENUM.SELECTION_MODE]: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
-  [MAP_MODE_GROUPS_ENUM.VIEW_MODE]: MAP_VIEW_MODES_ENUM.MODE_3D,
+  selectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+  viewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
   selectedProducts: [],
 }

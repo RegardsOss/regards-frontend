@@ -37,7 +37,8 @@ class MapComponent extends React.Component {
     // Selection mode  & view mode management
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired,
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
-    onToggleMode: PropTypes.func.isRequired, // (groupMode, mode) => ()
+    onToggleSelectionMode: PropTypes.func.isRequired,
+    onToggleViewMode: PropTypes.func.isRequired,
 
     // drawing selection management
     onDrawingSelectionUpdated: PropTypes.func.isRequired,
@@ -74,7 +75,7 @@ class MapComponent extends React.Component {
     const {
       featuresCollection, displayedAreas, mapEngine,
       selectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
-      viewMode, onToggleMode,
+      viewMode, onToggleSelectionMode, onToggleViewMode,
       onFeaturesPicked, layers,
       selectedProducts, onProductSelected,
     } = this.props
@@ -106,7 +107,8 @@ class MapComponent extends React.Component {
           layers={layers}
           selectionMode={selectionMode}
           viewMode={viewMode}
-          onToggleMode={onToggleMode}
+          onToggleViewMode={onToggleViewMode}
+          onToggleSelectionMode={onToggleSelectionMode}
           handleChangeOpacity={this.handleChangeOpacity}
           opacity={customLayersOpacity}
           selectedProducts={selectedProducts}

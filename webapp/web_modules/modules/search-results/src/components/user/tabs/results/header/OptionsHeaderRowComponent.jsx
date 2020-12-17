@@ -93,11 +93,11 @@ class OptionsHeaderRowComponent extends React.Component {
             {
               OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map((type) => tab.types[type].enabled
                 ? <TypeTabContainer
-                    key={`tab.selector.${type}`}
-                    moduleId={moduleId}
-                    type={type}
-                    tabType={tabType}
-                    resultsContext={resultsContext}
+                  key={`tab.selector.${type}`}
+                  moduleId={moduleId}
+                  type={type}
+                  tabType={tabType}
+                  resultsContext={resultsContext}
                 />
                 : null)
             }

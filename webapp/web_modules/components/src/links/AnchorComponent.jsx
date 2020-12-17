@@ -155,11 +155,11 @@ export class AnchorComponent extends React.Component {
         {children}
         {isVisible
           ? <FloatingActionButton
-              mini
-              style={buttonStyle}
-              backgroundColor={buttonColor}
-              onClick={this.handleScroll}
-              iconStyle={iconStyle}
+            mini
+            style={buttonStyle}
+            backgroundColor={buttonColor}
+            onClick={this.handleScroll}
+            iconStyle={iconStyle}
           >
             <Up />
           </FloatingActionButton>

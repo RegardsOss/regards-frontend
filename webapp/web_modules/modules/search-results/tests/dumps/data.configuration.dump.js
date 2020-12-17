@@ -66,7 +66,7 @@ export const configuration = {
         },
         MAP: {
           enabled: true,
-          mapEngine: 'Cesium',
+          mapEngine: 'CESIUM',
           selectedMode: 'PICK_ON_CLICK',
           initialViewMode: 'MODE_3D',
           attributes: [

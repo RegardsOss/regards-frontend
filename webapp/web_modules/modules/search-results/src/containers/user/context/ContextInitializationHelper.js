@@ -57,8 +57,8 @@ export class ContextInitializationHelper {
           // report map configuration and initial values
           modeState.mapEngine = modeConfiguration.mapEngine || UIDomain.MAP_ENGINE_ENUM.CESIUM
           modeState.layers = modeConfiguration.layers || []
-          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE] = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
-          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE] = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
+          modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.viewMode = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
           modeState.selectedProducts = []
           break

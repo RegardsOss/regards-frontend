@@ -46,7 +46,8 @@ class MapToolsComponent extends React.Component {
     layers: PropTypes.arrayOf(PropTypes.object).isRequired,
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
-    onToggleMode: PropTypes.func.isRequired, // (groupMode, mode) => ()
+    onToggleViewMode: PropTypes.func.isRequired,
+    onToggleSelectionMode: PropTypes.func.isRequired,
     opacity: PropTypes.number.isRequired,
     handleChangeOpacity: PropTypes.func.isRequired,
     selectedProducts: PropTypes.arrayOf(PropTypes.object),
@@ -123,7 +124,7 @@ class MapToolsComponent extends React.Component {
     const {
       selectionMode: currentSelectionMode, opacity, handleChangeOpacity,
       viewMode: currentViewMode,
-      onToggleMode, selectedProducts,
+      onToggleSelectionMode, onToggleViewMode, selectedProducts,
     } = this.props
     const {
       moduleTheme: {
@@ -146,7 +147,7 @@ class MapToolsComponent extends React.Component {
                   index={index}
                   selected={currentSelectionMode === selectionMode}
                   selectionMode={selectionMode}
-                  onToggleMode={onToggleMode}
+                  onToggleSelectionMode={onToggleSelectionMode}
                 />)
               }
             </TableHeaderOptionGroup>
@@ -156,7 +157,7 @@ class MapToolsComponent extends React.Component {
                   key={viewMode}
                   selected={currentViewMode === viewMode}
                   viewMode={viewMode}
-                  onToggleMode={onToggleMode}
+                  onToggleViewMode={onToggleViewMode}
                   index={index}
                   addStylingOption={isEmpty(selectedProducts) && !dataLayerExist}
                 />)

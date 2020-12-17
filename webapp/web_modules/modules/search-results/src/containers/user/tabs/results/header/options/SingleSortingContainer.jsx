@@ -157,10 +157,10 @@ export class SingleSortingContainer extends React.Component {
     } = this.state
     return enableSorting
       ? <SingleSortingComponent
-          defaultSortingModel={defaultSortingModel}
-          customSortingModel={customSortingModel}
-          attributeSortingModels={attributeSortingModels}
-          onSortBy={this.onSortBy}
+        defaultSortingModel={defaultSortingModel}
+        customSortingModel={customSortingModel}
+        attributeSortingModels={attributeSortingModels}
+        onSortBy={this.onSortBy}
       />
       : null
   }

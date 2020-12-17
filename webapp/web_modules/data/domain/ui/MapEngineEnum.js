@@ -22,8 +22,8 @@ import values from 'lodash/values'
  * @author Léo Mieulet
  */
 export const MAP_ENGINE_ENUM = {
-  MIZAR: 'Mizar',
-  CESIUM: 'Cesium',
+  MIZAR: 'MIZAR',
+  CESIUM: 'CESIUM',
 }
 
 export const MAP_ENGINE = values(MAP_ENGINE_ENUM)

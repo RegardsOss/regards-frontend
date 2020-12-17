@@ -89,17 +89,17 @@ export class AttributePluginFormComponent extends React.Component {
         />
         {selectedPluginId
           ? <PluginFormContainer
-              key={`plugin-conf-${selectedPluginId}`}
-              microserviceName={STATIC_CONF.MSERVICES.DAM}
-              pluginId={selectedPluginId}
-              pluginConfiguration={pluginConfiguration}
-              formMode={mode}
-              backUrl={backUrl}
-              cardStyle={false}
-              simpleGlobalParameterConf
-              hideDynamicParameterConf
-              onUpdatePluginConfiguration={onUpdate}
-              onCreatePluginConfiguration={onCreate}
+            key={`plugin-conf-${selectedPluginId}`}
+            microserviceName={STATIC_CONF.MSERVICES.DAM}
+            pluginId={selectedPluginId}
+            pluginConfiguration={pluginConfiguration}
+            formMode={mode}
+            backUrl={backUrl}
+            cardStyle={false}
+            simpleGlobalParameterConf
+            hideDynamicParameterConf
+            onUpdatePluginConfiguration={onUpdate}
+            onCreatePluginConfiguration={onCreate}
           /> : null}
       </div>
     )
