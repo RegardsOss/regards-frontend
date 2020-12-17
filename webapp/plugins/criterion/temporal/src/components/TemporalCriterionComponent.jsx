@@ -20,7 +20,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { CommonDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
-import { DatePickerField, NumericalComparatorSelector } from '@regardsoss/components'
+import { DatePickerField, NumericalComparatorSelector, DateValueRender } from '@regardsoss/components'
 import { AttributeModelWithBounds, formatTooltip } from '@regardsoss/plugins-api'
 
 /**
@@ -43,7 +43,7 @@ class TemporalCriterionComponent extends React.Component {
   static contextTypes = {
     // enable plugin theme access through this.context
     ...themeContextType,
-    // enable i18n access trhough this.context
+    // enable i18n access through this.context
     ...i18nContextType,
   }
 
@@ -62,6 +62,13 @@ class TemporalCriterionComponent extends React.Component {
     // compute no value state with attribute bounds
     const { lowerBound, upperBound } = searchAttribute.boundsInformation
     const hasNoValue = !lowerBound && !upperBound
+    // Hint text computing: when lower than is selected, show lower bound, show upper bound otherwise (show bound limit)
+    let hintTextDate = null
+    if (operator === CommonDomain.EnumNumericalComparator.LE && lowerBound) {
+      hintTextDate = lowerBound
+    } else if (operator === CommonDomain.EnumNumericalComparator.GE && upperBound) {
+      hintTextDate = upperBound
+    }
     return (
       <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
         {/* 1. Label */}
@@ -85,8 +92,12 @@ class TemporalCriterionComponent extends React.Component {
             onChange={onDateChanged}
             locale={intl.locale}
             errorText={error ? TemporalCriterionComponent.ERROR_TEXT_PLACEHOLDER : null}
-            dateHintText={intl.formatMessage({ id: 'criterion.date.field.label' })}
-            timeHintText={intl.formatMessage({ id: 'criterion.time.field.label' })}
+            dateHintText={hintTextDate
+              ? DateValueRender.getFormattedDate(hintTextDate, DateValueRender.DEFAULT_FORMATTERS.date, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.date.field.label' })}
+            timeHintText={hintTextDate
+              ? DateValueRender.getFormattedDate(hintTextDate, DateValueRender.DEFAULT_FORMATTERS.time, intl.formatMessage)
+              : intl.formatMessage({ id: 'criterion.time.field.label' })}
             okLabel={intl.formatMessage({ id: 'criterion.picker.ok.label' })}
             cancelLabel={intl.formatMessage({ id: 'criterion.picker.cancel.label' })}
             disabled={hasNoValue} // disable when no value in current context

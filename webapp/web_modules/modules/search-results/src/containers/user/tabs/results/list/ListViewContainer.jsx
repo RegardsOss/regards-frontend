@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes, CommonShapes } from '@regardsoss/shape'
@@ -47,45 +46,16 @@ export class ListViewContainer extends React.Component {
   }
 
   /**
-   * Is the presenation model attribute as parameter standing for attribute name?
-   * @param {AttributePresentationModel} attributePresentationModel presentation model, respecting shape AttributePresentationModel from ResultsContext
-   * @param {string} attributeName searched attribute name
-   * @return {boolean} true if that attribute stands for name as parameter
-   */
-  static isAttribute({ attributes }, attributeName) {
-    // attribute can stand for name only when it is a simple attribute (not a group)
-    return attributes.length === 1 && get(attributes[0], 'content.name', null) === attributeName
-  }
-
-  /**
    * Packs thumbnail attribute data for render (or null if not present)
    * @param {[*]} presentationModels presentation models, respecting shape AttributePresentationModel from ResultsContext
    * @return {AttributeRenderData} packed render data
    */
-  static buildThumbnailRenderData(presentationModels) {
-    const model = presentationModels.find(
-      m => ListViewContainer.isAttribute(m, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
-    return model ? {
+  static buildAttributeRenderData(model) {
+    return {
       key: model.key,
-      renderers: AttributeColumnBuilder.buildThumbnailDelegates(model.attributes[0]),
-    } : null
-  }
-
-  /**
-   * Packs attributes to render in grid (ignore thumbnail that must be rendered separately)
-   * @param {[*]} presentationModels presentation models, respecting shape AttributePresentationModel from ResultsContext
-   * @return {[AttributeRenderData]} built render data for attributes
-   */
-  static buildGridAttributesRenderData(presentationModels) {
-    // 1 - keep attributes in configured order, but extract thumbnail attribute, to be displayed separately
-    return presentationModels.filter(
-      model => !ListViewContainer.isAttribute(model, DamDomain.AttributeModelController.standardAttributesKeys.thumbnail))
-      // 2 - pack attribute for render
-      .map(model => ({
-        key: model.key,
-        label: model.label,
-        renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
-      }))
+      label: model.label,
+      renderers: AttributeColumnBuilder.buildRenderDelegates(model.attributes),
+    }
   }
 
   /** Initial state */
@@ -136,8 +106,19 @@ export class ListViewContainer extends React.Component {
 
     // when presentation models changed, remerge into pre-built presentation models (pre-computed to avoid consuming render time)
     if (!isEqual(newPresentationModels, oldPresentationModels)) {
-      newState.thumbnailRenderData = ListViewContainer.buildThumbnailRenderData(newPresentationModels)
-      newState.gridAttributesRenderData = ListViewContainer.buildGridAttributesRenderData(newPresentationModels)
+      // extract thumbnail (handled separately by view)
+      const { t: thumbnailModel, oth: otherModels } = newPresentationModels.reduce(({ t, oth }, model) => {
+        const isThumbnail = model.attributes.length === 1
+          && model.attributes[0].model.content.type === DamDomain.PSEUDO_ATTR_TYPES.THUMBNAIL_PSEUDO_TYPE
+        return {
+          t: isThumbnail ? model : t,
+          oth: isThumbnail ? oth : [...oth, model],
+        }
+      }, { t: null, oth: [] })
+
+      // store thumbnail and other models separately
+      newState.thumbnailRenderData = thumbnailModel ? ListViewContainer.buildAttributeRenderData(thumbnailModel) : null
+      newState.gridAttributesRenderData = otherModels.map(ListViewContainer.buildAttributeRenderData)
     }
 
     // update on state changed

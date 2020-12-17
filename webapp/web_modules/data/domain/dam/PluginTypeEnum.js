@@ -24,7 +24,7 @@ import values from 'lodash/values'
 export const PluginTypeEnum = {
   CONNECTION: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IConnectionPlugin',
   DB_CONNECTION: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBConnectionPlugin',
-  COMPUTED_ATTR: 'fr.cnes.regards.modules.dam.domain.models.IComputedAttribute',
+  COMPUTED_ATTR: 'fr.cnes.regards.modules.model.domain.IComputedAttribute',
   DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDataSourcePlugin',
   DB_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IDBDataSourcePlugin',
   AIP_DATASOURCE: 'fr.cnes.regards.modules.dam.domain.datasources.plugins.IAipDataSourcePlugin',

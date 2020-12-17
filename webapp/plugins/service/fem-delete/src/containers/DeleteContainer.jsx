@@ -110,6 +110,7 @@ export class DeleteContainer extends React.Component {
         <Subheader><FormattedMessage id="plugin.title" /></Subheader>
         <div style={moduleTheme.contentWrapper}>
           <FormattedMessage id="plugin.message" values={msgValues} />
+          <FormattedMessage id="plugin.async.info" values={msgValues} />
           <FormattedMessage id="plugin.question" />
           <div style={moduleTheme.buttonsWrapper}>
             <RaisedButton

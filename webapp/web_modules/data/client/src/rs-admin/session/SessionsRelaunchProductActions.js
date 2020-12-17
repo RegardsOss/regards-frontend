@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class SessionsRelaunchActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains/{chainName}/{session}/relaunch`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.DATA_PROVIDER}/chains/relaunch`,
       namespace,
     })
   }
@@ -33,6 +33,6 @@ export default class SessionsRelaunchActions extends BasicSignalActions {
    * @return {*} redux action to dispatch
    */
   relaunchProducts(chainName, session) {
-    return this.sendSignal('GET', null, { chainName, session })
+    return this.sendSignal('GET', null, null, { chainName, session })
   }
 }

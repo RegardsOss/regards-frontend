@@ -125,7 +125,8 @@ export class OAISPackageManagerComponent extends React.Component {
       contextRequestBodyParameters.session = session
     }
     if (providerId) {
-      contextRequestBodyParameters.providerIds = [providerId]
+      // Use special % caracters to allow contains search cf FA https://thor.si.c-s.fr/gf/project/regards/tracker/?action=TrackerItemEdit&tracker_item_id=195896
+      contextRequestBodyParameters.providerIds = [`%${providerId}%`]
     }
     if (from) {
       contextRequestBodyParameters = { ...contextRequestBodyParameters, lastUpdate: { ...contextRequestBodyParameters.lastUpdate, from } }
@@ -529,7 +530,6 @@ export class OAISPackageManagerComponent extends React.Component {
     const { isModifySelectionDialogOpened } = this.state
 
     if (isModifySelectionDialogOpened) {
-      console.error('this.state.contextRequestBodyParameters', this.state.modifyPayload)
       return (
         <AIPModifyDialogContainer
           onConfirmModify={this.onConfirmModify}

@@ -41,7 +41,7 @@ class AttributeListTableComponent extends React.Component {
     hintMessageKey: PropTypes.string.isRequired,
     attributesList: AccessShapes.AttributeListConfigurationModel,
     attributeModels: DataManagementShapes.AttributeModelArray.isRequired,
-    allowAttributesRegroupements: PropTypes.bool.isRequired,
+    allowAttributesGroups: PropTypes.bool.isRequired,
     allowLabel: PropTypes.bool.isRequired,
 
     // callbacks
@@ -66,12 +66,12 @@ class AttributeListTableComponent extends React.Component {
    */
   buildColumns = () => {
     const {
-      allowAttributesRegroupements, attributeModels, allowLabel, onEdit, onDelete,
+      allowAttributesGroups, attributeModels, allowLabel, onEdit, onDelete,
     } = this.props
     const { intl: { formatMessage } } = this.context
     return [
       // 1 - Direct label column (that renders attributes label) when label group functionality is disabled on columns
-      new TableColumnBuilder('label').titleHeaderCell().visible(!allowAttributesRegroupements)
+      new TableColumnBuilder('label').titleHeaderCell().visible(!allowAttributesGroups)
         .label(formatMessage({ id: 'attributes.configuration.label.simple.column' }))
         .rowCellDefinition({
           Constructor: AttributesRender,
@@ -91,7 +91,7 @@ class AttributeListTableComponent extends React.Component {
         .label(formatMessage({ id: 'attributes.configuration.label.french.column' }))
         .build(),
       // 4 - Attributes column, when groups are allowed
-      new TableColumnBuilder('attributes').titleHeaderCell().visible(allowAttributesRegroupements)
+      new TableColumnBuilder('attributes').titleHeaderCell().visible(allowAttributesGroups)
         .label(formatMessage({ id: 'attributes.configuration.attributes.column' }))
         .rowCellDefinition({
           Constructor: AttributesRender,

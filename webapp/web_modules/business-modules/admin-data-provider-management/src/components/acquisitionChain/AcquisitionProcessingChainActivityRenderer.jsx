@@ -77,10 +77,14 @@ class AcquisitionProcessingChainActivityRenderer extends React.Component {
         />,
       ]
     }
-    const label = chain.lastActivationDate
-      ? formatMessage({ id: 'acquisition-chain.list.activity.not.running.date' },
-        { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainActivityRenderer.DATETIME_OPTIONS) },
-      ) : formatMessage({ id: 'acquisition-chain.list.activity.not.running' })
+
+    let label = formatMessage({ id: 'acquisition-chain.list.activity.not.running' })
+    if (chain.deletionPending) {
+      label = formatMessage({ id: 'acquisition-chain.list.activity.deletion.pending' })
+    } else if (chain.lastActivationDate) {
+      label = formatMessage({ id: 'acquisition-chain.list.activity.not.running.date' },
+        { date: formatDate(chain.lastActivationDate, AcquisitionProcessingChainActivityRenderer.DATETIME_OPTIONS) })
+    }
     return (
       <div>
         {label}

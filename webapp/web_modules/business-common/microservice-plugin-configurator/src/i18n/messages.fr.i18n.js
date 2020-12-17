@@ -31,7 +31,7 @@ const messages = Object.assign({
   'plugin.configuration.form.action.submit.add': 'Ajouter',
   'plugin.configuration.form.action.submit.save': 'Sauvegarder',
   'plugin.configuration.form.action.cancel': 'Annuler',
-  'plugin.configuration.form.description.more': 'Voir plus...',
+  'plugin.configuration.form.description.more': 'Visualiser la déscription du type de stockage',
   'plugin.configuration.form.description.title': 'Description de {plugin}',
 
   'plugin.parameter.description.dialog.title': 'Description du paramètre {parameter}',

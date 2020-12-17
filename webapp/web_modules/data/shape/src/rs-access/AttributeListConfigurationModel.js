@@ -27,6 +27,7 @@ import { IntlMessage } from '../ui/IntlMessage'
 /** Attribute configuration data: data that can be defined along with each attribute full qualified names */
 export const AttributeConfigurationData = PropTypes.shape({
   name: PropTypes.string.isRequired, // full qualified name
+  renderer: PropTypes.string, // optional specific renderer identifier (when not present, default one should be used)
 })
 
 

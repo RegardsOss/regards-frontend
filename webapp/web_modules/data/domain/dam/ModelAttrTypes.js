@@ -38,7 +38,7 @@ export const MODEL_ATTR_TYPES = {
   LONG_ARRAY: 'LONG_ARRAY',
 }
 
-export const THUMBNAIL_PSEUDO_TYPE = 'MAP'
+export const THUMBNAIL_PSEUDO_TYPE = 'THUMBNAIL_PSEUDO_TYPE'
 
 export const PSEUDO_ATTR_TYPES = {
   ...MODEL_ATTR_TYPES,

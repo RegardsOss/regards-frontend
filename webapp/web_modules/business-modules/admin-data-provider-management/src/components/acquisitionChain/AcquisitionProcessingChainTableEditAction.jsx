@@ -51,7 +51,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return find(links, l => l.rel === 'update', false) !== false
+    return !!find(links, l => l.rel === 'update', false)
   }
 
   render() {

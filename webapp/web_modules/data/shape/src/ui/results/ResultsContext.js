@@ -131,6 +131,12 @@ export const SortingCriterion = PropTypes.shape({
   ...commonCriterionFields,
 })
 
+/** Holds a resolved attribute and configured rendering data (later resolved, depending on view) */
+export const AttributeAndRender = PropTypes.shape({
+  renderer: PropTypes.string, // optional renderer type
+  model: AttributeModel.isRequired, // corresponding attribute model
+})
+
 /** An attribute presentation model */
 export const AttributePresentationModel = PropTypes.shape({
   // The key used to refer to this model (for custom columns, it identifies them too)
@@ -141,7 +147,7 @@ export const AttributePresentationModel = PropTypes.shape({
     fr: PropTypes.string.isRequired,
   }),
   visible: PropTypes.bool.isRequired,
-  attributes: PropTypes.arrayOf(AttributeModel).isRequired, // attributes displayed in this presentation model
+  attributes: PropTypes.arrayOf(AttributeAndRender).isRequired, // attributes displayed in this presentation model
   enableSorting: PropTypes.bool.isRequired, // Is it possible to sort using this presentation model attribute? (attributes.length === 1 in such cases)
 })
 
@@ -173,7 +179,7 @@ const ListViewModeState = PropTypes.shape({
  */
 const TableViewModeState = {
   ...commonViewStateFields,
-  // initial presentation models with their state (table columns reset functionnality)
+  // initial presentation models with their state (table columns reset functionality)
   initialPresentationModels: PropTypes.arrayOf(PropTypes.oneOfType([AttributePresentationModel, FunctionalPresentationModel])).isRequired,
   presentationModels: PropTypes.arrayOf(PropTypes.oneOfType([AttributePresentationModel, FunctionalPresentationModel])).isRequired,
 }

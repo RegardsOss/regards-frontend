@@ -27,6 +27,11 @@ const moduleStyles = theme => ({
       color: theme.textField.errorColor,
     },
   },
+  user: {
+    iFrame: {
+      background: theme.module.embeddedHTML.iFrame.background,
+    },
+  },
 })
 
 export default moduleStyles

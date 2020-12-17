@@ -152,6 +152,7 @@ export { default as StringArrayValueRender } from './values/StringArrayValueRend
 export { default as StringValueRender } from './values/StringValueRender'
 export { default as URLValueRender } from './values/URLValueRender'
 export { default as DurationValueRender } from './values/DurationValueRender'
+export { default as RenderMessages } from './values/i18n'
 // use it in values render parent to connect with their context (stacking)
 export { default as withValueRenderContext } from './values/withValueRenderContext'
 

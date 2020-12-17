@@ -67,7 +67,6 @@ describe('[SEARCH RESULTS] Testing FiltersConfigurationComponent', () => {
       attributesList: props.currentFormValues.facets.list,
       attributesListFieldName: `${rootNamespace}.facets.list`,
       changeField: props.changeField,
-      allowAttributesRegroupements: false,
       allowLabel: true,
     }, 'Attributes list field properties should be correctly set up')
   })

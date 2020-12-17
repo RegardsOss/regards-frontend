@@ -21,6 +21,7 @@ import { assert } from 'chai'
 import forEach from 'lodash/forEach'
 import { DamDomain, AccessDomain, UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { ResultsContextConstants } from '@regardsoss/domain/ui'
 import OptionsHeaderRowComponent from '../../../../../../src/components/user/tabs/results/header/OptionsHeaderRowComponent'
 import TypeTabContainer from '../../../../../../src/containers/user/tabs/results/header/options/TypeTabContainer'
 import ToggleFiltersContainer from '../../../../../../src/containers/user/tabs/results/header/options/ToggleFiltersContainer'
@@ -31,6 +32,8 @@ import EditColumnsSettingsContainer from '../../../../../../src/containers/user/
 import SearchOptionContainer from '../../../../../../src/containers/user/tabs/results/header/options/SearchOptionContainer'
 import SelectionServiceComponent from '../../../../../../src/components/user/tabs/results/header/options/SelectionServiceComponent'
 import AddSelectionToCartComponent from '../../../../../../src/components/user/tabs/results/header/options/AddSelectionToCartComponent'
+import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
+import RefreshTableComponent from '../../../../../../src/components/user/tabs/results/header/options/RefreshTableComponent'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -136,6 +139,8 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
                     },
                   },
                 }),
+                requestParameters: {},
+                searchActions: getSearchCatalogClient(UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS).searchDataobjectsActions,
                 onAddSelectionToCart: () => {},
                 selectionServices: services,
                 onStartSelectionService: () => {},
@@ -147,15 +152,19 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.lengthOf(enzymeWrapper.find(TypeTabContainer), 0, 'Type tabs should be hidden should be hidden')
               }
-              // 2 - Check all services are displayed
-              const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
-              assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
-              services.forEach((service) => {
-                const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
-                assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
-                assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
-                  `Start service callback should be correctly reported for service ${service.content.label}`)
-              })
+              // 2 - Check all services are displayed (when allowed for type)
+              if (ResultsContextConstants.allowServices(typeKey)) {
+                const servicesComponents = enzymeWrapper.find(SelectionServiceComponent)
+                assert.lengthOf(servicesComponents, services.length, 'All found services should be displayed')
+                services.forEach((service) => {
+                  const serviceComponent = servicesComponents.findWhere(serviceComp => serviceComp.props().service === service)
+                  assert.lengthOf(serviceComponent, 1, `There should be displayer for service ${service.content.label}`)
+                  assert.equal(serviceComponent.props().onRunService, props.onStartSelectionService,
+                    `Start service callback should be correctly reported for service ${service.content.label}`)
+                })
+              } else {
+                assert.lengthOf(enzymeWrapper.find(SelectionServiceComponent), 0, 'No service should be displayed when forbidden by type')
+              }
               // 3 - Add selection to cart
               const addToCartContainer = enzymeWrapper.find(AddSelectionToCartComponent)
               assert.lengthOf(addToCartContainer, 1, 'There should be add to cart container')
@@ -225,6 +234,15 @@ describe('[SEARCH RESULTS] Testing OptionsHeaderRowComponent', () => {
               } else {
                 assert.isFalse(searchOptionWrapper.parent().props().show, 'Search option')
               }
+              // 10 - Refresh table
+              const refreshTableComponent = enzymeWrapper.find(RefreshTableComponent)
+              assert.lengthOf(refreshTableComponent, 1, 'There should be refresh table container')
+              testSuiteHelpers.assertWrapperProperties(refreshTableComponent, {
+                tabType: props.tabType,
+                resultsContext: props.resultsContext,
+                requestParameters: props.requestParameters,
+                searchActions: props.searchActions,
+              }, 'Refresh table properties should be correctly set')
             })
           }
         })
