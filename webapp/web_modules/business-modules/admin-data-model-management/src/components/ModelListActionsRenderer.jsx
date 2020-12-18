@@ -17,23 +17,20 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import find from 'lodash/find'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import ContentCopy from 'mdi-material-ui/ContentCopy'
 import Settings from 'mdi-material-ui/VideoInputComponent'
 import Download from 'mdi-material-ui/Download'
-import { withHateoasDisplayControl, withResourceDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { ActionsMenuCell } from '@regardsoss/components'
+import { ActionsMenuCell, HateoasIconAction, ResourceIconAction } from '@regardsoss/components'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { modelAttributesActions } from '../clients/ModelAttributesClient'
 import { modelActions } from '../clients/ModelClient'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 const actionsBreakpoints = [940, 995, 1065, 1320, 1380]
 
 /**

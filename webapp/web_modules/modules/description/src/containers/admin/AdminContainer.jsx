@@ -134,7 +134,6 @@ export class AdminContainer extends React.Component {
           currentFormValues={get(form, currentNamespace)}
           changeField={changeField}
           isCreating={isCreating}
-
           collectionAttributeModels={collectionAttributeModels}
           dataAttributeModels={dataAttributeModels}
           datasetAttributeModels={datasetAttributeModels}

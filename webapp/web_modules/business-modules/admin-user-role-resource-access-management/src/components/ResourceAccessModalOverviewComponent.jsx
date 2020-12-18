@@ -44,9 +44,6 @@ class ResourceAccessModalOverviewComponent extends React.Component {
     ...i18nContextType,
   }
 
-  // TODO MAJOR remove everywhere manual styling was done :( Big performance issue here
-  // const styles = moduleStyles(this.context.muiTheme)
-
   handleEditRoleResources = (role) => {
     this.props.editRoleResources(role)
     this.props.onClose()

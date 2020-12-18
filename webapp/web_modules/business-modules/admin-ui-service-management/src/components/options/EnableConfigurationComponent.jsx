@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Toggle from 'material-ui/Toggle'
 import { AccessShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-export const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasToggle } from '@regardsoss/components'
 
 /**
  * Toggle to enable a configuration in list

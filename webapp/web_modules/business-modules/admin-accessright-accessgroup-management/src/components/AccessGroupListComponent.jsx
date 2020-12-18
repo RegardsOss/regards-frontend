@@ -35,11 +35,7 @@ import Settings from 'mdi-material-ui/VideoInputComponent'
 import Delete from 'mdi-material-ui/Delete'
 import ShowGroupUsersIcon from 'mdi-material-ui/OpenInNew'
 import { FormattedMessage } from 'react-intl'
-import {
-  HateoasKeys,
-  withHateoasDisplayControl,
-  withResourceDisplayControl,
-} from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -48,14 +44,14 @@ import {
   ConfirmDialogComponentTypes,
   ShowableAtRender,
   ActionsMenuCell,
+  HateoasIconAction,
+  ResourceIconAction,
 } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { accessRightDependencies } from '@regardsoss/admin-accessright-dataaccess-management'
 import { accessGroupActions } from '../clients/AccessGroupClient'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 const actionsBreakpoints = [360, 510, 900, 1000, 1000]
 
 /**

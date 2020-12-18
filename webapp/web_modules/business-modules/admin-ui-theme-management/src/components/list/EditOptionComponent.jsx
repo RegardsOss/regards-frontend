@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
 import EditIcon from 'mdi-material-ui/Pencil'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-export const HateoasIconAction = withHateoasDisplayControl(IconButton)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
 /**
  * Edit option for list

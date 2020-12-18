@@ -19,15 +19,12 @@
 import { Card, CardActions, CardTitle } from 'material-ui/Card'
 import IconList from 'mdi-material-ui/FormatListBulleted'
 import IconAdd from 'mdi-material-ui/PlusCircle'
-import IconButton from 'material-ui/IconButton'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ResourceIconAction } from '@regardsoss/components'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
-
-export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * A service item component

@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EditQuotaComponent, { ResourceIconAction } from '../../../../src/components/list/options/EditQuotaComponent'
+import { ResourceIconAction } from '@regardsoss/components'
+import EditQuotaComponent from '../../../../src/components/list/options/EditQuotaComponent'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
