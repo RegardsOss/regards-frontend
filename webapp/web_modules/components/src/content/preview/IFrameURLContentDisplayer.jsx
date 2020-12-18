@@ -82,6 +82,8 @@ export class IFrameURLContentDisplayer extends React.Component {
     style: {
       flexGrow: 1,
       flexShrink: 1,
+      minWidth: 0,
+      minHeight: 0,
     },
   }
 

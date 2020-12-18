@@ -59,6 +59,7 @@ export { default as FitContentDialog } from './dialogs/FitContentDialog'
 export { default as LoadableContentDialogContainer } from './dialogs/LoadableContentDialogContainer'
 export { default as SingleContentURLDialogContainer } from './dialogs/SingleContentURLDialogContainer'
 export { default as withConfirmDialog } from './dialogs/withConfirmDialog'
+export { default as HelpDialogComponent } from './dialogs/HelpDialogComponent'
 
 export { default as ErrorCardComponent } from './error/ErrorCardComponent'
 export { default as PageNotFoundComponent } from './error/PageNotFoundProvider'
@@ -94,6 +95,7 @@ export { default as URLPictureResolver } from './picture/URLPictureResolver'
 export { default as ZoomablePicture } from './picture/ZoomablePicture'
 export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
+export * from './split/SplitResizerStyle'
 
 // Table
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'

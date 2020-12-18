@@ -116,6 +116,7 @@ export const DatasetViewsConfiguration = PropTypes.shape({
 /** Describes possible restriction on data */
 export const DataRestriction = PropTypes.shape({
   lastVersionOnly: PropTypes.bool,
+  openSearchRequest: PropTypes.string,
 })
 
 /** Possible restrictions on datasets to show: none, by dataset selection or by dataset models selection */
