@@ -33,7 +33,7 @@ class MapSelectionModeOption extends React.Component {
     index: PropTypes.number.isRequired, // mandatory for styling purpose
     selected: PropTypes.bool.isRequired,
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
-    onToggleMode: PropTypes.func.isRequired, // (groupMode, mode) => ()
+    onToggleSelectionMode: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,8 +50,8 @@ class MapSelectionModeOption extends React.Component {
    * Callback: user clicked on this selector, call parent callback to set corresponding mode
    */
   onClicked = () => {
-    const { selectionMode, onToggleMode } = this.props
-    onToggleMode(UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE, selectionMode)
+    const { selectionMode, onToggleSelectionMode } = this.props
+    onToggleSelectionMode(selectionMode)
   }
 
   render() {

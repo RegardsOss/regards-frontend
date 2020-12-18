@@ -44,7 +44,7 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
       const props = {
         selected,
         selectionMode,
-        onToggleMode: () => {},
+        onToggleSelectionMode: () => {},
         index: 0,
       }
       const enzymeWrapper = shallow(<MapSelectionModeOption {...props} />, { context })

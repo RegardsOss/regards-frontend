@@ -16,14 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+
 /**
- * Possible modes on map
+ * Externals links to documentation
+ * TODO Change Links when user documentation is created
  * @author Théo Lasserre
  */
-export const MAP_MODE_GROUPS_ENUM = {
-  SELECTION_MODE: 'selectionMode',
-  VIEW_MODE: 'viewMode',
-}
 
-export const MAP_MODE_GROUPS = values(MAP_MODE_GROUPS_ENUM)
+/** Catalog documentation links */
+export const LINK_DOC_SEARCH_API = 'https://regardsoss.github.io/development/regards/catalog/api/search-api/#string-searches'

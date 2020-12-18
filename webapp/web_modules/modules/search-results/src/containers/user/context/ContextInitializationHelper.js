@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
@@ -26,7 +27,6 @@ import { PresentationHelper } from './PresentationHelper'
 
 /**
  * Helper to create initial results context from module configuration
- *
  * @author Raphaël Mechali
  * @author Théo Lasserre
  */
@@ -57,8 +57,8 @@ export class ContextInitializationHelper {
           // report map configuration and initial values
           modeState.mapEngine = modeConfiguration.mapEngine || UIDomain.MAP_ENGINE_ENUM.CESIUM
           modeState.layers = modeConfiguration.layers || []
-          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.SELECTION_MODE] = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
-          modeState[UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE] = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
+          modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.viewMode = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
           modeState.selectedProducts = []
           break
@@ -175,12 +175,19 @@ export class ContextInitializationHelper {
   static buildConfigurationCriteria(restrictions) {
     const restrictionCriteria = []
     // 1 - Restrictions on data
-    const { lastVersionOnly = false } = get(restrictions, 'onData', { })
+    const { openSearchRequest = '', lastVersionOnly = false } = get(restrictions, 'onData', {})
     if (lastVersionOnly) {
       restrictionCriteria.push({
         requestParameters: {
           [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
             CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
+        },
+      })
+    }
+    if (!isEmpty(openSearchRequest)) {
+      restrictionCriteria.push({
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: openSearchRequest,
         },
       })
     }

@@ -31,7 +31,7 @@ class MapViewModeOption extends React.Component {
   static propTypes = {
     selected: PropTypes.bool.isRequired,
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
-    onToggleMode: PropTypes.func.isRequired, // (groupMode, mode) => ()
+    onToggleViewMode: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired, // mandatory for styling purpose (last element)
     addStylingOption: PropTypes.bool.isRequired, // add specific styling or not
   }
@@ -50,8 +50,8 @@ class MapViewModeOption extends React.Component {
    * Callback: user clicked on this selector, call parent callback to set corresponding mode
    */
   onClicked = () => {
-    const { viewMode, onToggleMode } = this.props
-    onToggleMode(UIDomain.MAP_MODE_GROUPS_ENUM.VIEW_MODE, viewMode)
+    const { viewMode, onToggleViewMode } = this.props
+    onToggleViewMode(viewMode)
   }
 
   render() {

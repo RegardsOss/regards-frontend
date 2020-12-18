@@ -56,12 +56,12 @@ export class NoContentMessageInfo extends React.Component {
         {
           noContent
             ? <NoContentComponent
-                titleKey={titleKey}
-                titleParameters={titleParameters}
-                messageKey={messageKey}
-                messageParameters={messageParameters}
-                Icon={Icon}
-                action={action}
+              titleKey={titleKey}
+              titleParameters={titleParameters}
+              messageKey={messageKey}
+              messageParameters={messageParameters}
+              Icon={Icon}
+              action={action}
             />
             : children
         }

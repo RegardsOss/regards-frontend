@@ -43,7 +43,7 @@ describe('[SEARCH RESULTS] Testing MapViewModeOption', () => {
       const props = {
         selected,
         viewMode,
-        onToggleMode: () => {},
+        onToggleViewMode: () => {},
         index: 0,
         addStylingOption: false,
       }

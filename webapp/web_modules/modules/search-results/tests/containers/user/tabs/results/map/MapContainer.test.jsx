@@ -78,7 +78,8 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       displayedAreas: [], // no area
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleMode: enzymeWrapper.instance().onToggleMode,
+      onToggleSelectionMode: enzymeWrapper.instance().onToggleSelectionMode,
+      onToggleViewMode: enzymeWrapper.instance().onToggleViewMode,
       onDrawingSelectionUpdated: enzymeWrapper.instance().onDrawingSelectionUpdated,
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
       onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,

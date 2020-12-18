@@ -104,10 +104,10 @@ class SessionDeleteDialogComponent extends React.Component {
             />
             { allowForceOption
               ? <FlatButton
-                  key="forceDelete"
-                  label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
-                  onClick={this.onForceDeleteConfirm}
-                  disabled={this.state.loading}
+                key="forceDelete"
+                label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
+                onClick={this.onForceDeleteConfirm}
+                disabled={this.state.loading}
               />
               : null}
           </>}

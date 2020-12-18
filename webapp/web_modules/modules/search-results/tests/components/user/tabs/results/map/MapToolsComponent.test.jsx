@@ -54,7 +54,8 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleMode: () => {},
+      onToggleSelectionMode: () => {},
+      onToggleViewMode: () => {},
       opacity: 1,
       handleChangeOpacity: () => {},
       selectedProducts: [],
@@ -67,7 +68,7 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     UIDomain.MAP_SELECTION_MODES.forEach((localSelectionMode) => {
       const modeSelector = selectors.findWhere((n) => n.props().selectionMode === localSelectionMode)
       assert.lengthOf(modeSelector, 1, `There should be a selector for mode ${localSelectionMode}`)
-      assert.equal(modeSelector.props().onToggleMode, props.onToggleMode, 'Selector callback should be correctly set')
+      assert.equal(modeSelector.props().onToggleSelectionMode, props.onToggleSelectionMode, 'Selector callback should be correctly set')
       if (localSelectionMode === selectionMode) {
         assert.isTrue(modeSelector.props().selected, `${localSelectionMode} selector should be selected`)
       } else {
@@ -98,7 +99,8 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode,
-      onToggleMode: () => {},
+      onToggleViewMode: () => {},
+      onToggleSelectionMode: () => {},
       opacity: 1,
       handleChangeOpacity: () => {},
       selectedProducts: [{
@@ -114,7 +116,7 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
     UIDomain.MAP_VIEW_MODES.forEach((localViewMode) => {
       const modeSelector = selectors.findWhere((n) => n.props().viewMode === localViewMode)
       assert.lengthOf(modeSelector, 1, `There should be a selector for mode ${localViewMode}`)
-      assert.equal(modeSelector.props().onToggleMode, props.onToggleMode, 'Selector callback should be correctly set')
+      assert.equal(modeSelector.props().onToggleViewMode, props.onToggleViewMode, 'Selector callback should be correctly set')
       if (localViewMode === viewMode) {
         assert.isTrue(modeSelector.props().selected, `${localViewMode} selector should be selected`)
       } else {
@@ -137,7 +139,8 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleMode: () => {},
+      onToggleViewMode: () => {},
+      onToggleSelectionMode: () => {},
       opacity: 1,
       handleChangeOpacity: () => {},
       selectedProducts: [{
@@ -162,7 +165,8 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleMode: () => {},
+      onToggleSelectionMode: () => {},
+      onToggleViewMode: () => {},
       opacity: 1,
       handleChangeOpacity: () => {},
       selectedProducts: [{

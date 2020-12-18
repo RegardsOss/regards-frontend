@@ -87,8 +87,8 @@ class ParameterPresentation extends React.Component {
         {children}
         {description
           ? <IconButton
-              style={moduleTheme.pluginServiceDialog.parameterDescriptionIcon}
-              onClick={this.handleOpenDescription}
+            style={moduleTheme.pluginServiceDialog.parameterDescriptionIcon}
+            onClick={this.handleOpenDescription}
           >
             <HelpCircle />
           </IconButton>

@@ -183,17 +183,16 @@ export class MapContainer extends React.Component {
   }
 
   /**
-   * User toggled on / off drawing area filter mode or view mode
-   * @param {string} groupMode selectionView or viewGroup
-   * @param {string} mode new mode, from UIDomain.MAP_SELECTION_MODES_ENUM or UIDomain.MAP_VIEW_MODES
+   * User toggled on / off view mode
+   * @param {string} mode new mode either MODE_3D or MODE_2D
    */
-  onToggleMode = (groupMode, mode) => {
+  onToggleViewMode = (mode) => {
     const {
       moduleId, tabType, updateResultsContext, resultsContext,
     } = this.props
     const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     // update only when there is some change
-    if (mode !== selectedModeState[groupMode]) {
+    if (mode !== selectedModeState.viewMode) {
       // update selection mode in mode state
       updateResultsContext(moduleId, {
         tabs: {
@@ -202,7 +201,37 @@ export class MapContainer extends React.Component {
               [selectedType]: {
                 modes: {
                   [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
-                    [groupMode]: mode,
+                    viewMode: mode,
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+    }
+  }
+
+  /**
+   * User toggled on / off selection mode
+   * @param {string} mode new mode either PICK_ON_CLICK or DRAW_RECTANGLE
+   */
+  onToggleSelectionMode = (mode) => {
+    const {
+      moduleId, tabType, updateResultsContext, resultsContext,
+    } = this.props
+    const { selectedType, selectedModeState } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
+    // update only when there is some change
+    if (mode !== selectedModeState.selectionMode) {
+      // update selection mode in mode state
+      updateResultsContext(moduleId, {
+        tabs: {
+          [tabType]: {
+            types: {
+              [selectedType]: {
+                modes: {
+                  [UIDomain.RESULTS_VIEW_MODES_ENUM.MAP]: {
+                    selectionMode: mode,
                   },
                 },
               },
@@ -328,7 +357,8 @@ export class MapContainer extends React.Component {
           : criteriaAreas /* not drawing: show criteria areas */}
         selectionMode={selectionMode}
         viewMode={viewMode}
-        onToggleMode={this.onToggleMode}
+        onToggleViewMode={this.onToggleViewMode}
+        onToggleSelectionMode={this.onToggleSelectionMode}
         onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
         onDrawingSelectionDone={this.onDrawingSelectionDone}
         onFeaturesPicked={this.onFeaturesPicked}

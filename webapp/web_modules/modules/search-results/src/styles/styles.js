@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { buildSplitResizerStyle } from '@regardsoss/components'
 
 /**
  * Styles for module
  * @author Sébastien binda
+ * @author Théo Lasserre
  */
 const styles = (theme) => ({
   configuration: {
@@ -617,25 +619,14 @@ const styles = (theme) => ({
       iconToolButton: {
         minWidth: theme.button.iconButtonSize,
       },
-      resizer: {
-        backgroundColor: theme.module.searchResults.map.resizerSeparator.backgroundColor,
-        // Create an handle of 1 pixel visible but width half size * 2 (consume the remaining width on borders)
-        width: (theme.module.searchResults.map.resizerSeparator.halfSize * 2) + 1,
-        margin: `0 -${theme.module.searchResults.map.resizerSeparator.halfSize}px`,
-        borderLeft: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
-        borderRight: `${theme.module.searchResults.map.resizerSeparator.halfSize}px solid #00000000`,
-        cursor: 'col-resize',
-
-        zIndex: 1,
-
-        MozBoxSizing: 'border-box',
-        WebkitBoxSizing: 'border-box',
-        boxSizing: 'border-box',
-
-        MozBackgroundClip: 'padding',
-        WebkitBackgroundClip: 'padding',
-        backgroundClip: 'padding-box',
+      resizer: buildSplitResizerStyle(theme),
+    },
+    restrictionStyle: {
+      openSearchContent: {
+        display: 'flex',
+        alignItems: 'center',
       },
+
     },
   },
 })
