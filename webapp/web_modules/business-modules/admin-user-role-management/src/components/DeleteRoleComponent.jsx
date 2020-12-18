@@ -19,11 +19,9 @@
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import DeleteIcon from 'mdi-material-ui/Delete'
-import IconButton from 'material-ui/IconButton'
 import { AdminShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
 /**
  * Delete role component for role list

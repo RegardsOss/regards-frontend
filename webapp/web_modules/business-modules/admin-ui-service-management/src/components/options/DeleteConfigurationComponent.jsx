@@ -16,15 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withConfirmDialog } from '@regardsoss/components'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, withConfirmDialog } from '@regardsoss/components'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 export const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
 
 /**

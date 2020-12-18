@@ -20,11 +20,8 @@ import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-// TODO: those things are so much used, lets reference them somewhere!
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, HateoasToggle } from '@regardsoss/components'
 
 /**
  * Resource toggle component

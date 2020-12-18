@@ -192,8 +192,8 @@ export class SessionManagementContainer extends React.Component {
         {
           sessionLocked
             ? <SessionLockedFormComponent
-              hasUnlockingError={hasUnlockingError}
-              onUnlock={this.unlockSession}
+                hasUnlockingError={hasUnlockingError}
+                onUnlock={this.unlockSession}
             /> : children
         }
       </AuthenticationDialogComponent>

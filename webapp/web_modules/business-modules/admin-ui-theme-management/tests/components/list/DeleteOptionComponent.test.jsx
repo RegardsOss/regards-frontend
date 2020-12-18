@@ -18,9 +18,10 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { HateoasKeys } from '@regardsoss/display-control'
-import DeleteOptionComponent, { HateoasIconAction } from '../../../src/components/list/DeleteOptionComponent'
+import { HateoasIconAction } from '@regardsoss/components'
+import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import DeleteOptionComponent from '../../../src/components/list/DeleteOptionComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

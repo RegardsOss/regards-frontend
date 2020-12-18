@@ -19,8 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasToggle } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import EnableConfigurationComponent, { HateoasToggle } from '../../../src/components/options/EnableConfigurationComponent'
+import EnableConfigurationComponent from '../../../src/components/options/EnableConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

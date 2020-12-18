@@ -16,16 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
 import ContentCopy from 'mdi-material-ui/ContentCopy'
 import { AccessShapes } from '@regardsoss/shape'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ResourceIconAction } from '@regardsoss/components'
 import { uiPluginConfigurationActions } from '../../clients/UIPluginConfigurationClient'
-
-export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Option to edit a configuration in list

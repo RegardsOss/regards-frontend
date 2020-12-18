@@ -23,7 +23,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
@@ -39,11 +38,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
-  ShowableAtRender, HelpMessageComponent, CardActionsComponent,
+  ShowableAtRender, HelpMessageComponent, CardActionsComponent, HateoasIconAction,
 } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasKeys } from '@regardsoss/display-control'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const actionsBreakpoints = [550, 1040, 1040, 1040, 1040]
 
 /**

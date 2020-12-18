@@ -226,7 +226,6 @@ describe('[Entities Common] Testing RunUIPluginServiceContainer', () => {
     assert.isNotNull(componentStep, 'The component step should be defined')
     assert.equal(componentStep.step, RunServiceDialogComponent.Steps.RESULTS, 'The component should display in results state')
   })
-  //TODO-LEO add new plugin test for RESULTS state with pluginProps.onClose new property propaged to PluginLoader
   it('should resolve parameters (2) then enter resolution error step when is an invalid parameters configuration', () => {
     const enzymeWrapper = shallow(<RunUIPluginServiceContainer {...commonProps} />, { context })
     // simulate the configuration loading done event with the configuration and plugin instance

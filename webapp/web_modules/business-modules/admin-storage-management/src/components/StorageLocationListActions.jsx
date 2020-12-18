@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import DeleteFiles from 'mdi-material-ui/FileExcel'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'mdi-material-ui/Pencil'
 import Copy from 'mdi-material-ui/FileReplace'
 import ArrowUp from 'mdi-material-ui/ArrowUp'
@@ -26,12 +25,11 @@ import ArrowDown from 'mdi-material-ui/ArrowDown'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  ActionsMenuCell, TableDeleteOption,
+  ActionsMenuCell, HateoasIconAction, TableDeleteOption,
 } from '@regardsoss/components'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { StorageShapes } from '@regardsoss/shape'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const actionsBreakpoints = [1300, 1350, 1400, 1450, 1500, 1550]
 
 class StorageLocationListActions extends React.Component {
