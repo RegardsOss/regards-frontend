@@ -432,12 +432,12 @@ class RenderMapField extends React.Component {
                 {disabled
                   ? null
                   : <RaisedButton
-                    label={formatMessage({ id: 'render.array-object.add.button' })}
-                    fullWidth
-                    primary
-                    onClick={this.onOpenAddDialog}
-                    icon={<AddBoxIcon />}
-                    style={leftButtonStyle}
+                      label={formatMessage({ id: 'render.array-object.add.button' })}
+                      fullWidth
+                      primary
+                      onClick={this.onOpenAddDialog}
+                      icon={<AddBoxIcon />}
+                      style={leftButtonStyle}
                   />}
               </div>
               <div style={rightColumnStyle}>

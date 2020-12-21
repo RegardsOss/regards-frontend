@@ -91,9 +91,9 @@ export class ProfileEditionFormComponent extends React.Component {
                 userMetadata.map((metadata) => metadata.onlyAtRegistration
                   ? null
                   : <MetadataField
-                    key={metadata.key}
-                    metadata={metadata}
-                    fullWidth
+                      key={metadata.key}
+                      metadata={metadata}
+                      fullWidth
                   />)
               }
             </ScrollArea>

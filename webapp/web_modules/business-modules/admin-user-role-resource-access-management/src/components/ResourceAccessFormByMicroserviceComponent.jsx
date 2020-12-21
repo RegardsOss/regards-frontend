@@ -128,13 +128,13 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                       <div style={moduleTheme.description.style} className={moduleTheme.description.class}>
                         {resource.content.description}
                       </div>
-                      <RaisedButton 
-                      label={this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
-                      onClick={() => this.handleShowDialog(resource)}
-                      overlayStyle={{
-                        marginTop: "-50px"
-                      }}
-                       />
+                      <RaisedButton
+                        label={this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
+                        onClick={() => this.handleShowDialog(resource)}
+                        overlayStyle={{
+                          marginTop: '-50px',
+                        }}
+                      />
                     </div>
                     }
                   leftAvatar={

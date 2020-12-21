@@ -40,9 +40,9 @@ class IdentifierCellComponent extends React.Component {
     return CriteriaRowsHelper.isGroup(entity)
       ? <IdentifierGroupCellComponent entity={entity} />
       : <IdentifierCriterionCellComponent
-        entity={entity}
-        pluginsMetadata={pluginsMetadata}
-        onUpdateCriterionPlugin={onUpdateCriterionPlugin}
+          entity={entity}
+          pluginsMetadata={pluginsMetadata}
+          onUpdateCriterionPlugin={onUpdateCriterionPlugin}
       />
   }
 }

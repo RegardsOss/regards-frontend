@@ -286,14 +286,14 @@ export class EntitiesFilesFormComponent extends React.Component {
     const { allowedDataType } = this.props
     return includes(allowedDataType, type)
       ? (<ListItem
-        rightIcon={<Badge
-          secondary
-          badgeContent={nbFile}
-          title={formatMessage({ id: 'entities-files.form.nbFile.tooltip' }, { nbFile })}
-        />}
-        primaryText={formatMessage({ id: `entities-files.form.${type}.title` })}
-        secondaryText={formatMessage({ id: `entities-files.form.${type}.subtitle` })}
-        value={type}
+          rightIcon={<Badge
+            secondary
+            badgeContent={nbFile}
+            title={formatMessage({ id: 'entities-files.form.nbFile.tooltip' }, { nbFile })}
+          />}
+          primaryText={formatMessage({ id: `entities-files.form.${type}.title` })}
+          secondaryText={formatMessage({ id: `entities-files.form.${type}.subtitle` })}
+          value={type}
       />) : null
   }
 
