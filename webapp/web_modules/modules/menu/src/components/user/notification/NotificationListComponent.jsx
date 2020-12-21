@@ -183,7 +183,7 @@ class NotificationListComponent extends React.Component {
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode, nbNotif) => { // TODO: EXTRACT A COMPONENT
+  renderNotificationList = (mode, nbNotif) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     return [
       <List key={`title-${mode}`}>

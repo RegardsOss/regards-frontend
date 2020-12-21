@@ -49,7 +49,6 @@ const styles = (theme) => {
         color: grey100,
         marginLeft: '40px',
       },
-      classes: [],
       localeDropdown: {
         color: white,
       },
@@ -75,21 +74,14 @@ const styles = (theme) => {
       },
       layout: {
         app: {
-          classes: [],
-          styles: {
-            background,
-            backgroundSize: 'cover',
-            minHeight: '100vh',
-            position: 'absolute',
-            width: '100%',
-          },
-        },
-        bodyContainer: {
-          classes: [],
-          styles: {},
+          background,
+          backgroundSize: 'cover',
+          minHeight: '100vh',
+          position: 'absolute',
+          width: '100%',
         },
         contentContainer: {
-          classes: ['col-xs-100', 'col-sm-68', 'col-md-76', 'col-lg-80'],
+          classes: 'col-xs-100 col-sm-68 col-md-76 col-lg-80',
           styles: {
             padding: '10px',
           },

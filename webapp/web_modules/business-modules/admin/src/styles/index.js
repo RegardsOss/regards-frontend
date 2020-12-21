@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import styles from './styles'
 
 /**
- * Externals links to documentation
- * XXX-v1.5+ Change Links when user documentation is created / fallback on field documentation system
- * @author Théo Lasserre
+ * @author Sébastien Binda
  */
 
-/** Catalog documentation links */
-export const LINK_DOC_SEARCH_API = 'https://regardsoss.github.io/development/regards/catalog/api/search-api/#string-searches'
+export default {
+  styles,
+}

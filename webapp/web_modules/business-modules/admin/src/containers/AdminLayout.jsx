@@ -16,11 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import compose from 'lodash/fp/compose'
 import { UIDomain } from '@regardsoss/domain'
 import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationClient, AuthenticateResultShape } from '@regardsoss/authentication-utils'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
@@ -28,8 +29,8 @@ import { AnchorComponent } from '@regardsoss/components'
 import InstanceSidebarComponent from '../menu/components/InstanceSidebarComponent'
 import ProjectSidebarComponent from '../menu/components/ProjectSidebarComponent'
 import NotificationsManagerContainer from './NotificationsManagerContainer'
-import getModuleStyles from '../styles/styles'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * React components to manage Administration application.
@@ -119,43 +120,26 @@ export class AdminLayout extends React.Component {
 
   render() {
     const { content, params: { project } } = this.props
+    const { moduleTheme: { adminApp } } = this.context
     const { menuModuleConf } = this.state
     const isOnInstanceDashboard = !project
-    const moduleStyles = getModuleStyles(this.context.muiTheme) // TODO : we may use styles here no?
-    const style = {
-      app: {
-        classes: moduleStyles.adminApp.layout.app.classes.join(' '),
-        styles: moduleStyles.adminApp.layout.app.styles,
-      },
-      menu: {
-        classes: moduleStyles.menu.classes.join(' '),
-      },
-      bodyContainer: {
-        classes: moduleStyles.adminApp.layout.bodyContainer.classes.join(' '),
-        styles: moduleStyles.adminApp.layout.bodyContainer.styles,
-      },
-      contentContainer: {
-        classes: moduleStyles.adminApp.layout.contentContainer.classes.join(' '),
-        styles: moduleStyles.adminApp.layout.contentContainer.styles,
-      },
-    }
     // install notification manager and application error containers when starting app
     return (
       <NotificationsManagerContainer isOnInstanceDashboard={isOnInstanceDashboard}>
         <AnchorComponent>
-          <div className={`selenium-adminLayout ${style.app.classes}`} style={style.app.styles}>
-            <div className={style.menu.classes}>
+          <div className="selenium-adminLayout" style={adminApp.layout.app}>
+            <div>
               <LazyModuleComponent
                 appName="admin"
                 project={project}
                 module={menuModuleConf}
               />
             </div>
-            <div className={style.bodyContainer.classes} style={style.bodyContainer.styles}>
+            <div>
               <I18nProvider messages={messages}>
                 {this.getSidebar(isOnInstanceDashboard)}
               </I18nProvider>
-              <div className={style.contentContainer.classes} style={style.contentContainer.styles}>
+              <div className={adminApp.layout.contentContainer.classes} style={adminApp.layout.contentContainer.styles}>
                 {content}
               </div>
             </div>
@@ -167,4 +151,4 @@ export class AdminLayout extends React.Component {
   }
 }
 
-export default connect(AdminLayout.mapStateToProps)(AdminLayout)
+export default compose(connect(AdminLayout.mapStateToProps), withModuleStyle(styles))(AdminLayout)

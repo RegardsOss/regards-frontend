@@ -51,7 +51,7 @@ export class AdminContainer extends React.Component {
     jsonValid: true,
   }
 
-  saveChanges = (newConf) => { // TODO legacy code, we have a JSON input field now
+  saveChanges = (newConf) => {
     let jsonValid = true
     try {
       this.props.adminForm.changeField(this.CONF_MIZAR, JSON.parse(newConf))
