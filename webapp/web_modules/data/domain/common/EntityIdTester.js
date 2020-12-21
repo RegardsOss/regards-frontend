@@ -38,8 +38,6 @@ function getTypeForURN(id) {
   }
   throw new Error(`Unknow id type received: ${id}`)
 }
-//TODO looks outdated
-
 export default {
   isDatasetURN,
   isCollectionURN,

@@ -49,17 +49,15 @@ describe('[Description] Testing AttributesGroupComponent', () => {
         assert.include(debugContent, group.title.fr, 'Title should be shown')
       }
       // for each element, check label and value are displayed
-      // TODO-V1.3: waiting for next enzyme version, that will support search in fragments (not yet available in release)
-      // group.elements.forEach(({ label: groupLabel, displayedAttributes }, elementIndex) => {
-      //   const elementDiv = enzymeWrapper.children().find(n => console.info('x:', n.props().title) || n.props().title === groupLabel.fr)
-      //   // Nota: we must here test on tooltip and not label, as label may be to long for enzyme to log it
-      //   assert.lengthOf(elementDiv, 1, 'There should be a division showing element label as tooltip')
-      //   const parentWrapper = elementDiv.parent()
-      //   displayedAttributes.forEach(({ render: {Constructor, props} }, attributeValueIndex) => {
-      //     const renderer = parentWrapper.find(Renderer).findWhere(n => n.props().value === props.value)
-      //     assert.lengthOf(renderer,  1, `Attribute value #${elementIndex}:${attributeValueIndex}: There should be attribute render`)
-      //       assert.equal(renderer.props().unit, unit,  `Attribute value #${elementIndex}:${attributeValueIndex}: unit should be displayed`)
-      //   })
-      // })
+      group.elements.forEach(({ label: groupLabel, displayedAttributes }, elementIndex) => {
+        const elementDiv = enzymeWrapper.findWhere((n) => n.props().title === groupLabel.fr)
+        assert.lengthOf(elementDiv, 1, 'There should be a division showing element label as tooltip')
+        // Nota: we must here test on tooltip and not label, as label may be to long for enzyme to log it
+        // TODO v1.5+ that fragment part is still not supported by enzyme (tested on 12/21/2020). Upgrade when support implemented
+        // const parentWrapper = elementDiv.parent()
+        // displayedAttributes.forEach(({ render: { Constructor, props: renderProps } }, attributeValueIndex) => {
+        //   testSuiteHelpers.assertCompWithProps(parentWrapper, Constructor, renderProps, `Attribute value #${elementIndex}:${attributeValueIndex}: There should be attribute render`)
+        // })
+      })
     }))
 })

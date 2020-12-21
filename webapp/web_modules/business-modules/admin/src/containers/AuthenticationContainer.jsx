@@ -17,10 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { LazyModuleComponent, modulesManager } from '@regardsoss/modules'
-import getModuleStyles from '../styles/styles'
-
+import styles from '../styles'
 /**
  * Authentication container before access to admin layout (if logged, passes through)
  */
@@ -41,7 +40,7 @@ class AuthenticationContainer extends React.Component {
 
   render() {
     const { isAuthenticated, scope, children } = this.props
-    const moduleStyles = getModuleStyles(this.context.muiTheme)
+    const { intl: { formatMessage }, moduleTheme } = this.context
     // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
     const module = { // eslint wont fix: login title can only be resolved using context (accurate only in render)
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
@@ -50,12 +49,12 @@ class AuthenticationContainer extends React.Component {
         showLoginWindow: !isAuthenticated,
         showCancel: false,
         showAskProjectAccess: false,
-        loginTitle: this.context.intl.formatMessage({ id: 'loginFormTitle' }),
+        loginTitle: formatMessage({ id: 'loginFormTitle' }),
         onCancelAction: null,
       },
     }
     return (
-      <div className={moduleStyles.adminApp.layout.app.classes.join(' ')} style={moduleStyles.adminApp.layout.app.styles}>
+      <div style={moduleTheme.adminApp.layout.app}>
         <LazyModuleComponent
           module={module}
           appName="admin"
@@ -67,4 +66,4 @@ class AuthenticationContainer extends React.Component {
   }
 }
 
-export default AuthenticationContainer
+export default withModuleStyle(styles)(AuthenticationContainer)
