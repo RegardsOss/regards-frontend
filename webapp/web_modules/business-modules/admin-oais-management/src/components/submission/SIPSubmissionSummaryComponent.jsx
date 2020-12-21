@@ -112,10 +112,10 @@ class SIPsubmissionSummaryComponent extends React.Component {
               {
                   grantedCount
                     ? <RaisedButton
-                      onClick={this.goToSessionMonitoring}
-                      label={formatMessage({ id: 'sips.submission-summary.go.to.session' }, { sessionOwner, session })}
-                      primary
-                      icon={<DeviceIcon />}
+                        onClick={this.goToSessionMonitoring}
+                        label={formatMessage({ id: 'sips.submission-summary.go.to.session' }, { sessionOwner, session })}
+                        primary
+                        icon={<DeviceIcon />}
                     />
                     : null
                 }

@@ -197,8 +197,8 @@ class NotificationListComponent extends React.Component {
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
-              onClick={this.handleReadAllNotifications}
-              title="Clear all"
+                onClick={this.handleReadAllNotifications}
+                title="Clear all"
             >
               <ClearAll />
             </IconButton>

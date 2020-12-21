@@ -114,14 +114,14 @@ class ProjectAboutPageContainer extends React.Component {
     const actions = []
     actions.push(this.isProjectAboutPageHiddenCached()
       ? <FlatButton
-        key="project.about.page.display"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
-        onClick={this.onCacheProjectAboutPageDisplayed}
+          key="project.about.page.display"
+          label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
+          onClick={this.onCacheProjectAboutPageDisplayed}
       />
       : <FlatButton
-        key="project.about.page.hide"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
-        onClick={this.onCacheProjectAboutPageHidden}
+          key="project.about.page.hide"
+          label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
+          onClick={this.onCacheProjectAboutPageHidden}
       />,
     )
     actions.push(

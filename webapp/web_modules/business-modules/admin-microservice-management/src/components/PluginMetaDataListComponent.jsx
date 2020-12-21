@@ -276,9 +276,9 @@ export default class PluginMetaDataListComponent extends React.Component {
         </Drawer>
         {this.state.pluginDesc
           ? <PluginDescriptionDialog
-            opened
-            pluginMetaData={this.state.pluginDesc}
-            onClose={this.handleCloseDescriptionDialog}
+              opened
+              pluginMetaData={this.state.pluginDesc}
+              onClose={this.handleCloseDescriptionDialog}
           /> : null}
       </Paper>
     )

@@ -184,14 +184,14 @@ class ContainerConfigurationComponent extends React.Component {
             />
             {hasDynamicOptions // available for new elements and
               ? <Field
-                name="type"
-                fullWidth
-                component={RenderSelectField}
-                type="text"
-                onSelect={this.selectContainerType}
-                label={formatMessage({ id: 'container.form.type' })}
-                validate={ValidationHelpers.required}
-                style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
+                  name="type"
+                  fullWidth
+                  component={RenderSelectField}
+                  type="text"
+                  onSelect={this.selectContainerType}
+                  label={formatMessage({ id: 'container.form.type' })}
+                  validate={ValidationHelpers.required}
+                  style={ContainerConfigurationComponent.SELECT_FIELD_STYLES}
               >
                 { /** Show option (remove container types used for root container) */
                   map(
