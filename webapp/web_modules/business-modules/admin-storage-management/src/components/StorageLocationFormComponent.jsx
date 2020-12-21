@@ -60,11 +60,25 @@ class StorageLocationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-  static kbUnit = storage.StorageUnitScale.getMatchingUnit('kB')
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  static kbUnit = storage.StorageUnitScale.getMatchingUnit('kB')
+
+  static SIZE_AND_UNIT_CONTAINER = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
+  static UNITS_STYLE = {
+    marginTop: '8px',
+  }
+
+  static PLUGIN_CONTAINER = {
+    marginTop: 24,
+    marginLeft: -24,
   }
 
   state = {
@@ -174,8 +188,6 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    const allocatedSizeStyle = { width: '120px' }
-    const unitsStyle = { display: 'inline-block', marginTop: '8px' }
     if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
@@ -185,7 +197,7 @@ class StorageLocationFormComponent extends React.Component {
       )
     }
     return (
-      <div>
+      <>
         <Field
           name="name"
           fullWidth
@@ -196,30 +208,33 @@ class StorageLocationFormComponent extends React.Component {
           validate={validateName}
           disabled={mode !== 'create'}
         />
-        <div>
+        <div style={StorageLocationFormComponent.SIZE_AND_UNIT_CONTAINER}>
           <Field
             name="allocatedSize"
             component={RenderTextField}
+            fullWidth
             label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
             validate={ValidationHelpers.javaDoubleValidator}
-            style={allocatedSizeStyle}
+            style={StorageLocationFormComponent.ALLOCATED_SIZE_STYLE}
           />
-          <div style={unitsStyle}>
+          <div style={StorageLocationFormComponent.UNITS_STYLE}>
             {this.renderUnits()}
           </div>
         </div>
-        <Field
-          key="storagePlugin"
-          name="pluginConfiguration"
-          component={RenderPluginField}
-          defaultPluginConfLabel={get(entity, 'content.name')}
-          selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
-          pluginType={pluginType}
-          microserviceName={STATIC_CONF.MSERVICES.STORAGE}
-          hideDynamicParameterConf
-          hideGlobalParameterConf
-        />
-      </div>
+        <div style={StorageLocationFormComponent.PLUGIN_CONTAINER}>
+          <Field
+            key="storagePlugin"
+            name="pluginConfiguration"
+            component={RenderPluginField}
+            defaultPluginConfLabel={get(entity, 'content.name')}
+            selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
+            pluginType={pluginType}
+            microserviceName={STATIC_CONF.MSERVICES.STORAGE}
+            hideDynamicParameterConf
+            hideGlobalParameterConf
+          />
+        </div>
+      </>
     )
   }
 
