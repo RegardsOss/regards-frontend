@@ -40,11 +40,14 @@ export default class CatalogPluginServiceResultActions extends DownloadFileActio
    * Fetches apply result
    * @param {*} pluginConfigurationBusinessId plugin business ID
    * @param {*} dynamicParameters dynamic parameters
-   * @param {*} searchRequest plugin service target related parameters, one of the following structures:*
-   * { entity } | { entities } | { q, entityType }
+   * @param {*} target plugin service target (matches PluginTarget)
    * @return action to dispatch in order to fetch plugin service results
    */
-  fetchResult(pluginConfigurationBusinessId, dynamicParameters, searchRequest) {
-    return this.download({ pluginConfigurationBusinessId }, null, 'POST', { dynamicParameters, searchRequest })
+  fetchResult(pluginConfigurationBusinessId, dynamicParameters, { type, searchContext }) {
+    return this.download({ pluginConfigurationBusinessId }, null, 'POST', {
+      entityType: type,
+      dynamicParameters,
+      searchRequest: searchContext,
+    })
   }
 }

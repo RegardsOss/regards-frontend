@@ -180,7 +180,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     // 2 - update state and dispatch
     const userParametersValues = formValues
     this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE, userParametersValues })
-    dispatchFetchPluginResult(service.configId, userParametersValues, target.searchContext)
+    dispatchFetchPluginResult(service.configId, userParametersValues, target)
       .then(this.onServiceResult)
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR))
   }
@@ -292,7 +292,7 @@ function mapDispatchToProps(dispatch) {
     dispatchFetchPluginMetaData: (pluginId) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),
+    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, target) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, target)),
   }
 }
 
