@@ -248,6 +248,13 @@ class OrderListComponent extends React.Component {
         .label(formatMessage({ id: 'order.list.column.progress' }))
         .build(),
 
+      // Status column
+      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
+        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
+        .visible(get(columnsVisibility, STATUS_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.status' }))
+        .build(),
+
       // creation date
       new TableColumnBuilder(CREATION_DATE_KEY).titleHeaderCell().propertyRenderCell('content.creationDate', DateValueRender)
         .visible(get(columnsVisibility, CREATION_DATE_KEY, true))
@@ -277,13 +284,6 @@ class OrderListComponent extends React.Component {
       new TableColumnBuilder(ERRORS_COUNT_KEY).titleHeaderCell().propertyRenderCell('content.filesInErrorCount', ErrorsCountRender)
         .visible(get(columnsVisibility, ERRORS_COUNT_KEY, true))
         .label(formatMessage({ id: 'order.list.column.errors.count' }))
-        .build(),
-
-      // Status column
-      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
-        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
-        .visible(get(columnsVisibility, STATUS_KEY, true))
-        .label(formatMessage({ id: 'order.list.column.status' }))
         .build(),
 
       // Options column
