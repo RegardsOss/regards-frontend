@@ -18,7 +18,9 @@
  **/
 import { i18nContextType } from '@regardsoss/i18n'
 import { ModulePaneStateField } from '@regardsoss/modules-api'
-import { RenderCheckbox, Field } from '@regardsoss/form-utils'
+import {
+  RenderCheckbox, Field, FormPresentation, FormRow, FieldsGroup,
+} from '@regardsoss/form-utils'
 
 /**
  * Module configuration form
@@ -44,26 +46,29 @@ class ModuleConfigurationComponent extends React.Component {
    * Lifecycle method component will mount.
    * Used here to initialize field values to default
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { changeField, isCreating } = this.props
     if (isCreating) {
       changeField(this.SHOW_DATASETS_FIELD, true)
     }
   }
 
-
   render() {
     const { currentNamespace } = this.props
     const { intl } = this.context
     return (
-      <div>
-        <ModulePaneStateField currentNamespace={currentNamespace} />
-        <Field
-          name={this.SHOW_DATASETS_FIELD}
-          component={RenderCheckbox}
-          label={intl.formatMessage({ id: 'order.cart.configuration.show.datasets' })}
-        />
-      </div>
+      <FormPresentation>
+        <FormRow>
+          <ModulePaneStateField currentNamespace={currentNamespace} />
+          <FieldsGroup clearSpaceToChildren title={intl.formatMessage({ id: 'order.cart.configuration.presentation.title' })}>
+            <Field
+              name={this.SHOW_DATASETS_FIELD}
+              component={RenderCheckbox}
+              label={intl.formatMessage({ id: 'order.cart.configuration.show.datasets' })}
+            />
+          </FieldsGroup>
+        </FormRow>
+      </FormPresentation>
     )
   }
 }

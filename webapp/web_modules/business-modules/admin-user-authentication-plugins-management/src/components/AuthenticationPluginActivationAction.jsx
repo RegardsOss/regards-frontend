@@ -36,10 +36,13 @@ class AuthenticationPluginActivationAction extends React.Component {
     onToggle: PropTypes.func.isRequired,
   }
 
-  static defaultProps = {}
-
   static contextTypes = {
     ...i18nContextType,
+  }
+
+  /** Root container style */
+  static ROOT_STYLE= {
+    margin: 'auto',
   }
 
   onToggle = () => {
@@ -48,7 +51,7 @@ class AuthenticationPluginActivationAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update')
+    return !!find(links, (l) => l.rel === 'update')
   }
 
   render() {
@@ -58,7 +61,7 @@ class AuthenticationPluginActivationAction extends React.Component {
       ? formatMessage({ id: 'user.authentication.plugins.list.active.off.button' })
       : formatMessage({ id: 'user.authentication.plugins.list.active.on.button' })
     return (
-      <div style={{ margin: 'auto' }}>
+      <div style={AuthenticationPluginActivationAction.ROOT_STYLE}>
         <Toggle
           toggled={active}
           onToggle={this.onToggle}

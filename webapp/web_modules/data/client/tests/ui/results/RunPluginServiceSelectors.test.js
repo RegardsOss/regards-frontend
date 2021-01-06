@@ -22,11 +22,9 @@ import RunPluginServiceActions from '../../../src/ui/results/RunPluginServiceAct
 import getReducer, { RunPluginServiceReducer } from '../../../src/ui/results/RunPluginServiceReducer'
 import getSelectors from '../../../src/ui/results/RunPluginServiceSelectors'
 
-
 const actions = new RunPluginServiceActions('test-namespace')
 const reduce = getReducer('test-namespace')
 const selectors = getSelectors(['test', 'runPluginService'])
-
 
 const buildMockStore = (initState = RunPluginServiceReducer.DEFAULT_STATE) => ({
   test: {

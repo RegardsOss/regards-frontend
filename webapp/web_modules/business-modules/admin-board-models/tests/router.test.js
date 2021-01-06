@@ -41,7 +41,6 @@ describe('[ADMIN DATA MANAGEMENT] Testing data board router', () => {
     expect(Routes.childRoutes[5].path).to.eq('calculationplugins')
   })
 
-
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

@@ -91,13 +91,13 @@ class OptionsHeaderRowComponent extends React.Component {
         showTypeTabs ? (
           <TableHeaderOptionGroup show>
             {
-              OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map(type => tab.types[type].enabled
+              OptionsHeaderRowComponent.TYPE_DISPLAY_ORDER.map((type) => tab.types[type].enabled
                 ? <TypeTabContainer
-                  key={`tab.selector.${type}`}
-                  moduleId={moduleId}
-                  type={type}
-                  tabType={tabType}
-                  resultsContext={resultsContext}
+                    key={`tab.selector.${type}`}
+                    moduleId={moduleId}
+                    type={type}
+                    tabType={tabType}
+                    resultsContext={resultsContext}
                 />
                 : null)
             }
@@ -108,7 +108,7 @@ class OptionsHeaderRowComponent extends React.Component {
           {/* 2.A Selection related options (services and add to basket) */}
           <TableHeaderOptionGroup show={showSelectionServices || !!onAddSelectionToCart}>
             { /* 2.A.1 Services */
-              showSelectionServices ? selectionServices.map(service => (
+              showSelectionServices ? selectionServices.map((service) => (
                 <SelectionServiceComponent
                   key={`${service.content.type}.service.${service.content.configId}`}
                   service={service}
@@ -171,7 +171,7 @@ class OptionsHeaderRowComponent extends React.Component {
           {/* 2.F - View mode selectors (list / table / quicklook / map), when more than 1 is available*/}
           <TableHeaderOptionGroup show={reduce(selectedTypeState.modes, (count, modeState) => modeState.enabled ? count + 1 : count, 0) > 1}>
             {
-              OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.map(aMode => selectedTypeState.modes[aMode].enabled ? (
+              OptionsHeaderRowComponent.MODE_DISPLAY_ORDER.map((aMode) => selectedTypeState.modes[aMode].enabled ? (
                 <ModeSelectorContainer
                   key={`mode.selector.${aMode}`}
                   moduleId={moduleId}

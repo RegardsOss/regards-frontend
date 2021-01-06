@@ -45,7 +45,7 @@ export const oaisFeatureManagerRoute = {
   path: 'featureManager',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
-      const container = require('../src/containers/OAISFeatureManagerContainer')
+      const container = require('./containers/OAISFeatureManagerContainer')
       cb(null, {
         content: container.default,
       })

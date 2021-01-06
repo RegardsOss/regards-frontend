@@ -23,10 +23,8 @@ export const EntityConfiguration = {
   normalizrKey: 'entities',
 }
 
-
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const ENTITY = new Schema(EntityConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EntityConfiguration.entityKey]
-  ,
+  idAttribute: (entity) => entity.content[EntityConfiguration.entityKey],
 })
 export const ENTITY_ARRAY = arrayOf(ENTITY)

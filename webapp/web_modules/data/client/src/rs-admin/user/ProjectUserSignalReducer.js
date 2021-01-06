@@ -19,7 +19,6 @@
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import ProjectUserSignalActions from './ProjectUserSignalActions'
 
-
 class ProjectUserSignalReducer extends BasicSignalReducers {
   constructor(namespace) {
     super(new ProjectUserSignalActions(namespace))

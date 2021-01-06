@@ -18,13 +18,10 @@
  **/
 import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
-import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ResourceIconAction } from '@regardsoss/components'
 import { AcquisitionProcessingChainEditActions } from '../../clients/AcquisitionProcessingChainClient'
-
-export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
@@ -34,7 +31,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onEdit: PropTypes.func.isRequired,
   }
@@ -51,7 +48,7 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
 
   isEditable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'update', false)
+    return !!find(links, (l) => l.rel === 'update', false)
   }
 
   render() {

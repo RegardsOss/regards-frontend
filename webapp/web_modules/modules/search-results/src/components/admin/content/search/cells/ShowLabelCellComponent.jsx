@@ -55,8 +55,7 @@ class ShowLabelCellComponent extends React.Component {
       <Checkbox
         label={entity.showTitle
           ? formatMessage({ id: 'search.results.form.configuration.search.pane.show.label.column.cell.shown' })
-          : formatMessage({ id: 'search.results.form.configuration.search.pane.show.label.column.cell.hidden' })
-        }
+          : formatMessage({ id: 'search.results.form.configuration.search.pane.show.label.column.cell.hidden' })}
         checked={entity.showTitle}
         onCheck={this.onToggleShowTitle}
       />)

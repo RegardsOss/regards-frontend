@@ -25,7 +25,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 
 /** Constructor wrapper to use the IconButton within a DropDownButton */
-const IconButtonConstructorWrapper = props => <IconButton {...(omit(props, ['label', 'labelPosition']))} />
+const IconButtonConstructorWrapper = (props) => <IconButton {...(omit(props, ['label', 'labelPosition']))} />
 
 /**
  * Download order files as zip table option
@@ -44,16 +44,6 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Computes a number or text digits count
-   * @param {number|string} value value
-   * @return {number} digits count in text
-   */
-  static computeDigitsCount(value) {
-    return (`${value}`).length
-  }
-
-
   /** Max files count */
   static MAX_FILES_COUNT = 99
 
@@ -62,6 +52,15 @@ class DownloadOrderFilesAsZipComponent extends React.Component {
 
   /** Replacement char for no digit */
   static NO_DIGIT_CHAR = '\u00A0'
+
+  /**
+   * Computes a number or text digits count
+   * @param {number|string} value value
+   * @return {number} digits count in text
+   */
+  static computeDigitsCount(value) {
+    return (`${value}`).length
+  }
 
   render() {
     const {

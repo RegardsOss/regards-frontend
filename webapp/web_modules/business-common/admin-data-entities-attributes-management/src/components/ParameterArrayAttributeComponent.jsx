@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import Delete from 'mdi-material-ui/Close'
 import Add from 'mdi-material-ui/PlusCircleOutline'
 import FlatButton from 'material-ui/FlatButton'
@@ -23,7 +24,6 @@ import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
-
 
 /**
  * Form component to edit datasets/collection attributes that the admin has to define.
@@ -34,8 +34,7 @@ export class ParameterArrayAttributeComponent extends React.Component {
     constraints: PropTypes.arrayOf(PropTypes.any),
     // from redux form
     // the selected value as fields object (holds selected levels IDs)
-    // eslint-disable-next-line react/forbid-prop-types
-    fields: PropTypes.object.isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
@@ -55,7 +54,6 @@ export class ParameterArrayAttributeComponent extends React.Component {
   }
 
   static iconAdd = <Add />
-
 
   addNewValue = () => {
     const { fields } = this.props
@@ -85,7 +83,6 @@ export class ParameterArrayAttributeComponent extends React.Component {
     )
   }
 
-
   render() {
     const { fields } = this.props
     return (
@@ -100,6 +97,5 @@ export class ParameterArrayAttributeComponent extends React.Component {
       </div>)
   }
 }
-
 
 export default ParameterArrayAttributeComponent

@@ -46,7 +46,6 @@ export class TabsContentContainer extends React.Component {
     resultsContext: UIShapes.ResultsContext.isRequired,
   }
 
-
   render() {
     const {
       moduleId, appName, project, resultsContext,

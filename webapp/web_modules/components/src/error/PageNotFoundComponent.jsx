@@ -16,8 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import Icon from 'mdi-material-ui/AlertOctagon'
+import styles from './styles'
 
 /**
  *
@@ -31,34 +32,15 @@ class PageNotFoundComponent extends React.Component {
   }
 
   render() {
-    const iconStyle = { width: '128px', height: '128px', opacity: '0.2' }
-    const theme = this.context.muiTheme
-
+    const { muiTheme, moduleTheme: { pageNotFound } } = this.context
     return (
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          minHeight: '100vh',
-          width: '100%',
-          justifyContent: 'center',
-        }}
-      >
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', minHeight: '30vh', width: '100%',
-        }}
-        >
-          <Icon color={theme.palette.primary1Color} style={iconStyle} />
-          <div style={{
-            maxWidth: '40%', marginTop: '0.2em', color: theme.palette.textColor, fontSize: '1.5em',
-          }}
-          >
+      <div style={pageNotFound.rootStyle}>
+        <div style={pageNotFound.innerLayoutStyle}>
+          <Icon color={muiTheme.palette.primary1Color} style={pageNotFound.iconStyle} />
+          <div style={pageNotFound.titleStyle}>
             REGARDS : Page Not Found !
           </div>
-          <div style={{
-            maxWidth: '40%', marginTop: '0.6em', color: theme.palette.secondaryTextColor, textAlign: 'center', fontSize: '1em',
-          }}
-          >
+          <div style={pageNotFound.testStyle}>
             Requested page does not exists
           </div>
         </div>
@@ -67,4 +49,4 @@ class PageNotFoundComponent extends React.Component {
   }
 }
 
-export default PageNotFoundComponent
+export default withModuleStyle(styles)(PageNotFoundComponent)

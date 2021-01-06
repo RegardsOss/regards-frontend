@@ -20,29 +20,21 @@ import map from 'lodash/map'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
-import Edit from 'mdi-material-ui/Pencil'
-import Delete from 'mdi-material-ui/Delete'
-import ContentCopy from 'mdi-material-ui/ContentCopy'
-import { CardActionsComponent, withConfirmDialog } from '@regardsoss/components'
+import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { uiPluginConfigurationActions } from '../clients/UIPluginConfigurationClient'
-import moduleStyles from '../styles/styles'
-
-const styles = moduleStyles().plugin
-const ResourceIconAction = withResourceDisplayControl(IconButton)
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const ConfirmableHateoasIconAction = withConfirmDialog(HateoasIconAction)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
+import EnableConfigurationComponent from './options/EnableConfigurationComponent'
+import EnableConfigurationOnAllComponent from './options/EnableConfigurationOnAllComponent'
+import EditConfigurationComponent from './options/EditConfigurationComponent'
+import DeleteConfigurationComponent from './options/DeleteConfigurationComponent'
+import DuplicateConfigurationComponent from './options/DuplicateConfigurationComponent'
 
 /**
  * React component to list datasets.
@@ -83,19 +75,7 @@ class ServiceConfigurationListComponent extends React.Component {
     const {
       uiPluginConfigurationList, plugin, handleToggleActivation, handleDuplicate, handleToggleDefault, handleEdit, handleDelete, createUrl, backUrl,
     } = this.props
-    const { intl: { formatMessage } } = this.context
-    const style = {
-      hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
-      hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
-      hoverButtonDuplicate: this.context.muiTheme.palette.primary3Color,
-    }
-    const descriptionMsgValues = { value: plugin.info.description }
-    const versionMsgValues = { value: plugin.info.version }
-    const authorMsgValues = { value: plugin.info.author }
-    const companyMsgValues = { value: plugin.info.company }
-    const emailMsgValues = { value: plugin.info.email }
-    const licenseMsgValues = { value: plugin.info.license }
-    const urlMsgValues = { value: plugin.info.url }
+    const { intl: { formatMessage }, moduleTheme: { plugin: pluginStyles } } = this.context
     return (
       <Card>
         <CardTitle
@@ -103,34 +83,34 @@ class ServiceConfigurationListComponent extends React.Component {
           subtitle={formatMessage({ id: 'service.listconf.subtitle' })}
         />
         <CardText>
-          <div className={styles.line.classes}>
-            <div className={styles.description.classes}>
+          <div className={pluginStyles.line.classes}>
+            <div className={pluginStyles.description.classes}>
               <div>
                 <FormattedMessage id="service.listconf.plugin.title" />
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.description" values={descriptionMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.description' }, { value: plugin.info.description })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.version" values={versionMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.version' }, { value: plugin.info.version })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.author" values={authorMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.author' }, { value: plugin.info.author })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.company" values={companyMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.company' }, { value: plugin.info.company })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.email" values={emailMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.email' }, { value: plugin.info.email })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.license" values={licenseMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.license' }, { value: plugin.info.license })}
               </div>
               <div>
-                <FormattedMessage id="service.listconf.plugin.url" values={urlMsgValues} />
+                {formatMessage({ id: 'service.listconf.plugin.url' }, { value: plugin.info.url })}
               </div>
             </div>
-            <div className={styles.icon.classes}>
+            <div className={pluginStyles.icon.classes}>
               {this.renderIcon()}
             </div>
           </div>
@@ -158,47 +138,30 @@ class ServiceConfigurationListComponent extends React.Component {
                 <TableRow key={i}>
                   <TableRowColumn>{uiPluginConfiguration.content.label}</TableRowColumn>
                   <TableRowColumn>
-                    <HateoasToggle
-                      entityLinks={uiPluginConfiguration.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      toggled={uiPluginConfiguration.content.active}
-                      onToggle={() => handleToggleActivation(uiPluginConfiguration.content)}
+                    <EnableConfigurationComponent
+                      uiPluginConfiguration={uiPluginConfiguration}
+                      onToggleEnabled={handleToggleActivation}
                     />
                   </TableRowColumn>
                   <TableRowColumn>
-                    <HateoasToggle
-                      entityLinks={uiPluginConfiguration.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      toggled={uiPluginConfiguration.content.linkedToAllEntities}
-                      disabled={!uiPluginConfiguration.content.active}
-                      onToggle={() => handleToggleDefault(uiPluginConfiguration.content)}
+                    <EnableConfigurationOnAllComponent
+                      uiPluginConfiguration={uiPluginConfiguration}
+                      onToggleEnabledForAll={handleToggleDefault}
                     />
                   </TableRowColumn>
                   <TableRowColumn>
-                    <HateoasIconAction
-                      entityLinks={uiPluginConfiguration.links}
-                      hateoasKey={HateoasKeys.UPDATE}
-                      onClick={() => handleEdit(uiPluginConfiguration.content.id)}
-                      title={formatMessage({ id: 'service.listconf.tooltip.edit' })}
-                    >
-                      <Edit hoverColor={style.hoverButtonEdit} />
-                    </HateoasIconAction>
-                    <ResourceIconAction
-                      resourceDependencies={uiPluginConfigurationActions.getDependency(RequestVerbEnum.POST)}
-                      onClick={() => handleDuplicate(uiPluginConfiguration.content.id)}
-                      title={formatMessage({ id: 'service.listconf.tooltip.duplicate' })}
-                    >
-                      <ContentCopy hoverColor={style.hoverButtonDuplicate} />
-                    </ResourceIconAction>
-                    <ConfirmableHateoasIconAction
-                      entityLinks={uiPluginConfiguration.links}
-                      hateoasKey={HateoasKeys.DELETE}
-                      onClick={() => handleDelete(uiPluginConfiguration.content.id)}
-                      title={formatMessage({ id: 'service.listconf.tooltip.delete' })}
-                      dialogTitle={formatMessage({ id: 'service.listconf.delete.confirm.title' })}
-                    >
-                      <Delete hoverColor={style.hoverButtonDelete} />
-                    </ConfirmableHateoasIconAction>
+                    <EditConfigurationComponent
+                      uiPluginConfiguration={uiPluginConfiguration}
+                      onEdit={handleEdit}
+                    />
+                    <DuplicateConfigurationComponent
+                      uiPluginConfiguration={uiPluginConfiguration}
+                      onDuplicate={handleDuplicate}
+                    />
+                    <DeleteConfigurationComponent
+                      uiPluginConfiguration={uiPluginConfiguration}
+                      onDelete={handleDelete}
+                    />
                   </TableRowColumn>
                 </TableRow>
               ))}

@@ -43,7 +43,7 @@ describe('[Components] Testing FileContentDisplayer', () => {
     root.Blob = TestBlob
     root.FileReader = TestFileReader
     root.URL = {
-      createObjectURL: blob => blob.text,
+      createObjectURL: (blob) => blob.text,
       revokeObjectURL: () => { },
     }
   })
@@ -114,7 +114,7 @@ describe('[Components] Testing FileContentDisplayer', () => {
     message: 'should render markdown MIME type through Markdown file displayer for type',
   }]
 
-  testCases.forEach(({ contentTypes, expectedComponent, message }) => contentTypes.forEach(mimeType => it(`${message} "${mimeType}"`, () => {
+  testCases.forEach(({ contentTypes, expectedComponent, message }) => contentTypes.forEach((mimeType) => it(`${message} "${mimeType}"`, () => {
     const props = {
       loading: false,
       error: false,

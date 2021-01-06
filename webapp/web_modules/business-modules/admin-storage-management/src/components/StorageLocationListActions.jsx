@@ -18,7 +18,6 @@
  **/
 import get from 'lodash/get'
 import DeleteFiles from 'mdi-material-ui/FileExcel'
-import IconButton from 'material-ui/IconButton'
 import Edit from 'mdi-material-ui/Pencil'
 import Copy from 'mdi-material-ui/FileReplace'
 import ArrowUp from 'mdi-material-ui/ArrowUp'
@@ -26,12 +25,11 @@ import ArrowDown from 'mdi-material-ui/ArrowDown'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  ActionsMenuCell, TableDeleteOption,
+  ActionsMenuCell, HateoasIconAction, TableDeleteOption,
 } from '@regardsoss/components'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { StorageShapes } from '@regardsoss/shape'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const actionsBreakpoints = [1300, 1350, 1400, 1450, 1500, 1550]
 
 class StorageLocationListActions extends React.Component {
@@ -51,11 +49,45 @@ class StorageLocationListActions extends React.Component {
     ...i18nContextType,
   }
 
+  handleEdit = () => {
+    const { onEdit, entity: { content: { configuration } } } = this.props
+    onEdit(configuration)
+  }
+
+  handleDelete = () => {
+    const { onDelete, entity } = this.props
+    onDelete(entity)
+  }
+
+  handleCopyFiles = () => {
+    const { onCopyFiles, entity } = this.props
+    onCopyFiles(entity)
+  }
+
+  handleUp = () => {
+    const { onUp, entity } = this.props
+    onUp(entity.content)
+  }
+
+  handleDown = () => {
+    const { onDown, entity } = this.props
+    onDown(entity.content)
+  }
+
+  handleDeleteFiles = () => {
+    const { onDeleteFiles, entity } = this.props
+    onDeleteFiles(entity)
+  }
+
+  handleRefresh = () => {
+    const { onRefresh, entity } = this.props
+    onRefresh(entity)
+  }
+
   render() {
     const {
-      entity, onEdit, onCopyFiles, onUp, onDown, onDeleteFiles, onDelete, onRefresh,
+      entity, onRefresh,
     } = this.props
-    const { entity: { content: { configuration } } } = this.props
     const { intl } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -73,7 +105,7 @@ class StorageLocationListActions extends React.Component {
           key="edit"
           entityLinks={entity.links}
           hateoasKey={HateoasKeys.UPDATE}
-          onClick={() => onEdit(configuration)}
+          onClick={this.handleEdit}
           disableInsteadOfHide
           title={intl.formatMessage({ id: 'storage.location.list.edit.button' })}
         >
@@ -85,7 +117,7 @@ class StorageLocationListActions extends React.Component {
           hateoasKey="copy"
           disableInsteadOfHide
           disabled={storageRunning || deletionRunning || copyRunning}
-          onClick={() => onCopyFiles(entity)}
+          onClick={this.handleCopyFiles}
           title={intl.formatMessage({ id: 'storage.location.list.copy.button' })}
         >
           <Copy hoverColor={style.hoverButtonEdit} />
@@ -95,7 +127,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="up"
           disableInsteadOfHide
-          onClick={() => onUp(entity.content)}
+          onClick={this.handleUp}
           title={intl.formatMessage({ id: 'storage.location.list.up.priority.button' })}
         >
           <ArrowUp hoverColor={style.hoverButtonEdit} />
@@ -105,7 +137,7 @@ class StorageLocationListActions extends React.Component {
           entityLinks={entity.links}
           hateoasKey="down"
           disableInsteadOfHide
-          onClick={() => onDown(entity.content)}
+          onClick={this.handleDown}
           title={intl.formatMessage({ id: 'storage.location.list.down.priority.button' })}
         >
           <ArrowDown hoverColor={style.hoverButtonEdit} />
@@ -116,14 +148,14 @@ class StorageLocationListActions extends React.Component {
           hateoasKey="deleteFiles"
           disableInsteadOfHide
           disabled={storageRunning || deletionRunning || copyRunning}
-          onClick={() => onDeleteFiles(entity)}
+          onClick={this.handleDeleteFiles}
           title={intl.formatMessage({ id: 'storage.location.list.delete-files.button' })}
         >
           <DeleteFiles hoverColor={style.hoverButtonEdit} />
         </HateoasIconAction>
         <TableDeleteOption
           entity={entity}
-          onDelete={() => onDelete(entity)}
+          onDelete={this.handleDelete}
           fetchPage={onRefresh}
           handleHateoas
           disableInsteadOfHide

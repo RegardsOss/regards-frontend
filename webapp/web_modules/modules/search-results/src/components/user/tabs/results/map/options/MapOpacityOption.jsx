@@ -42,7 +42,6 @@ class MapOpacityOption extends React.Component {
 
     return (
       <FlatButton
-          // label from configuration when provided, default otherwise
         onClick={handleToggleOpacitySlider}
         icon={<Opacity />}
         secondary={open}

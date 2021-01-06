@@ -44,8 +44,8 @@ export class DatasetEditFilesContainer extends React.Component {
     currentDataset: datasetSelectors.getById(state, ownProps.params.datasetId),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchDataset: id => dispatch(datasetActions.fetchEntity(id)),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchDataset: (id) => dispatch(datasetActions.fetchEntity(id)),
     updateDataset: (id, entity) => dispatch(datasetActions.updateEntity(id, entity)),
   })
 
@@ -104,6 +104,5 @@ export class DatasetEditFilesContainer extends React.Component {
     )
   }
 }
-
 
 export default connect(DatasetEditFilesContainer.mapStateToProps, DatasetEditFilesContainer.mapDispatchToProps)(DatasetEditFilesContainer)

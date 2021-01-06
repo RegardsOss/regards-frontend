@@ -18,4 +18,4 @@
  **/
 import { PluginListSelectors } from '../../rs-common/plugins/PluginListSelectors'
 
-export default storePath => new PluginListSelectors(storePath)
+export default (storePath) => new PluginListSelectors(storePath)

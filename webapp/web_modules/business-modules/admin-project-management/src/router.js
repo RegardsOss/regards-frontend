@@ -100,7 +100,6 @@ export const createProjectConnectionRoute = {
   },
 }
 
-
 const projectManagementRouter = {
   childRoutes: [
     listProjectRoute,

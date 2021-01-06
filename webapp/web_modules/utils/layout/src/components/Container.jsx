@@ -34,8 +34,12 @@ import { PluginProvider } from '@regardsoss/plugins'
 import { themeContextType } from '@regardsoss/theme'
 import ContainerShape from '../model/ContainerShape'
 import ContainerHelper from '../ContainerHelper'
-import { DELETE_ACTION, ADD_ACTION, EDIT_ACTION } from './LayoutConfigurationComponent'
 import messages from '../i18n'
+
+/** actions names */
+export const DELETE_ACTION = 'DELETE_ACTION'
+export const ADD_ACTION = 'ADD_ACTION'
+export const EDIT_ACTION = 'EDIT_ACTION'
 
 /**
  * Component to display a container into an application layout.
@@ -77,6 +81,30 @@ class Container extends React.Component {
   }
 
   /**
+   * User callback: on element add
+   */
+  onAdd = () => {
+    const { onContainerClick, container } = this.props
+    onContainerClick(ADD_ACTION, container)
+  }
+
+  /**
+   * User callback: on element edit
+   */
+  onEdit = () => {
+    const { onContainerClick, container } = this.props
+    onContainerClick(EDIT_ACTION, container)
+  }
+
+  /**
+   * User callback: on element delete
+   */
+  onDelete = () => {
+    const { onContainerClick, container } = this.props
+    onContainerClick(DELETE_ACTION, container)
+  }
+
+  /**
    * Render the children containers of the current container
    * @returns {Array}
    */
@@ -114,8 +142,8 @@ class Container extends React.Component {
       // Render modules and plugins of this static container
     }
     return flow(
-      fpfilter(module => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName),
-      fpmap(module => (
+      fpfilter((module) => module.content.container === this.props.container.id && module.content.applicationId === this.props.appName),
+      fpmap((module) => (
         <LazyModuleComponent
           key={module.content.id}
           module={module.content}
@@ -134,8 +162,8 @@ class Container extends React.Component {
     if (configurationMode || !plugins) {
       return null
     }
-    return plugins.filter(plugin => plugin.container === container.id)
-      .map(plugin => (
+    return plugins.filter((plugin) => plugin.container === container.id)
+      .map((plugin) => (
         <PluginProvider
           key={plugin.pluginInstanceId}
           pluginInstanceId={plugin.pluginInstanceId}
@@ -166,9 +194,7 @@ class Container extends React.Component {
       if (this.props.mainContainer === false) {
         deleteAction = (<MenuItem
           key="delete"
-          onClick={() => {
-            this.props.onContainerClick(DELETE_ACTION, this.props.container)
-          }}
+          onClick={this.onDelete}
           primaryText={<FormattedMessage id="container.configuration.delete.section" />}
         />
         )
@@ -193,16 +219,12 @@ class Container extends React.Component {
                 >
                   <MenuItem
                     key="add"
-                    onClick={() => {
-                      this.props.onContainerClick(ADD_ACTION, this.props.container)
-                    }}
+                    onClick={this.onAdd}
                     primaryText={<FormattedMessage id="container.configuration.add.subsection" />}
                   />
                   <MenuItem
                     key="edit"
-                    onClick={() => {
-                      this.props.onContainerClick(EDIT_ACTION, this.props.container)
-                    }}
+                    onClick={this.onEdit}
                     primaryText={<FormattedMessage id="container.configuration.edit.section" />}
                   />
                   {deleteAction}
@@ -226,13 +248,13 @@ class Container extends React.Component {
     const containerClasses = ContainerHelper.getContainerClassNames(this.props.container)
     const containerStyles = ContainerHelper.getContainerStyles(this.props.container)
 
-    let containerStylesRender = containerStyles
-    if (this.props.configurationMode) {
-      containerStyles.border = `1px solid ${this.context.muiTheme.toolbar.separatorColor}`
-      containerStyles.padding = '1px 2px'
-      containerStyles.margin = '2px'
-      containerStylesRender = { ...containerStyles, position: 'relative' }
-    }
+    const containerStylesRender = this.props.configurationMode ? { // eslint wont fix: a merge with context is required, what is not detectable outside render...
+      ...containerStyles,
+      border: `1px solid ${this.context.muiTheme.toolbar.separatorColor}`,
+      padding: '1px 2px',
+      margin: '2px',
+      position: 'relative',
+    } : containerStyles
 
     return (
       <div

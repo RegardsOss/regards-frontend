@@ -24,7 +24,6 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { getTableClient } from '../../../../../clients/TableClient'
 import ListCellComponent, { ListThumbnailRenderData, ListAttributeRenderData } from '../../../../../components/user/tabs/results/list/ListCellComponent'
 
-
 /**
  * Container to display the list cell component (provides selection state related management)
  * @author Raphaël Mechali
@@ -107,7 +106,6 @@ export class ListCellContainer extends React.Component {
       || (selectionMode === TableSelectionModes.excludeSelected && !toggledElements[rowIndex])
   }
 
-
   render() {
     const {
       tabType, entity,
@@ -122,25 +120,18 @@ export class ListCellContainer extends React.Component {
       <ListCellComponent
         tabType={tabType}
         entity={entity}
-
         thumbnailRenderData={thumbnailRenderData}
         gridAttributesRenderData={gridAttributesRenderData}
-
         descriptionAvailable={descriptionAvailable}
         onShowDescription={onShowDescription}
-
         enableDownload={enableDownload}
         accessToken={accessToken}
         projectName={projectName}
-
         onAddElementToCart={onAddElementToCart}
-
         enableServices={enableServices}
-
         enableSelection={enableSelection}
         selected={this.isSelectedRow()}
         onSelect={onSelect}
-
         enableSearchEntity={enableSearchEntity}
         onSearchEntity={this.onSearchEntity}
       />

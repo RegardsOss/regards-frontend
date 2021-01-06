@@ -17,13 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ContentCopy from 'mdi-material-ui/ContentCopy'
-import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
-import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
+import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
+import { ResourceIconAction } from '@regardsoss/components'
 import dependencies from '../../dependencies'
-
-const IconButtonWithResourceDisplayControl = withResourceDisplayControl(IconButton)
 
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
@@ -33,7 +31,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onDuplicate: PropTypes.func.isRequired,
   }
@@ -50,7 +48,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
     const { intl: { formatMessage } } = this.context
     const chain = this.props.entity.content
     return (
-      <IconButtonWithResourceDisplayControl
+      <ResourceIconAction
         className={`selenium-edit-${chain.id}`}
         title={formatMessage({ id: 'acquisition-chain.list.duplicate.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableDuplicateAction.iconStyle}
@@ -60,7 +58,7 @@ class AcquisitionProcessingChainTableDuplicateAction extends React.Component {
         displayLogic={allMatchHateoasDisplayLogic}
       >
         <ContentCopy />
-      </IconButtonWithResourceDisplayControl>
+      </ResourceIconAction>
     )
   }
 }

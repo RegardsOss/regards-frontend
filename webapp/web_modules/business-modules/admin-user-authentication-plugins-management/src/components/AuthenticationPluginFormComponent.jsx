@@ -51,11 +51,9 @@ export class AuthenticationPluginFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(props, 'pluginConfiguration.content', null),
-    }
+  /** Initial state */
+  state = {
+    selectedPlugin: get(this.props, 'pluginConfiguration.content', null),
   }
 
   selectPluginType = (plugin) => {
@@ -92,19 +90,18 @@ export class AuthenticationPluginFormComponent extends React.Component {
         />
         {selectedPluginId
           ? <PluginFormContainer
-            key={`plugin-conf-${selectedPluginId}`}
-            microserviceName={STATIC_CONF.MSERVICES.AUTHENTICATION}
-            pluginId={selectedPluginId}
-            pluginConfiguration={pluginConfiguration}
-            formMode={mode}
-            backUrl={backUrl}
-            cardStyle={false}
-            simpleGlobalParameterConf
-            hideDynamicParameterConf
-            onUpdatePluginConfiguration={onUpdate}
-            onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+              key={`plugin-conf-${selectedPluginId}`}
+              microserviceName={STATIC_CONF.MSERVICES.AUTHENTICATION}
+              pluginId={selectedPluginId}
+              pluginConfiguration={pluginConfiguration}
+              formMode={mode}
+              backUrl={backUrl}
+              cardStyle={false}
+              simpleGlobalParameterConf
+              hideDynamicParameterConf
+              onUpdatePluginConfiguration={onUpdate}
+              onCreatePluginConfiguration={onCreate}
+          /> : null}
       </div>
     )
   }
@@ -138,8 +135,7 @@ export class AuthenticationPluginFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

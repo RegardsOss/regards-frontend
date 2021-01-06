@@ -51,7 +51,8 @@ class AuthenticationContainer extends React.Component {
       scope, authDialogOpened, children,
     } = this.props
     const { intl: { formatMessage } } = this.context
-    const module = {
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const module = { // eslint wont fix: login title can only be resolved using context (accurate only in render)
       type: modulesManager.AllDynamicModuleTypes.AUTHENTICATION,
       active: true,
       conf: {
@@ -79,8 +80,8 @@ const mapStateToProps = (state, ownProps) => ({
   authDialogOpened: authenticationDialogSelectors.isAuthDialogOpen(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  toggleAuthenticationDialog: show => dispatch(authenticationDialogActions.toggleDialogDisplay(show)),
+const mapDispatchToProps = (dispatch) => ({
+  toggleAuthenticationDialog: (show) => dispatch(authenticationDialogActions.toggleDialogDisplay(show)),
 })
 
 export default withI18n(messages)(connect(mapStateToProps, mapDispatchToProps)(AuthenticationContainer))

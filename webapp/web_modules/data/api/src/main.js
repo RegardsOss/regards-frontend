@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 // We use this Normalizr schemas to transform API responses from a nested form
 // to a flat form where repos and users are placed in `entities`, and nested
 // JSON objects are replaced with their IDs. This is very convenient for
@@ -29,7 +28,7 @@
 export { AccountConfiguration, ACCOUNT, ACCOUNT_ARRAY } from './schemas/Account'
 export { ProjectConfiguration, PROJECT, PROJECT_ARRAY } from './schemas/Project'
 export { ProjectConnectionConfiguration, PROJECT_CONNECTION, PROJECT_CONNECTION_ARRAY } from './schemas/ProjectConnection'
-export { PROJECT_USER_ARRAY, PROJECT_USER, ProjectUserConfiguration } from './schemas/ProjectUser'
+export { PROJECT_USER_ARRAY, PROJECT_USER, ProjectUserConfiguration } from './access/ProjectUser'
 export { RoleConfiguration, ROLE, ROLE_ARRAY } from './schemas/Role'
 export { NOTIFICATION, NOTIFICATION_ARRAY, NotificationConfiguration } from './schemas/Notification'
 export { ModelConfiguration, MODEL, MODEL_ARRAY } from './schemas/Model'
@@ -85,3 +84,7 @@ export { ACQUISITION_PROCESSING_CHAIN, ACQUISITION_PROCESSING_CHAIN_ARRAY, Acqui
 export { ACQUISITION_PROCESSING_CHAIN_MONITOR_ARRAY, ACQUISITION_PROCESSING_CHAIN_MONITOR, AcquisitionProcessingChainMonitorConfiguration } from './data-provider/AcquisitionProcessingChainMonitor'
 export { PRODUCT_ARRAY, PRODUCT, ProductConfiguration } from './data-provider/Product'
 export { ACQUISITION_FILE_ARRAY, ACQUISITION_FILE, AcquisitionFileConfiguration } from './data-provider/AcquisitionFile'
+// Processing
+export { PROCESSING, PROCESSING_ARRAY, ProcessingConfiguration } from './processing/Processing'
+export { PROCESSING_MONITORING, PROCESSING_MONITORING_ARRAY, ProcessingMonitoringConfiguration } from './processing/ProcessingMonitoring'
+export { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY, LinkProcessingDatasetConfiguration } from './processing/LinkProcessingDataset'

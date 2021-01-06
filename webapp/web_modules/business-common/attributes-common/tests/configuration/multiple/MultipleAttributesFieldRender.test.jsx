@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { DamDomain } from '@regardsoss/domain'
 import MultipleAttributesFieldRender from '../../../src/configuration/multiple/MultipleAttributesFieldRender'
 import AvailableAttributesTable from '../../../src/configuration/multiple/available/AvailableAttributesTable'
@@ -43,25 +43,18 @@ describe('[Attributes Common] Testing MultipleAttributesFieldRender', () => {
     const props = {
       allowRendererSelection: true,
       attributeModels: attributeModelsArray,
-      fields: {
-        getAll: () => [{
-          name: 'attr2',
-          jsonPath: 'properties.attr2',
-          label: 'Attr2',
-          type: DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL,
-        }, {
-          name: 'id',
-          jsonPath: 'id',
-          label: 'Id',
-          type: DamDomain.MODEL_ATTR_TYPES.STRING,
-        }],
-        push: () => { },
-        remove: () => { },
-      },
-      meta: {
-        invalid: true,
-        error: 'idk',
-      },
+      fields: ReduxFormTestHelper.getFieldsProps([{
+        name: 'attr2',
+        jsonPath: 'properties.attr2',
+        label: 'Attr2',
+        type: DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL,
+      }, {
+        name: 'id',
+        jsonPath: 'id',
+        label: 'Id',
+        type: DamDomain.MODEL_ATTR_TYPES.STRING,
+      }]),
+      meta: ReduxFormTestHelper.getMetaFieldProps('idk', true),
       label: 'any',
       intl: context.intl,
     }

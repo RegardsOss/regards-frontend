@@ -22,9 +22,6 @@
  * @author Raphaël Mechali
  */
 const messages = {
-  // orders navigation
-  'order.list.navigation.command.label': 'Commande {number}',
-
   // orders table
   'no.order.information.title': 'Aucune commande trouvée',
   'no.order.information.message': 'Vous n\'avez actuellement aucune commande enregistrée.',
@@ -37,7 +34,7 @@ const messages = {
   'order.list.user.no.command.header.message': 'Vous n\'avez pas de commande',
   'order.list.user.commands.header.message': 'Vous avez {count} commande(s)',
   'order.list.column.owner': 'Utilisateur',
-  'order.list.column.number': 'Numéro',
+  'order.list.column.label': 'Libellé',
   'order.list.column.creation.date': 'Créée le',
   'order.list.column.expiration.date': 'Expire le',
   'order.list.column.object.count': 'Nombre d\'objets',
@@ -105,6 +102,8 @@ const messages = {
   'datasets.list.column.objects.count': 'Nombre d\'objets',
   'datasets.list.column.files.count': 'Nombre de fichiers',
   'datasets.list.column.files.size': 'Taille totale',
+  'datasets.list.column.processing': 'Traitement',
+  'datasets.list.column.processing.undefined': 'Non-défini',
   'datasets.list.column.options': 'Options',
   'datasets.list.option.cell.detail.title': 'Fichiers du jeu de données',
 
@@ -117,6 +116,7 @@ const messages = {
   'files.list.column.size': 'Taille',
   'files.list.column.type': 'Type MIME',
   'files.list.column.status': 'Statut',
+  'files.list.column.source': 'Source',
   'files.list.column.options': 'Options',
   'files.list.cell.status.PENDING.text': 'en attente',
   'files.list.cell.status.PENDING.tooltip': 'Ce fichier n\'est pas encore téléchargeable',
@@ -128,6 +128,8 @@ const messages = {
   'files.list.cell.status.DOWNLOADED.tooltip': 'Ce fichier a été téléchargé',
   'files.list.cell.status.DOWNLOAD_ERROR.text': 'erreur au téléchargement',
   'files.list.cell.status.DOWNLOAD_ERROR.tooltip': 'Une erreur est survenue lors du téléchargement',
+  'files.list.cell.status.PROCESSING_ERROR.text': 'erreur de traitement',
+  'files.list.cell.status.PROCESSING_ERROR.tooltip': 'Fichier non produit car le traitement a échoué',
   'files.list.cell.status.ERROR.text': 'erreur',
   'files.list.cell.status.ERROR.tooltip': 'Une erreur s\'est produite durant le téléchargement',
   'files.list.cell.status.UNKNOWN.text': 'inconnu',

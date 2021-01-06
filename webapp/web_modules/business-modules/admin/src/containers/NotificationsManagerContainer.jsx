@@ -24,7 +24,6 @@ import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
 import { waitingAccessUsersEntitiesActions } from '../clients/WaitingAccessUsersEntitiesClient'
 
-
 /** Notifications fetchers for project admin interface */
 const projectNotificationsFetchers = [
   // fetch project users waiting project administrator validation
@@ -66,7 +65,7 @@ class NotificationsManager extends React.Component {
     fetchMethods: PropTypes.arrayOf(PropTypes.func.isRequired).isRequired,
   }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.startTimer()
   }
 
@@ -78,7 +77,7 @@ class NotificationsManager extends React.Component {
     const { dependencies, availableEndpoints, authentication } = this.props
     // check required dependencies are met
     if (authentication.result && !authentication.sessionLocked && allMatchHateoasDisplayLogic(dependencies, availableEndpoints)) {
-      this.props.fetchMethods.forEach(method => method())
+      this.props.fetchMethods.forEach((method) => method())
     }
   }
 
@@ -109,7 +108,7 @@ const mapDispatchToProps = (dispatch, { isOnInstanceDashboard }) => {
     ? [instanceNotificationsFetchers, instanceNotificationsDependencies]
     : [projectNotificationsFetchers, projectNotificationsDependencies]
   return {
-    fetchMethods: fetchMethods.map(method => () => dispatch(method())),
+    fetchMethods: fetchMethods.map((method) => () => dispatch(method())),
     dependencies,
   }
 }

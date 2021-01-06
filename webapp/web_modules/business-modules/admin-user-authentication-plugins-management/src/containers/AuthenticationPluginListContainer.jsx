@@ -52,9 +52,9 @@ export class AuthenticationPluginListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
-      update: conf => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
+      update: (conf) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
         conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
-      delete: conf => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      delete: (conf) => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
     }
   }
 
@@ -71,7 +71,7 @@ export class AuthenticationPluginListContainer extends React.Component {
     delete: PropTypes.func.isRequired,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetch()
   }
 
@@ -81,9 +81,7 @@ export class AuthenticationPluginListContainer extends React.Component {
   }
 
   onActivateToggle = (entity) => {
-    this.props.update(Object.assign({}, entity, {
-      active: !entity.active,
-    })).then((actionResults) => {
+    this.props.update({ ...entity, active: !entity.active }).then((actionResults) => {
       this.props.fetch()
     })
   }

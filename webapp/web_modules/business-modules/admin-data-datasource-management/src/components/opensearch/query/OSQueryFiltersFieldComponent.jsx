@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import ActionDelete from 'mdi-material-ui/Delete'
 import Table from 'material-ui/Table/Table'
 import TableHeader from 'material-ui/Table/TableHeader'
@@ -54,18 +55,13 @@ class OSQueryFiltersFieldComponent extends React.Component {
     firstPageIndex: PropTypes.number.isRequired,
     invalid: PropTypes.bool,
     // From redux form
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
   }
-
 
   state = {
     dialogOpen: false,
@@ -108,7 +104,7 @@ class OSQueryFiltersFieldComponent extends React.Component {
     }
     // build parameters list from both fields and parent information
     const queryParameters = (fields.getAll() || [])
-      .filter(e => !!e.queryValue).map(e => `${e.name}=${e.queryValue}`)
+      .filter((e) => !!e.queryValue).map((e) => `${e.name}=${e.queryValue}`)
       .concat([ // page size and page index
         `${pageSizeParam}=${selectedPageSize}`,
         `${pageIndexParam}=${firstPageIndex}`,

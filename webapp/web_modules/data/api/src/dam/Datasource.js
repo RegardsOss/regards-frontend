@@ -24,7 +24,7 @@ export const DatasourceConfiguration = {
 }
 
 export const DATASOURCE = new Schema(DatasourceConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[DatasourceConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[DatasourceConfiguration.entityKey]
   ,
 })
 export const DATASOURCE_ARRAY = arrayOf(DATASOURCE)

@@ -70,8 +70,8 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
     assert.isTrue(dialog.props().open, 'Dialog should be opened')
     // 0b - check confirm / cancel buttons are displayed
     const buttons = enzymeWrapper.find(FlatButton)
-    assert.lengthOf(buttons.findWhere(n => n.props().onClick === props.onCancel), 1, 'There should be cancel button')
-    let confirmButton = buttons.findWhere(n => n.props().onClick === enzymeWrapper.instance().onConfirm)
+    assert.lengthOf(buttons.findWhere((n) => n.props().onClick === props.onCancel), 1, 'There should be cancel button')
+    let confirmButton = buttons.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onConfirm)
     assert.lengthOf(confirmButton, 1, 'There should be confirm button')
     assert.isFalse(confirmButton.props().disabled, 'Confirm button should be initially enabled, as there are selected elements (0)')
 
@@ -103,7 +103,7 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
       selected: false,
     }], '(2) Selection model should be correctly updated')
     // 2b - check state is correctly rendered
-    confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onConfirm)
+    confirmButton = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onConfirm)
     assert.lengthOf(confirmButton, 1, '(2) There should be confirm button')
     assert.isTrue(confirmButton.props().disabled, '(2) Confirm button should be disabled as no element is selected')
     selectionComponents = enzymeWrapper.find(AttributeSelectionComponent)
@@ -128,7 +128,7 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
       selected: false,
     }], '(3) Selection model should be correctly updated')
     // 3b - check state is correctly rendered
-    confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onConfirm)
+    confirmButton = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onConfirm)
     assert.lengthOf(confirmButton, 1, '(3) There should be confirm button')
     assert.isFalse(confirmButton.props().disabled, '(3) Confirm button should be enabled as there are selected elements')
     selectionComponents = enzymeWrapper.find(AttributeSelectionComponent)
@@ -153,7 +153,7 @@ describe('[Attributes Common] Testing AddManyDialog', () => {
       selected: true,
     }], '(4) Selection model should be correctly updated')
     // 4b - check state is correctly rendered
-    confirmButton = enzymeWrapper.findWhere(n => n.props().onClick === enzymeWrapper.instance().onConfirm)
+    confirmButton = enzymeWrapper.findWhere((n) => n.props().onClick === enzymeWrapper.instance().onConfirm)
     assert.lengthOf(confirmButton, 1, '(4) There should be confirm button')
     assert.isFalse(confirmButton.props().disabled, '(4) Confirm button should be enabled as there are selected elements')
     selectionComponents = enzymeWrapper.find(AttributeSelectionComponent)

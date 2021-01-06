@@ -26,7 +26,7 @@ import { HOCUtils } from '@regardsoss/display-control'
 import {
   PageableInfiniteTableContainer, AutoRefreshPageableTableHOC, TableColumnBuilder, TableLayout, TableHeaderLine,
   TableHeaderOptionsArea, TableHeaderContentBox, TableHeaderOptionGroup, TableHeaderLoadingComponent,
-  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent,
+  TableColumnsVisibilityOption, DateValueRender, StorageCapacityRender, NoContentComponent, StringValueRender,
 } from '@regardsoss/components'
 import { ORDER_DISPLAY_MODES } from '../../model/OrderDisplayModes'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
@@ -42,7 +42,7 @@ import StatusRender from './cells/StatusRender'
 
 // Column keys
 const OWNER_KEY = 'owner'
-const NUMBER_KEY = 'number'
+const LABEL_KEY = 'number'
 const CREATION_DATE_KEY = 'creation.date'
 const EXPIRATION_DATE_KEY = 'expiration.date'
 const OBJECTS_COUNT_KEY = 'objects.count'
@@ -104,7 +104,7 @@ class OrderListComponent extends React.Component {
   /** Default user columns visibiltiy */
   static DEFAULT_USER_COLUMNS_VISIBILITY = {
     // owner should not be display in user mode
-    [NUMBER_KEY]: true,
+    [LABEL_KEY]: true,
     [CREATION_DATE_KEY]: true,
     [EXPIRATION_DATE_KEY]: true,
     [OBJECTS_COUNT_KEY]: true,
@@ -118,7 +118,7 @@ class OrderListComponent extends React.Component {
   /** Default admin columns visibiltiy */
   static DEFAULT_ADMIN_COLUMNS_VISIBILITY = {
     [OWNER_KEY]: true,
-    [NUMBER_KEY]: true,
+    [LABEL_KEY]: true,
     [CREATION_DATE_KEY]: true,
     [EXPIRATION_DATE_KEY]: false,
     [OBJECTS_COUNT_KEY]: false,
@@ -235,16 +235,24 @@ class OrderListComponent extends React.Component {
           .label(formatMessage({ id: 'order.list.column.owner' }))
           .build() : null,
 
-      // number
-      new TableColumnBuilder(NUMBER_KEY).titleHeaderCell().propertyRenderCell('content.id')
-        .visible(get(columnsVisibility, NUMBER_KEY, true))
-        .label(formatMessage({ id: 'order.list.column.number' }))
+      // label
+      new TableColumnBuilder(LABEL_KEY).titleHeaderCell()
+        .propertyRenderCell('content.label', StringValueRender, { multilineDisplay: true })
+        .visible(get(columnsVisibility, LABEL_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.label' }))
         .build(),
 
       // Progress column
       new TableColumnBuilder(PROGRESS_KEY).titleHeaderCell().progressPercentRenderCell(OrderListComponent.getProgress)
         .visible(get(columnsVisibility, PROGRESS_KEY, true))
         .label(formatMessage({ id: 'order.list.column.progress' }))
+        .build(),
+
+      // Status column
+      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
+        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
+        .visible(get(columnsVisibility, STATUS_KEY, true))
+        .label(formatMessage({ id: 'order.list.column.status' }))
         .build(),
 
       // creation date
@@ -278,20 +286,13 @@ class OrderListComponent extends React.Component {
         .label(formatMessage({ id: 'order.list.column.errors.count' }))
         .build(),
 
-      // Status column
-      new TableColumnBuilder(STATUS_KEY).titleHeaderCell()
-        .valuesRenderCell([{ getValue: StatusRender.getStatus, RenderConstructor: StatusRender }])
-        .visible(get(columnsVisibility, STATUS_KEY, true))
-        .label(formatMessage({ id: 'order.list.column.status' }))
-        .build(),
-
       // Options column
       new TableColumnBuilder()
         .label(formatMessage({ id: 'order.list.column.options' }))
         .optionsColumn(this.buildOptions())
         .visible(get(columnsVisibility, TableColumnBuilder.optionsColumnKey, true))
         .build(),
-    ].filter(c => !!c) // remove null elements
+    ].filter((c) => !!c) // remove null elements
   }
 
   render() {

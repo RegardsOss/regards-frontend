@@ -17,14 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import IconButton from 'material-ui/IconButton'
 import EditIcon from 'mdi-material-ui/Pencil'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-// define Hatoas capable icon button (exported for tests)
-export const HatoasIconButton = withHateoasDisplayControl(IconButton)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
 /**
  * Edit project user component option
@@ -32,7 +29,7 @@ export const HatoasIconButton = withHateoasDisplayControl(IconButton)
  */
 class EditProjectUserComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onEdit: PropTypes.func.isRequired,
   }
@@ -54,7 +51,7 @@ class EditProjectUserComponent extends React.Component {
     const { intl: { formatMessage } } = this.context
 
     return (
-      <HatoasIconButton
+      <HateoasIconAction
         className="selenium-editButton"
         disabled={isLoading}
         title={formatMessage({ id: 'projectUser.list.table.action.edit.tooltip' })}
@@ -65,7 +62,7 @@ class EditProjectUserComponent extends React.Component {
         disableInsteadOfHide
       >
         <EditIcon />
-      </HatoasIconButton>
+      </HateoasIconAction>
     )
   }
 }

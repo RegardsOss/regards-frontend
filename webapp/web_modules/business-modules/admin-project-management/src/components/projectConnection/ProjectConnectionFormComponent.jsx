@@ -22,9 +22,7 @@ import Checkbox from 'material-ui/Checkbox'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import MainActionButtonComponent from '@regardsoss/components/src/cards/MainActionButtonComponent'
-import SecondaryActionButtonComponent from '@regardsoss/components/src/cards/SecondaryActionButtonComponent'
-import { FormErrorMessage } from '@regardsoss/components'
+import { MainActionButtonComponent, SecondaryActionButtonComponent, FormErrorMessage } from '@regardsoss/components'
 import {
   RenderTextField, Field, ErrorTypes, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'

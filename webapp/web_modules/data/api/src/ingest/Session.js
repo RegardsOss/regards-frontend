@@ -25,6 +25,6 @@ export const SessionConfiguration = {
 }
 
 export const SESSION = new Schema(SessionConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[SessionConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[SessionConfiguration.entityKey],
 })
 export const SESSION_ARRAY = arrayOf(SESSION)

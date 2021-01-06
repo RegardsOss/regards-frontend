@@ -36,7 +36,6 @@ export const listServiceRoute = {
   },
 }
 
-
 /**
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
@@ -52,7 +51,6 @@ export const listConfigurationServiceRoute = {
     })
   },
 }
-
 
 export const editServiceConfigurationRoute = {
   path: ':uiPluginId/:uiPluginConfId/:mode',
@@ -76,7 +74,6 @@ export const createServiceConfigurationRoute = {
     })
   },
 }
-
 
 /**
  *

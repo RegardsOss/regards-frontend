@@ -64,19 +64,13 @@ export class DBDatasourceFormContainer extends React.Component {
     fetchPluginMetaDataList: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-
-    const isCreating = props.params.datasourceId === undefined
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      isLoading: true,
-      state: states.FORM_ATTRIBUTE,
-      currentDatasource: null,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    isLoading: true,
+    state: states.FORM_ATTRIBUTE,
+    currentDatasource: null,
   }
-
 
   componentDidMount() {
     const tasks = [
@@ -93,7 +87,7 @@ export class DBDatasourceFormContainer extends React.Component {
       })
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if ((this.state.currentDatasource == null || this.props.currentDatasource == null) && nextProps.currentDatasource != null) {
       this.setState({
         currentDatasource: cloneDeep(nextProps.currentDatasource),
@@ -104,7 +98,7 @@ export class DBDatasourceFormContainer extends React.Component {
   getCurrentPluginMetaData = () => {
     const { currentDatasource } = this.state
     const { pluginMetaDataList } = this.props
-    return find(pluginMetaDataList, pluginMetaData => pluginMetaData.content.pluginId === currentDatasource.content.pluginId)
+    return find(pluginMetaDataList, (pluginMetaData) => pluginMetaData.content.pluginId === currentDatasource.content.pluginId)
   }
 
   getFormAttributeBackUrl = () => {
@@ -203,7 +197,7 @@ export class DBDatasourceFormContainer extends React.Component {
       })
     } else {
       // Recompute the parameters array, without refreshRate nor tags
-      const parametersWithNewRefreshRate = reject(currentDatasource.content.parameters, parameter => (
+      const parametersWithNewRefreshRate = reject(currentDatasource.content.parameters, (parameter) => (
         parameter.name === IDBDatasourceParamsEnum.REFRESH_RATE || parameter.name === IDBDatasourceParamsEnum.TAGS
       ))
       // Add the refresh rate
@@ -245,9 +239,9 @@ export class DBDatasourceFormContainer extends React.Component {
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.TAGS))
     newParameters.push(findParam(currentDatasource, IDBDatasourceParamsEnum.MODEL))
     forEach(formValuesSubset.attributes, (attribute, attributeName) => {
-      const modelAttr = find(modelAttributeList, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+      const modelAttr = find(modelAttributeList, (modelAttribute) => modelAttribute.content.attribute.name === attributeName)
       // Is this a static attribute ?
-      const modelAttrStatic = find(StaticAttributeListDB, modelAttribute => modelAttribute.content.attribute.name === attributeName)
+      const modelAttrStatic = find(StaticAttributeListDB, (modelAttribute) => modelAttribute.content.attribute.name === attributeName)
 
       const newAttributeMapping = {
         name: attributeName,
@@ -298,7 +292,6 @@ export class DBDatasourceFormContainer extends React.Component {
       this.handleCreate(currentDatasource)
     }
   }
-
 
   handleFormMappingBack = () => {
     this.setState({
@@ -354,9 +347,9 @@ const mapStateToProps = (state, ownProps) => ({
   pluginMetaDataList: pluginMetaDataSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
-  createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
+  createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
   updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   fetchPluginMetaDataList: () => dispatch(pluginMetaDataActions.fetchEntityList(
     {

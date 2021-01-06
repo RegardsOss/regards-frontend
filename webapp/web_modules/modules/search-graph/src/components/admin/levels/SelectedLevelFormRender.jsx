@@ -18,6 +18,7 @@
  **/
 import filter from 'lodash/filter'
 import find from 'lodash/find'
+import { fieldArrayFieldsPropTypes, fieldMetaPropTypes } from 'redux-form'
 import {
   TableLayout, TableHeaderLine, InfiniteTableContainer, TableHeaderOptionsArea, TableColumnBuilder,
   TableHeaderOptionGroup, TableHeaderContentBox, TableHeaderText, TableNoDataMessage,
@@ -35,15 +36,8 @@ class SelectedLevelFormRender extends React.Component {
   static propTypes = {
     // values pool as fetched and normalized
     collectionModels: DataManagementShapes.ModelList.isRequired,
-    meta: PropTypes.shape({
-      touched: PropTypes.bool,
-      invalid: PropTypes.bool,
-      error: PropTypes.string,
-    }),
-    // from redux form
-    // the selected value as fields object (holds selected levels IDs)
-    // eslint-disable-next-line react/forbid-prop-types
-    fields: PropTypes.object.isRequired,
+    meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
   }
 
   static contextTypes = {
@@ -135,8 +129,7 @@ class SelectedLevelFormRender extends React.Component {
               error={invalid}
               text={formatMessage(
                 { id: invalid ? error : 'search.graph.levels.selection.header.message' },
-                { count: selectedLevels.length })
-              }
+                { count: selectedLevels.length })}
             />
           </TableHeaderContentBox>
           {/* 2 - table options  */}

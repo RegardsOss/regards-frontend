@@ -33,7 +33,7 @@ function getInputFieldProps(name, value) {
   }
 }
 
-function getMetaFieldProps(error, invalid) {
+function getMetaFieldProps(error = undefined, invalid = false) {
   return {
     active: true,
     asyncValidating: true,
@@ -59,26 +59,47 @@ function getMetaFieldProps(error, invalid) {
  * @return {*} partially filled redux mock (fill as required...)
  */
 function getFieldsProps(initialValue = [], name = 'anything') {
-  const currentValue = [...initialValue]
-  return {
-    name,
-    forEach: () => {},
-    get: index => currentValue[index],
-    insert: () => {},
-    getAll: () => currentValue,
-    length: currentValue.length,
-    map: () => {},
-    move: () => {},
-    pop: () => currentValue.slice(0, -1),
-    push: () => {},
-    remove: () => {},
-    removeAll: () => {},
-    shift: () => currentValue.slice(1),
-    splice: () => {},
-    swap: () => {},
-    unshift: () => {},
-    reduce: () => {},
-  }
+  return (new class FieldsStub {
+    name = name
+
+    currentValue = [...initialValue]
+
+    forEach = () => {}
+
+    get = (index) => this.currentValue[index]
+
+    insert = () => {}
+
+    getAll = () => this.currentValue
+
+    length = this.currentValue.length
+
+    map = (f) => this.currentValue.map((member, index) => f(member, index, this))
+
+    move = () => {}
+
+    pop = () => this.currentValue.slice(0, -1)
+
+    push = (e) => {
+      this.currentValue.push(e)
+    }
+
+    remove = (i) => {
+      this.currentValue = this.currentValue.filter((v, vI) => vI !== i)
+    }
+
+    removeAll = () => {}
+
+    shift = () => this.currentValue.slice(1)
+
+    splice = () => {}
+
+    swap = () => {}
+
+    unshift = () => {}
+
+    reduce = () => {}
+  }())
 }
 
 export default {

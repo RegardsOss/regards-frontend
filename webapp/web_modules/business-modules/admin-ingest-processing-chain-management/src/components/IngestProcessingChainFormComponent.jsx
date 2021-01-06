@@ -18,6 +18,7 @@
  **/
 import trim from 'lodash/trim'
 import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
@@ -31,7 +32,7 @@ import {
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { RenderPluginField } from '@regardsoss/microservice-plugin-configurator'
+import { RenderPluginField, PluginFormUtils } from '@regardsoss/microservice-plugin-configurator'
 import { ImportFromFileDialogButton } from '@regardsoss/file-utils'
 import IngestProcessingPluginTypes from './IngestProcessingPluginType'
 import messages from '../i18n'
@@ -63,11 +64,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.processingChain === undefined,
-    }
+  state = {
+    isCreating: this.props.processingChain === undefined,
   }
 
   componentDidMount() {
@@ -110,6 +108,16 @@ export class IngestProcessingChainFormComponent extends React.Component {
     }
   }
 
+  onSubmit = (fields) => {
+    const formatedFields = cloneDeep(fields)
+    formatedFields.preProcessingPlugin = PluginFormUtils.formatPluginConf(fields.preProcessingPlugin ? fields.preProcessingPlugin : null)
+    formatedFields.validationPlugin = PluginFormUtils.formatPluginConf(fields.validationPlugin ? fields.validationPlugin : null)
+    formatedFields.generationPlugin = PluginFormUtils.formatPluginConf(fields.generationPlugin ? fields.generationPlugin : null)
+    formatedFields.tagPlugin = PluginFormUtils.formatPluginConf(fields.tagPlugin ? fields.tagPlugin : null)
+    formatedFields.postProcessingPlugin = PluginFormUtils.formatPluginConf(fields.postProcessingPlugin ? fields.postProcessingPlugin : null)
+    return this.props.onSubmit(formatedFields)
+  }
+
   render() {
     const { invalid, submitting, processingChain } = this.props
     const { isCreating } = this.state
@@ -123,13 +131,8 @@ export class IngestProcessingChainFormComponent extends React.Component {
     return (
       <Card>
         {this.state.isCreating
-          ? <CardTitle
-            title={formatMessage({ id: 'processing-chain.form.create.title' })}
-          />
-          : <CardTitle
-            title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })}
-          />
-        }
+          ? <CardTitle title={formatMessage({ id: 'processing-chain.form.create.title' })} />
+          : <CardTitle title={formatMessage({ id: 'processing-chain.form.edit.title' }, { name: processingChain.name })} />}
         {// import button (when creating only)
           isCreating ? (
             <ImportFromFileDialogButton
@@ -139,7 +142,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
             />) : null
         }
         <form
-          onSubmit={this.props.handleSubmit(this.props.onSubmit)}
+          onSubmit={this.props.handleSubmit(this.onSubmit)}
         >
           <CardText>
             <Field
@@ -165,7 +168,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.PRE_PROCESSING,
               preprocessingPlugin,
-              'preprocessingPlugin',
+              'preProcessingPlugin',
             )}
             {this.getPluginConfigurator(
               2, formatMessage({ id: 'processing-chain.form.validation.plugin.label' }),
@@ -195,7 +198,7 @@ export class IngestProcessingChainFormComponent extends React.Component {
               formatMessage({ id: 'processing-chain.form.plugins.none.selected' }),
               IngestProcessingPluginTypes.POST_PROCESSING,
               postprocessingPlugin,
-              'postprocessingPlugin',
+              'postProcessingPlugin',
             )}
           </CardText>
           <CardActions>
@@ -223,8 +226,8 @@ function validate(fieldValues) {
 }
 
 const selector = formValueSelector('plugin-configuration-form')
-const mapStateToProps = state => ({
-  getField: field => selector(state, field),
+const mapStateToProps = (state) => ({
+  getField: (field) => selector(state, field),
 })
 
 const ConnectedComponent = connect(mapStateToProps)(IngestProcessingChainFormComponent)

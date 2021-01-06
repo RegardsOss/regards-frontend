@@ -62,10 +62,10 @@ class BasicPageableActions extends BasicListActions {
   /**
    * Fetch a page of entities
    *
-   * @param pageNumber pagination param : page number to request
-   * @param size pagination param : number of elements for the asked page
-   * @param pathParams [optional] path parameters to replace in endpoint uri
-   * @param queryParams [optional] query path parameters to add to the end of the endpoint uri
+   * @param {number}pageNumber pagination param : page number to request
+   * @param {number}size pagination param : number of elements for the asked page
+   * @param {*} pathParams [optional] path parameters to replace in endpoint uri
+   * @param {*} queryParams [optional] query path parameters to add to the end of the endpoint uri
    * @returns {*} redux action to dispatch
    */
   fetchPagedEntityList(pageNumber, size, pathParams, queryParams) {
@@ -77,7 +77,7 @@ class BasicPageableActions extends BasicListActions {
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesPagePayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],
@@ -88,6 +88,16 @@ class BasicPageableActions extends BasicListActions {
     }
   }
 
+  /**
+   * Fetch a page of entities
+   *
+   * @param {number} pageNumber pagination param : page number to request
+   * @param {number} size pagination param : number of elements for the asked page
+   * @param {*} pathParams [optional] path parameters to replace in endpoint uri
+   * @param {*} queryParams [optional] query path parameters to add to the end of the endpoint uri
+   * @param {*} bodyParams [option] bodyParams to use for requests
+   * @returns {*} redux action to dispatch
+   */
   fetchPagedEntityListByPost(pageNumber, size, pathParams, queryParams, bodyParams) {
     // Compute the endpoint URI
     const endpoint = this.getRequestEndpoint(pageNumber, size, pathParams, queryParams)
@@ -97,7 +107,7 @@ class BasicPageableActions extends BasicListActions {
           this.ENTITY_LIST_REQUEST,
           this.buildSuccessAction(
             this.ENTITY_LIST_SUCCESS,
-            (action, state, res) => BasicListActions.extractPayload(res, json => this.normalizeEntitiesPagePayload(json)),
+            (action, state, res) => BasicListActions.extractPayload(res, (json) => this.normalizeEntitiesPagePayload(json)),
           ),
           this.buildFailureAction(this.ENTITY_LIST_FAILURE),
         ],

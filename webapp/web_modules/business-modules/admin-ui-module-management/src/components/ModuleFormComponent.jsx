@@ -36,7 +36,6 @@ import {
 } from '@regardsoss/form-utils'
 import { AccessShapes } from '@regardsoss/shape'
 import DynamicModuleFormComponent from './DynamicModuleFormComponent'
-import Styles from '../styles/styles'
 
 /**
  * React component to display and configure a given module
@@ -58,6 +57,7 @@ class ModuleFormComponent extends React.Component {
       isEditing: PropTypes.bool,
       changeField: PropTypes.func,
       // Current module configuration. Values from the redux-form
+      // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
     }),
     // from reduxForm
@@ -82,40 +82,41 @@ class ModuleFormComponent extends React.Component {
     },
   }
 
-  constructor(props) {
-    super(props)
+  /** Initial state */
+  state = (() => {
     let dynamicContainerSelected
-    const moduleSelected = props.adminForm.isEditing || props.adminForm.isDuplicating
+    const moduleSelected = this.props.adminForm.isEditing || this.props.adminForm.isDuplicating
     if (moduleSelected) {
       dynamicContainerSelected = find(
         this.props.containers,
-        container => container.id === this.props.module.container && container.dynamicContent,
+        (container) => container.id === this.props.module.container && container.dynamicContent,
       )
     }
-    this.state = {
+    return {
       moduleSelected,
       dynamicContainerSelected,
       module: this.props.module,
     }
-  }
+  })()
 
   componentDidMount() {
     this.handleInitialize()
   }
 
   handleInitialize = () => {
-    const initializeModule = Object.assign({
+    const initializeModule = {
       applicationId: this.props.applicationId,
       active: false,
       page: {
         home: false,
       },
-    }, this.state.module)
+      ...this.state.module,
+    }
     this.props.initialize(initializeModule)
   }
 
   selectContainer = (event, index, containerId, input) => {
-    const container = find(this.props.containers, cont => cont.id === containerId)
+    const container = find(this.props.containers, (cont) => cont.id === containerId)
     input.onChange(containerId)
     this.setState({
       dynamicContainerSelected: container.dynamicContent,
@@ -144,9 +145,8 @@ class ModuleFormComponent extends React.Component {
   /**
    * Renders static module configuration part
    */
-  renderStaticModuleConfiguration = (style) => {
-    const containerFieldStyle = { marginBottom: 15 }
-    const { intl: { formatMessage } } = this.context
+  renderStaticModuleConfiguration = () => {
+    const { intl: { formatMessage }, moduleTheme: { form } } = this.context
     return (
       <div>
         <Field
@@ -165,8 +165,7 @@ class ModuleFormComponent extends React.Component {
               key={id}
               primaryText={module}
             />
-          ))
-          }
+          ))}
         </Field>
         <Field
           name="description"
@@ -177,7 +176,7 @@ class ModuleFormComponent extends React.Component {
           validate={ValidationHelpers.required}
         />
         <Field
-          style={containerFieldStyle}
+          style={form.containerFieldStyle}
           name="container"
           fullWidth
           component={RenderSelectField}
@@ -186,7 +185,7 @@ class ModuleFormComponent extends React.Component {
           label={formatMessage({ id: 'module.form.container' })}
           validate={ValidationHelpers.required}
         >
-          {map(this.props.containers, container => (
+          {map(this.props.containers, (container) => (
             <MenuItem
               value={container.id}
               key={container.id}
@@ -292,8 +291,8 @@ class ModuleFormComponent extends React.Component {
       pristine, submitting, handleSubmit, onSubmit, onBack, invalid,
     } = this.props
     const { dynamicContainerSelected, moduleSelected } = this.state
-    const style = Styles(this.context.muiTheme)
     const { isDuplicating, isCreating } = this.props.adminForm
+    const { intl: { formatMessage }, moduleTheme: { form } } = this.context
 
     let title = 'module.form.title.update'
     if (isDuplicating) {
@@ -310,33 +309,33 @@ class ModuleFormComponent extends React.Component {
           {/* 1. render common modules configuration */}
           <Card>
             <CardTitle
-              title={this.context.intl.formatMessage({ id: title })}
-              style={style.cardTitleLessSpaced}
+              title={formatMessage({ id: title })}
+              style={form.cardTitleLessSpaced}
             />
-            <CardText id="staticFields" style={style.cardContentLessSpaced}>
-              {this.renderStaticModuleConfiguration(style)}
+            <CardText id="staticFields" style={form.cardContentLessSpaced}>
+              {this.renderStaticModuleConfiguration(form)}
             </CardText>
           </Card>
 
           {/* 2. render dynamic modules page configuration */
             dynamicContainerSelected ? (
-              <Card style={style.cardEspaced}>
+              <Card style={form.cardEspaced}>
                 <CardTitle
-                  style={style.cardTitleLessSpaced}
-                  title={this.context.intl.formatMessage({ id: 'module.form.page.settings.title' })}
+                  style={form.cardTitleLessSpaced}
+                  title={formatMessage({ id: 'module.form.page.settings.title' })}
                 />
-                <CardText id="pageFields" style={style.cardContentLessSpaced}>
-                  {this.renderModulePageConfiguration(style)}
+                <CardText id="pageFields" style={form.cardContentLessSpaced}>
+                  {this.renderModulePageConfiguration(form)}
                 </CardText>
               </Card>) : null
           }
 
           {/* 3. render specific dynamic module configuration */
             moduleSelected ? (
-              <Card style={style.cardEspaced}>
+              <Card style={form.cardEspaced}>
                 <CardTitle
-                  style={style.cardTitleLessSpaced}
-                  title={this.context.intl.formatMessage({ id: 'module.form.module.settings.title' })}
+                  style={form.cardTitleLessSpaced}
+                  title={formatMessage({ id: 'module.form.module.settings.title' })}
                 />
                 <CardText id="dynamicFields">
                   {this.renderDynamicModuleConfiguration()}
@@ -345,13 +344,13 @@ class ModuleFormComponent extends React.Component {
           }
 
           {/* 4. render buttons */}
-          <Card style={style.cardEspaced}>
+          <Card style={form.cardEspaced}>
             <CardActions>
               <CardActionsComponent
-                mainButtonLabel={this.context.intl.formatMessage({ id: isCreating ? 'module.form.submit.button' : 'module.form.update.button' })}
+                mainButtonLabel={formatMessage({ id: isCreating ? 'module.form.submit.button' : 'module.form.update.button' })}
                 mainButtonType="submit"
                 isMainButtonDisabled={pristine || submitting || invalid}
-                secondaryButtonLabel={this.context.intl.formatMessage({ id: 'module.form.cancel.button' })}
+                secondaryButtonLabel={formatMessage({ id: 'module.form.cancel.button' })}
                 secondaryButtonClick={onBack}
               />
             </CardActions>
@@ -370,4 +369,4 @@ const formName = 'edit-module-form'
 const form = reduxForm({ form: formName })(ModuleFormComponent)
 // apply selector: page icon type
 const selector = formValueSelector(formName)
-export default connect(state => ({ currentPageIconType: selector(state, 'page.iconType') }))(form)
+export default connect((state) => ({ currentPageIconType: selector(state, 'page.iconType') }))(form)

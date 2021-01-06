@@ -58,7 +58,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryParameterSelectField
     const menuItems = field.find(MenuItem)
     assert.lengthOf(menuItems, props.filterParameter.option.length, 'There should be one menu item for each option')
     props.filterParameter.option.forEach((option) => {
-      const optionItem = menuItems.findWhere(n => n.props().value === option.value)
+      const optionItem = menuItems.findWhere((n) => n.props().value === option.value)
       assert.lengthOf(optionItem, 1, `There should be option "${option.label || option.value}"`)
       if (option.label) {
         assert.equal(optionItem.props().primaryText, option.label, `Option should be labelled ${option.label}`)

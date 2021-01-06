@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { buildSplitResizerStyle } from '@regardsoss/components'
 
 /**
  * Module styles builder
  * @param {*} theme base Material UI theme
  * @return {*} module theme object
  */
-const styles = theme => ({
+const styles = (theme) => ({
   admin: {
     topSeparator: {
       marginTop: 40,
@@ -124,12 +125,21 @@ const styles = theme => ({
     },
     main: {
       root: {
-        display: 'flex',
-        alignItems: 'stretch',
-        flexGrow: 1,
-        flexShrink: 1,
-        minHeight: 0,
+        flex: '1 1 0%',
+        position: 'relative',
       },
+      paneStyle: {
+        minWidth: theme.module.description.tree.minWidth,
+      },
+      pane2Style: {
+        flex: '1 1 0%',
+        alignItems: 'strecth',
+        position: 'relative',
+        outline: 'none',
+        display: 'flex',
+        minWidth: theme.module.description.content.minWidth,
+      },
+      resizer: buildSplitResizerStyle(theme),
       tree: {
         scrollArea: {
           flexBasis: theme.module.description.tree.width,
@@ -245,7 +255,7 @@ const styles = theme => ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            padding: theme.module.description.contentPadding,
+            padding: theme.module.description.content.padding,
           },
           elementContainer: {
             display: 'flex',
@@ -257,13 +267,12 @@ const styles = theme => ({
             flexGrow: 0,
             flexShrink: 0,
           },
-          rigthIconButton: {
+          rightIconButton: {
             flexGrow: 0,
             flexShrink: 0,
             width: theme.module.description.listPage.rightIconButton.size,
             height: theme.module.description.listPage.rightIconButton.size,
             padding: theme.module.description.listPage.rightIconButton.padding,
-            margin: theme.module.description.listPage.rightIconButton.margin,
           },
           textCell: {
             flexGrow: 1,
@@ -274,6 +283,7 @@ const styles = theme => ({
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             cursor: 'default',
+            margin: theme.module.description.listPage.element.margin,
           },
           linkAndIconCell: {
             flexGrow: 1,
@@ -281,6 +291,7 @@ const styles = theme => ({
             display: 'flex',
             alignItems: 'center',
             cursor: 'pointer',
+            margin: theme.module.description.listPage.element.margin,
           },
           linkText: {
             flexGrow: 1,
@@ -299,7 +310,7 @@ const styles = theme => ({
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'stretch',
-            padding: theme.module.description.contentPadding,
+            padding: theme.module.description.content.padding,
           },
           thumbnail: {
             display: 'block',
@@ -308,6 +319,7 @@ const styles = theme => ({
             margin: theme.module.description.parameters.thumbnail.margin,
             objectFit: 'contain',
             alignSelf: 'flex-start',
+            cursor: 'zoom-in',
             flexGrow: 0,
             flexShrink: 0,
           },

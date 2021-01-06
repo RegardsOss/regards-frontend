@@ -64,11 +64,11 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryConfigurationCompone
 
     // Check last update parameter and pages size field
     const fields = wrapper.find(Field)
-    assert.lengthOf(fields.findWhere(n => n.props().name === 'lastUpdateParam'), 1, ' There should be last update parameter field')
-    assert.lengthOf(fields.findWhere(n => n.props().name === 'pagesSize'), 1, ' There should be pages size field')
+    assert.lengthOf(fields.findWhere((n) => n.props().name === 'lastUpdateParam'), 1, ' There should be last update parameter field')
+    assert.lengthOf(fields.findWhere((n) => n.props().name === 'pagesSize'), 1, ' There should be pages size field')
     // Check parameters list
     const fieldArrays = wrapper.find(FieldArray)
-    const parametersField = fieldArrays.findWhere(n => n.props().name === 'webserviceParameters')
+    const parametersField = fieldArrays.findWhere((n) => n.props().name === 'webserviceParameters')
     assert.lengthOf(parametersField, 1, 'There should parameters field array')
     testSuiteHelpers.assertWrapperProperties(parametersField, {
       component: OSQueryFiltersFieldComponent,

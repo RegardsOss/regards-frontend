@@ -24,7 +24,7 @@ export const ModelAttributeConfiguration = {
 }
 
 export const MODEL_ATTRIBUTE = new Schema(ModelAttributeConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ModelAttributeConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[ModelAttributeConfiguration.entityKey]
   ,
 })
 export const MODEL_ATTRIBUTE_ARRAY = arrayOf(MODEL_ATTRIBUTE)

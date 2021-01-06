@@ -21,8 +21,9 @@
  * Styles dialog components
  * @param theme
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
-const styles = theme => ({
+const styles = (theme) => ({
   dialogCommon: {
     actionsContainerStyle: {
       backgroundColor: theme.palette.canvasColor,
@@ -84,6 +85,23 @@ const styles = theme => ({
     },
     checkboxStyle: {
       maxWidth: '60%',
+    },
+  },
+  helpDialog: {
+    iconStyle: {
+      height: '23px',
+      width: '23px',
+    },
+    buttonStyle: {
+      paddingTop: '14px',
+      height: '30px',
+      width: '30px',
+    },
+    linkDivStyle: {
+      paddingTop: '10px',
+    },
+    linkStyle: {
+      color: theme.palette.textColor,
     },
   },
 })

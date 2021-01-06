@@ -21,7 +21,7 @@ import { Locales } from '@regardsoss/form-utils'
 /**
  * @author Sébastien Binda
  */
-const messages = Object.assign({
+const messages = {
   'user.authentication.plugins.list.title': 'Configuration des systèmes d\'authentification',
   'user.authentication.plugins.list.subtitle': 'Cette section vous permet de configurer les méthodes d\'authentification au système REGARDS pour le projet courant. Par défaut, le système d\'authentification est un système interne utilisant les informations de connexion fournies par les utilisateurs lors de la création de leur compte.',
   'user.authentication.plugins.list.header.id.label': 'Identifiant',
@@ -47,7 +47,7 @@ const messages = Object.assign({
   'user.authentication.plugins.form.back.button': 'Annuler',
 
   'user.authentication.plugins.list.confirm.delete.title': 'Supprimer le système d\'authentification sélectionné?',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

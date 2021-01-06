@@ -17,15 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  import IconButton from 'material-ui/IconButton'
  **/
-import IconButton from 'material-ui/IconButton'
 import AvReplay from 'mdi-material-ui/Replay'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { ResourceIconAction, TableSelectionModes } from '@regardsoss/components'
 import dependencies from '../../dependencies'
-
-/** HATEOAS-able button, exported for tests */
-export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Table option to delete Request files on every local storage
@@ -46,7 +42,7 @@ class RequestRetryOption extends React.Component {
    */
   onClick = () => {
     const { entity, onRetry } = this.props
-    onRetry(entity)
+    onRetry(TableSelectionModes.includeSelected, [entity])
   }
 
   render() {

@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'microservice-management.rs-access-project.description': 'Configure service for UI configuration',
   'microservice-management.rs-access-instance.description': 'Configure service for UI configuration (portal interface)',
   'microservice-management.rs-admin.description': 'Configure the microservice managing the system\'s administration',
@@ -33,6 +33,7 @@ const messages = Object.assign({
   'microservice-management.rs-dataprovider.description': 'Configure the data provider service. This service generate SIPs from new files scanned and sent them to the rs-ingest microservice.',
   'microservice-management.rs-fem.description': 'GeoJSON feature catalog with optional data storage management',
   'microservice-management.rs-notifier.description': ' Production ready notification service',
+  'microservice-management.rs-processing.description': 'Configure service for processing configuration',
 
   'microservice-management.configuration.tooltip': 'Configure',
   'microservice-management.plugins.tooltip': 'Plugins',
@@ -88,7 +89,6 @@ const messages = Object.assign({
 
   'microservice-management.plugin.configurations.empty': 'No configuration defined',
 
-
   'renderer.fileField.button.select.label': 'Select a JSON file',
   'microservice.conf-backup.title': 'Import and export {name} configuration',
   'microservice.conf-backup.action.export': 'Export',
@@ -102,7 +102,7 @@ const messages = Object.assign({
   'microservice-management.backup-conf.tooltip': 'Manage backups',
 
   'plugin.description.more': 'More details ...',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

@@ -22,7 +22,6 @@ import { projectUserSettingsActions } from './clients/ProjectUserSettingsClient'
 import { roleActions } from './clients/RoleClient'
 import { accessGroupActions } from './clients/AccessGroupClient'
 
-
 /**
  * Module hateoas depencies
  * @author Sébastien binda

@@ -52,7 +52,6 @@ export const editAttributeModelRoute = {
   },
 }
 
-
 const modelDataManagementRouter = {
   childRoutes: [
     listAttributeModelRoute,

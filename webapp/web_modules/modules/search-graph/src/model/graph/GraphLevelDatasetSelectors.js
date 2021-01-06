@@ -47,10 +47,10 @@ export default instance
  * @returns {Function} Returns the built predicate
  * @author Xavier-Alexandre Brochard
  */
-const tagsACollectionIn = collections => (dataset) => {
+const tagsACollectionIn = (collections) => (dataset) => {
   const collectionIds = keys(collections)
   const tags = get(dataset, 'content.tags')
-  return some(tags, tag => includes(collectionIds, tag))
+  return some(tags, (tag) => includes(collectionIds, tag))
 }
 
 /**
@@ -63,8 +63,8 @@ const tagsACollectionIn = collections => (dataset) => {
  * @see https://thor.si.c-s.fr/gf/project/regards/tracker/?action=TrackerItemEdit&tracker_item_id=161595
  * @author Xavier-Alexandre Brochard
  */
-const getTerminalDatasetsNotMemoized = partitionKey => createSelector(
-  [state => instance.getDatasets(state, partitionKey), state => graphLevelCollectionsSelectors.getCollections(state, partitionKey)],
+const getTerminalDatasetsNotMemoized = (partitionKey) => createSelector(
+  [(state) => instance.getDatasets(state, partitionKey), (state) => graphLevelCollectionsSelectors.getCollections(state, partitionKey)],
   (datasets, collections) => omitBy(datasets, tagsACollectionIn(collections)),
 )
 

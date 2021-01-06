@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import FlatButton from 'material-ui/FlatButton'
+import DetailIcon from 'mdi-material-ui/HelpCircle'
 import get from 'lodash/get'
 import find from 'lodash/find'
 import map from 'lodash/map'
 import DropDownMenu from 'material-ui/DropDownMenu'
 import Divider from 'material-ui/Divider'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
 import { CommonShapes } from '@regardsoss/shape'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
@@ -58,15 +59,12 @@ export class PluginListComponent extends React.Component {
 
   static menuStyles = { top: '-7px' }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPluginId: props.defaultSelectedPluginId,
-      descriptionOpen: false,
-    }
+  state = {
+    selectedPluginId: this.props.defaultSelectedPluginId,
+    descriptionOpen: false,
   }
 
-  componentWillReceiveProps(newProps) {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (this.props.defaultSelectedPluginId !== newProps.defaultSelectedPluginId) {
       this.setState({
         selectedPluginId: newProps.defaultSelectedPluginId,
@@ -79,7 +77,7 @@ export class PluginListComponent extends React.Component {
    */
   handleSelect = (event, index, pluginId) => {
     this.setState({ selectedPluginId: pluginId })
-    const plugin = find(this.props.pluginList, p => p.content.pluginId === pluginId, null)
+    const plugin = find(this.props.pluginList, (p) => p.content.pluginId === pluginId, null)
     this.props.onChange(plugin ? plugin.content : null)
   }
 
@@ -127,7 +125,7 @@ export class PluginListComponent extends React.Component {
   renderDescription = () => {
     const { displayMoreInfoButton } = this.props
     const {
-      moduleTheme: { markdownDialog },
+      intl: { formatMessage },
     } = this.context
     const { selectedPluginId } = this.state
     let button
@@ -135,16 +133,15 @@ export class PluginListComponent extends React.Component {
       return null
     }
     // Find plugin
-    const plugin = find(this.props.pluginList, p => p.content.pluginId === selectedPluginId)
+    const plugin = find(this.props.pluginList, (p) => p.content.pluginId === selectedPluginId)
     if (get(plugin, 'content.markdown') && displayMoreInfoButton) {
       button = (
-        <a
-          style={markdownDialog.moreInfoButtonStyle}
+        <FlatButton
+          label={formatMessage({ id: 'plugin.configuration.form.description.more' })}
+          primary
           onClick={this.handleOpenDescriptionDialog}
-          href="#"
-        >
-          <FormattedMessage id="plugin.configuration.form.description.more" />
-        </a>
+          icon={<DetailIcon />}
+        />
       )
     }
     if (plugin != null) {

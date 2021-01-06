@@ -20,7 +20,6 @@
  * Theme module routes.
  */
 
-
 export const editThemeRoute = {
   path: ':themeId/:mode',
   getComponents(nextState, cb) {
@@ -32,7 +31,6 @@ export const editThemeRoute = {
     })
   },
 }
-
 
 export const createThemeRoute = {
   path: 'create',
@@ -46,7 +44,6 @@ export const createThemeRoute = {
   },
 }
 
-
 export const listThemeRoute = {
   path: 'list',
   getComponents(nextState, cb) {
@@ -58,7 +55,6 @@ export const listThemeRoute = {
     })
   },
 }
-
 
 /**
  *

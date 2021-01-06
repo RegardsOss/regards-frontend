@@ -39,7 +39,7 @@ export class OSCrawlerConfigurationContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch, { project }) {
     return {
-      fetchDescriptor: url => dispatch(descriptorActions.getDescriptor(project, url)),
+      fetchDescriptor: (url) => dispatch(descriptorActions.getDescriptor(project, url)),
     }
   }
 
@@ -65,7 +65,7 @@ export class OSCrawlerConfigurationContainer extends React.Component {
   onSubmit = (fields) => {
     const { fetchDescriptor, onSubmit } = this.props
     // whenever user commits, make sure descriptor has been fetched (for edition case, where asyncValidation will not occur)
-    fetchDescriptor(fields.opensearchDescriptorURL).then(result => onSubmit(fields))
+    fetchDescriptor(fields.opensearchDescriptorURL).then((result) => onSubmit(fields))
   }
 
   render() {

@@ -28,32 +28,36 @@ class ErrorCardComponent extends React.Component {
     message: <span>Oops! Error occured when retrieving the content.</span>,
   }
 
+  static ROOT_STYLE = {
+    display: 'flex',
+    justifyContent: 'center',
+  }
+
+  static CARD_STYLE = {
+    padding: 5,
+  }
+
+  static TEXT_LAYOUT_STYLE = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
+  static ICON_STYLE = {
+    color: 'Red',
+    width: 30,
+    height: 30,
+    marginRight: 20,
+  }
+
   render() {
-    const cardStyle = { padding: 5 }
-    const iconStyle = {
-      color: 'Red',
-      width: 30,
-      height: 30,
-      marginRight: 20,
-    }
     return (
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Card style={cardStyle}>
+      <div style={ErrorCardComponent.ROOT_STYLE}>
+        <Card style={ErrorCardComponent.CARD_STYLE}>
           <CardText>
             <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-              }}
+              style={ErrorCardComponent.TEXT_LAYOUT_STYLE}
             >
-              <Icon
-                style={iconStyle}
-              />
+              <Icon style={ErrorCardComponent.ICON_STYLE} />
               {this.props.message}
             </div>
           </CardText>

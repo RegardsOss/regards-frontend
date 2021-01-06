@@ -23,4 +23,4 @@ import { BasicArraySelectors } from '@regardsoss/store-utils'
  * @param storePath path in redux store
  * @author Raphaël Mechali
  */
-export default storePath => new BasicArraySelectors(storePath)
+export default (storePath) => new BasicArraySelectors(storePath)

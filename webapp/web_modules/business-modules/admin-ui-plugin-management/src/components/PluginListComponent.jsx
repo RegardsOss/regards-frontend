@@ -20,24 +20,21 @@ import map from 'lodash/map'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import { FormattedMessage } from 'react-intl'
-import {
-  CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
-} from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { HateoasKeys } from '@regardsoss/display-control'
+import {
+  CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, HateoasIconAction, ShowableAtRender,
+} from '@regardsoss/components'
 import { uiPluginDefinitionActions } from '../clients/UIPluginDefinitionClient'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React component to display a given list of plugins
@@ -59,11 +56,8 @@ class PluginListComponent extends React.Component {
 
   static CREATE_DEPENDENCIES = [uiPluginDefinitionActions.getDependency(RequestVerbEnum.POST)]
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
   }
 
   openDeleteDialog = (plugin) => {
@@ -80,7 +74,17 @@ class PluginListComponent extends React.Component {
     })
   }
 
+  /**
+   * User callback: on delete
+   */
+  onDelete = () => {
+    const { onDelete } = this.props
+    const { pluginToDelete } = this.state
+    onDelete(pluginToDelete)
+  }
+
   render() {
+    const { intl: { formatMessage } } = this.context
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -88,7 +92,6 @@ class PluginListComponent extends React.Component {
     }
 
     const name = this.state.pluginToDelete ? this.state.pluginToDelete.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'plugins.list.delete.message' }, { name })
 
     return (
       <Card>
@@ -97,14 +100,14 @@ class PluginListComponent extends React.Component {
         >
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
-            onConfirm={() => { this.props.onDelete(this.state.pluginToDelete) }}
+            onConfirm={this.onDelete}
             onClose={this.closeDeleteDialog}
-            title={title}
+            title={formatMessage({ id: 'plugins.list.delete.message' }, { name })}
           />
         </ShowableAtRender>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'plugins.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'plugins.list.subtitle' })}
+          title={formatMessage({ id: 'plugins.list.title' })}
+          subtitle={formatMessage({ id: 'plugins.list.subtitle' })}
         />
         <CardText>
           <Table
@@ -133,7 +136,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.UPDATE}
                       onClick={() => this.props.onEdit(plugin.content)}
-                      title={this.context.intl.formatMessage({ id: 'plugin.form.edit' })}
+                      title={formatMessage({ id: 'plugin.form.edit' })}
                     >
                       <Edit hoverColor={style.hoverButtonEdit} />
                     </HateoasIconAction>
@@ -141,7 +144,7 @@ class PluginListComponent extends React.Component {
                       entityLinks={plugin.links}
                       hateoasKey={HateoasKeys.DELETE}
                       onClick={() => this.openDeleteDialog(plugin.content)}
-                      title={this.context.intl.formatMessage({ id: 'plugin.form.delete' })}
+                      title={formatMessage({ id: 'plugin.form.delete' })}
                     >
                       <Delete hoverColor={style.hoverButtonDelete} />
                     </HateoasIconAction>
@@ -160,7 +163,7 @@ class PluginListComponent extends React.Component {
               />
             }
             mainHateoasDependencies={PluginListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'plugins.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'plugins.list.action.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />
         </CardActions>

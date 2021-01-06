@@ -61,7 +61,7 @@ describe('[Description] Testing AdminContainer', () => {
       fetchAllDataAttributes: () => { },
       fetchAllDatasetModelsAttributes: () => { },
       fetchAllDocumentAttributes: () => {},
-      fetchUISettings: () => new Promise(resolve => resolve(true)),
+      fetchUISettings: () => new Promise((resolve) => resolve(true)),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(AdminComponent)

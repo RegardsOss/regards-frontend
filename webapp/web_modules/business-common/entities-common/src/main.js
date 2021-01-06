@@ -20,14 +20,25 @@
 // Description
 export { DescriptionHelper } from './definitions/DescriptionHelper'
 
+// Downloads
+export * from './components/download/quota/DownloadIconComponent'
+export * from './definitions/download/quota/QuotaDownloadUtils'
+export * from './definitions/download/quota/QuotaInfoConstants'
+export * from './definitions/download/quota/QuotaInfoShape'
+export * from './definitions/download/quota/QuotaInfoStateEnum'
+export * from './containers/download/quota/withQuotaInfo'
+
 // Services
 export { default as ServiceContainer } from './containers/services/ServiceContainer'
 export { TargetHelper } from './definitions/TargetHelper'
 export { PluginServiceRunModel } from './shapes/PluginServiceRunModel'
-export { default as BooleanParameterField } from './components/services/parameters/BooleanParameterField'
-export { default as ChoiceParameterField } from './components/services/parameters/ChoiceParameterField'
-export { default as DateParameterField } from './components/services/parameters/DateParameterField'
-export { default as TextParameterField } from './components/services/parameters/TextParameterField'
+export { default as BooleanParameterField } from './common/BooleanParameterField'
+export { default as ChoiceParameterField } from './common/ChoiceParameterField'
+export { default as DateParameterField } from './common/DateParameterField'
+export { default as TextParameterField } from './common/TextParameterField'
+
+// PluginBack
+export { default as ManageDatasetProcessingContainer } from './containers/backend/pluginBack/ManageDatasetProcessingContainer'
 
 // Constants
 export { EntityTypeIcon } from './definitions/EntityTypeIcon'

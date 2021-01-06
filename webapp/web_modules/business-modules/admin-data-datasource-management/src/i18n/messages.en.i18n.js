@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'crawler.list.title': 'Data crawling list',
   'crawler.list.back.button': 'Back',
   'crawler.list.label.column.header': 'Label',
@@ -116,11 +116,10 @@ const messages = Object.assign({
   'invalid.one_pk_required': 'Choose a field as primary key',
   'invalid.only_one_pk_allowed': 'Use only one primary key',
 
-
   'datasource.form.create.pick-interface.title': 'Datasource creation',
   'datasource.form.create.pick-interface.subtitle': 'Please select the crawler type you want to create.',
   'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow crawling GeoJSON SIPs',
-  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data source',
+  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data base',
   'datasource.form.create.pick-interface.description.opensearch': 'Crawls data from an OpenSearch Web Source',
   'datasource.form.create.pick-interface.description.feature': 'Features crawlers allow crawling features from feature manager',
   'datasource.form.create.pick-interface.action.select': 'Select',
@@ -209,6 +208,7 @@ const messages = Object.assign({
   'opensearch.crawler.form.results.QUICKLOOK': 'Quicklook',
   'opensearch.crawler.form.results.THUMBNAIL': 'Thumbnail',
   'opensearch.crawler.form.results.value': 'Value',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

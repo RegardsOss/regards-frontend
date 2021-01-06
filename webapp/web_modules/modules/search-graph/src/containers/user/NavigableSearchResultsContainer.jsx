@@ -62,34 +62,40 @@ export class NavigableSearchResultsContainer extends React.Component {
     return {
       dispatchExpandResults: () => dispatch(moduleExpandedStateActions.setNormal(searchResultsPaneKey)),
       dispatchCollapseGraph: () => dispatch(moduleExpandedStateActions.setMinimized(searchGraphPaneKey)),
-      dispatchUpdateResultsContext: stateDiff => dispatch(resultsContextActions.updateResultsContext(id, stateDiff)),
+      dispatchUpdateResultsContext: (stateDiff) => dispatch(resultsContextActions.updateResultsContext(id, stateDiff)),
     }
   }
 
   static propTypes = {
-    resultsModuleTitle: PropTypes.string.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    resultsModuleTitle: PropTypes.string.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
     // redefines expected configuration shape
-    moduleConf: ModuleConfiguration.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    moduleConf: ModuleConfiguration.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
     // from mapStateToProps
-    selectionPath: SelectionPath.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectionPath: SelectionPath.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
     // from map dispatch to props
-    dispatchExpandResults: PropTypes.func.isRequired,
-    dispatchCollapseGraph: PropTypes.func.isRequired,
-    dispatchUpdateResultsContext: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchExpandResults: PropTypes.func.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchCollapseGraph: PropTypes.func.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
+    // eslint-disable-next-line react/no-unused-prop-types
+    dispatchUpdateResultsContext: PropTypes.func.isRequired, // eslint wont fix: rule issue (used in onPropertiesUpdated)
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -145,7 +151,7 @@ export class NavigableSearchResultsContainer extends React.Component {
                     // restrict using q tag param
                     [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:
                       new CatalogDomain.OpenSearchQueryParameter(
-                        CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+                        CatalogDomain.OpenSearchQuery.SAPN.tags,
                         OpenSearchQueryParameter.toStrictStringEqual(newSelectedDatasetElt.id)).toQueryString(),
                   },
                 }],
@@ -164,14 +170,14 @@ export class NavigableSearchResultsContainer extends React.Component {
     const { project, appName } = this.props
     const { resultsConfiguration } = this.state
     return (
-      <React.Fragment>
+      <>
         <HorizontalAreasSeparator />
         <LazyModuleComponent
           project={project}
           appName={appName}
           module={resultsConfiguration}
         />
-      </React.Fragment>
+      </>
     )
   }
 }

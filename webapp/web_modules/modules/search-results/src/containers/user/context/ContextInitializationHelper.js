@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import isNil from 'lodash/isNil'
 import reduce from 'lodash/reduce'
+import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { CriterionBuilder } from '../../../definitions/CriterionBuilder'
@@ -26,8 +27,8 @@ import { PresentationHelper } from './PresentationHelper'
 
 /**
  * Helper to create initial results context from module configuration
- *
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class ContextInitializationHelper {
   /**
@@ -54,9 +55,12 @@ export class ContextInitializationHelper {
           break
         case UIDomain.RESULTS_VIEW_MODES_ENUM.MAP:
           // report map configuration and initial values
-          modeState.backgroundLayer = modeConfiguration.backgroundLayer
+          modeState.mapEngine = modeConfiguration.mapEngine || UIDomain.MAP_ENGINE_ENUM.CESIUM
+          modeState.layers = modeConfiguration.layers || []
           modeState.selectionMode = UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK
+          modeState.viewMode = modeConfiguration.initialViewMode || UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D
           modeState.splitPosition = null
+          modeState.selectedProducts = []
           break
         // nothing to do for other modes
         case UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK:
@@ -84,7 +88,7 @@ export class ContextInitializationHelper {
         return CriterionBuilder.buildSortCriterion(
           DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(attrPath, attributeModels))
       })
-      .filter(crit => !!crit) // clear non converted elements
+      .filter((crit) => !!crit) // clear non converted elements
   }
 
   /**
@@ -129,7 +133,7 @@ export class ContextInitializationHelper {
   static buildDefaultTypeState(configuration, attributeModels, type) {
     const typeConfiguration = get(configuration, `viewsGroups.${type}`, {})
     // is view type enabled (type enabled and at least one view mode enabled)
-    const enabled = typeConfiguration.enabled && UIDomain.RESULTS_VIEW_MODES.some(mode => get(typeConfiguration, `views.${mode}.enabled`, false))
+    const enabled = typeConfiguration.enabled && UIDomain.RESULTS_VIEW_MODES.some((mode) => get(typeConfiguration, `views.${mode}.enabled`, false))
     if (enabled) {
       // resolve facets
       const facetsAllowed = get(configuration, `facets.enabledFor.${type}`, false)
@@ -169,28 +173,49 @@ export class ContextInitializationHelper {
    * @return {[*]} built criteria for configured restrictions
    */
   static buildConfigurationCriteria(restrictions) {
+    const restrictionCriteria = []
+    // 1 - Restrictions on data
+    const { openSearchRequest = '', lastVersionOnly = false } = get(restrictions, 'onData', {})
+    if (lastVersionOnly) {
+      restrictionCriteria.push({
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
+            CatalogDomain.OpenSearchQuery.SAPN.last, true).toQueryString(),
+        },
+      })
+    }
+    if (!isEmpty(openSearchRequest)) {
+      restrictionCriteria.push({
+        requestParameters: {
+          [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: openSearchRequest,
+        },
+      })
+    }
+    // 2 - Restrictions on datasets
     // Dataset ID / models restrictions
     const { type, selection } = get(restrictions, 'byDataset', {})
     switch (type) {
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
-        return [{
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS:
+        restrictionCriteria.push({
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
-              CatalogDomain.OpenSearchQuery.TAGS_PARAM_NAME,
+              CatalogDomain.OpenSearchQuery.SAPN.tags,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
-        }]
-      case UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS:
-        return [{
+        })
+        break
+      case UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS:
+        restrictionCriteria.push({
           requestParameters: {
             [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]: new CatalogDomain.OpenSearchQueryParameter(
               CatalogDomain.OpenSearchQuery.DATASET_MODEL_NAMES_PARAM,
               CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(selection)).toQueryString(),
           },
-        }]
-      default: // no restriction
-        return []
+        })
+        break
+      default: // no restriction: do nothing
     }
+    return restrictionCriteria
   }
 
   /**
@@ -224,7 +249,7 @@ export class ContextInitializationHelper {
             pluginId,
             // build instance ID on module ID, tab type, group index and criterion index to make sure its unique. Append also
             // attributes and plugin type from configuration to ensure restoring state only when configuration has not been updated
-            pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, attr => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
+            pluginInstanceId: `[${moduleId}/${tabType}/${pluginId}][${map(attributes, (attr) => attr.jsonPath).join('/')}][${groupIndex}:${criterionIndex}]`,
             label,
             conf: { attributes },
           }]
@@ -295,7 +320,7 @@ export class ContextInitializationHelper {
       const resultTab = defaultContext.tabs[tabType]
       // algorithm: keep the first enable type by preference order or default to DATA
       resultTab.selectedType = UIDomain.ResultsContextConstants.RESULTS_INITIAL_TYPE_PREFERENCE.find(
-        type => resultTab.types[type].enabled) || DamDomain.ENTITY_TYPES_ENUM.DATA
+        (type) => resultTab.types[type].enabled) || DamDomain.ENTITY_TYPES_ENUM.DATA
     })
     return defaultContext
   }

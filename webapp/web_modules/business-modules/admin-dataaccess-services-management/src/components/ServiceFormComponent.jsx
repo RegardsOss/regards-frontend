@@ -51,11 +51,8 @@ export class ServiceFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPlugin: get(props, 'pluginConfiguration.content', null),
-    }
+  state = {
+    selectedPlugin: get(this.props, 'pluginConfiguration.content', null),
   }
 
   selectPluginType = (plugin) => {
@@ -92,18 +89,17 @@ export class ServiceFormComponent extends React.Component {
         />
         {selectedPluginId
           ? <PluginFormContainer
-            key={`plugin-conf-${selectedPluginId}`}
-            microserviceName={STATIC_CONF.MSERVICES.CATALOG}
-            pluginId={selectedPluginId}
-            pluginConfiguration={pluginConfiguration}
-            formMode={mode}
-            backUrl={backUrl}
-            cardStyle={false}
-            simpleGlobalParameterConf
-            onUpdatePluginConfiguration={onUpdate}
-            onCreatePluginConfiguration={onCreate}
-          /> : null
-        }
+              key={`plugin-conf-${selectedPluginId}`}
+              microserviceName={STATIC_CONF.MSERVICES.CATALOG}
+              pluginId={selectedPluginId}
+              pluginConfiguration={pluginConfiguration}
+              formMode={mode}
+              backUrl={backUrl}
+              cardStyle={false}
+              simpleGlobalParameterConf
+              onUpdatePluginConfiguration={onUpdate}
+              onCreatePluginConfiguration={onCreate}
+          /> : null}
       </div>
     )
   }
@@ -137,8 +133,7 @@ export class ServiceFormComponent extends React.Component {
                 mainButtonUrl={backUrl}
               />
             </CardActions>
-          )
-        }
+          )}
       </Card>
     )
   }

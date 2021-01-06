@@ -59,7 +59,7 @@ export default class TableColumnBuilder {
   static getCachedPropertyClosure(path) {
     let cachedClosure = TableColumnBuilder.propertyClosuresCacheMap[path]
     if (!cachedClosure) { // initialize cache
-      cachedClosure = entity => get(entity, path)
+      cachedClosure = (entity) => get(entity, path)
       TableColumnBuilder.propertyClosuresCacheMap[path] = cachedClosure
     }
     return cachedClosure
@@ -253,7 +253,6 @@ export default class TableColumnBuilder {
     })
   }
 
-
   /**
    * @param {String} sortingOrder current sort order, from SortOrdersEnum
    * @param {number} sortIndex index in current sort order (if relevant)
@@ -303,7 +302,7 @@ export default class TableColumnBuilder {
    * @return {TableColumnBuilder} builder configured for options column
    */
   optionsColumn(optionsDefinitions) {
-    const retainedOptions = optionsDefinitions.filter(option => !!option)
+    const retainedOptions = optionsDefinitions.filter((option) => !!option)
     return this.key(TableColumnBuilder.optionsColumnKey)
       .optionsSizing(retainedOptions.length)
       .fixedColumn(true)

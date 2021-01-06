@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
+import startsWith from 'lodash/startsWith'
 import { Link } from 'react-router'
 import FlatButton from 'material-ui/FlatButton'
 import MenuItem from 'material-ui/MenuItem'
@@ -28,10 +29,12 @@ import { DropDownButton, ModuleIcon, ModuleTitleText } from '@regardsoss/compone
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../domain/NavigationItemTypes'
 import { NavigationItem } from '../../../../shapes/Navigation'
 import defaultSectionIconURL from '../../../../img/section.svg'
+import defaultLinkIconURL from '../../../../img/link.svg'
 
 /**
  * Main bar drop down button: shows a drop down button with a menu holding children navigation items
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MainBarDropMenuButton extends React.Component {
   static propTypes = {
@@ -45,7 +48,6 @@ class MainBarDropMenuButton extends React.Component {
     buildLinkURL: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
@@ -57,7 +59,7 @@ class MainBarDropMenuButton extends React.Component {
   getLabel = () => this.props.label
 
   /**
-   * Renders a menu item, no matter if it is a section or a module
+   * Renders a menu item, no matter if it is a section, a moduleor a link
    * @param {*} item item (respects NavigationItem shape)
    * @param {function} buildLinkURL link URL builder
    * @return rendered item and sub items
@@ -71,25 +73,41 @@ class MainBarDropMenuButton extends React.Component {
     title,
     module,
     children,
+    url,
   }, buildLinkURL) => {
     const { intl: { locale }, moduleTheme: { user: { selectedNavigationMenuItem } } } = this.context
+    let containerElement = null
+    let defaultIconURL = null
+    switch (type) {
+      case NAVIGATION_ITEM_TYPES_ENUM.SECTION: {
+        containerElement = <Link to={buildLinkURL(module)} />
+        defaultIconURL = defaultSectionIconURL
+        break
+      }
+      case NAVIGATION_ITEM_TYPES_ENUM.LINK: {
+        containerElement = <Link to={startsWith(url, 'http') || startsWith(url, 'https') ? { pathname: url } : { pathname: `//${url}` }} target="_blank" />
+        defaultIconURL = defaultLinkIconURL
+        break
+      }
+      default: {
+        containerElement = <Link to={buildLinkURL(module)} />
+        defaultIconURL = UIDomain.getModuleDefaultIconURL(module.type)
+      }
+    }
     return (
       <MenuItem
         key={key}
-        containerElement={<Link to={buildLinkURL(module)} />}
+        containerElement={containerElement}
         leftIcon={
           <ModuleIcon
             iconDisplayMode={iconType}
-            defaultIconURL={
-              type === NAVIGATION_ITEM_TYPES_ENUM.SECTION // provide default icon for section too
-                ? defaultSectionIconURL
-                : UIDomain.getModuleDefaultIconURL(module.type)}
+            defaultIconURL={defaultIconURL}
             customIconURL={customIconURL}
             color={selected ? selectedNavigationMenuItem.color : null}
           />
         }
         primaryText={ModuleTitleText.selectTitle(title, get(module, 'description', ''), locale)}
-        menuItems={children ? children.map(subItem => this.renderMenuItem(subItem, buildLinkURL)) : null}
+        menuItems={children ? children.map((subItem) => this.renderMenuItem(subItem, buildLinkURL)) : null}
         rightIcon={children ? <NextMenuIcon /> : null}
         style={selected ? selectedNavigationMenuItem : null}
       />)
@@ -108,11 +126,11 @@ class MainBarDropMenuButton extends React.Component {
         value={null}
         icon={icon || null}
         hasSubMenus
-        secondary={!!items.find(item => item.selected)}
+        secondary={!!items.find((item) => item.selected)}
       >
 
         {/* Render menu items */
-          items.map(item => this.renderMenuItem(item, buildLinkURL))
+          items.map((item) => this.renderMenuItem(item, buildLinkURL))
         }
       </DropDownButton>
     )

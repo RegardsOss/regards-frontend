@@ -23,6 +23,7 @@ import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 /**
  * Module configuration shapes
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 
 /**
@@ -43,13 +44,26 @@ export const QuicklookViewConfiguration = PropTypes.shape({
   ...commonViewFields,
 })
 
+/**
+ * Layer shape
+ */
+export const LayerConfiguration = PropTypes.shape({
+  layerName: PropTypes.string,
+  enabled: PropTypes.bool,
+  background: PropTypes.bool,
+  layerViewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES),
+  url: PropTypes.string,
+  type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES, UIDomain.CESIUM_LAYER_TYPES),
+  conf: PropTypes.string,
+  layersName: PropTypes.string,
+})
+
 /** Map view */
 export const MapViewConfiguration = PropTypes.shape({
   ...commonViewFields,
-  backgroundLayer: PropTypes.shape({ // mandatory but cannot be granted when starting new module edition
-    url: PropTypes.string,
-    type: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
-  }),
+  mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE),
+  initialViewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES),
+  layers: PropTypes.arrayOf(LayerConfiguration),
 })
 
 /** Facets sub configuration */
@@ -99,21 +113,28 @@ export const DatasetViewsConfiguration = PropTypes.shape({
   ...commonViewsGroupFields,
 })
 
+/** Describes possible restriction on data */
+export const DataRestriction = PropTypes.shape({
+  lastVersionOnly: PropTypes.bool,
+  openSearchRequest: PropTypes.string,
+})
+
 /** Possible restrictions on datasets to show: none, by dataset selection or by dataset models selection */
 export const NoDatasetRescriction = PropTypes.shape({
-  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE]),
+  type: PropTypes.oneOf([UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE]),
 })
 
 export const DatasetSelectionRescriction = PropTypes.shape({
-  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS]),
+  type: PropTypes.oneOf([UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS]),
   selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of URN
 })
 
 export const DatasetModelsRestriction = PropTypes.shape({
-  type: PropTypes.oneOf([UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS]),
+  type: PropTypes.oneOf([UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS]),
   selection: PropTypes.arrayOf(PropTypes.string).isRequired, // in that case, selection is a list of model names
 })
 
+/** Describes possible restriction by dataset */
 export const DatasetRestriction = PropTypes.oneOfType([
   NoDatasetRescriction,
   DatasetSelectionRescriction,
@@ -122,6 +143,7 @@ export const DatasetRestriction = PropTypes.oneOfType([
 
 /** Configuration of results restrictions */
 export const RestrictionsConfiguration = PropTypes.shape({
+  onData: DataRestriction,
   byDataset: DatasetRestriction,
 })
 

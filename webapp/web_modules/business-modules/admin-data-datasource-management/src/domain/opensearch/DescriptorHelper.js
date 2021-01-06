@@ -50,7 +50,7 @@ export class DescriptorHelper {
    */
   static getResourceURL(descriptor) {
     const availableResourcesURLs = get(descriptor, 'url', [])
-    return availableResourcesURLs.find(e => e.type === DescriptorHelper.EXPECTED_URL_MIME_TYPE) || null
+    return availableResourcesURLs.find((e) => e.type === DescriptorHelper.EXPECTED_URL_MIME_TYPE) || null
   }
 
   /**

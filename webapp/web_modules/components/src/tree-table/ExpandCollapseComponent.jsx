@@ -22,7 +22,6 @@ import CollapseIcon from 'mdi-material-ui/ChevronUp'
 import { themeContextType } from '@regardsoss/theme'
 import TreeTableRow from './TreeTableRow'
 
-
 /**
 * Component to expand / collapse a tree table row
 * @author Raphaël Mechali

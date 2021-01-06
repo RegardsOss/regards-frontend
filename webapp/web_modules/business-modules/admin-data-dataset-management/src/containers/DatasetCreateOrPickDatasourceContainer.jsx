@@ -40,11 +40,8 @@ export class DatasetCreateOrPickDatasourceContainer extends React.Component {
     fetchDatasourceList: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isLoading: true,
-    }
+  state = {
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -96,7 +93,7 @@ const mapStateToProps = (state, ownProps) => ({
   datasourceList: datasourceSelectors.getList(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
 })
 

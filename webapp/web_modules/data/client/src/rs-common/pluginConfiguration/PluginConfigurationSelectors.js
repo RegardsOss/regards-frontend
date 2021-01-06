@@ -25,27 +25,27 @@ import { BasicListSelectors } from '@regardsoss/store-utils'
 
 class PluginConfigurationSelectors extends BasicListSelectors {
   getListByPluginClassName(state, pluginClassName) {
-    return filter(this.getList(state), item => item.content.pluginClassName === pluginClassName)
+    return filter(this.getList(state), (item) => item.content.pluginClassName === pluginClassName)
   }
 
   getListByPluginId(state, pluginId) {
-    return pickBy(this.getList(state), item => item.content.pluginId === pluginId)
+    return pickBy(this.getList(state), (item) => item.content.pluginId === pluginId)
   }
 
   getListActiveAndSorted(state) {
     return flow(
-      fpfilter(pluginConfiguration => pluginConfiguration.content.active),
-      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+      fpfilter((pluginConfiguration) => pluginConfiguration.content.active),
+      fpsortBy((pluginConfiguration) => -1 * pluginConfiguration.content.priorityOrder),
     )(this.getList(state))
   }
 
   getListInactiveAndSorted(state) {
     return flow(
-      fpfilter(pluginConfiguration => !pluginConfiguration.content.active),
-      fpsortBy(pluginConfiguration => -1 * pluginConfiguration.content.priorityOrder),
+      fpfilter((pluginConfiguration) => !pluginConfiguration.content.active),
+      fpsortBy((pluginConfiguration) => -1 * pluginConfiguration.content.priorityOrder),
     )(this.getList(state))
   }
 }
 
-const getPluginConfigurationSelectors = storePath => new PluginConfigurationSelectors(storePath)
+const getPluginConfigurationSelectors = (storePath) => new PluginConfigurationSelectors(storePath)
 export default getPluginConfigurationSelectors

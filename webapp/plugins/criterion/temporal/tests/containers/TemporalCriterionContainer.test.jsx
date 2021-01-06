@@ -84,7 +84,6 @@ describe('[Temporal criterion] Testing TemporalCriterionContainer', () => {
       onOperatorSelected: enzymeWrapper.instance().onOperatorSelected,
     }, 'A - Component properties should be correctly set')
 
-
     // B - Run successive tests with operator and date change
     const testCases = [{
       label: 'valid date selection',

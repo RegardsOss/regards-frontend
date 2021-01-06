@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'invalid.require_max_more_than_min': ' The max value must be greater than min value',
   'invalid.require_plugin_configuration': 'You must select which plugin configuration you want to use',
   'accessright.table.dataset.label': 'Dataset',
@@ -59,6 +59,7 @@ const messages = Object.assign({
   'accessright.edit.multiples.button.label': 'Configure access rights for selected datasets',
   'accessright.no.dataset.title': 'No dataset',
   'accessright.no.dataset.subtitle': 'Create your first dataset',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

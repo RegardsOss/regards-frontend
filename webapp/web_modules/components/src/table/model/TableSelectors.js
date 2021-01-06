@@ -34,11 +34,11 @@ export class TableSelectors extends BasicSelector {
       // init reselector instance
       this.reselectEmptySelection = createSelector([
         // 1 - get page meta
-        localState => pageResultsSelectors.getMetaData(localState),
+        (localState) => pageResultsSelectors.getMetaData(localState),
         // 2 - get toggled elements
-        localState => this.getSelectionMode(localState),
+        (localState) => this.getSelectionMode(localState),
         // 3 - get selection mode
-        localState => this.getToggledElements(localState),
+        (localState) => this.getToggledElements(localState),
       ], (pageMetadata, selectionMode, toggledElements) => {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
@@ -61,11 +61,11 @@ export class TableSelectors extends BasicSelector {
       // init reselector instance
       this.reselectAllSelected = createSelector([
         // 1 - get page meta
-        localState => pageResultsSelectors.getMetaData(localState),
+        (localState) => pageResultsSelectors.getMetaData(localState),
         // 2 - get toggled elements
-        localState => this.getSelectionMode(localState),
+        (localState) => this.getSelectionMode(localState),
         // 3 - get selection mode
-        localState => this.getToggledElements(localState),
+        (localState) => this.getToggledElements(localState),
       ], (pageMetadata, selectionMode, toggledElements) => {
         const totalElements = (pageMetadata && pageMetadata.totalElements) || 0
         const selectionSize = keys(toggledElements).length
@@ -99,8 +99,8 @@ export class TableSelectors extends BasicSelector {
    * @return {[*]} currently toggled elements as array
    */
   getToggledElementsAsList = createSelector(
-    [localState => this.getToggledElements(localState)],
-    toggledElements => values(toggledElements))
+    [(localState) => this.getToggledElements(localState)],
+    (toggledElements) => values(toggledElements))
 }
 
-export default storePath => new TableSelectors(storePath)
+export default (storePath) => new TableSelectors(storePath)

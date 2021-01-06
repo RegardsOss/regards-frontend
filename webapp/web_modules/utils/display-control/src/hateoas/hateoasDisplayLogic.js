@@ -30,7 +30,6 @@ import some from 'lodash/some'
  * @return {boolean}
  * @author Xavier-Alexandre Brochard
  */
-const hateoasDisplayLogic = (hateoasKey, entityLinks, isInstance, alwaysDisplayforInstanceUser) => ((isInstance && alwaysDisplayforInstanceUser) || (!entityLinks && !hateoasKey) || some(entityLinks, entity => entity.rel === hateoasKey))
-
+const hateoasDisplayLogic = (hateoasKey, entityLinks, isInstance, alwaysDisplayforInstanceUser) => ((isInstance && alwaysDisplayforInstanceUser) || (!entityLinks && !hateoasKey) || some(entityLinks, (entity) => entity.rel === hateoasKey))
 
 export default hateoasDisplayLogic

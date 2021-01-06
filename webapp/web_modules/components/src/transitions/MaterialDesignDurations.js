@@ -44,13 +44,13 @@ export const mobileDurations = {
  * Durations on tablet should be about 30% longer than on mobile.
  * For example, a 300ms mobile duration would increase to 390ms on tablet.
  */
-export const tabletDurations = map(mobileDurations, value => 1.3 * value)
+export const tabletDurations = map(mobileDurations, (value) => 1.3 * value)
 
 /**
  * Durations on wearables should be about 30% shorter than those on mobile.
  * For example, a 300ms mobile duration would be 210ms on wearables.
  */
-export const weareableDurations = map(mobileDurations, value => 0.7 * value)
+export const weareableDurations = map(mobileDurations, (value) => 0.7 * value)
 
 /**
  * Desktop animations should be faster and simpler than their mobile counterparts.

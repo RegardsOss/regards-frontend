@@ -26,9 +26,10 @@ class ProjectsAction extends BasicPageableActions {
   constructor() {
     super({
       namespace: 'projects-list/projects',
+      // Resource endpoint is not the accessed one. it is the secured one, not the public one.
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE}/projects/public`,
       // Resource endpoint is not the accessed one. it is the secured one, not the public one.
-      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN_INSTANCE}/projects/public`,
+      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN_INSTANCE}/projects/public`,
       schemaTypes: {
         ENTITY: PROJECT,
         ENTITY_ARRAY: PROJECT_ARRAY,

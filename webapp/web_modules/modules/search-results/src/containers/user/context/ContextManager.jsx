@@ -59,7 +59,7 @@ export class ContextManager extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchEntity: datasetId => dispatch(searchEntityActions.getEntity(datasetId)),
+      fetchEntity: (datasetId) => dispatch(searchEntityActions.getEntity(datasetId)),
       updateResultsContext: (moduleId, newState) => dispatch(resultsContextActions.updateResultsContext(moduleId, newState)),
     }
   }
@@ -83,7 +83,7 @@ export class ContextManager extends React.Component {
       PropTypes.object, // during initialization
       UIShapes.ResultsContext, // after initialization
     ]),
-    authentication: AuthenticateShape.isRequired, // used only to ge authentication change notification in componentWillReceiveProps
+    authentication: AuthenticateShape.isRequired, // used only to ge authentication change notification in UNSAFE_componentWillReceiveProps
     // from mapDispatchToProps
     fetchEntity: PropTypes.func.isRequired,
     updateResultsContext: PropTypes.func.isRequired,
@@ -96,7 +96,6 @@ export class ContextManager extends React.Component {
     initialized: false,
     moduleContextualKey: null,
   }
-
 
   /**
    * When component mounted: resolve initial context module configuration and URL if there is any then push in redux a valid
@@ -114,7 +113,7 @@ export class ContextManager extends React.Component {
   /**
    * When results context changes, report new type, mode and tags into URL
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     const {
       authentication: { result: newAuthResults }, resultsContext: newResultsContext, project,
     } = nextProps
@@ -171,7 +170,6 @@ export class ContextManager extends React.Component {
     this.updateWithRights(context)
   }
 
-
   /**
    * Resolves entity with id as parameter
    * @param {string} id entity ID (URN)
@@ -179,7 +177,7 @@ export class ContextManager extends React.Component {
    */
   resolveEntity = (id) => {
     const { fetchEntity } = this.props
-    return new Promise(resolve => fetchEntity(id)
+    return new Promise((resolve) => fetchEntity(id)
       .then(({ payload }) => {
         if (payload.error || !payload.content || !payload.content.id) {
           throw new Error('Loading failed') // retrieval failure, get in catch clause
@@ -195,12 +193,12 @@ export class ContextManager extends React.Component {
    * @param {*} tag matching UIShapes.TagCriterion
    * @return {Promise} update promise, never entering catch clause
    */
-  updateTag = tag => tag.type === CatalogDomain.TAG_TYPES_ENUM.WORD
+  updateTag = (tag) => tag.type === CatalogDomain.TAG_TYPES_ENUM.WORD
   // Word tag: immediately resolved
-    ? new Promise(resolve => resolve(tag))
+    ? new Promise((resolve) => resolve(tag))
   // Entities: requires a rights checking
     : this.resolveEntity(tag.searchKey)
-      .then(e => e
+      .then((e) => e
         ? CriterionBuilder.buildEntityTagCriterion(e)
         : CriterionBuilder.buildUnresolvedEntityTagCriterion(tag.searchKey))
 
@@ -209,7 +207,7 @@ export class ContextManager extends React.Component {
    * @param [*] tags list, matching UIShapes.TagsArray
    * @return {Promise} update promise, never going though catch clause
    */
-  updateTagsList = tagsList => Promise.all(tagsList.map(this.updateTag))
+  updateTagsList = (tagsList) => Promise.all(tagsList.map(this.updateTag))
 
   /**
    * Updates description Tab
@@ -220,7 +218,7 @@ export class ContextManager extends React.Component {
     // Case 1: there is an old unresolved description entity: resolve it and update state
     if (unresolvedRootEntityId) {
       return this.resolveEntity(unresolvedRootEntityId)
-        .then(e => e ? { unresolvedRootEntityId: null, descriptionPath: [e], selectedIndex: 0 } : {
+        .then((e) => e ? { unresolvedRootEntityId: null, descriptionPath: [e], selectedIndex: 0 } : {
           unresolvedRootEntityId, // still not resolved
           descriptionPath: [],
           selectedIndex: 0,
@@ -231,8 +229,8 @@ export class ContextManager extends React.Component {
     return Promise.all(descriptionPath.map(this.resolveEntity))
       .then((resolvedEntities) => {
         // remove null
-        const filtered = resolvedEntities.filter(e => !!e)
-        const newSelectedIndex = filtered.findIndex(e => e.content.id === previouslySelectedEntityId)
+        const filtered = resolvedEntities.filter((e) => !!e)
+        const newSelectedIndex = filtered.findIndex((e) => e.content.id === previouslySelectedEntityId)
         return {
           descriptionPath: filtered,
           selectedIndex: newSelectedIndex < 0 ? 0 : newSelectedIndex,
@@ -247,11 +245,11 @@ export class ContextManager extends React.Component {
    * @param {*} complete results context to consider
    * @return {Promise} the promise used to resolve context
    */
-  updateWithRights = resultsContext => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags) // 1 - main tab context tags
-    .then(mainContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.tagsFiltering) // 2 - main tab tags filtering
-      .then(mainTagsFiltering => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags) // 3 - Tag tab results context tags
-        .then(tagContextTags => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.tagsFiltering) // 4 - Tag tab tags filtering
-          .then(tagTagsFiltering => this.updateDescriptionTab(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]) // 5 - Description tab update
+  updateWithRights = (resultsContext) => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags) // 1 - main tab context tags
+    .then((mainContextTags) => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.tagsFiltering) // 2 - main tab tags filtering
+      .then((mainTagsFiltering) => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags) // 3 - Tag tab results context tags
+        .then((tagContextTags) => this.updateTagsList(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.tagsFiltering) // 4 - Tag tab tags filtering
+          .then((tagTagsFiltering) => this.updateDescriptionTab(resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]) // 5 - Description tab update
             .then((newDescriptionState) => { // 6 - Pack in a complete results context state and commit (with coherence control)
               const contextDiff = {
                 tabs: {
@@ -272,7 +270,6 @@ export class ContextManager extends React.Component {
               }
               this.commitCoherentContext(UIDomain.ResultsContextHelper.deepMerge(resultsContext, contextDiff))
             })))))
-
 
   render() {
     const { children } = this.props

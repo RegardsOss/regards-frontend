@@ -26,6 +26,7 @@ export { default as SingleAttributeFieldRender } from './configuration/single/Si
 export { buildRenderDelegate, getTypeRender } from './render/AttributesTypeToRender'
 export { default as AttributeModelRender } from './render/AttributeRender'
 export { default as AttributeRender } from './render/AttributeRender'
+export { default as LabelVersionText } from './render/LabelVersionText'
 
 export { default as ThumbnailAttributeRender } from './render/ThumbnailAttributeRender'
 

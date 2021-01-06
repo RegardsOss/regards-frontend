@@ -21,13 +21,14 @@ import Up from 'mdi-material-ui/ArrowUpBold'
 import isNumber from 'lodash/isNumber'
 import throttle from 'lodash/throttle'
 import root from 'window-or-global'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import styles from './styles'
 
 /**
+ * Displays an anchor helper, scrolling to view top when clicked
  * @author Léo Mieulet
- * Displays an anchor to helps the user to scroll to the top of the HMI
  */
-class AnchorComponent extends React.Component {
+export class AnchorComponent extends React.Component {
   static propTypes = {
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -41,29 +42,9 @@ class AnchorComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props, context) {
-    super(props)
-    const {
-      components: {
-        anchorScrollTop: {
-          iconColor,
-          buttonRight,
-          buttonBottom,
-        },
-      },
-    } = context.muiTheme
-    this.state = {
-      isVisible: false,
-      buttonStyle: {
-        bottom: buttonBottom,
-        right: buttonRight,
-        position: 'fixed',
-        zIndex: 2,
-      },
-      iconStyle: {
-        fill: iconColor,
-      },
-    }
+  /** Initial state */
+  state = {
+    isVisible: false,
   }
 
   /**
@@ -95,7 +76,6 @@ class AnchorComponent extends React.Component {
     }
   }, 100, { leading: true, trailing: true })
 
-
   /**
    * Receive the current user Y position
    * Update the visibility of that button
@@ -113,7 +93,6 @@ class AnchorComponent extends React.Component {
       })
     }
   }
-
 
   /**
    * Scroll the browser to the destination
@@ -166,33 +145,28 @@ class AnchorComponent extends React.Component {
 
   render() {
     const { children } = this.props
-    const { buttonStyle, iconStyle, isVisible } = this.state
+    const { isVisible } = this.state
     const {
-      components: {
-        anchorScrollTop: {
-          buttonColor,
-        },
-      },
-    } = this.context.muiTheme
+      moduleTheme: { anchorComponent: { buttonStyle, iconStyle } },
+      muiTheme: { components: { anchorScrollTop: { buttonColor } } },
+    } = this.context
     return (
       <div>
         {children}
         {isVisible
           ? <FloatingActionButton
-            mini
-            style={buttonStyle}
-            backgroundColor={buttonColor}
-            onClick={this.handleScroll}
-            iconStyle={iconStyle}
+              mini
+              style={buttonStyle}
+              backgroundColor={buttonColor}
+              onClick={this.handleScroll}
+              iconStyle={iconStyle}
           >
             <Up />
           </FloatingActionButton>
-          : null
-        }
+          : null}
       </div>
     )
   }
 }
 
-
-export default AnchorComponent
+export default withModuleStyle(styles)(AnchorComponent)

@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-ingest/processingChain/ProcessingChai
 import getEntitySelectors from '../../src/rs-ingest/processingChain/ProcessingChainSelectors'
 import dump from './Session.dump'
 
-
 const options = {
 }
 

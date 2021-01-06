@@ -28,6 +28,7 @@ import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellC
 /**
  * Component displaying search results as quicklook list
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class QuicklooksViewComponent extends React.Component {
   static propTypes = {
@@ -36,6 +37,8 @@ class QuicklooksViewComponent extends React.Component {
     searchActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     cellProperties: SpecificCellProperties.isRequired,
     embedInMap: PropTypes.bool.isRequired,
+    itemOfInterestPicked: PropTypes.number,
+    getItemOfInterest: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -47,7 +50,7 @@ class QuicklooksViewComponent extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, cellProperties, embedInMap,
+      tabType, requestParameters, searchActions, cellProperties, embedInMap, itemOfInterestPicked, getItemOfInterest,
     } = this.props
     // Recover column with and gap from theme: map specific theme if embedded in map, quicklooks otherwise
     const searchResultsTheme = this.context.muiTheme.module.searchResults
@@ -66,6 +69,8 @@ class QuicklooksViewComponent extends React.Component {
         queryPageSize={pageSize}
         emptyComponent={QuicklooksViewComponent.EMPTY_COMPONENT}
         itemProps={cellProperties}
+        itemOfInterestPicked={itemOfInterestPicked}
+        getItemOfInterest={getItemOfInterest}
       />
     )
   }

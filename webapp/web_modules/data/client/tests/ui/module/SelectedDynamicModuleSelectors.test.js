@@ -25,7 +25,6 @@ const testActions = new SelectedDynamicModuleActions('tests')
 const testReduce = getSelectedDynamicModuleReducer('tests')
 const testSelectors = getSelectedDynamicModuleSelectors(['test', 'selectedDynamicModule'])
 
-
 const buildMockStore = (initState = SelectedDynamicModuleReducer.DEFAULT_STATE) => ({
   test: {
     selectedDynamicModule: initState,

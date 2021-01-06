@@ -19,7 +19,6 @@
 // ensure the default module icon is present in bundle
 import '../default-icon.svg'
 
-
 export { default as moduleContainer } from './containers/user/UserContainer'
 export { default as adminContainer } from './containers/admin/AdminContainer'
 export { default as styles } from './styles/styles'

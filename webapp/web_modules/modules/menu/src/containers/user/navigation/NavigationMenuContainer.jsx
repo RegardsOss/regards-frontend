@@ -60,7 +60,6 @@ export class NavigationMenuContainer extends React.Component {
     return null
   }
 
-
   render() {
     const {
       homeConfiguration, navigationConfiguration, displayMode,

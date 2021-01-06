@@ -23,7 +23,6 @@ import { Tabs, Tab } from 'material-ui/Tabs'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
@@ -39,11 +38,10 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
   ActionsMenuCell, NoContentComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
-  ShowableAtRender, HelpMessageComponent, CardActionsComponent,
+  ShowableAtRender, HelpMessageComponent, CardActionsComponent, HateoasIconAction,
 } from '@regardsoss/components'
-import { LoadableContentDisplayDecorator, HateoasKeys, withHateoasDisplayControl } from '@regardsoss/display-control'
+import { LoadableContentDisplayDecorator, HateoasKeys } from '@regardsoss/display-control'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 const actionsBreakpoints = [550, 1040, 1040, 1040, 1040]
 
 /**
@@ -89,7 +87,7 @@ export class AccountListComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize the selected tab
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     if (this.props.initialFecthing && !nextProps.initialFecthing) {
       // first loading: show waiting tab if there are any waiting account
       this.selectTab(!isEmpty(nextProps.waitingAccounts) ? TABS.waiting : TABS.all)
@@ -162,17 +160,17 @@ export class AccountListComponent extends React.Component {
   /**
    * @return {boolean} true if administrator can accept this account
    */
-  canAcceptAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+  canAcceptAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   /**
    * @return {boolean} true if administrator can refuse this account
    */
-  canRefuseAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
+  canRefuseAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.PENDING === account.content.status
 
   /**
    * @return {boolean} true if administrator can enabled this account
    */
-  canEnableAccount = account => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
+  canEnableAccount = (account) => AdminInstanceDomain.ACCOUNT_STATUS_ENUM.INACTIVE === account.content.status
 
   /**
    * Shows selected tab

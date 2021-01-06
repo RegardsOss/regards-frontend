@@ -25,6 +25,6 @@ export const ResourceAccessConfiguration = {
 
 // Read more about Normalizr: https://github.com/paularmstrong/normalizr
 export const RESOURCE_ACCESS = new Schema(ResourceAccessConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ResourceAccessConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[ResourceAccessConfiguration.entityKey],
 })
 export const RESOURCE_ACCESS_ARRAY = arrayOf(RESOURCE_ACCESS)

@@ -39,7 +39,6 @@ class StatusRender extends React.Component {
     value: PropTypes.oneOf(values(ORDER_USER_STATUS)).isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,

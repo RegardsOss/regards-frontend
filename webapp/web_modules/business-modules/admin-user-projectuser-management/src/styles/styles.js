@@ -25,7 +25,125 @@
   */
 export default function buildStyles(theme) {
   return {
+    userForm: {
+      chipBackground: theme.palette.primary1Color,
+      chip: {
+        margin: 4,
+      },
+      avatarBackground: theme.palette.primary2Color,
+      renderChipInput: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        marginTop: 4,
+      },
+      groupsLabel: {
+        color: theme.textField.floatingLabelColor,
+        fontFamily: theme.fontFamily,
+        fontSize: '0.9em',
+        marginTop: 21,
+        marginBottom: 7,
+      },
+    },
     usersList: {
+      quotaCell: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+        },
+        icon: {
+          warning: {
+            color: theme.components.download.quotaWarningColor,
+            marginLeft: 24,
+          },
+          consumed: {
+            color: theme.components.download.quotaConsumedColor,
+            marginLeft: 24,
+          },
+        },
+      },
+      quotaDialog: {
+        root: {
+          padding: '0 24px 12px 24px',
+        },
+        form: {
+          root: {
+            display: 'grid',
+            gridTemplateColumns: 'min-content 1fr min-content',
+            gridTemplateRows: 'min-content min-content min-content min-content',
+            gridColumnGap: 12,
+            gridRowGap: 0,
+          },
+          spaceConsumer: {
+            gridColumn: 1,
+            gridRow: 1,
+          },
+          maxField: {
+            gridColumn: 2,
+            gridRow: 1,
+          },
+          minusIcon: {
+            width: 24,
+            height: 24,
+            gridColumn: 1,
+            gridRow: 2,
+            alignSelf: 'end',
+            marginBottom: 12,
+            color: theme.palette.primary1Color,
+          },
+          currentField: {
+            gridColumn: 2,
+            gridRow: 2,
+          },
+          equalIcon: {
+            width: 24,
+            height: 24,
+            gridColumn: 1,
+            gridRow: 3,
+            alignSelf: 'end',
+            marginBottom: 12,
+            color: theme.palette.primary1Color,
+          },
+          remainingField: {
+            gridColumn: 2,
+            gridRow: 3,
+          },
+          warningIcon: {
+            width: 24,
+            height: 24,
+            gridColumn: 3,
+            gridRow: 3,
+            alignSelf: 'end',
+            marginBottom: 12,
+            color: theme.components.download.quotaWarningColor,
+          },
+          consumedIcon: {
+            width: 24,
+            height: 24,
+            gridColumn: 3,
+            gridRow: 3,
+            alignSelf: 'end',
+            marginBottom: 12,
+            color: theme.components.download.quotaConsumedColor,
+          },
+          unlimitedIcon: {
+            width: 24,
+            height: 24,
+            gridColumn: 3,
+            gridRow: 3,
+            alignSelf: 'end',
+            marginBottom: 12,
+            color: theme.palette.primary2Color,
+          },
+          buttonsBar: {
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            gridColumn: '1 / span 3',
+            paddingTop: 20,
+            gridRow: 4,
+          },
+        },
+      },
       actionsStyles: {
         display: 'flex',
         justifyContent: 'space-between',

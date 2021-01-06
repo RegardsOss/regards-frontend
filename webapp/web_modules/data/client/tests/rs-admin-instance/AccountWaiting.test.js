@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { ReduxEntityTester } from '@regardsoss/tests-helpers'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import AccountWaitingActions from '../../src/rs-admin-instance/account/AccountWaitingActions'
 import getAccountWaitingReducer from '../../src/rs-admin-instance/account/AccountWaitingReducer'
 import AccountWaitingSelectors from '../../src/rs-admin-instance/account/AccountWaitingSelectors'
@@ -30,7 +30,7 @@ const options = {
 const actions = new AccountWaitingActions('test/action')
 const reducer = getAccountWaitingReducer('test/action')
 const selectors = AccountWaitingSelectors(['test', 'modules'])
-const entityTester = new ReduxEntityTester(actions, reducer, selectors, AdminShapes.ProjectUserList.isRequired, backendServerResultList, options)
+const entityTester = new ReduxEntityTester(actions, reducer, selectors, AccessShapes.ProjectUserList.isRequired, backendServerResultList, options)
 
 describe('[ADMIN ACCOUNT MANAGEMENT] Testing model AccountWaiting', () => {
   before(() => {

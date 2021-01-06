@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import { Schema, arrayOf } from 'normalizr'
 
 export const ProductConfiguration = {
@@ -26,7 +25,7 @@ export const ProductConfiguration = {
 }
 
 export const PRODUCT = new Schema(ProductConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[ProductConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[ProductConfiguration.entityKey]
   ,
 })
 export const PRODUCT_ARRAY = arrayOf(PRODUCT)

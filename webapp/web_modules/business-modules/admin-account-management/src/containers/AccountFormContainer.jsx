@@ -46,11 +46,12 @@ export class AccountFormContainer extends React.Component {
   getBackUrl = () => ('/admin/accounts/management/list')
 
   handleUpdate = (values) => {
-    const updatedAccount = Object.assign({}, this.props.account.content, {
+    const updatedAccount = {
+      ...this.props.account.content,
       email: values.email,
       firstName: values.firstName,
       lastName: values.lastName,
-    })
+    }
     Promise.resolve(this.props.updateAccount(this.props.account.content.id, updatedAccount))
       .then((actionResult) => {
         // We receive here the action
@@ -85,9 +86,9 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: accountSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   updateAccount: (id, values) => dispatch(accountActions.updateEntity(id, values)),
-  fetchAccount: accountId => dispatch(accountActions.fetchEntity(accountId)),
+  fetchAccount: (accountId) => dispatch(accountActions.fetchEntity(accountId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountFormContainer)

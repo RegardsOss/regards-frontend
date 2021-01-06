@@ -20,7 +20,6 @@ import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
 import FullTextCriterionComponent from '../components/FullTextCriterionComponent'
 
-
 export class FullTextCriterionContainer extends React.Component {
   /**
    * Specifying the default state expected by this component (see propTypes for types)

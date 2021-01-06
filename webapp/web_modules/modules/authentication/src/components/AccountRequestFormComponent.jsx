@@ -68,10 +68,16 @@ export class AccountRequestFormComponent extends React.Component {
 
   static contextTypes = { ...themeContextType, ...i18nContextType }
 
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     const initialValues = {}
     initialValues[mailFieldId] = this.props.initialMail
     this.props.initialize(initialValues)
+  }
+
+  /** User callback: back operation */
+  onBack = () => {
+    const { onBack, currentMailValue } = this.props
+    onBack(currentMailValue)
   }
 
   /**
@@ -80,9 +86,8 @@ export class AccountRequestFormComponent extends React.Component {
    */
   render() {
     const {
-      currentMailValue, requestFormId,
-      errorMessage, onBack, submitting, invalid,
-      onRequestAction, handleSubmit,
+      requestFormId, errorMessage, submitting,
+      invalid, onRequestAction, handleSubmit,
     } = this.props
     const { moduleTheme } = this.context
     return (
@@ -120,7 +125,7 @@ export class AccountRequestFormComponent extends React.Component {
                 disabled={submitting}
                 label={this.context.intl.formatMessage({ id: 'account.request.form.back' })}
                 primary
-                onClick={() => onBack(currentMailValue)}
+                onClick={this.onBack}
               />
             </CardActions>
           </Card>
@@ -138,6 +143,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector(form)
-export default connect(state => ({
+export default connect((state) => ({
   currentMailValue: selector(state, mailFieldId),
 }))(connectedReduxForm)

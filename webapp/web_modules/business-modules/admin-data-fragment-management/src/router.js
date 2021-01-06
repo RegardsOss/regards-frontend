@@ -52,7 +52,6 @@ export const editFragmentRoute = {
   },
 }
 
-
 const fragmentDataManagementRouter = {
   childRoutes: [
     listFragmentRoute,

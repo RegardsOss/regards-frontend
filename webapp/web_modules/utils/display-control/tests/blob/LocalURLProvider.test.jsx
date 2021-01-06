@@ -31,7 +31,7 @@ describe('[DISPLAY CONTROL] Testing LocalURLProvider', () => {
   before(() => {
     testSuiteHelpers.before()
     root.URL = {
-      createObjectURL: testBlob => `myTestFolder/${testBlob.text}`,
+      createObjectURL: (testBlob) => `myTestFolder/${testBlob.text}`,
       revokeObjectURL: () => {},
     }
   })

@@ -19,7 +19,6 @@
 import { BasicSignalReducers } from '@regardsoss/store-utils'
 import { CreateUserActions } from './CreateUserActions'
 
-
 const instance = new BasicSignalReducers(CreateUserActions)
 
 /**

@@ -22,7 +22,6 @@ import { testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
 import { ModelAttributeContainer } from '../../src/containers/ModelAttributeContainer'
 import ModelAttributeComponent from '../../src/components/ModelAttributeComponent'
 
-
 describe('[ADMIN DATA MODEL ATTRIBUTE MANAGEMENT] Testing ModelAttributeContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)

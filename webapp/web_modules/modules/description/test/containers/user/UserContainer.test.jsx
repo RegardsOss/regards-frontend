@@ -64,11 +64,15 @@ describe('[Description] Testing UserContainer', () => {
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       fetchEntity: () => {},
       fetchModelAttributes: () => {},
+      fetchAllEntityVersions: () => {},
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
     }
@@ -101,11 +105,15 @@ describe('[Description] Testing UserContainer', () => {
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
-      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
-      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchAllEntityVersions: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: (descriptionPath) => {
         spySetModuleDescriptionPath.descriptionPath = descriptionPath
@@ -248,15 +256,20 @@ describe('[Description] Testing UserContainer', () => {
       },
       setSelectedPath: () => {},
       descriptionState: {
+        showVersion: true,
         descriptionPath: [],
         browsingTreeVisible: true,
       },
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'myMain',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
-      fetchEntity: () => new Promise(resolve => resolve({ payload: {} })),
-      fetchModelAttributes: () => new Promise(resolve => resolve({ payload: {} })),
+      fetchEntity: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchModelAttributes: () => new Promise((resolve) => resolve({ payload: {} })),
+      fetchAllEntityVersions: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
     }

@@ -142,7 +142,7 @@ describe('[Numerical criterion] Testing the NumericalCriterionContainer', () => 
       assert.deepEqual(spiedPublishStateData.requestParameters, expectedQuery, `[${label}] Query should match updated value`)
     })
 
-    const operatorTestCases = CommonDomain.EnumNumericalComparators.map(c => ({
+    const operatorTestCases = CommonDomain.EnumNumericalComparators.map((c) => ({
       label: `selecting comparator "${c}"`,
       comparator: c,
       expectedError: false,

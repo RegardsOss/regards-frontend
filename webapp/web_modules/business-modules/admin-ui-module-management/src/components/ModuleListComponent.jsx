@@ -20,28 +20,25 @@ import map from 'lodash/map'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
+
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import Copy from 'mdi-material-ui/ContentCopy'
-import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
 import {
-  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ShowableAtRender, HateoasToggle, HateoasIconAction, ResourceIconAction,
 } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../clients/ModuleClient'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 const actionsBreakpoints = [460, 945, 945]
 
 /**
@@ -66,11 +63,8 @@ class ModuleListComponent extends React.Component {
 
   static CREATE_DEPENDENCIES = [moduleActions.getDependency(RequestVerbEnum.POST)]
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      deleteDialogOpened: false,
-    }
+  state = {
+    deleteDialogOpened: false,
   }
 
   openDeleteDialog = (module) => {
@@ -85,6 +79,15 @@ class ModuleListComponent extends React.Component {
       deleteDialogOpened: false,
       moduleToDelete: null,
     })
+  }
+
+  /**
+   * User callback: on delete confirmed
+   */
+  onDeleteConfirmed = () => {
+    const { onDelete } = this.props
+    const { moduleToDelete } = this.state
+    onDelete(moduleToDelete)
   }
 
   render() {
@@ -105,7 +108,7 @@ class ModuleListComponent extends React.Component {
         >
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.DELETE}
-            onConfirm={() => { this.props.onDelete(this.state.moduleToDelete) }}
+            onConfirm={this.onDeleteConfirmed}
             onClose={this.closeDeleteDialog}
             title={title}
           />

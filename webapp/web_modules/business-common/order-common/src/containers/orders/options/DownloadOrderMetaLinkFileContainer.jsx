@@ -30,18 +30,6 @@ const metalinkFileActions = new OrderClient.DownloadOrderMetalinkFileActions()
  * @author Raphaël Mechali
  */
 export class DownloadOrderMetaLinkFileContainer extends React.Component {
-  /**
-  * Redux: map state to props function
-  * @param {*} state: current redux state
-  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-  * @return {*} list of component properties extracted from redux state
-  */
-  static mapStateToProps(state) {
-    return {
-      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
-    }
-  }
-
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderWithContent.isRequired,
@@ -58,8 +46,19 @@ export class DownloadOrderMetaLinkFileContainer extends React.Component {
     OrderDomain.ORDER_STATUS_ENUM.DONE,
   ]
 
+  /**
+  * Redux: map state to props function
+  * @param {*} state: current redux state
+  * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+  * @return {*} list of component properties extracted from redux state
+  */
+  static mapStateToProps(state) {
+    return {
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+    }
+  }
+
   render() {
-    // eslint-disable-next-line camelcase
     const { entity: { content: { id, status } }, authentication: { result: { access_token } } } = this.props
     return (
       <DownloadOrderMetaLinkFileComponent

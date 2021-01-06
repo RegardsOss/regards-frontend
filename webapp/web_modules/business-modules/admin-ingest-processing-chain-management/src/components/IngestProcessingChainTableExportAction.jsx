@@ -18,12 +18,10 @@
  **/
 import find from 'lodash/find'
 import Download from 'mdi-material-ui/Download'
-import IconButton from 'material-ui/IconButton'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
 * @author Sébastien Binda
@@ -32,7 +30,7 @@ class IngestProcessingChainTableExportAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     accessToken: PropTypes.string.isRequired,
   }
@@ -47,7 +45,7 @@ class IngestProcessingChainTableExportAction extends React.Component {
 
   getExportUrlFromHateoas = (links) => {
     const { accessToken } = this.props
-    const exportLink = find(links, link => (
+    const exportLink = find(links, (link) => (
       link.rel === 'export'
     ))
     if (!exportLink) {

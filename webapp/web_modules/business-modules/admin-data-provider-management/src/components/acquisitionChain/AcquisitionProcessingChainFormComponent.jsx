@@ -41,7 +41,7 @@ import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
   RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray, StringComparison,
 } from '@regardsoss/form-utils'
-import { DataProviderDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
@@ -55,7 +55,7 @@ const {
   required, validStringSize,
 } = ValidationHelpers
 const validRequiredString255 = [required, validStringSize(1, 255)]
-const validateCron = value => value && !/^0 [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*$/i.test(value)
+const validateCron = (value) => value && !/^0 [^ ]* [^ ]* [^ ]* [^ ]* [^ ]*$/i.test(value)
   ? 'invalid.cron.expression' : undefined
 
 /**
@@ -84,16 +84,31 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     ...themeContextType,
   }
 
+  static INGEST_PROCESSING_CHAIN_CONFIG = {
+    text: 'name',
+    value: 'name',
+  }
 
-  static getNewIntialValues = () => ({
-    active: true,
-    fileInfos: [{
-      mandatory: true,
-    }],
-    categories: [],
-    mode: 'MANUAL',
-    periodicity: '0 * * * * *',
-  })
+  /** Order versioning mode, as displayed to user */
+  static ORDERED_VERSIONING_MODES = [
+    IngestDomain.VERSIONING_MODES_ENUM.IGNORE,
+    IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
+    IngestDomain.VERSIONING_MODES_ENUM.REPLACE,
+    IngestDomain.VERSIONING_MODES_ENUM.MANUAL,
+  ]
+
+  static getNewIntialValues() {
+    return {
+      active: true,
+      fileInfos: [{
+        mandatory: true,
+      }],
+      versioningMode: IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
+      mode: 'MANUAL',
+      periodicity: '0 * * * * *',
+      categories: [],
+    }
+  }
 
   /**
    * Duplicate the given chain by removing parameters [id,label,locked,lastDateActivation].
@@ -145,7 +160,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     return {
       ...omit(plugin, ['id', 'label', 'parameters', 'businessId']),
       label: plugin.pluginId ? `${plugin.pluginId}-${Date.now()}` : Date.now(),
-      parameters: map(plugin.parameters, parameter => omit(parameter, ['id'])) || [],
+      parameters: map(plugin.parameters, (parameter) => omit(parameter, ['id'])) || [],
     }
   }
 
@@ -170,7 +185,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     cronDescOpened: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       chain, mode, storages, initialize,
     } = this.props
@@ -178,7 +193,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     let loadedStorages
     if (mode !== 'create') {
       loadedStorages = map(storages, (serverStorage) => {
-        const findStorage = find(chain.content.storages, s => serverStorage.content.label === s.pluginBusinessId)
+        const findStorage = find(chain.content.storages, (s) => serverStorage.content.label === s.pluginBusinessId)
         return {
           label: serverStorage.content.label,
           active: !!findStorage,
@@ -198,7 +213,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       case 'create':
         initialValues = {
           ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
-          storages: map(storages, serverStorage => ({
+          storages: map(storages, (serverStorage) => ({
             label: serverStorage.content.label,
             active: false,
             storePath: '',
@@ -248,7 +263,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     })
   }
 
-  renderFileInfoItemLabel = item => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
+  renderFileInfoItemLabel = (item) => item.comment || this.context.intl.formatMessage({ id: 'acquisition-chain.form.fileInfos.list.item.title' })
 
   render() {
     const {
@@ -284,10 +299,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
         break
     }
 
-    const ingestProcessingChainConfig = {
-      text: 'name',
-      value: 'name',
-    }
     const componentProps = { changeField: this.props.changeField }
     return (
       <form
@@ -318,12 +329,28 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.active' })}
                 />
                 <Field
+                  key="versioningMode"
+                  name="versioningMode"
+                  fullWidth
+                  component={RenderSelectField}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.version.mode' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.version.mode' })}
+                  validate={required}
+                >
+                  {AcquisitionProcessingChainFormComponent.ORDERED_VERSIONING_MODES.map((versionMode) => (
+                    <MenuItem
+                      key={versionMode}
+                      value={versionMode}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.version.mode.${versionMode}` })}
+                    />))}
+                </Field>
+                <Field
                   key="mode"
                   name="mode"
                   fullWidth
                   component={RenderSelectField}
-                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
-                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.mode' })}
+                  hintText={formatMessage({ id: 'acquisition-chain.form.general.section.starting.mode' })}
+                  floatingLabelText={formatMessage({ id: 'acquisition-chain.form.general.section.starting.mode' })}
                   validate={required}
                 >
                   {map(DataProviderDomain.AcquisitionProcessingChainModes, (activationMode, key) => (
@@ -331,7 +358,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                       className={`selenium-pick-mode-${activationMode}`}
                       value={activationMode}
                       key={key}
-                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.mode.${activationMode}` })}
+                      primaryText={formatMessage({ id: `acquisition-chain.form.general.section.starting.mode.${activationMode}` })}
                     />
                   ))}
                 </Field>
@@ -367,7 +394,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   entitiesFilterProperty="name"
                   entityActions={ingestProcessingChainActions}
                   entitiesPayloadKey={ingestProcessingChainEntitiesKey}
-                  entitiesConfig={ingestProcessingChainConfig}
+                  entitiesConfig={AcquisitionProcessingChainFormComponent.INGEST_PROCESSING_CHAIN_CONFIG}
                   validate={required}
                 />
                 <FieldArray
@@ -393,6 +420,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                 <FieldArray
                   name="fileInfos"
                   component={RenderArrayObjectField}
+                  fieldProps={componentProps}
                   elementLabel={this.renderFileInfoItemLabel}
                   fieldComponent={AcquisitionFileInfoComponent}
                   duplicationTransformation={AcquisitionProcessingChainFormComponent.duplicateFileInfo}

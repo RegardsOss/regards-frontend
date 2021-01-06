@@ -19,7 +19,7 @@
 import find from 'lodash/find'
 import StopIcon from 'mdi-material-ui/Stop'
 import IconButton from 'material-ui/IconButton'
-import { DataProviderShapes } from '@regardsoss/shape'
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -30,7 +30,7 @@ class AcquisitionProcessingChainTableStopAction extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onStopChain: PropTypes.func.isRequired,
   }
@@ -45,7 +45,7 @@ class AcquisitionProcessingChainTableStopAction extends React.Component {
 
   isStoppable = () => {
     const { links } = this.props.entity
-    return !!find(links, l => l.rel === 'stop')
+    return !!find(links, (l) => l.rel === 'stop')
   }
 
   render() {

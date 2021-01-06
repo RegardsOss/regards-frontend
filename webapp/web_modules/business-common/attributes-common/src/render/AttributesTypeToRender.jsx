@@ -44,7 +44,7 @@ const typeToRenderMap = {
   // Render of type / specific renderer key to renderer (constants React components)
   [DamDomain.MODEL_ATTR_TYPES.STRING]: {
     [DEFAULT_RENDERER_KEY]: StringValueRender, // default renderer
-    multiline: props => <StringValueRender multilineDisplay {...props} />,
+    multiline: (props) => <StringValueRender multilineDisplay {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.INTEGER]: {
     [DEFAULT_RENDERER_KEY]: NumberValueRender,
@@ -54,11 +54,11 @@ const typeToRenderMap = {
   },
   [DamDomain.MODEL_ATTR_TYPES.DATE_ISO8601]: {
     [DEFAULT_RENDERER_KEY]: DateValueRender, // dateWithSeconds
-    date: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
-    dateWithMinutes: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
-    dateWithMilliseconds: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
-    time: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
-    timeWithMilliseconds: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    date: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
+    dateWithMinutes: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
+    dateWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
+    time: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
+    timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.URL]: {
     [DEFAULT_RENDERER_KEY]: URLValueRender,
@@ -77,11 +77,11 @@ const typeToRenderMap = {
   },
   [DamDomain.MODEL_ATTR_TYPES.DATE_ARRAY]: {
     [DEFAULT_RENDERER_KEY]: DateArrayValueRender, // dateWithSeconds
-    date: props => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
-    dateWithMinutes: props => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
-    dateWithMilliseconds: props => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
-    time: props => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
-    timeWithMilliseconds: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    date: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
+    dateWithMinutes: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
+    dateWithMilliseconds: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
+    time: (props) => <DateArrayValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
+    timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.INTEGER_INTERVAL]: {
     [DEFAULT_RENDERER_KEY]: NumberRangeValueRender,
@@ -91,11 +91,11 @@ const typeToRenderMap = {
   },
   [DamDomain.MODEL_ATTR_TYPES.DATE_INTERVAL]: {
     [DEFAULT_RENDERER_KEY]: DateRangeValueRender, // dateWithSeconds
-    date: props => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
-    dateWithMinutes: props => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
-    dateWithMilliseconds: props => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
-    time: props => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
-    timeWithMilliseconds: props => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
+    date: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.date} {...props} />,
+    dateWithMinutes: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMinutes} {...props} />,
+    dateWithMilliseconds: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.dateWithMilliseconds} {...props} />,
+    time: (props) => <DateRangeValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.time} {...props} />,
+    timeWithMilliseconds: (props) => <DateValueRender formatter={DateValueRender.DEFAULT_FORMATTERS.timeWithMilliseconds} {...props} />,
   },
   [DamDomain.MODEL_ATTR_TYPES.LONG]: {
     [DEFAULT_RENDERER_KEY]: NumberValueRender,

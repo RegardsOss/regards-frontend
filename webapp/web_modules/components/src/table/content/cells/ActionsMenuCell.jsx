@@ -41,6 +41,21 @@ const iconAnchor = { horizontal: 'right', vertical: 'top' }
  * @author Xavier-Alexandre Brochard
  */
 class ActionsMenuCell extends React.Component {
+  static propTypes = {
+    breakpoints: PropTypes.arrayOf(PropTypes.number),
+    children: PropTypes.node,
+  }
+
+  static defaultProps = {
+    breakpoints: [],
+    children: [],
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
   state = {
     open: false,
   }
@@ -94,21 +109,6 @@ class ActionsMenuCell extends React.Component {
       </div>
     )
   }
-}
-
-ActionsMenuCell.propTypes = {
-  breakpoints: PropTypes.arrayOf(PropTypes.number),
-  children: PropTypes.node,
-}
-
-ActionsMenuCell.defaultProps = {
-  breakpoints: [],
-  children: [],
-}
-
-ActionsMenuCell.contextTypes = {
-  ...i18nContextType,
-  ...themeContextType,
 }
 
 export default withI18n(messages, true)(ActionsMenuCell)

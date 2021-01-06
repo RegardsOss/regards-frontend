@@ -45,7 +45,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
   it('should render correctly a POJO Plugin parameter', () => {
     const pluginConf = DumpProvider.getEntityContentBy('CommonClient', 'PluginConfiguration', 'content.id', 202)
     assert.isDefined(pluginConf)
-    const parameters = filter(pluginConf.parameters, p => p.type === CommonDomain.PluginParameterTypes.POJO)
+    const parameters = filter(pluginConf.parameters, (p) => p.type === CommonDomain.PluginParameterTypes.POJO)
     assert.isDefined(parameters)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
@@ -72,7 +72,7 @@ describe('[MICROSERVICE PLUGIN CONFIGURATOR] Testing RenderObjectParameterField'
     assert.isDefined(pluginConf)
     const pluginMetaData = DumpProvider.getEntityContentBy('CommonClient', 'PluginMetaData', 'content.pluginId', 'FullPluginExample')
     assert.isDefined(pluginMetaData)
-    const parameters = filter(pluginMetaData.parameters, p => p.type === 'POJO')
+    const parameters = filter(pluginMetaData.parameters, (p) => p.type === 'POJO')
     assert.isDefined(parameters)
     assert.isTrue(parameters.length > 0, 'Invalid configuration for tests. There should be at least on parameter of type POJO')
     forEach(parameters, (parameter) => {

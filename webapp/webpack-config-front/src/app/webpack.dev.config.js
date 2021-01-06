@@ -5,6 +5,8 @@ const merge = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
 const threadLoader = require('thread-loader')
+const CopyPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
@@ -62,6 +64,17 @@ module.exports = function (projectContextPath) {
       disableHostCheck: true,
     },
     plugins: [
+      // Copy cesium files
+      // Cesium bundled version is copied on dev
+      new CopyPlugin([{
+        from: "node_modules/cesium/Build/CesiumUnminified",
+        to: "cesium",
+      }]),
+      // Add Cesium inside html on dev
+      new HtmlWebpackIncludeAssetsPlugin({
+        append: false,
+        assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
+      }),
       new webpack.DllReferencePlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs
@@ -72,6 +85,7 @@ module.exports = function (projectContextPath) {
       }),
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
+        CESIUM_BASE_URL: JSON.stringify("/"),
         'process.env': {
           NODE_ENV: JSON.stringify('development'),
         },

@@ -29,15 +29,14 @@ class LayoutSelectors extends BasicPageableSelectors {
    * @param state redux state
    * @return user layout
    */
-  getUserLayout = state => this.getById(state, UIDomain.APPLICATIONS_ENUM.USER)
-
+  getUserLayout = (state) => this.getById(state, UIDomain.APPLICATIONS_ENUM.USER)
 
   /**
    * @param state redux state
    * @return dynamic container
    */
   getDynamicContainer = createSelector(
-    [state => this.getUserLayout(state)],
+    [(state) => this.getUserLayout(state)],
     (userLayout) => {
       const allContainers = get(userLayout, 'content.layout.containers', EMPTY_ARRAY)
       return find(allContainers, ({ dynamicContent = false, id }) => dynamicContent)
@@ -48,8 +47,8 @@ class LayoutSelectors extends BasicPageableSelectors {
    * @return dynamic container
    */
   getDynamicContainerId = createSelector(
-    [state => this.getDynamicContainer(state)],
-    dynamicContainer => get(dynamicContainer, 'id'))
+    [(state) => this.getDynamicContainer(state)],
+    (dynamicContainer) => get(dynamicContainer, 'id'))
 }
 
 /**

@@ -30,7 +30,7 @@ import SelectedNumberRangeFacetComponent from './filter/facets/SelectedNumberRan
 import SelectedStringFacetComponent from './filter/facets/SelectedStringFacetComponent'
 import GeometryCriterionComponent from './filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from './filter/EntitiesSelectionCriterionComponent'
-import TagCriterionComponent from './filter/TagCriterionComponent'
+import TagCriterionContainer from '../../../../../containers/user/tabs/results/header/filter/TagCriterionContainer'
 import SearchCriteriaComponent from './filter/SearchCriteriaComponent'
 import StaticParameterCriterionComponent from './filter/StaticParameterCriterionComponent'
 import ReactiveStaticParameterCriterionComponent from './filter/ReactiveStaticParameterCriterionComponent'
@@ -81,14 +81,14 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                 [
                   // 1 - Static criteria
                   // When unactiveStaticParameters empty, all staticParameters are actives
-                  ...filter(staticParameters, sp => sp.active)
-                    .map(sp => <StaticParameterCriterionComponent
+                  ...filter(staticParameters, (sp) => sp.active)
+                    .map((sp) => <StaticParameterCriterionComponent
                       key={sp.label}
                       staticParameter={sp}
                       onUnselectStaticParameter={onToggleStaticParameter}
                     />),
                   // 2 - Tag criteria
-                  ...tagsFiltering.map(tagCriterion => <TagCriterionComponent
+                  ...tagsFiltering.map((tagCriterion) => <TagCriterionContainer
                     key={tagCriterion.searchKey}
                     tagCriterion={tagCriterion}
                     onUnselectTagFilter={onUnselectTagFilter}
@@ -129,12 +129,11 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                     : null,
 
                   // 7 - Reactive static criteria - let the user reactive unactive static criteria
-                  ...reject(staticParameters, sp => sp.active)
-                    .map(sp => <ReactiveStaticParameterCriterionComponent
+                  ...reject(staticParameters, (sp) => sp.active).map((sp) => <ReactiveStaticParameterCriterionComponent
                       key={sp.label}
                       staticParameter={sp}
                       onSelectStaticParameter={onToggleStaticParameter}
-                    />),
+                  />),
                 ]
             }
           </TableHeaderContentBox>

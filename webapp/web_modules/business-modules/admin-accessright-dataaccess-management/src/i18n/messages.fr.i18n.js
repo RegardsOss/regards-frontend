@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'invalid.require_max_more_than_min': ' La valeur maximale doit être strictement supérieure à la valeur minimale',
   'invalid.require_plugin_configuration': 'Vous devez sélectionner quelle configuration de plugin vous souhaitez utiliser',
   'accessright.table.dataset.label': 'Jeux de données',
@@ -59,6 +59,7 @@ const messages = Object.assign({
   'accessright.edit.multiples.button.label': 'Configurer l\'accès pour les jeux sélectionnés',
   'accessright.no.dataset.title': 'Pas de jeux de données',
   'accessright.no.dataset.subtitle': 'Créez votre premier jeu de données',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

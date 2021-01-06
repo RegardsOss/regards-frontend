@@ -42,6 +42,7 @@ const messages = {
   'invalid.length.more.than': 'Use {number} characters or more',
   'invalid.less.than': '{number} or less',
   'invalid.more.than': '{number} or more',
+  'invalid.abs_path': 'Directory is not a valid absolute path. Should start with /',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Cancel',
@@ -57,6 +58,9 @@ const messages = {
   'renderer.fileField.no.file.selected': 'No file selected',
 
   'render.pageableAutoCompleteField.loading': 'loading ...',
+
+  'field.default.help.title': 'About field',
+  'field.help.close.button.label': 'Close',
 
   'render.array-field.values.title': 'Defined values',
   'render.array-field.add.new.value.button': 'Add',

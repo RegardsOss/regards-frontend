@@ -64,8 +64,8 @@ export class EditSettingsContainer extends React.Component {
     return {
       getDataModels: () => dispatch(modelActions.fetchEntityList(null, { type: DamDomain.ENTITY_TYPES_ENUM.DATA })),
       getSettings: () => dispatch(uiSettingsActions.getSettings()),
-      createSettings: settings => dispatch(uiSettingsActions.createSettings(settings)),
-      updateSettings: settings => dispatch(uiSettingsActions.updateSettings(settings)),
+      createSettings: (settings) => dispatch(uiSettingsActions.createSettings(settings)),
+      updateSettings: (settings) => dispatch(uiSettingsActions.updateSettings(settings)),
     }
   }
 
@@ -100,7 +100,7 @@ export class EditSettingsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component did mount. Used here to start data retrieval
@@ -111,12 +111,11 @@ export class EditSettingsContainer extends React.Component {
     getSettings() // pull current settings values
   }
 
-
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

@@ -21,7 +21,6 @@ import { AccessShapes } from '@regardsoss/shape'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 
-
 /**
 * A very light version of the @regardoss/plugin/PluginLoader, which does not perform any loading, nor error checking
 * or children decoration
@@ -56,9 +55,9 @@ export class PluginDisplayerContainer extends React.Component {
     pluginProps: {},
   }
 
-  componentWillMount = () => this.onPropertiesChange(this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesChange(this.props)
 
-  componentWillReceiveProps = nextProps => this.onPropertiesChange(nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesChange(nextProps)
 
   /**
    * Handles properties change: update the rendered plugin
@@ -72,7 +71,6 @@ export class PluginDisplayerContainer extends React.Component {
       // 0 - generate new instance ID
       const pluginInstanceId = `service.instance.${PluginDisplayerContainer.PLUGIN_INSTANCE_ID}`
       PluginDisplayerContainer.PLUGIN_INSTANCE_ID += 1
-
 
       // 1 - register service reducers
       pluginReducerHelper.initializePluginReducer(pluginInstance, pluginInstanceId)
@@ -101,6 +99,5 @@ export class PluginDisplayerContainer extends React.Component {
     )
   }
 }
-
 
 export default PluginDisplayerContainer

@@ -22,7 +22,7 @@
  * @param theme
  * @author Sébastien binda
  */
-const formStyles = theme => ({
+const formStyles = (theme) => ({
   plugins: {
     root: {
       position: 'relative',
@@ -52,6 +52,9 @@ const formStyles = theme => ({
       classes: 'col-sm-30',
       style: { width: '150px', height: '150px' },
     },
+    editHover: theme.palette.primary1Color,
+    duplicateHover: theme.palette.primary1Color,
+    deleteHover: theme.palette.accent1Color,
   },
   service: {
     list: {

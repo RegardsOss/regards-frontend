@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'role.list.title': 'Liste des rôles',
   'role.list.subtitle': 'Rôles utilisateurs sur le projet. Vous pouvez créer de nouveau rôle en choisissant un rôle à partir duquel hériter des droits existants.',
   'role.list.public.name': 'Publique : ',
@@ -43,7 +43,7 @@ const messages = Object.assign({
   'role.edit.action.title': 'Éditer',
   'role.delete.action.title': 'Supprimer',
 
-  'role.name.PUBLIC': 'Publique',
+  'role.name.PUBLIC': 'Public',
   'role.name.REGISTERED_USER': 'Utilisateur enregistré',
   'role.name.EXPLOIT': 'Exploitant',
   'role.name.ADMIN': 'Administrateur',
@@ -64,6 +64,7 @@ const messages = Object.assign({
   'form-utils.enumform.add': 'Ajouter une adresse IP autorisée',
   'form-utils.enumform.valueinput': 'IP autorisée',
   'form-utils.enumform.novalue': 'Aucune IP spécifiée',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

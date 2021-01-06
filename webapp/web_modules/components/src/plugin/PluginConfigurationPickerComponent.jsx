@@ -30,9 +30,10 @@ import ArrowDropRight from 'mdi-material-ui/MenuRight'
 import MoreVertIcon from 'mdi-material-ui/DotsVertical'
 import Delete from 'mdi-material-ui/Delete'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import { ShowableAtRender } from '@regardsoss/display-control'
+import styles from './styles'
 
 class PluginConfigurationPickerComponent extends React.Component {
   static propTypes = {
@@ -51,18 +52,15 @@ class PluginConfigurationPickerComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      currentPluginConfiguration: props.currentPluginConfiguration,
-      newConfSelected: false,
-    }
+  state = {
+    currentPluginConfiguration: this.props.currentPluginConfiguration,
+    newConfSelected: false,
   }
 
   /**
    * When the parent provides a different currentPluginConfiguration, use it as current selected
    */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.currentPluginConfiguration !== this.props.currentPluginConfiguration) {
       this.setState({
         currentPluginConfiguration: nextProps.currentPluginConfiguration,
@@ -70,26 +68,12 @@ class PluginConfigurationPickerComponent extends React.Component {
     }
   }
 
-  getStyle = () => ({
-    pluginButton: {
-      marginLeft: 10,
-      verticalAlign: 'text-bottom',
-    },
-    iconMenu: {
-      visibility: 'hidden',
-      width: '0px',
-    },
-    field: {
-      display: 'none',
-    },
-  })
-
   handleChange = (value) => {
     this.setState({
       openMenu: false,
       newConfSelected: false,
     })
-    const selectedConf = find(this.props.pluginConfigurationList, el => el.content.id === value)
+    const selectedConf = find(this.props.pluginConfigurationList, (el) => el.content.id === value)
     this.props.onChange(value, get(selectedConf, 'content', undefined))
       .then((actionResults) => {
         if (!actionResults.error) {
@@ -124,15 +108,26 @@ class PluginConfigurationPickerComponent extends React.Component {
     })
   }
 
-  buildMenuItemPrimaryText = (leftContent, rightContent, color) => (
-    <div style={{ display: 'flex', justifyContent: 'space-between', color }}>
-      {leftContent}
-      {rightContent ? <span style={{ color: '#bdbdbd' }}>{rightContent}</span> : null}
-    </div>
-  )
+  /** User callback: clear selection */
+  onClear = () => this.handleChange(null)
+
+  /**
+   * Builds a menu item content
+   * @param {*} leftContent left content
+   * @param {*} rightContent right content
+   * @param {*} emphasis should display as emphasized?
+   */
+  buildMenuItemPrimaryText = (leftContent, rightContent, emphasis = false) => {
+    const { moduleTheme: { pluginConfigurationPicker } } = this.context
+    return (
+      <div style={emphasis ? pluginConfigurationPicker.defaultItem : pluginConfigurationPicker.emphasisItem}>
+        {leftContent}
+        {rightContent ? <span style={pluginConfigurationPicker.rightItemContent}>{rightContent}</span> : null}
+      </div>)
+  }
 
   buildAvailablePluginItems = (plugins, pluginConfs, selectedPluginConf, onNewPluginConf) => map(plugins, (plugin) => {
-    const pluginConfsForThisPluginMetaData = filter(pluginConfs, pluginConfiguration => pluginConfiguration.content.pluginId === plugin.content.pluginId)
+    const pluginConfsForThisPluginMetaData = filter(pluginConfs, (pluginConfiguration) => pluginConfiguration.content.pluginId === plugin.content.pluginId)
     const isPluginConfigurationListEmpty = (isEmpty(pluginConfsForThisPluginMetaData) && !onNewPluginConf)
     return (
       <MenuItem
@@ -146,27 +141,28 @@ class PluginConfigurationPickerComponent extends React.Component {
   })
 
   buildAvailableConfItems = (plugin, confs, selectedConf, onNewPluginConf) => {
-    const items = map(confs, conf => (<MenuItem
+    const { intl: { formatMessage } } = this.context
+    const items = map(confs, (conf) => (<MenuItem
       key={conf.content.id}
       primaryText={this.buildMenuItemPrimaryText(conf.content.label, conf.content.version)}
-      onClick={() => this.handleChange(conf.content.id)}
+      // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+      onClick={() => this.handleChange(conf.content.id)} // eslint wont fix: cannot subclass menu items in MUI 0x (breaks menu auto closing)
       checked={selectedConf && conf.content.id === selectedConf.id}
     />))
     if (onNewPluginConf) {
       items.push(
         <MenuItem
-          key="newpluginconf"
-          primaryText={this.buildMenuItemPrimaryText(
-            this.context.intl.formatMessage({ id: 'component.plugin-parameter.new.conf.option' }), null, this.context.muiTheme.palette.accent1Color)
-          }
-          onClick={() => this.handleNewConf(plugin)}
+          key="newPluginConf"
+          primaryText={this.buildMenuItemPrimaryText(formatMessage({ id: 'component.plugin-parameter.new.conf.option' }), null, true)}
+          // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
+          onClick={() => this.handleNewConf(plugin)} // eslint wont fix: cannot subclass menu items in MUI 0x (breaks menu auto closing)
         />,
       )
     }
     return items
   }
 
-  renderRemoveSelected = (styles) => {
+  renderRemoveSelected = () => {
     const { rightRemoveIcon } = this.props
     const { currentPluginConfiguration } = this.state
     const { intl: { formatMessage } } = this.context
@@ -176,7 +172,7 @@ class PluginConfigurationPickerComponent extends React.Component {
           <IconButton
             key="remove"
             title={formatMessage({ id: 'component.plugin-parameter.action.reset' })}
-            onClick={() => this.handleChange(null)}
+            onClick={this.onClear}
           >
             <Delete />
           </IconButton>
@@ -189,7 +185,7 @@ class PluginConfigurationPickerComponent extends React.Component {
         <MenuItem
           key="none"
           primaryText={formatMessage({ id: 'component.plugin-parameter.action.reset' })}
-          onClick={() => this.handleChange(null)}
+          onClick={this.onClear}
         />
       </ShowableAtRender>
     )
@@ -198,8 +194,7 @@ class PluginConfigurationPickerComponent extends React.Component {
   render() {
     const { pluginMetaDataList, pluginConfigurationList, onNewPluginConf } = this.props
     const { openMenu, currentPluginConfiguration, newConfSelected } = this.state
-    const { intl: { formatMessage } } = this.context
-    const styles = this.getStyle()
+    const { intl: { formatMessage }, moduleTheme: { pluginConfigurationPicker } } = this.context
     const hasNoPlugin = isEmpty(pluginMetaDataList) || (isEmpty(pluginConfigurationList) && !onNewPluginConf)
 
     const defaultLabel = newConfSelected ? formatMessage({ id: 'component.plugin-parameter.action.create-plugin' })
@@ -212,7 +207,7 @@ class PluginConfigurationPickerComponent extends React.Component {
         <RaisedButton
           label={buttonLabel}
           onClick={this.handleOpenMenu}
-          style={styles.pluginButton}
+          style={pluginConfigurationPicker.pluginButton}
           disabled={hasNoPlugin}
           title={hasNoPlugin ? this.context.intl.formatMessage({ id: 'component.plugin-parameter.no-plugin-available' }) : null}
         />
@@ -222,15 +217,15 @@ class PluginConfigurationPickerComponent extends React.Component {
           onRequestChange={this.handleOnRequestChange}
           desktop
           autoWidth
-          style={styles.iconMenu}
+          style={pluginConfigurationPicker.iconMenu}
         >
           {this.buildAvailablePluginItems(pluginMetaDataList,
             pluginConfigurationList, currentPluginConfiguration, onNewPluginConf)}
         </IconMenu>
-        {this.renderRemoveSelected(styles)}
+        {this.renderRemoveSelected()}
       </div>
     )
   }
 }
 
-export default PluginConfigurationPickerComponent
+export default withModuleStyle(styles)(PluginConfigurationPickerComponent)

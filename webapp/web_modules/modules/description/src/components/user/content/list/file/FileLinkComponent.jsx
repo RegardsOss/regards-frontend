@@ -17,9 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import FileIcon from 'mdi-material-ui/FileImage'
-import DownloadIcon from 'mdi-material-ui/Download'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DownloadButton } from '@regardsoss/components'
+import { withAuthInfo } from '@regardsoss/authentication-utils'
+import {
+  DownloadIconComponent, QuotaDownloadUtils, QuotaInfo, withQuotaInfo,
+} from '@regardsoss/entities-common'
 import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import { FileData } from '../../../../../shapes/DescriptionState'
 import PageLinkCellComponent from '../common/PageLinkCellComponent'
@@ -30,13 +33,17 @@ import PageElementOption from '../common/PageElementOption'
  * A file link component for list page displaying (displays as simple text when file is offline)
  * @author Raphaël Mechali
  */
-class FileLinkComponent extends React.Component {
+export class FileLinkComponent extends React.Component {
   static propTypes = {
     section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
     index: PropTypes.number.isRequired,
     file: FileData.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,
+    // from withAuthInfo
+    accessToken: PropTypes.string,
+    // from with quota info
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -52,7 +59,11 @@ class FileLinkComponent extends React.Component {
   }
 
   render() {
-    const { file: { label, available, uri } } = this.props
+    const {
+      file: {
+        label, available, uri, type, reference,
+      }, quotaInfo, accessToken,
+    } = this.props
     const { intl: { formatMessage } } = this.context
     return (
       <PageElement>
@@ -60,20 +71,25 @@ class FileLinkComponent extends React.Component {
           text={label}
           tooltip={formatMessage({ id: 'module.description.common.file.preview.tooltip' }, { fileName: label })}
           LinkIconConstructor={FileIcon}
-          disabled={!available}
+          // disabled when file is not available, or when file is an internal raw data and quota is consumed
+          disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
           onClick={this.onFileLinkClicked}
         />
-        { // Download button when URI is available
-           available ? (
+        { // Download button when file is available AND is not constrained by quota OR user has a quota (=> not public)
+           available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
              <DownloadButton
                ButtonConstructor={PageElementOption}
+               disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
                tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
                downloadURL={uri}
-               IconConstructor={DownloadIcon}
+               IconConstructor={DownloadIconComponent}
+               // icon component props
+               constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
+               quotaInfo={quotaInfo}
              />) : null // hide option when not available
         }
       </PageElement>
     )
   }
 }
-export default FileLinkComponent
+export default withAuthInfo(withQuotaInfo(FileLinkComponent))

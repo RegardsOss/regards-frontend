@@ -63,7 +63,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
         [tabType]: {
           criteria: {
             tagsFiltering: tagsFiltering.filter(
-              criterion => tagCriterion.type !== criterion.type || tagCriterion.searchKey !== criterion.searchKey),
+              (criterion) => tagCriterion.type !== criterion.type || tagCriterion.searchKey !== criterion.searchKey),
           },
         },
       },
@@ -83,13 +83,12 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       tabs: {
         [tabType]: {
           criteria: {
-            appliedFacets: appliedFacets.filter(criterion => criterion !== facetValueCriterion),
+            appliedFacets: appliedFacets.filter((criterion) => criterion !== facetValueCriterion),
           },
         },
       },
     })
   }
-
 
   /**
    * User callback: geometry unselected (remove it from applying geometries list)
@@ -104,7 +103,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       tabs: {
         [tabType]: {
           criteria: {
-            geometry: geometry.filter(criterion => criterion !== geometryCriterion),
+            geometry: geometry.filter((criterion) => criterion !== geometryCriterion),
           },
         },
       },
@@ -124,7 +123,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       tabs: {
         [tabType]: {
           criteria: {
-            entitiesSelection: entitiesSelection.filter(criterion => criterion !== entitiesSelectionCriterion),
+            entitiesSelection: entitiesSelection.filter((criterion) => criterion !== entitiesSelectionCriterion),
           },
         },
       },
@@ -181,7 +180,6 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
       },
     })
   }
-
 
   render() {
     const { resultsContext, tabType } = this.props

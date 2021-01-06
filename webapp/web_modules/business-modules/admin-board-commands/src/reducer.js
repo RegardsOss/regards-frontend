@@ -19,10 +19,8 @@
 import { combineReducers } from 'redux'
 import { orderReducer } from '@regardsoss/admin-order-management'
 
-
 const commandsReducers = combineReducers({
   commands: orderReducer,
 })
-
 
 export default commandsReducers

@@ -27,7 +27,6 @@ import { ShowableAtRender } from '@regardsoss/display-control'
 import LineComponent from './LineComponent'
 import ListHeaderComponent from './ListHeaderComponent'
 
-
 /**
  * React component to handle list of elements.
  * Each element is rendered with a custom given React component.
@@ -71,11 +70,32 @@ class ListContainer extends React.Component {
   }
 
   static defaultProps = {
+    displayCheckbox: false,
     selectedEntities: [],
-    displayCheckbox: true,
-    disableActions: false,
-    style: {},
+    additionalPropToLineComponent: {},
+    queryParams: {},
   }
+
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps = (state, ownProps) => ({
+    entities: ownProps.entitiesSelector.getList(state),
+    entitiesFetching: ownProps.entitiesSelector.isFetching(state),
+  })
+
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchEntities: (pathParams, queryParams) => dispatch(ownProps.entitiesActions.fetchEntityList(pathParams, queryParams)),
+  })
 
   state = {
     searchValue: '',
@@ -131,7 +151,7 @@ class ListContainer extends React.Component {
         </ShowableAtRender>
         <div>
           {map(this.props.entities, (entity) => {
-            const selected = some(this.props.selectedEntities, selectedEntity => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier])
+            const selected = some(this.props.selectedEntities, (selectedEntity) => selectedEntity[this.props.entityIdentifier] === entity.content[this.props.entityIdentifier])
             return (
               <LineComponent
                 key={entity.content[this.props.entityIdentifier]}
@@ -151,20 +171,6 @@ class ListContainer extends React.Component {
   }
 }
 
-ListContainer.defaultProps = {
-  displayCheckbox: false,
-  selectedEntities: [],
-  additionalPropToLineComponent: {},
-  queryParams: {},
-}
-
-const mapStateToProps = (state, ownProps) => ({
-  entities: ownProps.entitiesSelector.getList(state),
-  entitiesFetching: ownProps.entitiesSelector.isFetching(state),
-})
-
-const mapDispatchToProps = (dispatch, ownProps) => ({
-  fetchEntities: (pathParams, queryParams) => dispatch(ownProps.entitiesActions.fetchEntityList(pathParams, queryParams)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(ListContainer)
+export default connect(
+  ListContainer.mapStateToProps,
+  ListContainer.mapDispatchToProps)(ListContainer)

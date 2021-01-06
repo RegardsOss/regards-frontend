@@ -67,7 +67,6 @@ function getReducer(namespace) {
   return (state, action) => instance.reduce(state, action)
 }
 
-
 /**
  * Exports reduction function buider
  */

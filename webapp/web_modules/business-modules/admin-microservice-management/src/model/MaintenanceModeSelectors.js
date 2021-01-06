@@ -24,4 +24,4 @@ class MaintenanceModeSelectors extends BasicSignalSelectors {
   }
 }
 
-export default microservice => new MaintenanceModeSelectors(microservice)
+export default (microservice) => new MaintenanceModeSelectors(microservice)

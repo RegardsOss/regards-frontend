@@ -55,7 +55,7 @@ export class IFrameURLContentDisplayer extends React.Component {
    */
   static isSupportedContentType(contentType) {
     const lowerContentType = contentType.toLowerCase()
-    return IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+    return IFrameURLContentDisplayer.SUPPORTED_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
   }
 
   /**
@@ -65,7 +65,7 @@ export class IFrameURLContentDisplayer extends React.Component {
    */
   static isContentTypeWithRelativeLinks(contentType) {
     const lowerContentType = contentType.toLowerCase()
-    return IFrameURLContentDisplayer.RELATIVE_LINKS_MIME_TYPES.some(mimeType => lowerContentType.includes(mimeType))
+    return IFrameURLContentDisplayer.RELATIVE_LINKS_MIME_TYPES.some((mimeType) => lowerContentType.includes(mimeType))
   }
 
   static propTypes = {
@@ -82,9 +82,10 @@ export class IFrameURLContentDisplayer extends React.Component {
     style: {
       flexGrow: 1,
       flexShrink: 1,
+      minWidth: 0,
+      minHeight: 0,
     },
   }
-
 
   static contextTypes = {
     ...themeContextType,

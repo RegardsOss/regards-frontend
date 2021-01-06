@@ -18,7 +18,7 @@
  */
 import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 import { StorageCapacity } from '../../src/storage/StorageCapacity'
 
 // Test capacity functions a components rendering
@@ -73,7 +73,7 @@ describe('[Storage Monitoring] Testing capacity object', () => {
   })
   it('should not parse capactities with invalid formats/units', () => {
     const toNotParse = [' 10 gigo ', 'n go', '10go go', '15.4.3 o', '10 10 go']
-    toNotParse.forEach(input => assert.isNull(StorageCapacity.fromValue(input), `This input should not be parsed as valid capacity: '${input}'`))
+    toNotParse.forEach((input) => assert.isNull(StorageCapacity.fromValue(input), `This input should not be parsed as valid capacity: '${input}'`))
   })
   it('should be able to convert into other units', () => {
     // 0.5 To => 500 000 000 000 x 8 bits

@@ -49,7 +49,7 @@ describe('[Menu] Testing NotificationFloatingMessage', () => {
     }
     const enzymeWrapper = shallow(<NotificationFloatingMessage {...props} />, { context })
     // expected: find a div with dangerouslySetInnerHTML field
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().dangerouslySetInnerHTML), 1)
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().dangerouslySetInnerHTML), 1)
     assert.lengthOf(enzymeWrapper.find(NotificationIcon), 1, 'There should be notification icon')
     // date
     const dateWrapper = enzymeWrapper.find(FormattedNotificationDate)
@@ -58,7 +58,7 @@ describe('[Menu] Testing NotificationFloatingMessage', () => {
     assert.include(enzymeWrapper.debug(), props.notification.title, 'There should be notification title')
   })
   it('should render correctly with text and other MIME types', () => {
-    const testCases = values(MIME_TYPES).filter(type => type !== MIME_TYPES.HTML_MIME_TYPE)
+    const testCases = values(MIME_TYPES).filter((type) => type !== MIME_TYPES.HTML_MIME_TYPE)
     testCases.forEach((type) => {
       const props = {
         notification: {
@@ -68,7 +68,7 @@ describe('[Menu] Testing NotificationFloatingMessage', () => {
       }
       const enzymeWrapper = shallow(<NotificationFloatingMessage {...props} />, { context })
       // expected: find a <pre> div
-      assert.lengthOf(enzymeWrapper.findWhere(n => n.props().dangerouslySetInnerHTML), 0, `MIME type ${type} should not be formatted using HTML`)
+      assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().dangerouslySetInnerHTML), 0, `MIME type ${type} should not be formatted using HTML`)
       assert.lengthOf(enzymeWrapper.find(NotificationIcon), 1, 'There should be notification icon')
       // date
       const dateWrapper = enzymeWrapper.find(FormattedNotificationDate)

@@ -196,24 +196,24 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringProductsGen
       const menuItems = dropDownMenu.find(MenuItem)
       const instance = enzymeWrapper.instance()
       if (hasRelaunch) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickRelaunchProducts), 1, 'There should be relaunch option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickRelaunchProducts), 1, 'There should be relaunch option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onClickRelaunchProducts), 0, 'There should not be relaunch option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onClickRelaunchProducts), 0, 'There should not be relaunch option')
       }
       if (hasShowErrors) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowErrors), 1, 'There should be show errors option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowErrors), 1, 'There should be show errors option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowErrors), 0, 'There should not be show errors option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowErrors), 0, 'There should not be show errors option')
       }
       if (hasShowInvalids) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowInvalids), 1, 'There should be show invalids option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowInvalids), 1, 'There should be show invalids option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowInvalids), 0, 'There should not be show invalids option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowInvalids), 0, 'There should not be show invalids option')
       }
       if (hasShowIncomplete) {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowIncompletes), 1, 'There should be show incompletes option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowIncompletes), 1, 'There should be show incompletes option')
       } else {
-        assert.lengthOf(menuItems.findWhere(n => n.props().onClick === instance.onShowIncompletes), 0, 'There should not be show incomletes option')
+        assert.lengthOf(menuItems.findWhere((n) => n.props().onClick === instance.onShowIncompletes), 0, 'There should not be show incomletes option')
       }
     } else {
       // 2.b - Check menu is not displayed

@@ -93,6 +93,7 @@ describe('[Order Common] Testing DatasetFilesComponent', () => {
     allFiles.forEach((fileDef) => {
       assert.isDefined(DatasetFilesComponent.getFileName(fileDef), `Name could not be retrieved in file ${fileDef.content.id}`)
       assert.isDefined(DatasetFilesComponent.getStatus(fileDef), `Status could not be retrieved in file ${fileDef.content.id}`)
+      assert.isDefined(DatasetFilesComponent.getSource(fileDef), `Source could not be retrieved in file ${fileDef.content.id}`)
     })
   })
 })

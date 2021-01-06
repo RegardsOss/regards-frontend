@@ -20,6 +20,30 @@ export { default as AccountPasswordActions } from './accounts/AccountPasswordAct
 export { default as getAccountPasswordReducer } from './accounts/AccountPasswordReducer'
 export { default as getAccountPasswordSelectors } from './accounts/AccountPasswordSelectors'
 
+export { default as EndpointActions } from './endpoint/EndpointActions'
+export { default as getEndpointReducers } from './endpoint/EndpointReducers'
+export { default as getEndpointSelectors } from './endpoint/EndpointSelectors'
+
+export { default as NotificationActions } from './notification/NotificationActions'
+export { default as getNotificationReducer } from './notification/NotificationReducer'
+export { default as getNotificationSelectors } from './notification/NotificationSelectors'
+
+export { default as NotificationDetailsActions } from './notification/NotificationDetailsActions'
+export { default as getNotificationDetailsReducer } from './notification/NotificationDetailsReducer'
+export { default as getNotificationDetailsSelectors } from './notification/NotificationDetailsSelectors'
+
+export { default as DeleteNotificationActions } from './notification/delete/DeleteNotificationActions'
+export { default as getDeleteNotificationReducer } from './notification/delete/DeleteNotificationReducer'
+export { default as getDeleteNotificationSelectors } from './notification/delete/DeleteNotificationSelectors'
+
+export { default as ReadNotificationActions } from './notification/read/ReadNotificationActions'
+export { default as getReadNotificationReducer } from './notification/read/ReadNotificationReducer'
+export { default as getReadNotificationSelectors } from './notification/read/ReadNotificationSelectors'
+
+export { default as NotificationSettingsActions } from './notification/settings/NotificationSettingsActions'
+export { default as getNotificationSettingsReducer } from './notification/settings/NotificationSettingsReducer'
+export { default as getNotificationSettingsSelectors } from './notification/settings/NotificationSettingsSelectors'
+
 export { default as ProjectActions } from './project/ProjectActions'
 export { default as PublicProjectActions } from './project/PublicProjectActions'
 export { default as ProjectSelectors } from './project/ProjectSelectors'
@@ -32,10 +56,6 @@ export { default as ProjectConnectionSelectors } from './projectConnection/Proje
 export { default as ProjectConnectionTestActions } from './projectConnection/ProjectConnectionTestActions'
 export { default as ProjectConnectionTestReducers } from './projectConnection/ProjectConnectionTestReducers'
 export { default as ProjectConnectionTestSelectors } from './projectConnection/ProjectConnectionTestSelectors'
-
-export { default as ProjectUserSettingsActions } from './user/ProjectUserSettingsActions'
-export { default as getProjectUserSettingsReducer } from './user/ProjectUserSettingsReducer'
-export { default as getProjectUserSettingsSelectors } from './user/ProjectUserSettingsSelectors'
 
 export { default as ResourceActions } from './resource/ResourceActions'
 export { default as ResourceReducers } from './resource/ResourceReducers'
@@ -69,46 +89,6 @@ export { default as ResourceRolesActions } from './role/ResourceRolesActions'
 export { default as ResourceRolesReducers } from './role/ResourceRolesReducers'
 export { default as ResourceRolesSelectors } from './role/ResourceRolesSelectors'
 
-export { default as MyUserActions } from './user/MyUserActions'
-export { default as getMyUserReducer } from './user/MyUserReducer'
-export { default as getMyUserSelectors } from './user/MyUserSelectors'
-
-export { default as NotificationActions } from './notification/NotificationActions'
-export { default as getNotificationReducer } from './notification/NotificationReducer'
-export { default as getNotificationSelectors } from './notification/NotificationSelectors'
-
-export { default as NotificationDetailsActions } from './notification/NotificationDetailsActions'
-export { default as getNotificationDetailsReducer } from './notification/NotificationDetailsReducer'
-export { default as getNotificationDetailsSelectors } from './notification/NotificationDetailsSelectors'
-
-export { default as DeleteNotificationActions } from './notification/delete/DeleteNotificationActions'
-export { default as getDeleteNotificationReducer } from './notification/delete/DeleteNotificationReducer'
-export { default as getDeleteNotificationSelectors } from './notification/delete/DeleteNotificationSelectors'
-
-export { default as ReadNotificationActions } from './notification/read/ReadNotificationActions'
-export { default as getReadNotificationReducer } from './notification/read/ReadNotificationReducer'
-export { default as getReadNotificationSelectors } from './notification/read/ReadNotificationSelectors'
-
-export { default as NotificationSettingsActions } from './notification/settings/NotificationSettingsActions'
-export { default as getNotificationSettingsReducer } from './notification/settings/NotificationSettingsReducer'
-export { default as getNotificationSettingsSelectors } from './notification/settings/NotificationSettingsSelectors'
-
-export { default as ProjectUserActions } from './user/ProjectUserActions'
-export { default as getProjectUserReducer } from './user/ProjectUserReducer'
-export { default as getProjectUserSelectors } from './user/ProjectUserSelectors'
-
-export { default as WaitingAccessUsersEntitiesActions } from './user/WaitingAccessUsersEntitiesActions'
-export { default as getWaitingAccessUsersEntitiesReducer } from './user/WaitingAccessUsersEntitiesReducer'
-export { default as getWaitingAccessUsersEntitiesSelectors } from './user/WaitingAccessUsersEntitiesSelectors'
-
-export { default as ProjectUserSignalActions } from './user/ProjectUserSignalActions'
-export { default as getProjectUserSignalReducer } from './user/ProjectUserSignalReducer'
-export { default as getProjectUserSignalSelectors } from './user/ProjectUserSignalSelectors'
-
-export { default as EndpointActions } from './endpoint/EndpointActions'
-export { default as getEndpointReducers } from './endpoint/EndpointReducers'
-export { default as getEndpointSelectors } from './endpoint/EndpointSelectors'
-
 export { default as SessionsActions } from './session/SessionsActions'
 export { default as getSessionsReducer } from './session/SessionsReducer'
 export { default as getSessionsSelectors } from './session/SessionsSelectors'
@@ -123,3 +103,11 @@ export { default as getSearchSourcesSelectors } from './session/SearchSourcesSel
 
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
+
+export { default as MyUserActions } from './user/MyUserActions'
+export { default as getMyUserReducer } from './user/MyUserReducer'
+export { default as getMyUserSelectors } from './user/MyUserSelectors'
+
+export { default as ProjectUserSignalActions } from './user/ProjectUserSignalActions'
+export { default as getProjectUserSignalReducer } from './user/ProjectUserSignalReducer'
+export { default as getProjectUserSignalSelectors } from './user/ProjectUserSignalSelectors'

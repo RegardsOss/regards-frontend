@@ -19,7 +19,7 @@
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   ...DataProviderDomain.frMessages,
   ...IngestDomain.frMessages,
 
@@ -41,10 +41,14 @@ const messages = Object.assign({
   'acquisition-chain.form.general.section.cron.description.title': 'Format des expressions Cron acceptées.',
   'acquisition-chain.form.general.section.cron.description.tooltip': 'Format des expressions Cron acceptées.',
   'acquisition-chain.form.general.section.cron.description.close': 'Fermer',
-  'acquisition-chain.form.general.section.session': 'Session (*)',
-  'acquisition-chain.form.general.section.mode': 'Mode (*)',
-  'acquisition-chain.form.general.section.mode.AUTO': 'Automatique',
-  'acquisition-chain.form.general.section.mode.MANUAL': 'Manuel',
+  'acquisition-chain.form.general.section.version.mode': 'Mode de versionnement des produits (*)',
+  'acquisition-chain.form.general.section.version.mode.IGNORE': 'Ignorer les produits modifiés',
+  'acquisition-chain.form.general.section.version.mode.INC_VERSION': 'Créer une nouvelle version pour les produits modifiés (standard)',
+  'acquisition-chain.form.general.section.version.mode.REPLACE': 'Remplacer les produits actuels par les produits modifiés',
+  'acquisition-chain.form.general.section.version.mode.MANUAL': 'Choisir l\'action à réaliser lorsqu\'un produit modifié est détecté',
+  'acquisition-chain.form.general.section.starting.mode': 'Mode de lancement (*)',
+  'acquisition-chain.form.general.section.starting.mode.AUTO': 'Automatique (périodique)',
+  'acquisition-chain.form.general.section.starting.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
   'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
@@ -66,6 +70,9 @@ const messages = Object.assign({
   'acquisition-chain.form.fileInfo.mandatory': 'Obligatoire à la construction du produit',
   'acquisition-chain.form.fileInfo.mimeType': 'Mime-type (*)',
   'acquisition-chain.form.fileInfo.dataType': 'Type de donnée à générer (*)',
+  'acquisition-chain.form.fileInfo.scanDirInfos': 'Répertoires de scan (*)',
+  'acquisition-chain.form.fileInfo.scanDir.scannedDirectory': 'Répertoire de scan',
+  'acquisition-chain.form.fileInfo.scanDir.lastModificationDate': 'A partir de',
   // 1.4 Plugins configuration section
   'acquisition-chain.form.plugins.section': 'Plugins',
   'acquisition-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
@@ -151,12 +158,14 @@ const messages = Object.assign({
   'acquisition-sessions.table.creation-date': 'Date de création',
   'acquisition-sessions.table.state': 'Etat',
   'acquisition-sessions.table.sip-generated': 'Acquisition',
+  'acquisition-sessions.table.version': 'Versionnement',
   'acquisition-sessions.table.aip-stored': 'Archivage',
   'acquisition-sessions.table.indexed': 'Catalogage',
   'acquisition-sessions.table.last-modification': 'Dernière modification',
 
   //3.2 Table Headers tooltip
   'acquisition-sessions.table.sip-generated.tooltip': 'Produits préparés pour l’ingestion (SIP générés)',
+  'acquisition-sessions.table.version.tooltip': 'Gestion de version des produits existant',
   'acquisition-sessions.table.aip-stored.tooltip': 'Produits enregistrés auprès du stockage (AIP stockés)',
   'acquisition-sessions.table.indexed.tooltip': 'Produits indexés au catalogue',
 
@@ -167,13 +176,21 @@ const messages = Object.assign({
   'acquisition-sessions.states.files_acquired': 'Fichiers détectés',
   'acquisition-sessions.states.error': 'Erreurs',
   'acquisition-sessions.states.pending': 'En cours',
+  'acquisition-sessions.states.ignored.label': 'Ignorés:',
+  'acquisition-sessions.states.ignored.tooltip': 'Modifications détectées et ignorées',
+  'acquisition-sessions.states.replaced.label': 'Remplacés:',
+  'acquisition-sessions.states.replaced.tooltip': 'Modifications détectées donnant lieu à un remplacement de la version actuelle des produits correspondant',
+  'acquisition-sessions.states.new.version.label': 'Nouvelles versions:',
+  'acquisition-sessions.states.new.version.tooltip': 'Modifications détectées donnant lieu à une nouvelle version des produits correspondant',
+  'acquisition-sessions.states.waiting.header': 'Attente d\'action...',
+  'acquisition-sessions.states.waiting.label': 'En attente:',
+  'acquisition-sessions.states.waiting.tooltip': 'Modification détectées en attente d\'une décision administrateur',
   'acquisition-sessions.states.storing': 'Archivages en cours',
   'acquisition-sessions.states.stored': 'Produits Archivés',
   'acquisition-sessions.states.running': 'En cours',
   'acquisition-sessions.states.indexed': 'Produits indexés',
   'acquisition-sessions.states.index.errors': 'Erreurs',
   'acquisition-sessions.states.acknowledge': 'Acquitter l\'erreur de session',
-
 
   //3.4 Cell's Menus
   'acquisition-sessions.menus.session.delete.button': 'Supprimer les produits de la session',
@@ -189,6 +206,8 @@ const messages = Object.assign({
   'acquisition-sessions.menus.products.show.incomplete': 'Voir les produits incomplets',
   'acquisition-sessions.menus.products.show.invalids': 'Voir les produits invalides',
   'acquisition-sessions.menus.products.delete': 'Supprimer tous les produits',
+  'acquisition-sessions.menus.versioning.view.ignored.requests': 'Voir les modifications ignorées',
+  'acquisition-sessions.menus.versioning.view.waiting.requests': 'Voir les modifications en attente',
   'acquisition-sessions.menus.archives': 'Produits pour archivage',
   'acquisition-sessions.menus.archives.relaunch': 'Relancer les produits en erreur',
   'acquisition-sessions.menus.archives.list': 'Visualiser les Produits',
@@ -229,7 +248,7 @@ const messages = Object.assign({
   'acquisition-product.run.dialog.close.button': 'Fermer',
 
   'invalid.cron.expression': 'Cron invalide',
-
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

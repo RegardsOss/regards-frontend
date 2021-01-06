@@ -19,4 +19,5 @@
 export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
 export * from './results/ResultsContext'
 export * from './QuicklookDefinition'
+export { LayerDefinition } from './LayerDefinition'
 export { UISettings } from './UISettings'

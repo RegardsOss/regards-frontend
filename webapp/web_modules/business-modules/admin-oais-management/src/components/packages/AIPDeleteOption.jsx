@@ -17,16 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  import IconButton from 'material-ui/IconButton'
  **/
-import IconButton from 'material-ui/IconButton'
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import { ResourceIconAction } from '@regardsoss/components'
 import { aipDeleteActions } from '../../clients/AIPDeleteClient'
-
-/** HATEOAS-able button, exported for tests */
-export const ResourceIconAction = withResourceDisplayControl(IconButton)
 
 /**
  * Table option to delete AIP files on every local storage

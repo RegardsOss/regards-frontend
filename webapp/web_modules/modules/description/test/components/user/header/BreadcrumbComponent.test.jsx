@@ -40,8 +40,11 @@ describe('[Description] Testing BreadcrumbComponent', () => {
   it('should render correctly', () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       selectedEntityIndex: 0,
       descriptionPath: [resolvedDataEntity, resolvedDatasetEntity],
@@ -51,7 +54,7 @@ describe('[Description] Testing BreadcrumbComponent', () => {
     const breadcrumbLinks = enzymeWrapper.find(BreadcrumbLinkComponent)
     assert.lengthOf(breadcrumbLinks, props.descriptionPath.length, 'There should be one link for each description path entity')
     props.descriptionPath.forEach((descriptionEntity, index) => {
-      const entityLink = breadcrumbLinks.findWhere(n => n.props().descriptionEntity === descriptionEntity)
+      const entityLink = breadcrumbLinks.findWhere((n) => n.props().descriptionEntity === descriptionEntity)
       assert.lengthOf(entityLink, 1, `There should be ${descriptionEntity.entity.content.label} link`)
       testSuiteHelpers.assertWrapperProperties(entityLink, {
         settings: props.settings,

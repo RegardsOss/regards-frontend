@@ -85,6 +85,6 @@ export class KeyboardShortcuts {
    * @return {boolean} true if event is expected event shortcut as parameter
    */
   static matchEvent(event, shortcutDef) {
-    return shortcutDef.shortcuts.some(shortcut => KeyboardShortcuts.isShortcutEvent(event, shortcut))
+    return shortcutDef.shortcuts.some((shortcut) => KeyboardShortcuts.isShortcutEvent(event, shortcut))
   }
 }

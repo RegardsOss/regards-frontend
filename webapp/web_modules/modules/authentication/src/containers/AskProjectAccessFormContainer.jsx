@@ -65,7 +65,7 @@ export class AskProjectAccessFormContainer extends React.Component {
     fetchPasswordRules()
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // Detect if last fetch is DONE and OK
     const { isFetching, onNewAccountDone, onNewUserDone } = this.props
     if (isFetching && !nextProps.isFetching) {
@@ -110,11 +110,10 @@ export class AskProjectAccessFormContainer extends React.Component {
    * @param formValues edition form values
    * @return resolved metadata for backend
    */
-  resolveMetadata = formValues => getMetadataArray().map(({ key }) => ({
+  resolveMetadata = (formValues) => getMetadataArray().map(({ key }) => ({
     key,
     value: formValues[key] || '',
   }))
-
 
   render() {
     const {
@@ -153,17 +152,17 @@ export class AskProjectAccessFormContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   isFetching: CreateAccountSelectors.isFetching(state) || CreateUserSelectors.isFetching(state),
   newAccountFetchStatus: CreateAccountSelectors.getError(state).status,
   newUserFetchStatus: CreateUserSelectors.getError(state).status,
   passwordRules: accountPasswordSelectors.getRules(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchNewUser: (mail, metadata) => dispatch(sendCreateUser(mail, metadata)),
   fetchNewAccount: (mail, firstName, lastName, password, metadata) => dispatch(sendCreateAccount(mail, firstName, lastName, password, metadata)),
-  fetchPasswordValidity: newPassword => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
+  fetchPasswordValidity: (newPassword) => dispatch(accountPasswordActions.fetchPasswordValidity(newPassword)),
   fetchPasswordRules: () => dispatch(accountPasswordActions.fetchPasswordRules()),
 })
 

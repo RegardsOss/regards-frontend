@@ -20,7 +20,6 @@
  * UI-Configuration module routes.
  */
 
-
 /**
  *
  * @type {{path: string, getComponents: ((nextState, cb))}}
@@ -42,7 +41,7 @@ export const listModulesRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const editModuleRoute = {
-  path: ':applicationId/:module_id/edit',
+  path: ':applicationId/:moduleId/edit',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const moduleContainer = require('./containers/ModuleFormAdapter')
@@ -58,7 +57,7 @@ export const editModuleRoute = {
  * @type {{path: string, getComponents: ((nextState, cb))}}
  */
 export const duplicateModuleRoute = {
-  path: ':applicationId/:duplicate_module_id/duplicate',
+  path: ':applicationId/:duplicateModuleId/duplicate',
   getComponents(nextState, cb) {
     require.ensure([], (require) => {
       const moduleContainer = require('./containers/ModuleFormAdapter')
@@ -84,7 +83,6 @@ export const createModuleRoute = {
     })
   },
 }
-
 
 /**
  *

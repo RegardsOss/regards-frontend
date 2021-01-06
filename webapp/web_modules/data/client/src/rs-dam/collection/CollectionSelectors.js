@@ -27,4 +27,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * With this exemple, all projects will be stored in the subpart 'common.attribute-model' of the global
  * application store.
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

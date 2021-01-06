@@ -34,7 +34,6 @@ class NotificationIcon extends React.Component {
     style: PropTypes.objectOf(PropTypes.any), // sent by parent component OR MUI card
   }
 
-
   static contextTypes = {
     ...themeContextType,
   }

@@ -49,13 +49,11 @@ class ProjectAboutPageContainer extends React.Component {
     ...i18nContextType,
   }
 
-
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.setState({
       dialogOpen: !this.isProjectAboutPageHiddenCached(),
     })
   }
-
 
   onClose = () => {
     this.setState({ dialogOpen: false })
@@ -89,30 +87,6 @@ class ProjectAboutPageContainer extends React.Component {
     this.setState({ dialogOpen: true })
   }
 
-  renderActionButtons = () => {
-    const actionButtons = []
-    if (this.isProjectAboutPageHiddenCached()) {
-      actionButtons.push(<FlatButton
-        key="project.about.page.display"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
-        onClick={this.onCacheProjectAboutPageDisplayed}
-      />)
-    } else {
-      actionButtons.push(<FlatButton
-        key="project.about.page.hide"
-        label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
-        onClick={this.onCacheProjectAboutPageHidden}
-      />)
-    }
-    actionButtons.push(<FlatButton
-      key="project.about.page.ok"
-      label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
-      primary
-      onClick={this.onClose}
-    />)
-    return actionButtons
-  }
-
   render() {
     const { moduleConf: { htmlPath, buttonComponent } } = this.props
     const { dialogOpen } = this.state
@@ -136,6 +110,28 @@ class ProjectAboutPageContainer extends React.Component {
         >
           <HomeIcone />
         </FloatingActionButton>)
+
+    const actions = []
+    actions.push(this.isProjectAboutPageHiddenCached()
+      ? <FlatButton
+          key="project.about.page.display"
+          label={this.context.intl.formatMessage({ id: 'project.about.page.display' })}
+          onClick={this.onCacheProjectAboutPageDisplayed}
+      />
+      : <FlatButton
+          key="project.about.page.hide"
+          label={this.context.intl.formatMessage({ id: 'project.about.page.hide' })}
+          onClick={this.onCacheProjectAboutPageHidden}
+      />,
+    )
+    actions.push(
+      <FlatButton
+        key="project.about.page.ok"
+        label={this.context.intl.formatMessage({ id: 'project.about.page.ok' })}
+        primary
+        onClick={this.onClose}
+      />,
+    )
     return (
       <div>
         {runtimeButton}
@@ -145,7 +141,7 @@ class ProjectAboutPageContainer extends React.Component {
           dialogHeightPercent={heightPercent}
           dialogWidthPercent={widthPercent}
           onRequestClose={this.onClose}
-          actions={this.renderActionButtons()}
+          actions={actions}
         />
       </div>
     )

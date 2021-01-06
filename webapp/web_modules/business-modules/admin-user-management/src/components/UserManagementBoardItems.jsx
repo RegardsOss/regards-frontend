@@ -18,13 +18,12 @@
  **/
 import AddIcon from 'mdi-material-ui/PlusCircle'
 import ViewLinesIcon from 'mdi-material-ui/ViewHeadline'
-import SettingsIcon from 'mdi-material-ui/Settings'
+import SettingsIcon from 'mdi-material-ui/Cog'
 import { projectUserDependencies } from '@regardsoss/admin-user-projectuser-management'
 import { roleDependencies } from '@regardsoss/admin-user-role-management'
 import { accessGroupDependencies } from '@regardsoss/admin-accessright-accessgroup-management'
 import { authenticationPluginManagementDependencies } from '@regardsoss/admin-user-authentication-plugins-management'
 import UsersListWithCountIconContainer from '../containers/UsersListWithCountIconContainer'
-
 
 /**
  * Configuration file for user management boards items.

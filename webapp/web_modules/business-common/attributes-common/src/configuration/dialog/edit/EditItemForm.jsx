@@ -109,7 +109,7 @@ export class EditItemForm extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize form values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // 1 - setup item to edit in form (when mounting, it is necessary available)
     const { initialize, editionData: { attributesList, editedElementIndex } } = this.props
     const item = attributesList[editedElementIndex]
@@ -128,7 +128,7 @@ export class EditItemForm extends React.Component {
   /**
    * Lifecycle method: component will receive props. Used here to update labels when they are undefined
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     // check if labels should be updated: while user did not modify them, we auto update them here
     if (nextProps.allowLabel) {
       if (!isEqual(this.props.editedAttributes, nextProps.editedAttributes)
@@ -178,7 +178,6 @@ export class EditItemForm extends React.Component {
     }
   }
 
-
   /**
    * On submit: modify edited form values to provide attributes list as expected for
    */
@@ -198,7 +197,7 @@ export class EditItemForm extends React.Component {
    * Validates multiple attributes field value
    * @param {[string]} value attributes full qualified names
    */
-  validateMultipleAttributesField = value => !value || !value.length
+  validateMultipleAttributesField = (value) => !value || !value.length
     ? 'attribute.configuration.selected.attributes.error'
     : undefined
 
@@ -265,20 +264,21 @@ export class EditItemForm extends React.Component {
                     label={formatMessage({ id: 'attribute.configuration.single.attribute.field' })}
                     fullWidth
                   />
-                  <Field
-                    name="singleAttribute.renderer"
-                    component={RenderSelectField}
-                    label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
-                    fullWidth
-                  >
-                    { // render available options for current type
+                  { allowRendererSelection ? (
+                    <Field
+                      name="singleAttribute.renderer"
+                      component={RenderSelectField}
+                      label={formatMessage({ id: 'attribute.configuration.renderer.field' })}
+                      fullWidth
+                    >
+                      { // render available options for current type
                       (() => {
                         if (editedSingleAttribute) {
                           const attr = DamDomain.AttributeModelController.findModelFromAttributeFullyQualifiedName(editedSingleAttribute.name, attributeModels)
                           if (attr) {
                             const { content: { type } } = attr
                             const rendererKeys = getTypeRendererKeys(type)
-                            return rendererKeys.map(key => (
+                            return rendererKeys.map((key) => (
                               <MenuItem
                                 key={key}
                                 value={key}
@@ -296,7 +296,7 @@ export class EditItemForm extends React.Component {
                         ]
                       })()
                     }
-                  </Field>
+                    </Field>) : null}
                 </>)
           }
           {/* 2 position in columns list */}

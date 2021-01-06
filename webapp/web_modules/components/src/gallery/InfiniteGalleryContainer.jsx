@@ -30,36 +30,6 @@ import GalleryLoadingComponent from './GalleryLoadingComponent'
  * @author Léo Mieulet
  */
 export class InfiniteGalleryContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { pageSelectors }) {
-    return {
-      // results entities
-      entities: pageSelectors.getOrderedList(state),
-      pageMetadata: pageSelectors.getMetaData(state),
-      entitiesFetching: pageSelectors.isFetching(state),
-      // authentication, mapped to reload entities on changes
-      authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-    }
-  }
-
-  /**
-   * Redux: map dispatch to props function
-   * @param {*} dispatch: redux dispatch function
-   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of actions ready to be dispatched in the redux store
-   */
-  static mapDispatchToProps(dispatch, { pageActions }) {
-    return {
-      flush: () => dispatch(pageActions.flush()),
-      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
-    }
-  }
-
   static propTypes = {
     // Table settings
     itemComponent: PropTypes.oneOfType([
@@ -100,6 +70,14 @@ export class InfiniteGalleryContainer extends React.Component {
     fetchEntities: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
+
+    itemOfInterestPicked: PropTypes.number,
+    getItemOfInterest: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    queryPageSize: 20,
+    loadingComponent: (<GalleryLoadingComponent />),
   }
 
   /** List of properties that should not be reported to children */
@@ -112,14 +90,38 @@ export class InfiniteGalleryContainer extends React.Component {
     entities: [],
   }
 
-  static defaultProps = {
-    queryPageSize: 20,
-    loadingComponent: (<GalleryLoadingComponent />),
+  /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { pageSelectors }) {
+    return {
+      // results entities
+      entities: pageSelectors.getOrderedList(state),
+      pageMetadata: pageSelectors.getMetaData(state),
+      entitiesFetching: pageSelectors.isFetching(state),
+      // authentication, mapped to reload entities on changes
+      authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+    }
   }
 
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
+   */
+  static mapDispatchToProps(dispatch, { pageActions }) {
+    return {
+      flush: () => dispatch(pageActions.flush()),
+      fetchEntities: (pageNumber, nbEntitiesByPage, pathParam, requestParams) => dispatch(pageActions.fetchPagedEntityList(pageNumber, nbEntitiesByPage, pathParam, requestParams)),
+    }
+  }
 
   /** Initialize state */
-  componentWillMount = () => this.setState({
+  UNSAFE_componentWillMount = () => this.setState({
     ...InfiniteGalleryContainer.DEFAULT_STATE,
   })
 
@@ -131,7 +133,7 @@ export class InfiniteGalleryContainer extends React.Component {
    * at render time
    * @param nextProps next component properties values
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdate(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdate(this.props, nextProps)
 
   /**
    * Updates state and runs fetches required on properties change
@@ -174,7 +176,6 @@ export class InfiniteGalleryContainer extends React.Component {
    */
   flush = ({ flush }) => flush()
 
-
   /**
    * Fetches an entity page (prevents fetching multiple times the same entity)
    * @param {fetchEntities:{func}, requestParams:{}} props component props to use
@@ -201,9 +202,11 @@ export class InfiniteGalleryContainer extends React.Component {
     // except actions / selectors, we need all properties through
     const { entities } = this.state
     const {
-      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps,
+      itemComponent, columnWidth, columnGutter, entitiesFetching, loadingComponent, emptyComponent, itemProps, itemOfInterestPicked,
+      getItemOfInterest,
     } = this.props
     const currentTotalEntities = this.getCurrentTotalEntities()
+
     return (
       <MeasureResultProvider style={InfiniteGalleryContainer.SPAN_ALL_STYLE} targetPropertyName="componentSize">
         <InfiniteGalleryComponent
@@ -212,13 +215,14 @@ export class InfiniteGalleryContainer extends React.Component {
           itemProps={itemProps}
           columnWidth={columnWidth}
           columnGutter={columnGutter}
-
           isEmpty={!currentTotalEntities}
           isLoading={entitiesFetching}
           loadingComponent={loadingComponent}
           emptyComponent={emptyComponent}
           alignCenter
           onInfiniteLoad={this.fetchMoreEntities}
+          itemOfInterestPicked={itemOfInterestPicked}
+          getItemOfInterest={getItemOfInterest}
         />
       </MeasureResultProvider>
     )

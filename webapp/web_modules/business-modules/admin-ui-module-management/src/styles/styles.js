@@ -22,15 +22,20 @@
  * @param theme
  * @author Sébastien binda
  */
-const formStyles = theme => ({
-  cardEspaced: {
-    marginTop: '20px',
-  },
-  cardContentLessSpaced: {
-    paddingTop: 0,
-  },
-  cardTitleLessSpaced: {
-    paddingBottom: 0,
+const formStyles = (theme) => ({
+  form: {
+    cardEspaced: {
+      marginTop: '20px',
+    },
+    cardContentLessSpaced: {
+      paddingTop: 0,
+    },
+    cardTitleLessSpaced: {
+      paddingBottom: 0,
+    },
+    containerFieldStyle: {
+      marginBottom: 15,
+    },
   },
 })
 

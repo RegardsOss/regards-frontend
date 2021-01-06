@@ -27,13 +27,9 @@ export class IngestProcessingChainFormContainer extends React.Component {
     importChain: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.chain_name === undefined
-    this.state = {
-      isCreating,
-      isLoading: !isCreating,
-    }
+  state = {
+    isCreating: this.props.params.chain_name === undefined,
+    isLoading: this.props.params.chain_name !== undefined,
   }
 
   componentDidMount() {
@@ -53,7 +49,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
     browserHistory.push(url)
   }
 
-  handleUpdate = values => Promise.resolve(this.props.updateChain(this.props.processingChain.content.name, values))
+  handleUpdate = (values) => Promise.resolve(this.props.updateChain(this.props.processingChain.content.name, values))
     .then((actionResult) => {
       // We receive here the action
       if (!actionResult.error) {
@@ -80,7 +76,7 @@ export class IngestProcessingChainFormContainer extends React.Component {
     return this.handleUpdate(values)
   }
 
-  handleImport = values => this.props.importChain({
+  handleImport = (values) => this.props.importChain({
     file: values.file,
   })
 
@@ -105,12 +101,11 @@ const mapStateToProps = (state, ownProps) => ({
   processingChain: ownProps.params.chain_name ? processingChainSelectors.getById(state, ownProps.params.chain_name) : null,
 })
 
-
-const mapDispatchToProps = dispatch => ({
-  createChain: values => dispatch(processingChainActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  createChain: (values) => dispatch(processingChainActions.createEntity(values)),
   updateChain: (name, values) => dispatch(processingChainActions.updateEntity(name, values)),
-  fetchChain: name => dispatch(processingChainActions.fetchEntity(name)),
-  importChain: file => dispatch(processingChainImportActions.createEntityUsingMultiPart({}, file)),
+  fetchChain: (name) => dispatch(processingChainActions.fetchEntity(name)),
+  importChain: (file) => dispatch(processingChainImportActions.createEntityUsingMultiPart({}, file)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(IngestProcessingChainFormContainer)

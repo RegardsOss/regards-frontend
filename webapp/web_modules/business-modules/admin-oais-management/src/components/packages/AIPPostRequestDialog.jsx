@@ -35,29 +35,24 @@ export class AIPPostRequestDialog extends React.Component {
     ...i18nContextType,
   }
 
-  renderActions = () => {
-    const { onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.packages.close' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-    ]
-  }
-
   render() {
+    const { onClose } = this.props
     const { intl: { formatMessage, formatHTMLMessage } } = this.context
     const { deletionErrors, modifyErrors } = this.props
 
     return (
       <Dialog
         title={formatMessage({ id: 'oais.packages.post.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.packages.close' })}
+            primary
+            keyboardFocused
+            onClick={onClose}
+          />
+        </>}
         modal={false}
         open
       >

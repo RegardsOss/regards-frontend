@@ -76,7 +76,6 @@ class SIPSubmissionNotReadyComponent extends React.Component {
     return null
   }
 
-
   render() {
     const { intl } = this.context
     return (

@@ -36,7 +36,6 @@ require('../resources/logo_regards_blue_white.png')
 require('../resources/logo_regards_grey_black.png')
 require('../resources/logo_regards_grey_white.png')
 
-
 // import static configuration parameters
 if (process.env.NODE_ENV === 'production') {
   require('@regardsoss/webpack-config-front/src/conf/staticConfiguration')

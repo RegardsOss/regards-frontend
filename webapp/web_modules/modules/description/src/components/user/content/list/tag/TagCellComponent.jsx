@@ -47,7 +47,6 @@ class TagCellComponent extends React.Component {
     onSearchWord(tag)
   }
 
-
   render() {
     const { tag, allowSearching } = this.props
     const { intl: { formatMessage } } = this.context
@@ -65,8 +64,7 @@ class TagCellComponent extends React.Component {
                 : 'module.description.common.search.simple.tag.tooltip',
             }, { tag: tagLabel })}
             onClick={this.onSearchTag}
-          />) : null
-        }
+          />) : null}
       </PageElement>)
   }
 }

@@ -37,6 +37,7 @@ const context = buildTestContext(styles)
 /**
  * Test QuicklookCellComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
   before(testSuiteHelpers.before)
@@ -155,6 +156,8 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       embedInMap,
       mapThumbnailHeight: 100,
       primaryQuicklookGroup: 'myMainGroup',
+      selectedProducts: [],
+      onProductSelected: () => {},
       locale,
     }
     const enzymeWrapper = shallow(<QuicklookCellComponent {...props} />, { context })
@@ -209,7 +212,6 @@ describe('[SEARCH RESULTS] Testing QuicklookCellComponent', () => {
       projectName: props.projectName,
     }, 'Download component properties should be correctly set')
     assert.equal(downloadFileComp.parent().props().show, enableDownload, 'Download file component should be shown / hidden according with enableDownload')
-
 
     // 9 - Attributes
     const attributesComponent = enzymeWrapper.find(QuicklookCellAttributesComponent)

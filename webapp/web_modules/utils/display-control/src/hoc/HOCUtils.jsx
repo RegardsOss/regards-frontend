@@ -61,7 +61,7 @@ function cloneChildrenWith(children = [], newProps = {}) {
 
   // XXX-Woraround here: react sometimes sends children with undefined type: make sure they won't be cloned
   if (isArray(children)) {
-    return children.filter(isValidChild).map(child => React.cloneElement(child, {
+    return children.filter(isValidChild).map((child) => React.cloneElement(child, {
       ...child.props,
       ...newProps,
     }))

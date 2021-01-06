@@ -32,28 +32,32 @@ export default class ProjectUserSignalActions extends BasicSignalActions {
   sendAccept(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'accept',
-      access_id: userId,
+      // eslint-disable-next-line camelcase
+      access_id: userId, // eslint wont fix: matches server format
     })
   }
 
   sendDeny(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'deny',
-      access_id: userId,
+      // eslint-disable-next-line camelcase
+      access_id: userId, // eslint wont fix: matches server format
     })
   }
 
   sendActive(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'active',
-      access_id: userId,
+      // eslint-disable-next-line camelcase
+      access_id: userId, // eslint wont fix: matches server format
     })
   }
 
   sendInactive(userId) {
     return this.sendSignal('PUT', null, {
       updateOperation: 'inactive',
-      access_id: userId,
+      // eslint-disable-next-line camelcase
+      access_id: userId, // eslint wont fix: matches server format
     })
   }
 

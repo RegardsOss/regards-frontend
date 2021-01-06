@@ -24,7 +24,7 @@
 export const AIPEntityIngestMetadataStorages = PropTypes.shape({
   pluginBusinessId: PropTypes.string.isRequired,
   storePath: PropTypes.string.isRequired,
-  targetTypes: PropTypes.array,
+  targetTypes: PropTypes.arrayOf(PropTypes.string),
 })
 
 export const AIPEntityIngestMetadata = PropTypes.shape({
@@ -33,6 +33,6 @@ export const AIPEntityIngestMetadata = PropTypes.shape({
     session: PropTypes.string.isRequired,
     ingestChain: PropTypes.string.isRequired,
     storages: PropTypes.arrayOf(PropTypes.string),
-    categories: PropTypes.array.isRequired,
+    categories: PropTypes.arrayOf(PropTypes.string).isRequired,
   }).isRequired,
 })

@@ -22,4 +22,4 @@ import { BasicSignalsSelectors } from '@regardsoss/store-utils'
  * Store selector to receive AIP Actions.
  * @author Simon MILHAU
  */
-export default storePath => new BasicSignalsSelectors(storePath)
+export default (storePath) => new BasicSignalsSelectors(storePath)

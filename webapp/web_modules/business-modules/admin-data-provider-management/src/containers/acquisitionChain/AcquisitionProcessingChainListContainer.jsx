@@ -20,25 +20,61 @@ import get from 'lodash/get'
 import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
-import { IngestShapes } from '@regardsoss/shape'
+import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
   RunAcquisitionProcessingChainActions, StopAcquisitionProcessingChainActions,
   ToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainActions, AcquisitionProcessingChainEditActions,
   MultiToggleAcquisitionProcessingChainActions, AcquisitionProcessingChainSelectors,
-}
-  from '../../clients/AcquisitionProcessingChainClient'
-import AcquisitionProcessingChainListComponent
-  from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
+} from '../../clients/AcquisitionProcessingChainClient'
+import AcquisitionProcessingChainListComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListComponent'
 import { tableSelectors } from '../../clients/TableClient'
+import AcquisitionProcessingChainListFiltersComponent from '../../components/acquisitionChain/AcquisitionProcessingChainListFiltersComponent'
 
 /**
 * Container to handle AcquisitionProcessingChains.
 * @author Sébastien Binda
 */
 export class AcquisitionProcessingChainListContainer extends React.Component {
+  static propTypes = {
+    params: PropTypes.shape({
+      project: PropTypes.string,
+    }),
+    displayLogic: PropTypes.func,
+
+    // from mapStateToProps
+    meta: PropTypes.shape({ // use only in onPropertiesUpdate
+      number: PropTypes.number,
+      size: PropTypes.number,
+      totalElements: PropTypes.number,
+    }),
+    entitiesLoading: PropTypes.bool.isRequired,
+    deleteChain: PropTypes.func.isRequired,
+    toggleChain: PropTypes.func.isRequired,
+    isOneCheckboxToggled: PropTypes.bool.isRequired,
+    toggledChains: PropTypes.arrayOf(PropTypes.shape({
+      content: IngestShapes.IngestProcessingChain,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
+    })),
+    availableDependencies: PropTypes.arrayOf(PropTypes.string),
+
+    // from mapDispatchToProps
+    fetchPage: PropTypes.func.isRequired,
+    runChain: PropTypes.func.isRequired,
+    stopChain: PropTypes.func.isRequired,
+    multiToggleChain: PropTypes.func.isRequired,
+  }
+
+  static defaultProps = {
+    meta: {
+      totalElements: 0,
+    },
+    displayLogic: allMatchHateoasDisplayLogic,
+  }
+
+  static PAGE_SIZE = 100
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -67,53 +103,12 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
     return {
       fetchPage: (pageIndex, pageSize, requestParams) => dispatch(AcquisitionProcessingChainActions.fetchPagedEntityList(pageIndex, pageSize, {}, requestParams)),
       runChain: (chainId, sessionName) => dispatch(RunAcquisitionProcessingChainActions.run(chainId, sessionName)),
-      stopChain: chainId => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
-      deleteChain: id => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
+      stopChain: (chainId) => dispatch(StopAcquisitionProcessingChainActions.stop(chainId)),
+      deleteChain: (id) => dispatch(AcquisitionProcessingChainEditActions.deleteEntity(id)),
       toggleChain: (chainId, target, nextValue) => dispatch(ToggleAcquisitionProcessingChainActions.toggle(chainId, target, nextValue)),
       multiToggleChain: (chains, target, nextValue) => dispatch(MultiToggleAcquisitionProcessingChainActions.toggle(chains, target, nextValue)),
     }
   }
-
-  static propTypes = {
-    params: PropTypes.shape({
-      project: PropTypes.string,
-    }),
-    displayLogic: PropTypes.func,
-
-    // from mapStateToProps
-    meta: PropTypes.shape({ // use only in onPropertiesUpdate
-      number: PropTypes.number,
-      size: PropTypes.number,
-      totalElements: PropTypes.number,
-    }),
-    entitiesLoading: PropTypes.bool.isRequired,
-    deleteChain: PropTypes.func.isRequired,
-    toggleChain: PropTypes.func.isRequired,
-    isOneCheckboxToggled: PropTypes.bool.isRequired,
-    toggledChains: PropTypes.arrayOf(PropTypes.shape({
-      content: IngestShapes.IngestProcessingChain,
-      links: PropTypes.array,
-    })),
-    availableDependencies: PropTypes.arrayOf(PropTypes.string),
-
-    // from mapDispatchToProps
-    fetchPage: PropTypes.func.isRequired,
-    runChain: PropTypes.func.isRequired,
-    stopChain: PropTypes.func.isRequired,
-    multiToggleChain: PropTypes.func.isRequired,
-  }
-
-  static defaultProps = {
-    meta: {
-      totalElements: 0,
-    },
-    displayLogic: allMatchHateoasDisplayLogic,
-  }
-
-  static PAGE_SIZE = 100
-
-  /** List of dependencies required for toggling multiple chains state  */
-  static TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES = [MultiToggleAcquisitionProcessingChainActions.getDependency(RequestVerbEnum.PATCH)]
 
   /**
    * Callback to return to the acquisition board
@@ -185,13 +180,12 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
 
   onToggle = (chainId, target, nextValue) => this.props.toggleChain(chainId, target, nextValue)
 
-
   render() {
     const {
       meta, entitiesLoading, runChain, stopChain, params: { project }, isOneCheckboxToggled, displayLogic, availableDependencies,
     } = this.props
 
-    const hasAccess = displayLogic(AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
+    const hasAccess = displayLogic(AcquisitionProcessingChainListFiltersComponent.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES, availableDependencies)
     return (
       <AcquisitionProcessingChainListComponent
         project={project}

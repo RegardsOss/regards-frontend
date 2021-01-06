@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { InfiniteTableContainer } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import DocumentModelsFieldArrayComponent from '../../src/components/DocumentModelsFieldArrayComponent'
 import styles from '../../src/styles'
 
@@ -37,31 +37,21 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing DocumentModelsFieldArrayCompone
     assert.isDefined(DocumentModelsFieldArrayComponent)
   })
   it('should render and update with selection updates correctly', () => {
-    const models = [1, 2, 3, 4, 5].map(v => `model${v}`)
-    let selectedModels = [models[0], models[3]]
+    const models = [1, 2, 3, 4, 5].map((v) => `model${v}`)
     const props = {
       dataModelNames: models,
-      fields: {
-        get: () => {}, // unused
-        getAll: () => selectedModels,
-        insert: () => {}, // unused
-        push: model => selectedModels.push(model),
-        remove: (index) => {
-          selectedModels = selectedModels.reduce(
-            (acc, v, localIndex) => index === localIndex ? acc : [...acc, v], [])
-        },
-      },
+      fields: ReduxFormTestHelper.getFieldsProps([models[0], models[3]]),
     }
     const enzymeWrapper = shallow(<DocumentModelsFieldArrayComponent {...props} />, { context })
     // 1- check initial render
     let tables = enzymeWrapper.find(InfiniteTableContainer)
     assert.lengthOf(tables, 2, '(1) There should be available and selected tables')
     assert.deepEqual(tables.at(0).props().entities, [models[1], models[2], models[4]], '(1) Selectable models should be correctly computed')
-    assert.deepEqual(tables.at(1).props().entities, selectedModels, '(1) Selected models should be correctly computed')
+    assert.deepEqual(tables.at(1).props().entities, props.fields.getAll(), '(1) Selected models should be correctly computed')
 
     // 2- test adding a model
     enzymeWrapper.instance().onSelectDocumentModelOptionComponent(models[1])
-    assert.deepEqual(selectedModels, [models[0], models[3], models[1]], '(2) Selected models should be correctly updated on add')
+    assert.deepEqual(props.fields.getAll(), [models[0], models[3], models[1]], '(2) Selected models should be correctly updated on add')
     // force a render with new props reference (that trick is required here as redux form renders on store changes)
     enzymeWrapper.setProps({
       dataModelNames: models,
@@ -70,12 +60,12 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing DocumentModelsFieldArrayCompone
     tables = enzymeWrapper.find(InfiniteTableContainer)
     assert.lengthOf(tables, 2, '(2) There should be available and selected tables')
     assert.deepEqual(tables.at(0).props().entities, [models[2], models[4]], '(2) Selectable models should be correctly computed')
-    assert.deepEqual(tables.at(1).props().entities, selectedModels, '(2) Selected models should be correctly computed')
+    assert.deepEqual(tables.at(1).props().entities, props.fields.getAll(), '(2) Selected models should be correctly computed')
 
     // 3- test removing two models
     enzymeWrapper.instance().onUnselectDocumentModelOptionComponent(0)
     enzymeWrapper.instance().onUnselectDocumentModelOptionComponent(1)
-    assert.deepEqual(selectedModels, [models[3]], '(3) Selected models should be correctly updated on remove')
+    assert.deepEqual(props.fields.getAll(), [models[3]], '(3) Selected models should be correctly updated on remove')
     // same trick used before
     enzymeWrapper.setProps({
       dataModelNames: models,
@@ -84,6 +74,6 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing DocumentModelsFieldArrayCompone
     tables = enzymeWrapper.find(InfiniteTableContainer)
     assert.lengthOf(tables, 2, '(3) There should be available and selected tables')
     assert.deepEqual(tables.at(0).props().entities, [models[0], models[1], models[2], models[4]], '(3) Selectable models should be correctly computed')
-    assert.deepEqual(tables.at(1).props().entities, selectedModels, '(3) Selected models should be correctly computed')
+    assert.deepEqual(tables.at(1).props().entities, props.fields.getAll(), '(3) Selected models should be correctly computed')
   })
 })

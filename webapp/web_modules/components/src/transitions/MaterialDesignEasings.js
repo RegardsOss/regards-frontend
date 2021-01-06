@@ -39,7 +39,6 @@ export const standardCurve = CubicBezier.config(0.4, 0.0, 0.2, 1)
  */
 export const decelerationCurve = CubicBezier.config(0.0, 0.0, 0.2, 1)
 
-
 /**
  * Using the acceleration curve (also referred to as “ease in”) elements leave the screen at full velocity.
  * They do not decelerate when off-screen.

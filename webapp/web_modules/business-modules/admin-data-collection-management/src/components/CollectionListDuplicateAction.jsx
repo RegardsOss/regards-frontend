@@ -17,12 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import ContentCopy from 'mdi-material-ui/ContentCopy'
-import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { withResourceDisplayControl } from '@regardsoss/display-control'
-import IconButton from 'material-ui/IconButton'
-
-const ResourceIconAction = withResourceDisplayControl(IconButton)
+import { i18nContextType } from '@regardsoss/i18n'
+import { ResourceIconAction } from '@regardsoss/components'
 
 /**
  * CollectionList duplicate action

@@ -24,7 +24,7 @@ export const EndpointConfiguration = {
 }
 
 export const ENDPOINT = new Schema(EndpointConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[EndpointConfiguration.entityKey],
+  idAttribute: (entity) => entity.content[EndpointConfiguration.entityKey],
   assignEntity: (output, key, value, input) => {
     if (key === 'content') {
       // eslint-disable-next-line no-param-reassign

@@ -47,9 +47,8 @@ export class ThumbnailHelper {
     DATA_TYPES_ENUM.QUICKLOOK_HD,
   ]
 
-
   /**
-   * Search for a fallback in quicklook definitions (preferes small dimensions, except if there is a primary group)
+   * Search for a fallback in quicklook definitions (prefers small dimensions, except if there is a primary group)
    * @param {[*]} quicklookDefinitions array of UIShapes.QuicklookDefinition (nota: the 'canDisplay' filter must
    * have been already applied, thus the groups contains only displayable elements)
    */

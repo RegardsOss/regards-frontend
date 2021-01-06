@@ -58,7 +58,7 @@ class AdminFormComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize this sub form part values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       isCreating, changeField, currentNamespace,
     } = this.props
@@ -110,7 +110,7 @@ class AdminFormComponent extends React.Component {
         <div style={topSeparator} />
         <Tabs>
           { // map each entity type to a description configuration form
-            AdminFormComponent.CONFIGURATION_ENTITY_TYPES.map(entityType => (
+            AdminFormComponent.CONFIGURATION_ENTITY_TYPES.map((entityType) => (
               <Tab key={entityType} label={formatMessage({ id: `module.description.configuration.type.${entityType}` })}>
                 <DescriptionConfigurationFormComponent
                   entityType={entityType}

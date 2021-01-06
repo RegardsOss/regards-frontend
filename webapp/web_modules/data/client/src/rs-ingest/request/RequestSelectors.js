@@ -22,4 +22,4 @@ import { BasicPageableSelectors } from '@regardsoss/store-utils'
  * Store selector to Request entities.
  * @author Simon MILHAU
  */
-export default storePath => new BasicPageableSelectors(storePath)
+export default (storePath) => new BasicPageableSelectors(storePath)

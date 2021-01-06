@@ -78,6 +78,15 @@ export class OSResultsConfigurationComponent extends React.Component {
     ...themeContextType,
   }
 
+  static STANDARD_ATTRIBUTES = [
+    { // label
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
+      attributeRequired: true,
+    }, { // provider id
+      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
+      attributeRequired: true,
+    }]
+
   /**
    * Flattens fields by their path in object. Example: { a: { b: '1' }, c: '2 } => { 'a.b' : 1, c: '2' }
    * @param {*} values values to flatten
@@ -125,19 +134,10 @@ export class OSResultsConfigurationComponent extends React.Component {
     }, {})
   }
 
-  static STANDARD_ATTRIBUTES = [
-    { // label
-      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
-      attributeRequired: true,
-    }, { // provider id
-      model: DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
-      attributeRequired: true,
-    }]
-
   /**
    * React lifecycle method: component will mount. Used here to initialize form values from last edited values (might be empty)
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialize, initialValues } = this.props
     initialize({
       ...initialValues,
@@ -245,8 +245,7 @@ export class OSResultsConfigurationComponent extends React.Component {
                 type="text"
                 label={formatMessage({ id: `opensearch.crawler.form.results.${jsonPath}` })}
                 validate={attributeRequired ? null : requiredValidator}
-              />))
-            }
+              />))}
             {/* Associated files  */}
             <div style={title}>
               <Title

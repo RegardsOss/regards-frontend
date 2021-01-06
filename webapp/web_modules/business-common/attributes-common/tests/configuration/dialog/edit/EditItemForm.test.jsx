@@ -89,25 +89,25 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     })
     // 2 - check fields and allowed values
     // a. labels (through their parent showable)
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'label.en'), 1, 'There should be english label')
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'label.fr'), 1, 'There should be french label')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'label.en'), 1, 'There should be english label')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'label.fr'), 1, 'There should be french label')
     const labelFieldsShowables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(labelFieldsShowables, 2, 'There should be one showable for each label field')
     assert.isTrue(labelFieldsShowables.at(0).props().show, 'English label should be visible')
     assert.isTrue(labelFieldsShowables.at(0).props().show, 'French label should be visible')
     // b. order
-    const orderField = enzymeWrapper.find(Field).findWhere(n => n.props().name === 'order')
+    const orderField = enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'order')
     assert.lengthOf(orderField, 1, 'There should be order field')
     const allOrderItems = orderField.find(MenuItem)
     assert.lengthOf(allOrderItems, 2, 'There should be 2 avaible positions in list of two attributes elements')
-    assert.lengthOf(allOrderItems.findWhere(n => n.props().primaryText === 'attribute.configuration.index.first'), 1, 'First position item should be available')
-    assert.lengthOf(allOrderItems.findWhere(n => n.props().primaryText === 'attribute.configuration.index.after.element'), 1, 'After another element should be available')
+    assert.lengthOf(allOrderItems.findWhere((n) => n.props().primaryText === 'attribute.configuration.index.first'), 1, 'First position item should be available')
+    assert.lengthOf(allOrderItems.findWhere((n) => n.props().primaryText === 'attribute.configuration.index.after.element'), 1, 'After another element should be available')
     // c - Test attributes groups
     const groupsField = enzymeWrapper.find(FieldArray)
     assert.lengthOf(groupsField, 1, 'There should be attributes groups field')
     assert.equal(groupsField.props().component, MultipleAttributesFieldRender, 'It should use a multiple attributes array render')
     // d - Test single attribute field has not been added
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'singleAttribute.name'), 0, 'There should not be the single attribute field')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'singleAttribute.name'), 0, 'There should not be the single attribute field')
     // 3 - Check that commit method will convert correctly item, not using the single attribute field
     assert.isNull(spiedConfirmValues)
     enzymeWrapper.instance().onSubmit({
@@ -158,23 +158,23 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     })
     // 2 - check fields and allowed values
     // a. labels
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'label.en'), 1, 'There should be english label')
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'label.fr'), 1, 'There should be french label')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'label.en'), 1, 'There should be english label')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'label.fr'), 1, 'There should be french label')
     const labelFieldsShowables = enzymeWrapper.find(ShowableAtRender)
     assert.lengthOf(labelFieldsShowables, 2, 'There should be one showable for each label field')
     assert.isFalse(labelFieldsShowables.at(0).props().show, 'English label should be hidden')
     assert.isFalse(labelFieldsShowables.at(0).props().show, 'French label should be hidden')
     // b. order
-    const orderField = enzymeWrapper.find(Field).findWhere(n => n.props().name === 'order')
+    const orderField = enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'order')
     assert.lengthOf(orderField, 1, 'There should be order field')
     const allOrderItems = orderField.find(MenuItem)
     assert.lengthOf(allOrderItems, 3, 'There should be 2 avaible positions in list of two attributes elements')
-    assert.lengthOf(allOrderItems.findWhere(n => n.props().primaryText === 'attribute.configuration.index.first'), 1, 'First position item should be available')
-    assert.lengthOf(allOrderItems.findWhere(n => n.props().primaryText === 'attribute.configuration.index.after.element'), 2, 'After another element should be available two times')
+    assert.lengthOf(allOrderItems.findWhere((n) => n.props().primaryText === 'attribute.configuration.index.first'), 1, 'First position item should be available')
+    assert.lengthOf(allOrderItems.findWhere((n) => n.props().primaryText === 'attribute.configuration.index.after.element'), 2, 'After another element should be available two times')
     // c - Test attributes groups
     assert.lengthOf(enzymeWrapper.find(FieldArray), 0, 'There should not be attributes groups field')
     // d - Test single attribute field has not been added
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere(n => n.props().name === 'singleAttribute.name'), 1, 'There should be the single attribute field')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'singleAttribute.name'), 1, 'There should be the single attribute field')
     // 3 - Check that commit method will convert correctly item, using the single attribute field instead of groups field
     assert.isNull(spiedConfirmValues)
     enzymeWrapper.instance().onSubmit({
@@ -232,7 +232,7 @@ describe('[Attributes Common] Testing EditItemForm', () => {
         handleSubmit: () => { },
       }
       const enzymeWrapper = shallow(<EditItemForm {...props} />, { context })
-      const field = enzymeWrapper.find(Field).findWhere(n => n.props().name === 'singleAttribute.renderer')
+      const field = enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'singleAttribute.renderer')
       assert.lengthOf(field, 1, 'There should be renderer selection field')
       const options = field.find(MenuItem)
       const { expectedOptionsCount } = (renderersCount.find(({ types }) => types.includes(type)) || { expectedOptionsCount: 1 })

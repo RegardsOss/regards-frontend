@@ -52,11 +52,8 @@ export class ConnectionViewerComponent extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      tableOpen: props.initialTableOpen || '',
-    }
+  state = {
+    tableOpen: this.props.initialTableOpen || '',
   }
 
   /**
@@ -115,7 +112,7 @@ export class ConnectionViewerComponent extends React.Component {
 
     return flow(
       fpsortBy('name'),
-      fpmap(tableAttribute => (
+      fpmap((tableAttribute) => (
         <ListItem
           key={tableAttribute.name}
           secondaryText={tableAttribute.javaSqlType}

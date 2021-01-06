@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
@@ -38,7 +40,6 @@ import { getFullQualifiedAttributeName, MODEL_ATTR_TYPES } from '@regardsoss/dom
 import ParameterArrayAttributeComponent from './ParameterArrayAttributeComponent'
 import isRestrictedWithEnum from '../utils/isRestrictedWithEnum'
 
-
 /**
  * Form component to edit datasets/collection attributes that the admin has to define.
  */
@@ -57,14 +58,66 @@ export class EntitiesAttributeFormComponent extends React.Component {
     height: '95px',
   }
 
-  constructor(props) {
-    super(props)
-    const { modelAttribute } = props
-    this.state = {
-      restrictions: this.getRestrictions(modelAttribute),
+  static getComplexRestriction(restriction) {
+    const restrictions = []
+    if (restriction) {
+      switch (restriction && restriction.type) {
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
+          restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
+          break
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE:
+        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE:
+          restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
+          break
+        default:
+        // Nothing to do
+      }
+    }
+    return restrictions
+  }
+
+  static getRestrictions(modelAttribute) {
+    const complexRestriction = EntitiesAttributeFormComponent.getComplexRestriction(modelAttribute.content.attribute.restriction)
+
+    switch (modelAttribute.content.attribute.type) {
+      case MODEL_ATTR_TYPES.STRING:
+      case MODEL_ATTR_TYPES.STRING_ARRAY:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
+        }
+        return [ValidationHelpers.string]
+      case MODEL_ATTR_TYPES.DOUBLE:
+      case MODEL_ATTR_TYPES.LONG:
+      case MODEL_ATTR_TYPES.INTEGER:
+      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
+      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
+      case MODEL_ATTR_TYPES.LONG_ARRAY:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
+        }
+        return complexRestriction
+      case MODEL_ATTR_TYPES.URL:
+        if (!modelAttribute.content.attribute.optional) {
+          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
+        }
+        return complexRestriction
+      case MODEL_ATTR_TYPES.BOOLEAN:
+      case MODEL_ATTR_TYPES.DATE:
+      case MODEL_ATTR_TYPES.DATE_ARRAY:
+      case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
+      case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
+      case MODEL_ATTR_TYPES.DATE_INTERVAL:
+      case MODEL_ATTR_TYPES.LONG_INTERVAL:
+      default:
+        return complexRestriction
     }
   }
 
+  /** Initial state */
+  state = {
+    restrictions: EntitiesAttributeFormComponent.getRestrictions(this.props.modelAttribute),
+  }
 
   getField = (modelAttribute) => {
     switch (modelAttribute.content.attribute.type) {
@@ -113,10 +166,11 @@ export class EntitiesAttributeFormComponent extends React.Component {
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
       validate={this.state.restrictions}
       disabled={this.isDisabled()}
+      parse={(value, name) => isNil(value) || isEmpty(value) ? null : value}
     />
   )
 
-  getFieldCheckbox = modelAttribute => (
+  getFieldCheckbox = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -125,7 +179,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getFieldDateTime = modelAttribute => (
+  getFieldDateTime = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -135,7 +189,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
     />
   )
 
-  getFieldSelect = modelAttribute => (
+  getFieldSelect = (modelAttribute) => (
     <Field
       className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
       name={`properties.${modelAttribute.content.attribute.fragment.name}.${modelAttribute.content.attribute.name}`}
@@ -152,8 +206,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
           key={acceptableValue}
           primaryText={acceptableValue}
         />
-      ))
-      }
+      ))}
     </Field>
   )
 
@@ -170,8 +223,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       />
     </div>)
 
-
-  getEnumTextArrayField = modelAttribute => (
+  getEnumTextArrayField = (modelAttribute) => (
     <div>
       <Field
         className={`selenium-pick-${modelAttribute.content.attribute.fragment.name}-${modelAttribute.content.attribute.name}`}
@@ -188,67 +240,10 @@ export class EntitiesAttributeFormComponent extends React.Component {
             key={acceptableValue}
             primaryText={acceptableValue}
           />
-        ))
-        }
+        ))}
       </Field>
     </div>
   )
-
-  getComplexRestriction = (restriction) => {
-    const restrictions = []
-    if (restriction) {
-      switch (restriction && restriction.type) {
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.PATTERN:
-          restrictions.push(ValidationHelpers.matchRegex(restriction.pattern))
-          break
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.INTEGER_RANGE:
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.LONG_RANGE:
-        case DamDomain.ATTRIBUTE_MODEL_RESTRICTIONS_ENUM.DOUBLE_RANGE:
-          restrictions.push(ValidationHelpers.isInNumericRange(restriction.min, restriction.max, restriction.minExcluded, restriction.maxExcluded))
-          break
-        default:
-        // Nothing to do
-      }
-    }
-    return restrictions
-  }
-
-  getRestrictions = (modelAttribute) => {
-    const complexRestriction = this.getComplexRestriction(modelAttribute.content.attribute.restriction)
-
-    switch (modelAttribute.content.attribute.type) {
-      case MODEL_ATTR_TYPES.STRING:
-      case MODEL_ATTR_TYPES.STRING_ARRAY:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
-        }
-        return [ValidationHelpers.string]
-      case MODEL_ATTR_TYPES.DOUBLE:
-      case MODEL_ATTR_TYPES.LONG:
-      case MODEL_ATTR_TYPES.INTEGER:
-      case MODEL_ATTR_TYPES.INTEGER_ARRAY:
-      case MODEL_ATTR_TYPES.DOUBLE_ARRAY:
-      case MODEL_ATTR_TYPES.LONG_ARRAY:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.validRequiredNumber, ...complexRestriction]
-        }
-        return complexRestriction
-      case MODEL_ATTR_TYPES.URL:
-        if (!modelAttribute.content.attribute.optional) {
-          return [ValidationHelpers.string, ValidationHelpers.required, ...complexRestriction]
-        }
-        return complexRestriction
-      case MODEL_ATTR_TYPES.BOOLEAN:
-      case MODEL_ATTR_TYPES.DATE:
-      case MODEL_ATTR_TYPES.DATE_ARRAY:
-      case MODEL_ATTR_TYPES.INTEGER_INTERVAL:
-      case MODEL_ATTR_TYPES.DOUBLE_INTERVAL:
-      case MODEL_ATTR_TYPES.DATE_INTERVAL:
-      case MODEL_ATTR_TYPES.LONG_INTERVAL:
-      default:
-        return complexRestriction
-    }
-  }
 
   showStarIfInputRequired = (modelAttribute) => {
     if (!modelAttribute.optional) {
@@ -288,6 +283,5 @@ export class EntitiesAttributeFormComponent extends React.Component {
     )
   }
 }
-
 
 export default EntitiesAttributeFormComponent

@@ -22,8 +22,6 @@ import { themeContextType } from '@regardsoss/theme'
 import { IFrameURLContentDisplayer } from '@regardsoss/components'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { connect } from '@regardsoss/redux'
-import ModuleConfigurationShape from '../models/ModuleConfigurationShape'
-
 
 /**
  * Main component of module menu
@@ -35,18 +33,21 @@ export class ModuleContainer extends React.Component {
     authentication: AuthenticateShape,
     // default modules properties
     ...AccessShapes.runtimeDispayModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfigurationShape,
   }
-
-  static mapStateToProps = state => ({
-    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
-  })
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
   }
+
+  static RENDER_STYLES = {
+    width: '100%',
+    height: '100vh',
+  }
+
+  static mapStateToProps = (state) => ({
+    authentication: AuthenticationClient.authenticationSelectors.getAuthenticationResult(state),
+  })
 
   getMizarContextURL = () => {
     const { authentication, project, id } = this.props
@@ -58,21 +59,14 @@ export class ModuleContainer extends React.Component {
     return `${baseURL}${encodeURIComponent(`${accessURL}?scope=${project}`)}`
   }
 
-
   render() {
-    const renderStyles = {
-      width: '100%',
-      height: '100vh',
-    }
-
     return (
       <IFrameURLContentDisplayer
         source={this.getMizarContextURL()}
-        style={renderStyles}
+        style={ModuleContainer.RENDER_STYLES}
       />
     )
   }
 }
-
 
 export default connect(ModuleContainer.mapStateToProps)(ModuleContainer)

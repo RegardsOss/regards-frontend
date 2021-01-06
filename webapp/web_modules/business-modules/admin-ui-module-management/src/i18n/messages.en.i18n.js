@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages English language
  * @author Sébastien binda
  */
-const messages = Object.assign({
+const messages = {
   'admin.app.title': 'Administration UI',
   'admin.app.description': 'Configure Administration interface',
   'admin.app.modules.tooltip': 'Configure modules',
@@ -102,7 +102,7 @@ const messages = Object.assign({
   'application.theme.remove.confirm.remove': 'Remove',
   'application.theme.remove.success': 'The theme was removed',
   'application.theme.remove.error': 'The theme could not be removed',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

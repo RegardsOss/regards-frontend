@@ -22,16 +22,14 @@ import { Table, TableRow } from 'material-ui/Table'
 import { CardActionsComponent } from '@regardsoss/components'
 import { testSuiteHelpers, DumpProvider, buildTestContext } from '@regardsoss/tests-helpers'
 import { RoleListComponent } from '../../src/components/RoleListComponent'
+import styles from '../../src/styles'
 
-const options = {
-  context: buildTestContext(),
-}
+const context = buildTestContext(styles)
 
 // Test a component rendering
 describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
-
 
   it('should exists', () => {
     assert.isDefined(RoleListComponent)
@@ -46,7 +44,7 @@ describe('[ADMIN USER ROLE MANAGEMENT] Testing project list container', () => {
       createUrl: '/some/url',
       backUrl: '/some/url',
     }
-    const enzymeWrapper = shallow(<RoleListComponent {...props} />, options)
+    const enzymeWrapper = shallow(<RoleListComponent {...props} />, { context })
     expect(enzymeWrapper.find(Table)).to.have.length(1)
     expect(enzymeWrapper.find(TableRow)).to.have.length(7)
     expect(enzymeWrapper.find(CardActionsComponent)).to.have.length(1)

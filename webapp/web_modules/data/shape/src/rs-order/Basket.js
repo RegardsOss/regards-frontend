@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Describes a basket shape and related sub objects
  * @author Raphaël Mechali
@@ -29,6 +28,7 @@ export const BasketSelelectionRequest = PropTypes.shape({
   datasetUrn: PropTypes.string, // optional dataset restriction
   entityIdsToInclude: PropTypes.arrayOf(PropTypes.string),
   entityIdsToExclude: PropTypes.arrayOf(PropTypes.string),
+  // eslint-disable-next-line react/forbid-prop-types
   searchParameters: PropTypes.object,
   selectionDate: PropTypes.string.isRequired,
 })
@@ -42,6 +42,11 @@ export const BasketDatedItemsSelection = PropTypes.shape({
   selectionRequest: BasketSelelectionRequest.isRequired,
 })
 
+/** A dataset processing selection shape */
+export const BasketDatasetProcessingSelection = PropTypes.shape({
+  processBusinessId: PropTypes.string.isRequired,
+  parameters: PropTypes.objectOf(PropTypes.any).isRequired,
+})
 
 /** A dataset selection shape, containing dated selection items */
 export const BasketDatasetSelection = PropTypes.shape({
@@ -52,6 +57,7 @@ export const BasketDatasetSelection = PropTypes.shape({
   filesCount: PropTypes.number.isRequired,
   filesSize: PropTypes.number.isRequired,
   itemsSelections: PropTypes.arrayOf(BasketDatedItemsSelection).isRequired,
+  process: BasketDatasetProcessingSelection,
 })
 
 /** The basket shape */

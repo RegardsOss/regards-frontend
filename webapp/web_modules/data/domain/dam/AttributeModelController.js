@@ -30,7 +30,6 @@ import { MODEL_ATTR_TYPES, PSEUDO_ATTR_TYPES } from './ModelAttrTypes'
  * @author Sébastien Binda
  */
 
-
 const standardAttributesKeys = {
   id: 'id', // === URN
   providerId: 'providerId',
@@ -39,10 +38,12 @@ const standardAttributesKeys = {
   tags: 'tags',
   thumbnail: 'thumbnail',
   geometry: 'geometry',
+  version: 'version',
+  last: 'last',
 }
 
 /**
- * Constant to define where to find dynamic attributes in the data objects returned by the search endpoint
+ * Defines standard attributes OR standard concepts (Thumbnail and alike).
  * @type {string}
  */
 const standardAttributes = {
@@ -95,6 +96,20 @@ const standardAttributes = {
     type: MODEL_ATTR_TYPES.STRING,
     jsonPath: 'geometry',
   },
+  [standardAttributesKeys.version]: {
+    key: standardAttributesKeys.version,
+    id: -8,
+    label: 'Version',
+    type: MODEL_ATTR_TYPES.INTEGER,
+    jsonPath: 'version',
+  },
+  [standardAttributesKeys.last]: {
+    key: standardAttributesKeys.version,
+    id: -9,
+    label: 'Last version',
+    type: MODEL_ATTR_TYPES.BOOLEAN,
+    jsonPath: 'last',
+  },
 }
 
 /**
@@ -127,7 +142,6 @@ function getStandardAttributeModel(standardAttributeKey) {
   return standardAttributesAsModel.find(({ content: { name } }) => name === standardAttributeKey)
 }
 
-
 /** Pseudo attributes, marks elements that should not be used with the server */
 const pseudoAttributesKeys = [
   standardAttributesKeys.thumbnail,
@@ -138,7 +152,7 @@ const pseudoAttributesKeys = [
  * @param {*} attribute attribute as returned by the server (within content field)
  * @return {bool} true when that attribute can be used to search, filter, sort...
  */
-const isSearchableAttribute = attribute => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
+const isSearchableAttribute = (attribute) => !pseudoAttributesKeys.includes(get(attribute, 'content.name'))
 
 const DEFAULT_FRAGMENT = 'default'
 

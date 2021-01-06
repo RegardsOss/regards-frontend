@@ -37,7 +37,8 @@ export class EnableAccountSignalActions extends BasicSignalActions {
    */
   sendEnable(accountEmail) {
     return this.sendSignal('PUT', null, {
-      account_email: accountEmail,
+      // eslint-disable-next-line camelcase
+      account_email: accountEmail, // eslint wont fix: matches server format
     })
   }
 }

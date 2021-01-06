@@ -27,7 +27,7 @@ import { getModelAttributesClient } from '../clients/ModelAttributesClient'
  * @returns React class that injects clients
  * @author Léo Mieulet
  */
-export default Component => class WithClient extends React.Component {
+export default (Component) => class WithClient extends React.Component {
   static propTypes = {
     pluginInstanceId: PropTypes.string.isRequired,
   }

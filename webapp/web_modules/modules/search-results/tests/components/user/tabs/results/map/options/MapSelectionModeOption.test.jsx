@@ -29,6 +29,7 @@ const context = buildTestContext(styles)
 /**
  * Test MapSelectionModeOption
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
   before(testSuiteHelpers.before)
@@ -39,11 +40,12 @@ describe('[SEARCH RESULTS] Testing MapSelectionModeOption', () => {
   })
 
   UIDomain.MAP_SELECTION_MODES.forEach((selectionMode) => {
-    [true, false].forEach(selected => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
+    [true, false].forEach((selected) => it(`Should render correctly for mode ${selectionMode} when ${selected ? 'selected' : 'unselected'}`, () => {
       const props = {
         selected,
         selectionMode,
-        onSetSelectionMode: () => {},
+        onToggleSelectionMode: () => {},
+        index: 0,
       }
       const enzymeWrapper = shallow(<MapSelectionModeOption {...props} />, { context })
       const button = enzymeWrapper.find(FlatButton)

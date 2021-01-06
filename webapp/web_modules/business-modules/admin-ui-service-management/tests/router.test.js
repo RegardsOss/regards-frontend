@@ -23,7 +23,6 @@ import ServiceConfigurationFormContainer from '../src/containers/ServiceConfigur
 import ServiceConfigurationListContainer from '../src/containers/ServiceConfigurationListContainer'
 import ServiceListContainer from '../src/containers/ServiceListContainer'
 
-
 describe('[ADMIN UI SERVICE MANAGEMENT] Testing router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)

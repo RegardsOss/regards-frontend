@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 
 // default client selectors, only consumes project admin waiting user access (no fetch nor reducing, it is performed in admin module)
-export const waitingAccessUsersEntitiesSelectors = AdminClient.getWaitingAccessUsersEntitiesSelectors()
+export const waitingAccessUsersEntitiesSelectors = AccessProjectClient.getWaitingAccessUsersEntitiesSelectors()

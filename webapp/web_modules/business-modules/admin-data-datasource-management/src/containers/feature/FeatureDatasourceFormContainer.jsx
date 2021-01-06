@@ -55,22 +55,17 @@ export class FeatureDatasourceFormContainer extends React.Component {
     modelList: modelSelectors.getList(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
     fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
-    createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+    createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.datasourceId === undefined
-
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    isLoading: true,
   }
 
   componentDidMount() {

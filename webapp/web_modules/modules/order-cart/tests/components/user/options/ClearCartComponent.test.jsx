@@ -39,7 +39,7 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     const props = {
       onClearCart: () => { },
       empty: true,
-      disabled: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
@@ -53,11 +53,11 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     assert.isDefined(buttonWrapper.props().label, 'There should be a label')
     assert.isDefined(buttonWrapper.props().title, 'There should be a title')
   })
-  it('should render correctly when disabled', () => {
+  it('should render correctly when fetching', () => {
     const props = {
       onClearCart: () => { },
       empty: false,
-      disabled: true,
+      isFetching: true,
     }
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)
@@ -69,7 +69,7 @@ describe('[Order Cart] Testing ClearCartComponent', () => {
     const props = {
       onClearCart: () => { },
       empty: false,
-      disabled: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<ClearCartComponent {...props} />, { context })
     const buttonWrapper = enzymeWrapper.find(ButtonWithConfirmDialog)

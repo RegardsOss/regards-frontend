@@ -20,8 +20,10 @@ import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { aipActions } from './clients/AIPClient'
 import { aipUpdateActions } from './clients/AIPUpdateClient'
 import { sipImportActions } from './clients/SIPImportClient'
+import { requestSelectVersionModeActions } from './clients/RequestSelectVersionModeClient'
 import { requestRetryActions } from './clients/RequestRetryClient'
 import { requestDeleteActions } from './clients/RequestDeleteClient'
+import { requestAbortActions } from './clients/RequestAbortClient'
 import { aipDeleteActions } from './clients/AIPDeleteClient'
 
 /**
@@ -51,14 +53,19 @@ const deleteDependency = [
 
 const updateDependency = aipUpdateActions.getDependency(RequestVerbEnum.POST)
 
+const selectVersionModeDependency = requestSelectVersionModeActions.getDependency(RequestVerbEnum.PUT)
 const retryRequestDependency = requestRetryActions.getDependency(RequestVerbEnum.POST)
 const deleteRequestDependency = requestDeleteActions.getDependency(RequestVerbEnum.POST)
+
+const abortRequestsDependency = requestAbortActions.getDependency(RequestVerbEnum.PUT)
 
 export default {
   listDependencies,
   addDependencies,
   updateDependency,
   deleteDependency,
+  selectVersionModeDependency,
   retryRequestDependency,
   deleteRequestDependency,
+  abortRequestsDependency,
 }

@@ -19,7 +19,6 @@
 import { CardMedia } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 
-
 /**
  * Use the background color provided by the alternative theme
  * @author Léo Mieulet
@@ -49,7 +48,11 @@ export class CardMediaWithCustomBG extends React.Component {
   render() {
     const { onKeyPress, style, mediaStyle } = this.props
     const { muiTheme } = this.context
-    const thisStyle = { backgroundColor: muiTheme.palette.canvasColor, ...style }
+    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+    const thisStyle = { // eslint wont fix: user props and context merged (only available in render)
+      backgroundColor: muiTheme.palette.canvasColor,
+      ...style,
+    }
     return (
       <CardMedia style={thisStyle} mediaStyle={mediaStyle} onKeyPress={onKeyPress}>
         {this.props.children}

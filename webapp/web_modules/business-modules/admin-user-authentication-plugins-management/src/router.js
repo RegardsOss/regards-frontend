@@ -52,7 +52,6 @@ export const editAuthenticationPluginRoute = {
   },
 }
 
-
 const servicesManagementRouter = {
   childRoutes: [
     listAuthenticationPluginRoute,

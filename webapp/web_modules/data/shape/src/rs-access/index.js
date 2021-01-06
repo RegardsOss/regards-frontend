@@ -28,7 +28,6 @@ export {
 export { RuntimeConfiguration } from './uiplugin/RuntimeConfiguration'
 export { PluginTarget } from './uiplugin/PluginTarget'
 
-
 export { AttributeConfigurationData, AttributeElementModel, AttributeListConfigurationModel } from './AttributeListConfigurationModel'
 
 export { ContainerContent } from './ContainerContent'
@@ -38,8 +37,10 @@ export {
   ModuleArray, moduleAdminForm, runtimeDispayModuleFields, runtimeConfigurationModuleFields,
 } from './Module'
 export { Project, ProjectList, ProjectArray } from './Project'
-export { ThemeContent, Theme, ThemeList } from './Theme'
+export { ProjectUser, ProjectUserList } from './ProjectUser'
 
 export { PluginService, PluginServiceWithContent, PluginServiceWithContentArray } from './PluginService'
 export { EntityWithServices } from './EntityWithServices'
+export { quotaFields, QuotaInformation } from './QuotaInformation'
 export { Session, SessionArray, SessionList } from './Sessions'
+export { ThemeContent, Theme, ThemeList } from './Theme'

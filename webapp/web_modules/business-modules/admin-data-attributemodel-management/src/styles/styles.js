@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const styles = theme => ({
+const styles = (theme) => ({
   cardEspaced: {
     marginTop: '20px',
   },

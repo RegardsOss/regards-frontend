@@ -52,7 +52,6 @@ export const editAttributePluginRoute = {
   },
 }
 
-
 const attributePluginsDataManagementRouter = {
   childRoutes: [
     listAttributePluginRoute,

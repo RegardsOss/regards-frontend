@@ -36,7 +36,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringStateRender
   it('should exists', () => {
     assert.isDefined(SessionsMonitoringStateRenderer)
   })
-  AccessDomain.SESSION_STATUS.forEach(state => it(`should render correctly in state ${state}`, () => {
+  AccessDomain.SESSION_STATUS.forEach((state) => it(`should render correctly in state ${state}`, () => {
     const props = {
       entity: {
         content: {
@@ -54,7 +54,7 @@ describe('[ADMIN DATA PROVIDER MANAGEMENT] Testing SessionsMonitoringStateRender
     }
     const enzymeWrapper = shallow(<SessionsMonitoringStateRenderer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(SessionsMonitoringStateRenderer.STATUS_ICON_CONSTRUCTOR[state]), 1, 'There should be status icon')
-    assert.lengthOf(enzymeWrapper.findWhere(n => n.props().title === `acquisition-sessions.state.${state}`), 1,
+    assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === `acquisition-sessions.state.${state}`), 1,
       'State should be rendered as internationalized tooltip')
   }))
 })

@@ -47,7 +47,6 @@ import DatasetListEditAction from './DatasetListEditAction'
 import DatasetListDeleteAction from './DatasetListDeleteAction'
 import DatasetListInfoAction from './DatasetListInfoAction'
 import DatasetListFiltersComponent from './DatasetListFiltersComponent'
-import { DatasetListContainer } from '../containers/DatasetListContainer'
 import EntityInfoDialog from './EntityInfoDialog'
 import CopyToClipBoardAction from './CopyToClipBoardAction'
 
@@ -72,6 +71,8 @@ export class DatasetListComponent extends React.Component {
   }
 
   static CREATE_DEPENDENCIES = [datasetActions.getDependency(RequestVerbEnum.POST)]
+
+  static PAGE_SIZE = 100
 
   state = {
     deleteDialogOpened: false,
@@ -203,7 +204,7 @@ export class DatasetListComponent extends React.Component {
               pageActions={datasetActions}
               pageSelectors={datasetSelectors}
               tableActions={tableActions}
-              pageSize={DatasetListContainer.PAGE_SIZE}
+              pageSize={DatasetListComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={emptyComponent}
             />

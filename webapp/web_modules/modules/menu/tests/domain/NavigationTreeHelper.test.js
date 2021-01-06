@@ -115,7 +115,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
       }, { // a module not found
         id: 88,
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-      }, {// a module found
+      }, { // a module found
         id: 3,
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
       }],
@@ -135,7 +135,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
         type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
       },
       // found modules should have been removed
-      newModules: allDefaultConfigDumpModules.filter(module => module.content.id !== 3 && module.content.id !== 5),
+      newModules: allDefaultConfigDumpModules.filter((module) => module.content.id !== 3 && module.content.id !== 5),
     })
   })
   it('(filterItems) should filter correctly an items list', () => {
@@ -143,7 +143,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     let results = filterItems(aNavigationConfiguration, [], null)
     assert.equal(results.homeItem, null, 'Home item should not be retrieved')
     assert.deepEqual(results.newModules, [], 'No new module should be added, by the way')
-    assert.lengthOf(results.items, 2, 'Only sections should remain in items configuration')
+    assert.lengthOf(results.items, 3, 'Only sections and links should remain in items configuration')
 
     // 2 - filter on configuration model and check home module, other modules and sections was retrieved
     results = filterItems(aNavigationConfiguration, allDefaultConfigDumpModules, null)
@@ -151,7 +151,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
       id: 5,
       type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
       visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-    }, 'Home item should not be retrieved')
+    }, 'Home item should be retrieved')
     assert.deepEqual(results.newModules, [], 'All modules should have been found')
     assert.lengthOf(results.items, aNavigationConfiguration.length - 1, 'All items should still be at root level, except home (returned separately)')
   })
@@ -169,10 +169,10 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     assert.deepEqual(path, [2], 'Path [2] should be found for module 6')
 
     path = getItemPathIn(aNavigationConfiguration, {
-      id: 2,
+      id: 49,
       type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
     })
-    assert.deepEqual(path, [3], 'Path [3] should be found for section 2')
+    assert.deepEqual(path, [3], 'Path [3] should be found for section 49')
 
     path = getItemPathIn(aNavigationConfiguration, {
       id: 1,
@@ -213,7 +213,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     assert.equal(item.type, NAVIGATION_ITEM_TYPES_ENUM.SECTION, '... and should be a section...')
 
     item = getItemByPathIn(aNavigationConfiguration, [3])
-    assert.equal(item.id, 2, 'Section 2 should be found at path [3]')
+    assert.equal(item.id, 49, 'Section 49 should be found at path [3]')
     assert.equal(item.type, NAVIGATION_ITEM_TYPES_ENUM.SECTION, '... and should be a section...')
   })
   it('(getParentPath) should return correct parent path', () => {
@@ -241,7 +241,7 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
     const expectedModulesId = [2, 3, 4, 5, 6]
     assert.lengthOf(allModules, expectedModulesId.length)
     expectedModulesId.forEach((id) => {
-      if (!allModules.find(module => module.id === id && module.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)) {
+      if (!allModules.find((module) => module.id === id && module.type === NAVIGATION_ITEM_TYPES_ENUM.MODULE)) {
         assert.fail(`The module ${id} was not retrieved in all modules`)
       }
     })
@@ -253,10 +253,10 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
   it('(findAllSections) should return all sections in tree parent path', () => {
     // note: getParentPath requires path to be an aray, where length >= 1
     let allSections = findAllSections(aNavigationConfiguration)
-    const expectedSectionId = [0, 1, 2]
+    const expectedSectionId = [0, 1, 49]
     assert.lengthOf(allSections, expectedSectionId.length, 'all sections should be retrieved')
     expectedSectionId.forEach((id) => {
-      if (!allSections.find(section => section.id === id && section.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)) {
+      if (!allSections.find((section) => section.id === id && section.type === NAVIGATION_ITEM_TYPES_ENUM.SECTION)) {
         assert.fail(`The section ${id} was not retrieved in all sections`)
       }
     })
@@ -279,28 +279,28 @@ describe('[Menu] Testing NavigationTreeHelper', () => {
   it('(moveItemAtPath) should insert an item path', () => {
     // move module [1,1,0] after module [1,1,1]
     // expected:
-    // parent still has 2 chilren
+    // parent still has 3 chilren
     // item [1,1,0] path is now [1,1,1] (as it was removed at position [1,2,0])
     // item [1,1,1] path is now [1,1,0]
     // Note: when moving an item, we ignore its old position
     const movedItem1 = getItemByPathIn(aNavigationConfiguration, [1, 1, 0])
     const previouslyAfterSibling = getItemByPathIn(aNavigationConfiguration, [1, 1, 1])
     const afterMoveTree1 = moveItemAtPath(aNavigationConfiguration, movedItem1, [1, 1, 2])
-    assert.lengthOf(getItemByPathIn(afterMoveTree1, [1, 1]).children, 2, 'Parent section should still have 2 children')
+    assert.lengthOf(getItemByPathIn(afterMoveTree1, [1, 1]).children, 3, 'Parent section should still have 3 children')
     assert.deepEqual(getItemPathIn(afterMoveTree1, previouslyAfterSibling), [1, 1, 0], '[1, 1, 1] should now be [1, 2, 0]')
     assert.deepEqual(getItemPathIn(afterMoveTree1, movedItem1), [1, 1, 1], '[1, 1, 0] should now be [1, 2, 1]')
 
     // move module [1,1,1] into section [3]
     const movedItem2 = getItemByPathIn(aNavigationConfiguration, [1, 1, 1])
     const afterMoveTree2 = moveItemAtPath(aNavigationConfiguration, movedItem2, [3, 0])
-    assert.lengthOf(getItemByPathIn(afterMoveTree2, [1, 1]).children, 1, 'Old parent section should have one child less')
+    assert.lengthOf(getItemByPathIn(afterMoveTree2, [1, 1]).children, 2, 'Old parent section should have one child less')
     assert.lengthOf(getItemByPathIn(afterMoveTree2, [3]).children, 1, 'New parent section should have one more child')
     assert.deepEqual(getItemPathIn(afterMoveTree2, movedItem2), [3, 0], '[1, 1, 1] should now be [3, 0]')
 
     // move section [1] at position [4] (should be 3 as its own index is taken in account)
     const movedItem3 = getItemByPathIn(aNavigationConfiguration, [1])
     const afterMoveTree3 = moveItemAtPath(aNavigationConfiguration, movedItem3, [4])
-    assert.lengthOf(afterMoveTree3, 4, 'Root elements should have the same number of children')
+    assert.lengthOf(afterMoveTree3, 5, 'Root elements should have the same number of children')
     assert.deepEqual(getItemPathIn(afterMoveTree3, movedItem3), [3], 'Section [1] should now be [3]')
   })
 })

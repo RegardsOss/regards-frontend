@@ -17,31 +17,45 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import flatMap from 'lodash/flatMap'
-import reduce from 'lodash/reduce'
+import get from 'lodash/get'
+import isEqual from 'lodash/isEqual'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { themeContextType } from '@regardsoss/theme'
 import { storage } from '@regardsoss/units'
 import { Measure, ScrollArea } from '@regardsoss/adapters'
+import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
+import {
+  ManageDatasetProcessingContainer, QUOTA_INFO_STATE_ENUM, QuotaInfo, withQuotaInfo,
+} from '@regardsoss/entities-common'
 import { TreeTableComponent, TreeTableRow, TableLayout } from '@regardsoss/components'
+
+import { UIDomain } from '@regardsoss/domain'
 import DeleteDatasetSelectionContainer from '../../containers/user/options/DeleteDatasetSelectionContainer'
 import DeleteDatedItemSelectionContainer from '../../containers/user/options/DeleteDatedItemSelectionContainer'
 import ShowDatedItemSelectionDetailContainer from '../../containers/user/options/ShowDatedItemSelectionDetailContainer'
-import OrderCartContentSummaryComponent from './OrderCartContentSummaryComponent'
 import ObjectsCountCellRenderComponent from './ObjectsCountCellRenderComponent'
-import styles from '../../styles'
+import TotalQuotaRenderComponent from './TotalQuotaRenderComponent'
 
 /**
 * Shows order cart content as a tree table
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 export class OrderCartTableComponent extends React.Component {
   static propTypes = {
     showDatasets: PropTypes.bool.isRequired,
     basket: OrderShapes.Basket,
+    refreshBasket: PropTypes.func.isRequired,
     isFetching: PropTypes.bool.isRequired,
     onShowDuplicatedMessage: PropTypes.func.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
+    // from withQuotaInfo
+    quotaInfo: QuotaInfo,
   }
 
   static contextTypes = {
@@ -49,51 +63,37 @@ export class OrderCartTableComponent extends React.Component {
     ...themeContextType,
   }
 
-  /**
-   * Computes total objects count for a list of items selections
-   * @param itemsSelections items selections
-   * @return {number} total objects count over all items selections
-   */
-  static getTotalSelectionsObjectsCount(itemsSelections) {
-    return itemsSelections.reduce((acc, { objectsCount }) => acc + objectsCount, 0)
+  /** Possible row types */
+  static ROW_TYPE_ENUM = {
+    DATASET_ROW: 'DATASET_ROW',
+    DATED_SELECTION_ROW: 'DATED_SELECTION_ROW',
+    TOTAL_ROW: 'TOTAL_ROW',
   }
 
   /** Column keys */
-  static ColumnKeys = {
+  static COLUMN_KEYS = {
     ID: 'id',
     OBJECTS_COUNT: 'objects.count',
     FILES_SIZE: 'files.size',
+    QUOTA_SUMMARY: 'quota.summary',
+    PROCESSING: 'processing',
     OPTIONS_DETAIL: 'options.detail',
     OPTIONS_DELETE: 'options.delete',
   }
 
-  /**
-   * Converts an octet storage value into a storage capacity
-   * @param {number} size size in bytes
-   * @return {storage.StorageCapacity} converted capacity
-   */
-  static getStorageCapacity(size) {
-    if (size) {
-      const capacityInOctet = new storage.StorageCapacity(size, storage.StorageUnits.BYTE)
-      // let algorithm decide the best unity for that capacity
-      return capacityInOctet.scaleAndConvert(storage.StorageUnitScale.bytesScale)
-    }
-    return null
-  }
-
   /** Columns models */
   static COLUMNS_DEFINITION = [
-    { key: OrderCartTableComponent.ColumnKeys.ID },
-    { key: OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT, labelKey: 'order-cart.module.basket.table.column.objects.count' },
-    { key: OrderCartTableComponent.ColumnKeys.FILES_SIZE, labelKey: 'order-cart.module.basket.table.column.files.size' },
-    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL, labelKey: null, isOption: true },
-    { key: OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE, labelKey: null, isOption: true }]
+    { key: OrderCartTableComponent.COLUMN_KEYS.ID, labelKey: 'order-cart.module.basket.table.column.selection' },
+    { key: OrderCartTableComponent.COLUMN_KEYS.OBJECTS_COUNT, labelKey: 'order-cart.module.basket.table.column.objects.count' },
+    { key: OrderCartTableComponent.COLUMN_KEYS.FILES_SIZE, labelKey: 'order-cart.module.basket.table.column.files.size' },
+    { key: OrderCartTableComponent.COLUMN_KEYS.QUOTA_SUMMARY, labelKey: 'order-cart.module.basket.table.column.quota.summary' },
+    { key: OrderCartTableComponent.COLUMN_KEYS.PROCESSING, labelKey: null },
+    { key: OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL, labelKey: null },
+    { key: OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE, labelKey: null },
+  ]
 
-  /** Columns index as cache (render time optimization) */
-  static COLUMN_KEY_BY_INDEX = reduce(OrderCartTableComponent.ColumnKeys, (acc, columnKey) => ({
-    ...acc,
-    [OrderCartTableComponent.COLUMNS_DEFINITION.findIndex(({ key }) => key === columnKey)]: columnKey,
-  }), {})
+  /** Quota column index (precomputed for render performance) */
+  static QUOTA_COLUMN_INDEX = OrderCartTableComponent.COLUMNS_DEFINITION.findIndex((c) => c.key === OrderCartTableComponent.COLUMN_KEYS.QUOTA_SUMMARY)
 
   /** Formatting options for selection date */
   static SELECTION_DATE_OPTIONS = {
@@ -109,12 +109,108 @@ export class OrderCartTableComponent extends React.Component {
   static AUTO_EXPANDED_DS_SELECTIONS_COUNT = 5
 
   /**
+   * Computes total objects count for a list of items selections
+   * @param itemsSelections items selections
+   * @return {number} total objects count over all items selections
+   */
+  static getTotalSelectionsObjectsCount(itemsSelections) {
+    return itemsSelections.reduce((sum, { objectsCount }) => sum + objectsCount, 0)
+  }
+
+  /**
+   * Computes total row data (at once to avoid multiple useless loops)
+   * @param {OrderShapes.Basket} basket basket
+   * @return {totalObjectsCount: number, effectiveObjectsCount: number, totalSize: number} total objects count, effective objects count and
+   * totalSize as numbers. Total size unit is the one used by backend (bytes)
+   */
+  static computeTotalRowData(basket) {
+    const datasetSelections = get(basket, 'datasetSelections', [])
+    return datasetSelections.reduce((
+      {
+        totalObjectsCount, effectiveObjectsCount, totalSize, totalQuota,
+      },
+      {
+        objectsCount: dsEffectiveObjectsCount, filesSize: dsTotalSize, quota, itemsSelections,
+      }) => ({ // sum up all dataset values
+      totalObjectsCount: totalObjectsCount + OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
+      effectiveObjectsCount: effectiveObjectsCount + dsEffectiveObjectsCount,
+      totalSize: totalSize + dsTotalSize,
+      totalQuota: totalQuota + quota,
+    }), {
+      totalObjectsCount: 0, effectiveObjectsCount: 0, totalSize: 0, totalQuota: 0,
+    })
+  }
+
+  /**
+   * Converts an octet storage value into a storage capacity
+   * @param {number} size size in bytes
+   * @return {storage.StorageCapacity} converted capacity
+   */
+  static getStorageCapacity(size) {
+    if (size) {
+      const capacityInOctet = new storage.StorageCapacity(size, storage.units.BYTE)
+      // let algorithm decide the best unity for that capacity
+      return capacityInOctet.scaleAndConvert(storage.StorageUnitScale.bytesScale)
+    }
+    return null
+  }
+
+  /**
    * Initial state
    */
   state = {
     scrollAreaStyle: {
       height: 0,
     },
+    // tree model, stored in state to 'buffer' quota changes (allows ignoring rate changes)
+    treeTableModel: {
+      // basket: initially undefined
+      unlimitedQuota: false,
+      currentQuota: 0,
+      maxQuota: 0,
+      quotaWarningCount: UIDomain.UISettingsConstants.DEFAULT_SETTINGS.quotaWarningCount,
+    },
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      basket, quotaInfo: {
+        quotaState, currentQuota, maxQuota, quotaWarningCount,
+      },
+    } = newProps
+
+    // update tree model each time basket / RELATED quota information changes (ignores rate related)
+    if (!isEqual(oldProps.basket, basket)
+    || !isEqual(get(oldProps, 'quotaInfo.quotaState'), quotaState)
+    || !isEqual(get(oldProps, 'quotaInfo.currentQuota'), currentQuota)
+    || !isEqual(get(oldProps, 'quotaInfo.maxQuota'), maxQuota)
+    || !isEqual(get(oldProps, 'quotaInfo.quotaWarningCount'), quotaWarningCount)) {
+      this.setState({
+        treeTableModel: {
+          basket,
+          unlimitedQuota: quotaState === QUOTA_INFO_STATE_ENUM.UNLIMITED,
+          currentQuota,
+          maxQuota,
+          quotaWarningCount,
+        },
+      })
+    }
   }
 
   /**
@@ -133,56 +229,151 @@ export class OrderCartTableComponent extends React.Component {
 
   /**
    * Builds table rows for basket as parameter (model to tree model converter)
-   * @param {*} basket current basket model (optional) as described in Basket shape
+   * @param {*} treeTableModel holding basket and light quota info (only quota part, not rate related)
    * @return [TreeTableRow] root tree table rows
    */
-  buildTableRows = (basket = { datasetSelections: [] }) => {
+  buildTableRows = ({
+    basket = { datasetSelections: [] }, unlimitedQuota, currentQuota, maxQuota, quotaWarningCount,
+  }) => {
     // When showing datasets, map datasets to rows, otherwise, map directly selection items into root rows
     const { showDatasets } = this.props
-    if (showDatasets) {
-      // datasets as root rows
-      return basket.datasetSelections.map(selection => this.buildDatasetSelectionRow(selection, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
-    }
-    // selections as root rows, datasets hidden
-    return flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections.map(itemSelection => this.buildDatedSelectionRow(id, datasetLabel, itemSelection)))
+    const showQuota = !unlimitedQuota
+    return [
+      // A - Datasets or date selections based on conf
+      ...(showDatasets
+        ? basket.datasetSelections.map((selection) => this.buildDatasetSelectionRow(selection, showQuota, basket.datasetSelections.length <= OrderCartTableComponent.AUTO_EXPANDED_DS_SELECTIONS_COUNT))
+        : flatMap(basket.datasetSelections, ({ id, datasetLabel, itemsSelections }) => itemsSelections
+          .map((itemSelection) => this.buildDatedSelectionRow(id, datasetLabel, showQuota, itemSelection)))),
+      // B - quota total row (possibly null)
+      this.buildTotalRow(basket, showQuota, currentQuota, maxQuota, quotaWarningCount),
+    ].filter((row) => !!row) // remove any null row
   }
-
 
   /**
    * Builds a dataset selection row
    * @param {*} datasetSelection dataset selection, as described by BasketDatasetSelection
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @param {boolean} rowExpanded is row expanded?
    * @return TreeTableRow for the dataset selection as parameter
    */
   buildDatasetSelectionRow = ({
-    id, datasetLabel, objectsCount, filesSize, itemsSelections = [],
-  }, rowExpanded) => new TreeTableRow(
-    `dataset.selection.${id}`, [datasetLabel, {
+    id, datasetIpid, datasetLabel, processDatasetDescription, objectsCount, filesSize, quota, itemsSelections = [],
+  }, showQuotaColumn, rowExpanded) => new TreeTableRow(`dataset.selection.${id}`, [
+    { // 1. label cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      datasetLabel,
+    }, { // 2. objects count cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
       effectiveObjectsCount: objectsCount,
       totalObjectsCount: OrderCartTableComponent.getTotalSelectionsObjectsCount(itemsSelections),
-    }, OrderCartTableComponent.getStorageCapacity(filesSize),
-    null, { // keep dataset selection id
+    }, { // 3. size cell (scaled for readability)
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
+    },
+    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      quota,
+    }] : []),
+    { // 5. Processing cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      datasetSelectionIpId: datasetIpid,
       datasetSelectionId: id,
-    }], itemsSelections.map(datedSelectionItem => this.buildDatedSelectionRow(id, datasetLabel, datedSelectionItem)), // sub rows
-    rowExpanded,
-  )
+      process: processDatasetDescription,
+    },
+    { // 6. Detail cell (disabled for dataset)
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+    }, { // 7. delete option cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW,
+      datasetSelectionId: id,
+    },
+  ], itemsSelections.map((datedSelectionItem) => this.buildDatedSelectionRow(id, datasetLabel, showQuotaColumn, datedSelectionItem)), // sub rows
+  rowExpanded)
 
   /**
    * Builds a dated selection item row
    * @param {*} datasetSelection dataset selection, as described by BasketDatedItemsSelection
-   * @return TreeTableRow for the dated selection item
+   * @param {string} datasetLabel dataset label
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @return {TreeTableRow} for the dated selection item
    */
-  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, {
-    date, objectsCount, filesSize, selectionRequest,
-  }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [date, {
-    // cannot know the effective objects count here, but total is OK as we do not want to show the warning one those cells
-    effectiveObjectsCount: objectsCount,
-    totalObjectsCount: objectsCount,
-  }, OrderCartTableComponent.getStorageCapacity(filesSize), { // scale the size to the level its the more readable
-    datasetLabel, date, selectionRequest,
-  }, { // keep label, date and request for detail option
-    datasetSelectionId, itemsSelectionDate: date,
-  }, // keep parent id and date for delete option
+  buildDatedSelectionRow = (datasetSelectionId, datasetLabel, showQuotaColumn, {
+    date, objectsCount, filesSize, selectionRequest, quota,
+  }) => new TreeTableRow(`dated.item.selection.${datasetSelectionId}-${date}`, [
+    { // 1. label cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      date,
+    }, { // 2. objects count cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      effectiveObjectsCount: objectsCount, // no duplicate within a dated selection
+      totalObjectsCount: objectsCount,
+    }, { // 3. size cell (scaled for readability)
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      capacity: OrderCartTableComponent.getStorageCapacity(filesSize),
+    },
+    ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      quota,
+    }] : []),
+    { // 5. Processing cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+    },
+    { // 6. Detail cell (enabled for dated selection)
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      datasetLabel,
+      date,
+      selectionRequest,
+    }, { // 7. delete option cell
+      type: OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW,
+      datasetSelectionId,
+      itemsSelectionDate: date,
+    },
   ])
+
+  /**
+   * Builds total row
+   * @param {*} basket basket matching OrderShapes.Basket
+   * @param {boolean} showQuotaColumn should show quota column?
+   * @param {number} currentQuota current user quota
+   * @param {number} maxQuota current max quota
+   * @param {number} quotaWarningCount low quota warning count
+   * @return {TreeTableRow} for total, null when that row should not be displayed
+   */
+  buildTotalRow = (basket, showQuotaColumn, currentQuota, maxQuota, quotaWarningCount) => {
+    if (basket.datasetSelections.length === 0) {
+      return null
+    }
+    // compute total data (single loop)
+    const {
+      totalObjectsCount, effectiveObjectsCount, totalSize, totalQuota,
+    } = OrderCartTableComponent.computeTotalRowData(basket)
+    return new TreeTableRow('total.row', [
+      { // 1. label cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      }, { // 2. objects count cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        effectiveObjectsCount,
+        totalObjectsCount,
+      }, { // 3. size cell (scaled for readability)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        capacity: OrderCartTableComponent.getStorageCapacity(totalSize),
+      },
+      ...(showQuotaColumn ? [{ // 4. quota cell, when quota is visible
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+        totalQuota,
+        currentQuota,
+        maxQuota,
+        quotaWarningCount,
+      }] : []),
+      { // 5. Processing cell
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+      { // 6. Detail cell (disabled for total row)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      }, { // 7. delete option cell (disabled for total raw)
+        type: OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW,
+      },
+    ])
+  }
 
   /**
    * Builds table cell for cell value as parameter (see methods above to build row cell values)
@@ -192,98 +383,142 @@ export class OrderCartTableComponent extends React.Component {
    * @return TableRowColumn component for cell
    */
   buildTableCell = (cellValue, level, columnIndex) => {
-    const columnID = OrderCartTableComponent.COLUMN_KEY_BY_INDEX[columnIndex]
-    const { moduleTheme: { user: { content: { table } } } } = this.context
+    const { moduleTheme: { user: { content: { table: { optionColumn, totalRow } } } } } = this.context
+    const { treeTableModel: { unlimitedQuota } } = this.state
+    // compute column index in columns definition list (adapt to quota column displayed / hidden), to recover corresponding column key
+    const indexInDef = unlimitedQuota && columnIndex >= OrderCartTableComponent.QUOTA_COLUMN_INDEX ? columnIndex + 1 : columnIndex
+    const columnKey = OrderCartTableComponent.COLUMNS_DEFINITION[indexInDef].key
     return (
       <TableRowColumn
         key={`cell-${columnIndex}`}
-        style={
-          columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL // specify options columns styles
-            || columnID === OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE ? table.optionColumn.style : undefined
-        }
+        style={(() => {
+          if (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW) {
+            return totalRow.cell // total row graphics configuration
+          } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL // specify options columns styles
+            || columnKey === OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE) {
+            return optionColumn // options columns graphics configuration
+          } if (columnKey === OrderCartTableComponent.COLUMN_KEYS.PROCESSING) {
+            return optionColumn.processingStyle
+          }
+          return null
+        })()}
       >
         {
-          this.buildTableCellContent(cellValue, level, columnID)
+          this.buildTableCellContent(cellValue, columnKey)
         }
       </TableRowColumn>)
   }
 
   /**
    * Builds table cell content: converts cell model content into a react component when required (leaves it  unchanged otherwise)
+   * @param {*} cellValue value set when row was built, depends on column
+   * @param {string} columnKey key of the column to render
+   * @return TableRowColumn component for cell
    */
-  buildTableCellContent = (cellValue, level, columnID) => {
-    const { intl: { formatDate } } = this.context
-    const { showDatasets, isFetching, onShowDuplicatedMessage } = this.props
-
-    // is it a dataset cell or a dated item selection cell?
-
-    const isDatasetCell = level === 0 && showDatasets
+  buildTableCellContent = (cellValue, columnKey) => {
+    const { intl: { formatDate, formatMessage } } = this.context
+    const {
+      isFetching, onShowDuplicatedMessage, isProcessingDependenciesExist, processingSelectors,
+      pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
+    } = this.props
 
     // transform content into element, according with column and level (dataset or selection)
-    switch (columnID) {
-      // ID column
-      case OrderCartTableComponent.ColumnKeys.ID:
-        return isDatasetCell
-          // dataset: no change (use label)
-          ? cellValue
-          // selection: format date
-          : `${formatDate(new Date(Date.parse(cellValue)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)}`
-      // files size: cell value is a storage capacity (or undefined), render it internationalized
-      case OrderCartTableComponent.ColumnKeys.OBJECTS_COUNT:
-        return (
-          <ObjectsCountCellRenderComponent
-            onShowDuplicatedMessage={onShowDuplicatedMessage}
-            {...cellValue}
-          />)
-      case OrderCartTableComponent.ColumnKeys.FILES_SIZE:
-        return <storage.FormattedStorageCapacity capacity={cellValue} />
-      // detail option
-      case OrderCartTableComponent.ColumnKeys.OPTIONS_DETAIL:
-        return isDatasetCell
-          // dataset: no detail
-          ? null
-          // selection: detail option, cell value is open search request
-          : <ShowDatedItemSelectionDetailContainer
-            datasetLabel={cellValue.datasetLabel}
-            date={cellValue.date}
-            selectionRequest={cellValue.selectionRequest}
-            disabled={isFetching}
-          />
-      // delete option
-      case OrderCartTableComponent.ColumnKeys.OPTIONS_DELETE: {
-        // extract option parameters from cell value
-        const { datasetSelectionId, itemsSelectionDate } = cellValue
-        return isDatasetCell
-          // dataset: delete dataset
-          ? <DeleteDatasetSelectionContainer
-            datasetSelectionId={datasetSelectionId}
-            disabled={isFetching}
-          />
-          : <DeleteDatedItemSelectionContainer
-            datasetSelectionId={datasetSelectionId}
-            itemsSelectionDate={itemsSelectionDate}
-            disabled={isFetching}
-          /> // selection: delete selection
+    switch (columnKey) {
+      case OrderCartTableComponent.COLUMN_KEYS.ID:
+        // ID column: ID for dataset, date for dated selection and constant i18n text for total
+        switch (cellValue.type) {
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW:
+            return cellValue.datasetLabel
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW:
+            return formatDate(new Date(Date.parse(cellValue.date)), OrderCartTableComponent.SELECTION_DATE_OPTIONS)
+          case OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW:
+          default:
+            return formatMessage({ id: 'order-cart.module.basket.table.row.total.label' })
+        }
+      case OrderCartTableComponent.COLUMN_KEYS.OBJECTS_COUNT:
+        // Object count column: render total and effective objects count, no matter the row type (holds duplicate message)
+        return <ObjectsCountCellRenderComponent
+          effectiveObjectsCount={cellValue.effectiveObjectsCount}
+          totalObjectsCount={cellValue.totalObjectsCount}
+          onShowDuplicatedMessage={onShowDuplicatedMessage}
+        />
+      case OrderCartTableComponent.COLUMN_KEYS.FILES_SIZE:
+        // Size column: render cell value as size
+        return <storage.FormattedStorageCapacity capacity={cellValue.capacity} />
+      case OrderCartTableComponent.COLUMN_KEYS.QUOTA_SUMMARY:
+        // Quota: render corresponding quota for dataset selection and dated selection,
+        // and total with remaining and optional warning for total row
+        switch (cellValue.type) {
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW:
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW:
+            return cellValue.quota
+          case OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW:
+          default:
+            return <TotalQuotaRenderComponent
+              totalQuota={cellValue.totalQuota}
+              currentQuota={cellValue.currentQuota}
+              maxQuota={cellValue.maxQuota}
+              quotaWarningCount={cellValue.quotaWarningCount}
+            />
+        }
+      case OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL:
+        // detail option column : render detail option for dated selection row,
+        switch (cellValue.type) {
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW:
+            return <ShowDatedItemSelectionDetailContainer
+              datasetLabel={cellValue.datasetLabel}
+              date={cellValue.date}
+              selectionRequest={cellValue.selectionRequest}
+              disabled={isFetching}
+            />
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW:
+          case OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW:
+          default:
+            return null
+        }
+      case OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE: {
+        // delete option column: render delete for dataset and dated selection
+        switch (cellValue.type) {
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW:
+            return <DeleteDatasetSelectionContainer
+              datasetSelectionId={cellValue.datasetSelectionId}
+              disabled={isFetching}
+            />
+          case OrderCartTableComponent.ROW_TYPE_ENUM.DATED_SELECTION_ROW:
+            return <DeleteDatedItemSelectionContainer
+              datasetSelectionId={cellValue.datasetSelectionId}
+              itemsSelectionDate={cellValue.itemsSelectionDate}
+              disabled={isFetching}
+            />
+          case OrderCartTableComponent.ROW_TYPE_ENUM.TOTAL_ROW:
+          default:
+            return null
+        }
       }
-      // Other columns: unchanged
+      case OrderCartTableComponent.COLUMN_KEYS.PROCESSING: {
+        return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist)
+          ? <ManageDatasetProcessingContainer
+              datasetIpid={cellValue.datasetSelectionIpId}
+              datasetSelectionId={cellValue.datasetSelectionId}
+              onProcessChanged={refreshBasket}
+              process={cellValue.process}
+              processingSelectors={processingSelectors}
+              pluginMetaDataSelectors={pluginMetaDataSelectors}
+              linkProcessingDatasetActions={linkProcessingDatasetActions}
+              disabled={isFetching}
+          /> : null
+      }
       default:
-        return cellValue
+        throw new Error(`Unknown column key ${columnKey}`)
     }
   }
 
   render() {
-    const { basket, onShowDuplicatedMessage, isFetching } = this.props
-    const { scrollAreaStyle } = this.state
+    const { scrollAreaStyle, treeTableModel } = this.state
     const { intl: { formatMessage }, moduleTheme: { user: { content: { table, scrollContentArea, spaceConsumer } } } } = this.context
 
     return (
       <TableLayout>
-        { /* 1 - Show basket content summary */}
-        <OrderCartContentSummaryComponent
-          isFetching={isFetching}
-          basket={basket}
-          onShowDuplicatedMessage={onShowDuplicatedMessage}
-        />
         <Measure bounds onMeasure={this.onComponentResized}>
           { /* 2 - Show basket added objects sets (stretch to avoid height) */
             (({ bind }) => (
@@ -294,23 +529,37 @@ export class OrderCartTableComponent extends React.Component {
                   vertical
                 >
                   <TreeTableComponent
-                    model={basket}
+                    model={treeTableModel} // buffered in state
                     buildTreeTableRows={this.buildTableRows}
                     buildCellComponent={this.buildTableCell}
-                    columns={OrderCartTableComponent.COLUMNS_DEFINITION.map(({ key, labelKey, isOption }) => (
-                      <TableHeaderColumn
-                        key={key}
-                        style={isOption ? table.optionColumn.style : undefined}
-                      >
-                        {labelKey ? formatMessage({ id: labelKey }) : null}
-                      </TableHeaderColumn>))}
+                    columns={OrderCartTableComponent.COLUMNS_DEFINITION
+                      .map(({ key, labelKey }) => treeTableModel.unlimitedQuota && key === OrderCartTableComponent.COLUMN_KEYS.QUOTA_SUMMARY
+                        ? null // hide quota related when quota is unlimited
+                        : (
+                          <TableHeaderColumn
+                            key={key}
+                            style={(() => {
+                              switch (key) {
+                                case OrderCartTableComponent.COLUMN_KEYS.ID:
+                                  return table.firstColumnHeader
+                                case OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DETAIL:
+                                case OrderCartTableComponent.COLUMN_KEYS.OPTIONS_DELETE:
+                                  return table.optionColumn
+                                default:
+                                  return undefined // default MUI theme
+                              }
+                            })()}
+                          >
+                            {labelKey ? formatMessage({ id: labelKey }) : null}
+                          </TableHeaderColumn>))}
                   />
                 </ScrollArea>
               </div>
-            ))}
+            ))
+        }
         </Measure>
       </TableLayout>
     )
   }
 }
-export default withModuleStyle(styles)(OrderCartTableComponent)
+export default withQuotaInfo(OrderCartTableComponent)

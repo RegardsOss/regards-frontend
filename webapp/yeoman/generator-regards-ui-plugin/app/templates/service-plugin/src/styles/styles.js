@@ -19,11 +19,11 @@
 
 /**
  * Styles for plugin
- * @param theme Material UI theme, can be used to computed dynamic style values from current theme (automatically updated)
+ * @param theme Material UI theme, can be used to compute dynamic style values from current theme (automatically updated)
  * @author <%= author %>
  */
-export default function buildServiceStyles(theme) {
+export default function getStyles(theme) {
   return {
-    // TODO service styles or delete file
+    // put here specific styles (updated on theme change)
   }
 }

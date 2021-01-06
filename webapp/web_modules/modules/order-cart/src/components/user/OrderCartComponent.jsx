@@ -24,6 +24,7 @@ import NotLoggedIcon from 'mdi-material-ui/Lock'
 import { AccessShapes, OrderShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { BasicListSelectors, BasicSignalActions } from '@regardsoss/store-utils'
 import { DynamicModulePane, NoContentMessageInfo } from '@regardsoss/components'
 import { dependencies } from '../../user-dependencies'
 import SelectionItemDetailContainer from '../../containers/user/detail/SelectionItemDetailContainer'
@@ -34,6 +35,7 @@ import OrderCartTableComponent from './OrderCartTableComponent'
 /**
  * Order cart content component
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class OrderCartComponent extends React.Component {
   static propTypes = {
@@ -41,11 +43,16 @@ class OrderCartComponent extends React.Component {
     ...AccessShapes.runtimeDispayModuleFields,
 
     basket: OrderShapes.Basket,
+    refreshBasket: PropTypes.func.isRequired,
     showDatasets: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool,
     isFetching: PropTypes.bool.isRequired,
     onClearCart: PropTypes.func.isRequired,
     onOrder: PropTypes.func.isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    pluginMetaDataSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    linkProcessingDatasetActions: PropTypes.instanceOf(BasicSignalActions).isRequired,
   }
 
   static contextTypes = {
@@ -79,13 +86,24 @@ class OrderCartComponent extends React.Component {
    * @return [React.Element] options list
    */
   renderOptions = (onClearCart, onOrder, isFetching, isNoContent) => [
-    <OrderComponent key="options.order" disabled={isFetching} empty={isNoContent} onOrder={onOrder} />,
-    <ClearCartComponent key="options.clear.cart" disabled={isFetching} empty={isNoContent} onClearCart={onClearCart} />,
+    <OrderComponent
+      key="options.order"
+      isFetching={isFetching}
+      empty={isNoContent}
+      onOrder={onOrder}
+    />,
+    <ClearCartComponent
+      key="options.clear.cart"
+      isFetching={isFetching}
+      empty={isNoContent}
+      onClearCart={onClearCart}
+    />,
   ]
 
   render() {
     const {
-      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets,
+      isAuthenticated, basket, isFetching, onClearCart, onOrder, showDatasets, isProcessingDependenciesExist,
+      processingSelectors, pluginMetaDataSelectors, linkProcessingDatasetActions, refreshBasket,
       ...moduleProperties
     } = this.props
     const { totalObjectsCount, effectiveObjectsCount, showMessage } = this.state
@@ -96,7 +114,7 @@ class OrderCartComponent extends React.Component {
     // compute current no content data
     const isNoContent = (!isAuthenticated || emptyBasket) && !isFetching
     const noContentTitleKey = !isAuthenticated ? 'order-cart.module.not.logged.title' : 'order-cart.module.empty.basket.title'
-    const noContentMesageKey = !isAuthenticated ? 'order-cart.module.not.logged.messsage' : 'order-cart.module.empty.basket.messsage'
+    const noContentMesageKey = !isAuthenticated ? 'order-cart.module.not.logged.message' : 'order-cart.module.empty.basket.message'
     const NoContentIconConstructor = !isAuthenticated ? NotLoggedIcon : CartIcon
 
     return (
@@ -118,8 +136,13 @@ class OrderCartComponent extends React.Component {
             <OrderCartTableComponent
               isFetching={isFetching}
               basket={basket}
+              refreshBasket={refreshBasket}
               showDatasets={showDatasets}
               onShowDuplicatedMessage={this.onShowDuplicatedMessage}
+              isProcessingDependenciesExist={isProcessingDependenciesExist}
+              processingSelectors={processingSelectors}
+              pluginMetaDataSelectors={pluginMetaDataSelectors}
+              linkProcessingDatasetActions={linkProcessingDatasetActions}
             />
           </NoContentMessageInfo>
         </DynamicModulePane>
@@ -133,7 +156,8 @@ class OrderCartComponent extends React.Component {
               key="close.button"
               label={formatMessage({ id: 'order-cart.module.duplicate.objects.message.close' })}
               onClick={this.onHideDuplicatedMessage}
-            />}
+            />
+          }
         >
           {
             formatMessage({ id: 'order-cart.module.duplicate.objects.message' }, {

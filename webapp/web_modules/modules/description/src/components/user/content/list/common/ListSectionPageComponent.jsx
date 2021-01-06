@@ -23,11 +23,13 @@ import { ScrollArea } from '@regardsoss/adapters'
 /**
  * A list section page: shows elements as list
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class ListSectionPageComponent extends React.Component {
   static propTypes = {
     // elements list (min length: 1)
     elements: PropTypes.arrayOf(PropTypes.any).isRequired,
+    scrollAreaHeight: PropTypes.number,
     // function to build graphics for an element model: (element:*) => (graphics: React.Element)
     buildElementNode: PropTypes.func.isRequired,
   }
@@ -39,9 +41,16 @@ class ListSectionPageComponent extends React.Component {
 
   render() {
     const { moduleTheme: { user: { main: { content: { listPage, scrolling } } } } } = this.context
-    const { elements, buildElementNode } = this.props
+    const { elements, buildElementNode, scrollAreaHeight } = this.props
+
+    // Compute scroll height area
+    const style = {
+      ...scrolling.scrollArea,
+      height: scrollAreaHeight,
+    }
+
     return (
-      <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={scrolling.scrollArea}>
+      <ScrollArea vertical contentStyle={scrolling.scrollAreaContent} style={style}>
         {/* Root container: decoralates list dimensions of the scroll area dimensions (spanning otherwise) */}
         <div style={listPage.contentRoot}>
           {/* List elements container */}

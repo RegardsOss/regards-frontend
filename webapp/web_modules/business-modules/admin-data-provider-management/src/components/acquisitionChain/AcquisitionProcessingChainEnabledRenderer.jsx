@@ -16,14 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { DataProviderShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
-
-/** HATEOAS-able button, exported for tests */
-export const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
+import { HateoasToggle } from '@regardsoss/components'
 
 /**
  * Switch renderer for mode selection
@@ -33,7 +29,7 @@ export class AcquisitionProcessingChainEnabledRenderer extends React.Component {
   static propTypes = {
     entity: PropTypes.shape({
       content: DataProviderShapes.AcquisitionProcessingChainMonitorContent,
-      links: PropTypes.array,
+      links: PropTypes.arrayOf(CommonShapes.HateOASLink),
     }),
     onToggle: PropTypes.func.isRequired,
   }

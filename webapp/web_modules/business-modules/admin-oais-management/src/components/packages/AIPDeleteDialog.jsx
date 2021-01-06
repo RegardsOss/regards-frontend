@@ -39,40 +39,47 @@ export class AIPDeleteDialog extends React.Component {
     IRREVOCABLY: 'IRREVOCABLY',
   }
 
-  renderActions = () => {
-    const { onConfirmDelete, onClose } = this.props
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        key="cancel"
-        id="confirm.dialog.cancel"
-        label={formatMessage({ id: 'oais.packages.close' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="deleteSipsIrrevocably"
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.packages.delete.irrevocably' })}
-        onClick={() => onConfirmDelete(AIPDeleteDialog.DELETION_MODE.IRREVOCABLY)}
-      />,
-      <FlatButton
-        key="deleteSipsByState"
-        className="selenium-confirmDialogButton"
-        label={formatMessage({ id: 'oais.packages.delete.by_state' })}
-        onClick={() => onConfirmDelete(AIPDeleteDialog.DELETION_MODE.BY_STATE)}
-      />,
-    ]
+  /** User callback: delete by state */
+  onConfirmDeleteByState = () => {
+    const { onConfirmDelete } = this.props
+    onConfirmDelete(AIPDeleteDialog.DELETION_MODE.BY_STATE)
+  }
+
+  /** User callback: delete by state */
+  onConfirmDeleteIrrevocably = () => {
+    const { onConfirmDelete } = this.props
+    onConfirmDelete(AIPDeleteDialog.DELETION_MODE.IRREVOCABLY)
   }
 
   render() {
+    const { onClose } = this.props
     const { intl: { formatMessage, formatHTMLMessage } } = this.context
 
     return (
       <Dialog
         title={formatMessage({ id: 'oais.packages.delete.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'oais.packages.close' })}
+            primary
+            keyboardFocused
+            onClick={onClose}
+          />
+          <FlatButton
+            key="deleteSipsIrrevocably"
+            className="selenium-confirmDialogButton"
+            label={formatMessage({ id: 'oais.packages.delete.irrevocably' })}
+            onClick={this.onConfirmDeleteIrrevocably}
+          />
+          <FlatButton
+            key="deleteSipsByState"
+            className="selenium-confirmDialogButton"
+            label={formatMessage({ id: 'oais.packages.delete.by_state' })}
+            onClick={this.onConfirmDeleteByState}
+          />
+        </>}
         modal={false}
         open
       >

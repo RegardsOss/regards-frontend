@@ -45,7 +45,7 @@ export class PluginListSelectors extends BasicListSelectors {
     // Unexisting selector: create it
     const newReselector = createSelector(
       [this.getList],
-      results => find(results, r => r.content.businessId === businessId))
+      (results) => find(results, (r) => r.content.businessId === businessId))
     this.businessIdSelector[businessId] = newReselector
     return newReselector
   }

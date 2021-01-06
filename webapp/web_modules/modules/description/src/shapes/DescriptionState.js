@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { DATA_TYPES } from '@regardsoss/domain/common'
 import { CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { BROWSING_SECTIONS } from '../domain/BrowsingSections'
 
@@ -33,6 +34,7 @@ export const RuntimeAttribute = PropTypes.shape({
   render: PropTypes.shape({
     Constructor: PropTypes.func.isRequired, // Render for the attribute (React constructor)
     props: PropTypes.shape({ // Render properties (including value plus whatever properties the constructor accepts...)
+      // eslint-disable-next-line react/forbid-prop-types
       value: PropTypes.any,
       // ...other properties
     }),
@@ -59,6 +61,9 @@ export const FileData = PropTypes.shape({
   label: PropTypes.string.isRequired,
   available: PropTypes.bool.isRequired,
   uri: PropTypes.string.isRequired,
+  // keeps data type and reference info to handle quota related errors
+  type: PropTypes.oneOf(DATA_TYPES).isRequired,
+  reference: PropTypes.bool.isRequired,
 })
 
 /** Points out a tree entry */
@@ -91,6 +96,7 @@ export const DescriptionEntity = PropTypes.shape({
     couplingTags: PropTypes.arrayOf(PropTypes.string).isRequired,
     linkedEntities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
     linkedDocuments: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+    otherVersions: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
   }).isRequired,
 })
 

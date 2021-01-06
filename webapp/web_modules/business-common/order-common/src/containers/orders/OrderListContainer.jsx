@@ -48,20 +48,6 @@ const deleteCompletelyDependencies = [orderStateActions.getDeleteCompletelyDepen
  * @author Raphaël Mechali
  */
 export class OrderListContainer extends React.Component {
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, { ordersSelectors }) {
-    return {
-      isFetching: ordersSelectors.isFetching(state),
-      totalOrderCount: ordersSelectors.getResultsCount(state),
-      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    }
-  }
-
   static propTypes = {
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
@@ -101,15 +87,29 @@ export class OrderListContainer extends React.Component {
   }
 
   /**
+   * Redux: map state to props function
+   * @param {*} state: current redux state
+   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
+  static mapStateToProps(state, { ordersSelectors }) {
+    return {
+      isFetching: ordersSelectors.isFetching(state),
+      totalOrderCount: ordersSelectors.getResultsCount(state),
+      availableEndpoints: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    }
+  }
+
+  /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -154,7 +154,7 @@ export class OrderListContainer extends React.Component {
   }
 
   /** Request callback: show a request failure to user */
-  onShowRequestFailedInformation = requestResponse => this.setState({ currentFailureResponse: requestResponse })
+  onShowRequestFailedInformation = (requestResponse) => this.setState({ currentFailureResponse: requestResponse })
 
   /** User callback: hide request failure */
   onHideRequestFailedInformation = () => this.setState({ currentFailureResponse: null })
@@ -181,7 +181,7 @@ export class OrderListContainer extends React.Component {
       currentFailureResponse, asynchRequestInformation, deleteConfirmation,
     } = this.state
     return (
-      <React.Fragment>
+      <>
         { /* request fail information component, on demand */ }
         <RequestFailedInformationComponent
           visible={!!currentFailureResponse}
@@ -222,7 +222,7 @@ export class OrderListContainer extends React.Component {
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>
-      </React.Fragment>)
+      </>)
   }
 }
 

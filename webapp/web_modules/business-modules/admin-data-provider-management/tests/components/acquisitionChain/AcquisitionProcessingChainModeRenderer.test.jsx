@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { DataProviderDomain } from '@regardsoss/domain'
+import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AcquisitionProcessingChainModeRenderer } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainModeRenderer'
 import styles from '../../../src/styles'
@@ -43,6 +43,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMod
           chain: {
             id: 0,
             mode: DataProviderDomain.AcquisitionProcessingChainModeEnum.AUTO,
+            versioningMode: IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
             label: 'truc',
             active: true,
             ingestChain: 'truc',
@@ -65,6 +66,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing AcquisitionProcessingChainMod
           chain: {
             id: 0,
             mode: DataProviderDomain.AcquisitionProcessingChainModeEnum.MANUAL,
+            versioningMode: IngestDomain.VERSIONING_MODES_ENUM.MANUAL,
             label: 'truc',
             active: true,
             ingestChain: 'truc',

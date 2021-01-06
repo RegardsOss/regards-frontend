@@ -83,7 +83,7 @@ describe('[SEARCH RESULTS] Testing OrderCartContainer', () => {
   }
 
   // combine all use cases to get component appliable properties
-  const allTestCases = flatMap(viewObjectTypeVals, viewObjectType => flatMap(modulesVals, modules => flatMap(isAuthenticatedVals, isAuthenticated => flatMap(availableDependenciesVals, availableDependencies => flatMap(emptySelectionVals, emptySelection => ({
+  const allTestCases = flatMap(viewObjectTypeVals, (viewObjectType) => flatMap(modulesVals, (modules) => flatMap(isAuthenticatedVals, (isAuthenticated) => flatMap(availableDependenciesVals, (availableDependencies) => flatMap(emptySelectionVals, (emptySelection) => ({
     // rendering props combinated
     ...commonProps,
     viewObjectType,

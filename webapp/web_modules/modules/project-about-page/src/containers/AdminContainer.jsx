@@ -49,10 +49,11 @@ class AdminContainer extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.CONF_HTML_PATH = `${props.adminForm.currentNamespace}.htmlPath`
-  }
+  /** Configuration part layout */
+  static CONFIGURATION_LAYOUT = { display: 'flex', justifyContent: 'space-between', alignItems: 'center' }
+
+  /** HTML field path in redux form */
+  CONF_HTML_PATH = `${this.props.adminForm.currentNamespace}.htmlPath`
 
   state = {
     isLoading: false,
@@ -116,7 +117,7 @@ class AdminContainer extends React.Component {
     const { path, isLoading, reload } = this.state
     return (
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={AdminContainer.CONFIGURATION_LAYOUT}>
           <Field
             name={this.CONF_HTML_PATH}
             fullWidth
@@ -138,8 +139,8 @@ class AdminContainer extends React.Component {
         </div>
         {!reload
           ? <Paper
-            style={moduleTheme.iFrameWrapper}
-            zDepth={isLoading ? 0 : 3}
+              style={moduleTheme.iFrameWrapper}
+              zDepth={isLoading ? 0 : 3}
           >
             <IFrameURLContentDisplayer
               style={moduleTheme.iFrame}

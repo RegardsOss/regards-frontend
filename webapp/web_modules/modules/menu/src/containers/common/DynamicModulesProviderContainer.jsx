@@ -36,7 +36,7 @@ export class DynamicModulesProviderContainer extends React.Component {
    * @param keepOnlyActive should keep only active modules?
    * @return [Module] filtered dynamic modules list
    */
-  static filterModules = (modules, dynamicContainerId, keepOnlyActive) => modules && filter(modules, module => get(module, 'content.container') === dynamicContainerId && (!keepOnlyActive || get(module, 'content.active')))
+  static filterModules = (modules, dynamicContainerId, keepOnlyActive) => modules && filter(modules, (module) => get(module, 'content.container') === dynamicContainerId && (!keepOnlyActive || get(module, 'content.active')))
 
   /**
    * Redux: map state to props function
@@ -74,13 +74,13 @@ export class DynamicModulesProviderContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state

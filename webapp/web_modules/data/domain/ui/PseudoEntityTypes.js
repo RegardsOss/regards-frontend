@@ -33,7 +33,6 @@ export const PSEUDO_TYPES_ENUM = {
   DOCUMENT: 'DOCUMENT',
 }
 
-
 /**
  * Return an array of Entity types
  */

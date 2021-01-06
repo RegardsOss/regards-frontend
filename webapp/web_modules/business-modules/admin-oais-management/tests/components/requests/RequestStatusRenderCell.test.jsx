@@ -20,7 +20,6 @@ import { shallow } from 'enzyme'
 import IconButton from 'material-ui/IconButton'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { StringValueRender } from '@regardsoss/components'
 import { IngestDomain } from '@regardsoss/domain'
 import RequestStatusRenderCell from '../../../src/components/requests/RequestStatusRenderCell'
 import { Request } from '../../dumps/Request.dump'
@@ -40,30 +39,55 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestStatusRenderCell', () => {
     assert.isDefined(RequestStatusRenderCell)
   })
 
-  IngestDomain.AIP_REQUEST_STATUS.forEach(status => it(`Should render correctly with status ${status}`, () => {
+  IngestDomain.AIP_REQUEST_STATUS.forEach((state) => it(`Should render correctly with state ${state}`, () => {
     const props = {
       entity: {
         ...Request,
         content: {
           ...Request.content,
-          errors: status === IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR ? Request.content.errors : [],
+          state,
+          errors: state === IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR ? Request.content.errors : [],
         },
       },
+      modeSelectionAllowed: true,
       onViewRequestErrors: () => {},
+      onSelectVersionOption: () => {},
     }
 
     const enzymeWrapper = shallow(<RequestStatusRenderCell {...props} />, { context })
     // 1 - check status render
-    const delegateRenderWrapper = enzymeWrapper.find(StringValueRender)
-    assert.lengthOf(delegateRenderWrapper, 1, 'There should be a delegate render')
-    assert.isOk(delegateRenderWrapper.props().value, `oais.requests.status.${status}`, 'Status should be internationalized')
-    // 2 - check error display button
+    assert.include(enzymeWrapper.debug(), `oais.requests.status.${state}`)
+    // 2 - check error or version mode button is displayed / hidden
     const buttonWrapper = enzymeWrapper.find(IconButton)
-    if (status === IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR) {
-      assert.lengthOf(buttonWrapper, 1, 'There should be errors display button')
-      assert.equal(buttonWrapper.props().onClick, enzymeWrapper.instance().onViewRequestErrors, 'Callback should be correctly set up')
-    } else {
-      assert.lengthOf(buttonWrapper, 0, 'There should not be errors display button')
+    switch (state) {
+      case IngestDomain.AIP_REQUEST_STATUS_ENUM.ERROR:
+        assert.lengthOf(buttonWrapper, 1, 'There should be errors display button')
+        assert.equal(buttonWrapper.props().onClick, enzymeWrapper.instance().onViewRequestErrors, 'View errors callback should be correctly set up')
+        break
+      case IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE:
+        assert.lengthOf(buttonWrapper, 1, 'There should be mode selection button')
+        assert.equal(buttonWrapper.props().onClick, enzymeWrapper.instance().onSelectVersionOption, 'Mode selection callback should be correctly set up')
+        break
+      default:
+        assert.lengthOf(buttonWrapper, 0, 'There should not be errors display button')
     }
   }))
+  it('Should hide mode selection when user has insufficient rights', () => {
+    const props = {
+      entity: {
+        ...Request,
+        content: {
+          ...Request.content,
+          state: IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE,
+          errors: [],
+        },
+      },
+      modeSelectionAllowed: false,
+      onViewRequestErrors: () => {},
+      onSelectVersionOption: () => {},
+    }
+
+    const enzymeWrapper = shallow(<RequestStatusRenderCell {...props} />, { context })
+    assert.lengthOf(enzymeWrapper.find(IconButton), 0)
+  })
 })

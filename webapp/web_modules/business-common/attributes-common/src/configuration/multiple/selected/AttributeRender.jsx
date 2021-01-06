@@ -20,7 +20,6 @@ import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { DamDomain } from '@regardsoss/domain'
 import AttributeLabelRender from '../../../render/AttributeRender'
 
-
 /**
  * Renders a selected attribute as label from its full qualified name
  * @author Raphaël Mechali

@@ -27,7 +27,6 @@ import { mainRunPluginServiceReducer, tagRunPluginServiceReducer } from './clien
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { uiPluginMetaPartitionReducer } from './clients/UIPluginMetaPartitionClient'
 
-
 /**
  * Reducers for search-results module
  * @author Sébastien binda

@@ -16,21 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
-import { AdminShapes } from '@regardsoss/shape'
+import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
-// define Hatoas capable icon button (exported for tests)
-export const HatoasIconButton = withHateoasDisplayControl(IconButton)
 /**
  * Delete project user component option
  * @author Raphaël Mechali
  */
 class DeleteProjectUserComponent extends React.Component {
   static propTypes = {
-    entity: AdminShapes.ProjectUser.isRequired,
+    entity: AccessShapes.ProjectUser.isRequired,
     isLoading: PropTypes.bool.isRequired,
     onDelete: PropTypes.func.isRequired,
   }
@@ -51,7 +49,7 @@ class DeleteProjectUserComponent extends React.Component {
     const { entity, isLoading } = this.props
     const { intl: { formatMessage } } = this.context
     return (
-      <HatoasIconButton
+      <HateoasIconAction
         className="selenium-deleteButton"
         disabled={isLoading}
         title={formatMessage({ id: 'projectUser.list.table.action.delete.tooltip' })}
@@ -62,7 +60,7 @@ class DeleteProjectUserComponent extends React.Component {
         disableInsteadOfHide
       >
         <DeleteIcon />
-      </HatoasIconButton>
+      </HateoasIconAction>
     )
   }
 }

@@ -19,10 +19,8 @@
 import { combineReducers } from 'redux'
 import { accountManagementReducer } from '@regardsoss/admin-account-management'
 
-
 const accountsReducers = combineReducers({
   accounts: accountManagementReducer,
 })
-
 
 export default accountsReducers

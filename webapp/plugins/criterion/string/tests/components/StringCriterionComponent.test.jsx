@@ -55,7 +55,7 @@ describe('[String criterion] Testing StringCriterionComponent', () => {
       assert.include(enzymeWrapper.debug(), props.label[locale])
     })
   })
-  SEARCH_MODES.forEach(mode => it(`Should render correctly in mode "${mode}"`, () => {
+  SEARCH_MODES.forEach((mode) => it(`Should render correctly in mode "${mode}"`, () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
       searchAttribute: criterionTestSuiteHelpers.getAttributeStub(DamDomain.MODEL_ATTR_TYPES.STRING),

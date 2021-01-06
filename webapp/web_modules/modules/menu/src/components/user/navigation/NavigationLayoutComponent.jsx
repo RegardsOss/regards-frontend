@@ -52,7 +52,6 @@ class NavigationLayoutComponent extends React.Component {
     ...themeContextType,
   }
 
-
   /** Non initialized state */
   static NON_INITIALIZE_STATE = {
     // Count of bar items shown (at start and after reinitialization, we display all items once to get their width)
@@ -67,7 +66,7 @@ class NavigationLayoutComponent extends React.Component {
    * Lifecycle method: component will mount. Used here to detect properties changes
    * @param {*} nextProps next component properties
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     // initialize transient layout data
     this.layoutWidth = null
     this.moreButtonWidth = null
@@ -80,7 +79,7 @@ class NavigationLayoutComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -191,7 +190,6 @@ class NavigationLayoutComponent extends React.Component {
    * @param {[NavigationItem]} navigationElements navigation model
    */
   onLayoutUpdate = throttle(this.onLayoutUpdateImpl, RELAYOUT_DELAY, { leading: true })
-
 
   render() {
     const { navigationElements, buildLinkURL } = this.props

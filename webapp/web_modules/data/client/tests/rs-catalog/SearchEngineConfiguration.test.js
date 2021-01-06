@@ -27,7 +27,6 @@ const backendServerResultList = SearchEngineConfigurationDump
 const options = {
 }
 
-
 const actions = new SearchEngineConfigurationsActions('test/action')
 const reducer = SearchEngineConfigurationsReducer('test/action')
 const selectors = SearchEngineConfigurationsSelectors(['test', 'modules'])

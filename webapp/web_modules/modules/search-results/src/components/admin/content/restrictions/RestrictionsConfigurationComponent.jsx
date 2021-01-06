@@ -17,16 +17,22 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
-import { UIDomain } from '@regardsoss/domain'
+import { UIDomain, CommonDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FieldsGroup, FieldArray } from '@regardsoss/form-utils'
+import { themeContextType } from '@regardsoss/theme'
+import { HelpDialogComponent } from '@regardsoss/components'
+
+import {
+  FieldsGroup, Field, FieldArray, RenderCheckbox, RenderTextField,
+} from '@regardsoss/form-utils'
 import { RestrictionsConfiguration } from '../../../../shapes/ModuleConfiguration'
 import DatasetRestrictionsSelectionComponent from './DatasetRestrictionsSelectionComponent'
 
 /**
  * Configuration component for results restricitons (filtering by configuration)
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class RestrictionsConfigurationComponent extends React.Component {
   static propTypes = {
@@ -40,6 +46,7 @@ class RestrictionsConfigurationComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   /**
@@ -60,12 +67,40 @@ class RestrictionsConfigurationComponent extends React.Component {
       currentNamespace, currentRestrictionsValues,
       datasets, datasetModels,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { user: { restrictionStyle: { openSearchContent } } } } = this.context
     return (
-      <React.Fragment>
-        {/* Results restrictions by dataset */}
+      <>
+        {/* Restrictions using data */ }
         <FieldsGroup
-          title={formatMessage({ id: 'search.results.form.restrictions.configuration.display.types.message' })}
+          title={formatMessage({ id: 'search.results.form.restrictions.configuration.data.restrictions.title' })}
+          spanFullWidth
+        >
+          <Field
+            name={`${currentNamespace}.restrictions.onData.lastVersionOnly`}
+            component={RenderCheckbox}
+            label={formatMessage({ id: 'search.results.form.restrictions.configuration.data.last.version.only' })}
+          />
+          <div style={openSearchContent}>
+            <Field
+              name={`${currentNamespace}.restrictions.onData.openSearchRequest`}
+              component={RenderTextField}
+              label={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.request' })}
+              hintText={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.hint' })}
+              fullWidth
+            />
+            <HelpDialogComponent
+              iconTitle={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.info.button' })}
+              title={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.title' })}
+              message={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.message' })}
+              buttonLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.close' })}
+              link={CommonDomain.LINK_DOC_SEARCH_API}
+              linkLabel={formatMessage({ id: 'search.results.form.restrictions.configuration.opensearch.dialog.link' })}
+            />
+          </div>
+        </FieldsGroup>
+        {/* Restrictions using dataset */}
+        <FieldsGroup
+          title={formatMessage({ id: 'search.results.form.restrictions.configuration.dataset.restrictions.title' })}
           spanFullWidth
         >
           <RadioButtonGroup
@@ -74,7 +109,7 @@ class RestrictionsConfigurationComponent extends React.Component {
             valueSelected={currentRestrictionsValues.byDataset.type}
           >
             { /** Possible restrictions types */
-              UIDomain.DATASET_RESCRICTIONS_TYPES.map(type => (
+              UIDomain.DATASET_RESTRICTIONS_TYPES.map((type) => (
                 <RadioButton
                   key={type}
                   value={type}
@@ -90,7 +125,7 @@ class RestrictionsConfigurationComponent extends React.Component {
             currentRestrictionType={currentRestrictionsValues.byDataset.type}
           />
         </FieldsGroup>
-      </React.Fragment>
+      </>
     )
   }
 }

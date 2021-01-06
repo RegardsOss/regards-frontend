@@ -82,13 +82,13 @@ class OSQueryAddFilterDialogComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -102,7 +102,6 @@ class OSQueryAddFilterDialogComponent extends React.Component {
     }
   }
 
-
   /**
    * Filters (list or filter text) were updated, update both in state and selected selectedFilter if not found anymore
    * @param {string} filterText filter text as input by the user
@@ -114,8 +113,8 @@ class OSQueryAddFilterDialogComponent extends React.Component {
     const { selectedFilter } = this.state
     const availableFilters = availableParameters
       // Remove if filtered by text or already selected
-      .filter(filter => (!filterText || filter.name.toLowerCase().includes(filterText))
-        && !selectedFilters.some(addedFilter => addedFilter.name === filter.name))
+      .filter((filter) => (!filterText || filter.name.toLowerCase().includes(filterText))
+        && !selectedFilters.some((addedFilter) => addedFilter.name === filter.name))
     // B - Is current filter still in available filters?
     const nextSelectedFilter = selectedFilter && availableFilters.includes(selectedFilter) ? selectedFilter : null
     this.setState({
@@ -167,27 +166,6 @@ class OSQueryAddFilterDialogComponent extends React.Component {
   }
 
   /**
-   * @returns {[React.Component]} rendered actions
-   */
-  renderActions = () => {
-    const { selectedFilter } = this.state
-    const { intl: { formatMessage } } = this.context
-    return [
-      <FlatButton
-        label={formatMessage({ id: 'datasource.list.action.cancel' })}
-        onClick={this.onCancel}
-        key="cancel"
-        primary
-      />,
-      <FlatButton
-        label={formatMessage({ id: 'opensearch.crawler.form.query.add.label' })}
-        onClick={this.onConfirm}
-        key="confirm"
-        disabled={!selectedFilter}
-      />]
-  }
-
-  /**
    * Renders selected filter description
    * @return {[React.Component]} components to render
    */
@@ -222,7 +200,7 @@ class OSQueryAddFilterDialogComponent extends React.Component {
               {formatMessage({ id: 'opensearch.crawler.form.query.possibleValues' })}
             </div>
             <ul style={addFilterDialog.descriptionOptionsList}>
-              {DescriptorHelper.getParameterOptions(selectedFilter).map(option => (
+              {DescriptorHelper.getParameterOptions(selectedFilter).map((option) => (
                 <li key={option.value}>
                   {option.value}
                 </li>
@@ -248,7 +226,20 @@ class OSQueryAddFilterDialogComponent extends React.Component {
     return (
       <Dialog
         title={formatMessage({ id: 'opensearch.crawler.form.query.dialog.title' })}
-        actions={this.renderActions()}
+        actions={<>
+          <FlatButton
+            label={formatMessage({ id: 'datasource.list.action.cancel' })}
+            onClick={this.onCancel}
+            key="cancel"
+            primary
+          />
+          <FlatButton
+            label={formatMessage({ id: 'opensearch.crawler.form.query.add.label' })}
+            onClick={this.onConfirm}
+            key="confirm"
+            disabled={!selectedFilter}
+          />
+        </>}
         open={open}
         modal
         autoDetectWindowHeight
@@ -268,7 +259,7 @@ class OSQueryAddFilterDialogComponent extends React.Component {
               onChange={this.onSelectFilter}
             >
               { /** REnder all available items */
-                availableFilters.map(filter => (
+                availableFilters.map((filter) => (
                   <ListItem
                     key={filter.value}
                     value={filter}

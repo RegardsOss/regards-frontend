@@ -30,7 +30,7 @@ import { modulesManager } from '@regardsoss/modules'
  * @return modules wrapped in content field (also adds conf field)
  */
 function exportModulesList(modulesWithoutContent) {
-  return modulesWithoutContent.map(fields => ({ // wrap in content field
+  return modulesWithoutContent.map((fields) => ({ // wrap in content field
     content: {
       ...fields,
       conf: {},
@@ -99,7 +99,7 @@ export const allDefaultConfigDumpModules = exportModulesList(defaultModules)
 
 export const modulesWithNewAndDeleted = exportModulesList(
   // we remove the module 6 and 3 and add 7 / 8 modules
-  defaultModules.filter(module => module.id !== 3 && module.id !== 6).concat([{
+  defaultModules.filter((module) => module.id !== 3 && module.id !== 6).concat([{
     id: 7,
     active: true,
     container: 'dynamic-1',
@@ -122,7 +122,6 @@ export const modulesWithNewAndDeleted = exportModulesList(
     },
     type: modulesManager.VisibleModuleTypes.SEARCH_RESULTS,
   }]))
-
 
 export const modulesWithInactiveAndNonDynamic = exportModulesList([{
   id: 1, // dynamic and active

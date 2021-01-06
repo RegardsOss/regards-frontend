@@ -30,6 +30,7 @@ const context = buildTestContext(styles)
 /**
 * Test UserModuleContainer
 * @author Raphaël Mechali
+* @author Théo Lasserre
 */
 describe('[Order Cart] Testing UserModuleContainer', () => {
   before(testSuiteHelpers.before)
@@ -50,10 +51,13 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       basket: undefined,
       hasError: false,
       isFetching: false,
+      availableDependencies: [],
       dispatchGetBasket: () => { },
       dispatchFlushBasket: () => { },
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
+      fetchProcessingConfigurationList: () => { },
+      fetchProcessingMetadataList: () => { },
     }, {
       appName: 'x',
       project: 'y',
@@ -65,10 +69,13 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       basket: emptyBasket,
       hasError: true,
       isFetching: true,
+      availableDependencies: [],
       dispatchGetBasket: () => { },
       dispatchFlushBasket: () => { },
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
+      fetchProcessingConfigurationList: () => { },
+      fetchProcessingMetadataList: () => { },
     }, {
       appName: 'x',
       project: 'y',
@@ -80,10 +87,13 @@ describe('[Order Cart] Testing UserModuleContainer', () => {
       basket: mockBasket1,
       hasError: false,
       isFetching: false,
+      availableDependencies: [],
       dispatchGetBasket: () => { },
       dispatchFlushBasket: () => { },
       dispatchStartOrder: () => { },
       dispatchClearCart: () => { },
+      fetchProcessingConfigurationList: () => { },
+      fetchProcessingMetadataList: () => { },
     }]
 
     propsSets.forEach((props, index) => {

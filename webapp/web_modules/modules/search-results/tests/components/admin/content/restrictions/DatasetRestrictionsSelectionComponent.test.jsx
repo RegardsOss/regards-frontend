@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
 import { TableHeaderTextField, InfiniteTableContainer } from '@regardsoss/components'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import DatasetRestrictionsSelectionComponent from '../../../../../src/components/admin/content/restrictions/DatasetRestrictionsSelectionComponent'
 import styles from '../../../../../src/styles'
 import { datasetModelsDump } from '../../../../dumps/dataset.models.dump'
@@ -45,12 +45,8 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
-      fields: {
-        getAll: () => [],
-        push: () => {},
-        remove: () => {},
-      },
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
+      fields: ReduxFormTestHelper.getFieldsProps(),
     }
     const enzymeWrapper = shallow(<DatasetRestrictionsSelectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(InfiniteTableContainer), 0, 'Table should not be shown when no restriction mode was selected')
@@ -65,9 +61,9 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS,
       fields: {
-        getAll: () => [dataset1.content.feature.id, dataset3.content.feature.id],
+        ...ReduxFormTestHelper.getFieldsProps([dataset1.content.feature.id, dataset3.content.feature.id]),
         push: (key) => {
           spyPush.key = key
         },
@@ -153,9 +149,9 @@ describe('[SEARCH RESULTS] Testing DatasetRestrictionsSelectionComponent', () =>
     const props = {
       datasets: damDatasetsDump,
       datasetModels: datasetModelsDump,
-      currentRestrictionType: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS,
+      currentRestrictionType: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS,
       fields: {
-        getAll: () => [datasetModelsDump[2].content.name],
+        ...ReduxFormTestHelper.getFieldsProps([datasetModelsDump[2].content.name]),
         push: (key) => {
           spyPush.key = key
         },

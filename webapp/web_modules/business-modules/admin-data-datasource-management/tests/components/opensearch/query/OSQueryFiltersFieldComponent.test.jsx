@@ -16,10 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import FlatButton from 'material-ui/FlatButton'
 import { assert } from 'chai'
 import { shallow } from 'enzyme'
+import FlatButton from 'material-ui/FlatButton'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import { DescriptorHelper } from '../../../../src/domain/opensearch/DescriptorHelper'
 import OSQueryFiltersFieldComponent from '../../../../src/components/opensearch/query/OSQueryFiltersFieldComponent'
 import { openSearchDescriptor } from '../../../dumps/opensearch-descriptor.dump'
@@ -58,10 +58,11 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryFiltersFieldComponen
 
       availableParameters: urlDescriptor.parameter,
       fields: {
+        ...ReduxFormTestHelper.getFieldsProps(fieldValues),
         getAll: () => fieldValues, // currently selected parameters
         // simulate the mapping performed by redux form on values above
-        map: f => fieldValues.map((v, index) => f(`myField[${index}]`, index)),
-        get: i => fieldValues[i],
+        map: (f) => fieldValues.map((v, index) => f(`myField[${index}]`, index)),
+        get: (i) => fieldValues[i],
         push: () => {},
         remove: () => {},
         length: 2,
@@ -73,9 +74,9 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSQueryFiltersFieldComponen
     const buttons = wrapper.find(FlatButton)
     assert.lengthOf(buttons, 2, 'There should be add filter and test request button')
     // 1.a- Add filter button
-    assert.lengthOf(buttons.findWhere(n => n.props().onClick === wrapper.instance().onShowDialog), 1, 'There should be add filter button')
+    assert.lengthOf(buttons.findWhere((n) => n.props().onClick === wrapper.instance().onShowDialog), 1, 'There should be add filter button')
     // 1.b - Test query button
-    const testButton = buttons.findWhere(n => !!n.props().href)
+    const testButton = buttons.findWhere((n) => !!n.props().href)
     assert.lengthOf(testButton, 1, 'There should be test request button')
     assert.equal(testButton.props().href, 'http://test.com:3615/api-test?param1=v1&param2=v2a&testPS=777&testPI=25', 'URL should be correctly computed from template URL, common and selected parameters')
 

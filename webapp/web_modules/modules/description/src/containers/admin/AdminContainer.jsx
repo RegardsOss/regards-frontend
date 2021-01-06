@@ -21,7 +21,6 @@ import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { AccessShapes, DataManagementShapes, UIShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { collectionAttributeModelActions, collectionAttributeModelSelectors } from '../../clients/CollectionAttributeModelClient'
 import { dataAttributeModelActions, dataAttributeModelSelectors } from '../../clients/DataobjectAttributeModelClient'
 import { datasetAttributeModelActions, datasetAttributeModelSelectors } from '../../clients/DatasetAttributeModelClient'
@@ -58,7 +57,7 @@ export class AdminContainer extends React.Component {
    */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchAllDocumentAttributes: modelNames => dispatch(attributeModelActions.fetchEntityList(null, { modelNames })),
+      fetchAllDocumentAttributes: (modelNames) => dispatch(attributeModelActions.fetchEntityList(null, { modelNames })),
       fetchAllCollectionAttributes: () => dispatch(collectionAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.COLLECTION })),
       fetchAllDataAttributes: () => dispatch(dataAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATA })),
       fetchAllDatasetModelsAttributes: () => dispatch(datasetAttributeModelActions.fetchEntityList({ modelType: DamDomain.ENTITY_TYPES_ENUM.DATASET })),
@@ -69,8 +68,6 @@ export class AdminContainer extends React.Component {
   static propTypes = {
     // default module properties
     ...AccessShapes.runtimeConfigurationModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfiguration,
     // Set by mapStateToProps
     documentAttributeModels: DataManagementShapes.AttributeModelList,
     collectionAttributeModels: DataManagementShapes.AttributeModelList,
@@ -117,7 +114,6 @@ export class AdminContainer extends React.Component {
     ]).then(() => this.setState({ loading: false }))
   }
 
-
   render() {
     const { loading } = this.state
     const {
@@ -138,7 +134,6 @@ export class AdminContainer extends React.Component {
           currentFormValues={get(form, currentNamespace)}
           changeField={changeField}
           isCreating={isCreating}
-
           collectionAttributeModels={collectionAttributeModels}
           dataAttributeModels={dataAttributeModels}
           datasetAttributeModels={datasetAttributeModels}

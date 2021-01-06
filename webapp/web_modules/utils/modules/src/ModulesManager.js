@@ -67,9 +67,8 @@ const ALL_MODULE_TYPES = values(VisibleModuleTypes)
  * @return {{content: {*}, links: [*]}} found module as a {} object or null if not found
  */
 function findFirstModuleByType(modules, moduleType) {
-  return find(modules, module => get(module, 'content.type', null) === moduleType) || null
+  return find(modules, (module) => get(module, 'content.type', null) === moduleType) || null
 }
-
 
 /**
  * Builds a promise to load a module from its type
@@ -90,7 +89,7 @@ function loadModule(moduleType) {
   })
 }
 
-const trueFunction = any => true
+const trueFunction = (any) => true
 
 /**
  * Returns a promise to resolve VISIBLE available modules types (for project administrator or user)
@@ -99,7 +98,7 @@ const trueFunction = any => true
  */
 function getAvailableVisibleModuleTypes(dependenciesFilter = trueFunction) {
   return Promise.all(ALL_MODULE_TYPES.map(loadModule))
-    .then(loadedModules => loadedModules.reduce((acc, module, index) => {
+    .then((loadedModules) => loadedModules.reduce((acc, module, index) => {
       // filter null modules and replace module content by its type
       if (isNil(module) || !dependenciesFilter(module)) {
         return acc

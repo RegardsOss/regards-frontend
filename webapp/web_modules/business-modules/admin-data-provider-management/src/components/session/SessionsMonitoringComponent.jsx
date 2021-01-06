@@ -16,8 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import FlatButton from 'material-ui/FlatButton'
 import get from 'lodash/get'
+import noop from 'lodash/noop'
+import identity from 'lodash/identity'
+import FlatButton from 'material-ui/FlatButton'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -43,6 +45,7 @@ import { SessionsMonitoringFiltersComponent } from './SessionsMonitoringFiltersC
 import { SessionsMonitoringLastModificationRenderer } from './render/SessionsMonitoringLastModificationRenderer'
 import ProductsComponent from '../product/ProductsComponent'
 import SessionDeleteDialogComponent from './SessionDeleteDialogComponent'
+import SessionsMonitoringVersionRenderer from './render/SessionsMonitoringVersionRenderer'
 
 export class SessionsMonitoringComponent extends React.Component {
   static propTypes = {
@@ -111,8 +114,13 @@ export class SessionsMonitoringComponent extends React.Component {
     PRODUCTS: 'column.products',
     SIP: 'column.sip',
     AIP_GENERATED: 'column.aip-generated',
+    VERSION: 'column.version',
     AIP_STORED: 'column.aip-stored',
     INDEXED: 'column.indexed',
+  }
+
+  static ACQUISITION_REFRESH_BUTTON_STYLE = {
+    margin: 5,
   }
 
   static getColumnSortingData(columnsSorting, columnKey) {
@@ -132,13 +140,14 @@ export class SessionsMonitoringComponent extends React.Component {
 
   renderBreadCrump = () => {
     const { intl: { formatMessage } } = this.context
-    const elements = [formatMessage({ id: 'acquisition-sessions.title' })]
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const elements = [formatMessage({ id: 'acquisition-sessions.title' })] // eslint should fix: wrong design
     return (
       <Breadcrumb
         rootIcon={<PageView />}
         elements={elements}
-        labelGenerator={label => label}
-        onAction={() => { }}
+        labelGenerator={identity}
+        onAction={noop}
       />
     )
   }
@@ -200,11 +209,23 @@ export class SessionsMonitoringComponent extends React.Component {
     this.onCloseAcknowledge()
   }
 
-  onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => this.setState({
-    sessionToDisplayProducts: {
-      session: entity, isError, isInvalid, isIncomplet,
-    },
-  })
+  onSwitchProductsDialog = (entity = null, isError = true, isInvalid = false, isIncomplet = false) => {
+    this.setState({
+      sessionToDisplayProducts: {
+        session: entity, isError, isInvalid, isIncomplet,
+      },
+    })
+  }
+
+  onCloseDialog = () => {
+    this.setState({
+      sessionToDisplayProducts: {
+        session: null,
+        isError: true,
+        isIncomplete: false,
+      },
+    })
+  }
 
   renderShowProductsDialog() {
     const { intl: { formatMessage } } = this.context
@@ -224,17 +245,17 @@ export class SessionsMonitoringComponent extends React.Component {
     }
     const title = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.title.error' }, values) : formatMessage({ id: 'acquisition-sessions.menus.products.list.title.incomplete' }, values)
     const helpMessage = isError ? formatMessage({ id: 'acquisition-sessions.menus.products.list.help.error' }) : formatMessage({ id: 'acquisition-sessions.menus.products.list.help.incomplete' })
-    const actions = [
-      <FlatButton
-        key="close"
-        label="close"
-        onClick={() => this.onSwitchProductsDialog(null)}
-      />]
     return (
       <PositionedDialog
         title={title}
         open={!!session}
-        actions={actions}
+        actions={<>
+          <FlatButton
+            key="close"
+            label="close"
+            onClick={this.onCloseDialog}
+          />
+        </>}
         dialogHeightPercent={75}
         dialogWidthPercent={75}
       >
@@ -282,11 +303,8 @@ export class SessionsMonitoringComponent extends React.Component {
       onGoToDatasources,
     } = this.props
     const { sessionToAcknowledge } = this.state
-    const iconStyle = {
-      margin: 5,
-    }
-
-    const columns = [
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const columns = [ // eslint wont fix: Major API rework required here
       new TableColumnBuilder(SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE, true))
         .sortableHeaderCell(...SessionsMonitoringComponent.getColumnSortingData(columnsSorting, SessionsMonitoringComponent.SORTABLE_COLUMNS.SOURCE), onSort)
@@ -337,6 +355,18 @@ export class SessionsMonitoringComponent extends React.Component {
         .build(),
       new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED)
         .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.AIP_STORED, true))
+        .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.version.tooltip' }))
+        .rowCellDefinition({
+          Constructor: SessionsMonitoringVersionRenderer,
+          props: {
+            availableDependencies,
+            onViewRequestsOAIS,
+          },
+        })
+        .label(formatMessage({ id: 'acquisition-sessions.table.version' }))
+        .build(),
+      new TableColumnBuilder(SessionsMonitoringComponent.UNSORTABLE_COLUMNS.VERSION)
+        .visible(get(columnsVisibility, SessionsMonitoringComponent.UNSORTABLE_COLUMNS.VERSION, true))
         .titleHeaderCell(formatMessage({ id: 'acquisition-sessions.table.aip-stored.tooltip' }))
         .rowCellDefinition({
           Constructor: SessionsMonitoringProductsStoredRenderer,
@@ -369,6 +399,7 @@ export class SessionsMonitoringComponent extends React.Component {
         .label(formatMessage({ id: 'acquisition-sessions.table.creation-date' }))
         .build(),
     ]
+
     return (
       <Card>
         {this.renderDeleteDialog()}
@@ -389,7 +420,7 @@ export class SessionsMonitoringComponent extends React.Component {
             label={formatMessage({ id: 'acquisition-sessions.refresh.button' })}
             onClick={this.props.onRefresh}
             primary
-            style={iconStyle}
+            style={SessionsMonitoringComponent.ACQUISITION_REFRESH_BUTTON_STYLE}
           />
           <TableLayout>
             <SessionsMonitoringFiltersComponent

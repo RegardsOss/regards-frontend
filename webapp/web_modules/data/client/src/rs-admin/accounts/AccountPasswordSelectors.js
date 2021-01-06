@@ -28,4 +28,4 @@ class AccountPasswordSelectors extends BasicSignalSelectors {
   }
 }
 
-export default storePath => new AccountPasswordSelectors(storePath)
+export default (storePath) => new AccountPasswordSelectors(storePath)

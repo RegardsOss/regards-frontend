@@ -40,9 +40,9 @@ import * as DataManagementCl from './rs-dam'
 import * as DataProviderCl from './rs-data-provider'
 import * as IngestCl from './rs-ingest'
 import * as OrderCl from './rs-order'
+import * as ProcessingCl from './rs-processing'
 import * as StorageCl from './rs-storage'
 import * as UICl from './ui'
-
 
 export const AccessInstanceClient = AccessInstanceCl
 export const AccessProjectClient = AccessProjectCl
@@ -55,5 +55,6 @@ export const DataManagementClient = DataManagementCl
 export const DataProviderClient = DataProviderCl
 export const IngestClient = IngestCl
 export const OrderClient = OrderCl
+export const ProcessingClient = ProcessingCl
 export const StorageClient = StorageCl
 export const UIClient = UICl

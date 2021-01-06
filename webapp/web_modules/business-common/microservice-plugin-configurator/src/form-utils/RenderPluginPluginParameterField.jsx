@@ -48,14 +48,14 @@ import {
  * @author Xavier-Alexandre Brochard
  * @author Sébastien Binda
  */
-export class RenderPluginPluginParameterField extends React.PureComponent {
+export class RenderPluginPluginParameterField extends React.Component {
   /**
   * Redux: map dispatch to props function
   * @param {*} dispatch: redux dispatch function
   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
   * @return {*} list of actions ready to be dispatched in the redux store
   */
-  static mapDispatchToProps = dispatch => ({
+  static mapDispatchToProps = (dispatch) => ({
     fetchPluginConfigurationList: (pluginType, microserviceName) => dispatch(pluginParameterConfigurationActions.fetchEntityList({ microserviceName }, { pluginType })),
     fetchPluginMetadataList: (microserviceName, pluginType) => dispatch(pluginParameterMetaDataActions.fetchEntityList({ microserviceName }, { pluginType })),
   })
@@ -81,14 +81,11 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     ...i18nContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      openMenu: false,
-      pluginMetaDataList: [],
-      pluginConfigurationList: [],
-      selectedPluginConfiguration: null,
-    }
+  state = {
+    openMenu: false,
+    pluginMetaDataList: [],
+    pluginConfigurationList: [],
+    selectedPluginConfiguration: null,
   }
 
   componentDidMount() {
@@ -108,7 +105,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
       // 2. Retrieve all plugin configuration available for the plugin type.
       fetchPluginConfigurationList(pluginParameterType.pluginType, microserviceName).then((actionResults) => {
         const pluginConfigurationList = values(get(actionResults, 'payload.entities.pluginConfiguration', {}))
-        const selectedPluginConfiguration = find(pluginConfigurationList, el => el.content.id === parseInt(pluginId, 10))
+        const selectedPluginConfiguration = find(pluginConfigurationList, (el) => el.content.id === parseInt(pluginId, 10))
         this.setState({
           pluginConfigurationList,
           selectedPluginConfiguration,
@@ -149,7 +146,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
     const { input } = this.props
     this.setState({
       value,
-      selectedPluginConfiguration: find(pluginConfigurationList, el => el.content.id === value),
+      selectedPluginConfiguration: find(pluginConfigurationList, (el) => el.content.id === value),
     })
     input.onChange(value ? value.toString() : null)
   }
@@ -191,7 +188,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
         style={pluginParameter.iconMenu}
       >
         {map(pluginMetaDataList, (pmd) => {
-          const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, pc => pc.content.pluginId === pmd.content.pluginId)
+          const pluginConfigurationListForThisPluginMetaData = filter(pluginConfigurationList, (pc) => pc.content.pluginId === pmd.content.pluginId)
           const pluginConfigurationListIsEmpty = isEmpty(pluginConfigurationListForThisPluginMetaData)
           return (
             <MenuItem
@@ -200,7 +197,7 @@ export class RenderPluginPluginParameterField extends React.PureComponent {
               rightIcon={<ArrowDropRight />}
               disabled={pluginConfigurationListIsEmpty}
               menuItems={
-                map(pluginConfigurationListForThisPluginMetaData, pc => (<MenuItem
+                map(pluginConfigurationListForThisPluginMetaData, (pc) => (<MenuItem
                   key={pc.content.id}
                   primaryText={this.buildMenuItemPrimaryText(pc.content.label, pc.content.version)}
                   onClick={() => this.handleChange(pc.content.id)}

@@ -72,14 +72,14 @@ class MoveOptionComponent extends React.Component {
    * Inner close method, that performs callback after closing
    * @param {Function} callback to invoke after state update, optional
    */
-  onCloseMenu = callback => this.setState({ menuOpen: false }, callback)
+  onCloseMenu = (callback) => this.setState({ menuOpen: false }, callback)
 
   /** User callback: on move element
    * @param {{groupIndex: number, criterionIndex: number}} event as simulated event from inner callbacks
    * or PositionMenuItemComponent, due to poor MUI implementation in MenuItem... parameter is target
    * position (already computed as it should be used, ensured by render method)
    */
-  onMove = event => this.onCloseMenu(() => {
+  onMove = (event) => this.onCloseMenu(() => {
     const { entity, onMoveCriterion, onMoveGroup } = this.props
     if (CriteriaRowsHelper.isCriterion(entity)) {
       onMoveCriterion(entity, event) // entity and event are holding the require fields to mimic position
@@ -97,58 +97,58 @@ class MoveOptionComponent extends React.Component {
   buildOptionsForList = (list, buildOption) => [
     buildOption(null, -1), // first option
     ...list.map((element, index) => buildOption(element, index)),
-  ].filter(c => !!c) // remove null as MUI bugs with them in sub menus
+  ].filter((c) => !!c) // remove null as MUI bugs with them in sub menus
 
   render() {
     const { groups, entity } = this.props
     const { menuOpen, menuAnchorElement } = this.state
     const { intl } = this.context
     return (
-    <>
-      {/* 1. Button */}
-      <IconButton
-        title={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.tooltip' })}
-        onClick={this.onOpenMenu}
-      >
-        <MoveIcon />
-      </IconButton>
-      {/* 2. Popover menu */}
-      <Popover
-        open={menuOpen}
-        anchorEl={menuAnchorElement}
-        onRequestClose={this.onRequestClose}
-      >
-        <Menu>
-          { /** Menu, depending on element type */
+      <>
+        {/* 1. Button */}
+        <IconButton
+          title={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.tooltip' })}
+          onClick={this.onOpenMenu}
+        >
+          <MoveIcon />
+        </IconButton>
+        {/* 2. Popover menu */}
+        <Popover
+          open={menuOpen}
+          anchorEl={menuAnchorElement}
+          onRequestClose={this.onRequestClose}
+        >
+          <Menu>
+            { /** Menu, depending on element type */
             CriteriaRowsHelper.isCriterion(entity) ? (
             // Criterion options: move in each group (self one first)
-            <>
-              {/* first group: this criterion group */}
-              <MenuItem
-                key="in.current.group.option"
-                primaryText={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label' })}
-                rightIcon={<MenuChildrenIcon />}
-                menuItems={this.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
+              <>
+                {/* first group: this criterion group */}
+                <MenuItem
+                  key="in.current.group.option"
+                  primaryText={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label' })}
+                  rightIcon={<MenuChildrenIcon />}
+                  menuItems={this.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
                   // index: N => N+1 while before this criterion, N otherwise (computed after deletion)
-                  const targetIndex = index < entity.criterionIndex ? index + 1 : index
-                  // next options: skip element before and this one (x-1/x) as they would result in same location
-                  return targetIndex === entity.criterionIndex ? null : (
-                    <PositionMenuItemComponent
-                      key={`at.${index}`}
-                      label={criterion ? criterion.label : null}
-                      index={index}
-                      group={false}
-                      onClick={this.onMove}
+                    const targetIndex = index < entity.criterionIndex ? index + 1 : index
+                    // next options: skip element before and this one (x-1/x) as they would result in same location
+                    return targetIndex === entity.criterionIndex ? null : (
+                      <PositionMenuItemComponent
+                        key={`at.${index}`}
+                        label={criterion ? criterion.label : null}
+                        index={index}
+                        group={false}
+                        onClick={this.onMove}
                       // event parameters
-                      groupIndex={entity.groupIndex}
-                      criterionIndex={targetIndex}
-                    />)
-                })}
-              />
-              { /** Separator if there are more than one group */
+                        groupIndex={entity.groupIndex}
+                        criterionIndex={targetIndex}
+                      />)
+                  })}
+                />
+                { /** Separator if there are more than one group */
                   groups.length ? <Divider /> : null
               }
-              { /** In other groups */
+                { /** In other groups */
                 groups.map((g, groupIndex) => groupIndex === entity.groupIndex ? null : (
                   <MenuItem
                     // eslint-disable-next-line react/no-array-index-key
@@ -175,7 +175,7 @@ class MoveOptionComponent extends React.Component {
                         />))}
                   />))
               }
-            </>) // Group options: move first or after each
+              </>) // Group options: move first or after each
               : this.buildOptionsForList(groups, (g, index) => {
                 // index: N => N+1 while before this group, N otherwise (computed after deletion)
                 const targetIndex = index < entity.groupIndex ? index + 1 : index
@@ -192,9 +192,9 @@ class MoveOptionComponent extends React.Component {
                   />)
               })
             }
-        </Menu>
-      </Popover>
-    </>)
+          </Menu>
+        </Popover>
+      </>)
   }
 }
 export default MoveOptionComponent

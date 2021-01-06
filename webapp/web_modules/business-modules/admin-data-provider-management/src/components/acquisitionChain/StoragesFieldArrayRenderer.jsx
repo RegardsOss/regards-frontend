@@ -16,14 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import {
-  RenderTextField, RenderCheckbox, Field,
-} from '@regardsoss/form-utils'
+import { fieldArrayFieldsPropTypes } from 'redux-form'
 import ErrorIcon from 'mdi-material-ui/Alert'
 import Paper from 'material-ui/Paper'
 import Storage from 'mdi-material-ui/Database'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 
 /**
  * Fields Array Renderer for List of storages
@@ -42,11 +41,7 @@ export const DATA_TYPES_ENUM = {
 }
 export class StoragesFieldArrayRenderer extends React.Component {
   static propTypes = {
-    fields: PropTypes.shape({
-      getAll: PropTypes.func.isRequired,
-      push: PropTypes.func.isRequired,
-      remove: PropTypes.func.isRequired,
-    }),
+    fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     changeField: PropTypes.func.isRequired,
   }
 
@@ -179,7 +174,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
       },
     } = this.context
     return (
-      <React.Fragment>
+      <>
         <p style={info}>{formatMessage({ id: 'acquisition-chain.form.general.section.info.storage' })}</p>
         { /** Storages list or error message */
         fields.length ? (
@@ -192,7 +187,7 @@ export class StoragesFieldArrayRenderer extends React.Component {
             {formatMessage({ id: 'acquisition-chain.form.general.section.info.storage.no.data' })}
           </div>)
         }
-      </React.Fragment>
+      </>
     )
   }
 }

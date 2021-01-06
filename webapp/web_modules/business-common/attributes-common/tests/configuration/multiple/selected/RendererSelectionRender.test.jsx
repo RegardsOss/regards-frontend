@@ -80,7 +80,7 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
 
   testCases
     .forEach(({ label, types, expectedRenderers }) => it(`should render correctly for ${label}`, () => types
-      .forEach(attributeType => expectedRenderers.forEach((selectedRenderer) => {
+      .forEach((attributeType) => expectedRenderers.forEach((selectedRenderer) => {
       // Render once for each type and each possible renderer
         const spyCallback = {}
         const props = {
@@ -115,7 +115,7 @@ describe('[Attributes Common] Testing RendererSelectionRender', () => {
         const optionsWrapper = selectFieldWrapper.find(MenuItem)
         assert.lengthOf(optionsWrapper, expectedRenderers.length, 'There should be an option for each available renderer')
         expectedRenderers.forEach((r) => {
-          assert.lengthOf(optionsWrapper.findWhere(n => n.props().value === r), 1, `There should be ${r} option`)
+          assert.lengthOf(optionsWrapper.findWhere((n) => n.props().value === r), 1, `There should be ${r} option`)
         })
 
         // Test callback

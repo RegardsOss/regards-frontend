@@ -21,7 +21,7 @@
  * Additional mui theme properties for regards.
  * @author Sébastien Binda.
  */
-export default baseTheme => ({
+export default (baseTheme) => ({
   palette: {
     background: '',
     backgroundImage: '',
@@ -35,6 +35,16 @@ export default baseTheme => ({
     },
     editorACE: {
       theme: 'monokai',
+    },
+    download: {
+      quotaWarningColor: '#FF9800',
+      quotaConsumedColor: baseTheme.textField.errorColor,
+      foregroundWarningPlacement: {
+        top: -2,
+        left: 12,
+        width: 16,
+        height: 16,
+      },
     },
     scrollArea: {
       scrollingSidePadding: 15,
@@ -51,6 +61,11 @@ export default baseTheme => ({
         margin: '7px 0 -7px 0',
         fontSize: '10px',
         fontWeight: 'bold',
+      },
+      header: {
+        checkbox: {
+          margin: '0 12px 0 12px',
+        },
       },
       admin: {
         minRowCount: 2,
@@ -107,8 +122,15 @@ export default baseTheme => ({
       iFrameBackground: 'white',
       markdownScrollbarColor: '#00202f',
     },
+    resizerSeparator: {
+      backgroundColor: baseTheme.palette.borderColor,
+      halfSize: 6,
+    },
   },
   formsExtensions: {
+    fieldHelpButton: {
+      alignSelf: 'flex-end',
+    },
     dateField: {
       marginTop: 14,
       innerMargins: '0 10px 0 0',
@@ -172,7 +194,7 @@ export default baseTheme => ({
         },
       },
       tree: {
-        width: 400,
+        minWidth: 350,
         borderColor: baseTheme.toolbar.separatorColor,
         borderWidth: '0 1px 0 0',
         iconButtonPadding: 4,
@@ -193,7 +215,10 @@ export default baseTheme => ({
           fontWeight: 400,
         },
       },
-      contentPadding: '5px 21px 5px 21px',
+      content: {
+        padding: '5px 21px 5px 21px',
+        minWidth: 350,
+      },
       listPage: {
         element: {
           padding: 3,
@@ -201,11 +226,11 @@ export default baseTheme => ({
           fontWeight: 400,
           iconToTextGap: 5,
           linkTextDecoration: 'underline',
+          margin: '0 24px 0 0',
         },
         rightIconButton: {
           size: 24,
           padding: 0,
-          margin: '0 0 0 24px',
         },
       },
       parameters: {
@@ -275,6 +300,42 @@ export default baseTheme => ({
       separatorBorderRadius: 2,
       separatorBorderStyle: 'solid',
       separatorMargin: '12px 10px 12px 0',
+      quotaWarningIcon: {
+        size: 16,
+        left: 16,
+        top: 8,
+      },
+      quotaView: {
+        rootPadding: baseTheme.spacing.desktopGutter,
+        title: {
+          padding: '0 0 20px 0',
+          textPadding: '0 0 0 12px',
+        },
+        text: {
+          padding: '0 0 8px 0',
+        },
+        currentState: {
+          title: {
+            padding: '20px 0 20px 0',
+            textDecoration: 'underline',
+            fontWeight: 500,
+          },
+          value: {
+            padding: '0 0 8px 8px',
+            fontWeight: 500,
+            textPadding: '0 0 0 12px',
+          },
+        },
+      },
+    },
+    // order car module
+    orderCart: {
+      totalRowFontColor: baseTheme.palette.accent2Color,
+      totalRowFontWeight: 'bold',
+      textToQuotaWarningGap: 24,
+      selectionColumn: {
+        paddingLeft: 8,
+      },
     },
     // order history module
     orderHistory: {
@@ -300,6 +361,7 @@ export default baseTheme => ({
       'color.file.ONLINE': baseTheme.palette.textColor,
       'color.file.DOWNLOADED': baseTheme.textField.disabledTextColor,
       'color.file.DOWNLOAD_ERROR': baseTheme.textField.errorColor,
+      'color.file.PROCESSING_ERROR': baseTheme.textField.errorColor,
       'color.file.ERROR': baseTheme.textField.errorColor,
       'color.file.UNKNOWN': baseTheme.textField.disabledTextColor,
     },
@@ -358,11 +420,19 @@ export default baseTheme => ({
       list: {
         lineHeight: 160,
         rowsByColumnCount: 4,
-        thumbnailSize: 110,
-        thumbnailMargin: '0px 0px 10px 10px',
+        thumbnailSize: 100,
+        thumbnailMargin: '0 10px 10px 10px',
         attribute: {
-          labelMargin: '10px 0 5px 10px',
-          valueMargin: '5px 0 0 0',
+          groupMargin: '5px 5px 0 5px',
+          label: {
+            margin: '0 0 5px 0',
+            color: baseTheme.palette.textColor,
+            textDecoration: 'underline',
+          },
+          value: {
+            margin: '0 0 5px 0',
+            color: baseTheme.palette.textColor,
+          },
         },
       },
       quicklooks: {
@@ -374,19 +444,19 @@ export default baseTheme => ({
         mizar: {
           minWidth: 500,
           initialRelativeWidth: 0.7,
-          featureColor: baseTheme.palette.accent1Color,
-          drawColor: baseTheme.palette.accent2Color,
+          featureColor: 'darkred',
+          drawColor: baseTheme.palette.accent1Color,
+          selectedFeatureColor: baseTheme.palette.accent1Color,
+          selectedColorOutlineWidth: 3,
+          selectedBackgroundColor: baseTheme.palette.accent1Color,
         },
         quicklooks: {
           minWidth: 260,
           thumbnailHeight: 160,
           columnWidth: 180,
           columnGap: 15,
-          padding: '12px 5px 5px 0',
-        },
-        resizerSeparator: {
-          backgroundColor: baseTheme.palette.borderColor,
-          halfSize: 6,
+          padding: '12px 5px 5px 5px',
+          selectedColor: baseTheme.palette.accent1Color,
         },
       },
       tabs: {
@@ -411,6 +481,7 @@ export default baseTheme => ({
     sessionState: {
       errorColor: baseTheme.textField.errorColor,
     },
+    waitingVersionColor: baseTheme.palette.accent1Color,
     acquiredProductRunningColor: '#4CAF50',
   },
 })

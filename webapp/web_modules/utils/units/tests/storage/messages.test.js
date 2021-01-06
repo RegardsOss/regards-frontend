@@ -18,9 +18,8 @@
  **/
 import keys from 'lodash/keys'
 import { assert } from 'chai'
-import { StorageUnitScale } from '../../src/storage/StorageUnit'
+import { StorageUnitScale } from '../../src/storage/StorageUnitScale'
 import messages from '../../src/storage/i18n'
-
 
 /**
 * Test  Component name

@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
 
-const messages = Object.assign({
+const messages = {
   'attrmodel.list.delete.conditions': 'Seuls les attributs n\'appartenant à aucun modèle sont supprimables',
   'attrmodel.list.title': 'Attributs de modèles',
   'attrmodel.list.subtitle': 'Tous les attributs de modèles de données du projet',
@@ -78,7 +78,8 @@ const messages = Object.assign({
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Ajouter un attribut obligatoire à un fragment déjà utilisé par des modèles peut provoquer des erreurs lors des ingestions et des mises à jour futures',
 
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
-}, Locales.fr)
+  ...Locales.fr,
+}
 messages[`attrmodel.form.fragment.${DEFAULT_FRAGMENT_NAME}`] = 'Pas de fragment'
 
 export default messages

@@ -26,64 +26,113 @@ import { VISIBILITY_MODES_ENUM } from '../../src/domain/VisibilityModes'
  * @author Raphaël Mechali
  */
 
-export const aNavigationConfiguration = [{ // Home module
-  id: 5,
-  type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-}, {// first section
-  id: 0,
-  type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
-  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-  icon: {
-    type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
-  },
-  title: {
-    en: 'First section',
-    fr: 'Première section',
-  },
-  children: [{
-    id: 3,
+export const aNavigationConfiguration = [
+  { // Home module
+    id: 5,
     type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
     visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-  }, { // embedded second section
-    id: 1,
+  },
+  { // first section
+    id: 0,
     type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+    icon: {
+      type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
+    },
+    title: {
+      en: 'First section',
+      fr: 'Première section',
+    },
+    children: [{
+      id: 3,
+      type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+    },
+    { // embedded second section
+      id: 1,
+      type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      icon: {
+        type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
+        url: './cocorico.svg',
+      },
+      title: {
+        en: 'Second section',
+        fr: 'Seconde section',
+      },
+      children: [{
+        id: 2,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      },
+      {
+        id: 4,
+        type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+        visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      },
+      {
+        id: 51,
+        type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
+        visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+        icon: {
+          type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
+          url: './cocorico.svg',
+        },
+        title: {
+          en: 'Third link',
+          fr: 'Troisième lien',
+        },
+        url: '',
+      }],
+    },
+    {
+      id: 52,
+      type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
+      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+      icon: {
+        type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
+        url: './cocorico.svg',
+      },
+      title: {
+        en: 'Third link',
+        fr: 'Troisième lien',
+      },
+      url: '',
+    }],
+  },
+  { // some root level module
+    id: 6,
+    type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+  },
+  { // some empty section
+    id: 49,
+    type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
+    visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
+    icon: {
+      type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE,
+    },
+    title: {
+      en: 'Third section',
+      fr: 'Troisième section',
+    },
+    children: [],
+  },
+  { // some link
+    id: 50,
+    type: NAVIGATION_ITEM_TYPES_ENUM.LINK,
     visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
     icon: {
       type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.CUSTOM,
       url: './cocorico.svg',
     },
     title: {
-      en: 'Second section',
-      fr: 'Seconde section',
+      en: 'Third link',
+      fr: 'Troisième lien',
     },
-    children: [{
-      id: 2,
-      type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-    }, {
-      id: 4,
-      type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-      visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-    }],
-  }],
-}, { // some root level module
-  id: 6,
-  type: NAVIGATION_ITEM_TYPES_ENUM.MODULE,
-  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-}, { // some empty section
-  id: 2,
-  type: NAVIGATION_ITEM_TYPES_ENUM.SECTION,
-  visibilityMode: VISIBILITY_MODES_ENUM.ALWAYS,
-  icon: {
-    type: AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.NONE,
+    url: '',
   },
-  title: {
-    en: 'Third section',
-    fr: 'Troisième section',
-  },
-  children: [],
-}]
+]
 
 export const anHomeConfiguration = {
   icon: {

@@ -32,7 +32,6 @@ import CloudDownload from 'mdi-material-ui/CloudDownload'
 import CloudUpload from 'mdi-material-ui/CloudUpload'
 import RaisedButton from 'material-ui/RaisedButton'
 
-
 /**
  * Allows to upload and download microservice configuration
  */
@@ -50,7 +49,6 @@ export class MicroserviceConfBackupComponent extends React.Component {
     ...i18nContextType,
     ...themeContextType,
   }
-
 
   static pluginWrapper = {
     display: 'flex',
@@ -111,7 +109,7 @@ export class MicroserviceConfBackupComponent extends React.Component {
     if (errors) {
       return (
         <ErrorDecoratorComponent>
-          {isArray(errors) && map(errors, error => (
+          {isArray(errors) && map(errors, (error) => (
             <div key={error.moduleInformation.name}>
               <div>
                 {this.context.intl.formatMessage({ id: 'microservice.conf-backup.error.module-conf' })}

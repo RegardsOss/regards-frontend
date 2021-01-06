@@ -70,47 +70,47 @@ class SessionDeleteDialogComponent extends React.Component {
     }
   }
 
-  renderActions = () => {
-    const { onClose, onForceDelete, onDelete } = this.props
-    const { intl: { formatMessage } } = this.context
-    const actions = [
-      <FlatButton
-        key="cancel"
-        label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.cancel.button' })}
-        primary
-        keyboardFocused
-        onClick={onClose}
-      />,
-      <FlatButton
-        key="delete"
-        label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.delete.button' })}
-        onClick={() => this.handleConfirm(onDelete)}
-        disabled={this.state.loading}
-      />,
-    ]
+  /** On simple delete confirmed */
+  onDeleteConfirm = () => this.handleConfirm(this.props.onDelete)
 
-    if (this.props.allowForceOption) {
-      actions.push(<FlatButton
-        key="forceDelete"
-        label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
-        onClick={() => this.handleConfirm(onForceDelete)}
-        disabled={this.state.loading}
-      />)
-    }
-    return actions
-  }
+  /** On forced delete confirmed */
+  onForceDeleteConfirm = () => this.handleConfirm(this.props.onForceDelete)
 
   render() {
     const {
       title, message, onClose, open,
+      allowForceOption,
     } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <SwitchThemeDecorator
         useMainTheme
       >
         <Dialog
           title={title}
-          actions={this.renderActions()}
+          actions={<>
+            <FlatButton
+              key="cancel"
+              label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.cancel.button' })}
+              primary
+              keyboardFocused
+              onClick={onClose}
+            />
+            <FlatButton
+              key="delete"
+              label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.delete.button' })}
+              onClick={this.onDeleteConfirm}
+              disabled={this.state.loading}
+            />
+            { allowForceOption
+              ? <FlatButton
+                  key="forceDelete"
+                  label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
+                  onClick={this.onForceDeleteConfirm}
+                  disabled={this.state.loading}
+              />
+              : null}
+          </>}
           modal={false}
           open={open}
           onRequestClose={onClose}

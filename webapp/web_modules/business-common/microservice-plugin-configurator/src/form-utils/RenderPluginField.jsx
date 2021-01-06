@@ -31,13 +31,14 @@ import messages from '../i18n'
 * Redux-form compatible field component to display a Plugin selector asscioated to a Plugin configurator form.
 * @author Sébastien Binda
 */
-export class RenderPluginField extends React.PureComponent {
+export class RenderPluginField extends React.Component {
   static propTypes = {
     title: PropTypes.string, // Title of display in top of the form
     selectLabel: PropTypes.string, // Label displayed in the selectable list of plugins
     pluginType: PropTypes.string.isRequired, // Type of plugin to configure
     microserviceName: PropTypes.string.isRequired, // Name of the microservice associated to the plugin type
     defaultPluginConfLabel: PropTypes.string, // If set, the label of a new plugin configuration is initialized with
+    simpleGlobalParameterConf: PropTypes.bool, // Use this parameter to hide the global configuration of plugins
     hideGlobalParameterConf: PropTypes.bool, // Hide the global parameters configuration
     hideDynamicParameterConf: PropTypes.bool, // Hide the dynmaic configuration of parameters
     // From redux field
@@ -48,6 +49,7 @@ export class RenderPluginField extends React.PureComponent {
   static defaultProps = {
     hideGlobalParameterConf: false,
     hideDynamicParameterConf: false,
+    simpleGlobalParameterConf: false,
   }
 
   static listLabelStyle = { minWidth: '220px' }
@@ -72,11 +74,8 @@ export class RenderPluginField extends React.PureComponent {
     iconUrl: null,
   })
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      selectedPluginMetaData: null,
-    }
+  state = {
+    selectedPluginMetaData: null,
   }
 
   /**
@@ -108,7 +107,7 @@ export class RenderPluginField extends React.PureComponent {
    */
   getPluginConfigurator = () => {
     const {
-      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf,
+      input, microserviceName, defaultPluginConfLabel, hideGlobalParameterConf, hideDynamicParameterConf, simpleGlobalParameterConf,
     } = this.props
 
     if (this.state.selectedPluginMetaData) {
@@ -122,6 +121,7 @@ export class RenderPluginField extends React.PureComponent {
             newPluginConfLabel={defaultPluginConfLabel}
             hideGlobalParameterConf={hideGlobalParameterConf}
             hideDynamicParameterConf={hideDynamicParameterConf}
+            simpleGlobalParameterConf={simpleGlobalParameterConf}
           />
         </SubSectionCard>
       )

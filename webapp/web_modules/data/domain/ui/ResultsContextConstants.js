@@ -18,9 +18,10 @@
  **/
 import { ENTITY_TYPES_ENUM } from '../dam/EntityTypes'
 import { MAP_SELECTION_MODES_ENUM } from './MapSelectionModeEnum'
-import { MIZAR_LAYER_TYPES_ENUM } from './mizar-api/MizarLayerTypes'
+import { MAP_VIEW_MODES_ENUM } from './MapViewModesEnum'
 import { RESULTS_VIEW_MODES_ENUM } from './ResultsViewModeEnum'
 import { RESULTS_TABS_ENUM } from './ResultsTabs'
+import { MAP_ENGINE_ENUM } from './MapEngineEnum'
 
 /**
  * Holds constants and accessors related to results context
@@ -49,12 +50,12 @@ const DISABLED_MAP_VIEW_MODE_STATE = {
   enabled: false,
   enableSelection: false,
   presentationModels: [],
-  backgroundLayer: {
-    url: '',
-    type: MIZAR_LAYER_TYPES_ENUM.OSM,
-  },
+  mapEngine: MAP_ENGINE_ENUM.CESIUM,
+  layers: [],
   selectionMode: MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
+  viewMode: MAP_VIEW_MODES_ENUM.MODE_3D,
   splitPosition: null,
+  selectedProducts: [],
 }
 
 /** To be used as default */
@@ -78,7 +79,6 @@ const DISABLED_TYPE_STATE = {
     sorting: [],
   },
 }
-
 
 /** Default results context */
 const DEFAULT_RESULTS_CONTEXT = {
@@ -146,7 +146,6 @@ const DEFAULT_RESULTS_CONTEXT = {
   },
 }
 
-
 /** Types for which download is allowed */
 const DOWNLOAD_ALLOWED_TYPES = [ENTITY_TYPES_ENUM.DATA]
 
@@ -198,7 +197,6 @@ const SERVICES_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATA]
 function allowServices(type) {
   return SERVICES_ALLOWING_TYPES.includes(type)
 }
-
 
 /** Types for which navigate to (results filtering) is allowed */
 const NAVIGATE_TO_ALLOWING_TYPES = [ENTITY_TYPES_ENUM.DATASET]

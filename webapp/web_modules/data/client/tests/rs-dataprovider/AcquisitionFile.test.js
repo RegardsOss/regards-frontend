@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-data-provider/AcquisitionFile/Acquisi
 import getEntitySelectors from '../../src/rs-data-provider/AcquisitionFile/AcquisitionFileSelectors'
 import dump from './AcquisitionFile.dump'
 
-
 const options = {
 }
 

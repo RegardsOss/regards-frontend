@@ -38,7 +38,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
   })
   it('should render correctly a storage capacity', () => {
     const props = {
-      value: new storage.StorageCapacity(8000, storage.StorageUnits.BIT), // expected one ko
+      value: new storage.StorageCapacity(8000, storage.units.BIT), // expected one ko
       presentationScale: storage.StorageUnitScale.bytesScale,
     }
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
@@ -81,7 +81,7 @@ describe('[COMPONENTS] Testing StorageCapacityRender', () => {
     const props = {
       value: 1, // expected one 8b (from 1 byte)
       presentationScale: storage.StorageUnitScale.bitsScale,
-      numberUnit: storage.StorageUnits.BYTE,
+      numberUnit: storage.units.BYTE,
     }
     const enzymeWrapper = shallow(<StorageCapacityRender {...props} />, { context })
     const formatterWrapper = enzymeWrapper.find(storage.FormattedStorageCapacity)

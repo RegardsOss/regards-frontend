@@ -16,24 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import has from 'lodash/has'
+import DeleteIcon from 'mdi-material-ui/CloseCircleOutline'
+import find from 'lodash/find'
+import last from 'lodash/last'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import uniq from 'lodash/uniq'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
-import { TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsSeparator } from '@regardsoss/components'
+import {
+  TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsArea,
+} from '@regardsoss/components'
+import { FlatButton } from 'material-ui'
 import MapSelectionModeOption from './options/MapSelectionModeOption'
+import MapViewModeOption from './options/MapViewModeOption'
 import MapOpacityOption from './options/MapOpacityOption'
 import MapOpacitySlider from './options/MapOpacitySlider'
 
 /**
  * Component to show map tools
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MapToolsComponent extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    layers: PropTypes.arrayOf(PropTypes.object).isRequired,
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired, // current selection mode
-    onSetSelectionMode: PropTypes.func.isRequired, // (mode) => ()
+    viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired, // current view mode
+    onToggleViewMode: PropTypes.func.isRequired,
+    onToggleSelectionMode: PropTypes.func.isRequired,
     opacity: PropTypes.number.isRequired,
     handleChangeOpacity: PropTypes.func.isRequired,
+    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    onProductSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -42,6 +60,49 @@ class MapToolsComponent extends React.Component {
 
   state = {
     openOpacitySlider: false,
+    availableModeList: [],
+    dataLayerExist: false,
+  }
+
+  UNSAFE_componentWillMount() {
+    // Set up available modes
+    const {
+      layers, viewMode,
+    } = this.props
+    const enabledBackgroundLayers = filter(layers, (layer) => layer.enabled && layer.background)
+    const dataLayerExist = this.dataLayerExist(layers, viewMode)
+    const availableModeList = uniq(map(enabledBackgroundLayers, (layer) => layer.layerViewMode))
+    this.setState({
+      availableModeList,
+      dataLayerExist,
+    })
+  }
+
+  dataLayerExist = (layers, viewMode) => find(layers, (layer) => layer.enabled && !layer.background && layer.layerViewMode === viewMode)
+
+  /**
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      viewMode, layers,
+    } = newProps
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    if (!isEqual(oldProps.viewMode, viewMode)) {
+      newState.dataLayerExist = this.dataLayerExist(layers, viewMode)
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   handleToggleOpacitySlider = () => {
@@ -51,37 +112,89 @@ class MapToolsComponent extends React.Component {
     })
   }
 
+  handleRemoveSelectedProduct = () => {
+    const {
+      selectedProducts, onProductSelected,
+    } = this.props
+    const lastSelectedProduct = last(selectedProducts)
+    onProductSelected(true, lastSelectedProduct)
+  }
+
   render() {
     const {
-      selectionMode: currentSelectionMode, onSetSelectionMode, opacity, handleChangeOpacity,
+      selectionMode: currentSelectionMode, opacity, handleChangeOpacity,
+      viewMode: currentViewMode,
+      onToggleSelectionMode, onToggleViewMode, selectedProducts,
     } = this.props
-    const { moduleTheme: { user: { mapViewStyles } } } = this.context
-    const { openOpacitySlider } = this.state
-    const isOpacityConfigurable = has(STATIC_CONF, 'MAP.STATIC_LAYER')
+    const {
+      moduleTheme: {
+        user: {
+          mapViewStyles: {
+            toolsBox, selectedProductBox, opacityToolsBox, iconToolButton,
+          },
+        },
+      },
+    } = this.context
+    const { openOpacitySlider, availableModeList, dataLayerExist } = this.state
     return [
-      <div style={mapViewStyles.toolsBox} key="icons">
+      <div style={toolsBox} key="icons">
         <TableHeaderLine>
-          <TableHeaderOptionGroup>
-            { /** Show a selector for each available mode */
-            UIDomain.MAP_SELECTION_MODES.map(selectionMode => <MapSelectionModeOption
-              key={selectionMode}
-              selected={currentSelectionMode === selectionMode}
-              selectionMode={selectionMode}
-              onSetSelectionMode={onSetSelectionMode}
-            />)
-          }
-          </TableHeaderOptionGroup>
-          {isOpacityConfigurable && (<TableHeaderOptionsSeparator />)}
-          {isOpacityConfigurable && (<TableHeaderOptionGroup>
-            <MapOpacityOption
-              handleToggleOpacitySlider={this.handleToggleOpacitySlider}
-              open={openOpacitySlider}
-            />
+          <TableHeaderOptionsArea>
+            <TableHeaderOptionGroup>
+              { /** Show a selector for each available selection mode */
+                UIDomain.MAP_SELECTION_MODES.map((selectionMode, index) => <MapSelectionModeOption
+                  key={selectionMode}
+                  index={index}
+                  selected={currentSelectionMode === selectionMode}
+                  selectionMode={selectionMode}
+                  onToggleSelectionMode={onToggleSelectionMode}
+                />)
+              }
             </TableHeaderOptionGroup>
-          )}
+            <TableHeaderOptionGroup>
+              { /** Show a selector for each available view mode */
+                availableModeList.map((viewMode, index) => <MapViewModeOption
+                  key={viewMode}
+                  selected={currentViewMode === viewMode}
+                  viewMode={viewMode}
+                  onToggleViewMode={onToggleViewMode}
+                  index={index}
+                  addStylingOption={isEmpty(selectedProducts) && !dataLayerExist}
+                />)
+              }
+            </TableHeaderOptionGroup>
+            {dataLayerExist && (<TableHeaderOptionGroup>
+              <div style={isEmpty(selectedProducts) ? toolsBox.lastBoxStyle : null}>
+                <MapOpacityOption
+                  handleToggleOpacitySlider={this.handleToggleOpacitySlider}
+                  open={openOpacitySlider}
+                />
+              </div>
+
+            </TableHeaderOptionGroup>
+            )}
+            {
+              !isEmpty(selectedProducts)
+              /** Show a chip of for lastSelectedProduct */
+                ? <TableHeaderOptionGroup>
+                  <div style={selectedProductBox}>
+                    <div style={selectedProductBox.labelStyle}>
+                      { last(selectedProducts).label }
+                    </div>
+                    <FlatButton
+                      icon={<DeleteIcon />}
+                      onClick={this.handleRemoveSelectedProduct}
+                      style={iconToolButton}
+                    />
+                  </div>
+
+                </TableHeaderOptionGroup>
+                : null
+            }
+          </TableHeaderOptionsArea>
         </TableHeaderLine>
       </div>,
-      openOpacitySlider && (<div style={mapViewStyles.opacityToolsBox} key="opacity">
+      openOpacitySlider && (<div style={opacityToolsBox} key="opacity">
         <MapOpacitySlider opacity={opacity} handleChangeOpacity={handleChangeOpacity} />
       </div>),
     ]

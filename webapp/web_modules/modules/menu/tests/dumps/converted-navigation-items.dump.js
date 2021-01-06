@@ -28,7 +28,6 @@ import { allDefaultConfigDumpModules } from './modules.dump'
 /** Provides a way to change selection in navigation model dump */
 export const changeSelectedModule = (newSelectionId, model) => NavigationModelResolutionContainer.updateSelection(model, newSelectionId)
 
-
 /** A full converted model with selection on home */
 export const fullConvertedNavigationModel = changeSelectedModule(5,
   NavigationModelResolutionContainer.resolveNavigationModel(aNavigationConfiguration, allDefaultConfigDumpModules, anHomeConfiguration))

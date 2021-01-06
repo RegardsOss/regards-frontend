@@ -36,7 +36,7 @@ describe('[Order Common] Testing StatusRender', () => {
   it('should exists', () => {
     assert.isDefined(StatusRender)
   })
-  values(ORDER_USER_STATUS).forEach(status => it(`should render correctly with status ${status}`, () => {
+  values(ORDER_USER_STATUS).forEach((status) => it(`should render correctly with status ${status}`, () => {
     const props = {
       value: status,
     }

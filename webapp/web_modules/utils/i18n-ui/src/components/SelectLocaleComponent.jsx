@@ -50,10 +50,9 @@ class SelectLocaleComponent extends React.Component {
 
   render() {
     const { currentLocale, handleLocaleChange } = this.props
-    const { intl: { formatMessage }, muiTheme: { spacing: { iconSize } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { localeIcon: iconStyle } } = this.context
 
     const localeIcon = SelectLocaleComponent.localToIcon[currentLocale]
-    const iconStyle = { width: iconSize, height: iconSize }
 
     return (
       <div title={formatMessage({ id: 'language.selector.tooltip' })}>
@@ -61,12 +60,12 @@ class SelectLocaleComponent extends React.Component {
           iconButtonElement={
             <IconButton iconStyle={iconStyle}>
               <img src={localeIcon} alt={formatMessage({ id: `language.selector.option.${currentLocale}` })} />
-            </IconButton>}
-
+            </IconButton>
+          }
           value={currentLocale}
           onChange={handleLocaleChange}
         >
-          {map(UIDomain.LOCALES, locale => (
+          {map(UIDomain.LOCALES, (locale) => (
             <MenuItem
               value={locale}
               key={locale}
@@ -76,7 +75,8 @@ class SelectLocaleComponent extends React.Component {
                   style={iconStyle}
                   src={SelectLocaleComponent.localToIcon[locale]}
                   alt={formatMessage({ id: `language.selector.option.${locale}` })}
-                />}
+                />
+}
             />))}
         </IconMenu>
       </div>

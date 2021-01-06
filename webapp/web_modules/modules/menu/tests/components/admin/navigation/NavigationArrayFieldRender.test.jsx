@@ -21,7 +21,9 @@ import { assert } from 'chai'
 import { AccessDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { NAVIGATION_ITEM_TYPES_ENUM } from '../../../../src/domain/NavigationItemTypes'
-import { getItemPathIn, findAllSections, getItemByPathIn } from '../../../../src/domain/NavigationTreeHelper'
+import {
+  getItemPathIn, findAllSections, getItemByPathIn, findAllLinks,
+} from '../../../../src/domain/NavigationTreeHelper'
 import NavigationArrayFieldRender from '../../../../src/components/admin/navigation/NavigationArrayFieldRender'
 import NavigationTree from '../../../../src/components/admin/navigation/NavigationTree'
 import NavigationItemEditionDialog from '../../../../src/components/admin/navigation/dialogs/NavigationItemEditionDialog'
@@ -124,6 +126,8 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(treeProps.onEdit, wrapperInstance.onEditItem, 'It should report correctly the "onEdit" property')
     assert.equal(treeProps.onCreateSection, wrapperInstance.onCreateSection, 'It should report correctly the "onCreateSection" property')
     assert.equal(treeProps.onDeleteSection, wrapperInstance.onDeleteSection, 'It should report correctly the "onDeleteSection" property')
+    assert.equal(treeProps.onCreateLink, wrapperInstance.onCreateLink, 'It should report correctly the "onCreateLink" property')
+    assert.equal(treeProps.onDeleteLink, wrapperInstance.onDeleteLink, 'It should report correctly the "onDeleteLink" property')
     // check the tree was correctly resolved (note: dumps and modules list are matching: there should be no difference with default model)
     assert.deepEqual(spiedChangeFieldValue, aNavigationConfiguration, 'it should resolve default model correctly')
   })
@@ -180,14 +184,14 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.create.section.dialog.title', 'dialogTitleKey should correctly reported')
     assert.isOk(editionData.item.id, 'New item ID should be correctly initialized')
-    assert.isFalse(!!findAllSections(aNavigationConfiguration).find(section => section.id === editionData.item.id),
+    assert.isFalse(!!findAllSections(aNavigationConfiguration).find((section) => section.id === editionData.item.id),
       'The new item id should be unique')
     assert.isOk(editionData.item.icon, 'New item icon field should be correctly initialized')
     assert.equal(editionData.item.icon.type, AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
       'New item icon type should be default')
     assert.isOk(editionData.item.title, 'New item title field should be correctly initialized')
     assert.isOk(editionData.item.title.en, 'New item EN title should be correctly initialized')
-    assert.isOk(editionData.item.title.en, 'New item FR title should be correctly initialized')
+    assert.isOk(editionData.item.title.fr, 'New item FR title should be correctly initialized')
     assert.isOk(editionData.item.visibilityMode, 'New item visibility mode should be correctly initialized')
     assert.deepEqual(editionData.itemPath, [aNavigationConfiguration.length], 'New items should be initialized at end of the main bar')
     // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
@@ -216,6 +220,71 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
     assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
     assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.edit.section.dialog.title', 'dialogTitleKey should correctly reported')
     const expectedPath = [1, 1]
+    assert.deepEqual(editionData.item, getItemByPathIn(aNavigationConfiguration, expectedPath), 'Item should be correctly provided')
+    assert.deepEqual(editionData.itemPath, expectedPath, 'Item path should be correctly provided')
+    // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
+    compareTreesAndCheckTitle(aNavigationConfiguration, editionData.navigationItems)
+    // also check first item (home in our case) is set to use home configuration
+    assert.deepEqual(editionData.navigationItems[0].title, props.homeConfiguration.title)
+  })
+  it('should handle correctly create link', () => {
+    const props = {
+      dynamicModules: allDefaultConfigDumpModules,
+      homeConfiguration: anHomeConfiguration,
+      navigationItems: aNavigationConfiguration,
+      roleList,
+      changeNavigationFieldValue: () => { },
+    }
+    const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
+    // simulate create
+    const wrapperInstance = wrapper.instance()
+    wrapperInstance.onCreateLink()
+    wrapper.update()
+    const { editionData } = wrapper.state()
+    assert.isOk(editionData, 'edition data should be defined after creating link')
+    const dialog = wrapper.find(NavigationItemEditionDialog)
+    assert.lengthOf(dialog, 1, 'The dialog should be added in children')
+    assert.equal(dialog.props().roleList, props.roleList, 'The dialog role list should be provided from be added in children')
+    assert.deepEqual(dialog.props().editionData, editionData, 'The dialog edition data should be reported')
+    assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
+    assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.create.link.dialog.title', 'dialogTitleKey should correctly reported')
+    assert.isOk(editionData.item.id, 'New item ID should be correctly initialized')
+    assert.isFalse(!!findAllLinks(aNavigationConfiguration).find((link) => link.id === editionData.item.id),
+      'The new item id should be unique')
+    assert.isOk(editionData.item.icon, 'New item icon field should be correctly initialized')
+    assert.equal(editionData.item.icon.type, AccessDomain.PAGE_MODULE_ICON_TYPES_ENUM.DEFAULT,
+      'New item icon type should be default')
+    assert.isOk(editionData.item.title, 'New item title field should be correctly initialized')
+    assert.isOk(editionData.item.title.en, 'New item EN title should be correctly initialized')
+    assert.isOk(editionData.item.title.fr, 'New item FR title should be correctly initialized')
+    assert.isOk(editionData.item.visibilityMode, 'New item visibility mode should be correctly initialized')
+    assert.deepEqual(editionData.itemPath, [aNavigationConfiguration.length], 'New items should be initialized at end of the main bar')
+    // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
+    compareTreesAndCheckTitle(aNavigationConfiguration, editionData.navigationItems)
+    // also check first item (home in our case) is set to use home configuration
+    assert.deepEqual(editionData.navigationItems[0].title, props.homeConfiguration.title)
+  })
+  it('should handle correctly edit link', () => {
+    const props = {
+      dynamicModules: allDefaultConfigDumpModules,
+      homeConfiguration: anHomeConfiguration,
+      navigationItems: aNavigationConfiguration,
+      roleList,
+      changeNavigationFieldValue: () => { },
+    }
+    const wrapper = shallow(<NavigationArrayFieldRender {...props} />, { context })
+    // simulate create
+    const wrapperInstance = wrapper.instance()
+    wrapperInstance.onEditItem(NAVIGATION_ITEM_TYPES_ENUM.LINK, 50)
+    wrapper.update()
+    const { editionData } = wrapper.state()
+    assert.isOk(editionData, 'edition data should be defined after creating link')
+    const dialog = wrapper.find(NavigationItemEditionDialog)
+    assert.lengthOf(dialog, 1, 'The dialog should be added in children')
+    assert.deepEqual(dialog.props().editionData, editionData, 'The dialog edition data should be reported')
+    assert.equal(editionData.onDone, wrapperInstance.onEditDone, 'onDone callback should be correctly reported')
+    assert.equal(editionData.dialogTitleKey, 'menu.form.navigation.edit.link.button.label', 'dialogTitleKey should correctly reported')
+    const expectedPath = [4]
     assert.deepEqual(editionData.item, getItemByPathIn(aNavigationConfiguration, expectedPath), 'Item should be correctly provided')
     assert.deepEqual(editionData.itemPath, expectedPath, 'Item path should be correctly provided')
     // navigation items are identical to conf but add the title (as dialog doesn't receive dynamic modules)
@@ -276,9 +345,9 @@ describe('[Menu] Testing NavigationArrayFieldRender', () => {
 
     // check what was published as new field value
     assert.isOk(spiedChangeFieldValue, 'Change field should have been called')
-    // chec the section is now at path [4,0] in field value
+    // check the section or the link is now at path [4,0] in field value
     const newItemPath = getItemPathIn(spiedChangeFieldValue, editedItem) // only type and ID are important to retrieve item
-    assert.deepEqual(newItemPath, insertAtPath, 'Section should be moved at new path')
+    assert.deepEqual(newItemPath, insertAtPath, 'Section or Link should be moved at new path')
     // get the full new item and check value
     const afterEditionItem = getItemByPathIn(spiedChangeFieldValue, newItemPath)
     assert.deepEqual(afterEditionItem.title, { en: 'edited-en', fr: 'edited-fr' }, 'Title should be correctly reported in new item')

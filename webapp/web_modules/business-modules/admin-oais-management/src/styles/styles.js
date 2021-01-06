@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
-const aipManagementStyles = theme => ({
+const aipManagementStyles = (theme) => ({
   import: {
     errorColor: theme.formsExtensions.validation.errorColor,
     validColor: theme.formsExtensions.validation.validColor,
@@ -143,6 +143,9 @@ const aipManagementStyles = theme => ({
         marginBottom: 5,
       },
     },
+    gotoSubmission: {
+      marginLeft: 20,
+    },
   },
   switchButton: {
     color: theme.palette.accent1Color,
@@ -180,6 +183,34 @@ const aipManagementStyles = theme => ({
     flexDirection: 'row',
     justifyContent: 'center',
     marginTop: '10px',
+  },
+  requests: {
+    status: {
+      common: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
+      waitingAction: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: theme.palette.accent1Color,
+        animation: 'shake 3s infinite',
+        cursor: 'pointer',
+      },
+      action: {
+        marginLeft: 10,
+      },
+    },
+    selectionDialog: {
+      headerMessage: {
+        // fontSize: theme.raisedButton.fontSize,
+        color: theme.palette.secondaryTextColor,
+        lineHeight: `${theme.radioButton.size}px`,
+        marginBottom: theme.radioButton.size,
+      },
+    },
   },
 })
 

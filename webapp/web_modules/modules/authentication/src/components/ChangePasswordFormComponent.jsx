@@ -115,8 +115,8 @@ export class ChangePasswordFormComponent extends React.Component {
               />
               {onCancel
                 ? <RaisedButton
-                  label={formatMessage({ id: 'reset.password.update.cancel' })}
-                  onClick={onCancel}
+                    label={formatMessage({ id: 'reset.password.update.cancel' })}
+                    onClick={onCancel}
                 /> : null}
             </CardActions>
           </Card>
@@ -125,7 +125,6 @@ export class ChangePasswordFormComponent extends React.Component {
     )
   }
 }
-
 
 function validate(values) {
   const errors = {}

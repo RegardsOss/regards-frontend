@@ -120,7 +120,6 @@ export class ConnectionFormComponent extends React.Component {
     this.props.initialize(initialValues)
   }
 
-
   render() {
     const {
       pluginMetaDataList, pristine, submitting, invalid, backUrl,

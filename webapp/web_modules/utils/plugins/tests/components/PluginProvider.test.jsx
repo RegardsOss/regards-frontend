@@ -22,7 +22,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { PluginConfiguration } from '@regardsoss/api'
-import TestSuiteHelpers from '@regardsoss/tests-helpers/src/TestSuiteHelpers'
 import PluginLoader from '../../src/containers/PluginLoader'
 import { PluginProvider } from '../../src/containers/PluginProvider'
 
@@ -172,8 +171,8 @@ describe('[PLUGINS] Testing PluginProvider', () => {
     const enzymeWrapper = shallow(<PluginProvider {...props} />, { context })
 
     function expectDisplaying({ error, loading }, cycleMessage, pluginDefinition) {
-      const loadingWrapper = enzymeWrapper.findWhere(n => n.props().id === 'loading.div')
-      const errorWrapper = enzymeWrapper.findWhere(n => n.props().id === 'error.div')
+      const loadingWrapper = enzymeWrapper.findWhere((n) => n.props().id === 'loading.div')
+      const errorWrapper = enzymeWrapper.findWhere((n) => n.props().id === 'error.div')
       const childWrapper = enzymeWrapper.find(PluginLoader)
       if (error) {
         assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)
@@ -187,7 +186,7 @@ describe('[PLUGINS] Testing PluginProvider', () => {
         assert.lengthOf(loadingWrapper, 0, `Loading should be hidden ${cycleMessage}`)
         assert.lengthOf(errorWrapper, 0, `Error should be hidden ${cycleMessage}`)
         assert.lengthOf(childWrapper, 1, `Child plugin loader should be displayed ${cycleMessage}`)
-        TestSuiteHelpers.assertWrapperProperties(childWrapper, {
+        testSuiteHelpers.assertWrapperProperties(childWrapper, {
           pluginInstanceId: props.pluginInstanceId,
           pluginName: pluginDefinition.content.name,
           pluginPath: pluginDefinition.content.sourcePath,

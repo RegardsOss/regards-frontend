@@ -21,13 +21,15 @@ import isFinite from 'lodash/isFinite'
 import Card from 'material-ui/Card/Card'
 import CardText from 'material-ui/Card/CardText'
 import isEqual from 'lodash/isEqual'
+import find from 'lodash/find'
 import ImageOff from 'mdi-material-ui/ImageOff'
 import { CommonDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ShowableAtRender } from '@regardsoss/display-control'
-import { ThumbnailHelper } from '@regardsoss/domain/ui'
+import { ZoomedPictureDialog } from '@regardsoss/components'
+import { QuicklookHelper } from '@regardsoss/domain/ui'
 import OneElementServicesContainer from '../../../../../containers/user/tabs/results/common/options/OneElementServicesContainer'
 import AddElementToCartContainer from '../../../../../containers/user/tabs/results/common/options/AddElementToCartContainer'
 import QuicklookCellAttributesComponent from './QuicklookCellAttributesComponent'
@@ -52,12 +54,14 @@ export const specificCellPropertiesFields = {
   embedInMap: PropTypes.bool,
   mapThumbnailHeight: PropTypes.number,
   primaryQuicklookGroup: PropTypes.string.isRequired,
+  // Product selection management
+  selectedProducts: PropTypes.arrayOf(PropTypes.object),
+  onProductSelected: PropTypes.func.isRequired,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
   // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
   // consumed by this component
 }
-
 
 /**
  * Specific cell properties, ie properties not provided by the infinite gallery
@@ -72,10 +76,14 @@ export const SpecificCellProperties = PropTypes.shape({
 class QuicklookCellComponent extends React.PureComponent {
   static propTypes = {
     // from quicklook API
-    top: PropTypes.number,
-    left: PropTypes.number,
-    width: PropTypes.number,
-    gridWidth: PropTypes.number,
+    // eslint-disable-next-line react/no-unused-prop-types
+    top: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    left: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    width: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
+    // eslint-disable-next-line react/no-unused-prop-types
+    gridWidth: PropTypes.number, // eslint wont fix: rule issue, used in onPropertiesChanged
     entity: AccessShapes.EntityWithServices.isRequired, // Entity to display
     // specific cell properties
     ...specificCellPropertiesFields,
@@ -92,6 +100,8 @@ class QuicklookCellComponent extends React.PureComponent {
 
   static EXPECTED_ATTRIBUTES_PADDING = 20
 
+  static OPTIONS_BAR_RESERVED_WIDTH = 34
+
   /**
    * Can picture file as parameter be displayed as quicklook
    * @param {*} pictureFile picture file, matching DataManagementShapes.DataFile
@@ -102,31 +112,72 @@ class QuicklookCellComponent extends React.PureComponent {
   }
 
   /**
-   * Computes the picture to show in entity as parameter (avoids returning pictures with missing dimensions)
+   * Picks a group of quicklooks to use for default and zoomed picture. It works as following:
+   * - (A) when there is a primary group, prefer it (if it has at least one valid picture)
+   * - (B) otherwise, prefer any group with a valid picture of SD type, then MD type, then HD type (see Quicklook order preference)
+   * - (C) When no group with picture was found, return null
+   * To search for best matching group (B), we introduce the precedence index, that is expressed as the index of QL type in preference
+   * array, except for primary group that has highest precedence (with lowest value, set at -1)
+   * @param groups {*} as an array of UIShapes.QuicklookDefinition (holding only valid picture files in context)
+   * @return {*} found group matching UIShapes.QuicklookDefinition or null
+   */
+  static getQLGroup(groups) {
+    // Precedence algorithm: see method comment
+    const { fg: foundGroup = null } = groups.reduce(({ fg, precedence }, g) => {
+      // find available pic index in group
+      const validPicIndex = QuicklookHelper.QUICKLOOK_FALLBACK_PREFERENCE[CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD].findIndex((qlType) => !!g[qlType])
+      if (validPicIndex >= 0) {
+        // (A) is it primary group?
+        if (g.primary) { // (A) Yes: highest precedence (lowest value)
+          return { fg: g, precedence: -1 }
+        }
+        // (B): Is it a better match than previously found group?
+        if (validPicIndex < precedence) {
+          return { fg: g, precedence: validPicIndex }
+        }
+      }
+      // other cases (lower precedence (B) or no picture (C)): keep previous value unchanged
+      return { fg, precedence }
+    }, { fg: null, precedence: Number.POSITIVE_INFINITY })
+    return foundGroup
+  }
+
+  /**
+   * Computes the pictures to show as default and when zoomed (HD) in entity as parameter:
+   * Returns default picture to show in defaultPic field and picture to show on zoom in zoomPic.
+   * It ensure that picture displayed:
+   * - Has dimensions, in quicklooks mode
+   * - Is available for download
    * @param {*} entity matching AccessShapes.EntityWithServices.isRequired
    * @param {string} primaryQuicklookGroup primary quicklook group key, from UI settings
    * @param {string} accessToken user access token
    * @param {string} projectName current project name
    * @param {boolean} embedInMap is embed in map?
-   * @return {*} picture to show, matching DataManagementShapes.DataFile, with valid dimensions or null
+   * @return {{defaultPic: *, zoomPic: *}} pictures to show in default and zoom modes, matching DataManagementShapes.DataFile, or null if none
    */
-  static getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap) {
-    // build groups with fallback (nota: when embed in map, dimensions are not mandatory)
+  static getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap) {
+    // A - build groups with fallback, removing any invalid picture for current context (nota: when in QL view, dimensions are mandatory, but not in map view)
     const isValidPicture = embedInMap ? DamDomain.DataFileController.isAvailableNow : QuicklookCellComponent.canDisplayAsQuicklook
     const groups = UIDomain.QuicklookHelper.getQuicklooksIn(entity, primaryQuicklookGroup, accessToken, projectName, isValidPicture)
-    // 1 - Use thumbnail quicklook fallback system to compute the quicklook to use (primary group first, if it
-    // exists, then smaller dimension first)
-    const preferredQuicklook = ThumbnailHelper.getQuicklookFallback(groups)
-    if (preferredQuicklook) {
-      return preferredQuicklook // found: return immeditaly
+    const qlGroup = QuicklookCellComponent.getQLGroup(groups)
+    // A - If there a group was found, use its files as default and zoom pictures
+    if (qlGroup) {
+      return {
+        defaultPic: QuicklookHelper.getQLDimensionOrFallback(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_SD, qlGroup),
+        zoomPic: QuicklookHelper.getQLDimensionOrFallback(CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_HD, qlGroup),
+      }
     }
-    // 2 - Attempt to replace by a thumbnail with dimensions when not found
-    return ThumbnailHelper.getThumbnail(
+    // B - No quicklook was found for current entity / view mode, attempt to replace it by thumbnail when available
+    const thumbnailPic = UIDomain.ThumbnailHelper.getThumbnail(
       get(entity, `content.files.${CommonDomain.DATA_TYPES_ENUM.THUMBNAIL}`), accessToken, projectName, isValidPicture)
+    return {
+      defaultPic: thumbnailPic,
+      zoomPic: thumbnailPic,
+    }
   }
 
   /** Used by Infinite gallery API */
-  static getColumnSpanFromProps = props => 1
+  static getColumnSpanFromProps = (props) => 1
 
   /**
    * Used by Infinite gallery API
@@ -149,18 +200,18 @@ class QuicklookCellComponent extends React.PureComponent {
       + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
     }
     // Get quicklook to display
-    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
+    const { defaultPic } = QuicklookCellComponent.getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
 
     // A - There is a valid picture OR quicklook is embedded in map (map quicklooks have constant height)
-    if (image || embedInMap) {
+    if (defaultPic || embedInMap) {
       let imageHeight
       if (embedInMap) {
         // A.1 - in map mode, use thumbnail height directly
         imageHeight = mapThumbnailHeight
       } else {
         // A.2 - in default mode, compute height to preserve picture ratio
-        const height = image.imageHeight
-        const width = image.imageWidth
+        const height = defaultPic.imageHeight
+        const width = defaultPic.imageWidth
         // A.2.a - When width is smaller than effective gridwidth, allow full height
         if (gridWidth >= width) {
           imageHeight = height
@@ -174,24 +225,23 @@ class QuicklookCellComponent extends React.PureComponent {
     return (gridWidth * 7 / 10) + footerHeight + 15
   }
 
-  static OPTIONS_BAR_RESERVED_WIDTH = 34
-
   /** State holds dynamic styles, to avoid building them at render time */
   state = {
     cardStyle: null,
     iconStyle: null,
+    zoomOpen: false,
   }
 
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
    /**
     * Properties change detected: update local state
@@ -201,8 +251,9 @@ class QuicklookCellComponent extends React.PureComponent {
    onPropertiesUpdated = (oldProps, newProps) => {
      const nextState = { ...this.state }
      const {
-       left, top, width, gridWidth,
+       left, top, width, gridWidth, selectedProducts, entity, embedInMap,
      } = newProps
+     const { muiTheme } = this.context
      if (!isEqual(left, oldProps.left) || !isEqual(top, oldProps.top) || !isEqual(width, oldProps.width)) {
        nextState.cardStyle = {
          position: 'absolute',
@@ -223,6 +274,15 @@ class QuicklookCellComponent extends React.PureComponent {
        }
      }
 
+     if (!isEqual(selectedProducts, oldProps.selectedProducts) && embedInMap) {
+       nextState.cardStyle = {
+         ...nextState.cardStyle,
+         backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
+           ? muiTheme.module.searchResults.map.quicklooks.selectedColor
+           : 'transparent',
+       }
+     }
+
      if (!isEqual(nextState, this.state)) {
        this.setState(nextState)
      }
@@ -236,10 +296,34 @@ class QuicklookCellComponent extends React.PureComponent {
     onShowDescription(entity)
   }
 
-  render() {
+  /** User callback: open zoom view on quicklook */
+  onOpenZoom = () => this.setState({ zoomOpen: true })
+
+  /** User callback: close zoom view */
+  onCloseZoom = () => this.setState({ zoomOpen: false })
+
+  isProductSelected = (selectedProducts, productId) => find(selectedProducts, (selectedProduct) => (selectedProduct.id === productId))
+
+  onImageClicked = () => {
     const {
-      cardStyle, iconStyle,
-    } = this.state
+      onProductSelected, selectedProducts, embedInMap, entity,
+    } = this.props
+    // Handle product selection in map view
+    if (embedInMap) {
+      const entityContent = entity.content
+      const selectedProduct = {
+        id: entityContent.id,
+        label: entityContent.label,
+      }
+      // Handle second click on selectedProduct -> remove selection
+      const shouldRemove = this.isProductSelected(selectedProducts, entityContent.id)
+      onProductSelected(shouldRemove, selectedProduct)
+    } else {
+      this.onOpenZoom()
+    }
+  }
+
+  render() {
     const {
       tabType, entity, presentationModels,
       enableDownload, accessToken, projectName,
@@ -248,11 +332,15 @@ class QuicklookCellComponent extends React.PureComponent {
       primaryQuicklookGroup,
       embedInMap, locale,
     } = this.props
+    const { cardStyle, iconStyle, zoomOpen } = this.state
     const {
-      quicklookViewStyles,
-      mapViewStyles: { quicklookImage },
-
-    } = this.context.moduleTheme.user
+      intl: { formatMessage },
+      moduleTheme: {
+        user: {
+          quicklookViewStyles, mapViewStyles: { quicklookImage },
+        },
+      },
+    } = this.context
 
     const {
       imageStyle, cardContentContainer, quicklookContainerStyle,
@@ -261,84 +349,90 @@ class QuicklookCellComponent extends React.PureComponent {
     } = quicklookViewStyles
     // select the actual image style
     const actualImageStyle = embedInMap ? quicklookImage : imageStyle
+    const { defaultPic, zoomPic } = QuicklookCellComponent.getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
 
-    const image = QuicklookCellComponent.getPictureToShow(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
     return (
-      <Card
-        style={cardStyle}
-        containerStyle={cardContentContainer}
-      >
-        { /** 1 - render vertically the picture and attributes */ }
-        <div style={pictureAndAttributesContainer}>
-          {/* 1.a - picture */}
-          <div style={image ? quicklookContainerStyle : null}>
-            { /** Swap picture or missing icon, depending on the case */
-              image ? (
-                <img
-                  src={image.uri}
-                  alt=""
-                  style={actualImageStyle}
-                  onClick={descriptionAvailable ? this.onShowDescription : null}
-                />)
-                : <ImageOff style={iconStyle} />
-            }
+      <>
+        <Card
+          style={cardStyle}
+          containerStyle={cardContentContainer}
+        >
+          { /** 1 - render vertically the picture and attributes */ }
+          <div style={pictureAndAttributesContainer}>
+            {/* 1.a - picture */}
+            <div style={defaultPic ? quicklookContainerStyle : null}>
+              {
+               defaultPic ? (
+                 <img
+                   src={defaultPic.uri}
+                   alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
+                   style={actualImageStyle}
+                   onClick={this.onImageClicked}
+                 />)
+                 : <ImageOff style={iconStyle} />
+             }
+            </div>
+            {/* 1.b - Render attributes */}
+            <ShowableAtRender
+              show={presentationModels.length > 0}
+              key="desc"
+            >
+              <CardText style={attributesContainer}>
+                <QuicklookCellAttributesComponent
+                  presentationModels={presentationModels}
+                  entity={entity}
+                  locale={locale}
+                />
+              </CardText>
+            </ShowableAtRender>
           </div>
-          {/* 1.b - Render attributes */}
-          <ShowableAtRender
-            show={presentationModels.length > 0}
-            key="desc"
-          >
-            <CardText style={attributesContainer}>
-              <QuicklookCellAttributesComponent
-                presentationModels={presentationModels}
+          { /** 2 - Render options bar on right */ }
+          <div style={optionsBarStyles}>
+            {/* 2.a - Description  */}
+            <ShowableAtRender show={descriptionAvailable}>
+              <EntityDescriptionComponent
                 entity={entity}
-                locale={locale}
+                onShowDescription={this.onShowDescription}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
               />
-            </CardText>
-          </ShowableAtRender>
-        </div>
-        { /** 2 - Render options bar on right */ }
-        <div style={optionsBarStyles}>
-          {/* 2.a - Description  */}
-          <ShowableAtRender show={descriptionAvailable}>
-            <EntityDescriptionComponent
-              entity={entity}
-              onShowDescription={this.onShowDescription}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />
-          </ShowableAtRender>
-          {/* 2.b - services, when enabled */}
-          <ShowableAtRender show={enableServices && get(entity, 'content.services.length', 0) > 0}>
-            <OneElementServicesContainer
-              tabType={tabType}
-              entity={entity}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />
-          </ShowableAtRender>
-          {/* 2.c - add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
-          { onAddElementToCart ? (
-            <AddElementToCartContainer
-              entity={entity}
-              onAddElementToCart={onAddElementToCart}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-            />) : null
-            }
-          {/* 2.d - Download, when available. Like below, due to props, we can't use a showable at render */}
-          <ShowableAtRender show={enableDownload}>
-            <DownloadEntityFileComponent
-              entity={entity}
-              style={option.buttonStyles}
-              iconStyle={option.iconStyles}
-              accessToken={accessToken}
-              projectName={projectName}
-            />
-          </ShowableAtRender>
-        </div>
-      </Card>
-    )
+            </ShowableAtRender>
+            {/* 2.b - services, when enabled */}
+            <ShowableAtRender show={enableServices && get(entity, 'content.services.length', 0) > 0}>
+              <OneElementServicesContainer
+                tabType={tabType}
+                entity={entity}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
+              />
+            </ShowableAtRender>
+            {/* 2.c - add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
+            { onAddElementToCart ? (
+              <AddElementToCartContainer
+                entity={entity}
+                onAddElementToCart={onAddElementToCart}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
+              />) : null}
+            {/* 2.d - Download, when available. Like below, due to props, we can't use a showable at render */}
+            <ShowableAtRender show={enableDownload}>
+              <DownloadEntityFileComponent
+                entity={entity}
+                style={option.buttonStyles}
+                iconStyle={option.iconStyles}
+                accessToken={accessToken}
+                projectName={projectName}
+              />
+            </ShowableAtRender>
+          </div>
+        </Card>
+        <ZoomedPictureDialog
+          picURL={zoomPic ? zoomPic.uri : null}
+          alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
+          open={zoomOpen}
+          onClose={this.onCloseZoom}
+        />
+      </>)
   }
 }
 

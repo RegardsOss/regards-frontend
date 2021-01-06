@@ -25,10 +25,15 @@ const DataObjectShape = PropTypes.shape({
 })
 
 const PdiShape = PropTypes.shape({
+  // eslint-disable-next-line react/forbid-prop-types
   contextInformation: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   referenceInformation: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   provenanceInformation: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   fixityInformation: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
   accessRightInformation: PropTypes.object,
 })
 
@@ -45,6 +50,7 @@ const ContentInformation = PropTypes.shape({
 const PropertiesShape = PropTypes.shape({
   contentInformations: PropTypes.arrayOf(ContentInformation),
   pdi: PdiShape,
+  // eslint-disable-next-line react/forbid-prop-types
   descriptiveInformation: PropTypes.object,
 })
 

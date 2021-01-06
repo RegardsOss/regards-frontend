@@ -37,7 +37,7 @@ describe('[OAIS AIP MANAGEMENT] Testing RequestTypeRenderCell', () => {
   it('should exists', () => {
     assert.isDefined(RequestTypeRenderCell)
   })
-  IngestDomain.AIP_REQUEST_TYPES.forEach(type => it(`should render correctly with type ${type}`, () => {
+  IngestDomain.AIP_REQUEST_TYPES.forEach((type) => it(`should render correctly with type ${type}`, () => {
     const props = {
       value: type,
     }

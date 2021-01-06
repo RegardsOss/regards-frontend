@@ -35,7 +35,6 @@ describe('[ADMIN BOARD DATA ACCESS] Testing dataaccess board router', () => {
     expect(Routes.childRoutes[2].path).to.eq('searchengines')
   })
 
-
   it('should return BoardContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

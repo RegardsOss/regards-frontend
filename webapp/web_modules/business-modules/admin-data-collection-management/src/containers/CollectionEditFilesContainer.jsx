@@ -44,8 +44,8 @@ export class CollectionEditFilesContainer extends React.Component {
     currentCollection: collectionSelectors.getById(state, ownProps.params.collectionId),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchCollection: id => dispatch(collectionActions.fetchEntity(id)),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchCollection: (id) => dispatch(collectionActions.fetchEntity(id)),
     updateCollection: (id, entity) => dispatch(collectionActions.updateEntity(id, entity)),
   })
 
@@ -92,7 +92,6 @@ export class CollectionEditFilesContainer extends React.Component {
     this.props.updateCollection(this.props.params.collectionId, entity)
   }
 
-
   render() {
     const { isLoading } = this.state
     return (
@@ -106,6 +105,5 @@ export class CollectionEditFilesContainer extends React.Component {
     )
   }
 }
-
 
 export default connect(CollectionEditFilesContainer.mapStateToProps, CollectionEditFilesContainer.mapDispatchToProps)(CollectionEditFilesContainer)

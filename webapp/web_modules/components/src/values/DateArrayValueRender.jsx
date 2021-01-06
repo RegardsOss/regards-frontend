@@ -46,13 +46,12 @@ class DateArrayValueRender extends React.Component {
     ...themeContextType,
   }
 
-
   render() {
     const value = this.props.value || []
     const { multilineDisplay, formatter } = this.props
     const { intl: { formatMessage }, moduleTheme: { textRenderCell, multilineTextRenderCell } } = this.context
     const noValueText = formatMessage({ id: 'value.render.no.value.label' })
-    const textValue = value.map(dateText => DateValueRender.getFormattedDate(dateText, formatter, formatMessage) || noValueText)
+    const textValue = value.map((dateText) => DateValueRender.getFormattedDate(dateText, formatter, formatMessage) || noValueText)
       .join(formatMessage({ id: 'value.render.array.values.separator' })) || noValueText
 
     return (

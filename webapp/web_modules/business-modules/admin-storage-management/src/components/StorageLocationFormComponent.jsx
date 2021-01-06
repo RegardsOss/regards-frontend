@@ -28,7 +28,7 @@ import {
 } from 'material-ui/Card'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
-import { CardActionsComponent, NoContentComponent } from '@regardsoss/components'
+import { CardActionsComponent, NoContentComponent, HelpMessageComponent } from '@regardsoss/components'
 import {
   RenderTextField, reduxForm, Field, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -43,13 +43,13 @@ import styles from '../styles'
 * Component to create/edit/diplicate a storage location plugin configuration
 * @author Sébastien Binda
 */
-const validateName = value => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
+const validateName = (value) => value && !/^[a-zA-Z0-9_-]+$/g.test(value)
   ? 'invalid.name.expression' : undefined
 
 class StorageLocationFormComponent extends React.Component {
   static propTypes = {
     mode: PropTypes.string.isRequired,
-    entity: StorageShapes.StorageMonitoring,
+    entity: StorageShapes.StorageLocation,
     backUrl: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onCreate: PropTypes.func.isRequired,
@@ -60,11 +60,25 @@ class StorageLocationFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
   }
 
-  static kbUnit = storage.StorageUnitScale.getMatchingUnit('kB')
-
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  static kbUnit = storage.StorageUnitScale.getMatchingUnit('kB')
+
+  static SIZE_AND_UNIT_CONTAINER = {
+    display: 'flex',
+    alignItems: 'center',
+  }
+
+  static UNITS_STYLE = {
+    marginTop: '8px',
+  }
+
+  static PLUGIN_CONTAINER = {
+    marginTop: 24,
+    marginLeft: -24,
   }
 
   state = {
@@ -161,13 +175,12 @@ class StorageLocationFormComponent extends React.Component {
 
   renderUnits = () => (
     <DropDownMenu value={this.state.unit} onChange={this.changeUnit}>
-      {map(storage.StorageUnitScale.bytesScale.units.slice(2), u => <MenuItem
+      {map(storage.StorageUnitScale.bytesScale.units.slice(2), (u) => <MenuItem
         key={u.symbol}
         value={u}
         primaryText={<storage.FormattedStorageUnit unit={u} />}
       />,
-      )
-    }
+      )}
     </DropDownMenu>
   )
 
@@ -175,8 +188,6 @@ class StorageLocationFormComponent extends React.Component {
     const { mode, entity } = this.props
     const { intl: { formatMessage } } = this.context
     const pluginType = StorageDomain.PluginTypeEnum.STORAGE
-    const allocatedSizeStyle = { width: '120px' }
-    const unitsStyle = { display: 'inline-block', marginTop: '8px' }
     if (mode !== 'create' && !entity) {
       return (
         <NoContentComponent
@@ -186,7 +197,7 @@ class StorageLocationFormComponent extends React.Component {
       )
     }
     return (
-      <div>
+      <>
         <Field
           name="name"
           fullWidth
@@ -197,30 +208,33 @@ class StorageLocationFormComponent extends React.Component {
           validate={validateName}
           disabled={mode !== 'create'}
         />
-        <div>
+        <div style={StorageLocationFormComponent.SIZE_AND_UNIT_CONTAINER}>
           <Field
             name="allocatedSize"
             component={RenderTextField}
+            fullWidth
             label={formatMessage({ id: 'storage.location.form.allocated-size.label' })}
             validate={ValidationHelpers.javaDoubleValidator}
-            style={allocatedSizeStyle}
+            style={StorageLocationFormComponent.ALLOCATED_SIZE_STYLE}
           />
-          <div style={unitsStyle}>
+          <div style={StorageLocationFormComponent.UNITS_STYLE}>
             {this.renderUnits()}
           </div>
         </div>
-        <Field
-          key="storagePlugin"
-          name="pluginConfiguration"
-          component={RenderPluginField}
-          defaultPluginConfLabel={get(entity, 'content.name')}
-          selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
-          pluginType={pluginType}
-          microserviceName={STATIC_CONF.MSERVICES.STORAGE}
-          hideDynamicParameterConf
-          hideGlobalParameterConf
-        />
-      </div>
+        <div style={StorageLocationFormComponent.PLUGIN_CONTAINER}>
+          <Field
+            key="storagePlugin"
+            name="pluginConfiguration"
+            component={RenderPluginField}
+            defaultPluginConfLabel={get(entity, 'content.name')}
+            selectLabel={formatMessage({ id: 'storage.location.form.plugin.label' })}
+            pluginType={pluginType}
+            microserviceName={STATIC_CONF.MSERVICES.STORAGE}
+            hideDynamicParameterConf
+            hideGlobalParameterConf
+          />
+        </div>
+      </>
     )
   }
 
@@ -253,6 +267,7 @@ class StorageLocationFormComponent extends React.Component {
         />
         <form onSubmit={handleSubmit(onSubmitAction)}>
           <CardText style={moduleTheme.root}>
+            <HelpMessageComponent message={formatMessage({ id: 'storage.location.form.help-message' })} />
             {this.renderContent()}
           </CardText>
           <CardActions>

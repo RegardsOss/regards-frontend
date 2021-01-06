@@ -24,7 +24,6 @@ import { AccessShapes, DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import ModuleConfiguration from '../shapes/ModuleConfiguration'
 import { INITIAL_FORM_STATE } from '../domain/form/InitialFormState'
 import { FORM_SECTIONS_ENUM } from '../domain/form/FormSectionsEnum'
 import { FORM_PAGES_ENUM } from '../domain/form/FormPagesEnum'
@@ -42,6 +41,21 @@ import MainFormComponent from '../components/admin/MainFormComponent'
  * @author Léo Mieulet
  */
 export class AdminContainer extends React.Component {
+  static propTypes = {
+    // default module properties
+    ...AccessShapes.runtimeConfigurationModuleFields,
+    // Set by mapStateToProps
+    datasets: DataManagementShapes.DatasetList.isRequired,
+    datasetModels: DataManagementShapes.ModelList.isRequired,
+    dataAttributeModels: DataManagementShapes.AttributeModelList,
+    datasetAttributeModels: DataManagementShapes.AttributeModelList,
+    // Set by mapDispatchToProps
+    fetchDatasets: PropTypes.func.isRequired,
+    fetchDatasetModels: PropTypes.func.isRequired,
+    fetchDataObjectAttributes: PropTypes.func.isRequired,
+    fetchDataSetAttributes: PropTypes.func.isRequired,
+  }
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -73,23 +87,6 @@ export class AdminContainer extends React.Component {
       fetchDataObjectAttributes: (modelNames, datasetIds) => dispatch(dataObjectAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
       fetchDataSetAttributes: (modelNames, datasetIds) => dispatch(dataSetAttributesActions.fetchPagedEntityListByPost(0, 10000, null, null, { modelNames, datasetIds })),
     }
-  }
-
-  static propTypes = {
-    // default module properties
-    ...AccessShapes.runtimeConfigurationModuleFields,
-    // redefines expected configuration shape
-    moduleConf: ModuleConfiguration,
-    // Set by mapStateToProps
-    datasets: DataManagementShapes.DatasetList.isRequired,
-    datasetModels: DataManagementShapes.ModelList.isRequired,
-    dataAttributeModels: DataManagementShapes.AttributeModelList,
-    datasetAttributeModels: DataManagementShapes.AttributeModelList,
-    // Set by mapDispatchToProps
-    fetchDatasets: PropTypes.func.isRequired,
-    fetchDatasetModels: PropTypes.func.isRequired,
-    fetchDataObjectAttributes: PropTypes.func.isRequired,
-    fetchDataSetAttributes: PropTypes.func.isRequired,
   }
 
   /**
@@ -140,15 +137,15 @@ export class AdminContainer extends React.Component {
           type: FORM_PAGES_ENUM.MAIN,
           selected: false,
         }],
-      }, ...newViewsData.filter(viewsGroup => viewsGroup.enabled) // keep only enabled views groups
-        .map(viewsGroup => ({
+      }, ...newViewsData.filter((viewsGroup) => viewsGroup.enabled) // keep only enabled views groups
+        .map((viewsGroup) => ({
           type: viewsGroup.type,
-          pages: PAGES_BY_TYPE[viewsGroup.type].map(type => ({
+          pages: PAGES_BY_TYPE[viewsGroup.type].map((type) => ({
             type,
             selected: false,
           })),
         })),
-      ].filter(s => !!s), // remove any section not present (especially restrictions)
+      ].filter((s) => !!s), // remove any section not present (especially restrictions)
       // report selected elements
       selectedSectionType: FORM_SECTIONS_ENUM.MAIN,
       selectedPageType: FORM_PAGES_ENUM.MAIN,
@@ -189,7 +186,7 @@ export class AdminContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -216,13 +213,13 @@ export class AdminContainer extends React.Component {
       // ... If the dataset restrictions changed, or at initialization, update locally available attributes
       // a - recover current restrictions from form values (or default ones)
       const datasetRescriction = get(form, `${currentNamespace}.restrictions.byDataset`, {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
         selection: [],
       })
       // b - recover previous restrictions (or default ones)
       const oldAdminForm = get(oldProps, 'adminForm', {})
       const oldDatasetRestrictions = get(oldAdminForm, `form.${oldAdminForm.currentNamespace}.restrictions.byDataset`, {
-        type: UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE,
+        type: UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE,
         selection: [],
       })
       if (!oldProps || !isEqual(oldDatasetRestrictions, datasetRescriction)) {
@@ -242,12 +239,12 @@ export class AdminContainer extends React.Component {
 
   /**
    * Updates the list of selectable attributes on dataset restrictions change
-   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM values
+   * @param {string} datasetRestrictionType one of UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM values
    * @param {[string]} selection applying selection for restriction type
    */
-  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.NONE, selection = []) => {
-    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
-    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESCRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
+  onDatasetRestrictionsUpdate = (datasetRestrictionType = UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.NONE, selection = []) => {
+    const modelNames = datasetRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_MODELS ? selection : null
+    const datasetIds = datasetRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS ? selection : null
     return Promise.all([
       this.props.fetchDataObjectAttributes(modelNames, datasetIds),
       this.props.fetchDataSetAttributes(modelNames, datasetIds),
@@ -261,9 +258,9 @@ export class AdminContainer extends React.Component {
    */
   onBrowseToPage = (section, page) => {
     this.setState({
-      navigationSections: this.state.navigationSections.map(currentSection => ({
+      navigationSections: this.state.navigationSections.map((currentSection) => ({
         type: currentSection.type,
-        pages: currentSection.pages.map(currentPage => ({
+        pages: currentSection.pages.map((currentPage) => ({
           type: currentPage.type,
           selected: section.type === currentSection.type && page.type === currentPage.type, // update selected page
         })),
@@ -295,15 +292,12 @@ export class AdminContainer extends React.Component {
               navigationSections={navigationSections}
               selectedSectionType={selectedSectionType}
               selectedPageType={selectedPageType}
-
               currentNamespace={currentNamespace}
               currentFormValues={get(form, currentNamespace)}
-
               datasets={datasets}
               datasetModels={datasetModels}
               dataAttributeModels={dataAttributeModels}
               datasetAttributeModels={datasetAttributeModels}
-
               changeField={changeField}
               onBrowseToPage={this.onBrowseToPage}
             />

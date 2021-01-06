@@ -19,30 +19,42 @@
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
+import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
+import { LayerConfiguration } from '../../../../../shapes/ModuleConfiguration'
 
 /**
  * Shows map in map view
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class MapComponent extends React.Component {
   static propTypes = {
     // Current results and criteria visible on map
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     displayedAreas: PropTypes.arrayOf(GeoJsonFeature).isRequired, // holds currently drawing area or currently applying area
-    // Selection mode management
+
+    // Selection mode  & view mode management
     selectionMode: PropTypes.oneOf(UIDomain.MAP_SELECTION_MODES).isRequired,
-    onSetSelectionMode: PropTypes.func.isRequired, // (mode) => ()
+    viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
+    onToggleSelectionMode: PropTypes.func.isRequired,
+    onToggleViewMode: PropTypes.func.isRequired,
+
     // drawing selection management
     onDrawingSelectionUpdated: PropTypes.func.isRequired,
     onDrawingSelectionDone: PropTypes.func.isRequired,
     // Direct features selection management
     onFeaturesPicked: PropTypes.func.isRequired, // ([entities] => ())
-    // Map background
-    backgroundLayerURL: PropTypes.string.isRequired,
-    backgroundLayerType: PropTypes.oneOf(UIDomain.MIZAR_LAYER_TYPES).isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    backgroundLayerConf: PropTypes.object,
+
+    // Map layers
+    layers: PropTypes.arrayOf(LayerConfiguration).isRequired,
+
+    // Engine name
+    mapEngine: PropTypes.oneOf(UIDomain.MAP_ENGINE).isRequired,
+
+    // product selection management
+    selectedProducts: PropTypes.arrayOf(PropTypes.object),
+    onProductSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -50,48 +62,61 @@ class MapComponent extends React.Component {
   }
 
   state = {
-    staticLayerOpacity: 1,
+    customLayersOpacity: 1,
   }
 
-  handleChangeOpacity = (staticLayerOpacity) => {
+  handleChangeOpacity = (customLayersOpacity) => {
     this.setState({
-      staticLayerOpacity,
+      customLayersOpacity,
     })
   }
 
   render() {
     const {
-      featuresCollection, displayedAreas,
-      selectionMode, onSetSelectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
-      onFeaturesPicked, backgroundLayerURL, backgroundLayerType, backgroundLayerConf,
+      featuresCollection, displayedAreas, mapEngine,
+      selectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
+      viewMode, onToggleSelectionMode, onToggleViewMode,
+      onFeaturesPicked, layers,
+      selectedProducts, onProductSelected,
     } = this.props
-    const { staticLayerOpacity } = this.state
+    const { customLayersOpacity } = this.state
 
-    const { featureColor, drawColor } = this.context.muiTheme.module.searchResults.map.mizar
+    const {
+      featureColor, drawColor, selectedFeatureColor, selectedColorOutlineWidth,
+    } = this.context.muiTheme.module.searchResults.map.mizar
+    const engineProps = {
+      layers,
+      featuresCollection,
+      drawnAreas: displayedAreas,
+      onDrawingSelectionUpdated,
+      onDrawingSelectionDone,
+      drawingSelection: selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE,
+      onFeaturesSelected: onFeaturesPicked,
+      featuresColor: featureColor,
+      drawColor,
+      customLayersOpacity,
+      selectedColorOutlineWidth,
+      selectedFeatureColor,
+      onProductSelected,
+      selectedProducts,
+      viewMode,
+    }
     return (
-      <React.Fragment>
+      <>
         <MapToolsComponent
+          layers={layers}
           selectionMode={selectionMode}
-          onSetSelectionMode={onSetSelectionMode}
+          viewMode={viewMode}
+          onToggleViewMode={onToggleViewMode}
+          onToggleSelectionMode={onToggleSelectionMode}
           handleChangeOpacity={this.handleChangeOpacity}
-          opacity={staticLayerOpacity}
+          opacity={customLayersOpacity}
+          selectedProducts={selectedProducts}
+          onProductSelected={onProductSelected}
         />
-        <MizarAdapter
-          key="mizarAdapter"
-          backgroundLayerUrl={backgroundLayerURL}
-          backgroundLayerType={backgroundLayerType}
-          backgroundLayerConf={backgroundLayerConf}
-          featuresCollection={featuresCollection}
-          drawnAreas={displayedAreas}
-          onDrawingSelectionUpdated={onDrawingSelectionUpdated}
-          onDrawingSelectionDone={onDrawingSelectionDone}
-          drawingSelection={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE}
-          onFeaturesSelected={onFeaturesPicked}
-          featuresColor={featureColor}
-          drawColor={drawColor}
-          staticLayerOpacity={staticLayerOpacity}
-        />
-      </React.Fragment>
+        {mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM && <CesiumProvider {...engineProps} />}
+        {mapEngine === UIDomain.MAP_ENGINE_ENUM.MIZAR && <MizarAdapter {...engineProps} />}
+      </>
     )
   }
 }

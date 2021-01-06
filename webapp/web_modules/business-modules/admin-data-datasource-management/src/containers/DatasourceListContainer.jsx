@@ -44,12 +44,12 @@ export class DatasourceListContainer extends React.Component {
     updateDatasource: PropTypes.func,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchDatasourceList()
   }
 
   onToggleState = (datasource) => {
-    const updatedDatasource = Object.assign({}, datasource)
+    const updatedDatasource = { ...datasource }
     updatedDatasource.content.active = !updatedDatasource.content.active
     this.props.updateDatasource(updatedDatasource.content.businessId, updatedDatasource.content)
   }
@@ -63,7 +63,6 @@ export class DatasourceListContainer extends React.Component {
     const { params: { project } } = this.props
     return `/admin/${project}/data/acquisition/board`
   }
-
 
   /**
    * Redirect the user to the corresponding page
@@ -113,9 +112,9 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: datasourceSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchDatasourceList: () => dispatch(datasourceActions.fetchEntityList()),
-  deleteDatasource: id => dispatch(datasourceActions.deleteEntity(id)),
+  deleteDatasource: (id) => dispatch(datasourceActions.deleteEntity(id)),
   updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
 })
 

@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { AdminClient } from '@regardsoss/client'
+import { AccessProjectClient } from '@regardsoss/client'
 
 const namespace = 'admin-user-projectuser-management/project-user-settings'
-export const projectUserSettingsActions = new AdminClient.ProjectUserSettingsActions(namespace)
-export const projectUserSettingsReducer = AdminClient.getProjectUserSettingsReducer(namespace)
-export const projectUserSettingsSelectors = AdminClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
+export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
+export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])

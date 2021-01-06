@@ -41,7 +41,7 @@ const requiredNumberValidator = [number, required]
 * Redux-form compatible field component to display a PluginConfiguration form.
 * @author Sébastien Binda
 */
-export class RenderPluginConfField extends React.PureComponent {
+export class RenderPluginConfField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // Name of the microservice of the plugin
     pluginMetaData: CommonShapes.PluginMetaDataContent.isRequired, // PluginMetadata used to configure new plugin configuration
@@ -70,7 +70,7 @@ export class RenderPluginConfField extends React.PureComponent {
   // All existing parameter's values are already set in their redux form slot by form initialization
   numberOfParamsConfigured = 0
 
-  getFormFieldName = fieldName => `${this.props.input.name}.${fieldName}`
+  getFormFieldName = (fieldName) => `${this.props.input.name}.${fieldName}`
 
   getFormParameterName = (name) => {
     const { input } = this.props

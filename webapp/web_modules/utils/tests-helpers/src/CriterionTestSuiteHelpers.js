@@ -38,7 +38,6 @@ export default {
     }
   },
 
-
   /**
    * @return {{engineType: string, searchParameters: *}} a minimal search context for tests
    */

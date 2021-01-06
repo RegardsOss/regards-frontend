@@ -55,7 +55,7 @@ describe('[ADMIN UI SERVICE MANAGEMENT] Testing ServiceConfigurationListComponen
       backUrl: '#',
     }
 
-    const enzymeWrapper = shallow(<ServiceConfigurationListComponent {...props} />, { context, lifecycleExperimental: true })
+    const enzymeWrapper = shallow(<ServiceConfigurationListComponent {...props} />, { context })
     expect(enzymeWrapper.find(TableRow)).to.have.length(2)
     assert.isTrue(handleDeleteSpy.notCalled, 'Not called yet')
     assert.isTrue(handleDuplicateSpy.notCalled, 'Not called yet')

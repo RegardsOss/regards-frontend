@@ -25,8 +25,10 @@ const ContainerShape = PropTypes.shape({
   id: PropTypes.string,
   type: PropTypes.string,
   classes: PropTypes.arrayOf(PropTypes.string),
+  // eslint-disable-next-line react/forbid-prop-types
   styles: PropTypes.object,
   modules: PropTypes.arrayOf(AccessShapes.ModuleWithoutContent),
+  // eslint-disable-next-line react/forbid-prop-types
   containers: PropTypes.arrayOf(PropTypes.object),
   dynamicContent: PropTypes.bool,
   mainContainer: PropTypes.bool,

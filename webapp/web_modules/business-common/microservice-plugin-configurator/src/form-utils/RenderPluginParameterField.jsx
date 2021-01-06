@@ -44,12 +44,11 @@ import { getPrimitiveJavaTypeRenderParameters, getPrimitiveJavaTypeValidators as
 import PluginFormUtils from '../tools/PluginFormUtils'
 import styles from '../styles'
 import messages from '../i18n'
-
 /**
 * Redux-form compatible field component to display a PluginParameter configurator form.
 * @author Sébastien Binda
 */
-export class RenderPluginParameterField extends React.PureComponent {
+export class RenderPluginParameterField extends React.Component {
   static propTypes = {
     microserviceName: PropTypes.string.isRequired, // microservice name of the plugin
     pluginParameterType: CommonShapes.PluginParameterType.isRequired, // Parameter definition to configure
@@ -73,6 +72,10 @@ export class RenderPluginParameterField extends React.PureComponent {
 
   static wrapperPreserveWhitespace = {
     whiteSpace: 'pre-wrap',
+  }
+
+  static FULLWIDTH = {
+    width: '100%',
   }
 
   static getFieldValidators(pluginParameterType) {
@@ -116,7 +119,7 @@ export class RenderPluginParameterField extends React.PureComponent {
     descriptionOpened: false,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     // Format plugin parameter conf for initialization with the given metadatas
     const { pluginParameterType, complexParameter, input: { value, onChange } } = this.props
     const formatedParam = complexParameter ? PluginFormUtils.formatPluginParameterConf(value, pluginParameterType, true) : value
@@ -152,6 +155,7 @@ export class RenderPluginParameterField extends React.PureComponent {
           component={RenderRadio}
           disabled={this.props.disabled}
           defaultSelected={false}
+          fullWidth
         >
           <RadioButton value={false} label={formatMessage({ id: 'plugin.parameter.static.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
           <RadioButton value label={formatMessage({ id: 'plugin.parameter.dynamic.field' })} labelStyle={dynamicParameter.toggle.labelStyle} />
@@ -200,7 +204,7 @@ export class RenderPluginParameterField extends React.PureComponent {
       parameterElements.push(this.renderDescriptionDialog())
     }
     return (
-      <div>
+      <div style={RenderPluginParameterField.FULLWIDTH}>
         {header}
         <div style={dynamicParameter.layout}>
           {parameterElements}
@@ -262,8 +266,8 @@ export class RenderPluginParameterField extends React.PureComponent {
     const primitiveParameters = getPrimitiveJavaTypeRenderParameters(pluginParameterType.type)
     const parameters = {
       type: pluginParameterType.sensitive ? 'password' : primitiveParameters.type,
-      normalize: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
-      format: primitiveParameters.type === 'number' ? val => val ? parseInt(val, 10) : '' : null,
+      normalize: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
+      format: primitiveParameters.type === 'number' ? (val) => val ? parseInt(val, 10) : '' : null,
       floatingLabelText: this.props.hideDynamicParameterConf ? label : null,
       hintText: label,
       label: this.props.hideDynamicParameterConf ? label : null,
@@ -365,18 +369,18 @@ export class RenderPluginParameterField extends React.PureComponent {
     const { intl: { formatMessage } } = this.context
     const { pluginParameterType } = this.props
     const bodyStyle = pluginParameterType.markdown ? markdownDialog.bodyStyle : {}
-    const actions = [
-      <RaisedButton
-        key="close"
-        label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
-        primary
-        onClick={this.handleCloseDescription}
-      />]
     return (
       <Dialog
         key="desc-dialog"
         title={formatMessage({ id: 'plugin.parameter.description.dialog.title' }, { parameter: pluginParameterType.label })}
-        actions={actions}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'plugin.parameter.description.dialog.close' })}
+            primary
+            onClick={this.handleCloseDescription}
+          />
+        </>}
         modal
         open={this.state.descriptionOpened}
         bodyStyle={bodyStyle}
@@ -396,7 +400,6 @@ export class RenderPluginParameterField extends React.PureComponent {
       </Dialog>
     )
   }
-
 
   render() {
     const { pluginParameterType } = this.props

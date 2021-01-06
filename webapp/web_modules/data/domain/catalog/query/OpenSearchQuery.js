@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Query from '../../common/query/abstract/Query'
-
+import AttributeModelController from '../../dam/AttributeModelController'
 
 /**
  * Manages an open search query parameter as a complete query (with its own separator and such)
@@ -27,14 +27,17 @@ export default class OpenSearchQuery extends Query {
   /** Parameters separator */
   static PARAMETERS_SEPARATOR = ' AND '
 
-  /** Open search query parameter name: Entity tags */
-  static TAGS_PARAM_NAME = 'tags'
-
-  /** Open search query parameter name: Entity model */
-  static MODEL_PARAM_NAME = 'model'
-
-  /** Open search query parameter name: Entity ID */
-  static ID_PARAM_NAME = 'id'
+  /** Standard Attributes Parameter Name shortcut (avoids using DamDomain.AttributeController...) */
+  static SAPN = {
+    id: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.id).content.jsonPath,
+    providerId: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.providerId).content.jsonPath,
+    label: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.label).content.jsonPath,
+    model: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.model).content.jsonPath,
+    tags: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.tags).content.jsonPath,
+    geometry: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.geometry).content.jsonPath,
+    version: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.version).content.jsonPath,
+    last: AttributeModelController.getStandardAttributeModel(AttributeModelController.standardAttributesKeys.last).content.jsonPath,
+  }
 
   /** Open search query parameter name: Entity parent dataset model Ids */
   static DATASET_MODEL_NAMES_PARAM = 'datasetModelNames'

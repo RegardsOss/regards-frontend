@@ -48,7 +48,7 @@ export class FragmentListContainer extends React.Component {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.props.fetchFragmentList()
       .then(() => {
         this.setState({
@@ -100,13 +100,13 @@ export class FragmentListContainer extends React.Component {
     )
   }
 }
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   fragmentList: fragmentSelectors.getListWithoutNoneFragment(state),
   accessToken: authenticationSelectors.getAccessToken(state),
 })
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchFragmentList: () => dispatch(fragmentActions.fetchEntityList()),
-  deleteFragment: id => dispatch(fragmentActions.deleteEntity(id)),
+  deleteFragment: (id) => dispatch(fragmentActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(FragmentListContainer)

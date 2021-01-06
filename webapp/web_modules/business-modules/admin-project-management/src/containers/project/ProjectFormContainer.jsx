@@ -44,11 +44,8 @@ export class ProjectFormContainer extends React.Component {
     updateProject: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isEditing: props.params.project_name !== undefined,
-    }
+  state = {
+    isEditing: this.props.params.project_name !== undefined,
   }
 
   componentDidMount() {
@@ -59,7 +56,7 @@ export class ProjectFormContainer extends React.Component {
 
   getBackUrl = () => ('/admin/projects/list')
 
-  getProjectConnectionsUrl = project => (`/admin/projects/${project}/connections/guided`)
+  getProjectConnectionsUrl = (project) => (`/admin/projects/${project}/connections/guided`)
 
   getFormComponent = () => {
     if (this.state.isEditing) {
@@ -122,10 +119,10 @@ const mapStateToProps = (state, ownProps) => ({
   isFetching: projectSelectors.isFetching(state),
 })
 
-const mapDispatchToProps = dispatch => ({
-  createProject: values => dispatch(projectActions.createEntity(values)),
+const mapDispatchToProps = (dispatch) => ({
+  createProject: (values) => dispatch(projectActions.createEntity(values)),
   updateProject: (id, values) => dispatch(projectActions.updateEntity(id, values)),
-  fetchProject: projectName => dispatch(projectActions.fetchEntity(projectName)),
+  fetchProject: (projectName) => dispatch(projectActions.fetchEntity(projectName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProjectFormContainer)

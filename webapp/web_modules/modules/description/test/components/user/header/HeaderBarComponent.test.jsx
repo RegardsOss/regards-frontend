@@ -31,6 +31,7 @@ const context = buildTestContext(styles)
 /**
  * Test HeaderBarComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing HeaderBarComponent', () => {
   before(testSuiteHelpers.before)
@@ -42,8 +43,11 @@ describe('[Description] Testing HeaderBarComponent', () => {
   it('should render correctly with search option', () => {
     const props = {
       settings: {
+        showVersion: false,
         documentModels: [],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDataEntity,
       selectedEntityIndex: 0,
@@ -51,9 +55,14 @@ describe('[Description] Testing HeaderBarComponent', () => {
       allowSearching: true,
       onSelectEntityIndex: () => {},
       onSearchEntity: () => {},
+      toggleTreeButton: () => {},
     }
     const enzymeWrapper = shallow(<HeaderBarComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ToggleTreeVisibleOptionContainer), 1, 'There should be toggle tree visible option')
+    const toggleTreeContainer = enzymeWrapper.find(ToggleTreeVisibleOptionContainer)
+    assert.lengthOf(toggleTreeContainer, 1, 'There should be toggle tree visible option')
+    testSuiteHelpers.assertWrapperProperties(toggleTreeContainer, {
+      toggleTreeButton: props.toggleTreeButton,
+    }, 'ToggleTreeVisibleOption container properties should be correctly reported')
     const breadcrumbWrapper = enzymeWrapper.find(BreadcrumbComponent)
     assert.lengthOf(breadcrumbWrapper, 1, 'There should be the breadcrumb component')
     testSuiteHelpers.assertWrapperProperties(breadcrumbWrapper, {
@@ -72,8 +81,11 @@ describe('[Description] Testing HeaderBarComponent', () => {
   it('should render correctly without search option', () => {
     const props = {
       settings: {
+        showVersion: true,
         documentModels: ['plop'],
         primaryQuicklookGroup: 'primary',
+        quotaWarningCount: 150,
+        rateWarningCount: 5,
       },
       descriptionEntity: resolvedDatasetEntity,
       selectedEntityIndex: 0,
@@ -81,9 +93,14 @@ describe('[Description] Testing HeaderBarComponent', () => {
       allowSearching: false,
       onSelectEntityIndex: () => {},
       onSearchEntity: () => {},
+      toggleTreeButton: () => {},
     }
     const enzymeWrapper = shallow(<HeaderBarComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(ToggleTreeVisibleOptionContainer), 1, 'There should be toggle tree visible option')
+    const toggleTreeContainer = enzymeWrapper.find(ToggleTreeVisibleOptionContainer)
+    assert.lengthOf(toggleTreeContainer, 1, 'There should be toggle tree visible option')
+    testSuiteHelpers.assertWrapperProperties(toggleTreeContainer, {
+      toggleTreeButton: props.toggleTreeButton,
+    }, 'ToggleTreeVisibleOption container properties should be correctly reported')
     const breadcrumbWrapper = enzymeWrapper.find(BreadcrumbComponent)
     assert.lengthOf(breadcrumbWrapper, 1, 'There should be the breadcrumb component')
     testSuiteHelpers.assertWrapperProperties(breadcrumbWrapper, {

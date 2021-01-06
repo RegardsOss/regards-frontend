@@ -102,10 +102,10 @@ class CheckboxColumnHeaderCell extends React.Component {
     return (
       displaySelectAll
         ? <IconButton
-          style={styles}
-          title={formatMessage({ id: tooltipKey })}
-          iconStyle={iconStyle}
-          onClick={this.onToggleSelectAll}
+            style={styles}
+            title={formatMessage({ id: tooltipKey })}
+            iconStyle={iconStyle}
+            onClick={this.onToggleSelectAll}
         >
           <Icon />
         </IconButton>

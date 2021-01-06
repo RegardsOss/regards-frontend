@@ -23,5 +23,4 @@ const preloadedState = {
   user: {},
 }
 
-
 export default preloadedState

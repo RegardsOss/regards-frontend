@@ -84,12 +84,12 @@ export class GraphLevelDisplayerContainer extends React.Component {
 
   static mapDispatchToProps = (dispatch, { levelIndex, levelModelName }) => ({
     // fetch collections and dispatch level partitions update state
-    dispatchFetchLevelCollections: parentId => GraphLevelDisplayerContainer.dispatchFetchLevelData(
+    dispatchFetchLevelCollections: (parentId) => GraphLevelDisplayerContainer.dispatchFetchLevelData(
       levelIndex, dispatch, GraphLevelCollectionActions,
       () => FetchGraphCollectionsActions.fetchAllCollections(levelIndex, parentId, levelModelName),
     ),
     // fetch datasets and dispatch level partitions update state
-    dispatchFetchLevelDatasets: parentPath => GraphLevelDisplayerContainer.dispatchFetchLevelData(
+    dispatchFetchLevelDatasets: (parentPath) => GraphLevelDisplayerContainer.dispatchFetchLevelData(
       levelIndex, dispatch, GraphLevelDatasetActions,
       () => FetchGraphDatasetsActions.fetchAllDatasets(levelIndex, parentPath),
     ),
@@ -125,12 +125,11 @@ export class GraphLevelDisplayerContainer extends React.Component {
     this.updateLevelElements(isShowable, parentId, selectionPath)
   }
 
-
   /**
    * Lifecycle hook: fetch when parent collection changes (if parent collection is defined)
    * @param {*} nextProps
    */
-  componentWillReceiveProps = ({ parentId: nextparentId, isShowable, selectionPath }) => {
+  UNSAFE_componentWillReceiveProps = ({ parentId: nextparentId, isShowable, selectionPath }) => {
     const { parentId } = this.props
     if (parentId !== nextparentId && nextparentId) { // refetch on parent change, if showable
       this.updateLevelElements(isShowable, nextparentId, selectionPath)
@@ -157,7 +156,7 @@ export class GraphLevelDisplayerContainer extends React.Component {
       // 2 - Fetch datasets
       if (showDatasets) {
         // rebuild parent path (level != 0, there is necessary a selection)
-        const parentIndex = selectionPath.findIndex(selectionElement => selectionElement.id === parentCollectionId)
+        const parentIndex = selectionPath.findIndex((selectionElement) => selectionElement.id === parentCollectionId)
         if (parentIndex !== -1) {
           // get parent path from selection, map it to IP ID array
           const parentPath = selectionPath.slice(0, parentIndex + 1).map(({ id }) => id)

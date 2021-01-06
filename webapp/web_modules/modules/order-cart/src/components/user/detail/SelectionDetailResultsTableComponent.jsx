@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain } from '@regardsoss/domain'
+import { CatalogShapes } from '@regardsoss/shape'
 import { BasicPageableActions, BasicPageableSelectors } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { AttributeColumnBuilder } from '@regardsoss/attributes-common'
@@ -33,7 +34,9 @@ class SelectionDetailResultsTableComponent extends React.Component {
     pageActions: PropTypes.instanceOf(BasicPageableActions).isRequired,
     pageSelectors: PropTypes.instanceOf(BasicPageableSelectors).isRequired,
     // request parameters (object of any as it is a POST request)
-    requestParams: PropTypes.objectOf(PropTypes.any),
+    bodyParams: PropTypes.shape({
+      requests: PropTypes.arrayOf(CatalogShapes.ComplexSearchRequest).isRequired,
+    }),
     // results information
     resultsCount: PropTypes.number.isRequired,
     isFetching: PropTypes.bool.isRequired,
@@ -49,7 +52,7 @@ class SelectionDetailResultsTableComponent extends React.Component {
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.label),
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.id),
     DamDomain.AttributeModelController.getStandardAttributeModel(DamDomain.AttributeModelController.standardAttributesKeys.providerId),
-  ].map(attribute => ({
+  ].map((attribute) => ({
     key: attribute.content.name,
     label: { // XXX-WAIT-DM (corresponds with another PM): this is an emulated behavior for non internationalized attributes
       fakeLocale: attribute.content.label,
@@ -79,11 +82,11 @@ class SelectionDetailResultsTableComponent extends React.Component {
    * @return [*] columns
    */
   renderColumns = () => SelectionDetailResultsTableComponent.DISPLAYED_ATTRIBUTES_MODELS.map(
-    model => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
+    (model) => AttributeColumnBuilder.buildAttributeColumn(model, null, 'fakeLocale'))
 
   render() {
     const {
-      pageActions, pageSelectors, requestParams, resultsCount, isFetching,
+      pageActions, pageSelectors, bodyParams, resultsCount, isFetching,
     } = this.props
     return (
       <TableLayout>
@@ -92,8 +95,9 @@ class SelectionDetailResultsTableComponent extends React.Component {
           pageActions={pageActions}
           pageSelectors={pageSelectors}
           columns={this.renderColumns()}
-          requestParams={requestParams}
+          bodyParams={bodyParams}
           emptyComponent={SelectionDetailResultsTableComponent.NO_DATA_COMPONENT}
+          fetchUsingPostMethod
         />
       </TableLayout>
     )

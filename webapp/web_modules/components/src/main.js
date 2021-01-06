@@ -20,9 +20,6 @@
 export { ShowableAtRender } from '@regardsoss/display-control'
 
 export { default as ApplicationErrorComponent } from './ApplicationErrorComponent'
-export { default as CenteredDiv } from './CenteredDiv'
-export { default as ErrorDecoratorComponent } from './ErrorDecoratorComponent'
-export { default as NewsItemComponent } from './NewsItemComponent'
 
 export { default as ActionIconWithNotifications } from './board/ActionIconWithNotifications'
 export { default as BoardComponent } from './board/BoardComponent'
@@ -33,11 +30,14 @@ export { default as BaseBoardItemComponent } from './board/BaseBoardItemComponen
 export { default as ClearFieldButton } from './buttons/ClearFieldButton'
 export { default as DownloadButton } from './buttons/DownloadButton'
 export { default as DropDownButton } from './buttons/DropDownButton'
+export * from './buttons/HateoasIconAction'
+export * from './buttons/HateoasToggle'
 export { default as IconElementSelector } from './buttons/IconElementSelector'
 export { default as NumericalComparatorSelector } from './buttons/NumericalComparatorSelector'
 export { default as OnHoverSwitchFlatButton } from './buttons/OnHoverSwitchFlatButton'
 export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconButton'
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'
+export * from './buttons/ResourceIconAction'
 
 export { default as ActionButtonComponent } from './cards/ActionButtonComponent'
 export { default as CardActionsComponent } from './cards/CardActionsComponent'
@@ -62,10 +62,12 @@ export { default as FitContentDialog } from './dialogs/FitContentDialog'
 export { default as LoadableContentDialogContainer } from './dialogs/LoadableContentDialogContainer'
 export { default as SingleContentURLDialogContainer } from './dialogs/SingleContentURLDialogContainer'
 export { default as withConfirmDialog } from './dialogs/withConfirmDialog'
+export { default as HelpDialogComponent } from './dialogs/HelpDialogComponent'
 
 export { default as ErrorCardComponent } from './error/ErrorCardComponent'
 export { default as PageNotFoundComponent } from './error/PageNotFoundProvider'
 export { default as FormErrorMessage } from './error/FormErrorMessage'
+export { default as ErrorDecoratorComponent } from './error/ErrorDecoratorComponent'
 
 export { default as FeedbackDisplayer } from './feedback/FeedbackDisplayer'
 
@@ -79,7 +81,6 @@ export { default as LinkComponent } from './links/LinkComponent'
 export { default as AnchorComponent } from './links/AnchorComponent'
 
 export { default as AutoCompleteTextField } from './list/AutoCompleteTextField'
-export { default as ChipList } from './list/ChipList'
 export { default as ListContainer } from './list/ListContainer'
 export { default as PageableListContainer } from './list/PageableListContainer'
 export { default as SelectableList } from './list/SelectableList'
@@ -94,7 +95,10 @@ export { default as DefaultModuleTitleComponent } from './module/DefaultModuleTi
 
 export { default as URLPicture } from './picture/URLPicture'
 export { default as URLPictureResolver } from './picture/URLPictureResolver'
+export { default as ZoomablePicture } from './picture/ZoomablePicture'
+export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
+export * from './split/SplitResizerStyle'
 
 // Table
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'

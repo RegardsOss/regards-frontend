@@ -21,7 +21,6 @@ import PauseIcon from 'mdi-material-ui/Pause'
 import ResumeIcon from 'mdi-material-ui/Play'
 import { i18nContextType } from '@regardsoss/i18n'
 
-
 /**
  * Pause / resume order table option
  * @author Raphaël Mechali

@@ -36,19 +36,6 @@ import messages from '../../i18n'
 import styles from '../../styles'
 
 export class SessionsMonitoringContainer extends React.Component {
-  static mapDispatchToProps = dispatch => ({
-    fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
-    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
-    relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
-    relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
-    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, RequestVerbEnum.PATCH)),
-  })
-
-  static mapStateToProps = state => ({
-    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
-    ...RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors }),
-  })
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -99,6 +86,19 @@ export class SessionsMonitoringContainer extends React.Component {
     to: null,
   }
 
+  static mapDispatchToProps = (dispatch) => ({
+    fetchSessions: (pageIndex, pageSize, pathParams, requestParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, requestParams)),
+    deleteSession: (id, force = false) => dispatch(sessionsActions.deleteEntity(id, null, { force })),
+    relaunchProducts: (source, name) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, name)),
+    relaunchAIP: (source, name) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, name)),
+    acknowledgeSessionState: (id, body, endpoint, verb) => dispatch(sessionsActions.updateEntity(id, body, null, null, endpoint, RequestVerbEnum.PATCH)),
+  })
+
+  static mapStateToProps = (state) => ({
+    availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
+    ...RefreshPageableTableOption.mapStateToProps(state, { pageableTableSelectors: sessionsSelectors }),
+  })
+
   /**
    * Converts columns order and filters state into request parameters
    * @param {[{columnKey: string, order: string}]} columnsSorting columns sorting definition, where order is a
@@ -148,7 +148,7 @@ export class SessionsMonitoringContainer extends React.Component {
     columnsVisibility: {}, // note: empty by default, when column isn't found it should be considered visible
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     this.initializeFiltersFromURL()
   }
 
@@ -203,20 +203,20 @@ export class SessionsMonitoringContainer extends React.Component {
       source,
       session,
     }
-    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
+    const queryString = Object.keys(urlParams).map((key) => `${key}=${urlParams[key]}`).join('&')
     const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`
     browserHistory.push(url)
   }
 
-  onViewRequestsOAIS = (source, session, error = false) => {
+  onViewRequestsOAIS = (source, session, state) => {
     const { params: { project } } = this.props
     const urlParams = {
       display: 'requests',
       source,
       session,
-      state: error ? 'ERROR' : undefined,
+      state,
     }
-    const queryString = Object.keys(urlParams).map(key => `${key}=${urlParams[key]}`).join('&')
+    const queryString = Object.keys(urlParams).map((key) => `${key}=${urlParams[key]}`).join('&')
     const url = `/admin/${project}/data/acquisition/oais/featureManager?${queryString}`
     browserHistory.push(url)
   }
@@ -252,7 +252,7 @@ export class SessionsMonitoringContainer extends React.Component {
   onSort = (columnKey, order) => {
     const { columnsSorting } = this.state
     const newOrder = columnsSorting
-    const columnIndex = newOrder.findIndex(columnArray => columnArray.columnKey === columnKey)
+    const columnIndex = newOrder.findIndex((columnArray) => columnArray.columnKey === columnKey)
     if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
       newOrder.splice(columnIndex, 1)
     } else if (columnIndex === -1) {

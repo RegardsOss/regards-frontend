@@ -30,7 +30,6 @@ class SearchCriteriaComponent extends React.Component {
     onUnselectSearchCriteria: PropTypes.func.isRequired,
   }
 
-
   static contextTypes = {
     ...i18nContextType,
   }

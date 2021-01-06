@@ -24,6 +24,11 @@
 export default function styles(theme) {
   return {
     /** Form presentation */
+    field: {
+      error: {
+        color: theme.textField.errorColor,
+      },
+    },
     formContainer: {
       class: 'container-fluid',
     },
@@ -53,6 +58,7 @@ export default function styles(theme) {
     // json editor field
     jsonFieldStyles: {
       containerStyle: {
+        width: '100%',
         padding: theme.formsExtensions.jsonField.padding,
         lineHeight: theme.formsExtensions.jsonField.lineHeight,
       },
@@ -72,11 +78,15 @@ export default function styles(theme) {
     // date field
     dateFieldStyles: {
       fieldsLine: {
-        marginTop: theme.formsExtensions.dateField.marginTop,
         height: theme.formsExtensions.dateField.height,
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+      },
+      datePickerDivStyle: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        width: '75%',
       },
       datePicker: {
         margin: theme.formsExtensions.dateField.innerMargins,
@@ -150,7 +160,7 @@ export default function styles(theme) {
         width: '100%',
       },
       leftColumnStyle: {
-        width: '33%',
+        width: '18%',
         borderRight: '1px solid',
         borderColor: theme.palette.borderColor,
         display: 'flex',

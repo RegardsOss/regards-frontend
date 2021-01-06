@@ -21,6 +21,9 @@
  * Module styles
  * @author Raphaël Mechali
  */
-export default theme => ({
-  // empty
+export default (theme) => ({
+  localeIcon: {
+    width: theme.spacing.iconSize,
+    height: theme.spacing.iconSize,
+  },
 })

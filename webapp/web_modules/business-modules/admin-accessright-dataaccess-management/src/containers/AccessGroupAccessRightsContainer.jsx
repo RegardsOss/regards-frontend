@@ -34,11 +34,8 @@ export class AccessGroupAccessRightsContainer extends React.Component {
     fetchAccessGroup: PropTypes.func,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-    }
+  state = {
+    loading: true,
   }
 
   componentDidMount() {
@@ -74,8 +71,8 @@ const mapStateToProps = (state, ownProps) => ({
   accessGroup: accessGroupSelectors.getById(state, ownProps.params.accessgroup),
 })
 
-const mapDispatchToProps = dispatch => ({
-  fetchAccessGroup: accessGroupName => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
+const mapDispatchToProps = (dispatch) => ({
+  fetchAccessGroup: (accessGroupName) => dispatch(accessGroupActions.fetchEntity(accessGroupName)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessGroupAccessRightsContainer)

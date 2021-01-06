@@ -18,34 +18,33 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import find from 'lodash/find'
 import some from 'lodash/some'
 import forEach from 'lodash/forEach'
 import map from 'lodash/map'
 import trim from 'lodash/trim'
-import { formValueSelector } from 'redux-form'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
-import {
-  RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm,
-} from '@regardsoss/form-utils'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
-import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
-import { connect } from '@regardsoss/redux'
-import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import MenuItem from 'material-ui/MenuItem'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-
-const { required, email } = ValidationHelpers
-const requiredEmailValidator = [required, email]
+import { FormattedMessage } from 'react-intl'
+import { formValueSelector } from 'redux-form'
+import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { connect } from '@regardsoss/redux'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
+import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
+import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import {
+  RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm, FieldHelp,
+} from '@regardsoss/form-utils'
+import UserGroupChip from './UserGroupChip'
 
 /**
  * Display edit and create project form
@@ -54,8 +53,9 @@ export class ProjectUserFormComponent extends React.Component {
   static POPOVER_ANCHOR_ORIGIN = { horizontal: 'left', vertical: 'top' }
 
   static propTypes = {
-    currentUser: AdminShapes.ProjectUser,
+    currentUser: AccessShapes.ProjectUser,
     userMetadata: MetadataList.isRequired,
+    settings: AdminShapes.ProjectUserSettingsWithContent.isRequired,
     roleList: AdminShapes.RoleList,
     groupList: DataManagementShapes.AccessGroupList,
     onSubmit: PropTypes.func.isRequired,
@@ -66,6 +66,7 @@ export class ProjectUserFormComponent extends React.Component {
     // from reduxForm
     invalid: PropTypes.bool,
     submitting: PropTypes.bool,
+    pristine: PropTypes.bool,
     handleSubmit: PropTypes.func.isRequired,
     initialize: PropTypes.func.isRequired,
     change: PropTypes.func,
@@ -78,35 +79,18 @@ export class ProjectUserFormComponent extends React.Component {
     ...themeContextType,
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isCreating: props.currentUser === undefined,
-      popoverOpen: false,
-      tempGroups: [],
-    }
-  }
+  /** Email field validators */
+  static EMAIL_FIELD_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.email]
 
-  componentWillMount() {
-    this.style = {
-      chipBackground: this.context.muiTheme.palette.primary1Color,
-      avatarBackground: this.context.muiTheme.palette.primary2Color,
-      renderChipInput: {
-        display: 'flex',
-        flexWrap: 'wrap',
-        marginTop: 4,
-      },
-      chip: {
-        margin: 4,
-      },
-      groupsLabel: {
-        color: this.context.muiTheme.textField.floatingLabelColor,
-        fontFamily: this.context.muiTheme.fontFamily,
-        fontSize: '0.9em',
-        marginTop: 21,
-        marginBottom: 7,
-      },
-    }
+  /** Quota field validators */
+  static QUOTA_FIELDS_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.getIntegerInRangeValidator(-1, Number.MAX_SAFE_INTEGER)]
+
+  static ICON_ANCHOR = { horizontal: 'left', vertical: 'top' }
+
+  state = {
+    isCreating: isNil(this.props.currentUser),
+    popoverOpen: false,
+    tempGroups: [],
   }
 
   componentDidMount() {
@@ -116,7 +100,7 @@ export class ProjectUserFormComponent extends React.Component {
   getCurrentUserGroups = (user) => {
     const currentUserGroups = []
     forEach(this.props.groupList, (group) => {
-      if (some(group.content.users, groupUser => groupUser.email === user.email)) {
+      if (some(group.content.users, (groupUser) => groupUser.email === user.email)) {
         currentUserGroups.push(group.content.name)
       }
     })
@@ -124,32 +108,37 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   getRoleName = (name = 'empty') => {
-    const formated = this.context.intl.formatMessage({ id: `role.name.${name}` })
-    if (formated !== `role.name.${name}`) {
-      return formated
+    const formatted = this.context.intl.formatMessage({ id: `role.name.${name}` })
+    if (formatted !== `role.name.${name}`) {
+      return formatted
     }
     return name
   }
 
   handleInitialize = () => {
-    const { currentUser, userMetadata, initialize } = this.props
+    const {
+      currentUser, userMetadata, settings, initialize,
+    } = this.props
     let initialFormValues = {}
-    if (!this.state.isCreating) {
-      // A - only when editing
-      // 1 - initialize groups already associated with user
+    if (this.state.isCreating) {
+      // A.1 - when creating: no value to restore, initialize quota related parameters to tenant defaults
+      initialFormValues.useExistingAccount = false
+      initialFormValues.maxQuota = settings.content.maxQuota
+      initialFormValues.rateLimit = settings.content.rateLimit
+    } else {
+      // A.2 - only when editing: initialize groups already associated with user, and restore other user values
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
       initialFormValues.groups = currentUserGroups
       this.setState({
         tempGroups: currentUserGroups,
       })
-      // 2 - keep current email and role name
       initialFormValues.email = currentUser.content.email
       initialFormValues.roleName = currentUser.content.role.name
+      initialFormValues.maxQuota = currentUser.content.maxQuota
+      initialFormValues.rateLimit = currentUser.content.rateLimit
       initialFormValues.useExistingAccount = true // always, as account is already created
-    } else {
-      initialFormValues.useExistingAccount = false // when creating a user, disabled by default
     }
-    // Always: initialize fields values from metadata
+    // Always: initialize fields values from metadata (values are empty when creating)
     initialFormValues = userMetadata.reduce((acc, { key, currentValue }) => ({
       ...acc,
       [key]: currentValue,
@@ -185,27 +174,24 @@ export class ProjectUserFormComponent extends React.Component {
 
   handleRemoveGroup = (groupName) => {
     this.setState({
-      tempGroups: this.state.tempGroups.filter(val => val !== groupName),
+      tempGroups: this.state.tempGroups.filter((val) => val !== groupName),
     }, () => this.props.change('groups', this.state.tempGroups))
   }
 
   renderChipInput = () => {
-    const iconAnchor = { horizontal: 'left', vertical: 'top' }
+    const { moduleTheme: { userForm } } = this.context
     return (
-      <div style={this.style.renderChipInput}>
-        {map(this.state.tempGroups, groupName => (
-          <Chip
-            onRequestDelete={() => this.handleRemoveGroup(groupName)}
-            style={this.style.chip}
+      <div style={userForm.renderChipInput}>
+        {map(this.state.tempGroups, (groupName) => (
+          <UserGroupChip
             key={groupName}
-            className="selenium-chip"
-          >
-            {groupName}
-          </Chip>))}
+            groupName={groupName}
+            onRemoveGroup={this.handleRemoveGroup}
+          />))}
         <ShowableAtRender show={this.state.tempGroups.length !== Object.keys(this.props.groupList).length}>
-          <Chip className="selenium-addChip" style={this.style.chip} onClick={this.handlePopoverOpen} backgroundColor={this.style.chipBackground}>
+          <Chip className="selenium-addChip" style={userForm.chip} onClick={this.handlePopoverOpen} backgroundColor={userForm.chipBackground}>
             <Avatar
-              backgroundColor={this.style.avatarBackground}
+              backgroundColor={userForm.avatarBackground}
               size={32}
               icon={<AddSvg />}
             />
@@ -215,18 +201,19 @@ export class ProjectUserFormComponent extends React.Component {
         <Popover
           open={this.state.popoverOpen}
           anchorEl={this.state.popoverAnchor}
-          anchorOrigin={iconAnchor}
+          anchorOrigin={ProjectUserFormComponent.ICON_ANCHOR}
           animation={PopoverAnimationVertical}
           onRequestClose={this.handlePopoverClose}
         >
           <Menu>
-            {map(this.props.groupList, group => (
+            {map(this.props.groupList, (group) => (
               <ShowableAtRender
                 key={group.content.name}
-                show={!find(this.state.tempGroups, o => isEqual(o, group.content.name))}
+                show={!find(this.state.tempGroups, (o) => isEqual(o, group.content.name))}
               >
                 <MenuItem
                   primaryText={group.content.name}
+                  // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
                   onClick={() => this.handleAddGroup(group.content.name)}
                 />
               </ShowableAtRender>
@@ -238,23 +225,22 @@ export class ProjectUserFormComponent extends React.Component {
 
   render() {
     const {
-      invalid, userMetadata, submitting, roleList, passwordRules, useExistingAccount,
+      invalid, pristine, userMetadata, submitting,
+      currentUser, useExistingAccount, roleList,
+      passwordRules, backUrl, onSubmit, handleSubmit,
     } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { userForm } } = this.context
     return (
-      <form
-        onSubmit={this.props.handleSubmit(this.props.onSubmit)}
-      >
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Card>
           {this.state.isCreating
             ? <CardTitle
-              title={formatMessage({ id: 'projectUser.create.title' })}
-              subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
+                title={formatMessage({ id: 'projectUser.create.title' })}
+                subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
             />
             : <CardTitle
-              title={formatMessage({ id: 'projectUser.edit.title' }, { email: this.props.currentUser.content.email })}
-            />
-          }
+                title={formatMessage({ id: 'projectUser.edit.title' }, { email: currentUser.content.email })}
+            />}
           <CardText>
 
             <ShowableAtRender show={this.state.isCreating}>
@@ -272,47 +258,45 @@ export class ProjectUserFormComponent extends React.Component {
               component={RenderTextField}
               type="text"
               label={formatMessage({ id: 'projectUser.create.input.email' })}
-              validate={requiredEmailValidator}
+              validate={ProjectUserFormComponent.EMAIL_FIELD_VALIDATORS}
               normalize={trim}
             />
             { /* Show account creation options when creating an account */}
             <ShowableAtRender show={!useExistingAccount && this.state.isCreating}>
-              <div>
-                <Field
-                  name="password"
-                  fullWidth
-                  component={RenderTextField}
-                  type="password"
-                  label={formatMessage({ id: 'projectUser.create.input.password' })}
-                  validate={required}
-                  normalize={trim}
-                />
-                <Field
-                  name="confirmPassword"
-                  fullWidth
-                  component={RenderTextField}
-                  type="password"
-                  label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
-                  validate={required}
-                  normalize={trim}
-                />
-                <Field
-                  name="firstName"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'projectUser.create.input.firstName' })}
-                  validate={required}
-                />
-                <Field
-                  name="lastName"
-                  fullWidth
-                  component={RenderTextField}
-                  type="text"
-                  label={formatMessage({ id: 'projectUser.create.input.lastName' })}
-                  validate={required}
-                />
-              </div>
+              <Field
+                name="password"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={formatMessage({ id: 'projectUser.create.input.password' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
+              />
+              <Field
+                name="confirmPassword"
+                fullWidth
+                component={RenderTextField}
+                type="password"
+                label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
+                validate={ValidationHelpers.required}
+                normalize={trim}
+              />
+              <Field
+                name="firstName"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={formatMessage({ id: 'projectUser.create.input.firstName' })}
+                validate={ValidationHelpers.required}
+              />
+              <Field
+                name="lastName"
+                fullWidth
+                component={RenderTextField}
+                type="text"
+                label={formatMessage({ id: 'projectUser.create.input.lastName' })}
+                validate={ValidationHelpers.required}
+              />
             </ShowableAtRender>
             <Field
               name="roleName"
@@ -328,15 +312,35 @@ export class ProjectUserFormComponent extends React.Component {
                 />
               ))}
             </Field>
+            {/* Quota and rate fields (with corresponding help) */}
+            <Field
+              name="maxQuota"
+              label={formatMessage({ id: 'projectUser.create.input.max.quota' })}
+              help={FieldHelp.buildDialogMessageHelp('projectUser.create.input.max.quota.help.message')}
+              validate={ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS}
+              component={RenderTextField}
+              type="text"
+              fullWidth
+            />
+            <Field
+              name="rateLimit"
+              label={formatMessage({ id: 'projectUser.create.input.rate.limit' })}
+              help={FieldHelp.buildDialogMessageHelp('projectUser.create.input.rate.limit.help.message')}
+              validate={ProjectUserFormComponent.QUOTA_FIELDS_VALIDATORS}
+              component={RenderTextField}
+              type="text"
+              fullWidth
+
+            />
             {
               // show user metadata for project
-              userMetadata.map(metadata => (<MetadataField
+              userMetadata.map((metadata) => (<MetadataField
                 key={metadata.key}
                 metadata={metadata}
                 fullWidth
               />))
             }
-            <div style={this.style.groupsLabel}>
+            <div style={userForm.groupsLabel}>
               <FormattedMessage id="projectUser.create.input.groups" />
             </div>
             {this.renderChipInput()}
@@ -349,9 +353,9 @@ export class ProjectUserFormComponent extends React.Component {
                   : formatMessage({ id: 'projectUser.edit.action.save' })
               }
               mainButtonType="submit"
-              isMainButtonDisabled={submitting || invalid}
+              isMainButtonDisabled={submitting || invalid || pristine}
               secondaryButtonLabel={formatMessage({ id: 'projectUser.create.action.cancel' })}
-              secondaryButtonUrl={this.props.backUrl}
+              secondaryButtonUrl={backUrl}
             />
           </CardActions>
         </Card>
@@ -404,6 +408,6 @@ const connectedReduxForm = reduxForm({
 
 // connect with selector to select the last mail value
 const selector = formValueSelector('user-form')
-export default connect(state => ({
+export default connect((state) => ({
   useExistingAccount: selector(state, 'useExistingAccount'),
 }))(connectedReduxForm)

@@ -20,7 +20,6 @@ import map from 'lodash/map'
 import { ENTITY_TYPES_ENUM } from '@regardsoss/domain/dam'
 import { TargetHelper } from '@regardsoss/entities-common/src/definitions/TargetHelper'
 
-
 /**
  * Provides some tools for UI plugins services test
  * @author Raphaël Mechali
@@ -42,10 +41,12 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
   return {
     content: {
       id: ipID,
-      entityType: type,
-      label,
+      version: 1,
+      last: true,
       model,
       providerId,
+      label,
+      entityType: type,
       files: {
         QUICKLOOK_MD: [{
           dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
@@ -64,7 +65,14 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
       geometry: null,
       normalizedGeometry: null,
       properties: {
-        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
+        // eslint-disable-next-line camelcase
+        value_l1: 102, // eslint wont fix: external format, not controlled locally
+        // eslint-disable-next-line camelcase
+        data_size: 100000,
+        date: '2017-09-09T19:00:00Z',
+        // eslint-disable-next-line camelcase
+        value_d1: 89.56,
+        DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model',
       },
       type: 'Feature',
       crs: 'WGS_84',
@@ -73,7 +81,7 @@ function getFakeEntity(ipID, type, providerId = 'PROVIDER ID #1', model = 'VALID
   }
 }
 function getFakeEntitities(ipIDs, type) {
-  return map(ipIDs, ipID => getFakeEntity(ipID, type))
+  return map(ipIDs, (ipID) => getFakeEntity(ipID, type))
 }
 function buildOneElementTarget(ipID = 'a.test.IPID', type = ENTITY_TYPES_ENUM.DATA) {
   return TargetHelper.buildOneElementTarget(getFakeEntity(ipID, type))

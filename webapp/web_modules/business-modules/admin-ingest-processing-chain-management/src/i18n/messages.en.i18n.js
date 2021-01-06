@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'processing-chain.table.name': 'Name',
   'processing-chain.table.description': 'Description',
 
@@ -54,7 +54,7 @@ const messages = Object.assign({
   'processing-chain.form.generation.plugin.label': 'Datas generation',
   'processing-chain.form.tag.plugin.label': 'Tag datas',
   'processing-chain.form.postprocessing.plugin.label': 'Post processing',
-
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

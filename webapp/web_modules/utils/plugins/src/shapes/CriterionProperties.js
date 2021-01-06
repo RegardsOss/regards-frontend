@@ -25,6 +25,7 @@ import { UIShapes } from '@regardsoss/shape'
  */
 export const CriterionProperties = PropTypes.shape({
   label: UIShapes.IntlMessage.isRequired, // configuration label, internationalized
+  // eslint-disable-next-line react/forbid-prop-types
   state: PropTypes.object, // currently shared plugin state
   publishState: PropTypes.func.isRequired, // publish state callback like (state, requestParameters) => ()
 })

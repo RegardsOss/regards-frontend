@@ -32,9 +32,10 @@ import {
 import {
   withResourceDisplayControl,
 } from '@regardsoss/display-control'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { AcquisitionProcessingChainListContainer } from '../../containers/acquisitionChain/AcquisitionProcessingChainListContainer'
+import { MultiToggleAcquisitionProcessingChainActions } from '../../clients/AcquisitionProcessingChainClient'
 
 const ResourceIconAction = withResourceDisplayControl(FlatButton)
 
@@ -57,11 +58,14 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
     ...themeContextType,
   }
 
+  /** List of dependencies required for toggling multiple chains state  */
+  static TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES = [MultiToggleAcquisitionProcessingChainActions.getDependency(RequestVerbEnum.PATCH)]
+
   state = {
     filters: {},
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const { initialFilters } = this.props
     if (initialFilters) {
       this.setState({
@@ -257,14 +261,14 @@ class AcquisitionProcessingChainListFiltersComponent extends React.Component {
               icon={<Disable />}
               onClick={this.onDisableSelection}
               disabled={!isOneCheckboxToggled}
-              resourceDependencies={AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
+              resourceDependencies={AcquisitionProcessingChainListFiltersComponent.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
             <ResourceIconAction
               label={this.context.intl.formatMessage({ id: 'acquisition-chain.list.enable-selected.button' })}
               icon={<Enable />}
               onClick={this.onEnableSelection}
               disabled={!isOneCheckboxToggled}
-              resourceDependencies={AcquisitionProcessingChainListContainer.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
+              resourceDependencies={AcquisitionProcessingChainListFiltersComponent.TOGGLE_MULTIPLE_CHAIN_DEPENDENCIES}
             />
           </TableHeaderOptionGroup>
         </TableHeaderOptionsArea>

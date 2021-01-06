@@ -22,7 +22,6 @@ import { moduleDialogActions } from '../../../model/ModuleDialogActions'
 import { moduleDialogSelectors } from '../../../model/ModuleDialogSelectors'
 import SelectionItemDetailComponent from '../../../components/user/detail/SelectionItemDetailComponent'
 
-
 /**
 * Container to display a selection item detail (connects to store and provides properties to corresponding component)
 * @author Raphaël Mechali

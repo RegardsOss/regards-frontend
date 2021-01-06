@@ -41,7 +41,9 @@ export const DescriptionConfiguration = PropTypes.shape({
   showCoupling: PropTypes.bool.isRequired,
   showLinkedDocuments: PropTypes.bool.isRequired,
   showLinkedEntities: PropTypes.bool.isRequired,
+  showOtherVersions: PropTypes.bool.isRequired,
   showThumbnail: PropTypes.bool.isRequired,
+  showQuicklooks: PropTypes.bool.isRequired,
   groups: PropTypes.arrayOf(DescriptionGroup).isRequired,
   // list of attribute to be displayed as description file (single attribute configuration, no label)
   attributeToDescriptionFiles: AccessShapes.AttributeListConfigurationModel.isRequired,

@@ -25,7 +25,7 @@ export const OrderConfiguration = {
 }
 
 export const ORDER = new Schema(OrderConfiguration.normalizrKey, {
-  idAttribute: entity => entity.content[OrderConfiguration.entityKey]
+  idAttribute: (entity) => entity.content[OrderConfiguration.entityKey]
   ,
 })
 export const ORDER_ARRAY = arrayOf(ORDER)

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import Drawer from 'material-ui/Drawer'
-import Settings from 'mdi-material-ui/Settings'
+import Settings from 'mdi-material-ui/Cog'
 import Brush from 'mdi-material-ui/Brush'
 import SupervisorAccount from 'mdi-material-ui/AccountSupervisor'
 import { } from '@regardsoss/admin-user-management'

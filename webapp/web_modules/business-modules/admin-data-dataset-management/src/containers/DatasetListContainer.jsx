@@ -45,13 +45,11 @@ export class DatasetListContainer extends React.Component {
     deleteDataset: PropTypes.func,
   }
 
-  static PAGE_SIZE = 100
-
   state = {
     isLoading: true,
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     Promise.resolve(this.props.fetchDatasetList()).then((actionResult) => {
       if (!actionResult.error) {
         this.setState({
@@ -64,7 +62,7 @@ export class DatasetListContainer extends React.Component {
   onRefresh = (filters) => {
     const { meta, fetchDatasetList } = this.props
     const curentPage = get(meta, 'number', 0)
-    return fetchDatasetList(0, DatasetListContainer.PAGE_SIZE * (curentPage + 1), {}, filters)
+    return fetchDatasetList(0, DatasetListComponent.PAGE_SIZE * (curentPage + 1), {}, filters)
   }
 
   getCreateUrl = () => {
@@ -114,9 +112,9 @@ export class DatasetListContainer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => ({})
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchDatasetList: (pageIndex, pageSize, requestParams, queryParams) => dispatch(datasetActions.fetchPagedEntityList(pageIndex, pageSize, requestParams, queryParams)),
-  deleteDataset: id => dispatch(datasetActions.deleteEntity(id)),
+  deleteDataset: (id) => dispatch(datasetActions.deleteEntity(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DatasetListContainer)

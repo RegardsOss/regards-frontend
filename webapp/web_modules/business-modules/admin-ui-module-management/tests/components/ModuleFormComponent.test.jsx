@@ -36,7 +36,6 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Modules form component', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
-
   const testContainers = [
     {
       id: 'main',

@@ -44,7 +44,6 @@ export class ModulesListAdapter extends React.Component {
     deleteInstanceModule: PropTypes.func,
   }
 
-
   // passes the information down to its children
   getChildProps() {
     let props = {}
@@ -70,7 +69,6 @@ export class ModulesListAdapter extends React.Component {
     return props
   }
 
-
   render() {
     return (<ModulesListContainer {...this.getChildProps()} />)
   }
@@ -81,7 +79,7 @@ export class ModulesListAdapter extends React.Component {
  * @param {Module} module module to convert, respects Module shape
  * @return module as expected by server (page.title is JSON)
  */
-const convertToServerModule = module => ({
+const convertToServerModule = (module) => ({
   ...module,
   page: module.page ? ({
     ...module.page,

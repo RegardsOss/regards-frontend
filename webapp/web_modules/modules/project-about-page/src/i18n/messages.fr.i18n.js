@@ -22,13 +22,14 @@ import { Locales } from '@regardsoss/form-utils'
  * i18n messages French language
  * @type {*}
  */
-const messages = Object.assign({
+const messages = {
   'module.defaault.button.tooltip': 'A propos...',
   'project.about.page.ok': 'Fermer',
   'project.about.page.display': 'Afficher au démarrage',
   'project.about.page.hide': 'Ne plus afficher',
   'project.about.page.admin.url': 'URL du fichier HTML',
   'project.about.page.admin.test': 'Tester',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

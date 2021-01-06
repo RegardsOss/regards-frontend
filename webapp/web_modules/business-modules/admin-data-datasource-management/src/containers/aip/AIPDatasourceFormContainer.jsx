@@ -37,7 +37,6 @@ import { datasourceSelectors, datasourceActions } from '../../clients/Datasource
 
 const { findParam } = PluginConfParamsUtils
 
-
 /**
  * Show the AIP datasource form
  */
@@ -72,25 +71,20 @@ export class AIPDatasourceFormContainer extends React.Component {
     formValues: getFormValues('aip-datasource-form')(state),
   })
 
-  static mapDispatchToProps = dispatch => ({
-    fetchDatasource: id => dispatch(datasourceActions.fetchEntity(id)),
-    fetchModelAttributeList: modelName => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+  static mapDispatchToProps = (dispatch) => ({
+    fetchDatasource: (id) => dispatch(datasourceActions.fetchEntity(id)),
+    fetchModelAttributeList: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
     flushModelAttribute: () => dispatch(modelAttributesActions.flush()),
     fetchModelList: () => dispatch(modelActions.fetchEntityList({}, { type: 'DATA' })),
-    createDatasource: values => dispatch(datasourceActions.createEntity(values)),
+    createDatasource: (values) => dispatch(datasourceActions.createEntity(values)),
     updateDatasource: (id, values) => dispatch(datasourceActions.updateEntity(id, values)),
   })
 
-  constructor(props) {
-    super(props)
-    const isCreating = props.params.datasourceId === undefined
-
-    this.state = {
-      isCreating,
-      isEditing: !isCreating,
-      modelAttributeFetched: false,
-      isLoading: true,
-    }
+  state = {
+    isCreating: this.props.params.datasourceId === undefined,
+    isEditing: this.props.params.datasourceId !== undefined,
+    modelAttributeFetched: false,
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -182,7 +176,6 @@ export class AIPDatasourceFormContainer extends React.Component {
         })
       })
   }
-
 
   redirectToList = () => {
     const { params: { project } } = this.props

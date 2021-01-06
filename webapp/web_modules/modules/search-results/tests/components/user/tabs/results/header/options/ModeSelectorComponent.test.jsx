@@ -40,7 +40,7 @@ describe('[SEARCH RESULTS] Testing ModeSelectorComponent', () => {
   })
 
   // test each mode selected and unselected
-  flatMap(UIDomain.RESULTS_VIEW_MODES, mode => [{ selected: true, mode }, { selected: false, mode }]).forEach(
+  flatMap(UIDomain.RESULTS_VIEW_MODES, (mode) => [{ selected: true, mode }, { selected: false, mode }]).forEach(
     ({ selected, mode }) => it(`Should render correctly when ${selected ? 'selected' : 'unselected'} for view mode ${mode}`, () => {
       const props = {
         mode,

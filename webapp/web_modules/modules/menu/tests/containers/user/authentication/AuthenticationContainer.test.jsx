@@ -58,9 +58,10 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       fetchBorrowableRoles: () => { },
       sendBorrowRole: () => { },
       dispatchRoleBorrowed: () => { },
-      showProfileEdition: () => { },
+      onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
     }
+
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(LoggedUserComponent), 0, 'The logged component should be hidden')
     const loginButton = enzymeWrapper.find(LoginButton)
@@ -82,7 +83,7 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       fetchBorrowableRoles: () => { },
       sendBorrowRole: () => { },
       dispatchRoleBorrowed: () => { },
-      showProfileEdition: () => { },
+      onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
     }
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
@@ -91,8 +92,9 @@ describe('[Menu] Testing AuthenticationContainer', () => {
     assert.lengthOf(loggedUserComponent, 1, 'The logged component should be visible')
     testSuiteHelpers.assertWrapperProperties(loggedUserComponent, {
       name: props.authenticationName,
-      showProfileEdition: !props.isInstance,
-      onShowProfileEdition: props.showProfileEdition,
+      showProfileDialog: !props.isInstance,
+      onShowProfileEdition: enzymeWrapper.instance().onShowProfileEdition,
+      onShowQuotaInformation: enzymeWrapper.instance().onShowQuotaInformation,
       onLogout: enzymeWrapper.instance().onLogout,
       currentRole: props.currentRole,
       borrowableRoles: props.borrowableRoles,

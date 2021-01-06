@@ -41,7 +41,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing microservice board component', () =
   })
 
   it('should render sub-components', () => {
-    const microservicesUp = map(microservices, microservice => microservice.name)
+    const microservicesUp = map(microservices, (microservice) => microservice.name)
 
     const props = {
       project: 'someProject',

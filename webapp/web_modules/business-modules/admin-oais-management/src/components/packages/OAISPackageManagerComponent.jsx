@@ -16,10 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import map from 'lodash/map'
 import clone from 'lodash/clone'
-import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
+import isNull from 'lodash/isNull'
+import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -115,7 +117,8 @@ export class OAISPackageManagerComponent extends React.Component {
 
   static buildContextRequestBody(appliedFilters) {
     const {
-      sessionOwner, session, providerId, from, to, type, state, storage,
+      sessionOwner, session, providerId, from, to,
+      type, state, storage, last,
     } = appliedFilters
     let contextRequestBodyParameters = {}
     if (sessionOwner) {
@@ -143,6 +146,7 @@ export class OAISPackageManagerComponent extends React.Component {
     if (storage) {
       contextRequestBodyParameters.storages = [storage]
     }
+    contextRequestBodyParameters.last = isNil(last) ? null : last
     return contextRequestBodyParameters
   }
 
@@ -163,7 +167,7 @@ export class OAISPackageManagerComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => {
+  UNSAFE_componentWillMount = () => {
     this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.productFilters || {}, this.state.contextRequestURLParameters)
   }
 
@@ -171,7 +175,7 @@ export class OAISPackageManagerComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = (nextProps) => {
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
     this.onPropertiesUpdated(this.props, nextProps)
   }
 
@@ -213,7 +217,7 @@ export class OAISPackageManagerComponent extends React.Component {
     return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
   }
 
-  buildSortURL = columnsSorting => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+  buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${OAISPackageManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
 
   onSort = (columnSortKey, order) => {
     const { columnsSorting } = this.state
@@ -243,22 +247,51 @@ export class OAISPackageManagerComponent extends React.Component {
     this.onRequestStateUpdated(this.props.featureManagerFilters, newAppliedFilters, this.state.contextRequestURLParameters)
   }
 
-  changeStateFilter = (event, index, values) => {
+  /**
+   * User callback: new product state filter selected
+   * @param {*} event -
+   * @param {*} index selected element index
+   * @param {*} values selected value
+   */
+  onChangeStateFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
     const finalNewValue = values && values !== '' ? values : undefined
     updateStateFromPackageManager({ state: finalNewValue })
   }
 
-  changeTypeFilter = (event, index, values) => {
+  /**
+   * User callback: new product type filter selected
+   * @param {*} event -
+   * @param {*} index selected element index
+   * @param {*} values selected value
+   */
+  onChangeTypeFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
     const finalNewValue = values && values !== '' ? values : undefined
     updateStateFromPackageManager({ type: finalNewValue })
   }
 
-  changeStorageFilter = (event, index, values) => {
+  /**
+   * User callback: new storage filter selected
+   * @param {*} event -
+   * @param {*} index selected element index
+   * @param {*} values selected value
+   */
+  onChangeStorageFilter = (event, index, values) => {
     const { updateStateFromPackageManager } = this.props
     const finalNewValue = values && values !== '' ? values : undefined
     updateStateFromPackageManager({ storage: finalNewValue })
+  }
+
+  /**
+   * User callback: new version filter selected
+   * @param {*} event -
+   * @param {*} index selected element index
+   * @param {Boolean} values selected value (null / false / true)
+   */
+  onChangeVersionFilter = (event, index, values) => {
+    const { updateStateFromPackageManager } = this.props
+    updateStateFromPackageManager({ last: isNull(values) ? undefined : values })
   }
 
   onViewAIPHistory = (entity) => {
@@ -381,7 +414,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.aipId),
+            aipIds: map(tableSelection, (entity) => entity.content.aipId),
           },
         })
         break
@@ -390,7 +423,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isDeleteSelectionDialogOpened: true,
           deletionPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.aipId),
+            aipIds: map(tableSelection, (entity) => entity.content.aipId),
           },
         })
         break
@@ -502,7 +535,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isModifySelectionDialogOpened: true,
           modifyPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.INCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.aipId),
+            aipIds: map(tableSelection, (entity) => entity.content.aipId),
           },
         })
         break
@@ -511,7 +544,7 @@ export class OAISPackageManagerComponent extends React.Component {
           isModifySelectionDialogOpened: true,
           modifyPayload: {
             selectionMode: OAISPackageManagerComponent.DELETION_SELECTION_MODE.EXCLUDE,
-            aipIds: map(tableSelection, entity => entity.content.aipId),
+            aipIds: map(tableSelection, (entity) => entity.content.aipId),
           },
         })
         break
@@ -550,7 +583,8 @@ export class OAISPackageManagerComponent extends React.Component {
     const {
       contextRequestURLParameters, contextRequestBodyParameters,
     } = this.state
-    const columns = [
+    // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+    const columns = [ // eslint wont fix: API issue
       // checkbox
       new TableColumnBuilder()
         .selectionColumn(true, aipSelectors, aipTableActions, aipTableSelectors)
@@ -615,10 +649,10 @@ export class OAISPackageManagerComponent extends React.Component {
                     id: 'oais.packages.list.filters.type',
                   })}
                   value={productFilters ? productFilters.type : null}
-                  onChange={this.changeTypeFilter}
+                  onChange={this.onChangeTypeFilter}
                 >
                   <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.type.any' })} />
-                  {map(DamDomain.ENTITY_TYPES, type => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.package.type.${type}` })} />)}
+                  {map(DamDomain.ENTITY_TYPES, (type) => <MenuItem key={type} value={type} primaryText={formatMessage({ id: `oais.package.type.${type}` })} />)}
                 </SelectField>
                 <SelectField
                   title={formatMessage({ id: 'oais.packages.tooltip.state' })}
@@ -627,10 +661,10 @@ export class OAISPackageManagerComponent extends React.Component {
                     id: 'oais.packages.list.filters.state',
                   })}
                   value={productFilters ? productFilters.state : null}
-                  onChange={this.changeStateFilter}
+                  onChange={this.onChangeStateFilter}
                 >
                   <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.state.any' })} />
-                  {map(IngestDomain.AIP_STATUS, state => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.package.state.${state}` })} />)}
+                  {map(IngestDomain.AIP_STATUS, (state) => <MenuItem key={state} value={state} primaryText={formatMessage({ id: `oais.package.state.${state}` })} />)}
                 </SelectField>
                 <SelectField
                   title={formatMessage({ id: 'oais.packages.tooltip.storage' })}
@@ -640,13 +674,27 @@ export class OAISPackageManagerComponent extends React.Component {
                     id: 'oais.packages.list.filters.storage',
                   })}
                   value={productFilters ? productFilters.storage : null}
-                  onChange={this.changeStorageFilter}
+                  onChange={this.onChangeStorageFilter}
                 >
                   <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.storage.any' })} />
-                  {map(storages, storage => <MenuItem key={storage} value={storage} primaryText={storage} />)}
+                  {map(storages, (storage) => <MenuItem key={storage} value={storage} primaryText={storage} />)}
+                </SelectField>
+                <SelectField
+                  title={formatMessage({ id: 'oais.packages.tooltip.version' })}
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({ id: 'oais.packages.list.filters.version' })}
+                  value={productFilters && productFilters.last}
+                  onChange={this.onChangeVersionFilter}
+                >
+                  <MenuItem key="any.option" value={null} primaryText={formatMessage({ id: 'oais.package.version.any' })} />
+                  <MenuItem key="last.option" value primaryText={formatMessage({ id: 'oais.package.version.last' })} />
+                  <MenuItem key="older.option" value={false} primaryText={formatMessage({ id: 'oais.package.version.older' })} />
                 </SelectField>
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
+          </TableHeaderLine>
+          <TableHeaderLine>
+            <TableHeaderOptionsArea reducible />
             <TableHeaderOptionsArea reducible>
               <TableHeaderOptionGroup>
                 <ResourceFlatButton

@@ -87,13 +87,13 @@ export class SearchResultsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-   componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -116,9 +116,9 @@ export class SearchResultsContainer extends React.Component {
     if (!isEqual(this.state.applyingCriteria, newState.applyingCriteria)) {
       // A - Update restricted dataset Ids
       newState.restrictedDatasetsIds = Array.from(new Set([
-        ...tab.criteria.contextTags.filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
-        ...tab.criteria.tagsFiltering.filter(t => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
-      ].map(datasetTag => datasetTag.searchKey)))
+        ...tab.criteria.contextTags.filter((t) => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
+        ...tab.criteria.tagsFiltering.filter((t) => t.type === CatalogDomain.TAG_TYPES_ENUM.DATASET),
+      ].map((datasetTag) => datasetTag.searchKey)))
 
       // B - Compute new applying request parameters
       newState.requestParameters = UIDomain.ResultsContextHelper.getQueryParametersFromCriteria(newState.applyingCriteria)
@@ -183,7 +183,7 @@ export class SearchResultsContainer extends React.Component {
     const { selectedType, selectedMode } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
 
     return (
-      <React.Fragment>
+      <>
         {/* enable the services functionnalities */}
         <DescriptionLinkContainer moduleId={moduleId}>
           {/* Enable description links functionnality */}
@@ -214,7 +214,7 @@ export class SearchResultsContainer extends React.Component {
             </OrderCartContainer>
           </PluginServicesContainer>
         </DescriptionLinkContainer>
-      </React.Fragment>
+      </>
     )
   }
 }

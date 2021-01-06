@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { CommonDomain } from '@regardsoss/domain'
 import { NoContentComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ParametersSectionComponent from '../../../../../src/components/user/content/parameters/ParametersSectionComponent'
@@ -31,6 +32,7 @@ const context = buildTestContext(styles)
 /**
  * Test ParametersSectionComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[Description] Testing ParametersSectionComponent', () => {
   before(testSuiteHelpers.before)
@@ -43,6 +45,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
     const props = {
       attributesGroups: [],
       thumbnail: null,
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     const noContentWrapper = enzymeWrapper.find(NoContentComponent)
@@ -58,6 +61,7 @@ describe('[Description] Testing ParametersSectionComponent', () => {
     const props = {
       attributesGroups: resolvedDataEntity.displayModel.attributesGroups,
       thumbnail: null,
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')
@@ -78,7 +82,10 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         label: 'My picture',
         available: true,
         uri: 'http://this.is/a.test.png',
+        type: CommonDomain.DATA_TYPES_ENUM.THUMBNAIL,
+        reference: true,
       },
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')
@@ -96,7 +103,10 @@ describe('[Description] Testing ParametersSectionComponent', () => {
         label: 'My picture',
         available: true,
         uri: 'http://this.is/a.test.png',
+        type: CommonDomain.DATA_TYPES_ENUM.QUICKLOOK_MD,
+        reference: false,
       },
+      scrollAreaHeight: 760,
     }
     const enzymeWrapper = shallow(<ParametersSectionComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(NoContentComponent), 0, 'There should not be the no content displayer')

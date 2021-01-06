@@ -19,7 +19,6 @@
 import { BasicArrayReducers } from '@regardsoss/store-utils'
 import PluginTypeActions from './PluginTypeActions'
 
-
 /**
  * Reducers for plugin types
  *

@@ -73,7 +73,7 @@ const cardTarget = {
   },
 }
 
-export default DropTarget(props => props.acceptAttrType, cardTarget, (connect, monitor) => ({
+export default DropTarget((props) => props.acceptAttrType, cardTarget, (connect, monitor) => ({
   connectDropTarget: connect.dropTarget(),
   isOver: monitor.isOver(),
   canDrop: monitor.canDrop(),

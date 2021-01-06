@@ -25,10 +25,9 @@ import messages from './i18n'
 import valuesStyles from '../values/styles'
 import valuesMessages from '../values/i18n'
 
-
 /** Local context: table and values styles */
 const tableStyles = {
-  styles: theme => ({
+  styles: (theme) => ({
     ...styles.styles(theme),
     ...valuesStyles.styles(theme),
   }),

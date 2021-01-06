@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'role.list.title': 'Role list',
   'role.list.subtitle': 'User roles for the project. You can create new roles that inherit of a selected default role.',
   'role.list.public.name': 'Public : ',
@@ -64,6 +64,7 @@ const messages = Object.assign({
   'form-utils.enumform.add': 'Add an autorized IP address',
   'form-utils.enumform.valueinput': 'IP autorized',
   'form-utils.enumform.novalue': 'No IP specified',
-}, Locales.en)
+  ...Locales.en,
+}
 
 export default messages

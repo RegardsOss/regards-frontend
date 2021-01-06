@@ -36,7 +36,7 @@ class AttributeModelTypeReducer extends BasicArrayReducers {
         // Save sorted items
         return {
           ...newState,
-          items: sortBy(action.payload, type => type),
+          items: sortBy(action.payload, (type) => type),
         }
       default:
         return newState

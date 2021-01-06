@@ -21,7 +21,7 @@ import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { LoadableContentDialogContainer, NoContentMessageInfo } from '@regardsoss/components'
 import { RunServiceDialogComponent } from '../../../src/components/services/RunServiceDialogComponent'
-import ParametersConfigurationComponent from '../../../src/components/services/parameters/ParametersConfigurationComponent'
+import ParametersConfigurationComponent from '../../../src/components/ParametersConfigurationComponent'
 import { Parameter } from '../../../src/definitions/parameters/Parameter'
 import styles from '../../../src/styles/styles'
 
@@ -51,9 +51,6 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     const loadableDialog = enzymeWrapper.find(LoadableContentDialogContainer)
     assert.lengthOf(loadableDialog, 1, 'There should be one loadable dialog')
     assert.isFalse(loadableDialog.props().loaded, 'The dialog should be marked as loading, not loaded')
-    // check close option is visible
-    const closeAction = loadableDialog.props().actions.find(n => n.key === 'close.button')
-    assert.isNotNull(closeAction, 'The close action should be displayed')
   })
   it('should render correctly in error message state', () => {
     const props = {
@@ -68,18 +65,12 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     const loadableDialog = enzymeWrapper.find(LoadableContentDialogContainer)
     assert.lengthOf(loadableDialog, 1, 'There should be one loadable dialog')
     assert.isTrue(loadableDialog.props().loaded, 'The dialog should be marked as loaded to display its children')
-    // check close option is visible
-    const closeAction = loadableDialog.props().actions.find(n => n.key === 'close.button')
-    assert.isNotNull(closeAction, 'The close action should be displayed')
-    // check custom option is visible
-    const customOption = loadableDialog.props().actions.find(n => n.key === 'test.option')
-    assert.isNotNull(customOption, 'The close action should be displayed')
-    // find message displayer and verify it is visible with right properties
-    const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
-    assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.equal(messageDisplayer.props().messageKey, 'message.key', 'The message should be reported')
-    assert.equal(messageDisplayer.props().titleKey, 'entities.common.services.error.title', 'The error title should be used')
-    assert.isTrue(messageDisplayer.props().noContent, 'The message should be displayed (using noContent:true property)')
+    // find message display and verify it is visible with right properties
+    const messageDisplay = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(messageDisplay, 1, 'There should be one message display')
+    assert.equal(messageDisplay.props().messageKey, 'message.key', 'The message should be reported')
+    assert.equal(messageDisplay.props().titleKey, 'entities.common.services.error.title', 'The error title should be used')
+    assert.isTrue(messageDisplay.props().noContent, 'The message should be displayed (using noContent:true property)')
   })
   it('should render correctly in information message state', () => {
     const props = {
@@ -94,17 +85,12 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     const loadableDialog = enzymeWrapper.find(LoadableContentDialogContainer)
     assert.lengthOf(loadableDialog, 1, 'There should be one loadable dialog')
     assert.isTrue(loadableDialog.props().loaded, 'The dialog should be marked as loaded to display its children')
-    // check close option is visible
-    const closeAction = loadableDialog.props().actions.find(n => n.key === 'close.button')
-    assert.isNotNull(closeAction, 'The close action should be displayed')
-    // check there is no added option (since we specified none)
-    assert.lengthOf(loadableDialog.props().actions, 1, 'There should be no custom option')
-    // find message displayer and verify it is visible with right properties
-    const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
-    assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.equal(messageDisplayer.props().messageKey, 'hello.info', 'The message should be reported')
-    assert.equal(messageDisplayer.props().titleKey, 'entities.common.services.notice.title', 'The info title should be used')
-    assert.isTrue(messageDisplayer.props().noContent, 'The message should be displayed (using noContent:true property)')
+    // find message display and verify it is visible with right properties
+    const messageDisplay = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(messageDisplay, 1, 'There should be one message display')
+    assert.equal(messageDisplay.props().messageKey, 'hello.info', 'The message should be reported')
+    assert.equal(messageDisplay.props().titleKey, 'entities.common.services.notice.title', 'The info title should be used')
+    assert.isTrue(messageDisplay.props().noContent, 'The message should be displayed (using noContent:true property)')
   })
   it('should render correctly in configuration state', () => {
     const parameters = [Parameter.buildBooleanEditor('param1', true, true)]
@@ -121,17 +107,11 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     const loadableDialog = enzymeWrapper.find(LoadableContentDialogContainer)
     assert.lengthOf(loadableDialog, 1, 'There should be one loadable dialog')
     assert.isTrue(loadableDialog.props().loaded, 'The dialog should be marked as loaded to display its children')
-    // check close option is visible
-    const closeAction = loadableDialog.props().actions.find(n => n.key === 'close.button')
-    assert.isNotNull(closeAction, 'The close action should be displayed')
-    // check submit option is visible
-    const submitAction = loadableDialog.props().actions.find(n => n.key === 'submit.button')
-    assert.isNotNull(submitAction, 'The submit action should be displayed')
-    // find message displayer and verify it is not visible, showing its children
-    const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
-    assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.isFalse(messageDisplayer.props().noContent, 'The message should not be displayed (using noContent:false property)')
-    // find parameters configuration displayer and check its configuration
+    // find message display and verify it is not visible, showing its children
+    const messageDisplay = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(messageDisplay, 1, 'There should be one message displayer')
+    assert.isFalse(messageDisplay.props().noContent, 'The message should not be displayed (using noContent:false property)')
+    // find parameters configuration display and check its configuration
     const parametersConfigComp = enzymeWrapper.find(ParametersConfigurationComponent)
     assert.lengthOf(parametersConfigComp, 1, 'There should be a parameters configuration component')
     assert.equal(parametersConfigComp.props().parameters, parameters, 'Parameters should be provided to param editor')
@@ -151,20 +131,14 @@ describe('[Entities Common] Testing RunServiceDialogComponent', () => {
     const loadableDialog = enzymeWrapper.find(LoadableContentDialogContainer)
     assert.lengthOf(loadableDialog, 1, 'There should be one loadable dialog')
     assert.isTrue(loadableDialog.props().loaded, 'The dialog should be marked as loaded to display its children')
-    // check close option is visible
-    const closeAction = loadableDialog.props().actions.find(n => n.key === 'close.button')
-    assert.isNotNull(closeAction, 'The close action should be displayed')
-    // check custom option is visible
-    const customOption = loadableDialog.props().actions.find(n => n.key === 'custom.option')
-    assert.isNotNull(customOption, 'The custom action should be displayed')
-    // find message displayer and verify it is not visible, showing its children
-    const messageDisplayer = enzymeWrapper.find(NoContentMessageInfo)
-    assert.lengthOf(messageDisplayer, 1, 'There should be one message displayer')
-    assert.isFalse(messageDisplayer.props().noContent, 'The message should not be displayed (using noContent:false property)')
+    // find message display and verify it is not visible, showing its children
+    const messageDisplay = enzymeWrapper.find(NoContentMessageInfo)
+    assert.lengthOf(messageDisplay, 1, 'There should be one message display')
+    assert.isFalse(messageDisplay.props().noContent, 'The message should not be displayed (using noContent:false property)')
     // check parameters parameters configuration is not displayed
     assert.lengthOf(enzymeWrapper.find(ParametersConfigurationComponent), 0, 'There should be a parameters configuration component')
     // check result component is displayed
-    const resultsView = enzymeWrapper.find(n => n.id === 'result')
+    const resultsView = enzymeWrapper.find((n) => n.id === 'result')
     assert.isNotNull(resultsView, 'The result view should be displayed')
   })
 })

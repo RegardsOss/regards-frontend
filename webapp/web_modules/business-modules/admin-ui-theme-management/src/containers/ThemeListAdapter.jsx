@@ -68,14 +68,13 @@ export class ThemeListAdapter extends React.Component {
    * Browse to edition form
    * @param {*} themeId theme ID
    */
-  handleEdit = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
+  handleEdit = (themeId) => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/edit`)
 
   /**
    * Browse to duplicate form
    * @param {*} themeId theme ID
    */
-  handleDuplicate = themeId => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
-
+  handleDuplicate = (themeId) => browserHistory.push(`${this.getRootURL()}/ui/theme/${themeId}/duplicate`)
 
   render() {
     const deleteTheme = this.props.isInstance ? this.props.deleteInstanceTheme : this.props.deleteTheme
@@ -101,11 +100,11 @@ const mapStateToProps = (state, ownProps) => ({
   isInstance: AuthenticationParametersSelectors.isInstance(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchThemeList: () => dispatch(ThemeActions.fetchPagedEntityList(0, 100)),
   fetchThemeInstanceList: () => dispatch(ThemeInstanceActions.fetchPagedEntityList(0, 100)),
-  deleteTheme: themeId => dispatch(ThemeActions.deleteEntity(themeId)),
-  deleteInstanceTheme: themeId => dispatch(ThemeInstanceActions.deleteEntity(themeId)),
+  deleteTheme: (themeId) => dispatch(ThemeActions.deleteEntity(themeId)),
+  deleteInstanceTheme: (themeId) => dispatch(ThemeInstanceActions.deleteEntity(themeId)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(ThemeListAdapter)

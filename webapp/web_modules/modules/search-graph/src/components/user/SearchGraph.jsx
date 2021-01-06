@@ -30,7 +30,6 @@ import { DescriptionProperties } from '../../shapes/DescriptionProperties'
 import GraphLevelDisplayerContainer from '../../containers/user/GraphLevelDisplayerContainer'
 import ToggleDatasetDetailsContainer from '../../containers/user/ToggleDatasetDetailsContainer'
 
-
 /**
 * Search graph (collections explorer)
 */
@@ -51,7 +50,10 @@ class SearchGraph extends React.Component {
     ...i18nContextType,
   }
 
-  componentWillMount = () => {
+  /** Scroll area reference */
+  scrollArea = React.createRef()
+
+  UNSAFE_componentWillMount = () => {
     // initialize state
     this.updateForLevelsWidth()
   }
@@ -60,8 +62,8 @@ class SearchGraph extends React.Component {
     // A - update for level width
     this.updateForLevelsWidth(width)
     // B - make sure scroll component sticks on right level
-    if (this.scrollArea) {
-      this.scrollArea.scrollRight()
+    if (this.scrollArea.current) {
+      this.scrollArea.current.scrollRight()
     }
   }
 
@@ -88,20 +90,18 @@ class SearchGraph extends React.Component {
     const { moduleTheme: { user } } = this.context
 
     // header options
-    const headerOptionsComponents = [
-      <ToggleDatasetDetailsContainer
-        key="toggle.datasets.visible"
-        graphDatasetAttributes={graphDatasetAttributes}
-      />]
-
-
     const graphLevels = get(moduleConf, 'graphLevels', [])
 
     return (
       <DynamicModulePane
         {...moduleProps}
         moduleConf={moduleConf}
-        options={headerOptionsComponents}
+        // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+        options={[ // eslint wont fix: react accepts only one children list by parent, two would be required here
+          <ToggleDatasetDetailsContainer
+            key="toggle.datasets.visible"
+            graphDatasetAttributes={graphDatasetAttributes}
+          />]}
         requiredDependencies={dependencies}
         mainModule={false}
       >
@@ -114,7 +114,7 @@ class SearchGraph extends React.Component {
             ? user.scrollArea.fullscreenStyles
             : user.scrollArea.defaultStyles} // limit height in normal and fullscreen modes
           contentStyle={viewportStyles}
-          ref={(scrollArea) => { this.scrollArea = scrollArea }}
+          ref={this.scrollArea}
         >
           <Measure bounds onMeasure={this.onLevelsResized}>
             {

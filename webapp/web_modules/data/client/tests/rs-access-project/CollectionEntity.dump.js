@@ -28,6 +28,8 @@ export default {
       entityType: 'COLLECTION',
       providerId: 'TestCollection1',
       id: 'URN:AIP:DATASET:raph_tests_validation_1_1_0__2:90dc4ef0-8cb9-4246-a2ae-156ed032e09d:V1',
+      version: 1,
+      last: true,
       model: '1',
       label: 'collection1',
       tags: [],
@@ -43,9 +45,12 @@ export default {
       },
       properties: {
         name: 'collection1',
-        values_l1_sum: 2261,
-        end_date: '2020-05-16T15:39:00Z',
-        start_date: '2016-05-16T15:28:00Z',
+        // eslint-disable-next-line camelcase
+        values_l1_sum: 2261, // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        end_date: '2020-05-16T15:39:00Z', // eslint wont fix: matches server format
+        // eslint-disable-next-line camelcase
+        start_date: '2016-05-16T15:28:00Z', // eslint wont fix: matches server format
         count: 26,
       },
       geometry: null,

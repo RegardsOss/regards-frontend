@@ -17,12 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { OrderShapes } from '@regardsoss/shape'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 import { OrdersNavigationActions } from '../../model/OrdersNavigationActions'
 import OrderDatasetsComponent from '../../components/datasets/OrderDatasetsComponent'
 
 /**
  * Order datasets container
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class OrderDatasetsContainer extends React.Component {
   static propTypes = {
@@ -30,6 +32,8 @@ export class OrderDatasetsContainer extends React.Component {
     order: OrderShapes.OrderWithContent,
     // orders navigation actions (for sub containers), provided only when navigation is enabled
     navigationActions: PropTypes.instanceOf(OrdersNavigationActions).isRequired,
+    processingSelectors: PropTypes.instanceOf(BasicListSelectors).isRequired,
+    isProcessingDependenciesExist: PropTypes.bool.isRequired,
   }
 
   static DEFAULT_STATE = {
@@ -40,7 +44,7 @@ export class OrderDatasetsContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize the state
    */
-  componentWillMount = () => this.setState(OrderDatasetsContainer.DEFAULT_STATE)
+  UNSAFE_componentWillMount = () => this.setState(OrderDatasetsContainer.DEFAULT_STATE)
 
   /**
    * User callbacker: user updated columns visibility (this container considers only columns keys)
@@ -57,12 +61,17 @@ export class OrderDatasetsContainer extends React.Component {
   }
 
   render() {
-    const { order, navigationActions } = this.props
+    const {
+      order, navigationActions, processingSelectors, isProcessingDependenciesExist,
+    } = this.props
     const { columnsVisibility } = this.state
+
     return (
       <OrderDatasetsComponent
         datasets={order.content.datasetTasks}
         navigationActions={navigationActions}
+        processingSelectors={processingSelectors}
+        isProcessingDependenciesExist={isProcessingDependenciesExist}
         columnsVisibility={columnsVisibility}
         onChangeColumnsVisibility={this.onChangeColumnsVisibility}
       />

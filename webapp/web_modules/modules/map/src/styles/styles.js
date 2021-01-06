@@ -21,7 +21,7 @@
  * Styles for map module
  * @author Léo Mieulet
  */
-const moduleStyles = theme => (
+const moduleStyles = (theme) => (
   {
     mizarConfStyle: {
       height: '300px',

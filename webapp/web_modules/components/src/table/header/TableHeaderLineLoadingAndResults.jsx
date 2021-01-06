@@ -62,5 +62,4 @@ class TableHeaderLineLoadingAndResults extends React.Component {
   }
 }
 
-
 export default TableHeaderLineLoadingAndResults

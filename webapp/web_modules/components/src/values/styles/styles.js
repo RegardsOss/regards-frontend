@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export default theme => ({
+export default (theme) => ({
   textRenderCell: {
     whiteSpace: 'nowrap',
     overflow: 'hidden',

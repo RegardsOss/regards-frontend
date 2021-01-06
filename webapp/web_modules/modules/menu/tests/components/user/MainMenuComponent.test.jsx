@@ -97,7 +97,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
     assert.lengthOf(contactComponent, 1, 'ContactComponent should be added')
     assert.equal(contactComponent.props().contacts, props.moduleConf.contacts, 'ContactComponent should have right contacts prop')
 
-
     const projectAboutPageLinkContainer = enzymeWrapper.find(ProjectAboutPageLinkContainer)
     assert.lengthOf(projectAboutPageLinkContainer, 1, 'ProjectAboutPageLinkContainer should be added')
     assert.equal(projectAboutPageLinkContainer.props().appName, props.appName, 'ProjectAboutPageLinkContainer should have right appName prop')
@@ -151,7 +150,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
 
-
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
     assert.equal(cartSelectorContainer.props().project, props.project, 'CartSelectorContainer should have right project prop')
@@ -159,7 +157,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
     const contactComponent = enzymeWrapper.find(ContactComponent)
     assert.lengthOf(contactComponent, 1, 'ContactComponent should be added')
     assert.equal(contactComponent.props().contacts, props.moduleConf.contacts, 'ContactComponent should have right contacts prop')
-
 
     const projectAboutPageLinkContainer = enzymeWrapper.find(ProjectAboutPageLinkContainer)
     assert.lengthOf(projectAboutPageLinkContainer, 1, 'ProjectAboutPageLinkContainer should be added')
@@ -206,7 +203,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
       isInstance: props.isInstance,
     }, 'Authentication container properties should be correctly reported')
 
-
     const cartSelectorContainer = enzymeWrapper.find(CartSelectorContainer)
     assert.lengthOf(cartSelectorContainer, 1, 'CartSelectorContainer should be added')
     assert.equal(cartSelectorContainer.props().project, props.project, 'CartSelectorContainer should have right project prop')
@@ -214,7 +210,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
     const contactComponent = enzymeWrapper.find(ContactComponent)
     assert.lengthOf(contactComponent, 1, 'ContactComponent should be added')
     assert.equal(contactComponent.props().contacts, props.moduleConf.contacts, 'ContactComponent should have right contacts prop')
-
 
     const projectAboutPageLinkContainer = enzymeWrapper.find(ProjectAboutPageLinkContainer)
     assert.lengthOf(projectAboutPageLinkContainer, 1, 'ProjectAboutPageLinkContainer should be added')
@@ -269,7 +264,6 @@ describe('[Menu] Testing MainMenuComponent', () => {
     const contactComponent = enzymeWrapper.find(ContactComponent)
     assert.lengthOf(contactComponent, 1, 'ContactComponent should be added')
     assert.equal(contactComponent.props().contacts, props.moduleConf.contacts, 'ContactComponent should have right contacts prop')
-
 
     const projectAboutPageLinkContainer = enzymeWrapper.find(ProjectAboutPageLinkContainer)
     assert.lengthOf(projectAboutPageLinkContainer, 1, 'ProjectAboutPageLinkContainer should be added')

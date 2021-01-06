@@ -32,7 +32,6 @@ class OrderDatasetsCountHeaderMessage extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const { totalFilesCount } = this.props
     const { intl: { formatMessage } } = this.context

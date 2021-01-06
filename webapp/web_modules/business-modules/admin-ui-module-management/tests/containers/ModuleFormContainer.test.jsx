@@ -37,7 +37,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       params: {
         project: 'testProject',
         applicationId: 'testApp',
-        module_id: '1',
+        moduleId: '1',
       },
       updateModule: () => { },
       createModule: () => { },
@@ -58,7 +58,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       params: {
         project: 'testProject',
         applicationId: 'testApp',
-        module_id: '1',
+        moduleId: '1',
       },
       updateModule: () => { },
       createModule: () => { },
@@ -82,7 +82,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       params: {
         project: 'testProject',
         applicationId: 'testApp',
-        module_id: '1',
+        moduleId: '1',
       },
       updateModule: () => { },
       createModule: () => { },
@@ -111,7 +111,7 @@ describe('[ADMIN UI MODULE MANAGEMENT] Testing Module form container', () => {
       params: {
         project: 'testProject',
         applicationId: 'testApp',
-        module_id: '1',
+        moduleId: '1',
       },
       updateModule: () => { },
       createModule: () => { },

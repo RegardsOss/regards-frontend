@@ -18,7 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { buildTestContext, testSuiteHelpers, ReduxFormTestHelper } from '@regardsoss/tests-helpers'
 import Chip from 'material-ui/Chip'
 import TextField from 'material-ui/TextField'
 import { CategoriesFieldArrayRenderer } from '../../../src/components/acquisitionChain/CategoriesFieldArrayRenderer'
@@ -38,19 +38,8 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing CategoriesFieldArrayRenderer'
     assert.isDefined(CategoriesFieldArrayRenderer)
   })
   it('should render correctly', () => {
-    const fieldValues = [
-      'pikachu', 'soyouz', 'vendetta',
-    ]
     const props = {
-      fields: {
-        getAll: () => [
-          'pikachu', 'soyouz', 'vendetta',
-        ],
-        push: () => { },
-        remove: () => { },
-        map: f => fieldValues.map((member, index, fields) => f(member, index, props.fields)),
-        get: i => fieldValues[i],
-      },
+      fields: ReduxFormTestHelper.getFieldsProps(['pikachu', 'soyouz', 'vendetta']),
     }
     const enzymeWrapper = shallow(<CategoriesFieldArrayRenderer {...props} />, { context })
     const chip = enzymeWrapper.find(Chip)

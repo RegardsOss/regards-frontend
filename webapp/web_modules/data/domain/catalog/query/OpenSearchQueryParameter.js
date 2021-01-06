@@ -62,7 +62,6 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   /** NEGATE value operator */
   static NEGATE_OPERATOR = '!'
 
-
   /**
    * Negates a parameter value
    * @param {string} parameterValue parameter value
@@ -126,7 +125,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    */
   static toStrictStringEqual(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
     return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.STRICT_STRING_EQUAL_ESCAPED,
-      escapedValue => `"${escapedValue}"`)
+      (escapedValue) => `"${escapedValue}"`)
   }
 
   /**
@@ -138,7 +137,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    */
   static toStringContained(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
     return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED,
-      escapedValue => `(${escapedValue})`)
+      (escapedValue) => `(${escapedValue})`)
   }
 
   /**

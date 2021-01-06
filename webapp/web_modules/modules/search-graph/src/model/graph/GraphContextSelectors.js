@@ -65,7 +65,7 @@ class GraphContextSelectors extends BasicSelector {
    * @param state : redux state
    * @return bool
    */
-  areDatasetAttributesVisible = state => this.uncombineStore(state).datasetsAttributesVisible
+  areDatasetAttributesVisible = (state) => this.uncombineStore(state).datasetsAttributesVisible
 }
 
 export default new GraphContextSelectors(['modules.search-graph', REDUCER_PATH])

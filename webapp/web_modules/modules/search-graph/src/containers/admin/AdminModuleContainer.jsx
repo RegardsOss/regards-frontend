@@ -44,12 +44,10 @@ export class AdminModuleContainer extends React.Component {
     loading: true,
   }
 
-
   componentDidMount = () => {
     const { fetchCollectionModels, fetchSelectableAttributes } = this.props
     return Promise.all([fetchCollectionModels(), fetchSelectableAttributes()]).then(() => this.setState({ loading: false }))
   }
-
 
   render() {
     const {
@@ -74,14 +72,14 @@ export class AdminModuleContainer extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   // fetched collection models to provide the available graph levels
   collectionModels: CollectionModelSelectors.getList(state) || {},
   selectableAttributes: AttributeModelSelectors.getList(state),
   hasError: AttributeModelSelectors.hasError(state) || CollectionModelSelectors.hasError(state),
 })
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchCollectionModels: () => dispatch(CollectionModelActions.fetchEntityList()),
   fetchSelectableAttributes: () => dispatch(AttributeModelActions.fetchEntityList({ modelType: 'DATASET' })),
 })

@@ -56,7 +56,7 @@ class DescriptionConfigurationFormComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to initialize this sub form part values
    */
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {
       isCreating, entityType, changeField, currentNamespace,
     } = this.props
@@ -69,7 +69,9 @@ class DescriptionConfigurationFormComponent extends React.Component {
         showCoupling: true,
         showLinkedDocuments: true,
         showLinkedEntities: true,
+        showOtherVersions: false,
         showThumbnail: false,
+        showQuicklooks: true,
         groups: [],
         attributeToDescriptionFiles: [],
       })
@@ -80,10 +82,9 @@ class DescriptionConfigurationFormComponent extends React.Component {
    * Validates edited groups
    * @return {string} error if any, undefined otherwise
    */
-  validateGroups = groups => groups.find(g => g.showTitle && (!g.title.en || !g.title.fr))
+  validateGroups = (groups) => groups.find((g) => g.showTitle && (!g.title.en || !g.title.fr))
     ? 'error.marker' // unused, only explaining redux there is an error here
     : null
-
 
   render() {
     const {
@@ -143,10 +144,25 @@ class DescriptionConfigurationFormComponent extends React.Component {
               component={RenderCheckbox}
               fullWidth
             />
+            {/* Show other versions (only for data currently) */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showOtherVersions`}
+              label={formatMessage({ id: 'module.description.configuration.show.other.versions' })}
+              component={RenderCheckbox}
+              disabled={entityType !== DamDomain.ENTITY_TYPES_ENUM.DATA}
+              fullWidth
+            />
             {/* Show thumbnail field */}
             <Field
               name={`${currentNamespace}.${entityType}.showThumbnail`}
               label={formatMessage({ id: 'module.description.configuration.show.thumbnail' })}
+              component={RenderCheckbox}
+              fullWidth
+            />
+            {/* Show quicklooks section field */}
+            <Field
+              name={`${currentNamespace}.${entityType}.showQuicklooks`}
+              label={formatMessage({ id: 'module.description.configuration.show.quicklooks' })}
               component={RenderCheckbox}
               fullWidth
             />

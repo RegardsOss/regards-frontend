@@ -49,16 +49,15 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
       dispatchHideDetail: () => { },
     }
     const enzymeWrapper = shallow(<SelectionItemDetailContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SelectionItemDetailComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the sub component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, SelectionItemDetailComponent, {
       ...props.detail,
       onClose: props.dispatchHideDetail,
-    }, 'Properties should be correctly reported to component')
+    })
   })
   it('should render correctly with detail', () => {
     const props = {
       showDatasets: false,
+      visible: true,
       detail: {
         visible: true,
         date: '2017-09-08T15:59:57.664Z',
@@ -68,12 +67,10 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
       dispatchHideDetail: () => { },
     }
     const enzymeWrapper = shallow(<SelectionItemDetailContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SelectionItemDetailComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the sub component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, SelectionItemDetailComponent, {
       ...props.detail,
       onClose: props.dispatchHideDetail,
-    }, 'Properties should be correctly reported to component')
+    })
   })
   it('should render correctly after detail were hidden', () => {
     const props = {
@@ -87,11 +84,9 @@ describe('[Order Cart] Testing SelectionItemDetailContainer', () => {
       dispatchHideDetail: () => { },
     }
     const enzymeWrapper = shallow(<SelectionItemDetailContainer {...props} />, { context })
-    const componentWrapper = enzymeWrapper.find(SelectionItemDetailComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the sub component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, SelectionItemDetailComponent, {
       ...props.detail,
       onClose: props.dispatchHideDetail,
-    }, 'Properties should be correctly reported to component')
+    })
   })
 })

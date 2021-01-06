@@ -20,7 +20,6 @@ import { assert } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import metadatav1 from '../../src/definitions/metadatav1'
 
-
 // metadata model as returned by server
 const modelUser = {
   content: {

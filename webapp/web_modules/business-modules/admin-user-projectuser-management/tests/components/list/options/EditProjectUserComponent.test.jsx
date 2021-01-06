@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { HateoasIconAction } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import EditProjectUserComponent, { HatoasIconButton } from '../../../../src/components/list/options/EditProjectUserComponent'
+import EditProjectUserComponent from '../../../../src/components/list/options/EditProjectUserComponent'
 import styles from '../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -37,12 +38,12 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing EditProjectUserComponent', () =
   })
   it('should render correctly loading', () => {
     const props = {
-      entity: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser'),
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       isLoading: true,
       onEdit: () => { },
     }
     const enzymeWrapper = shallow(<EditProjectUserComponent {...props} />, { context })
-    const iconButton = enzymeWrapper.find(HatoasIconButton)
+    const iconButton = enzymeWrapper.find(HateoasIconAction)
     assert.lengthOf(iconButton, 1, 'There should be the icon button')
     assert.isTrue(iconButton.props().disabled, 'Button should be forced disabled as it is loading')
     assert.isOk(iconButton.props().title, 'A tooltip should be provided')
@@ -52,12 +53,12 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing EditProjectUserComponent', () =
   it('should render correctly not loading', () => {
     let spiedEditCall = null
     const props = {
-      entity: DumpProvider.getFirstEntity('AdminClient', 'ProjectUser'),
+      entity: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       isLoading: false,
       onEdit: (id) => { spiedEditCall = id },
     }
     const enzymeWrapper = shallow(<EditProjectUserComponent {...props} />, { context })
-    const iconButton = enzymeWrapper.find(HatoasIconButton)
+    const iconButton = enzymeWrapper.find(HateoasIconAction)
     assert.lengthOf(iconButton, 1, 'There should be the icon button')
     assert.isFalse(iconButton.props().disabled, 'Button should be disabled control should be left to HATOAS mechanism')
     assert.isOk(iconButton.props().title, 'A tooltip should be provided')

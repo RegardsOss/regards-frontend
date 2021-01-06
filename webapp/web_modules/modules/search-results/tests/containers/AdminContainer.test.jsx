@@ -82,10 +82,10 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       datasetModels: {},
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      fetchDatasets: () => new Promise(resolve => resolve()),
-      fetchDatasetModels: () => new Promise(resolve => resolve()),
-      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
-      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
+      fetchDatasets: () => new Promise((resolve) => resolve()),
+      fetchDatasetModels: () => new Promise((resolve) => resolve()),
+      fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
+      fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check state
@@ -160,10 +160,10 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       datasetModels: {},
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      fetchDatasets: () => new Promise(resolve => resolve()),
-      fetchDatasetModels: () => new Promise(resolve => resolve()),
-      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
-      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
+      fetchDatasets: () => new Promise((resolve) => resolve()),
+      fetchDatasetModels: () => new Promise((resolve) => resolve()),
+      fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
+      fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check there are currently the main, data and dataset sections
@@ -217,14 +217,14 @@ describe('[SEARCH RESULTS] Testing AdminContainer', () => {
       datasetModels: {},
       dataAttributeModels: attributes,
       datasetAttributeModels: attributes,
-      fetchDatasets: () => new Promise(resolve => resolve()),
-      fetchDatasetModels: () => new Promise(resolve => resolve()),
-      fetchDataObjectAttributes: () => new Promise(resolve => resolve()),
-      fetchDataSetAttributes: () => new Promise(resolve => resolve()),
+      fetchDatasets: () => new Promise((resolve) => resolve()),
+      fetchDatasetModels: () => new Promise((resolve) => resolve()),
+      fetchDataObjectAttributes: () => new Promise((resolve) => resolve()),
+      fetchDataSetAttributes: () => new Promise((resolve) => resolve()),
     }
     const enzymeWrapper = shallow(<AdminContainer {...props} />, { context })
     // 1 - check there are currently the main, data and dataset sections
     const { navigationSections } = enzymeWrapper.state()
-    assert.isFalse(navigationSections.some(section => section.type === FORM_SECTIONS_ENUM.RESTRICTIONS), 'Restriction section should be hidden')
+    assert.isFalse(navigationSections.some((section) => section.type === FORM_SECTIONS_ENUM.RESTRICTIONS), 'Restriction section should be hidden')
   })
 })

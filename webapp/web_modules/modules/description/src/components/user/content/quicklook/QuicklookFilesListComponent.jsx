@@ -24,11 +24,13 @@ import QuicklookFilePreviewComponent from './QuicklookFilePreviewComponent'
 /**
  * Shows quicklook groups list, using QUICKLOOK_SD picture. Displays selected group and allows user picking a new one
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 class QuicklookFilesListComponent extends React.Component {
   static propTypes = {
     selectedIndex: PropTypes.number.isRequired,
     quicklookFiles: PropTypes.arrayOf(UIShapes.QuicklookDefinition).isRequired,
+    scrollAreaHeight: PropTypes.number,
     onSelectGroup: PropTypes.func.isRequired,
   }
 
@@ -37,7 +39,9 @@ class QuicklookFilesListComponent extends React.Component {
   }
 
   render() {
-    const { selectedIndex, quicklookFiles, onSelectGroup } = this.props
+    const {
+      selectedIndex, quicklookFiles, onSelectGroup, scrollAreaHeight,
+    } = this.props
     const {
       moduleTheme: {
         user: {
@@ -53,8 +57,15 @@ class QuicklookFilesListComponent extends React.Component {
         },
       },
     } = this.context
+
+    // Compute scroll height area
+    const style = {
+      ...scrollArea,
+      height: scrollAreaHeight,
+    }
+
     return (
-      <ScrollArea vertical contentStyle={scrollAreaContent} style={scrollArea}>
+      <ScrollArea vertical contentStyle={scrollAreaContent} style={style}>
         <div style={listContainer}>
           { /** For each group, add picture displayer / selector and previous group separator */
             quicklookFiles.map((quicklookFile, index) => [

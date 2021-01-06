@@ -21,7 +21,6 @@ import { FixedColumnSize } from './columns/size/FixedColumnSize'
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 /**
  * Table layout helper, responsible to clone columns with their current layout size
  * @author Raphaël Mechali

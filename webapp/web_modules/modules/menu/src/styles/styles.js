@@ -17,11 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
 
+import { QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
+
 /**
  * Styles for menu module
  * @author Sébastien binda
  */
-const menuStyles = theme => ({
+const menuStyles = (theme) => ({
   admin: {
     firstSubheaderStyle: {
       lineHeight: 1,
@@ -72,6 +74,13 @@ const menuStyles = theme => ({
         },
         warningCell: {
           color: theme.formsExtensions.validation.warningColor,
+        },
+      },
+      buttonsGrid: {
+        displayStyle: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
         },
       },
     },
@@ -133,6 +142,37 @@ const menuStyles = theme => ({
       textTransform: undefined,
     },
     profile: {
+      mainIcon: {
+        transform: `translateY(${Math.abs(theme.button.height - theme.spacing.iconSize) / 2}px)`,
+      },
+      quotaStatusIcon: {
+        warning: {
+          position: 'absolute',
+          top: theme.module.menu.quotaWarningIcon.top,
+          left: theme.module.menu.quotaWarningIcon.left,
+          color: theme.components.download.quotaWarningColor,
+          width: theme.module.menu.quotaWarningIcon.size,
+          height: theme.module.menu.quotaWarningIcon.size,
+        },
+        consumed: {
+          position: 'absolute',
+          top: theme.module.menu.quotaWarningIcon.top,
+          left: theme.module.menu.quotaWarningIcon.left,
+          color: theme.components.download.quotaConsumedColor,
+          width: theme.module.menu.quotaWarningIcon.size,
+          height: theme.module.menu.quotaWarningIcon.size,
+        },
+      },
+      menu: {
+        item: {
+          warning: {
+            color: theme.components.download.quotaWarningColor,
+          },
+          consumed: {
+            color: theme.components.download.quotaConsumedColor,
+          },
+        },
+      },
       dialog: {
         styles: {
           padding: '0',
@@ -265,6 +305,57 @@ const menuStyles = theme => ({
         style: {
           marginLeft: '0',
         },
+      },
+    },
+    quotaInformation: {
+      rootContainer: {
+        padding: theme.module.menu.quotaView.rootPadding,
+      },
+      title: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          padding: theme.module.menu.quotaView.title.padding,
+        },
+        text: {
+          color: theme.palette.textColor,
+          fontSize: theme.dialog.titleFontSize,
+          padding: theme.module.menu.quotaView.title.textPadding,
+        },
+      },
+      message: {
+        color: theme.palette.textColor,
+        fontSize: theme.dialog.bodyFontSize,
+        paddingBottom: theme.module.menu.quotaView.text,
+      },
+      quotaValuesTitle: {
+        color: theme.palette.textColor,
+        fontSize: theme.dialog.bodyFontSize,
+        ...theme.module.menu.quotaView.currentState.title,
+      },
+      quotaValueRow: {
+        root: {
+          display: 'flex',
+          alignItems: 'center',
+          padding: theme.module.menu.quotaView.currentState.value.padding,
+        },
+        ...[ // style selector by state
+          { key: QUOTA_INFO_STATE_ENUM.UNLIMITED, color: theme.palette.textColor },
+          { key: QUOTA_INFO_STATE_ENUM.IDLE, color: theme.palette.textColor },
+          { key: QUOTA_INFO_STATE_ENUM.WARNING, color: theme.components.download.quotaWarningColor },
+          { key: QUOTA_INFO_STATE_ENUM.CONSUMED, color: theme.components.download.quotaConsumedColor },
+        ].reduce((acc, { key, color }) => ({
+          ...acc,
+          [key]: {
+            icon: { color },
+            text: {
+              color,
+              fontSize: theme.dialog.bodyFontSize,
+              fontWeight: theme.module.menu.quotaView.currentState.value.fontWeight,
+              padding: theme.module.menu.quotaView.currentState.value.textPadding,
+            },
+          },
+        }), {}),
       },
     },
     dialog: {

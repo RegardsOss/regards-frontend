@@ -40,7 +40,6 @@ describe('[COMMON] Testing i18n actions', () => {
       locale: 'fr',
     }
 
-
     const expectedActions = [setLocaleAction]
 
     store.dispatch(setLocale('fr'))

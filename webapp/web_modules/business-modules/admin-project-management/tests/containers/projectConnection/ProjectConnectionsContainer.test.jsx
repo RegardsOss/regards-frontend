@@ -68,7 +68,6 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ProjectConnectionsContainer', () =>
     expect(enzymeWrapper.find(ProjectConnectionFormComponent)).to.have.length(1)
   })
 
-
   it('should render the guided view', () => {
     const props = {
       params: {

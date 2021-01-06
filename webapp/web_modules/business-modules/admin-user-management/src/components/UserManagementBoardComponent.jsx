@@ -33,7 +33,6 @@ class UserManagementBoardComponent extends React.Component {
     ...i18nContextType,
   }
 
-
   render() {
     const items = UserManagementItems(this.props.projectName, this.context.intl)
     return (
@@ -41,6 +40,5 @@ class UserManagementBoardComponent extends React.Component {
     )
   }
 }
-
 
 export default UserManagementBoardComponent

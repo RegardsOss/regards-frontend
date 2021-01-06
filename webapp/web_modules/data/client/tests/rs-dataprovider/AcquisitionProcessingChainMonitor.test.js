@@ -24,7 +24,6 @@ import getEntityReducer from '../../src/rs-data-provider/AcquisitionProcessingCh
 import getEntitySelectors from '../../src/rs-data-provider/AcquisitionProcessingChainMonitor/AcquisitionProcessingChainMonitorSelectors'
 import dump from './AcquisitionProcessingChainMonitor.dump'
 
-
 const options = {
 }
 

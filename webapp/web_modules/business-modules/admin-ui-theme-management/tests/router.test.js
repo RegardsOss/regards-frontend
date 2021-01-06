@@ -34,7 +34,6 @@ describe('[ADMIN UI THEME MANAGEMENT] Testing admin theme board router', () => {
     expect(routes.childRoutes[2].path).to.eq('list')
   })
 
-
   it('should return theme edition / duplication form', (done) => {
     routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ThemeFormAdapter)

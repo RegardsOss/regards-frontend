@@ -60,9 +60,7 @@ class ColumnVisibleRender extends React.Component {
       >
         {visible
           ? <CheckedIcon />
-          : <UncheckedIcon />
-
-        }
+          : <UncheckedIcon />}
       </IconButton>
     )
   }

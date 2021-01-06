@@ -19,6 +19,7 @@
 import { orderListReducer } from './client/OrderListClient'
 import { orderFilesReducer } from './client/OrderFilesClient'
 import { ordersNavigationReducer } from './client/OrdersNavigationClient'
+import { processingReducer } from './client/ProcessingClient'
 
 /**
  * Module reducer (configures there combined path at module level)
@@ -27,4 +28,5 @@ export default {
   orderList: orderListReducer,
   orderFiles: orderFilesReducer,
   navigation: ordersNavigationReducer,
+  processing: processingReducer,
 }

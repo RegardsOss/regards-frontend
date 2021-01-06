@@ -16,22 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
+import { PROFILE_VIEW_STATE_ENUM } from '../domain/ProfileViewStateEnum'
 import { ProfileDialogActions } from './ProfileDialogActions'
 
 /**
- * Profile edition dialog reducer
+ * Profile dialog
+ * @author Raphaël Mechali
  */
-class ProfileDialogReducer {
+export class ProfileDialogReducer {
   static DEFAULT_STATE = {
-    profileEditionVisible: false,
+    open: false,
+    view: PROFILE_VIEW_STATE_ENUM.EDIT_PROFILE,
   }
 
   reduce = (state = ProfileDialogReducer.DEFAULT_STATE, action) => {
     switch (action.type) {
-      case ProfileDialogActions.SHOW_EDITION:
-        return { profileEditionVisible: true }
-      case ProfileDialogActions.HIDE_EDITION:
-        return { profileEditionVisible: false }
+      case ProfileDialogActions.SHOW_DIALOG:
+        return { open: true, view: action.view }
+      case ProfileDialogActions.SET_VIEW:
+        return { open: state.open, view: action.view }
+      case ProfileDialogActions.HIDE_DIALOG:
+        return { open: false, view: state.view }
       default:
         return state
     }

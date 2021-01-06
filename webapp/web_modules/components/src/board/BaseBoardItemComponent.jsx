@@ -16,14 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { themeContextType } from '@regardsoss/theme'
-import { i18nContextType } from '@regardsoss/i18n'
 import map from 'lodash/map'
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { HOCUtils } from '@regardsoss/display-control'
-import styles from './styles/styles'
+import styles from './styles'
 
 /**
  * React component to display a board item.
@@ -50,31 +50,28 @@ class BaseBoardItemComponent extends React.Component {
     const {
       title, subtitle, description, actions,
     } = this.props
+    const { moduleTheme: { items, cardActionsStyles } } = this.context
 
     const keyedActions = map(actions, (action, index) => (HOCUtils.cloneChildrenWith(action, {
       key: index,
     })))
-    const computedStyles = styles(this.context.muiTheme)
 
-    const titleStyle = {
-      backgroundColor: this.context.muiTheme.palette.accent2Color,
-    }
     return (
-      <div className={computedStyles.items.classes}>
+      <div className={items.classes}>
         {this.props.renderConfirmDialog()}
         <Card
-          style={computedStyles.items.styles}
-          containerStyle={computedStyles.items.contentStyles}
+          style={items.styles}
+          containerStyle={items.contentStyles}
         >
           <CardTitle
             title={title}
             subtitle={subtitle}
-            style={titleStyle}
+            style={items.titleStyles}
           />
           <CardText>
             {description}
           </CardText>
-          <CardActions style={computedStyles.cardActionsStyles}>
+          <CardActions style={cardActionsStyles}>
             {keyedActions}
           </CardActions>
         </Card>
@@ -83,4 +80,4 @@ class BaseBoardItemComponent extends React.Component {
   }
 }
 
-export default BaseBoardItemComponent
+export default withModuleStyle(styles)(BaseBoardItemComponent)

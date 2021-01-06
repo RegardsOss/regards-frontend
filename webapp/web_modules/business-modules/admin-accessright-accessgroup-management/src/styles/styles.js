@@ -22,7 +22,7 @@
  * @param theme
  * @author Xavier-Alexandre Brochard
  */
-const styles = theme => ({
+const styles = (theme) => ({
   // unused
 })
 

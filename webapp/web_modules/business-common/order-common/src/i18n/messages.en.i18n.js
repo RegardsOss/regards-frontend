@@ -22,9 +22,6 @@
 * @author Raphaël Mechali
 */
 const messages = {
-  // orders navigation
-  'order.list.navigation.command.label': 'Order {number}',
-
   // orders table
   'no.order.information.title': 'No order found',
   'no.order.information.message': 'You have currently no registered order.',
@@ -37,7 +34,7 @@ const messages = {
   'order.list.user.no.command.header.message': 'You have no order',
   'order.list.user.commands.header.message': 'You have {count} order(s)',
   'order.list.column.owner': 'User',
-  'order.list.column.number': 'Number',
+  'order.list.column.label': 'Label',
   'order.list.column.creation.date': 'Creation',
   'order.list.column.expiration.date': 'Expiration',
   'order.list.column.object.count': 'Objects count',
@@ -105,6 +102,8 @@ const messages = {
   'datasets.list.column.objects.count': 'Objects count',
   'datasets.list.column.files.count': 'Files count',
   'datasets.list.column.files.size': 'Files size',
+  'datasets.list.column.processing': 'Processing',
+  'datasets.list.column.processing.undefined': 'Undefined',
   'datasets.list.column.options': 'Options',
   'datasets.list.option.cell.detail.title': 'Dataset files',
 
@@ -117,6 +116,7 @@ const messages = {
   'files.list.column.size': 'Size',
   'files.list.column.type': 'MIME type',
   'files.list.column.status': 'Status',
+  'files.list.column.source': 'Source',
   'files.list.column.options': 'Options',
   'files.list.cell.status.PENDING.text': 'pending',
   'files.list.cell.status.PENDING.tooltip': 'That file is not yet available for download',
@@ -128,6 +128,8 @@ const messages = {
   'files.list.cell.status.DOWNLOADED.tooltip': 'That file has been downloaded',
   'files.list.cell.status.DOWNLOAD_ERROR.text': 'download error',
   'files.list.cell.status.DOWNLOAD_ERROR.tooltip': 'An error occurred at downloading',
+  'files.list.cell.status.PROCESSING_ERROR.text': 'processing error',
+  'files.list.cell.status.PROCESSING_ERROR.tooltip': 'An error occurred when processing the file',
   'files.list.cell.status.ERROR.text': 'error',
   'files.list.cell.status.ERROR.tooltip': 'An error occurred while downloading',
   'files.list.cell.status.UNKNOWN.text': 'unknown',

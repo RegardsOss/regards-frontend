@@ -18,7 +18,7 @@
  **/
 import { Locales } from '@regardsoss/form-utils'
 
-const messages = Object.assign({
+const messages = {
   'group.list.title': 'Groupes d\'accès',
   'group.list.subtitle': 'Un groupe d\'accès permet aux utilisateurs associés à ce groupe d\'accéder à des jeux de données, partiellement ou dans leur totalité',
   'group.list.table.name': 'Nom',
@@ -43,6 +43,7 @@ const messages = Object.assign({
   'group.form.action.save': 'Sauvegarder',
   'group.form.public': 'Rattacher automatiquement ce groupe à tous les utilisateurs et visiteurs',
   'invalid.max_32_carac': 'Utilisez 32 caractères ou moins pour les noms de groupes d\'accès',
-}, Locales.fr)
+  ...Locales.fr,
+}
 
 export default messages

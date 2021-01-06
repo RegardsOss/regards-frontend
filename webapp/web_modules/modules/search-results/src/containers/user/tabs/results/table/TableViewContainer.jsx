@@ -94,13 +94,13 @@ export class TableViewContainer extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
   /**
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -225,18 +225,13 @@ export class TableViewContainer extends React.Component {
         requestParameters={requestParameters}
         searchActions={searchActions}
         onSort={this.onSort}
-
         descriptionAvailable={descriptionAvailable}
         onShowDescription={onShowDescription}
-
         enableDownload={selectedTypeState.enableDownload}
         accessToken={accessToken}
         projectName={projectName}
-
         onAddElementToCart={onAddElementToCart}
-
         enableServices={selectedTypeState.enableServices}
-
         enableSearchEntity={selectedTypeState.enableSearchEntity}
         onSearchEntity={onSearchEntity}
       />

@@ -63,7 +63,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
   }
 
   /** Life cycle method component will receive props. Used here to initialize edition state on change */
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     const {
       open, criterionRow, availableAttributes, initialize,
     } = nextProps
@@ -93,7 +93,6 @@ export class CriterionConfigurationDialogComponent extends React.Component {
       this.setState({ editionAttributes })
     }
   }
-
 
   /** User callback: confirms configuration edition and closes dialog */
   onConfirm = () => {
@@ -126,7 +125,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
       // C - Finally, attribute type must match configuration expected type
       const { pluginMetadata: { configuration: { attributes } } } = criterionRow
       const fieldAttrName = last(fieldName.split('.'))
-      const { attributeType } = attributes.find(attr => attr.name === fieldAttrName)
+      const { attributeType } = attributes.find((attr) => attr.name === fieldAttrName)
       if (!attributeType.includes(attrModel.content.type)) {
         return 'search.results.form.configuration.search.pane.configuration.column.dialog.attribute.invalid.type'
       }
@@ -140,29 +139,25 @@ export class CriterionConfigurationDialogComponent extends React.Component {
     } = this.props
     const { editionAttributes } = this.state
     const { intl: { formatMessage } } = this.context
-    //  Actions
-    const actions = [
-      // Cancel action
-      <FlatButton
-        label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.cancel.label' })}
-        onClick={onCancel}
-        key="cancel.action"
-        type="submit"
-      />,
-      // Confirm action
-      <FlatButton
-        key="confirm.action"
-        label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.confirm.label' })}
-        disabled={invalid}
-        onClick={this.onConfirm}
-        primary
-      />]
-
     // Dialog
     return (
       <Dialog
         title={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.title' })}
-        actions={actions}
+        actions={<>
+          <FlatButton
+            label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.cancel.label' })}
+            onClick={onCancel}
+            key="cancel.action"
+            type="submit"
+          />
+          <FlatButton
+            key="confirm.action"
+            label={formatMessage({ id: 'search.results.form.configuration.search.pane.configuration.column.dialog.confirm.label' })}
+            disabled={invalid}
+            onClick={this.onConfirm}
+            primary
+          />
+        </>}
         onRequestClose={onCancel}
         open={open}
         modal
@@ -181,8 +176,7 @@ export class CriterionConfigurationDialogComponent extends React.Component {
               validate={this.validateAttribute}
               fullWidth
             />
-          ))
-          }
+          ))}
           <div />
         </form>
       </Dialog>
@@ -195,6 +189,6 @@ const ComponentAsForm = reduxForm({ form })(CriterionConfigurationDialogComponen
 
 // select edited value (to provide it to confirm callback)
 const selector = getFormValues(form)
-export default connect(state => ({
+export default connect((state) => ({
   editedConfiguration: selector(state),
 }))(ComponentAsForm)

@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-
 import get from 'lodash/get'
 import Menu from 'mdi-material-ui/DotsVertical'
 import MenuItem from 'material-ui/MenuItem'
@@ -97,7 +96,7 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
           { !entity.content.lifeCycle.catalog ? (
             <div style={gridContainer}>
               <div style={gridHeaderContainer}>
-            -
+                -
               </div>
             </div>
           ) : (
@@ -130,8 +129,7 @@ export class SessionsMonitoringIndexedRenderer extends React.Component {
                     >
                       {actions}
                     </DropDownButton>
-                  </div> : null
-                }
+                  </div> : null}
               </div>
             </div>
           )}

@@ -36,5 +36,4 @@ export const layoutRoute = {
   },
 }
 
-
 export default layoutRoute

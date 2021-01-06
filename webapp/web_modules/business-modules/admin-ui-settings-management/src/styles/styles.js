@@ -21,10 +21,7 @@
  * Module styles
  * @author Raphaël Mechali
  */
-const storageManagementStyles = theme => ({
-  modelsSpacer: {
-    marginTop: 20,
-  },
+const storageManagementStyles = (theme) => ({
   documentModels: {
     root: {
       display: 'flex',

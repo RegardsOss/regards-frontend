@@ -25,7 +25,6 @@ import map from 'lodash/map'
 import without from 'lodash/without'
 import concat from 'lodash/concat'
 import { DataManagementShapes } from '@regardsoss/shape'
-import { FormattedMessage } from 'react-intl'
 import RaisedButton from 'material-ui/RaisedButton'
 import MinusIcon from 'mdi-material-ui/Minus'
 import AddIcon from 'mdi-material-ui/Plus'
@@ -102,12 +101,11 @@ export class EditComponent extends React.Component {
     this.computeModelAttributes(attributeModelList, modelAttributeSelected)
   }
 
-
   /**
    * Lifecycle hook: update attribute list
    * @param {*} nextProps
    */
-  componentWillReceiveProps = ({ attributeModelList: nextAttributeModelList }) => {
+  UNSAFE_componentWillReceiveProps = ({ attributeModelList: nextAttributeModelList }) => {
     const { attributeModelList } = this.props
     const { modelAttributeSelected } = this.state
     if (attributeModelList !== nextAttributeModelList && nextAttributeModelList) { // refetch on parent change, if showable
@@ -133,14 +131,13 @@ export class EditComponent extends React.Component {
     }
   }
 
-
   /**
    * Returns all attributes except the one :
    *  - not alterable
    *  - not inside modelAttributeSelected
    */
   getMappableAttributes = (attributeModelList, modelAttributeSelected) => {
-    const a = reject(attributeModelList, modelAttribute => (
+    const a = reject(attributeModelList, (modelAttribute) => (
       !modelAttribute.content.alterable || !modelAttributeSelected.includes(modelAttribute.content.id)
     ))
     return a
@@ -166,10 +163,9 @@ export class EditComponent extends React.Component {
     this.computeModelAttributes(attributeModelList, nextModelAttributeSelected)
   }
 
-
   renderAvailableAttributes = () => {
     const { modelAttributeSelected } = this.state
-    const attributeModelList = filter(this.props.attributeModelList, attributeModel => (
+    const attributeModelList = filter(this.props.attributeModelList, (attributeModel) => (
       !modelAttributeSelected.includes(attributeModel.content.id)
     ))
     return this.renderAttributes(attributeModelList, <AddIcon />, this.onSelect)
@@ -177,14 +173,14 @@ export class EditComponent extends React.Component {
 
   renderSelectedAttributes = () => {
     const { modelAttributeSelected } = this.state
-    const attributeModelList = filter(this.props.attributeModelList, attributeModel => (
+    const attributeModelList = filter(this.props.attributeModelList, (attributeModel) => (
       modelAttributeSelected.includes(attributeModel.content.id)
     ))
     return this.renderAttributes(attributeModelList, <MinusIcon />, this.onDeselect)
   }
 
   renderAttributes =(attributeModelList, icon, onClick) => (
-    map(attributeModelList, attributeModel => (
+    map(attributeModelList, (attributeModel) => (
       <AttributeSelectorComponent
         label={getFullQualifiedAttributeName(attributeModel.content)}
         attributeModel={attributeModel}
@@ -201,7 +197,6 @@ export class EditComponent extends React.Component {
       entitiesCount, onCancel, submitting, invalid,
     } = this.props
     const { modelAttributeList, hasSelectedAttributes, hasSelectedAllAttributes } = this.state
-    const msgValues = { nbElement: entitiesCount }
     const hasNoAttributes = isEmpty(modelAttributeList)
     return (
       <form
@@ -211,13 +206,13 @@ export class EditComponent extends React.Component {
           <div style={moduleTheme.contentWrapper}>
             <div style={moduleTheme.attributesWrapper}>
               <ShowableAtRender show={!hasSelectedAllAttributes}>
-                <FormattedMessage id="plugin.list.editable" values={msgValues} />
+                {formatMessage({ id: 'plugin.list.editable' }, { nbElement: entitiesCount })}
                 <div style={moduleTheme.attributesChipsWrapper}>
                   {this.renderAvailableAttributes()}
                 </div>
               </ShowableAtRender>
               <ShowableAtRender show={hasSelectedAttributes}>
-                <FormattedMessage id="plugin.list.editing" values={msgValues} />
+                {formatMessage({ id: 'plugin.list.editing' }, { nbElement: entitiesCount })}
                 <div style={moduleTheme.attributesChipsWrapper}>
                   {this.renderSelectedAttributes()}
                 </div>
@@ -232,12 +227,12 @@ export class EditComponent extends React.Component {
             </div>
             <ShowableAtRender show={hasSelectedAttributes || hasNoAttributes}>
               <ShowableAtRender show={hasSelectedAttributes}>
-                <FormattedMessage id="plugin.message" values={msgValues} />
-                <FormattedMessage id="plugin.async.info" />
-                <FormattedMessage id="plugin.question" />
+                {formatMessage({ id: 'plugin.message' }, { nbElement: entitiesCount })}
+                {formatMessage({ id: 'plugin.async.info' })}
+                {formatMessage({ id: 'plugin.question' })}
               </ShowableAtRender>
               <ShowableAtRender show={hasNoAttributes}>
-                <FormattedMessage id="plugin.error.no.attribute" values={msgValues} />
+                {formatMessage({ id: 'plugin.error.no.attribute' }, { nbElement: entitiesCount })}
               </ShowableAtRender>
               <div style={moduleTheme.buttonsWrapper}>
                 <RaisedButton

@@ -16,10 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
 **/
-import { I18nProvider } from '@regardsoss/i18n'
+import compose from 'lodash/fp/compose'
+import { withI18n } from '@regardsoss/i18n'
+import { withModuleStyle } from '@regardsoss/theme'
 import ContainerShape from '../model/ContainerShape'
 import ContainerConfigurationComponent from './ContainerConfigurationComponent'
 import messages from '../i18n'
+import styles from '../styles'
 
 class ContainerConfigurationProvider extends React.Component {
   static propTypes = {
@@ -32,17 +35,14 @@ class ContainerConfigurationProvider extends React.Component {
 
   render() {
     return (
-      <I18nProvider messages={messages}>
-        <ContainerConfigurationComponent
-          container={this.props.container}
-          hideDynamicContentOption={this.props.hideDynamicContentOption}
-          open={this.props.open}
-          onCancel={this.props.onCancel}
-          onSubmit={this.props.onSubmit}
-        />
-      </I18nProvider>
-    )
+      <ContainerConfigurationComponent
+        container={this.props.container}
+        hideDynamicContentOption={this.props.hideDynamicContentOption}
+        open={this.props.open}
+        onCancel={this.props.onCancel}
+        onSubmit={this.props.onSubmit}
+      />)
   }
 }
 
-export default ContainerConfigurationProvider
+export default compose(withI18n(messages), withModuleStyle(styles))(ContainerConfigurationProvider)

@@ -33,7 +33,6 @@ describe('[ADMIN BOARD ACCOUNT] Testing accounts board router', () => {
     expect(routes.childRoutes[1].path).to.eq('management')
   })
 
-
   it('should return BoardContainer', (done) => {
     routes.childRoutes[0].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(ModuleContainer)

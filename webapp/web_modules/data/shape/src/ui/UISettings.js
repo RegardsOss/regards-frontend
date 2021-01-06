@@ -23,8 +23,14 @@
  * @author Raphaël Mechali
  */
 export const UISettings = PropTypes.shape({
+  // show products versions in project
+  showVersion: PropTypes.bool.isRequired,
   // Identifies data model of entities to consider as documents
   documentModels: PropTypes.arrayOf(PropTypes.string).isRequired,
   // Datafile.types keyword: when present in a quicklook, marks its assignement in primary group (it is not a group name!)
   primaryQuicklookGroup: PropTypes.string.isRequired,
+  // Quota warning: Used to warn user when maxQuota - quotaWarningCount < currentQuota
+  quotaWarningCount: PropTypes.number.isRequired,
+  // Rate warning: Used to warn user when rateLimit - rateWarningCount < currentRate
+  rateWarningCount: PropTypes.number.isRequired,
 })

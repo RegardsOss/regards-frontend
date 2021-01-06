@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { AdminPluginConfigurationSchemaConfiguration, PluginMetaDataConfiguration } from '@regardsoss/api'
-import { AccessDomain, DamDomain, CatalogDomain } from '@regardsoss/domain'
+import { AccessDomain, DamDomain } from '@regardsoss/domain'
 import { LocalURLProvider } from '@regardsoss/display-control'
 import RunServiceDialogConnectedComponent, { RunServiceDialogComponent } from '../../../../src/components/services/RunServiceDialogComponent'
 import { TargetHelper } from '../../../../src/definitions/TargetHelper'
@@ -74,7 +74,6 @@ const commonProps = {
   dispatchFetchPluginResult: () => new Promise((resolve, reject) => { }),
 }
 
-
 /**
  * Builds a payload for normalizr key and objet model as parameter. Changes parameters field if specified
  */
@@ -112,7 +111,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
   before(() => {
     // stub LocalURLProvider.buildLocalAccessURL to not use blobs and URL
     toRestore = LocalURLProvider.buildLocalAccessURL
-    LocalURLProvider.buildLocalAccessURL = fakeContent => fakeContent.text
+    LocalURLProvider.buildLocalAccessURL = (fakeContent) => fakeContent.text
     testSuiteHelpers.before()
   })
   after(() => {
@@ -397,12 +396,12 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     const lastFetchParams = {
       configId: null,
       parameters: null,
-      targetParameter: null,
+      target: null,
     }
-    const spyFetch = (configId, parameters, targetParameter) => {
+    const spyFetch = (configId, parameters, target) => {
       lastFetchParams.configId = configId
       lastFetchParams.parameters = parameters
-      lastFetchParams.targetParameter = targetParameter
+      lastFetchParams.target = target
       return new Promise(() => { })
     }
 
@@ -419,11 +418,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'One element target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params1, 'One element target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, {
-      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
-      searchParameters: { q: [`id:"${entity2.content.id}"`] },
-    },
-    'One element target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.target, props1.target, 'One element target - target should be corretly sent')
     // 2 - test many elements target
     const props2 = {
       ...commonProps,
@@ -437,11 +432,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Many elements target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params2, 'Many elements target - parameters should be corretly sent')
-    assert.deepEqual(lastFetchParams.targetParameter, {
-      engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
-      searchParameters: { q: [`id:("${entity1.content.id}" OR "${entity3.content.id}")`] },
-    },
-    'Many elements target - target should be corretly sent')
+    assert.deepEqual(lastFetchParams.target, props2.target, 'Many elements target - target should be corretly sent')
     // 3 - test query target
     const props3 = {
       ...commonProps,
@@ -455,14 +446,7 @@ describe('[Entities Common] Testing RunCatalogPluginServiceContainer', () => {
     enzymeWrapper.update() // wait for update
     assert.equal(lastFetchParams.configId, serviceConfiguration.configId, 'Query target - configuration ID should be corretly sent')
     assert.equal(lastFetchParams.parameters, params3, 'Query target - parameters should be corretly sent')
-    assert.deepEqual(
-      lastFetchParams.targetParameter, {
-        engineType: CatalogDomain.LEGACY_SEARCH_ENGINE,
-        searchParameters: {
-          geo: 'potatoesField',
-          q: [`model.age=22 AND id:(!("${entity2.content.id}" OR "${entity3.content.id}"))`],
-        },
-      }, 'Query target - target should be corretly sent',
+    assert.deepEqual(lastFetchParams.target, props3.target, 'Query target - target should be corretly sent',
     )
   })
 })

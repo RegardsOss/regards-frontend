@@ -26,7 +26,6 @@ import styles from '../../src/styles/styles'
 
 const context = buildTestContext(styles)
 
-
 /**
  * Test case for {@link TwoTemporalCriteriaContainer}
  *
@@ -327,7 +326,6 @@ describe('[Two temporal criterion] Testing TwoTemporalCriteriaContainer', () => 
       }, `${label} - Mutable state properties should be correctly reported to the component`)
     })
   })
-
 
   // it('should render the simple component when two different attributes, publishing state on date updates', () => {
   //   const component = enzymeWrapper.find(TwoTemporalCriteriaComponent)

@@ -24,7 +24,7 @@ import Warning from 'mdi-material-ui/Alert'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Snackbar from 'material-ui/Snackbar'
-import OnHoverSwitchFlatButton from '@regardsoss/components/src/buttons/OnHoverSwitchFlatButton'
+import { OnHoverSwitchFlatButton } from '@regardsoss/components'
 import { AdminShapes } from '@regardsoss/shape'
 import { EnumConnectivity } from '@regardsoss/domain/admin'
 import ConnectionTesterProgress from './ConnectionTesterProgress'
@@ -47,14 +47,11 @@ class DatabaseConnectionTester extends React.Component {
     ...i18nContextType,
   }
 
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      status: props.projectConnection.content.connectivity,
-      completed: 0,
-      snackBarOpen: false,
-      snackBarMessageId: 'database.connectionTester.snackbar.warning',
-    }
+  state = {
+    status: this.props.projectConnection.content.connectivity,
+    completed: 0,
+    snackBarOpen: false,
+    snackBarMessageId: 'database.connectionTester.snackbar.warning',
   }
 
   getSnackBarMessageId = (status) => {
@@ -105,54 +102,55 @@ class DatabaseConnectionTester extends React.Component {
 
   render() {
     const { projectConnection } = this.props
+    const { intl: { formatMessage } } = this.context
     const styles = moduleStyles(this.context.muiTheme)
 
     const testButton = (<FlatButton
-      label={this.context.intl.formatMessage({ id: 'database.connectionTester.start' })}
+      label={formatMessage({ id: 'database.connectionTester.start' })}
       icon={<PlayArrow />}
       onClick={this.handleTouchTap}
     />)
 
-    const switchLabels = [
-      this.context.intl.formatMessage({ id: 'database.connectionTester.connected' }),
-      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
-    ]
-
-    const switchIcons = [<Check key="check" />, <PlayArrow key="play" />]
-    const switchPrimary = [true, false]
-    const switchActions = [this.handleTouchTap, this.handleTouchTap]
-
     const successButton = (<OnHoverSwitchFlatButton
-      label={switchLabels}
-      icon={switchIcons}
-      primary={switchPrimary}
-      onClick={switchActions}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      label={[ // eslint wont fix: (same for similar ones below) wrong REGARDS API, should be corrected globally!
+        formatMessage({ id: 'database.connectionTester.connected' }),
+        formatMessage({ id: 'database.connectionTester.restart' }),
+      ]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      icon={[<Check key="check" />, <PlayArrow key="play" />]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      primary={[true, false]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      onClick={[this.handleTouchTap, this.handleTouchTap]}
     />)
 
-    const switchWarnLabels = [
-      this.context.intl.formatMessage({ id: 'database.connectionTester.warning' }),
-      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
-    ]
-    const switchWarnIcons = [<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]
-    const switchWarnStyles = [{ color: styles.palette.warningColor }, null]
     const warningButton = (<OnHoverSwitchFlatButton
-      label={switchWarnLabels}
-      icon={switchWarnIcons}
-      labelStyle={switchWarnStyles}
-      onClick={switchActions}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      label={[
+        formatMessage({ id: 'database.connectionTester.warning' }),
+        formatMessage({ id: 'database.connectionTester.restart' }),
+      ]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      icon={[<Warning key="warn" color={styles.palette.warningColor} />, <PlayArrow key="play" />]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      labelStyle={[{ color: styles.palette.warningColor }, null]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      onClick={[this.handleTouchTap, this.handleTouchTap]}
     />)
-
-    const switchErrorLabels = [
-      this.context.intl.formatMessage({ id: 'database.connectionTester.notConnected' }),
-      this.context.intl.formatMessage({ id: 'database.connectionTester.restart' }),
-    ]
-    const switchErrorIcons = [<Error key="error" />, <PlayArrow key="play" />]
 
     const errorButton = (<OnHoverSwitchFlatButton
-      label={switchErrorLabels}
-      icon={switchErrorIcons}
-      secondary={switchPrimary}
-      onClick={switchActions}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      label={[
+        formatMessage({ id: 'database.connectionTester.notConnected' }),
+        formatMessage({ id: 'database.connectionTester.restart' }),
+      ]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      icon={[<Error key="error" />, <PlayArrow key="play" />]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      secondary={[true, false]}
+      // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+      onClick={[this.handleTouchTap, this.handleTouchTap]}
     />)
 
     const pendingProgress = <ConnectionTesterProgress value={this.state.completed} />
@@ -160,7 +158,7 @@ class DatabaseConnectionTester extends React.Component {
     const snackbar = (
       <Snackbar
         open={this.state.snackBarOpen}
-        message={this.context.intl.formatMessage({ id: this.state.snackBarMessageId }, {
+        message={formatMessage({ id: this.state.snackBarMessageId }, {
           microservice: projectConnection.content.microservice,
           driverClassName: projectConnection.content.driverClassName,
         })}
