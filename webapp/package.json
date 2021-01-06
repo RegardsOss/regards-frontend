@@ -28,6 +28,7 @@
     "start:withpreprod": "webpack-dev-server --mode=development --progress --config webpack.dev.preprod.config.js",
     "start:withgeode": "webpack-dev-server --mode=development --progress --config webpack.dev.geode.config.js",
     "start:withvmperf": "webpack-dev-server --mode=development --progress --config webpack.dev.vmperf.config.js",
+    "start:withvmvalidation": "webpack-dev-server --mode=development --progress --config webpack.dev.vmvalidation.config.js",
     "start:withic": "webpack-dev-server --mode=development --progress --config webpack.dev.ic.config.js",
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "pretest": "npm run lint:fix || true",
