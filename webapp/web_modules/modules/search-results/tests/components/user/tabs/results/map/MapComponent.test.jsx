@@ -68,6 +68,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       }],
       selectedProducts: [],
       onProductSelected: () => {},
+      tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)
@@ -135,6 +136,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       }],
       selectedProducts: [],
       onProductSelected: () => {},
+      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)

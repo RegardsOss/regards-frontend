@@ -366,6 +366,7 @@ export class MapContainer extends React.Component {
         onProductSelected={onProductSelected}
         layers={layers}
         mapEngine={mapEngine}
+        tabType={tabType}
       />
     )
   }
