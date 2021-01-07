@@ -55,6 +55,9 @@ class MapComponent extends React.Component {
     // product selection management
     selectedProducts: PropTypes.arrayOf(PropTypes.object),
     onProductSelected: PropTypes.func.isRequired,
+
+    // Identifies a unique instance of this component (required for MizarAdapter ID)
+    tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
   }
 
   static contextTypes = {
@@ -114,8 +117,16 @@ class MapComponent extends React.Component {
           selectedProducts={selectedProducts}
           onProductSelected={onProductSelected}
         />
-        {mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM && <CesiumProvider {...engineProps} />}
-        {mapEngine === UIDomain.MAP_ENGINE_ENUM.MIZAR && <MizarAdapter {...engineProps} />}
+        { (() => {
+          switch (mapEngine) {
+            case UIDomain.MAP_ENGINE_ENUM.MIZAR:
+              // canvasId required by MizarAdapter for multi instance (issue regards/regards#945)
+              return <MizarAdapter canvasId={`${this.props.tabType}-MizarCanvas`} {...engineProps} />
+            case UIDomain.MAP_ENGINE_ENUM.CESIUM: // default to Cesium when not configured
+            default:
+              return <CesiumProvider {...engineProps} />
+          }
+        })()}
       </>
     )
   }

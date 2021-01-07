@@ -84,6 +84,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
       onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,
       onProductSelected: props.onProductSelected,
+      tabType: props.tabType,
       layers: [{
         layerName: 'Layer',
         visible: true,
