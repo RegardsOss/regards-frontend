@@ -36,6 +36,7 @@ import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCol
  */
 export default class MizarAdapter extends React.Component {
   static propTypes = {
+    canvasId: PropTypes.string, // TO be used when showing multiple Mizar instances (otherwise, both will point out the same canvas). IMMUTABLE
     crsContext: PropTypes.string,
     layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
@@ -64,6 +65,7 @@ export default class MizarAdapter extends React.Component {
   }
 
   static defaultProps = {
+    canvasId: 'MizarCanvas', // default value, when showing only one instance
     crsContext: 'CRS:84',
     drawnAreas: [],
     featuresColor: 'Orange',
@@ -241,7 +243,7 @@ export default class MizarAdapter extends React.Component {
       crsContext, featuresColor, drawColor, drawingSelection, viewMode, selectedFeatureColor,
       selectedColorOutlineWidth, layers,
     } = this.props
-    const mizarDiv = document.getElementById('MizarCanvas')
+    const mizarDiv = document.getElementById(this.props.canvasId)
 
     let mizarOptions = {
       // the canvas ID where Mizar is inserted
@@ -507,7 +509,7 @@ export default class MizarAdapter extends React.Component {
     return (
       <canvas
         key="canvas"
-        id="MizarCanvas"
+        id={this.props.canvasId}
         onMouseUp={this.onMouseUp}
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
