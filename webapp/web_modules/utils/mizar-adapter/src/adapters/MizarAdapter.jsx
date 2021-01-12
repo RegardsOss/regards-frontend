@@ -447,7 +447,8 @@ export default class MizarAdapter extends React.Component {
       // compute selection
       const pickingManager = this.mizar.instance.getServiceByName(MizarAdapter.MIZAR_LIBRARY.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
-      UIDomain.clickOnEntitiesHandler(newSelection, this.props.onProductSelected, this.props.onFeaturesSelected)
+      const selectedFeatures = filter(newSelection, (selection) => find(this.props.featuresCollection.features, (feature) => selection.feature.id === feature.id))
+      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onFeaturesSelected)
     }
   }
 
