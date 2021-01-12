@@ -81,7 +81,7 @@ export class ProcessingMonitoringComponent extends React.Component {
     }
 
     applyFilters = (filters) => {
-      this.setState({ filters })
+      this.setState({ filters: ProcessingMonitoringFiltersComponent.buildRequestParameters(filters) })
     }
 
     render() {
