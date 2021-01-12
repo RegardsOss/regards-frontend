@@ -76,7 +76,7 @@ const allRules = {
   'import/no-commonjs': [2, { allowRequire: true }],
   // Custom: forbid self import and cycling import in modules
   'import/no-self-import': 2,
-  'import/no-cycle': 2,
+  'import/no-cycle': [1, { ignoreExternal: true, maxDepth: 1 }],
 
   // React rules configuration
   'react/jsx-uses-react': 2,
