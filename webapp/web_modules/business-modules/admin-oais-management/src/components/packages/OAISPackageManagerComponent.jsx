@@ -461,7 +461,7 @@ export class OAISPackageManagerComponent extends React.Component {
 
   renderPostRequestDialog = () => {
     const { deletionErrors, modifyErrors } = this.state
-    if (!isEmpty(deletionErrors) || !isEmpty(deletionErrors)) {
+    if (!isEmpty(deletionErrors)) {
       return (
         <AIPPostRequestDialog
           onClose={this.onClosePostRequestDialog}
