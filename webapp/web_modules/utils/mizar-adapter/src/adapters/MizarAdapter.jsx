@@ -20,6 +20,8 @@ import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import forEach from 'lodash/forEach'
 import find from 'lodash/find'
+import map from 'lodash/map'
+import intersectionWith from 'lodash/intersection'
 import filter from 'lodash/filter'
 import last from 'lodash/last'
 import { UIDomain } from '@regardsoss/domain'
@@ -447,7 +449,8 @@ export default class MizarAdapter extends React.Component {
       // compute selection
       const pickingManager = this.mizar.instance.getServiceByName(MizarAdapter.MIZAR_LIBRARY.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
-      UIDomain.clickOnEntitiesHandler(newSelection, this.props.onProductSelected, this.props.onFeaturesSelected)
+      const selectedFeatures = filter(newSelection, (selection) => find(this.props.featuresCollection.features, (feature) => selection.feature.id === feature.id))
+      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onFeaturesSelected)
     }
   }
 
