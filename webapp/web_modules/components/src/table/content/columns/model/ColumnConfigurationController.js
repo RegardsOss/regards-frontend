@@ -95,11 +95,7 @@ const getConfiguredColumnValueForEntity = (column, entity, lineHeight, isTableSe
         }
         return ''
       }, entity.content)
-      if (entity.content[column.attributes[i]]) {
-        resultValue += ` ${attrValue}`
-      } else {
-        resultValue += ` ${attrValue}`
-      }
+      resultValue += ` ${attrValue}`
     }
     return resultValue
   }
