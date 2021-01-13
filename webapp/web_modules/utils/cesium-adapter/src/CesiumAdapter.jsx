@@ -355,6 +355,7 @@ export default class CesiumAdapter extends React.Component {
                 onDrawingSelectionDone={onDrawingSelectionDone}
                 onFeaturesSelected={onFeaturesSelected}
                 onProductSelected={onProductSelected}
+                featuresCollection={featuresCollection}
               />
               {
                 cameraDestination && <CameraFlyTo
