@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/entities-common",
-  "version": "1.4.0",
+  "version": "1.4.1-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Holds common functionalities related to entities",

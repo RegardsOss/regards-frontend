@@ -1,6 +1,6 @@
 {
   "name": "@regardsoss/order-common",
-  "version": "1.4.0",
+  "version": "1.4.1-SNAPSHOT",
   "private": true,
   "sideEffects": false,
   "description": "Common tools to display orders in Regards",
