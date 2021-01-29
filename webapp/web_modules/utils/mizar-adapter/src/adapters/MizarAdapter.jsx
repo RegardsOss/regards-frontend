@@ -154,11 +154,6 @@ export default class MizarAdapter extends React.Component {
   /** Currently drawn selection initial point (lat / lon) */
   currentDrawingInitPoint = null
 
-  /** Click count & timer in order to manage simple & double click */
-  clickCount = 0
-
-  singleClickTimer = null
-
   /**
    * Lifecycle method: component did mount. Used here to load and initialize the mizar component
    */

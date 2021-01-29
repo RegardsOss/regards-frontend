@@ -1,8 +1,9 @@
-import { GeoJsonFeature } from '@regardsoss/mizar-adapter'
+import { GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import map from 'lodash/map'
 import has from 'lodash/has'
+import find from 'lodash/find'
 import {
   ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty, Color, Viewer,
 } from 'cesium'
@@ -37,6 +38,7 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     onFeaturesSelected: PropTypes.func.isRequired,
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired,
+    featuresCollection: GeoJsonFeaturesCollection.isRequired,
   }
 
   static buildRectangleFromGeometry = (geometry) => Rectangle.fromCartographicArray([
@@ -142,18 +144,23 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   }
 
   handleSelectFeatures = (movement) => {
-    const { cesiumContext } = this.props
+    const { cesiumContext, featuresCollection } = this.props
     const pickedObjects = cesiumContext.current.cesiumElement.scene.drillPick(movement.position)
     let selectedEntities = []
     if (!isEmpty(pickedObjects)) {
       // Iterate over picked entites from Cesium and remove all objects not coming from REGARDS catalog
       selectedEntities = compact(map(pickedObjects, (entity) => {
         if (has(entity, 'id') && CatalogDomain.TagsHelper.isURNTag(entity.id.id)) {
-          return {
-            feature: {
-              id: entity.id.id,
-              label: entity.id.name,
-            },
+          // sometimes entity selected only have id stored, when need to do this to get its label everytime
+          // we need to use includes & not strict egal here because multipolygons have particular ids, each polygons ids contains product id plus _X (where X is a number)
+          const selectedFeature = find(featuresCollection.features, (feature) => entity.id.id.includes(feature.id))
+          if (selectedFeature) {
+            return {
+              feature: {
+                id: selectedFeature.id,
+                label: selectedFeature.label,
+              },
+            }
           }
         }
         return null
