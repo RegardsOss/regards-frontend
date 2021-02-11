@@ -1,6 +1,6 @@
 {
   "name": "frontend-webapp",
-  "version": "1.4.0-SNAPSHOT",
+  "version": "1.4.1-SNAPSHOT",
   "description": "REGARDS frontend webapp",
   "private": true,
   "scripts": {
@@ -28,6 +28,7 @@
     "start:withpreprod": "webpack-dev-server --mode=development --progress --config webpack.dev.preprod.config.js",
     "start:withgeode": "webpack-dev-server --mode=development --progress --config webpack.dev.geode.config.js",
     "start:withvmperf": "webpack-dev-server --mode=development --progress --config webpack.dev.vmperf.config.js",
+    "start:withvmvalidation": "webpack-dev-server --mode=development --progress --config webpack.dev.vmvalidation.config.js",
     "start:withic": "webpack-dev-server --mode=development --progress --config webpack.dev.ic.config.js",
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "pretest": "npm run lint:fix || true",
@@ -160,7 +161,7 @@
     "moment": "^2.22.1",
     "normalizr": "^2.3.1",
     "plotly.js": "^1.36.0",
-    "react": "^16.10.1",
+    "react": "^16.13.1",
     "react-ace": "^9.0.0",
     "react-chartjs-2": "^2.7.4",
     "react-copy-to-clipboard": "^5.0.1",
@@ -214,7 +215,7 @@
     "chai": "~4.2.0",
     "deep-freeze": "0.0.1",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-adapter-react-16": "^1.15.5",
     "esdoc": "^1.1.0",
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-es7-plugin": "0.0.3",

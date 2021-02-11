@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of SCO - Space Climate Observatory.
  *
@@ -355,6 +355,7 @@ export default class CesiumAdapter extends React.Component {
                 onDrawingSelectionDone={onDrawingSelectionDone}
                 onFeaturesSelected={onFeaturesSelected}
                 onProductSelected={onProductSelected}
+                featuresCollection={featuresCollection}
               />
               {
                 cameraDestination && <CameraFlyTo

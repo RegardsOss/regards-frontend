@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,8 +18,9 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { ResourceIconAction } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import DuplicateConfigurationComponent, { ResourceIconAction } from '../../../src/components/options/DuplicateConfigurationComponent'
+import DuplicateConfigurationComponent from '../../../src/components/options/DuplicateConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

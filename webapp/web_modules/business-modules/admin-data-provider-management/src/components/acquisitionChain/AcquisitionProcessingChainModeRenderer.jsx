@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,14 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Toggle from 'material-ui/Toggle'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { DataProviderShapes, CommonShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
+import { HateoasToggle } from '@regardsoss/components'
 
-/** HATEOAS-able button, exported for tests */
-export const HateoasToggle = withHateoasDisplayControl(Toggle)
 /**
  * Renderer for acquisition processing chain mode
  * @author Raphaël Mechali

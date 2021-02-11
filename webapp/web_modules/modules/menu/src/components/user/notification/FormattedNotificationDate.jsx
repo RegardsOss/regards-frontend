@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -40,10 +40,10 @@ render() {
   return isToday
     ? <FormattedDate value={notificationDate} hour="2-digit" minute="2-digit" />
     : <FormattedDate
-      value={notificationDate}
-      year={isSameYear ? undefined : '2-digit'}
-      month="short"
-      day="numeric"
+        value={notificationDate}
+        year={isSameYear ? undefined : '2-digit'}
+        month="short"
+        day="numeric"
     />
 }
 }

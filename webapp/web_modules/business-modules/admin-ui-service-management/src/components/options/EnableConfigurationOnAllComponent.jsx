@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,11 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import Toggle from 'material-ui/Toggle'
 import { AccessShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-export const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasToggle } from '@regardsoss/components'
 
 /**
  * Toggle to enable a configuration for all datasets / on dataset in list

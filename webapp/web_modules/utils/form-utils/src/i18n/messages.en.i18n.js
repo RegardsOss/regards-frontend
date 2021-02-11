@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -43,6 +43,7 @@ const messages = {
   'invalid.less.than': '{number} or less',
   'invalid.more.than': '{number} or more',
   'invalid.abs_path': 'Directory is not a valid absolute path. Should start with /',
+  'invalid.configuration': 'Invalid form configuration',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Cancel',

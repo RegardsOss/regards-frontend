@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -93,10 +93,11 @@ class MainModuleComponent extends React.Component {
    * @param {*} measuredElements measure elements with bounds
    */
   onComponentResized = ({ measureDiv: { width, height } }) => {
+    const { muiTheme } = this.context
     this.setState({
       width: Math.ceil(width),
       height: Math.ceil(height),
-      currentReziserPos: Math.ceil(width) / 2,
+      currentReziserPos: muiTheme.module.description.tree.minWidth,
     })
   }
 
@@ -108,7 +109,16 @@ class MainModuleComponent extends React.Component {
     const {
       width, height, isTreeButtonToggled, currentReziserPos,
     } = this.state
-    const { moduleTheme: { user: { main: { root, resizer, paneStyle } } } } = this.context
+    const {
+      moduleTheme: {
+        user: {
+          main: {
+            root, resizer, paneStyle, pane2Style,
+          },
+        },
+      },
+    } = this.context
+
     return (
       <TableLayout>
         <HeaderBarComponent
@@ -131,21 +141,20 @@ class MainModuleComponent extends React.Component {
                 maxSize={width - paneStyle.minWidth}
                 resizerStyle={isTreeButtonToggled ? resizer : null}
                 onDragFinished={this.onSplitDroped}
+                pane2Style={pane2Style}
               >
                 {/* Left: Tree */}
-                <div height={height}>
-                  <BrowsingTreeComponent
-                    allowSearching={allowSearching}
-                    browsingTreeVisible={browsingTreeVisible}
-                    descriptionEntity={descriptionEntity}
-                    isDescriptionAllowed={isDescriptionAllowed}
-                    onSelectInnerLink={onSelectInnerLink}
-                    onSelectEntityLink={onSelectEntityLink}
-                    onSearchWord={onSearchWord}
-                    onSearchEntity={onSearchEntity}
-                    scrollAreaHeight={height}
-                  />
-                </div>
+                <BrowsingTreeComponent
+                  allowSearching={allowSearching}
+                  browsingTreeVisible={browsingTreeVisible}
+                  descriptionEntity={descriptionEntity}
+                  isDescriptionAllowed={isDescriptionAllowed}
+                  onSelectInnerLink={onSelectInnerLink}
+                  onSelectEntityLink={onSelectEntityLink}
+                  onSearchWord={onSearchWord}
+                  onSearchEntity={onSearchEntity}
+                  scrollAreaHeight={height}
+                />
                 {/* Right : Content */}
                 <ContentDisplayComponent
                   descriptionEntity={descriptionEntity}

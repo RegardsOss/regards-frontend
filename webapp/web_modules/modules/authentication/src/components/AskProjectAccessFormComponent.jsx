@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -35,6 +35,12 @@ import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 
 export const mailFieldId = 'mail'
 export const useExistingAccountFieldId = 'hasAlreadyAccount'
+
+const {
+  validStringSize,
+} = ValidationHelpers
+const validString255 = [validStringSize(0, 255)]
+const validString128 = [validStringSize(0, 128)]
 
 /**
  * Form to request access to a project. Handles new account (internal or external) and existing account
@@ -120,6 +126,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                   type="text"
                   floatingLabelText={formatMessage({ id: 'ask.project.access.mail' })}
                   normalize={trim}
+                  validate={validString128}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -131,6 +138,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.new.password' })}
                       normalize={trim}
+                      validate={validString255}
                     />
                     <Field
                       key="confirmPassword"
@@ -140,6 +148,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       type="password"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
                       normalize={trim}
+                      validate={validString255}
                     />
                     <Field
                       key="firstName"
@@ -148,6 +157,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="text"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.first.name' })}
+                      validate={validString128}
                     />
                     <Field
                       key="lastName"
@@ -156,6 +166,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       component={RenderTextField}
                       type="text"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.last.name' })}
+                      validate={validString128}
                     />
                   </div>
                 )}

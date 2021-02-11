@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,3 +30,6 @@ export { default as MimeTypes } from './MimeTypes'
 export { SORT_ORDERS_ENUM, SORT_ORDERS, getNextSortOrder } from './SortOrdersEnum'
 export { relativeURLRegexp, validURLRegexp } from './URLRegex'
 export { validURIRegexp } from './URIRegex'
+
+// Documentation links
+export { LINK_DOC_SEARCH_API } from './DocumentationLinks'

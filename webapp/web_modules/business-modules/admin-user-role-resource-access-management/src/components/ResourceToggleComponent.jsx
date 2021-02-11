@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,11 +20,8 @@ import IconButton from 'material-ui/IconButton'
 import Toggle from 'material-ui/Toggle'
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-
-// TODO: those things are so much used, lets reference them somewhere!
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction, HateoasToggle } from '@regardsoss/components'
 
 /**
  * Resource toggle component
@@ -47,6 +44,7 @@ class ResourceToggleComponent extends React.Component {
    */
   onToggleResourceAccess = () => {
     const { resource, roleResource, onToggleResourceAccess } = this.props
+    console.error('Toggle resource')
     onToggleResourceAccess(resource, !!roleResource)
     return false
   }
@@ -59,7 +57,7 @@ class ResourceToggleComponent extends React.Component {
         <HateoasIconAction
           disableInsteadOfHide
           style={moduleTheme.resourceIconStyle}
-          onClick={this.handleToggleResourceAccess}
+          onClick={this.onToggleResourceAccess}
           entityLinks={roleResource.links}
           hateoasKey={HateoasKeys.DELETE}
         >

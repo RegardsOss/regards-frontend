@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -235,11 +235,11 @@ export class ProjectUserFormComponent extends React.Component {
         <Card>
           {this.state.isCreating
             ? <CardTitle
-              title={formatMessage({ id: 'projectUser.create.title' })}
-              subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
+                title={formatMessage({ id: 'projectUser.create.title' })}
+                subtitle={formatMessage({ id: 'projectUser.create.message' }, { passwordRules })}
             />
             : <CardTitle
-              title={formatMessage({ id: 'projectUser.edit.title' }, { email: currentUser.content.email })}
+                title={formatMessage({ id: 'projectUser.edit.title' }, { email: currentUser.content.email })}
             />}
           <CardText>
 

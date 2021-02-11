@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -19,8 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
+import { HateoasIconAction } from '@regardsoss/components'
 import { HateoasKeys } from '@regardsoss/display-control'
-import EditConfigurationComponent, { HateoasIconAction } from '../../../src/components/options/EditConfigurationComponent'
+import EditConfigurationComponent from '../../../src/components/options/EditConfigurationComponent'
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)

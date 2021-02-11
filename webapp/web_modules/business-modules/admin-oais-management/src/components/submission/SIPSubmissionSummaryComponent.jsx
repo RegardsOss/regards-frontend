@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -112,10 +112,10 @@ class SIPsubmissionSummaryComponent extends React.Component {
               {
                   grantedCount
                     ? <RaisedButton
-                      onClick={this.goToSessionMonitoring}
-                      label={formatMessage({ id: 'sips.submission-summary.go.to.session' }, { sessionOwner, session })}
-                      primary
-                      icon={<DeviceIcon />}
+                        onClick={this.goToSessionMonitoring}
+                        label={formatMessage({ id: 'sips.submission-summary.go.to.session' }, { sessionOwner, session })}
+                        primary
+                        icon={<DeviceIcon />}
                     />
                     : null
                 }

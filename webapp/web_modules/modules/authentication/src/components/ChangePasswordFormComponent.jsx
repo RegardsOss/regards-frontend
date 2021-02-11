@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -115,8 +115,8 @@ export class ChangePasswordFormComponent extends React.Component {
               />
               {onCancel
                 ? <RaisedButton
-                  label={formatMessage({ id: 'reset.password.update.cancel' })}
-                  onClick={onCancel}
+                    label={formatMessage({ id: 'reset.password.update.cancel' })}
+                    onClick={onCancel}
                 /> : null}
             </CardActions>
           </Card>

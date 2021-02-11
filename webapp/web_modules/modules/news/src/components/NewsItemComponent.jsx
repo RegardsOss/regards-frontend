@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -34,9 +34,9 @@ const DATETIME_OPTIONS = {
  * @Léo Mieulet
  * @author Raphaël Mechali
  */
-class NewsItemComponent extends React.Component { // TODO A degager dans news...
+class NewsItemComponent extends React.Component {
   static propTypes = {
-    news: PropTypes.objectOf(PropTypes.string), // TODO <<< peut faire mieux en typage...
+    news: PropTypes.objectOf(PropTypes.string),
   }
 
   static TEXT_STYLE = {

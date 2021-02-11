@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -41,6 +41,7 @@ export default {
   INVALID_CHARACTER: 'invalid.character',
   INVALID_MIME_TYPE: 'invalid.mime_type',
   INVALID_ABSOLUTE_PATH: 'invalid.abs_path',
+  INVALID_CONFIGURATION: 'invalid.configuration',
   invalidRegex: (regexp) => ({
     key: 'invalid.regex.pattern',
     props: { regexp },

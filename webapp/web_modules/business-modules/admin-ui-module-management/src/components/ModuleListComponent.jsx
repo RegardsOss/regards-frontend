@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,28 +20,25 @@ import map from 'lodash/map'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
+
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import Copy from 'mdi-material-ui/ContentCopy'
-import Toggle from 'material-ui/Toggle'
 import { FormattedMessage } from 'react-intl'
 import {
-  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
+  ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
+  ShowableAtRender, HateoasToggle, HateoasIconAction, ResourceIconAction,
 } from '@regardsoss/components'
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { withHateoasDisplayControl, HateoasKeys, withResourceDisplayControl } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { moduleActions } from '../clients/ModuleClient'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
-const HateoasToggle = withHateoasDisplayControl(Toggle)
-const ResourceIconAction = withResourceDisplayControl(IconButton)
 const actionsBreakpoints = [460, 945, 945]
 
 /**

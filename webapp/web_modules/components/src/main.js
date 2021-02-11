@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -30,11 +30,14 @@ export { default as BaseBoardItemComponent } from './board/BaseBoardItemComponen
 export { default as ClearFieldButton } from './buttons/ClearFieldButton'
 export { default as DownloadButton } from './buttons/DownloadButton'
 export { default as DropDownButton } from './buttons/DropDownButton'
+export * from './buttons/HateoasIconAction'
+export * from './buttons/HateoasToggle'
 export { default as IconElementSelector } from './buttons/IconElementSelector'
 export { default as NumericalComparatorSelector } from './buttons/NumericalComparatorSelector'
 export { default as OnHoverSwitchFlatButton } from './buttons/OnHoverSwitchFlatButton'
 export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconButton'
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'
+export * from './buttons/ResourceIconAction'
 
 export { default as ActionButtonComponent } from './cards/ActionButtonComponent'
 export { default as CardActionsComponent } from './cards/CardActionsComponent'
@@ -59,6 +62,7 @@ export { default as FitContentDialog } from './dialogs/FitContentDialog'
 export { default as LoadableContentDialogContainer } from './dialogs/LoadableContentDialogContainer'
 export { default as SingleContentURLDialogContainer } from './dialogs/SingleContentURLDialogContainer'
 export { default as withConfirmDialog } from './dialogs/withConfirmDialog'
+export { default as HelpDialogComponent } from './dialogs/HelpDialogComponent'
 
 export { default as ErrorCardComponent } from './error/ErrorCardComponent'
 export { default as PageNotFoundComponent } from './error/PageNotFoundProvider'
@@ -94,6 +98,7 @@ export { default as URLPictureResolver } from './picture/URLPictureResolver'
 export { default as ZoomablePicture } from './picture/ZoomablePicture'
 export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
+export * from './split/SplitResizerStyle'
 
 // Table
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'

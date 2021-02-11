@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -56,12 +56,12 @@ export class NoContentMessageInfo extends React.Component {
         {
           noContent
             ? <NoContentComponent
-              titleKey={titleKey}
-              titleParameters={titleParameters}
-              messageKey={messageKey}
-              messageParameters={messageParameters}
-              Icon={Icon}
-              action={action}
+                titleKey={titleKey}
+                titleParameters={titleParameters}
+                messageKey={messageKey}
+                messageParameters={messageParameters}
+                Icon={Icon}
+                action={action}
             />
             : children
         }

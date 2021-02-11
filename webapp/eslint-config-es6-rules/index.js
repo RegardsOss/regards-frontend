@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,9 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
-// TODO: next > check 1 by 1 each rule still exists
-// TODO every plugin!
 
 const allRules = {
   // eslint rules configuration
@@ -78,8 +75,8 @@ const allRules = {
   'import/named': 0,
   'import/no-commonjs': [2, { allowRequire: true }],
   // Custom: forbid self import and cycling import in modules
-  'import/no-self-import': 2, // TODO check with Leo
-  'import/no-cycle': 2, // TODO check with Leo
+  'import/no-self-import': 2,
+  'import/no-cycle': [1, { ignoreExternal: true, maxDepth: 1 }],
 
   // React rules configuration
   'react/jsx-uses-react': 2,
@@ -104,7 +101,6 @@ const allRules = {
   'react-perf/jsx-no-new-function-as-prop': 0,
   'react-perf/jsx-no-new-object-as-prop': 0,
   'react-perf/jsx-no-new-array-as-prop': 0,
-  
   // Lodash rules configuration
   'lodash/import-scope': [2, 'method'],
   // Disable useless rule (_.noop instead of empty annonnymous function)

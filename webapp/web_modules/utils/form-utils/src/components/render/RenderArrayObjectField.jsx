@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -282,12 +282,12 @@ class RenderArrayObjectField extends React.Component {
                 </SelectableList>
                 {!this.props.disabled
                   ? <RaisedButton
-                    label={formatMessage({ id: 'render.array-object.add.button' })}
-                    fullWidth
-                    primary
-                    onClick={this.onAddNewObject}
-                    icon={<AddBoxIcon />}
-                    style={leftButtonStyle}
+                      label={formatMessage({ id: 'render.array-object.add.button' })}
+                      fullWidth
+                      primary
+                      onClick={this.onAddNewObject}
+                      icon={<AddBoxIcon />}
+                      style={leftButtonStyle}
                   /> : null}
               </div>
               <div style={rightColumnStyle}>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -155,11 +155,11 @@ export class AnchorComponent extends React.Component {
         {children}
         {isVisible
           ? <FloatingActionButton
-            mini
-            style={buttonStyle}
-            backgroundColor={buttonColor}
-            onClick={this.handleScroll}
-            iconStyle={iconStyle}
+              mini
+              style={buttonStyle}
+              backgroundColor={buttonColor}
+              onClick={this.handleScroll}
+              iconStyle={iconStyle}
           >
             <Up />
           </FloatingActionButton>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -91,9 +91,9 @@ export class ProfileEditionFormComponent extends React.Component {
                 userMetadata.map((metadata) => metadata.onlyAtRegistration
                   ? null
                   : <MetadataField
-                    key={metadata.key}
-                    metadata={metadata}
-                    fullWidth
+                      key={metadata.key}
+                      metadata={metadata}
+                      fullWidth
                   />)
               }
             </ScrollArea>

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,6 +21,7 @@
  * Styles dialog components
  * @param theme
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 const styles = (theme) => ({
   dialogCommon: {
@@ -84,6 +85,23 @@ const styles = (theme) => ({
     },
     checkboxStyle: {
       maxWidth: '60%',
+    },
+  },
+  helpDialog: {
+    iconStyle: {
+      height: '23px',
+      width: '23px',
+    },
+    buttonStyle: {
+      paddingTop: '14px',
+      height: '30px',
+      width: '30px',
+    },
+    linkDivStyle: {
+      paddingTop: '10px',
+    },
+    linkStyle: {
+      color: theme.palette.textColor,
     },
   },
 })

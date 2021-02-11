@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -180,7 +180,7 @@ export class RunCatalogPluginServiceContainer extends React.Component {
     // 2 - update state and dispatch
     const userParametersValues = formValues
     this.setState({ step: RunCatalogPluginServiceContainer.Steps.FETCH_APPLY_SERVICE, userParametersValues })
-    dispatchFetchPluginResult(service.configId, userParametersValues, target.searchContext)
+    dispatchFetchPluginResult(service.configId, userParametersValues, target)
       .then(this.onServiceResult)
       .catch(() => this.onFetchError(RunCatalogPluginServiceContainer.Steps.APPLY_SERVICE_ERROR))
   }
@@ -247,9 +247,9 @@ export class RunCatalogPluginServiceContainer extends React.Component {
         // 1 - if there is some usable result, provide a result displaying step
         if (localAccessURL) {
           return RunServiceDialogComponent.buildResultsStep(<FileContentDisplayer
-            loading={false}
-            error={false}
-            file={resultFile}
+              loading={false}
+              error={false}
+              file={resultFile}
           />, [
             <DownloadResultButton
               key="download.button"
@@ -292,7 +292,7 @@ function mapDispatchToProps(dispatch) {
     dispatchFetchPluginMetaData: (pluginId) => dispatch(pluginMetaDataActions.fetchEntity(pluginId, {
       microserviceName: STATIC_CONF.MSERVICES.CATALOG,
     })),
-    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, targetParams) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, targetParams)),
+    dispatchFetchPluginResult: (pluginConfigurationId, dynamicParameters, target) => dispatch(catalogPluginServiceResultActions.fetchResult(pluginConfigurationId, dynamicParameters, target)),
   }
 }
 

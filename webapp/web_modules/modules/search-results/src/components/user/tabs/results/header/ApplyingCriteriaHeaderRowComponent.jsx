@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -130,9 +130,9 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
 
                   // 7 - Reactive static criteria - let the user reactive unactive static criteria
                   ...reject(staticParameters, (sp) => sp.active).map((sp) => <ReactiveStaticParameterCriterionComponent
-                    key={sp.label}
-                    staticParameter={sp}
-                    onSelectStaticParameter={onToggleStaticParameter}
+                      key={sp.label}
+                      staticParameter={sp}
+                      onSelectStaticParameter={onToggleStaticParameter}
                   />),
                 ]
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -21,7 +21,6 @@ import noop from 'lodash/noop'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
@@ -32,9 +31,9 @@ import Open from 'mdi-material-ui/OpenInNew'
 import Delete from 'mdi-material-ui/Delete'
 import ResetLicences from 'mdi-material-ui/ClipboardAlert'
 import {
-  ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent,
+  ActionsMenuCell, CardActionsComponent, ShowableAtRender, ConfirmDialogComponent, HateoasIconAction,
 } from '@regardsoss/components'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -42,7 +41,6 @@ import moduleStyle from '../../styles/styles'
 
 const styles = moduleStyle()
 const actionsBreakpoints = [904, 995, 1065, 1270, 1270]
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 
 /**
  * React components to list project.

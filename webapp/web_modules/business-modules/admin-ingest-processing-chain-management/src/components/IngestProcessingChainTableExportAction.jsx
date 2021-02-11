@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -18,12 +18,10 @@
  **/
 import find from 'lodash/find'
 import Download from 'mdi-material-ui/Download'
-import IconButton from 'material-ui/IconButton'
 import { IngestShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { withHateoasDisplayControl } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 /**
 * Edit button action cell for the infinite table used to display ingest processing chains
 * @author Sébastien Binda

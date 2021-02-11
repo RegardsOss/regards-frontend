@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -90,17 +90,17 @@ export class AuthenticationPluginFormComponent extends React.Component {
         />
         {selectedPluginId
           ? <PluginFormContainer
-            key={`plugin-conf-${selectedPluginId}`}
-            microserviceName={STATIC_CONF.MSERVICES.AUTHENTICATION}
-            pluginId={selectedPluginId}
-            pluginConfiguration={pluginConfiguration}
-            formMode={mode}
-            backUrl={backUrl}
-            cardStyle={false}
-            simpleGlobalParameterConf
-            hideDynamicParameterConf
-            onUpdatePluginConfiguration={onUpdate}
-            onCreatePluginConfiguration={onCreate}
+              key={`plugin-conf-${selectedPluginId}`}
+              microserviceName={STATIC_CONF.MSERVICES.AUTHENTICATION}
+              pluginId={selectedPluginId}
+              pluginConfiguration={pluginConfiguration}
+              formMode={mode}
+              backUrl={backUrl}
+              cardStyle={false}
+              simpleGlobalParameterConf
+              hideDynamicParameterConf
+              onUpdatePluginConfiguration={onUpdate}
+              onCreatePluginConfiguration={onCreate}
           /> : null}
       </div>
     )

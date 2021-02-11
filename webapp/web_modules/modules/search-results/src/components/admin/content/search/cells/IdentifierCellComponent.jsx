@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2019 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -40,9 +40,9 @@ class IdentifierCellComponent extends React.Component {
     return CriteriaRowsHelper.isGroup(entity)
       ? <IdentifierGroupCellComponent entity={entity} />
       : <IdentifierCriterionCellComponent
-        entity={entity}
-        pluginsMetadata={pluginsMetadata}
-        onUpdateCriterionPlugin={onUpdateCriterionPlugin}
+          entity={entity}
+          pluginsMetadata={pluginsMetadata}
+          onUpdateCriterionPlugin={onUpdateCriterionPlugin}
       />
   }
 }

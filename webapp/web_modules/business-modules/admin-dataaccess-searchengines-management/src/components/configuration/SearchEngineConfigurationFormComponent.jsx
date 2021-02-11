@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -233,8 +233,8 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
         {
           this.state.datasetSelector === 'selected'
             ? <SubSectionCard
-              title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
-              arrowMarginLeft={30}
+                title={formatMessage({ id: 'search-engines.form.dataset.section.title' })}
+                arrowMarginLeft={30}
             >
               {formatMessage({ id: 'search-engines.form.dataset.infos' })}
               <Field

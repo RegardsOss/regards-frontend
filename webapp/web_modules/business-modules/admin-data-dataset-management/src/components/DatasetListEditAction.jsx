@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -17,13 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
-import IconButton from 'material-ui/IconButton/IconButton'
 import Edit from 'mdi-material-ui/Pencil'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
-
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
+import { HateoasKeys } from '@regardsoss/display-control'
+import { HateoasIconAction } from '@regardsoss/components'
 
 /**
  * DatasetList edit action

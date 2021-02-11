@@ -1,6 +1,6 @@
 /* eslint no-script-url: 0 */
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,6 +20,7 @@
 import map from 'lodash/map'
 import find from 'lodash/find'
 import Chip from 'material-ui/Chip'
+import RaisedButton from 'material-ui/RaisedButton'
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -114,7 +115,7 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                   key={id2}
                   innerDivStyle={moduleTheme.listItem}
                   // eslint-disable-next-line react-perf/jsx-no-new-function-as-prop
-                  onClick={() => this.handleShowDialog(resource)} // eslint wont fix: due to MUI 0x API (sub classing ListItems breaks nested items system)
+                  disabled
                   rightIconButton={<ResourceToggleComponent
                     resource={resource}
                     roleResource={this.getResource(resource)}
@@ -127,9 +128,13 @@ export class ResourceAccessFormByMicroserviceComponent extends React.Component {
                       <div style={moduleTheme.description.style} className={moduleTheme.description.class}>
                         {resource.content.description}
                       </div>
-                      <span>
-                        {this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
-                      </span>
+                      <RaisedButton
+                        label={this.context.intl.formatMessage({ id: 'role.form.moreinfo' })}
+                        onClick={() => this.handleShowDialog(resource)}
+                        overlayStyle={{
+                          marginTop: '-50px',
+                        }}
+                      />
                     </div>
                     }
                   leftAvatar={

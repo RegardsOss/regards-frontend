@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -526,57 +526,39 @@ describe('[SEARCH RESULTS] Testing DownloadEntityFileComponent', () => {
     })
   }))
 
-  // it('should render correctly and hide download button when entity is a dataset', () => {
-  // TODO: recover that test
-  // const props = {
-  //   entity: {
-  //     content: {
-  //       ...datasetEntity.content,
-  //       files: {
-  //         [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [onlineRawData],
-  //       },
-  //     },
-  //   },
-  //   // Current user session info
-  //   projectName: 'project1',
-  //   accessToken: 'abcdef....',
-  // }
-  // const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
-  // assert.lengthOf(render.find('a'), 0, 'No link rendered')
-  // assert.lengthOf(render.find(IconButton), 0, 'No icon button rendered')
-  // assert.lengthOf(render.find(DropDownButton), 0, 'No drop down button rendered')
-  // })
-  // TODO: recover a similar behavior
-  // it('should render one link by downloadable file when there are more than one downloadable file (test links)', () => {
-  //   const props = {
-  //     entity: {
-  //       content: {
-  //         ...dataEntity.content,
-  //         files: {
-  //           [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [onlineRawData, offlineRawData],
-  //           [CommonDomain.DATA_TYPES_ENUM.DOCUMENT]: [onlineDocRef],
-  //         },
-  //       },
-  //     },
-  //     // Current user session info
-  //     accessToken: null,
-  //     projectName: 'project1',
-  //   }
-  //   const render = shallow(<DownloadEntityFileComponent {...props} />, { context })
-  //   assert.lengthOf(render.find(DropDownButton), 1, 'There should be a dropping menu as there are more links')
-  //   const linksWrappers = render.find('a')
-  //   assert.lengthOf(linksWrappers, 2, '2 files should be present (offline file should be filtered)')
-  //   // we should only find the file1 and file2 URI in links
-  //   const searchedFiles = [onlineRawData, onlineDocRef]
-  //   searchedFiles.forEach((file) => {
-  //     const linkForFileURI = linksWrappers.findWhere((n) => n.props().href && n.props().href.includes(file.uri))
-  //     assert.lengthOf(linkForFileURI, 1, `The should be the link for file URI ${file.uri}`)
-  //     // check that project name has been added for internal file AND NOT for external file
-  //     if (file.reference) {
-  //       assert.equal(linkForFileURI.props().href, file.uri, 'Reference file URI should be unchanged')
-  //     } else {
-  //       assert.equal(linkForFileURI.props().href, `${file.uri}?scope=project1`, 'Internal file URI should hold the scope (no token currently)')
-  //     }
-  //   })
-  // })
+  it('should render correctly and hide download button when entity is a dataset', () => {
+    const props = {
+      entity: {
+        content: {
+          ...datasetEntity.content,
+          files: { // add here an available file for download
+            [CommonDomain.DATA_TYPES_ENUM.RAWDATA]: [{
+              dataType: CommonDomain.DATA_TYPES_ENUM.RAWDATA,
+              filename: 'f1.jpp',
+              uri: 'http://anywhere.com/f1.jpp',
+              mimeType: 'application/jpp-file',
+              reference: true,
+              online: true,
+            }],
+          },
+        },
+      },
+      accessToken: 'any',
+      projectName: 'testProject',
+      quotaInfo: {
+        currentQuota: 0,
+        maxQuota: 1000,
+        quotaState: QUOTA_INFO_STATE_ENUM.IDLE,
+        currentRate: 0,
+        rateLimit: 50,
+        rateState: QUOTA_INFO_STATE_ENUM.IDLE,
+        downloadDisabled: false,
+        inUserApp: true,
+      },
+    }
+
+    const enzymeWrapper = shallow(<DownloadEntityFileComponent {...props} />, { context })
+    testSuiteHelpers.assertNotComp(enzymeWrapper, DownloadButton, 'single button should be hidden')
+    testSuiteHelpers.assertNotComp(enzymeWrapper, DropDownButton, 'multi button should be hidden')
+  })
 })

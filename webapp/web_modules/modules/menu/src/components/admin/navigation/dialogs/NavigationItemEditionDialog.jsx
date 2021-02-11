@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -387,13 +387,13 @@ export class NavigationItemEditionDialog extends React.Component {
               {
                 editionData.item.type === NAVIGATION_ITEM_TYPES_ENUM.LINK
                   ? <Field
-                    key="urlLink"
-                    name={URL_LINK_FIELD}
-                    type="text"
-                    component={RenderTextField}
-                    label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.urlLink' })}
-                    validate={[ValidationHelpers.required, ValidationHelpers.url]}
-                    fullWidth
+                      key="urlLink"
+                      name={URL_LINK_FIELD}
+                      type="text"
+                      component={RenderTextField}
+                      label={formatMessage({ id: 'menu.form.navigation.edit.item.dialog.urlLink' })}
+                      validate={[ValidationHelpers.required, ValidationHelpers.url]}
+                      fullWidth
                   />
                   : null // a link model
               }

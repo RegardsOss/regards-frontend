@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -84,6 +84,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
       onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,
       onProductSelected: props.onProductSelected,
+      tabType: props.tabType,
       layers: [{
         layerName: 'Layer',
         visible: true,

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -83,7 +83,6 @@ export class FileLinkComponent extends React.Component {
                tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
                downloadURL={uri}
                IconConstructor={DownloadIconComponent}
-
                // icon component props
                constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
                quotaInfo={quotaInfo}

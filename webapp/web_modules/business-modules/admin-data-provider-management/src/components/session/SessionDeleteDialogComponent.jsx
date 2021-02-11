@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -104,10 +104,10 @@ class SessionDeleteDialogComponent extends React.Component {
             />
             { allowForceOption
               ? <FlatButton
-                key="forceDelete"
-                label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
-                onClick={this.onForceDeleteConfirm}
-                disabled={this.state.loading}
+                  key="forceDelete"
+                  label={formatMessage({ id: 'acquisition-sessions.menus.session.delete.dialog.force.button' })}
+                  onClick={this.onForceDeleteConfirm}
+                  disabled={this.state.loading}
               />
               : null}
           </>}

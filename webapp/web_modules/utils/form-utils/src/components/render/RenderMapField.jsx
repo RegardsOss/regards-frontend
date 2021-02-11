@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -432,12 +432,12 @@ class RenderMapField extends React.Component {
                 {disabled
                   ? null
                   : <RaisedButton
-                    label={formatMessage({ id: 'render.array-object.add.button' })}
-                    fullWidth
-                    primary
-                    onClick={this.onOpenAddDialog}
-                    icon={<AddBoxIcon />}
-                    style={leftButtonStyle}
+                      label={formatMessage({ id: 'render.array-object.add.button' })}
+                      fullWidth
+                      primary
+                      onClick={this.onOpenAddDialog}
+                      icon={<AddBoxIcon />}
+                      style={leftButtonStyle}
                   />}
               </div>
               <div style={rightColumnStyle}>

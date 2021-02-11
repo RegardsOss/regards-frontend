@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -31,7 +31,7 @@ const messages = {
   'plugin.configuration.form.action.submit.add': 'Add',
   'plugin.configuration.form.action.submit.save': 'Save',
   'plugin.configuration.form.action.cancel': 'Cancel',
-  'plugin.configuration.form.description.more': 'More information about the storage system',
+  'plugin.configuration.form.description.more': 'More information about plugin',
   'plugin.configuration.form.description.title': '{plugin} description',
 
   'plugin.parameter.description.dialog.title': '{parameter} description',

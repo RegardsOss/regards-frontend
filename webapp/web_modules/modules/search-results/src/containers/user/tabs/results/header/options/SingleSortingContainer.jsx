@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -157,10 +157,10 @@ export class SingleSortingContainer extends React.Component {
     } = this.state
     return enableSorting
       ? <SingleSortingComponent
-        defaultSortingModel={defaultSortingModel}
-        customSortingModel={customSortingModel}
-        attributeSortingModels={attributeSortingModels}
-        onSortBy={this.onSortBy}
+          defaultSortingModel={defaultSortingModel}
+          customSortingModel={customSortingModel}
+          attributeSortingModels={attributeSortingModels}
+          onSortBy={this.onSortBy}
       />
       : null
   }

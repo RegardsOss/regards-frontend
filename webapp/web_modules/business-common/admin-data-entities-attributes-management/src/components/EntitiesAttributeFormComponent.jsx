@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import isNil from 'lodash/isNil'
+import isEmpty from 'lodash/isEmpty'
 import has from 'lodash/has'
 import map from 'lodash/map'
 import MenuItem from 'material-ui/MenuItem'
@@ -164,6 +166,7 @@ export class EntitiesAttributeFormComponent extends React.Component {
       label={this.context.intl.formatMessage({ id: 'entities-attributes.form.table.input' })}
       validate={this.state.restrictions}
       disabled={this.isDisabled()}
+      parse={(value, name) => isNil(value) || isEmpty(value) ? null : value}
     />
   )
 

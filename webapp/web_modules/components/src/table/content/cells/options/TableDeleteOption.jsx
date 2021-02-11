@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,10 +20,10 @@ import omit from 'lodash/omit'
 import IconButton from 'material-ui/IconButton'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import { CommonShapes } from '@regardsoss/shape'
-import { withHateoasDisplayControl, HateoasKeys } from '@regardsoss/display-control'
+import { HateoasKeys } from '@regardsoss/display-control'
 import { i18nContextType } from '@regardsoss/i18n'
+import { HateoasIconAction } from '../../../../buttons/HateoasIconAction'
 
-const HateoasIconAction = withHateoasDisplayControl(IconButton)
 /**
 * Table delete option: deletes then fetches data
 * @author Raphaël Mechali

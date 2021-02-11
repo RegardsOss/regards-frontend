@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -94,7 +94,14 @@ const messages = {
   'search.results.form.restrictions.configuration.display.type.NONE': 'Aucune restriction',
   'search.results.form.restrictions.configuration.display.type.SELECTED_DATASETS': 'Restreindre aux jeux sélectionnés',
   'search.results.form.restrictions.configuration.display.type.SELECTED_MODELS': 'Restreindre aux modèles de jeux sélectionnés',
-  'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.opensearch.request': 'Requête OpenSearch',
+  'search.results.form.restrictions.configuration.opensearch.hint': 'Requete',
+  'search.results.form.restrictions.configuration.opensearch.info.button': 'Détails',
+  'search.results.form.restrictions.configuration.opensearch.dialog.close': 'Fermer',
+  'search.results.form.restrictions.configuration.opensearch.dialog.title': 'Construire une requête OpenSearch',
+  'search.results.form.restrictions.configuration.opensearch.dialog.link': 'Lien vers la documentation',
+  'search.results.form.restrictions.configuration.opensearch.dialog.message': 'Pour savoir comment construire une requête OpenSearch rendez-vous sur la documentation REGARDS: section Backend, sous-section Catalogue, puis SearchAPI.',
+  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
     =0 {} 
     one {} 

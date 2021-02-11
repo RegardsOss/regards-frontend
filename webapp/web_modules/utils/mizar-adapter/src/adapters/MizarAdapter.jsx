@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of SCO - Space Climate Observatory.
  *
@@ -37,6 +37,7 @@ import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCol
  */
 export default class MizarAdapter extends React.Component {
   static propTypes = {
+    canvasId: PropTypes.string, // TO be used when showing multiple Mizar instances (otherwise, both will point out the same canvas). IMMUTABLE
     crsContext: PropTypes.string,
     layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
@@ -65,6 +66,7 @@ export default class MizarAdapter extends React.Component {
   }
 
   static defaultProps = {
+    canvasId: 'MizarCanvas', // default value, when showing only one instance
     crsContext: 'CRS:84',
     drawnAreas: [],
     featuresColor: 'Orange',
@@ -153,11 +155,6 @@ export default class MizarAdapter extends React.Component {
   /** Currently drawn selection initial point (lat / lon) */
   currentDrawingInitPoint = null
 
-  /** Click count & timer in order to manage simple & double click */
-  clickCount = 0
-
-  singleClickTimer = null
-
   /**
    * Lifecycle method: component did mount. Used here to load and initialize the mizar component
    */
@@ -232,7 +229,7 @@ export default class MizarAdapter extends React.Component {
       crsContext, featuresColor, drawColor, drawingSelection, viewMode, selectedFeatureColor,
       selectedColorOutlineWidth, layers,
     } = this.props
-    const mizarDiv = document.getElementById('MizarCanvas')
+    const mizarDiv = document.getElementById(this.props.canvasId)
 
     let mizarOptions = {
       // the canvas ID where Mizar is inserted
@@ -436,7 +433,8 @@ export default class MizarAdapter extends React.Component {
       // compute selection
       const pickingManager = this.mizar.instance.getServiceByName(Mizar.SERVICE.PickingManager)
       const newSelection = pickingManager.computePickSelection(pickPoint)
-      UIDomain.clickOnEntitiesHandler(newSelection, this.props.onProductSelected, this.props.onFeaturesSelected)
+      const selectedFeatures = filter(newSelection, (selection) => find(this.props.featuresCollection.features, (feature) => selection.feature.id === feature.id))
+      UIDomain.clickOnEntitiesHandler(selectedFeatures, this.props.onProductSelected, this.props.onFeaturesSelected)
     }
   }
 
@@ -498,7 +496,7 @@ export default class MizarAdapter extends React.Component {
     return (
       <canvas
         key="canvas"
-        id="MizarCanvas"
+        id={this.props.canvasId}
         onMouseUp={this.onMouseUp}
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}

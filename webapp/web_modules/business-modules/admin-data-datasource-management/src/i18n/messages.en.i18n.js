@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -119,7 +119,7 @@ const messages = {
   'datasource.form.create.pick-interface.title': 'Datasource creation',
   'datasource.form.create.pick-interface.subtitle': 'Please select the crawler type you want to create.',
   'datasource.form.create.pick-interface.description.aip': 'AIP crawlers allow crawling GeoJSON SIPs',
-  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data source',
+  'datasource.form.create.pick-interface.description.db': 'This mode allows you to crawl data from an external data base',
   'datasource.form.create.pick-interface.description.opensearch': 'Crawls data from an OpenSearch Web Source',
   'datasource.form.create.pick-interface.description.feature': 'Features crawlers allow crawling features from feature manager',
   'datasource.form.create.pick-interface.action.select': 'Select',

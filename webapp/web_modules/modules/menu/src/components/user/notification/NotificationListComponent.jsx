@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -183,7 +183,7 @@ class NotificationListComponent extends React.Component {
    * Renders a notification list
    * @param mode display mode
    */
-  renderNotificationList = (mode, nbNotif) => { // TODO: EXTRACT A COMPONENT
+  renderNotificationList = (mode, nbNotif) => {
     const { moduleTheme: { notifications: notificationStyle } } = this.context
     return [
       <List key={`title-${mode}`}>
@@ -197,8 +197,8 @@ class NotificationListComponent extends React.Component {
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
-              onClick={this.handleReadAllNotifications}
-              title="Clear all"
+                onClick={this.handleReadAllNotifications}
+                title="Clear all"
             >
               <ClearAll />
             </IconButton>

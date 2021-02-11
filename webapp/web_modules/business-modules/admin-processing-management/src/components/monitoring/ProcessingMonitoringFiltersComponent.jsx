@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -74,6 +74,26 @@ class ProcessingMonitoringFiltersComponent extends React.Component {
     [PROCESS_FILTER_PARAMS.FROM]: null,
     [PROCESS_FILTER_PARAMS.TO]: null,
     [PROCESS_FILTER_PARAMS.STATUS]: ProcessingDomain.PROCESS_STATUS_TYPES,
+  }
+
+  /**
+   * Converts columns order and filters state into request parameters
+   * @param {*} filters filters state from component state
+   * @returns {*} requestParameters as an object compound of string and string arrays
+   */
+  static buildRequestParameters(filters) {
+    const requestParameters = filters
+
+    if (filters[PROCESS_FILTER_PARAMS.FROM]) {
+      const dateFrom = new Date(filters[PROCESS_FILTER_PARAMS.FROM])
+      requestParameters.from = [dateFrom.toISOString()]
+    }
+    if (filters[PROCESS_FILTER_PARAMS.TO]) {
+      const dateFrom = new Date(filters[PROCESS_FILTER_PARAMS.TO])
+      requestParameters.from = [dateFrom.toISOString()]
+    }
+
+    return requestParameters
   }
 
   state = {

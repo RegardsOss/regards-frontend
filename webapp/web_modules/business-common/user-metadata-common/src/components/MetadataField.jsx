@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -20,7 +20,7 @@ import sortBy from 'lodash/sortBy'
 import MenuItem from 'material-ui/MenuItem'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
-  Field, RenderTextField, RenderSelectField, ErrorTypes, StringComparison,
+  Field, RenderTextField, RenderSelectField, ErrorTypes, StringComparison, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { Metadata } from '../model/Metadata'
 import metadatav1 from '../definitions/metadatav1'
@@ -76,7 +76,7 @@ class MetadataField extends React.Component {
 
   validateFieldValue = (fieldValue) => {
     const { metadata: { mandatory } } = this.props
-    return mandatory && !fieldValue ? ErrorTypes.REQUIRED : undefined
+    return mandatory && !fieldValue ? ErrorTypes.REQUIRED : ValidationHelpers.validStringSize(0, 255)(fieldValue)
   }
 
   /**

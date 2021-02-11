@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -59,34 +59,34 @@ class StorageLocationActivityRender extends React.Component {
       <div style={container}>
         { storageRunning
           ? <RefreshIndicator
-            size={20}
-            left={10}
-            top={0}
-            status="loading"
-            title={formatMessage({ id: 'storage.location.list.activity.storing' })}
-            style={style.refresh}
+              size={20}
+              left={10}
+              top={0}
+              status="loading"
+              title={formatMessage({ id: 'storage.location.list.activity.storing' })}
+              style={style.refresh}
           />
           : null }
         { deletionRunning
           ? <RefreshIndicator
-            size={20}
-            left={10}
-            top={0}
-            status="loading"
-            loadingColor="Red"
-            title={formatMessage({ id: 'storage.location.list.activity.deleting' })}
-            style={style.refresh}
+              size={20}
+              left={10}
+              top={0}
+              status="loading"
+              loadingColor="Red"
+              title={formatMessage({ id: 'storage.location.list.activity.deleting' })}
+              style={style.refresh}
           />
           : null }
         { copyRunning
           ? <RefreshIndicator
-            size={20}
-            left={10}
-            top={0}
-            loadingColor="#FF9800"
-            status="loading"
-            title={formatMessage({ id: 'storage.location.list.activity.copying' })}
-            style={style.refresh}
+              size={20}
+              left={10}
+              top={0}
+              loadingColor="#FF9800"
+              status="loading"
+              title={formatMessage({ id: 'storage.location.list.activity.copying' })}
+              style={style.refresh}
           />
           : null }
         { noActivity ? formatMessage({ id: 'storage.location.list.activity.none' }) : null}

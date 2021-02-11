@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -175,11 +175,11 @@ class RenderArrayTextField extends React.Component {
           {disabled
             ? null
             : <RaisedButton
-              onClick={this.openAddDialog}
-              label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
-              fullWidth
-              primary
-              icon={<AddBoxIcon />}
+                onClick={this.openAddDialog}
+                label={addButtonLabel || formatMessage({ id: 'render.array-field.add.new.value.button' })}
+                fullWidth
+                primary
+                icon={<AddBoxIcon />}
             />}
         </Paper>
         {disabled ? null : this.renderNewValueDialog()}

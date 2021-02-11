@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -498,14 +498,14 @@ export class OrderCartTableComponent extends React.Component {
       case OrderCartTableComponent.COLUMN_KEYS.PROCESSING: {
         return (cellValue.type === OrderCartTableComponent.ROW_TYPE_ENUM.DATASET_ROW && isProcessingDependenciesExist)
           ? <ManageDatasetProcessingContainer
-            datasetIpid={cellValue.datasetSelectionIpId}
-            datasetSelectionId={cellValue.datasetSelectionId}
-            onProcessChanged={refreshBasket}
-            process={cellValue.process}
-            processingSelectors={processingSelectors}
-            pluginMetaDataSelectors={pluginMetaDataSelectors}
-            linkProcessingDatasetActions={linkProcessingDatasetActions}
-            disabled={isFetching}
+              datasetIpid={cellValue.datasetSelectionIpId}
+              datasetSelectionId={cellValue.datasetSelectionId}
+              onProcessChanged={refreshBasket}
+              process={cellValue.process}
+              processingSelectors={processingSelectors}
+              pluginMetaDataSelectors={pluginMetaDataSelectors}
+              linkProcessingDatasetActions={linkProcessingDatasetActions}
+              disabled={isFetching}
           /> : null
       }
       default:

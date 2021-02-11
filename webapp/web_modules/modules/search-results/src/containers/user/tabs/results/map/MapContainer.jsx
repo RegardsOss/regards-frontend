@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -366,6 +366,7 @@ export class MapContainer extends React.Component {
         onProductSelected={onProductSelected}
         layers={layers}
         mapEngine={mapEngine}
+        tabType={tabType}
       />
     )
   }
