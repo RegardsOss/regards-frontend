@@ -235,6 +235,8 @@ const messages = {
   'search.facets.filter.chip.word.value': '{facetLabel} = {word}',
   'search.filter.geometry.entity.private': 'Donnée privée',
   'search.filter.geometry.label': 'Zone',
+  'search.filter.search.toponym.label': '{toponymLabel} {toponymCopyrights}',
+  'search.filter.search.toponym.label.not.found': 'Toponyme : Inconnu',
   'search.filter.entities.selection.label': 'Entités ({count})',
   'search.filter.search.criteria.label': 'Recherche',
   'search.filter.static.reactive': 'Réactiver ce critère',
@@ -247,6 +249,7 @@ const messages = {
   'results.map.tools.tooltip.opacity': 'Changer l\'opacité de la couche',
   'results.map.tools.opaque': 'Opaque',
   'results.map.tools.transparent': 'Transparent',
+  'results.map.search.hintText': 'Rechercher un toponyme...',
 }
 
 export default messages

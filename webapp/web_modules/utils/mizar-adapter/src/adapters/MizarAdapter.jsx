@@ -61,6 +61,9 @@ export default class MizarAdapter extends React.Component {
     onProductSelected: PropTypes.func.isRequired,
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
+    // toponym selection management
+    // eslint-disable-next-line react/forbid-prop-types
+    selectedToponyms: PropTypes.object,
   }
 
   static defaultProps = {
@@ -138,6 +141,51 @@ export default class MizarAdapter extends React.Component {
     return null
   }
 
+  /**
+   * Builds a feature from id and geometry as parameter
+   * @param {string} id
+   * @param {*} geometry
+   * @retun {*} Geo feature (matching GeoJsonFeature)
+   */
+  static geometryToAreaFeature(featureId, geometry) {
+    if (geometry) {
+      const ptX = []
+      const ptY = []
+      forEach(geometry.coordinates, (coordinate) => {
+        forEach(coordinate, (coord) => {
+          if (geometry.type === 'MultiPolygon') {
+            forEach(coord, (co) => {
+              ptX.push(co[0])
+              ptY.push(co[1])
+            })
+          } else {
+            ptX.push(coord[0])
+            ptY.push(coord[1])
+          }
+        })
+      })
+      const minX = Math.min.apply(null, ptX)
+      const maxX = Math.max.apply(null, ptX)
+      const minY = Math.min.apply(null, ptY)
+      const maxY = Math.max.apply(null, ptY)
+      return {
+        id: featureId,
+        type: 'Feature',
+        geometry: {
+          type: 'Polygon',
+          bbox: [minX, minY, maxX, maxY],
+          coordinates: [[[minX, minY],
+            [maxX, minY],
+            [maxX, maxY],
+            [minX, maxY],
+            [minX, minY],
+          ]],
+        },
+      }
+    }
+    return null
+  }
+
   /** Transient instance information: keeps mizar layers and data in this as their lifecycle is correlated */
   mizar = {
     instance: null, // mizar instance
@@ -147,6 +195,7 @@ export default class MizarAdapter extends React.Component {
     selectedFeaturesLayer: null,
     selectedFeaturesImageLayer: null,
     drawnLayer: null,
+    selectedToponymsLayer: null,
   }
 
   /** Currently drawn selection initial point (lat / lon) */
@@ -178,7 +227,7 @@ export default class MizarAdapter extends React.Component {
     // Add new geo features to display layer
     const {
       featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
-      selectedProducts,
+      selectedProducts, selectedToponyms,
     } = nextProps
     if (!isEqual(this.props.featuresCollection, featuresCollection) || !isEqual(this.props.selectedProducts, selectedProducts)) {
       // Handle not selected features
@@ -194,22 +243,29 @@ export default class MizarAdapter extends React.Component {
     if (this.props.drawingSelection !== drawingSelection) {
       this.onToggleDrawSelectionMode(drawingSelection)
     }
-    // Handle zoom on drawArea
-    if (!isEqual(this.props.drawnAreas, drawnAreas) && this.props.drawingSelection !== drawingSelection && drawingSelection === false) {
-      this.zoomOnGeometry(drawnAreas[0].geometry)
-    }
     // remove old areas and add new ones
     if (!isEqual(this.props.customLayersOpacity, customLayersOpacity)) {
       this.onUpdateOpacity(customLayersOpacity)
+    }
+    // Handle toponyms changes
+    if (!isEqual(this.props.selectedToponyms, selectedToponyms)) {
+      this.onUpdateToponyms(selectedToponyms)
     }
     // Handle change view mode
     if (!isEqual(this.props.viewMode, viewMode)) {
       this.onToggleViewMode()
     }
-    // Handle zoom on selected product
-    if (!isEqual(this.props.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
-      const lastFeatureSelected = find(this.mizar.selectedFeaturesLayer.features, (feature) => feature.id === last(selectedProducts).id)
-      this.zoomOnGeometry(lastFeatureSelected.geometry)
+    // Manage camera destination
+    if (!isEqual(this.props.selectedProducts, selectedProducts) || !isEqual(this.props.drawnAreas, drawnAreas)) {
+      // Handle zoom on selected product
+      if (!isEqual(this.props.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
+        const lastFeatureSelected = find(this.mizar.selectedFeaturesLayer.features, (feature) => feature.id === last(selectedProducts).id)
+        this.zoomOnGeometry(lastFeatureSelected.geometry)
+      } else if (!isEmpty(drawnAreas)) {
+        if (drawingSelection === false) {
+          this.zoomOnGeometry(drawnAreas[0].geometry)
+        }
+      }
     }
     // XXX- take in account, in later versions, color properties change ==> requires unmounting then remounting layers
     // useless in current version as the parent split pane blocks redrawing anyways
@@ -319,6 +375,19 @@ export default class MizarAdapter extends React.Component {
     })
     this.mizar.instance.getActivatedContext().addDraw(this.mizar.drawLayer)
 
+    // 8 - Set up toponyms layer
+    this.mizar.instance.addLayer({
+      type: Mizar.LAYER.GeoJSON,
+      name: 'selectedToponyms',
+      visible: true,
+      background: false,
+      color: featuresColor,
+      strokeWidth: 1,
+    }, (selectedToponymsId) => {
+      // store toponyms layer
+      this.mizar.selectedToponymsLayer = this.mizar.instance.getLayerByID(selectedToponymsId)
+    })
+
     // Initialize layer
     this.onAreasUpdated([], this.props.drawnAreas)
 
@@ -378,6 +447,15 @@ export default class MizarAdapter extends React.Component {
     }
   }
 
+  onUpdateToponyms = (selectedToponyms) => {
+    if (!this.unmounted) {
+      if (this.mizar.selectedToponymsLayer) {
+        this.mizar.selectedToponymsLayer.removeAllFeatures()
+        this.mizar.selectedToponymsLayer.addFeatureCollection(selectedToponyms)
+      }
+    }
+  }
+
   /**
    * Areas where updated, propagate change to mizar
    * @param {[*]} oldDrawnAreas old list of areas (array of GeoJsonFeature)
@@ -419,10 +497,12 @@ export default class MizarAdapter extends React.Component {
   }
 
   zoomOnGeometry = (geometry) => {
-    const centerPoint = polygonCenter(geometry)
-    const centerX = centerPoint.coordinates[0]
-    const centerY = centerPoint.coordinates[1]
-    this.mizar.instance.getActivatedContext().getNavigation().zoomTo([centerX, centerY], { distance: 200000, duration: 5000 })
+    if (this.mizar.instance) {
+      const centerPoint = polygonCenter(geometry)
+      const centerX = centerPoint.coordinates[0]
+      const centerY = centerPoint.coordinates[1]
+      this.mizar.instance.getActivatedContext().getNavigation().zoomTo([centerX, centerY], { distance: 200000, duration: 5000 })
+    }
   }
 
   /**

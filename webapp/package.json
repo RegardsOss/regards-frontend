@@ -135,6 +135,7 @@
     "@regardsoss/store-utils": "file:web_modules/utils/store-utils",
     "@regardsoss/theme": "file:web_modules/utils/theme",
     "@regardsoss/theme-ui": "file:web_modules/utils/theme-ui",
+    "@regardsoss/toponym-common": "file:web_modules/business-common/toponym-common",
     "@regardsoss/units": "file:web_modules/utils/units",
     "@regardsoss/user": "file:web_modules/business-modules/user",
     "@regardsoss/user-metadata-common": "file:web_modules/business-common/user-metadata-common",

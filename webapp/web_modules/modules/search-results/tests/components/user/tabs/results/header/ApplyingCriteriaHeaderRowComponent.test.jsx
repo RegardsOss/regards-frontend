@@ -37,6 +37,7 @@ import styles from '../../../../../../src/styles'
 import resultsDump from '../../../../../dumps/results.dump'
 import { datasetEntity } from '../../../../../dumps/entities.dump'
 import { attributes } from '../../../../../dumps/attributes.dump'
+import ToponymCriteriaContainer from '../../../../../../src/containers/user/tabs/results/header/filter/ToponymCriteriaContainer'
 
 const context = buildTestContext(styles)
 
@@ -111,12 +112,14 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       entitiesSelections: [],
       searchCriteria: [],
       staticParameters: [],
+      toponymCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
       onToggleStaticParameter: () => {},
+      onUnselectToponymCriteria: () => { },
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -131,12 +134,14 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       entitiesSelections: [],
       searchCriteria: [],
       staticParameters: [],
+      toponymCriteria: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
       onToggleStaticParameter: () => {},
+      onUnselectToponymCriteria: () => { },
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -151,6 +156,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       entitiesSelections: [],
       searchCriteria: [],
       staticParameters: [],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
@@ -171,6 +178,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       entitiesSelections: [entitiesSelection],
       searchCriteria: [],
       staticParameters: [],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
@@ -191,6 +200,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       entitiesSelections: [],
       searchCriteria: [],
       staticParameters: [],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
@@ -220,6 +231,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
         active: true,
         label: 'myFakeStaticParam1',
       }],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
@@ -247,6 +260,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
         active: false,
         label: 'myFakeStaticParam2',
       }],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
       onUnselectGeometry: () => {},
@@ -276,6 +291,8 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
           q: 'azerty',
         },
       }],
+      toponymCriteria: [],
+      onUnselectToponymCriteria: () => { },
       staticParameters: [],
       onUnselectTagFilter: () => {},
       onUnselectFacetValue: () => {},
@@ -306,6 +323,11 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
           q: 'azerty',
         },
       }],
+      toponymCriteria: [{
+        requestParameters: {
+          toponym: 'testToponym',
+        },
+      }],
       staticParameters: [{
         parameters: {
           q: 'attr1:val1',
@@ -329,6 +351,7 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
       onUnselectEntitiesSelection: () => {},
       onUnselectSearchCriteria: () => {},
       onToggleStaticParameter: () => {},
+      onUnselectToponymCriteria: () => { },
     }
     const enzymeWrapper = shallow(<ApplyingCriteriaHeaderRowComponent {...props} />, { context })
     const showable = enzymeWrapper.find(ShowableAtRender)
@@ -389,6 +412,13 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowComponent', () => {
     testSuiteHelpers.assertWrapperProperties(searchCriteriaComponent, {
       onUnselectSearchCriteria: props.onUnselectSearchCriteria,
     }, 'Search criteria properties should be correctly reported')
+
+    const toponymCriteriaComponent = enzymeWrapper.find(ToponymCriteriaContainer)
+    assert.lengthOf(toponymCriteriaComponent, 1, 'There should be toponym criteria displayer')
+    testSuiteHelpers.assertWrapperProperties(toponymCriteriaComponent, {
+      toponymCriteria: props.toponymCriteria,
+      onUnselectToponymCriteria: props.onUnselectToponymCriteria,
+    }, 'Toponym criteria properties should be correctly reported')
 
     const staticParameterCriterionComponent = enzymeWrapper.find(StaticParameterCriterionComponent)
     assert.lengthOf(staticParameterCriterionComponent, 1, 'There should be search criteria displayer')

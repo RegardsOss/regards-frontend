@@ -53,6 +53,9 @@ export default class CatalogSearchQueryHelper {
   /** Geomtry parameter name (expects WKT value) */
   static GEOMETRY_PARAMETER_NAME = 'g'
 
+  /** Toponym parameter name */
+  static TOPONYM_PARAMETER_NAME = 'toponym'
+
   /** Holds only parameters used to filter the results */
   static RESULTS_FILTERING_PARAMETERS = [
     CatalogSearchQueryHelper.Q_PARAMETER_NAME,
@@ -61,6 +64,7 @@ export default class CatalogSearchQueryHelper {
     CatalogSearchQueryHelper.LONGITUDE_PARAMETER_NAME,
     CatalogSearchQueryHelper.RADIUS_PARAMETER_NAME,
     CatalogSearchQueryHelper.GEOMETRY_PARAMETER_NAME,
+    CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME,
   ]
 
   /** Possible values for sorting, to be used as order in "sort={attribute},{order}" */

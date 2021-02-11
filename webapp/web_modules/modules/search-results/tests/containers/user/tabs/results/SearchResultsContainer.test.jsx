@@ -52,6 +52,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       appName: UIDomain.APPLICATIONS_ENUM.USER,
       resultsContext: dataContext,
       updateResultsContext: () => {},
+      fetchToponym: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
 
@@ -103,6 +104,7 @@ describe('[SEARCH RESULTS] Testing SearchResultsContainer', () => {
       appName: UIDomain.APPLICATIONS_ENUM.USER,
       resultsContext: dataContext,
       updateResultsContext: () => {},
+      fetchToponym: () => { },
     }
     const enzymeWrapper = shallow(<SearchResultsContainer {...props} />, { context })
     // nota: we do not want to compute here applyingCriteria field, as it is used only for inner management

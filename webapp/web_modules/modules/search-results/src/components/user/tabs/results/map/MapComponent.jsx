@@ -22,6 +22,7 @@ import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regard
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
 import { LayerConfiguration } from '../../../../../shapes/ModuleConfiguration'
+import SearchToponymContainer from '../../../../../containers/user/tabs/results/map/SearchToponymContainer'
 
 /**
  * Shows map in map view
@@ -55,6 +56,11 @@ class MapComponent extends React.Component {
     // product selection management
     selectedProducts: PropTypes.arrayOf(PropTypes.object),
     onProductSelected: PropTypes.func.isRequired,
+
+    // toponym selection managament
+    // eslint-disable-next-line react/forbid-prop-types
+    selectedToponyms: PropTypes.object,
+    onToponymSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -77,7 +83,7 @@ class MapComponent extends React.Component {
       selectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       viewMode, onToggleSelectionMode, onToggleViewMode,
       onFeaturesPicked, layers,
-      selectedProducts, onProductSelected,
+      selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
     } = this.props
     const { customLayersOpacity } = this.state
 
@@ -100,6 +106,7 @@ class MapComponent extends React.Component {
       onProductSelected,
       selectedProducts,
       viewMode,
+      selectedToponyms,
     }
     return (
       <>
@@ -113,6 +120,9 @@ class MapComponent extends React.Component {
           opacity={customLayersOpacity}
           selectedProducts={selectedProducts}
           onProductSelected={onProductSelected}
+        />
+        <SearchToponymContainer
+          onToponymSelected={onToponymSelected}
         />
         {mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM && <CesiumProvider {...engineProps} />}
         {mapEngine === UIDomain.MAP_ENGINE_ENUM.MIZAR && <MizarAdapter {...engineProps} />}

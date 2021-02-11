@@ -53,10 +53,12 @@ describe('[SEARCH RESULTS] Testing ApplyingCriteriaHeaderRowContainer', () => {
       facetValues: [],
       geometries: [],
       entitiesSelections: [],
+      toponymCriteria: [],
       onUnselectTagFilter: enzymeWrapper.instance().onUnselectTagFilter,
       onUnselectFacetValue: enzymeWrapper.instance().onUnselectFacetValue,
       onUnselectGeometry: enzymeWrapper.instance().onUnselectGeometry,
       onUnselectEntitiesSelection: enzymeWrapper.instance().onUnselectEntitiesSelection,
+      onUnselectToponymCriteria: enzymeWrapper.instance().onUnselectToponymCriteria,
     }, 'Component should define the expected properties')
   })
 })

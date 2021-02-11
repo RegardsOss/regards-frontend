@@ -26,6 +26,8 @@ import { mainPluginServicesReducer, tagPluginServicesReducer } from './clients/P
 import { mainRunPluginServiceReducer, tagRunPluginServiceReducer } from './clients/RunPluginServiceClient'
 import { uiPluginDefinitionReducer } from './clients/UIPluginDefinitionClient'
 import { uiPluginMetaPartitionReducer } from './clients/UIPluginMetaPartitionClient'
+import { searchToponymReducer } from './clients/SearchToponymClient'
+import { toponymReducer } from './clients/ToponymClient'
 
 /**
  * Reducers for search-results module
@@ -48,6 +50,9 @@ const searchResultsReducers = {
   // plugins (for meta)
   pluginsDefinitions: uiPluginDefinitionReducer,
   pluginsMetaPartitions: uiPluginMetaPartitionReducer,
+  // toponyms
+  searchToponym: searchToponymReducer,
+  toponyms: toponymReducer,
 }
 
 export default searchResultsReducers

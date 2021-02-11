@@ -84,6 +84,11 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       onDrawingSelectionDone: enzymeWrapper.instance().onDrawingSelectionDone,
       onFeaturesPicked: enzymeWrapper.instance().onFeaturesPicked,
       onProductSelected: props.onProductSelected,
+      onToponymSelected: enzymeWrapper.instance().onToponymSelected,
+      selectedToponyms: {
+        features: [],
+        type: 'FeatureCollection',
+      },
       layers: [{
         layerName: 'Layer',
         visible: true,

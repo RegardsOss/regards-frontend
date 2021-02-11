@@ -98,6 +98,11 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/two-temporal'
                     },
+                    plugin_criterion_toponym: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh criterion/toponym'
+                    },
                     plugin_service_example: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \

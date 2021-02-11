@@ -82,6 +82,9 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
                     state: { crit4: 'I should be ignored', xzPotatoes: { a: 'b', b: '1' } },
                     requestParameters: { x: [36, 55] },
                   }],
+                toponymCriteria: [{
+                  requestParameters: { toponym: 'topoId' },
+                }],
               },
             },
           },
@@ -129,6 +132,9 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
           requestParameters: { geo: 'anything' },
         },
         CriterionBuilder.buildUnresolvedEntityTagCriterion('anyEntity'),
+        {
+          requestParameters: { toponym: 'topoId' },
+        },
         ],
         searchDisabled: false, // as there are restored request parameters
         onUpdatePluginState: enzymeWrapper.instance().onUpdatePluginState,
@@ -149,6 +155,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
               criteria: {
                 geometry: [], // remove geometry
                 tagsFiltering: [CriterionBuilder.buildWordTagCriterion('tea')], // change tag
+                toponymCriteria: [],
               },
             },
           },

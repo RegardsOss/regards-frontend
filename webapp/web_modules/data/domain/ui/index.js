@@ -45,3 +45,4 @@ export { RESULTS_TABS, RESULTS_LIST_TABS, RESULTS_TABS_ENUM } from './ResultsTab
 export { ThumbnailHelper } from './ThumbnailHelper'
 export { UISettingsConstants } from './UISettingsConstants'
 export { getAdminURL, getModuleURL, getModuleDefaultIconURL } from './URLHelper'
+export { CRITERIA_TYPES, CRITERIA_TYPES_ENUM } from './CriteriaTypesEnum'

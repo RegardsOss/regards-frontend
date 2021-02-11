@@ -149,6 +149,24 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
   }
 
   /**
+   * User callback: toponym criteria unselected (clear applying toponymCriteria)
+   */
+  onUnselectToponymCriteria = () => {
+    const {
+      moduleId, updateResultsContext, tabType,
+    } = this.props
+    updateResultsContext(moduleId, { // update results context by diff
+      tabs: {
+        [tabType]: {
+          criteria: {
+            toponymCriteria: [], // reset toponym criteria
+          },
+        },
+      },
+    })
+  }
+
+  /**
    * User callback: static parameter toggle
    */
   onToggleStaticParameter = (selectedStaticParameter) => {
@@ -188,6 +206,7 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
         criteria: {
           tagsFiltering, appliedFacets, geometry,
           entitiesSelection, searchCriteria, staticParameters,
+          toponymCriteria,
         },
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
@@ -199,12 +218,14 @@ export class ApplyingCriteriaHeaderRowContainer extends React.Component {
         entitiesSelections={entitiesSelection}
         searchCriteria={searchCriteria}
         staticParameters={staticParameters}
+        toponymCriteria={toponymCriteria}
         onUnselectTagFilter={this.onUnselectTagFilter}
         onUnselectFacetValue={this.onUnselectFacetValue}
         onUnselectGeometry={this.onUnselectGeometry}
         onUnselectEntitiesSelection={this.onUnselectEntitiesSelection}
         onUnselectSearchCriteria={this.onUnselectSearchCriteria}
         onToggleStaticParameter={this.onToggleStaticParameter}
+        onUnselectToponymCriteria={this.onUnselectToponymCriteria}
       />)
   }
 }

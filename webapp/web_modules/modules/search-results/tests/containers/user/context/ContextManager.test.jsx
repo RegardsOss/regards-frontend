@@ -206,10 +206,13 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   const defaultLocalStorage = {
     [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION, // selected tab
     [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATA, // main tab type
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK, // main results display mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: datasetEntity.content.id, // main tab filter
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: 'true', // search pane open
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: JSON.stringify([{ // search state: criteria 0:0, 0:1, 1:0
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: JSON.stringify([{ // toponym criteria
+      r: { toponym: 'any' },
+    }]),
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK, // main results display mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[4].name]: datasetEntity.content.id, // main tab filter
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: 'true', // search pane open
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: JSON.stringify([{ // search state: criteria 0:0, 0:1, 1:0
       i: `[25/${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}/111][my.attr.1/my.attr.2][0:0]`,
       s: { crit1: 'state', booleanHere: false },
       r: { p1: false, q: 'any' },
@@ -226,12 +229,12 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       s: { crit4: 'I should be ignored', xzPotatoes: { a: 'b', b: '1' } },
       r: { x: [36, 55] },
     }]),
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: dataEntity.content.id, // description entity
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: anotherDatasetEntity.content.id, // tag view main tag
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: JSON.stringify([true, true]), // 2 unactives attributes
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: dataEntity.content.id, // description entity
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: anotherDatasetEntity.content.id, // tag view main tag
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[12].name]: JSON.stringify([true, true]), // 2 unactives attributes
     [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
   }
 
@@ -262,6 +265,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         'Selected tab should have been restored from local storage')
       assert.equal(mainTab.selectedType, DamDomain.ENTITY_TYPES_ENUM.DATA,
         'Main tab selected type should have been restroed from local storage')
+      assert.deepEqual(mainTab.criteria.toponymCriteria, [{ // toponym criteria
+        requestParameters: { toponym: 'any' },
+      }], 'toponym criteria should have been restored from local storage')
       assert.equal(mainTab.types[mainTab.selectedType].selectedMode, UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
         'Main tab view mode should have been restored from local storage')
       assert.deepEqual(mainTab.criteria.tagsFiltering, [
@@ -319,16 +325,19 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     urlQueryData: {
       [ContextStorageHelper.MODULE_URL_PARAMETERS[0].name]: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS, // selected tab
       [ContextStorageHelper.MODULE_URL_PARAMETERS[1].name]: DamDomain.ENTITY_TYPES_ENUM.DATASET, // main tab type
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // main results display mode
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[5].name]: JSON.stringify([{ // search state: criterion 0:1 only
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[2].name]: JSON.stringify([{ // toponym criteria
+        r: { toponym: 'any' },
+      }]),
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[3].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // main results display mode
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: JSON.stringify([{ // search state: criterion 0:1 only
         i: `[25/${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}/833][][0:1]`,
         s: { crit2: 'somethingElse', val: 46 },
         r: { kappa: [46, 53], quoala: 'Coco' },
       }]),
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[6].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: 'URN:DATASET:UNEXISTING',
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: anotherDataEntity.content.id,
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: 'URN:DATASET:UNEXISTING',
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: anotherDataEntity.content.id,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
       [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
     },
     storageData: defaultLocalStorage,
@@ -343,6 +352,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         'Selected tab should have been restored from URL')
       assert.equal(mainTab.selectedType, DamDomain.ENTITY_TYPES_ENUM.DATASET,
         'Main tab selected type should have been restroed from URL')
+      assert.deepEqual(mainTab.criteria.toponymCriteria, [{ // toponym criteria
+        requestParameters: { toponym: 'any' },
+      }], 'toponym criteria should have been restored from URL')
       assert.equal(mainTab.types[mainTab.selectedType].selectedMode, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         'Main tab view mode should have been restored from URL')
       assert.isEmpty(mainTab.criteria.tagsFiltering,

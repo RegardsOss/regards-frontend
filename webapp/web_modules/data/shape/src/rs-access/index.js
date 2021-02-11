@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 export { LinkUIPluginDataset, LinkUIPluginDatasetList } from './uiplugin/LinkUIPluginDataset'
-export { UIPluginInstanceContent } from './uiplugin/UIPluginInstanceContent'
+export { UIPluginInstanceContent, UIPluginInstanceList } from './uiplugin/UIPluginInstanceContent'
 export { UIPluginDefinitionContent, UIPluginDefinition, UIPluginDefinitionList } from './uiplugin/UIPluginDefinition'
 export { UIPluginInfoContent } from './uiplugin/UIPluginInfoContent'
 export { UICriterionConfigurationContent } from './uiplugin/UICriterionConfigurationContent'
@@ -44,3 +44,6 @@ export { EntityWithServices } from './EntityWithServices'
 export { quotaFields, QuotaInformation } from './QuotaInformation'
 export { Session, SessionArray, SessionList } from './Sessions'
 export { ThemeContent, Theme, ThemeList } from './Theme'
+
+export { Toponym, ToponymList } from './Toponym'
+export { SearchToponym, SearchToponymList, SearchToponymArray } from './SearchToponym'

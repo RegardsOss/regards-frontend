@@ -42,6 +42,9 @@ export { LINK_UI_PLUGIN_DATASET, LINK_UI_PLUGIN_DATASET_ARRAY, LinkUIPluginDatas
 export { THEME, THEME_ARRAY, ThemeConfiguration } from './access/Theme'
 export { PLUGIN_ARRAY, PLUGIN, PluginConfiguration } from './access/Plugin'
 export { UI_PLUGIN_CONFIGURATION, UI_PLUGIN_CONFIGURATION_ARRAY, UIPluginConfConfiguration } from './access/UIPluginConf'
+export {
+  SEARCH_TOPONYM, SEARCH_TOPONYM_ARRAY, TOPONYM, TOPONYM_ARRAY, ToponymConfiguration,
+} from './access/Toponym'
 // DAM
 export { FragmentConfiguration, FRAGMENT, FRAGMENT_ARRAY } from './dam/Fragment'
 export { DatasetConfiguration, DATASET, DATASET_ARRAY } from './dam/Dataset'
