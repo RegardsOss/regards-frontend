@@ -73,9 +73,6 @@ export default class MizarAdapter extends React.Component {
     drawColor: 'Yellow',
   }
 
-  /** Mizar library */
-  static MIZAR_LIBRARY = null
-
   // XXX : Workaround
   static MIZAR_Y_OFFSET = 150
 
@@ -130,10 +127,10 @@ export default class MizarAdapter extends React.Component {
           type: 'Polygon',
           bbox: [minX, minY, maxX, maxY],
           coordinates: [[[minX, minY],
-            [maxX, minY],
-            [maxX, maxY],
-            [minX, maxY],
-            [minX, minY],
+          [maxX, minY],
+          [maxX, maxY],
+          [minX, maxY],
+          [minX, minY],
           ]],
         },
       }
@@ -210,7 +207,7 @@ export default class MizarAdapter extends React.Component {
   /**
    * Lifecycle method: component will unmount. Used here to free loaded mizar component.
    */
-  componentWillUnmount =() => {
+  componentWillUnmount = () => {
     this.unmounted = true
     if (this.mizar.instance) {
       this.mizar.instance.destroy()
@@ -283,7 +280,7 @@ export default class MizarAdapter extends React.Component {
     })
 
     // 6 - Set up selected features layer and store its reference
-    const featureStyle = this.mizar.instance.UtilityFactory.create(MizarAdapter.MIZAR_LIBRARY.UTILITY.FeatureStyle)
+    const featureStyle = this.mizar.instance.UtilityFactory.create(Mizar.UTILITY.FeatureStyle)
     this.mizar.instance.addLayer({
       type: Mizar.LAYER.GeoJSON,
       name: 'selectedFeatureIds',
@@ -452,9 +449,12 @@ export default class MizarAdapter extends React.Component {
    */
   onMouseDown = (event) => {
     const { drawingSelection } = this.props
-    if (drawingSelection && event.button === 0) {
-      const { nativeEvent: { offsetX, offsetY } } = event
-      this.currentDrawingInitPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
+
+    if (this.mizar.instance !== null) {
+      if (drawingSelection && event.button === 0) {
+        const { nativeEvent: { offsetX, offsetY } } = event
+        this.currentDrawingInitPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
+      }
     }
   }
 
@@ -464,7 +464,7 @@ export default class MizarAdapter extends React.Component {
    */
   onMouseMove = (event) => {
     const { onDrawingSelectionUpdated } = this.props
-    if (this.currentDrawingInitPoint) {
+    if (this.mizar.instance !== null && this.currentDrawingInitPoint) {
       // update selection rectangle and show it
       const { nativeEvent: { offsetX, offsetY } } = event
       const endPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
@@ -480,7 +480,8 @@ export default class MizarAdapter extends React.Component {
    */
   onMouseUp = (event) => {
     const { onDrawingSelectionDone } = this.props
-    if (this.currentDrawingInitPoint) {
+
+    if (this.mizar.instance !== null && this.currentDrawingInitPoint) {
       // update selection rectangle, hide it and notify parent
       const { nativeEvent: { offsetX, offsetY } } = event
       const endPoint = this.mizar.instance.getActivatedContext().getLonLatFromPixel(offsetX, offsetY)
