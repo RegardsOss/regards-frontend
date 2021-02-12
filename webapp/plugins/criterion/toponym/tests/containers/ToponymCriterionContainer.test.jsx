@@ -18,10 +18,8 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { CatalogDomain, UIDomain, DamDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ToponymCriterionContainer } from '../../src/containers/ToponymCriterionContainer'
-import CriterionComponent from '../../src/components/CriterionComponent'
 import styles from '../../src/styles/styles'
 import { AccessProjectClient } from '@regardsoss/client'
 import ToponymCriterionComponent from '../../src/components/ToponymCriterionComponent'

@@ -147,7 +147,8 @@ export class SearchResultsContainer extends React.Component {
       }
     }
 
-    if (!isEqual(get(oldSelectedTab, 'criteria.toponymCriteria'), tab.criteria.toponymCriteria)) {
+    const oldToponymCriteria = oldSelectedTab ? get(oldProps.resultsContext, `tabs.${oldSelectedTab}.criteria.toponymCriteria`) : null
+    if (!isEqual(oldToponymCriteria, tab.criteria.toponymCriteria)) {
       const toponymBusinessId = get(tab.criteria.toponymCriteria, `[0]requestParameters.${CatalogDomain.CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME}`)
       if (toponymBusinessId) {
         fetchToponym(toponymBusinessId)

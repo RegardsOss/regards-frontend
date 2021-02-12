@@ -101,14 +101,24 @@ export default class CesiumAdapter extends React.Component {
   UNSAFE_componentWillMount() {
     // Get the background layer
     const {
-      selectedColorOutlineWidth, viewMode, layers,
+      selectedColorOutlineWidth, viewMode, layers, drawnAreas,
     } = this.props
 
     // Background layer with constrast
     const greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
 
-    // We add another background layer which take all the globe surface. It will be resized when user draw an area.
-    const backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode)
+    // We add another background layer which take all the globe surface. It is resized when a drawn an area exist.
+    let rectangle = null
+    let cameraDestination = null
+    let cameraDestinationTime = null
+    if (!isEmpty(drawnAreas)) {
+      const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+      rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(drawnAreas[0].geometry)
+      cameraDestination = destination
+      cameraDestinationTime = time
+    }
+
+    const backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode, rectangle)
 
     // Load data layers if any exist
     const customLayerProviders = this.getCustomLayerProviders(layers, viewMode)
@@ -129,6 +139,8 @@ export default class CesiumAdapter extends React.Component {
       selectedFeatureColor,
       selectedColorOutlineWidth,
       backgroundVisibleProvider,
+      cameraDestination,
+      cameraDestinationTime,
     })
   }
 

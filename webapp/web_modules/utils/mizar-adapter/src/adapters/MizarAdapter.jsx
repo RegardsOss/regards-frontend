@@ -220,56 +220,63 @@ export default class MizarAdapter extends React.Component {
   }
 
   /**
-   * Lifecycle method: component will receive props. Used here to report changes onto the mizar component (main wrapper job)
-   * @param {*} nextProps next properties
-   */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    // Add new geo features to display layer
-    const {
-      featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
-      selectedProducts, selectedToponyms,
-    } = nextProps
-    if (!isEqual(this.props.featuresCollection, featuresCollection) || !isEqual(this.props.selectedProducts, selectedProducts)) {
-      // Handle not selected features
-      this.onNotSelectedFeaturesUpdated(featuresCollection, selectedProducts)
-      // Handle selected feature
-      this.onSelectedFeaturesUpdated(featuresCollection, selectedProducts)
-    }
-    // remove old areas and add new ones
-    if (!isEqual(this.props.drawnAreas, drawnAreas)) {
-      this.onAreasUpdated(this.props.drawnAreas, drawnAreas)
-    }
-    // Handle draw mode changes
-    if (this.props.drawingSelection !== drawingSelection) {
-      this.onToggleDrawSelectionMode(drawingSelection)
-    }
-    // remove old areas and add new ones
-    if (!isEqual(this.props.customLayersOpacity, customLayersOpacity)) {
-      this.onUpdateOpacity(customLayersOpacity)
-    }
-    // Handle toponyms changes
-    if (!isEqual(this.props.selectedToponyms, selectedToponyms)) {
-      this.onUpdateToponyms(selectedToponyms)
-    }
-    // Handle change view mode
-    if (!isEqual(this.props.viewMode, viewMode)) {
-      this.onToggleViewMode()
-    }
-    // Manage camera destination
-    if (!isEqual(this.props.selectedProducts, selectedProducts) || !isEqual(this.props.drawnAreas, drawnAreas)) {
-      // Handle zoom on selected product
-      if (!isEqual(this.props.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
-        const lastFeatureSelected = find(this.mizar.selectedFeaturesLayer.features, (feature) => feature.id === last(selectedProducts).id)
-        this.zoomOnGeometry(lastFeatureSelected.geometry)
-      } else if (!isEmpty(drawnAreas)) {
-        if (drawingSelection === false) {
-          this.zoomOnGeometry(drawnAreas[0].geometry)
-        }
-      }
-    }
-    // XXX- take in account, in later versions, color properties change ==> requires unmounting then remounting layers
-    // useless in current version as the parent split pane blocks redrawing anyways
-  }
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+   /**
+    * Properties change detected: update local state
+    * @param oldProps previous component properties
+    * @param newProps next component properties
+    */
+   onPropertiesUpdated = (oldProps, newProps) => {
+     const {
+       featuresCollection, drawingSelection, drawnAreas, customLayersOpacity, viewMode,
+       selectedProducts, selectedToponyms,
+     } = newProps
+     if (!isEqual(oldProps.featuresCollection, featuresCollection) || !isEqual(oldProps.selectedProducts, selectedProducts)) {
+       // Handle not selected features
+       this.onNotSelectedFeaturesUpdated(featuresCollection, selectedProducts)
+       // Handle selected feature
+       this.onSelectedFeaturesUpdated(featuresCollection, selectedProducts)
+     }
+     // remove old areas and add new ones
+     if (!isEqual(oldProps.drawnAreas, drawnAreas)) {
+       this.onAreasUpdated(oldProps.drawnAreas, drawnAreas)
+     }
+     // Handle draw mode changes
+     if (oldProps.drawingSelection !== drawingSelection) {
+       this.onToggleDrawSelectionMode(drawingSelection)
+     }
+     // remove old areas and add new ones
+     if (!isEqual(oldProps.customLayersOpacity, customLayersOpacity)) {
+       this.onUpdateOpacity(customLayersOpacity)
+     }
+     // Handle toponyms changes
+     if (!isEqual(oldProps.selectedToponyms, selectedToponyms)) {
+       this.onUpdateToponyms(selectedToponyms)
+     }
+     // Handle change view mode
+     if (!isEqual(oldProps.viewMode, viewMode)) {
+       this.onToggleViewMode()
+     }
+     // Manage camera destination
+     if (!isEqual(oldProps.selectedProducts, selectedProducts) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
+       // Handle zoom on selected product
+       if (!isEqual(oldProps.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
+         const lastFeatureSelected = find(this.mizar.selectedFeaturesLayer.features, (feature) => feature.id === last(selectedProducts).id)
+         this.zoomOnGeometry(lastFeatureSelected.geometry)
+       } else if (!isEmpty(drawnAreas)) {
+         // When user stop drawing area or toponym change
+         if (drawingSelection === false) {
+           this.zoomOnGeometry(drawnAreas[0].geometry)
+         }
+       }
+     }
+     // XXX- take in account, in later versions, color properties change ==> requires unmounting then remounting layers
+     // useless in current version as the parent split pane blocks redrawing anyways
+   }
 
   /**
    * Lifecycle method: component will unmount. Used here to free loaded mizar component.
