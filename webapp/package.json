@@ -4,7 +4,6 @@
   "description": "REGARDS frontend webapp",
   "private": true,
   "scripts": {
-    "build:mizar": "./scripts/copy-mizar.sh",
     "build:dll": "webpack --mode=development --progress --config webpack.dev.dll.config.js --display-error-details",
     "build:production-dll": "npm run build:production-core-dll && npm run build:production-coreoss-dll",
     "build:production-core-dll": "webpack --mode=production --progress --config webpack.prod.core.dll.config.js --display-error-details",
@@ -32,7 +31,7 @@
     "start:withic": "webpack-dev-server --mode=development --progress --config webpack.dev.ic.config.js",
     "start:copy-plugins": "./scripts/copyPlugins.sh",
     "pretest": "npm run lint:fix || true",
-    "postinstall": "npm run build:dll && npm run build:production-dll && npm run build:mizar",
+    "postinstall": "npm run build:dll && npm run build:production-dll",
     "test": "npm run test:mocha --silent",
     "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
     "test:mocha": "mochapack --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
