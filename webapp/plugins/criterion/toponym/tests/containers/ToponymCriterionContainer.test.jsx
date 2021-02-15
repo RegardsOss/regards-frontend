@@ -18,6 +18,7 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ToponymCriterionContainer } from '../../src/containers/ToponymCriterionContainer'
 import styles from '../../src/styles/styles'
@@ -44,18 +45,22 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       searchToponymClient: {
         actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: () => ({}),
+        selectors: AccessProjectClient.getSearchToponymSelectors(),
       },
       state: ToponymCriterionContainer.DEFAULT_STATE,
       isFetching: false,
-      toponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+            description: 'test',
+          }
         }
-      }],
-      publicState: () => { },
+      },
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
+      publishState: () => { },
       dispatchGetToponyms: () => { },
     }
     const enzymeWrapper = shallow(<ToponymCriterionContainer {...props} />, { context })
@@ -70,7 +75,7 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       isFetching: props.isFetching,
       onUpdateToponymsFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onToponymFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
-      currentLocale: props.state.currentLocale
+      currentLocale: UIDomain.LOCALES_ENUM.fr
     }, 'Component properties should be correctly reported')
   })
   it('should render correctly with initial value', () => {
@@ -80,24 +85,28 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       searchToponymClient: {
         actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: () => ({}),
+        selectors: AccessProjectClient.getSearchToponymSelectors(),
       },
       state: {
         error: true,
         toponymFilterText: 'testValue',
         selectedToponymBusinessId: '',
-        currentLocale: '',
+        currentLocale: UIDomain.LOCALES_ENUM.fr,
         criteria: '',
       },
       isFetching: false,
-      toponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+            description: 'test',
+          }
         }
-      }],
-      publicState: () => { },
+      },
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
+      publishState: () => { },
       dispatchGetToponyms: () => { },
     }
     const enzymeWrapper = shallow(<ToponymCriterionContainer {...props} />, { context })
@@ -106,7 +115,7 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       label: props.label,
-      error: false,
+      error: true,
       toponymFilterText: 'testValue',
       matchingToponyms: props.toponyms,
       isFetching: props.isFetching,
@@ -117,7 +126,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
   })
   it('should update list when mounting and state when user changed the text', () => {
     const spiedDispatchData = {
-      toponymFilterText: null,
+      toponymFilterText: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       count: 0,
     }
     const spiedPublishData = {
@@ -131,24 +141,27 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       searchToponymClient: {
         actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: () => ({}),
+        selectors: AccessProjectClient.getSearchToponymSelectors(),
       },
       state: {
         error: true,
         toponymFilterText: 'testValue',
         selectedToponymBusinessId: '',
-        currentLocale: '',
+        currentLocale: UIDomain.LOCALES_ENUM.fr,
         criteria: '',
       },
       isFetching: false,
-      toponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          }
         }
-      }],
-      publicState: (nextState, requestParameters) => {
+      },
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
+      publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
@@ -172,24 +185,25 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       toponymFilterText: 'test text',
       error: true,
       selectedToponymBusinessId: '',
-      currentLocale: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       criteria: 'toponymCriteria',
     }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
 
     // 2 - Test with existing option
-    enzymeWrapper.instance().onUpdateTextFilter('c')
+    enzymeWrapper.instance().onUpdateTextFilter('fr', true)
     assert.equal(spiedPublishData.count, 2, '2 - Data publishing should have been performed')
     assert.deepEqual(spiedPublishData.nextState, {
-      toponymFilterText: 'c',
+      toponymFilterText: 'fr',
       error: false,
       selectedToponymBusinessId: '',
-      currentLocale: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       criteria: 'toponymCriteria',
     }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
   })
   it('should update correctly state on user item selection', () => {
     const spiedDispatchData = {
-      toponymFilterText: null,
+      toponymFilterText: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       count: 0,
     }
     const spiedPublishData = {
@@ -203,18 +217,26 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       searchToponymClient: {
         actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: () => ({}),
+        selectors: AccessProjectClient.getSearchToponymSelectors(),
       },
-      state: EnumeratedCriterionContainer.DEFAULT_STATE,
+      state: {
+        currentLocale: UIDomain.LOCALES_ENUM.fr,
+        toponymFilterText: '',
+        error: false,
+        selectedToponymBusinessId: '',
+      },
       isFetching: false,
-      toponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          }
         }
-      }],
-      publicState: (nextState, requestParameters) => {
+      },
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
+      publishState: (nextState, requestParameters) => {
         spiedPublishData.nextState = nextState
         spiedPublishData.requestParameters = requestParameters
         spiedPublishData.count += 1
@@ -238,18 +260,18 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       toponymFilterText: 'test text',
       error: true,
       selectedToponymBusinessId: '',
-      currentLocale: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       criteria: 'toponymCriteria',
     }, '1 - Dispatched plugin state should be correctly computed (with an error as text is not an available option)')
 
     // 2 - Test with existing option
-    enzymeWrapper.instance().onUpdateTextFilter('c')
+    enzymeWrapper.instance().onUpdateTextFilter('fr', true)
     assert.equal(spiedPublishData.count, 2, '2 - Data publishing should have been performed')
     assert.deepEqual(spiedPublishData.nextState, {
-      toponymFilterText: 'c',
+      toponymFilterText: 'fr',
       error: false,
-      selectedToponymBusinessId: 'id',
-      currentLocale: '',
+      selectedToponymBusinessId: '',
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
       criteria: 'toponymCriteria',
     }, '2 - Dispatched plugin state should be correctly computed (without error as text is an available option)')
   })

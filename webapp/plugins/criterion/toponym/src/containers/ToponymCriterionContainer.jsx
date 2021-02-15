@@ -143,8 +143,10 @@ export class ToponymCriterionContainer extends React.Component {
       currentLocale, state,
       searchContext, dispatchGetToponyms,
     } = newProps
-    if (!isEqual(oldProps.searchContext, searchContext)
-        || !isEqual(get(oldProps, 'state.toponymFilterText', ToponymCriterionContainer.DEFAULT_STATE.toponymFilterText), state.toponymFilterText)) {
+    if (!isEqual(oldProps.searchContext, searchContext)) {
+      // Update immediately available options on context change
+      dispatchGetToponyms(state.toponymFilterText, currentLocale)
+    } else if (!isEqual(get(oldProps, 'state.toponymFilterText', ToponymCriterionContainer.DEFAULT_STATE.toponymFilterText), state.toponymFilterText)) {
       // when search text changes (user is typing text), update options after an inactivity time ellapsed
       this.stabilityDelayer.onEvent(() => dispatchGetToponyms(state.toponymFilterText, currentLocale))
     }

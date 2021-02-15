@@ -23,7 +23,6 @@ import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@
 import ToponymCriterionComponent from '../../src/components/ToponymCriterionComponent'
 import styles from '../../src/styles'
 import { AutoCompleteTextField } from '@regardsoss/components'
-import { polylineEquals } from 'resium'
 
 const context = buildTestContext(styles)
 
@@ -42,14 +41,16 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: false,
-      toponymFilterText: 'idk',
-      matchingToponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponymFilterText: 'en',
+      matchingToponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          }
         }
-      }],
+      },
       isFetching: false,
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
@@ -64,25 +65,27 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
     const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
     assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
     testSuiteHelpers.assertWrapperProperties(subComponentWrapper, {
-      currentHintText: 'idk', // field text being entered by the user
+      currentHintText: 'en', // field text being entered by the user
       isFetching: false,
       isInError: false,
       onUpdateInput: props.onUpdateToponymsFilter,
       onFilterSelected: props.onToponymFilterSelected,
     }, 'Properties should be correctly reported')
   })
-  it('should render correctly localized label and options', () => {
+  it('should render correctly localized label', () => {
     const props = {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: false,
-      toponymFilterText: 'idk2',
-      matchingToponyms: [{
-        content: {
-          labelFr: 'fr',
-          labelEn: 'en',
-          businessId: 'id',
+      toponymFilterText: 'en',
+      matchingToponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          }
         }
-      }],
+      },
       isFetching: false,
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
@@ -100,33 +103,28 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       assert.lengthOf(autocompleteWrapper, 1, 'The autocomplete field should be shown')
       const stateComputedHints = enzymeWrapper.state().currentHints
       testSuiteHelpers.assertWrapperProperties(autocompleteWrapper, {
-        currentHintText: 'idk2', // field text being entered by the user
+        currentHintText: 'en', // field text being entered by the user
         currentHints: stateComputedHints,
         isFetching: false,
         isInError: false,
         onUpdateInput: props.onUpdateToponymsFilter,
-        onFilterSelected: polylineEquals.onToponymFilterSelected,
+        onFilterSelected: props.onToponymFilterSelected,
       }, 'Properties should be correctly reported')
-      // 3 - check options were correctly computed
-      assert.lengthOf(stateComputedHints, props.matchingToponyms.length, 'There should be the right count of hints')
-      enzymeWrapper.state().currentHints.forEach((computedHint, index) => {
-        const modelHint = props.matchingToponyms[index]
-        assert.equal(computedHint.id, modelHint, `Hint #${index}: Id should worth hint text`)
-        assert.equal(computedHint.text, modelHint, `Hint #${index}: Text should worth hint text`)
-      })
     })
     it('should render correctly fetching', () => {
       const props = {
         label: criterionTestSuiteHelpers.getLabelStub(),
         error: false,
-        toponymFilterText: 'idk',
-        matchingToponyms: [{
-          content: {
-            labelFr: 'fr',
-            labelEn: 'en',
-            businessId: 'id',
+        toponymFilterText: 'en',
+        matchingToponyms: {
+          id: {
+            content: {
+              labelFr: 'fr',
+              labelEn: 'en',
+              businessId: 'id',
+            }
           }
-        }],
+        },
         isFetching: true,
         onUpdateToponymsFilter: () => { },
         onToponymFilterSelected: () => { },
@@ -144,13 +142,15 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         label: criterionTestSuiteHelpers.getLabelStub(),
         error: true,
         toponymFilterText: 'idk',
-        matchingToponyms: [{
-          content: {
-            labelFr: 'fr',
-            labelEn: 'en',
-            businessId: 'id',
+        matchingToponyms: {
+          id: {
+            content: {
+              labelFr: 'fr',
+              labelEn: 'en',
+              businessId: 'id',
+            }
           }
-        }],
+        },
         isFetching: false,
         onUpdateToponymsFilter: () => { },
         onToponymFilterSelected: () => { },
