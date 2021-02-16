@@ -327,6 +327,7 @@ export const ResultsTab = PropTypes.shape({
     entitiesSelection: PropTypes.arrayOf(EntitiesSelectionCriterion).isRequired, // Selected entities set criteria
     requestFacets: PropTypes.arrayOf(RequestFacetCriterion).isRequired, // List of requested facets on results
     tagsFiltering: TagsArray.isRequired, // applying tags (parent can set some here)
+    toponymCriteria: PropTypes.arrayOf(BasicCriterion).isRequired,
   }),
   selectedType: PropTypes.oneOf([DamDomain.ENTITY_TYPES_ENUM.DATA, DamDomain.ENTITY_TYPES_ENUM.DATASET]).isRequired,
   types: PropTypes.shape({

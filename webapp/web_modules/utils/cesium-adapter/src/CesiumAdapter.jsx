@@ -65,6 +65,9 @@ export default class CesiumAdapter extends React.Component {
     onProductSelected: PropTypes.func.isRequired,
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
+    // toponym selection management
+    // eslint-disable-next-line react/forbid-prop-types
+    selectedToponyms: PropTypes.object,
   }
 
   state = {
@@ -98,14 +101,24 @@ export default class CesiumAdapter extends React.Component {
   UNSAFE_componentWillMount() {
     // Get the background layer
     const {
-      selectedColorOutlineWidth, viewMode, layers,
+      selectedColorOutlineWidth, viewMode, layers, drawnAreas,
     } = this.props
 
     // Background layer with constrast
     const greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
 
-    // We add another background layer which take all the globe surface. It will be resized when user draw an area.
-    const backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode)
+    // We add another background layer which take all the globe surface. It is resized when a drawn an area exist.
+    let rectangle = null
+    let cameraDestination = null
+    let cameraDestinationTime = null
+    if (!isEmpty(drawnAreas)) {
+      const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+      rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(drawnAreas[0].geometry)
+      cameraDestination = destination
+      cameraDestinationTime = time
+    }
+
+    const backgroundVisibleProvider = this.getBackgroundVisibleProvider(layers, viewMode, rectangle)
 
     // Load data layers if any exist
     const customLayerProviders = this.getCustomLayerProviders(layers, viewMode)
@@ -126,6 +139,8 @@ export default class CesiumAdapter extends React.Component {
       selectedFeatureColor,
       selectedColorOutlineWidth,
       backgroundVisibleProvider,
+      cameraDestination,
+      cameraDestinationTime,
     })
   }
 
@@ -184,17 +199,16 @@ export default class CesiumAdapter extends React.Component {
           newState.cameraDestination = destination
           newState.cameraDestinationTime = time
         }
-      } else if (!isEmpty(drawnAreas) && oldProps.drawingSelection !== drawingSelection && drawingSelection === false) {
-        const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
-        newState.cameraDestination = destination
-        newState.cameraDestinationTime = time
+      } else if (!isEmpty(drawnAreas)) {
+        // When user stop drawing area or toponym change
+        if (drawingSelection === false) {
+          const { time, destination } = this.getNewCameraDestination(drawnAreas[0].geometry)
+          newState.cameraDestination = destination
+          newState.cameraDestinationTime = time
+        }
       }
     }
-    // Manage to load correct background layer when switch mode
-    if (!isEqual(oldProps.viewMode, viewMode)) {
-      newState.greyBackgroundProvider = this.getGreyBackgroundProvider(layers, viewMode)
-      newState.customLayerProviders = this.getCustomLayerProviders(layers, viewMode)
-    }
+
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
     }
@@ -265,7 +279,7 @@ export default class CesiumAdapter extends React.Component {
   render() {
     const {
       featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected, customLayersOpacity,
-      viewMode, onProductSelected,
+      viewMode, onProductSelected, selectedToponyms,
     } = this.props
     const {
       greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
@@ -343,6 +357,13 @@ export default class CesiumAdapter extends React.Component {
               <GeoJsonDataSource
                 name="selected-features"
                 data={selectedProducts}
+                fill={nearlyTransparentColor}
+                stroke={selectedFeatureColor}
+                strokeWidth={selectedColorOutlineWidth}
+              />
+              <GeoJsonDataSource
+                name="selected-toponyms"
+                data={selectedToponyms}
                 fill={nearlyTransparentColor}
                 stroke={selectedFeatureColor}
                 strokeWidth={selectedColorOutlineWidth}

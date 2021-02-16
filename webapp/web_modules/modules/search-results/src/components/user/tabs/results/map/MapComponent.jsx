@@ -22,6 +22,7 @@ import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regard
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
 import { LayerConfiguration } from '../../../../../shapes/ModuleConfiguration'
+import SearchToponymContainer from '../../../../../containers/user/tabs/results/map/SearchToponymContainer'
 
 /**
  * Shows map in map view
@@ -58,6 +59,11 @@ class MapComponent extends React.Component {
 
     // Identifies a unique instance of this component (required for MizarAdapter ID)
     tabType: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
+
+    // toponym selection managament
+    // eslint-disable-next-line react/forbid-prop-types
+    selectedToponyms: PropTypes.object,
+    onToponymSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -80,7 +86,7 @@ class MapComponent extends React.Component {
       selectionMode, onDrawingSelectionUpdated, onDrawingSelectionDone,
       viewMode, onToggleSelectionMode, onToggleViewMode,
       onFeaturesPicked, layers,
-      selectedProducts, onProductSelected,
+      selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
     } = this.props
     const { customLayersOpacity } = this.state
 
@@ -103,6 +109,7 @@ class MapComponent extends React.Component {
       onProductSelected,
       selectedProducts,
       viewMode,
+      selectedToponyms,
     }
     return (
       <>

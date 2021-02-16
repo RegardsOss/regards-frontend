@@ -18,6 +18,8 @@
  **/
 import { buildSplitResizerStyle } from '@regardsoss/components'
 
+import { getMenuItemStyle } from '@regardsoss/toponym-common'
+
 /**
  * Styles for module
  * @author Sébastien binda
@@ -589,6 +591,33 @@ const styles = (theme) => ({
         lastBoxStyle: {
           width: '58px',
         },
+      },
+      toponymField: {
+        wrapperStyle: {
+          // overlay position
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          zIndex: 1,
+          height: '42px',
+          width: '286px',
+          // mimics table header styles
+          backgroundColor: theme.palette.canvasColor,
+          //borderBottom: `1px solid ${theme.tableRow.borderColor}`,
+          borderLeft: `1px solid ${theme.tableRow.borderColor}`,
+        },
+        listStyle: {
+          width: '286px',
+        },
+        textFieldStyle: {
+          width: '286px',
+          top: '-6px',
+          paddingLeft: '10px',
+        },
+        underlineStyle: {
+          left: '0px',
+        },
+        menuItem: getMenuItemStyle(theme),
       },
       selectedProductBox: {
         display: 'flex',

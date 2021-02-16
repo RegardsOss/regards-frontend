@@ -24,6 +24,7 @@ import { MizarAdapter } from '@regardsoss/mizar-adapter'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
 import MapToolsComponent from '../../../../../../src/components/user/tabs/results/map/MapToolsComponent'
+import SearchToponymContainer from '../../../../../../src/containers/user/tabs/results/map/SearchToponymContainer'
 import styles from '../../../../../../src/styles'
 import { dataEntity } from '../../../../../dumps/entities.dump'
 
@@ -69,6 +70,8 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectedProducts: [],
       onProductSelected: () => {},
       tabType: UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
+      selectedToponyms: {},
+      onToponymSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)
@@ -81,6 +84,11 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectedProducts: props.selectedProducts,
       onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
+    const searchToponyms = enzymeWrapper.find(SearchToponymContainer)
+    assert.lengthOf(searchToponyms, 1, 'Search toponyms bar should be rendered')
+    testSuiteHelpers.assertWrapperProperties(searchToponyms, {
+      onToponymSelected: props.onToponymSelected,
+    }, 'Search toponyms container properties should be correctly set')
     const map = enzymeWrapper.find(CesiumProvider)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
@@ -94,6 +102,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       viewMode: props.viewMode,
       selectedProducts: props.selectedProducts,
       onProductSelected: props.onProductSelected,
+      selectedToponyms: props.selectedToponyms,
     }, 'Map properties should be correctly set')
   })
 
@@ -137,6 +146,17 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectedProducts: [],
       onProductSelected: () => {},
       tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+      selectedToponyms: {
+        features: [{
+          ...dataEntity.content,
+          geometry: {
+            type: CatalogDomain.GEOMETRY_TYPES.Point,
+            coordinates: [1, 2],
+          },
+        }],
+        type: 'FeatureCollection',
+      },
+      onToponymSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapComponent {...props} />, { context })
     const mapTools = enzymeWrapper.find(MapToolsComponent)
@@ -150,6 +170,11 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       selectedProducts: props.selectedProducts,
       onProductSelected: props.onProductSelected,
     }, 'Map tools component properties should be correctly set')
+    const searchToponyms = enzymeWrapper.find(SearchToponymContainer)
+    assert.lengthOf(searchToponyms, 1, 'Search toponyms bar should be rendered')
+    testSuiteHelpers.assertWrapperProperties(searchToponyms, {
+      onToponymSelected: props.onToponymSelected,
+    }, 'Search toponyms container properties should be correctly set')
     const map = enzymeWrapper.find(MizarAdapter)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
@@ -163,6 +188,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
       viewMode: props.viewMode,
       selectedProducts: props.selectedProducts,
       onProductSelected: props.onProductSelected,
+      selectedToponyms: props.selectedToponyms,
     }, 'Map properties should be correctly set')
   })
 })
