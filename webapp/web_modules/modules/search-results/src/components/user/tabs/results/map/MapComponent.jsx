@@ -124,6 +124,9 @@ class MapComponent extends React.Component {
           selectedProducts={selectedProducts}
           onProductSelected={onProductSelected}
         />
+        <SearchToponymContainer
+          onToponymSelected={onToponymSelected}
+        />
         { (() => {
           switch (mapEngine) {
             case UIDomain.MAP_ENGINE_ENUM.MIZAR:
