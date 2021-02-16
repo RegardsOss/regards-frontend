@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { connect } from 'react-redux'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import forEach from 'lodash/forEach'
@@ -30,19 +29,16 @@ import './Mizar.css'
 import Mizar from 'mizar'
 import polygonCenter from 'geojson-polygon-center'
 import { UIShapes } from '@regardsoss/shape'
-import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 
 /**
  * Mizar Adapter
  * Nota: it provides pick selection and draw selection gestures but caller should handle related updates and feedback
  */
-class MizarAdapter extends React.Component {
+export default class MizarAdapter extends React.Component {
   static propTypes = {
     canvasId: PropTypes.string, // TO be used when showing multiple Mizar instances (otherwise, both will point out the same canvas). IMMUTABLE
     crsContext: PropTypes.string,
-    openErrSnackbar: PropTypes.func.isRequired,
-    // closeErrSnackbar: PropTypes.func.isRequired,
     layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
@@ -131,10 +127,10 @@ class MizarAdapter extends React.Component {
           type: 'Polygon',
           bbox: [minX, minY, maxX, maxY],
           coordinates: [[[minX, minY],
-            [maxX, minY],
-            [maxX, maxY],
-            [minX, maxY],
-            [minX, minY],
+          [maxX, minY],
+          [maxX, maxY],
+          [minX, maxY],
+          [minX, minY],
           ]],
         },
       }
@@ -227,99 +223,92 @@ class MizarAdapter extends React.Component {
     }
     // 1 - Create Mizar
     const {
-      crsContext, openErrSnackbar, featuresColor, drawColor, drawingSelection, viewMode, selectedFeatureColor,
+      crsContext, featuresColor, drawColor, drawingSelection, viewMode, selectedFeatureColor,
       selectedColorOutlineWidth, layers,
     } = this.props
+    const mizarDiv = document.getElementById(this.props.canvasId)
 
-    try {
-      const mizarDiv = document.getElementById(this.props.canvasId)
-
-      let mizarOptions = {
-        // the canvas ID where Mizar is inserted
-        canvas: mizarDiv,
-        // define a planet context
-        planetContext: {
-          // the CRS of the Earth
-          coordinateSystem: {
-            geoideName: crsContext,
-          },
+    let mizarOptions = {
+      // the canvas ID where Mizar is inserted
+      canvas: mizarDiv,
+      // define a planet context
+      planetContext: {
+        // the CRS of the Earth
+        coordinateSystem: {
+          geoideName: crsContext,
         },
-      }
-      if (viewMode === UIDomain.MAP_VIEW_MODES_ENUM.MODE_2D) {
-        mizarOptions = {
-          ...mizarOptions,
-          projectionName: Mizar.PROJECTION.Plate,
-        }
-      }
-
-      this.mizar.instance = new Mizar(mizarOptions)
-
-      // 2 - Register layer relative mouse listeners
-      this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.onLayerRelativeMouseUp)
-      this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mousedown', this.onLayerRelativeMouseDown)
-
-      // 3 - Set up background layer
-      const baseLayer = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
-      this.mizar.instance.addLayer(baseLayer)
-
-      // 4 - Store custom layers
-      const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
-      forEach(layersInfo, (layerInfo) => {
-        this.mizar.instance.addLayer(layerInfo, (customLayerId) => {
-          this.mizar.customLayers.push(this.mizar.instance.getLayerByID(customLayerId))
-        })
-      })
-
-      // 5 - Set up features collection layer and store its reference
-      this.mizar.instance.addLayer({
-        type: Mizar.LAYER.GeoJSON,
-        name: 'datas',
-        visible: true,
-        background: false,
-        color: featuresColor,
-        strokeWidth: 1,
-      }, (featuresLayerId) => {
-        // store features layer
-        this.mizar.featuresLayer = this.mizar.instance.getLayerByID(featuresLayerId)
-        // make sure showing current features (using latest props value)
-        this.onNotSelectedFeaturesUpdated(this.props.featuresCollection)
-      })
-
-      // 6 - Set up selected features layer and store its reference
-      const featureStyle = this.mizar.instance.UtilityFactory.create(Mizar.UTILITY.FeatureStyle)
-      this.mizar.instance.addLayer({
-        type: Mizar.LAYER.GeoJSON,
-        name: 'selectedFeatureIds',
-        visible: true,
-        background: false,
-        style: {
-          strokeColor: featureStyle.fromStringToColor(selectedFeatureColor),
-          strokeWidth: selectedColorOutlineWidth,
-        },
-      }, (selectedFeatureIds) => {
-        // store selected features layer
-        this.mizar.selectedFeaturesLayer = this.mizar.instance.getLayerByID(selectedFeatureIds)
-      })
-
-      // 7 - Set up areas draw layer
-      this.mizar.drawLayer = this.mizar.instance.LayerFactory.create({
-        type: Mizar.LAYER.Vector,
-        visible: true,
-        background: false,
-        color: drawColor,
-      })
-      this.mizar.instance.getActivatedContext().addDraw(this.mizar.drawLayer)
-
-      // Initialize layer
-      this.onAreasUpdated([], this.props.drawnAreas)
-
-      //  7- Initialize draw selection from property
-      this.onToggleDrawSelectionMode(drawingSelection)
-    } catch (err) {
-      console.error(err)
-
-      openErrSnackbar(err.message)
+      },
     }
+    if (viewMode === UIDomain.MAP_VIEW_MODES_ENUM.MODE_2D) {
+      mizarOptions = {
+        ...mizarOptions,
+        projectionName: Mizar.PROJECTION.Plate,
+      }
+    }
+
+    this.mizar.instance = new Mizar(mizarOptions)
+
+    // 2 - Register layer relative mouse listeners
+    this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mouseup', this.onLayerRelativeMouseUp)
+    this.mizar.instance.getActivatedContext().getRenderContext().canvas.addEventListener('mousedown', this.onLayerRelativeMouseDown)
+
+    // 3 - Set up background layer
+    const baseLayer = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
+    this.mizar.instance.addLayer(baseLayer)
+
+    // 4 - Store custom layers
+    const layersInfo = UIDomain.getLayersInfo(layers, UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM, viewMode, UIDomain.MAP_ENGINE_ENUM.MIZAR)
+    forEach(layersInfo, (layerInfo) => {
+      this.mizar.instance.addLayer(layerInfo, (customLayerId) => {
+        this.mizar.customLayers.push(this.mizar.instance.getLayerByID(customLayerId))
+      })
+    })
+
+    // 5 - Set up features collection layer and store its reference
+    this.mizar.instance.addLayer({
+      type: Mizar.LAYER.GeoJSON,
+      name: 'datas',
+      visible: true,
+      background: false,
+      color: featuresColor,
+      strokeWidth: 1,
+    }, (featuresLayerId) => {
+      // store features layer
+      this.mizar.featuresLayer = this.mizar.instance.getLayerByID(featuresLayerId)
+      // make sure showing current features (using latest props value)
+      this.onNotSelectedFeaturesUpdated(this.props.featuresCollection)
+    })
+
+    // 6 - Set up selected features layer and store its reference
+    const featureStyle = this.mizar.instance.UtilityFactory.create(Mizar.UTILITY.FeatureStyle)
+    this.mizar.instance.addLayer({
+      type: Mizar.LAYER.GeoJSON,
+      name: 'selectedFeatureIds',
+      visible: true,
+      background: false,
+      style: {
+        strokeColor: featureStyle.fromStringToColor(selectedFeatureColor),
+        strokeWidth: selectedColorOutlineWidth,
+      },
+    }, (selectedFeatureIds) => {
+      // store selected features layer
+      this.mizar.selectedFeaturesLayer = this.mizar.instance.getLayerByID(selectedFeatureIds)
+    })
+
+    // 7 - Set up areas draw layer
+    this.mizar.drawLayer = this.mizar.instance.LayerFactory.create({
+      type: Mizar.LAYER.Vector,
+      visible: true,
+      background: false,
+      color: drawColor,
+    })
+    this.mizar.instance.getActivatedContext().addDraw(this.mizar.drawLayer)
+
+    // Initialize layer
+    this.onAreasUpdated([], this.props.drawnAreas)
+
+    //  7- Initialize draw selection from property
+    this.onToggleDrawSelectionMode(drawingSelection)
   }
 
   /**
@@ -512,20 +501,6 @@ class MizarAdapter extends React.Component {
         onMouseUp={this.onMouseUp}
         onMouseDown={this.onMouseDown}
         onMouseMove={this.onMouseMove}
-      />
-    )
+      />)
   }
 }
-
-const mapStateToProps = (state) => ({
-  // Add theme from store to the components props
-  snackBarOpened: state.common.error.opened ? state.common.error.opened : false,
-  snackBarMessage: state.common.error.message ? state.common.error.message : '',
-})
-
-const mapDispatchToProps = (dispatch) => ({
-  openErrSnackbar: (msg) => dispatch(ApplicationErrorAction.throwError(msg)),
-  closeErrSnackbar: () => dispatch(ApplicationErrorAction.closeErrorDialog()),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(MizarAdapter)
