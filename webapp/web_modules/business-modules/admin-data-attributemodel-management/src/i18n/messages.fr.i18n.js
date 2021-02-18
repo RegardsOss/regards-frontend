@@ -75,6 +75,8 @@ const messages = {
   'attrmodel.form.restriction.PATTERN.pattern': 'Motif',
   'attrmodel.form.restriction.PATTERN.active': 'Activer une restriction par motif (Pattern ou Expression régulière)',
 
+  'attrmodel.form.restriction.JSON_SCHEMA.schema': 'Json schema',
+
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Ajouter un attribut obligatoire à un fragment déjà utilisé par des modèles peut provoquer des erreurs lors des ingestions et des mises à jour futures',
 
   'invalid.only_1_restriction_on_the_same_time': 'Vous ne pouvez activer qu\'une seule restriction à la fois',
