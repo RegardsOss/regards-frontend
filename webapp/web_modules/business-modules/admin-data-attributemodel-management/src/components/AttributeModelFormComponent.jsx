@@ -37,6 +37,7 @@ import MenuItem from 'material-ui/MenuItem'
 import { DamDomain } from '@regardsoss/domain'
 import NumberRangeComponent, { initializeNumberRangeForm } from './NumberRangeComponent'
 import EnumerationComponent, { initializeEnumerationForm } from './EnumerationComponent'
+import JsonSchemaComponent, { initializeJsonSchemaForm } from './JsonSchemaComponent'
 import PatternComponent, { initializePatternForm } from './PatternComponent'
 import moduleStyles from '../styles/styles'
 import DEFAULT_FRAGMENT_NAME from '../DefaultFragmentName'
@@ -166,6 +167,12 @@ export class AttributeModelFormComponent extends React.Component {
             change={this.props.change}
           />
         )
+      case 'JSON_SCHEMA':
+        return (
+          <JsonSchemaComponent
+            change={this.props.change}
+          />
+        )
       case 'PATTERN':
         return (
           <PatternComponent
@@ -256,6 +263,9 @@ export class AttributeModelFormComponent extends React.Component {
             break
           case 'PATTERN':
             initialValues = initializePatternForm(initialValues, currentAttrModel)
+            break
+          case 'JSON_SCHEMA':
+            initialValues = initializeJsonSchemaForm(initialValues, currentAttrModel)
             break
           default:
             throw new Error(`The API sent a restriction name ${currentAttrModel.content.restriction.type} that is not supported on the frontend`)
@@ -412,7 +422,7 @@ function validate(values) {
   const errors = {}
   // flag the user if he active two filters on the same time
   if (values.restriction) {
-    const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN']
+    const restrictions = ['INTEGER_RANGE', 'DOUBLE_RANGE', 'LONG_RANGE', 'ENUMERATION', 'PATTERN', 'JSON_SCHEMA']
     const activeRestrictions = []
     restrictions.forEach((value) => {
       if (values.restriction[value] && values.restriction[value].active) {

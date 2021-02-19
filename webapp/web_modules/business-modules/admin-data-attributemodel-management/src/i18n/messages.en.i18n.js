@@ -75,6 +75,8 @@ const messages = {
   'attrmodel.form.restriction.PATTERN.pattern': 'Pattern',
   'attrmodel.form.restriction.PATTERN.active': 'Activate the pattern restriction',
 
+  'attrmodel.form.restriction.JSON_SCHEMA.schema': 'Json schema',
+
   'attrmodel.form.info.what-happens-when-you-add-an-attribute-to-fragment-already-used': 'Adding a new mandatory attribute to a fragment already used by models can cause issues during future ingestion and data updates',
 
   'invalid.only_1_restriction_on_the_same_time': 'You can\'t activate more than one restriction',
