@@ -18,7 +18,7 @@
  **/
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { Field, RenderTextField } from '@regardsoss/form-utils'
+import { Field, RenderJsonCodeEditorField } from '@regardsoss/form-utils'
 
 /**
  * Handle json schema restriction
@@ -45,9 +45,9 @@ export class JsonSchemaComponent extends React.Component {
         <Field
           name="restriction.JSON_SCHEMA.jsonSchema"
           fullWidth
-          component={RenderTextField}
+          component={RenderJsonCodeEditorField}
           onChange={this.onTextFieldChange}
-          type="text"
+          asString
           label={this.context.intl.formatMessage({ id: 'attrmodel.form.restriction.JSON_SCHEMA.schema' })}
         />
       </div>

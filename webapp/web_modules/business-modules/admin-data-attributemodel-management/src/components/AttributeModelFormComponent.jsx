@@ -25,6 +25,7 @@ import {
   RenderTextField,
   RenderCheckbox,
   RenderSelectField,
+  RenderJsonCodeEditorField,
   Field,
   ValidationHelpers,
   reduxForm,
@@ -387,6 +388,14 @@ export class AttributeModelFormComponent extends React.Component {
               name="optional"
               component={RenderCheckbox}
               label={this.context.intl.formatMessage({ id: 'attrmodel.form.optional' })}
+            />
+            <Field
+              name="esMapping"
+              fullWidth
+              component={RenderJsonCodeEditorField}
+              asString
+              type="number"
+              label={this.context.intl.formatMessage({ id: 'attrmodel.form.esmapping' })}
             />
           </CardText>
         </Card>
