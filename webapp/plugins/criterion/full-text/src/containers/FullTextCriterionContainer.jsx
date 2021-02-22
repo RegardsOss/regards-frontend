@@ -51,8 +51,8 @@ export class FullTextCriterionContainer extends React.Component {
    */
   static convertToRequestParameters({ searchText = '' }) {
     const trimedText = searchText.trim()
-    // specific full text format: in parenthesis, escaping only ':' (works like regexp requests)
-    return { q: trimedText ? CatalogDomain.OpenSearchQueryParameter.toRegex(trimedText) : null }
+    if (!trimedText) return { q: null }
+    return { q: CatalogDomain.OpenSearchQueryParameter.toFullText(trimedText.replace(/\s\s+/g, ' ').split(' ')) }
   }
 
   /**
