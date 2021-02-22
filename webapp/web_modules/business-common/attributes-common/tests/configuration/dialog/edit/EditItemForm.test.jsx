@@ -198,6 +198,9 @@ describe('[Attributes Common] Testing EditItemForm', () => {
     }, {
       types: [DamDomain.MODEL_ATTR_TYPES.STRING],
       expectedOptionsCount: 2,
+    }, {
+      types: [DamDomain.MODEL_ATTR_TYPES.JSON],
+      expectedOptionsCount: 0,
     }] // other type: expected one possible renderer
     values(DamDomain.PSEUDO_ATTR_TYPES).forEach((type) => {
       const props = {

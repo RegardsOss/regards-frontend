@@ -682,6 +682,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         case DamDomain.MODEL_ATTR_TYPES.STRING:
         case DamDomain.MODEL_ATTR_TYPES.STRING_ARRAY:
         case DamDomain.MODEL_ATTR_TYPES.URL:
+        case DamDomain.MODEL_ATTR_TYPES.JSON:
           // non boundabled attribute
           assert.deepEqual(attrA, {
             ...props.criterion.conf.attributes.attrA,
