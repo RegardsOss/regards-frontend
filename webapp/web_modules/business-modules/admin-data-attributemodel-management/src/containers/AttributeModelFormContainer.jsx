@@ -200,6 +200,7 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       precision: values.precision ? parseInt(values.precision, 10) : null,
       alterable: values.alterable,
+      esMapping: values.esMapping,
       optional: values.optional,
       unit: values.unit,
       restriction,
@@ -231,6 +232,7 @@ export class AttributeModelFormContainer extends React.Component {
       unit: values.unit,
       alterable: values.alterable,
       optional: values.optional,
+      esMapping: values.esMapping,
     }
     // Check if restriction is defined
     if (restriction.type) {
