@@ -23,6 +23,7 @@ import { CatalogDomain, DamDomain, UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { AuthenticationClient } from '@regardsoss/authentication-utils'
 import { resultsContextActions } from '../../../../clients/ResultsContextClient'
+import { toponymActions } from '../../../../clients/ToponymClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
 import { CriterionBuilder } from '../../../../definitions/CriterionBuilder'
 import PluginServicesContainer from './PluginServicesContainer'
@@ -63,6 +64,7 @@ export class SearchResultsContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
+      fetchToponym: (businessId) => dispatch(toponymActions.fetchEntity(businessId)),
     }
   }
 
@@ -75,6 +77,8 @@ export class SearchResultsContainer extends React.Component {
     accessToken: PropTypes.string,
     // from mapDispatchToProps
     updateResultsContext: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
+    fetchToponym: PropTypes.func.isRequired,
   }
 
   state = {
@@ -101,7 +105,7 @@ export class SearchResultsContainer extends React.Component {
    * @param newProps next component properties
    */
   onPropertiesUpdated = (oldProps, newProps) => {
-    const { resultsContext, tabType } = newProps
+    const { resultsContext, tabType, fetchToponym } = newProps
     const newState = { ...this.state }
 
     // 1 - Gather all applying criteria and store them in state (to know when request parameters should be recomputed)
@@ -140,6 +144,14 @@ export class SearchResultsContainer extends React.Component {
           break
         default:
           throw new Error(`Unsupported results type: ${selectedType}`)
+      }
+    }
+
+    const oldToponymCriteria = oldSelectedTab ? get(oldProps.resultsContext, `tabs.${oldSelectedTab}.criteria.toponymCriteria`) : null
+    if (!isEqual(oldToponymCriteria, tab.criteria.toponymCriteria)) {
+      const toponymBusinessId = get(tab.criteria.toponymCriteria, `[0]requestParameters.${CatalogDomain.CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME}`)
+      if (toponymBusinessId) {
+        fetchToponym(toponymBusinessId)
       }
     }
 

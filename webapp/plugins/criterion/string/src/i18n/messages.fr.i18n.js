@@ -26,6 +26,8 @@ const messages = {
   'criterion.search.field.contains.selector.title': 'Les résultats contiennent le texte saisi',
   'criterion.search.field.equals.selector.label': 'strictement égal(e) à',
   'criterion.search.field.equals.selector.title': 'Les résultats sont strictement égaux au texte saisi',
+  'criterion.search.field.regex.selector.label': 'expression régulière',
+  'criterion.search.field.regex.selector.title': 'Les résultats respectent l\'expression régulière saisie',
 }
 
 export default messages

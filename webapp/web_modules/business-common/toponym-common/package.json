@@ -1,0 +1,13 @@
+{
+  "name": "@regardsoss/toponym-common",
+  "version": "1.4.0-SNAPSHOT",
+  "private": true,
+  "sideEffects": false,
+  "description": "Tools, constants and components to work with toponyms",
+  "main": "src/main.js",
+  "author": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "license": "GPL-3.0"
+}

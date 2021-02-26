@@ -19,6 +19,7 @@
 import TextField from 'material-ui/TextField'
 import ContainsIcon from 'mdi-material-ui/CodeArray'
 import StrictEqualIcon from 'mdi-material-ui/EqualBox'
+import RegexIcon from 'mdi-material-ui/Regex'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -63,6 +64,11 @@ class StringCriterionComponent extends React.Component {
       IconConstructor: StrictEqualIcon,
       labelKey: 'criterion.search.field.equals.selector.label',
       tooltipKey: 'criterion.search.field.equals.selector.title',
+    },
+    [SEARCH_MODES_ENUM.REGEX]: {
+      IconConstructor: RegexIcon,
+      labelKey: 'criterion.search.field.regex.selector.label',
+      tooltipKey: 'criterion.search.field.regex.selector.title',
     },
   }
 

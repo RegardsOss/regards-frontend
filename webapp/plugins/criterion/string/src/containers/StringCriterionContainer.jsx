@@ -79,6 +79,10 @@ export class StringCriterionContainer extends React.Component {
           // searching for attributes values strictly equal to text
           parameterValue = CatalogDomain.OpenSearchQueryParameter.toStrictStringEqual(trimedText)
           break
+        case SEARCH_MODES_ENUM.REGEX:
+          // searching for attribute values that respect regular expression
+          parameterValue = CatalogDomain.OpenSearchQueryParameter.toRegex(trimedText)
+          break
         default:
           throw new Error('Unknown search mode', searchMode)
       }

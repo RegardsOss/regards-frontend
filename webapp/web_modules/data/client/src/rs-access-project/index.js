@@ -75,3 +75,11 @@ export { default as getProjectUserSettingsSelectors } from './user/ProjectUserSe
 export { default as WaitingAccessUsersEntitiesActions } from './user/WaitingAccessUsersEntitiesActions'
 export { default as getWaitingAccessUsersEntitiesReducer } from './user/WaitingAccessUsersEntitiesReducer'
 export { default as getWaitingAccessUsersEntitiesSelectors } from './user/WaitingAccessUsersEntitiesSelectors'
+
+export { default as SearchToponymActions } from './search/SearchToponymActions'
+export { default as getSearchToponymReducer } from './search/SearchToponymReducer'
+export { default as getSearchToponymSelectors } from './search/SearchToponymSelectors'
+
+export { default as ToponymActions } from './toponym/ToponymActions'
+export { default as getToponymReducer } from './toponym/ToponymReducer'
+export { default as getToponymSelectors } from './toponym/ToponymSelectors'

@@ -29,10 +29,15 @@ class RenderJsonCodeEditorField extends React.Component {
     // But label will be overridden if you specify hintText or floatingLabelText
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
+    asString: PropTypes.bool,
   }
 
   static contextTypes = {
     ...themeContextType,
+  }
+
+  static defaultProps = {
+    asString: false,
   }
 
   state = {
@@ -41,18 +46,35 @@ class RenderJsonCodeEditorField extends React.Component {
 
   UNSAFE_componentWillMount() {
     if (this.props.input.value) {
-      this.parseJSON(JSON.stringify(this.props.input.value) || '{}')
+      if (this.props.asString) {
+        this.parseJSON(this.props.input.value)
+      } else {
+        this.parseJSON(JSON.stringify(this.props.input.value) || '{}')
+      }
     }
   }
 
-  onAceChange = (newValue) => {
-    this.parseJSON(newValue)
+  UNSAFE_componentWillReceiveProps(newProps) {
+    const newValue = newProps.input.value
+    if (this.props.asString && this.state.currentValue !== newValue) {
+      this.setState({
+        currentValue: newValue,
+      })
+    }
+  }
+
+  onAceChange = (jsonString) => {
+    this.parseJSON(jsonString)
   }
 
   parseJSON = (jsonString) => {
     const { input } = this.props
     try {
-      input.onChange(JSON.parse(jsonString))
+      if (this.props.asString) {
+        input.onChange(jsonString)
+      } else {
+        input.onChange(JSON.parse(jsonString))
+      }
     } catch (e) {
       input.onChange(null)
     }

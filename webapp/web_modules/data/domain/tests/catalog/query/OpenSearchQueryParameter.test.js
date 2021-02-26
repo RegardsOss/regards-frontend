@@ -76,6 +76,26 @@ describe('[Domain] Testing OpenSearchQueryParameter', () => {
     method: OpenSearchQueryParameter.toStringContained,
     separator: OpenSearchQueryParameter.OR_SEPARATOR,
     negate: true,
+  }, {
+    label: 'a single value for regex text',
+    value: 'abcdef',
+    expected: '/abcdef/',
+    method: OpenSearchQueryParameter.toRegex,
+  }, {
+    label: 'multiple values for regex text',
+    value: 'zehbf sqfkd',
+    expected: '/zehbf sqfkd/',
+    method: OpenSearchQueryParameter.toRegex,
+  }, {
+    label: 'a single value for full text',
+    value: 'abcdef',
+    expected: '*abcdef*',
+    method: OpenSearchQueryParameter.toFullText,
+  }, {
+    label: 'multiple values for full text',
+    value: ['abcdef', 'fdsfq', 'aeaez'],
+    expected: '*abcdef* AND *fdsfq* AND *aeaez*',
+    method: OpenSearchQueryParameter.toFullText,
   }]
 
   testCases.forEach(({

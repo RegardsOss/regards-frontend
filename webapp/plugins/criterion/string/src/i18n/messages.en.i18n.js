@@ -26,6 +26,8 @@ const messages = {
   'criterion.search.field.contains.selector.title': 'Results must contain input text',
   'criterion.search.field.equals.selector.label': 'strictly equal to',
   'criterion.search.field.equals.selector.title': 'Results must be strictly equal to input text',
+  'criterion.search.field.regex.selector.label': 'regular expression ',
+  'criterion.search.field.regex.selector.title': 'Results respect input regular expression',
 }
 
 export default messages

@@ -62,6 +62,29 @@ export class ContextStorageHelper {
           [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: { selectedType },
         },
       }),
+    }, { // main results toponym businessId
+      name: 'rtp',
+      toParameterValue: (resultsContext) => {
+        const { search: { enabled }, criteria: { toponymCriteria } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return enabled && toponymCriteria.length // serialize with short field names
+          ? JSON.stringify(toponymCriteria.map(({ requestParameters }) => ({
+            r: requestParameters,
+          }))) : null
+      },
+      fromParameterValue: (resultsContext, serializedState) => {
+        const { search: { enabled } } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]
+        return {
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
+              criteria: {
+                toponymCriteria: enabled ? JSON.parse(serializedState).map(({ r }) => ({
+                  requestParameters: r,
+                })) : [],
+              },
+            },
+          },
+        }
+      },
     }, { // main results display mode
       name: 'rd',
       toParameterValue: (resultsContext) => {

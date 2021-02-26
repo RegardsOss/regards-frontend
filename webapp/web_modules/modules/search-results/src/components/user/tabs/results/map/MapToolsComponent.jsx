@@ -126,6 +126,7 @@ class MapToolsComponent extends React.Component {
       viewMode: currentViewMode,
       onToggleSelectionMode, onToggleViewMode, selectedProducts,
     } = this.props
+    const { openOpacitySlider, availableModeList, dataLayerExist } = this.state
     const {
       moduleTheme: {
         user: {
@@ -135,7 +136,10 @@ class MapToolsComponent extends React.Component {
         },
       },
     } = this.context
-    const { openOpacitySlider, availableModeList, dataLayerExist } = this.state
+    const opacityToolsBoxStyle = {
+      ...opacityToolsBox,
+      width: availableModeList.length === 2 ? '304px' : '256px',
+    }
     return [
       <div style={toolsBox} key="icons">
         <TableHeaderLine>
@@ -160,6 +164,7 @@ class MapToolsComponent extends React.Component {
                   onToggleViewMode={onToggleViewMode}
                   index={index}
                   addStylingOption={isEmpty(selectedProducts) && !dataLayerExist}
+                  availableModeListLenght={availableModeList.length - 1}
                 />)
               }
             </TableHeaderOptionGroup>
@@ -194,7 +199,7 @@ class MapToolsComponent extends React.Component {
           </TableHeaderOptionsArea>
         </TableHeaderLine>
       </div>,
-      openOpacitySlider && (<div style={opacityToolsBox} key="opacity">
+      openOpacitySlider && (<div style={opacityToolsBoxStyle} key="opacity">
         <MapOpacitySlider opacity={opacity} handleChangeOpacity={handleChangeOpacity} />
       </div>),
     ]

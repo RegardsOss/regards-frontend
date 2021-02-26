@@ -80,14 +80,14 @@ describe('[Full text criterion] Testing FullTextCriteriaContainer', () => {
     assert.deepEqual(spiedPublishData.state, {
       searchText: '   To  ',
     }, '1 - State should match with text')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: '"To"' }, '1 - Query should match with text, triming white spaces')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: '*To*' }, '1 - Query should match with text, triming white spaces')
 
     // 1 - call text input twice
-    enzymeWrapper.instance().onTextInput(null, '   Toto:"$++  ')
+    enzymeWrapper.instance().onTextInput(null, '   aaa bbbb c')
     assert.equal(spiedPublishData.count, 2, '2 - Publish data should have been called 2 times')
     assert.deepEqual(spiedPublishData.state, {
-      searchText: '   Toto:"$++  ',
+      searchText: '   aaa bbbb c',
     }, '2 - State should match with text')
-    assert.deepEqual(spiedPublishData.requestParameters, { q: '"Toto:\\"$++"' }, '2 - Query should match with text, triming white spaces')
+    assert.deepEqual(spiedPublishData.requestParameters, { q: '*aaa* AND *bbbb* AND *c*' }, '2 - Query should match with text, triming white spaces')
   })
 })
