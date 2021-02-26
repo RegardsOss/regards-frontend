@@ -142,6 +142,8 @@ const validStringSize = (minSize, maxSize) => (value) => !value || (isString(val
  */
 const validMimeType = (value) => !isNil(value) && (matchRegex(/[^/ ]*\/[^/ ]/)(value) === undefined) ? undefined : ErrorTypes.INVALID_MIME_TYPE
 
+const validStringNoSpaceNoSpecial = (value) => !isNil(value) && (matchRegex(/^[A-z0-9]*([A-z0-9])*$/)(value) === undefined) ? undefined : ErrorTypes.INVALIDE_STRING_NO_SPACE_NO_SPECIAL
+
 /**
  * Redux-Form-style validator for Fields which content must be an email.
  *
@@ -308,6 +310,7 @@ export default {
   validAlphaNumericUnderscore,
   validMimeType,
   matchRegex,
+  validStringNoSpaceNoSpecial,
   isInNumericRange,
   email,
   lengthLessThan,

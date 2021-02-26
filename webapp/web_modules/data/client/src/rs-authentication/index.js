@@ -26,3 +26,11 @@
 export { default as AuthenticateActions, SPECIFIC_ENDPOINT_MARKER } from './AuthenticateActions'
 export { default as AuthenticateReducers } from './AuthenticateReducers'
 export { default as AuthenticateSelectors } from './AuthenticateSelectors'
+
+export { default as ServiceProviderActions } from './ServiceProviderActions'
+export { default as getServiceProviderReducer } from './ServiceProviderReducers'
+export { default as getServiceProviderSelectors } from './ServiceProviderSelectors'
+
+export { default as AuthenticateServiceProviderActions } from './AuthenticateServiceProviderActions'
+export { default as AuthenticateServiceProviderReducers } from './AuthenticateServiceProviderReducers'
+export { default as AuthenticateServiceProviderSelectors } from './AuthenticateServiceProviderSelectors'

@@ -35,6 +35,7 @@ export { ModelConfiguration, MODEL, MODEL_ARRAY } from './schemas/Model'
 export { ACCESSES_ARRAY, ACCESSES, AccessesConfiguration } from './schemas/Accesses'
 export { ATTRIBUTE_MODEL_ARRAY, ATTRIBUTE_MODEL, AttributeModelConfiguration } from './dam/AttributeModel'
 export { ATTRIBUTE_MODEL_RESTRICTION_ARRAY, ATTRIBUTE_MODEL_RESTRICTION, AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
+export { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY, ServiceProviderConfiguration } from './schemas/ServiceProvider'
 // Access
 export { MODULE, MODULE_ARRAY, ModuleConfiguration } from './access/Module'
 export { LAYOUT, LAYOUT_ARRAY, LayoutConfiguration } from './access/Layout'

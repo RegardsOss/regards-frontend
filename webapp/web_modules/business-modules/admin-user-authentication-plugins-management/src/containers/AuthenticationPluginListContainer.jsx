@@ -21,6 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { AuthenticationDomain } from '@regardsoss/domain'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 import AuthenticationPluginListComponent from '../components/AuthenticationPluginListComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.AUTHENTICATION
@@ -40,6 +41,7 @@ export class AuthenticationPluginListContainer extends React.Component {
     return {
       entities: pluginConfigurationSelectors.getOrderedList(state),
       isLoading: pluginConfigurationSelectors.isFetching(state),
+      serviceProviderList: serviceProviderSelectors.getList(state),
     }
   }
 
@@ -55,6 +57,7 @@ export class AuthenticationPluginListContainer extends React.Component {
       update: (conf) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
         conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
       delete: (conf) => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      deleteServiceProvider: (conf) => dispatch(serviceProviderActions.deleteEntity(conf.name)),
     }
   }
 
@@ -69,15 +72,24 @@ export class AuthenticationPluginListContainer extends React.Component {
     fetch: PropTypes.func.isRequired,
     update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
+    deleteServiceProvider: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
     this.props.fetch()
   }
 
-  onEdit = (pluginConfToEdit) => {
+  onEdit = (confToEdit, pluginType) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/user/authenticationplugins/${pluginConfToEdit.businessId}/edit`)
+    switch (pluginType) {
+      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/${confToEdit.businessId}/edit`)
+        break
+      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/serviceprovider/${confToEdit.name}/edit`)
+        break
+      default:
+    }
   }
 
   onActivateToggle = (entity) => {
@@ -86,13 +98,29 @@ export class AuthenticationPluginListContainer extends React.Component {
     })
   }
 
-  onDelete = (conf) => {
-    this.props.delete(conf)
+  onDelete = (conf, pluginType) => {
+    switch (pluginType) {
+      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
+        this.props.delete(conf)
+        break
+      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
+        this.props.deleteServiceProvider(conf)
+        break
+      default:
+    }
   }
 
-  goToCreateForm = () => {
+  goToCreateForm = (pluginType) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/user/authenticationplugins/create`)
+    switch (pluginType) {
+      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/create`)
+        break
+      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/serviceprovider/create`)
+        break
+      default:
+    }
   }
 
   goToBoard = () => {

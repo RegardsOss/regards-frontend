@@ -21,6 +21,7 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { UIDomain } from '@regardsoss/domain'
+import { LocalStorageUser } from '@regardsoss/domain/ui'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 
@@ -45,6 +46,7 @@ export class SessionManagementContainer extends React.Component {
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    updateAuthentication: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -55,6 +57,7 @@ export class SessionManagementContainer extends React.Component {
 
   state = {
     initialized: false,
+    externalAuthentication: null,
   }
 
   /**
@@ -66,6 +69,7 @@ export class SessionManagementContainer extends React.Component {
     this.setState({
       initialized: true,
     })
+    root.window.addEventListener('storage', this.onLocalStorageChanged, false)
   }
 
   /**
@@ -93,6 +97,19 @@ export class SessionManagementContainer extends React.Component {
    * they are no longer focused
    */
   onWindowFocused = () => this.jobCheckingAuthenticationExpired(this.props.authentication)
+
+  onLocalStorageChanged = () => {
+    const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE)
+    if (!isEqual(externalAuthentication, this.state.externalAuthentication)) {
+      this.props.updateAuthentication(externalAuthentication).then((actionResult) => {
+        if (!actionResult.error) {
+          this.setState({
+            externalAuthentication,
+          })
+        }
+      })
+    }
+  }
 
   /**
    * Check the token validity
@@ -207,6 +224,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  updateAuthentication: (externalAuthentication) => dispatch(AuthenticationClient.authenticationActions.forceAuthentication(externalAuthentication)),
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),

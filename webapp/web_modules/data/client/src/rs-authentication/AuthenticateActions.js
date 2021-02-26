@@ -45,6 +45,13 @@ export default class AuthenticateActions extends BasicSignalActions {
     }
   }
 
+  forceAuthentication(externalAuthentication) {
+    return {
+      result: externalAuthentication,
+      type: this.SIGNAL_SUCCESS,
+    }
+  }
+
   login(username, password, scope, origineUrl, requestLink) {
     return this.sendSignal('POST', {}, {
       username,

@@ -106,6 +106,7 @@
     "@regardsoss/admin-user-role-resource-access-management": "file:web_modules/business-modules/admin-user-role-resource-access-management",
     "@regardsoss/api": "file:web_modules/data/api",
     "@regardsoss/attributes-common": "file:web_modules/business-common/attributes-common",
+    "@regardsoss/authenticate": "file:web_modules/business-modules/authenticate",
     "@regardsoss/authentication-utils": "file:web_modules/utils/authentication-utils",
     "@regardsoss/cesium-adapter": "file:web_modules/utils/cesium-adapter",
     "@regardsoss/client": "file:web_modules/data/client",

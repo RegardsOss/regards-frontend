@@ -25,6 +25,15 @@ const storageManagementStyles = (theme) => ({
     position: 'relative',
     paddingBottom: 20,
   },
+  serviceprovider: {
+    serviceProviderCommonDiv: {
+      paddingLeft: '24px',
+      paddingRight: '24px',
+    },
+    serviceProviderPlugin: {
+      marginTop: '14px',
+    },
+  },
 })
 
 export default storageManagementStyles

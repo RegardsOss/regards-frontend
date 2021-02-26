@@ -25,13 +25,18 @@ import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
   NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes, CardActionsComponent,
+  ConfirmDialogComponentTypes, CardActionsComponent, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
 import { CommonShapes } from '@regardsoss/shape'
+import { AuthenticationDomain } from '@regardsoss/domain'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import AuthenticationPluginEditAction from './AuthenticationPluginEditAction'
+import ServiceProviderEditAction from './ServiceProviderEditAction'
 import AuthenticationPluginActivationAction from './AuthenticationPluginActivationAction'
+import ServiceProviderDeleteAction from './ServiceProviderDeleteAction'
+import { tableActions } from '../clients/TableClient'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
+import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -43,6 +48,10 @@ const MICROSERVICE = STATIC_CONF.MSERVICES.AUTHENTICATION
 */
 export class AuthenticationPluginListComponent extends React.Component {
   static addDependencies = [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, MICROSERVICE)]
+
+  static addServiceProviderDependencies = [serviceProviderActions.getMsDependency(RequestVerbEnum.POST, MICROSERVICE)]
+
+  static PAGE_SIZE = 100
 
   static propTypes = {
     onBack: PropTypes.func.isRequired,
@@ -64,36 +73,39 @@ export class AuthenticationPluginListComponent extends React.Component {
 
   state = {
     entitytoDelete: null,
+    pluginType: null,
   }
 
-  onConfirmDelete = () => {
+  onConfirmDelete = (pluginType) => {
     this.closeDeleteDialog()
     if (this.state.entitytoDelete) {
-      this.props.onDelete(this.state.entitytoDelete.content)
+      this.props.onDelete(this.state.entitytoDelete.content, pluginType)
     }
   }
 
-  onDelete = (entitytoDelete) => {
+  onDelete = (entitytoDelete, pluginType) => {
     this.setState({
       entitytoDelete,
+      pluginType,
     })
   }
 
   closeDeleteDialog = () => {
     this.setState({
       entitytoDelete: null,
+      pluginType: null,
     })
   }
 
   renderDeleteConfirmDialog = () => {
-    const { entitytoDelete } = this.state
+    const { entitytoDelete, pluginType } = this.state
     if (entitytoDelete) {
-      const name = entitytoDelete.content.label
+      const name = pluginType === AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER ? entitytoDelete.content.name : entitytoDelete.content.label
       return (
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           title={this.context.intl.formatMessage({ id: 'user.authentication.plugins.list.confirm.delete.title' }, { name })}
-          onConfirm={this.onConfirmDelete}
+          onConfirm={() => this.onConfirmDelete(pluginType)}
           onClose={this.closeDeleteDialog}
         />
       )
@@ -105,7 +117,8 @@ export class AuthenticationPluginListComponent extends React.Component {
     const {
       entities, isLoading, onEdit, onActivateToggle, onRefresh, onAddNewConf, onBack,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme } = this.context
+    const { intl: { formatMessage }, moduleTheme, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
 
     // Table columns to display
     const emptyComponent = (
@@ -166,8 +179,49 @@ export class AuthenticationPluginListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.add.button' })}
-            mainButtonClick={onAddNewConf}
+            mainButtonClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.AUTHENTICATION)}
             mainHateoasDependencies={AuthenticationPluginListComponent.addDependencies}
+            secondaryButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
+            secondaryButtonClick={onBack}
+          />
+        </CardActions>
+        <CardText style={moduleTheme.root}>
+          <TableLayout>
+            <TableHeaderLineLoadingAndResults />
+            <PageableInfiniteTableContainer
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+              columns={[ // eslint wont fix: Infinite table APi issue
+                new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.name' }))
+                  .build(),
+                new TableColumnBuilder('column.pluginId').titleHeaderCell().propertyRenderCell('content.pluginConfiguration.pluginId')
+                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.pluginId' }))
+                  .build(),
+                new TableColumnBuilder().optionsColumn([{
+                  OptionConstructor: ServiceProviderEditAction,
+                  optionProps: { onEdit },
+                }, {
+                  OptionConstructor: ServiceProviderDeleteAction,
+                  optionProps: {
+                    onDelete: this.onDelete,
+                  },
+                }]).build(),
+              ]}
+              pageActions={serviceProviderActions}
+              pageSelectors={serviceProviderSelectors}
+              tableActions={tableActions}
+              emptyComponent={emptyComponent}
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+              pageSize={AuthenticationPluginListComponent.PAGE_SIZE}
+            />
+          </TableLayout>
+        </CardText>
+        <CardActions>
+          <CardActionsComponent
+            mainButtonLabel={formatMessage({ id: 'user.authentication.external.plugins.list.add.button' })}
+            mainButtonClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER)}
+            mainHateoasDependencies={AuthenticationPluginListComponent.addServiceProviderDependencies}
             secondaryButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
             secondaryButtonClick={onBack}
           />

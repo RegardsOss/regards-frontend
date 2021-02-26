@@ -44,6 +44,8 @@ describe('[AUTHENTICATION] Testing AuthenticationFormContainer', () => {
       onGotoCreateAccount: () => { },
       onGotoResetPassword: () => { },
       onGotoUnlockAccount: () => { },
+      serviceProviderList: {},
+      fetchServiceProviders: () => { },
     }
     // very small tests for component rendering
     const enzymeWrapper = shallow(<AuthenticationFormContainer {...props} />, { context })
