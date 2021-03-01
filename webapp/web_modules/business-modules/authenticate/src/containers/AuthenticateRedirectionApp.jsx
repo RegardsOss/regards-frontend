@@ -30,6 +30,12 @@ import { authServiceProviderActions, authServiceProviderSelectors } from '../cli
 import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 import messages from '../i18n'
 
+const STATUS = {
+  LOADING: 'loading',
+  FAILURE: 'failure',
+  SUCCESS: 'success',
+}
+
 /**
  * Comment Here
  * @author Théo Lasserre
@@ -85,6 +91,15 @@ export class AuthenticateRedirectionApp extends React.Component {
     }
   }
 
+  state = {
+    currentStatus: STATUS.LOADING,
+  }
+
+  /**
+   * Retrieve code parameter from url.
+   * Code could be either in query params or in hash of browserHistory
+   * @param {*} browHistory
+   */
   static getCode = (browHistory) => {
     let code = get(browHistory.getCurrentLocation().query, 'code', '')
     if (isEmpty(code)) {
@@ -115,12 +130,21 @@ export class AuthenticateRedirectionApp extends React.Component {
     } = nextProps
     const currentAuthData = this.props.authentication || {}
     const nextAuthData = authentication || {}
+    let currentStatus = STATUS.LOADING
     if (!isEqual(serviceProvider, this.props.serviceProvider) && serviceProvider) {
       // Get auth token
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      const redirectUri = browserHistory.getCurrentLocation().pathname
-      const pluginId = get(serviceProvider, 'content.pluginConfiguration.pluginId', '')
-      requestLogin(project, serviceProviderName, pluginId, code, redirectUri)
+      if (isEmpty(code)) {
+        currentStatus = STATUS.FAILURE
+      } else {
+        const redirectUri = browserHistory.getCurrentLocation().pathname
+        const pluginId = get(serviceProvider, 'content.pluginConfiguration.pluginId', '')
+        currentStatus = STATUS.SUCCESS
+        requestLogin(project, serviceProviderName, pluginId, code, redirectUri)
+      }
+      this.setState({
+        currentStatus,
+      })
     }
 
     if (!isEqual(currentAuthData, nextAuthData) && !nextAuthData.isFetching) {
@@ -130,8 +154,9 @@ export class AuthenticateRedirectionApp extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
+    const { currentStatus } = this.state
     return (
-      <div>{formatMessage({ id: 'authenticate.redirection.loading' })}</div>
+      <div>{formatMessage({ id: `authenticate.redirection.${currentStatus}` })}</div>
     )
   }
 }

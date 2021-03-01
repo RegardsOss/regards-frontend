@@ -41,7 +41,6 @@ export class ServiceProviderButton extends React.Component {
     const { serviceProvider } = this.props
     const { moduleTheme } = this.context
     return (
-    // <div style={{ alignItems: 'center' }}>
       <Link to={{ pathname: serviceProvider.content.authUrl }} target="_blank">
         <RaisedButton
           label={this.context.intl.formatMessage({ id: 'authentication.external.button.label' }, { name: serviceProvider.content.name })}
@@ -52,7 +51,6 @@ export class ServiceProviderButton extends React.Component {
           primary
         />
       </Link>
-    // </div>
     )
   }
 }

@@ -90,6 +90,7 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillUnmount() {
     root.window.removeEventListener('focus', this.onWindowFocused, false)
+    root.window.removeEventListener('storage', this.onLocalStorageChanged, false)
   }
 
   /**

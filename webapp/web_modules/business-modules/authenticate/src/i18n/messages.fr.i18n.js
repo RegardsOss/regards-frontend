@@ -24,6 +24,8 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   'authenticate.redirection.loading': 'Chargement...',
+  'authenticate.redirection.success': 'SUCCES : Code trouvé. Vous pouvez fermer cet onglet',
+  'authenticate.redirection.failure': 'ERREUR : Code non trouvé dans l\'URL.',
   ...Locales.fr,
 }
 

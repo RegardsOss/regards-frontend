@@ -24,6 +24,8 @@ import { Locales } from '@regardsoss/form-utils'
  */
 const messages = {
   'authenticate.redirection.loading': 'Loading...',
+  'authenticate.redirection.success': 'SUCCESS : Code found. You can close this tab.',
+  'authenticate.redirection.failure': 'ERROR : Code cannot be retrieved',
   ...Locales.en,
 }
 
