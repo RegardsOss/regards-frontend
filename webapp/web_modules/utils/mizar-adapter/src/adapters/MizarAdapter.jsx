@@ -65,7 +65,7 @@ export default class MizarAdapter extends React.Component {
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
     // toponym selection management
-    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     selectedToponyms: PropTypes.object,
   }
 
