@@ -73,6 +73,7 @@ STATIC_CONF = {
       MODEL_NAME_FILTERS: [],
     },
   },
+  OPEN_NEW_TAB_MIME_TYPES: ['application/pdf', 'application/xhtml+xml', 'text/html'],
   // required browsers and versions
   BROWSER_REQUIREMENTS: {
     chrome: '64.0',

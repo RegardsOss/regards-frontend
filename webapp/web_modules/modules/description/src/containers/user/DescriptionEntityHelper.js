@@ -361,6 +361,7 @@ export class DescriptionEntityHelper {
       available: DamDomain.DataFileController.isAvailableNow(dataFile),
       type,
       reference: dataFile.reference,
+      mimeType: dataFile.mimeType,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
       uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
     }))
@@ -440,7 +441,7 @@ export class DescriptionEntityHelper {
       }).filter((f) => !!f),
       // map entity native description files
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, accessToken, projectName),
-    ]
+    ].sort((f1, f2) => StringComparison.compare(f1.label, f2.label))
   }
 
   /**

@@ -61,6 +61,7 @@ export const FileData = PropTypes.shape({
   label: PropTypes.string.isRequired,
   available: PropTypes.bool.isRequired,
   uri: PropTypes.string.isRequired,
+  mimeType: PropTypes.string,
   // keeps data type and reference info to handle quota related errors
   type: PropTypes.oneOf(DATA_TYPES).isRequired,
   reference: PropTypes.bool.isRequired,
