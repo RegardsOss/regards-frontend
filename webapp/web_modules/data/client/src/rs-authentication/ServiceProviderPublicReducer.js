@@ -16,17 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ServiceProviderConfiguration } from '@regardsoss/api'
+import ServiceProviderPublicActions from './ServiceProviderPublicActions'
 
 /**
- * i18n messages English language
- * @author Sébastien Binda
+ * Service provider reducer
+ * @author Théo Lasserre
  */
-const messages = {
-  'authenticate.redirection.loading': 'Loading...',
-  'authenticate.redirection.success': 'SUCCESS : Code found. You can close this tab.',
-  'authenticate.redirection.failure': 'ERROR : Code cannot be retrieved',
-  ...Locales.en,
+class ServiceProviderReducers extends BasicPageableReducers {
+  constructor(namespace) {
+    super(ServiceProviderConfiguration, new ServiceProviderPublicActions(namespace))
+  }
 }
 
-export default messages
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new ServiceProviderReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

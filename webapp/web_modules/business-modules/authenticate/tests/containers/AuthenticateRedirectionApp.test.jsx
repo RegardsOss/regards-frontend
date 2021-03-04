@@ -55,6 +55,7 @@ describe('[Authenticate] Testing AuthenticateRedirectionApp', () => {
       // from mapDispatchToProps
       requestLogin: () => { },
       fetchServiceProviders: () => { },
+      initializeApplication: () => { },
     }
     const enzymeWrapper = shallow(<AuthenticateRedirectionApp {...props} />, { context })
     enzymeWrapper.instance()

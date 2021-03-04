@@ -70,8 +70,8 @@ export class ProcessingFormComponent extends React.Component {
     if (serviceProvider) {
       initialize({
         pluginConfiguration: get(serviceProvider, 'content.pluginConfiguration'),
-        name: get(serviceProvider, 'content.name', ''),
-        authUrl: get(serviceProvider, 'content.authUrl', ''),
+        serviceProviderName: get(serviceProvider, 'content.name', ''),
+        serviceProviderUrl: get(serviceProvider, 'content.authUrl', ''),
       })
     }
   }

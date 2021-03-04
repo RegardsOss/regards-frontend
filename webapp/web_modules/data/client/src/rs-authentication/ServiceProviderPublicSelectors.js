@@ -15,18 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { Locales } from '@regardsoss/form-utils'
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
 /**
- * i18n messages French language
- * @author Sébastien Binda
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
  */
-const messages = {
-  'authenticate.redirection.loading': 'Chargement...',
-  'authenticate.redirection.success': 'SUCCES : Code trouvé. Vous pouvez fermer cet onglet',
-  'authenticate.redirection.failure': 'ERREUR : Code non trouvé dans l\'URL.',
-  ...Locales.fr,
-}
-
-export default messages
+export default (storePath) => new BasicPageableSelectors(storePath)

@@ -26,6 +26,6 @@ import { AuthenticationClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['authenticate', 'service-providers']
 const REDUX_ACTION_NAMESPACE = 'authenticate/service-providers'
 
-export const serviceProviderReducer = AuthenticationClient.getServiceProviderReducer(REDUX_ACTION_NAMESPACE)
-export const serviceProviderActions = new AuthenticationClient.ServiceProviderActions(REDUX_ACTION_NAMESPACE)
-export const serviceProviderSelectors = AuthenticationClient.getServiceProviderSelectors(ENTITIES_STORE_PATH)
+export const serviceProviderReducer = AuthenticationClient.getServiceProviderPublicReducer(REDUX_ACTION_NAMESPACE)
+export const serviceProviderActions = new AuthenticationClient.ServiceProviderPublicActions(REDUX_ACTION_NAMESPACE)
+export const serviceProviderSelectors = AuthenticationClient.getServiceProviderPublicSelectors(ENTITIES_STORE_PATH)

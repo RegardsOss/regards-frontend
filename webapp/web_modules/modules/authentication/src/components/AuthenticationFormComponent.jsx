@@ -161,7 +161,7 @@ export class AuthenticationFormComponent extends React.Component {
           onSubmit={handleSubmit(onLogin)}
         >
           <div style={!isEmpty(serviceProviderList) ? moduleTheme.addServiceProviderCard : null}>
-            <Card style={moduleTheme.cardAuthStyle}>
+            <Card style={!isEmpty(serviceProviderList) ? moduleTheme.cardAuthStyle : null}>
               <CardTitle
                 title={this.props.title}
                 subtitle={this.context.intl.formatMessage({ id: 'authentication.message' })}

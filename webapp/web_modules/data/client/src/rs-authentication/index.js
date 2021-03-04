@@ -31,6 +31,10 @@ export { default as ServiceProviderActions } from './ServiceProviderActions'
 export { default as getServiceProviderReducer } from './ServiceProviderReducers'
 export { default as getServiceProviderSelectors } from './ServiceProviderSelectors'
 
+export { default as ServiceProviderPublicActions } from './ServiceProviderPublicActions'
+export { default as getServiceProviderPublicReducer } from './ServiceProviderPublicReducer'
+export { default as getServiceProviderPublicSelectors } from './ServiceProviderPublicSelectors'
+
 export { default as AuthenticateServiceProviderActions } from './AuthenticateServiceProviderActions'
 export { default as AuthenticateServiceProviderReducers } from './AuthenticateServiceProviderReducers'
 export { default as AuthenticateServiceProviderSelectors } from './AuthenticateServiceProviderSelectors'

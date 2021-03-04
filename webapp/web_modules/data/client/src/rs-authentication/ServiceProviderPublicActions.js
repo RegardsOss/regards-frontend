@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,16 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { AuthenticationClient } from '@regardsoss/client'
+import replace from 'lodash/replace'
+import { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY } from '@regardsoss/api'
+import { BasicPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Service Provider entities client.
- *
+ * Actions for service provider
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['admin', 'user-management', 'authentication-plugins', 'service-providers']
-const REDUX_ACTION_NAMESPACE = 'admin-user-management/authentication-plugins-service-providers'
+class ServiceProviderActions extends BasicPageableActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/serviceproviders/public`,
+      entityPathVariable: 'businessId',
+      schemaTypes: {
+        ENTITY: SERVICE_PROVIDER,
+        ENTITY_ARRAY: SERVICE_PROVIDER_ARRAY,
+      },
+    })
+  }
 
-export const serviceProviderReducer = AuthenticationClient.getServiceProviderReducer(REDUX_ACTION_NAMESPACE)
-export const serviceProviderActions = new AuthenticationClient.ServiceProviderActions(REDUX_ACTION_NAMESPACE)
-export const serviceProviderSelectors = AuthenticationClient.getServiceProviderSelectors(ENTITIES_STORE_PATH)
+  getMsDependency = (verb, microserviceName) => replace(this.getDependency(verb), '{microserviceName}', microserviceName)
+}
+
+export default ServiceProviderActions
