@@ -99,14 +99,10 @@ export class AuthenticationPluginListContainer extends React.Component {
   }
 
   onDelete = (conf, pluginType) => {
-    switch (pluginType) {
-      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
-        this.props.delete(conf)
-        break
-      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
-        this.props.deleteServiceProvider(conf)
-        break
-      default:
+    if (pluginType === AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER) {
+      this.props.deleteServiceProvider(conf)
+    } else {
+      this.props.delete(conf)
     }
   }
 
