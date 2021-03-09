@@ -25,6 +25,29 @@ const storageManagementStyles = (theme) => ({
     position: 'relative',
     paddingBottom: 20,
   },
+  description: {
+    color: theme.palette.accent1Color,
+  },
+  mainListDiv: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  columnDiv: {
+    width: '50%',
+  },
+  buttonsDiv: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+    padding: '8px',
+  },
+  descriptionDiv: {
+    marginLeft: '20px',
+  },
+  buttonStyle: {
+    marginLeft: '5px',
+  },
   serviceprovider: {
     serviceProviderCommonDiv: {
       paddingLeft: '24px',

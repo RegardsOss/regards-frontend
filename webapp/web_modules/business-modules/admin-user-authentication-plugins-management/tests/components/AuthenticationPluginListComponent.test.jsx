@@ -50,6 +50,7 @@ describe('[ADMIN AUTHENTICATION PLUGINS] Testing AuthenticationPluginListCompone
       entities: values(DumpProvider.get('CommonClient', 'PluginConfiguration')),
       isLoading: false,
       onDeleteServiceProvider: () => { },
+      serviceProviderCount: 0,
     }
     const enzymeWrapper = shallow(<AuthenticationPluginListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(InfiniteTableContainer), 1, 'The component should display one infinite table')

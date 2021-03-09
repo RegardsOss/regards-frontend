@@ -18,21 +18,23 @@
  **/
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
-  Card, CardText, CardTitle, CardActions,
+  Card, CardText, CardTitle,
 } from 'material-ui/Card'
+import { FormattedMessage } from 'react-intl'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
   NoContentComponent, TableHeaderLineLoadingAndResults, TableDeleteOption, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes, CardActionsComponent, PageableInfiniteTableContainer,
+  ConfirmDialogComponentTypes, PageableInfiniteTableContainer,
 } from '@regardsoss/components'
+import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { CommonShapes } from '@regardsoss/shape'
 import { AuthenticationDomain } from '@regardsoss/domain'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
+import RaisedButton from 'material-ui/RaisedButton'
 import AuthenticationPluginEditAction from './AuthenticationPluginEditAction'
 import ServiceProviderEditAction from './ServiceProviderEditAction'
-import AuthenticationPluginActivationAction from './AuthenticationPluginActivationAction'
 import ServiceProviderDeleteAction from './ServiceProviderDeleteAction'
 import { tableActions } from '../clients/TableClient'
 import { pluginConfigurationByPluginIdActions } from '../clients/PluginConfigurationClient'
@@ -40,11 +42,14 @@ import { serviceProviderActions, serviceProviderSelectors } from '../clients/Ser
 import messages from '../i18n'
 import styles from '../styles'
 
+const RaisedButtonWithResourceDisplayControl = withResourceDisplayControl(RaisedButton)
+
 const MICROSERVICE = STATIC_CONF.MSERVICES.AUTHENTICATION
 
 /**
 * Component to display list of authentication plugin configurations
 * @author Sébastien Binda
+* @author Théo Lasserre
 */
 export class AuthenticationPluginListComponent extends React.Component {
   static addDependencies = [pluginConfigurationByPluginIdActions.getMsDependency(RequestVerbEnum.POST, MICROSERVICE)]
@@ -58,10 +63,10 @@ export class AuthenticationPluginListComponent extends React.Component {
     onAddNewConf: PropTypes.func.isRequired,
     onEdit: PropTypes.func.isRequired,
     onDelete: PropTypes.func.isRequired,
-    onActivateToggle: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     entities: CommonShapes.PluginConfigurationArray,
     isLoading: PropTypes.bool.isRequired,
+    serviceProviderCount: PropTypes.number.isRequired,
   }
 
   static defaultProps = {}
@@ -115,7 +120,7 @@ export class AuthenticationPluginListComponent extends React.Component {
 
   render() {
     const {
-      entities, isLoading, onEdit, onActivateToggle, onRefresh, onAddNewConf, onBack,
+      entities, isLoading, onEdit, onRefresh, onAddNewConf, onBack, serviceProviderCount,
     } = this.props
     const { intl: { formatMessage }, moduleTheme, muiTheme } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
@@ -134,98 +139,115 @@ export class AuthenticationPluginListComponent extends React.Component {
           title={formatMessage({ id: 'user.authentication.plugins.list.title' })}
           subtitle={formatMessage({ id: 'user.authentication.plugins.list.subtitle' })}
         />
-        <CardText style={moduleTheme.root}>
-          {this.renderDeleteConfirmDialog()}
-          <TableLayout>
-            <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
-            <InfiniteTableContainer
-              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-              columns={[ // eslint wont fix: Infinite table APi issue
-                new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
-                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.name.label' }))
-                  .build(),
-                new TableColumnBuilder('column.type').titleHeaderCell().propertyRenderCell('content.pluginId')
-                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.type.label' }))
-                  .build(),
-                new TableColumnBuilder('column.active').titleHeaderCell()
-                  .rowCellDefinition({
-                    Constructor: AuthenticationPluginActivationAction, // custom cell
-                    props: { onToggle: onActivateToggle },
-                  })
-                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.active.label' }))
-                  .build(),
-                new TableColumnBuilder().optionsColumn([{
-                  OptionConstructor: AuthenticationPluginEditAction,
-                  optionProps: { onEdit },
-                }, {
-                  OptionConstructor: TableDeleteOption,
-                  optionProps: {
-                    onDelete: this.onDelete,
-                    fetchPage: onRefresh,
-                    handleHateoas: true,
-                    disableInsteadOfHide: true,
-                    queryPageSize: 20,
-                  },
-                }]).build(),
-              ]}
-              entities={entities}
-              emptyComponent={emptyComponent}
-              entitiesCount={entities.length}
-              minRowCount={0}
-              maxRowCount={30}
-            />
-          </TableLayout>
+        <CardText>
+          <div style={moduleTheme.descriptionDiv}>
+            <ul>
+              <li>
+                <span style={moduleTheme.description}><FormattedMessage id="user.authentication.plugins.list.subtitle.idp" /></span>
+                <FormattedMessage id="user.authentication.plugins.list.subtitle.idp.description" />
+              </li>
+              <li>
+                <span style={moduleTheme.description}><FormattedMessage id="user.authentication.plugins.list.subtitle.service" /></span>
+                <FormattedMessage id="user.authentication.plugins.list.subtitle.service.description" />
+              </li>
+            </ul>
+          </div>
         </CardText>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.add.button' })}
-            mainButtonClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.AUTHENTICATION)}
-            mainHateoasDependencies={AuthenticationPluginListComponent.addDependencies}
-            secondaryButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
-            secondaryButtonClick={onBack}
-          />
-        </CardActions>
-        <CardText style={moduleTheme.root}>
-          <TableLayout>
-            <TableHeaderLineLoadingAndResults />
-            <PageableInfiniteTableContainer
-              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
-              columns={[ // eslint wont fix: Infinite table APi issue
-                new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
-                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.name' }))
-                  .build(),
-                new TableColumnBuilder('column.pluginId').titleHeaderCell().propertyRenderCell('content.pluginConfiguration.pluginId')
-                  .label(formatMessage({ id: 'user.authentication.plugins.list.header.pluginId' }))
-                  .build(),
-                new TableColumnBuilder().optionsColumn([{
-                  OptionConstructor: ServiceProviderEditAction,
-                  optionProps: { onEdit },
-                }, {
-                  OptionConstructor: ServiceProviderDeleteAction,
-                  optionProps: {
-                    onDelete: this.onDelete,
-                  },
-                }]).build(),
-              ]}
-              pageActions={serviceProviderActions}
-              pageSelectors={serviceProviderSelectors}
-              tableActions={tableActions}
-              emptyComponent={emptyComponent}
-              minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
-              pageSize={AuthenticationPluginListComponent.PAGE_SIZE}
+        <div style={moduleTheme.mainListDiv}>
+          <div style={moduleTheme.columnDiv}>
+            <CardTitle
+              title={formatMessage({ id: 'user.authentication.plugins.list.idp.title' })}
+              subtitle={formatMessage({ id: 'user.authentication.plugins.list.idp.subtitle' })}
             />
-          </TableLayout>
-        </CardText>
-        <CardActions>
-          <CardActionsComponent
-            mainButtonLabel={formatMessage({ id: 'user.authentication.external.plugins.list.add.button' })}
-            mainButtonClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER)}
-            mainHateoasDependencies={AuthenticationPluginListComponent.addServiceProviderDependencies}
-            secondaryButtonLabel={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
-            secondaryButtonClick={onBack}
+            <CardText style={moduleTheme.root}>
+              {this.renderDeleteConfirmDialog()}
+              <TableLayout>
+                <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
+                <InfiniteTableContainer
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+                  columns={[ // eslint wont fix: Infinite table APi issue
+                    new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
+                      .label(formatMessage({ id: 'user.authentication.plugins.list.header.name.label' }))
+                      .build(),
+                    new TableColumnBuilder().optionsColumn([{
+                      OptionConstructor: AuthenticationPluginEditAction,
+                      optionProps: { onEdit },
+                    }, {
+                      OptionConstructor: TableDeleteOption,
+                      optionProps: {
+                        onDelete: this.onDelete,
+                        fetchPage: onRefresh,
+                        handleHateoas: true,
+                        disableInsteadOfHide: true,
+                        queryPageSize: 20,
+                      },
+                    }]).build(),
+                  ]}
+                  entities={entities}
+                  emptyComponent={emptyComponent}
+                  entitiesCount={entities.length}
+                  minRowCount={0}
+                  maxRowCount={30}
+                />
+              </TableLayout>
+            </CardText>
+          </div>
+          <div style={moduleTheme.columnDiv}>
+            <CardTitle
+              title={formatMessage({ id: 'user.authentication.plugins.list.service.title' })}
+              subtitle={formatMessage({ id: 'user.authentication.plugins.list.service.subtitle' })}
+            />
+            <CardText style={moduleTheme.root}>
+              <TableLayout>
+                <TableHeaderLineLoadingAndResults resultsCount={serviceProviderCount} />
+                <PageableInfiniteTableContainer
+              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+                  columns={[ // eslint wont fix: Infinite table APi issue
+                    new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
+                      .label(formatMessage({ id: 'user.authentication.plugins.list.header.name' }))
+                      .build(),
+                    new TableColumnBuilder().optionsColumn([{
+                      OptionConstructor: ServiceProviderEditAction,
+                      optionProps: { onEdit },
+                    }, {
+                      OptionConstructor: ServiceProviderDeleteAction,
+                      optionProps: {
+                        onDelete: this.onDelete,
+                      },
+                    }]).build(),
+                  ]}
+                  pageActions={serviceProviderActions}
+                  pageSelectors={serviceProviderSelectors}
+                  tableActions={tableActions}
+                  emptyComponent={emptyComponent}
+                  minRowCount={minRowCount}
+                  maxRowCount={maxRowCount}
+                  pageSize={AuthenticationPluginListComponent.PAGE_SIZE}
+                />
+              </TableLayout>
+            </CardText>
+          </div>
+        </div>
+        <div style={moduleTheme.buttonsDiv}>
+          <RaisedButton
+            label={formatMessage({ id: 'user.authentication.plugins.list.back.button' })}
+            onClick={onBack}
           />
-        </CardActions>
+          <RaisedButtonWithResourceDisplayControl
+            resourceDependencies={AuthenticationPluginListComponent.addDependencies}
+            label={formatMessage({ id: 'user.authentication.plugins.list.add.button' })}
+            onClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.AUTHENTICATION)}
+            primary
+            style={moduleTheme.buttonStyle}
+          />
+          <RaisedButtonWithResourceDisplayControl
+            resourceDependencies={AuthenticationPluginListComponent.addServiceProviderDependencies}
+            label={formatMessage({ id: 'user.authentication.external.plugins.list.add.button' })}
+            onClick={() => onAddNewConf(AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER)}
+            primary
+            style={moduleTheme.buttonStyle}
+          />
+        </div>
       </Card>
     )
   }
