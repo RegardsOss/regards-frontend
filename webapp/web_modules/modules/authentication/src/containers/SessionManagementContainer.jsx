@@ -46,7 +46,7 @@ export class SessionManagementContainer extends React.Component {
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    updateAuthentication: PropTypes.func.isRequired,
+    forceAuthentication: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
@@ -57,7 +57,6 @@ export class SessionManagementContainer extends React.Component {
 
   state = {
     initialized: false,
-    externalAuthentication: null,
   }
 
   /**
@@ -101,15 +100,7 @@ export class SessionManagementContainer extends React.Component {
 
   onLocalStorageChanged = () => {
     const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE)
-    if (!isEqual(externalAuthentication, this.state.externalAuthentication)) {
-      this.props.updateAuthentication(externalAuthentication).then((actionResult) => {
-        if (!actionResult.error) {
-          this.setState({
-            externalAuthentication,
-          })
-        }
-      })
-    }
+    this.props.forceAuthentication(externalAuthentication.getAuthenticationInformations())
   }
 
   /**
@@ -225,7 +216,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  updateAuthentication: (externalAuthentication) => dispatch(AuthenticationClient.authenticationActions.forceAuthentication(externalAuthentication)),
+  forceAuthentication: (externalAuthentication) => dispatch(AuthenticationClient.authenticationActions.forceAuthentication(externalAuthentication)),
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),

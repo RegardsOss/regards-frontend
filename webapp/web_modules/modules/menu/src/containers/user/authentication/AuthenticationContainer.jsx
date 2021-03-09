@@ -131,10 +131,13 @@ export class AuthenticationContainer extends React.Component {
       authentication, disconnectServiceProvider,
     } = this.props
     const serviceProviderName = get(authentication, 'result.service_provider_name')
-    this.props.onLogout()
+    // 1- Send disconnect first to server
     if (serviceProviderName) {
       disconnectServiceProvider(serviceProviderName)
     }
+    // 2- Clear login info inside HMI
+    this.props.onLogout()
+    // 3- Redirect user
     this.onGoToHomePage()
   }
 

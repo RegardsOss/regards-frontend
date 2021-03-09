@@ -47,7 +47,7 @@ export default class AuthenticateActions extends BasicSignalActions {
 
   forceAuthentication(externalAuthentication) {
     return {
-      result: externalAuthentication,
+      payload: externalAuthentication,
       type: this.SIGNAL_SUCCESS,
     }
   }

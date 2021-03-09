@@ -33,7 +33,7 @@ class ServiceProviderDisconnect extends BasicSignalActions {
     })
   }
 
-  disconnectServiceProvider = (serviceProviderName) => this.setSignal(RequestVerbEnum.POST, {}, { name: serviceProviderName })
+  disconnectServiceProvider = (serviceProviderName) => this.sendSignal(RequestVerbEnum.POST, {}, { name: serviceProviderName })
 }
 
 export const disconnectServiceProviderAction = new ServiceProviderDisconnect()

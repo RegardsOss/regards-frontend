@@ -117,7 +117,7 @@ export class AuthenticateRedirectionApp extends React.Component {
     const nextAuthData = authentication || {}
 
     if (!isEqual(currentAuthData, nextAuthData) && !nextAuthData.isFetching) {
-      new UIDomain.LocalStorageUser(nextAuthData, project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+      new UIDomain.LocalStorageUser(nextAuthData, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
       root.window.close()
     }
   }
