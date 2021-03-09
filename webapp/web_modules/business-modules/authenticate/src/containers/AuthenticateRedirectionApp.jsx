@@ -101,7 +101,7 @@ export class AuthenticateRedirectionApp extends React.Component {
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      const redirectUri = browserHistory.getCurrentLocation().pathname
+      const redirectUri = `${root.location.origin}${browserHistory.getCurrentLocation().pathname}${browserHistory.getCurrentLocation().search}`
       requestLogin(project, 'OpenId', serviceProviderName, code, redirectUri)
     }
   }
