@@ -21,8 +21,10 @@ import { i18nContextType } from '@regardsoss/i18n'
 import {
   AuthenticationClient, AuthenticationErrorShape, AuthenticationRouteParameters, AuthenticationRouteHelper,
 } from '@regardsoss/authentication-utils'
+import { CommonShapes } from '@regardsoss/shape'
 import AuthenticationFormComponent from '../components/AuthenticationFormComponent'
 import ChangePasswordFormContainer from './ChangePasswordFormContainer'
+import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 
 /**
  * Authentication form container
@@ -47,9 +49,11 @@ export class AuthenticationFormContainer extends React.Component {
     onGotoUnlockAccount: PropTypes.func.isRequired,
     // from map state to props
     loginError: AuthenticationErrorShape,
+    serviceProviderList: CommonShapes.ServiceProviderList.isRequired,
     // from map dispatch to props
     dispatchLoginRequest: PropTypes.func.isRequired,
     clearErrors: PropTypes.func.isRequired,
+    fetchServiceProviders: PropTypes.func.isRequired,
   }
 
   /** I18N injection */
@@ -60,6 +64,10 @@ export class AuthenticationFormContainer extends React.Component {
   state = {
     userMail: null,
     loading: false,
+  }
+
+  UNSAFE_componentWillMount() {
+    this.props.fetchServiceProviders()
   }
 
   onLoginRequest = ({ username, password }) => {
@@ -81,7 +89,7 @@ export class AuthenticationFormContainer extends React.Component {
 
   render() {
     const {
-      initialMail, title, showAskProjectAccess, showCancel,
+      initialMail, title, showAskProjectAccess, showCancel, serviceProviderList,
       loginError, onGotoCreateAccount, onGotoResetPassword, onGotoUnlockAccount,
     } = this.props
     const { intl } = this.context
@@ -108,6 +116,7 @@ export class AuthenticationFormContainer extends React.Component {
         onGotoCreateAccount={onGotoCreateAccount}
         onGotoResetPassword={onGotoResetPassword}
         onGotoUnlockAccount={onGotoUnlockAccount}
+        serviceProviderList={serviceProviderList}
       />
     )
   }
@@ -116,6 +125,7 @@ export class AuthenticationFormContainer extends React.Component {
 const mapStateToProps = (state) => ({
   loginError: AuthenticationClient.authenticationSelectors.getError(state)
     && AuthenticationClient.authenticationSelectors.getError(state).loginError,
+  serviceProviderList: serviceProviderSelectors.getList(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -127,6 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
     AuthenticationRouteHelper.getRequestLinkURL(AuthenticationRouteParameters.mailAuthenticationAction.values.verifyEmail),
   )),
   clearErrors: () => dispatch(AuthenticationClient.authenticationActions.clearErrors()),
+  fetchServiceProviders: () => dispatch(serviceProviderActions.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(AuthenticationFormContainer)

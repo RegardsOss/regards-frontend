@@ -60,6 +60,7 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       dispatchRoleBorrowed: () => { },
       onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
+      disconnectServiceProvider: () => { },
     }
 
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
@@ -85,6 +86,7 @@ describe('[Menu] Testing AuthenticationContainer', () => {
       dispatchRoleBorrowed: () => { },
       onShowProfile: () => { },
       toggleAuthenticationDialogOpen: () => { },
+      disconnectServiceProvider: () => { },
     }
     const enzymeWrapper = shallow(<AuthenticationContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(LoginButton), 0, 'The login button should be hidden')

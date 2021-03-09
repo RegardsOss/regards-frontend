@@ -21,6 +21,7 @@ import { connect } from '@regardsoss/redux'
 import { CommonShapes } from '@regardsoss/shape'
 import { AuthenticationDomain } from '@regardsoss/domain'
 import { pluginConfigurationActions, pluginConfigurationByPluginIdActions, pluginConfigurationSelectors } from '../clients/PluginConfigurationClient'
+import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 import AuthenticationPluginListComponent from '../components/AuthenticationPluginListComponent'
 
 const MICROSERVICE = STATIC_CONF.MSERVICES.AUTHENTICATION
@@ -40,6 +41,7 @@ export class AuthenticationPluginListContainer extends React.Component {
     return {
       entities: pluginConfigurationSelectors.getOrderedList(state),
       isLoading: pluginConfigurationSelectors.isFetching(state),
+      totalServiceProviderCount: serviceProviderSelectors.getResultsCount(state),
     }
   }
 
@@ -52,9 +54,8 @@ export class AuthenticationPluginListContainer extends React.Component {
   static mapDispatchToProps(dispatch, props) {
     return {
       fetch: () => dispatch(pluginConfigurationActions.getPluginConfigurationsByType(MICROSERVICE, PLUGIN_TYPE)),
-      update: (conf) => dispatch(pluginConfigurationByPluginIdActions.updateEntity(
-        conf.id, conf, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
       delete: (conf) => dispatch(pluginConfigurationByPluginIdActions.deleteEntity(conf.businessId, { microserviceName: MICROSERVICE, pluginId: conf.pluginId })),
+      deleteServiceProvider: (conf) => dispatch(serviceProviderActions.deleteEntity(conf.name)),
     }
   }
 
@@ -65,34 +66,49 @@ export class AuthenticationPluginListContainer extends React.Component {
     // from mapStateToProps
     entities: CommonShapes.PluginConfigurationArray,
     isLoading: PropTypes.bool.isRequired,
+    totalServiceProviderCount: PropTypes.number.isRequired,
     // from mapDispatchToProps
     fetch: PropTypes.func.isRequired,
-    update: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
+    deleteServiceProvider: PropTypes.func.isRequired,
   }
 
   UNSAFE_componentWillMount() {
     this.props.fetch()
   }
 
-  onEdit = (pluginConfToEdit) => {
+  onEdit = (confToEdit, pluginType) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/user/authenticationplugins/${pluginConfToEdit.businessId}/edit`)
+    switch (pluginType) {
+      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/${confToEdit.businessId}/edit`)
+        break
+      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/serviceprovider/${confToEdit.name}/edit`)
+        break
+      default:
+    }
   }
 
-  onActivateToggle = (entity) => {
-    this.props.update({ ...entity, active: !entity.active }).then((actionResults) => {
-      this.props.fetch()
-    })
+  onDelete = (conf, pluginType) => {
+    if (pluginType === AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER) {
+      this.props.deleteServiceProvider(conf)
+    } else {
+      this.props.delete(conf)
+    }
   }
 
-  onDelete = (conf) => {
-    this.props.delete(conf)
-  }
-
-  goToCreateForm = () => {
+  goToCreateForm = (pluginType) => {
     const { params: { project } } = this.props
-    browserHistory.push(`/admin/${project}/user/authenticationplugins/create`)
+    switch (pluginType) {
+      case AuthenticationDomain.PluginTypeEnum.AUTHENTICATION:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/create`)
+        break
+      case AuthenticationDomain.PluginTypeEnum.SERVICE_PROVIDER:
+        browserHistory.push(`/admin/${project}/user/authenticationplugins/serviceprovider/create`)
+        break
+      default:
+    }
   }
 
   goToBoard = () => {
@@ -108,10 +124,10 @@ export class AuthenticationPluginListContainer extends React.Component {
         onEdit={this.onEdit}
         onDuplicate={this.onDuplicate}
         onDelete={this.onDelete}
-        onActivateToggle={this.onActivateToggle}
         onRefresh={this.props.fetch}
         entities={this.props.entities}
         isLoading={this.props.isLoading}
+        serviceProviderCount={this.props.totalServiceProviderCount}
       />
     )
   }

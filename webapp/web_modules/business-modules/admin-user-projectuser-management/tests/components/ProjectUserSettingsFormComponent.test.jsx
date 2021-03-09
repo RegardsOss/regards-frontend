@@ -26,12 +26,14 @@ import { Field, RenderSelectField, RenderTextField } from '@regardsoss/form-util
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { ProjectUserSettingsFormComponent } from '../../src/components/ProjectUserSettingsFormComponent'
 import dependencies from '../../src/dependencies'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
 
 /**
  * Test ProjectUserSettingsFormComponent
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormComponent', () => {
   before(testSuiteHelpers.before)
@@ -49,6 +51,44 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
         mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.MANUAL,
         maxQuota: 1150,
         rateLimit: -1,
+        role: {
+          id: 2,
+          name: 'REGISTERED_USER',
+          parentRole: {
+            id: 1,
+            name: 'PUBLIC',
+          },
+          isDefault: true,
+          isNative: true,
+          authorizedAddresses: [],
+        },
+        groups: [],
+      },
+      roleList: {
+        REGISTERED_USER: {
+          content: {
+            id: 2,
+            name: 'REGISTERED_USER',
+            parentRole: {
+              id: 1,
+              name: 'PUBLIC',
+            },
+            isDefault: true,
+            isNative: true,
+            authorizedAddresses: [],
+          },
+        },
+      },
+      groupList: {
+        Public: {
+          content: {
+            id: 1,
+            name: 'Public',
+            email: 'testemail',
+            isPublic: true,
+            isInternal: true,
+          },
+        },
       },
       onBack: () => { },
       onSubmit: (values) => {
@@ -67,6 +107,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
       mode: props.settings.mode,
       maxQuota: props.settings.maxQuota.toString(),
       rateLimit: props.settings.rateLimit.toString(),
+      role: props.settings.role.name,
+      groups: props.settings.groups,
     })
 
     // check fields
@@ -98,6 +140,12 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
       label: 'project.user.settings.rate.limit.field',
     }, 'There should be the mode field')
 
+    testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
+      name: 'role',
+      component: RenderSelectField,
+      label: 'projectUser.create.input.role.default',
+    })
+
     // check actions
     const cardActionsWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsWrapper, 1, 'There should be the card actions')
@@ -115,12 +163,26 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
       mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
       maxQuota: '505',
       rateLimit: '20',
+      role: 'REGISTERED_USER',
+      groups: [],
     })
 
     assert.deepEqual(spiedSubmit, {
       mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
       maxQuota: 505,
       rateLimit: 20,
+      role: {
+        id: 2,
+        name: 'REGISTERED_USER',
+        parentRole: {
+          id: 1,
+          name: 'PUBLIC',
+        },
+        isDefault: true,
+        isNative: true,
+        authorizedAddresses: [],
+      },
+      groups: [],
     }, 'Values should be converted to server format at submission')
   })
 })

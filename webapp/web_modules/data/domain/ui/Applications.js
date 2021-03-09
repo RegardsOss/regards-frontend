@@ -25,6 +25,7 @@ import values from 'lodash/values'
 export const APPLICATIONS_ENUM = {
   PORTAL: 'portal',
   ADMIN: 'admin',
+  AUTHENTICATE: 'authenticate',
   USER: 'user',
 }
 

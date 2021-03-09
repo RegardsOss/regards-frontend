@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import values from 'lodash/values'
 import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/tests-helpers'
-import { InfiniteTableContainer } from '@regardsoss/components'
+import { InfiniteTableContainer, PageableInfiniteTableContainer } from '@regardsoss/components'
 import { AuthenticationPluginListComponent } from '../../src/components/AuthenticationPluginListComponent'
 import styles from '../../src/styles/styles'
 
@@ -45,10 +45,15 @@ describe('[ADMIN AUTHENTICATION PLUGINS] Testing AuthenticationPluginListCompone
       onDelete: () => { },
       onActivateToggle: () => { },
       onRefresh: () => { },
+      onCreateServiceProvider: () => { },
+      onEditServiceProvider: () => { },
       entities: values(DumpProvider.get('CommonClient', 'PluginConfiguration')),
       isLoading: false,
+      onDeleteServiceProvider: () => { },
+      serviceProviderCount: 0,
     }
     const enzymeWrapper = shallow(<AuthenticationPluginListComponent {...props} />, { context })
-    assert.lengthOf(enzymeWrapper.find(InfiniteTableContainer), 1, 'The component should display a infinite table')
+    assert.lengthOf(enzymeWrapper.find(InfiniteTableContainer), 1, 'The component should display one infinite table')
+    assert.lengthOf(enzymeWrapper.find(PageableInfiniteTableContainer), 1, 'The component should display one infinite table')
   })
 })

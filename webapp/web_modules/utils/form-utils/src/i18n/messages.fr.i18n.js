@@ -31,6 +31,7 @@ const messages = {
   'invalid.string.size': 'La valeur doit contenir entre {minSize} et {maxSize} caractères',
   'invalid.number.lower.than.min': 'La valeur est trop petite',
   'invalid.number.greater.than.max': 'La valeur est trop grande',
+  'invalid.string.no.space.no.special': 'Champs requis. La valeur contient un espace ou un caractère spécial',
   'invalid.integer.number': 'La valeur doit être un nombre entier',
   'invalid.positive.integer.number': 'La valeur doit être un nombre entier supérieur ou égal à 0',
   'invalid.floating.number': 'La valeur doit être un nombre flottant',

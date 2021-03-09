@@ -65,6 +65,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      updateAuthentication: () => { },
     })
 
     // test with session locked
@@ -80,6 +81,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      updateAuthentication: () => { },
     })
   })
   it('should hide the dialog when session is not locked, nor authentication is required', () => {
@@ -94,6 +96,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      updateAuthentication: () => { },
     }
     const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
     enzymeWrapper.setState({ initialized: true })
@@ -113,6 +116,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      updateAuthentication: () => { },
     }
     root.localStorage.clear()
     shallow(<SessionManagementContainer {...props} />, { context })
@@ -130,6 +134,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      updateAuthentication: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()
@@ -149,6 +154,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      updateAuthentication: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()

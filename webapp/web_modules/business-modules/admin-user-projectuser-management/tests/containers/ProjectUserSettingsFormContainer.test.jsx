@@ -30,6 +30,7 @@ const context = buildTestContext()
 /**
  * Test ProjectUserSettingsFormContainer
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormContainer', () => {
   before(testSuiteHelpers.before)
@@ -49,10 +50,43 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
           maxQuota: 1150,
           rateLimit: 150,
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          authorizedAddresses: [],
         },
       },
-      hasError: false,
-      isFetching: false,
+      roleList: {
+        REGISTERED_USER: {
+          content: {
+            id: 2,
+            name: 'REGISTERED_USER',
+            parentRole: {
+              id: 1,
+              name: 'PUBLIC',
+            },
+            isDefault: true,
+            isNative: true,
+            authorizedAddresses: [],
+          },
+        },
+      },
+      groupList: {
+        Public: {
+          content: {
+            id: 1,
+            name: 'Public',
+            email: 'testemail',
+            isPublic: true,
+            isInternal: true,
+          },
+        },
+      },
+      hasErrorSettings: false,
+      isFetchingSettings: false,
+      isFetchingRoleList: false,
+      hasErrorRoleList: false,
+      isFetchingGroupList: false,
+      hasErrorGroupList: false,
+      fetchRoleList: () => { },
+      fetchGroupList: () => { },
       fetchSettings: () => { },
       updateSettings: () => { },
     }
@@ -76,6 +110,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
       settings: props.settings.content,
       onBack: wrapperInstance.onBack,
       onSubmit: wrapperInstance.onSubmit,
+      roleList: props.roleList,
+      groupList: props.groupList,
     }, 'Component should define the expected properties')
   })
   it('should render correctly loading', () => {
@@ -91,8 +127,40 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
         },
       },
-      hasError: false,
-      isFetching: true,
+      roleList: {
+        REGISTERED_USER: {
+          content: {
+            id: 2,
+            name: 'REGISTERED_USER',
+            parentRole: {
+              id: 1,
+              name: 'PUBLIC',
+            },
+            isDefault: true,
+            isNative: true,
+            authorizedAddresses: [],
+          },
+        },
+      },
+      groupList: {
+        Public: {
+          content: {
+            id: 1,
+            name: 'Public',
+            email: 'testemail',
+            isPublic: true,
+            isInternal: true,
+          },
+        },
+      },
+      hasErrorSettings: false,
+      isFetchingSettings: true,
+      isFetchingRoleList: false,
+      hasErrorRoleList: false,
+      isFetchingGroupList: false,
+      hasErrorGroupList: false,
+      fetchRoleList: () => { },
+      fetchGroupList: () => { },
       fetchSettings: () => { },
       updateSettings: () => { },
     }
@@ -111,8 +179,14 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
       params: {
         project: 'any',
       },
-      hasError: false,
-      isFetching: false,
+      hasErrorSettings: false,
+      isFetchingSettings: false,
+      isFetchingRoleList: false,
+      hasErrorRoleList: false,
+      isFetchingGroupList: false,
+      hasErrorGroupList: false,
+      fetchRoleList: () => { },
+      fetchGroupList: () => { },
       fetchSettings: () => { },
       updateSettings: () => { },
     }
@@ -139,8 +213,40 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
           mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
         },
       },
-      hasError: true,
-      isFetching: false,
+      roleList: {
+        REGISTERED_USER: {
+          content: {
+            id: 2,
+            name: 'REGISTERED_USER',
+            parentRole: {
+              id: 1,
+              name: 'PUBLIC',
+            },
+            isDefault: true,
+            isNative: true,
+            authorizedAddresses: [],
+          },
+        },
+      },
+      groupList: {
+        Public: {
+          content: {
+            id: 1,
+            name: 'Public',
+            email: 'testemail',
+            isPublic: true,
+            isInternal: true,
+          },
+        },
+      },
+      hasErrorSettings: true,
+      isFetchingSettings: false,
+      isFetchingRoleList: false,
+      hasErrorRoleList: false,
+      isFetchingGroupList: false,
+      hasErrorGroupList: false,
+      fetchRoleList: () => { },
+      fetchGroupList: () => { },
       fetchSettings: () => { },
       updateSettings: () => { },
     }
