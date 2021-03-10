@@ -65,7 +65,13 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./install-plugin.sh criterion full-text'
-                    },
+                    }
+                )
+            }
+        }
+        stage('Install - 2') {
+            steps {
+                parallel(
                     plugin_criterion_numerical: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
@@ -91,6 +97,11 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./install-plugin.sh criterion two-temporal'
                     },
+            }
+        }
+        stage('Install - 3') {
+            steps {
+                parallel(
                     plugin_criterion_toponym: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
