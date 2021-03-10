@@ -37,7 +37,7 @@ module.exports = function (projectContextPath) {
           // used to cache the results of the loader.
           // Next builds will attempt to read from the cache
           // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader',
+          loader: 'babel-loader?cacheDirectory',
         },
         {
           test: /\.css$/,
