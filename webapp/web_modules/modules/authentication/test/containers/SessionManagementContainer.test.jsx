@@ -66,6 +66,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: () => { },
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     })
 
     // test with session locked
@@ -82,6 +83,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: () => { },
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     })
   })
   it('should hide the dialog when session is not locked, nor authentication is required', () => {
@@ -97,6 +99,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: () => { },
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     }
     const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
     enzymeWrapper.setState({ initialized: true })
@@ -117,6 +120,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     }
     root.localStorage.clear()
     shallow(<SessionManagementContainer {...props} />, { context })
@@ -135,6 +139,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()
@@ -155,6 +160,7 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
       forceAuthentication: () => { },
+      throwError: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()

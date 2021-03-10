@@ -17,14 +17,13 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import get from 'lodash/get'
-import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
-import { AuthenticateResultShape, AuthenticationParametersActions } from '@regardsoss/authentication-utils'
+import { AuthenticationParametersActions } from '@regardsoss/authentication-utils'
 import { UIDomain } from '@regardsoss/domain'
 import { browserHistory } from 'react-router'
 import root from 'window-or-global'
-import { authServiceProviderActions, authServiceProviderSelectors } from '../clients/AuthenticateServiceProviderClient'
+import { authServiceProviderActions } from '../clients/AuthenticateServiceProviderClient'
 
 /**
  * Comment Here
@@ -36,24 +35,10 @@ export class AuthenticateRedirectionApp extends React.Component {
       project: PropTypes.string.isRequired,
       serviceProviderName: PropTypes.string.isRequired,
     }),
-    // from mapStateToProps
-    authentication: AuthenticateResultShape,
     // from mapDispatchToProps
     // eslint-disable-next-line react/no-unused-prop-types
     requestLogin: PropTypes.func.isRequired,
     initializeApplication: PropTypes.func.isRequired,
-  }
-
-  /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
-   */
-  static mapStateToProps(state, ownProps) {
-    return {
-      authentication: authServiceProviderSelectors.getResult(state),
-    }
   }
 
   /**
@@ -65,12 +50,10 @@ export class AuthenticateRedirectionApp extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-      requestLogin: (scope, pluginId, serviceProviderName, code, redirectUri) => dispatch(authServiceProviderActions.login(
+      requestLogin: (scope, pluginId, code) => dispatch(authServiceProviderActions.login(
         scope,
         pluginId,
-        serviceProviderName,
         code,
-        redirectUri,
       )),
     }
   }
@@ -92,7 +75,7 @@ export class AuthenticateRedirectionApp extends React.Component {
 
   UNSAFE_componentWillMount = () => {
     const {
-      params: { serviceProviderName, project }, initializeApplication, requestLogin,
+      params: { project }, initializeApplication, requestLogin,
     } = this.props
 
     // Redux store space init for user app
@@ -101,24 +84,14 @@ export class AuthenticateRedirectionApp extends React.Component {
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      const redirectUri = `${root.location.origin}${browserHistory.getCurrentLocation().pathname}${browserHistory.getCurrentLocation().search}`
-      requestLogin(project, 'OpenId', serviceProviderName, code, redirectUri)
-    }
-  }
-
-  /**
-   * Lifecle method Component will receive props: used here to detect authentication state changes
-   */
-  UNSAFE_componentWillReceiveProps = (nextProps) => {
-    const {
-      params: { project }, authentication,
-    } = nextProps
-    const currentAuthData = this.props.authentication || {}
-    const nextAuthData = authentication || {}
-
-    if (!isEqual(currentAuthData, nextAuthData) && !nextAuthData.isFetching) {
-      new UIDomain.LocalStorageUser(nextAuthData, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
-      root.window.close()
+      requestLogin(project, 'OpenId', code).then((result) => {
+        let storageObj = result.payload.message
+        if (!result.error) {
+          storageObj = result.payload
+        }
+        new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+        root.window.close()
+      })
     }
   }
 

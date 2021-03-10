@@ -40,6 +40,7 @@ const messages = {
   'authentication.error.USER_ACCESS_INACTIVE': 'Your project access is inactive. Please contact project administrator',
   'authentication.error.INSTANCE_ACCESS_DENIED': 'Your access to the instance administration panel has been refused',
   'authentication.error.UNKNOWN_ERROR': 'Server is currently unavailable. Please retry later',
+  'authentication.error.CONNEXION_ERROR': 'Impossible to connect',
   'authentication.goto.reset.password': 'Lost password?',
   'authentication.goto.ask.access': 'New user?',
   'authentication.goto.unlock.account': 'Account locked?',
