@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:15
 
 ARG TUXUID=987
 ARG TUXGID=982
@@ -9,10 +9,11 @@ RUN groupadd -g ${TUXGID} tux \
 
 VOLUME /app_to_build
 
-COPY install.sh build_webapp.sh build_plugin.sh run_coverage.sh /
+COPY install.sh install-plugin.sh build_webapp.sh build_plugin.sh run_coverage.sh /
 
 	# Set rights on scripts
 RUN chmod +x /install.sh \
+			/install-plugin.sh \
 			/build_webapp.sh \
 			/run_coverage.sh \
 			/build_plugin.sh
