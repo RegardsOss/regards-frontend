@@ -18,7 +18,7 @@ module.exports = function (projectContextPath) {
       ],
       alias: alias(projectContextPath, 'dev'),
     },
-    devtool: 'source-map',
+    devtool: 'cheap-source-map',
     output: {
       filename: '[name].bundle.js',
       // The name of the global variable which the library's
