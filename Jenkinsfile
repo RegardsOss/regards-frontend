@@ -97,6 +97,7 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./install-plugin.sh criterion two-temporal'
                     }
+                )
             }
         }
         stage('Install - 3') {
