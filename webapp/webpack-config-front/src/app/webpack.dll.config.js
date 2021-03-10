@@ -4,7 +4,7 @@ const StatsPlugin = require('stats-webpack-plugin')
 const path = require('path')
 const alias = require('../utils/alias')
 
-module.exports = function (projectContextPath) {
+module.exports = function (projectContextPath, mode) {
   // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
   process.env.NODE_ENV = 'development'
 
@@ -18,7 +18,7 @@ module.exports = function (projectContextPath) {
       ],
       alias: alias(projectContextPath, 'dev'),
     },
-    devtool: 'cheap-source-map',
+    devtool: mode === 'dev' ? 'source-map' : 'cheap-source-map',
     output: {
       filename: '[name].bundle.js',
       // The name of the global variable which the library's
