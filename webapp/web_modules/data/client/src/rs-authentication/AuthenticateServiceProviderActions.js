@@ -30,13 +30,11 @@ export default class AuthenticateServiceProviderActions extends BasicSignalActio
     })
   }
 
-  login(scope, pluginId, serviceProviderName, code, redirectUri) {
+  login(scope, pluginId, code) {
     return this.sendSignal('POST', {
       code,
-      redirectUri,
       pluginId,
     }, {
-      serviceProviderName,
       scope,
     })
   }
