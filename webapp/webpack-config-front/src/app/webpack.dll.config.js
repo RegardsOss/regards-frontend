@@ -73,9 +73,9 @@ module.exports = function (projectContextPath) {
       // Create a single css file for the whole application instead of setting css inline in the javascript
       // That's during the coresoss compilation that our app export a single CSS file
       new MiniCssExtractPlugin({ filename: 'css/coreoss.styles.css' }),
-      new StatsPlugin(`../../reports/dll-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../../reports/dll-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   }
 }
