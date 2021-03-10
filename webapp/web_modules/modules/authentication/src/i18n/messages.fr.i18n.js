@@ -40,6 +40,7 @@ const messages = {
   'authentication.error.USER_ACCESS_INACTIVE': 'Vos droits d\'accès au projet sont désactivés, veuillez contacter l\'administrateur du projet',
   'authentication.error.INSTANCE_ACCESS_DENIED': 'Vous n\'avez pas les droits suffisants pour accéder au panneau d\'administration d\'instance du système REGARDS',
   'authentication.error.UNKNOWN_ERROR': 'Le serveur est actuellement indisponible. Merci de réessayer plus tard.',
+  'authentication.error.CONNEXION_ERROR': 'Impossible de se connecter',
   'authentication.goto.reset.password': 'Mot de passe oublié ?',
   'authentication.goto.ask.access': 'Nouvel utilisateur ?',
   'authentication.goto.unlock.account': 'Compte bloqué ?',

@@ -21,7 +21,10 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { UIDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LocalStorageUser } from '@regardsoss/domain/ui'
+import isString from 'lodash/isString'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 
@@ -47,6 +50,11 @@ export class SessionManagementContainer extends React.Component {
     notifyAuthenticationChanged: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     forceAuthentication: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   static defaultProps = {
@@ -100,7 +108,12 @@ export class SessionManagementContainer extends React.Component {
 
   onLocalStorageChanged = () => {
     const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE)
-    this.props.forceAuthentication(externalAuthentication.getAuthenticationInformations())
+    // error message
+    if (isString(externalAuthentication)) {
+      this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
+    } else {
+      this.props.forceAuthentication(externalAuthentication.getAuthenticationInformations())
+    }
   }
 
   /**
@@ -221,6 +234,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),
   logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
+  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionManagementContainer)
