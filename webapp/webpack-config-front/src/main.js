@@ -17,7 +17,8 @@ const saveDevPlugin = require('./utils/saveDevPlugin')
 const MODE = {
   COVERAGE: 'coverage',
   DEV: 'dev',
-  DLL: 'dll',
+  DLL_DEV: 'dll_dev',
+  DLL_PROD: 'dll_prod',
   PROD: 'prod',
   TEST: 'test',
   PKG_BUILD: 'pkg_build',
@@ -58,8 +59,11 @@ class WebpackConfig {
       case MODE.TEST:
         this.conf = getWebpackTestConf(projectContextPath)
         break
-      case MODE.DLL:
-        this.conf = getWebpackDllConf(projectContextPath)
+      case MODE.DLL_DEV:
+        this.conf = getWebpackDllConf(projectContextPath, MODE.DEV)
+        break
+      case MODE.DLL_PROD:
+        this.conf = getWebpackDllConf(projectContextPath, MODE.PROD)
         break
       case MODE.PKG_TEST:
         this.conf = getWebpackTestPackageConf(projectContextPath)
