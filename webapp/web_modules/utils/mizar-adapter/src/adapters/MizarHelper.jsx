@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import forEach from 'lodash/forEach'
 
 /**
  * Transforsm points into a box with {min/max}{X/Y} fields and empty information field
@@ -58,7 +59,7 @@ export function toBoxCoordinates(point1, point2) {
 export function toAreaFeature(featureId, point1, point2) {
   const {
     minX, maxX, minY, maxY, empty,
-  } = MizarAdapter.toBoxCoordinates(point1, point2)
+  } = toBoxCoordinates(point1, point2)
   if (!empty) {
     // area is not empty
     return {
