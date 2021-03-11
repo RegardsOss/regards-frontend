@@ -17,5 +17,6 @@
  * along with SCO. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-export { default as MizarAdapter } from './adapters/MizarAdapter'
+export { default as MizarProvider } from './adapters/MizarProvider'
+export { toBoxCoordinates, geometryToAreaFeature, toAreaFeature } from './adapters/MizarHelper'
 export { GeoJsonFeaturesCollection, GeoJsonFeature } from './shapes/FeaturesCollection'

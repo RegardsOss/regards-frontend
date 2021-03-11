@@ -21,7 +21,7 @@ const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
-    mode: 'dll',
+    mode: 'dll_dev',
     projectContextPath: __dirname,
   })
   .cleanFolder()
@@ -40,6 +40,7 @@ const conf = webpackConfigurator
         'normalizr',
         'react',
         'resium',
+        'regards-mizar',
         'react-chartjs-2',
         'react-dnd',
         'react-dnd-html5-backend',
