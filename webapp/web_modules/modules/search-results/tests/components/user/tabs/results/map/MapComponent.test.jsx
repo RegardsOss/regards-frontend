@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain, CatalogDomain } from '@regardsoss/domain'
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
-import { MizarAdapter } from '@regardsoss/mizar-adapter'
+import { MizarProvider } from '@regardsoss/mizar-adapter'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapComponent from '../../../../../../src/components/user/tabs/results/map/MapComponent'
 import MapToolsComponent from '../../../../../../src/components/user/tabs/results/map/MapToolsComponent'
@@ -175,7 +175,7 @@ describe('[SEARCH RESULTS] Testing MapComponent', () => {
     testSuiteHelpers.assertWrapperProperties(searchToponyms, {
       onToponymSelected: props.onToponymSelected,
     }, 'Search toponyms container properties should be correctly set')
-    const map = enzymeWrapper.find(MizarAdapter)
+    const map = enzymeWrapper.find(MizarProvider)
     assert.lengthOf(map, 1, 'There should be the map')
     testSuiteHelpers.assertWrapperProperties(map, {
       layers: props.layers,
