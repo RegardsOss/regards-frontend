@@ -40,6 +40,7 @@ const conf = webpackConfigurator
         'normalizr',
         'react',
         'resium',
+        'regards-mizar',
         'react-chartjs-2',
         'react-dnd',
         'react-dnd-html5-backend',
