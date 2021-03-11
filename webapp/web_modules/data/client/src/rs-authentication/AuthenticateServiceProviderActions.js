@@ -24,16 +24,19 @@ export default class AuthenticateServiceProviderActions extends BasicSignalActio
    */
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/serviceproviders/{serviceProviderName}/authenticate?scope={scope}`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/serviceproviders/{name}/authenticate`,
+      resourcesEndpoint:
       namespace,
       bypassErrorMiddleware: true,
     })
   }
 
-  login(scope, pluginId, code) {
+  login(scope, pluginId, name, code) {
     return this.sendSignal('POST', {
       code,
       pluginId,
+    }, {
+      name,
     }, {
       scope,
     })

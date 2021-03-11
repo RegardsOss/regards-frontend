@@ -75,7 +75,7 @@ export class AuthenticateRedirectionApp extends React.Component {
 
   UNSAFE_componentWillMount = () => {
     const {
-      params: { project }, initializeApplication, requestLogin,
+      params: { project, serviceProviderName }, initializeApplication, requestLogin,
     } = this.props
 
     // Redux store space init for user app
@@ -84,7 +84,7 @@ export class AuthenticateRedirectionApp extends React.Component {
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      requestLogin(project, 'OpenId', code).then((result) => {
+      requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
         let storageObj = result.payload.message
         if (!result.error) {
           storageObj = result.payload
