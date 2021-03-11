@@ -50,9 +50,10 @@ export class AuthenticateRedirectionApp extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-      requestLogin: (scope, pluginId, code) => dispatch(authServiceProviderActions.login(
+      requestLogin: (scope, pluginId, name, code) => dispatch(authServiceProviderActions.login(
         scope,
         pluginId,
+        name,
         code,
       )),
     }
@@ -84,14 +85,21 @@ export class AuthenticateRedirectionApp extends React.Component {
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
-        let storageObj = result.payload.message
-        if (!result.error) {
-          storageObj = result.payload
-        }
-        new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+      if (code === null) {
+        const errorMessage = 'Invalid null code for openId connect'
+        console.error(errorMessage)
+        new UIDomain.LocalStorageUser(errorMessage, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
         root.window.close()
-      })
+      } else {
+        requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
+          let storageObj = result.payload.message
+          if (!result.error) {
+            storageObj = result.payload
+          }
+          new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+          root.window.close()
+        })
+      }
     }
   }
 
