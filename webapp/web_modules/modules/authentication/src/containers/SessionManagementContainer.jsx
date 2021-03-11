@@ -21,6 +21,10 @@ import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
 import { AuthenticateShape, AuthenticationClient } from '@regardsoss/authentication-utils'
 import { UIDomain } from '@regardsoss/domain'
+import { i18nContextType } from '@regardsoss/i18n'
+import { ApplicationErrorAction } from '@regardsoss/global-system-error'
+import { LocalStorageUser } from '@regardsoss/domain/ui'
+import isString from 'lodash/isString'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 
@@ -45,6 +49,12 @@ export class SessionManagementContainer extends React.Component {
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
+    forceAuthentication: PropTypes.func.isRequired,
+    throwError: PropTypes.func.isRequired,
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   static defaultProps = {
@@ -66,6 +76,7 @@ export class SessionManagementContainer extends React.Component {
     this.setState({
       initialized: true,
     })
+    root.window.addEventListener('storage', this.onLocalStorageChanged, false)
   }
 
   /**
@@ -86,6 +97,7 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillUnmount() {
     root.window.removeEventListener('focus', this.onWindowFocused, false)
+    root.window.removeEventListener('storage', this.onLocalStorageChanged, false)
   }
 
   /**
@@ -93,6 +105,16 @@ export class SessionManagementContainer extends React.Component {
    * they are no longer focused
    */
   onWindowFocused = () => this.jobCheckingAuthenticationExpired(this.props.authentication)
+
+  onLocalStorageChanged = () => {
+    const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE)
+    // error message
+    if (isString(externalAuthentication)) {
+      this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
+    } else {
+      this.props.forceAuthentication(externalAuthentication.getAuthenticationInformations())
+    }
+  }
 
   /**
    * Check the token validity
@@ -207,10 +229,12 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
+  forceAuthentication: (externalAuthentication) => dispatch(AuthenticationClient.authenticationActions.forceAuthentication(externalAuthentication)),
   dispatchSessionLocked: () => dispatch(AuthenticationClient.authenticationActions.lockSession()),
   fetchAuthenticate: (login, password, scope) => dispatch(AuthenticationClient.authenticationActions.login(login, password, scope)),
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),
   logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
+  throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionManagementContainer)

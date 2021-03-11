@@ -35,3 +35,5 @@ export const UIPluginInstanceContent = PropTypes.shape({
   error: PropTypes.bool,
   initialized: PropTypes.bool,
 })
+
+export const UIPluginInstanceList = PropTypes.objectOf(UIPluginInstanceContent)

@@ -24,6 +24,55 @@ const styles = (theme) => (
       display: 'flex',
       justifyContent: 'center',
     },
+    addServiceProviderCard: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    serviceProviderButton: {
+      marginBottom: '8px',
+      width: '100%',
+      paddingLeft: '15px',
+      paddingRight: '15px',
+      backgroundColor: theme.tableRow.stripeColor,
+      height: '100%',
+    },
+    serviceProviderList: {
+      display: 'flex',
+      padding: '8px',
+      flexDirection: 'column',
+      height: '300px',
+      overflowY: 'auto',
+    },
+    cardProviderScrollStyle: {
+      height: '335px',
+      width: '291px',
+    },
+    cardProviderStyle: {
+      width: '300px',
+      backgroundColor: theme.tableRow.stripeColor,
+    },
+    cardAuthStyle: {
+      width: '700px',
+    },
+    buttonStyle: {
+      height: '50px',
+    },
+    overlayStyle: {
+      height: '50px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    labelStyle: {
+      padding: '0',
+    },
+    connectButton: {
+      marginRight: '8px',
+      minWidth: '120px',
+    },
+    cancelButton: {
+      minWidth: '120px',
+    },
     linksBar: {
       display: 'flex',
       padding: '10px',
@@ -34,11 +83,11 @@ const styles = (theme) => (
       borderColor: theme.palette.borderColor,
     },
     dialog: {
-      preferredWidth: '680px',
+      preferredWidth: '1000px',
       maxFormHeight: '55vh',
       body: { padding: '0', overflowY: 'none' },
       content: {
-        width: '680px',
+        width: '1000px',
         maxWidth: 'none',
       },
       scrollStyle: {

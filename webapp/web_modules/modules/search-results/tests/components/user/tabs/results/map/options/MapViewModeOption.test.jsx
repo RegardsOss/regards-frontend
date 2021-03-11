@@ -46,6 +46,7 @@ describe('[SEARCH RESULTS] Testing MapViewModeOption', () => {
         onToggleViewMode: () => {},
         index: 0,
         addStylingOption: false,
+        availableModeListLenght: 2,
       }
       const enzymeWrapper = shallow(<MapViewModeOption {...props} />, { context })
       const button = enzymeWrapper.find(FlatButton)

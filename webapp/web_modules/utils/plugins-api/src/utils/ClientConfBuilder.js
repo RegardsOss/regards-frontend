@@ -27,7 +27,7 @@
 export default class ClientConfBuilder {
   /**
    * Redux client builder constructor
-   * @param {string} pluginName plugin name to use on store path and namespace
+   * @param {string} pluginName plugin name to use on store path and namespace. Must be the same as in plugin-info.json
    * @param {string} storeKey this reducer store key, used by selector
    */
   constructor(pluginName, storeKey) {

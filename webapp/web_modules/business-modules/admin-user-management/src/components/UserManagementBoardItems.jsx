@@ -105,12 +105,6 @@ export default (project, intl) => [
         ...authenticationPluginManagementDependencies.listDependencies,
         ...authenticationPluginManagementDependencies.addDependencies,
       ],
-    }, {
-      path: `/admin/${project}/user/authenticationplugins/create`,
-      icon: <AddIcon />,
-      className: 'selenium-authenticationpluginsCreate',
-      tooltipMsg: intl.formatMessage({ id: 'user.board.tooltip.add' }),
-      hateoasDependencies: authenticationPluginManagementDependencies.addDependencies,
     }],
   },
 ]

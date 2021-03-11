@@ -32,6 +32,7 @@ import GeometryCriterionComponent from './filter/GeometryCriterionComponent'
 import EntitiesSelectionCriterionComponent from './filter/EntitiesSelectionCriterionComponent'
 import TagCriterionContainer from '../../../../../containers/user/tabs/results/header/filter/TagCriterionContainer'
 import SearchCriteriaComponent from './filter/SearchCriteriaComponent'
+import ToponymCriteriaContainer from '../../../../../containers/user/tabs/results/header/filter/ToponymCriteriaContainer'
 import StaticParameterCriterionComponent from './filter/StaticParameterCriterionComponent'
 import ReactiveStaticParameterCriterionComponent from './filter/ReactiveStaticParameterCriterionComponent'
 /**
@@ -46,12 +47,14 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
     entitiesSelections: PropTypes.arrayOf(UIShapes.EntitiesSelectionCriterion).isRequired,
     searchCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     staticParameters: PropTypes.arrayOf(UIShapes.StaticParameterCriterion).isRequired,
+    toponymCriteria: PropTypes.arrayOf(UIShapes.BasicCriterion).isRequired,
     onUnselectTagFilter: PropTypes.func.isRequired,
     onUnselectFacetValue: PropTypes.func.isRequired,
     onUnselectGeometry: PropTypes.func.isRequired,
     onUnselectEntitiesSelection: PropTypes.func.isRequired,
     onUnselectSearchCriteria: PropTypes.func.isRequired,
     onToggleStaticParameter: PropTypes.func.isRequired,
+    onUnselectToponymCriteria: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -62,10 +65,10 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
   render() {
     const {
       tagsFiltering, facetValues, geometries,
-      entitiesSelections, searchCriteria, staticParameters,
+      entitiesSelections, searchCriteria, toponymCriteria, staticParameters,
       onUnselectTagFilter, onUnselectFacetValue, onUnselectGeometry,
       onUnselectEntitiesSelection, onUnselectSearchCriteria,
-      onToggleStaticParameter,
+      onToggleStaticParameter, onUnselectToponymCriteria,
     } = this.props
     return (
       <ShowableAtRender show={tagsFiltering.length > 0
@@ -73,7 +76,8 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
       || geometries.length > 0
       || entitiesSelections.length > 0
       || staticParameters.length > 0
-      || searchCriteria.length > 0}
+      || searchCriteria.length > 0
+      || toponymCriteria.length > 0}
       >
         <TableHeaderLine>
           <TableHeaderContentBox>
@@ -127,7 +131,9 @@ class ApplyingCriteriaHeaderRowComponent extends React.Component {
                   searchCriteria.length
                     ? <SearchCriteriaComponent key="search.criteria" onUnselectSearchCriteria={onUnselectSearchCriteria} />
                     : null,
-
+                  toponymCriteria.length
+                    ? <ToponymCriteriaContainer key="toponym.criteria" toponymCriteria={toponymCriteria} onUnselectToponymCriteria={onUnselectToponymCriteria} />
+                    : null,
                   // 7 - Reactive static criteria - let the user reactive unactive static criteria
                   ...reject(staticParameters, (sp) => sp.active).map((sp) => <ReactiveStaticParameterCriterionComponent
                       key={sp.label}

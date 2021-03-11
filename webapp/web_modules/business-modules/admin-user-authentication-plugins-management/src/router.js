@@ -40,6 +40,30 @@ export const createAuthenticationPluginRoute = {
   },
 }
 
+export const createServiceProviderRoute = {
+  path: 'serviceprovider/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ExternalAuthenticationPluginFormContainer = require('./containers/ServiceProviderFormContainer')
+      cb(null, {
+        content: ExternalAuthenticationPluginFormContainer.default,
+      })
+    })
+  },
+}
+
+export const editServiceProviderRoute = {
+  path: 'serviceprovider/:serviceName/:mode',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const ExternalAuthenticationPluginFormContainer = require('./containers/ServiceProviderFormContainer')
+      cb(null, {
+        content: ExternalAuthenticationPluginFormContainer.default,
+      })
+    })
+  },
+}
+
 export const editAuthenticationPluginRoute = {
   path: ':pluginId/:mode',
   getComponents(nextState, cb) {
@@ -56,6 +80,8 @@ const servicesManagementRouter = {
   childRoutes: [
     listAuthenticationPluginRoute,
     createAuthenticationPluginRoute,
+    createServiceProviderRoute,
+    editServiceProviderRoute,
     editAuthenticationPluginRoute,
   ],
 }

@@ -81,7 +81,7 @@ export default class OpenSearchQueryParameter extends QueryParameter {
    * @param {Function} toValue String function to apply to generate parameter value, like (excapedValue: string)  => (queryValue: string)
    * @return {string} parameter value
    */
-  static toStringParameterValue(values, separator, negate, escapedRegexps, toValueString = identity) {
+  static toStringParameterValue(values, separator, negate, escapedRegexps, toValueString = identity, notSurround) {
     // 1 - exit if no value
     if (!values) {
       return null
@@ -113,7 +113,8 @@ export default class OpenSearchQueryParameter extends QueryParameter {
           separator === OpenSearchQueryParameter.OR_SEPARATOR ? OpenSearchQueryParameter.AND_SEPARATOR : OpenSearchQueryParameter.OR_SEPARATOR))
     }
     // 3.b - value or ([values])
-    return escapedValues.length === 1 ? escapedValues[0] : `(${escapedValues.join(separator)})`
+    if (escapedValues.length === 1) return escapedValues[0]
+    return notSurround ? escapedValues.join(separator) : `(${escapedValues.join(separator)})`
   }
 
   /**
@@ -138,6 +139,28 @@ export default class OpenSearchQueryParameter extends QueryParameter {
   static toStringContained(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
     return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, OpenSearchQueryParameter.CONTAINS_STRING_ESCAPED,
       (escapedValue) => `(${escapedValue})`)
+  }
+
+  /**
+   * Computes parameter value for value / values as parameter to get results that respect a regular expression
+   * @param {string | [string]} values value or values for the parameter
+   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
+   * @param {boolean} negate is negated value?
+   * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
+   */
+  static toRegex(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
+    return OpenSearchQueryParameter.toStringParameterValue(values, separator, negate, [], (escapedValue) => `/${escapedValue}/`)
+  }
+
+  /**
+   * Computes parameter value for value / values as parameter to get full text results
+   * @param {string | [string]} values value or values for the parameter
+   * @param {string} separator semantic separator to use when providing a values array (note: it is reversed when negate is true)
+   * @param {boolean} negate is negated value?
+   * @return {string} corresponding OpenSearch parameter value, where each element is in quotes (meaning strict equality)
+   */
+  static toFullText(values, separator = OpenSearchQueryParameter.OR_SEPARATOR, negate = false) {
+    return OpenSearchQueryParameter.toStringParameterValue(values, OpenSearchQueryParameter.AND_SEPARATOR, false, [], (escapedValue) => `*${escapedValue}*`, true)
   }
 
   /**

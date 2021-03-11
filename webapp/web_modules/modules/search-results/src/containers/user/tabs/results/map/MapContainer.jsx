@@ -20,13 +20,16 @@ import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
+import find from 'lodash/find'
+import map from 'lodash/map'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
-import { CatalogShapes, UIShapes } from '@regardsoss/shape'
+import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapComponent from '../../../../../components/user/tabs/results/map/MapComponent'
 import { MizarAdapter } from '../../../../../../../../utils/mizar-adapter/src/main'
+import { toponymSelectors } from '../../../../../clients/ToponymClient'
 
 /**
  * Map container: adapts current context and results to display it on a map. Provides corresponding callbacks
@@ -44,6 +47,8 @@ export class MapContainer extends React.Component {
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     entities: PropTypes.arrayOf(CatalogShapes.Entity).isRequired, // used only in onPropertiesUpdated
+    // eslint-disable-next-line react/no-unused-prop-types
+    toponymList: AccessShapes.ToponymList,
     pageMetadata: PropTypes.shape({
       number: PropTypes.number,
       size: PropTypes.number,
@@ -71,6 +76,7 @@ export class MapContainer extends React.Component {
       // results entities
       entities: searchSelectors.getOrderedList(state),
       pageMetadata: searchSelectors.getMetaData(state),
+      toponymList: toponymSelectors.getList(state),
     }
   }
 
@@ -87,16 +93,30 @@ export class MapContainer extends React.Component {
   }
 
   /**
-   * Builds GeoJson features collections from regards catalog entities as parameter.
+   * Builds GeoJson features collections from regards catalog entities or toponyms as parameter.
    * Removes entities with null geometry
    * @param {*} entities
    */
   static buildGeoJSONFeatureCollection(entities = []) {
     return {
-      // REGARDS entities are features withing content field. Filter entities without geometry
+      // REGARDS entities & toponyms are features withing content field. Filter entities without geometry
       features: entities.filter((e) => !isNil(e.geometry) && !isEmpty(e.geometry)),
       type: 'FeatureCollection',
     }
+  }
+
+  /**
+   * Build toponym collection thanks to toponym criteria & toponym list from redux store
+   * Used to drawn a restriction area around toponym feature collection
+   * @param {*} toponymCriteria
+   * @param {*} toponymList
+   */
+  static buildToponymCollection(toponymCriteria, toponymList) {
+    return map(toponymCriteria, (topoCriteria) => {
+      const toponymBusinessId = get(topoCriteria, `requestParameters.${CatalogDomain.CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME}`, '')
+      const toponym = find(toponymList, (topo) => topo.content.businessId === toponymBusinessId)
+      return get(toponym, 'content')
+    }).filter((c) => !!c)
   }
 
   /** Initial state */
@@ -113,6 +133,8 @@ export class MapContainer extends React.Component {
     backgroundLayerConf: {},
     /** Holds selected products */
     selectedProducts: [],
+    /** Holds selected toponyms */
+    selectedToponyms: [],
   }
 
   /**
@@ -133,12 +155,17 @@ export class MapContainer extends React.Component {
    */
   onPropertiesUpdated = (oldProps, newProps) => {
     const nextState = { ...this.state }
-    const { entities: oldEntities, resultsContext: oldResultsContext, tabType: oldTabType } = oldProps
+    const {
+      entities: oldEntities, resultsContext: oldResultsContext, tabType: oldTabType,
+      toponymList: oldToponymList,
+    } = oldProps
     const {
       entities,
       pageMetadata = { number: 0, size: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.MAP] },
       resultsContext,
       tabType,
+      toponymList,
+      // fetchToponym,
     } = newProps
     // detect entities list changes: re build locally the full list shown (Note: both entities and metadata change together, see BasicPageReducers)
     if (!isEqual(oldEntities, entities)) {
@@ -171,11 +198,19 @@ export class MapContainer extends React.Component {
     }
 
     // Handle criteria update: pre-compute the list of areas in state
-    if (!isEqual(get(oldTab, 'criteria.geometry'), tab.criteria.geometry)) {
-      nextState.criteriaAreas = tab.criteria.geometry.map(
-        ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
+    if (!isEqual(get(oldTab, 'criteria.geometry'), tab.criteria.geometry)
+      || !isEqual(get(oldTab, 'criteria.toponymCriteria'), tab.criteria.toponymCriteria)
+      || !isEqual(oldToponymList, toponymList)) {
+      if (!isEmpty(tab.criteria.geometry)) {
+        nextState.criteriaAreas = tab.criteria.geometry.map(
+          ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
+        nextState.selectedToponyms = MapContainer.buildGeoJSONFeatureCollection() // build empty list
+      } else {
+        const toponymCollection = MapContainer.buildToponymCollection(tab.criteria.toponymCriteria, toponymList)
+        nextState.selectedToponyms = MapContainer.buildGeoJSONFeatureCollection(toponymCollection)
+        nextState.criteriaAreas = map(nextState.selectedToponyms.features, (toponym) => MizarAdapter.geometryToAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, toponym.geometry))
+      }
     }
-
     // update state on change
     if (!isEqual(nextState, this.state)) {
       this.setState(nextState)
@@ -288,6 +323,7 @@ export class MapContainer extends React.Component {
                 `POLYGON((${minX} ${minY},${maxX} ${minY},${maxX} ${maxY},${minX} ${maxY},${minX} ${minY}))`,
                 },
               }],
+              toponymCriteria: [],
             },
             types: {
               [selectedType]: {
@@ -335,12 +371,42 @@ export class MapContainer extends React.Component {
     })
   }
 
+  /**
+   * User picked a toponym, apply it as research criterion
+   * @param {*} selectedToponymBusinessId picked toponym businessId
+   */
+  onToponymSelected = (selectedToponymBusinessId) => {
+    // skip when selection is empty
+    if (!selectedToponymBusinessId) {
+      return
+    }
+    const {
+      moduleId, tabType, updateResultsContext,
+    } = this.props
+    updateResultsContext(moduleId, {
+      tabs: {
+        [tabType]: {
+          criteria: {
+            toponymCriteria: [{
+              requestParameters: {
+                [CatalogDomain.CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME]:
+                selectedToponymBusinessId,
+              },
+            }],
+            geometry: [],
+          },
+        },
+      },
+    })
+  }
+
   render() {
     const {
       tabType, resultsContext, onProductSelected,
     } = this.props
     const {
       featuresCollection, currentlyDrawingAreas, criteriaAreas, selectedProducts,
+      selectedToponyms,
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
@@ -367,6 +433,8 @@ export class MapContainer extends React.Component {
         layers={layers}
         mapEngine={mapEngine}
         tabType={tabType}
+        onToponymSelected={this.onToponymSelected}
+        selectedToponyms={selectedToponyms}
       />
     )
   }

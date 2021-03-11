@@ -20,10 +20,13 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import {
   AuthenticationClient, AuthenticationParametersActions, routeHelpers, AuthenticateResultShape,
+  AuthenticateShape,
 } from '@regardsoss/authentication-utils'
 import { AdminShapes } from '@regardsoss/shape'
+import get from 'lodash/get'
 import { borrowRoleActions, borrowRoleSelectors } from '../../../clients/BorrowRoleClient'
 import { authenticationDialogActions } from '../../../clients/AuthenticationDialogUIClient'
+import { disconnectServiceProviderAction } from '../../../clients/ServiceProviderDisconnect'
 import profileDialogActions from '../../../model/ProfileDialogActions'
 import LoggedUserComponent from '../../../components/user/authentication/LoggedUserComponent'
 import LoginButton from '../../../components/user/authentication/LoginButton'
@@ -47,6 +50,7 @@ export class AuthenticationContainer extends React.Component {
     return {
       isSendingBorrowRole: borrowRoleSelectors.isFetching(state),
       borrowRoleResult: borrowRoleSelectors.getResult(state),
+      authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
     }
   }
 
@@ -63,6 +67,7 @@ export class AuthenticationContainer extends React.Component {
       dispatchRoleBorrowed: (authResult) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authResult)),
       onShowProfile: (initialView) => dispatch(profileDialogActions.showDialog(initialView)),
       toggleAuthenticationDialogOpen: (opened) => dispatch(authenticationDialogActions.toggleDialogDisplay(opened)),
+      disconnectServiceProvider: (serviceProviderName) => dispatch(disconnectServiceProviderAction.disconnectServiceProvider(serviceProviderName)),
     }
   }
 
@@ -77,12 +82,14 @@ export class AuthenticationContainer extends React.Component {
     // from mapStateToProps
     isSendingBorrowRole: PropTypes.bool.isRequired,
     borrowRoleResult: AuthenticateResultShape,
+    authentication: AuthenticateShape,
     // from mapDispatchToProps
     onLogout: PropTypes.func.isRequired,
     sendBorrowRole: PropTypes.func.isRequired,
     dispatchRoleBorrowed: PropTypes.func.isRequired,
     onShowProfile: PropTypes.func.isRequired,
     toggleAuthenticationDialogOpen: PropTypes.func.isRequired,
+    disconnectServiceProvider: PropTypes.func.isRequired,
   }
 
   /**
@@ -120,7 +127,17 @@ export class AuthenticationContainer extends React.Component {
   }
 
   onLogout = () => {
+    const {
+      authentication, disconnectServiceProvider,
+    } = this.props
+    const serviceProviderName = get(authentication, 'result.service_provider_name')
+    // 1- Send disconnect first to server
+    if (serviceProviderName) {
+      disconnectServiceProvider(serviceProviderName)
+    }
+    // 2- Clear login info inside HMI
     this.props.onLogout()
+    // 3- Redirect user
     this.onGoToHomePage()
   }
 

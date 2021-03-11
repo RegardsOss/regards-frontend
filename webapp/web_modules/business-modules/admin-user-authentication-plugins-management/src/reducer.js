@@ -18,9 +18,13 @@
  **/
 import { combineReducers } from 'redux'
 import { pluginConfigurationReducer } from './clients/PluginConfigurationClient'
+import { serviceProviderReducer } from './clients/ServiceProviderClient'
+import { tableReducer } from './clients/TableClient'
 
 const authenticationPluginDataManagementReducer = combineReducers({
   plugins: pluginConfigurationReducer,
+  'service-providers': serviceProviderReducer,
+  'service-providers-table': tableReducer,
 })
 
 export default authenticationPluginDataManagementReducer

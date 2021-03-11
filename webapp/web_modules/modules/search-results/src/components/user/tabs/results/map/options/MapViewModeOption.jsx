@@ -34,6 +34,7 @@ class MapViewModeOption extends React.Component {
     onToggleViewMode: PropTypes.func.isRequired,
     index: PropTypes.number.isRequired, // mandatory for styling purpose (last element)
     addStylingOption: PropTypes.bool.isRequired, // add specific styling or not
+    availableModeListLenght: PropTypes.number.isRequired, // for styling purpose
   }
 
   static contextTypes = {
@@ -56,12 +57,12 @@ class MapViewModeOption extends React.Component {
 
   render() {
     const {
-      selected, viewMode, addStylingOption, index,
+      selected, viewMode, addStylingOption, index, availableModeListLenght,
     } = this.props
     const { moduleTheme: { user: { mapViewStyles } }, intl: { formatMessage } } = this.context
     const IconConstructor = MapViewModeOption.ICON_CONSTRUCTOR_BY_MODE[viewMode]
     return (
-      <div style={addStylingOption && index === 1 ? mapViewStyles.toolsBox.lastBoxStyle : null}>
+      <div style={addStylingOption && index === availableModeListLenght ? mapViewStyles.toolsBox.lastBoxStyle : null}>
         <FlatButton
           onClick={this.onClicked}
           icon={<IconConstructor />}

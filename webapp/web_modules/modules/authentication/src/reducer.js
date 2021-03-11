@@ -23,6 +23,7 @@ import createAccountReducer, { pathname as createAccountPath } from './model/cre
 import createUserReducer, { pathname as createUserPath } from './model/creation/CreateUserReducers'
 import verifyEmailReducer, { pathname as verifyEmailPath } from './model/creation/VerifyEmailReducers'
 import { accountPasswordReducer } from './clients/AccountPasswordClient'
+import { serviceProviderReducer } from './clients/ServiceProviderClient'
 
 const projectsReducer = {
   [createAccountPath]: createAccountReducer,
@@ -32,6 +33,7 @@ const projectsReducer = {
   [changePath]: changePasswordReducer,
   [unlockPath]: unlockAccountReducer,
   accountPassword: accountPasswordReducer,
+  'service-providers': serviceProviderReducer,
 }
 
 export default projectsReducer

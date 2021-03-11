@@ -34,6 +34,7 @@ import SearchPaneComponent from '../../../../../components/user/tabs/results/sea
 /**
  * Search pane container: initializes the pane search context
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class SearchPaneContainer extends React.Component {
   /**
@@ -98,23 +99,43 @@ export class SearchPaneContainer extends React.Component {
   }
 
   /**
-   * Collects search criteria from edited plugins
+   * Collects criteria from edited plugins
    * @param {[*]} groups, matching array of UIShapes.SearchCriteriaGroup shape
    * @return {[*]} criteria list, as UIShapes.ApplyingSearchCriterion array
    */
-  static collectSearchCriteria(groups) {
+  static collectCriteria(groups, criteriaType) {
     // accumulute for each group...
     return groups.reduce((groupsAcc, group) => ([
       ...groupsAcc,
       // ... and each criterion in a group as a context filtering criterion...
       ...group.criteria.reduce((criteriaAcc, { pluginInstanceId, state, requestParameters }) => {
+        // find((pluginInfo) => (pluginInfo))
         // the criteria with non empty parameters
         const filteredParameters = SearchPaneContainer.filterEmptyParameters(requestParameters)
-        return isEmpty(filteredParameters)
+        const ignoreCriteriaType = get(state, 'criteria', UIDomain.CRITERIA_TYPES_ENUM.SEARCH) !== criteriaType
+        return isEmpty(filteredParameters) || ignoreCriteriaType
           ? criteriaAcc // criterion ignored as its parameters are empty
           : [...criteriaAcc, { pluginInstanceId, state, requestParameters }]
       }, []),
     ]), [])
+  }
+
+  /**
+   * Collects search criteria from edited plugins
+   * @param {[*]} groups, matching array of UIShapes.SearchCriteriaGroup shape
+   * @return {[*]} criteria list, as UIShapes.ApplyingSearchCriterion array
+   */
+  static collectSearchCriteria(groups) {
+    return SearchPaneContainer.collectCriteria(groups, UIDomain.CRITERIA_TYPES_ENUM.SEARCH)
+  }
+
+  /**
+   * Collects toponym criteria from edited plugins
+   * @param {[*]} groups, matching array of UIShapes.SearchCriteriaGroup shape
+   * @return {[*]} criteria list, as UIShapes.ApplyingSearchCriterion array
+   */
+  static collectToponymCriteria(groups) {
+    return SearchPaneContainer.collectCriteria(groups, UIDomain.CRITERIA_TYPES_ENUM.TOPONYM)
   }
 
   /**
@@ -183,9 +204,13 @@ export class SearchPaneContainer extends React.Component {
       ...newState,
     }
     // disable search when there is no search criteria
+    // or toponym criteria
     // or when any criterion is in error
-    nextState.searchDisabled = !SearchPaneContainer.collectSearchCriteria(nextState.groups).length
+    const criteriaExist = (!!SearchPaneContainer.collectSearchCriteria(nextState.groups).length
+      || !!SearchPaneContainer.collectToponymCriteria(nextState.groups).length)
+    nextState.searchDisabled = !criteriaExist
       || nextState.groups.some(({ criteria }) => criteria.some((criterion) => get(criterion, 'state.error')))
+
     if (!isEqual(this.state, nextState)) {
       this.setState(nextState)
     }
@@ -247,23 +272,34 @@ export class SearchPaneContainer extends React.Component {
    * User callback: on search called. Publish current criteria status
    */
   onSearch = () => {
-    const { moduleId, tabType, updateResultsContext } = this.props
+    const {
+      moduleId, tabType, updateResultsContext,
+    } = this.props
     const { groups: editionGroups } = this.state
     // 1 - Applying any pending update to the groups to commit
     const groups = SearchPaneContainer.applyDelayedParameters(editionGroups)
     // 2 - Collect criteria
     const newSearchCriteria = SearchPaneContainer.collectSearchCriteria(groups)
+    const newToponymCriteria = SearchPaneContainer.collectToponymCriteria(groups)
     // 3 - If there is any parameter, start search
-    if (newSearchCriteria.length) {
+    if (newSearchCriteria.length || newToponymCriteria.length) {
+      let criteria = {
+        searchCriteria: newSearchCriteria,
+      }
+      if (newToponymCriteria.length) {
+        criteria = {
+          ...criteria,
+          toponymCriteria: newToponymCriteria,
+          geometry: [],
+        }
+      }
       updateResultsContext(moduleId, {
         tabs: {
           [tabType]: {
             search: {
               open: false, // close pane
             },
-            criteria: {
-              searchCriteria: newSearchCriteria,
-            },
+            criteria,
           },
         },
       })

@@ -18,12 +18,14 @@
  **/
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
-import { AdminShapes } from '@regardsoss/shape'
+import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ProjectUserSettingsFormComponent from '../components/ProjectUserSettingsFormComponent'
+import { roleActions, roleSelectors } from '../clients/RoleClient'
+import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
 import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
 import messages from '../i18n'
 import styles from '../styles'
@@ -31,6 +33,7 @@ import styles from '../styles'
 /**
  * Project user settings form container
  * @author Raphaël Mechali
+ * @author Théo Lasserre
  */
 export class ProjectUserSettingsFormContainer extends React.Component {
   /**
@@ -41,9 +44,15 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   */
   static mapStateToProps(state) {
     return {
+      roleList: roleSelectors.getList(state),
+      isFetchingRoleList: roleSelectors.isFetching(state),
+      hasErrorRoleList: roleSelectors.hasError(state),
+      groupList: accessGroupSelectors.getList(state),
+      isFetchingGroupList: accessGroupSelectors.isFetching(state),
+      hasErrorGroupList: accessGroupSelectors.hasError(state),
       settings: projectUserSettingsSelectors.getResult(state),
-      hasError: projectUserSettingsSelectors.hasError(state),
-      isFetching: projectUserSettingsSelectors.isFetching(state),
+      hasErrorSettings: projectUserSettingsSelectors.hasError(state),
+      isFetchingSettings: projectUserSettingsSelectors.isFetching(state),
     }
   }
 
@@ -55,6 +64,8 @@ export class ProjectUserSettingsFormContainer extends React.Component {
  */
   static mapDispatchToProps(dispatch) {
     return {
+      fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
+      fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
       fetchSettings: () => dispatch(projectUserSettingsActions.getSettings()),
       updateSettings: (accountSettings) => dispatch(projectUserSettingsActions.updateSettings(accountSettings)),
     }
@@ -66,10 +77,18 @@ export class ProjectUserSettingsFormContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
+    roleList: AdminShapes.RoleList,
+    isFetchingRoleList: PropTypes.bool.isRequired,
+    hasErrorRoleList: PropTypes.bool.isRequired,
+    groupList: DataManagementShapes.AccessGroupList,
+    isFetchingGroupList: PropTypes.bool.isRequired,
+    hasErrorGroupList: PropTypes.bool.isRequired,
     settings: AdminShapes.ProjectUserSettingsWithContent,
-    hasError: PropTypes.bool.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    hasErrorSettings: PropTypes.bool.isRequired,
+    isFetchingSettings: PropTypes.bool.isRequired,
     // from mapDispatchToProps
+    fetchRoleList: PropTypes.func.isRequired,
+    fetchGroupList: PropTypes.func.isRequired,
     fetchSettings: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
   }
@@ -77,9 +96,10 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   /**
    * Lifecycle method component did mount, used here to start loading server data
    */
-  componentDidMount() {
-    const { fetchSettings } = this.props
-    fetchSettings()
+  UNSAFE_componentWillMount() {
+    this.props.fetchSettings()
+    this.props.fetchRoleList()
+    this.props.fetchGroupList()
   }
 
   /**
@@ -108,19 +128,24 @@ export class ProjectUserSettingsFormContainer extends React.Component {
   }
 
   render() {
-    const { isFetching, hasError, settings } = this.props
+    const {
+      hasErrorSettings, settings, isFetchingSettings, roleList, groupList,
+      isFetchingRoleList, hasErrorRoleList, isFetchingGroupList, hasErrorGroupList,
+    } = this.props
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LoadableContentDisplayDecorator
-            isLoading={isFetching}
-            isContentError={hasError}
+            isLoading={isFetchingSettings || isFetchingRoleList || isFetchingGroupList}
+            isContentError={hasErrorSettings || hasErrorRoleList || hasErrorGroupList}
             isEmpty={!settings}
           >
             <ProjectUserSettingsFormComponent
               settings={get(settings, 'content', null)}
               onBack={this.onBack}
               onSubmit={this.onSubmit}
+              roleList={roleList}
+              groupList={groupList}
             />
           </LoadableContentDisplayDecorator>
         </ModuleStyleProvider>

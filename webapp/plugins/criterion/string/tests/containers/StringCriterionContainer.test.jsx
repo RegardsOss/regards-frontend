@@ -120,6 +120,15 @@ describe('[String criterion] Testing StringCriterionContainer', () => {
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: undefined, searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchMode: SEARCH_MODES_ENUM.CONTAINS }, attribute).q)
 
+    // 2 - Regex queries
+    assert.deepEqual(StringCriterionContainer.convertToRequestParameters({ searchText: 'FULL_word"+', searchMode: SEARCH_MODES_ENUM.REGEX }, attribute),
+      { q: 'attr.path.x1:/FULL_word"+/' })
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, searchMode: SEARCH_MODES_ENUM.REGEX }, attribute).q)
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', searchMode: SEARCH_MODES_ENUM.REGEX }, attribute).q)
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '          ', searchMode: SEARCH_MODES_ENUM.REGEX }, attribute).q)
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: undefined, searchMode: SEARCH_MODES_ENUM.REGEX }, attribute).q)
+    assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchMode: SEARCH_MODES_ENUM.REGEX }, attribute).q)
+
     // 5 - No value (No value, word parts)
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: null, strictEqual: false }, attribute).q, '5- null should not be converted into a query')
     assert.isNotOk(StringCriterionContainer.convertToRequestParameters({ searchText: '', strictEqual: false }, attribute).q, '5- "" should not be converted into a query')

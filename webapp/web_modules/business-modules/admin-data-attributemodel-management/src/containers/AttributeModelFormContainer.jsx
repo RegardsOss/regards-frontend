@@ -60,6 +60,7 @@ export class AttributeModelFormContainer extends React.Component {
 
   state = {
     isEditing: this.props.params.attrModel_id !== undefined,
+    isLoading: true,
   }
 
   componentDidMount() {
@@ -71,6 +72,10 @@ export class AttributeModelFormContainer extends React.Component {
       if (this.props.attrModel) {
         this.props.fetchAttributeModelRestrictionList(this.props.attrModel.content.type)
       }
+    } else {
+      this.setState({
+        isLoading: false,
+      })
     }
   }
 
@@ -79,6 +84,11 @@ export class AttributeModelFormContainer extends React.Component {
     // then when we retrieve the entity we need to fetch the corresponding entity restriction list
     if (this.state.isEditing && nextProps.attrModelRestrictionList.length === 0 && !this.props.attrModel && nextProps.attrModel) {
       this.props.fetchAttributeModelRestrictionList(nextProps.attrModel.content.type)
+    }
+    if (!nextProps.isAttributeModelFetching && !nextProps.isAttributeModelRestrictionFetching && !nextProps.isAttributeModelTypeFetching && !nextProps.isFragmentFetching) {
+      this.setState({
+        isLoading: false,
+      })
     }
   }
 
@@ -90,12 +100,11 @@ export class AttributeModelFormContainer extends React.Component {
   getFormComponent = () => {
     const { attrModelTypeList, attrModelRestrictionList, fragmentList } = this.props
     if (this.state.isEditing) {
-      const {
-        attrModel, isAttributeModelFetching, isAttributeModelRestrictionFetching, isAttributeModelTypeFetching, isFragmentFetching,
-      } = this.props
-      if (isAttributeModelFetching || isAttributeModelRestrictionFetching || isAttributeModelTypeFetching || isFragmentFetching) {
+      const { attrModel } = this.props
+      if (this.state.isLoading) {
         return (<FormLoadingComponent />)
       }
+      console.error('attrModelRestrictionList', attrModelRestrictionList)
       if (attrModel) {
         return (<AttributeModelFormComponent
           onSubmit={this.handleUpdate}
@@ -158,6 +167,12 @@ export class AttributeModelFormContainer extends React.Component {
           pattern: values.restriction.PATTERN.pattern,
         }
       }
+      if (values.restriction.JSON_SCHEMA && values.restriction.JSON_SCHEMA.active) {
+        restriction = {
+          type: 'JSON_SCHEMA',
+          jsonSchema: values.restriction.JSON_SCHEMA.jsonSchema,
+        }
+      }
     }
     return restriction
   }
@@ -184,6 +199,7 @@ export class AttributeModelFormContainer extends React.Component {
       type: values.type,
       precision: values.precision ? parseInt(values.precision, 10) : null,
       alterable: values.alterable,
+      esMapping: values.esMapping,
       optional: values.optional,
       unit: values.unit,
       restriction,
@@ -215,6 +231,7 @@ export class AttributeModelFormContainer extends React.Component {
       unit: values.unit,
       alterable: values.alterable,
       optional: values.optional,
+      esMapping: values.esMapping,
     }
     // Check if restriction is defined
     if (restriction.type) {

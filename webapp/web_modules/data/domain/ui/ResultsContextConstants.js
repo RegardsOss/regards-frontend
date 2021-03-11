@@ -104,6 +104,7 @@ const DEFAULT_RESULTS_CONTEXT = {
         entitiesSelection: [],
         tagsFiltering: [],
         requestFacets: [],
+        toponymCriteria: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
       types: {
@@ -136,6 +137,7 @@ const DEFAULT_RESULTS_CONTEXT = {
         entitiesSelection: [],
         tagsFiltering: [],
         requestFacets: [],
+        toponymCriteria: [],
       },
       selectedType: ENTITY_TYPES_ENUM.DATA,
       types: {

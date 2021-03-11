@@ -35,6 +35,7 @@ export { ModelConfiguration, MODEL, MODEL_ARRAY } from './schemas/Model'
 export { ACCESSES_ARRAY, ACCESSES, AccessesConfiguration } from './schemas/Accesses'
 export { ATTRIBUTE_MODEL_ARRAY, ATTRIBUTE_MODEL, AttributeModelConfiguration } from './dam/AttributeModel'
 export { ATTRIBUTE_MODEL_RESTRICTION_ARRAY, ATTRIBUTE_MODEL_RESTRICTION, AttributeModelRestrictionConfiguration } from './dam/AttributeModelRestriction'
+export { SERVICE_PROVIDER, SERVICE_PROVIDER_ARRAY, ServiceProviderConfiguration } from './schemas/ServiceProvider'
 // Access
 export { MODULE, MODULE_ARRAY, ModuleConfiguration } from './access/Module'
 export { LAYOUT, LAYOUT_ARRAY, LayoutConfiguration } from './access/Layout'
@@ -42,6 +43,9 @@ export { LINK_UI_PLUGIN_DATASET, LINK_UI_PLUGIN_DATASET_ARRAY, LinkUIPluginDatas
 export { THEME, THEME_ARRAY, ThemeConfiguration } from './access/Theme'
 export { PLUGIN_ARRAY, PLUGIN, PluginConfiguration } from './access/Plugin'
 export { UI_PLUGIN_CONFIGURATION, UI_PLUGIN_CONFIGURATION_ARRAY, UIPluginConfConfiguration } from './access/UIPluginConf'
+export {
+  SEARCH_TOPONYM, SEARCH_TOPONYM_ARRAY, TOPONYM, TOPONYM_ARRAY, ToponymConfiguration,
+} from './access/Toponym'
 // DAM
 export { FragmentConfiguration, FRAGMENT, FRAGMENT_ARRAY } from './dam/Fragment'
 export { DatasetConfiguration, DATASET, DATASET_ARRAY } from './dam/Dataset'

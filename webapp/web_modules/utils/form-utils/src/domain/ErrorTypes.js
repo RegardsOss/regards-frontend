@@ -35,6 +35,7 @@ export default {
   TYPE_STRING: 'type.string',
   LOWER_THAN_MIN: 'invalid.number.lower.than.min',
   GREATER_THAN_MAX: 'invalid.number.greater.than.max',
+  INVALIDE_STRING_NO_SPACE_NO_SPECIAL: 'invalid.string.no.space.no.special',
   INVALID_INTEGER_NUMBER: 'invalid.integer.number',
   INVALID_POSITIVE_INTEGER_NUMBER: 'invalid.positive.integer.number',
   INVALID_FLOATING_NUMBER: 'invalid.floating.number',

@@ -32,39 +32,125 @@ pipeline {
     agent { label 'unix-integration' }
 
     stages {
-        stage('Install') {
+        stage('Create build image') {
             steps {
                 sh 'cd jenkins/node && docker build -t rs_node . && chmod -R 0777 ${WORKSPACE}/webapp'
-                sh 'docker run --rm -i \
-                    -v ${WORKSPACE}/npm_cacache:/root/.npm/ \
-                    -v ${WORKSPACE}/webapp:/app_to_build \
-                    rs_node ./install.sh'
+            }
+        }
+        stage('Install') {
+            steps {
+                parallel(
+                    webapp: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/npm_cacache:/root/.npm/ \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install.sh'
+                    },
+                    plugin_criterion_data_with_picture_only: {
+                        sh 'docker run --rm -i \
+                        -v ${WORKSPACE}/webapp:/app_to_build \
+                        rs_node ./install-plugin.sh criterion data-with-picture-only'
+                    },
+                    plugin_criterion_last_version: {
+                        sh 'docker run --rm -i \
+                        -v ${WORKSPACE}/webapp:/app_to_build \
+                        rs_node ./install-plugin.sh criterion last-version-only'
+                    },
+                    plugin_criterion_enumerated: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion enumerated'
+                    },
+                    plugin_criterion_full_text: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion full-text'
+                    }
+                )
+            }
+        }
+        stage('Install - 2') {
+            steps {
+                parallel(
+                    plugin_criterion_numerical: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion numerical'
+                    },
+                    plugin_criterion_string: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion string'
+                    },
+                    plugin_criterion_temporal: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion temporal'
+                    },
+                    plugin_criterion_two_numerical: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion two-numerical'
+                    },
+                    plugin_criterion_two_temporal: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion two-temporal'
+                    }
+                )
+            }
+        }
+        stage('Install - 3') {
+            steps {
+                parallel(
+                    plugin_criterion_toponym: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion toponym'
+                    },
+                    plugin_service_example: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh service example'
+                    },
+                    plugin_service_fem_delete: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh service fem-delete'
+                    },
+                    plugin_service_fem_notify: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh service fem-notify'
+                    },
+                    plugin_service_fem_edit: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh service fem-edit'
+                    }
+                )
             }
         }
         stage('Build') {
             steps {
                 parallel(
                     webapp: {
-                        sh 'docker run \
-                            --rm -i \
+                        sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_webapp.sh'
                     },
                     plugin_criterion_data_with_picture_only: {
-                        sh 'docker run \
-                        --rm -i \
+                        sh 'docker run --rm -i \
                         -v ${WORKSPACE}/webapp:/app_to_build \
                         rs_node ./build_plugin.sh criterion/data-with-picture-only'
                     },
                     plugin_criterion_last_version: {
-                        sh 'docker run \
-                        --rm -i \
+                        sh 'docker run --rm -i \
                         -v ${WORKSPACE}/webapp:/app_to_build \
                         rs_node ./build_plugin.sh criterion/last-version-only'
                     },
                     plugin_criterion_enumerated: {
-                        sh 'docker run \
-                            --rm -i \
+                        sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/enumerated'
                     },
@@ -97,6 +183,11 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/two-temporal'
+                    },
+                    plugin_criterion_toponym: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh criterion/toponym'
                     },
                     plugin_service_example: {
                         sh 'docker run --rm -i \

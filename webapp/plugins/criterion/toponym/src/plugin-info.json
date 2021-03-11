@@ -1,0 +1,15 @@
+{
+  "name": "toponym-criteria",
+  "description": "Limit search to products contained in toponym area",
+  "version": "1.0.0",
+  "author": "Theo Lasserre",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "email": "regards@c-s.fr",
+  "url": "http://www.cnes.fr",
+  "license": "GPL-3.0",
+  "type": "CRITERIA",
+  "conf": {}
+}

@@ -80,7 +80,7 @@ export function clickOnEntitiesHandler(selectedEntities, onProductSelected, onFe
  * @param {*} layer
  * @param {*} mapEngine either Cesium or Mizar
  */
-function getBasicLayerInfo(layer, mapEngine, background) {
+function getBasicLayerInfo(layer, mapEngine, layerType) {
   // Common attributes
   let basicLayerInfo = {
     type: layer.type,
@@ -92,7 +92,7 @@ function getBasicLayerInfo(layer, mapEngine, background) {
     case UIDomain.MAP_ENGINE_ENUM.MIZAR:
       basicLayerInfo = {
         ...basicLayerInfo,
-        background,
+        background: layerType === UIDomain.MAP_LAYER_TYPES_ENUM.BACKGROUND,
         visible: true,
       }
       break
@@ -152,12 +152,12 @@ export function getLayersInfo(layers, layerType, viewMode, mapEngine) {
       if (!backgroundLayer || !backgroundLayer.type || !backgroundLayer.url) {
         throw new Error(`There is no background layer for ${viewMode}`)
       }
-      return getBasicLayerInfo(backgroundLayer, mapEngine, true)
+      return getBasicLayerInfo(backgroundLayer, mapEngine, layerType)
     }
     case UIDomain.MAP_LAYER_TYPES_ENUM.CUSTOM: {
       const customLayers = filter(layers, (layer) => !layer.background && layer.enabled && layer.layerViewMode === viewMode)
       return map(customLayers, (customLayer) => {
-        const customLayerInfo = getBasicLayerInfo(customLayer, mapEngine, false)
+        const customLayerInfo = getBasicLayerInfo(customLayer, mapEngine, layerType)
 
         switch (customLayer.type) {
           case UIDomain.CESIUM_LAYER_TYPES_ENUM.WMS || UIDomain.CESIUM_LAYER_TYPES_ENUM.WMTS
