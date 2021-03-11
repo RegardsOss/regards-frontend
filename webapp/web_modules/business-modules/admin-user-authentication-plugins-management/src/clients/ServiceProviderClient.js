@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -15,19 +15,17 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { Locales } from '@regardsoss/form-utils'
-import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
+ */
+import { AuthenticationClient } from '@regardsoss/client'
 
 /**
- * i18n messages French language
- * @author Léo Mieulet
+ * Service Provider entities client.
+ *
+ * @author Théo Lasserre
  */
-const messages = {
-  'map.admin.info': 'Vous pouvez consulter des exemples de configuration sur <a style="color: inherit;" href="https://github.com/MizarWeb/MizarWidget/tree/master/conf">le répository de MizarWidget</a>',
-  'map.admin.json-invalid': 'JSON invalide',
-  ...Locales.fr,
-  ...MetadataLocales.fr,
-}
+const ENTITIES_STORE_PATH = ['admin', 'user-management', 'authentication-plugins', 'service-providers']
+const REDUX_ACTION_NAMESPACE = 'admin-user-management/authentication-plugins-service-providers'
 
-export default messages
+export const serviceProviderReducer = AuthenticationClient.getServiceProviderReducer(REDUX_ACTION_NAMESPACE)
+export const serviceProviderActions = new AuthenticationClient.ServiceProviderActions(REDUX_ACTION_NAMESPACE)
+export const serviceProviderSelectors = AuthenticationClient.getServiceProviderSelectors(ENTITIES_STORE_PATH)

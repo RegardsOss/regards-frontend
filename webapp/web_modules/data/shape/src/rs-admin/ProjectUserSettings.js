@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { AdminDomain } from '@regardsoss/domain'
+import { Role } from './Role'
 
 /**
  * Project user settings shapes
@@ -28,6 +29,8 @@ export const ProjectUserSettings = PropTypes.shape({
   mode: PropTypes.oneOf(AdminDomain.PROJECT_USER_SETTINGS_MODE).isRequired,
   maxQuota: PropTypes.number, // [-1;+inf], -1 is unlimited. Not required as rs-storage may be offline
   rateLimit: PropTypes.number, // [-1;+inf], -1 is unlimited. Not required as rs-storage may be offline
+  role: Role,
+  groups: PropTypes.arrayOf(PropTypes.string),
 })
 
 export const ProjectUserSettingsWithContent = PropTypes.shape({

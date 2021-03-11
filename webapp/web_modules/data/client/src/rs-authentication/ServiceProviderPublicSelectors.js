@@ -15,11 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import en from './messages.en.i18n'
-import fr from './messages.fr.i18n'
+ */
+import { BasicPageableSelectors } from '@regardsoss/store-utils'
 
-export default {
-  en,
-  fr,
-}
+/**
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
+ */
+export default (storePath) => new BasicPageableSelectors(storePath)

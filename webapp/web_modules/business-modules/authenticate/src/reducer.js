@@ -16,24 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
-import {
-  adminContainer, moduleContainer, styles, messages,
-} from '../src/main'
+/**
+ * Combine all reducers for this aa to a single root reducer.
+ */
+import { combineReducers } from 'redux'
+import { authServiceProviderReducers } from './clients/AuthenticateServiceProviderClient'
+import { serviceProviderReducer } from './clients/ServiceProviderClient'
 
 /**
- * Tests for menu module interfaces
- * @author Léo Mieulet
+ * Authenticate redirection reducers
+ * @author Théo Lasserre
  */
-describe('[Map] Testing module interface', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
-
-  it('Should supply valid module interface', () => {
-    assert.isDefined(adminContainer, 'Module should define a main container for administration page')
-    assert.isDefined(moduleContainer, 'Module should define a main container')
-    assert.isDefined(styles, 'Module should define a styles file')
-    assert.isDefined(messages, 'Form module should define his internationalization messages')
-  })
+const authenticateRedirectionReducer = combineReducers({
+  'authenticate-service-providers': authServiceProviderReducers,
+  'service-providers': serviceProviderReducer,
 })
+
+export default authenticateRedirectionReducer

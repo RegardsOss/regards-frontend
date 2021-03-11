@@ -21,7 +21,7 @@ const webpack = require('webpack')
 
 const conf = webpackConfigurator
   .generateConfig({
-    mode: 'dll',
+    mode: 'dll_dev',
     projectContextPath: __dirname,
   })
   .cleanFolder()

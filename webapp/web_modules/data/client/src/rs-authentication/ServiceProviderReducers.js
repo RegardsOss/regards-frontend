@@ -15,18 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
+ **/
+import { BasicPageableReducers } from '@regardsoss/store-utils'
+import { ServiceProviderConfiguration } from '@regardsoss/api'
+import ServiceProviderActions from './ServiceProviderActions'
 
 /**
- * Styles for map module
- * @author Léo Mieulet
+ * Service provider reducer
+ * @author Théo Lasserre
  */
-const moduleStyles = (theme) => (
-  {
-    mizarConfStyle: {
-      height: '300px',
-      width: '100%',
-    },
-  })
+class ServiceProviderReducers extends BasicPageableReducers {
+  constructor(namespace) {
+    super(ServiceProviderConfiguration, new ServiceProviderActions(namespace))
+  }
+}
 
-export default moduleStyles
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new ServiceProviderReducers(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

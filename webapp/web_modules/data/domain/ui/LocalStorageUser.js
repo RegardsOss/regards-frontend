@@ -42,7 +42,7 @@ export default class LocalStorageUser {
         const expirationDate = get(storedUserObject, 'authenticationDate', 0) + expiresInMS
         // If token is not expired, use it to authenticate, otherwise remove it from localStorage
         if (expirationDate > Date.now()) {
-          return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate)
+          return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate, project, application)
         }
         LocalStorageUser.delete()
       } catch (exception) {

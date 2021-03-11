@@ -16,27 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { TableActions, getTableSelectors, getTableReducer } from '@regardsoss/components'
 
-/**
- * Module hateoas depencies
- * @author Léo Mieulet
- */
-/**
- * Mandatory Dependencies to display module in user interface
- * @type {Array}
- */
-const user = [
-  // there is no client for this endpoint
-  `${STATIC_CONF.MSERVICES.ACCESS_PROJECT}@/applications/{applicationId}/modules/{moduleId}/map@GET`,
-]
+const ENTITIES_STORE_PATH = ['admin', 'user-management', 'authentication-plugins', 'service-providers-table']
+const REDUX_ACTION_NAMESPACE = 'admin-user-management/service-providers-table'
 
-/**
- * Mandatory Dependencies to display module in admin interface
- * @type {Array}
- */
-const admin = []
-
-export default {
-  user,
-  admin,
-}
+export const tableActions = new TableActions(REDUX_ACTION_NAMESPACE)
+export const tableReducer = getTableReducer(REDUX_ACTION_NAMESPACE)
+export const tableSelectors = getTableSelectors(ENTITIES_STORE_PATH)

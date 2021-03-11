@@ -41,6 +41,7 @@ export default class MizarAdapter extends React.Component {
     layers: PropTypes.arrayOf(UIShapes.LayerDefinition).isRequired,
     featuresCollection: GeoJsonFeaturesCollection.isRequired,
     featuresColor: PropTypes.string,
+    // eslint-disable-next-line react/no-unused-prop-types
     customLayersOpacity: PropTypes.number,
     // selection management: when drawing selection is true, user draws a rectangle
     // during that gestion, onDrawingSelectionUpdated will be called for the component parent to update feedback through drawnAreas
@@ -57,13 +58,14 @@ export default class MizarAdapter extends React.Component {
     // view management
     viewMode: PropTypes.oneOf(UIDomain.MAP_VIEW_MODES).isRequired,
     // product selection management
+    // eslint-disable-next-line react/no-unused-prop-types
     selectedProducts: PropTypes.arrayOf(PropTypes.object),
     // eslint-disable-next-line react/no-unused-prop-types
     onProductSelected: PropTypes.func.isRequired,
     selectedFeatureColor: PropTypes.string.isRequired,
     selectedColorOutlineWidth: PropTypes.number,
     // toponym selection management
-    // eslint-disable-next-line react/forbid-prop-types
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
     selectedToponyms: PropTypes.object,
   }
 

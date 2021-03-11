@@ -21,6 +21,7 @@
  * /      -> PortalApp
  * /user  -> UserApp
  * /admin -> AdminApp
+ * /authenticate -> AuthenticateRedirectApp
  */
 const rootRouter = {
   path: '/',
@@ -28,6 +29,7 @@ const rootRouter = {
     require.ensure([], (require) => {
       const AdminPckg = require('@regardsoss/admin')
       const UserPckg = require('@regardsoss/user')
+      const AuthenticateRedirectionPckg = require('@regardsoss/authenticate')
       const notFoundRoutes = {
         path: '*',
         getComponent(otherNextState, ocb) {
@@ -37,7 +39,7 @@ const rootRouter = {
           })
         },
       }
-      cb(null, [AdminPckg.adminRouter, UserPckg.userRouter, notFoundRoutes])
+      cb(null, [AdminPckg.adminRouter, UserPckg.userRouter, AuthenticateRedirectionPckg.authenticateRedirectionRouter, notFoundRoutes])
     })
   },
   getIndexRoute(nextState, cb) {

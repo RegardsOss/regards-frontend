@@ -1,14 +1,13 @@
 {
-  "name": "@regardsoss-modules/map",
+  "name": "@regardsoss/authenticate",
   "version": "1.4.1-SNAPSHOT",
   "private": true,
   "sideEffects": false,
-  "description": "Display a map",
+  "description": "",
   "main": "src/main.js",
   "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],
-  "company": "CS SI",
-  "license": "GPL-V3"
+  "license": "GPL-3.0"
 }

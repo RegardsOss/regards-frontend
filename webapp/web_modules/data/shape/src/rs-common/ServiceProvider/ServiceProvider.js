@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { Locales } from '@regardsoss/form-utils'
-import { Locales as MetadataLocales } from '@regardsoss/user-metadata-common'
 
-/**
- * i18n messages english language
- * @author Léo Mieulet
- */
-const messages = {
-  'map.admin.info': 'You can consult some configuration examples on <a style="color: inherit;" href="https://github.com/MizarWeb/MizarWidget/tree/master/conf">the repository of MizarWidget</a>',
-  'map.admin.json-invalid': 'Invalid JSON',
-  ...Locales.en,
-  ...MetadataLocales.en,
-}
+import { PluginConfigurationContent } from '../Plugin/PluginConfiguration'
 
-export default messages
+export const ServiceProviderContent = PropTypes.shape({
+  name: PropTypes.string.isRequired,
+  authUrl: PropTypes.string.isRequired,
+  pluginConfiguration: PluginConfigurationContent,
+})
+
+export const ServiceProvider = PropTypes.shape({
+  content: ServiceProviderContent,
+})
+
+export const ServiceProviderList = PropTypes.objectOf(ServiceProvider)
+export const ServiceProviderArray = PropTypes.arrayOf(ServiceProvider)
