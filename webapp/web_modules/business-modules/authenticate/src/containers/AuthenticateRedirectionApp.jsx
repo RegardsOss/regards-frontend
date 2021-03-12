@@ -84,8 +84,6 @@ export class AuthenticateRedirectionApp extends React.Component {
       params: { project, serviceProviderName }, requestLogin,
     } = this.props
 
-    return
-
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
