@@ -20,18 +20,18 @@ import { AccessProjectClient } from '@regardsoss/client'
 import { ClientConfBuilder } from '@regardsoss/plugins-api'
 
 /**
- * Search toponyms client.
- *
- * @author Théo Lasserre
- */
+  * Upload toponym client.
+  *
+  * @author Théo Lasserre
+  */
 const pluginName = 'toponym-criteria'
 /**
-  * The store key used in reducer.js
-  */
-const storeKey = 'searchToponym'
-const actionsBuilder = (namespace) => new AccessProjectClient.SearchToponymActions(namespace)
-const reducerBuilder = (namespace) => AccessProjectClient.getSearchToponymReducer(namespace)
-const selectorsBuilder = (storePath) => AccessProjectClient.getSearchToponymSelectors(storePath)
+   * The store key used in reducer.js
+   */
+const storeKey = 'uploadToponym'
+const actionsBuilder = (namespace) => new AccessProjectClient.UploadToponymActions(namespace)
+const reducerBuilder = (namespace) => AccessProjectClient.getUploadToponymReducer(namespace)
+const selectorsBuilder = (storePath) => AccessProjectClient.getUploadToponymSelectors(storePath)
 
 // Provide to the ClientConfBuilder a way to create action, selector and reducer
 // These action, selector and reducer will be resolved on runtime with a local pluginInstanceId
@@ -41,11 +41,11 @@ const clientInfoBuilder = new ClientConfBuilder(pluginName, storeKey)
   .setReducerBuilder(reducerBuilder)
 
 // Expose searchToponym client
-export function getSearchToponymClient(pluginInstanceId) {
+export function getUploadToponymClient(pluginInstanceId) {
   return clientInfoBuilder.getClient(pluginInstanceId)
 }
 
 // Expose searchToponym reducer
-export function getSearchToponymReducer(pluginInstanceId) {
+export function getUploadToponymReducer(pluginInstanceId) {
   return clientInfoBuilder.getReducer(pluginInstanceId)
 }

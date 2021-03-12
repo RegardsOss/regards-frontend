@@ -3,10 +3,10 @@ const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const alias = require('../utils/alias')
-const cesiumSource = "node_modules/cesium/Source";
+
+const cesiumSource = 'node_modules/cesium/Source'
 
 module.exports = function (projectContextPath, mode = 'dev') {
-
   return {
     // Hide stats information from children during webpack compilation
     stats: { children: false },
@@ -58,7 +58,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
             /jquery-ui-dist\//,
             /string\//,
             /file-saver\//,
-            /jszip\//,
             /xmltojson\//,
             /jsvotable\//,
             /jscsv\//,
@@ -83,22 +82,22 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         // Special for Cesium
         mode === 'prod' ? {
-            // Strip cesium pragmas
-            test: /\.js$/,
-            enforce: "pre",
-            include: path.resolve(__dirname, cesiumSource),
-            use: [
-              {
-                loader: "strip-pragma-loader",
-                options: {
-                  pragmas: {
-                    debug: false,
-                  },
+          // Strip cesium pragmas
+          test: /\.js$/,
+          enforce: 'pre',
+          include: path.resolve(__dirname, cesiumSource),
+          use: [
+            {
+              loader: 'strip-pragma-loader',
+              options: {
+                pragmas: {
+                  debug: false,
                 },
               },
-            ],
-          }
-        : {},
+            },
+          ],
+        }
+          : {},
         {
           test: [
             /requirejs\//,
@@ -108,7 +107,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
             /jquery-ui-dist\//,
             /string\//,
             /file-saver\//,
-            /jszip\//,
             /xmltojson\//,
             /wms-capabilities\//,
             /moment\/min\//,
@@ -183,8 +181,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
     },
     // Import Cesium as an outside dependency in dev
     externals: mode === 'dev' ? {
-      cesium: "Cesium"
-    } :{},
+      cesium: 'Cesium',
+    } : {},
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically

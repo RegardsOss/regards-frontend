@@ -22,6 +22,7 @@ import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import find from 'lodash/find'
 import map from 'lodash/map'
+import { ToponymUploader, UPLOADER_DISPLAY_MODES } from '@regardsoss/components'
 import { CatalogDomain, UIDomain } from '@regardsoss/domain'
 import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -135,6 +136,7 @@ export class MapContainer extends React.Component {
     selectedProducts: [],
     /** Holds selected toponyms */
     selectedToponyms: [],
+    featureShapefile: MapContainer.buildGeoJSONFeatureCollection([]),
   }
 
   /**
@@ -406,7 +408,7 @@ export class MapContainer extends React.Component {
     } = this.props
     const {
       featuresCollection, currentlyDrawingAreas, criteriaAreas, selectedProducts,
-      selectedToponyms,
+      selectedToponyms, featureShapefile,
     } = this.state
 
     // pre: respects necessarily MapViewModeState shapes
@@ -416,26 +418,32 @@ export class MapContainer extends React.Component {
       },
     } = UIDomain.ResultsContextHelper.getViewData(resultsContext, tabType)
     return (
-      <MapComponent
-        featuresCollection={featuresCollection}
-        displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
-          ? currentlyDrawingAreas /* drawing: show feedback area */
-          : criteriaAreas /* not drawing: show criteria areas */}
-        selectionMode={selectionMode}
-        viewMode={viewMode}
-        onToggleViewMode={this.onToggleViewMode}
-        onToggleSelectionMode={this.onToggleSelectionMode}
-        onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
-        onDrawingSelectionDone={this.onDrawingSelectionDone}
-        onFeaturesPicked={this.onFeaturesPicked}
-        selectedProducts={selectedProducts}
-        onProductSelected={onProductSelected}
-        layers={layers}
-        mapEngine={mapEngine}
-        tabType={tabType}
-        onToponymSelected={this.onToponymSelected}
-        selectedToponyms={selectedToponyms}
-      />
+      <ToponymUploader
+        onToponymUploaded={this.onToponymSelected}
+        displayMode={UPLOADER_DISPLAY_MODES.LARGE}
+      >
+        <MapComponent
+          featuresCollection={featuresCollection}
+          displayedAreas={selectionMode === UIDomain.MAP_SELECTION_MODES_ENUM.DRAW_RECTANGLE
+            ? currentlyDrawingAreas /* drawing: show feedback area */
+            : criteriaAreas /* not drawing: show criteria areas */}
+          selectionMode={selectionMode}
+          viewMode={viewMode}
+          onToggleViewMode={this.onToggleViewMode}
+          onToggleSelectionMode={this.onToggleSelectionMode}
+          onDrawingSelectionUpdated={this.onDrawingSelectionUpdated}
+          onDrawingSelectionDone={this.onDrawingSelectionDone}
+          onFeaturesPicked={this.onFeaturesPicked}
+          selectedProducts={selectedProducts}
+          onProductSelected={onProductSelected}
+          layers={layers}
+          mapEngine={mapEngine}
+          tabType={tabType}
+          onToponymSelected={this.onToponymSelected}
+          selectedToponyms={selectedToponyms}
+          featureShapefile={featureShapefile}
+        />
+      </ToponymUploader>
     )
   }
 }

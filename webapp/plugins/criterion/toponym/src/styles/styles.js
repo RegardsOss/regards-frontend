@@ -30,5 +30,8 @@ export default function getStyles(theme) {
       marginRight: 20,
     },
     menuItem: getMenuItemStyle(theme),
+    trickStyle: {
+      fontStyle: 'italic',
+    },
   }
 }

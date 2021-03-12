@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AccessProjectClient } from '@regardsoss/client'
 import { ToponymCriterionContainer } from '../../src/containers/ToponymCriterionContainer'
 import styles from '../../src/styles/styles'
-import { AccessProjectClient } from '@regardsoss/client'
 import ToponymCriterionComponent from '../../src/components/ToponymCriterionComponent'
 
 const context = buildTestContext(styles)
@@ -56,8 +56,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
             labelEn: 'en',
             businessId: 'id',
             description: 'test',
-          }
-        }
+          },
+        },
       },
       currentLocale: UIDomain.LOCALES_ENUM.fr,
       publishState: () => { },
@@ -75,7 +75,7 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       isFetching: props.isFetching,
       onUpdateToponymsFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onToponymFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
-      currentLocale: UIDomain.LOCALES_ENUM.fr
+      currentLocale: UIDomain.LOCALES_ENUM.fr,
     }, 'Component properties should be correctly reported')
   })
   it('should render correctly with initial value', () => {
@@ -102,8 +102,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
             labelEn: 'en',
             businessId: 'id',
             description: 'test',
-          }
-        }
+          },
+        },
       },
       currentLocale: UIDomain.LOCALES_ENUM.fr,
       publishState: () => { },
@@ -121,7 +121,7 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       isFetching: props.isFetching,
       onUpdateToponymsFilter: enzymeWrapper.instance().onUpdateTextFilter, // callbacks
       onToponymFilterSelected: enzymeWrapper.instance().onFilterSelected, // callbacks
-      currentLocale: props.state.currentLocale
+      currentLocale: props.state.currentLocale,
     }, 'Component properties should be correctly reported')
   })
   it('should update list when mounting and state when user changed the text', () => {
@@ -157,8 +157,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
             labelFr: 'fr',
             labelEn: 'en',
             businessId: 'id',
-          }
-        }
+          },
+        },
       },
       currentLocale: UIDomain.LOCALES_ENUM.fr,
       publishState: (nextState, requestParameters) => {
@@ -232,8 +232,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
             labelFr: 'fr',
             labelEn: 'en',
             businessId: 'id',
-          }
-        }
+          },
+        },
       },
       currentLocale: UIDomain.LOCALES_ENUM.fr,
       publishState: (nextState, requestParameters) => {

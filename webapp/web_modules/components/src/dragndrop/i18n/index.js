@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,15 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getSearchToponymReducer } from './clients/SearchToponymClient'
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-/**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
- */
-export default function getReducer(pluginInstanceId) {
-  return {
-    searchToponym: getSearchToponymReducer(pluginInstanceId),
-  }
+export default {
+  en,
+  fr,
 }

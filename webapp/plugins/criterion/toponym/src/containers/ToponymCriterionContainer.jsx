@@ -68,15 +68,15 @@ export class ToponymCriterionContainer extends React.Component {
    * @return {*} list of component properties extracted from redux state
    */
   static mapDispatchToProps(dispatch, { searchToponymClient }) {
-    const { actions } = searchToponymClient
     return {
       // dispatches a request to get property values.
-      dispatchGetToponyms: (partialLabel = '', locale = '') => dispatch(actions.fetchEntityList({}, { partialLabel, locale })),
+      dispatchGetToponyms: (partialLabel = '', locale = '') => dispatch(searchToponymClient.actions.fetchEntityList({}, { partialLabel, locale })),
     }
   }
 
   static propTypes = {
     /** Current plugin search context */
+    // eslint-disable-next-line react/no-unused-prop-types
     searchContext: CatalogShapes.SearchContext.isRequired,
     // configured plugin label, where object key is locale and object value message
     label: UIShapes.IntlMessage.isRequired,
@@ -131,7 +131,7 @@ export class ToponymCriterionContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update current options on context change and selected option on list change
@@ -161,7 +161,7 @@ export class ToponymCriterionContainer extends React.Component {
       state, publishState, toponyms, currentLocale,
     } = this.props
     const error = !!searchText && !isToponymFound(toponyms, currentLocale, searchText)
-    let selectedToponymBusinessId = isSelected
+    const selectedToponymBusinessId = isSelected
       ? getSelectedToponymBusinessId(toponyms, currentLocale, searchText)
       : ToponymCriterionContainer.DEFAULT_STATE.selectedToponymBusinessId
     const nextState = {
@@ -169,7 +169,7 @@ export class ToponymCriterionContainer extends React.Component {
       currentLocale,
       toponymFilterText: searchText,
       selectedToponymBusinessId,
-      criteria: 'toponymCriteria'
+      criteria: 'toponymCriteria',
     }
 
     if (!isEqual(nextState, state)) {
@@ -190,6 +190,21 @@ export class ToponymCriterionContainer extends React.Component {
    */
   onFilterSelected = (text) => this.onTextInput(text, true)
 
+  onToponymUploaded = (selectedToponymBusinessId) => {
+    const {
+      state: { error, toponymFilterText },
+      currentLocale, publishState,
+    } = this.props
+    const nextState = {
+      error,
+      currentLocale,
+      toponymFilterText,
+      selectedToponymBusinessId,
+      criteria: 'toponymCriteria',
+    }
+    publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
+  }
+
   render() {
     const {
       label, state: { error, toponymFilterText },
@@ -205,6 +220,7 @@ export class ToponymCriterionContainer extends React.Component {
         onToponymFilterSelected={this.onFilterSelected}
         label={label}
         currentLocale={currentLocale}
+        onToponymUploaded={this.onToponymUploaded}
       />
     )
   }
@@ -213,5 +229,5 @@ export class ToponymCriterionContainer extends React.Component {
 export default withClient(
   // REDUX connected container
   connect(ToponymCriterionContainer.mapStateToProps,
-  ToponymCriterionContainer.mapDispatchToProps)(ToponymCriterionContainer),
+    ToponymCriterionContainer.mapDispatchToProps)(ToponymCriterionContainer),
 )
