@@ -88,12 +88,17 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   /** Lifecycle method component will mount, used here to initialize form values */
   UNSAFE_componentWillMount() {
     const { settings, initialize } = this.props
+    const groups = settings.groups || []
+    console.error('settinds', groups)
+    this.setState({
+      tempGroups: groups,
+    })
     initialize({
       mode: settings.mode,
       maxQuota: (settings.maxQuota || 0).toString(),
       rateLimit: (settings.rateLimit || 0).toString(),
       role: (settings.role.name || AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
-      groups: (settings.groups || []),
+      groups,
     })
   }
 
