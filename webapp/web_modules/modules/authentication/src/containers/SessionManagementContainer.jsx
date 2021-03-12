@@ -25,8 +25,11 @@ import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LocalStorageUser } from '@regardsoss/domain/ui'
+import { CommonShapes } from '@regardsoss/shape'
+import { isNull } from 'underscore'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
+import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
 
 /**
 * Session management container:
@@ -44,7 +47,9 @@ export class SessionManagementContainer extends React.Component {
     authentication: AuthenticateShape,
     // from mapStateToProps
     hasUnlockingError: PropTypes.bool,
+    serviceProviderList: CommonShapes.serviceProviderList,
     // from mapDispatchToProps
+    fetchServiceProviders: PropTypes.func.isRequired,
     fetchAuthenticate: PropTypes.func.isRequired,
     dispatchSessionLocked: PropTypes.func.isRequired,
     notifyAuthenticationChanged: PropTypes.func.isRequired,
@@ -73,6 +78,7 @@ export class SessionManagementContainer extends React.Component {
   UNSAFE_componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
     this.updateAuthenticationFromLocalStorage()
+    this.props.fetchServiceProviders()
     this.setState({
       initialized: true,
     })
@@ -114,7 +120,7 @@ export class SessionManagementContainer extends React.Component {
       if (get(auth, 'error')) {
         this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
       } else {
-        auth.external = true
+        auth.externalProvider = get(auth, 'service_provider_name')
         this.props.forceAuthentication(auth)
       }
     }
@@ -203,10 +209,12 @@ export class SessionManagementContainer extends React.Component {
 
   render() {
     const {
-      hasUnlockingError, authentication, onRequestClose, showLoginWindow, children,
+      hasUnlockingError, authentication, onRequestClose, showLoginWindow, children, serviceProviderList,
     } = this.props
     const { initialized } = this.state
     const sessionLocked = !!authentication.sessionLocked
+    const provider = get(authentication, 'result.service_provider_name', null)
+    const serviceProvider = get(serviceProviderList, provider, null)
     if (!initialized) {
       return null
     }
@@ -218,6 +226,7 @@ export class SessionManagementContainer extends React.Component {
         {
           sessionLocked
             ? <SessionLockedFormComponent
+                serviceProvider={serviceProvider}
                 hasUnlockingError={hasUnlockingError}
                 onUnlock={this.unlockSession}
             /> : children
@@ -230,6 +239,7 @@ export class SessionManagementContainer extends React.Component {
 const mapStateToProps = (state) => ({
   hasUnlockingError: AuthenticationClient.authenticationSelectors.hasError(state),
   authentication: AuthenticationClient.authenticationSelectors.getAuthentication(state),
+  serviceProviderList: serviceProviderSelectors.getList(state),
 })
 
 const mapDispatchToProps = (dispatch) => ({
@@ -239,6 +249,7 @@ const mapDispatchToProps = (dispatch) => ({
   notifyAuthenticationChanged: (authentication, authenticationDate) => dispatch(AuthenticationClient.authenticationActions.notifyAuthenticationChanged(authentication, authenticationDate)),
   logout: () => dispatch(AuthenticationClient.authenticationActions.logout()),
   throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
+  fetchServiceProviders: () => dispatch(serviceProviderActions.fetchPagedEntityList()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionManagementContainer)

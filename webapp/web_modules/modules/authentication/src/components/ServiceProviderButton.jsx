@@ -29,6 +29,7 @@ import RaisedButton from 'material-ui/RaisedButton/RaisedButton'
  */
 export class ServiceProviderButton extends React.Component {
   static propTypes = {
+    unlockStep: PropTypes.bool,
     serviceProvider: CommonShapes.ServiceProvider.isRequired,
   }
 
@@ -38,12 +39,12 @@ export class ServiceProviderButton extends React.Component {
   }
 
   render() {
-    const { serviceProvider } = this.props
+    const { serviceProvider, unlockStep } = this.props
     const { moduleTheme } = this.context
     return (
       <Link to={{ pathname: serviceProvider.content.authUrl }} target="_blank">
         <RaisedButton
-          label={this.context.intl.formatMessage({ id: 'authentication.external.button.label' }, { name: serviceProvider.content.name })}
+          label={this.context.intl.formatMessage({ id: unlockStep ? 'authentication.external.button.unlock.label' : 'authentication.external.button.label' }, { name: serviceProvider.content.name })}
           style={moduleTheme.serviceProviderButton}
           buttonStyle={moduleTheme.buttonStyle}
           overlayStyle={moduleTheme.overlayStyle}
