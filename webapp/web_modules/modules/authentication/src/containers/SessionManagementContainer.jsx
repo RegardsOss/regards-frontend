@@ -26,7 +26,6 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LocalStorageUser } from '@regardsoss/domain/ui'
 import { CommonShapes } from '@regardsoss/shape'
-import { isNull } from 'underscore'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 import { serviceProviderActions, serviceProviderSelectors } from '../clients/ServiceProviderClient'
@@ -47,7 +46,7 @@ export class SessionManagementContainer extends React.Component {
     authentication: AuthenticateShape,
     // from mapStateToProps
     hasUnlockingError: PropTypes.bool,
-    serviceProviderList: CommonShapes.serviceProviderList,
+    serviceProviderList: CommonShapes.ServiceProviderList,
     // from mapDispatchToProps
     fetchServiceProviders: PropTypes.func.isRequired,
     fetchAuthenticate: PropTypes.func.isRequired,

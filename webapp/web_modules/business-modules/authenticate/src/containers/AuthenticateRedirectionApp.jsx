@@ -84,14 +84,11 @@ export class AuthenticateRedirectionApp extends React.Component {
       params: { project, serviceProviderName }, requestLogin,
     } = this.props
 
-    console.error('authServiceProviderActions', authServiceProviderActions)
-
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
       if (code === null) {
         const errorMessage = 'Invalid null code for openId connect'
-        console.error(errorMessage)
         new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
         root.window.close()
       } else {
