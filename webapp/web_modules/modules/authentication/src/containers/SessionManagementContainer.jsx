@@ -69,6 +69,7 @@ export class SessionManagementContainer extends React.Component {
 
   state = {
     initialized: false,
+    externalAuthentication: null,
   }
 
   /**
@@ -113,15 +114,22 @@ export class SessionManagementContainer extends React.Component {
 
   onLocalStorageChanged = () => {
     const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE, true)
-    if (externalAuthentication != null) {
-      const auth = externalAuthentication.getAuthenticationInformations()
-      // error message
-      if (get(auth, 'error')) {
-        this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
-      } else {
-        auth.externalProvider = get(auth, 'service_provider_name')
-        this.props.forceAuthentication(auth)
+    // Check if changes on local storage is about authentication
+    if (get(externalAuthentication, 'authenticationDate') !== get(this.state.externalAuthentication, 'authenticationDate')) {
+      // Authentication information changed
+      if (externalAuthentication != null) {
+        const auth = externalAuthentication.getAuthenticationInformations()
+        // Check if authentication error is provided
+        if (get(auth, 'error')) {
+          this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
+        } else {
+          // No error, use local storage authentication information to authenticate user in application
+          // Add external provider to authentication information. Used to recover provider used to authenticate in case of session expired.
+          auth.externalProvider = get(auth, 'service_provider_name')
+          this.props.forceAuthentication(auth)
+        }
       }
+      this.setState({ externalAuthentication })
     }
   }
 
