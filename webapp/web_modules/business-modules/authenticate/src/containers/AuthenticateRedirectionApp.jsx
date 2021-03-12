@@ -74,13 +74,17 @@ export class AuthenticateRedirectionApp extends React.Component {
     return code
   }
 
-  UNSAFE_componentWillMount = () => {
+  UNSAFE_componentWillMount= () => {
+    // Redux store space init for user app
+    this.props.initializeApplication(this.props.params.project)
+  }
+
+  componentDidMount = () => {
     const {
-      params: { project, serviceProviderName }, initializeApplication, requestLogin,
+      params: { project, serviceProviderName }, requestLogin,
     } = this.props
 
-    // Redux store space init for user app
-    initializeApplication(project)
+    console.error('authServiceProviderActions', authServiceProviderActions)
 
     // Get auth token
     if (browserHistory) {
@@ -88,13 +92,15 @@ export class AuthenticateRedirectionApp extends React.Component {
       if (code === null) {
         const errorMessage = 'Invalid null code for openId connect'
         console.error(errorMessage)
-        new UIDomain.LocalStorageUser(errorMessage, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+        new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
         root.window.close()
       } else {
         requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
-          let storageObj = result.payload.message
+          let storageObj
           if (!result.error) {
             storageObj = result.payload
+          } else {
+            storageObj = { error: result.payload.message }
           }
           new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
           root.window.close()

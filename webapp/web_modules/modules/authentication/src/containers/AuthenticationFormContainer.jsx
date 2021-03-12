@@ -67,7 +67,10 @@ export class AuthenticationFormContainer extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    this.props.fetchServiceProviders()
+    // Fetch service providers configured for the current project
+    if (this.props.project != null && this.props.project !== 'instance') {
+      this.props.fetchServiceProviders()
+    }
   }
 
   onLoginRequest = ({ username, password }) => {

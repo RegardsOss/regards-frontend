@@ -25,7 +25,6 @@ export default class AuthenticateServiceProviderActions extends BasicSignalActio
   constructor(namespace) {
     super({
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.AUTHENTICATION}/serviceproviders/{name}/authenticate`,
-      resourcesEndpoint:
       namespace,
       bypassErrorMiddleware: true,
     })
