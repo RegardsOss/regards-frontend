@@ -89,7 +89,6 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   UNSAFE_componentWillMount() {
     const { settings, initialize } = this.props
     const groups = settings.groups || []
-    console.error('settinds', groups)
     this.setState({
       tempGroups: groups,
     })
