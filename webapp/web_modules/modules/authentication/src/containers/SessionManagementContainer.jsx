@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import root from 'window-or-global'
 import isEqual from 'lodash/isEqual'
 import { connect } from '@regardsoss/redux'
@@ -24,7 +25,6 @@ import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
 import { LocalStorageUser } from '@regardsoss/domain/ui'
-import isString from 'lodash/isString'
 import AuthenticationDialogComponent from '../components/AuthenticationDialogComponent'
 import SessionLockedFormComponent from '../components/SessionLockedFormComponent'
 
@@ -107,12 +107,16 @@ export class SessionManagementContainer extends React.Component {
   onWindowFocused = () => this.jobCheckingAuthenticationExpired(this.props.authentication)
 
   onLocalStorageChanged = () => {
-    const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE)
-    // error message
-    if (isString(externalAuthentication)) {
-      this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
-    } else {
-      this.props.forceAuthentication(externalAuthentication.getAuthenticationInformations())
+    const externalAuthentication = LocalStorageUser.retrieve(this.props.project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE, true)
+    if (externalAuthentication != null) {
+      const auth = externalAuthentication.getAuthenticationInformations()
+      // error message
+      if (get(auth, 'error')) {
+        this.props.throwError(this.context.intl.formatMessage({ id: 'authentication.error.CONNEXION_ERROR' }))
+      } else {
+        auth.external = true
+        this.props.forceAuthentication(auth)
+      }
     }
   }
 
