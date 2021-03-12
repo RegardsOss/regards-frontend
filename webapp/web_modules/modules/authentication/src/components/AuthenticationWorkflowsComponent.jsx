@@ -81,6 +81,8 @@ export default class AuthenticationStatesContainer extends React.Component {
     actionToken: PropTypes.string,
     // login screen title
     loginTitle: PropTypes.string.isRequired,
+    // Enable use of external service providers ?
+    enableServiceProviders: PropTypes.bool.isRequired,
     // show create account link?
     showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
@@ -146,6 +148,7 @@ export default class AuthenticationStatesContainer extends React.Component {
     const { currentView, currentMail } = this.state
     const {
       project, actionToken, loginTitle, showAskProjectAccess, showCancel, onCancelAction,
+      enableServiceProviders,
     } = this.props
 
     // 1 - render messages states first (to write a bit less code in switch!)
@@ -164,6 +167,7 @@ export default class AuthenticationStatesContainer extends React.Component {
             project={project}
             title={loginTitle}
             showAskProjectAccess={showAskProjectAccess}
+            enableServiceProviders={enableServiceProviders}
             showCancel={showCancel}
             onCancelAction={onCancelAction}
             onGotoCreateAccount={this.onGoto(viewStates.askProjectAccessFormView, true)}

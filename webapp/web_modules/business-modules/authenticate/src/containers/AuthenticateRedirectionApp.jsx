@@ -84,6 +84,8 @@ export class AuthenticateRedirectionApp extends React.Component {
       params: { project, serviceProviderName }, requestLogin,
     } = this.props
 
+    return
+
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
@@ -108,7 +110,26 @@ export class AuthenticateRedirectionApp extends React.Component {
 
   render() {
     return (
-      <div />
+      <div id="app" className="mainapp">
+        <div id="loader">
+          <div style={{ marginRight: '10px' }}>
+            Authenticating with
+            {' '}
+            {this.props.params.serviceProviderName}
+          </div>
+          <div className="sk-cube-grid">
+            <div className="sk-cube sk-cube1" />
+            <div className="sk-cube sk-cube2" />
+            <div className="sk-cube sk-cube3" />
+            <div className="sk-cube sk-cube4" />
+            <div className="sk-cube sk-cube5" />
+            <div className="sk-cube sk-cube6" />
+            <div className="sk-cube sk-cube7" />
+            <div className="sk-cube sk-cube8" />
+            <div className="sk-cube sk-cube9" />
+          </div>
+        </div>
+      </div>
     )
   }
 }

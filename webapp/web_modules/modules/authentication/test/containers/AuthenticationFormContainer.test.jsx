@@ -36,6 +36,7 @@ describe('[AUTHENTICATION] Testing AuthenticationFormContainer', () => {
       project: 'any',
       // form title
       title: 'any',
+      enableServiceProviders: true,
       // show create account link?
       showAskProjectAccess: true,
       showCancel: true,
