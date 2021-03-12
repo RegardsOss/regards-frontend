@@ -103,12 +103,16 @@ export class AuthenticationModuleContainer extends React.Component {
     } = this.props
     const { initialViewMode, initialEmail, actionToken } = this.state
 
+    // Only enable extenal service providers for user application
+    const enableServiceProviders = appName === UIDomain.APPLICATIONS_ENUM.USER
+
     // render in session management HOC (can override 'should show' if session is locked, controls dialog state and content)
     return (
       <SessionManagementContainer
         project={project}
         application={appName}
         onRequestClose={routeHelpers.isBackFromAuthenticationMail() ? null : onCancelAction}
+        enableServiceProviders={enableServiceProviders}
         showLoginWindow={showLoginWindow}
       >
         <AuthenticationWorkflowsComponent
@@ -116,7 +120,7 @@ export class AuthenticationModuleContainer extends React.Component {
           loginTitle={loginTitle}
           showCancel={showCancel}
           showAskProjectAccess={showAskProjectAccess}
-          enableServiceProviders={appName === UIDomain.APPLICATIONS_ENUM.USER}
+          enableServiceProviders={enableServiceProviders}
           onCancelAction={onCancelAction}
           initialMode={initialViewMode}
           initialEmail={initialEmail}

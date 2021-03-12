@@ -44,6 +44,7 @@ export class SessionManagementContainer extends React.Component {
     onRequestClose: PropTypes.func,
     children: PropTypes.element,
     authentication: AuthenticateShape,
+    enableServiceProviders: PropTypes.bool,
     // from mapStateToProps
     hasUnlockingError: PropTypes.bool,
     serviceProviderList: CommonShapes.ServiceProviderList,
@@ -63,6 +64,7 @@ export class SessionManagementContainer extends React.Component {
 
   static defaultProps = {
     project: '_default',
+    enableServiceProviders: false,
   }
 
   static SESSION_TIMEOUT_DURATION = 5000
@@ -78,12 +80,12 @@ export class SessionManagementContainer extends React.Component {
   UNSAFE_componentWillMount() {
     root.window.addEventListener('focus', this.onWindowFocused, false)
     this.updateAuthenticationFromLocalStorage()
-    this.props.fetchServiceProviders()
     this.setState({
       initialized: true,
     })
     // Only user application is connected to external authentication providers. Do not connect other application to the localStoragechange
-    if (this.props.application === UIDomain.APPLICATIONS_ENUM.USER) {
+    if (this.props.enableServiceProviders) {
+      this.props.fetchServiceProviders()
       root.window.addEventListener('storage', this.onLocalStorageChanged, false)
     }
   }
@@ -106,7 +108,7 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillUnmount() {
     root.window.removeEventListener('focus', this.onWindowFocused, false)
-    if (this.props.application === UIDomain.APPLICATIONS_ENUM.USER) {
+    if (this.props.enableServiceProviders) {
       root.window.removeEventListener('storage', this.onLocalStorageChanged, false)
     }
   }
