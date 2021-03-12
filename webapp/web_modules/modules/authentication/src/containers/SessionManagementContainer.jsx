@@ -82,7 +82,10 @@ export class SessionManagementContainer extends React.Component {
     this.setState({
       initialized: true,
     })
-    root.window.addEventListener('storage', this.onLocalStorageChanged, false)
+    // Only user application is connected to external authentication providers. Do not connect other application to the localStoragechange
+    if (this.props.application === UIDomain.APPLICATIONS_ENUM.USER) {
+      root.window.addEventListener('storage', this.onLocalStorageChanged, false)
+    }
   }
 
   /**
@@ -103,7 +106,9 @@ export class SessionManagementContainer extends React.Component {
    */
   componentWillUnmount() {
     root.window.removeEventListener('focus', this.onWindowFocused, false)
-    root.window.removeEventListener('storage', this.onLocalStorageChanged, false)
+    if (this.props.application === UIDomain.APPLICATIONS_ENUM.USER) {
+      root.window.removeEventListener('storage', this.onLocalStorageChanged, false)
+    }
   }
 
   /**
