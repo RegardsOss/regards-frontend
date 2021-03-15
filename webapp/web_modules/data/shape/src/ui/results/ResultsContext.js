@@ -21,9 +21,9 @@ import {
 } from '@regardsoss/domain'
 import { RequestParameters } from '../../rs-common/RequestParameters'
 import { AttributeModel, AttributeModelContent } from '../../rs-dam/AttributeModel'
-import { EntityWithServices } from '../../rs-access/EntityWithServices'
 import { Entity } from '../../rs-catalog/entity/Entity'
 import { LayerDefinition } from '../LayerDefinition'
+import { DescriptionTreeEntry, EntityWithTreeEntry } from '../EntityWithTreeEntry'
 
 /**
  * Defines results module context definition
@@ -340,9 +340,10 @@ export const ResultsTab = PropTypes.shape({
  * Description results tab model
  */
 export const DescriptionTabModel = PropTypes.shape({
+  unresolvedTreeEntry: DescriptionTreeEntry,
   unresolvedRootEntityId: PropTypes.string, // used when entity from URL could not be resolved at loading time
   // Entities in current description path (empty when no description)
-  descriptionPath: PropTypes.arrayOf(EntityWithServices).isRequired,
+  descriptionPath: PropTypes.arrayOf(EntityWithTreeEntry).isRequired,
   // Displayed entity index in current description path
   selectedIndex: PropTypes.number.isRequired,
 })

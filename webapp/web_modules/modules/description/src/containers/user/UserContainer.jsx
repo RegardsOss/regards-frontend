@@ -18,10 +18,12 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { CatalogClient, AccessProjectClient } from '@regardsoss/client'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
+import { ContextStorageHelper } from '@regardsoss-modules/search-results/src/containers/user/context/ContextStorageHelper'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
@@ -131,7 +133,7 @@ export class UserContainer extends React.Component {
       return
     }
 
-    const { accessToken, projectName, moduleConf: { runtime: { descriptionPath } } } = newProps
+    const { accessToken, projectName, moduleConf: { runtime: { selectedIndex, descriptionPath } } } = newProps
     const { accessToken: oldAccessToken, projectName: oldProjectName, moduleConf: oldModuleConf } = oldProps
     const oldDescriptionPath = get(oldModuleConf, 'runtime.descriptionPath', [])
     if (!isEqual(accessToken, oldAccessToken)
@@ -142,24 +144,32 @@ export class UserContainer extends React.Component {
       // 2. Path changed, rebuild new elements and reuse previous ones when unchanged
       this.onDescriptionRequestUpdated(newProps, false)
     }
+
+    const oldSelectedTreeEntry = get(oldProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
+    const newSelectedTreeEntry = get(newProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
+    if (!isEmpty(newSelectedTreeEntry) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
+      const { section, child } = newSelectedTreeEntry
+      ContextStorageHelper.replaceQueryParam('eds', `${section}${child !== null ? `,${child}` : ''}`)
+    }
   }
 
   /**
    * On description path updated: update resolved models list and updates state
-   * @param {*} props component properties to consider,
+   * @param {*} newDescriptionState component properties to consider,
    * @param {boolean} reloading true when reloading on inner event: in such case, index in path should be preseved and all entities should be updated
    */
   onDescriptionRequestUpdated = ({
     accessToken, projectName, descriptionState, settings,
-    moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration },
+    moduleConf: { runtime: { selectedIndex, descriptionPath }, ...moduleConfiguration },
     fetchModelAttributes, fetchEntity, fetchAllEntityVersions, setModuleDescriptionPath,
   }, reloading) => {
     // A - Mark loading the elements that need to be reloaded
-    const loadingDescriptionPath = descriptionPath.map((entity) => {
+    const loadingDescriptionPath = descriptionPath.map((entityWithTreeEntry) => {
+      const { entity } = entityWithTreeEntry
       const previousDescriptionModel = reloading ? null
-        : descriptionState.descriptionPath.find((descriptionEntity) => descriptionEntity.entity.content.id === entity.content.id)
+        : descriptionState.descriptionPath.find((descriptionEntity) => descriptionEntity.entityWithTreeEntry.entity.content.id === entity.content.id)
       // fallback on initial loading model when reloading or not found
-      return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entity)
+      return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entityWithTreeEntry)
     })
     setModuleDescriptionPath(loadingDescriptionPath)
 
@@ -187,7 +197,7 @@ export class UserContainer extends React.Component {
     const { descriptionState, setModuleDescriptionPath } = this.props
     if (this.descriptionUpdateGroupId === descriptionUpdateGroupId) {
       setModuleDescriptionPath(descriptionState.descriptionPath
-        .map((pathEntity) => pathEntity.entity.content.id === descriptionEntity.entity.content.id ? descriptionEntity : pathEntity))
+        .map((pathEntity) => pathEntity.entityWithTreeEntry.entity.content.id === descriptionEntity.entityWithTreeEntry.entity.content.id ? descriptionEntity : pathEntity))
     }
   }
 
@@ -199,7 +209,7 @@ export class UserContainer extends React.Component {
    */
   onSelectInnerLink = (section, child) => {
     const { moduleConf: { runtime: { selectedIndex } }, descriptionState, setSelectedTreeEntry } = this.props
-    const { selectedTreeEntry } = descriptionState.descriptionPath[selectedIndex]
+    const { entityWithTreeEntry: { selectedTreeEntry } } = descriptionState.descriptionPath[selectedIndex]
     if (selectedTreeEntry.section !== section || selectedTreeEntry.child !== child) {
       setSelectedTreeEntry(selectedIndex, { section, child })
     }
@@ -214,7 +224,7 @@ export class UserContainer extends React.Component {
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
-    const foundEntityIndex = descriptionPath.findIndex((pathEntity) => pathEntity.content.id === entity.content.id)
+    const foundEntityIndex = descriptionPath.findIndex((pathEntity) => pathEntity.entityWithTreeEntry.entity.content.id === entity.content.id)
     if (foundEntityIndex >= 0) {
       // 1.a - Yes: just update the displayed index
       setDescriptionPath(descriptionPath, foundEntityIndex)

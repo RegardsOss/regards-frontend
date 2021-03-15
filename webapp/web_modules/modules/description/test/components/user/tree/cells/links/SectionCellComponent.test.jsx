@@ -18,11 +18,11 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
+import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import SectionCellComponent from '../../../../../../src/components/user/tree/cells/links/SectionCellComponent'
 import TreeLinkComponent from '../../../../../../src/components/user/tree/cells/links/TreeLinkComponent'
 import styles from '../../../../../../src/styles'
-import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
 
 const context = buildTestContext(styles)
 
@@ -40,7 +40,7 @@ describe('[Description] Testing SectionCellComponent', () => {
   it('should render correctly selected', () => {
     const spyOnSelectInnerLink = {}
     const props = {
-      type: BROWSING_SECTIONS_ENUM.PARAMETERS,
+      type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
       selected: true,
       onSelectInnerLink: (section) => {
         spyOnSelectInnerLink.section = section
@@ -63,7 +63,7 @@ describe('[Description] Testing SectionCellComponent', () => {
   })
   it('should render correctly unselected', () => {
     const props = {
-      type: BROWSING_SECTIONS_ENUM.INFORMATION,
+      type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
       selected: false,
       onSelectInnerLink: () => {},
     }

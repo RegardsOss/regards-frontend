@@ -62,7 +62,7 @@ class BreadcrumbLinkComponent extends React.Component {
         },
       },
     } = this.context
-    const { settings, descriptionEntity: { entity }, selected } = this.props
+    const { settings, descriptionEntity: { entityWithTreeEntry: { entity } }, selected } = this.props
     // Select icon constructor for current entity type
     const IconConstructor = EntityTypeIcon.getIconConstructor(entity,
       UIDomain.isDocumentEntity(settings, entity))

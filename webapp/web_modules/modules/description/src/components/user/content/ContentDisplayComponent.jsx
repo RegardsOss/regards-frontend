@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import { UIDomain } from '@regardsoss/domain'
 import ErrorMessageIcon from 'mdi-material-ui/EmoticonSadOutline'
 import { themeContextType } from '@regardsoss/theme'
 import { ContentLoadingComponent, URIContentDisplayer, NoContentComponent } from '@regardsoss/components'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
-import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
 import ParametersSectionComponent from './parameters/ParametersSectionComponent'
 import TagsSectionPageComponent from './list/tag/TagsSectionPageComponent'
 import EntitiesSectionPageComponent from './list/entity/EntitiesSectionPageComponent'
@@ -85,7 +85,7 @@ class ContentDisplayComponent extends React.Component {
     }
     // Show content on current path
     const {
-      selectedTreeEntry: { section, child },
+      entityWithTreeEntry: { selectedTreeEntry: { section, child } },
       displayModel: {
         thumbnail, attributesGroups, descriptionFiles, quicklookFiles,
         otherFiles, wordTags, couplingTags, linkedEntities,
@@ -94,25 +94,25 @@ class ContentDisplayComponent extends React.Component {
     } = descriptionEntity
 
     switch (section) {
-      case BROWSING_SECTIONS_ENUM.PARAMETERS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS:
         return <ParametersSectionComponent thumbnail={thumbnail} attributesGroups={attributesGroups} scrollAreaHeight={scrollAreaHeight} />
-      case BROWSING_SECTIONS_ENUM.QUICKLOOKS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS:
         return <QuicklookViewComponent quicklookFiles={quicklookFiles} scrollAreaHeight={scrollAreaHeight} />
-      case BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS:
         return <TagsSectionPageComponent
           tags={wordTags}
           allowSearching={allowSearching}
           onSearchWord={onSearchWord}
           scrollAreaHeight={scrollAreaHeight}
         />
-      case BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS:
         return <TagsSectionPageComponent
           tags={couplingTags}
           allowSearching={allowSearching}
           onSearchWord={onSearchWord}
           scrollAreaHeight={scrollAreaHeight}
         />
-      case BROWSING_SECTIONS_ENUM.LINKED_ENTITIES:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES:
         return <EntitiesSectionPageComponent
           entities={linkedEntities}
           isDescriptionAllowed={isDescriptionAllowed}
@@ -121,7 +121,7 @@ class ContentDisplayComponent extends React.Component {
           onSelectEntityLink={onSelectEntityLink}
           scrollAreaHeight={scrollAreaHeight}
         />
-      case BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS:
         return (
           <EntitiesSectionPageComponent
             entities={linkedDocuments}
@@ -131,7 +131,7 @@ class ContentDisplayComponent extends React.Component {
             onSelectEntityLink={onSelectEntityLink}
             scrollAreaHeight={scrollAreaHeight}
           />)
-      case BROWSING_SECTIONS_ENUM.INFORMATION:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION:
         return isNil(child) ? (
           <FilesSectionPageComponent
             section={section}
@@ -139,7 +139,7 @@ class ContentDisplayComponent extends React.Component {
             onSelectInnerLink={onSelectInnerLink}
             scrollAreaHeight={scrollAreaHeight}
           />) : <URIContentDisplayer uri={descriptionFiles[child].uri} />
-      case BROWSING_SECTIONS_ENUM.FILES:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES:
         return isNil(child) ? (
           <FilesSectionPageComponent
             section={section}
@@ -147,7 +147,7 @@ class ContentDisplayComponent extends React.Component {
             onSelectInnerLink={onSelectInnerLink}
             scrollAreaHeight={scrollAreaHeight}
           />) : <URIContentDisplayer uri={otherFiles[child].uri} />
-      case BROWSING_SECTIONS_ENUM.OTHER_VERSIONS:
+      case UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS:
         return (
           <VersionSectionPageComponent
             entities={otherVersions}

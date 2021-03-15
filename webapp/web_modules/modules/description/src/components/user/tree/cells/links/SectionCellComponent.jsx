@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
-import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import TreeLinkComponent from './TreeLinkComponent'
 
 /**
@@ -26,7 +26,7 @@ import TreeLinkComponent from './TreeLinkComponent'
  */
 class SectionCellComponent extends React.Component {
   static propTypes = {
-    type: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
+    type: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS).isRequired,
     selected: PropTypes.bool.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
     onSelectInnerLink: PropTypes.func.isRequired,

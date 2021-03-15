@@ -16,9 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-export { IntlMessage, OptionalIntlMessage } from './IntlMessage'
-export * from './results/ResultsContext'
-export * from './QuicklookDefinition'
-export { LayerDefinition } from './LayerDefinition'
-export { UISettings } from './UISettings'
-export { EntityWithTreeEntry, DescriptionTreeEntry } from './EntityWithTreeEntry'
+import { UIDomain } from '@regardsoss/domain'
+import { Entity } from '../rs-catalog'
+
+/** description tree entry */
+export const DescriptionTreeEntry = PropTypes.shape({
+  // selected section
+  section: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS),
+  // index of the selected child (null if parent is selected)
+  child: PropTypes.number,
+})
+
+export const EntityWithTreeEntry = PropTypes.shape({
+  entity: Entity.isRequired,
+  selectedTreeEntry: DescriptionTreeEntry,
+})

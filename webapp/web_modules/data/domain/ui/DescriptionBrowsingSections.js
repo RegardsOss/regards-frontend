@@ -22,7 +22,7 @@ import values from 'lodash/values'
  * Available sections for browsing in description
  * @author Raphaël Mechali
  */
-export const BROWSING_SECTIONS_ENUM = {
+export const DESCRIPTION_BROWSING_SECTIONS_ENUM = {
   PARAMETERS: 'PARAMETERS',
   INFORMATION: 'INFORMATION',
   QUICKLOOKS: 'QUICKLOOKS',
@@ -35,4 +35,4 @@ export const BROWSING_SECTIONS_ENUM = {
 }
 
 /** All possible value */
-export const BROWSING_SECTIONS = values(BROWSING_SECTIONS_ENUM)
+export const DESCRIPTION_BROWSING_SECTIONS = values(DESCRIPTION_BROWSING_SECTIONS_ENUM)

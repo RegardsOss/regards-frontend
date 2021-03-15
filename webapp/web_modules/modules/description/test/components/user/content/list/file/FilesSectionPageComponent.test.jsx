@@ -19,9 +19,9 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { UIDomain } from '@regardsoss/domain'
 import FilesSectionPageComponent from '../../../../../../src/components/user/content/list/file/FilesSectionPageComponent'
 import styles from '../../../../../../src/styles'
-import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
 import { resolvedDataEntity } from '../../../../../dumps/resolved.dump'
 import ListSectionPageComponent from '../../../../../../src/components/user/content/list/common/ListSectionPageComponent'
 
@@ -41,7 +41,7 @@ describe('[Description] Testing FilesSectionPageComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-      section: BROWSING_SECTIONS_ENUM.FILES,
+      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
       files: resolvedDataEntity.displayModel.otherFiles,
       scrollAreaHeight: 760,
       onSelectInnerLink: () => {},

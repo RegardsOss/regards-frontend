@@ -127,6 +127,7 @@ export class DescriptionContainer extends React.Component {
     const descriptionState = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
     const oldDescriptionState = get(oldProps.resultsContext, `tabs.${UIDomain.RESULTS_TABS_ENUM.DESCRIPTION}`, {})
 
+    // console.log('description', descriptionState.descriptionPath)
     // 3 - When module or path changed, update state to store them and pre computed module properties
     if (!isEqual(this.state.descriptionModule, descriptionModule)
       || !isEqual(oldDescriptionState, descriptionState)) {

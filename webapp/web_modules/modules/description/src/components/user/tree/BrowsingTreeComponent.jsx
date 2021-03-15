@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import isNil from 'lodash/isNil'
+import { UIDomain } from '@regardsoss/domain'
 import { TableHeaderColumn, TableRowColumn } from 'material-ui/Table'
 import { themeContextType } from '@regardsoss/theme'
 import { ScrollArea } from '@regardsoss/adapters'
 import { TreeTableComponent, TreeTableRow } from '@regardsoss/components'
-import { BROWSING_SECTIONS_ENUM } from '../../../domain/BrowsingSections'
 import { DescriptionEntity } from '../../../shapes/DescriptionState'
 import SectionCellComponent from './cells/links/SectionCellComponent'
 import FileCellComponent from './cells/links/FileCellComponent'
@@ -62,7 +62,7 @@ class BrowsingTreeComponent extends React.Component {
   /** Possible cell types */
   static CELL_TYPES = {
     // Cell for sections
-    ...BROWSING_SECTIONS_ENUM,
+    ...UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM,
     // Cells for sub sections
     FILE: 'FILE',
     DOWNLOAD_FILE: 'DOWNLOAD_FILE',
@@ -105,7 +105,7 @@ class BrowsingTreeComponent extends React.Component {
    * Is entry selected?
    * @param {string} sectionType entry section type from  BROWSING_SECTIONS_ENUM
    * @param {number} childIndex child index (null / undefined for a section entry)
-   * @param {*} selectedTreeEntry currently selected tree entry, matching DescriptionState.TreeEntryPointer shape
+   * @param {*} selectedTreeEntry currently selected tree entry, matching DescriptionState.entityWithTreeEntry.TreeEntryPointer shape
    * @return {boolean} true when entry is selected, false otherwise
    */
   static isSelectedEntry(sectionType, childIndex, selectedTreeEntry) {
@@ -117,7 +117,7 @@ class BrowsingTreeComponent extends React.Component {
   /**
    * Builds a link section section row (no sub rows)
    * @param {string} type section type, from BROWSING_SECTIONS_ENUM
-   * @param {*} selectedTreeEntry currently selected tree entry, matching DescriptionState.TreeEntryPointer shape
+   * @param {*} selectedTreeEntry currently selected tree entry, matching DescriptionState.entityWithTreeEntry.TreeEntryPointer shape
    * @return {TreeTableRow} built tree table row for section or null when not available
    */
   static buildLinkSectionRow(type, selectedTreeEntry) {
@@ -192,7 +192,9 @@ class BrowsingTreeComponent extends React.Component {
    * @return {[*]} rows to display
    */
   buildTreeTableRows = ({
-    selectedTreeEntry,
+    entityWithTreeEntry: {
+      selectedTreeEntry,
+    },
     displayModel: {
       descriptionFiles,
       quicklookFiles,
@@ -205,36 +207,36 @@ class BrowsingTreeComponent extends React.Component {
     },
   }) => [
     // 1 - Parameters section row
-    BrowsingTreeComponent.buildLinkSectionRow(BROWSING_SECTIONS_ENUM.PARAMETERS, selectedTreeEntry),
+    BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, selectedTreeEntry),
     // 2 - Information files section if there are any
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.INFORMATION, BrowsingTreeComponent.CELL_TYPES.FILE, descriptionFiles,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION, BrowsingTreeComponent.CELL_TYPES.FILE, descriptionFiles,
       BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
     // 3 - Quicklooks
-    quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(BROWSING_SECTIONS_ENUM.QUICKLOOKS, selectedTreeEntry) : null,
+    quicklookFiles.length ? BrowsingTreeComponent.buildLinkSectionRow(UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS, selectedTreeEntry) : null,
     // 4 - Simple tags
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.SIMPLE_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, wordTags,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, wordTags,
       BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
     // 5 - Linked entities
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.LINKED_ENTITIES, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedEntities,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedEntities,
       BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
     // 6 - Coupling tags
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.COUPLED_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, couplingTags,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS, BrowsingTreeComponent.CELL_TYPES.TAG, couplingTags,
       BrowsingTreeComponent.buildTagOptionCellModel, selectedTreeEntry),
     // 7 - Linked documents
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedDocuments,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS, BrowsingTreeComponent.CELL_TYPES.ENTITY, linkedDocuments,
       BrowsingTreeComponent.buildEntityOptionCellModel, selectedTreeEntry),
     // 8 - Other files
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES, BrowsingTreeComponent.CELL_TYPES.FILE,
       otherFiles, BrowsingTreeComponent.buildFileOptionCellModel, selectedTreeEntry),
     // 9 - Other entity versions
     BrowsingTreeComponent.buildlListSectionRow(
-      BROWSING_SECTIONS_ENUM.OTHER_VERSIONS, BrowsingTreeComponent.CELL_TYPES.VERSION, otherVersions,
+      UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS, BrowsingTreeComponent.CELL_TYPES.VERSION, otherVersions,
       null, selectedTreeEntry),
   ].filter((row) => !!row) // remove null rows
 
