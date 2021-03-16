@@ -39,6 +39,7 @@ const messages = {
   'dataaccess.searchengines.info.content.dataset': 'Ce protocole vous permet de rechercher des données contenues dans le jeu de données {label}. Pour ce faire vous devez utiliser le point d\'accès ci-dessous.',
   'dataaccess.searchengines.info.test': 'Cliquer ici pour tester une recherche avec ce protocole',
   'dataaccess.searchengines.info.test.descriptor': 'Cliquer ici pour consulter le descripteur du protocole',
+  'dataaccess.searchengines.info.test.stac': 'Cliquer ici pour naviguer dans le catalogue STAC',
   'dataaccess.searchengines.info.close': 'Fermer',
 
   'dataaccess.searchengines.form.create.title': 'Configurer un protocole',
