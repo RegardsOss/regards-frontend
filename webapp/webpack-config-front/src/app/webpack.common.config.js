@@ -133,6 +133,14 @@ module.exports = function (projectContextPath, mode = 'dev') {
             outputPath: '',
           },
         },
+        {
+          test: /\.woff$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
       ],
     },
     // Import Cesium as an outside dependency in dev
