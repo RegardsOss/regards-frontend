@@ -125,6 +125,14 @@ module.exports = function (projectContextPath, mode = 'dev') {
             outputPath: 'html/',
           },
         },
+        {
+          test: /\.ico/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: '',
+          },
+        },
       ],
     },
     // Import Cesium as an outside dependency in dev

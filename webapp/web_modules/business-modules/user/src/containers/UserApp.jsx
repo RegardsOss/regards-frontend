@@ -27,7 +27,7 @@ import { ThemeProvider } from '@regardsoss/theme'
 import { ApplicationLayout, ContainerHelper } from '@regardsoss/layout'
 import { AccessShapes } from '@regardsoss/shape'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
-import { BrowserCheckerDialog } from '@regardsoss/components'
+import { BrowserCheckerDialog, ReactErrorBoundaryComponent } from '@regardsoss/components'
 import { ApplicationErrorContainer } from '@regardsoss/global-system-error'
 import { ProjectHandler } from '@regardsoss/project-handler'
 import { AuthenticationParametersActions, AuthenticationClient } from '@regardsoss/authentication-utils'
@@ -84,9 +84,9 @@ export class UserApp extends React.Component {
       isAuthenticated: AuthenticationClient.authenticationSelectors.isAuthenticated(state),
       currentRole: (authenticationResult && authenticationResult.role) || '',
       dataFetching: layoutSelectors.isFetching(state)
-    || moduleSelectors.isFetching(state)
-    || attributeModelSelectors.isFetching(state)
-    || uiSettingsSelectors.isFetching(state),
+        || moduleSelectors.isFetching(state)
+        || attributeModelSelectors.isFetching(state)
+        || uiSettingsSelectors.isFetching(state),
       layout: layoutSelectors.getById(state, UIDomain.APPLICATIONS_ENUM.USER),
       modules: moduleSelectors.getList(state),
     }
@@ -228,29 +228,31 @@ export class UserApp extends React.Component {
     const { dataFetching, params: { project } } = this.props
     const { isInitialLoading } = this.state
     return (
-      <ThemeProvider>
-        <LoadableContentDisplayDecorator
-          isLoading={dataFetching || isInitialLoading}
-          isContentError={!this.props.layout}
-        >
-          <AuthenticationContainer scope={project}>
-            {/* Check browser version and warn user */}
-            <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
-            {/* Resolve project */}
-            <ProjectHandler
-              projectName={project}
-              title="Data center"
-            />
-            { /* render layout */
-              this.renderLayout(values(this.props.modules))
-            }
-            {/* Render network errors */}
-            <ApplicationErrorContainer />
-            {/* Quota information retriever */}
-            <QuotaInformationUpdater />
-          </AuthenticationContainer>
-        </LoadableContentDisplayDecorator>
-      </ThemeProvider>
+      <ReactErrorBoundaryComponent>
+        <ThemeProvider>
+          <LoadableContentDisplayDecorator
+            isLoading={dataFetching || isInitialLoading}
+            isContentError={!this.props.layout}
+          >
+            <AuthenticationContainer scope={project}>
+              {/* Check browser version and warn user */}
+              <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+              {/* Resolve project */}
+              <ProjectHandler
+                projectName={project}
+                title="Data center"
+              />
+              { /* render layout */
+                this.renderLayout(values(this.props.modules))
+              }
+              {/* Render network errors */}
+              <ApplicationErrorContainer />
+              {/* Quota information retriever */}
+              <QuotaInformationUpdater />
+            </AuthenticationContainer>
+          </LoadableContentDisplayDecorator>
+        </ThemeProvider>
+      </ReactErrorBoundaryComponent>
     )
   }
 }
