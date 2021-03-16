@@ -219,18 +219,19 @@ export class UserContainer extends React.Component {
    * User callback: user clicked on a tree outer link (entity)
    * @param {*} entity matching CatalogShapes.Entity
    */
-  onSelectEntityLink = (entity) => {
+  onSelectEntityLink = (entityWithTreeEntry) => {
     const { moduleConf: { runtime: { descriptionPath, selectedIndex, setDescriptionPath } } } = this.props
+    const { entity } = entityWithTreeEntry
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
-    const foundEntityIndex = descriptionPath.findIndex((pathEntity) => pathEntity.entityWithTreeEntry.entity.content.id === entity.content.id)
+    const foundEntityIndex = descriptionPath.findIndex((pathEntityWithTreeEntry) => pathEntityWithTreeEntry.entity.content.id === entity.content.id)
     if (foundEntityIndex >= 0) {
       // 1.a - Yes: just update the displayed index
       setDescriptionPath(descriptionPath, foundEntityIndex)
     } else {
       // 1.b - No: add it and set index to last element (new one)
-      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), entity], selectedIndex + 1)
+      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), entityWithTreeEntry], selectedIndex + 1)
     }
   }
 

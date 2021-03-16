@@ -22,12 +22,12 @@ import { Entity } from '../rs-catalog'
 /** description tree entry */
 export const DescriptionTreeEntry = PropTypes.shape({
   // selected section
-  section: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS),
+  section: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS).isRequired,
   // index of the selected child (null if parent is selected)
   child: PropTypes.number,
 })
 
 export const EntityWithTreeEntry = PropTypes.shape({
   entity: Entity.isRequired,
-  selectedTreeEntry: DescriptionTreeEntry,
+  selectedTreeEntry: DescriptionTreeEntry.isRequired,
 })

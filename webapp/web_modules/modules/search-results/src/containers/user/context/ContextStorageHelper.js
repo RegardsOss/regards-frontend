@@ -388,6 +388,7 @@ export class ContextStorageHelper {
    * @param {*} value new query parameter value
    */
   static replaceQueryParam(queryParam, value) {
+    if (!browserHistory) return
     const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
     browserHistory.replace({ pathname, query: { ...currentQuery, [queryParam]: value } })
   }

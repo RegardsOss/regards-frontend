@@ -65,7 +65,10 @@ describe('[Description] Test DescriptionStateReducer', () => {
     let nextState = {
       descriptionPath: [resolvedDataEntity, {
         ...resolvedDatasetEntity,
-        selectedTreeEntry: { section: 'ANY1', child: null },
+        entityWithTreeEntry: {
+          ...resolvedDatasetEntity.entityWithTreeEntry,
+          selectedTreeEntry: { section: 'ANY1', child: null },
+        },
       }],
       browsingTreeVisible: true,
     }
@@ -75,10 +78,16 @@ describe('[Description] Test DescriptionStateReducer', () => {
     nextState = {
       descriptionPath: [{
         ...resolvedDataEntity,
-        selectedTreeEntry: { section: 'ANY0', child: 8 },
+        entityWithTreeEntry: {
+          ...resolvedDataEntity.entityWithTreeEntry,
+          selectedTreeEntry: { section: 'ANY0', child: 8 },
+        },
       }, {
         ...resolvedDatasetEntity,
-        selectedTreeEntry: { section: 'ANY1', child: null },
+        entityWithTreeEntry: {
+          ...resolvedDatasetEntity.entityWithTreeEntry,
+          selectedTreeEntry: { section: 'ANY1', child: null },
+        },
       }],
       browsingTreeVisible: true,
     }

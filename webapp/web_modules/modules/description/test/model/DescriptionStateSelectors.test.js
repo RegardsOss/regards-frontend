@@ -55,7 +55,10 @@ describe('[Description] Test DescriptionStateSelectors', () => {
     fakeStore = mockReduce(fakeStore, actions.setSelectedTreeEntry(0, { section: 'ANY', child: 99 }))
     assert.deepEqual(selectors.getDescriptionPath(fakeStore), [{
       ...resolvedDataEntity,
-      selectedTreeEntry: { section: 'ANY', child: 99 },
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: { section: 'ANY', child: 99 },
+      },
     }, resolvedDatasetEntity], '(3) Should return updated description path')
     assert.isFalse(selectors.isBrowsingTreeVisible(fakeStore), '(3) Should return unchanged browsing tree visible')
   })

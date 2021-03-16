@@ -50,7 +50,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
       tabs: {
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-          descriptionPath: [dataEntity],
+          descriptionPath: [{ entity: dataEntity, selectedTreeEntry: { section: 'PARAMETERS' } }],
           selectedIndex: 0,
         },
       },

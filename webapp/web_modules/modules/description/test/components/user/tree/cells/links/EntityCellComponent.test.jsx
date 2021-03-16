@@ -63,7 +63,7 @@ describe('[Description] Testing EntityCellComponent', () => {
   })
   it('should render correctly when description is forbidden for entity', () => {
     const props = {
-      entity: resolvedDataEntity.entity,
+      entity: resolvedDataEntity.entityWithTreeEntry.entity,
       isDescriptionAllowed: () => false,
       onSelectEntityLink: () => {},
     }

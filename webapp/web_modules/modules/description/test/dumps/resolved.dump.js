@@ -25,45 +25,47 @@ import { CommonDomain, DamDomain } from '@regardsoss/domain'
  */
 
 export const resolvedDataEntity = {
-  entity: {
-    content: {
-      providerId: 'Toulouse_France',
-      entityType: 'DATA',
-      label: 'Toulouse France',
-      model: 'VALIDATION_DATA_MODEL_1',
-      files: {
-        QUICKLOOK_MD: [{
-          dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
-        }],
-        QUICKLOOK_HD: [{
-          dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
-        }],
-        QUICKLOOK_SD: [{
-          dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
-        }],
-        RAWDATA: [{
-          dataType: 'RAWDATA', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
-        }],
+  entityWithTreeEntry: {
+    entity: {
+      content: {
+        providerId: 'Toulouse_France',
+        entityType: 'DATA',
+        label: 'Toulouse France',
+        model: 'VALIDATION_DATA_MODEL_1',
+        files: {
+          QUICKLOOK_MD: [{
+            dataType: 'QUICKLOOK_MD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/bacb2b82421c116728e03566188e2ff3', mimeType: 'image/jpeg', imageWidth: 700, imageHeight: 584, online: true, checksum: 'bacb2b82421c116728e03566188e2ff3', digestAlgorithm: 'MD5', filesize: 348631, filename: 'Toulouse_France_node_full_image_2.jpg',
+          }],
+          QUICKLOOK_HD: [{
+            dataType: 'QUICKLOOK_HD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/7b9aa3a7288e5d3cca2623139617cc75', mimeType: 'image/jpeg', imageWidth: 1920, imageHeight: 1601, online: true, checksum: '7b9aa3a7288e5d3cca2623139617cc75', digestAlgorithm: 'MD5', filesize: 5844791, filename: 'Toulouse_France.jpg',
+          }],
+          QUICKLOOK_SD: [{
+            dataType: 'QUICKLOOK_SD', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/8432df3b3928ba7601cda6d3254c3f02', mimeType: 'image/jpeg', imageWidth: 105, imageHeight: 88, online: true, checksum: '8432df3b3928ba7601cda6d3254c3f02', digestAlgorithm: 'MD5', filesize: 13453, filename: 'Toulouse_France_small.jpg',
+          }],
+          RAWDATA: [{
+            dataType: 'RAWDATA', reference: false, uri: 'http://172.26.47.107//api/v1/rs-storage/aips/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1/files/aef21e8c5d28de881f2d39f4b36f4199', mimeType: 'application/octet-stream', online: true, checksum: 'aef21e8c5d28de881f2d39f4b36f4199', digestAlgorithm: 'MD5', filesize: 100000, filename: 'simple_sip_01.dat',
+          }],
+        },
+        tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
+        id: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
+        version: 2,
+        last: false,
+        geometry: null,
+        normalizedGeometry: null,
+        properties: {
+          // eslint-disable-next-line camelcase
+          value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model', // eslint wont fix: mimics server format
+        },
+        type: 'Feature',
+        crs: 'WGS_84',
       },
-      tags: ['HELLO_REGARDS', 'DATASET_CHRIS_2', 'QUICKLOOKS', 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1'],
-      id: 'URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1',
-      version: 2,
-      last: false,
-      geometry: null,
-      normalizedGeometry: null,
-      properties: {
-        // eslint-disable-next-line camelcase
-        value_l1: 102, data_size: 100000, date: '2017-09-09T19:00:00Z', value_d1: 89.56, DATASET_VALIDATION_TYPE: 'chris_harvest_simple_model', // eslint wont fix: mimics server format
-      },
-      type: 'Feature',
-      crs: 'WGS_84',
+      links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/dataobjects/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1' }],
     },
-    links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/dataobjects/URN:AIP:DATA:project1:4ce00dd9-1861-3cbe-977b-70966226a434:V1' }],
+    selectedTreeEntry: { section: 'PARAMETERS', child: null },
   },
   loading: false,
   modelRetrievalFailed: false,
   invalid: false,
-  selectedTreeEntry: { section: 'PARAMETERS', child: null },
   displayModel: {
     thumbnail: null,
     attributesGroups: [{
@@ -397,42 +399,44 @@ export const resolvedDataEntity = {
 }
 
 export const resolvedDatasetEntity = {
-  entity: {
-    content: {
-      providerId: 'DATASET_CHRIS_2',
-      entityType: 'DATASET',
-      label: 'DATASET_CHRIS_2',
-      model: 'VALIDATION_DATASET_MODEL_1',
-      files: {
-        DESCRIPTION: [{
-          dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a', mimeType: 'text/markdown', online: true, checksum: '0c82a0bf189e2db9ba5985dbd73bbc4a', digestAlgorithm: 'MD5', filesize: 11804, filename: 'dynamic-modules.md',
-        }, {
-          dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f', mimeType: 'application/pdf', online: true, checksum: 'c3d9eb51ab4f64433827a34caf57af5f', digestAlgorithm: 'MD5', filesize: 277486, filename: 'S1.pdf',
-        }, {
-          dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6', mimeType: 'application/pdf', online: true, checksum: '734d7be763a369e8a8d939e1848238b6', digestAlgorithm: 'MD5', filesize: 776825, filename: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
-        }],
+  entityWithTreeEntry: {
+    selectedTreeEntry: { section: 'PARAMETERS', child: null },
+    entity: {
+      content: {
+        providerId: 'DATASET_CHRIS_2',
+        entityType: 'DATASET',
+        label: 'DATASET_CHRIS_2',
+        model: 'VALIDATION_DATASET_MODEL_1',
+        files: {
+          DESCRIPTION: [{
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/0c82a0bf189e2db9ba5985dbd73bbc4a', mimeType: 'text/markdown', online: true, checksum: '0c82a0bf189e2db9ba5985dbd73bbc4a', digestAlgorithm: 'MD5', filesize: 11804, filename: 'dynamic-modules.md',
+          }, {
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/c3d9eb51ab4f64433827a34caf57af5f', mimeType: 'application/pdf', online: true, checksum: 'c3d9eb51ab4f64433827a34caf57af5f', digestAlgorithm: 'MD5', filesize: 277486, filename: 'S1.pdf',
+          }, {
+            dataType: 'DESCRIPTION', reference: false, uri: 'http://172.26.47.107/api/v1/rs-dam/entities/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/files/734d7be763a369e8a8d939e1848238b6', mimeType: 'application/pdf', online: true, checksum: '734d7be763a369e8a8d939e1848238b6', digestAlgorithm: 'MD5', filesize: 776825, filename: '06-042_OpenGIS_Web_Map_Service_WMS_Implementation_Specification.pdf',
+          }],
+        },
+        tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
+        id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V2',
+        version: 2,
+        last: true,
+        properties: {
+          name: 'DATASET_CHRIS_2',
+          Missions: ['None'],
+          TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md',
+          TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf',
+          count: 12,
+          // eslint-disable-next-line camelcase
+          values_l1_sum: 1350000, // eslint wont fix: mimics server format
+        },
+        type: 'Feature',
       },
-      tags: ['URN:AIP:COLLECTION:project1:ab6e382f-c66a-454a-8861-1e5c027f151f:V1', 'URN:AIP:COLLECTION:project1:1b539b9e-f0c6-4578-b702-3fe492532600:V1', 'URN:AIP:DATA:project1:dc834647-5392-3521-8442-c4f681d9d7bd:V1'],
-      id: 'URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V2',
-      version: 2,
-      last: true,
-      properties: {
-        name: 'DATASET_CHRIS_2',
-        Missions: ['None'],
-        TestDescFile1: 'http://172.26.47.107/public/MD-TEST.md',
-        TestDescFile2: 'http://172.26.47.107/public/PDF-TEST.pdf',
-        count: 12,
-        // eslint-disable-next-line camelcase
-        values_l1_sum: 1350000, // eslint wont fix: mimics server format
-      },
-      type: 'Feature',
+      links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/datasets/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1' }, { rel: 'dataobjects', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/datasets/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/dataobjects/search' }],
     },
-    links: [{ rel: 'self', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/datasets/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1' }, { rel: 'dataobjects', href: 'http://localhost:3000/api/v1/rs-catalog/engines/legacy/datasets/URN:AIP:DATASET:project1:f0219476-341d-4fa4-bbf8-7f856c774e87:V1/dataobjects/search' }],
   },
   loading: false,
   modelRetrievalFailed: false,
   invalid: false,
-  selectedTreeEntry: { section: 'PARAMETERS', child: null },
   displayModel: {
     thumbnail: null,
     attributesGroups: [{

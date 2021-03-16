@@ -93,7 +93,7 @@ describe('[Description] Testing UserContainer', () => {
         ...fullModuleConf,
         runtime: {
           selectedIndex: 0,
-          descriptionPath: [resolvedDataEntity.entity],
+          descriptionPath: [resolvedDataEntity.entityWithTreeEntry],
           setDescriptionPath: () => {},
           onSearchWord: () => {},
           onSearchEntity: () => {},
@@ -124,7 +124,7 @@ describe('[Description] Testing UserContainer', () => {
       'Main module component should not be shown while current description state is not set')
     // 1.a - check entities resolution was started
     assert.deepEqual(spySetModuleDescriptionPath.descriptionPath,
-      [DescriptionEntityHelper.buildLoadingModel(resolvedDataEntity.entity)],
+      [DescriptionEntityHelper.buildLoadingModel(resolvedDataEntity.entityWithTreeEntry)],
       'Path should be resolved with first entity loading')
     // 1.b - simulate redux binding on current model
     const props2 = {
@@ -197,7 +197,7 @@ describe('[Description] Testing UserContainer', () => {
         ...props3.moduleConf,
         runtime: {
           selectedIndex: 1,
-          descriptionPath: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+          descriptionPath: [resolvedDataEntity.entityWithTreeEntry, resolvedDatasetEntity.entityWithTreeEntry],
           setDescriptionPath: () => {},
           onSearchWord: () => {},
           onSearchEntity: () => {},
@@ -206,7 +206,7 @@ describe('[Description] Testing UserContainer', () => {
     }
     enzymeWrapper.setProps(props4)
     assert.deepEqual(spySetModuleDescriptionPath.descriptionPath,
-      [resolvedDataEntity, DescriptionEntityHelper.buildLoadingModel(resolvedDatasetEntity.entity)],
+      [resolvedDataEntity, DescriptionEntityHelper.buildLoadingModel(resolvedDatasetEntity.entityWithTreeEntry)],
       '2.a - Path should be computed to preserve previously resolved entity and load only the newly added one')
     // 2.b simulate redux update (promise callback was tested previously) and check sub component is correctly updated
     const props5 = {
@@ -245,7 +245,7 @@ describe('[Description] Testing UserContainer', () => {
         ...fullModuleConf,
         runtime: {
           selectedIndex: 1,
-          descriptionPath: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+          descriptionPath: [resolvedDataEntity.entityWithTreeEntry, resolvedDatasetEntity.entityWithTreeEntry],
           setDescriptionPath: (path, index) => {
             spySetDescriptionPath.path = path
             spySetDescriptionPath.index = index
@@ -275,9 +275,9 @@ describe('[Description] Testing UserContainer', () => {
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
     // 1- Check "Jump to" first entity
-    enzymeWrapper.instance().onSelectEntityLink(resolvedDataEntity.entity)
+    enzymeWrapper.instance().onSelectEntityLink(resolvedDataEntity.entityWithTreeEntry)
     assert.deepEqual(spySetDescriptionPath, {
-      path: [resolvedDataEntity.entity, resolvedDatasetEntity.entity],
+      path: [resolvedDataEntity.entityWithTreeEntry, resolvedDatasetEntity.entityWithTreeEntry],
       index: 0,
     }, '1- Should have detected that the entity is already selected and only changed index in path')
     // 2- Test add new entity to describe : should add it directly after current index and clear previously following path
@@ -288,19 +288,19 @@ describe('[Description] Testing UserContainer', () => {
         runtime: {
           ...props.moduleConf.runtime,
           selectedIndex: 0,
-          descriptionPath: [resolvedDatasetEntity.entity, resolvedDataEntity.entity],
+          descriptionPath: [resolvedDatasetEntity.entityWithTreeEntry, resolvedDataEntity.entityWithTreeEntry],
         },
       },
     })
-    enzymeWrapper.instance().onSelectEntityLink(resolvedDatasetEntity.displayModel.linkedDocuments[0])
+    enzymeWrapper.instance().onSelectEntityLink({ entity: resolvedDatasetEntity.displayModel.linkedDocuments[0] })
     assert.deepEqual(spySetDescriptionPath, {
-      path: [resolvedDatasetEntity.entity, resolvedDatasetEntity.displayModel.linkedDocuments[0]],
+      path: [resolvedDatasetEntity.entityWithTreeEntry, { entity: resolvedDatasetEntity.displayModel.linkedDocuments[0] }],
       index: 1,
     }, '2- Should have cleared entities after selected index and added new one at end')
     // 3 - Set index (simple callback, no computing)
     enzymeWrapper.instance().onSelectEntityIndex(1)
     assert.deepEqual(spySetDescriptionPath, {
-      path: [resolvedDatasetEntity.entity, resolvedDataEntity.entity], // from props
+      path: [resolvedDatasetEntity.entityWithTreeEntry, resolvedDataEntity.entityWithTreeEntry], // from props
       index: 1, // from callback
     }, '3- Should have invoked parent callback with unchanged description path but new index')
   })

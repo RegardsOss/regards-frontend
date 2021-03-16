@@ -56,7 +56,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
     // 1 - check label is displayed as text and tooltip
-    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entityWithTreeEntry.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used
@@ -85,7 +85,7 @@ describe('[ Module name] Testing BreadcrumbLinkComponent', () => {
     }
     const enzymeWrapper = shallow(<BreadcrumbLinkComponent {...props} />, { context })
     // 1 - check label is displayed as text and tooltip
-    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entity, props.settings)
+    const label = LabelVersionText.formatLabel(context.intl.formatMessage, props.descriptionEntity.entityWithTreeEntry.entity, props.settings)
     assert.include(enzymeWrapper.debug(), label, 'Entity label should be shown')
     assert.lengthOf(enzymeWrapper.findWhere((n) => n.props().title === label), 1, 'Entity label should also be shown as tooltip')
     // 2 - check callback setup and used

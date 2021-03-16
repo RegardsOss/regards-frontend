@@ -49,13 +49,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     const props = {
       allowSearching: true,
       descriptionEntity: {
-        entity: resolvedDataEntity.entity,
+        entityWithTreeEntry: resolvedDataEntity.entityWithTreeEntry,
         loading: true,
         modelRetrievalFailed: false,
         invalid: false,
-        selectedTreeEntry: {
-          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
-        },
         displayModel: {
           thumbnail: null,
           attributesGroups: [],
@@ -84,13 +81,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     const props = {
       allowSearching: true,
       descriptionEntity: {
-        entity: resolvedDataEntity.entity,
+        entityWithTreeEntry: resolvedDataEntity.entityWithTreeEntry,
         loading: false,
         modelRetrievalFailed: false,
         invalid: true,
-        selectedTreeEntry: {
-          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
-        },
         displayModel: {
           thumbnail: null,
           attributesGroups: [],
@@ -123,13 +117,10 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     const props = {
       allowSearching: true,
       descriptionEntity: {
-        entity: resolvedDataEntity.entity,
+        entityWithTreeEntry: resolvedDataEntity.entityWithTreeEntry,
         loading: false,
         modelRetrievalFailed: true,
         invalid: false,
-        selectedTreeEntry: {
-          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
-        },
         displayModel: {
           thumbnail: null,
           attributesGroups: [],
@@ -167,10 +158,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
   const scrollAreaHeight = 760
   const testCases = [{
     label: 'parameters',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: ParametersSectionComponent,
     expectedProperties: {
       thumbnail: resolvedDataEntity.displayModel.thumbnail,
@@ -179,10 +175,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'quicklooks',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.QUICKLOOKS,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: QuicklookViewComponent,
     expectedProperties: {
       quicklookFiles: resolvedDataEntity.displayModel.quicklookFiles,
@@ -190,10 +191,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'simple tags',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.SIMPLE_TAGS,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: TagsSectionPageComponent,
     expectedProperties: {
       tags: resolvedDataEntity.displayModel.wordTags,
@@ -203,10 +209,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'coupling tags',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.COUPLED_TAGS,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: TagsSectionPageComponent,
     expectedProperties: {
       tags: resolvedDataEntity.displayModel.couplingTags,
@@ -216,10 +227,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'linked entities',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES,
+    descriptionEntity: {
+      ...resolvedDatasetEntity,
+      entityWithTreeEntry: {
+        ...resolvedDatasetEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_ENTITIES,
+        },
+      },
     },
-    descriptionEntity: resolvedDatasetEntity,
     ExpectedComponent: EntitiesSectionPageComponent,
     expectedProperties: {
       entities: resolvedDatasetEntity.displayModel.linkedEntities,
@@ -231,10 +247,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'linked documents',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS,
+    descriptionEntity: {
+      ...resolvedDatasetEntity,
+      entityWithTreeEntry: {
+        ...resolvedDatasetEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.LINKED_DOCUMENTS,
+        },
+      },
     },
-    descriptionEntity: resolvedDatasetEntity,
     ExpectedComponent: EntitiesSectionPageComponent,
     expectedProperties: {
       entities: resolvedDatasetEntity.displayModel.linkedDocuments,
@@ -246,10 +267,15 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'information files list',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
+    descriptionEntity: {
+      ...resolvedDatasetEntity,
+      entityWithTreeEntry: {
+        ...resolvedDatasetEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
+        },
+      },
     },
-    descriptionEntity: resolvedDatasetEntity,
     ExpectedComponent: FilesSectionPageComponent,
     expectedProperties: {
       section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
@@ -259,21 +285,31 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'an information file content',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
-      child: 1,
+    descriptionEntity: {
+      ...resolvedDatasetEntity,
+      entityWithTreeEntry: {
+        ...resolvedDatasetEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
+          child: 1,
+        },
+      },
     },
-    descriptionEntity: resolvedDatasetEntity,
     ExpectedComponent: URIContentDisplayer,
     expectedProperties: {
       uri: resolvedDatasetEntity.displayModel.descriptionFiles[1].uri,
     },
   }, {
     label: 'other files list',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: FilesSectionPageComponent,
     expectedProperties: {
       section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
@@ -283,21 +319,31 @@ describe('[Description] Testing ContentDisplayComponent', () => {
     },
   }, {
     label: 'an other file content',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
-      child: 0,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.FILES,
+          child: 0,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: URIContentDisplayer,
     expectedProperties: {
       uri: resolvedDataEntity.displayModel.otherFiles[0].uri,
     },
   }, {
     label: 'ovther versions list',
-    selectedTreeEntry: {
-      section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS,
+    descriptionEntity: {
+      ...resolvedDataEntity,
+      entityWithTreeEntry: {
+        ...resolvedDataEntity.entityWithTreeEntry,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.OTHER_VERSIONS,
+        },
+      },
     },
-    descriptionEntity: resolvedDataEntity,
     ExpectedComponent: VersionSectionPageComponent,
     expectedProperties: {
       entities: resolvedDataEntity.displayModel.otherVersions,

@@ -54,7 +54,12 @@ describe('[SEARCH RESULTS] Testing TitleAndTabsContainer', () => {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [anotherDataEntity, anotherDatasetEntity],
+            descriptionPath: [{
+              entity: anotherDataEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            },
+            {
+              entity: anotherDatasetEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            }],
             selectedIndex: 1,
           },
           [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
