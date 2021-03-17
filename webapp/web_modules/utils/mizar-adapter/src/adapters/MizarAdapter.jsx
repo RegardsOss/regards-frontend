@@ -147,7 +147,7 @@ export default class MizarAdapter extends React.Component {
     if (!isEqual(oldProps.selectedProducts, selectedProducts) || !isEqual(oldProps.drawnAreas, drawnAreas)) {
       // Handle zoom on selected product
       if (!isEqual(oldProps.selectedProducts, selectedProducts) && !isEmpty(selectedProducts)) {
-        const lastFeatureSelected = find(this.mizar.selectedFeaturesLayer.features, (feature) => feature.id === last(selectedProducts).id)
+        const lastFeatureSelected = find(featuresCollection.features, (feature) => feature.id === last(selectedProducts).id)
         this.zoomOnGeometry(lastFeatureSelected.geometry)
       } else if (!isEmpty(drawnAreas)) {
         // When user stop drawing area or toponym change
@@ -281,63 +281,73 @@ export default class MizarAdapter extends React.Component {
   }
 
   /**
-   * Features collection was updated (= not selected features)
-   * @param {*} newFeaturesCollection, matching GeoJsonFeaturesCollection shape
-   * @param {*} selectedProducts
+   * Display some feature on the provided layer
+   * @param {*} layer mizar layer
+   * @param {*} featuresCollection (dont know why it's used)
+   * @param {*} includedFeatures the list of features to display on that layer
    */
-  onNotSelectedFeaturesUpdated = (newFeaturesCollection, selectedProducts) => {
-    if (!this.unmounted) {
-      if (this.mizar.featuresLayer) {
-        // delete if any old value
-        this.mizar.featuresLayer.removeAllFeatures()
-        // add if any new value
-        if (newFeaturesCollection && !isEmpty(newFeaturesCollection.features)) {
-          const newFeaturesNotSelectedCollection = {
-            ...newFeaturesCollection,
-            features: filter(newFeaturesCollection.features, (feature) => (
-              !find(selectedProducts, (selectedProduct) => (selectedProduct.id === feature.id))
-            )),
-          }
-          this.mizar.featuresLayer.addFeatureCollection(newFeaturesNotSelectedCollection)
-        }
-      } else {
-        // push that operation later
-        this.delayedAddFeatures = newFeaturesCollection
+  addFeatureToLayer = (layer, featuresCollection, includedFeatures) => {
+    // delete if any old value
+    layer.removeAllFeatures()
+    // add if any new value
+    if (featuresCollection && featuresCollection.features) {
+      const updatedFeaturesCollection = {
+        ...featuresCollection,
+        features: includedFeatures,
+      }
+      if (!isEmpty(updatedFeaturesCollection.features)) {
+        layer.addFeatureCollection(updatedFeaturesCollection)
       }
     }
   }
 
   /**
-   * Selected features collection was updated
-   * @param {*} newFeaturesCollection
+   * Build a list of features that we keep from featuresCollection
+   * @param {*} featuresCollection, matching GeoJsonFeaturesCollection shape
+   * @param {*} selectedProducts a list of features selected by user
+   * @param {*} isIntersection true -> return selectedProducts
+   *                           false -> return features from featuresCollection that are not inside selectedProducts
+   */
+  getIncludedFeatures = (featuresCollection, selectedProducts, isIntersection) => {
+    const isIncluded = (feature) => find(selectedProducts, (selectedProduct) => (selectedProduct.id === feature.id))
+    if (isIntersection) {
+      return filter(featuresCollection.features, (feature) => (
+        isIncluded(feature)
+      ))
+    }
+    return filter(featuresCollection.features, (feature) => (
+      !isIncluded(feature)
+    ))
+  }
+
+  /**
+   * Features collection was updated (= not selected features)
+   * @param {*} featuresCollection, matching GeoJsonFeaturesCollection shape
    * @param {*} selectedProducts
    */
-  onSelectedFeaturesUpdated = (newFeaturesCollection, selectedProducts) => {
+  onNotSelectedFeaturesUpdated = (featuresCollection, selectedProducts) => {
     if (!this.unmounted) {
-      if (this.mizar.selectedFeaturesLayer) {
-        // delete if any old value
-        this.mizar.selectedFeaturesLayer.removeAllFeatures()
+      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, true)
+      this.addFeatureToLayer(this.mizar.featuresLayer, featuresCollection, includedFeatures)
+    }
+  }
 
-        // add if any new value
-        if (selectedProducts && !isEmpty(selectedProducts)) {
-          const newFeaturesSelectedCollection = {
-            ...newFeaturesCollection,
-            features: filter(newFeaturesCollection.features, (feature) => (
-              find(selectedProducts, (featureSelected) => feature.id === featureSelected.id)
-            )),
-          }
-          this.mizar.selectedFeaturesLayer.addFeatureCollection(newFeaturesSelectedCollection)
-        }
-      }
+  /**
+   * Selected features collection was updated
+   * @param {*} featuresCollection
+   * @param {*} selectedProducts
+   */
+  onSelectedFeaturesUpdated = (featuresCollection, selectedProducts) => {
+    if (!this.unmounted) {
+      const includedFeatures = this.getIncludedFeatures(featuresCollection, selectedProducts, false)
+      this.addFeatureToLayer(this.mizar.selectedFeaturesLayer, featuresCollection, includedFeatures)
     }
   }
 
   onUpdateToponyms = (selectedToponyms) => {
     if (!this.unmounted) {
-      if (this.mizar.selectedToponymsLayer) {
-        this.mizar.selectedToponymsLayer.removeAllFeatures()
-        this.mizar.selectedToponymsLayer.addFeatureCollection(selectedToponyms)
-      }
+      this.mizar.selectedToponymsLayer.removeAllFeatures()
+      this.mizar.selectedToponymsLayer.addFeatureCollection(selectedToponyms)
     }
   }
 
@@ -348,7 +358,7 @@ export default class MizarAdapter extends React.Component {
    */
   onAreasUpdated = (oldDrawnAreas = [], drawnAreas = []) => {
     if (this.mizar.drawLayer && !this.unmounted) {
-      oldDrawnAreas.forEach((f) => this.mizar.drawLayer.removeFeature(f))
+      this.mizar.drawLayer.removeAllFeatures()
       drawnAreas.forEach((f) => this.mizar.drawLayer.addFeature(f))
     }
   }
