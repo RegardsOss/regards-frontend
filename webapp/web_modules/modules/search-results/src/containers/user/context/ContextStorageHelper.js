@@ -193,7 +193,7 @@ export class ContextStorageHelper {
       name: 'eds',
       toParameterValue: (resultsContext) => {
         const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
-        if (!descriptionPath.length) return null
+        if (!descriptionPath.length || selectedIndex >= descriptionPath.length || !descriptionPath[selectedIndex].selectedTreeEntry) return null
         const { selectedTreeEntry: { section, child } } = descriptionPath[selectedIndex]
         return `${section}${child !== null ? `,${child}` : ''}`
       },
