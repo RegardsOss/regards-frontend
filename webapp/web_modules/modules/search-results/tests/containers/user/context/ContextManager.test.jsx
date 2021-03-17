@@ -164,6 +164,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     // description tab
     const descriptionTab = tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
     assert.deepEqual(descriptionTab, {
+      unresolvedTreeEntry: null,
       unresolvedRootEntityId: null,
       descriptionPath: [],
       selectedIndex: 0,
@@ -475,10 +476,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           },
         },
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
           unresolvedRootEntityId: null,
-          descriptionPath: [[
-            { entity: datasetEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } },
-          ]],
+          descriptionPath: [
+            { entity: datasetEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+          ],
           selectedIndex: 0,
         },
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
@@ -495,6 +497,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           },
         },
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
           unresolvedRootEntityId: datasetEntity.content.id,
           descriptionPath: [],
           selectedIndex: 0,
@@ -671,7 +674,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [{ entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } }],
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
+            descriptionPath: [{ entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } }],
             selectedIndex: 0,
           },
         },
@@ -680,6 +684,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: dataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,
@@ -692,8 +697,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
             descriptionPath: [
-              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } },
-              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } },
+              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
             ],
             selectedIndex: 1,
           },
@@ -702,6 +707,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       expectedRestoredDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: anotherDataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,
@@ -714,8 +720,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
             descriptionPath: [
-              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } },
-              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS } },
+              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
             ],
             selectedIndex: 0,
           },
@@ -724,6 +730,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       expectedRestoredDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: dataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,
@@ -951,12 +958,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       // 2 - mimic restoration from storage and URL and check expectations (then loop to next update...)
       const savedCurrentLocation = currentLocation
       currentLocation = { query: {} } // cancelling URL mode
-      // TODO RO fix it
-      // const fromStorage = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
-      // assert.deepEqual(fromStorage, nextExpectedRestored, `${label}: restored data from local storage does not match expectations`)
+      const fromStorage = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
+      assert.deepEqual(fromStorage, nextExpectedRestored, `${label}: restored data from local storage does not match expectations`)
       currentLocation = savedCurrentLocation
-      // const fromURL = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
-      // assert.deepEqual(fromURL, nextExpectedRestored, `${label}: restored data from URL storage does not match expectations`)
+      const fromURL = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
+      assert.deepEqual(fromURL, nextExpectedRestored, `${label}: restored data from URL storage does not match expectations`)
     })
   })
 })

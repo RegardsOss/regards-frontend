@@ -239,7 +239,7 @@ export class ContextManager extends React.Component {
         })
     }
     // Case 2: Check rights on each entity
-    const previouslySelectedEntityId = descriptionPath.length ? descriptionPath[selectedIndex].entityWithTreeEntry.entity.content.id : null
+    const previouslySelectedEntityId = descriptionPath.length ? descriptionPath[selectedIndex].entity.content.id : null
     return Promise.all(descriptionPath.map(this.resolveEntity))
       .then((resolvedEntities) => {
         // remove null
