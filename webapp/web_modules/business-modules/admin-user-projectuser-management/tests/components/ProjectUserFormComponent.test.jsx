@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  Field, FieldHelp, RenderCheckbox, RenderTextField, ValidationHelpers,
+  Field, FieldHelp, RenderCheckbox, RenderTextField,
 } from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
