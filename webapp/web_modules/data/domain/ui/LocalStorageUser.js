@@ -32,7 +32,7 @@ export default class LocalStorageUser {
    * @param project : project of connection information to retrieve
    * @param application : application of connection information to retrieve
    */
-  static retrieve = (project, application) => {
+  static retrieve = (project, application, allowExpired = false) => {
     const storedUsed = root.localStorage.getItem(LocalStorageUser.getLocalStorageKey(project, application))
     if (storedUsed) {
       try {
@@ -41,8 +41,8 @@ export default class LocalStorageUser {
         const expiresInMS = get(storedUserObject, 'authentication.expires_in', 0) * 1000 // seconds to ms
         const expirationDate = get(storedUserObject, 'authenticationDate', 0) + expiresInMS
         // If token is not expired, use it to authenticate, otherwise remove it from localStorage
-        if (expirationDate > Date.now()) {
-          return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate)
+        if (allowExpired || expirationDate > Date.now()) {
+          return new LocalStorageUser(storedUserObject.authentication, storedUserObject.authenticationDate, project, application)
         }
         LocalStorageUser.delete()
       } catch (exception) {

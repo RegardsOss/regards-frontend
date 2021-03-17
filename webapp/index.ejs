@@ -12,7 +12,6 @@
     <% if (htmlWebpackPlugin.options.isProduction) { %>
     <link href="/css/coreoss.styles.css?<%= webpack.hash %>" rel="stylesheet">
     <% } %>
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet">
     <style>
         #loader {
             width: 100%;
@@ -130,5 +129,4 @@
 <% } %>
 <!-- bundle.js is the webpack compiled javascript file, append automatically by HtmlWebpackPlugin -->
 </body>
-<script type="text/javascript" data-main="/mizar/src/rconfig.js" src="/mizar/node_modules/requirejs/require.js"></script>
 </html>

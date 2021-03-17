@@ -21,6 +21,7 @@ import { reducer as reduxFormReducer } from 'redux-form'
 import { reducers as ThemeReducers } from '@regardsoss/theme'
 import { portalReducer } from '@regardsoss/portal'
 import { adminReducer } from '@regardsoss/admin'
+import { authenticateRedirectionReducer } from '@regardsoss/authenticate'
 import { userReducer } from '@regardsoss/user'
 import { PluginReducer } from '@regardsoss/plugins'
 import { i18nReducers } from '@regardsoss/i18n'
@@ -54,4 +55,5 @@ export default {
   admin: adminReducer,
   user: userReducer,
   form: reduxFormReducer,
+  authenticate: authenticateRedirectionReducer,
 }

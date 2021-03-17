@@ -18,7 +18,7 @@
  **/
 import { UIDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
-import { MizarAdapter, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
+import { MizarProvider, GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import { CesiumProvider } from '@regardsoss/cesium-adapter'
 import MapToolsComponent from './MapToolsComponent'
 import { LayerConfiguration } from '../../../../../shapes/ModuleConfiguration'
@@ -130,8 +130,8 @@ class MapComponent extends React.Component {
         { (() => {
           switch (mapEngine) {
             case UIDomain.MAP_ENGINE_ENUM.MIZAR:
-              // canvasId required by MizarAdapter for multi instance (issue regards/regards#945)
-              return <MizarAdapter canvasId={`${this.props.tabType}-MizarCanvas`} {...engineProps} />
+              // canvasId required by MizarProvider for multi instance (issue regards/regards#945)
+              return <MizarProvider canvasId={`${this.props.tabType}-MizarCanvas`} {...engineProps} />
             case UIDomain.MAP_ENGINE_ENUM.CESIUM: // default to Cesium when not configured
             default:
               return <CesiumProvider {...engineProps} />

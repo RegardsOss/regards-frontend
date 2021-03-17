@@ -161,7 +161,7 @@ export function getLayersInfo(layers, layerType, viewMode, mapEngine) {
 
         switch (customLayer.type) {
           case UIDomain.CESIUM_LAYER_TYPES_ENUM.WMS || UIDomain.CESIUM_LAYER_TYPES_ENUM.WMTS
-          || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
+            || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMS || UIDomain.MIZAR_LAYER_TYPES_ENUM.WMTS:
             return addWMSCustomLayerInfo(customLayerInfo, customLayer, mapEngine)
           default:
         }

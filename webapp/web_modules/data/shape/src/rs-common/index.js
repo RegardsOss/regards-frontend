@@ -35,3 +35,7 @@ export { default as RangedNumber } from './RangedNumber'
 export { RequestParameters } from './RequestParameters'
 export { DateTextBoundPropType, NumericTextBoundPropType } from './TextBoundPropType'
 export { default as URL } from './URL'
+export {
+  ServiceProvider, ServiceProviderContent,
+  ServiceProviderList, ServiceProviderArray,
+} from './ServiceProvider/ServiceProvider'

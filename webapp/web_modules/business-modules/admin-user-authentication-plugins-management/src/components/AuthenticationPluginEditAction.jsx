@@ -20,6 +20,7 @@ import find from 'lodash/find'
 import Edit from 'mdi-material-ui/Pencil'
 import IconButton from 'material-ui/IconButton'
 import { CommonShapes } from '@regardsoss/shape'
+import { AuthenticationDomain } from '@regardsoss/domain'
 import { i18nContextType } from '@regardsoss/i18n'
 
 /**
@@ -50,7 +51,7 @@ class AuthenticationPluginEditAction extends React.Component {
    */
   onEdit = () => {
     const { entity: { content }, onEdit } = this.props
-    onEdit(content)
+    onEdit(content, AuthenticationDomain.PluginTypeEnum.AUTHENTICATION)
   }
 
   render() {

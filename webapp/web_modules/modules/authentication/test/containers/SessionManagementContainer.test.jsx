@@ -65,6 +65,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     })
 
     // test with session locked
@@ -80,6 +83,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     })
   })
   it('should hide the dialog when session is not locked, nor authentication is required', () => {
@@ -94,6 +100,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: () => { },
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     }
     const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })
     enzymeWrapper.setState({ initialized: true })
@@ -113,6 +122,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     }
     root.localStorage.clear()
     shallow(<SessionManagementContainer {...props} />, { context })
@@ -130,6 +142,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()
@@ -149,6 +164,9 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
       dispatchSessionLocked: () => { },
       notifyAuthenticationChanged: sinon.stub().callsFake(() => new Promise(() => { })),
       logout: () => { },
+      forceAuthentication: () => { },
+      throwError: () => { },
+      fetchServiceProviders: () => { },
     }
     // Simulate a token non expired in localstorageUser
     root.localStorage.clear()

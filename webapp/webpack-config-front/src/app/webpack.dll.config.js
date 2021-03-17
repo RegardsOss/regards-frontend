@@ -4,7 +4,7 @@ const StatsPlugin = require('stats-webpack-plugin')
 const path = require('path')
 const alias = require('../utils/alias')
 
-module.exports = function (projectContextPath) {
+module.exports = function (projectContextPath, mode) {
   // Ensure babel environment variable is correctly setup to development - will be rewrite if production is called
   process.env.NODE_ENV = 'development'
 
@@ -18,7 +18,7 @@ module.exports = function (projectContextPath) {
       ],
       alias: alias(projectContextPath, 'dev'),
     },
-    devtool: 'source-map',
+    devtool: mode === 'dev' ? 'source-map' : 'cheap-source-map',
     output: {
       filename: '[name].bundle.js',
       // The name of the global variable which the library's
@@ -37,7 +37,7 @@ module.exports = function (projectContextPath) {
           // used to cache the results of the loader.
           // Next builds will attempt to read from the cache
           // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader',
+          loader: 'babel-loader?cacheDirectory',
         },
         {
           test: /\.css$/,
@@ -62,6 +62,14 @@ module.exports = function (projectContextPath) {
             outputPath: 'html/',
           },
         },
+        {
+          test: /\.woff$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
       ],
     },
     plugins: [
@@ -73,9 +81,9 @@ module.exports = function (projectContextPath) {
       // Create a single css file for the whole application instead of setting css inline in the javascript
       // That's during the coresoss compilation that our app export a single CSS file
       new MiniCssExtractPlugin({ filename: 'css/coreoss.styles.css' }),
-      new StatsPlugin(`../../reports/dll-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../../reports/dll-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   }
 }
