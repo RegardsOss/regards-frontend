@@ -100,6 +100,9 @@ export class AuthenticateRedirectionApp extends React.Component {
             storageObj = { error: result.payload.message }
           }
           new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+          // Close tab
+          root.window.opener = null
+          root.window.open('', '_self')
           root.window.close()
         })
       }
