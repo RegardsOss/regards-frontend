@@ -44,6 +44,9 @@ const messages = {
   'data.board.storage.description': 'Configure one or multiples data storage locations.',
   'data.board.action.storages.tooltip': 'Configure locations',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Tableau de bord',
+  'data.board.action.dashboard.tooltip': 'Tableau de bord',
 }
 
 export default messages

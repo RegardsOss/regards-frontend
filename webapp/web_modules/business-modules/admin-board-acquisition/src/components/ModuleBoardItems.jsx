@@ -132,6 +132,21 @@ const items = (projectName, intl, onResetIndex) => [
       },
     ],
   },
+  {
+    title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
+    description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
+        // hateoasDependencies: [
+        //   ...storageManagementDependencies.listDependencies,
+        // ],
+      },
+    ],
+  },
 ]
 
 export default items

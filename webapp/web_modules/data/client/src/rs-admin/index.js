@@ -104,6 +104,10 @@ export { default as getSearchSourcesSelectors } from './session/SearchSourcesSel
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
 
+export { default as SourcesActions } from './sources/SourcesActions'
+export { default as getSourcesReducer } from './sources/SourcesReducer'
+export { default as getSourcesSelectors } from './sources/SourcesSelectors'
+
 export { default as MyUserActions } from './user/MyUserActions'
 export { default as getMyUserReducer } from './user/MyUserReducer'
 export { default as getMyUserSelectors } from './user/MyUserSelectors'

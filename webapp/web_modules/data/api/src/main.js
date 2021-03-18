@@ -70,6 +70,8 @@ export { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY, StorageRequestConfiguration } f
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
 export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
 export { SESSION, SESSION_ARRAY, SessionConfiguration } from './admin/Session'
+export { SOURCE, SOURCE_ARRAY, SourceConfiguration } from './admin/Source'
+
 // Catalog
 export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
 export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'

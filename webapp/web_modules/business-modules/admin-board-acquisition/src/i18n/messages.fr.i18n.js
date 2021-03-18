@@ -44,6 +44,10 @@ const messages = {
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Tableau de bord',
+  'data.board.action.dashboard.tooltip': 'Tableau de bord',
+
 }
 
 export default messages
