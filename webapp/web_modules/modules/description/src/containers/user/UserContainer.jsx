@@ -20,10 +20,11 @@ import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
-import { CatalogClient, AccessProjectClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
+import { CatalogClient, AccessProjectClient, UIClient } from '@regardsoss/client'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
+import { resultsContextActions } from '@regardsoss-modules/search-graph/src/clients/ResultsContextClient'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
-import { ContextStorageHelper } from '@regardsoss-modules/search-results/src/containers/user/context/ContextStorageHelper'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
 import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
@@ -39,6 +40,9 @@ const fetchEntityVersionsActions = new CatalogClient.SearchEntityVersionsActions
 
 /** Common UI settings selectors */
 const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
+
+// default selector instance to get currently displayed dynamic module ID
+const selectedDynamicModuleIdSelectors = UIClient.getSelectedDynamicModuleSelectors()
 
 /**
  * Module container: instantiated as first module component it:
@@ -60,6 +64,7 @@ export class UserContainer extends React.Component {
       settings: uiSettingsSelectors.getSettings(state),
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
+      currentModuleId: selectedDynamicModuleIdSelectors.getDynamicModuleId(state),
     }
   }
 
@@ -76,6 +81,7 @@ export class UserContainer extends React.Component {
       fetchEntity: (id) => dispatch(fetchEntityActions.getEntity(id)),
       fetchAllEntityVersions: (id, type) => dispatch(fetchEntityVersionsActions.fetchAllVersions(id, type)),
       fetchModelAttributes: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+      updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
     }
   }
 
@@ -100,6 +106,8 @@ export class UserContainer extends React.Component {
     fetchAllEntityVersions: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
     setSelectedTreeEntry: PropTypes.func.isRequired,
     setModuleDescriptionPath: PropTypes.func.isRequired,
+    updateResultsContext: PropTypes.func.isRequired,
+    currentModuleId: PropTypes.number,
   }
 
   /**
@@ -147,9 +155,16 @@ export class UserContainer extends React.Component {
 
     const oldSelectedTreeEntry = get(oldProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
     const newSelectedTreeEntry = get(newProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
-    if (!isEmpty(newSelectedTreeEntry) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
-      const { section, child } = newSelectedTreeEntry
-      ContextStorageHelper.replaceQueryParam('eds', `${section}${child !== null ? `,${child}` : ''}`)
+    if (!isEmpty(newSelectedTreeEntry) && !isEmpty(newProps.descriptionState.descriptionPath) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
+      const { currentModuleId, updateResultsContext } = this.props
+      updateResultsContext(currentModuleId, {
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            descriptionPath: newProps.descriptionState.descriptionPath.map((pathEntity) => ({ entity: pathEntity.entityWithTreeEntry.entity, selectedTreeEntry: pathEntity.entityWithTreeEntry.selectedTreeEntry })),
+            selectedIndex,
+          },
+        },
+      })
     }
   }
 
@@ -219,9 +234,8 @@ export class UserContainer extends React.Component {
    * User callback: user clicked on a tree outer link (entity)
    * @param {*} entity matching CatalogShapes.Entity
    */
-  onSelectEntityLink = (entityWithTreeEntry) => {
+  onSelectEntityLink = (entity) => {
     const { moduleConf: { runtime: { descriptionPath, selectedIndex, setDescriptionPath } } } = this.props
-    const { entity } = entityWithTreeEntry
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
@@ -231,7 +245,13 @@ export class UserContainer extends React.Component {
       setDescriptionPath(descriptionPath, foundEntityIndex)
     } else {
       // 1.b - No: add it and set index to last element (new one)
-      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), entityWithTreeEntry], selectedIndex + 1)
+      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), {
+        entity,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+          child: null,
+        },
+      }], selectedIndex + 1)
     }
   }
 

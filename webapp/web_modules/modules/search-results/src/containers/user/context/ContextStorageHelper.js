@@ -195,7 +195,7 @@ export class ContextStorageHelper {
         const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
         if (!descriptionPath.length || selectedIndex >= descriptionPath.length || !descriptionPath[selectedIndex].selectedTreeEntry) return null
         const { selectedTreeEntry: { section, child } } = descriptionPath[selectedIndex]
-        return `${section}${child !== null ? `,${child}` : ''}`
+        return `${section}${child || child === 0 ? `,${child}` : ''}`
       },
       fromParameterValue: (resultsContext, eds) => {
         const split = eds.split(',')
@@ -380,17 +380,6 @@ export class ContextStorageHelper {
         [name]: parameterValue,
       }
     }, {})
-  }
-
-  /**
-   * Replace query param value
-   * @param {*} resultsContext query param to replace
-   * @param {*} value new query parameter value
-   */
-  static replaceQueryParam(queryParam, value) {
-    if (!browserHistory) return
-    const { pathname, query: currentQuery } = browserHistory.getCurrentLocation()
-    browserHistory.replace({ pathname, query: { ...currentQuery, [queryParam]: value } })
   }
 
   /**

@@ -75,6 +75,7 @@ describe('[Description] Testing UserContainer', () => {
       fetchAllEntityVersions: () => {},
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
+      updateResultsContext: () => {},
     }
 
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
@@ -118,6 +119,7 @@ describe('[Description] Testing UserContainer', () => {
       setModuleDescriptionPath: (descriptionPath) => {
         spySetModuleDescriptionPath.descriptionPath = descriptionPath
       },
+      updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(MainModuleComponent), 0,
@@ -272,10 +274,11 @@ describe('[Description] Testing UserContainer', () => {
       fetchAllEntityVersions: () => new Promise((resolve) => resolve({ payload: {} })),
       setSelectedTreeEntry: () => {},
       setModuleDescriptionPath: () => {},
+      updateResultsContext: () => {},
     }
     const enzymeWrapper = shallow(<UserContainer {...props} />, { context })
     // 1- Check "Jump to" first entity
-    enzymeWrapper.instance().onSelectEntityLink(resolvedDataEntity.entityWithTreeEntry)
+    enzymeWrapper.instance().onSelectEntityLink(resolvedDataEntity.entityWithTreeEntry.entity)
     assert.deepEqual(spySetDescriptionPath, {
       path: [resolvedDataEntity.entityWithTreeEntry, resolvedDatasetEntity.entityWithTreeEntry],
       index: 0,
@@ -292,9 +295,9 @@ describe('[Description] Testing UserContainer', () => {
         },
       },
     })
-    enzymeWrapper.instance().onSelectEntityLink({ entity: resolvedDatasetEntity.displayModel.linkedDocuments[0] })
+    enzymeWrapper.instance().onSelectEntityLink(resolvedDatasetEntity.displayModel.linkedDocuments[0])
     assert.deepEqual(spySetDescriptionPath, {
-      path: [resolvedDatasetEntity.entityWithTreeEntry, { entity: resolvedDatasetEntity.displayModel.linkedDocuments[0] }],
+      path: [resolvedDatasetEntity.entityWithTreeEntry, { entity: resolvedDatasetEntity.displayModel.linkedDocuments[0], selectedTreeEntry: { section: 'PARAMETERS', child: null } }],
       index: 1,
     }, '2- Should have cleared entities after selected index and added new one at end')
     // 3 - Set index (simple callback, no computing)
