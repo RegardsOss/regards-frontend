@@ -165,6 +165,7 @@ const messages = {
   'search.results.tab.main.results': 'Résultats',
   'search.results.tab.description': 'Description',
   'search.results.tab.tag.results': '{tabLabel}',
+  'search.results.tab.file': 'Fichier',
   'search.results.configure.columns.option': 'Colonnes',
   'search.results.configure.columns.toggle.all.visible': 'Tout Afficher',
   'search.results.configure.columns.toggle.all.hidden': 'Tout cacher',

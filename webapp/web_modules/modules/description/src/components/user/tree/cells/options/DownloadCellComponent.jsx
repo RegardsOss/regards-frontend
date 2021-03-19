@@ -25,6 +25,7 @@ import {
 } from '@regardsoss/entities-common'
 import { withAuthInfo } from '@regardsoss/authentication-utils'
 import { FileData } from '../../../../../shapes/DescriptionState'
+import OpenFileCellComponent from './OpenFileCellComponent'
 
 /** Button constructor for inner download button graphics */
 export const DownloadInnerButton = ({ constrainedByQuota, quotaInfo, ...props }) => (
@@ -51,11 +52,26 @@ export class DownloadCellComponent extends React.Component {
     accessToken: PropTypes.string,
     // from withQuotaInfo
     quotaInfo: QuotaInfo,
+    // Callback: user open file in new tab (uri: string) => ()
+    onOpenFileInNewTab: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  /**
+   * User clicked this option, propagate event
+   */
+  onOpenNewTab = () => {
+    const { onOpenFileInNewTab } = this.props
+    const {
+      file: {
+        uri,
+      },
+    } = this.props
+    onOpenFileInNewTab(uri)
   }
 
   render() {
@@ -66,8 +82,16 @@ export class DownloadCellComponent extends React.Component {
       },
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
+    // File should be open in new tab when specific mimeType
+    if (STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)) {
+      return (
+        <OpenFileCellComponent
+          tooltip={formatMessage({ id: 'module.description.common.open.file.tooltip' }, { fileName: label })}
+          onOpenFileInNewTab={this.onOpenNewTab}
+        />)
+    }
     // this button should be shown only when the file can be downloaded AND is not constrained by quota OR user has a quota (=> not public)
-    return available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) && !STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType) ? (
+    return available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
       <DownloadButton
         ButtonConstructor={DownloadInnerButton}
         ButtonIcon={null}

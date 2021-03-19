@@ -287,6 +287,23 @@ export class UserContainer extends React.Component {
     return get(moduleConf, `${entityType}.showDescription`, false)
   }
 
+  /**
+   * Open new file tab with specific mimeType
+   * @param {*} label string
+   * @param {*} uri string
+   */
+  onOpenFileInNewTab = (uri) => {
+    const { pageModuleId, updateResultsContext } = this.props
+    updateResultsContext(pageModuleId, {
+      selectedTab: UIDomain.RESULTS_TABS_ENUM.FILE,
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.FILE]: {
+          uri,
+        },
+      },
+    })
+  }
+
   render() {
     if (this.shadowModule) {
       return null
@@ -316,6 +333,7 @@ export class UserContainer extends React.Component {
         onSelectEntityIndex={this.onSelectEntityIndex}
         onSearchWord={onSearchWord}
         onSearchEntity={onSearchEntity}
+        onOpenFileInNewTab={this.onOpenFileInNewTab}
       />)
   }
 }

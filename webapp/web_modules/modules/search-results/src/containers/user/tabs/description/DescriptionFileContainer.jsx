@@ -16,21 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import { UIShapes } from '@regardsoss/shape'
+import { UIDomain } from '@regardsoss/domain'
+import { URIContentDisplayer } from '@regardsoss/components'
 
 /**
- * Available tabs in results
- * @author Raphaël Mechali
- **/
-export const RESULTS_TABS_ENUM = {
-  MAIN_RESULTS: 'MAIN_RESULTS',
-  DESCRIPTION: 'DESCRIPTION',
-  TAG_RESULTS: 'TAG_RESULTS',
-  FILE: 'FILE',
+ * Resolves file container and shows it for current results context when available
+ * @author Rachid OULASRI
+ */
+export class DescriptionContainer extends React.Component {
+  static propTypes = {
+    resultsContext: UIShapes.ResultsContext.isRequired,
+  }
+
+  render() {
+    const { resultsContext } = this.props
+    const { uri } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.FILE]
+
+    return uri ? <URIContentDisplayer uri={uri} /> : null
+  }
 }
-
-/** All tabs by their value */
-export const RESULTS_TABS = values(RESULTS_TABS_ENUM)
-
-/** Search results tabs displaying results list */
-export const RESULTS_LIST_TABS = [RESULTS_TABS_ENUM.MAIN_RESULTS, RESULTS_TABS_ENUM.TAG_RESULTS]
+export default DescriptionContainer

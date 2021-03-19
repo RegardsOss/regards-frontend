@@ -20,6 +20,7 @@ import ResultsIcon from 'mdi-material-ui/ViewSequential'
 import DescriptionIcon from 'mdi-material-ui/InformationOutline'
 import CloseIcon from 'mdi-material-ui/Close'
 import IconButton from 'material-ui/IconButton'
+import FileIcon from 'mdi-material-ui/File'
 import { UIDomain } from '@regardsoss/domain'
 import { UIShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -66,6 +67,10 @@ class TabComponent extends React.Component {
     [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
       labelKey: 'search.results.tab.tag.results',
       IconConstructor: ResultsIcon,
+    },
+    [UIDomain.RESULTS_TABS_ENUM.FILE]: {
+      labelKey: 'search.results.tab.file',
+      IconConstructor: FileIcon,
     },
   }
 
