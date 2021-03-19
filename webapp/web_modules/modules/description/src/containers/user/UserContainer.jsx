@@ -23,7 +23,6 @@ import { connect } from '@regardsoss/redux'
 import { UIDomain } from '@regardsoss/domain'
 import { CatalogClient, AccessProjectClient, UIClient } from '@regardsoss/client'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
-import { resultsContextActions } from '@regardsoss-modules/search-graph/src/clients/ResultsContextClient'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
 import { descriptionStateActions, descriptionStateSelectors } from '../../clients/DescriptionStateClient'
@@ -31,6 +30,7 @@ import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { DescriptionState } from '../../shapes/DescriptionState'
 import MainModuleComponent from '../../components/user/MainModuleComponent'
 import { DescriptionEntityHelper } from './DescriptionEntityHelper'
+import { resultsContextActions } from '../../clients/ResultsContextClient'
 
 /** Builds actions to fetch single entities */
 const fetchEntityActions = new CatalogClient.SearchEntityActions('description-entity-resolver', true)
@@ -64,7 +64,7 @@ export class UserContainer extends React.Component {
       settings: uiSettingsSelectors.getSettings(state),
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
-      currentModuleId: selectedDynamicModuleIdSelectors.getDynamicModuleId(state),
+      pageModuleId: selectedDynamicModuleIdSelectors.getDynamicModuleId(state),
     }
   }
 
@@ -107,7 +107,7 @@ export class UserContainer extends React.Component {
     setSelectedTreeEntry: PropTypes.func.isRequired,
     setModuleDescriptionPath: PropTypes.func.isRequired,
     updateResultsContext: PropTypes.func.isRequired,
-    currentModuleId: PropTypes.number,
+    pageModuleId: PropTypes.number,
   }
 
   /**
@@ -156,16 +156,25 @@ export class UserContainer extends React.Component {
     const oldSelectedTreeEntry = get(oldProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
     const newSelectedTreeEntry = get(newProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
     if (!isEmpty(newSelectedTreeEntry) && !isEmpty(newProps.descriptionState.descriptionPath) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
-      const { currentModuleId, updateResultsContext } = this.props
-      updateResultsContext(currentModuleId, {
-        tabs: {
-          [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: newProps.descriptionState.descriptionPath.map((pathEntity) => ({ entity: pathEntity.entityWithTreeEntry.entity, selectedTreeEntry: pathEntity.entityWithTreeEntry.selectedTreeEntry })),
-            selectedIndex,
-          },
-        },
-      })
+      this.onSelectedTreeUpdated(newProps)
     }
+  }
+
+  /**
+   * Selectred tree change detected: update result context
+   * @param newProps next component properties
+   */
+  onSelectedTreeUpdated = (newProps) => {
+    const { moduleConf: { runtime: { selectedIndex } } } = newProps
+    const { pageModuleId, updateResultsContext } = this.props
+    updateResultsContext(pageModuleId, {
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          descriptionPath: newProps.descriptionState.descriptionPath.map((pathEntity) => ({ entity: pathEntity.entityWithTreeEntry.entity, selectedTreeEntry: pathEntity.entityWithTreeEntry.selectedTreeEntry })),
+          selectedIndex,
+        },
+      },
+    })
   }
 
   /**
