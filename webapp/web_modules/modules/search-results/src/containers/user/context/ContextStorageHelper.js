@@ -211,6 +211,14 @@ export class ContextStorageHelper {
         }
       },
     }, { // description entity
+      name: 'furi',
+      toParameterValue: (resultsContext) => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.FILE].uri,
+      fromParameterValue: (resultsContext, uri) => ({
+        tabs: {
+          [UIDomain.RESULTS_TABS_ENUM.FILE]: { uri },
+        },
+      }),
+    }, { // description entity
       name: 'd',
       toParameterValue: (resultsContext) => {
         const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
