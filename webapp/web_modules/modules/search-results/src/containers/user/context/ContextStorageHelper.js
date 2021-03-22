@@ -210,7 +210,7 @@ export class ContextStorageHelper {
           },
         }
       },
-    }, { // description entity
+    }, { // file tab uri
       name: 'furi',
       toParameterValue: (resultsContext) => resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.FILE].uri,
       fromParameterValue: (resultsContext, uri) => ({
