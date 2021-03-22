@@ -44,14 +44,12 @@ export class TitleAndTabsContainer extends React.Component {
     UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS,
     UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
     UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-    UIDomain.RESULTS_TABS_ENUM.FILE,
   ]
 
   /** Closable tabs */
   static CLOSABLE_TABS = [
     UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
     UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-    UIDomain.RESULTS_TABS_ENUM.FILE,
   ]
 
   /**
@@ -124,9 +122,6 @@ export class TitleAndTabsContainer extends React.Component {
           contextCriterion = tabVisible ? contextTags[0] : null
           break
         }
-        case UIDomain.RESULTS_TABS_ENUM.FILE:
-          tabVisible = resultsContext.tabs[tabType].uri !== null
-          break
         default:
           throw new Error(`Unknwon tab type ${tabType}`)
       }
@@ -169,14 +164,6 @@ export class TitleAndTabsContainer extends React.Component {
           selectedTab: nextTabType,
           tabs: {
             [closedTabType]: { descriptionPath: [], selectedIndex: 0 },
-          },
-        })
-        break
-      case UIDomain.RESULTS_TABS_ENUM.FILE:
-        updateResultsContext(moduleId, {
-          selectedTab: nextTabType,
-          tabs: {
-            [closedTabType]: { uri: null },
           },
         })
         break

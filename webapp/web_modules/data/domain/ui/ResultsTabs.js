@@ -26,7 +26,6 @@ export const RESULTS_TABS_ENUM = {
   MAIN_RESULTS: 'MAIN_RESULTS',
   DESCRIPTION: 'DESCRIPTION',
   TAG_RESULTS: 'TAG_RESULTS',
-  FILE: 'FILE',
 }
 
 /** All tabs by their value */

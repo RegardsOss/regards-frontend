@@ -53,8 +53,6 @@ class BrowsingTreeComponent extends React.Component {
     onSearchWord: PropTypes.func.isRequired,
     // Callback: user searched for an entity tag (tag:CatalogShapes.Entity) => ()
     onSearchEntity: PropTypes.func.isRequired,
-    // Callback: user open file in new tab (uri: string) => ()
-    onOpenFileInNewTab: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -264,7 +262,6 @@ class BrowsingTreeComponent extends React.Component {
             allowSearching, isDescriptionAllowed,
             onSearchWord, onSearchEntity,
             onSelectInnerLink, onSelectEntityLink,
-            onOpenFileInNewTab,
           } = this.props
 
           switch (type) {
@@ -300,7 +297,7 @@ class BrowsingTreeComponent extends React.Component {
                   onSelectInnerLink={onSelectInnerLink}
                 />)
             case BrowsingTreeComponent.CELL_TYPES.DOWNLOAD_FILE:
-              return <DownloadCellComponent file={data} onOpenFileInNewTab={onOpenFileInNewTab} />
+              return <DownloadCellComponent file={data} />
             case BrowsingTreeComponent.CELL_TYPES.VERSION:
               return <VersionCellComponent
                 entity={data}

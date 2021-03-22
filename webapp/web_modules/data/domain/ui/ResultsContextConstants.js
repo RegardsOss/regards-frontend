@@ -118,9 +118,6 @@ const DEFAULT_RESULTS_CONTEXT = {
       descriptionPath: [],
       selectedIndex: 0,
     },
-    [RESULTS_TABS_ENUM.FILE]: {
-      uri: null,
-    },
     [RESULTS_TABS_ENUM.TAG_RESULTS]: {
       facets: {
         enabled: false,

@@ -348,20 +348,12 @@ export const DescriptionTabModel = PropTypes.shape({
   selectedIndex: PropTypes.number.isRequired,
 })
 
-/**
- * File tab model
- */
-export const FileTabModel = PropTypes.shape({
-  uri: PropTypes.string,
-})
-
 /** Complete results context: holds only the three tabs */
 export const ResultsContext = PropTypes.shape({
   selectedTab: PropTypes.oneOf(UIDomain.RESULTS_TABS).isRequired,
   tabs: PropTypes.shape({
     [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: ResultsTab.isRequired,
     [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: DescriptionTabModel.isRequired,
-    [UIDomain.RESULTS_TABS_ENUM.FILE]: FileTabModel.isRequired,
     [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: ResultsTab.isRequired,
   }),
 })

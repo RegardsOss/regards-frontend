@@ -52,8 +52,6 @@ class MainModuleComponent extends React.Component {
     onSearchEntity: PropTypes.func.isRequired,
     // Callback: user selected an entity by its index in path (index: number) => ()
     onSelectEntityIndex: PropTypes.func.isRequired,
-    // Callback: user open file in new tab (uri: string) => ()
-    onOpenFileInNewTab: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -107,7 +105,6 @@ class MainModuleComponent extends React.Component {
     const {
       settings, descriptionEntity, allowSearching, browsingTreeVisible, isDescriptionAllowed, descriptionPath,
       selectedEntityIndex, onSelectInnerLink, onSelectEntityLink, onSearchWord, onSearchEntity, onSelectEntityIndex,
-      onOpenFileInNewTab,
     } = this.props
     const {
       width, height, isTreeButtonToggled, currentReziserPos,
@@ -156,7 +153,6 @@ class MainModuleComponent extends React.Component {
                   onSelectEntityLink={onSelectEntityLink}
                   onSearchWord={onSearchWord}
                   onSearchEntity={onSearchEntity}
-                  onOpenFileInNewTab={onOpenFileInNewTab}
                   scrollAreaHeight={height}
                 />
                 {/* Right : Content */}
