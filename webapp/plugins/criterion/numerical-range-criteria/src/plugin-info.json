@@ -1,0 +1,28 @@
+{
+  "name": "numerical-range-criteria",
+  "description": "Criteria widget to search for a given numerical into a range defined by two attributes. One for each range limit (min and max)",
+  "version": "1.0.0",
+  "author": "Lasserre Théo",
+  "company": "CNES (https://cnes.fr)",
+  "contributors": [
+    "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
+  ],
+  "email": "regards@c-s.fr",
+  "url": "http://www.cnes.fr",
+  "license": "GPLv3",
+  "type": "CRITERIA",
+  "conf": {
+    "attributes": [
+      {
+        "name": "lowerBound",
+        "description": "Lower limit of the entity numeric range property.",
+        "attributeType": ["INTEGER", "DOUBLE", "LONG"]
+      },
+      {
+        "name": "upperBound",
+        "description": "Upper limit of the entity numeric range property.",
+        "attributeType": ["INTEGER", "DOUBLE", "LONG"]
+      }
+    ]
+  }
+}

@@ -20,6 +20,8 @@ import omit from 'lodash/omit'
 import EqualIcon from 'mdi-material-ui/EqualBox'
 import GreaterThanIcon from 'mdi-material-ui/CodeGreaterThan'
 import LesserThanIcon from 'mdi-material-ui/CodeLessThan'
+import GreaterThanOrQualIcon from 'mdi-material-ui/CodeGreaterThanOrEqual'
+import LesserThanOrEqualIcon from 'mdi-material-ui/CodeLessThanOrEqual'
 import { CommonDomain } from '@regardsoss/domain'
 import IconElementSelector from './IconElementSelector'
 
@@ -44,6 +46,8 @@ export class NumericalComparatorSelector extends React.Component {
       CommonDomain.EnumNumericalComparator.LE,
       CommonDomain.EnumNumericalComparator.EQ,
       CommonDomain.EnumNumericalComparator.GE,
+      CommonDomain.EnumNumericalComparator.SL,
+      CommonDomain.EnumNumericalComparator.SG,
     ],
   }
 
@@ -58,14 +62,24 @@ export class NumericalComparatorSelector extends React.Component {
       tooltipKey: 'numerical.comparator.selector.EQ.tooltip',
     },
     [CommonDomain.EnumNumericalComparator.LE]: {
-      IconConstructor: LesserThanIcon,
+      IconConstructor: LesserThanOrEqualIcon,
       labelKey: 'numerical.comparator.selector.LE.label',
       tooltipKey: 'numerical.comparator.selector.LE.tooltip',
     },
     [CommonDomain.EnumNumericalComparator.GE]: {
-      IconConstructor: GreaterThanIcon,
+      IconConstructor: GreaterThanOrQualIcon,
       labelKey: 'numerical.comparator.selector.GE.label',
       tooltipKey: 'numerical.comparator.selector.GE.tooltip',
+    },
+    [CommonDomain.EnumNumericalComparator.SL]: {
+      IconConstructor: LesserThanIcon,
+      labelKey: 'numerical.comparator.selector.SL.label',
+      tooltipKey: 'numerical.comparator.selector.SL.tooltip',
+    },
+    [CommonDomain.EnumNumericalComparator.SG]: {
+      IconConstructor: GreaterThanIcon,
+      labelKey: 'numerical.comparator.selector.SG.label',
+      tooltipKey: 'numerical.comparator.selector.SG.tooltip',
     },
   }
 
