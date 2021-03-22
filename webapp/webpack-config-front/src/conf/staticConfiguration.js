@@ -73,6 +73,7 @@ STATIC_CONF = {
       MODEL_NAME_FILTERS: [],
     },
   },
+  // files to open in new tab instead of download it
   OPEN_NEW_TAB_MIME_TYPES: ['application/pdf', 'application/xhtml+xml', 'text/html'],
   // required browsers and versions
   BROWSER_REQUIREMENTS: {
