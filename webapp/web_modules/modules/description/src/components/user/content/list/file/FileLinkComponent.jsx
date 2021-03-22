@@ -61,10 +61,11 @@ export class FileLinkComponent extends React.Component {
   render() {
     const {
       file: {
-        label, available, uri, type, reference,
+        label, available, uri, type, reference, mimeType,
       }, quotaInfo, accessToken,
     } = this.props
     const { intl: { formatMessage } } = this.context
+    const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
     return (
       <PageElement>
         <PageLinkCellComponent
@@ -80,12 +81,13 @@ export class FileLinkComponent extends React.Component {
              <DownloadButton
                ButtonConstructor={PageElementOption}
                disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
-               tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
+               tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
                downloadURL={uri}
                IconConstructor={DownloadIconComponent}
                // icon component props
                constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
                quotaInfo={quotaInfo}
+               isBlank={openInNewTab}
              />) : null // hide option when not available
         }
       </PageElement>
