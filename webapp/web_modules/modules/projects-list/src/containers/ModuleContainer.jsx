@@ -70,7 +70,6 @@ export class ModuleContainer extends React.Component {
    * @returns {React.Component}
    */
   render() {
-    console.error('ME CALLED?')
     if (!this.props.projects && this.props.isFetching) {
       return (<FormLoadingComponent />)
     }

@@ -24,7 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export class ProjectLicenseActions extends BasicSignalActions {
   constructor() {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/license`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES_PUBLIC.ADMIN}/license`,
       namespace: 'licenses/information',
     })
   }

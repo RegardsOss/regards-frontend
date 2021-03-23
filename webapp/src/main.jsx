@@ -35,6 +35,7 @@ require('../resources/logo_regards_blue_black.png')
 require('../resources/logo_regards_blue_white.png')
 require('../resources/logo_regards_grey_black.png')
 require('../resources/logo_regards_grey_white.png')
+require('../resources/favicon.ico')
 
 // import static configuration parameters
 if (process.env.NODE_ENV === 'production') {

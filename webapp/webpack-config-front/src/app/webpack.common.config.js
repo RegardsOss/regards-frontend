@@ -36,32 +36,18 @@ module.exports = function (projectContextPath, mode = 'dev') {
     module: {
       unknownContextCritical: false,
       rules: [
-        mode === 'test' || mode === 'coverage' ? {
-          test: /MizarLoader/,
-          loader: 'file-loader',
-        } : {},
+        mode === 'test' || mode === 'coverage'
+          ? {
+            test: /MizarLoader/,
+            loader: 'file-loader',
+          }
+          : {},
         // Transpile ES6 Javascript into ES5 with babel loader
         {
           test: /\.jsx?$/,
           // Exclude the DLL folder build from the transpilation
           // and staticConfiguration this file is just copied not interpreted
-          exclude: [
-            /node_modules/,
-            /dist/,
-            /staticConfiguration(\.dev)?\.js$/,
-            /\/mizar\//,
-            /rconfig.js$/,
-            /requirejs\//,
-            /path\//,
-            /underscore\//,
-            /jquery\//,
-            /jquery-ui-dist\//,
-            /string\//,
-            /file-saver\//,
-            /xmltojson\//,
-            /jsvotable\//,
-            /jscsv\//,
-          ],
+          exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
           use: [
             'thread-loader',
             // used to cache the results of the loader.
@@ -70,65 +56,27 @@ module.exports = function (projectContextPath, mode = 'dev') {
             'babel-loader?cacheDirectory',
           ],
         },
-        // Special for Mizar
-        {
-          test: /\/mizar\//,
-          loader: 'file-loader',
-          options: {
-            regExp: /\/mizar\/(.+)$/,
-            name: '[1]',
-            outputPath: 'mizar/',
-          },
-        },
         // Special for Cesium
-        mode === 'prod' ? {
-          // Strip cesium pragmas
-          test: /\.js$/,
-          enforce: 'pre',
-          include: path.resolve(__dirname, cesiumSource),
-          use: [
-            {
-              loader: 'strip-pragma-loader',
-              options: {
-                pragmas: {
-                  debug: false,
+        mode === 'prod'
+          ? {
+            // Strip cesium pragmas
+            test: /\.js$/,
+            enforce: 'pre',
+            include: path.resolve(__dirname, cesiumSource),
+            use: [
+              {
+                loader: 'strip-pragma-loader',
+                options: {
+                  pragmas: {
+                    debug: false,
+                  },
                 },
               },
-            },
-          ],
-        }
+            ],
+          }
           : {},
         {
-          test: [
-            /requirejs\//,
-            /path\//,
-            /underscore\//,
-            /jquery\//,
-            /jquery-ui-dist\//,
-            /string\//,
-            /file-saver\//,
-            /xmltojson\//,
-            /wms-capabilities\//,
-            /moment\/min\//,
-            /jsvotable\//,
-            /jscsv\//,
-          ],
-          loader: 'file-loader',
-          options: {
-            regExp: /\/node_modules\/(.+)$/,
-            name: '[1]',
-            outputPath: 'mizar/node_modules/',
-          },
-        },
-        {
-          test: /\/rconfig.js$/,
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'mizar/src/',
-          },
-        },
-        { // @regardsoss-modules icon handler
+          // @regardsoss-modules icon handler
           test: /default-icon\.svg$/,
           loader: 'file-loader',
           options: {
@@ -139,10 +87,10 @@ module.exports = function (projectContextPath, mode = 'dev') {
         },
         {
           test: /\.css$/,
-          use: mode !== 'test' ? [
-            MiniCssExtractPlugin.loader,
-            'css-loader',
-          ] : ['css-loader'],
+          use:
+            mode !== 'test'
+              ? [MiniCssExtractPlugin.loader, 'css-loader']
+              : ['css-loader'],
         },
         {
           test: /\.(jpg|gif|png)$/,
@@ -177,12 +125,31 @@ module.exports = function (projectContextPath, mode = 'dev') {
             outputPath: 'html/',
           },
         },
+        {
+          test: /\.ico/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: '',
+          },
+        },
+        {
+          test: /\.woff$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
       ],
     },
     // Import Cesium as an outside dependency in dev
-    externals: mode === 'dev' ? {
-      cesium: 'Cesium',
-    } : {},
+    externals:
+      mode === 'dev'
+        ? {
+          cesium: 'Cesium',
+        }
+        : {},
     plugins: [
       new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
@@ -196,6 +163,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
       new webpack.ProvidePlugin({
         React: 'react',
         PropTypes: 'prop-types',
+        Jquery: 'jquery',
+        'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),

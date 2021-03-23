@@ -28,6 +28,7 @@ const messages = {
   'authentication.external.title': 'Or log in with...',
   'authentication.external.message': 'Select a service',
   'authentication.external.button.label': 'Log in with {name}',
+  'authentication.external.button.unlock.label': 'Unlock session with {name}',
   'authentication.error.ACCOUNT_UNKNOWN': 'Unknown user login and / or password',
   'authentication.error.ACCOUNT_PENDING': 'Your REGARDS account is not ready yet. You will receive a notification by email when it changes',
   'authentication.error.ACCOUNT_INACTIVE': 'Your account is inactive. Contact system administrator',
@@ -143,6 +144,7 @@ const messages = {
   // session locked pane
   'session.locked.title': 'Session locked',
   'session.locked.subtitle': 'Your session has expired, please enter your password below to unlock it',
+  'ext.session.locked.subtitle': 'Your session has expired',
   'session.locked.password': 'Password',
   'session.locked.button': 'Unlock',
   'session.locked.error': 'Invalid identifiers',

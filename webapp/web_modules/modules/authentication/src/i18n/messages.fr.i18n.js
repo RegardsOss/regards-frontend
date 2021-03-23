@@ -28,6 +28,7 @@ const messages = {
   'authentication.external.title': 'Ou se connecter avec...',
   'authentication.external.message': 'Se connecter avec un compte affilié',
   'authentication.external.button.label': 'Connexion avec {name}',
+  'authentication.external.button.unlock.label': 'Déverouiller votre session sur {name}',
   'authentication.error.ACCOUNT_UNKNOWN': 'L\'adresse e-mail et / ou le mot de passe sont inconnus',
   'authentication.error.ACCOUNT_PENDING': 'Votre compte utilisateur REGARDS n\'a pas encore été validé. Vous serez notifié par e-mail de tout changement',
   'authentication.error.ACCOUNT_INACTIVE': 'Votre compte utilisateur est désactivé, veuillez contacter l\'administrateur du système',
@@ -142,6 +143,7 @@ const messages = {
 
   'session.locked.title': 'Session verrouillée',
   'session.locked.subtitle': 'Entrez votre mot de passe pour la déverrouiller',
+  'ext.session.locked.subtitle': 'Votre session a expirée',
   'session.locked.password': 'Mot de passe',
   'session.locked.button': 'Déverrouiller',
   'session.locked.error': 'Identifiants invalides',

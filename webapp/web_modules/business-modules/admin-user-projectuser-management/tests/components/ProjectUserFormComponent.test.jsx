@@ -20,7 +20,7 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, DumpProvider, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  Field, FieldHelp, RenderCheckbox, RenderTextField, ValidationHelpers,
+  Field, FieldHelp, RenderCheckbox, RenderTextField,
 } from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -100,7 +100,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Password field should be displayed')
     assert.isFalse(passwordField.parent(ShowableAtRender).props().show, 'Password field should be hidden in edition')
 
@@ -110,7 +110,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password.confirm',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isFalse(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be hidden in edition')
     // first name
@@ -119,7 +119,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.firstName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Fist name field should be displayed')
     assert.isFalse(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be hidden in edition')
     // last name: hidden
@@ -128,7 +128,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.lastName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isFalse(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be hidden in edition')
     // max quota
@@ -216,7 +216,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Password field should be displayed')
     assert.isTrue(passwordField.parent(ShowableAtRender).props().show, 'Password field should be displayed in creation')
 
@@ -226,7 +226,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password.confirm',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isTrue(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be displayed in creation')
     // first name
@@ -235,7 +235,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.firstName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Fist name field should be displayed')
     assert.isTrue(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be displayed in creation')
     // last name: hidden
@@ -244,7 +244,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.lastName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isTrue(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be displayed in creation')
     // max quota
@@ -304,7 +304,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Password field should be displayed')
     assert.isFalse(passwordField.parent(ShowableAtRender).props().show, 'Password field should be hidden in when reusing an existing account')
 
@@ -314,7 +314,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'password',
       label: 'projectUser.create.input.password.confirm',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isFalse(confirmPasswordField.parent(ShowableAtRender).props().show, 'Confirm password field should be hidden in when reusing an existing account')
     // first name
@@ -323,7 +323,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.firstName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Fist name field should be displayed')
     assert.isFalse(firstNameField.parent(ShowableAtRender).props().show, 'First name field should be hidden in when reusing an existing account')
     // last name: hidden
@@ -332,7 +332,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
       component: RenderTextField,
       type: 'text',
       label: 'projectUser.create.input.lastName',
-      validate: ValidationHelpers.required,
+      validate: ProjectUserFormComponent.TEXT_FIELD_VALIDATORS,
     }, 'Confirm password field should be displayed')
     assert.isFalse(lastNameField.parent(ShowableAtRender).props().show, 'Last name field should be hidden in when reusing an existing account')
   })

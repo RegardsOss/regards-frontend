@@ -29,7 +29,7 @@ import { connect } from '@regardsoss/redux'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import { resultsContextActions } from '../../../../../clients/ResultsContextClient'
 import MapComponent from '../../../../../components/user/tabs/results/map/MapComponent'
-import { MizarAdapter } from '../../../../../../../../utils/mizar-adapter/src/main'
+import { toAreaFeature, toBoxCoordinates, geometryToAreaFeature } from '../../../../../../../../utils/mizar-adapter/src/main'
 import { toponymSelectors } from '../../../../../clients/ToponymClient'
 
 /**
@@ -205,12 +205,12 @@ export class MapContainer extends React.Component {
       || !isEqual(oldToponymList, toponymList)) {
       if (!isEmpty(tab.criteria.geometry)) {
         nextState.criteriaAreas = tab.criteria.geometry.map(
-          ({ point1, point2 }, index) => MizarAdapter.toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
+          ({ point1, point2 }, index) => toAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${index}`, point1, point2))
         nextState.selectedToponyms = MapContainer.buildGeoJSONFeatureCollection() // build empty list
       } else {
         const toponymCollection = MapContainer.buildToponymCollection(tab.criteria.toponymCriteria, toponymList)
         nextState.selectedToponyms = MapContainer.buildGeoJSONFeatureCollection(toponymCollection)
-        nextState.criteriaAreas = map(nextState.selectedToponyms.features, (toponym) => MizarAdapter.geometryToAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, toponym.geometry))
+        nextState.criteriaAreas = map(nextState.selectedToponyms.features, (toponym) => geometryToAreaFeature(`${MapContainer.CURRENT_CRITERION_FEATURE_ID}${toponym.businessId}`, toponym.geometry))
       }
     }
     // update state on change
@@ -285,11 +285,11 @@ export class MapContainer extends React.Component {
    * @param {[number]} point2 second point as coordinates array
    */
   onDrawingSelectionUpdated = (point1, point2) => {
-    const feedbackFeature = MizarAdapter.toAreaFeature(MapContainer.DRAWING_SELECTION_FEATURE_ID, point1, point2)
+    const feedbackFeature = toAreaFeature(MapContainer.DRAWING_SELECTION_FEATURE_ID, point1, point2)
     // update displayed area
     this.setState({
       currentlyDrawingAreas: feedbackFeature ? [
-        MizarAdapter.toAreaFeature(MapContainer.DRAWING_SELECTION_FEATURE_ID, point1, point2),
+        toAreaFeature(MapContainer.DRAWING_SELECTION_FEATURE_ID, point1, point2),
       ] : [],
     })
   }
@@ -307,7 +307,7 @@ export class MapContainer extends React.Component {
 
     const {
       minX, maxX, minY, maxY, empty,
-    } = MizarAdapter.toBoxCoordinates(point1, point2)
+    } = toBoxCoordinates(point1, point2)
 
     // check area is not empty (empty area cannot be applied as criterion)
     if (!empty) {
@@ -321,8 +321,8 @@ export class MapContainer extends React.Component {
                 point2,
                 requestParameters: {
                   [CatalogDomain.CatalogSearchQueryHelper.GEOMETRY_PARAMETER_NAME]:
-                // WKT
-                `POLYGON((${minX} ${minY},${maxX} ${minY},${maxX} ${maxY},${minX} ${maxY},${minX} ${minY}))`,
+                    // WKT
+                    `POLYGON((${minX} ${minY},${maxX} ${minY},${maxX} ${maxY},${minX} ${maxY},${minX} ${minY}))`,
                 },
               }],
               toponymCriteria: [],
@@ -392,7 +392,7 @@ export class MapContainer extends React.Component {
             toponymCriteria: [{
               requestParameters: {
                 [CatalogDomain.CatalogSearchQueryHelper.TOPONYM_PARAMETER_NAME]:
-                selectedToponymBusinessId,
+                  selectedToponymBusinessId,
               },
             }],
             geometry: [],

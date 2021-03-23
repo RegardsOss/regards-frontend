@@ -166,3 +166,5 @@ export { default as RenderMessages } from './values/i18n'
 export { default as withValueRenderContext } from './values/withValueRenderContext'
 
 export { default as InfiniteGalleryContainer } from './gallery/InfiniteGalleryContainer'
+
+export { default as ReactErrorBoundaryComponent } from './react-error-boundary/ErrorMessage'

@@ -80,10 +80,13 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   /** Email field validators */
-  static EMAIL_FIELD_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.email]
+  static EMAIL_FIELD_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.email, ValidationHelpers.validStringSize(0, 255)]
 
   /** Quota field validators */
   static QUOTA_FIELDS_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.getIntegerInRangeValidator(-1, Number.MAX_SAFE_INTEGER)]
+
+  /** Text field validators **/
+  static TEXT_FIELD_VALIDATORS = [ValidationHelpers.required, ValidationHelpers.validStringSize(0, 255)]
 
   static ICON_ANCHOR = { horizontal: 'left', vertical: 'top' }
 
@@ -269,7 +272,7 @@ export class ProjectUserFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'projectUser.create.input.password' })}
-                validate={ValidationHelpers.required}
+                validate={ProjectUserFormComponent.TEXT_FIELD_VALIDATORS}
                 normalize={trim}
               />
               <Field
@@ -278,7 +281,7 @@ export class ProjectUserFormComponent extends React.Component {
                 component={RenderTextField}
                 type="password"
                 label={formatMessage({ id: 'projectUser.create.input.password.confirm' })}
-                validate={ValidationHelpers.required}
+                validate={ProjectUserFormComponent.TEXT_FIELD_VALIDATORS}
                 normalize={trim}
               />
               <Field
@@ -287,7 +290,7 @@ export class ProjectUserFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={formatMessage({ id: 'projectUser.create.input.firstName' })}
-                validate={ValidationHelpers.required}
+                validate={ProjectUserFormComponent.TEXT_FIELD_VALIDATORS}
               />
               <Field
                 name="lastName"
@@ -295,7 +298,7 @@ export class ProjectUserFormComponent extends React.Component {
                 component={RenderTextField}
                 type="text"
                 label={formatMessage({ id: 'projectUser.create.input.lastName' })}
-                validate={ValidationHelpers.required}
+                validate={ProjectUserFormComponent.TEXT_FIELD_VALIDATORS}
               />
             </ShowableAtRender>
             <Field

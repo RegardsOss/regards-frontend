@@ -16,7 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import get from 'lodash/get'
+import compose from 'lodash/fp/compose'
 import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import { AuthenticationParametersActions } from '@regardsoss/authentication-utils'
@@ -24,6 +26,13 @@ import { UIDomain } from '@regardsoss/domain'
 import { browserHistory } from 'react-router'
 import root from 'window-or-global'
 import { authServiceProviderActions } from '../clients/AuthenticateServiceProviderClient'
+import messages from '../i18n'
+
+const STATUS = {
+  LOADING: 'loading',
+  ERROR: 'error',
+  SUCCESS: 'success',
+}
 
 /**
  * Comment Here
@@ -50,9 +59,10 @@ export class AuthenticateRedirectionApp extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       initializeApplication: (project) => dispatch(AuthenticationParametersActions.applicationStarted(project)),
-      requestLogin: (scope, pluginId, code) => dispatch(authServiceProviderActions.login(
+      requestLogin: (scope, pluginId, name, code) => dispatch(authServiceProviderActions.login(
         scope,
         pluginId,
+        name,
         code,
       )),
     }
@@ -73,35 +83,86 @@ export class AuthenticateRedirectionApp extends React.Component {
     return code
   }
 
-  UNSAFE_componentWillMount = () => {
-    const {
-      params: { project }, initializeApplication, requestLogin,
-    } = this.props
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
+  state = {
+    status: STATUS.LOADING,
+  }
+
+  UNSAFE_componentWillMount= () => {
     // Redux store space init for user app
-    initializeApplication(project)
+    this.props.initializeApplication(this.props.params.project)
+  }
+
+  componentDidMount = () => {
+    const {
+      params: { project, serviceProviderName }, requestLogin,
+    } = this.props
 
     // Get auth token
     if (browserHistory) {
       const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      requestLogin(project, 'OpenId', code).then((result) => {
-        let storageObj = result.payload.message
-        if (!result.error) {
-          storageObj = result.payload
-        }
-        new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+      if (code === null) {
+        const errorMessage = 'Invalid null code for openId connect'
+        new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+        this.setState({
+          status: STATUS.ERROR,
+        })
         root.window.close()
-      })
+      } else {
+        requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
+          let storageObj
+          if (!result.error) {
+            storageObj = result.payload
+          } else {
+            storageObj = { error: result.payload.message }
+          }
+          new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+          this.setState({
+            status: STATUS.SUCCESS,
+          })
+          root.window.close()
+        })
+      }
     }
   }
 
   render() {
+    const { status } = this.state
+    const {
+      intl: { formatMessage },
+    } = this.context
+    const message = formatMessage({ id: `authenticate.message.${status}` }, { serviceProviderName: this.props.params.serviceProviderName })
     return (
-      <div />
+      <div id="app" className="mainapp">
+        <div id="loader">
+          <div style={{ marginRight: '10px' }}>
+            {message}
+          </div>
+          {
+            status === STATUS.LOADING
+              ? <div className="sk-cube-grid">
+                <div className="sk-cube sk-cube1" />
+                <div className="sk-cube sk-cube2" />
+                <div className="sk-cube sk-cube3" />
+                <div className="sk-cube sk-cube4" />
+                <div className="sk-cube sk-cube5" />
+                <div className="sk-cube sk-cube6" />
+                <div className="sk-cube sk-cube7" />
+                <div className="sk-cube sk-cube8" />
+                <div className="sk-cube sk-cube9" />
+              </div> : null
+          }
+        </div>
+      </div>
     )
   }
 }
 
-export default connect(
-  AuthenticateRedirectionApp.mapStateToProps,
-  AuthenticateRedirectionApp.mapDispatchToProps)(AuthenticateRedirectionApp)
+export default compose(
+  connect(
+    AuthenticateRedirectionApp.mapStateToProps,
+    AuthenticateRedirectionApp.mapDispatchToProps),
+  withI18n(messages))(AuthenticateRedirectionApp)

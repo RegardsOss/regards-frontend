@@ -24,7 +24,7 @@ import { CommonEndpointClient } from '@regardsoss/endpoints-common'
 import { I18nProvider } from '@regardsoss/i18n'
 import { connect } from '@regardsoss/redux'
 import { ThemeProvider } from '@regardsoss/theme'
-import { BrowserCheckerDialog } from '@regardsoss/components'
+import { BrowserCheckerDialog, ReactErrorBoundaryComponent } from '@regardsoss/components'
 import AdminLayout from './AdminLayout'
 import AuthenticationContainer from './AuthenticationContainer'
 import messages from '../i18n'
@@ -110,24 +110,26 @@ class AdminApp extends React.Component {
     const { isLoadingEndpoints } = this.state
 
     return (
-      <div>
-        { /** Project handler */
-          isInstance || !project ? null : <ProjectHandler projectName={project} title="Administration" />
-        }
-        <ThemeProvider>
-          <I18nProvider messages={messages}>
-            {/* Force authentication */}
-            <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
-              {/* Check browser version and warn user */}
-              <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
-              {/* Main render tree */}
-              <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
-                {this.renderLayout}
-              </LoadableContentDisplayDecorator>
-            </AuthenticationContainer>
-          </I18nProvider>
-        </ThemeProvider>
-      </div>
+      <ReactErrorBoundaryComponent>
+        <div>
+          { /** Project handler */
+            isInstance || !project ? null : <ProjectHandler projectName={project} title="Administration" />
+          }
+          <ThemeProvider>
+            <I18nProvider messages={messages}>
+              {/* Force authentication */}
+              <AuthenticationContainer scope={scope} isAuthenticated={isAuthenticated}>
+                {/* Check browser version and warn user */}
+                <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+                {/* Main render tree */}
+                <LoadableContentDisplayDecorator isLoading={isLoadingEndpoints}>
+                  {this.renderLayout}
+                </LoadableContentDisplayDecorator>
+              </AuthenticationContainer>
+            </I18nProvider>
+          </ThemeProvider>
+        </div>
+      </ReactErrorBoundaryComponent>
     )
   }
 }

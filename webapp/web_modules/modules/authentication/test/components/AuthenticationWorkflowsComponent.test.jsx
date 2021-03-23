@@ -47,6 +47,7 @@ describe('[AUTHENTICATION] Testing AuthenticationWorkflowsComponent', () => {
         showAskProjectAccess: false,
         showCancel: false,
         initialMode: mode,
+        enableServiceProviders: true,
       }
 
       const render = shallow(<AuthenticationWorkflowsComponent {...props} />, { context })

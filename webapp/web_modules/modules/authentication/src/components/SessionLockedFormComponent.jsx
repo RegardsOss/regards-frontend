@@ -27,12 +27,15 @@ import { FormErrorMessage } from '@regardsoss/components'
 import {
   RenderTextField, Field, reduxForm, ValidationHelpers,
 } from '@regardsoss/form-utils'
+import { CommonShapes } from '@regardsoss/shape'
+import { ServiceProviderButton } from './ServiceProviderButton'
 
 /**
  * Session management component : if session is locked, shows unlock screen, renders children otherwise
  */
 export class SessionLockedFormComponent extends React.Component {
   static propTypes = {
+    serviceProvider: CommonShapes.ServiceProvider,
     // on submit unlock
     onUnlock: PropTypes.func.isRequired,
     // Form general error
@@ -54,7 +57,9 @@ export class SessionLockedFormComponent extends React.Component {
    * @returns {React.Component} components
    */
   render() {
-    const { hasUnlockingError, handleSubmit, onUnlock } = this.props
+    const {
+      hasUnlockingError, handleSubmit, onUnlock, serviceProvider,
+    } = this.props
     const { intl } = this.context
     const { moduleTheme } = this.context
     return (
@@ -63,28 +68,32 @@ export class SessionLockedFormComponent extends React.Component {
           <Card>
             <CardTitle
               title={this.context.intl.formatMessage({ id: 'session.locked.title' })}
-              subtitle={this.context.intl.formatMessage({ id: 'session.locked.subtitle' })}
+              subtitle={this.context.intl.formatMessage({ id: serviceProvider ? 'ext.session.locked.subtitle' : 'session.locked.subtitle' })}
             />
             <CardText>
               <FormErrorMessage>{hasUnlockingError ? intl.formatMessage({ id: 'session.locked.error' }) : ''}</FormErrorMessage>
-              <Field
-                name="password"
-                fullWidth
-                component={RenderTextField}
-                type="password"
-                label={this.context.intl.formatMessage({ id: 'session.locked.password' })}
-                validate={ValidationHelpers.required}
-                normalize={trim}
-              />
+              {
+                serviceProvider ? <ServiceProviderButton serviceProvider={serviceProvider} unlockStep /> : <Field
+                  name="password"
+                  fullWidth
+                  component={RenderTextField}
+                  type="password"
+                  label={this.context.intl.formatMessage({ id: 'session.locked.password' })}
+                  validate={ValidationHelpers.required}
+                  normalize={trim}
+                />
+              }
+
             </CardText>
-            <CardActions style={moduleTheme.action}>
-              <RaisedButton
-                disabled={this.props.pristine || this.props.submitting || this.props.invalid}
-                label={this.context.intl.formatMessage({ id: 'session.locked.button' })}
-                primary
-                type="submit"
-              />
-            </CardActions>
+            { serviceProvider ? null
+              : <CardActions style={moduleTheme.action}>
+                <RaisedButton
+                  disabled={this.props.pristine || this.props.submitting || this.props.invalid}
+                  label={this.context.intl.formatMessage({ id: 'session.locked.button' })}
+                  primary
+                  type="submit"
+                />
+              </CardActions>}
           </Card>
         </form>
       </div>

@@ -37,6 +37,8 @@ export class AuthenticationFormContainer extends React.Component {
     project: PropTypes.string,
     // form title
     title: PropTypes.string.isRequired,
+    // Enable use of externe  service providers ?
+    enableServiceProviders: PropTypes.bool.isRequired,
     // show create account link?
     showAskProjectAccess: PropTypes.bool.isRequired,
     // show cancel button?
@@ -67,7 +69,10 @@ export class AuthenticationFormContainer extends React.Component {
   }
 
   UNSAFE_componentWillMount() {
-    this.props.fetchServiceProviders()
+    // Fetch service providers configured for the current project
+    if (this.props.project != null && this.props.project !== 'instance' && this.props.enableServiceProviders) {
+      this.props.fetchServiceProviders()
+    }
   }
 
   onLoginRequest = ({ username, password }) => {
