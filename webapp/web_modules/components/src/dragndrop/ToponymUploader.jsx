@@ -45,12 +45,12 @@ const SUPPORTED_FORMATS = {
  * @author Théo Lasserre
  */
 class ToponymUploader extends React.Component {
-/**
- * Redux: map dispatch to props function
- * @param {*} dispatch: redux dispatch function
- * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
- * @return {*} list of component properties extracted from redux state
- */
+  /**
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of component properties extracted from redux state
+   */
   static mapDispatchToProps(dispatch) {
     return {
       throwError: (message) => dispatch(ApplicationErrorAction.throwError(message)),
@@ -58,48 +58,24 @@ class ToponymUploader extends React.Component {
     }
   }
 
-static propTypes = {
-  onToponymUploaded: PropTypes.func.isRequired,
-  displayMode: PropTypes.oneOf(values(UPLOADER_DISPLAY_MODES)).isRequired,
-  children: PropTypes.oneOfType([
-    PropTypes.arrayOf(PropTypes.node),
-    PropTypes.node,
-  ]),
-  // from dispatchToProps
-  throwError: PropTypes.func.isRequired,
-  uploadToponym: PropTypes.func.isRequired,
-}
+  static propTypes = {
+    onToponymUploaded: PropTypes.func.isRequired,
+    displayMode: PropTypes.oneOf(values(UPLOADER_DISPLAY_MODES)).isRequired,
+    children: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.node),
+      PropTypes.node,
+    ]),
+    // from dispatchToProps
+    throwError: PropTypes.func.isRequired,
+    uploadToponym: PropTypes.func.isRequired,
+  }
 
-static defaultProps = {}
+  static defaultProps = {}
 
-static contextTypes = {
-  ...i18nContextType,
-  ...themeContextType,
-}
-
-// Requirements : Conditionnellement afficher le composant d'upload si l'utilisateur a accès au endpoint d'upload.
-// Mettre en place le endpoint pour sauver le shapefile.
-// Sauvegarder dans le contexte le businessId du toponyme retouné par le back.
-// Uploader un geojson natif.
-// Validation : Controler les cas non nominaux & En cas de problème : informer l'utilisateur.
-// -> Cas 1 X : Gérér un fichier qui n'est pas un zip ou un geojson ou json.
-// -> Cas 2 X : Vérifier que chaque fichier de format attendu est présent dans l'archive.
-// -> Afficher un message d'erreur (toast, comme endpoint inaccessible).
-// -> Cas 4 X : Refuser un fichier geojson qui n'est explicitement pas dans la projection WGS84. (quel attribut définit la projection ? trouver des exemples)
-// -> Cas 5 X : L'utilisateur doit glisser déposer un seul fichier. Message : Vous avez glisser deposer plus d'un fichier, on attend un zip composé d'un shp, d'un prj et d'un dbf (à retravailler). Format supporté : zip (contenant shp, prj...) ou geojson.
-// -> Cas 6 X : Le geojson doit etre une FeatureCollection.
-// -> Cas 7 X : Si il y a plusieurs features afficher un message d'erreur.
-// Gérer la projection
-// -> Comprendre la liste de projection que la librairie supporte.
-// -> Faire un dictionnaire entre la projection au format prj et l'identifiant d'une projection.
-
-// Apporter ces fonctionnalités sur le toponym criterion.
-// Sur le criterion ajouter le message : ... ou glisser déposer un shapefile ou geojson.
-// Créer un composant DragToponym (handleDrop présent dans le composant).
-
-// Valider que le endpoint back correspond à l'implémentation.
-
-// Faire IHM DRAG comme TerriaJS
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
 
   handleDrop = (files) => {
     const {
@@ -121,24 +97,25 @@ static contextTypes = {
     }
   }
 
-  handleGeoJSON = (geojson) => {
+  handleGeoJSON = (featureCollection) => {
     const { formatMessage } = this.context.intl
     const {
       onToponymUploaded, throwError, uploadToponym,
     } = this.props
-    const geoJsonType = get(geojson, 'type', '')
+    const geoJsonType = get(featureCollection, 'type', '')
     if (isEmpty(geoJsonType) || geoJsonType !== 'FeatureCollection') {
       return throwError(formatMessage({ id: 'toponym.uploader.geojson.wrong-type' }))
     }
-    const features = get(geojson, 'features', [])
+    const features = get(featureCollection, 'features', [])
     if (features.length !== 1) {
       return throwError(formatMessage({ id: 'toponym.uploader.geojson.invalid-nb-features' }))
     }
-    const projection = get(geojson, 'crs.properties.name', '')
+    const projection = get(featureCollection, 'crs.properties.name', '')
     if (!isEmpty(projection) && !projection.includes('CRS84')) {
       return throwError(formatMessage({ id: 'toponym.uploader.geojson.invalid-projection' }))
     }
-    return uploadToponym(geojson).then((actionResult) => {
+    const feature = featureCollection.features[0]
+    return uploadToponym(feature).then((actionResult) => {
       if (!actionResult.error) {
         onToponymUploaded(actionResult.payload)
       }
@@ -162,40 +139,49 @@ static contextTypes = {
     require.ensure([], (require) => {
       const shp = require('shpjs')
       const JSZip = require('jszip')
-
-      zipFile.arrayBuffer().then((buffer) => {
-        const zip = new JSZip(buffer)
+      JSZip.loadAsync(zipFile).then((zip) => {
         const zipFiles = zip.file(/.+/)
         let shpFile
         let prjStr
         let nbShpFile = 0
         let nbPrjFile = 0
+        // New with JSZip 3 - read all files concurrently
+        const readers = []
+
         zipFiles.forEach((a) => {
           const extension = getExtension(a)
           if (extension === 'shp') {
-            shpFile = a.asNodeBuffer()
+            const reader = a.async('nodebuffer').then((content) => {
+              shpFile = content
+            })
+            readers.push(reader)
             nbShpFile += 1
           } else if (extension === 'prj') {
-            prjStr = a.asText()
+            const reader = a.async('string').then((content) => {
+              prjStr = content
+            })
+            readers.push(reader)
             nbPrjFile += 1
           }
         })
 
-        if (nbShpFile > 1 || nbPrjFile > 1) {
-          return throwError(formatMessage({ id: 'toponym.uploader.zip.too-many-files' }))
-        }
-        if (nbShpFile === 0 || nbPrjFile === 0) {
-          return throwError(formatMessage({ id: 'toponym.uploader.zip.missing-files' }))
-        }
+        Promise.all(readers).then(() => {
+          if (nbShpFile > 1 || nbPrjFile > 1) {
+            return throwError(formatMessage({ id: 'toponym.uploader.zip.too-many-files' }))
+          }
+          if (nbShpFile === 0 || nbPrjFile === 0) {
+            return throwError(formatMessage({ id: 'toponym.uploader.zip.missing-files' }))
+          }
 
-        const features = shp.parseShp(shpFile, prjStr)
+          const features = shp.parseShp(shpFile, prjStr)
 
-        const featureCollection = {
-          type: 'FeatureCollection',
-          features,
-        }
+          const featureCollection = {
+            type: 'FeatureCollection',
+            features,
+          }
 
-        return this.handleGeoJSON(featureCollection)
+          return this.handleGeoJSON(featureCollection)
+        })
       }).catch((reason) => throwError(formatMessage({ id: 'toponym.uploader.zip.parse.error' }, { reason })))
     })
   }
