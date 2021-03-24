@@ -113,15 +113,17 @@ export class AuthenticateRedirectionApp extends React.Component {
         root.window.close()
       } else {
         requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
+          let status = STATUS.ERROR
           let storageObj
           if (!result.error) {
             storageObj = result.payload
+            status = STATUS.SUCCESS
           } else {
             storageObj = { error: result.payload.message }
           }
           new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
           this.setState({
-            status: STATUS.SUCCESS,
+            status,
           })
           root.window.close()
         })
