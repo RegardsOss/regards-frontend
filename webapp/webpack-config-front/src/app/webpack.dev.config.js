@@ -17,7 +17,7 @@ module.exports = function (projectContextPath) {
 
   config = merge(config, {
     // Enable sourcemaps for debugging webpack's output.
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     output: {
       // Webpack compilation directory
       path: `${projectContextPath}/dist/dev`, // Webpack main bundle file name
