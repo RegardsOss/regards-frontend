@@ -17,6 +17,12 @@
       <to type="passthrough" last="true">/index.html</to>
     </rule>
 
+    <!-- Redirect all urls to user application to index.html. Needed cause of javascript router which simulate routes.  -->
+    <rule>
+      <from>^/authenticate(.*)+$</from>
+      <to type="passthrough" last="true">/index.html</to>
+    </rule>
+
     <!-- Redirect all urls to portal application to index.html. Needed cause of javascript router which simulate routes.  -->
     <rule>
       <from>^/$</from>
