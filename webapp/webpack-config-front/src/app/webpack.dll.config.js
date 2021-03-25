@@ -62,6 +62,14 @@ module.exports = function (projectContextPath, mode) {
             outputPath: 'html/',
           },
         },
+        {
+          test: /\.woff$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
+        },
       ],
     },
     plugins: [
