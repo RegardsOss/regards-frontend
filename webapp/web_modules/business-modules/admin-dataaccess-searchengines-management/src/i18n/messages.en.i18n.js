@@ -39,6 +39,7 @@ const messages = {
   'dataaccess.searchengines.info.content.dataset': 'This protocol allows you to search data from the dataset {dataset}. To do so, you can use the here-under endpoint.',
   'dataaccess.searchengines.info.test': 'Click here to check protocol request',
   'dataaccess.searchengines.info.test.descriptor': 'Click here to retrieve protocol descriptor',
+  'dataaccess.searchengines.info.test.stac': 'Click here to navigate in the STAC catalog',
   'dataaccess.searchengines.info.close': 'Close',
 
   'dataaccess.searchengines.form.create.title': 'Configure search protocol',
