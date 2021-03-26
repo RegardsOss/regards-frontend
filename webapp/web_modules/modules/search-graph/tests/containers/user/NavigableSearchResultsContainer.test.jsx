@@ -115,7 +115,14 @@ describe('[Search Graph] Testing NavigableSearchResultsContainer', () => {
         [UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS]: {
           criteria: {
             tagsFiltering: [{
-              label: 'd1',
+              entity: {
+                content: {
+                  entityType: 'DATASET',
+                  id: 'URN:DATASET:d1',
+                  label: 'd1',
+                  requestParameters: {},
+                },
+              },
               type: DamDomain.ENTITY_TYPES_ENUM.DATASET,
               searchKey: 'URN:DATASET:d1',
               requestParameters: {
