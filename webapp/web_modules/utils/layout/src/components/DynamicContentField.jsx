@@ -23,6 +23,7 @@ import Help from 'mdi-material-ui/HelpCircle'
 
 import { Checkbox } from 'redux-form-material-ui'
 import { Field } from 'redux-form'
+import { ValidationHelpers, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import Badge from 'material-ui/Badge'
@@ -89,7 +90,7 @@ class DynamicContentField extends React.Component {
             >
               <Help color={muiTheme.palette.disabledColor} />
             </IconButton>
-}
+          }
         >
           <Field
             onChange={this.handleChange}
