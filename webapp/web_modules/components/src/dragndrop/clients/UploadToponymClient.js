@@ -16,15 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getSearchToponymReducer } from './clients/SearchToponymClient'
+import { AccessProjectClient } from '@regardsoss/client'
 
-/**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
- */
-export default function getReducer(pluginInstanceId) {
-  return {
-    searchToponym: getSearchToponymReducer(pluginInstanceId),
-  }
-}
+const namespace = 'components/uploadToponym'
+export const uploadToponymActions = new AccessProjectClient.UploadToponymActions(namespace)

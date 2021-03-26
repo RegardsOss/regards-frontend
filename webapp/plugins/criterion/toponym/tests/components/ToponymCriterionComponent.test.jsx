@@ -20,9 +20,9 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
+import { AutoCompleteTextField } from '@regardsoss/components'
 import ToponymCriterionComponent from '../../src/components/ToponymCriterionComponent'
 import styles from '../../src/styles'
-import { AutoCompleteTextField } from '@regardsoss/components'
 
 const context = buildTestContext(styles)
 
@@ -48,16 +48,16 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
             labelFr: 'fr',
             labelEn: 'en',
             businessId: 'id',
-          }
-        }
+          },
+        },
       },
       isFetching: false,
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
-      currentLocale: UIDomain.LOCALES_ENUM.en
+      currentLocale: UIDomain.LOCALES_ENUM.en,
     }
     const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, {
-      context: buildTestContext(styles, UIDomain.LOCALES_ENUM.en)
+      context: buildTestContext(styles, UIDomain.LOCALES_ENUM.en),
     })
     // 1 - check label is displayed
     assert.isTrue(enzymeWrapper.debug().includes(props.label[UIDomain.LOCALES_ENUM.en]), 'attribute label should be shown for the right locale')
@@ -83,13 +83,13 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
             labelFr: 'fr',
             labelEn: 'en',
             businessId: 'id',
-          }
-        }
+          },
+        },
       },
       isFetching: false,
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
-      currentLocale: UIDomain.LOCALES_ENUM.en
+      currentLocale: UIDomain.LOCALES_ENUM.en,
     }
     // Render with each locale
     UIDomain.LOCALES.forEach((locale) => {
@@ -111,57 +111,57 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         onFilterSelected: props.onToponymFilterSelected,
       }, 'Properties should be correctly reported')
     })
-    it('should render correctly fetching', () => {
-      const props = {
-        label: criterionTestSuiteHelpers.getLabelStub(),
-        error: false,
-        toponymFilterText: 'en',
-        matchingToponyms: {
-          id: {
-            content: {
-              labelFr: 'fr',
-              labelEn: 'en',
-              businessId: 'id',
-            }
-          }
+  })
+  it('should render correctly fetching', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      error: false,
+      toponymFilterText: 'en',
+      matchingToponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          },
         },
-        isFetching: true,
-        onUpdateToponymsFilter: () => { },
-        onToponymFilterSelected: () => { },
-        currentLocale: UIDomain.LOCALES_ENUM.en
-      }
-      const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
-      // check autocomplete field state
-      const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
-      assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
-      assert.isTrue(subComponentWrapper.props().isFetching, 'The component should be marked fetching')
-      assert.isFalse(subComponentWrapper.props().isInError, 'The component should not be marked in error')
-    })
-    it('should render correctly in error', () => {
-      const props = {
-        label: criterionTestSuiteHelpers.getLabelStub(),
-        error: true,
-        toponymFilterText: 'idk',
-        matchingToponyms: {
-          id: {
-            content: {
-              labelFr: 'fr',
-              labelEn: 'en',
-              businessId: 'id',
-            }
-          }
+      },
+      isFetching: true,
+      onUpdateToponymsFilter: () => { },
+      onToponymFilterSelected: () => { },
+      currentLocale: UIDomain.LOCALES_ENUM.en,
+    }
+    const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
+    // check autocomplete field state
+    const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
+    assert.isTrue(subComponentWrapper.props().isFetching, 'The component should be marked fetching')
+    assert.isFalse(subComponentWrapper.props().isInError, 'The component should not be marked in error')
+  })
+  it('should render correctly in error', () => {
+    const props = {
+      label: criterionTestSuiteHelpers.getLabelStub(),
+      error: true,
+      toponymFilterText: 'idk',
+      matchingToponyms: {
+        id: {
+          content: {
+            labelFr: 'fr',
+            labelEn: 'en',
+            businessId: 'id',
+          },
         },
-        isFetching: false,
-        onUpdateToponymsFilter: () => { },
-        onToponymFilterSelected: () => { },
-        currentLocale: UIDomain.LOCALES_ENUM.en
-      }
-      const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
-      // check autocomplete field state
-      const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
-      assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
-      assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
-      assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
-    })
+      },
+      isFetching: false,
+      onUpdateToponymsFilter: () => { },
+      onToponymFilterSelected: () => { },
+      currentLocale: UIDomain.LOCALES_ENUM.en,
+    }
+    const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
+    // check autocomplete field state
+    const subComponentWrapper = enzymeWrapper.find(AutoCompleteTextField)
+    assert.lengthOf(subComponentWrapper, 1, 'The autocomplete field should be shown')
+    assert.isFalse(subComponentWrapper.props().isFetching, 'The component should not be marked fetching')
+    assert.isTrue(subComponentWrapper.props().isInError, 'The component should be marked in error')
   })
 })

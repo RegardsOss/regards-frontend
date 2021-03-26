@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getSearchToponymReducer } from './clients/SearchToponymClient'
+import { BasicSignalReducers } from '@regardsoss/store-utils'
+import UploadToponymActions from './UploadToponymActions'
 
 /**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
- */
-export default function getReducer(pluginInstanceId) {
-  return {
-    searchToponym: getSearchToponymReducer(pluginInstanceId),
-  }
+  * Toponym upload reducer
+  * @author Théo Lasserre
+  */
+
+/**
+  * Builds reduce closure on actions namespace
+  * @param {*} namespace namespace
+  * @return {function} reduce function (state, action) => state
+  */
+export default function getUploadToponymReducer(namespace) {
+  const instance = new BasicSignalReducers(new UploadToponymActions(namespace))
+  return (state, action) => instance.reduce(state, action)
 }

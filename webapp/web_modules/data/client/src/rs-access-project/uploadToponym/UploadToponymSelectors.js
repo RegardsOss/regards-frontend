@@ -1,5 +1,5 @@
 /**
- * Copyright 2017-2020 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
  *
@@ -16,15 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { getSearchToponymReducer } from './clients/SearchToponymClient'
+import { BasicSignalSelectors } from '@regardsoss/store-utils'
 
 /**
- * Plugin reducer builder function.
- * @param {string} pluginInstanceId plugin instance ID, must be used to generate unique namespaces and store paths
- * @return {*} reducers configuration for plugin instance
- */
-export default function getReducer(pluginInstanceId) {
-  return {
-    searchToponym: getSearchToponymReducer(pluginInstanceId),
-  }
+  * Set upload toponym selectors
+  * @author Théo Lasserre
+  */
+
+/**
+  * Selectors instance builders
+  * @param {[string]} storePath path to access state in redux store
+  * @return selectors instance
+  */
+export default function getUploadToponymSelectors(storePath) {
+  return new BasicSignalSelectors(storePath)
 }

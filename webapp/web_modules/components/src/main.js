@@ -100,6 +100,11 @@ export { default as ZoomedPictureDialog } from './picture/ZoomedPictureDialog'
 export { default as PluginConfigurationPickerComponent } from './plugin/PluginConfigurationPickerComponent'
 export * from './split/SplitResizerStyle'
 
+// DragAndDrop
+export { default as DragAndDrop } from './dragndrop/DragAndDrop'
+export { default as ToponymUploader } from './dragndrop/ToponymUploader'
+export { UPLOADER_DISPLAY_MODES } from './dragndrop/UploaderDisplayModes'
+
 // Table
 export { default as ActionsMenuCell } from './table/content/cells/ActionsMenuCell'
 export { default as AutoRefreshPageableTableHOC } from './table/options/AutoRefreshPageableTableHOC'

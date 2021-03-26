@@ -83,3 +83,7 @@ export { default as getSearchToponymSelectors } from './search/SearchToponymSele
 export { default as ToponymActions } from './toponym/ToponymActions'
 export { default as getToponymReducer } from './toponym/ToponymReducer'
 export { default as getToponymSelectors } from './toponym/ToponymSelectors'
+
+export { default as UploadToponymActions } from './uploadToponym/UploadToponymActions'
+export { default as getUploadToponymReducer } from './uploadToponym/UploadToponymReducer'
+export { default as getUploadToponymSelectors } from './uploadToponym/UploadToponymSelectors'
