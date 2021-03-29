@@ -194,6 +194,7 @@
     "scriptjs": "~2.5.9",
     "shpjs": "^3.6.3",
     "underscore": "1.9.2",
+    "url-loader": "~4.0.0",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
