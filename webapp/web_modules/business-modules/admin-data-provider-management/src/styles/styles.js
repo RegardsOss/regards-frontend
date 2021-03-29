@@ -244,6 +244,19 @@ const styles = (theme) => ({
   avatarStyles: {
     marginRight: 10,
   },
+  storageInfos: {
+    storageTabStyle: {
+      marginTop: '10px',
+    },
+    storageTypeListStyle: {
+      marginLeft: '20px',
+      marginBottom: '20px',
+      marginTop: '10px',
+    },
+    typeStyle: {
+      color: theme.palette.accent1Color,
+    },
+  },
   productInfos: {
     errorStyle: {
       color: theme.formsExtensions.validation.errorColor,
