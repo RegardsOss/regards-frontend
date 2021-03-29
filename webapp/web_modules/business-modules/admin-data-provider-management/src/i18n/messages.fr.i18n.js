@@ -30,8 +30,9 @@ const messages = {
   'acquisition-chain.form.duplicate.title': 'Duplication de la chaîne : {name}',
   'acquisition-chain.form.informations-1': 'Une chaîne d\'acquisition de données doit, pour fonctionner, être associée aux éléments ci-dessous. Remarque : Les champs marqués (*) correspondent aux champs obligatoires.',
   'acquisition-chain.form.informations-2': '1. Informations générales de la chaîne.',
-  'acquisition-chain.form.informations-3': '2. Définition des fichiers constituant une donnée.',
-  'acquisition-chain.form.informations-4': '3. Définition des plugins constituant la chaine.',
+  'acquisition-chain.form.informations-3': '2. Définition des fichiers à acquérir.',
+  'acquisition-chain.form.informations-4': '3. Stockage des fichier acquis.',
+  'acquisition-chain.form.informations-5': '4. Construction des produits à partir des fichiers acquis.',
 
   // 1.2 General configuration section
   'acquisition-chain.form.general.section.title': 'Général',
@@ -51,12 +52,21 @@ const messages = {
   'acquisition-chain.form.general.section.starting.mode.MANUAL': 'Manuel',
   'acquisition-chain.form.general.section.ingestChain.select': 'Chaîne d\'ingestion (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Sélectionner une chaîne d\'ingestion existante... ',
-  'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
-  'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers. Pour chaque espace de stockage, veuillez selectionner les types de fichiers à stocker.',
-  'acquisition-chain.form.general.section.info.storage.no.data': 'La chaîne ne peut pas être éditée car il n\'y a pas d\'espace de stockage configuré.',
   'acquisition-chain.form.general.section.info.category': 'Les catégories permettent de filtrer les AIPs à aspirer par les sources de données',
   'acquisition-chain.form.general.section.category-hint': 'Nouvelle categorie',
   'acquisition-chain.form.general.section.click.category.add.warn': 'Confirmer l\'ajout de la categorie',
+
+  // 1.3 Storage configuration section
+  'acquisition-chain.form.storage.section': 'Stockage',
+  'acquisition-chain.form.general.section.storage.mode.info': 'Cette section permet de configurer comment va être géré le stockage des fichiers acquis.',
+  'acquisition-chain.form.general.section.storage.mode.store.name': 'Stocker les fichiers acquis',
+  'acquisition-chain.form.general.section.storage.mode.store': ' : Les fichiers seront copier dans les espaces de stockages configurés. Par défaut le chemin de stockage sera déterminé par le système, toutefois vous pouvez configurer un chemin de stockage manuellement pour chaque espace de stockage de vos fichier.',
+  'acquisition-chain.form.general.section.storage.mode.ref.name': 'Referencer les fichier acquis',
+  'acquisition-chain.form.general.section.storage.mode.ref': ' : Les fichiers ne seront ni copiés ni déplacés mais référencés dans l\'espace de stockage configuré avec leur emplacement actuel.',
+  'acquisition-chain.form.general.section.path': 'Répertoire de stockage (optionnel)',
+  'acquisition-chain.form.general.section.info.storage': 'Selectionner un ou plusieurs espaces de stockage des fichiers. Pour chaque espace de stockage, veuillez selectionner les types de fichiers à stocker.',
+  'acquisition-chain.form.general.section.info.storage.no.data': 'La chaîne ne peut pas être éditée car il n\'y a pas d\'espace de stockage configuré.',
+  'acquisition-chain.form.general.section.storage.ref.select': 'Sélectionner l\'espace de stockage où les fichiers sont référencés',
 
   // 1.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Fichiers',
@@ -74,11 +84,11 @@ const messages = {
   'acquisition-chain.form.fileInfo.scanDir.scannedDirectory': 'Répertoire de scan',
   'acquisition-chain.form.fileInfo.scanDir.lastModificationDate': 'A partir de',
   // 1.4 Plugins configuration section
-  'acquisition-chain.form.plugins.section': 'Plugins',
+  'acquisition-chain.form.plugins.section': 'Construction des produits',
   'acquisition-chain.form.plugins.select.label': 'Sélectionner un plugin ...',
-  'acquisition-chain.form.plugins.validation.label': 'Plugin de validation des données (*)',
-  'acquisition-chain.form.plugins.product.label': 'Plugin de construction du produit (*)',
-  'acquisition-chain.form.plugins.gen-sip.label': 'Plugin de génération des métadonnées (*)',
+  'acquisition-chain.form.plugins.validation.label': 'Système de validation des données (*)',
+  'acquisition-chain.form.plugins.product.label': 'Association des fichiers detectés à un produit (*)',
+  'acquisition-chain.form.plugins.gen-sip.label': 'Système de génération des métadonnées du produit (*)',
   'acquisition-chain.form.plugins.post-processing.label': 'Post traitement',
 
   // 1.5 Actions

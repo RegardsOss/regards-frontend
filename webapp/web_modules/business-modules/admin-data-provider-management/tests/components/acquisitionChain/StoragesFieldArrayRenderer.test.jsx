@@ -58,7 +58,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing StoragesFieldArrayRenderer', 
     }
     const enzymeWrapper = shallow(<StoragesFieldArrayRenderer {...props} />, { context })
     const fields = enzymeWrapper.find(Field)
-    assert.equal(fields.length, 27, 'There should be 27 parameter Field rendered in this form')
+    assert.equal(fields.length, 18, 'There should be 18 parameter Field rendered in this form')
     assert.notInclude(enzymeWrapper.debug(), 'acquisition-chain.form.general.section.info.storage.no.data', 'Error message should be displayed')
   })
   it('should render error when there is no storage', () => {

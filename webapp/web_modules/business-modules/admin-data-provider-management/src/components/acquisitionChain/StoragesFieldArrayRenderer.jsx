@@ -33,10 +33,7 @@ export const DATA_TYPES_ENUM = {
   QUICKLOOK_SD: 'QUICKLOOK_SD',
   QUICKLOOK_MD: 'QUICKLOOK_MD',
   QUICKLOOK_HD: 'QUICKLOOK_HD',
-  DOCUMENT: 'DOCUMENT',
   THUMBNAIL: 'THUMBNAIL',
-  OTHER: 'OTHER',
-  AIP: 'AIP',
   DESCRIPTION: 'DESCRIPTION',
 }
 export class StoragesFieldArrayRenderer extends React.Component {
@@ -53,11 +50,8 @@ export class StoragesFieldArrayRenderer extends React.Component {
   switchActive = (member, newValue) => {
     this.props.changeField(`${member}.rawdata`, newValue)
     this.props.changeField(`${member}.quicklook`, newValue)
-    this.props.changeField(`${member}.document`, newValue)
     this.props.changeField(`${member}.thumbnail`, newValue)
-    this.props.changeField(`${member}.aip`, newValue)
     this.props.changeField(`${member}.description`, newValue)
-    this.props.changeField(`${member}.other`, newValue)
   }
 
   renderStorageCheckbox = (member, index, fields) => {
@@ -105,42 +99,6 @@ export class StoragesFieldArrayRenderer extends React.Component {
               </td>
               <td>
                 <Field
-                  name={`${member}.quicklook`}
-                  component={RenderCheckbox}
-                  label="Quicklook"
-                  noSpacing
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <Field
-                  name={`${member}.document`}
-                  component={RenderCheckbox}
-                  label="Document"
-                  noSpacing
-                />
-              </td>
-              <td>
-                <Field
-                  name={`${member}.thumbnail`}
-                  component={RenderCheckbox}
-                  label="Thumbnail"
-                  noSpacing
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <Field
-                  name={`${member}.aip`}
-                  component={RenderCheckbox}
-                  label="Aip"
-                  noSpacing
-                />
-              </td>
-              <td>
-                <Field
                   name={`${member}.description`}
                   component={RenderCheckbox}
                   label="Description"
@@ -151,12 +109,21 @@ export class StoragesFieldArrayRenderer extends React.Component {
             <tr>
               <td>
                 <Field
-                  name={`${member}.other`}
+                  name={`${member}.thumbnail`}
                   component={RenderCheckbox}
-                  label="Other"
+                  label="Thumbnail"
                   noSpacing
                 />
               </td>
+              <td>
+                <Field
+                  name={`${member}.quicklook`}
+                  component={RenderCheckbox}
+                  label="Quicklook"
+                  noSpacing
+                />
+              </td>
+
             </tr>
           </tbody>
         </table>

@@ -23,6 +23,7 @@ import { buildTestContext, testSuiteHelpers, DumpProvider } from '@regardsoss/te
 import { Field, FieldArray } from '@regardsoss/form-utils'
 import { AcquisitionProcessingChainFormComponent } from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormComponent'
 import AcquisitionProcessingChainFormPluginsComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainFormPluginsComponent'
+import AcquisitionProcessingChainStorageConfComponent from '../../../src/components/acquisitionChain/AcquisitionProcessingChainStorageConfComponent'
 import styles from '../../../src/styles/styles'
 
 const context = buildTestContext(styles)
@@ -77,10 +78,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: false,
           label: 'LocalDataStorage',
           storePath: '',
-          aip: false,
           description: false,
-          document: false,
-          other: false,
           rawdata: false,
           thumbnail: false,
           quicklook: false,
@@ -89,10 +87,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: false,
           label: 'Sacoche Infini',
           storePath: '',
-          aip: false,
           description: false,
-          document: false,
-          other: false,
           rawdata: false,
           thumbnail: false,
           quicklook: false,
@@ -101,10 +96,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: false,
           label: 'Turkmenistan',
           storePath: '',
-          aip: false,
           description: false,
-          document: false,
-          other: false,
           rawdata: false,
           thumbnail: false,
           quicklook: false,
@@ -120,9 +112,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
+    assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')
   })
   it('should render correctly in edition mode', () => {
     const props = {
@@ -167,10 +160,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: true,
           label: 'LocalDataStorage',
           storePath: '/machin/chose',
-          aip: true,
           description: true,
-          document: true,
-          other: true,
           rawdata: true,
           thumbnail: true,
           quicklook: true,
@@ -179,10 +169,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: true,
           label: 'Sacoche Infini',
           storePath: '',
-          aip: true,
           description: true,
-          document: true,
-          other: true,
           rawdata: true,
           thumbnail: true,
           quicklook: true,
@@ -191,10 +178,7 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
           active: false,
           label: 'Turkmenistan',
           storePath: '',
-          aip: false,
           description: false,
-          document: false,
-          other: false,
           rawdata: false,
           thumbnail: false,
           quicklook: false,
@@ -210,9 +194,10 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
+    assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')
   })
   it('should render correctly in duplication mode', () => {
     const props = {
@@ -266,8 +251,9 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing  AcquisitionProcessingChainFo
     assert.isTrue(fields.find({ name: 'mode' }).exists(), 'The mode Field is missing')
     assert.isTrue(fields.find({ name: 'ingestChain' }).exists(), 'The ingestChain Field is missing')
     const filedArrays = enzymeWrapper.find(FieldArray)
-    assert.equal(filedArrays.length, 3, 'There should be 3 parameter FieldArray rendered in this form')
+    assert.equal(filedArrays.length, 2, 'There should be 2 parameter FieldArray rendered in this form')
     assert.isTrue(filedArrays.find({ name: 'fileInfos' }).exists(), 'The fileInfos Field is missing')
     assert.equal(enzymeWrapper.find(AcquisitionProcessingChainFormPluginsComponent).length, 1, 'The plugin form parts should be rendered')
+    assert.equal(enzymeWrapper.find(AcquisitionProcessingChainStorageConfComponent).length, 1, 'The storage form parts should be rendered')
   })
 })
