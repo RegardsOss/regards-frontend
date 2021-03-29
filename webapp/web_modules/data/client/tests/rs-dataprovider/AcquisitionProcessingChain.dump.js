@@ -29,6 +29,7 @@ export default {
         locked: false,
         lastActivationDate: '2018-02-19T14:11:19.181Z',
         ingestChain: 'firstIngestChain4DataProvider',
+        productsStored: true,
         storages: [
           {
             pluginBusinessId: 'LocalDataStorage',
@@ -119,6 +120,7 @@ export default {
         lastActivationDate: '2018-02-20T09:32:10.722Z',
         periodicity: 30,
         ingestChain: 'firstIngestChain4DataProvider',
+        productsStored: true,
         fileInfos: [{
           id: 2,
           mandatory: true,

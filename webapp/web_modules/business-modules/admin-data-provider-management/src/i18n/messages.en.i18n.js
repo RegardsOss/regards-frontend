@@ -29,9 +29,10 @@ const messages = {
   'acquisition-chain.form.edit.title': 'Edit acquisition chain : {name}',
   'acquisition-chain.form.duplicate.title': 'Duplicate generation chain : {name}',
   'acquisition-chain.form.informations-1': 'To be operational an acquisition chain must be associated to the elements here under. Note : The properties with (*) are mandatory.',
-  'acquisition-chain.form.informations-2': '1. General information about the chain.',
-  'acquisition-chain.form.informations-3': '2. File composing the data.',
-  'acquisition-chain.form.informations-4': '3. Chain plugins to produce the SIP(s).',
+  'acquisition-chain.form.informations-2': '1. General information.',
+  'acquisition-chain.form.informations-3': '2. Files to acquire.',
+  'acquisition-chain.form.informations-4': '2. Store files.',
+  'acquisition-chain.form.informations-5': '3. Products construction from acquired files.',
 
   // 1.2 General configuration section
   'acquisition-chain.form.general.section.title': 'General',
@@ -51,12 +52,21 @@ const messages = {
   'acquisition-chain.form.general.section.starting.mode.MANUAL': 'Manual',
   'acquisition-chain.form.general.section.ingestChain.select': 'Ingest chain (*)',
   'acquisition-chain.form.general.section.ingestChain.select.hint': 'Select an existing ingest chain ... ',
-  'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
-  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files. Select the kind of file you want to store for each storage selected.',
-  'acquisition-chain.form.general.section.info.storage.no.data': 'Chain cannot be edited as there is no configured storage',
   'acquisition-chain.form.general.section.info.category': 'Categories allow you to filter the AIPs for datasources crawling',
   'acquisition-chain.form.general.section.category-hint': 'New category',
   'acquisition-chain.form.general.section.click.category.add.warn': 'Confirm category add',
+
+  // 1.3 Storage configuration section
+  'acquisition-chain.form.storage.section': 'Storage',
+  'acquisition-chain.form.general.section.storage.mode.info': 'This section allows to configure how acquired files will be stored during products generation of the current acquisition chain.',
+  'acquisition-chain.form.general.section.storage.mode.store.name': 'Store files',
+  'acquisition-chain.form.general.section.storage.mode.store': ' : Acquired files will be copied to configured storage locations.',
+  'acquisition-chain.form.general.section.storage.mode.ref.name': 'Reference files',
+  'acquisition-chain.form.general.section.storage.mode.ref': ' : Acquired files will not be copied or moved but referenced in the configured storage location with their actual location path.',
+  'acquisition-chain.form.general.section.path': 'Storage folder (optional)',
+  'acquisition-chain.form.general.section.info.storage': 'Select one or more storages for the files. Select the kind of file you want to store for each storage selected.',
+  'acquisition-chain.form.general.section.info.storage.no.data': 'Chain cannot be edited as there is no configured storage',
+  'acquisition-chain.form.general.section.storage.ref.select': 'Select storage location where files are referenced',
 
   // 1.3 Files configuration section
   'acquisition-chain.form.fileInfos.section': 'Files',
@@ -74,12 +84,12 @@ const messages = {
   'acquisition-chain.form.fileInfo.scanDir.scannedDirectory': 'Directory to scan',
   'acquisition-chain.form.fileInfo.scanDir.lastModificationDate': 'Since',
   // 1.4 Plugins configuration section
-  'acquisition-chain.form.plugins.section': 'Plugins',
+  'acquisition-chain.form.plugins.section': 'Product factory',
   'acquisition-chain.form.plugins.select.label': 'Select a plugin ...',
-  'acquisition-chain.form.plugins.validation.label': 'Data validation plugin (*)',
-  'acquisition-chain.form.plugins.product.label': 'Product generation plugin (*)',
-  'acquisition-chain.form.plugins.gen-sip.label': 'Metadata generation plugin (*)',
-  'acquisition-chain.form.plugins.post-processing.label': 'Post treatment plugin',
+  'acquisition-chain.form.plugins.validation.label': 'Products validation system (*)',
+  'acquisition-chain.form.plugins.product.label': 'Files assocation system to generate a single product (*)',
+  'acquisition-chain.form.plugins.gen-sip.label': 'Product metadata factory (*)',
+  'acquisition-chain.form.plugins.post-processing.label': 'Post treatment',
 
   // 1.5 Actions
   'acquisition-chain.form.create.button': 'Create',

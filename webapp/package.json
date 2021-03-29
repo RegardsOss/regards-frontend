@@ -153,6 +153,7 @@
     "isomorphic-fetch": "~2.2.1",
     "jquery": "^3.5.1",
     "jquery-ui-bundle": "^1.12.1-migrate",
+    "jszip": "^3.6.0",
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",
     "mdi-material-ui": "^4.28.0",
