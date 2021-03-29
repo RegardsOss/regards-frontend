@@ -40,7 +40,7 @@ export default class UploadToponymActions extends BasicSignalActions {
     */
   uploadToponym(toponym) {
     return this.sendSignal(RequestVerbEnum.POST, {
-      toponym,
+      toponym: JSON.stringify(toponym),
     })
   }
 }
