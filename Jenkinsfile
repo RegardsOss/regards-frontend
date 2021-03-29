@@ -77,6 +77,11 @@ pipeline {
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./install-plugin.sh criterion numerical'
                     },
+		    plugin_criterion_numerical_range: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh criterion/numerical-range-criteria'
+                    },
                     plugin_criterion_string: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
@@ -163,6 +168,11 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/numerical'
+                    },
+                    plugin_criterion_numerical_range: {
+                        sh 'docker run --rm -i \
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./build_plugin.sh criterion/numerical-range-criteria'
                     },
                     plugin_criterion_string: {
                         sh 'docker run --rm -i \
