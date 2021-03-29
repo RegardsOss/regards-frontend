@@ -103,14 +103,14 @@ export class AcquisitionProcessingChainStorageConfComponent extends React.Compon
   UNSAFE_componentWillMount() {
     const { chain } = this.props
     this.setState({
-      mode: get(chain, 'content.storeProducts', true) === true ? AcquisitionProcessingChainStorageConfComponent.STORE_MODE : AcquisitionProcessingChainStorageConfComponent.REF_MODE,
+      mode: get(chain, 'content.productsStored', true) === true ? AcquisitionProcessingChainStorageConfComponent.STORE_MODE : AcquisitionProcessingChainStorageConfComponent.REF_MODE,
     })
   }
 
   onChangeMode = (event, mode) => {
     this.setState({
       mode,
-    }, () => { this.props.changeField('storeProducts', mode === AcquisitionProcessingChainStorageConfComponent.STORE_MODE) })
+    }, () => { this.props.changeField('productsStored', mode === AcquisitionProcessingChainStorageConfComponent.STORE_MODE) })
   }
 
   render() {
