@@ -37,8 +37,6 @@ export class AcquisitionFileInfoScanDirComponent extends React.Component {
     const { name } = this.props
     const { intl: { formatMessage } } = this.context
 
-    console.error('name', this.props)
-
     return [
       <Field
         key="scannedDirectory"
