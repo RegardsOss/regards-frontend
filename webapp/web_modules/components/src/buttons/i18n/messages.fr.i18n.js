@@ -27,6 +27,10 @@ const messages = {
   'numerical.comparator.selector.GE.tooltip': 'Les résultats sont supérieurs ou égaux à la valeur',
   'numerical.comparator.selector.LE.label': 'inférieur(e) ou égal à',
   'numerical.comparator.selector.LE.tooltip': 'Les résultats sont inférieurs ou égaux à la valeur',
+  'numerical.comparator.selector.SL.label': 'strictement inférieur(e) à',
+  'numerical.comparator.selector.SL.tooltip': 'Les résultats sont inférieurs à la valeur',
+  'numerical.comparator.selector.SG.label': 'strictement supérieur(e) à',
+  'numerical.comparator.selector.SG.tooltip': 'Les résultats sont supérieurs à la valeur',
 }
 
 export default messages

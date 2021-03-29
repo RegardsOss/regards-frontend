@@ -16,13 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import en from './messages.en.i18n'
+import fr from './messages.fr.i18n'
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
+export default {
+  en,
+  fr,
 }
-export const EnumNumericalComparators = values(EnumNumericalComparator)

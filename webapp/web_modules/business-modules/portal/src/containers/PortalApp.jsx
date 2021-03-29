@@ -24,7 +24,7 @@ import { AuthenticationParametersActions, AuthenticationParametersSelectors } fr
 import { FormLoadingComponent, FormEntityNotFoundComponent } from '@regardsoss/form-utils'
 import { ApplicationLayout } from '@regardsoss/layout'
 import { ThemeProvider } from '@regardsoss/theme'
-import { BrowserCheckerDialog } from '@regardsoss/components'
+import { BrowserCheckerDialog, ReactErrorBoundaryComponent } from '@regardsoss/components'
 import { layoutActions, layoutSelectors } from '../clients/LayoutClient'
 import { moduleActions, moduleSelectors } from '../clients/ModuleClient'
 
@@ -114,20 +114,22 @@ export class PortalApp extends React.Component {
     }
     const { project } = this.props
     return (
-      <ThemeProvider>
-        <div>
-          {/* Check browser version and warn user */}
-          <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
-          {/* Render main tree */}
-          <ApplicationLayout
-            appName={UIDomain.APPLICATIONS_ENUM.PORTAL}
-            layout={this.props.layout.content.layout}
-            modules={values(this.props.modules)}
-            project={project}
-            style={PortalApp.PORTAL_STYLES}
-          />
-        </div>
-      </ThemeProvider>
+      <ReactErrorBoundaryComponent>
+        <ThemeProvider>
+          <div>
+            {/* Check browser version and warn user */}
+            <BrowserCheckerDialog browserRequirements={STATIC_CONF.BROWSER_REQUIREMENTS} />
+            {/* Render main tree */}
+            <ApplicationLayout
+              appName={UIDomain.APPLICATIONS_ENUM.PORTAL}
+              layout={this.props.layout.content.layout}
+              modules={values(this.props.modules)}
+              project={project}
+              style={PortalApp.PORTAL_STYLES}
+            />
+          </div>
+        </ThemeProvider>
+      </ReactErrorBoundaryComponent>
     )
   }
 }

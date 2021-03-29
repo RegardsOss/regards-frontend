@@ -16,13 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
+const messages = {
+  'react-error-boundary.title': 'Un probleme inattendu est survenu et le site a planté',
+  'react-error-boundary.continue': 'Pour continuer: ',
+  'react-error-boundary.redirect': "Revenir à la page d'accueil",
 }
-export const EnumNumericalComparators = values(EnumNumericalComparator)
+
+export default messages

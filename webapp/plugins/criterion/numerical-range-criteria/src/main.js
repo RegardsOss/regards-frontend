@@ -16,13 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+import { initPlugin } from '@regardsoss/plugins-api'
+import CriterionContainer from './containers/CriterionContainer'
+import messages from './i18n'
+import styles from './styles'
+import pluginInfo from './plugin-info.json'
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
-}
-export const EnumNumericalComparators = values(EnumNumericalComparator)
+initPlugin(CriterionContainer, pluginInfo, null, messages, styles)

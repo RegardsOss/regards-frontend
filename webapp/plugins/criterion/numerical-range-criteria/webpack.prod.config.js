@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
-}
-export const EnumNumericalComparators = values(EnumNumericalComparator)
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'pkg_build',
+    projectContextPath: __dirname,
+  })
+  .addProductionPlugins()
+  .get()
+
+module.exports = conf

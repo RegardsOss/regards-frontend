@@ -23,10 +23,14 @@ const messages = {
   'components.buttons.unselect.all': 'Unselect all',
   'numerical.comparator.selector.EQ.label': 'equal to',
   'numerical.comparator.selector.EQ.tooltip': 'Results are strictly equal to value',
-  'numerical.comparator.selector.GE.label': 'greater than',
+  'numerical.comparator.selector.GE.label': 'greater or equal to',
   'numerical.comparator.selector.GE.tooltip': 'Results are greater than or equal to value',
-  'numerical.comparator.selector.LE.label': 'lesser than',
+  'numerical.comparator.selector.LE.label': 'lesser or equal to',
   'numerical.comparator.selector.LE.tooltip': 'Results are lesser than or equal to value',
+  'numerical.comparator.selector.SL.label': 'lesser than',
+  'numerical.comparator.selector.SL.tooltip': 'Results are lesser than value',
+  'numerical.comparator.selector.SG.label': 'greater than',
+  'numerical.comparator.selector.SG.tooltip': 'Results are greater than value',
 }
 
 export default messages
