@@ -16,13 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
+const webpack = require('webpack')
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
-}
-export const EnumNumericalComparators = values(EnumNumericalComparator)
+
+const PLUGIN_TYPE = 'criterion'
+const PLUGIN_NAME = 'numerical-range-criteria'
+
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'pkg_build_dev',
+    projectContextPath: __dirname,
+  })
+  // Save the plugin into the webpack dev server public folder (dist/dev)
+  .saveDevPlugin(PLUGIN_TYPE, PLUGIN_NAME)
+  .merge({
+    plugins: [
+      new webpack.DefinePlugin({
+        GATEWAY_HOSTNAME: JSON.stringify('http://172.26.47.107:9030'), // REGARDS gateway address (to use REGARDS clients)
+      }),
+    ],
+  })
+  .get()
+
+module.exports = conf

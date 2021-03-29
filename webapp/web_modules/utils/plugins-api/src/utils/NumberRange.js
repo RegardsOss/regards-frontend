@@ -84,8 +84,10 @@ export class NumberRange {
     switch (operator) {
       case EnumNumericalComparator.EQ:
         return new NumberRange(value, value)
+      case EnumNumericalComparator.SL:
       case EnumNumericalComparator.LE:
         return new NumberRange(Number.NEGATIVE_INFINITY, value)
+      case EnumNumericalComparator.SG:
       case EnumNumericalComparator.GE:
         return new NumberRange(value, Number.POSITIVE_INFINITY)
       default:

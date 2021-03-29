@@ -16,13 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
 
-export const EnumNumericalComparator = {
-  EQ: 'EQ',
-  LE: 'LE',
-  GE: 'GE',
-  SL: 'SL',
-  SG: 'SG',
+/**
+ * Styles for plugin
+ * @param theme Material UI theme, can be used to compute dynamic style values from current theme (automatically updated)
+ * @author Lasserre Théo
+ */
+export default function getStyles(theme) {
+  return {
+    // put here specific styles (updated on theme change)
+  }
 }
-export const EnumNumericalComparators = values(EnumNumericalComparator)
