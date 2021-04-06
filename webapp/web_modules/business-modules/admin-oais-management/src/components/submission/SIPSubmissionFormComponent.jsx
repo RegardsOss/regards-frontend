@@ -70,7 +70,7 @@ export class SIPSubmissionFormComponent extends React.Component {
               subtitle={intl.formatMessage({ id: 'sips.submit.subtitle' })}
             />
             <CardText>
-              <HelpMessageComponent message={<a style={sipSubmition.link} href="https://regardsoss.github.io/appendices/oais/" target="_blank">{helpMessage}</a>} />
+              <HelpMessageComponent message={<a style={sipSubmition.link} href="https://regardsoss.github.io/docs/development/appendices/oais/" target="_blank">{helpMessage}</a>} />
               {isError
                 ? <FormErrorMessage>{intl.formatMessage({ id: 'sips.submit.error.message' })}</FormErrorMessage>
                 : null}
