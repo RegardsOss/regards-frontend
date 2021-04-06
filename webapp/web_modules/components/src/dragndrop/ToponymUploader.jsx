@@ -117,7 +117,8 @@ class ToponymUploader extends React.Component {
     const feature = featureCollection.features[0]
     return uploadToponym(feature).then((actionResult) => {
       if (!actionResult.error) {
-        onToponymUploaded(actionResult.payload)
+        const businessId = get(actionResult, 'payload.content.businessId', '')
+        onToponymUploaded(businessId)
       }
     })
   }
