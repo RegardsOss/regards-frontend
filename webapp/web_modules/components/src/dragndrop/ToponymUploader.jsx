@@ -17,8 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-//  import shp from 'shpjs'
-//  import JSZip from 'jszip'
+import map from 'lodash/map'
 import compose from 'lodash/fp/compose'
 import { connect } from '@regardsoss/redux'
 import get from 'lodash/get'
@@ -26,10 +25,11 @@ import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
-import { DragAndDrop, UPLOADER_DISPLAY_MODES } from '@regardsoss/components'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
+import DragAndDrop from './DragAndDrop'
 import { getExtension } from './FileHelpers'
+import { UPLOADER_DISPLAY_MODES } from './UploaderDisplayModes'
 import { uploadToponymActions } from './clients/UploadToponymClient'
 import messages from './i18n'
 import styles from './styles'
@@ -178,7 +178,10 @@ class ToponymUploader extends React.Component {
 
           const featureCollection = {
             type: 'FeatureCollection',
-            features,
+            features: map(features, (feature) => ({
+              type: 'Feature',
+              geometry: feature,
+            })),
           }
 
           return this.handleGeoJSON(featureCollection)
