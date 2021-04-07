@@ -110,9 +110,9 @@ export class NavigableSearchResultsContainer extends React.Component {
     } = newProps
     // 1 - When any property used in module configuration changes, store new module configuration in state
     if (!isEqual(oldProps.id, id)
-    || !isEqual(oldProps.appName, appName)
-    || !isEqual(oldProps.moduleConf, moduleConf)
-    || !isEqual(oldProps.resultsModuleTitle, resultsModuleTitle)) {
+      || !isEqual(oldProps.appName, appName)
+      || !isEqual(oldProps.moduleConf, moduleConf)
+      || !isEqual(oldProps.resultsModuleTitle, resultsModuleTitle)) {
       this.setState({
         // results module configuration
         resultsConfiguration: {
@@ -145,8 +145,8 @@ export class NavigableSearchResultsContainer extends React.Component {
               criteria: {
                 tagsFiltering: [{
                   type: newSelectedDatasetElt.entityType,
-                  label: newSelectedDatasetElt.label,
                   searchKey: newSelectedDatasetElt.id,
+                  entity: { content: newSelectedDatasetElt },
                   requestParameters: {
                     // restrict using q tag param
                     [CatalogDomain.CatalogSearchQueryHelper.Q_PARAMETER_NAME]:

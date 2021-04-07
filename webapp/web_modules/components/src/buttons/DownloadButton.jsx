@@ -32,6 +32,7 @@ class DownloadButton extends React.Component {
     disabled: PropTypes.bool,
     downloadURL: PropTypes.string, // not mandatory, for disabled cases
     downloadName: PropTypes.string,
+    isBlank: PropTypes.bool,
     // ... other button properties, provided at runtime to the button
   }
 
@@ -56,7 +57,7 @@ class DownloadButton extends React.Component {
 
   render() {
     const {
-      ButtonConstructor, ButtonIcon, label, disabled, tooltip, downloadURL, downloadName, ...otherProperties
+      ButtonConstructor, ButtonIcon, label, disabled, tooltip, downloadURL, downloadName, isBlank, ...otherProperties
     } = this.props
     const buttonRender = (
       <ButtonConstructor
@@ -78,6 +79,7 @@ class DownloadButton extends React.Component {
         href={downloadURL}
         style={DownloadButton.UNDECORATED_LINK_STYLE}
         download={downloadName}
+        target={isBlank && '_blank'}
       >
         {buttonRender}
       </a>

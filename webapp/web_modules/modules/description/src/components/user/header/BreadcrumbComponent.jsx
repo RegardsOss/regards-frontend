@@ -50,10 +50,10 @@ class BreadcrumbComponent extends React.Component {
         { // map each path element to element + separator
         flatMap(descriptionPath, (descriptionEntity, index) => [
           // 1 - Separator when not first link
-          index > 0 ? <BreadcrumbSeparatorComponent key={`${descriptionEntity.entity.content.id}.separator`} /> : null,
+          index > 0 ? <BreadcrumbSeparatorComponent key={`${descriptionEntity.entityWithTreeEntry.entity.content.id}.separator`} /> : null,
           // 2 - Link
           <BreadcrumbLinkComponent
-            key={`${descriptionEntity.entity.content.id}.link`}
+            key={`${descriptionEntity.entityWithTreeEntry.entity.content.id}.link`}
             settings={settings}
             descriptionEntity={descriptionEntity}
             entityIndex={index}

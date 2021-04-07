@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { DamDomain, UIDomain } from '@regardsoss/domain'
-import { AccessShapes, CatalogShapes, UIShapes } from '@regardsoss/shape'
+import { AccessShapes, UIShapes } from '@regardsoss/shape'
 
 /**
  * Describes module configuration shape
@@ -54,7 +54,7 @@ export const DescriptionRuntime = PropTypes.shape({
   // Selected index in description path
   selectedIndex: PropTypes.number.isRequired,
   // breacrumb entities, where last entity is the one currently shown (empty array to show no data)
-  descriptionPath: PropTypes.arrayOf(CatalogShapes.Entity).isRequired,
+  descriptionPath: PropTypes.arrayOf(UIShapes.EntityWithTreeEntry).isRequired,
   // Callback to change description path: newPath:[CatalogShapes.Entity], selectedIndex:number => ()
   setDescriptionPath: PropTypes.func.isRequired,
   // Callback search a word tag: word:string => ()

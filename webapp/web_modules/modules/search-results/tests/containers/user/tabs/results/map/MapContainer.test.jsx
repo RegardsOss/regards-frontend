@@ -66,6 +66,7 @@ describe('[SEARCH RESULTS] Testing MapContainer', () => {
       ],
       pageMetadata: resultsDump.metadata,
       updateResultsContext: () => {},
+      uploadToponym: () => { },
     }
     const enzymeWrapper = shallow(<MapContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(MapComponent)

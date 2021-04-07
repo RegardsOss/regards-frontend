@@ -70,6 +70,7 @@ const messages = {
   'module.description.common.show.entity.description.tootlip': 'Afficher la description de {entityLabel}',
   'module.description.common.search.entity.tooltip': 'Rechercher les données liées à {entityLabel}',
   'module.description.common.download.file.tooltip': 'Télécharger le fichier {fileName}',
+  'module.description.common.open.file.tooltip': 'Ouvrir le fichier {fileName} dans un nouvel onglet',
   'module.description.common.file.preview.tooltip': 'Afficher la prévisualisation de {fileName}',
   'module.description.common.version.link.label': 'Version {version}',
   'module.description.common.version.link.tooltip': 'Afficher la description de cette version',

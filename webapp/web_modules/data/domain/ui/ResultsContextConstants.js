@@ -113,6 +113,7 @@ const DEFAULT_RESULTS_CONTEXT = {
       },
     },
     [RESULTS_TABS_ENUM.DESCRIPTION]: {
+      unresolvedTreeEntry: null,
       unresolvedRootEntityId: null,
       descriptionPath: [],
       selectedIndex: 0,

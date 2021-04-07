@@ -18,8 +18,10 @@
  **/
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
-import { CatalogClient, AccessProjectClient } from '@regardsoss/client'
+import { UIDomain } from '@regardsoss/domain'
+import { CatalogClient, AccessProjectClient, UIClient } from '@regardsoss/client'
 import { AccessShapes, UIShapes } from '@regardsoss/shape'
 import { AuthenticationClient, AuthenticationParametersSelectors } from '@regardsoss/authentication-utils'
 import { modelAttributesActions } from '../../clients/ModelAttributesClient'
@@ -28,6 +30,7 @@ import { ModuleConfiguration } from '../../shapes/ModuleConfiguration'
 import { DescriptionState } from '../../shapes/DescriptionState'
 import MainModuleComponent from '../../components/user/MainModuleComponent'
 import { DescriptionEntityHelper } from './DescriptionEntityHelper'
+import { resultsContextActions } from '../../clients/ResultsContextClient'
 
 /** Builds actions to fetch single entities */
 const fetchEntityActions = new CatalogClient.SearchEntityActions('description-entity-resolver', true)
@@ -37,6 +40,9 @@ const fetchEntityVersionsActions = new CatalogClient.SearchEntityVersionsActions
 
 /** Common UI settings selectors */
 const uiSettingsSelectors = AccessProjectClient.getUISettingsSelectors()
+
+// default selector instance to get currently displayed dynamic module ID
+const selectedDynamicModuleIdSelectors = UIClient.getSelectedDynamicModuleSelectors()
 
 /**
  * Module container: instantiated as first module component it:
@@ -58,6 +64,7 @@ export class UserContainer extends React.Component {
       settings: uiSettingsSelectors.getSettings(state),
       accessToken: AuthenticationClient.authenticationSelectors.getAccessToken(state),
       projectName: AuthenticationParametersSelectors.getProject(state),
+      pageModuleId: selectedDynamicModuleIdSelectors.getDynamicModuleId(state),
     }
   }
 
@@ -74,6 +81,7 @@ export class UserContainer extends React.Component {
       fetchEntity: (id) => dispatch(fetchEntityActions.getEntity(id)),
       fetchAllEntityVersions: (id, type) => dispatch(fetchEntityVersionsActions.fetchAllVersions(id, type)),
       fetchModelAttributes: (modelName) => dispatch(modelAttributesActions.fetchEntityList({ modelName })),
+      updateResultsContext: (moduleId, stateDiff) => dispatch(resultsContextActions.updateResultsContext(moduleId, stateDiff)),
     }
   }
 
@@ -98,6 +106,8 @@ export class UserContainer extends React.Component {
     fetchAllEntityVersions: PropTypes.func.isRequired, // eslint wont fix: rule broken, used in onDescriptionRequestUpdated
     setSelectedTreeEntry: PropTypes.func.isRequired,
     setModuleDescriptionPath: PropTypes.func.isRequired,
+    updateResultsContext: PropTypes.func.isRequired,
+    pageModuleId: PropTypes.number,
   }
 
   /**
@@ -131,7 +141,7 @@ export class UserContainer extends React.Component {
       return
     }
 
-    const { accessToken, projectName, moduleConf: { runtime: { descriptionPath } } } = newProps
+    const { accessToken, projectName, moduleConf: { runtime: { selectedIndex, descriptionPath } } } = newProps
     const { accessToken: oldAccessToken, projectName: oldProjectName, moduleConf: oldModuleConf } = oldProps
     const oldDescriptionPath = get(oldModuleConf, 'runtime.descriptionPath', [])
     if (!isEqual(accessToken, oldAccessToken)
@@ -142,24 +152,48 @@ export class UserContainer extends React.Component {
       // 2. Path changed, rebuild new elements and reuse previous ones when unchanged
       this.onDescriptionRequestUpdated(newProps, false)
     }
+
+    const oldSelectedTreeEntry = get(oldProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
+    const newSelectedTreeEntry = get(newProps, `descriptionState.descriptionPath[${selectedIndex}].entityWithTreeEntry.selectedTreeEntry`, {})
+    if (!isEmpty(newSelectedTreeEntry) && !isEmpty(newProps.descriptionState.descriptionPath) && !isEqual(oldSelectedTreeEntry, newSelectedTreeEntry)) {
+      this.onSelectedTreeUpdated(newProps)
+    }
+  }
+
+  /**
+   * Selectred tree change detected: update result context
+   * @param newProps next component properties
+   */
+  onSelectedTreeUpdated = (newProps) => {
+    const { moduleConf: { runtime: { selectedIndex } } } = newProps
+    const { pageModuleId, updateResultsContext } = this.props
+    updateResultsContext(pageModuleId, {
+      tabs: {
+        [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          descriptionPath: newProps.descriptionState.descriptionPath.map((pathEntity) => ({ entity: pathEntity.entityWithTreeEntry.entity, selectedTreeEntry: pathEntity.entityWithTreeEntry.selectedTreeEntry })),
+          selectedIndex,
+        },
+      },
+    })
   }
 
   /**
    * On description path updated: update resolved models list and updates state
-   * @param {*} props component properties to consider,
+   * @param {*} newDescriptionState component properties to consider,
    * @param {boolean} reloading true when reloading on inner event: in such case, index in path should be preseved and all entities should be updated
    */
   onDescriptionRequestUpdated = ({
     accessToken, projectName, descriptionState, settings,
-    moduleConf: { runtime: { descriptionPath }, ...moduleConfiguration },
+    moduleConf: { runtime: { selectedIndex, descriptionPath }, ...moduleConfiguration },
     fetchModelAttributes, fetchEntity, fetchAllEntityVersions, setModuleDescriptionPath,
   }, reloading) => {
     // A - Mark loading the elements that need to be reloaded
-    const loadingDescriptionPath = descriptionPath.map((entity) => {
+    const loadingDescriptionPath = descriptionPath.map((entityWithTreeEntry) => {
+      const { entity } = entityWithTreeEntry
       const previousDescriptionModel = reloading ? null
-        : descriptionState.descriptionPath.find((descriptionEntity) => descriptionEntity.entity.content.id === entity.content.id)
+        : descriptionState.descriptionPath.find((descriptionEntity) => descriptionEntity.entityWithTreeEntry.entity.content.id === entity.content.id)
       // fallback on initial loading model when reloading or not found
-      return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entity)
+      return previousDescriptionModel || DescriptionEntityHelper.buildLoadingModel(entityWithTreeEntry)
     })
     setModuleDescriptionPath(loadingDescriptionPath)
 
@@ -187,7 +221,7 @@ export class UserContainer extends React.Component {
     const { descriptionState, setModuleDescriptionPath } = this.props
     if (this.descriptionUpdateGroupId === descriptionUpdateGroupId) {
       setModuleDescriptionPath(descriptionState.descriptionPath
-        .map((pathEntity) => pathEntity.entity.content.id === descriptionEntity.entity.content.id ? descriptionEntity : pathEntity))
+        .map((pathEntity) => pathEntity.entityWithTreeEntry.entity.content.id === descriptionEntity.entityWithTreeEntry.entity.content.id ? descriptionEntity : pathEntity))
     }
   }
 
@@ -199,7 +233,7 @@ export class UserContainer extends React.Component {
    */
   onSelectInnerLink = (section, child) => {
     const { moduleConf: { runtime: { selectedIndex } }, descriptionState, setSelectedTreeEntry } = this.props
-    const { selectedTreeEntry } = descriptionState.descriptionPath[selectedIndex]
+    const { entityWithTreeEntry: { selectedTreeEntry } } = descriptionState.descriptionPath[selectedIndex]
     if (selectedTreeEntry.section !== section || selectedTreeEntry.child !== child) {
       setSelectedTreeEntry(selectedIndex, { section, child })
     }
@@ -214,13 +248,19 @@ export class UserContainer extends React.Component {
     // 1 - algorithm:
     // a - if entity is already in path, just "jump" to that entity
     // b - otherwise, keep elements in path up to the current index and replace end with the new entity
-    const foundEntityIndex = descriptionPath.findIndex((pathEntity) => pathEntity.content.id === entity.content.id)
+    const foundEntityIndex = descriptionPath.findIndex((pathEntityWithTreeEntry) => pathEntityWithTreeEntry.entity.content.id === entity.content.id)
     if (foundEntityIndex >= 0) {
       // 1.a - Yes: just update the displayed index
       setDescriptionPath(descriptionPath, foundEntityIndex)
     } else {
       // 1.b - No: add it and set index to last element (new one)
-      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), entity], selectedIndex + 1)
+      setDescriptionPath([...descriptionPath.slice(0, selectedIndex + 1), {
+        entity,
+        selectedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+          child: null,
+        },
+      }], selectedIndex + 1)
     }
   }
 

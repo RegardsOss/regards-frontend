@@ -70,6 +70,7 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
     const searchDatasetsRootLink = this.getSearchLink(false, 'search-datasets')
     const searchCollectionsRootLink = this.getSearchLink(false, 'search-collections')
     const descriptorLink = this.getSearchLink(false, 'opensearchdescription.xml')
+    const stacLink = this.getSearchLink(false, 'stac')
 
     return (
       <Dialog
@@ -100,6 +101,8 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
               {searchCollectionsRootLink}
               {descriptorLink ? <br /> : null}
               {descriptorLink}
+              {stacLink ? <br /> : null}
+              {stacLink}
             </div>
             <br />
             <br />
@@ -108,6 +111,7 @@ export class SearchEngineConfigurationInfoDialog extends React.Component {
         <a style={emphasizedText} href={this.getSearchLink(true)} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test' })}</a>
         <br />
         {descriptorLink ? <a style={emphasizedText} href={this.getSearchLink(true, 'opensearchdescription.xml')} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test.descriptor' })}</a> : null}
+        {stacLink ? <a style={emphasizedText} href={this.getSearchLink(true, 'stac')} target="_blanck">{formatMessage({ id: 'dataaccess.searchengines.info.test.stac' })}</a> : null}
       </Dialog>
     )
   }

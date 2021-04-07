@@ -96,6 +96,12 @@ function getBasicLayerInfo(layer, mapEngine, layerType) {
         visible: true,
       }
       break
+    case UIDomain.MAP_ENGINE_ENUM.CESIUM:
+      basicLayerInfo = {
+        ...basicLayerInfo,
+        layers: layer.layersName,
+      }
+      break
     default:
   }
   return basicLayerInfo

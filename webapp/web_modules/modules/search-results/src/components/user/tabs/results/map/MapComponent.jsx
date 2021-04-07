@@ -64,6 +64,8 @@ class MapComponent extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     selectedToponyms: PropTypes.object,
     onToponymSelected: PropTypes.func.isRequired,
+
+    featureShapefile: GeoJsonFeaturesCollection,
   }
 
   static contextTypes = {
@@ -87,6 +89,7 @@ class MapComponent extends React.Component {
       viewMode, onToggleSelectionMode, onToggleViewMode,
       onFeaturesPicked, layers,
       selectedProducts, onProductSelected, onToponymSelected, selectedToponyms,
+      featureShapefile,
     } = this.props
     const { customLayersOpacity } = this.state
 
@@ -110,6 +113,7 @@ class MapComponent extends React.Component {
       selectedProducts,
       viewMode,
       selectedToponyms,
+      featureShapefile,
     }
     return (
       <>

@@ -164,6 +164,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
     // description tab
     const descriptionTab = tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
     assert.deepEqual(descriptionTab, {
+      unresolvedTreeEntry: null,
       unresolvedRootEntityId: null,
       descriptionPath: [],
       selectedIndex: 0,
@@ -230,11 +231,12 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       r: { x: [36, 55] },
     }]),
     [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: dataEntity.content.id, // description entity
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: anotherDatasetEntity.content.id, // tag view main tag
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
-    [ContextStorageHelper.MODULE_URL_PARAMETERS[12].name]: JSON.stringify([true, true]), // 2 unactives attributes
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: 'PARAMETERS', // entity description state
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: dataEntity.content.id, // description entity
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: anotherDatasetEntity.content.id, // tag view main tag
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.LIST, // tag view display mode
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[12].name]: 'URN:DATASET:UNEXISTING', // will not be resolved
+    [ContextStorageHelper.MODULE_URL_PARAMETERS[13].name]: JSON.stringify([true, true]), // 2 unactives attributes
     [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
   }
 
@@ -292,6 +294,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         requestParameters: { x: [36, 55] },
       }], 'Search state and criteria should have been restored from local storage')
       assert.deepEqual(descriptionTab, {
+        unresolvedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+          child: null,
+        },
         unresolvedRootEntityId: dataEntity.content.id,
         descriptionPath: [],
         selectedIndex: 0,
@@ -308,8 +314,9 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         CriterionBuilder.buildEntityTagCriterion(datasetEntity),
       ], 'Main tab secondary tag should have been resolved')
       assert.deepEqual(publishedContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION], {
+        unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
         unresolvedRootEntityId: null,
-        descriptionPath: [dataEntity],
+        descriptionPath: [{ entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } }],
         selectedIndex: 0,
       }, 'Description tab entity should have been resolved')
       assert.deepEqual(publishedContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags, [
@@ -335,9 +342,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         r: { kappa: [46, 53], quoala: 'Coco' },
       }]),
       [ContextStorageHelper.MODULE_URL_PARAMETERS[7].name]: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D, // map view mode
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: 'URN:DATASET:UNEXISTING',
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: anotherDataEntity.content.id,
-      [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[8].name]: 'PARAMETERS', // entity description state
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[9].name]: 'URN:DATASET:UNEXISTING',
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[10].name]: anotherDataEntity.content.id,
+      [ContextStorageHelper.MODULE_URL_PARAMETERS[11].name]: UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
       [ContextStorageHelper.STATIC_PARAMETERS.name]: 'Only pictures;hasImage=true,External data;q=model:DATA_MODEL_REGARDS_2044',
     },
     storageData: defaultLocalStorage,
@@ -366,6 +374,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         requestParameters: { kappa: [46, 53], quoala: 'Coco' },
       }], 'Search state and criteria should have been restored from URL')
       assert.deepEqual(descriptionTab, {
+        unresolvedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+          child: null,
+        },
         unresolvedRootEntityId: 'URN:DATASET:UNEXISTING',
         descriptionPath: [],
         selectedIndex: 0,
@@ -379,6 +391,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         'Tag tab user filter should have been restored from URL')
       // Check context is published with resolved entities (for those who could be resolved)
       assert.deepEqual(publishedContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION], {
+        unresolvedTreeEntry: {
+          section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS,
+          child: null,
+        },
         unresolvedRootEntityId: 'URN:DATASET:UNEXISTING',
         descriptionPath: [],
         selectedIndex: 0,
@@ -460,8 +476,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           },
         },
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
           unresolvedRootEntityId: null,
-          descriptionPath: [datasetEntity],
+          descriptionPath: [
+            { entity: datasetEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+          ],
           selectedIndex: 0,
         },
         [UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS]: {
@@ -478,6 +497,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
           },
         },
         [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+          unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
           unresolvedRootEntityId: datasetEntity.content.id,
           descriptionPath: [],
           selectedIndex: 0,
@@ -654,7 +674,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [dataEntity],
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
+            descriptionPath: [{ entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } }],
             selectedIndex: 0,
           },
         },
@@ -663,6 +684,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: dataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,
@@ -674,7 +696,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       stateDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [dataEntity, anotherDataEntity],
+            descriptionPath: [
+              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+            ],
             selectedIndex: 1,
           },
         },
@@ -682,6 +707,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       expectedRestoredDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: anotherDataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,
@@ -693,7 +719,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       stateDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [dataEntity, anotherDataEntity],
+            descriptionPath: [
+              { entity: dataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+              { entity: anotherDataEntity, selectedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null } },
+            ],
             selectedIndex: 0,
           },
         },
@@ -701,6 +730,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       expectedRestoredDiff: {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+            unresolvedTreeEntry: { section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.PARAMETERS, child: null },
             unresolvedRootEntityId: dataEntity.content.id, // later resolved
             descriptionPath: [],
             selectedIndex: 0,

@@ -46,6 +46,7 @@ function configureStore(rootReducer) {
   // import { createLogger } from 'redux-logger'
   //   const logger = createLogger({
   //     level: 'log',
+  //     collapsed: true,
   //     // Do not log these actions
   //     predicate: (getState, action) => !action.type.match(/menu\/notification/)
   //       && !action.type.match(/@@redux-form\/REGISTER_FIELD/)

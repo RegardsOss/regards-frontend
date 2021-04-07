@@ -18,7 +18,6 @@
  **/
 import { DATA_TYPES } from '@regardsoss/domain/common'
 import { CatalogShapes, UIShapes } from '@regardsoss/shape'
-import { BROWSING_SECTIONS } from '../domain/BrowsingSections'
 
 /**
  * Holds shapes for tree browsing in description module
@@ -61,30 +60,21 @@ export const FileData = PropTypes.shape({
   label: PropTypes.string.isRequired,
   available: PropTypes.bool.isRequired,
   uri: PropTypes.string.isRequired,
+  mimeType: PropTypes.string,
   // keeps data type and reference info to handle quota related errors
   type: PropTypes.oneOf(DATA_TYPES).isRequired,
   reference: PropTypes.bool.isRequired,
 })
 
-/** Points out a tree entry */
-export const TreeEntryPointer = PropTypes.shape({
-  // selected section
-  section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
-  // index of the selected child (null if parent is selected)
-  child: PropTypes.number,
-})
-
 /** An entity as resolved for displaying. It holds both original entity and compiled model */
 export const DescriptionEntity = PropTypes.shape({
-  entity: CatalogShapes.Entity.isRequired,
+  entityWithTreeEntry: UIShapes.EntityWithTreeEntry.isRequired,
   // Is entity loading?
   loading: PropTypes.bool.isRequired,
   // Did model attributes retrieval failed?
   modelRetrievalFailed: PropTypes.bool.isRequired,
   // Is entity invalid for description? (may happen when description configuration changes or user enters URL directly)
   invalid: PropTypes.bool.isRequired,
-  // selected entry in tree
-  selectedTreeEntry: TreeEntryPointer.isRequired,
   // Resolved model for displaying
   displayModel: PropTypes.shape({
     thumbnail: FileData,

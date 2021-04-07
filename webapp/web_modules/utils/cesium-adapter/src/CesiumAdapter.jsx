@@ -68,6 +68,8 @@ export default class CesiumAdapter extends React.Component {
     // toponym selection management
     // eslint-disable-next-line react/forbid-prop-types
     selectedToponyms: PropTypes.object,
+
+    featureShapefile: GeoJsonFeaturesCollection,
   }
 
   state = {
@@ -279,7 +281,7 @@ export default class CesiumAdapter extends React.Component {
   render() {
     const {
       featuresCollection, drawingSelection, drawnAreas, onDrawingSelectionDone, onFeaturesSelected, customLayersOpacity,
-      viewMode, onProductSelected, selectedToponyms,
+      viewMode, onProductSelected, selectedToponyms, featureShapefile,
     } = this.props
     const {
       greyBackgroundProvider, customLayerProviders, cesiumFeaturesColor, cesiumDrawColor, nearlyTransparentColor,
@@ -350,6 +352,13 @@ export default class CesiumAdapter extends React.Component {
               <GeoJsonDataSource
                 name="catalog-features"
                 data={featuresCollection}
+                fill={nearlyTransparentColor}
+                stroke={cesiumFeaturesColor}
+                strokeWidth={1}
+              />
+              <GeoJsonDataSource
+                name="shapefile-features"
+                data={featureShapefile}
                 fill={nearlyTransparentColor}
                 stroke={cesiumFeaturesColor}
                 strokeWidth={1}

@@ -16,23 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import values from 'lodash/values'
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
 
-/**
- * Available sections for browsing in description
- * @author Raphaël Mechali
- */
-export const BROWSING_SECTIONS_ENUM = {
-  PARAMETERS: 'PARAMETERS',
-  INFORMATION: 'INFORMATION',
-  QUICKLOOKS: 'QUICKLOOKS',
-  SIMPLE_TAGS: 'SIMPLE_TAGS',
-  LINKED_ENTITIES: 'LINKED_ENTITIES',
-  COUPLED_TAGS: 'COUPLED_TAGS',
-  LINKED_DOCUMENTS: 'LINKED_DOCUMENTS',
-  FILES: 'FILES',
-  OTHER_VERSIONS: 'OTHER_VERSIONS',
-}
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'pkg_build',
+    projectContextPath: __dirname,
+  })
+  .addProductionPlugins()
+  .get()
 
-/** All possible value */
-export const BROWSING_SECTIONS = values(BROWSING_SECTIONS_ENUM)
+module.exports = conf

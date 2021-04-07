@@ -102,7 +102,15 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
       resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
         tabs: {
           [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
-            descriptionPath: [datasetEntity, dataEntity, anotherDataEntity],
+            descriptionPath: [{
+              entity: datasetEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            },
+            {
+              entity: dataEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            },
+            {
+              entity: anotherDataEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            }],
             selectedIndex: 1,
           },
         },
@@ -122,7 +130,15 @@ describe('[SEARCH RESULTS] Testing DescriptionContainer', () => {
           ...modulesDumpWithDescription[8].content.conf,
           // add runtime render data
           runtime: {
-            descriptionPath: [datasetEntity, dataEntity, anotherDataEntity],
+            descriptionPath: [{
+              entity: datasetEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            },
+            {
+              entity: dataEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            },
+            {
+              entity: anotherDataEntity, selectedTreeEntry: { section: 'PARAMETERS' },
+            }],
             selectedIndex: 1,
             setDescriptionPath: enzymeWrapper.instance().setDescriptionPath,
             onSearchWord: enzymeWrapper.instance().onSearchWord,

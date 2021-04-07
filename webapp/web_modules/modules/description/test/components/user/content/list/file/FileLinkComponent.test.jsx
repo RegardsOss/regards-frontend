@@ -22,8 +22,7 @@ import { assert } from 'chai'
 import { DownloadButton } from '@regardsoss/components'
 import { DownloadIconComponent, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CommonDomain } from '@regardsoss/domain'
-import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { FileLinkComponent } from '../../../../../../src/components/user/content/list/file/FileLinkComponent'
 import PageLinkCellComponent from '../../../../../../src/components/user/content/list/common/PageLinkCellComponent'
 import styles from '../../../../../../src/styles'
@@ -170,7 +169,7 @@ describe('[Description] Testing FileLinkComponent', () => {
     }) => {
       const spyOnSelectInnerLink = {}
       const props = {
-        section: BROWSING_SECTIONS_ENUM.INFORMATION,
+        section: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
         index: 1,
         file: {
           label: 'aFile',

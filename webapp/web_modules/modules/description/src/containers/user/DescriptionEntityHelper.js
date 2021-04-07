@@ -30,7 +30,6 @@ import {
 import { EntityConfiguration, ModelAttributeConfiguration } from '@regardsoss/api'
 import { StringComparison } from '@regardsoss/form-utils'
 import { getTypeRender } from '@regardsoss/attributes-common'
-import { BROWSING_SECTIONS_ENUM } from '../../domain/BrowsingSections'
 
 /**
  * Helper to pack entity and tags, given module configuration, for displaying in description module
@@ -50,16 +49,12 @@ export class DescriptionEntityHelper {
    * @param {*} entity entity
    * @return {*} built loading model for entity, matching DescriptionState.DescriptionEntity
    */
-  static buildLoadingModel(entity) {
+  static buildLoadingModel(entityWithTreeEntry) {
     return {
-      entity,
+      entityWithTreeEntry,
       loading: true,
       modelRetrievalFailed: false,
       invalid: false,
-      selectedTreeEntry: {
-        section: BROWSING_SECTIONS_ENUM.PARAMETERS,
-        child: null,
-      },
       displayModel: {
         attributesGroups: [],
         descriptionFiles: [],
@@ -108,7 +103,7 @@ export class DescriptionEntityHelper {
     fetchEntity, fetchAllEntityVersions, fetchModelAttributes,
     accessToken, projectName, descriptionUpdateGroupId) {
     // extract type configuration (pseudo document type should be taken in account)
-    const { entity } = descriptionEntity
+    const { entityWithTreeEntry: { entity } } = descriptionEntity
     const typeConfiguration = moduleConfiguration[
       UIDomain.isDocumentEntity(uiSettings, entity)
         ? UIDomain.PSEUDO_TYPES_ENUM.DOCUMENT // use document pseudo type configuration
@@ -231,7 +226,7 @@ export class DescriptionEntityHelper {
   static buildFullDescriptionEntity(
     uiSettings, typeConfiguration, attributes, descriptionEntity,
     otherVersions, tags, accessToken, projectName, modelRetrievalFailed) {
-    const { entity, displayModel: initialDisplayModel } = descriptionEntity
+    const { entityWithTreeEntry: { entity }, displayModel: initialDisplayModel } = descriptionEntity
     const hasValidConfiguration = get(typeConfiguration, 'showDescription', false)
     return {
       ...descriptionEntity,
@@ -361,6 +356,7 @@ export class DescriptionEntityHelper {
       available: DamDomain.DataFileController.isAvailableNow(dataFile),
       type,
       reference: dataFile.reference,
+      mimeType: dataFile.mimeType,
       // append token / project when data file is not a reference. Also add this location to bypass cross domain issues
       uri: `${DamDomain.DataFileController.getFileURI(dataFile, accessToken, projectName)}${dataFile.reference ? '' : uriOriginParam}`,
     }))
@@ -440,7 +436,7 @@ export class DescriptionEntityHelper {
       }).filter((f) => !!f),
       // map entity native description files
       ...DescriptionEntityHelper.toFileData(entity, CommonDomain.DATA_TYPES_ENUM.DESCRIPTION, accessToken, projectName),
-    ]
+    ].sort((f1, f2) => StringComparison.compare(f1.label, f2.label))
   }
 
   /**

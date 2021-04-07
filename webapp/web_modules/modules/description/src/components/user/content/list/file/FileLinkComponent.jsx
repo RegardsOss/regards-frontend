@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { UIDomain } from '@regardsoss/domain'
 import FileIcon from 'mdi-material-ui/FileImage'
 import { i18nContextType } from '@regardsoss/i18n'
 import { DownloadButton } from '@regardsoss/components'
@@ -23,7 +24,6 @@ import { withAuthInfo } from '@regardsoss/authentication-utils'
 import {
   DownloadIconComponent, QuotaDownloadUtils, QuotaInfo, withQuotaInfo,
 } from '@regardsoss/entities-common'
-import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
 import { FileData } from '../../../../../shapes/DescriptionState'
 import PageLinkCellComponent from '../common/PageLinkCellComponent'
 import PageElement from '../common/PageElement'
@@ -35,7 +35,7 @@ import PageElementOption from '../common/PageElementOption'
  */
 export class FileLinkComponent extends React.Component {
   static propTypes = {
-    section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
+    section: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS).isRequired,
     index: PropTypes.number.isRequired,
     file: FileData.isRequired,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()
@@ -61,10 +61,11 @@ export class FileLinkComponent extends React.Component {
   render() {
     const {
       file: {
-        label, available, uri, type, reference,
+        label, available, uri, type, reference, mimeType,
       }, quotaInfo, accessToken,
     } = this.props
     const { intl: { formatMessage } } = this.context
+    const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
     return (
       <PageElement>
         <PageLinkCellComponent
@@ -80,12 +81,13 @@ export class FileLinkComponent extends React.Component {
              <DownloadButton
                ButtonConstructor={PageElementOption}
                disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
-               tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
+               tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
                downloadURL={uri}
                IconConstructor={DownloadIconComponent}
                // icon component props
                constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
                quotaInfo={quotaInfo}
+               isBlank={openInNewTab}
              />) : null // hide option when not available
         }
       </PageElement>

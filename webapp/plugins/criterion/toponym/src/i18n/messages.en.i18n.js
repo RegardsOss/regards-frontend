@@ -25,7 +25,8 @@ const messages = {
   'criterion.toponym.equal.label': 'equal to',
   'criterion.toponym.equal.tooltip': 'Results are strictly equal to input text',
   'criterion.toponym.title.tooltip': 'Limit search to products contained in toponym area',
-  'criterion.toponym.hintText': 'Search for a toponym',
+  'criterion.toponym.hintText': 'Search for a toponym or drag and drop a shapefile or a geojson',
+  'criterion.toponym.trick': 'Trick: Drag and drop your shapefile or geojson to use it as geographical restriction',
 }
 
 export default messages

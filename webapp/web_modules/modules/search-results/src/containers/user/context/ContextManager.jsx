@@ -214,18 +214,32 @@ export class ContextManager extends React.Component {
    * @param {*} descriptionState matching UIShapes.DescriptionTabModel
    * @return {Promise} update promise, never going though catch clause
    */
-  updateDescriptionTab = ({ unresolvedRootEntityId, descriptionPath, selectedIndex }) => {
+  updateDescriptionTab = ({
+    unresolvedTreeEntry,
+    unresolvedRootEntityId,
+    descriptionPath,
+    selectedIndex,
+  }) => {
     // Case 1: there is an old unresolved description entity: resolve it and update state
     if (unresolvedRootEntityId) {
       return this.resolveEntity(unresolvedRootEntityId)
-        .then((e) => e ? { unresolvedRootEntityId: null, descriptionPath: [e], selectedIndex: 0 } : {
+        .then((e) => e ? {
+          unresolvedTreeEntry: null,
+          unresolvedRootEntityId: null,
+          descriptionPath: [{
+            entity: e,
+            selectedTreeEntry: unresolvedTreeEntry,
+          }],
+          selectedIndex: 0,
+        } : {
+          unresolvedTreeEntry,
           unresolvedRootEntityId, // still not resolved
           descriptionPath: [],
           selectedIndex: 0,
         })
     }
     // Case 2: Check rights on each entity
-    const previouslySelectedEntityId = descriptionPath.length ? descriptionPath[selectedIndex].content.id : null
+    const previouslySelectedEntityId = descriptionPath.length ? descriptionPath[selectedIndex].entity.content.id : null
     return Promise.all(descriptionPath.map(this.resolveEntity))
       .then((resolvedEntities) => {
         // remove null

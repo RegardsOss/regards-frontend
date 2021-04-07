@@ -55,14 +55,14 @@ describe('[Description] Testing BreadcrumbComponent', () => {
     assert.lengthOf(breadcrumbLinks, props.descriptionPath.length, 'There should be one link for each description path entity')
     props.descriptionPath.forEach((descriptionEntity, index) => {
       const entityLink = breadcrumbLinks.findWhere((n) => n.props().descriptionEntity === descriptionEntity)
-      assert.lengthOf(entityLink, 1, `There should be ${descriptionEntity.entity.content.label} link`)
+      assert.lengthOf(entityLink, 1, `There should be ${descriptionEntity.entityWithTreeEntry.entity.content.label} link`)
       testSuiteHelpers.assertWrapperProperties(entityLink, {
         settings: props.settings,
         descriptionEntity,
         entityIndex: index,
         selected: index === props.selectedEntityIndex,
         onSelectEntityIndex: props.onSelectEntityIndex,
-      }, `${descriptionEntity.entity.content.label} link properties should be correctly set`)
+      }, `${descriptionEntity.entityWithTreeEntry.entity.content.label} link properties should be correctly set`)
     })
   })
 })

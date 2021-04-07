@@ -22,5 +22,7 @@ export const EnumNumericalComparator = {
   EQ: 'EQ',
   LE: 'LE',
   GE: 'GE',
+  SL: 'SL',
+  SG: 'SG',
 }
 export const EnumNumericalComparators = values(EnumNumericalComparator)

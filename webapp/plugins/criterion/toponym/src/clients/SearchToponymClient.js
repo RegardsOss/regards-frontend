@@ -21,12 +21,12 @@ import { ClientConfBuilder } from '@regardsoss/plugins-api'
 
 /**
  * Search toponyms client.
- * 
+ *
  * @author Théo Lasserre
  */
 const pluginName = 'toponym-criteria'
- /**
-  * The store key used in reducer.js 
+/**
+  * The store key used in reducer.js
   */
 const storeKey = 'searchToponym'
 const actionsBuilder = (namespace) => new AccessProjectClient.SearchToponymActions(namespace)

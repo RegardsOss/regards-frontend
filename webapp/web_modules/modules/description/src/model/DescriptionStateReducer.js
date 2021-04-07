@@ -59,7 +59,10 @@ export class DescriptionStateReducer {
           descriptionPath: state.descriptionPath.map((descriptionEntity, index) => index === action.entityIndex ? {
             // That entity is the selected one, update its selected entry path
             ...descriptionEntity,
-            selectedTreeEntry: action.treeEntry,
+            entityWithTreeEntry: {
+              ...descriptionEntity.entityWithTreeEntry,
+              selectedTreeEntry: action.treeEntry,
+            },
           } : descriptionEntity),
         }
       case this.actions.SET_BROWSING_TREE_VISIBLE:

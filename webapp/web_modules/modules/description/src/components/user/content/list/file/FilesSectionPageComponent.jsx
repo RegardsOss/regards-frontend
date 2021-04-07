@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BROWSING_SECTIONS } from '../../../../../domain/BrowsingSections'
+import { UIDomain } from '@regardsoss/domain'
 import { FileData } from '../../../../../shapes/DescriptionState'
 import ListSectionPageComponent from '../common/ListSectionPageComponent'
 import FileLinkComponent from './FileLinkComponent'
@@ -28,7 +28,7 @@ import FileLinkComponent from './FileLinkComponent'
  */
 class FilesSectionPageComponent extends React.Component {
   static propTypes = {
-    section: PropTypes.oneOf(BROWSING_SECTIONS).isRequired,
+    section: PropTypes.oneOf(UIDomain.DESCRIPTION_BROWSING_SECTIONS).isRequired,
     files: PropTypes.arrayOf(FileData).isRequired,
     scrollAreaHeight: PropTypes.number,
     // Callback: user selected an inner link. (section:BROWSING_SECTION_ENUM, child: number) => ()

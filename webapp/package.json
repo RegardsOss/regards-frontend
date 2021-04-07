@@ -154,6 +154,7 @@
     "isomorphic-fetch": "~2.2.1",
     "jquery": "^3.5.1",
     "jquery-ui-bundle": "^1.12.1-migrate",
+    "jszip": "^3.6.0",
     "lodash": "^4.17.11",
     "material-ui": "^0.20.2",
     "mdi-material-ui": "^4.28.0",
@@ -192,7 +193,9 @@
     "reselect": "^4.0.0",
     "resium": "^1.12.0",
     "scriptjs": "~2.5.9",
+    "shpjs": "^3.6.3",
     "underscore": "1.9.2",
+    "url-loader": "~4.0.0",
     "window-or-global": "^1.0.1"
   },
   "devDependencies": {
@@ -226,7 +229,7 @@
     "eslint-plugin-import": "~2.22.1",
     "eslint-plugin-jsx-a11y": "~6.4.1",
     "eslint-plugin-lodash": "~7.1.0",
-    "eslint-plugin-mocha": "~8.0.0",
+    "eslint-plugin-mocha": "~7.0.0",
     "eslint-plugin-promise": "~4.2.0",
     "eslint-plugin-react": "~7.21.5",
     "eslint-plugin-react-perf": "~3.3.0",

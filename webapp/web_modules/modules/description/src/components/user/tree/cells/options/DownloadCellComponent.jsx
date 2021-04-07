@@ -62,10 +62,11 @@ export class DownloadCellComponent extends React.Component {
     const {
       quotaInfo, accessToken,
       file: {
-        label, uri, available, type, reference,
+        label, uri, available, type, reference, mimeType,
       },
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { user: { main: { tree: { cell: { iconButton } } } } } } = this.context
+    const openInNewTab = STATIC_CONF.OPEN_NEW_TAB_MIME_TYPES.includes(mimeType)
     // this button should be shown only when the file can be downloaded AND is not constrained by quota OR user has a quota (=> not public)
     return available && (!QuotaDownloadUtils.isConstrainedByQuota(type, reference) || accessToken) ? (
       <DownloadButton
@@ -74,13 +75,14 @@ export class DownloadCellComponent extends React.Component {
         disabled={!QuotaDownloadUtils.canDownload(available, type, reference, quotaInfo, accessToken)}
         downloadName={label}
         downloadURL={uri}
-        tooltip={formatMessage({ id: 'module.description.common.download.file.tooltip' }, { fileName: label })}
+        tooltip={formatMessage({ id: `module.description.common.${openInNewTab ? 'open' : 'download'}.file.tooltip` }, { fileName: label })}
         // icon button props
         style={iconButton.style}
         iconStyle={iconButton.iconStyle}
         // icon component props
         constrainedByQuota={QuotaDownloadUtils.isConstrainedByQuota(type, reference)}
         quotaInfo={quotaInfo}
+        isBlank={openInNewTab}
       />) : null // hide option when not available
   }
 }

@@ -19,12 +19,11 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { CommonDomain } from '@regardsoss/domain'
+import { CommonDomain, UIDomain } from '@regardsoss/domain'
 import { QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
 import { FileCellComponent } from '../../../../../../src/components/user/tree/cells/links/FileCellComponent'
 import TreeLinkComponent from '../../../../../../src/components/user/tree/cells/links/TreeLinkComponent'
 import styles from '../../../../../../src/styles'
-import { BROWSING_SECTIONS_ENUM } from '../../../../../../src/domain/BrowsingSections'
 
 const context = buildTestContext(styles)
 
@@ -131,7 +130,7 @@ describe('[Description] Testing FileCellComponent', () => {
     }) => {
       const spyOnSelectInnerLink = {}
       const props = {
-        type: BROWSING_SECTIONS_ENUM.INFORMATION,
+        type: UIDomain.DESCRIPTION_BROWSING_SECTIONS_ENUM.INFORMATION,
         index: 1,
         file: {
           label: 'aFile',

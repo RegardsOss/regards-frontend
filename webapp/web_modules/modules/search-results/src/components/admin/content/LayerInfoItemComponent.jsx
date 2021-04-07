@@ -20,12 +20,11 @@
 import map from 'lodash/map'
 import { UIDomain } from '@regardsoss/domain'
 import {
-  RenderRadio, RenderSelectField, RenderTextField, ValidationHelpers, FieldsGroup, RenderCheckbox,
+  RenderRadio, RenderSelectField, RenderTextField, ValidationHelpers, FieldsGroup, RenderCheckbox, Field,
 } from '@regardsoss/form-utils'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { RadioButton } from 'material-ui'
-import { Field } from 'redux-form'
 import messages from '../../../i18n'
 
 const {
@@ -65,6 +64,7 @@ export class LayerInfoItemComponent extends React.Component {
         component={RenderTextField}
         label={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers.layersName' })}
         fullWidth
+        validate={ValidationHelpers.required}
       />
     }
     return null

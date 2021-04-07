@@ -33,6 +33,7 @@ export const AcquisitionProcessingChainContent = PropTypes.shape({
   categories: PropTypes.arrayOf(PropTypes.string),
   mode: PropTypes.oneOf(DataProviderDomain.AcquisitionProcessingChainModes).isRequired,
   versioningMode: PropTypes.oneOf(IngestDomain.VERSIONING_MODES).isRequired,
+  productsStored: PropTypes.bool.isRequired,
   locked: PropTypes.bool,
   lastDateActivation: PropTypes.string,
   periodicity: PropTypes.string,

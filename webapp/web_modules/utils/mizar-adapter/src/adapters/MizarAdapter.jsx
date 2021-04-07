@@ -30,9 +30,9 @@ import { UIShapes } from '@regardsoss/shape'
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '../shapes/FeaturesCollection'
 
 /**
- * Mizar Adapter
- * Nota: it provides pick selection and draw selection gestures but caller should handle related updates and feedback
- */
+  * Mizar Adapter
+  * Nota: it provides pick selection and draw selection gestures but caller should handle related updates and feedback
+  */
 export default class MizarAdapter extends React.Component {
   static propTypes = {
     canvasId: PropTypes.string, // TO be used when showing multiple Mizar instances (otherwise, both will point out the same canvas). IMMUTABLE

@@ -23,7 +23,9 @@ import { UIShapes, AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { getToponymHints } from '@regardsoss/toponym-common'
 import { themeContextType } from '@regardsoss/theme'
-import { AutoCompleteTextField, IconElementSelector } from '@regardsoss/components'
+import {
+  AutoCompleteTextField, IconElementSelector, ToponymUploader, UPLOADER_DISPLAY_MODES,
+} from '@regardsoss/components'
 
 /**
  * Main view component of the toponym criteria
@@ -45,11 +47,9 @@ static propTypes = {
   onUpdateToponymsFilter: PropTypes.func.isRequired,
   // callback: user selected an hint or typed enter in the text field
   onToponymFilterSelected: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   currentLocale: PropTypes.string.isRequired,
-}
-
-state = {
-  currentHints: [],
+  onToponymUploaded: PropTypes.func.isRequired,
 }
 
 static contextTypes = {
@@ -72,6 +72,10 @@ static OPERATORS_DEFINITION = {
   },
 }
 
+state = {
+  currentHints: [],
+}
+
 /**
  * Lifecycle method: component will mount. Used here to detect first properties change and update local state
  */
@@ -81,7 +85,7 @@ UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
  * Lifecycle method: component receive props. Used here to detect properties change and update local state
  * @param {*} nextProps next component properties
  */
-UNSAFE_componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
 /**
  * Properties change detected: update local state
@@ -93,7 +97,7 @@ onPropertiesUpdated = (oldProps, newProps) => {
   // when available values change, rebuild the hints datasource (avoids consuming time and memory at render)
   if (!isEqual(oldProps.matchingToponyms, newProps.matchingToponyms)) {
     this.setState({
-      currentHints: getToponymHints(newProps.matchingToponyms, newProps.currentLocale, menuItem)
+      currentHints: getToponymHints(newProps.matchingToponyms, newProps.currentLocale, menuItem),
     })
   }
 }
@@ -102,40 +106,49 @@ render() {
   const {
     label, toponymFilterText,
     error, isFetching,
-    onUpdateToponymsFilter, onToponymFilterSelected,
+    onUpdateToponymsFilter, onToponymFilterSelected, onToponymUploaded,
   } = this.props
   const { currentHints } = this.state
-  const { intl: { locale, formatMessage }, muiTheme, moduleTheme: { menuStyle } } = this.context
+  const { intl: { locale, formatMessage }, muiTheme, moduleTheme: { menuStyle, trickStyle } } = this.context
   return (
-    <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
-      <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
-        {label[locale]}
-      </td>
-      <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-        <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
-          <IconElementSelector
-            value={ToponymCriterionComponent.EQUAL_OPERATOR}
-            choices={ToponymCriterionComponent.OPERATORS}
-            choiceGraphics={ToponymCriterionComponent.OPERATORS_DEFINITION}
-            onChange={noop}
-          />
-        </div>
-      </td>
-      <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
-        <AutoCompleteTextField
-          title={formatMessage({ id: 'criterion.toponym.title.tooltip' })}
-          hintText={formatMessage({ id: 'criterion.toponym.hintText' })}
-          currentHintText={toponymFilterText}
-          currentHints={currentHints}
-          isFetching={isFetching}
-          isInError={error}
-          onUpdateInput={onUpdateToponymsFilter}
-          onFilterSelected={onToponymFilterSelected}
-          menuStyle={menuStyle}
-          fullWidth
-        />
-      </td>
-    </tr>)
+    <>
+      <tr style={muiTheme.module.searchResults.searchPane.criteria.defaultRow}>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.firstCell}>
+          {label[locale]}
+        </td>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <div style={muiTheme.module.searchResults.searchPane.criteria.optionsContainer}>
+            <IconElementSelector
+              value={ToponymCriterionComponent.EQUAL_OPERATOR}
+              choices={ToponymCriterionComponent.OPERATORS}
+              choiceGraphics={ToponymCriterionComponent.OPERATORS_DEFINITION}
+              onChange={noop}
+            />
+          </div>
+        </td>
+        <td style={muiTheme.module.searchResults.searchPane.criteria.nextCell}>
+          <ToponymUploader
+            onToponymUploaded={onToponymUploaded}
+            displayMode={UPLOADER_DISPLAY_MODES.COMPACT}
+          >
+            <AutoCompleteTextField
+              title={formatMessage({ id: 'criterion.toponym.title.tooltip' })}
+              hintText={formatMessage({ id: 'criterion.toponym.hintText' })}
+              currentHintText={toponymFilterText}
+              currentHints={currentHints}
+              isFetching={isFetching}
+              isInError={error}
+              onUpdateInput={onUpdateToponymsFilter}
+              onFilterSelected={onToponymFilterSelected}
+              menuStyle={menuStyle}
+              fullWidth
+            />
+            <div style={trickStyle}>{formatMessage({ id: 'criterion.toponym.trick' })}</div>
+          </ToponymUploader>
+
+        </td>
+      </tr>
+    </>)
 }
 }
 

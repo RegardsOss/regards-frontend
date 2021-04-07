@@ -189,12 +189,33 @@ export class ContextStorageHelper {
           },
         }
       },
+    }, { // entity description state
+      name: 'eds',
+      toParameterValue: (resultsContext) => {
+        const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
+        if (!descriptionPath.length || selectedIndex >= descriptionPath.length || !descriptionPath[selectedIndex].selectedTreeEntry) return null
+        const { selectedTreeEntry: { section, child } } = descriptionPath[selectedIndex]
+        return `${section}${child || child === 0 ? `,${child}` : ''}`
+      },
+      fromParameterValue: (resultsContext, eds) => {
+        const split = eds.split(',')
+        return {
+          tabs: {
+            [UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]: {
+              unresolvedTreeEntry: {
+                section: split[0],
+                child: split.length === 2 && !Number.isNaN(split[1]) ? Number(split[1]) : null,
+              },
+            },
+          },
+        }
+      },
     }, { // description entity
       name: 'd',
       toParameterValue: (resultsContext) => {
         const { descriptionPath, selectedIndex } = resultsContext.tabs[UIDomain.RESULTS_TABS_ENUM.DESCRIPTION]
         // optional description path
-        return descriptionPath.length ? descriptionPath[selectedIndex].content.id : null
+        return descriptionPath.length ? descriptionPath[selectedIndex].entity.content.id : null
       },
       fromParameterValue: (resultsContext, entityID) => ({
         tabs: {

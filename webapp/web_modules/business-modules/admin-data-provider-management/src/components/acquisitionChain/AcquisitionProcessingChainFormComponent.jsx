@@ -16,12 +16,10 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import isNil from 'lodash/isNil'
-import find from 'lodash/find'
+
 import get from 'lodash/get'
 import map from 'lodash/map'
 import omit from 'lodash/omit'
-import some from 'lodash/some'
 import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { Tabs, Tab } from 'material-ui/Tabs'
 import MenuItem from 'material-ui/MenuItem'
@@ -39,15 +37,15 @@ import {
 } from '@regardsoss/components'
 import {
   RenderTextField, RenderPageableAutoCompleteField, RenderSelectField, reduxForm,
-  RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray, StringComparison,
+  RenderArrayObjectField, RenderCheckbox, ValidationHelpers, Field, FieldArray,
 } from '@regardsoss/form-utils'
 import { DataProviderDomain, IngestDomain } from '@regardsoss/domain'
 import { ingestProcessingChainActions, ingestProcessingChainEntitiesKey } from '../../clients/IngestProcessingChainClient'
 import AcquisitionProcessingChainFormPluginsComponent from './AcquisitionProcessingChainFormPluginsComponent'
 import AcquisitionFileInfoComponent from './AcquisitionFileInfoComponent'
-import { StoragesFieldArrayRenderer, DATA_TYPES_ENUM } from './StoragesFieldArrayRenderer'
 import { CategoriesFieldArrayRenderer } from './CategoriesFieldArrayRenderer'
 import CronDescriptionDialog from './CronDescriptionDialog'
+import AcquisitionProcessingChainStorageConfComponent from './AcquisitionProcessingChainStorageConfComponent'
 import styles from '../../styles'
 import messages from '../../i18n'
 
@@ -106,6 +104,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       versioningMode: IngestDomain.VERSIONING_MODES_ENUM.INC_VERSION,
       mode: 'MANUAL',
       periodicity: '0 * * * * *',
+      productsStored: true,
       categories: [],
     }
   }
@@ -164,23 +163,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
     }
   }
 
-  static validateStorages(value) {
-    return some(value, { active: true }) ? undefined : true
-  }
-
-  static isStorageFileTypeSelected = (storage, targetType) => {
-    if (isNil(storage)) {
-      return false
-    }
-    if (get(storage, 'targetTypes')) {
-      if (get(storage, 'targetTypes').length > 0) {
-        return !!get(storage, 'targetTypes').includes(targetType)
-      }
-      return true
-    }
-    return true
-  }
-
   state = {
     cronDescOpened: false,
   }
@@ -190,48 +172,19 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
       chain, mode, storages, initialize,
     } = this.props
     let initialValues
-    let loadedStorages
-    if (mode !== 'create') {
-      loadedStorages = map(storages, (serverStorage) => {
-        const findStorage = find(chain.content.storages, (s) => serverStorage.content.label === s.pluginBusinessId)
-        return {
-          label: serverStorage.content.label,
-          active: !!findStorage,
-          storePath: findStorage ? findStorage.storePath : '',
-          aip: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.AIP),
-          rawdata: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.RAWDATA),
-          document: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DOCUMENT),
-          description: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.DESCRIPTION),
-          thumbnail: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.THUMBNAIL),
-          quicklook: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.QUICKLOOK_SD),
-          other: AcquisitionProcessingChainFormComponent.isStorageFileTypeSelected(findStorage, DATA_TYPES_ENUM.OTHER),
-        }
-      }).sort(({ label: l1 }, { label: l2 }) => StringComparison.compare(l1, l2))
-    }
 
     switch (mode) {
       case 'create':
         initialValues = {
           ...AcquisitionProcessingChainFormComponent.getNewIntialValues(),
-          storages: map(storages, (serverStorage) => ({
-            label: serverStorage.content.label,
-            active: false,
-            storePath: '',
-            aip: false,
-            description: false,
-            document: false,
-            other: false,
-            rawdata: false,
-            thumbnail: false,
-            quicklook: false,
-          })),
+          storages: AcquisitionProcessingChainStorageConfComponent.initDefaultStorages(storages),
         }
         break
       case 'duplicate':
         if (chain) {
           initialValues = {
             ...AcquisitionProcessingChainFormComponent.getDuplicatedInitialValues(chain),
-            storages: loadedStorages,
+            storages: AcquisitionProcessingChainStorageConfComponent.initStorages(chain, storages),
           }
         } else {
           throw new Error('No chain loaded')
@@ -241,7 +194,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
         if (chain) {
           initialValues = {
             ...chain.content,
-            storages: loadedStorages,
+            storages: AcquisitionProcessingChainStorageConfComponent.initStorages(chain, storages),
           }
         } else {
           throw new Error('No chain loaded')
@@ -279,6 +232,7 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-2' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-3' })}</li>
           <li>{formatMessage({ id: 'acquisition-chain.form.informations-4' })}</li>
+          <li>{formatMessage({ id: 'acquisition-chain.form.informations-5' })}</li>
         </ul>
       </span>
     )
@@ -404,14 +358,6 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   canBeEmpty
                   label={formatMessage({ id: 'acquisition-chain.form.general.section.periodicity' })}
                 />
-                <FieldArray
-                  name="storages"
-                  component={StoragesFieldArrayRenderer}
-                  props={componentProps}
-                  elementLabel="Test"
-                  canBeEmpty={false}
-                  validate={AcquisitionProcessingChainFormComponent.validateStorages}
-                />
               </Tab>
               <Tab
                 label={formatMessage({ id: 'acquisition-chain.form.fileInfos.section' })}
@@ -427,6 +373,16 @@ export class AcquisitionProcessingChainFormComponent extends React.PureComponent
                   canBeEmpty={false}
                   listHeight="600px"
                   validate={required}
+                />
+              </Tab>
+              <Tab
+                label={formatMessage({ id: 'acquisition-chain.form.storage.section' })}
+                className="selenium-storageTab"
+              >
+                <AcquisitionProcessingChainStorageConfComponent
+                  chain={chain}
+                  changeField={this.props.changeField}
+                  storages={this.props.storages}
                 />
               </Tab>
               <Tab
