@@ -28,3 +28,8 @@ export {
   Notification, NotificationWithinContent, NotificationList, NotificationArray,
 } from './Notification'
 export { NotificationSettings } from './NotificationSettings'
+export { Session } from './dashboard/Session'
+export { SessionStep } from './dashboard/SessionStep'
+export { Source } from './dashboard/Source'
+export { SourceStepAggregation } from './dashboard/SourceStepAggregation'
+export { StepState } from './dashboard/StepState'

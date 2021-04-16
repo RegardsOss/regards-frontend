@@ -18,12 +18,18 @@
  **/
 import { combineReducers } from 'redux'
 import { sourcesReducer } from './clients/SourcesClient'
+import { searchSourcesReducer } from './clients/SearchSourcesClient'
+import { searchSessionsReducer } from './clients/SearchSessionsClient'
+import { sessionsReducer } from './clients/SessionsClient'
 
 /**
  * @author Théo Lasserre
  */
 const dashboardManagementReducer = combineReducers({
   sources: sourcesReducer,
+  searchSources: searchSourcesReducer,
+  searchSessions: searchSessionsReducer,
+  sessions: sessionsReducer,
 })
 
 export default dashboardManagementReducer

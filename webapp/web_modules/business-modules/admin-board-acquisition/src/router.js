@@ -96,6 +96,16 @@ export const dashboardManagementRouter = {
   },
 }
 
+export const featureManagementRouter = {
+  path: 'featuremanager',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const featureManagement = require('@regardsoss/admin-feature-management')
+      cb(null, [featureManagement.featureManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -106,6 +116,7 @@ const acquisitionRouter = {
     storageManagementRouter,
     oaisManagementRouter,
     dashboardManagementRouter,
+    featureManagementRouter,
   ],
 }
 

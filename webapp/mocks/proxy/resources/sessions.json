@@ -1,0 +1,81 @@
+{
+  "content": 
+    {
+      "0": {
+        "content": {
+          "id": 0,
+          "source": "Test_Source1",
+          "name": "Test_Session1",
+          "creationDate": "01/01/21",
+          "lastUpdateDate": "01/01/21",
+          "steps": [
+            {
+              "step_id": "0",
+              "source": "Test_Source1",
+              "session": "Test_Session1",
+              "type": "ACQUISITION",
+              "in": 3,
+              "out": 3,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              },
+              "properties": "",
+              "lastUpdate": "01/01/21"
+            },
+            {
+              "step_id": "0",
+              "source": "Test_Source1",
+              "session": "Test_Session1",
+              "type": "REFERENCEMENT",
+              "in": 3,
+              "out": 3,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              },
+              "properties": "",
+              "lastUpdate": "01/01/21"
+            },
+            {
+              "step_id": "0",
+              "source": "Test_Source1",
+              "session": "Test_Session1",
+              "type": "STORAGE",
+              "in": 3,
+              "out": 3,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              },
+              "properties": "",
+              "lastUpdate": "01/01/21"
+            },
+            {
+              "step_id": "0",
+              "source": "Test_Source1",
+              "session": "Test_Session1",
+              "type": "DISSEMINATION",
+              "in": 3,
+              "out": 3,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              },
+              "properties": "",
+              "lastUpdate": "01/01/21"
+            }
+          ],
+          "running": true,
+          "error": true,
+          "waiting": true
+        },
+        "links": []
+      }
+    }
+  
+}

@@ -2,7 +2,7 @@
 
 ## Description
 
-This module display storage management panels. Handle plugins configurations.
+This module display dashboard management panels. Handle plugins configurations.
 
 ## Module structure
 

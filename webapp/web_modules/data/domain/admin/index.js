@@ -24,3 +24,4 @@ export { default as ProjectConnectionStateEnum } from './ProjectConnectionStateE
 export { PROJECT_USER_SETTINGS_MODE, PROJECT_USER_SETTINGS_MODE_ENUM } from './ProjectUserSettingsMode'
 export { PROJECT_USER_STATUS, PROJECT_USER_STATUS_ENUM } from './ProjectUserStatus'
 export { PROJECT_CRS, PROJECT_CRS_ENUM } from './ProjectCrsEnum'
+export { STEP_TYPE_ENUM, STEP_TYPE } from './dashboard/StepType'

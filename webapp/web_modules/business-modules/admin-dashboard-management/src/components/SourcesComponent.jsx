@@ -19,6 +19,7 @@
 
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { AdminShapes } from '@regardsoss/shape'
 import {
   NoContentComponent,
   TableColumnBuilder,
@@ -27,39 +28,37 @@ import {
   TableHeaderOptionsArea,
   TableHeaderLine,
   TableHeaderOptionGroup,
+  TableHeaderAutoCompleteFilterContainer,
 } from '@regardsoss/components'
 import map from 'lodash/map'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import Card from 'material-ui/Card'
 import SelectField from 'material-ui/SelectField'
-import TextField from 'material-ui/TextField'
 import MenuItem from 'material-ui/MenuItem'
 import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
+import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
+import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
+import ReferencedProductsRender from './render/ReferencedProductsRender'
+import DiffusedProductsRender from './render/DiffusedProductsRender'
+import NameRender from './render/NameRender'
+import { CELL_TYPE_ENUM } from '../domain/cellTypes'
+import { STATUS_TYPES } from '../domain/statusTypes'
+import SelectOption from './option/SelectOption'
 
 const SOURCE_FILTER_PARAMS = {
   NAME: 'name',
   STATUS: 'status',
 }
 
-export const SOURCE_STATUS_TYPES = [
-  'SUCCESS',
-  'FAILURE',
-  'CANCELLED',
-  'TIMED_OUT',
-  'CLEANUP', /// CHECK DANS LE DOMAIN
-  'RUNNING',
-  'PREPARE',
-  'REGISTERED',
-]
-
 /**
- * Comment Here
+ * SourcesComponent
  * @author Théo Lasserre
  */
 class SourcesComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
+    selectedSource: AdminShapes.Source,
     onSourceSelected: PropTypes.func.isRequired,
   }
 
@@ -71,12 +70,19 @@ class SourcesComponent extends React.Component {
   /**
    * Default state for filters edition
    */
-   static DEFAULT_FILTERS_STATE = {
-     [SOURCE_FILTER_PARAMS.NAME]: '',
-     [SOURCE_FILTER_PARAMS.STATUS]: SOURCE_STATUS_TYPES,
-   }
+  static DEFAULT_FILTERS_STATE = {
+    [SOURCE_FILTER_PARAMS.NAME]: '',
+    [SOURCE_FILTER_PARAMS.STATUS]: '',
+  }
 
-  static PAGE_SIZE = 100
+  static COLUMN_KEYS = {
+    SOURCE_NAME: 'sourceName',
+    REFERENCED_PRODUCTS: 'referencedProducts',
+    DIFFUSED_PRODUCTS: 'diffusedProducts',
+    ACTIONS: 'actions',
+  }
+
+  static PAGE_SIZE = 20
 
   static EMPTY_COMPONENT = (
     <NoContentComponent
@@ -84,101 +90,119 @@ class SourcesComponent extends React.Component {
       Icon={AddToPhotos}
     />)
 
-    state = {
-      filters: SourcesComponent.DEFAULT_FILTERS_STATE,
-    }
+  state = {
+    filters: SourcesComponent.DEFAULT_FILTERS_STATE,
+  }
 
-    /**
-   * Update filters
-   * @param {*} newStateValue
-   * @param {*} filterElement
-   */
-    updateFilter(newStateValue, filterElement) {
-      const { filters } = this.state
-      const newState = {
-        filters: {
-          ...filters,
-          [filterElement]: newStateValue,
-        },
-      }
-      this.setState(newState)
+  /**
+ * Update filters
+ * @param {*} newStateValue
+ * @param {*} filterElement
+ */
+  updateFilter(newStateValue, filterElement) {
+    const { filters } = this.state
+    const newState = {
+      filters: {
+        ...filters,
+        [filterElement]: newStateValue,
+      },
     }
+    this.setState(newState)
+  }
 
-    render() {
-      const {
-        project,
-      } = this.props
-      const { filters } = this.state
-      const { intl: { formatMessage }, muiTheme } = this.context
-      const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
-      const columns = [ // eslint wont fix: Major API rework required
+  render() {
+    const {
+      project, onSourceSelected, selectedSource,
+    } = this.props
+    const { filters } = this.state
+    const { intl: { formatMessage }, muiTheme } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    const columns = [ // eslint wont fix: Major API rework required
       // 1 - source name
-        new TableColumnBuilder('column.sourceName')
-          .titleHeaderCell()
-          .propertyRenderCell('content.sourceName')
-          .label(formatMessage({ id: 'dashboard.sources.table.column.sourceName' }))
-          .build(),
-        // 2 - referenced product
-        new TableColumnBuilder('column.referencedProducts')
-          .titleHeaderCell()
-          .propertyRenderCell('content.referencedProducts')
-          .label(formatMessage({ id: 'dashboard.sources.table.column.referencedProducts' }))
-          .build(),
-        // 2 - diffused product
-        new TableColumnBuilder('column.diffusedProducts')
-          .titleHeaderCell()
-          .propertyRenderCell('content.diffusedProducts')
-          .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
-          .build(),
-      ]
+      new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.SOURCE_NAME)
+        .label(formatMessage({ id: 'dashboard.sources.table.column.sourceName' }))
+        .rowCellDefinition({
+          Constructor: NameRender,
+        }).titleHeaderCell()
+        .optionsSizing(6)
+        .build(),
+      // 2 - referenced product
+      new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.REFERENCED_PRODUCTS)
+        .label(formatMessage({ id: 'dashboard.sources.table.column.referencedProducts' }))
+        .rowCellDefinition({
+          Constructor: ReferencedProductsRender,
+          props: { cellType: CELL_TYPE_ENUM.SOURCE },
+        }).titleHeaderCell()
+        .optionsSizing(3.83)
+        .build(),
+      // 2 - diffused product
+      new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.DIFFUSED_PRODUCTS)
+        .label(formatMessage({ id: 'dashboard.sources.table.column.diffusedProducts' }))
+        .rowCellDefinition({
+          Constructor: DiffusedProductsRender,
+          props: { cellType: CELL_TYPE_ENUM.SOURCE },
+        }).titleHeaderCell()
+        .optionsSizing(3.83)
+        .build(),
+      // 3 - select source option
+      new TableColumnBuilder().optionsColumn([{
+        OptionConstructor: SelectOption,
+        optionProps: {
+          onEntitySelected: onSourceSelected,
+          selectedEntity: selectedSource,
+          cellType: CELL_TYPE_ENUM.SOURCE,
+        },
+      }]).build(),
+    ]
 
-      return (
-        <Card>
-          <CardTitle
-            title={this.context.intl.formatMessage({ id: 'dashboard.sources.title' })}
-          />
-          <CardText>
-            <TableLayout>
-              <TableHeaderLine key="filters">
-                <TableHeaderOptionsArea>
-                  <TableHeaderOptionGroup>
-                    <TextField
-                      id="dashboard.sources.filter.name"
-                      hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
-                      type="text"
-                      fullWidth
-                      onChange={(event) => this.updateFilter(event.target.value, SOURCE_FILTER_PARAMS.USERNAME)}
-                      value={filters[SOURCE_FILTER_PARAMS.USERNAME]}
-                    />
-                    <SelectField
-                      id="dashboard.sources.filter.status"
-                      multiple
-                      value={filters[SOURCE_FILTER_PARAMS.STATUS]}
-                      floatingLabelText={formatMessage({ id: 'dashboard.sources.filter.status' })}
-                      onChange={(event, index, value) => this.updateFilter(value, SOURCE_STATUS_TYPES.STATUS)}
-                    >
-                      {map(SOURCE_STATUS_TYPES, (status) => (
-                        <MenuItem key={status} value={status} primaryText={status} />
-                      ))}
-                    </SelectField>
-                  </TableHeaderOptionGroup>
-                </TableHeaderOptionsArea>
-              </TableHeaderLine>
-              <PageableInfiniteTableContainer
-                name="sources-table"
-                minRowCount={minRowCount}
-                maxRowCount={maxRowCount}
-                pageActions={null}
-                pageSelectors={null}
-                requestParams={{ ...filters, tenant: project }}
-                pageSize={SourcesComponent.PAGE_SIZE}
-                columns={columns}
-                emptyComponent={SourcesComponent.EMPTY_COMPONENT}
+    return (
+      <Card style={{ width: '50%' }}>
+        <CardText>
+          <TableLayout>
+            <TableHeaderLine key="filters">
+              <CardTitle
+                title={this.context.intl.formatMessage({ id: 'dashboard.sources.title' })}
               />
-            </TableLayout>
-          </CardText>
-        </Card>
-      )
-    }
+              <TableHeaderOptionsArea>
+                <TableHeaderOptionGroup>
+                  <TableHeaderAutoCompleteFilterContainer
+                    onChangeText={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
+                    text={filters[SOURCE_FILTER_PARAMS.NAME] || ''}
+                    hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
+                    key="sourceAuto"
+                    arrayActions={searchSourcesActions}
+                    arraySelectors={searchSourcesSelectors}
+                    style={{ marginRight: '10px' }}
+                  />
+                  <SelectField
+                    id="dashboard.sources.filter.status"
+                    multiple
+                    value={filters[SOURCE_FILTER_PARAMS.STATUS]}
+                    floatingLabelText={formatMessage({ id: 'dashboard.sources.filter.status' })}
+                    onChange={(event, index, value) => this.updateFilter(value, STATUS_TYPES.STATUS)}
+                  >
+                    {map(STATUS_TYPES, (status) => (
+                      <MenuItem key={status} value={status} primaryText={status} />
+                    ))}
+                  </SelectField>
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
+            </TableHeaderLine>
+            <PageableInfiniteTableContainer
+              name="sources-table"
+              minRowCount={minRowCount}
+              maxRowCount={maxRowCount}
+              pageActions={sourcesActions}
+              pageSelectors={sourcesSelectors}
+              requestParams={{ ...filters, tenant: project }}
+              pageSize={SourcesComponent.PAGE_SIZE}
+              columns={columns}
+              emptyComponent={SourcesComponent.EMPTY_COMPONENT}
+            />
+          </TableLayout>
+        </CardText>
+      </Card>
+    )
+  }
 }
 export default SourcesComponent

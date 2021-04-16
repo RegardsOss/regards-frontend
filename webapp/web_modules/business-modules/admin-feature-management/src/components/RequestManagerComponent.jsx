@@ -1,0 +1,532 @@
+/**
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of REGARDS.
+ *
+ * REGARDS is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * REGARDS is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+import find from 'lodash/find'
+import values from 'lodash/values'
+import clone from 'lodash/clone'
+import map from 'lodash/map'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
+import MenuItem from 'material-ui/MenuItem'
+import SelectField from 'material-ui/SelectField'
+import Refresh from 'mdi-material-ui/Refresh'
+import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
+import NoContentIcon from 'mdi-material-ui/CropFree'
+import {
+  TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
+  TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
+  NoContentComponent, TableHeaderLine, TableSelectionModes, ConfirmDialogComponent,
+  ConfirmDialogComponentTypes,
+} from '@regardsoss/components'
+import {
+  withResourceDisplayControl, allMatchHateoasDisplayLogic, LoadableContentDisplayDecorator, HateoasLinks,
+} from '@regardsoss/display-control'
+import { i18nContextType, withI18n } from '@regardsoss/i18n'
+import { themeContextType, withModuleStyle } from '@regardsoss/theme'
+import { FemDomain, CommonDomain } from '@regardsoss/domain'
+import { FemShapes } from '@regardsoss/shape'
+import FlatButton from 'material-ui/FlatButton'
+import { requestDeleteActions } from '../clients/RequestDeleteClient'
+import { requestRetryActions } from '../clients/RequestRetryClient'
+import DeleteDialog from './options/DeleteDialog'
+import RetryDialog from './options/RetryDialog'
+import RequestDeleteOption from './options/RequestDeleteOption'
+import RequestRetryOption from './options/RequestRetryOption'
+import StatusRender from './render/StatusRender'
+import ErrorDetailsDialog from './options/ErrorDetailsDialog'
+import { PANE_TYPES, PANE_TYPES_ENUM } from '../domain/PaneTypes'
+import { FILTER_PARAMS } from '../domain/FilterParams'
+import messages from '../i18n'
+import styles from '../styles'
+
+const ResourceFlatButton = withResourceDisplayControl(FlatButton)
+
+/**
+  * Displays the list of request
+  * @author Théo Lasserre
+  */
+export class RequestManagerComponent extends React.Component {
+  static propTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    featureManagerFilters: PropTypes.object.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types
+    requestFilters: PropTypes.object.isRequired,
+    onApplyFilters: PropTypes.func.isRequired,
+    onRefresh: PropTypes.func.isRequired,
+    deleteRequests: PropTypes.func.isRequired,
+    retryRequests: PropTypes.func.isRequired,
+    tableSelection: PropTypes.arrayOf(FemShapes.Request),
+    paneType: PropTypes.oneOf(PANE_TYPES),
+    // eslint-disable-next-line react/forbid-prop-types
+    clients: PropTypes.object.isRequired,
+    selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
+    links: PropTypes.arrayOf(HateoasLinks),
+  }
+
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
+
+  /**
+  * Default state for filters edition
+  */
+  static DEFAULT_FILTERS_STATE = {
+    [FILTER_PARAMS.STATE]: '',
+  }
+
+  static EMPTY_COMPONENT = <NoContentComponent
+    titleKey="feature.requests.empty.results"
+    Icon={NoContentIcon}
+  />
+
+  /** Possible dialog types for requests */
+  static DIALOG_TYPES = {
+    RETRY_DIALOG: 'retry',
+    DELETE_DIALOG: 'delete',
+    CONFIRM_DELETE_DIALOG: 'confirmDeleteDialog',
+    CONFIRM_RETRY_DIALOG: 'confirmRetryDialog',
+    ERRORS_DIALOG: 'errorDialog',
+  }
+
+  static SELECTION_MODE = {
+    INCLUDE: 'INCLUDE',
+    EXCLUDE: 'EXCLUDE',
+  }
+
+  static COLUMN_KEYS = {
+    PROVIDER_ID: 'providerId',
+    REGISTRATION_DATE: 'registrationDate',
+    STATE: 'state',
+    ACTIONS: 'actions',
+  }
+
+  static PAGE_SIZE = 20
+
+  static COLUMN_ORDER_TO_QUERY = {
+    [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
+    [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
+  }
+
+  static buildContextRequestBody(appliedFilters) {
+    const {
+      source, session, providerId, from, to, state,
+    } = appliedFilters
+    const contextRequestBodyParameters = {}
+    if (source) {
+      contextRequestBodyParameters.source = source
+    }
+    if (session) {
+      contextRequestBodyParameters.session = session
+    }
+    if (providerId) {
+      contextRequestBodyParameters.providerIds = [providerId]
+    }
+    if (from) {
+      contextRequestBodyParameters.from = from
+    }
+    if (to) {
+      contextRequestBodyParameters.to = to
+    }
+    if (state) {
+      contextRequestBodyParameters.state = [state] // handled as a muti-choice list on back
+    }
+    return contextRequestBodyParameters
+  }
+
+  static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${RequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
+
+  state = {
+    [RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [], // included or excluded depending on mode
+    },
+    [RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [], // included or excluded depending on mode
+    },
+    [RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG]: {
+      open: false,
+      payload: null,
+      isLoading: true, // response time can be a little long for a group deletion. We display a loading until we receive payload
+    },
+    [RequestManagerComponent.DIALOG_TYPES.CONFIRM_RETRY_DIALOG]: {
+      open: false,
+      payload: null,
+      isLoading: true, // response time can be a little long for a group retry. We display a loading until we receive payload
+    },
+    [RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [], // included or excluded depending on mode
+    },
+    columnsSorting: [],
+    contextRequestBodyParameters: {},
+    contextRequestURLParameters: {},
+    appliedFilters: {},
+  }
+
+  /**
+    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+    */
+  UNSAFE_componentWillMount = () => {
+    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {})
+  }
+
+  /**
+    * Lifecycle method: component receive props. Used here to detect properties change and update local state
+    * @param {*} nextProps next component properties
+    */
+  UNSAFE_componentWillReceiveProps = (nextProps) => {
+    this.onPropertiesUpdated(this.props, nextProps)
+  }
+
+  /**
+    * Properties change detected: update local state
+    * @param oldProps previous component properties
+    * @param newProps next component properties
+    */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters) || !isEqual(newProps.requestFilters, this.props.requestFilters)) {
+      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.requestFilters)
+    }
+  }
+
+  onRequestStateUpdated = (featureManagerFilters, appliedFilters) => {
+    this.setState({
+      appliedFilters,
+      contextRequestBodyParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
+    })
+  }
+
+  onChangeStatusFilter = (newValue) => {
+    const { onApplyFilters, featureManagerFilters } = this.props
+    const appliedFilters = {
+      [FILTER_PARAMS.STATE]: newValue,
+    }
+    const newFilters = {
+      ...featureManagerFilters,
+      [FILTER_PARAMS.STATE]: newValue,
+    }
+    if (!isEqual(appliedFilters, RequestManagerComponent.DEFAULT_FILTERS_STATE)) {
+      onApplyFilters(newFilters)
+      this.onRequestStateUpdated(featureManagerFilters, appliedFilters)
+    }
+  }
+
+  onSort = (columnSortKey, order) => {
+    const { columnsSorting } = this.state
+
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
+    const newColumnSorting = clone(columnsSorting)
+    if (order === CommonDomain.SORT_ORDERS_ENUM.NO_SORT) {
+      newColumnSorting.splice(columnIndex, 1)
+    } else if (columnIndex === -1) {
+      newColumnSorting.push({ columnKey: columnSortKey, order })
+    } else {
+      newColumnSorting.splice(columnIndex, 1, { columnKey: columnSortKey, order })
+    }
+    this.setState({
+      columnsSorting: newColumnSorting,
+      contextRequestURLParameters: {
+        sort: RequestManagerComponent.buildSortURL(newColumnSorting),
+      },
+    })
+  }
+
+  /**
+   * Inner callback: Opens dialog corresopnding to request type
+   * @param {string} dialogRequestType dialog type for the request to handle, from RequestManagerComponent.DIALOG_TYPES
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onOpenActionDialog = (dialogRequestType, mode = null, entities = null) => this.setState({
+    [dialogRequestType]: {
+      open: true,
+      mode,
+      entities,
+    },
+  })
+
+  /**
+   * Callback: On view request error for request as parameter (shows corresponding dialog)
+   * @param {[*]} entity to view as an IngestShapes.RequestEntity
+   */
+  onViewRequestErrors = (entity) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG, TableSelectionModes.includeSelected, [entity])
+
+  /**
+   * Callback: On retry requests for selection as parameter (shows corresponding dialog)
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onRetry = (mode, entities) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG, mode, entities)
+
+  /**
+   * Callback: On delete requests for selection as parameter (shows corresponding dialog)
+   * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
+   */
+  onDelete = (mode, entities) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG, mode, entities)
+
+  /**
+   * Inner callback: closes dialog corresponding to request type
+   * @param {string} dialogRequestType dialog type for the request to handle, from RequestManagerComponent.DIALOG_TYPES
+   */
+  onCloseActionDialog = (dialogRequestType) => this.setState({
+    [dialogRequestType]: {
+      open: false,
+      mode: TableSelectionModes.includeSelected,
+      entities: [],
+      isLoading: true, // used only by confirm retry & confirm delete dialogs
+    },
+  })
+
+  /**
+   * Inner callback: confirms action dialog. It:
+   * - Hides corresponding dialog
+   * - Converts payload to send server action
+   * @param {string} dialogRequestType dialog type for the request to handle, from RequestManagerComponent.DIALOG_TYPES
+   * @return {*} payload for server action
+   */
+  onConfirmActionDialog = (dialogRequestType) => {
+    const { paneType } = this.props
+    const { mode, entities } = this.state[dialogRequestType]
+    this.onCloseActionDialog(dialogRequestType)
+    return {
+      filters: {
+        ...this.state.contextRequestBodyParameters,
+      },
+      requestIdSelectionMode: mode === TableSelectionModes.includeSelected
+        ? RequestManagerComponent.SELECTION_MODE.INCLUDE
+        : RequestManagerComponent.SELECTION_MODE.EXCLUDE,
+      requestIds: entities.map((e) => paneType === PANE_TYPES_ENUM.EXTRACTION ? e.content.id : e.content.providerId),
+    }
+  }
+
+  /** User callback: retry or delete confirmed */
+  onConfirm = (dialogType) => {
+    const {
+      retryRequests, deleteRequests, paneType, onRefresh,
+    } = this.props
+    const payload = this.onConfirmActionDialog(dialogType)
+    let confirmDialogType
+    let functionToCall
+    switch (dialogType) {
+      case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
+        confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG
+        functionToCall = deleteRequests
+        break
+      case RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG:
+        confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_RETRY_DIALOG
+        functionToCall = retryRequests
+        break
+      default:
+        confirmDialogType = RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG
+        functionToCall = deleteRequests
+    }
+    this.onOpenActionDialog(confirmDialogType)
+    functionToCall(payload, paneType).then((actionResult) => {
+      if (!actionResult.error) {
+        this.setState({
+          [confirmDialogType]: {
+            isLoading: false,
+            payload: actionResult.payload,
+          },
+        })
+        onRefresh()
+      }
+    })
+  }
+
+  renderConfirmDialog = (dialogType) => {
+    const { intl: { formatMessage } } = this.context
+    const { isOpen, isLoading, payload } = this.state[dialogType]
+    if (isOpen) {
+      return (
+        <LoadableContentDisplayDecorator
+          isLoading={isLoading}
+        >
+          <ConfirmDialogComponent
+            dialogType={ConfirmDialogComponentTypes.CONFIRM}
+            title={formatMessage({ id: `feature.requests.${dialogType}.title` })}
+            message={payload.totalHandled === payload.totalRequested
+              ? formatMessage({ id: `feature.requests.${dialogType}.message.ok` })
+              : formatMessage({ id: `feature.requests.${dialogType}.message.not-ok` }, { totalHandled: payload.totalHandled })}
+            onConfirm={this.onCloseActionDialog(dialogType)}
+            onClose={this.onCloseActionDialog(dialogType)}
+          />
+        </LoadableContentDisplayDecorator>
+      )
+    }
+    return null
+  }
+
+  renderDialog = (dialogType) => {
+    const { isOpen } = this.state[dialogType]
+    let component = null
+    switch (dialogType) {
+      case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
+        component = <DeleteDialog
+          onConfirmDelete={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
+          onClose={() => this.onCloseActionDialog(dialogType)}
+        />
+        break
+      case RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG:
+        component = <RetryDialog
+          onConfirmRetry={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
+          onClose={() => this.onCloseActionDialog(dialogType)}
+        />
+        break
+      case RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG:
+        component = <ErrorDetailsDialog
+          entity={this.state[RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG].entities[0]}
+          onClose={() => this.onCloseActionDialog(dialogType)}
+        />
+        break
+      default:
+    }
+    if (isOpen) {
+      return (component)
+    }
+    return null
+  }
+
+  /** Check if retry or delete link is available */
+  isLinkAvailable = (dialogType) => {
+    const { links } = this.props
+    return !!find(links, (l) => l.rel === dialogType)
+  }
+
+  getColumnSortingData = (sortKey) => {
+    const { columnsSorting } = this.state
+    const columnIndex = columnsSorting.findIndex(({ columnKey }) => sortKey === columnKey)
+    return columnIndex === -1 ? [CommonDomain.SORT_ORDERS_ENUM.NO_SORT, null] : [columnsSorting[columnIndex].order, columnIndex]
+  }
+
+  render() {
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
+    const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
+    const {
+      tableSelection, onRefresh, requestFilters, paneType, clients, selectionMode,
+    } = this.props
+    const { contextRequestURLParameters, contextRequestBodyParameters, columnsSorting } = this.state
+    return (
+      <div>
+        <TableLayout>
+          <TableHeaderLine key="table.options">
+            <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
+              <TableHeaderOptionGroup key="first">
+                <SelectField
+                  autoWidth
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({ id: 'feature.requests.list.filters.state' })}
+                  value={requestFilters ? requestFilters.state : null}
+                  onChange={this.onChangeStatusFilter}
+                >
+                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
+                  {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
+                </SelectField>
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+            <TableHeaderOptionsArea key="options" reducible>
+              <TableHeaderOptionGroup>
+                <ResourceFlatButton
+                  displayLogic={allMatchHateoasDisplayLogic}
+                  resourceDependencies={requestRetryActions.getDependency(RequestVerbEnum.POST)}
+                  hideDisabled
+                  key="retrySelection"
+                  title={formatMessage({ id: 'feature.requests.tooltip.selection.retry' })}
+                  label={formatMessage({ id: 'feature.requests.list.filters.buttons.retry' })}
+                  icon={<Refresh />}
+                  onClick={() => this.onRetry(selectionMode, tableSelection)}
+                  disabled={isEmpty(tableSelection) && !this.isLinkAvailable(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
+                />
+                <ResourceFlatButton
+                  displayLogic={allMatchHateoasDisplayLogic}
+                  resourceDependencies={requestDeleteActions.getDependency(RequestVerbEnum.POST)}
+                  hideDisabled
+                  key="deleteSelection"
+                  title={formatMessage({ id: 'feature.requests.tooltip.selection.delete' })}
+                  label={formatMessage({ id: 'feature.requests.list.filters.buttons.delete' })}
+                  icon={<DeleteOnAllIcon />}
+                  onClick={() => this.onDelete(selectionMode, tableSelection)}
+                  disabled={isEmpty(tableSelection) && !this.isLinkAvailable(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
+                />
+                {/* Data refresh */}
+                <FlatButton
+                  label={formatMessage({ id: 'dashboard.refresh' })}
+                  icon={<Refresh />}
+                  onClick={() => onRefresh(columnsSorting, contextRequestURLParameters, contextRequestBodyParameters)}
+                />
+              </TableHeaderOptionGroup>
+            </TableHeaderOptionsArea>
+          </TableHeaderLine>
+          <PageableInfiniteTableContainer
+            name="request-management-table"
+            pageActions={clients.actions}
+            pageSelectors={clients.selectors}
+            pageSize={RequestManagerComponent.PAGE_SIZE}
+            minRowCount={minRowCount}
+            maxRowCount={maxRowCount}
+            // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+            columns={[ // eslint wont fix: API issue
+              new TableColumnBuilder()
+                .selectionColumn(true, clients.selectors, clients.tableActions, clients.tableSelectors)
+                .build(),
+              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell(paneType === PANE_TYPES_ENUM.EXTRACTION ? 'content.id' : 'content.providerId')
+                .label(formatMessage(paneType === PANE_TYPES_ENUM.EXTRACTION ? { id: 'feature.requests.list.filters.id' } : { id: 'feature.requests.list.filters.providerId' }))
+                .sortableHeaderCell(...this.getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID), this.onSort)
+                .build(),
+              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE).titleHeaderCell().propertyRenderCell('content.registrationDate', DateValueRender)
+                .label(formatMessage({ id: 'feature.requests.list.filters.lastSubmission' }))
+                .sortableHeaderCell(...this.getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE), this.onSort)
+                .build(),
+              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.STATE)
+                .label(formatMessage({ id: 'feature.requests.list.filters.state' }))
+                .sortableHeaderCell(...this.getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.STATE), this.onSort)
+                .rowCellDefinition({ Constructor: StatusRender, props: { onViewRequestErrors: this.onViewRequestErrors } })
+                .build(),
+              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.ACTIONS).titleHeaderCell()
+                .label(formatMessage({ id: 'feature.requests.list.filters.actions' }))
+                .optionsColumn([
+                  {
+                    OptionConstructor: RequestRetryOption,
+                    optionProps: { onRetry: this.onRetry },
+                  },
+                  {
+                    OptionConstructor: RequestDeleteOption,
+                    optionProps: { onDelete: this.onDelete },
+                  }])
+                .build(),
+            ]}
+            requestParams={contextRequestURLParameters}
+            bodyParams={contextRequestBodyParameters}
+            emptyComponent={RequestManagerComponent.EMPTY_COMPONENT}
+          />
+        </TableLayout>
+        {this.renderDialog(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
+        {this.renderDialog(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
+        {this.renderDialog(RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG)}
+        {this.renderConfirmDialog(RequestManagerComponent.DIALOG_TYPES.CONFIRM_DELETE_DIALOG)}
+        {this.renderConfirmDialog(RequestManagerComponent.DIALOG_TYPES.CONFIRM_RETRY_DIALOG)}
+      </div>
+    )
+  }
+}
+
+export default withModuleStyle(styles)(withI18n(messages)(RequestManagerComponent))

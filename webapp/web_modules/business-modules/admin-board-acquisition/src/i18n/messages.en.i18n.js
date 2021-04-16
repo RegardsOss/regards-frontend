@@ -47,6 +47,10 @@ const messages = {
   'data.board.dashboard.title': 'Tableau de bord',
   'data.board.dashboard.description': 'Tableau de bord',
   'data.board.action.dashboard.tooltip': 'Tableau de bord',
+
+  'data.board.featuremanager.title': 'Feature Manager',
+  'data.board.featuremanager.description': 'Feature Manager',
+  'data.board.action.featuremanager.tooltip': 'Feature Manager',
 }
 
 export default messages

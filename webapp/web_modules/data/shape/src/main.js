@@ -22,6 +22,7 @@ import * as AdminInstanceSh from './rs-admin-instance/index'
 import * as StorageSh from './rs-storage/index'
 import * as CommonSh from './rs-common/index'
 import * as CatalogSh from './rs-catalog/index'
+import * as FemSh from './rs-fem/index'
 import * as DataManagementSh from './rs-dam/index'
 import * as DataProviderSh from './rs-data-provider/index'
 import * as IngestSh from './rs-ingest/index'
@@ -35,6 +36,7 @@ export const AdminInstanceShapes = AdminInstanceSh
 export const StorageShapes = StorageSh
 export const CatalogShapes = CatalogSh
 export const CommonShapes = CommonSh
+export const FemShapes = FemSh
 export const DataManagementShapes = DataManagementSh
 export const DataProviderShapes = DataProviderSh
 export const IngestShapes = IngestSh

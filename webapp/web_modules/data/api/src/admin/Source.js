@@ -19,11 +19,11 @@
 import { Schema, arrayOf } from 'normalizr'
 
 export const SourceConfiguration = {
-  entityKey: 'id',
+  entityKey: 'name',
   normalizrKey: 'sources',
 }
 
-export const Source = new Schema(SourceConfiguration.normalizrKey, {
+export const SOURCE = new Schema(SourceConfiguration.normalizrKey, {
   idAttribute: (source) => source.content[SourceConfiguration.entityKey],
 })
-export const Source_ARRAY = arrayOf(Source)
+export const SOURCE_ARRAY = arrayOf(SOURCE)

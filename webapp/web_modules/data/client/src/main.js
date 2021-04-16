@@ -36,6 +36,7 @@ import * as AdminInstanceCl from './rs-admin-instance'
 import * as AuthenticationCl from './rs-authentication'
 import * as CatalogCl from './rs-catalog'
 import * as CommonCl from './rs-common'
+import * as FeatureManagementCl from './rs-fem'
 import * as DataManagementCl from './rs-dam'
 import * as DataProviderCl from './rs-data-provider'
 import * as IngestCl from './rs-ingest'
@@ -51,6 +52,7 @@ export const AdminInstanceClient = AdminInstanceCl
 export const AuthenticationClient = AuthenticationCl
 export const CatalogClient = CatalogCl
 export const CommonClient = CommonCl
+export const FeatureManagementClient = FeatureManagementCl
 export const DataManagementClient = DataManagementCl
 export const DataProviderClient = DataProviderCl
 export const IngestClient = IngestCl
