@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import omit from 'lodash/omit'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
@@ -158,7 +159,7 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
       fi.scanPlugin = PluginFormUtils.formatPluginConf(fi.scanPlugin)
     })
     // Convert storages for API query
-    const serverValues = {
+    let serverValues = {
       ...values,
       fileInfos,
       generateSipPluginConf: PluginFormUtils.formatPluginConf(values.generateSipPluginConf),
@@ -173,6 +174,17 @@ export class AcquisitionProcessingChainFormContainer extends React.Component {
 
     if (mode === 'edit') {
       action = this.props.update(serverValues.id, serverValues)
+    } else if (mode === 'duplicate') {
+      // In case of ducplication omit some unused fields
+      serverValues = omit(serverValues, 'lastActivationDate', 'lastProductAcquisitionJobInfo')
+      // Remove ids from duplication payload
+      forEach(serverValues.fileInfos, (fi) => {
+        forEach(fi.scanDirInfo, (sdi) => {
+          // eslint-disable-next-line no-param-reassign
+          sdi.id = null
+        })
+      })
+      action = this.props.create(serverValues)
     } else {
       action = this.props.create(serverValues)
     }
