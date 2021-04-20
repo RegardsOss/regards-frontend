@@ -2,7 +2,8 @@
 echo "Building frontend ..."
 dir=$(pwd)
 cd webapp/
-npm install
+npm install --legacy-peer-deps
+npm run build:production-dll
 npm run build:production
 npm run build:plugins-all
 cd ../frontend-boot/
