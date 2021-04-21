@@ -46,13 +46,14 @@ export class ReferenceNotifyDialog extends React.Component {
              key="cancel"
              id="confirm.dialog.cancel"
              label={formatMessage({ id: 'feature.close' })}
-             primary
              keyboardFocused
              onClick={onClose}
            />
            <FlatButton
              key="deleteReference"
              className="selenium-confirmDialogButton"
+             primary
+             keyboardFocused
              label={formatMessage({ id: 'feature.references.notify' })}
              onClick={onConfirmNotify}
            />

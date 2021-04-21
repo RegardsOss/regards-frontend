@@ -46,13 +46,13 @@ export class DeleteDialog extends React.Component {
             key="cancel"
             id="confirm.dialog.cancel"
             label={formatMessage({ id: 'feature.close' })}
-            primary
-            keyboardFocused
             onClick={onClose}
           />
           <FlatButton
             key="deleteReference"
             className="selenium-confirmDialogButton"
+            keyboardFocused
+            primary
             label={formatMessage({ id: 'feature.references.delete' })}
             onClick={onConfirmDelete}
           />

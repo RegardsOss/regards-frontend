@@ -19,7 +19,7 @@
 import BasicPageableReducers from '../pageable/BasicPageableReducers'
 
 /**
- * Actions that are pageable and expose 'infos' field (same level than page metadata)
+ * Actions that are pageable and expose 'info' field (same level than page metadata)
  */
 class BasicInfosPageableReducers extends BasicPageableReducers {
   reduce(state, action) {
@@ -31,7 +31,7 @@ class BasicInfosPageableReducers extends BasicPageableReducers {
       case this.basicListActionInstance.ENTITY_LIST_SUCCESS:
         return {
           ...newState,
-          infos: action.payload.infos,
+          info: action.payload.info,
         }
       default:
         return newState

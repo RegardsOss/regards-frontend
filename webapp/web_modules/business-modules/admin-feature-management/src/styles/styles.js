@@ -35,6 +35,49 @@ const featureManagementStyles = (theme) => ({
       marginLeft: '10px',
     },
   },
+  tableStyle: {
+    renderStyle: {
+      statusStyle: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+    },
+    overlayStyle: {
+      iconButton: {
+        style: {
+          padding: 0,
+          width: '20px',
+          height: '15px',
+        },
+      },
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        marginLeft: '-12px',
+      },
+      icon: {
+        style: {
+          fill: 'red',
+        },
+      },
+      chip: {
+        labelStyle: {
+          fontSize: '10px',
+          padding: 3,
+          lineHeight: undefined,
+          fontWeight: 'bold',
+        },
+        style: {
+          opacity: '0.9',
+          backgroundColor: theme.palette.accent1Color,
+          margin: 'auto',
+          top: '10px',
+          zIndex: '1',
+          left: '-10px',
+        },
+      },
+    },
+  },
   switchButton: {
     color: theme.palette.accent1Color,
   },

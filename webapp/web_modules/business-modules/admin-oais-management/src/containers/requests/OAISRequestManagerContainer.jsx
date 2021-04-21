@@ -74,8 +74,6 @@ export class OAISRequestManagerContainer extends React.Component {
     },
   }
 
-  static PAGE_SIZE = 20
-
   /** Dependencies to select a version mode, when a treatment is waiting */
   static SELECT_VERSION_DEPENDENCIES = [dependencies.selectVersionModeDependency]
 
@@ -172,7 +170,7 @@ export class OAISRequestManagerContainer extends React.Component {
 
     return (
       <OAISRequestManagerComponent
-        pageSize={OAISRequestManagerContainer.PAGE_SIZE}
+        pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
         pageMeta={meta}
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}

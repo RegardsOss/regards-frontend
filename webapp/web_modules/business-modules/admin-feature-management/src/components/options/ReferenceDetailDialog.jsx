@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import Dialog from 'material-ui/Dialog'
 import { Card, CardActions, CardMedia } from 'material-ui/Card'
 import { FemShapes } from '@regardsoss/shape'
 import { MIME_TYPES } from '@regardsoss/mime-types'
@@ -29,7 +30,7 @@ import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
   */
 class ReferenceDetailDialog extends React.Component {
    static propTypes = {
-     reference: FemShapes.Reference.isRequired,
+     reference: FemShapes.Reference,
      onClose: PropTypes.func.isRequired,
    }
 
@@ -44,21 +45,27 @@ class ReferenceDetailDialog extends React.Component {
      const { reference } = this.props
      const { intl, moduleTheme } = this.context
      return (
-       <Card>
-         <CardMedia>
-           <CodeFileDisplayer
-             content={JSON.stringify(reference, null, '\t')}
-             contentType={MIME_TYPES.JSON_MIME_TYPE}
-             style={moduleTheme.detailsStyle}
-           />
-         </CardMedia>
-         <CardActions>
-           <CardActionsComponent
-             mainButtonLabel={intl.formatMessage({ id: 'feature.close' })}
-             mainButtonClick={this.props.onClose}
-           />
-         </CardActions>
-       </Card>
+       <Dialog
+         title={intl.formatMessage({ id: 'feature.references.detail.title' })}
+         open
+       >
+         <Card>
+           <CardMedia>
+             <CodeFileDisplayer
+               content={JSON.stringify(reference, null, '\t')}
+               contentType={MIME_TYPES.JSON_MIME_TYPE}
+               style={moduleTheme.detailsStyle}
+             />
+           </CardMedia>
+           <CardActions>
+             <CardActionsComponent
+               mainButtonLabel={intl.formatMessage({ id: 'feature.close' })}
+               mainButtonClick={this.props.onClose}
+             />
+           </CardActions>
+         </Card>
+       </Dialog>
+
      )
    }
 }

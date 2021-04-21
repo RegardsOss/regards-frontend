@@ -25,12 +25,12 @@ import values from 'lodash/values'
 
 /** Possible pane types */
 export const PANE_TYPES_ENUM = {
-  REFERENCES: 'references',
-  EXTRACTION: 'extraction',
-  CREATION: 'creation',
-  UPDATE: 'update',
-  DELETE: 'delete',
-  NOTIFICATION: 'notification',
+  REFERENCES: 'REFERENCES',
+  EXTRACTION: 'EXTRACTION',
+  CREATION: 'CREATION',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE',
+  NOTIFICATION: 'NOTIFICATION',
 }
 
 export const PANE_TYPES = values(PANE_TYPES_ENUM)

@@ -17,12 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  import IconButton from 'material-ui/IconButton'
  **/
+import find from 'lodash/find'
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { FemShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { ResourceIconAction } from '@regardsoss/components'
-import { referenceDeleteActions } from '../../clients/ReferencesDeleteClient'
 
 /**
  * Table option to delete AIP files on every local storage
@@ -38,14 +37,17 @@ class ReferenceDeleteOption extends React.Component {
     ...i18nContextType,
   }
 
-  static DELETE_DEPENDENCIES = referenceDeleteActions.getDependency(RequestVerbEnum.POST)
-
   /**
    * On button clicked callback
    */
   onClick = () => {
     const { entity, onDelete } = this.props
-    onDelete(entity)
+    onDelete([entity])
+  }
+
+  isDisabled = () => {
+    const { entity } = this.props
+    return !find(entity.links, (l) => l.rel === 'delete')
   }
 
   render() {
@@ -53,7 +55,7 @@ class ReferenceDeleteOption extends React.Component {
     return (
       <ResourceIconAction
         title={formatMessage({ id: 'feature.references.tooltip.delete' })}
-        resourceDependencies={ReferenceDeleteOption.DELETE_DEPENDENCIES}
+        disabled={this.isDisabled()}
         onClick={this.onClick}
       >
         <DeleteOnAllIcon className="selenium-deleteButton" />

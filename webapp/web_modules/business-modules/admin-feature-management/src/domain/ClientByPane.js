@@ -28,45 +28,35 @@ import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateR
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
 import { PANE_TYPES_ENUM } from './PaneTypes'
 
-export const getClient = (paneType) => {
-  let actions
-  let selectors
-  let tableActions
-  let tableSelectors
-  switch (paneType) {
-    case PANE_TYPES_ENUM.EXTRACTION:
-      actions = extractionRequestActions
-      selectors = extractionRequestSelectors
-      tableActions = extractionRequestsTableActions
-      tableSelectors = extractionRequestsTableSelectors
-      break
-    case PANE_TYPES_ENUM.CREATION:
-      actions = creationRequestActions
-      selectors = creationRequestSelectors
-      tableActions = creationRequestsTableActions
-      tableSelectors = creationRequestsTableSelectors
-      break
-    case PANE_TYPES_ENUM.UPDATE:
-      actions = updateRequestActions
-      selectors = updateRequestSelectors
-      tableActions = updateRequestsTableActions
-      tableSelectors = updateRequestsTableSelectors
-      break
-    case PANE_TYPES_ENUM.DELETE:
-      actions = deleteRequestActions
-      selectors = deleteRequestSelectors
-      tableActions = deleteRequestsTableActions
-      tableSelectors = deleteRequestsTableSelectors
-      break
-    case PANE_TYPES_ENUM.NOTIFICATION:
-      actions = notificationRequestActions
-      selectors = notificationRequestSelectors
-      tableActions = notificationRequestsTableActions
-      tableSelectors = notificationRequestsTableSelectors
-      break
-    default:
-  }
-  return {
-    actions, selectors, tableActions, tableSelectors,
-  }
+export default {
+  [PANE_TYPES_ENUM.EXTRACTION]: {
+    actions: extractionRequestActions,
+    selectors: extractionRequestSelectors,
+    tableActions: extractionRequestsTableActions,
+    tableSelectors: extractionRequestsTableSelectors,
+  },
+  [PANE_TYPES_ENUM.CREATION]: {
+    actions: creationRequestActions,
+    selectors: creationRequestSelectors,
+    tableActions: creationRequestsTableActions,
+    tableSelectors: creationRequestsTableSelectors,
+  },
+  [PANE_TYPES_ENUM.UPDATE]: {
+    actions: updateRequestActions,
+    selectors: updateRequestSelectors,
+    tableActions: updateRequestsTableActions,
+    tableSelectors: updateRequestsTableSelectors,
+  },
+  [PANE_TYPES_ENUM.DELETE]: {
+    actions: deleteRequestActions,
+    selectors: deleteRequestSelectors,
+    tableActions: deleteRequestsTableActions,
+    tableSelectors: deleteRequestsTableSelectors,
+  },
+  [PANE_TYPES_ENUM.NOTIFICATION]: {
+    actions: notificationRequestActions,
+    selectors: notificationRequestSelectors,
+    tableActions: notificationRequestsTableActions,
+    tableSelectors: notificationRequestsTableSelectors,
+  },
 }

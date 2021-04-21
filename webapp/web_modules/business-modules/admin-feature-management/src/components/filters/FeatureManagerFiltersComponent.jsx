@@ -35,6 +35,8 @@ import { FILTER_PARAMS } from '../../domain/FilterParams'
 export class FeatureManagerFiltersComponent extends React.Component {
    static propTypes = {
      onApplyFilters: PropTypes.func.isRequired,
+     // eslint-disable-next-line react/forbid-prop-types
+     featureManagerFilters: PropTypes.object.isRequired,
    }
 
    static contextTypes = {
@@ -49,8 +51,8 @@ export class FeatureManagerFiltersComponent extends React.Component {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
     [FILTER_PARAMS.PROVIDER_ID]: '',
-    [FILTER_PARAMS.FROM]: null,
-    [FILTER_PARAMS.TO]: null,
+    [FILTER_PARAMS.FROM]: '',
+    [FILTER_PARAMS.TO]: '',
   }
 
   /**
@@ -63,13 +65,12 @@ export class FeatureManagerFiltersComponent extends React.Component {
 
     if (filters[FILTER_PARAMS.FROM]) {
       const dateFrom = new Date(filters[FILTER_PARAMS.FROM])
-      requestParameters.from = [dateFrom.toISOString()]
+      requestParameters.from = dateFrom.toISOString()
     }
     if (filters[FILTER_PARAMS.TO]) {
-      const dateFrom = new Date(filters[FILTER_PARAMS.TO])
-      requestParameters.from = [dateFrom.toISOString()]
+      const dateTo = new Date(filters[FILTER_PARAMS.TO])
+      requestParameters.to = dateTo.toISOString()
     }
-
     return requestParameters
   }
 
@@ -78,10 +79,10 @@ export class FeatureManagerFiltersComponent extends React.Component {
     const urlFilters = {}
     if (values(query).length > 0) {
       const {
-        sessionOwner, session, providerId, from, to,
+        source, session, providerId, from, to,
       } = query
-      if (sessionOwner) {
-        urlFilters.sessionOwner = sessionOwner
+      if (source) {
+        urlFilters.source = source
       }
       if (session) {
         urlFilters.session = session
@@ -118,6 +119,33 @@ export class FeatureManagerFiltersComponent extends React.Component {
   }
 
   /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+   /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+   /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      featureManagerFilters,
+    } = newProps
+    if (!isEqual(oldProps.featureManagerFilters, featureManagerFilters)) {
+      this.setState({
+        filters: featureManagerFilters,
+      })
+    }
+  }
+
+  /**
    * Update filters
    * @param {*} newStateValue
    * @param {*} filterElement
@@ -133,9 +161,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
       filters: newFilters,
     }
     this.setState(newState)
-    if (!isEqual(newFilters, FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE)) {
-      onApplyFilters(newFilters)
-    }
+    onApplyFilters(newFilters)
   }
 
   render() {
@@ -148,7 +174,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
             <TableHeaderOptionsArea key="idLini" reducible alignLeft>
               <TableHeaderOptionGroup key="idLina">
                 <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={(event, index, value) => this.updateState(value, FILTER_PARAMS.SOURCE)}
+                  onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SOURCE)}
                   text={filters.source || ''}
                   hintText={formatMessage({ id: 'feature.references.list.filters.source' })}
                   style={filter.autocomplete}
@@ -157,7 +183,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   arraySelectors={searchSourcesSelectors}
                 />
                 <TableHeaderAutoCompleteFilterContainer
-                  onChangeText={(event, index, value) => this.updateState(value, FILTER_PARAMS.SESSION)}
+                  onChangeText={(value) => this.updateState(value, FILTER_PARAMS.SESSION)}
                   text={filters.session || ''}
                   hintText={formatMessage({ id: 'feature.references.list.filters.session' })}
                   style={filter.autocomplete}
@@ -169,7 +195,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   title={formatMessage({ id: 'feature.references.tooltip.providerId' })}
                   value={filters.providerId || ''}
                   hintText={formatMessage({ id: 'feature.references.list.filters.providerId' })}
-                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.PROVIDER_ID)}
+                  onChange={(event, value) => this.updateState(value, FILTER_PARAMS.PROVIDER_ID)}
                 />
               </TableHeaderOptionGroup>
               <TableHeaderOptionGroup key="dateForm">
@@ -179,7 +205,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   dateHintText={formatMessage({
                     id: 'feature.references.list.filters.from.label',
                   })}
-                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.FROM)}
+                  onChange={(value) => this.updateState(value, FILTER_PARAMS.FROM)}
                   locale={locale}
                   key="datefrom"
                 />
@@ -188,7 +214,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   value={null}
                   defaultTime="23:59:59"
                   dateHintText={formatMessage({ id: 'feature.references.list.filters.to.label' })}
-                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.FROM)}
+                  onChange={(value) => this.updateState(value, FILTER_PARAMS.TO)}
                   locale={locale}
                   key="dateto"
                 />

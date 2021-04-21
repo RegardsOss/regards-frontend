@@ -24,7 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class ReferenceDeleteActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/references/delete`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features/delete`,
       namespace,
       bypassErrorMiddleware: false,
     })

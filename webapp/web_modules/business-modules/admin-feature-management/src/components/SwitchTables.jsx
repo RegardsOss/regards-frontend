@@ -23,15 +23,14 @@ import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
 import Alert from 'mdi-material-ui/AlertCircleOutline'
-import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import { PANE_TYPES_ENUM, PANE_TYPES } from '../domain/PaneTypes'
-import { referencesSelectors } from '../clients/ReferencesClient'
-import { creationRequestSelectors } from '../clients/CreationRequestsClient'
-import { deleteRequestSelectors } from '../clients/DeleteRequestsClient'
-import { extractionRequestSelectors } from '../clients/ExtractionRequestsClient'
-import { notificationRequestSelectors } from '../clients/NotificationRequestsClient'
-import { updateRequestSelectors } from '../clients/UpdateRequestsClient'
+import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
+import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
+import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
+import { extractionRequestActions, extractionRequestSelectors } from '../clients/ExtractionRequestsClient'
+import { notificationRequestActions, notificationRequestSelectors } from '../clients/NotificationRequestsClient'
+import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
 
 /**
   * Switch between tables
@@ -39,24 +38,39 @@ import { updateRequestSelectors } from '../clients/UpdateRequestsClient'
   */
 export class SwitchTables extends React.Component {
   /**
-   * Redux: map state to props function
-   * @param {*} state: current redux state
-   * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
-   * @return {*} list of component properties extracted from redux state
+   * Redux: map dispatch to props function
+   * @param {*} dispatch: redux dispatch function
+   * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+   * @return {*} list of actions ready to be dispatched in the redux store
    */
+  static mapDispatchToProps = (dispatch) => ({
+    fetchReferences: (pageIndex, pageSize, pathParams, queryParams) => dispatch(referencesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchCreationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(creationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchDeleteRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(deleteRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchExtractionRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(extractionRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchNotificationRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(notificationRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchUpdateRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(updateRequestActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+  })
+
+  /**
+     * Redux: map state to props function
+     * @param {*} state: current redux state
+     * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
+     * @return {*} list of component properties extracted from redux state
+     */
   static mapStateToProps(state) {
     return {
       referencesMeta: referencesSelectors.getMetaData(state),
       extractionMeta: extractionRequestSelectors.getMetaData(state),
-      extractionInfo: extractionRequestSelectors.getInfos(state),
+      extractionInfo: extractionRequestSelectors.getInfo(state),
       creationMeta: creationRequestSelectors.getMetaData(state),
-      creationInfo: creationRequestSelectors.getInfos(state),
+      creationInfo: creationRequestSelectors.getInfo(state),
       updateMeta: updateRequestSelectors.getMetaData(state),
-      updateInfo: updateRequestSelectors.getInfos(state),
+      updateInfo: updateRequestSelectors.getInfo(state),
       deleteMeta: deleteRequestSelectors.getMetaData(state),
-      deleteInfo: deleteRequestSelectors.getInfos(state),
+      deleteInfo: deleteRequestSelectors.getInfo(state),
       notificationMeta: notificationRequestSelectors.getMetaData(state),
-      notificationInfo: notificationRequestSelectors.getInfos(state),
+      notificationInfo: notificationRequestSelectors.getInfo(state),
     }
   }
 
@@ -80,6 +94,13 @@ export class SwitchTables extends React.Component {
     updateInfo: CommonShapes.PageInfo,
     deleteInfo: CommonShapes.PageInfo,
     notificationInfo: CommonShapes.PageInfo,
+    //from mapDispatchToProps
+    fetchReferences: PropTypes.func.isRequired,
+    fetchCreationRequests: PropTypes.func.isRequired,
+    fetchDeleteRequests: PropTypes.func.isRequired,
+    fetchExtractionRequests: PropTypes.func.isRequired,
+    fetchNotificationRequests: PropTypes.func.isRequired,
+    fetchUpdateRequests: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -87,25 +108,32 @@ export class SwitchTables extends React.Component {
     ...i18nContextType,
   }
 
+  UNSAFE_componentWillMount = () => {
+    const {
+      fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
+    } = this.props
+    fetchReferences(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchCreationRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchDeleteRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchExtractionRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchNotificationRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchUpdateRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+  }
+
   displayIcon = (elementCount) => {
     const {
-      moduleTheme: { dashboardStyle: { tableStyle: { overlayStyle } } },
+      moduleTheme: { tableStyle: { overlayStyle } },
     } = this.context
-    return (<div style={{ display: 'flex' }}>
-      <IconButton
-        disabled
-        style={overlayStyle.iconButton.style}
-      />
+    return (
       <div style={overlayStyle.style}>
+        <Alert style={overlayStyle.icon.style} />
         <Chip
           labelStyle={overlayStyle.chip.labelStyle}
           style={overlayStyle.chip.style}
         >
           {elementCount}
         </Chip>
-        <Alert style={overlayStyle.icon.style} />
-      </div>
-    </div>)
+      </div>)
   }
 
   extractInfos = (meta, info = null) => ({
@@ -158,7 +186,7 @@ export class SwitchTables extends React.Component {
       <div style={{ display: 'flex' }}>
         {map(PANE_TYPES, (pane) => {
           const nbElementsInfos = this.getNbElementsInfos(pane)
-          return (<div key={`switch-table-${pane}`}>
+          return (<div key={`switch-table-${pane}`} style={{ display: 'flex' }}>
             <FlatButton
               label={formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElementsInfos.nbElements })}
               title={formatMessage({ id: `feature.references.switch-to.${pane}.title` })}
@@ -174,4 +202,4 @@ export class SwitchTables extends React.Component {
   }
 }
 
-export default connect(SwitchTables.mapStateToProps, null)(SwitchTables)
+export default connect(SwitchTables.mapStateToProps, SwitchTables.mapDispatchToProps)(SwitchTables)

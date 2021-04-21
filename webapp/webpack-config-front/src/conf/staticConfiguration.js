@@ -86,4 +86,7 @@ STATIC_CONF = {
   MAP: {
     PAGE_SIZE_MAP: 400,
   },
+  TABLE: {
+    PAGE_SIZE: 20,
+  },
 }

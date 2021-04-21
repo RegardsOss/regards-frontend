@@ -18,17 +18,19 @@
  **/
 import map from 'lodash/map'
 import includes from 'lodash/includes'
+import split from 'lodash/split'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import throttle from 'lodash/throttle'
 import ReferencesManagerContainer from '../containers/ReferencesManagerContainer'
 import RequestManagerContainer from '../containers/RequestManagerContainer'
 import FeatureManagerFiltersComponent from './filters/FeatureManagerFiltersComponent'
 import SwitchTables from './SwitchTables'
-import { getClient } from '../domain/ClientHelper'
+import clientByPane from '../domain/ClientByPane'
 import { PANE_TYPES, PANE_TYPES_ENUM } from '../domain/PaneTypes'
 
 /**
@@ -75,6 +77,10 @@ class FeatureManagerComponent extends React.Component {
     browserHistory.push(url)
   }
 
+  onApplyFilters = throttle((featureManagerFilters) => {
+    this.setState({ featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(featureManagerFilters) })
+  }, 1000, { leading: true, trailing: true })
+
   clearAllSelections = () => {
     const {
       clearReferencesSelection,
@@ -116,8 +122,8 @@ class FeatureManagerComponent extends React.Component {
     )
   }
 
-  applyFilters = (featureManagerFilters) => {
-    this.setState({ featureManagerFilters: FeatureManagerFiltersComponent.buildRequestParameters(featureManagerFilters) })
+  onApplyRequestFilter = (requestFilters) => {
+    this.setState({ requestFilters })
   }
 
   render() {
@@ -133,7 +139,8 @@ class FeatureManagerComponent extends React.Component {
             title={this.renderBreadCrumb()}
           />
           <FeatureManagerFiltersComponent
-            onApplyFilters={this.applyFilters}
+            onApplyFilters={this.onApplyFilters}
+            featureManagerFilters={featureManagerFilters}
           />
           <SwitchTables
             params={params}
@@ -152,19 +159,16 @@ class FeatureManagerComponent extends React.Component {
             }
             {
               map(PANE_TYPES, (pane) => {
-                if (pane !== PANE_TYPES_ENUM.REFERENCES && pane === openedPane) {
-                  console.error('clients : ', getClient(pane))
+                if (pane !== PANE_TYPES_ENUM.REFERENCES && openedPane === pane) {
                   return (
-                    <div key={pane} style={openedPane === pane ? displayBlock : displayNone}>
-                      <RequestManagerContainer
-                        key={`request-manager-${pane}`}
-                        featureManagerFilters={featureManagerFilters}
-                        requestFilters={requestFilters}
-                        onApplyFilters={this.applyFilters}
-                        paneType={pane}
-                        clients={getClient(pane)}
-                      />
-                    </div>
+                    <RequestManagerContainer
+                      key={pane}
+                      featureManagerFilters={featureManagerFilters}
+                      requestFilters={requestFilters}
+                      onApplyRequestFilter={this.onApplyRequestFilter}
+                      paneType={pane}
+                      clients={clientByPane[pane]}
+                    />
                   )
                 }
                 return null

@@ -18,13 +18,11 @@
  import IconButton from 'material-ui/IconButton'
  **/
 import find from 'lodash/find'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import { FemShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FemDomain } from '@regardsoss/domain'
 import { ResourceIconAction } from '@regardsoss/components'
-import { requestDeleteActions } from '../../clients/RequestDeleteClient'
 
 /**
  * Table option to delete Request files on every local storage
@@ -39,8 +37,6 @@ class RequestDeleteOption extends React.Component {
   static contextTypes = {
     ...i18nContextType,
   }
-
-  static DELETE_DEPENDENCIES = requestDeleteActions.getDependency(RequestVerbEnum.POST)
 
   /**
    * On button clicked callback
@@ -62,7 +58,6 @@ class RequestDeleteOption extends React.Component {
     const { entity } = this.context
     return (
       <ResourceIconAction
-        resourceDependencies={RequestDeleteOption.DELETE_DEPENDENCIES}
         onClick={this.onClick}
         title={formatMessage({ id: 'feature.requests.delete.title' })}
         disabled={this.isDisabled()}

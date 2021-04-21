@@ -19,7 +19,7 @@
 import BasicPageableActions from '../pageable/BasicPageableActions'
 
 /**
- * Actions that are pageable and expose 'infos' field (same level than page metadata)
+ * Actions that are pageable and expose 'info' field (same level than page metadata)
  */
 class BasicInfosPageableActions extends BasicPageableActions {
   constructor(options) {
@@ -39,8 +39,8 @@ class BasicInfosPageableActions extends BasicPageableActions {
     return {
       // let parent provide its content
       ...super.normalizeEntitiesPagePayload(json),
-      // add infos
-      infos: json.infos,
+      // add info
+      info: json.info,
     }
   }
 }

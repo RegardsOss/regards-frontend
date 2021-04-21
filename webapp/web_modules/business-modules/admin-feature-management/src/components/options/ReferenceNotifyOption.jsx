@@ -17,49 +17,51 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  import IconButton from 'material-ui/IconButton'
  **/
+import find from 'lodash/find'
 import SendIcon from 'mdi-material-ui/Send'
 import { FemShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { ResourceIconAction } from '@regardsoss/components'
-import { referenceNotifyActions } from '../../clients/ReferencesNotifyClient'
 
 /**
   * Table option to notify feature
   * @author Théo Lasserre
   */
 class ReferenceNotifyOption extends React.Component {
-   static propTypes = {
-     entity: FemShapes.Reference.isRequired,
-     onNotify: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    entity: FemShapes.Reference.isRequired,
+    onNotify: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-    static NOTIFY_DEPENDENCIES = referenceNotifyActions.getDependency(RequestVerbEnum.POST)
+  /**
+   * On button clicked callback
+   */
+  onClick = () => {
+    const { entity, onNotify } = this.props
+    onNotify([entity])
+  }
 
-   /**
-    * On button clicked callback
-    */
-   onClick = () => {
-     const { entity, onNotify } = this.props
-     onNotify(entity)
-   }
+  isDisabled = () => {
+    const { entity } = this.props
+    return !find(entity.links, (l) => l.rel === 'notify')
+  }
 
-   render() {
-     const { intl: { formatMessage } } = this.context
-     return (
-       <ResourceIconAction
-         title={formatMessage({ id: 'feature.references.tooltip.notify' })}
-         resourceDependencies={ReferenceNotifyOption.NOTIFY_DEPENDENCIES}
-         onClick={this.onClick}
-       >
-         <SendIcon className="selenium-notifyButton" />
-       </ResourceIconAction>
-     )
-   }
+  render() {
+    const { intl: { formatMessage } } = this.context
+    return (
+      <ResourceIconAction
+        title={formatMessage({ id: 'feature.references.tooltip.notify' })}
+        disabled={this.isDisabled()}
+        onClick={this.onClick}
+      >
+        <SendIcon className="selenium-notifyButton" />
+      </ResourceIconAction>
+    )
+  }
 }
 
 export default ReferenceNotifyOption

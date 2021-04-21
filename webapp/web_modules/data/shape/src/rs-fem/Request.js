@@ -28,6 +28,7 @@ export const RequestContent = PropTypes.shape({
     registrationDate: PropTypes.string,
     providerId: PropTypes.string.isRequired,
     state: PropTypes.string.isRequired,
+    errors: PropTypes.arrayOf(PropTypes.string).isRequired,
   }),
 })
 

@@ -22,7 +22,7 @@ import { Locales } from '@regardsoss/form-utils'
  * @author Sébastien Binda
  */
 const messages = {
-  'dashboard.title': 'Tableau de board',
+  'dashboard.title': 'Tableau de bord',
   'dashboard.refresh': 'Rafraichir',
   'dashboard.back': 'Retour',
 

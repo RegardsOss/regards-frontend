@@ -21,10 +21,10 @@ import BasicPageableSelectors from '../pageable/BasicPageableSelectors'
 class BasicInfosPageableSelectors extends BasicPageableSelectors {
   /**
    * @param {*} state redux state
-   * @returns {* | undefined} infos for the current result
+   * @returns {* | undefined} info for the current result
    */
-  getInfos(state) {
-    return this.uncombineStore(state).infos
+  getInfo(state) {
+    return this.uncombineStore(state).info
   }
 }
 

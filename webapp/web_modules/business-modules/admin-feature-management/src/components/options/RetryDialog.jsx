@@ -46,13 +46,13 @@ export class RetryDialog extends React.Component {
              key="cancel"
              id="confirm.dialog.cancel"
              label={formatMessage({ id: 'feature.close' })}
-             primary
-             keyboardFocused
              onClick={onClose}
            />
            <FlatButton
              key="retryReference"
              className="selenium-confirmDialogButton"
+             primary
+             keyboardFocused
              label={formatMessage({ id: 'feature.requests.retry' })}
              onClick={onConfirmRetry}
            />

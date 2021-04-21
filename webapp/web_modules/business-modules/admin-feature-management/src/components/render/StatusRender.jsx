@@ -40,12 +40,13 @@ class StatusRender extends React.Component {
 
   render() {
     const { entity: { content: { state, errors } }, onViewRequestErrors } = this.props
-    return <div style={{ display: 'flex' }}>
+    const { moduleTheme: { tableStyle: { renderStyle: { statusStyle } } } } = this.context
+    return <div style={statusStyle}>
       <StringValueRender value={state} />
       {
         isEmpty(errors)
           ? null
-          : <IconButton onClick={onViewRequestErrors}>
+          : <IconButton onClick={() => onViewRequestErrors(this.props.entity)}>
             <AlertError />
           </IconButton>
       }

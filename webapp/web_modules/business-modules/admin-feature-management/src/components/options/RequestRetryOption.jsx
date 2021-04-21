@@ -18,13 +18,11 @@
  import IconButton from 'material-ui/IconButton'
  **/
 import find from 'lodash/find'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import AvReplay from 'mdi-material-ui/Replay'
 import { FemShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { FemDomain } from '@regardsoss/domain'
-import { ResourceIconAction, TableSelectionModes } from '@regardsoss/components'
-import { requestRetryActions } from '../../clients/RequestRetryClient'
+import { ResourceIconAction } from '@regardsoss/components'
 
 /**
  * Table option to delete request
@@ -40,15 +38,12 @@ class RequestRetryOption extends React.Component {
     ...i18nContextType,
   }
 
-  static RETRY_DEPENDENCIES = requestRetryActions.getDependency(RequestVerbEnum.POST)
-
   /**
    * On button clicked callback
    */
   onClick = () => {
     const { entity, onRetry } = this.props
     onRetry([entity])
-    onRetry(TableSelectionModes.includeSelected, [entity])
   }
 
   isDisabled = () => {

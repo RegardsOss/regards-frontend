@@ -26,12 +26,12 @@ export const RefrenceContent = PropTypes.shape({
   content: PropTypes.shape({
     id: PropTypes.number,
     lastUpdate: PropTypes.string,
-    providerId: PropTypes.string.isRequired,
+    providerId: PropTypes.string,
     version: PropTypes.number,
   }),
 })
 
 export const Reference = PropTypes.shape({
-  content: RefrenceContent.isRequired,
+  content: RefrenceContent,
   links: PropTypes.arrayOf(HateOASLink),
 })

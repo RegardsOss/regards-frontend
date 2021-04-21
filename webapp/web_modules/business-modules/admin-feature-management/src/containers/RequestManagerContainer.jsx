@@ -35,7 +35,7 @@ export class RequestManagerContainer extends React.Component {
     // eslint-disable-next-line react/forbid-prop-types
     requestFilters: PropTypes.object.isRequired,
     paneType: PropTypes.oneOf(PANE_TYPES),
-    onApplyFilters: PropTypes.func.isRequired,
+    onApplyRequestFilter: PropTypes.func.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     clients: PropTypes.object.isRequired,
     // from mapDistpathToProps
@@ -50,6 +50,8 @@ export class RequestManagerContainer extends React.Component {
     links: PropTypes.arrayOf(HateoasLinks),
     tableSelection: PropTypes.arrayOf(FemShapes.Request),
     selectionMode: PropTypes.string.isRequired,
+    // are all selected in current state?
+    areAllSelected: PropTypes.bool.isRequired,
   }
 
   /**
@@ -63,6 +65,7 @@ export class RequestManagerContainer extends React.Component {
     tableSelection: ownProps.clients.tableSelectors.getToggledElementsAsList(state),
     selectionMode: ownProps.clients.tableSelectors.getSelectionMode(state),
     links: ownProps.clients.selectors.getLinks(state),
+    areAllSelected: ownProps.clients.tableSelectors.areAllSelected(state, ownProps.clients.selectors),
   })
 
   /**
@@ -71,24 +74,22 @@ export class RequestManagerContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-  static mapDispatchToProps(dispatch, ownProps) {
-    return {
-      fetchRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(ownProps.clients.actions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
-      clearSelection: () => dispatch(ownProps.clients.tableActions.unselectAll()),
-      deleteRequests: (payload, type) => dispatch(requestDeleteActions.sendSignal('POST', payload, {}, type)),
-      retryRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, {}, type)),
-    }
-  }
+  static mapDispatchToProps = (dispatch, ownProps) => ({
+    fetchRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(ownProps.clients.actions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    clearSelection: () => dispatch(ownProps.clients.tableActions.unselectAll()),
+    deleteRequests: (payload, type) => dispatch(requestDeleteActions.sendSignal('DELETE', payload, { type })),
+    retryRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
+  })
 
-  onRefresh = (columnsSorting, contextRequestURLParameters, contextRequestBodyParameters) => {
+  onRefresh = (columnsSorting, contextRequestParameters) => {
     const {
       meta, clearSelection, fetchRequests,
     } = this.props
     // compute page size to refresh all current entities in the table
     const lastPage = (meta && meta.number) || 0
-    const fetchPageSize = RequestManagerComponent.PAGE_SIZE * (lastPage + 1)
+    const fetchPageSize = STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
     clearSelection()
-    fetchRequests(0, fetchPageSize, {}, columnsSorting, { ...contextRequestBodyParameters, ...contextRequestURLParameters })
+    fetchRequests(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters })
   }
 
   render() {
@@ -98,17 +99,18 @@ export class RequestManagerContainer extends React.Component {
       tableSelection,
       deleteRequests,
       retryRequests,
-      onApplyFilters,
+      onApplyRequestFilter,
       paneType,
       clients,
       links,
       selectionMode,
+      areAllSelected,
     } = this.props
     return (
       <RequestManagerComponent
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}
-        onApplyFilters={onApplyFilters}
+        onApplyRequestFilter={onApplyRequestFilter}
         onRefresh={this.onRefresh}
         deleteRequests={deleteRequests}
         retryRequests={retryRequests}
@@ -117,6 +119,7 @@ export class RequestManagerContainer extends React.Component {
         clients={clients}
         selectionMode={selectionMode}
         links={links}
+        areAllSelected={areAllSelected}
       />
     )
   }

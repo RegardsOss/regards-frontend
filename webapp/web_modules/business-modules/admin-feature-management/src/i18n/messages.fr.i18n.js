@@ -19,10 +19,10 @@
 import { Locales } from '@regardsoss/form-utils'
 
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 const messages = {
-  'dashboard.title': 'Tableau de board',
+  'dashboard.title': 'Tableau de bord',
   'dashboard.refresh': 'Rafraichir',
   'dashboard.back': 'Retour',
 
@@ -36,18 +36,18 @@ const messages = {
 
   // Feature Manager
   // References
-  'feature.references.switch-to.references.label': 'Produits ({productsNb})',
-  'feature.references.switch-to.references.title': 'Voir les produits',
-  'feature.references.switch-to.extraction.label': 'Extractions ({productsNb})',
-  'feature.references.switch-to.extraction.title': 'Voir les extractions',
-  'feature.references.switch-to.creation.label': 'Creations ({productsNb})',
-  'feature.references.switch-to.creation.title': 'Voir les creations',
-  'feature.references.switch-to.update.label': 'Mises à jour ({productsNb})',
-  'feature.references.switch-to.update.title': 'Voir les mises à jour',
-  'feature.references.switch-to.delete.label': 'Suppressions ({productsNb})',
-  'feature.references.switch-to.delete.title': 'Voir les suppressions',
-  'feature.references.switch-to.notification.label': 'Notifications ({productsNb})',
-  'feature.references.switch-to.notification.title': 'Voir les notifications',
+  'feature.references.switch-to.REFERENCES.label': 'Produits ({productsNb})',
+  'feature.references.switch-to.REFERENCES.title': 'Voir les produits',
+  'feature.references.switch-to.EXTRACTION.label': 'Extractions ({productsNb})',
+  'feature.references.switch-to.EXTRACTION.title': 'Voir les extractions',
+  'feature.references.switch-to.CREATION.label': 'Creations ({productsNb})',
+  'feature.references.switch-to.CREATION.title': 'Voir les creations',
+  'feature.references.switch-to.UPDATE.label': 'Mises à jour ({productsNb})',
+  'feature.references.switch-to.UPDATE.title': 'Voir les mises à jour',
+  'feature.references.switch-to.DELETE.label': 'Suppressions ({productsNb})',
+  'feature.references.switch-to.DELETE.title': 'Voir les suppressions',
+  'feature.references.switch-to.NOTIFICATION.label': 'Notifications ({productsNb})',
+  'feature.references.switch-to.NOTIFICATION.title': 'Voir les notifications',
   'feature.references.list.table.headers.providerId': 'ID fournisseur',
   'feature.references.list.table.headers.lastUpdate': 'Modifié le',
   'feature.references.list.table.headers.version': 'Version',
@@ -69,12 +69,13 @@ const messages = {
   'feature.references.empty.results': 'Aucun produit trouvé',
   'feature.references.delete.title': 'Supprimer les produits sélectionnés et leurs fichiers sur le stockage',
   'feature.references.delete': 'Supprimer',
-  'feature.references.confirm.delete.message': 'Voulez-vous supprimer le/les produits sélectionné(s)',
+  'feature.references.confirm.delete.message': 'Ce traitement est asynchrone, il sera effectif après un certain délai. Une fois effectué, ce traitement créer des requêtes suppression que vous pouvez suivre dans l\'onglet Suppression. Voulez-vous supprimer le/les produits sélectionné(s)',
   'feature.references.tooltip.selection.notify': 'Notifier les produits sélectionnés',
   'feature.references.list.filters.buttons.notify': 'Notifier la sélection',
   'feature.references.notify.title': 'Notifier les références sélectionnées',
   'feature.references.notify': 'Notifier',
-  'feature.references.notify.message': 'Voulez vous notifier les références sélectionnées',
+  'feature.references.notify.message': 'Voulez vous notifier les références sélectionnées vers tous les destinataires configurés. Ces destinataires sont configurés sur le service rs-notifier dont vous pouvez récupérer la configuration depuis la fonction Microservice de cet IHM.',
+  'feature.references.detail.title': 'Détail',
 
   // Requests
   'feature.requests.empty.results': 'Aucune requete trouvée',

@@ -52,7 +52,6 @@ export class ErrorDetailsDialog extends React.Component {
             <CodeFileDisplayer
               content={JSON.stringify(entity.content.errors, null, '\t')}
               contentType={MIME_TYPES.JSON_MIME_TYPE}
-              // style={moduleTheme.aipDetailsStyle}
             />
           </CardMedia>
           <CardActions>

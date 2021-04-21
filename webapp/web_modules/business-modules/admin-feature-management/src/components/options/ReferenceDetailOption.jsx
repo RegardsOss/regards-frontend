@@ -37,7 +37,7 @@ class ReferenceDetailOption extends React.Component {
 
   onClick = () => {
     const { entity, onReferenceDetail } = this.props
-    onReferenceDetail(entity)
+    onReferenceDetail([entity])
   }
 
   render() {

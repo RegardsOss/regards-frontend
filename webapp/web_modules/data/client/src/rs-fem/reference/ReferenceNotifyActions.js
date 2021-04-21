@@ -24,7 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class ReferenceNotifyActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/references/notify`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/admin/features/notify`,
       namespace,
       bypassErrorMiddleware: false,
     })

@@ -22,7 +22,9 @@ import clone from 'lodash/clone'
 import map from 'lodash/map'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import isEmpty from 'lodash/isEmpty'
+import every from 'lodash/every'
 import isEqual from 'lodash/isEqual'
+import get from 'lodash/get'
 import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
@@ -67,7 +69,7 @@ export class RequestManagerComponent extends React.Component {
     featureManagerFilters: PropTypes.object.isRequired,
     // eslint-disable-next-line react/forbid-prop-types
     requestFilters: PropTypes.object.isRequired,
-    onApplyFilters: PropTypes.func.isRequired,
+    onApplyRequestFilter: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
@@ -77,6 +79,7 @@ export class RequestManagerComponent extends React.Component {
     clients: PropTypes.object.isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     links: PropTypes.arrayOf(HateoasLinks),
+    areAllSelected: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -117,8 +120,6 @@ export class RequestManagerComponent extends React.Component {
     ACTIONS: 'actions',
   }
 
-  static PAGE_SIZE = 20
-
   static COLUMN_ORDER_TO_QUERY = {
     [CommonDomain.SORT_ORDERS_ENUM.ASCENDING_ORDER]: 'ASC',
     [CommonDomain.SORT_ORDERS_ENUM.DESCENDING_ORDER]: 'DESC',
@@ -128,26 +129,26 @@ export class RequestManagerComponent extends React.Component {
     const {
       source, session, providerId, from, to, state,
     } = appliedFilters
-    const contextRequestBodyParameters = {}
+    const contextRequestParameters = {}
     if (source) {
-      contextRequestBodyParameters.source = source
+      contextRequestParameters.source = source
     }
     if (session) {
-      contextRequestBodyParameters.session = session
+      contextRequestParameters.session = session
     }
     if (providerId) {
-      contextRequestBodyParameters.providerIds = [providerId]
+      contextRequestParameters.providerId = providerId
     }
     if (from) {
-      contextRequestBodyParameters.from = from
+      contextRequestParameters.from = from
     }
     if (to) {
-      contextRequestBodyParameters.to = to
+      contextRequestParameters.to = to
     }
     if (state) {
-      contextRequestBodyParameters.state = [state] // handled as a muti-choice list on back
+      contextRequestParameters.state = [state] // handled as a muti-choice list on back
     }
-    return contextRequestBodyParameters
+    return contextRequestParameters
   }
 
   static buildSortURL = (columnsSorting) => map(columnsSorting, ({ columnKey, order }) => `${columnKey},${RequestManagerComponent.COLUMN_ORDER_TO_QUERY[order]}`)
@@ -179,8 +180,7 @@ export class RequestManagerComponent extends React.Component {
       entities: [], // included or excluded depending on mode
     },
     columnsSorting: [],
-    contextRequestBodyParameters: {},
-    contextRequestURLParameters: {},
+    contextRequestParameters: {},
     appliedFilters: {},
   }
 
@@ -210,30 +210,23 @@ export class RequestManagerComponent extends React.Component {
     }
   }
 
-  onRequestStateUpdated = (featureManagerFilters, appliedFilters) => {
+  onRequestStateUpdated = (featureManagerFilters, requestFilters) => {
     this.setState({
-      appliedFilters,
-      contextRequestBodyParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...appliedFilters }),
+      contextRequestParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...requestFilters }),
     })
   }
 
-  onChangeStatusFilter = (newValue) => {
-    const { onApplyFilters, featureManagerFilters } = this.props
-    const appliedFilters = {
-      [FILTER_PARAMS.STATE]: newValue,
-    }
+  onChangeStatusFilter = (event, index, newValue) => {
+    const { onApplyRequestFilter, featureManagerFilters } = this.props
     const newFilters = {
-      ...featureManagerFilters,
       [FILTER_PARAMS.STATE]: newValue,
     }
-    if (!isEqual(appliedFilters, RequestManagerComponent.DEFAULT_FILTERS_STATE)) {
-      onApplyFilters(newFilters)
-      this.onRequestStateUpdated(featureManagerFilters, appliedFilters)
-    }
+    onApplyRequestFilter(newFilters)
+    this.onRequestStateUpdated(featureManagerFilters, newFilters)
   }
 
   onSort = (columnSortKey, order) => {
-    const { columnsSorting } = this.state
+    const { columnsSorting, contextRequestParameters } = this.state
 
     const columnIndex = columnsSorting.findIndex(({ columnKey }) => columnSortKey === columnKey)
     const newColumnSorting = clone(columnsSorting)
@@ -246,7 +239,8 @@ export class RequestManagerComponent extends React.Component {
     }
     this.setState({
       columnsSorting: newColumnSorting,
-      contextRequestURLParameters: {
+      contextRequestParameters: {
+        ...contextRequestParameters,
         sort: RequestManagerComponent.buildSortURL(newColumnSorting),
       },
     })
@@ -257,7 +251,7 @@ export class RequestManagerComponent extends React.Component {
    * @param {string} dialogRequestType dialog type for the request to handle, from RequestManagerComponent.DIALOG_TYPES
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onOpenActionDialog = (dialogRequestType, mode = null, entities = null) => this.setState({
+  onOpenActionDialog = (dialogRequestType, mode = TableSelectionModes.includeSelected, entities = null) => this.setState({
     [dialogRequestType]: {
       open: true,
       mode,
@@ -275,13 +269,13 @@ export class RequestManagerComponent extends React.Component {
    * Callback: On retry requests for selection as parameter (shows corresponding dialog)
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onRetry = (mode, entities) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG, mode, entities)
+  onRetry = (entities, mode) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG, mode, entities)
 
   /**
    * Callback: On delete requests for selection as parameter (shows corresponding dialog)
    * @param {[*]} entities entities as an array of IngestShapes.RequestEntity (to include or exclude from request)
    */
-  onDelete = (mode, entities) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG, mode, entities)
+  onDelete = (entities, mode) => this.onOpenActionDialog(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG, mode, entities)
 
   /**
    * Inner callback: closes dialog corresponding to request type
@@ -304,24 +298,23 @@ export class RequestManagerComponent extends React.Component {
    * @return {*} payload for server action
    */
   onConfirmActionDialog = (dialogRequestType) => {
-    const { paneType } = this.props
     const { mode, entities } = this.state[dialogRequestType]
     this.onCloseActionDialog(dialogRequestType)
     return {
       filters: {
-        ...this.state.contextRequestBodyParameters,
+        ...this.state.contextRequestParameters,
       },
       requestIdSelectionMode: mode === TableSelectionModes.includeSelected
         ? RequestManagerComponent.SELECTION_MODE.INCLUDE
         : RequestManagerComponent.SELECTION_MODE.EXCLUDE,
-      requestIds: entities.map((e) => paneType === PANE_TYPES_ENUM.EXTRACTION ? e.content.id : e.content.providerId),
+      requestIds: map(entities, (e) => e.content.id),
     }
   }
 
   /** User callback: retry or delete confirmed */
   onConfirm = (dialogType) => {
     const {
-      retryRequests, deleteRequests, paneType, onRefresh,
+      retryRequests, deleteRequests, paneType,
     } = this.props
     const payload = this.onConfirmActionDialog(dialogType)
     let confirmDialogType
@@ -344,19 +337,21 @@ export class RequestManagerComponent extends React.Component {
       if (!actionResult.error) {
         this.setState({
           [confirmDialogType]: {
+            open: true,
             isLoading: false,
             payload: actionResult.payload,
           },
         })
-        onRefresh()
       }
     })
   }
 
   renderConfirmDialog = (dialogType) => {
     const { intl: { formatMessage } } = this.context
-    const { isOpen, isLoading, payload } = this.state[dialogType]
-    if (isOpen) {
+    const { open, isLoading, payload } = this.state[dialogType]
+    if (open) {
+      const totalHandled = payload && payload.totalHandled ? payload.totalHandled : 0
+      const totalRequested = payload && payload.totalRequested ? payload.totalRequested : 0
       return (
         <LoadableContentDisplayDecorator
           isLoading={isLoading}
@@ -364,11 +359,11 @@ export class RequestManagerComponent extends React.Component {
           <ConfirmDialogComponent
             dialogType={ConfirmDialogComponentTypes.CONFIRM}
             title={formatMessage({ id: `feature.requests.${dialogType}.title` })}
-            message={payload.totalHandled === payload.totalRequested
+            message={totalHandled === totalRequested
               ? formatMessage({ id: `feature.requests.${dialogType}.message.ok` })
-              : formatMessage({ id: `feature.requests.${dialogType}.message.not-ok` }, { totalHandled: payload.totalHandled })}
-            onConfirm={this.onCloseActionDialog(dialogType)}
-            onClose={this.onCloseActionDialog(dialogType)}
+              : formatMessage({ id: `feature.requests.${dialogType}.message.not-ok` }, { totalHandled })}
+            onConfirm={() => this.onCloseActionDialog(dialogType)}
+            onClose={() => this.onCloseActionDialog(dialogType)}
           />
         </LoadableContentDisplayDecorator>
       )
@@ -377,39 +372,44 @@ export class RequestManagerComponent extends React.Component {
   }
 
   renderDialog = (dialogType) => {
-    const { isOpen } = this.state[dialogType]
-    let component = null
-    switch (dialogType) {
-      case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
-        component = <DeleteDialog
-          onConfirmDelete={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
-          onClose={() => this.onCloseActionDialog(dialogType)}
-        />
-        break
-      case RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG:
-        component = <RetryDialog
-          onConfirmRetry={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
-          onClose={() => this.onCloseActionDialog(dialogType)}
-        />
-        break
-      case RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG:
-        component = <ErrorDetailsDialog
-          entity={this.state[RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG].entities[0]}
-          onClose={() => this.onCloseActionDialog(dialogType)}
-        />
-        break
-      default:
-    }
-    if (isOpen) {
+    const { open } = this.state[dialogType]
+    if (open) {
+      let component = null
+      switch (dialogType) {
+        case RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG:
+          component = <DeleteDialog
+            onConfirmDelete={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
+            onClose={() => this.onCloseActionDialog(dialogType)}
+          />
+          break
+        case RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG:
+          component = <RetryDialog
+            onConfirmRetry={() => this.onConfirm(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
+            onClose={() => this.onCloseActionDialog(dialogType)}
+          />
+          break
+        case RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG:
+          component = <ErrorDetailsDialog
+            entity={this.state[RequestManagerComponent.DIALOG_TYPES.ERRORS_DIALOG].entities[0]}
+            onClose={() => this.onCloseActionDialog(dialogType)}
+          />
+          break
+        default:
+      }
       return (component)
     }
     return null
   }
 
-  /** Check if retry or delete link is available */
-  isLinkAvailable = (dialogType) => {
-    const { links } = this.props
-    return !!find(links, (l) => l.rel === dialogType)
+  isButtonDisabled = (dialogType) => {
+    const { links, tableSelection, areAllSelected } = this.props
+    let ret = true
+    if (areAllSelected) {
+      ret = !find(links, (l) => l.rel === dialogType)
+    } else if (!isEmpty(tableSelection)) {
+      ret = !every(tableSelection, (selection) => find(selection.links, (l) => l.rel === dialogType))
+    }
+    return ret
   }
 
   getColumnSortingData = (sortKey) => {
@@ -424,7 +424,7 @@ export class RequestManagerComponent extends React.Component {
     const {
       tableSelection, onRefresh, requestFilters, paneType, clients, selectionMode,
     } = this.props
-    const { contextRequestURLParameters, contextRequestBodyParameters, columnsSorting } = this.state
+    const { contextRequestParameters, columnsSorting } = this.state
     return (
       <div>
         <TableLayout>
@@ -435,7 +435,7 @@ export class RequestManagerComponent extends React.Component {
                   autoWidth
                   style={filter.fieldStyle}
                   hintText={formatMessage({ id: 'feature.requests.list.filters.state' })}
-                  value={requestFilters ? requestFilters.state : null}
+                  value={requestFilters.state}
                   onChange={this.onChangeStatusFilter}
                 >
                   <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
@@ -447,31 +447,29 @@ export class RequestManagerComponent extends React.Component {
               <TableHeaderOptionGroup>
                 <ResourceFlatButton
                   displayLogic={allMatchHateoasDisplayLogic}
-                  resourceDependencies={requestRetryActions.getDependency(RequestVerbEnum.POST)}
                   hideDisabled
                   key="retrySelection"
                   title={formatMessage({ id: 'feature.requests.tooltip.selection.retry' })}
                   label={formatMessage({ id: 'feature.requests.list.filters.buttons.retry' })}
                   icon={<Refresh />}
-                  onClick={() => this.onRetry(selectionMode, tableSelection)}
-                  disabled={isEmpty(tableSelection) && !this.isLinkAvailable(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
+                  onClick={() => this.onRetry(tableSelection, selectionMode)}
+                  disabled={this.isButtonDisabled(RequestManagerComponent.DIALOG_TYPES.RETRY_DIALOG)}
                 />
                 <ResourceFlatButton
                   displayLogic={allMatchHateoasDisplayLogic}
-                  resourceDependencies={requestDeleteActions.getDependency(RequestVerbEnum.POST)}
                   hideDisabled
                   key="deleteSelection"
                   title={formatMessage({ id: 'feature.requests.tooltip.selection.delete' })}
                   label={formatMessage({ id: 'feature.requests.list.filters.buttons.delete' })}
                   icon={<DeleteOnAllIcon />}
-                  onClick={() => this.onDelete(selectionMode, tableSelection)}
-                  disabled={isEmpty(tableSelection) && !this.isLinkAvailable(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
+                  onClick={() => this.onDelete(tableSelection, selectionMode)}
+                  disabled={this.isButtonDisabled(RequestManagerComponent.DIALOG_TYPES.DELETE_DIALOG)}
                 />
                 {/* Data refresh */}
                 <FlatButton
                   label={formatMessage({ id: 'dashboard.refresh' })}
                   icon={<Refresh />}
-                  onClick={() => onRefresh(columnsSorting, contextRequestURLParameters, contextRequestBodyParameters)}
+                  onClick={() => onRefresh(columnsSorting, contextRequestParameters)}
                 />
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
@@ -480,7 +478,7 @@ export class RequestManagerComponent extends React.Component {
             name="request-management-table"
             pageActions={clients.actions}
             pageSelectors={clients.selectors}
-            pageSize={RequestManagerComponent.PAGE_SIZE}
+            pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
@@ -490,7 +488,6 @@ export class RequestManagerComponent extends React.Component {
                 .build(),
               new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell(paneType === PANE_TYPES_ENUM.EXTRACTION ? 'content.id' : 'content.providerId')
                 .label(formatMessage(paneType === PANE_TYPES_ENUM.EXTRACTION ? { id: 'feature.requests.list.filters.id' } : { id: 'feature.requests.list.filters.providerId' }))
-                .sortableHeaderCell(...this.getColumnSortingData(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID), this.onSort)
                 .build(),
               new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE).titleHeaderCell().propertyRenderCell('content.registrationDate', DateValueRender)
                 .label(formatMessage({ id: 'feature.requests.list.filters.lastSubmission' }))
@@ -514,8 +511,7 @@ export class RequestManagerComponent extends React.Component {
                   }])
                 .build(),
             ]}
-            requestParams={contextRequestURLParameters}
-            bodyParams={contextRequestBodyParameters}
+            requestParams={contextRequestParameters}
             emptyComponent={RequestManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>

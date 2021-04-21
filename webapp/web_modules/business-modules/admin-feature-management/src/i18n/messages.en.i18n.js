@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 const messages = {
   'dashboard.title': 'Dashboard',
@@ -69,12 +69,13 @@ const messages = {
   'feature.references.empty.results': 'No product found',
   'feature.references.delete.title': 'Delete selected products and its files on all storages',
   'feature.references.delete': 'Delete',
-  'feature.references.confirm.delete.message': 'Do you want to delete the selected product(s)',
+  'feature.references.confirm.delete.message': 'This processing is asynchronous, it will be effective after a certain delay. Once done, this processing will create deletion requests that you can follow in the Delete tab. Do you want to delete the selected product (s)',
   'feature.references.tooltip.selection.notify': 'Notify product selection',
   'feature.references.list.filters.buttons.notify': 'Notify selection',
   'feature.references.notify.title': 'Notify selected references',
   'feature.references.notify': 'Notify',
-  'feature.references.notify.message': 'Do you want to notify selected references',
+  'feature.references.notify.message': 'Do you want to notify the selected references to all configured recipients. These recipients are configured on the rs-notifier service, the configuration of which you can retrieve from the Microservice function of this UI.',
+  'feature.references.detail.title': 'Detail',
 
   // Requests
   'feature.requests.empty.results': 'No request found',
