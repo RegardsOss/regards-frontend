@@ -55,7 +55,6 @@ class RequestDeleteOption extends React.Component {
 
   render() {
     const { intl: { formatMessage } } = this.context
-    const { entity } = this.context
     return (
       <ResourceIconAction
         onClick={this.onClick}

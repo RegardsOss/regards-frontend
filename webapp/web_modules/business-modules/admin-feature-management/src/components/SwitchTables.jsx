@@ -24,6 +24,7 @@ import { CommonShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
 import Alert from 'mdi-material-ui/AlertCircleOutline'
 import Chip from 'material-ui/Chip'
+import { LoadingComponent } from '@regardsoss/display-control'
 import { PANE_TYPES_ENUM, PANE_TYPES } from '../domain/PaneTypes'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
@@ -108,6 +109,27 @@ export class SwitchTables extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    [PANE_TYPES_ENUM.REFERENCES]: {
+      isLoading: true,
+    },
+    [PANE_TYPES_ENUM.EXTRACTION]: {
+      isLoading: false,
+    },
+    [PANE_TYPES_ENUM.CREATION]: {
+      isLoading: true,
+    },
+    [PANE_TYPES_ENUM.UPDATE]: {
+      isLoading: true,
+    },
+    [PANE_TYPES_ENUM.DELETE]: {
+      isLoading: true,
+    },
+    [PANE_TYPES_ENUM.NOTIFICATION]: {
+      isLoading: true,
+    },
+  }
+
   UNSAFE_componentWillMount = () => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
@@ -120,7 +142,7 @@ export class SwitchTables extends React.Component {
     fetchUpdateRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
   }
 
-  displayIcon = (elementCount) => {
+  displayIcon = (elementCount, pane) => {
     const {
       moduleTheme: { tableStyle: { overlayStyle } },
     } = this.context
@@ -177,6 +199,23 @@ export class SwitchTables extends React.Component {
     return this.extractInfos(meta, info)
   }
 
+  // displayLabel = (isLoading, nbElements) => {
+  //   const { intl: { formatMessage } } = this.context
+  //   !isLoading ? (formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements }))
+  //   : (<div>formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })</div>)
+  // }
+
+  displayLabel = (pane, isLoading, nbElements) => {
+    const { intl: { formatMessage } } = this.context
+    if (!isLoading) {
+      return formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })
+    }
+    return <div style={{ display: 'flex' }}>
+      {formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })}
+      <LoadingComponent />
+    </div>
+  }
+
   render() {
     const { intl: { formatMessage }, moduleTheme: { switchButton } } = this.context
     const {
@@ -186,15 +225,17 @@ export class SwitchTables extends React.Component {
       <div style={{ display: 'flex' }}>
         {map(PANE_TYPES, (pane) => {
           const nbElementsInfos = this.getNbElementsInfos(pane)
+          const { isLoading } = this.state[pane]
           return (<div key={`switch-table-${pane}`} style={{ display: 'flex' }}>
             <FlatButton
-              label={formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElementsInfos.nbElements })}
+              // label={formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElementsInfos.nbElements })}
+              label={this.displayLabel(pane, isLoading, nbElementsInfos.nbElements)}
               title={formatMessage({ id: `feature.references.switch-to.${pane}.title` })}
               onClick={() => onSwitchToPane(pane)}
               style={openedPane === pane ? switchButton : null}
               disabled={openedPane === pane}
             />
-            {nbElementsInfos.nbErrors !== 0 ? this.displayIcon(nbElementsInfos.nbErrors) : null}
+            {nbElementsInfos.nbErrors !== 0 ? this.displayIcon(nbElementsInfos.nbErrors, pane) : null}
           </div>)
         })}
       </div>

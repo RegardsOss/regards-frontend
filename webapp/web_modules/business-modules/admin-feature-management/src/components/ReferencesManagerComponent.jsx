@@ -31,7 +31,7 @@ import {
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
   DateValueRender, NoContentComponent, TableHeaderLine,
 } from '@regardsoss/components'
-import { withResourceDisplayControl, allMatchHateoasDisplayLogic, HateoasLinks } from '@regardsoss/display-control'
+import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import FlatButton from 'material-ui/FlatButton'

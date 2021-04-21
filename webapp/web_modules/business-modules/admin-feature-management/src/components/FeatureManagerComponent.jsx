@@ -18,13 +18,11 @@
  **/
 import map from 'lodash/map'
 import includes from 'lodash/includes'
-import split from 'lodash/split'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
-import { themeContextType } from '@regardsoss/theme'
 import throttle from 'lodash/throttle'
 import ReferencesManagerContainer from '../containers/ReferencesManagerContainer'
 import RequestManagerContainer from '../containers/RequestManagerContainer'
@@ -52,7 +50,6 @@ class FeatureManagerComponent extends React.Component {
   }
 
   static contextTypes = {
-    ...themeContextType,
     ...i18nContextType,
   }
 
@@ -127,7 +124,7 @@ class FeatureManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, moduleTheme: { displayBlock, displayNone } } = this.context
+    const { intl: { formatMessage } } = this.context
     const { params } = this.props
     const {
       openedPane, featureManagerFilters, requestFilters,

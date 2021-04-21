@@ -41,7 +41,7 @@ export class ErrorDetailsDialog extends React.Component {
 
   render() {
     const { onClose, entity } = this.props
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <Dialog
         title={formatMessage({ id: 'feature.request.error.title' })}
@@ -52,6 +52,7 @@ export class ErrorDetailsDialog extends React.Component {
             <CodeFileDisplayer
               content={JSON.stringify(entity.content.errors, null, '\t')}
               contentType={MIME_TYPES.JSON_MIME_TYPE}
+              style={moduleTheme.detailsStyle}
             />
           </CardMedia>
           <CardActions>

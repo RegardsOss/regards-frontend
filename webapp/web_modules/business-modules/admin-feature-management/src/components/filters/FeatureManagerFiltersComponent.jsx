@@ -35,7 +35,7 @@ import { FILTER_PARAMS } from '../../domain/FilterParams'
 export class FeatureManagerFiltersComponent extends React.Component {
    static propTypes = {
      onApplyFilters: PropTypes.func.isRequired,
-     // eslint-disable-next-line react/forbid-prop-types
+     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
      featureManagerFilters: PropTypes.object.isRequired,
    }
 

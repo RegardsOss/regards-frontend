@@ -81,12 +81,6 @@ const featureManagementStyles = (theme) => ({
   switchButton: {
     color: theme.palette.accent1Color,
   },
-  displayBlock: {
-    display: 'block',
-  },
-  displayNone: {
-    display: 'none',
-  },
   detailsStyle: {
     height: '300px',
     width: '100%',
