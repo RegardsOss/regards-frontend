@@ -27,6 +27,7 @@ import TabsContentComponent from '../../../../src/components/user/tabs/TabsConte
 import styles from '../../../../src/styles'
 import { dataContext } from '../../../dumps/data.context.dump'
 import { dataEntity } from '../../../dumps/entities.dump'
+import { TabsContentContainer } from '../../../../src/containers/user/tabs/TabsContentContainer'
 
 const context = buildTestContext(styles)
 
@@ -42,9 +43,11 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     assert.isDefined(TabsContentComponent)
   })
   const testCases = [{
+    activeTabs: TabsContentContainer.ALL_TABS,
     testLabel: 'in main results context',
     resultsContext: dataContext,
   }, {
+    activeTabs: TabsContentContainer.TABS_WITHOUT_TAGS_TAB,
     testLabel: 'in description  context',
     resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.DESCRIPTION,
@@ -56,6 +59,7 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       },
     }),
   }, {
+    activeTabs: TabsContentContainer.ALL_TABS,
     testLabel: 'in tag results context',
     resultsContext: UIDomain.ResultsContextHelper.deepMerge(dataContext, {
       selectedTab: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
@@ -68,13 +72,14 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
       },
     }),
   }]
-  testCases.forEach(({ testLabel, resultsContext }) => it(`should render correctly ${testLabel}`, () => {
+  testCases.forEach(({ testLabel, resultsContext, activeTabs }) => it(`should render correctly ${testLabel}`, () => {
     const { shownTabContent, hiddenTabContent } = context.moduleTheme.user.tabContent
     const props = {
       moduleId: 1,
       appName: 'app',
       project: 'project',
       resultsContext,
+      activeTabs,
     }
     const enzymeWrapper = shallow(<TabsContentComponent {...props} />, { context })
     // retrieve each tab container and check they are correctly displayed / hidden
@@ -107,17 +112,20 @@ describe('[SEARCH RESULTS] Testing TabsContentComponent', () => {
     }
 
     const tagResultsContainer = enzymeWrapper.find(SearchResultsContainer).findWhere((c) => c.props().tabType === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
-    assert.lengthOf(tagResultsContainer, 1, 'There should be a results container for each tag results')
-    testSuiteHelpers.assertWrapperProperties(tagResultsContainer, {
-      moduleId: props.moduleId,
-      project: props.project,
-      tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
-      resultsContext,
-    }, 'Tag results container properties should be correctly reported')
-    if (resultsContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS) {
-      assert.deepEqual(tagResultsContainer.parent().props().style, shownTabContent, 'Tag results tab should be currently shown')
-    } else {
-      assert.deepEqual(tagResultsContainer.parent().props().style, hiddenTabContent, 'Tag results tab should be currently hidden')
+    const hasTagTab = activeTabs.includes(UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS)
+    assert.lengthOf(tagResultsContainer, hasTagTab ? 1 : 0, 'There should be a results container for each tag results')
+    if (hasTagTab) {
+      testSuiteHelpers.assertWrapperProperties(tagResultsContainer, {
+        moduleId: props.moduleId,
+        project: props.project,
+        tabType: UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS,
+        resultsContext,
+      }, 'Tag results container properties should be correctly reported')
+      if (resultsContext.selectedTab === UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS) {
+        assert.deepEqual(tagResultsContainer.parent().props().style, shownTabContent, 'Tag results tab should be currently shown')
+      } else {
+        assert.deepEqual(tagResultsContainer.parent().props().style, hiddenTabContent, 'Tag results tab should be currently hidden')
+      }
     }
   }))
 })
