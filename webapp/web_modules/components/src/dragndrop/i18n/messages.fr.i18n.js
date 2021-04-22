@@ -17,10 +17,10 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 const messages = {
-  'toponym.uploader.drop.too-many-file': 'L\'import d\'un toponyme se réalise à l\'aide d\'un seul fichier',
+  'toponym.uploader.drop.too-many-file': 'L\'import d\'une zone d\'intérêt géographique se réalise à l\'aide d\'un seul fichier',
   'toponym.uploader.drop.unsupported-file': 'Formats supportés : shapefile au format zip ou geojson',
   'toponym.uploader.geojson.wrong-type': 'Le fichier geojson doit être une FeatureCollection',
-  'toponym.uploader.geojson.invalid-nb-features': 'Votre toponyme ne doit contenir qu\'une seule feature',
+  'toponym.uploader.geojson.invalid-nb-features': 'Votre zone d\'intérêt géographique doit contenir une seule entité/polygone',
   'toponym.uploader.zip.too-many-files': 'Le zip doit être composé d\'un shp et d\'un prj',
   'toponym.uploader.zip.missing-files': 'L\'archive ne contient pas les fichiers shp et prj attendus',
   'toponym.uploader.zip.parse.error': 'Echec de lecture de l\'archive : {reason}',
