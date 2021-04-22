@@ -38,7 +38,7 @@ class QuicklooksViewComponent extends React.Component {
     cellProperties: SpecificCellProperties.isRequired,
     embedInMap: PropTypes.bool.isRequired,
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func.isRequired,
+    getItemOfInterest: PropTypes.func,
   }
 
   static contextTypes = {

@@ -72,10 +72,10 @@ export class QuicklooksViewContainer extends React.Component {
     // eslint-disable-next-line react/no-unused-prop-types
     settings: UIShapes.UISettings.isRequired, // used in onPropertiesUpdated
     // eslint-disable-next-line react/no-unused-prop-types
-    onProductSelected: PropTypes.func.isRequired, // used in onPropertiesUpdated
+    onProductSelected: PropTypes.func, // used in onPropertiesUpdated
     // Manage selected product in quicklooks
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func.isRequired,
+    getItemOfInterest: PropTypes.func,
 
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types

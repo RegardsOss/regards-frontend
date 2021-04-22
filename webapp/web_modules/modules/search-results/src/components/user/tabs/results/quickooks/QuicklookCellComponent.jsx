@@ -56,7 +56,7 @@ export const specificCellPropertiesFields = {
   primaryQuicklookGroup: PropTypes.string.isRequired,
   // Product selection management
   selectedProducts: PropTypes.arrayOf(PropTypes.object),
-  onProductSelected: PropTypes.func.isRequired,
+  onProductSelected: PropTypes.func,
   // Pure component restrictions: provide locale as context
   locale: PropTypes.string.isRequired,
   // Note: current theme should also be provided to ensure redraw is done on theme change, but it is not
@@ -197,7 +197,7 @@ class QuicklookCellComponent extends React.PureComponent {
     let footerHeight = 0
     if (presentationModels.length > 0) {
       footerHeight = (presentationModels.length * QuicklookCellComponent.EXPECTED_ATTRIBUTE_ROW_HEIGHT)
-      + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
+        + (presentationModels.length ? QuicklookCellComponent.EXPECTED_ATTRIBUTES_PADDING : 0)
     }
     // Get quicklook to display
     const { defaultPic } = QuicklookCellComponent.getPictures(entity, primaryQuicklookGroup, accessToken, projectName, embedInMap)
@@ -243,50 +243,50 @@ class QuicklookCellComponent extends React.PureComponent {
    */
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
-   /**
-    * Properties change detected: update local state
-    * @param oldProps previous component properties
-    * @param newProps next component properties
-    */
-   onPropertiesUpdated = (oldProps, newProps) => {
-     const nextState = { ...this.state }
-     const {
-       left, top, width, gridWidth, selectedProducts, entity, embedInMap,
-     } = newProps
-     const { muiTheme } = this.context
-     if (!isEqual(left, oldProps.left) || !isEqual(top, oldProps.top) || !isEqual(width, oldProps.width)) {
-       nextState.cardStyle = {
-         position: 'absolute',
-         left: isFinite(left) && left > 0 ? left : 0,
-         top: isFinite(top) && top > 0 ? top : 0,
-         width: isFinite(width) && width > 0 ? width : 0,
-         padding: 0,
-         transition: undefined, // remove MUI transition that is quite inadequate
-       }
-     }
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const nextState = { ...this.state }
+    const {
+      left, top, width, gridWidth, selectedProducts, entity, embedInMap,
+    } = newProps
+    const { muiTheme } = this.context
+    if (!isEqual(left, oldProps.left) || !isEqual(top, oldProps.top) || !isEqual(width, oldProps.width)) {
+      nextState.cardStyle = {
+        position: 'absolute',
+        left: isFinite(left) && left > 0 ? left : 0,
+        top: isFinite(top) && top > 0 ? top : 0,
+        width: isFinite(width) && width > 0 ? width : 0,
+        padding: 0,
+        transition: undefined, // remove MUI transition that is quite inadequate
+      }
+    }
 
-     if (!isEqual(gridWidth, oldProps.gridWidth)) {
-       const alignedWidth = gridWidth - QuicklookCellComponent.OPTIONS_BAR_RESERVED_WIDTH // XXX-workaround-quicklooks-alignement
-       nextState.iconStyle = {
-         width: alignedWidth / 2,
-         height: alignedWidth / 2,
-         margin: `${alignedWidth / 10}px ${alignedWidth / 4}px`,
-       }
-     }
+    if (!isEqual(gridWidth, oldProps.gridWidth)) {
+      const alignedWidth = gridWidth - QuicklookCellComponent.OPTIONS_BAR_RESERVED_WIDTH // XXX-workaround-quicklooks-alignement
+      nextState.iconStyle = {
+        width: alignedWidth / 2,
+        height: alignedWidth / 2,
+        margin: `${alignedWidth / 10}px ${alignedWidth / 4}px`,
+      }
+    }
 
-     if (!isEqual(selectedProducts, oldProps.selectedProducts) && embedInMap) {
-       nextState.cardStyle = {
-         ...nextState.cardStyle,
-         backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
-           ? muiTheme.module.searchResults.map.quicklooks.selectedColor
-           : 'transparent',
-       }
-     }
+    if (!isEqual(selectedProducts, oldProps.selectedProducts) && embedInMap) {
+      nextState.cardStyle = {
+        ...nextState.cardStyle,
+        backgroundColor: this.isProductSelected(selectedProducts, entity.content.id)
+          ? muiTheme.module.searchResults.map.quicklooks.selectedColor
+          : 'transparent',
+      }
+    }
 
-     if (!isEqual(nextState, this.state)) {
-       this.setState(nextState)
-     }
-   }
+    if (!isEqual(nextState, this.state)) {
+      this.setState(nextState)
+    }
+  }
 
   /**
    * User callback: show description request
@@ -357,20 +357,20 @@ class QuicklookCellComponent extends React.PureComponent {
           style={cardStyle}
           containerStyle={cardContentContainer}
         >
-          { /** 1 - render vertically the picture and attributes */ }
+          { /** 1 - render vertically the picture and attributes */}
           <div style={pictureAndAttributesContainer}>
             {/* 1.a - picture */}
             <div style={defaultPic ? quicklookContainerStyle : null}>
               {
-               defaultPic ? (
-                 <img
-                   src={defaultPic.uri}
-                   alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
-                   style={actualImageStyle}
-                   onClick={this.onImageClicked}
-                 />)
-                 : <ImageOff style={iconStyle} />
-             }
+                defaultPic ? (
+                  <img
+                    src={defaultPic.uri}
+                    alt={formatMessage({ id: 'results.quicklooks.picture.alt' })}
+                    style={actualImageStyle}
+                    onClick={this.onImageClicked}
+                  />)
+                  : <ImageOff style={iconStyle} />
+              }
             </div>
             {/* 1.b - Render attributes */}
             <ShowableAtRender
@@ -386,7 +386,7 @@ class QuicklookCellComponent extends React.PureComponent {
               </CardText>
             </ShowableAtRender>
           </div>
-          { /** 2 - Render options bar on right */ }
+          { /** 2 - Render options bar on right */}
           <div style={optionsBarStyles}>
             {/* 2.a - Description  */}
             <ShowableAtRender show={descriptionAvailable}>
@@ -407,7 +407,7 @@ class QuicklookCellComponent extends React.PureComponent {
               />
             </ShowableAtRender>
             {/* 2.c - add to cart,  when available (ie has callback) - not showable because callback is required by the AddElementToCartContainer */}
-            { onAddElementToCart ? (
+            {onAddElementToCart ? (
               <AddElementToCartContainer
                 entity={entity}
                 onAddElementToCart={onAddElementToCart}
