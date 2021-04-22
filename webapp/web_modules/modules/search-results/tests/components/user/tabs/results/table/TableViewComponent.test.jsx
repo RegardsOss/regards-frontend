@@ -25,6 +25,7 @@ import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEnti
 import { getTableClient } from '../../../../../../src/clients/TableClient'
 import TableViewComponent from '../../../../../../src/components/user/tabs/results/table/TableViewComponent'
 import { TableViewContainer } from '../../../../../../src/containers/user/tabs/results/table/TableViewContainer'
+import EmptyTableContainer from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -97,7 +98,7 @@ describe('[SEARCH RESULTS] Testing TableViewComponent', () => {
       tableActions: getTableClient(tabType).tableActions,
       requestParams: props.requestParameters,
       displayColumnsHeader: true,
-      emptyComponent: TableViewComponent.EMPTY_COMPONENT,
+      emptyComponent: <EmptyTableContainer tabType={tabType} />,
       queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE],
     })
     assert.isOk(tableWrapper.props().lineHeight, 'Line height should be provided')

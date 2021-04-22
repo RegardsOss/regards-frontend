@@ -24,7 +24,7 @@ import { TableColumnBuilder, PageableInfiniteTableContainer } from '@regardsoss/
 import { getTableClient } from '../../../../../clients/TableClient'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import ListCellContainer from '../../../../../containers/user/tabs/results/list/ListCellContainer'
-import EmptyTableComponent from '../common/EmptyTableComponent'
+import EmptyTableContainer from '../../../../../containers/user/tabs/results/common/EmptyTableContainer'
 import { ListAttributeRenderData, ListThumbnailRenderData } from './ListCellComponent'
 
 /**
@@ -61,9 +61,6 @@ class ListViewComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
   }
-
-  /** Stores reference on the static empty component */
-  static EMPTY_COMPONENT = <EmptyTableComponent />
 
   /**
    * @return [*] Columns array holding the single list column
@@ -115,7 +112,7 @@ class ListViewComponent extends React.Component {
         columns={this.buildListColumn()}
         queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST]}
         requestParams={requestParameters}
-        emptyComponent={ListViewComponent.EMPTY_COMPONENT}
+        emptyComponent={<EmptyTableContainer tabType={tabType} />}
       />
     )
   }

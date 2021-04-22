@@ -25,6 +25,7 @@ import ListViewComponent from '../../../../../../src/components/user/tabs/result
 import ListViewContainer from '../../../../../../src/containers/user/tabs/results/list/ListViewContainer'
 import { getTableClient } from '../../../../../../src/clients/TableClient'
 import { getSearchCatalogClient } from '../../../../../../src/clients/SearchEntitiesClient'
+import EmptyTableContainer from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
 import styles from '../../../../../../src/styles'
 import { dataContext } from '../../../../../dumps/data.context.dump'
 
@@ -111,7 +112,7 @@ describe('[SEARCH RESULTS] Testing ListViewComponent', () => {
       displayColumnsHeader: false,
 
       queryPageSize: UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.LIST],
-      emptyComponent: ListViewComponent.EMPTY_COMPONENT,
+      emptyComponent: <EmptyTableContainer tabType={tabType} />,
     })
     assert.isOk(tableWrapper.props().lineHeight, 'Line height should be set')
     assert.lengthOf(tableWrapper.props().columns, 1, 'There should be list single column')
