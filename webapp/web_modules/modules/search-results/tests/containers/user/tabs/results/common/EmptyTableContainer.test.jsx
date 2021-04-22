@@ -19,7 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import EmptyTableComponent from '../../../../../../src/components/user/tabs/results/common/EmptyTableComponent'
+import { UIDomain } from '@regardsoss/domain'
+import { EmptyTableContainer } from '../../../../../../src/containers/user/tabs/results/common/EmptyTableContainer'
 import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
@@ -28,14 +29,14 @@ const context = buildTestContext(styles)
  * Test EmptyTableComponent
  * @author Raphaël Mechali
  */
-describe('[SEARCH RESULTS] Testing EmptyTableComponent', () => {
+describe('[SEARCH RESULTS] Testing EmptyTableContainer', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(EmptyTableComponent)
+    assert.isDefined(EmptyTableContainer)
   })
   it('should render correctly', () => {
-    shallow(<EmptyTableComponent />, { context })
+    shallow(<EmptyTableContainer tabType={UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS} />, { context })
   })
 })

@@ -211,6 +211,8 @@ const messages = {
   'add.selection.to.cart.tooltip': 'Ajouter les éléments sélectionnés à mon panier',
   'results.no.content.title': 'Pas de résultat',
   'results.no.content.subtitle': 'Votre recherche n\'a donné aucun résultat. Essayez de modifier vos critères',
+  'results.loading.title': 'Recherche',
+  'results.loading.subtitle': 'Recherche en cours ...',
   'results.selection.column.label': 'Colonne de sélection',
   'results.options.column.label': 'Options et services',
   'results.download': 'Télécharger',
