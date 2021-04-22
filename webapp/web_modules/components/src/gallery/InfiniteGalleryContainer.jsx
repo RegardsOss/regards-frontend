@@ -72,7 +72,7 @@ export class InfiniteGalleryContainer extends React.Component {
     authentication: AuthenticateShape, // authentication data, used to refetch on authentication change
 
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func.isRequired,
+    getItemOfInterest: PropTypes.func,
   }
 
   static defaultProps = {
