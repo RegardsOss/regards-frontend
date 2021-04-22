@@ -33,6 +33,7 @@ class TabsContentComponent extends React.Component {
     appName: PropTypes.string.isRequired,
     project: PropTypes.string.isRequired,
     resultsContext: UIShapes.ResultsContext.isRequired,
+    activeTabs: PropTypes.arrayOf(PropTypes.oneOf(UIDomain.RESULTS_TABS)),
   }
 
   static contextTypes = {
@@ -41,7 +42,7 @@ class TabsContentComponent extends React.Component {
 
   render() {
     const {
-      moduleId, project, appName, resultsContext,
+      moduleId, project, appName, resultsContext, activeTabs,
     } = this.props
     const {
       moduleTheme: {
@@ -56,45 +57,45 @@ class TabsContentComponent extends React.Component {
       <div style={borderDisplayer}>
         <div style={layoutContainer}>
           { /* Show one tab for each tab type. Show the selected one above using z-index */
-          UIDomain.RESULTS_TABS.map((tabType) => {
-            const style = resultsContext.selectedTab === tabType ? shownTabContent : hiddenTabContent
-            switch (tabType) {
-              case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
-                return (
-                  <div key={tabType} style={style}>
-                    <SearchResultsContainer
-                      moduleId={moduleId}
-                      project={project}
-                      tabType={tabType}
-                      resultsContext={resultsContext}
-                    />
-                  </div>)
-              case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
-                return (
-                  <div key={tabType} style={style}>
-                    <DescriptionContainer
-                      moduleId={moduleId}
-                      project={project}
-                      appName={appName}
-                      resultsContext={resultsContext}
-                    />
-                    <div />
-                  </div>)
-              case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
-                return (
-                  <div key={tabType} style={style}>
-                    <SearchResultsContainer
-                      moduleId={moduleId}
-                      project={project}
-                      tabType={tabType}
-                      resultsContext={resultsContext}
-                    />
-                  </div>)
-              default:
-                throw new Error(`Unknown tab type ${tabType}`)
-            }
-          })
-        }
+            activeTabs.map((tabType) => {
+              const style = resultsContext.selectedTab === tabType ? shownTabContent : hiddenTabContent
+              switch (tabType) {
+                case UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS:
+                  return (
+                    <div key={tabType} style={style}>
+                      <SearchResultsContainer
+                        moduleId={moduleId}
+                        project={project}
+                        tabType={tabType}
+                        resultsContext={resultsContext}
+                      />
+                    </div>)
+                case UIDomain.RESULTS_TABS_ENUM.DESCRIPTION:
+                  return (
+                    <div key={tabType} style={style}>
+                      <DescriptionContainer
+                        moduleId={moduleId}
+                        project={project}
+                        appName={appName}
+                        resultsContext={resultsContext}
+                      />
+                      <div />
+                    </div>)
+                case UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS:
+                  return (
+                    <div key={tabType} style={style}>
+                      <SearchResultsContainer
+                        moduleId={moduleId}
+                        project={project}
+                        tabType={tabType}
+                        resultsContext={resultsContext}
+                      />
+                    </div>)
+                default:
+                  throw new Error(`Unknown tab type ${tabType}`)
+              }
+            })
+          }
         </div>
       </div>
     )
