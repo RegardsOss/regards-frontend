@@ -27,7 +27,7 @@ import { getTableClient } from '../../../../../clients/TableClient'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
 import AddElementToCartContainer from '../../../../../containers/user/tabs/results/common/options/AddElementToCartContainer'
 import OneElementServicesContainer from '../../../../../containers/user/tabs/results/common/options/OneElementServicesContainer'
-import EmptyTableComponent from '../common/EmptyTableComponent'
+import EmptyTableContainer from '../../../../../containers/user/tabs/results/common/EmptyTableContainer'
 import EntityDescriptionComponent from '../common/options/EntityDescriptionComponent'
 import DownloadEntityFileComponent from '../common/options/DownloadEntityFileComponent'
 import SearchRelatedEntitiesComponent from '../common/options/SearchRelatedEntitiesComponent'
@@ -84,9 +84,6 @@ class TableViewComponent extends React.Component {
     ...themeContextType,
     ...i18nContextType,
   }
-
-  /** Stores reference on the static empty component */
-  static EMPTY_COMPONENT = <EmptyTableComponent />
 
   /**
    * Builds table columns
@@ -153,7 +150,7 @@ class TableViewComponent extends React.Component {
         columns={this.buildTableColumns()}
         queryPageSize={UIDomain.ResultsContextConstants.PAGE_SIZE_FOR[UIDomain.RESULTS_VIEW_MODES_ENUM.TABLE]}
         requestParams={requestParameters}
-        emptyComponent={TableViewComponent.EMPTY_COMPONENT}
+        emptyComponent={<EmptyTableContainer tabType={tabType} />}
       />
     )
   }

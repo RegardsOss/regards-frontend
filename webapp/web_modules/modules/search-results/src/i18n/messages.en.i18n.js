@@ -207,6 +207,8 @@ const messages = {
   'add.selection.to.cart.tooltip': 'Add selected items to my cart',
   'results.no.content.title': 'No result',
   'results.no.content.subtitle': 'Your search returned no result. Try to change your criteria',
+  'results.loading.title': 'Searching',
+  'results.loading.subtitle': 'Your search is pending ...',
   'results.selection.column.label': 'Selection column',
   'results.options.column.label': 'Options and services',
   'results.download': 'Download',
