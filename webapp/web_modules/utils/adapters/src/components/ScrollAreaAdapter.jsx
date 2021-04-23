@@ -74,6 +74,7 @@ class ScrollAreaAdapter extends React.Component {
       horizontalScrollbarStyle: moduleTheme.scrollArea.horizontalScrollbar.styles,
       verticalContainerStyle: moduleTheme.scrollArea.verticalScrollContainer.styles,
       verticalScrollbarStyle: moduleTheme.scrollArea.verticalScrollbar.styles,
+      minScrollSize: 20,
       // user styles and properties have heigher priority
       ...this.props,
     }
