@@ -76,6 +76,8 @@ export class QuicklooksViewContainer extends React.Component {
     // Manage selected product in quicklooks
     itemOfInterestPicked: PropTypes.number,
     getItemOfInterest: PropTypes.func.isRequired,
+    // When parent container size change, it provides a different key to force re-rendering
+    forceRenderingUsingKey: PropTypes.string,
 
     // From map state to props
     // eslint-disable-next-line react/no-unused-prop-types
@@ -170,7 +172,7 @@ export class QuicklooksViewContainer extends React.Component {
 
   render() {
     const {
-      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, getItemOfInterest,
+      tabType, requestParameters, searchActions, embedInMap, itemOfInterestPicked, getItemOfInterest, forceRenderingUsingKey,
     } = this.props
     const { cellProperties } = this.state
 
@@ -183,6 +185,7 @@ export class QuicklooksViewContainer extends React.Component {
         embedInMap={embedInMap}
         itemOfInterestPicked={itemOfInterestPicked}
         getItemOfInterest={getItemOfInterest}
+        forceRenderingUsingKey={forceRenderingUsingKey}
       />
     )
   }
