@@ -76,6 +76,20 @@ export default class MizarAdapter extends React.Component {
     drawColor: 'Yellow',
   }
 
+  static elevationWrapperStyle = {
+    position: 'absolute',
+    right: '20px',
+    bottom: '0px',
+    backgroundColor: 'white',
+    fontFamily: 'Roboto, sans-serif',
+    color: 'rgba(0, 0, 0, 0.40)',
+    lineHeight: '1.5em',
+  }
+
+  static elevationStyle = {
+    margin: '0 10px',
+  }
+
   // XXX : Workaround
   static MIZAR_Y_OFFSET = 150
 
@@ -485,12 +499,23 @@ export default class MizarAdapter extends React.Component {
 
   render() {
     return (
-      <canvas
-        key="canvas"
-        id={this.props.canvasId}
-        onMouseUp={this.onMouseUp}
-        onMouseDown={this.onMouseDown}
-        onMouseMove={this.onMouseMove}
-      />)
+      <>
+        <div
+          className="hidden-xs"
+          style={MizarAdapter.elevationWrapperStyle}
+        >
+          <div
+            id="posTracker"
+            style={MizarAdapter.elevationStyle}
+          />
+        </div>
+        <canvas
+          key="canvas"
+          id={this.props.canvasId}
+          onMouseUp={this.onMouseUp}
+          onMouseDown={this.onMouseDown}
+          onMouseMove={this.onMouseMove}
+        />
+      </>)
   }
 }
