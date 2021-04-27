@@ -1,12 +1,12 @@
 // Webpack configuration file
 const getCommonConfig = require('./webpack.common.config')
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
 const threadLoader = require('thread-loader')
 const CopyPlugin = require('copy-webpack-plugin');
-const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
+const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-tags-plugin");
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
@@ -66,10 +66,12 @@ module.exports = function (projectContextPath) {
     plugins: [
       // Copy cesium files
       // Cesium bundled version is copied on dev
-      new CopyPlugin([{
-        from: "node_modules/cesium/Build/CesiumUnminified",
-        to: "cesium",
-      }]),
+      new CopyPlugin({
+        patterns: [{
+          from: "node_modules/cesium/Build/CesiumUnminified",
+          to: "cesium",
+        }]
+      }),
       // Add Cesium inside html on dev
       new HtmlWebpackIncludeAssetsPlugin({
         append: false,

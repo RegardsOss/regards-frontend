@@ -91,7 +91,7 @@ module.exports = function (projectContextPath, mode) {
         {
           test: /\.png$/,
           loader: 'url-loader',
-          query: { mimetype: 'image/png' },
+          options: { mimetype: 'image/png' },
         },
       ],
     },

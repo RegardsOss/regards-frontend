@@ -5,7 +5,6 @@ const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
 require('../conf/staticConfiguration')
 
-
 module.exports = function (projectContextPath) {
   // Ensure babel environment variable is correctly setup to coverage
   process.env.NODE_ENV = 'coverage'
