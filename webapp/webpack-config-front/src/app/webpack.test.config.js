@@ -1,5 +1,5 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
@@ -14,7 +14,7 @@ module.exports = function (projectContextPath) {
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     externals: [nodeExternals({
-      whitelist: [
+      allowlist: [
         // this WILL include `*regardsoss*` in the bundle
         /regardsoss/,
         // this fix the test build dkw

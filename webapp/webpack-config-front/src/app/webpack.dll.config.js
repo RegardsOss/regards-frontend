@@ -15,6 +15,9 @@ module.exports = function (projectContextPath, mode) {
         'node_modules',
       ],
       alias: alias(projectContextPath, 'dev'),
+      fallback: {
+        buffer: false,
+      },
     },
     devtool: mode === 'dev' ? 'source-map' : 'cheap-source-map',
     output: {

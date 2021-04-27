@@ -29,11 +29,6 @@ module.exports = function (projectContextPath, mode) {
     context: projectContextPath,
     // Javascript main entry
     entry: './src/main.js',
-    node: {
-      net: 'empty',
-      tls: 'empty',
-      dns: 'empty',
-    },
     output: {
       path: `${projectContextPath}/target/${mode}`,
       filename: 'plugin.js',
@@ -50,6 +45,9 @@ module.exports = function (projectContextPath, mode) {
         'node_modules',
       ],
       alias: alias(path.join(projectContextPath, '../../..'), mode),
+      fallback: {
+        buffer: false,
+      },
     },
     module: {
       rules: [
@@ -73,25 +71,42 @@ module.exports = function (projectContextPath, mode) {
           ] : ['css-loader'],
         },
         {
-          test: /\.jpg$/,
-          loader: 'file-loader?name=[name].[ext]&outputPath=./img/',
+          test: /\.(jpg|gif|png)$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
-          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'url-loader?name=/img/[name].[ext]&limit=10000&minetype=application/font-woff',
-        },
-        {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: 'file-loader?name=/img/[name].[ext]',
+          test: /\.(svg|ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          exclude: /default-icon.svg/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'img/',
+          },
         },
         {
           test: /\.html/,
-          loader: 'file-loader?name=[name].[ext]',
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'html/',
+          },
         },
         {
           test: /\.png$/,
           loader: 'url-loader',
           options: { mimetype: 'image/png' },
+        },
+        {
+          test: /\.woff$/,
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]',
+            outputPath: 'fonts/',
+          },
         },
       ],
     },

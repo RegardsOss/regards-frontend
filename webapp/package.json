@@ -237,7 +237,7 @@
     "mocha": "~7.1.1",
     "mocha-loader": "~4.0.2",
     "mocha-sonar-reporter": "~0.1.6",
-    "mochapack": "^2.0.6",
+    "instant-mocha": "^1.1.1",
     "mochawesome": "^6.2.2",
     "mock-local-storage": "^1.1.11",
     "nock": "~12.0.3",
