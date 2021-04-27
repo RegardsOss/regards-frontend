@@ -7,6 +7,8 @@ echo "Plugin path from webapp: ${PLUGIN_PATH}"
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
 
+npm list
+
 echo "Run tests"
 npm run test:mocha --no-update-notifier --silent
 
