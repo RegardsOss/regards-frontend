@@ -10,7 +10,7 @@
     <meta name="keywords" content="CNES, cnes, regards, REGARDS, regardsoss, REGARDSOSS" />
     <title>REGARDS OSS</title>
     <% if (htmlWebpackPlugin.options.isProduction) { %>
-    <link href="/css/coreoss.styles.css" rel="stylesheet">
+    <link href="/css/coreoss.styles.css?<%= webpack.hash %>" rel="stylesheet">
     <% } %>
     <style>
         #loader {
@@ -120,12 +120,12 @@
         </div>
     </div>
 </div>
-<script src="/conf/staticConfiguration.js"></script>
+<script src="/conf/staticConfiguration.js?<%= webpack.hash %>"></script>
 <!-- core.bundle.js is a webpack DLL containing dependencies -->
-<script src="/core.bundle.js"></script>
+<script src="/core.bundle.js?<%= webpack.hash %>"></script>
 <% if (htmlWebpackPlugin.options.isProduction) { %>
 <!-- coreoss.bundle.js is a webpack DLL containing regardsoss module -->
-<script src="/coreoss.bundle.js"></script>
+<script src="/coreoss.bundle.js?<%= webpack.hash %>"></script>
 <% } %>
 <!-- bundle.js is the webpack compiled javascript file, append automatically by HtmlWebpackPlugin -->
 </body>

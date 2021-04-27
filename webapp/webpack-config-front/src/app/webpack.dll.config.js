@@ -1,5 +1,7 @@
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const StatsPlugin = require('stats-webpack-plugin')
+const path = require('path')
 const alias = require('../utils/alias')
 
 module.exports = function (projectContextPath, mode) {
@@ -35,10 +37,7 @@ module.exports = function (projectContextPath, mode) {
           // used to cache the results of the loader.
           // Next builds will attempt to read from the cache
           // the cache is different depending of the value of NODE_ENV
-          loader: 'babel-loader',
-          options: {
-            cacheDirectory: true,
-          },
+          loader: 'babel-loader?cacheDirectory',
         },
         {
           test: /\.css$/,

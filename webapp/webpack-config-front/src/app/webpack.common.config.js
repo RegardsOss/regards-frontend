@@ -14,6 +14,11 @@ module.exports = function (projectContextPath, mode = 'dev') {
     context: projectContextPath,
     // Javascript main entry
     entry: './src/main.jsx',
+    node: {
+      net: 'empty',
+      tls: 'empty',
+      dns: 'empty',
+    },
     resolve: {
       // Automaticaly get extensions files from javascript code with import or require.
       // exemple require('main') look for main, main.js or main.jsx with our configuration
@@ -27,9 +32,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'node_modules',
       ],
       alias: alias(projectContextPath, mode),
-      fallback: {
-        buffer: false,
-      },
     },
     module: {
       unknownContextCritical: false,
@@ -51,12 +53,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
             // used to cache the results of the loader.
             // Next builds will attempt to read from the cache
             // the cache is different depending of the value of NODE_ENV
-            {
-              loader: 'babel-loader',
-              options: {
-                cacheDirectory: true,
-              },
-            },
+            'babel-loader?cacheDirectory',
           ],
         },
         // Special for Cesium
@@ -154,6 +151,7 @@ module.exports = function (projectContextPath, mode = 'dev') {
         }
         : {},
     plugins: [
+      new webpack.optimize.OccurrenceOrderPlugin(),
       // Generate the index.html automatically
       new HtmlWebpackPlugin({
         template: 'index.ejs',
