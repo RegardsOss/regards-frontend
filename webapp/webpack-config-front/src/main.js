@@ -28,6 +28,7 @@ const MODE = {
 }
 
 const DEFAULT_UNKNOW_DIR = '/specify/your/working/directory/path'
+const DEFAULT_UNKNOW_PATH_TO_DELETE = '/specify/the/directory/to/delete'
 
 /**
  * We need to define the relative path between the plugin to the webapp folder to :

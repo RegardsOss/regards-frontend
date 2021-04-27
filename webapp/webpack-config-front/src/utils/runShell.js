@@ -1,4 +1,4 @@
-const WebpackShellPluginNext = require('webpack-shell-plugin-next');
+const WebpackShellPlugin = require('webpack-shell-plugin')
 const merge = require('./merge')
 
 
@@ -6,7 +6,7 @@ const merge = require('./merge')
 module.exports = function (oldConf, config) {
   return merge(oldConf, {
     plugins: [
-      new WebpackShellPluginNext(config),
+      new WebpackShellPlugin(config),
     ],
   })
 }
