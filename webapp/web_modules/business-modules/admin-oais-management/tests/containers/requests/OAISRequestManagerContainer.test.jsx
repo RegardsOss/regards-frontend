@@ -25,7 +25,6 @@ import styles from '../../../src/styles'
 import OAISRequestManagerComponent from '../../../src/components/requests/OAISRequestManagerComponent'
 
 const context = buildTestContext(styles)
-const router = require('react-router')
 
 /**
  * Test OAISRequestManagerContainer
@@ -33,15 +32,9 @@ const router = require('react-router')
  */
 describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -74,14 +67,14 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
       tableSelection: [],
       selectionMode: TableSelectionModes.excludeSelected,
       availableDependencies: [],
-      fetchProcessingChains: () => {},
-      fetchPage: () => {},
-      clearSelection: () => {},
-      deleteRequests: () => {},
-      retryRequests: () => {},
-      selectVersionOption: () => {},
-      abortRequests: () => {},
-      updateStateFromRequestManager: () => {},
+      fetchProcessingChains: () => { },
+      fetchPage: () => { },
+      clearSelection: () => { },
+      deleteRequests: () => { },
+      retryRequests: () => { },
+      selectVersionOption: () => { },
+      abortRequests: () => { },
+      updateStateFromRequestManager: () => { },
     }
 
     const enzymeWrapper = shallow(<OAISRequestManagerContainer {...props} />, { context })
@@ -118,14 +111,14 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
       tableSelection: [],
       selectionMode: TableSelectionModes.includeSelected,
       availableDependencies: OAISRequestManagerContainer.SELECT_VERSION_DEPENDENCIES, // minimal dependencies to allow corresponding action
-      fetchProcessingChains: () => {},
-      fetchPage: () => {},
-      clearSelection: () => {},
-      deleteRequests: () => {},
-      retryRequests: () => {},
-      selectVersionOption: () => {},
-      abortRequests: () => {},
-      updateStateFromRequestManager: () => {},
+      fetchProcessingChains: () => { },
+      fetchPage: () => { },
+      clearSelection: () => { },
+      deleteRequests: () => { },
+      retryRequests: () => { },
+      selectVersionOption: () => { },
+      abortRequests: () => { },
+      updateStateFromRequestManager: () => { },
     }
 
     const enzymeWrapper = shallow(<OAISRequestManagerContainer {...props} />, { context })

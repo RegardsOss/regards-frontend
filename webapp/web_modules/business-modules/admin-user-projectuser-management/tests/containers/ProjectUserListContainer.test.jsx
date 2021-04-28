@@ -69,17 +69,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
   before(() => {
     testSuiteHelpers.before()
     // mock browser history to get data
-    reactRouter.browserHistory = {
-      getCurrentLocation: () => ({ pathname: 'test://www.test.tst' }),
-      replace: (location) => {
-        spiedLocation = location
-      },
-    }
+    reactRouter.browserHistory.setMockedResult({ pathname: 'test://www.test.tst' })
+    reactRouter.browserHistory.setReplaceSpy((location) => {
+      spiedLocation = location
+    })
   })
   after(() => {
     testSuiteHelpers.after()
-    // clear router mock
-    delete reactRouter.browserHistory
   })
 
   it('should exists', () => {
@@ -100,13 +96,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       // from mapDispatchToProps
       fetchGroups: () => { },
       fetchUsers: () => { },
-      fetchUISettings: () => {},
+      fetchUISettings: () => { },
       denyProjectUser: () => { },
       validateProjectUser: () => { },
       deleteAccount: () => { },
       active: () => { },
       inactive: () => { },
-      dispatchSetMaxQuota: () => {},
+      dispatchSetMaxQuota: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)
@@ -152,13 +148,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       // from mapDispatchToProps
       fetchGroups: () => { },
       fetchUsers: () => { },
-      fetchUISettings: () => {},
+      fetchUISettings: () => { },
       denyProjectUser: () => { },
       validateProjectUser: () => { },
       deleteAccount: () => { },
       active: () => { },
       inactive: () => { },
-      dispatchSetMaxQuota: () => {},
+      dispatchSetMaxQuota: () => { },
     }
 
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)
@@ -199,13 +195,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       // from mapDispatchToProps
       fetchGroups: () => { },
       fetchUsers: () => { },
-      fetchUISettings: () => {},
+      fetchUISettings: () => { },
       denyProjectUser: () => { },
       validateProjectUser: () => { },
       deleteAccount: () => { },
       active: () => { },
       inactive: () => { },
-      dispatchSetMaxQuota: () => {},
+      dispatchSetMaxQuota: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)
     const state1 = enzymeWrapper.state()
@@ -393,13 +389,13 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserListContainer', () =
       // from mapDispatchToProps
       fetchGroups: () => { },
       fetchUsers: () => { },
-      fetchUISettings: () => {},
+      fetchUISettings: () => { },
       denyProjectUser: () => { },
       validateProjectUser: () => { },
       deleteAccount: () => { },
       active: () => { },
       inactive: () => { },
-      dispatchSetMaxQuota: () => {},
+      dispatchSetMaxQuota: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserListContainer {...props} />)
     const instance = enzymeWrapper.instance()

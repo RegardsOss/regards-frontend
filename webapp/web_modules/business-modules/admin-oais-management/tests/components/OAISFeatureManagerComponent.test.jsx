@@ -23,9 +23,6 @@ import { Card } from 'material-ui/Card'
 import OAISFeatureManagerComponent from '../../src/components/OAISFeatureManagerComponent'
 import styles from '../../src/styles'
 
-// mock router
-const router = require('react-router')
-
 const context = buildTestContext(styles)
 
 /**
@@ -34,15 +31,9 @@ const context = buildTestContext(styles)
  */
 describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
   it('should exists', () => {
@@ -56,8 +47,8 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerComponent', () => {
         session: '',
         aip: '',
       },
-      clearAIPSelection: () => {},
-      clearRequestSelection: () => {},
+      clearAIPSelection: () => { },
+      clearRequestSelection: () => { },
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)

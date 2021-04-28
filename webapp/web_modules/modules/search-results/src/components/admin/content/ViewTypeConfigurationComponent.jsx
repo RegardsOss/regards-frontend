@@ -31,10 +31,10 @@ import {
   StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField,
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
-import { RadioButton } from 'material-ui'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
 import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 import LayerInfoItemComponent from './LayerInfoItemComponent'
+import RadioButton from 'material-ui/RadioButton'
 
 const {
   required,
@@ -110,7 +110,7 @@ class ViewTypeConfigurationComponent extends React.Component {
    */
   static isLastEnabledInViewsGroup(currentTypeFormValues, viewFormValues) {
     return viewFormValues.enabled
-    && reduce(currentTypeFormValues.views, (acc, currViewFormValues) => currViewFormValues.enabled ? acc + 1 : acc, 0) === 1 // only that view is enabled
+      && reduce(currentTypeFormValues.views, (acc, currViewFormValues) => currViewFormValues.enabled ? acc + 1 : acc, 0) === 1 // only that view is enabled
   }
 
   /**
@@ -244,7 +244,7 @@ class ViewTypeConfigurationComponent extends React.Component {
     return (
       <div>
         <FieldsGroup spanFullWidth title={formatMessage({ id: `search.results.form.configuration.result.${viewType}.configuration` })}>
-          {/* 1. Enable view. Locally controlled to change initial view type when disabling corresponding view */ }
+          {/* 1. Enable view. Locally controlled to change initial view type when disabling corresponding view */}
           <Checkbox
             label={formatMessage({ id: 'search.results.form.configuration.result.enable.view' })}
             checked={viewFormValues.enabled}
@@ -253,51 +253,51 @@ class ViewTypeConfigurationComponent extends React.Component {
           />
         </FieldsGroup>
         {/* 2. Map engine, Map view mode (2D or 3D), background layers when in MAP */
-        viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
-          <>
-            <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}>
-              <Field
-                name={`${viewNamespace}.mapEngine`}
-                component={RenderSelectField}
-                label={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}
-                fullWidth
-              >
-                {UIDomain.MAP_ENGINE.map((engine) => (
-                  <MenuItem
-                    key={engine}
-                    value={engine}
-                    primaryText={engine}
-                  />))}
-              </Field>
-            </FieldsGroup>
-            <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.viewMode.title' })}>
-              <Field name={`${viewNamespace}.initialViewMode`} component={RenderRadio} defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}>
-                {
-                  map(UIDomain.MAP_VIEW_MODES_ENUM, (mapViewMode) => (
-                    <RadioButton
-                      key={mapViewMode}
-                      label={formatMessage({ id: `search.results.form.configuration.result.MAP.viewMode.${mapViewMode}` })}
-                      value={mapViewMode}
-                    />
-                  ))
-                }
-              </Field>
-            </FieldsGroup>
-            <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers' })}>
-              <FieldArray
-                name={`${viewNamespace}.layers`}
-                component={RenderArrayObjectField}
-                elementLabel={this.renderLayerInfoItemLabel}
-                fieldComponent={LayerInfoItemComponent}
-                duplicationTransformation={ViewTypeConfigurationComponent.duplicateLayerInfo}
-                canBeEmpty
-                fieldProps={this.getLayerProps(viewFormValues.mapEngine)}
-                listHeight="600px"
-                validate={required}
-              />
-            </FieldsGroup>
-          </>)
-          : null
+          viewType === UIDomain.RESULTS_VIEW_MODES_ENUM.MAP ? (
+            <>
+              <FieldsGroup clearSpaceToChildren spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}>
+                <Field
+                  name={`${viewNamespace}.mapEngine`}
+                  component={RenderSelectField}
+                  label={formatMessage({ id: 'search.results.form.configuration.result.MAP.engine' })}
+                  fullWidth
+                >
+                  {UIDomain.MAP_ENGINE.map((engine) => (
+                    <MenuItem
+                      key={engine}
+                      value={engine}
+                      primaryText={engine}
+                    />))}
+                </Field>
+              </FieldsGroup>
+              <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.viewMode.title' })}>
+                <Field name={`${viewNamespace}.initialViewMode`} component={RenderRadio} defaultSelected={UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D}>
+                  {
+                    map(UIDomain.MAP_VIEW_MODES_ENUM, (mapViewMode) => (
+                      <RadioButton
+                        key={mapViewMode}
+                        label={formatMessage({ id: `search.results.form.configuration.result.MAP.viewMode.${mapViewMode}` })}
+                        value={mapViewMode}
+                      />
+                    ))
+                  }
+                </Field>
+              </FieldsGroup>
+              <FieldsGroup spanFullWidth title={formatMessage({ id: 'search.results.form.configuration.result.MAP.layers' })}>
+                <FieldArray
+                  name={`${viewNamespace}.layers`}
+                  component={RenderArrayObjectField}
+                  elementLabel={this.renderLayerInfoItemLabel}
+                  fieldComponent={LayerInfoItemComponent}
+                  duplicationTransformation={ViewTypeConfigurationComponent.duplicateLayerInfo}
+                  canBeEmpty
+                  fieldProps={this.getLayerProps(viewFormValues.mapEngine)}
+                  listHeight="600px"
+                  validate={required}
+                />
+              </FieldsGroup>
+            </>)
+            : null
         }
         {/* 4. Attributes / groups to display */}
         <FieldsGroup spanFullWidth>

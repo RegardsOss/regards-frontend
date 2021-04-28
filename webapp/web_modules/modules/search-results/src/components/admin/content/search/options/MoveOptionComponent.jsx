@@ -23,11 +23,11 @@ import Menu from 'material-ui/Menu'
 import Popover from 'material-ui/Popover'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
-import { Divider } from 'material-ui'
 import { CriteriaGroup } from '../../../../../shapes/ModuleConfiguration'
 import { CriteriaEditableRow } from '../../../../../shapes/form/CriteriaEditableRow'
 import { CriteriaRowsHelper } from '../cells/CriteriaRowsHelper'
 import PositionMenuItemComponent from './PositionMenuItemComponent'
+import Divider from 'material-ui/Divider'
 
 /**
  * Table option to move a group / criterion
@@ -120,77 +120,77 @@ class MoveOptionComponent extends React.Component {
         >
           <Menu>
             { /** Menu, depending on element type */
-            CriteriaRowsHelper.isCriterion(entity) ? (
-            // Criterion options: move in each group (self one first)
-              <>
-                {/* first group: this criterion group */}
-                <MenuItem
-                  key="in.current.group.option"
-                  primaryText={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label' })}
-                  rightIcon={<MenuChildrenIcon />}
-                  menuItems={this.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
-                  // index: N => N+1 while before this criterion, N otherwise (computed after deletion)
-                    const targetIndex = index < entity.criterionIndex ? index + 1 : index
-                    // next options: skip element before and this one (x-1/x) as they would result in same location
-                    return targetIndex === entity.criterionIndex ? null : (
-                      <PositionMenuItemComponent
-                        key={`at.${index}`}
-                        label={criterion ? criterion.label : null}
-                        index={index}
-                        group={false}
-                        onClick={this.onMove}
-                      // event parameters
-                        groupIndex={entity.groupIndex}
-                        criterionIndex={targetIndex}
-                      />)
-                  })}
-                />
-                { /** Separator if there are more than one group */
-                  groups.length ? <Divider /> : null
-              }
-                { /** In other groups */
-                groups.map((g, groupIndex) => groupIndex === entity.groupIndex ? null : (
+              CriteriaRowsHelper.isCriterion(entity) ? (
+                // Criterion options: move in each group (self one first)
+                <>
+                  {/* first group: this criterion group */}
                   <MenuItem
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`in.group.${groupIndex}`}
-                    primaryText={
-                      intl.formatMessage({
-                        id: 'search.results.form.configuration.search.pane.options.column.move.in.other.group',
-                      }, {
-                        reference: PositionMenuItemComponent.formatReference(intl, g.title, groupIndex),
-                      })
-                    }
+                    key="in.current.group.option"
+                    primaryText={intl.formatMessage({ id: 'search.results.form.configuration.search.pane.options.column.move.in.current.group.menu.label' })}
                     rightIcon={<MenuChildrenIcon />}
-                    menuItems={this.buildOptionsForList(groups[groupIndex].criteria,
-                      (criterion, criterionIndex) => ( // All options available in other groups
+                    menuItems={this.buildOptionsForList(groups[entity.groupIndex].criteria, (criterion, index) => {
+                      // index: N => N+1 while before this criterion, N otherwise (computed after deletion)
+                      const targetIndex = index < entity.criterionIndex ? index + 1 : index
+                      // next options: skip element before and this one (x-1/x) as they would result in same location
+                      return targetIndex === entity.criterionIndex ? null : (
                         <PositionMenuItemComponent
-                          key={`at.${criterionIndex}`}
+                          key={`at.${index}`}
                           label={criterion ? criterion.label : null}
-                          index={criterionIndex}
+                          index={index}
                           group={false}
                           onClick={this.onMove}
                           // event parameters
-                          groupIndex={groupIndex}
-                          criterionIndex={criterionIndex + 1} // insert after
-                        />))}
-                  />))
-              }
-              </>) // Group options: move first or after each
-              : this.buildOptionsForList(groups, (g, index) => {
-                // index: N => N+1 while before this group, N otherwise (computed after deletion)
-                const targetIndex = index < entity.groupIndex ? index + 1 : index
-                // next options: skip element before and this one (x-1/x) as they would result in same location
-                return targetIndex === entity.groupIndex ? null : (
-                  <PositionMenuItemComponent
-                    key={`at.${index}`}
-                    label={g ? g.title : null}
-                    index={index}
-                    group
-                    onClick={this.onMove}
-                    // event parameters
-                    groupIndex={targetIndex}
-                  />)
-              })
+                          groupIndex={entity.groupIndex}
+                          criterionIndex={targetIndex}
+                        />)
+                    })}
+                  />
+                  { /** Separator if there are more than one group */
+                    groups.length ? <Divider /> : null
+                  }
+                  { /** In other groups */
+                    groups.map((g, groupIndex) => groupIndex === entity.groupIndex ? null : (
+                      <MenuItem
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={`in.group.${groupIndex}`}
+                        primaryText={
+                          intl.formatMessage({
+                            id: 'search.results.form.configuration.search.pane.options.column.move.in.other.group',
+                          }, {
+                            reference: PositionMenuItemComponent.formatReference(intl, g.title, groupIndex),
+                          })
+                        }
+                        rightIcon={<MenuChildrenIcon />}
+                        menuItems={this.buildOptionsForList(groups[groupIndex].criteria,
+                          (criterion, criterionIndex) => ( // All options available in other groups
+                            <PositionMenuItemComponent
+                              key={`at.${criterionIndex}`}
+                              label={criterion ? criterion.label : null}
+                              index={criterionIndex}
+                              group={false}
+                              onClick={this.onMove}
+                              // event parameters
+                              groupIndex={groupIndex}
+                              criterionIndex={criterionIndex + 1} // insert after
+                            />))}
+                      />))
+                  }
+                </>) // Group options: move first or after each
+                : this.buildOptionsForList(groups, (g, index) => {
+                  // index: N => N+1 while before this group, N otherwise (computed after deletion)
+                  const targetIndex = index < entity.groupIndex ? index + 1 : index
+                  // next options: skip element before and this one (x-1/x) as they would result in same location
+                  return targetIndex === entity.groupIndex ? null : (
+                    <PositionMenuItemComponent
+                      key={`at.${index}`}
+                      label={g ? g.title : null}
+                      index={index}
+                      group
+                      onClick={this.onMove}
+                      // event parameters
+                      groupIndex={targetIndex}
+                    />)
+                })
             }
           </Menu>
         </Popover>

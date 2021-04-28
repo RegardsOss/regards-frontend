@@ -26,21 +26,13 @@ import OSQueryConfigurationContainer from '../../../src/containers/opensearch/OS
 import OSResultsConfigurationContainer from '../../../src/containers/opensearch/OSResultsConfigurationContainer'
 import { datasourceDump } from '../../dumps/opensearch-datasource.dump'
 
-// mock router
-const router = require('react-router')
-
 const context = buildTestContext()
 
 describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContainer', () => {
   before(() => {
-    // mocking router browser history
-    router.browserHistory = {
-      push: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -124,8 +116,8 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
         crawler: {
           name: 'myCrawlerValues',
         },
-        query: { },
-        results: { },
+        query: {},
+        results: {},
       },
       formState: OSConfigurationFormContainer.STATE.QUERY,
     }, 'Should defined correctly state after first step validation')
@@ -152,7 +144,7 @@ describe('[ADMIN DATA DATASOURCE MANAGEMENT] Testing OSConfigurationFormContaine
       formValues: {
         crawler: { name: 'myCrawlerValues' },
         query: { name: 'myQueryValues' },
-        results: { },
+        results: {},
       },
       formState: OSConfigurationFormContainer.STATE.RESULTS,
     }, 'Should defined correctly state after second step validation')

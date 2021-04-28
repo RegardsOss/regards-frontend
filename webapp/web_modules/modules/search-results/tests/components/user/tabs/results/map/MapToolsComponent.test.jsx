@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FlatButton } from 'material-ui'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import MapToolsComponent from '../../../../../../src/components/user/tabs/results/map/MapToolsComponent'
@@ -26,6 +25,7 @@ import styles from '../../../../../../src/styles'
 import MapSelectionModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapSelectionModeOption'
 import MapViewModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapViewModeOption'
 import MapOpacityOption from '../../../../../../src/components/user/tabs/results/map/options/MapOpacityOption'
+import FlatButton from 'material-ui/FlatButton'
 
 const context = buildTestContext(styles)
 
@@ -54,12 +54,12 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleSelectionMode: () => {},
-      onToggleViewMode: () => {},
+      onToggleSelectionMode: () => { },
+      onToggleViewMode: () => { },
       opacity: 1,
-      handleChangeOpacity: () => {},
+      handleChangeOpacity: () => { },
       selectedProducts: [],
-      onProductSelected: () => {},
+      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapSelectionModeOption)
@@ -99,15 +99,15 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode,
-      onToggleViewMode: () => {},
-      onToggleSelectionMode: () => {},
+      onToggleViewMode: () => { },
+      onToggleSelectionMode: () => { },
       opacity: 1,
-      handleChangeOpacity: () => {},
+      handleChangeOpacity: () => { },
       selectedProducts: [{
         id: 'TestID',
         label: 'TestLabel',
       }],
-      onProductSelected: () => {},
+      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapViewModeOption)
@@ -139,15 +139,15 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleViewMode: () => {},
-      onToggleSelectionMode: () => {},
+      onToggleViewMode: () => { },
+      onToggleSelectionMode: () => { },
       opacity: 1,
-      handleChangeOpacity: () => {},
+      handleChangeOpacity: () => { },
       selectedProducts: [{
         id: 'TestID',
         label: 'TestLabel',
       }],
-      onProductSelected: () => {},
+      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const selectors = enzymeWrapper.find(MapViewModeOption)
@@ -165,15 +165,15 @@ describe('[SEARCH RESULTS] Testing MapToolsComponent', () => {
       }],
       selectionMode: UIDomain.MAP_SELECTION_MODES_ENUM.PICK_ON_CLICK,
       viewMode: UIDomain.MAP_VIEW_MODES_ENUM.MODE_3D,
-      onToggleSelectionMode: () => {},
-      onToggleViewMode: () => {},
+      onToggleSelectionMode: () => { },
+      onToggleViewMode: () => { },
       opacity: 1,
-      handleChangeOpacity: () => {},
+      handleChangeOpacity: () => { },
       selectedProducts: [{
         id: 'TestID',
         label: 'TestLabel',
       }],
-      onProductSelected: () => {},
+      onProductSelected: () => { },
     }
     const enzymeWrapper = shallow(<MapToolsComponent {...props} />, { context })
     const opacityOption = enzymeWrapper.find(MapOpacityOption)

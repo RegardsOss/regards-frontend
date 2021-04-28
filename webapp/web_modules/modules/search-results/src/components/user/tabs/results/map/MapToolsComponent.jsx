@@ -29,11 +29,11 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsArea,
 } from '@regardsoss/components'
-import { FlatButton } from 'material-ui'
 import MapSelectionModeOption from './options/MapSelectionModeOption'
 import MapViewModeOption from './options/MapViewModeOption'
 import MapOpacityOption from './options/MapOpacityOption'
 import MapOpacitySlider from './options/MapOpacitySlider'
+import FlatButton from 'material-ui/FlatButton'
 
 /**
  * Component to show map tools
@@ -84,7 +84,7 @@ class MapToolsComponent extends React.Component {
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
     * @param {*} nextProps next component properties
     */
-   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -180,11 +180,11 @@ class MapToolsComponent extends React.Component {
             )}
             {
               !isEmpty(selectedProducts)
-              /** Show a chip of for lastSelectedProduct */
+                /** Show a chip of for lastSelectedProduct */
                 ? <TableHeaderOptionGroup>
                   <div style={selectedProductBox}>
                     <div style={selectedProductBox.labelStyle}>
-                      { last(selectedProducts).label }
+                      {last(selectedProducts).label}
                     </div>
                     <FlatButton
                       icon={<DeleteIcon />}
