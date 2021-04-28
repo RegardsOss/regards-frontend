@@ -17,7 +17,7 @@
  * along w
  * ith REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import WordTagIcon from 'mdi-material-ui/AlphaTbox'
+import WordTagIcon from 'mdi-material-ui/AlphaTBox'
 import PrivateDataIcon from 'mdi-material-ui/Cancel'
 import { UIShapes } from '@regardsoss/shape'
 import { CatalogDomain } from '@regardsoss/domain'
