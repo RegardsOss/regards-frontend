@@ -147,11 +147,7 @@ export default class InfiniteGalleryComponent extends React.PureComponent {
         res || find(page.items, this.props.getItemOfInterest)
       ), undefined)
 
-      if (!this.scrollArea.current) {
-        throw new Error('Missing expected current attribute on scroll area component')
-      }
-
-      if (itemFound) {
+      if (itemFound && this.scrollArea.current) {
         this.scrollArea.current.scrollYTo(itemFound.top)
       }
     }
