@@ -31,10 +31,10 @@ import {
   StringComparison, ValidationHelpers, RenderRadio, FieldArray, RenderArrayObjectField,
 } from '@regardsoss/form-utils'
 import { AttributesListConfigurationComponent } from '@regardsoss/attributes-common'
+import RadioButton from 'material-ui/RadioButton'
 import { FORM_PAGES_ENUM } from '../../../domain/form/FormPagesEnum'
 import { DataViewsConfiguration, DatasetViewsConfiguration } from '../../../shapes/ModuleConfiguration'
 import LayerInfoItemComponent from './LayerInfoItemComponent'
-import RadioButton from 'material-ui/RadioButton'
 
 const {
   required,

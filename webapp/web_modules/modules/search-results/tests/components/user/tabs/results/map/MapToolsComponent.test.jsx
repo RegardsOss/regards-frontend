@@ -20,12 +20,12 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import FlatButton from 'material-ui/FlatButton'
 import MapToolsComponent from '../../../../../../src/components/user/tabs/results/map/MapToolsComponent'
 import styles from '../../../../../../src/styles'
 import MapSelectionModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapSelectionModeOption'
 import MapViewModeOption from '../../../../../../src/components/user/tabs/results/map/options/MapViewModeOption'
 import MapOpacityOption from '../../../../../../src/components/user/tabs/results/map/options/MapOpacityOption'
-import FlatButton from 'material-ui/FlatButton'
 
 const context = buildTestContext(styles)
 

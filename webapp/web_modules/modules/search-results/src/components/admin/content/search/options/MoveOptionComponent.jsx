@@ -23,11 +23,11 @@ import Menu from 'material-ui/Menu'
 import Popover from 'material-ui/Popover'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
+import Divider from 'material-ui/Divider'
 import { CriteriaGroup } from '../../../../../shapes/ModuleConfiguration'
 import { CriteriaEditableRow } from '../../../../../shapes/form/CriteriaEditableRow'
 import { CriteriaRowsHelper } from '../cells/CriteriaRowsHelper'
 import PositionMenuItemComponent from './PositionMenuItemComponent'
-import Divider from 'material-ui/Divider'
 
 /**
  * Table option to move a group / criterion

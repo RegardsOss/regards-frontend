@@ -29,11 +29,11 @@ import { themeContextType } from '@regardsoss/theme'
 import {
   TableHeaderLine, TableHeaderOptionGroup, TableHeaderOptionsArea,
 } from '@regardsoss/components'
+import FlatButton from 'material-ui/FlatButton'
 import MapSelectionModeOption from './options/MapSelectionModeOption'
 import MapViewModeOption from './options/MapViewModeOption'
 import MapOpacityOption from './options/MapOpacityOption'
 import MapOpacitySlider from './options/MapOpacitySlider'
-import FlatButton from 'material-ui/FlatButton'
 
 /**
  * Component to show map tools

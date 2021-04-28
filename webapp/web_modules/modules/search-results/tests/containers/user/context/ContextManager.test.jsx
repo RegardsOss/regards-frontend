@@ -273,7 +273,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         'Main tab view mode should have been restored from local storage')
       assert.deepEqual(mainTab.criteria.tagsFiltering, [
         CriterionBuilder.buildUnresolvedEntityTagCriterion(datasetEntity.content.id)],
-        'Main tab user filter should have been restored from local storage (using unresolved notation)')
+      'Main tab user filter should have been restored from local storage (using unresolved notation)')
       assert.isTrue(mainTab.search.open, 'Search open state should have been restored from local storage')
       assert.deepEqual(mainTab.criteria.searchCriteria, [{
         pluginInstanceId: `[25/${UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS}/111][my.attr.1/my.attr.2][0:0]`,
@@ -303,7 +303,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       }, 'Description tab should have been restored from local storage (using unresolved entity notation)')
       assert.deepEqual(tagTab.criteria.contextTags, [
         CriterionBuilder.buildUnresolvedEntityTagCriterion(anotherDatasetEntity.content.id)],
-        'Root tag view criterion should have been resolved from local storage (using unresolved notation)')
+      'Root tag view criterion should have been resolved from local storage (using unresolved notation)')
       assert.equal(tagTab.types[tagTab.selectedType].selectedMode, UIDomain.RESULTS_VIEW_MODES_ENUM.LIST,
         'Tag tab view mode should have been restored from local storage')
       assert.deepEqual(tagTab.criteria.tagsFiltering, [CriterionBuilder.buildUnresolvedEntityTagCriterion('URN:DATASET:UNEXISTING')],
@@ -383,7 +383,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       }, 'Description tab should have been restored from URL')
       assert.deepEqual(tagTab.criteria.contextTags, [
         CriterionBuilder.buildUnresolvedEntityTagCriterion(anotherDataEntity.content.id)],
-        'Root tag view criterion should have been resolved from URL (undefined)')
+      'Root tag view criterion should have been resolved from URL (undefined)')
       assert.equal(tagTab.types[tagTab.selectedType].selectedMode, UIDomain.RESULTS_VIEW_MODES_ENUM.QUICKLOOK,
         'Tag tab view mode should have been restored from URL')
       assert.isEmpty(tagTab.criteria.tagsFiltering,
@@ -400,7 +400,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       }, 'Description tab entity should have been resolved')
       assert.deepEqual(publishedContext.tabs[UIDomain.RESULTS_TABS_ENUM.TAG_RESULTS].criteria.contextTags, [
         CriterionBuilder.buildEntityTagCriterion(anotherDataEntity)],
-        'Results tag main tag should have been resolved')
+      'Results tag main tag should have been resolved')
     },
   }, {
     caseLabel: 'applying any parent control',
