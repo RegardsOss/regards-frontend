@@ -233,7 +233,7 @@ pipeline {
                     }
                 )
             }
-        }
+        },
         stage('Deploy Docker image') {
 	    when {
                 expression { BRANCH_NAME ==~ /(master|develop.*|release.*|feature.*)/ }
