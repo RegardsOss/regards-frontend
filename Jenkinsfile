@@ -136,7 +136,7 @@ pipeline {
                 )
             }
         }
-        stage('Build') {
+        stage('Build-1') {
             steps {
                 parallel(
                     webapp: {
@@ -158,7 +158,13 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/enumerated'
-                    },
+                    }
+		)
+            }
+        },
+	stage('Build-2') {
+            steps {
+                parallel(
                     plugin_criterion_full_text: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
@@ -183,7 +189,13 @@ pipeline {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
                             rs_node ./build_plugin.sh criterion/temporal'
-                    },
+                    }
+                )
+            }
+        },
+	stage('Build-3') {
+            steps {
+                parallel(
                     plugin_criterion_two_numerical: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
