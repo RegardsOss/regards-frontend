@@ -55,6 +55,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
+      onToponymUploaded: () => { },
     }
     const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, {
       context: buildTestContext(styles, UIDomain.LOCALES_ENUM.en),
@@ -90,6 +91,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
+      onToponymUploaded: () => { },
     }
     // Render with each locale
     UIDomain.LOCALES.forEach((locale) => {
@@ -130,6 +132,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
+      onToponymUploaded: () => { },
     }
     const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
     // check autocomplete field state
@@ -156,6 +159,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
+      onToponymUploaded: () => { },
     }
     const enzymeWrapper = shallow(<ToponymCriterionComponent {...props} />, { context })
     // check autocomplete field state
