@@ -161,7 +161,7 @@ pipeline {
                     }
 		)
             }
-        },
+        }
 	stage('Build-2') {
             steps {
                 parallel(
@@ -192,7 +192,7 @@ pipeline {
                     }
                 )
             }
-        },
+        }
 	stage('Build-3') {
             steps {
                 parallel(
@@ -233,7 +233,7 @@ pipeline {
                     }
                 )
             }
-        },
+        }
         stage('Deploy Docker image') {
 	    when {
                 expression { BRANCH_NAME ==~ /(master|develop.*|release.*|feature.*)/ }
