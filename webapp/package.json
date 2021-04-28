@@ -33,7 +33,7 @@
     "pretest": "npm run lint:fix || true",
     "postinstall": "npm run build:dll",
     "test": "npm run test:mocha --silent",
-    "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/mochapack --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
+    "test:coverage": "node --max_old_space_size=8192 ./node_modules/.bin/nyc node --max_old_space_size=8192 ./node_modules/.bin/instant-mocha --timeout 30000 --webpack-config webpack.coverage.config.js \"@(tests|web_modules)/**/*.test.js{,x}\"",
     "test:mocha": "node --max_old_space_size=8192 ./node_modules/.bin/instant-mocha --timeout 20000 --webpack-config webpack.test.config.js \"@(tests|web_modules)/**/*.test.js{,x}\" --inline-diffs --reporter mochawesome --reporter-options reportDir='./reports/mocha',reportName='Regards Frontend tests'",
     "test:watch": "node --max_old_space_size=8192 ./node_modules/.bin/instant-mocha --timeout 5000 --webpack-config webpack.test.config.js \"web_modules/**/*.test.js{,x}\" --inline-diffs --watch",
     "esdoc": "esdoc -c esdoc.json",
