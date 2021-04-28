@@ -24,7 +24,7 @@ import { withResourceDisplayControl } from '@regardsoss/display-control'
   * DragAndDrop component
   * @author Théo Lasserre
   */
-class DragAndDrop extends React.Component {
+export class DragAndDrop extends React.Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     subtitle: PropTypes.string.isRequired,
@@ -95,7 +95,6 @@ class DragAndDrop extends React.Component {
       this.dragCounter = 0
     }
   }
-
 
   render() {
     const {

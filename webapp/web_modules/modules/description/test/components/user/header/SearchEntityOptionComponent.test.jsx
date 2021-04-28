@@ -56,6 +56,6 @@ describe('[Description] Testing SearchEntityOptionComponent', () => {
 
     assert.isNotOk(spyOnSearchEntity.entity, 'Callback should not have been invoked yet')
     buttonWrapper.props().onClick()
-    assert.deepEqual(spyOnSearchEntity.entity, props.descriptionEntity.entity, 'Callback should be invoked with the right entity parameter')
+    assert.deepEqual(spyOnSearchEntity.entity, props.descriptionEntity.entityWithTreeEntry.entity, 'Callback should be invoked with the right entity parameter')
   })
 })

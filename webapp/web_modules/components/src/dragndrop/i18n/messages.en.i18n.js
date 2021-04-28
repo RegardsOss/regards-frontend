@@ -20,7 +20,7 @@ const messages = {
   'toponym.uploader.drop.too-many-file': 'Import of a toponym is carried out using only one file',
   'toponym.uploader.drop.unsupported-file': 'Supported formats : zip shapefile or geojson',
   'toponym.uploader.geojson.wrong-type': 'Geojson file must be a FeatureCollection',
-  'toponym.uploader.geojson.invalid-nb-features': 'Your toponym must contain only one feature',
+  'toponym.uploader.geojson.invalid-nb-features': 'Your area of interest must be restricted to a single feature/polygon',
   'toponym.uploader.zip.too-many-files': 'Zip file must be composed of one shp and one prj',
   'toponym.uploader.zip.missing-files': 'Zip file do not contains expected shp and prj files',
   'toponym.uploader.zip.parse.error': 'Failure reading zip file : {reason}',

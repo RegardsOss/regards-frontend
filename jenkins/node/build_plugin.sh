@@ -7,8 +7,10 @@ echo "Plugin path from webapp: ${PLUGIN_PATH}"
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
 
+npm list
+
 echo "Run tests"
-npm test --no-update-notifier
+npm run test:mocha --no-update-notifier --silent
 
 echo "Compare dependencies"
 ../../../scripts/compareDependencies.js ../../../package.json ./package.json

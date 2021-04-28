@@ -39,7 +39,7 @@ class SearchEntityOptionComponent extends React.Component {
 
   onSearchEntity = () => {
     const { descriptionEntity, onSearchEntity } = this.props
-    onSearchEntity(descriptionEntity.entity)
+    onSearchEntity(descriptionEntity.entityWithTreeEntry.entity)
   }
 
   render() {

@@ -48,13 +48,13 @@ pipeline {
                     },
                     plugin_criterion_data_with_picture_only: {
                         sh 'docker run --rm -i \
-                        -v ${WORKSPACE}/webapp:/app_to_build \
-                        rs_node ./install-plugin.sh criterion data-with-picture-only'
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion data-with-picture-only'
                     },
                     plugin_criterion_last_version: {
                         sh 'docker run --rm -i \
-                        -v ${WORKSPACE}/webapp:/app_to_build \
-                        rs_node ./install-plugin.sh criterion last-version-only'
+                            -v ${WORKSPACE}/webapp:/app_to_build \
+                            rs_node ./install-plugin.sh criterion last-version-only'
                     },
                     plugin_criterion_enumerated: {
                         sh 'docker run --rm -i \
@@ -80,7 +80,7 @@ pipeline {
 		    plugin_criterion_numerical_range: {
                         sh 'docker run --rm -i \
                             -v ${WORKSPACE}/webapp:/app_to_build \
-                            rs_node ./build_plugin.sh criterion/numerical-range-criteria'
+                            rs_node ./install-plugin.sh criterion/numerical-range-criteria'
                     },
                     plugin_criterion_string: {
                         sh 'docker run --rm -i \

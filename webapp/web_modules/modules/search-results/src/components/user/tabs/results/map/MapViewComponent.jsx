@@ -150,6 +150,7 @@ class MapViewComponent extends React.Component {
     /*
      * XXX-Workaround-Force-Redraw: the split pane "forgets repainting" the property "size" changes.
      * Therefore, we force children repainting, using a key built on size
+     * However, as the InfiniteGalleryContainer fetch entities, we force redraw on that container and not here
      */
     let mapKey
     if (mapEngine === UIDomain.MAP_ENGINE_ENUM.CESIUM) {
@@ -185,13 +186,11 @@ class MapViewComponent extends React.Component {
                   onProductSelected={onProductSelected}
                 />
               </div>
-              { /* Right: qiuicklooks container */ }
+              { /* Right: qiuicklooks container */}
               <div
                 style={mapViewStyles.quicklookViewLayout}
-                // see force redraw workaround comment above
-                key={`quicklook-view:width-${leftPaneWidth}x${height}`}
               >
-                <QuicklooksViewContainer
+                {height !== 0 && (<QuicklooksViewContainer
                   tabType={tabType}
                   resultsContext={resultsContext}
                   requestParameters={requestParameters}
@@ -206,7 +205,9 @@ class MapViewComponent extends React.Component {
                   onProductSelected={onProductSelected}
                   itemOfInterestPicked={itemOfInterestPicked}
                   getItemOfInterest={this.getItemOfInterest}
-                />
+                  // see force redraw workaround comment above
+                  forceRenderingUsingKey={`${leftPaneWidth}x${height}`}
+                />)}
               </div>
             </SplitPane>
           </div>

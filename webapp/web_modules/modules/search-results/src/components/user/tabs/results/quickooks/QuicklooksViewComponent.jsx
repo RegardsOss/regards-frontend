@@ -22,7 +22,7 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 import { themeContextType } from '@regardsoss/theme'
 import { InfiniteGalleryContainer } from '@regardsoss/components'
 import { getSearchCatalogClient } from '../../../../../clients/SearchEntitiesClient'
-import EmptyTableComponent from '../common/EmptyTableComponent'
+import EmptyTableContainer from '../../../../../containers/user/tabs/results/common/EmptyTableContainer'
 import QuicklookCellComponent, { SpecificCellProperties } from './QuicklookCellComponent'
 
 /**
@@ -38,19 +38,18 @@ class QuicklooksViewComponent extends React.Component {
     cellProperties: SpecificCellProperties.isRequired,
     embedInMap: PropTypes.bool.isRequired,
     itemOfInterestPicked: PropTypes.number,
-    getItemOfInterest: PropTypes.func.isRequired,
+    getItemOfInterest: PropTypes.func,
+    // When parent container size change, it provides a different key to force re-rendering
+    forceRenderingUsingKey: PropTypes.string,
   }
 
   static contextTypes = {
     ...themeContextType,
   }
 
-  /** Stores reference on the static empty component */
-  static EMPTY_COMPONENT = <EmptyTableComponent />
-
   render() {
     const {
-      tabType, requestParameters, searchActions, cellProperties, embedInMap, itemOfInterestPicked, getItemOfInterest,
+      tabType, requestParameters, searchActions, cellProperties, embedInMap, itemOfInterestPicked, getItemOfInterest, forceRenderingUsingKey,
     } = this.props
     // Recover column with and gap from theme: map specific theme if embedded in map, quicklooks otherwise
     const searchResultsTheme = this.context.muiTheme.module.searchResults
@@ -67,10 +66,11 @@ class QuicklooksViewComponent extends React.Component {
         columnGutter={columnGap}
         requestParams={requestParameters}
         queryPageSize={pageSize}
-        emptyComponent={QuicklooksViewComponent.EMPTY_COMPONENT}
+        emptyComponent={<EmptyTableContainer tabType={tabType} />}
         itemProps={cellProperties}
         itemOfInterestPicked={itemOfInterestPicked}
         getItemOfInterest={getItemOfInterest}
+        forceRenderingUsingKey={forceRenderingUsingKey}
       />
     )
   }

@@ -1,3 +1,21 @@
+/**
+ * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
+ *
+ * This file is part of SCO - Space Climate Observatory.
+ *
+ * SCO is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * SCO is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with SCO. If not, see <http://www.gnu.org/licenses/>.
+ **/
 import { GeoJsonFeaturesCollection, GeoJsonFeature } from '@regardsoss/mizar-adapter'
 import isEqual from 'lodash/isEqual'
 import isEmpty from 'lodash/isEmpty'
@@ -5,7 +23,7 @@ import map from 'lodash/map'
 import has from 'lodash/has'
 import find from 'lodash/find'
 import {
-  ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty, Color, Viewer,
+  ScreenSpaceEventType, Cartographic, Rectangle, Ellipsoid, Math, CallbackProperty, Color,
 } from 'cesium'
 import {
   ScreenSpaceEventHandler, ScreenSpaceCameraController, ScreenSpaceEvent, Entity, RectangleGraphics,
@@ -26,7 +44,9 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   static propTypes = {
     cesiumContext: PropTypes.shape({
       current: PropTypes.shape({
-        cesiumElement: PropTypes.instanceOf(Viewer),
+        // see Cesium.Viewer
+        // eslint-disable-next-line react/forbid-prop-types
+        cesiumElement: PropTypes.object,
       }),
     }),
     cesiumDrawColor: PropTypes.instanceOf(Color),
@@ -73,36 +93,36 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
   /**
   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
   */
- UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
- /**
- * Lifecycle method: component receive props. Used here to detect properties change and update local state
- * @param {*} nextProps next component properties
- */
- UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
- /**
- * Properties change detected: update local state
- * @param oldProps previous component properties
- * @param newProps next component properties
- */
- onPropertiesUpdated = (oldProps, newProps) => {
-   // reset to default when drawingSelection changes
-   if (!isEqual(oldProps.drawingSelection, newProps.drawingSelection)) {
-     this.currentDrawingInitPoint = null
-     this.currentInteractionState = INTERACTION_DRAW.UNSTARTED
-     this.rectangle = new Rectangle()
-   }
-   // Draw the rectangle if provided by parent, clear it if
-   if (!isEqual(oldProps.drawnAreas, newProps.drawnAreas)) {
-     if (!isEmpty(newProps.drawnAreas)) {
-       this.rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(newProps.drawnAreas[0].geometry)
-     } else {
-       // When user clear the criteria
-       this.rectangle = new Rectangle()
-     }
-   }
- }
+  /**
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    // reset to default when drawingSelection changes
+    if (!isEqual(oldProps.drawingSelection, newProps.drawingSelection)) {
+      this.currentDrawingInitPoint = null
+      this.currentInteractionState = INTERACTION_DRAW.UNSTARTED
+      this.rectangle = new Rectangle()
+    }
+    // Draw the rectangle if provided by parent, clear it if
+    if (!isEqual(oldProps.drawnAreas, newProps.drawnAreas)) {
+      if (!isEmpty(newProps.drawnAreas)) {
+        this.rectangle = CesiumEventAndPolygonDrawerComponent.buildRectangleFromGeometry(newProps.drawnAreas[0].geometry)
+      } else {
+        // When user clear the criteria
+        this.rectangle = new Rectangle()
+      }
+    }
+  }
 
   getLatLongFromCartesian3 = (cartesian3Point) => {
     const carto = Ellipsoid.WGS84.cartesianToCartographic(cartesian3Point)
@@ -243,7 +263,6 @@ export default class CesiumEventAndPolygonDrawerComponent extends React.Componen
     const {
       drawingSelection, cesiumDrawColor,
     } = this.props
-
     return <>
       <Entity>
         <RectangleGraphics

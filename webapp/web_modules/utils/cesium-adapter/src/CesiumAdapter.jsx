@@ -38,6 +38,7 @@ import {
 } from 'cesium'
 import toBBox from 'geojson-bounding-box'
 import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerComponent'
+import CesiumCursorPosition from './CesiumCursorPosition'
 
 /**
  * Cesium Adapter
@@ -70,6 +71,13 @@ export default class CesiumAdapter extends React.Component {
     selectedToponyms: PropTypes.object,
 
     featureShapefile: GeoJsonFeaturesCollection,
+  }
+
+  // Mandatory to resolve bug in 2D mode.
+  static VIEWER_ROOT_STYLE = {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
   }
 
   state = {
@@ -289,18 +297,11 @@ export default class CesiumAdapter extends React.Component {
       height,
     } = this.state
 
-    // Mandatory to resolve bug in 2D mode.
-    const viewerRootStyle = {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-    }
-
     return (
       <Measure bounds onMeasure={this.onComponentResized}>
         {/* Workaround to resolve bug in 2D mode. Force initial render to re-render */}
         {({ bind }) => (
-          <div style={viewerRootStyle} {...bind('measureDiv')}>
+          <div style={CesiumAdapter.VIEWER_ROOT_STYLE} {...bind('measureDiv')}>
             <Viewer
               style={{
                 width: '100%',
@@ -377,6 +378,7 @@ export default class CesiumAdapter extends React.Component {
                 stroke={selectedFeatureColor}
                 strokeWidth={selectedColorOutlineWidth}
               />
+              <CesiumCursorPosition cesiumContext={this.ref} />
               <CesiumEventAndPolygonDrawerComponent
                 cesiumContext={this.ref}
                 cesiumDrawColor={cesiumDrawColor}
