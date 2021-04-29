@@ -1,6 +1,6 @@
 // Webpack configuration file
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
 const threadLoader = require('thread-loader')
