@@ -43,6 +43,7 @@ describe('[DISPLAY CONTROL] Testing FileContentReader', () => {
   it('should exists', () => {
     assert.isDefined(FileContentReader)
   })
+  // eslint-disable-next-line mocha/no-skipped-tests
   xit('should render correctly, providing content read to children', (done) => {
     const props = {
       blob: new TestBlob('blablabus'),

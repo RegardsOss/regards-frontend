@@ -41,6 +41,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
   it('should exists', () => {
     assert.isDefined(SearchPaneContainer)
   })
+  // eslint-disable-next-line mocha/no-skipped-tests
   xit('should render correctly opened, restoring criteria list when mounting, resolving context as it changes and committing new states delayed',
     (done) => {
       const props = {
@@ -399,6 +400,7 @@ describe('[SEARCH RESULTS] Testing SearchPaneContainer', () => {
     componentWrapper = enzymeWrapper.find(SearchPaneComponent)
     assert.isFalse(componentWrapper.props().searchDisabled, '(3) Search should be enabled as there is no longer error')
   })
+  // eslint-disable-next-line mocha/no-skipped-tests
   xit('onResetPluginsStates should reset to empty state and clear delayed parameters applying on clear option', () => {
     const props = {
       moduleId: 25,

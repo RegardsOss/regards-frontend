@@ -128,7 +128,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         }],
       }],
       rootContextCriteria: [{ requestParameters: { a: 'fromRoot', q: 'root:true' } },
-      { requestParameters: { q: 'rootVal:[* TO 66]' } }],
+        { requestParameters: { q: 'rootVal:[* TO 66]' } }],
       onUpdatePluginState: () => { },
       dispatchFetchBounds: (attributesPath, contextQuery) => {
         spiedFetchBounds.attributesPath = attributesPath
@@ -371,7 +371,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         }],
       }],
       rootContextCriteria: [{ requestParameters: { a: 'fromRoot', q: 'root:true' } },
-      { requestParameters: { q: 'rootVal:[* TO 66]' } }],
+        { requestParameters: { q: 'rootVal:[* TO 66]' } }],
       onUpdatePluginState: () => { },
       dispatchFetchBounds: () => {
         spiedFetchCount += 1
