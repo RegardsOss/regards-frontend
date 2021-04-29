@@ -11,3 +11,12 @@ npm run build:production-dll --no-update-notifier
 
 echo "Success !"
 exit 0
+
+echo "HACK CESIUM WEBPACK 5 - BEFORE"
+cat /app_to_build/node_modules/cesium/package.json
+
+echo "HACK CESIUM WEBPACK 5 - FIX CONTENT"
+sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" /app_to_build/node_modules/cesium/package.json
+
+echo "HACK CESIUM WEBPACK 5 - AFTER"
+cat /app_to_build/node_modules/cesium/package.json
