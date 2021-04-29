@@ -1,6 +1,6 @@
 {
   "name": "generator-regards-ui-module",
-  "version": "1.4.1-SNAPSHOT",
+  "version": "1.6.0-SNAPSHOT",
   "private": true,
   "description": "Yeoman generator to create your own REGARDS UI Module",
   "files": [
@@ -9,7 +9,7 @@
   "keywords": [
     "yeoman-generator"
   ],
-  "author":"CNES (https://cnes.fr)",
+  "author": "CNES (https://cnes.fr)",
   "contributors": [
     "CS-SI <regards@c-s.fr> (https://www.c-s.fr)"
   ],

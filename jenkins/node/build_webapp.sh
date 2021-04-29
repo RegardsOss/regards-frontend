@@ -2,10 +2,11 @@
 
 cd /app_to_build
 
-npm list
+echo "Run linter"
+time npm run lint --no-update-notifier || true
 
 echo "Execute tests"
-npm test --no-update-notifier
+time npm run test:mocha --no-update-notifier
 
 echo "Building app"
-npm run build:production --no-update-notifier
+time npm run build:production --no-update-notifier

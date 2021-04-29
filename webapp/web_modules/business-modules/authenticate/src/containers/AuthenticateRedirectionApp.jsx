@@ -71,13 +71,12 @@ export class AuthenticateRedirectionApp extends React.Component {
   /**
    * Retrieve code parameter from url.
    * Code could be either in query params or in hash of browserHistory
-   * @param {*} browHistory
    */
-  static getCode = (browHistory) => {
-    let code = get(browHistory.getCurrentLocation().query, 'code', '')
+  static getCode = () => {
+    let code = get(browserHistory.getCurrentLocation().query, 'code', '')
     if (isEmpty(code)) {
       const regex = /code=([^&]+)/
-      const matchStrings = browHistory.getCurrentLocation().hash.match(regex)
+      const matchStrings = browserHistory.getCurrentLocation().hash.match(regex)
       code = matchStrings && matchStrings[1] ? matchStrings[1] : ''
     }
     return code
@@ -91,7 +90,7 @@ export class AuthenticateRedirectionApp extends React.Component {
     status: STATUS.LOADING,
   }
 
-  UNSAFE_componentWillMount= () => {
+  UNSAFE_componentWillMount = () => {
     // Redux store space init for user app
     this.props.initializeApplication(this.props.params.project)
   }
@@ -102,32 +101,30 @@ export class AuthenticateRedirectionApp extends React.Component {
     } = this.props
 
     // Get auth token
-    if (browserHistory) {
-      const code = AuthenticateRedirectionApp.getCode(browserHistory)
-      if (code === null) {
-        const errorMessage = 'Invalid null code for openId connect'
-        new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+    const code = AuthenticateRedirectionApp.getCode()
+    if (code === '') {
+      const errorMessage = 'Invalid null code for openId connect'
+      new UIDomain.LocalStorageUser({ error: errorMessage }, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
+      this.setState({
+        status: STATUS.ERROR,
+      })
+      root.window.close()
+    } else {
+      requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
+        let status = STATUS.ERROR
+        let storageObj
+        if (!result.error) {
+          storageObj = result.payload
+          status = STATUS.SUCCESS
+        } else {
+          storageObj = { error: result.payload.message }
+        }
+        new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
         this.setState({
-          status: STATUS.ERROR,
+          status,
         })
         root.window.close()
-      } else {
-        requestLogin(project, 'OpenId', serviceProviderName, code).then((result) => {
-          let status = STATUS.ERROR
-          let storageObj
-          if (!result.error) {
-            storageObj = result.payload
-            status = STATUS.SUCCESS
-          } else {
-            storageObj = { error: result.payload.message }
-          }
-          new UIDomain.LocalStorageUser(storageObj, new Date().getTime(), project || 'instance', UIDomain.APPLICATIONS_ENUM.AUTHENTICATE).save()
-          this.setState({
-            status,
-          })
-          root.window.close()
-        })
-      }
+      })
     }
   }
 

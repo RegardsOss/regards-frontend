@@ -1,5 +1,6 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
+const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
@@ -13,27 +14,25 @@ module.exports = function (projectContextPath) {
 
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
-    externals: [nodeExternals({
-      whitelist: [
-        // this WILL include `*regardsoss*` in the bundle
-        /regardsoss/,
-        // this fix the test build dkw
-        /redux-api-middleware/,
-      ],
-    })], // in order to ignore all modules in node_modules folder
     // Enable sourcemaps for debugging webpack's output.
+    // externals: [nodeExternals({
+    //   allowlist: [
+    //     // this WILL include `*regardsoss*` in the bundle
+    //     /regardsoss/,
+    //     // this fix the test build dkw
+    //     /redux-api-middleware/,
+    //   ],
+    // })], // in order to ignore all modules in node_modules folder
     devtool: 'nosources-source-map',
     stats: {
       chunks: false,
       colors: true,
       reasons: true,
     },
-    module: {
-      noParse: [
-        /sinon/,
-        /iconv-loader/,
-        /enzyme/,
-      ],
+    resolve: {
+      alias: {
+        'react-router': path.resolve(projectContextPath, 'web_modules/utils/tests-helpers/src/ReactRouter.mock.jsx'),
+      },
     },
     plugins: [
       new webpack.DefinePlugin({

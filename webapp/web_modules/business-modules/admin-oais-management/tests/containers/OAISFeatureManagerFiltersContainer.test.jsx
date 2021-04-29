@@ -24,7 +24,6 @@ import styles from '../../src/styles'
 import OAISFeatureManagerFiltersComponent from '../../src/components/OAISFeatureManagerFiltersComponent'
 
 const context = buildTestContext(styles)
-const router = require('react-router')
 
 /**
  * Test OAISFeatureManagerFiltersContainer
@@ -32,15 +31,9 @@ const router = require('react-router')
  */
 describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerFiltersContainer', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -50,7 +43,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerFiltersContainer', () 
   it('should render correctly', () => {
     const props = {
 
-      updateStateFromFeatureManagerFilters: () => {},
+      updateStateFromFeatureManagerFilters: () => { },
 
       featureManagerFilters: {
         state: '',

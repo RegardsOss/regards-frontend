@@ -19,11 +19,11 @@
 import noop from 'lodash/noop'
 import FlatButton from 'material-ui/FlatButton'
 import OrderIcon from 'mdi-material-ui/CartArrowDown'
-import { Dialog } from 'material-ui'
 import TextField from 'material-ui/TextField'
 import {
 } from '@regardsoss/entities-common'
 import { i18nContextType } from '@regardsoss/i18n'
+import Dialog from 'material-ui/Dialog'
 
 /**
  * Order button component, starts current basket order

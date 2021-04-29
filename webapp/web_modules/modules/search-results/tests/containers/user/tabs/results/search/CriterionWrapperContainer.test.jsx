@@ -129,12 +129,12 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
       }],
       rootContextCriteria: [{ requestParameters: { a: 'fromRoot', q: 'root:true' } },
         { requestParameters: { q: 'rootVal:[* TO 66]' } }],
-      onUpdatePluginState: () => {},
+      onUpdatePluginState: () => { },
       dispatchFetchBounds: (attributesPath, contextQuery) => {
         spiedFetchBounds.attributesPath = attributesPath
         spiedFetchBounds.contextQuery = contextQuery
         const promise = new Promise((resolve) => {
-          setTimeout(() => {
+          testSuiteHelpers.getRealTimeout(() => {
             // return valid bounds
             resolve({
               payload: {
@@ -163,7 +163,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
               },
             })
             // after resolve: wait for container to handle promise and check new state
-            setTimeout(() => {
+            testSuiteHelpers.getRealTimeout(() => {
               // 3 - After loading: check resolved attributes
               const componentWrapperAfterUpdate = enzymeWrapper.find(CriterionWrapperComponent)
               testSuiteHelpers.assertWrapperProperties(componentWrapperAfterUpdate, {
@@ -372,7 +372,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
       }],
       rootContextCriteria: [{ requestParameters: { a: 'fromRoot', q: 'root:true' } },
         { requestParameters: { q: 'rootVal:[* TO 66]' } }],
-      onUpdatePluginState: () => {},
+      onUpdatePluginState: () => { },
       dispatchFetchBounds: () => {
         spiedFetchCount += 1
         return new Promise((resolve) => {
@@ -471,8 +471,8 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         criteria: [criterion],
       }],
       rootContextCriteria: [],
-      onUpdatePluginState: () => {},
-      dispatchFetchBounds: () => new Promise((resolve) => {}),
+      onUpdatePluginState: () => { },
+      dispatchFetchBounds: () => new Promise((resolve) => { }),
     }
     const enzymeWrapper = shallow(<CriterionWrapperContainer {...props} />, { context })
     let componentWrapper = enzymeWrapper.find(CriterionWrapperComponent)
@@ -539,7 +539,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         spiedUpdateState.newState = newState
         spiedUpdateState.newRequestParameters = newRequestParameters
       },
-      dispatchFetchBounds: () => new Promise((resolve) => {}),
+      dispatchFetchBounds: () => new Promise((resolve) => { }),
     }
     const enzymeWrapper = shallow(<CriterionWrapperContainer {...props} />, { context })
     enzymeWrapper.instance().onUpdateState({
@@ -580,14 +580,14 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
       },
       groups: [],
       rootContextCriteria: [],
-      onUpdatePluginState: () => {},
+      onUpdatePluginState: () => { },
       dispatchFetchBounds: () => {
         const promise = new Promise((resolve, reject) => {
-          setTimeout(() => {
+          testSuiteHelpers.getRealTimeout(() => {
             // return valid bounds
             reject()
             // after resolve: wait for container to handle promise and check new state
-            setTimeout(() => {
+            testSuiteHelpers.getRealTimeout(() => {
               // After loading: check resolved attributes errors
               const componentWrapperAfterUpdate = enzymeWrapper.find(CriterionWrapperComponent)
               testSuiteHelpers.assertWrapperProperties(componentWrapperAfterUpdate, {
@@ -660,7 +660,7 @@ describe('[SEARCH RESULTS] Testing CriterionWrapperContainer', () => {
         },
         groups: [],
         rootContextCriteria: [],
-        onUpdatePluginState: () => {},
+        onUpdatePluginState: () => { },
         dispatchFetchBounds: () => new Promise((resolve) => {
           // no need to resolve it for this test
         }),

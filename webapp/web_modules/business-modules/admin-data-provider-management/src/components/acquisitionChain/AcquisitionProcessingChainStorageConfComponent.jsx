@@ -21,9 +21,8 @@ import isNil from 'lodash/isNil'
 import find from 'lodash/find'
 import map from 'lodash/map'
 import some from 'lodash/some'
-import { RadioButtonGroup } from 'material-ui'
 import MenuItem from 'material-ui/MenuItem'
-import RadioButton from 'material-ui/RadioButton'
+import RadioButton, { RadioButtonGroup } from 'material-ui/RadioButton'
 import { FormattedMessage } from 'react-intl'
 import {
   Field, RenderSelectField, FieldArray, StringComparison, ValidationHelpers,

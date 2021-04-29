@@ -1,6 +1,5 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
-const nodeExternals = require('webpack-node-externals')
+const { merge } = require('webpack-merge')
 const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
 require('../conf/staticConfiguration')
@@ -8,33 +7,20 @@ require('../conf/staticConfiguration')
 module.exports = function (projectContextPath) {
   const config = getCommonConfig(projectContextPath, 'test')
 
+  // Strange workaround with instant-mocha
+  delete config.output
+
   // Ensure babel environment variable is correctly setup to test
   process.env.NODE_ENV = 'test'
 
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
-    externals: [
-      nodeExternals({
-        whitelist: [
-          /regardsoss/,
-          /^lodash/,
-          // this fix the test build dkw
-          /redux-api-middleware/,
-        ],
-      })], // in order to ignore all modules in node_modules folder
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'inline-source-map',
     stats: {
       chunks: false,
       colors: true,
       reasons: true,
-    },
-    module: {
-      noParse: [
-        /sinon/,
-        /iconv-loader/,
-        /enzyme/,
-      ],
     },
     plugins: [
       new webpack.DefinePlugin({

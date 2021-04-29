@@ -25,8 +25,6 @@ import EditSettingsComponent from '../../src/components/EditSettingsComponent'
 import styles from '../../src/styles'
 import { modelsDump } from '../dumps/models.dump'
 
-const router = require('react-router')
-
 const context = buildTestContext(styles)
 
 /**
@@ -35,18 +33,9 @@ const context = buildTestContext(styles)
  */
 describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsContainer', () => {
   before(() => {
-    // mocking router browser history
-    router.browserHistory = new class {
-      lastPushedURL = null
-
-      push(url) {
-        this.lastPushedURL = url
-      }
-    }()
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -133,7 +122,6 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsContainer', () => {
     assert.deepEqual(spiedCreateSettings.settings, {
       everybody: 'needs somebody',
     }, 'Create should have been called with right parameters')
-    assert.equal(router.browserHistory.lastPushedURL, '/admin/testProject/ui/board', 'On back should have been called with right URL')
   })
   it('should render correctly editing, loading required data initially', () => {
     let spiedGetDataModelCount = 0
@@ -222,6 +210,5 @@ describe('[ADMIN UI SETTINGS MANAGEMENT] Testing EditSettingsContainer', () => {
     assert.deepEqual(spiedUpdateSettings.settings, {
       somebody: 'needs everybody',
     }, 'Update should have been called with right parameters')
-    assert.equal(router.browserHistory.lastPushedURL, '/admin/testProject2/ui/board', 'On back should have been called with right URL')
   })
 })

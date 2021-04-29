@@ -22,9 +22,9 @@ import { IngestShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { TableSelectionModes } from '@regardsoss/components'
-import { FlatButton, RadioButtonGroup } from 'material-ui'
 import { IngestDomain } from '@regardsoss/domain'
-import RadioButton from 'material-ui/RadioButton'
+import RadioButton, { RadioButtonGroup } from 'material-ui/RadioButton'
+import FlatButton from 'material-ui/FlatButton'
 
 /** Possible version options for products */
 const AVAILABLE_VERSION_OPTIONS = [
@@ -83,24 +83,24 @@ export default function VersionOptionSelectionDialog(
     >
       <div style={headerMessage}>
         { /* Top message */
-        formatMessage({
-          id: `oais.requests.selection.version.option.${isSingleElt ? 'single' : 'many'}.message`,
-        }, {
-          providerId: isSingleElt ? selection.entities[0].content.providerId : null,
-        })
-      }
+          formatMessage({
+            id: `oais.requests.selection.version.option.${isSingleElt ? 'single' : 'many'}.message`,
+          }, {
+            providerId: isSingleElt ? selection.entities[0].content.providerId : null,
+          })
+        }
       </div>
       <div>
         <RadioButtonGroup name="options.group" valueSelected={selectedOption} onChange={onOptionSelected}>
           { /** Options */
-          AVAILABLE_VERSION_OPTIONS.map((opt) => (
-            <RadioButton
-              key={opt}
-              value={opt}
-              label={formatMessage({ id: `oais.requests.selection.version.option.${opt}` }, { requestCount })}
-            />
-          ))
-        }
+            AVAILABLE_VERSION_OPTIONS.map((opt) => (
+              <RadioButton
+                key={opt}
+                value={opt}
+                label={formatMessage({ id: `oais.requests.selection.version.option.${opt}` }, { requestCount })}
+              />
+            ))
+          }
         </RadioButtonGroup>
       </div>
     </Dialog>

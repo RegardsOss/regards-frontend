@@ -19,6 +19,8 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { browserHistory } from 'react-router'
+import root from 'window-or-global'
 import { AuthenticateRedirectionApp } from '../../src/containers/AuthenticateRedirectionApp'
 
 const context = buildTestContext()
@@ -28,20 +30,30 @@ const context = buildTestContext()
  * @author Théo Lasserre
  */
 describe('[Authenticate] Testing AuthenticateRedirectionApp', () => {
-  before(testSuiteHelpers.before)
+  before(() => {
+    testSuiteHelpers.before()
+    root.window = {
+      close: () => { },
+    }
+  })
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
     assert.isDefined(AuthenticateRedirectionApp)
   })
   it('should render correctly', () => {
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: {},
+      hash: '',
+    })
     const props = {
       params: {
         project: 'test',
         serviceProviderName: 'testServiceProviderName',
       },
       // from mapStateToProps
-      serviceProvider: { },
+      serviceProvider: {},
       authentication: {
         project: 'test',
         scope: 'test',
@@ -59,50 +71,41 @@ describe('[Authenticate] Testing AuthenticateRedirectionApp', () => {
     }
     const enzymeWrapper = shallow(<AuthenticateRedirectionApp {...props} />, { context })
     enzymeWrapper.instance()
+  })
+  it('should compute get code correctly', () => {
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: {},
+      hash: '#session_state=xxxxxxxxx&code=aaaaaaaaa',
+    })
+    assert.equal(AuthenticateRedirectionApp.getCode(), 'aaaaaaaaa', ' 1 : Code should be retrieved')
 
-    let browserHistory = {
-      getCurrentLocation: () => ({
-        pathname: 'test://www.test.tst',
-        query: {},
-        hash: '#session_state=xxxxxxxxx&code=aaaaaaaaa',
-      }),
-    }
-    assert.equal(AuthenticateRedirectionApp.getCode(browserHistory), 'aaaaaaaaa', ' 1 : Code should be retrieved')
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: {},
+      hash: '#session_state=xxxxxxxxx&code=aaaasefsfaaaa&test=rrrrrrr',
+    })
+    assert.equal(AuthenticateRedirectionApp.getCode(), 'aaaasefsfaaaa', '2 : Code should be retrieved')
 
-    browserHistory = {
-      getCurrentLocation: () => ({
-        pathname: 'test://www.test.tst',
-        query: {},
-        hash: '#session_state=xxxxxxxxx&code=aaaasefsfaaaa&test=rrrrrrr',
-      }),
-    }
-    assert.equal(AuthenticateRedirectionApp.getCode(browserHistory), 'aaaasefsfaaaa', '2 : Code should be retrieved')
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: { code: 'tetstest' },
+      hash: '#session_state=xxxxxxxxx&code=zzzzzz&test=rrrrrrr',
+    })
+    assert.equal(AuthenticateRedirectionApp.getCode(), 'tetstest', '3 : Code should be retrieved')
 
-    browserHistory = {
-      getCurrentLocation: () => ({
-        pathname: 'test://www.test.tst',
-        query: { code: 'tetstest' },
-        hash: '#session_state=xxxxxxxxx&code=zzzzzz&test=rrrrrrr',
-      }),
-    }
-    assert.equal(AuthenticateRedirectionApp.getCode(browserHistory), 'tetstest', '3 : Code should be retrieved')
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: {},
+      hash: '?code=aaaasefsfaaaa&test=rrrrrrr',
+    })
+    assert.equal(AuthenticateRedirectionApp.getCode(), 'aaaasefsfaaaa', '4 : Code should be retrieved')
 
-    browserHistory = {
-      getCurrentLocation: () => ({
-        pathname: 'test://www.test.tst',
-        query: { },
-        hash: '?code=aaaasefsfaaaa&test=rrrrrrr',
-      }),
-    }
-    assert.equal(AuthenticateRedirectionApp.getCode(browserHistory), 'aaaasefsfaaaa', '4 : Code should be retrieved')
-
-    browserHistory = {
-      getCurrentLocation: () => ({
-        pathname: 'test://www.test.tst',
-        query: { },
-        hash: '#session_state=xxxxxxxxx&test=rrrrrrr',
-      }),
-    }
-    assert.equal(AuthenticateRedirectionApp.getCode(browserHistory), '', '5 : Code should not be retrieved')
+    browserHistory.setMockedResult({
+      pathname: 'test://www.test.tst',
+      query: {},
+      hash: '#session_state=xxxxxxxxx&test=rrrrrrr',
+    })
+    assert.equal(AuthenticateRedirectionApp.getCode(), '', '5 : Code should not be retrieved')
   })
 })

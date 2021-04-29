@@ -23,9 +23,6 @@ import { TableLayout } from '@regardsoss/components'
 import OAISFeatureManagerFiltersComponent from '../../src/components/OAISFeatureManagerFiltersComponent'
 import styles from '../../src/styles'
 
-// mock router
-const router = require('react-router')
-
 const context = buildTestContext(styles)
 
 /**
@@ -34,15 +31,9 @@ const context = buildTestContext(styles)
  */
 describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerFiltersComponent', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
   it('should exists', () => {
@@ -62,11 +53,11 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISFeatureManagerFiltersComponent', () 
         categories: [],
         storages: [],
       },
-      changeSessionFilter: () => {},
-      changeSourceFilter: () => {},
-      changeProviderIdFilter: () => {},
-      changeFrom: () => {},
-      changeTo: () => {},
+      changeSessionFilter: () => { },
+      changeSourceFilter: () => { },
+      changeProviderIdFilter: () => { },
+      changeFrom: () => { },
+      changeTo: () => { },
     }
     const enzymeWrapper = shallow(<OAISFeatureManagerFiltersComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(TableLayout)
