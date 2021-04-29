@@ -1,6 +1,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
+const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
 require('../conf/staticConfiguration')
@@ -14,6 +15,14 @@ module.exports = function (projectContextPath) {
   return merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
     // Enable sourcemaps for debugging webpack's output.
+    // externals: [nodeExternals({
+    //   allowlist: [
+    //     // this WILL include `*regardsoss*` in the bundle
+    //     /regardsoss/,
+    //     // this fix the test build dkw
+    //     /redux-api-middleware/,
+    //   ],
+    // })], // in order to ignore all modules in node_modules folder
     devtool: 'nosources-source-map',
     stats: {
       chunks: false,
