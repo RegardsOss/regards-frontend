@@ -9,9 +9,6 @@ npm install --prefer-offline --legacy-peer-deps --no-update-notifier
 echo "Create production DLL"
 npm run build:production-dll --no-update-notifier
 
-echo "Success !"
-exit 0
-
 echo "HACK CESIUM WEBPACK 5 - BEFORE"
 cat /app_to_build/node_modules/cesium/package.json
 
@@ -20,3 +17,6 @@ sed -i "s+\".\": {+\"./\": \"./Source/\",\".\": {+g" /app_to_build/node_modules/
 
 echo "HACK CESIUM WEBPACK 5 - AFTER"
 cat /app_to_build/node_modules/cesium/package.json
+
+echo "Success !"
+exit 0
