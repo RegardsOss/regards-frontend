@@ -3,15 +3,13 @@ const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
 const StatsPlugin = require('stats-webpack-plugin')
-const threadLoader = require('thread-loader')
 const CopyPlugin = require('copy-webpack-plugin')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 const getCommonConfig = require('./webpack.common.config')
+const cpus = require('../utils/cpu')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
-  // Prewarm pool thread
-  threadLoader.warmup({}, ['babel-loader'])
   // Ensure babel environment variable is correctly setup to development
   process.env.NODE_ENV = 'development'
 

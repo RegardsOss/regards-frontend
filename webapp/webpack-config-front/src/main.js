@@ -13,6 +13,7 @@ const cleanFolder = require('./utils/cleanFolder')
 const addProdPlugins = require('./utils/addProdPlugins')
 const runShell = require('./utils/runShell')
 const saveDevPlugin = require('./utils/saveDevPlugin')
+const cpus = require('./utils/cpu')
 
 const MODE = {
   COVERAGE: 'coverage',
@@ -44,6 +45,7 @@ class WebpackConfig {
 
   generateConfig({ mode = MODE.DEV, projectContextPath = DEFAULT_UNKNOW_DIR }) {
     console.info(slugMessage, 'Generate config with mode =', mode)
+    console.info(slugMessage, 'Max CPU', cpus)
     console.info(slugMessage, 'Working directory =', projectContextPath)
     switch (mode) {
       case MODE.COVERAGE:
