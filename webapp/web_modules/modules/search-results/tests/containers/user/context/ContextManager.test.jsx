@@ -49,10 +49,10 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   before(() => {
     testSuiteHelpers.before()
     // replace external data sources for tests (URL and local storage)
-    router.browserHistory = {
-      getCurrentLocation: () => currentLocation,
-      replace: (newLocation) => { currentLocation = newLocation },
-    }
+    router.browserHistory.setMockedResult(currentLocation)
+    router.browserHistory.setReplaceSpy((location) => {
+      currentLocation = location
+    })
     // each test can replace the following methods by it own functions on need
     getDataSave = UIDomain.LocalStorageData.getData
     saveDataSave = UIDomain.LocalStorageData.saveData
@@ -60,7 +60,6 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
   })
   after(() => {
     testSuiteHelpers.after()
-    delete router.browserHistory
     UIDomain.LocalStorageData.getData = getDataSave
     UIDomain.LocalStorageData.saveData = saveDataSave
     UIDomain.LocalStorageData.getModuleContextId = getModuleContextIdSave
@@ -137,7 +136,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
             },
           }], '[MAIN RESULTS] Configuration restriction should be restored')
           break
-          // configured facets should have been reported
+        // configured facets should have been reported
         case 'requestFacets':
           assert.deepEqual(criteriaList, [{
             facetLabels: dataConfiguration.facets.list[0].label,
@@ -414,7 +413,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         },
       },
     },
-    urlQueryData: { },
+    urlQueryData: {},
     storageData: defaultLocalStorage,
     doExpect: (initialContext, restoredContext, resolved) => {
       assert.deepEqual(resolved.tabs[UIDomain.RESULTS_TABS_ENUM.MAIN_RESULTS].criteria.contextTags,
@@ -446,7 +445,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
         : null
     }
     // URL : none
-    currentLocation = { query: urlQueryData }
+    router.browserHistory.setMockedResult({ query: urlQueryData })
     // Create component and check it attempts resolution after mounting
     const props = {
       moduleId: 25,
@@ -576,7 +575,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
             done() // TEST END
             break
           default:
-              // should not happen
+          // should not happen
         }
       },
     }
@@ -601,7 +600,8 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       },
     }
     // no context saved (useless for that test)
-    currentLocation = { query: {} }
+    router.browserHistory.setMockedResult({ query: {} })
+
     UIDomain.LocalStorageData.getData = () => null
     const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
 
@@ -636,7 +636,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
 
   // 4. Test serialization / deserialization
   it('should update URL and local storage as context changes (extensive serialization / deserialization tests)', () => {
-    currentLocation = { pathName: 'roots.com', query: {} }
+    router.browserHistory.setMockedResult({ pathName: 'roots.com', query: {} })
     let storageData = null
     UIDomain.LocalStorageData.getData = (app, project, moduleId, storageKey) => {
       assert.equal(app, UIDomain.APPLICATIONS_ENUM.USER, 'Local storage wrong app parameter')
@@ -661,7 +661,7 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       resultsContext: dataContext,
       authentication: {},
       fetchEntity: () => new Promise((resolve) => resolve({})),
-      updateResultsContext: () => {},
+      updateResultsContext: () => { },
     }
 
     const enzymeWrapper = shallow(<ContextManager {...props} />, { context })
@@ -957,10 +957,11 @@ describe('[SEARCH RESULTS] Testing ContextManager', () => {
       nextExpectedRestored = UIDomain.ResultsContextHelper.deepMerge(nextExpectedRestored, expectedRestoredDiff)
       // 2 - mimic restoration from storage and URL and check expectations (then loop to next update...)
       const savedCurrentLocation = currentLocation
-      currentLocation = { query: {} } // cancelling URL mode
+      router.browserHistory.setMockedResult({ query: {} }) // cancelling URL mode
       const fromStorage = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
       assert.deepEqual(fromStorage, nextExpectedRestored, `${label}: restored data from local storage does not match expectations`)
-      currentLocation = savedCurrentLocation
+
+      router.browserHistory.setMockedResult(savedCurrentLocation) // cancelling URL mode
       const fromURL = ContextStorageHelper.restore(dataContext, props.project, props.moduleId)
       assert.deepEqual(fromURL, nextExpectedRestored, `${label}: restored data from URL storage does not match expectations`)
     })

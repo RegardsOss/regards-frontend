@@ -24,7 +24,6 @@ import styles from '../../../src/styles'
 import OAISPackageManagerComponent from '../../../src/components/packages/OAISPackageManagerComponent'
 
 const context = buildTestContext(styles)
-const router = require('react-router')
 
 /**
  * Test OAISPackageManagerContainer
@@ -32,15 +31,9 @@ const router = require('react-router')
  */
 describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -58,15 +51,15 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
         totalElements: 50,
       },
 
-      updateStateFromFeatureManagerFilters: () => {},
-      updateStateFromPackageManager: () => {},
-      fetchProcessingChains: () => {},
-      fetchPage: () => {},
-      fetchStorages: () => {},
-      clearSelection: () => {},
-      fetchSip: () => {},
-      deleteAips: () => {},
-      modifyAips: () => {},
+      updateStateFromFeatureManagerFilters: () => { },
+      updateStateFromPackageManager: () => { },
+      fetchProcessingChains: () => { },
+      fetchPage: () => { },
+      fetchStorages: () => { },
+      clearSelection: () => { },
+      fetchSip: () => { },
+      deleteAips: () => { },
+      modifyAips: () => { },
 
       featureManagerFilters: {
         state: '',

@@ -25,7 +25,6 @@ import { SessionsMonitoringContainer } from '../../../src/containers/session/Ses
 import styles from '../../../src/styles'
 
 const context = buildTestContext(styles)
-const router = require('react-router')
 
 /**
  * Test SessionsMonitoringContainer
@@ -33,15 +32,9 @@ const router = require('react-router')
  */
 describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer', () => {
   before(() => {
-    // mock browser history for container
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: '' }),
-      router: () => {},
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 
@@ -54,13 +47,13 @@ describe('[ADMIN DATA-PROVIDER MANAGEMENT] Testing SessionsMonitoringContainer',
         project: 'test1',
       },
       availableDependencies: [],
-      deleteSession: () => {},
-      relaunchProducts: () => {},
-      relaunchAIP: () => {},
-      relaunchSIP: () => {},
-      fetchSessions: () => {},
-      onRefresh: () => {},
-      acknowledgeSessionState: () => {},
+      deleteSession: () => { },
+      relaunchProducts: () => { },
+      relaunchAIP: () => { },
+      relaunchSIP: () => { },
+      fetchSessions: () => { },
+      onRefresh: () => { },
+      acknowledgeSessionState: () => { },
     }
     const enzymeWrapper = shallow(<SessionsMonitoringContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(SessionsMonitoringComponent)

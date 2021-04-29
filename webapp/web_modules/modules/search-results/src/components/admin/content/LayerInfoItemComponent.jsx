@@ -24,7 +24,7 @@ import {
 } from '@regardsoss/form-utils'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { RadioButton } from 'material-ui'
+import RadioButton from 'material-ui/RadioButton'
 import messages from '../../../i18n'
 
 const {

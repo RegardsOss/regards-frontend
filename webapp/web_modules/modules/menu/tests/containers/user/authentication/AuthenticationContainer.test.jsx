@@ -24,20 +24,13 @@ import LoginButton from '../../../../src/components/user/authentication/LoginBut
 import { AuthenticationContainer } from '../../../../src/containers/user/authentication/AuthenticationContainer'
 import styles from '../../../../src/styles/styles'
 
-const router = require('react-router')
-
 const context = buildTestContext(styles)
 
 describe('[Menu] Testing AuthenticationContainer', () => {
   before(() => {
-    // mocking router browser history
-    router.browserHistory = {
-      getCurrentLocation: () => ({ query: {}, pathname: 'hello/world' }),
-    }
     testSuiteHelpers.before()
   })
   after(() => {
-    delete router.browserHistory
     testSuiteHelpers.after()
   })
 

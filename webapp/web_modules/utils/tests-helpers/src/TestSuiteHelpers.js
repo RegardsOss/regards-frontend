@@ -23,12 +23,14 @@ import Enzyme from 'enzyme'
 import { assert } from 'chai'
 import Adapter from 'enzyme-adapter-react-16'
 import 'mock-local-storage' // installs local storage mock
+import root from 'window-or-global'
 
 // Initialize enzyme: it will be run only once (when initially loading this file)
 Enzyme.configure({ adapter: new Adapter() })
 
 // Store real console.error method in order to reuse it later
 const originalConsoleError = console.error
+const originalTimeout = root.setTimeout
 
 /**
  * Provides a stub that reproduce the behavior of a React Container dispatchable method
@@ -61,12 +63,15 @@ export default {
     console.error = (...args) => {
       throw new Error(args.join(' '))
     }
+    // TODO
+    root.setTimeout = (func) => { }
   },
   /**
    * Clears after tests
    */
   after() {
     console.error = originalConsoleError
+    root.setTimeout = originalTimeout
   },
 
   /**
@@ -163,5 +168,13 @@ export default {
     return getDispatchStub({
       error: true,
     }, sideEffects)
+  },
+
+  /**
+   * Some tests use timeout, but during tests it's only a mock
+   * @returns the node setTimeout function
+   */
+  getRealTimeout(func, timer) {
+    return originalTimeout(func, timer)
   },
 }

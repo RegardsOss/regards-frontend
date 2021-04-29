@@ -136,7 +136,7 @@ describe('[PLUGINS] Testing PluginProvider', () => {
     const markLoadedSpy = { count: 0 }
     const markFailedSpy = { count: 0 }
     const fetchPromise = new Promise((resolve) => {
-      setTimeout(() => {
+      testSuiteHelpers.getRealTimeout(() => {
         resolve(fetchResult)
       }, 5)
     })
