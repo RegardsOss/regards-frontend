@@ -169,7 +169,6 @@
     "react-dom": "^16.6.3",
     "react-infinite": "^0.13.0",
     "react-intl": "~5.17.2",
-    "react-material-color-picker": "^1.1.2",
     "react-measure": "3.0.0-rc.3",
     "react-notification-system": "^0.2.17",
     "react-plotly.js": "^2.1.0",

@@ -60,7 +60,6 @@ const conf = webpackConfigurator
         'scriptjs',
         'window-or-global',
         'fixed-data-table-2',
-        'react-material-color-picker',
         'react-measure',
         'react-remarkable',
         'react-scrollbar',
