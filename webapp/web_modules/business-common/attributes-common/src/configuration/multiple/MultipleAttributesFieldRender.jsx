@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { fieldArrayFieldsPropTypes, fieldMetaPropTypes } from 'redux-form'
-import { intlShape } from 'react-intl'
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -37,7 +36,7 @@ class MultipleAttributesFieldRender extends React.Component {
     fields: PropTypes.shape(fieldArrayFieldsPropTypes).isRequired, // fields given by FieldArray from redux-form
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
-    intl: intlShape.isRequired,
+    ...i18nContextType,
   }
 
   static contextTypes = {

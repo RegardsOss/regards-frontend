@@ -17,11 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { FieldArray } from 'redux-form'
-import { intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 
 class FieldArrayWithIntl extends React.Component {
   static contextTypes = {
-    intl: intlShape,
+    ...i18nContextType,
   }
 
   render() {

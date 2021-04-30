@@ -17,7 +17,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { intlShape } from 'react-intl'
+import i18nContextType from '../contextType'
 
 /**
  * Retrieves intl fom the context
@@ -28,8 +28,8 @@ class I18nInjector extends React.Component {
     children: PropTypes.element.isRequired,
   }
 
-  static contextTypes= {
-    intl: intlShape,
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   mapContextToChildProps = () => ({

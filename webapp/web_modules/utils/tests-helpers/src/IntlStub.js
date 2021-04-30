@@ -28,7 +28,6 @@ export function getLocalizedIntlStub(locale = UIDomain.LOCALES_ENUM.en) {
     formatRelative: () => { },
     formatNumber: (n) => isNil(n) ? '' : n.toString(),
     formatPlural: () => { },
-    formatHTMLMessage: (m) => m.id,
     now: () => { },
   }
 }
