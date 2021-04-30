@@ -7,8 +7,8 @@ echo "Plugin path from webapp: ${PLUGIN_PATH}"
 
 cd /app_to_build/plugins/${PLUGIN_PATH}/
 
-echo "Run tests"
-npm test --no-update-notifier
+echo "Skip tests"
+#npm test --no-update-notifier
 
 echo "Compare dependencies"
 ../../../scripts/compareDependencies.js ../../../package.json ./package.json
