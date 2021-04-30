@@ -85,9 +85,7 @@ module.exports = function (projectContextPath) {
       }),
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-        },
+        'process.env.NODE_ENV': JSON.stringify('development'),
       }),
       new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
         chunkModules: true,

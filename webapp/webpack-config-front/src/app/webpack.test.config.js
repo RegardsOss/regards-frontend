@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
+const WebpackBar = require('webpackbar')
 const getCommonConfig = require('./webpack.common.config')
 // load the static configuration variables
 require('../conf/staticConfiguration')
@@ -38,10 +39,9 @@ module.exports = function (projectContextPath) {
       },
     },
     plugins: [
+      new WebpackBar(),
       new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('test'),
-        },
+        'process.env.NODE_ENV': JSON.stringify('test'),
         GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
         API_URL: JSON.stringify('api/v1'),
         STATIC_CONF: JSON.stringify(STATIC_CONF),

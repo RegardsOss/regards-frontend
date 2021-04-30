@@ -9,9 +9,7 @@ module.exports = function (oldConf) {
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
         CESIUM_BASE_URL: JSON.stringify("/"),
-        'process.env': {
-          NODE_ENV: JSON.stringify('production'),
-        },
+        'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       // A plugin for a more aggressive chunk merging strategy. Even similar chunks are merged if the total size is reduced enough.
       new webpack.optimize.AggressiveMergingPlugin(),

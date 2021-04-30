@@ -63,7 +63,9 @@ export default {
     console.error = (...args) => {
       throw new Error(args.join(' '))
     }
-    // TODO
+    // Cancel any setTimeout called inside tests.
+    // After this, they will be all useless
+    // If you want to use a setTimeout inside your test, your can use getRealTimeout
     root.setTimeout = (func) => { }
   },
   /**
