@@ -30,7 +30,7 @@ import ErrorTypes from './ErrorTypes'
  * Returns {@code true} if the passed String matches an email format.
  * @param {String} email
  */
-const isValidEmail = (email) => /^[A-Z0-9._%+-]{2,71}@[A-Z0-9.-]{2,54}\.[A-Z]{2,4}$/i.test(email)
+const isValidEmail = (email) => /^[A-Z0-9._%+-]{2,71}@[A-Z0-9.-]{2,54}\.[A-Z]{2,}$/i.test(email)
 
 /**
  * Returns {@code true} if the passed String matches an url format.
