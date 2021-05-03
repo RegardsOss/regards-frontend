@@ -45,7 +45,6 @@ const withResourceDisplayControl = (DecoratedComponent) => {
         PropTypes.arrayOf(PropTypes.string),
         PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)),
       ]),
-      hideDisabled: PropTypes.bool,
       // When required resources doesnt match user dependencies, display this component
       onHideDisplayComponent: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
@@ -61,7 +60,6 @@ const withResourceDisplayControl = (DecoratedComponent) => {
     static defaultProps = {
       displayLogic: allMatchHateoasDisplayLogic,
       resourceDependencies: [],
-      hideDisabled: true,
     }
 
     static displayName = `WithResourceDisplayControl(${getDisplayName(DecoratedComponent)})`
@@ -82,7 +80,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // eslint-disable-next-line no-unused-vars, react/prop-types
       const {
         displayLogic, resourceDependencies, availableDependencies,
-        isInstance, hideDisabled, onHideDisplayComponent, ...otherProps
+        isInstance, onHideDisplayComponent, ...otherProps
       } = this.props
 
       const requiredDependencies = isString(resourceDependencies) ? [resourceDependencies] : resourceDependencies
@@ -91,9 +89,7 @@ const withResourceDisplayControl = (DecoratedComponent) => {
       // we provide a disabled to be used by subcomponent - if you provide too the prop we respect it
       const disabled = !isDisplayed || get(otherProps, 'disabled', false)
       const decoratedComponentElement = React.createElement(DecoratedComponent, omit({ ...otherProps, disabled }, ['theme', 'i18n', 'dispatch']))
-      if (!hideDisabled) {
-        return decoratedComponentElement
-      }
+
       return (
         <>
           <ShowableAtRender show={isDisplayed}>

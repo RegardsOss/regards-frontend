@@ -269,13 +269,13 @@ export class ProjectUserListComponent extends React.Component {
             </TableHeaderContentBox>
             {/* right position: access group filters  */}
             <TableHeaderContentBox>
-              { showQuota ? (
+              {showQuota ? (
                 <TableHeaderCheckbox
                   checked={showOnlyLowQuotaUsers}
                   label={formatMessage({ id: 'projectUser.list.only.low.quota' })}
                   disabled={isLoading}
                   onCheck={onToggleOnlyLowQuotaUsers}
-                />) : null }
+                />) : null}
               <TableHeaderCheckbox
                 checked={showOnlyWaitingUsers}
                 label={formatMessage({ id: 'projectUser.list.only.waiting.users' })}
@@ -309,7 +309,6 @@ export class ProjectUserListComponent extends React.Component {
             icon={<ValidateAllIcon />}
             resourceDependencies={ProjectUserListComponent.VALIDATE_ALL_DEPENDENCIES}
             onClick={onValidateAll}
-            hideDisabled={false}
           />
           {/* Cancel and New user on right */}
           <div>
@@ -323,7 +322,6 @@ export class ProjectUserListComponent extends React.Component {
               disabled={isLoading}
               // Add endpoints rights
               resourceDependencies={dependencies.addDependencies}
-              hideDisabled={false}
               className="selenium-userCreate"
             />
           </div>

@@ -87,7 +87,6 @@ class ModelListActionsRenderer extends React.Component {
         </HateoasIconAction>
 
         <ResourceIconAction
-          hideDisabled={false}
           resourceDependencies={modelAttributesActions.getDependency(RequestVerbEnum.POST)}
           onClick={() => handleBindAttributes(entity.content.name)}
           title={intl.formatMessage({ id: 'model.list.action.bind' })}
@@ -107,7 +106,6 @@ class ModelListActionsRenderer extends React.Component {
         </HateoasIconAction>
 
         <ResourceIconAction
-          hideDisabled={false}
           resourceDependencies={modelActions.getDependency(RequestVerbEnum.POST)}
           onClick={() => handleDuplicate(entity.content.name)}
           title={intl.formatMessage({ id: 'model.list.action.duplicate' })}
