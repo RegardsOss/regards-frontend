@@ -245,6 +245,13 @@ pipeline {
                 sh 'cd jenkins/nginx && ./buildTagAndPush.sh'
             }
         }
+        stage('Lint webapp') {
+            steps {
+                sh 'docker run --rm -i \
+                    -v ${WORKSPACE}/webapp:/app_to_build \
+                    rs_node ./lint_webapp.sh'
+            }
+        }
         stage('Sonar analyse') {
              when {
 		         expression { BRANCH_NAME ==~ /(master)/ }
