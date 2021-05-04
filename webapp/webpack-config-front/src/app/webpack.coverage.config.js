@@ -3,14 +3,14 @@ const { merge } = require('webpack-merge')
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
 const getCommonConfig = require('./webpack.common.config')
+const addTestConfig = require('../utils/addTestConfig')
+
 // load the static configuration variables
 require('../conf/staticConfiguration')
 
 module.exports = function (projectContextPath) {
-  // Ensure babel environment variable is correctly setup to coverage
-  process.env.NODE_ENV = 'coverage'
 
-  let config = getCommonConfig(projectContextPath, 'test')
+  let config = addTestConfig(getCommonConfig(projectContextPath, 'test'), 'coverage')
 
   config = merge(config, {
     target: 'node', // in order to ignore built-in modules like path, fs, etc.
@@ -27,10 +27,6 @@ module.exports = function (projectContextPath) {
         /react-router/,
       ],
     })],
-    stats: {
-      colors: true,
-      reasons: true,
-    },
     resolve: {
       alias: {
         'react-router': path.resolve(projectContextPath, 'web_modules/utils/tests-helpers/src/ReactRouter.mock.jsx'),
@@ -38,7 +34,6 @@ module.exports = function (projectContextPath) {
     },
     plugins: [
       new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('coverage'),
         GATEWAY_HOSTNAME: JSON.stringify('http://localhost:8000'),
         API_URL: JSON.stringify('api/v1'),
         STATIC_CONF: JSON.stringify(STATIC_CONF),
@@ -48,12 +43,6 @@ module.exports = function (projectContextPath) {
         fetch: 'isomorphic-fetch',
       }),
     ],
-    // enable sourcemaps support
-    output: {
-      devtoolModuleFilenameTemplate: '[absolute-resource-path]',
-      devtoolFallbackModuleFilenameTemplate: '[absolute-resource-path]?[hash]',
-    },
-    mode: 'development',
   })
   return config
 }

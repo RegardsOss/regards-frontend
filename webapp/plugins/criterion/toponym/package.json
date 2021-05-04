@@ -7,9 +7,9 @@
   "author": "Theo Lasserre",
   "contributors": [],
   "scripts": {
-    "build:dev": "webpack --mode=development --progress --config webpack.dev.config.js",
-    "build:production": "webpack --mode=production --progress --config webpack.prod.config.js",
-    "build:watch": "nodemon -e js,jsx --ignore \"target\" --exec \"webpack --mode=development --progress --config webpack.dev.config.js\"",
+    "build:dev": "webpack --progress --config webpack.dev.config.js",
+    "build:production": "webpack --progress --config webpack.prod.config.js",
+    "build:watch": "nodemon -e js,jsx --ignore \"target\" --exec \"webpack --progress --config webpack.dev.config.js\"",
     "esdoc": "esdoc -c esdoc.json",
     "lint": "eslint src tests --ext .js,.jsx",
     "lint:fix": "eslint --fix  src tests --ext .js,.jsx",

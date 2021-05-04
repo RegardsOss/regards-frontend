@@ -14,6 +14,7 @@ module.exports = function (projectContextPath) {
   process.env.NODE_ENV = 'development'
 
   config = merge(config, {
+    mode: 'development',
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'eval-source-map',
     output: {
@@ -85,7 +86,6 @@ module.exports = function (projectContextPath) {
       }),
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
-        'process.env.NODE_ENV': JSON.stringify('development'),
       }),
       // new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
       //   chunkModules: true,

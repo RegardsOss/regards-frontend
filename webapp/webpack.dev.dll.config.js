@@ -26,6 +26,7 @@ const conf = webpackConfigurator
   })
   .cleanFolder()
   .merge({
+    mode: 'development',
     output: {
       path: `${__dirname}/dist/dev/`,
     },
@@ -72,11 +73,6 @@ const conf = webpackConfigurator
       ],
     },
     plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-        },
-      }),
       new webpack.DllPlugin({
         // The path to the manifest file which maps between
         // modules included in a bundle and the internal IDs

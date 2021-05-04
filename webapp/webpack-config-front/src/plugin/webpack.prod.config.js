@@ -12,6 +12,7 @@ module.exports = function (projectContextPath, frontendWebappPath) {
   process.env.NODE_ENV = 'production'
 
   return merge(config, {
+    mode: 'production',
     plugins: [
       // Use the DLL every times your plugin depends of something that is already in the DLL
       new webpack.DllReferencePlugin({

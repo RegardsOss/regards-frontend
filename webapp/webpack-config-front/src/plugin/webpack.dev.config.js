@@ -12,13 +12,11 @@ module.exports = function (projectContextPath) {
   process.env.NODE_ENV = 'development'
 
   return merge(config, {
+    mode: 'development',
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-        },
       }),
       // Use the DLL every times your plugin depends of something that is already in the DLL
       new webpack.DllReferencePlugin({
