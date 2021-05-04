@@ -22,7 +22,6 @@ import { formValueSelector } from 'redux-form'
 import CircularProgress from 'material-ui/CircularProgress'
 import { CardActions, CardText } from 'material-ui/Card'
 import MenuItem from 'material-ui/MenuItem'
-import { FormattedMessage } from 'react-intl'
 import { connect } from '@regardsoss/redux'
 import { DamDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -155,25 +154,25 @@ export class AccessRightFormComponent extends React.Component {
                   as other metadata access types prevent data access */
               selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS
                 || selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
-                <Field
-                  className="selenium-pick-dataAccess"
-                  name="dataAccess"
-                  fullWidth
-                  component={RenderSelectField}
-                  label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
-                >
-                  {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
-                    const label = `accessright.form.data.accessLevel.${value}`
-                    return (
-                      <MenuItem
-                        className={`selenium-pick-dataAccess-${value}`}
-                        value={value}
-                        key={key}
-                        primaryText={formatMessage({ id: label })}
-                      />
-                    )
-                  })}
-                </Field>) : null
+                  <Field
+                    className="selenium-pick-dataAccess"
+                    name="dataAccess"
+                    fullWidth
+                    component={RenderSelectField}
+                    label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
+                  >
+                    {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
+                      const label = `accessright.form.data.accessLevel.${value}`
+                      return (
+                        <MenuItem
+                          className={`selenium-pick-dataAccess-${value}`}
+                          value={value}
+                          key={key}
+                          primaryText={formatMessage({ id: label })}
+                        />
+                      )
+                    })}
+                  </Field>) : null
             }
           </CardText>
           {/* 5. Form actions */}

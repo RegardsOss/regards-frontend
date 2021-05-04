@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -123,8 +123,8 @@ export class ThemeListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="theme.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="theme.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'theme.list.table.label' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'theme.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -153,9 +153,7 @@ export class ThemeListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="theme.list.action.add"
-              />
+              formatMessage({ id: 'theme.list.action.add' })
             }
             mainHateoasDependencies={ThemeListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={formatMessage({ id: 'theme.list.action.cancel' })}

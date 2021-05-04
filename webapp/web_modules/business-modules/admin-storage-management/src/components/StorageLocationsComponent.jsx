@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import {
   Card, CardActions, CardText, CardTitle,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import { CardActionsComponent } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
@@ -70,20 +70,20 @@ class StorageLocationListComponent extends React.Component {
           <div style={storageTypeListStyle}>
             <ul>
               <li>
-                <span style={typeStyle}><FormattedMessage id="storage.location.type.online.name" /></span>
-                <FormattedMessage id="storage.location.type.online.description" />
+                <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.online.name' })}</span>
+                {formatMessage({ id: 'storage.location.type.online.description' })}
               </li>
               <li>
-                <span style={typeStyle}><FormattedMessage id="storage.location.type.nearline.name" /></span>
-                <FormattedMessage id="storage.location.type.nearline.description" />
+                <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.nearline.name' })}</span>
+                {formatMessage({ id: 'storage.location.type.nearline.description' })}
               </li>
               <li>
-                <span style={typeStyle}><FormattedMessage id="storage.location.type.offline.name" /></span>
-                <FormattedMessage id="storage.location.type.offline.description" />
+                <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.offline.name' })}</span>
+                {formatMessage({ id: 'storage.location.type.offline.description' })}
               </li>
               <li>
-                <span style={typeStyle}><FormattedMessage id="storage.location.type.cache.name" /></span>
-                <FormattedMessage id="storage.location.type.cache.description" />
+                <span style={typeStyle}>{formatMessage({ id: 'storage.location.type.cache.name' })}</span>
+                {formatMessage({ id: 'storage.location.type.cache.description' })}
               </li>
             </ul>
           </div>

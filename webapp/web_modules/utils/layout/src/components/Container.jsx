@@ -26,7 +26,7 @@ import MenuItem from 'material-ui/MenuItem'
 import MoreVertIcon from 'mdi-material-ui/DotsVertical'
 import Bookmark from 'mdi-material-ui/Bookmark'
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar'
-import { FormattedMessage } from 'react-intl'
+
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { I18nProvider, i18nContextType } from '@regardsoss/i18n'
 import { AccessShapes } from '@regardsoss/shape'
@@ -180,6 +180,8 @@ class Container extends React.Component {
    * @returns {*}
    */
   renderConfigurationMode = () => {
+    const { intl: { formatMessage } } = this.context
+
     const anchorOrigin = {
       horizontal: 'left',
       vertical: 'top',
@@ -195,7 +197,7 @@ class Container extends React.Component {
         deleteAction = (<MenuItem
           key="delete"
           onClick={this.onDelete}
-          primaryText={<FormattedMessage id="container.configuration.delete.section" />}
+          primaryText={formatMessage({ id: 'container.configuration.delete.section' })}
         />
         )
       }
@@ -220,12 +222,12 @@ class Container extends React.Component {
                   <MenuItem
                     key="add"
                     onClick={this.onAdd}
-                    primaryText={<FormattedMessage id="container.configuration.add.subsection" />}
+                    primaryText={formatMessage({ id: 'container.configuration.add.subsection' })}
                   />
                   <MenuItem
                     key="edit"
                     onClick={this.onEdit}
-                    primaryText={<FormattedMessage id="container.configuration.edit.section" />}
+                    primaryText={formatMessage({ id: 'container.configuration.edit.section' })}
                   />
                   {deleteAction}
                 </IconMenu>

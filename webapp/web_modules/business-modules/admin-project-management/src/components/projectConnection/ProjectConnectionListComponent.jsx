@@ -31,7 +31,7 @@ import RefreshIcon from 'mdi-material-ui/Refresh'
 import CheckedIcon from 'mdi-material-ui/CheckCircle'
 import IconButton from 'material-ui/IconButton'
 import Edit from 'mdi-material-ui/Pencil'
-import { FormattedMessage } from 'react-intl'
+
 import { AdminShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -89,6 +89,7 @@ export class ProjectConnectionListComponent extends React.Component {
   }
 
   getStatus = (microserviceName, connection) => {
+    const { intl: { formatMessage } } = this.context
     const pendingIconStyle = { marginRight: 5, color: this.context.muiTheme.palette.primary1Color }
     switch (get(connection, 'content.state', ProjectConnectionStateEnum.NOT_DEFINED)) {
       case ProjectConnectionStateEnum.DISABLED:
@@ -97,7 +98,7 @@ export class ProjectConnectionListComponent extends React.Component {
             <TimeIcon
               style={pendingIconStyle}
             />
-            <FormattedMessage id="project.connection.is.disabled" />
+            {formatMessage({ id: 'project.connection.is.disabled' })}
           </span>
         )
       case ProjectConnectionStateEnum.CONNECTING:
@@ -106,7 +107,7 @@ export class ProjectConnectionListComponent extends React.Component {
             <TimeIcon
               style={ProjectConnectionListComponent.iconColorGood}
             />
-            <FormattedMessage id="project.connection.is.connecting" />
+            {formatMessage({ id: 'project.connection.is.connecting' })}
           </span>
         )
       case ProjectConnectionStateEnum.ERROR:
@@ -116,7 +117,7 @@ export class ProjectConnectionListComponent extends React.Component {
               <WarningIcon
                 style={ProjectConnectionListComponent.iconColorError}
               />
-              <FormattedMessage id="project.connection.is.not.valid" />
+              {formatMessage({ id: 'project.connection.is.not.valid' })}
             </span>
             {connection.content.errorCause}
           </span>
@@ -127,7 +128,7 @@ export class ProjectConnectionListComponent extends React.Component {
             <CheckedIcon
               style={ProjectConnectionListComponent.iconColorGood}
             />
-            <FormattedMessage id="project.connection.is.configured" />
+            {formatMessage({ id: 'project.connection.is.configured' })}
           </span>
         )
       // Microservice doesn't have any connection at all (new microservice?)
@@ -137,7 +138,7 @@ export class ProjectConnectionListComponent extends React.Component {
             <WarningIcon
               style={ProjectConnectionListComponent.iconColorWarn}
             />
-            <FormattedMessage id="project.connection.is.not.defined" />
+            {formatMessage({ id: 'project.connection.is.not.defined' })}
           </span>
         )
       default:
@@ -230,9 +231,9 @@ export class ProjectConnectionListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="project.connection.list.microservice" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.connection.list.status" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="project.connection.list.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'project.connection.list.microservice' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'project.connection.list.status' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'project.connection.list.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody

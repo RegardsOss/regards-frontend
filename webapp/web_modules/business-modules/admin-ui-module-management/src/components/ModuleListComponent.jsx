@@ -27,7 +27,7 @@ import {
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import Copy from 'mdi-material-ui/ContentCopy'
-import { FormattedMessage } from 'react-intl'
+
 import {
   ActionsMenuCell, CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes,
   ShowableAtRender, HateoasToggle, HateoasIconAction, ResourceIconAction,
@@ -91,10 +91,11 @@ class ModuleListComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const { modules } = this.props
-    const { intl } = this.context
     const name = this.state.moduleToDelete ? this.state.moduleToDelete.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'modules.list.delete.message' }, { name })
+    const title = formatMessage({ id: 'modules.list.delete.message' }, { name })
 
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
@@ -114,8 +115,8 @@ class ModuleListComponent extends React.Component {
           />
         </ShowableAtRender>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'modules.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'modules.list.subtitle' })}
+          title={formatMessage({ id: 'modules.list.title' })}
+          subtitle={formatMessage({ id: 'modules.list.subtitle' })}
         />
         <CardText>
           <Table
@@ -127,10 +128,10 @@ class ModuleListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="modules.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="modules.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="modules.list.table.active" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="modules.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'modules.list.table.description' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'modules.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'modules.list.table.active' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'modules.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -155,7 +156,7 @@ class ModuleListComponent extends React.Component {
                       breakpoints={actionsBreakpoints}
                     >
                       <HateoasIconAction
-                        title={intl.formatMessage({ id: 'modules.list.table.action.edit.tooltip' })}
+                        title={formatMessage({ id: 'modules.list.table.action.edit.tooltip' })}
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onClick={() => this.props.onEdit(module.content)}
@@ -163,14 +164,14 @@ class ModuleListComponent extends React.Component {
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
-                        title={intl.formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
+                        title={formatMessage({ id: 'modules.list.table.action.duplicate.tooltip' })}
                         resourceDependencies={moduleActions.getDependency(RequestVerbEnum.POST)}
                         onClick={() => this.props.onDuplicate(module.content)}
                       >
                         <Copy hoverColor={style.hoverButtonEdit} />
                       </ResourceIconAction>
                       <HateoasIconAction
-                        title={intl.formatMessage({ id: 'modules.list.table.action.delete.tooltip' })}
+                        title={formatMessage({ id: 'modules.list.table.action.delete.tooltip' })}
                         entityLinks={module.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onClick={() => this.openDeleteDialog(module.content)}
@@ -188,12 +189,10 @@ class ModuleListComponent extends React.Component {
           <CardActionsComponent
             mainButtonClick={this.props.onCreate}
             mainButtonLabel={
-              <FormattedMessage
-                id="modules.list.action.add"
-              />
+              formatMessage({ id: 'modules.list.action.add' })
             }
             mainHateoasDependencies={ModuleListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'layout.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'layout.cancel' })}
             secondaryButtonUrl={this.props.backUrl}
           />
         </CardActions>

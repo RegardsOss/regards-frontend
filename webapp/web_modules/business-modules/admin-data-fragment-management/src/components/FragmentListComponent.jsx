@@ -24,7 +24,7 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
 import Download from 'mdi-material-ui/Download'
@@ -90,8 +90,10 @@ export class FragmentListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'fragment.list.delete.title' }, { name })
+    const title = formatMessage({ id: 'fragment.list.delete.title' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
@@ -117,17 +119,17 @@ export class FragmentListComponent extends React.Component {
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
       hoverButtonView: this.context.muiTheme.palette.pickerHeaderColor,
     }
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'fragment.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'fragment.list.subtitle' })}
+          title={formatMessage({ id: 'fragment.list.title' })}
+          subtitle={formatMessage({ id: 'fragment.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
           <HelpMessageComponent
-            message={this.context.intl.formatMessage({ id: 'fragment.list.delete.conditions' })}
+            message={formatMessage({ id: 'fragment.list.delete.conditions' })}
           />
           <Table
             selectable={false}
@@ -138,9 +140,9 @@ export class FragmentListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="fragment.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="fragment.list.table.description" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="fragment.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'fragment.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'fragment.list.table.description' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'fragment.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -160,7 +162,7 @@ export class FragmentListComponent extends React.Component {
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onClick={() => handleEdit(fragment.content.id)}
-                        title={intl.formatMessage({ id: 'fragment.list.action.edit' })}
+                        title={formatMessage({ id: 'fragment.list.action.edit' })}
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -168,7 +170,7 @@ export class FragmentListComponent extends React.Component {
                         entityLinks={fragment.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onClick={() => this.openDeleteDialog(fragment)}
-                        title={intl.formatMessage({ id: 'fragment.list.action.delete' })}
+                        title={formatMessage({ id: 'fragment.list.action.delete' })}
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
                       </HateoasIconAction>
@@ -176,7 +178,7 @@ export class FragmentListComponent extends React.Component {
                         entityLinks={fragment.links}
                         hateoasKey="export"
                         href={this.getExportUrlFromHateoas(fragment.links)}
-                        title={intl.formatMessage({ id: 'fragment.list.action.export' })}
+                        title={formatMessage({ id: 'fragment.list.action.export' })}
                       >
                         <Download hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
@@ -191,12 +193,10 @@ export class FragmentListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="fragment.list.action.add"
-              />
+              formatMessage({ id: 'fragment.list.action.add' })
             }
             mainHateoasDependencies={FragmentListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'fragment.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

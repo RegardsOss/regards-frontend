@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -79,15 +79,19 @@ export class ConnectionListComponent extends React.Component {
   }
 
   printIsActive = (active) => {
+    const { intl: { formatMessage } } = this.context
+
     if (active) {
-      return (<FormattedMessage id="connection.list.isActive.true" />)
+      return formatMessage({ id: 'connection.list.isActive.true' })
     }
-    return (<FormattedMessage id="connection.list.isActive.false" />)
+    return formatMessage({ id: 'connection.list.isActive.false' })
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
-    const title = this.context.intl.formatMessage({ id: 'connection.list.delete.title' }, { name })
+    const title = formatMessage({ id: 'connection.list.delete.title' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
@@ -112,12 +116,13 @@ export class ConnectionListComponent extends React.Component {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
     }
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
+
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'connection.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'connection.list.subtitle' })}
+          title={formatMessage({ id: 'connection.list.title' })}
+          subtitle={formatMessage({ id: 'connection.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -130,10 +135,10 @@ export class ConnectionListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="connection.list.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="connection.list.table.isActive" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="connection.list.table.test" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="connection.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.label' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.isActive' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.test' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'connection.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -154,7 +159,7 @@ export class ConnectionListComponent extends React.Component {
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onClick={() => handleEdit(connection.content.businessId)}
-                        title={intl.formatMessage({ id: 'connection.list.action.edit' })}
+                        title={formatMessage({ id: 'connection.list.action.edit' })}
                         className="selenium-editButton"
                       >
                         <Edit hoverColor={style.hoverButtonEdit} />
@@ -163,7 +168,7 @@ export class ConnectionListComponent extends React.Component {
                         entityLinks={connection.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onClick={() => this.openDeleteDialog(connection)}
-                        title={intl.formatMessage({ id: 'connection.list.action.delete' })}
+                        title={formatMessage({ id: 'connection.list.action.delete' })}
                         className="selenium-deleteButton"
                       >
                         <Delete hoverColor={style.hoverButtonDelete} />
@@ -179,12 +184,10 @@ export class ConnectionListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="connection.list.action.add"
-              />
+              formatMessage({ id: 'connection.list.action.add' })
             }
             mainHateoasDependencies={ConnectionListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'connection.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'connection.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

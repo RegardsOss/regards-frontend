@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'

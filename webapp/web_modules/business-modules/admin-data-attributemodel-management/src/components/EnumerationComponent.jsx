@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -81,6 +81,8 @@ export class EnumerationComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const { acceptableValues, newValue } = this.state
     const styleBtn = {
       display: 'flex',
@@ -118,7 +120,7 @@ export class EnumerationComponent extends React.Component {
           return null
         })}
         <hr />
-        <div><FormattedMessage id="attrmodel.form.restriction.ENUMERATION.add" /></div>
+        <div>{formatMessage({ id: 'attrmodel.form.restriction.ENUMERATION.add' })}</div>
         <div className="row" style={styleBtn}>
           <TextField
             name="restriction.ENUMERATION.addinput"

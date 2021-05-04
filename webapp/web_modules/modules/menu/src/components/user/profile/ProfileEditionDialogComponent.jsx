@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import { CardActions } from 'material-ui/Card'
 import IdentityIcon from 'mdi-material-ui/AccountOutline'
 import NotificationsIcon from 'mdi-material-ui/BellOutline'
@@ -29,6 +29,7 @@ import { MetadataList } from '@regardsoss/user-metadata-common'
 import { themeContextType } from '@regardsoss/theme'
 import { PositionedDialog } from '@regardsoss/components'
 import { QuotaInfo, QUOTA_INFO_STATE_ENUM } from '@regardsoss/entities-common'
+import { i18nContextType } from '@regardsoss/i18n'
 import { PROFILE_VIEW_STATES, PROFILE_VIEW_STATE_ENUM } from '../../../domain/ProfileViewStateEnum'
 import ProfileEditionFormComponent from './ProfileEditionFormComponent'
 import ProfileNotificationFormComponent from './ProfileNotificationFormComponent'
@@ -53,6 +54,7 @@ class ProfileEditionDialogComponent extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   static LIST_OPTIONS = {
@@ -137,7 +139,7 @@ class ProfileEditionDialogComponent extends React.Component {
           <div className="col-xs-35 col-lg-25">
             <List>
               <Subheader style={notifications.list.subHeader.style}>
-                <FormattedMessage id="user.menu.profile.leftbar.title" />
+                {formatMessage({ id: 'user.menu.profile.leftbar.title' })}
               </Subheader>
               { /** List options: add download information for users that have limited rate or quota */
                 [
@@ -179,7 +181,7 @@ class ProfileEditionDialogComponent extends React.Component {
         <CardActions style={notifications.dialog.details.actions.style}>
           <FlatButton
             label={
-              <FormattedMessage id="user.menu.profile.action.close" />
+              formatMessage({ id: 'user.menu.profile.action.close' })
             }
             primary
             onClick={onHideDialog}

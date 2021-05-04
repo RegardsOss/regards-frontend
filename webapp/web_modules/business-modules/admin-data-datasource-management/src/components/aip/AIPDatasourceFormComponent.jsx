@@ -40,7 +40,7 @@ import {
   reduxForm, RenderTextField, RenderSelectField, Field, FieldArray, ValidationHelpers, RenderArrayTextField,
 } from '@regardsoss/form-utils'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import MenuItem from 'material-ui/MenuItem'
@@ -92,10 +92,12 @@ export class AIPDatasourceFormComponent extends React.Component {
   }
 
   getTitle = () => {
+    const { intl: { formatMessage } } = this.context
+
     if (this.props.isCreating) {
-      return this.context.intl.formatMessage({ id: 'aip.datasource.create.title' })
+      return formatMessage({ id: 'aip.datasource.create.title' })
     }
-    return this.context.intl.formatMessage({ id: 'aip.datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
+    return formatMessage({ id: 'aip.datasource.edit.title' }, { name: this.props.currentDatasource.content.label })
   }
 
   /**
@@ -231,6 +233,8 @@ export class AIPDatasourceFormComponent extends React.Component {
       submitting, invalid, backUrl, isEditing, modelAttributeFetched,
     } = this.props
     const title = this.getTitle()
+    const { intl: { formatMessage } } = this.context
+
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -238,7 +242,7 @@ export class AIPDatasourceFormComponent extends React.Component {
         <Card>
           <CardTitle
             title={title}
-            subtitle={this.context.intl.formatMessage({ id: 'aip.datasource.form.subtitle' })}
+            subtitle={formatMessage({ id: 'aip.datasource.form.subtitle' })}
           />
           <CardText>
             <Field
@@ -246,7 +250,7 @@ export class AIPDatasourceFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'datasource.form.label' })}
+              label={formatMessage({ id: 'datasource.form.label' })}
               validate={labelValidators}
             />
             <Field
@@ -254,13 +258,13 @@ export class AIPDatasourceFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="number"
-              label={this.context.intl.formatMessage({ id: 'datasource.form.refreshRate' })}
+              label={formatMessage({ id: 'datasource.form.refreshRate' })}
             />
             <Field
               name="model"
               fullWidth
               component={RenderSelectField}
-              label={this.context.intl.formatMessage({ id: 'datasource.form.model' })}
+              label={formatMessage({ id: 'datasource.form.model' })}
               disabled={isEditing}
               validate={ValidationHelpers.required}
               onSelect={this.handleModelChange}
@@ -282,7 +286,7 @@ export class AIPDatasourceFormComponent extends React.Component {
                 name="attributeFileSize"
                 fullWidth
                 component={RenderSelectField}
-                label={this.context.intl.formatMessage({ id: 'datasource.form.attributeFileSize' })}
+                label={formatMessage({ id: 'datasource.form.attributeFileSize' })}
                 onSelect={this.handleAttributeFileSizeChange}
               >
                 <MenuItem
@@ -303,17 +307,17 @@ export class AIPDatasourceFormComponent extends React.Component {
             <FieldArray
               name="tags"
               component={RenderArrayTextField}
-              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.tags' })}
+              fieldsListLabel={formatMessage({ id: 'datasource.form.tags' })}
             />
             <FieldArray
               name="subsettingTags"
               component={RenderArrayTextField}
-              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingTags' })}
+              fieldsListLabel={formatMessage({ id: 'datasource.form.subsettingTags' })}
             />
             <FieldArray
               name="subsettingCategories"
               component={RenderArrayTextField}
-              fieldsListLabel={this.context.intl.formatMessage({ id: 'datasource.form.subsettingCategories' })}
+              fieldsListLabel={formatMessage({ id: 'datasource.form.subsettingCategories' })}
             />
             <ShowableAtRender
               show={modelAttributeFetched}
@@ -327,9 +331,9 @@ export class AIPDatasourceFormComponent extends React.Component {
                   displaySelectAll={false}
                 >
                   <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.staticAttributes" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.type" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.value" /></TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.staticAttributes' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.type' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.value' })}</TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
                 <TableBody
@@ -352,9 +356,9 @@ export class AIPDatasourceFormComponent extends React.Component {
                     displaySelectAll={false}
                   >
                     <TableRow>
-                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.fragmentAndLabel" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.type" /></TableHeaderColumn>
-                      <TableHeaderColumn><FormattedMessage id="aip.datasource.form.table.value" /></TableHeaderColumn>
+                      <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.fragmentAndLabel' })}</TableHeaderColumn>
+                      <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.type' })}</TableHeaderColumn>
+                      <TableHeaderColumn>{formatMessage({ id: 'aip.datasource.form.table.value' })}</TableHeaderColumn>
                     </TableRow>
                   </TableHeader>
                   <TableBody
@@ -370,10 +374,10 @@ export class AIPDatasourceFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.mapping.action.save' })}
+              mainButtonLabel={formatMessage({ id: 'datasource.form.mapping.action.save' })}
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'datasource.form.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>

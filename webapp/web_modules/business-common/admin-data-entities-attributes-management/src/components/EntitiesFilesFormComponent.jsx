@@ -32,7 +32,6 @@ import {
   Field, FieldArray, RenderFileFieldWithMui, RenderArrayObjectField, reduxForm,
 } from '@regardsoss/form-utils'
 import Subheader from 'material-ui/Subheader'
-import { FormattedMessage } from 'react-intl'
 import { CardActionsComponent, ShowableAtRender, NoContentComponent } from '@regardsoss/components'
 import RaisedButton from 'material-ui/RaisedButton'
 import IconButton from 'material-ui/IconButton'
@@ -249,6 +248,8 @@ export class EntitiesFilesFormComponent extends React.Component {
   )
 
   renderFormNewValue = () => {
+    const { intl: { formatMessage } } = this.context
+
     if (this.state.state !== STATE.FORM) {
       return null
     }
@@ -257,9 +258,9 @@ export class EntitiesFilesFormComponent extends React.Component {
         onSubmit={this.props.handleSubmit(this.onSubmit)}
       >
         <Paper style={EntitiesFilesFormComponent.paperStyle} zDepth={3}>
-          <Subheader><FormattedMessage id="entities-files.form.upload.files.subtitle" /></Subheader>
+          <Subheader>{formatMessage({ id: 'entities-files.form.upload.files.subtitle' })}</Subheader>
           {times(this.state.nbInputs, (i) => this.renderFileInput(i))}
-          <Subheader><FormattedMessage id="entities-files.form.upload.refs.subtitle" /></Subheader>
+          <Subheader>{formatMessage({ id: 'entities-files.form.upload.refs.subtitle' })}</Subheader>
           <FieldArray
             name="refs"
             component={RenderArrayObjectField}
@@ -338,7 +339,7 @@ export class EntitiesFilesFormComponent extends React.Component {
     ))
     return (
       <List>
-        <Subheader><FormattedMessage id="entities-files.form.file.subtitle" /></Subheader>
+        <Subheader>{formatMessage({ id: 'entities-files.form.file.subtitle' })}</Subheader>
         {content}
         <div style={EntitiesFilesFormComponent.addFileWrapperStyle}>
           <RaisedButton label={formatMessage({ id: 'entities-files.form.action.add-file' })} onClick={this.handleOpenForm} />

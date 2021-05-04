@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEqual from 'lodash/isEqual'
 import reduce from 'lodash/reduce'
-import { FormattedMessage } from 'react-intl'
+
 import { formValueSelector } from 'redux-form'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -228,7 +228,7 @@ export class OSQueryConfigurationComponent extends React.Component {
                     ? formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.inclusive.bound' }, { bound: maxPageSize.toString() })
                     : formatMessage({ id: 'opensearch.crawler.form.query.input.field.numeric.max.free.bound' }),
                 })
-}
+              }
               validate={pageSizeValidators}
               fullWidth
             />
@@ -249,7 +249,7 @@ export class OSQueryConfigurationComponent extends React.Component {
             <CardActionsComponent
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              mainButtonLabel={<FormattedMessage id="datasource.form.create.action.next" />}
+              mainButtonLabel={formatMessage({ id: 'datasource.form.create.action.next' })}
               secondaryButtonLabel={formatMessage({
                 id: 'datasource.form.create.action.previous',
               })}

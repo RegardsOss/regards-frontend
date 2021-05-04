@@ -33,7 +33,7 @@ import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import { FormattedMessage } from 'react-intl'
+
 import { formValueSelector } from 'redux-form'
 import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
@@ -182,7 +182,8 @@ export class ProjectUserFormComponent extends React.Component {
   }
 
   renderChipInput = () => {
-    const { moduleTheme: { userForm } } = this.context
+    const { moduleTheme: { userForm }, intl: { formatMessage } } = this.context
+
     return (
       <div style={userForm.renderChipInput}>
         {map(this.state.tempGroups, (groupName) => (
@@ -198,7 +199,7 @@ export class ProjectUserFormComponent extends React.Component {
               size={32}
               icon={<AddSvg />}
             />
-            <FormattedMessage id="projectUser.create.action.add" />
+            {formatMessage({ id: 'projectUser.create.action.add' })}
           </Chip>
         </ShowableAtRender>
         <Popover
@@ -344,7 +345,7 @@ export class ProjectUserFormComponent extends React.Component {
               />))
             }
             <div style={userForm.groupsLabel}>
-              <FormattedMessage id="projectUser.create.input.groups" />
+              {formatMessage({ id: 'projectUser.create.input.groups' })}
             </div>
             {this.renderChipInput()}
           </CardText>

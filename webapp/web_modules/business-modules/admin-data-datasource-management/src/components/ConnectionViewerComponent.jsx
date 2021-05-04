@@ -19,7 +19,7 @@
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
-import { FormattedMessage } from 'react-intl'
+
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'

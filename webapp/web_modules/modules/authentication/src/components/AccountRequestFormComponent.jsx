@@ -18,7 +18,7 @@
  */
 import values from 'lodash/values'
 import trim from 'lodash/trim'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'

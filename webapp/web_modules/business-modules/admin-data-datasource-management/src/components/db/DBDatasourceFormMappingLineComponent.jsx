@@ -20,7 +20,7 @@ import flow from 'lodash/flow'
 import fpsortBy from 'lodash/fp/sortBy'
 import fpmap from 'lodash/fp/map'
 import { TableRow, TableRowColumn } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, RenderSelectField, Field } from '@regardsoss/form-utils'
 import { ShowableAtRender } from '@regardsoss/components'
@@ -57,10 +57,12 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   }
 
   showIfOptional = (value) => {
+    const { intl: { formatMessage } } = this.context
+
     if (value) {
-      return (<FormattedMessage id="datasource.form.mapping.table.optional.true" />)
+      return formatMessage({ id: 'datasource.form.mapping.table.optional.true' })
     }
-    return (<FormattedMessage id="datasource.form.mapping.table.optional.false" />)
+    return formatMessage({ id: 'datasource.form.mapping.table.optional.false' })
   }
 
   handleToggleAdvanced = () => {
@@ -74,6 +76,8 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   }
 
   renderInputs = () => {
+    const { intl: { formatMessage } } = this.context
+
     const { modelAttribute, tableAttributeList, onlyAdvancedConfiguration } = this.props
     const { showAdvanced, prefix } = this.state
     if (onlyAdvancedConfiguration) {
@@ -84,7 +88,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
+            label={formatMessage({ id: 'datasource.form.mapping.table.input' })}
             multiLine
           />
         </div>)
@@ -112,7 +116,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
     return (
       <div>
         <Checkbox
-          label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
+          label={formatMessage({ id: 'datasource.form.mapping.table.showAdvancedConfiguration' })}
           checked={showAdvanced}
           onClick={this.handleToggleAdvanced}
           className={`selenium-useSQL-${modelAttribute.content.attribute.name}`}
@@ -125,7 +129,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.input' })}
+            label={formatMessage({ id: 'datasource.form.mapping.table.input' })}
             multiLine
           />
         </ShowableAtRender>
@@ -137,7 +141,7 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
             fullWidth
             component={RenderSelectField}
             type="text"
-            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.table.select' })}
+            label={formatMessage({ id: 'datasource.form.mapping.table.select' })}
           >
             {items}
           </Field>
@@ -146,11 +150,13 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   }
 
   renderFragmentName = () => {
+    const { intl: { formatMessage } } = this.context
+
     const { isStaticAttribute, modelAttribute } = this.props
     if (!isStaticAttribute && modelAttribute.content.attribute.fragment.name !== DamDomain.DEFAULT_FRAGMENT) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.fragment" />
+          {formatMessage({ id: 'datasource.form.mapping.table.fragment' })}
           :
           {modelAttribute.content.attribute.fragment.name}
           <br />
@@ -161,11 +167,13 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   }
 
   renderType = () => {
+    const { intl: { formatMessage } } = this.context
+
     const { isStaticAttribute, modelAttribute } = this.props
     if (!isStaticAttribute) {
       return (
         <div>
-          <FormattedMessage id="datasource.form.mapping.table.type" />
+          {formatMessage({ id: 'datasource.form.mapping.table.type' })}
           :
           {modelAttribute.content.attribute.type}
           <br />
@@ -176,13 +184,15 @@ export class DBDatasourceFormMappingLineComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const { modelAttribute } = this.props
 
     return (
       <TableRow>
         <TableRowColumn>
           {this.renderFragmentName()}
-          <FormattedMessage id="datasource.form.mapping.table.attrName" />
+          {formatMessage({ id: 'datasource.form.mapping.table.attrName' })}
           :
           {modelAttribute.content.attribute.name}
           <br />

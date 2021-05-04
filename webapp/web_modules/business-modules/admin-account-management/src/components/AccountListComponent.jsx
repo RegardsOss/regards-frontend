@@ -26,7 +26,6 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
 import EditAccountIcon from 'mdi-material-ui/Pencil'
 import DeleteAccountIcon from 'mdi-material-ui/Delete'
 import ValidateAccountIcon from 'mdi-material-ui/AccountCheck'
@@ -270,11 +269,11 @@ export class AccountListComponent extends React.Component {
                   displaySelectAll={false}
                 >
                   <TableRow>
-                    <TableHeaderColumn><FormattedMessage id="account.list.table.email" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="account.list.table.firstName" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="account.list.table.lastName" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="account.list.table.status" /></TableHeaderColumn>
-                    <TableHeaderColumn><FormattedMessage id="account.list.table.action" /></TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.email' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.firstName' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.lastName' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.status' })}</TableHeaderColumn>
+                    <TableHeaderColumn>{formatMessage({ id: 'account.list.table.action' })}</TableHeaderColumn>
                   </TableRow>
                 </TableHeader>
                 <TableBody
@@ -294,7 +293,7 @@ export class AccountListComponent extends React.Component {
                         {account.content.lastName || '-'}
                       </TableRowColumn>
                       <TableRowColumn>
-                        <FormattedMessage id={`account.list.table.status.label.${account.content.status}`} />
+                        {formatMessage({ id: `account.list.table.status.label.${account.content.status}` })}
                       </TableRowColumn>
                       <TableRowColumn>
                         <ActionsMenuCell

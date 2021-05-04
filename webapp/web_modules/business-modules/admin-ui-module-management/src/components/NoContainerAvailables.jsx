@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import RaisedButton from 'material-ui/RaisedButton'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 
@@ -39,17 +39,19 @@ class NoContainerAvailables extends React.PureComponent {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     return (
       <Card>
         <CardTitle
-          title={<FormattedMessage id="module.no.container.available.title" />}
+          title={formatMessage({ id: 'module.no.container.available.title' })}
         />
         <CardText
           style={NoContainerAvailables.cardStyle}
         >
-          <FormattedMessage id="module.no.container.available" />
+          {formatMessage({ id: 'module.no.container.available' })}
           <RaisedButton
-            label={<FormattedMessage id="module.no.container.available.configure.layout" />}
+            label={formatMessage({ id: 'module.no.container.available.configure.layout' })}
             primary
             onClick={this.props.goToLayoutConfiguration}
             style={NoContainerAvailables.buttonStyle}

@@ -25,7 +25,7 @@ import {
 } from 'material-ui/Table'
 import Edit from 'mdi-material-ui/Pencil'
 import Delete from 'mdi-material-ui/Delete'
-import { FormattedMessage } from 'react-intl'
+
 import { AccessShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -119,8 +119,8 @@ class PluginListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="plugins.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="plugins.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'plugins.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'plugins.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -158,9 +158,7 @@ class PluginListComponent extends React.Component {
           <CardActionsComponent
             mainButtonClick={this.props.onCreate}
             mainButtonLabel={
-              <FormattedMessage
-                id="plugins.list.action.add"
-              />
+              formatMessage({ id: 'plugins.list.action.add' })
             }
             mainHateoasDependencies={PluginListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={formatMessage({ id: 'plugins.list.action.cancel' })}

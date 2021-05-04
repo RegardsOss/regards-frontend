@@ -25,7 +25,6 @@ import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
 
 import {
   CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes, ShowableAtRender,
@@ -70,15 +69,17 @@ export class ModelListComponent extends React.Component {
   }
 
   getType = (type) => {
+    const { intl: { formatMessage } } = this.context
+
     switch (type) {
       case 'COLLECTION':
-        return (<FormattedMessage id="model.type.collection" />)
+        return formatMessage({ id: 'model.type.collection' })
       case 'DOCUMENT':
-        return (<FormattedMessage id="model.type.document" />)
+        return formatMessage({ id: 'model.type.document' })
       case 'DATA':
-        return (<FormattedMessage id="model.type.data" />)
+        return formatMessage({ id: 'model.type.data' })
       case 'DATASET':
-        return (<FormattedMessage id="model.type.dataset" />)
+        return formatMessage({ id: 'model.type.dataset' })
       default:
         return null
     }
@@ -99,8 +100,10 @@ export class ModelListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'model.list.delete.title' }, { name })
+    const title = formatMessage({ id: 'model.list.delete.title' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
@@ -167,8 +170,8 @@ export class ModelListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'model.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'model.list.subtitle' })}
+          title={formatMessage({ id: 'model.list.title' })}
+          subtitle={formatMessage({ id: 'model.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -189,12 +192,10 @@ export class ModelListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="model.list.action.add"
-              />
+              formatMessage({ id: 'model.list.action.add' })
             }
             mainHateoasDependencies={ModelListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'model.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'model.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import map from 'lodash/map'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -73,18 +73,20 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
       margin: '30px 0',
     }
     const { connectionList, handleDone, backUrl } = this.props
+    const { intl: { formatMessage } } = this.context
+
     return (
       <div>
         <Card>
           <CardTitle
-            title={this.context.intl.formatMessage({ id: 'datasource.form.create.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'datasource.form.create.subtitle' })}
+            title={formatMessage({ id: 'datasource.form.create.title' })}
+            subtitle={formatMessage({ id: 'datasource.form.create.subtitle' })}
           />
           <DBDatasourceStepperComponent stepIndex={0} />
           <CardText>
             <SelectField
               className="selenium-pickConnection"
-              floatingLabelText={this.context.intl.formatMessage({ id: 'datasource.form.create.datasource' })}
+              floatingLabelText={formatMessage({ id: 'datasource.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentConnection}
               fullWidth
@@ -107,12 +109,10 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
             <CardActionsComponent
               mainButtonClick={() => { handleDone(currentConnection) }}
               mainButtonLabel={
-                <FormattedMessage
-                  id="datasource.form.create.action.next"
-                />
+                formatMessage({ id: 'datasource.form.create.action.next' })
               }
               isMainButtonDisabled={currentConnection === undefined}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.form.create.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'datasource.form.create.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
@@ -120,7 +120,7 @@ export class DBDatasourceCreateOrPickConnectionComponent extends React.Component
         <Card>
           <div style={style}>
             <RaisedButton
-              label={this.context.intl.formatMessage({ id: 'datasource.form.create.action.connection' })}
+              label={formatMessage({ id: 'datasource.form.create.action.connection' })}
               secondary
               style={styleButton}
               onClick={this.goToConnection}

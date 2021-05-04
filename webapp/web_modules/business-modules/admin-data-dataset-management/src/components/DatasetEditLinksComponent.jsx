@@ -20,7 +20,7 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
-import { FormattedMessage } from 'react-intl'
+
 import map from 'lodash/map'
 import Add from 'mdi-material-ui/PlusCircleOutline'
 import Search from 'mdi-material-ui/Magnify'
@@ -76,11 +76,13 @@ export class DatasetEditLinksComponent extends React.Component {
     const {
       currentDataset, linkedCollections, remainingCollections, handleAdd, handleDelete, doneUrl, backUrl, datasetStringTags, handleSearch,
     } = this.props
+    const { intl: { formatMessage } } = this.context
+
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'dataset.form.links.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.links.subtitle' })}
+          title={formatMessage({ id: 'dataset.form.links.title' })}
+          subtitle={formatMessage({ id: 'dataset.form.links.subtitle' })}
         />
         <DatasetStepperContainer
           stepIndex={3}
@@ -92,13 +94,13 @@ export class DatasetEditLinksComponent extends React.Component {
           <div className="row">
             <div className="col-sm-48">
               <List>
-                <div><FormattedMessage id="dataset.form.links.remainingcollection.subtitle" /></div>
+                <div>{formatMessage({ id: 'dataset.form.links.remainingcollection.subtitle' })}</div>
                 <br />
                 <Divider />
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.search' })}
+                      hintText={formatMessage({ id: 'dataset.form.links.remainingcollection.search' })}
                       onChange={handleSearch}
                       fullWidth
                     />
@@ -120,7 +122,7 @@ export class DatasetEditLinksComponent extends React.Component {
                     rightIconButton={
                       <IconButton
                         onClick={() => handleAdd(collection.content.feature.id)}
-                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.remainingcollection.add.button' })}
+                        tooltip={formatMessage({ id: 'dataset.form.links.remainingcollection.add.button' })}
                       >
                         <Add />
                       </IconButton>
@@ -133,7 +135,7 @@ export class DatasetEditLinksComponent extends React.Component {
             <div className="col-sm-48 col-sm-offset-4 ">
 
               <List>
-                <div><FormattedMessage id="dataset.form.links.collection.title" /></div>
+                <div>{formatMessage({ id: 'dataset.form.links.collection.title' })}</div>
                 <br />
                 <Divider />
                 {map(linkedCollections, (collection, id) => (
@@ -143,7 +145,7 @@ export class DatasetEditLinksComponent extends React.Component {
                     rightIconButton={
                       <IconButton
                         onClick={() => handleDelete(collection.content.feature.id)}
-                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.collection.remove.button' })}
+                        tooltip={formatMessage({ id: 'dataset.form.links.collection.remove.button' })}
                       >
                         <Clear />
                       </IconButton>
@@ -153,17 +155,17 @@ export class DatasetEditLinksComponent extends React.Component {
                 ))}
                 <ShowableAtRender show={linkedCollections.length === 0}>
                   <ListItem
-                    primaryText={this.context.intl.formatMessage({ id: 'dataset.form.links.collection.none' })}
+                    primaryText={formatMessage({ id: 'dataset.form.links.collection.none' })}
                     disabled
                   />
                 </ShowableAtRender>
-                <div><FormattedMessage id="dataset.form.links.tag.subtitle" /></div>
+                <div>{formatMessage({ id: 'dataset.form.links.tag.subtitle' })}</div>
                 <br />
                 <Divider />
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.add' })}
+                      hintText={formatMessage({ id: 'dataset.form.links.tag.add' })}
                       onChange={this.handleCreateTagChange}
                       value={this.state.tagField}
                       fullWidth
@@ -174,7 +176,7 @@ export class DatasetEditLinksComponent extends React.Component {
                       <br />
                       <IconButton
                         onClick={this.handleCreateTag}
-                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.add.button' })}
+                        tooltip={formatMessage({ id: 'dataset.form.links.tag.add.button' })}
                       >
                         <Add />
                       </IconButton>
@@ -189,7 +191,7 @@ export class DatasetEditLinksComponent extends React.Component {
                     rightIconButton={
                       <IconButton
                         onClick={() => handleDelete(tag)}
-                        tooltip={this.context.intl.formatMessage({ id: 'dataset.form.links.tag.remove.button' })}
+                        tooltip={formatMessage({ id: 'dataset.form.links.tag.remove.button' })}
                       >
                         <Clear />
                       </IconButton>
@@ -205,11 +207,9 @@ export class DatasetEditLinksComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={doneUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="dataset.form.links.action.next"
-              />
+              formatMessage({ id: 'dataset.form.links.action.next' })
             }
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.links.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'dataset.form.links.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

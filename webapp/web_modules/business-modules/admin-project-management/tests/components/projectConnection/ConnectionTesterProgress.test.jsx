@@ -19,8 +19,10 @@
 import { shallow } from 'enzyme'
 import { expect, assert } from 'chai'
 import LinearProgress from 'material-ui/LinearProgress'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import ConnectionTesterProgress from '../../../src/components/projectConnection/ConnectionTesterProgress'
+
+const context = buildTestContext()
 
 // Test a component rendering
 describe('[ADMIN PROJECT MANAGEMENT] Testing ConnectionTesterProgress', () => {
@@ -35,7 +37,7 @@ describe('[ADMIN PROJECT MANAGEMENT] Testing ConnectionTesterProgress', () => {
     const props = {
       value: 50,
     }
-    const enzymeWrapper = shallow(<ConnectionTesterProgress {...props} />)
+    const enzymeWrapper = shallow(<ConnectionTesterProgress {...props} />, { context })
     expect(enzymeWrapper.find(LinearProgress)).to.have.length(1)
   })
 })

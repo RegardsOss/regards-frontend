@@ -25,7 +25,7 @@ import {
 import MenuItem from 'material-ui/MenuItem'
 import map from 'lodash/map'
 import { CardActionsComponent, Title } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import {
@@ -236,7 +236,7 @@ export class OSResultsConfigurationComponent extends React.Component {
                 label={this.context.intl.formatMessage({ id: 'opensearch.crawler.form.results.standardAttr' })}
               />
             </div>
-            { OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } }, attributeRequired }) => (
+            {OSResultsConfigurationComponent.STANDARD_ATTRIBUTES.map(({ model: { content: { jsonPath } }, attributeRequired }) => (
               <Field
                 key={jsonPath}
                 name={`attributeToJSonField.${jsonPath}`}
@@ -300,7 +300,7 @@ export class OSResultsConfigurationComponent extends React.Component {
             <CardActionsComponent
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
-              mainButtonLabel={<FormattedMessage id="datasource.form.create.action.finish" />}
+              mainButtonLabel={formatMessage({ id: 'datasource.form.create.action.finish' })}
               secondaryButtonLabel={this.context.intl.formatMessage({
                 id: 'datasource.form.create.action.previous',
               })}

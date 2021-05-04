@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { FormattedMessage } from 'react-intl'
 
 /**
 * Level message displayer
@@ -30,13 +30,15 @@ class GraphLevelFetchErrorDisplayer extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
     const { messageKey } = this.props
-    const { moduleTheme: { user } } = this.context
+    const { moduleTheme: { user }, intl: { formatMessage } } = this.context
+
     return (
-      <div style={user.levelMessage.styles}><FormattedMessage id={messageKey} /></div>
+      <div style={user.levelMessage.styles}>{formatMessage({ id: messageKey })}</div>
     )
   }
 }

@@ -22,7 +22,7 @@ import {
 import FlatButton from 'material-ui/FlatButton'
 import Refresh from 'mdi-material-ui/Refresh'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
-import { FormattedMessage } from 'react-intl'
+
 import {
   NoContentComponent,
   CardActionsComponent,
@@ -105,8 +105,10 @@ export class CollectionListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.label : ' '
-    const title = this.context.intl.formatMessage(
+    const title = formatMessage(
       { id: 'collection.list.delete.message' },
       { name },
     )
@@ -135,12 +137,12 @@ export class CollectionListComponent extends React.Component {
       hoverButtonDelete: muiTheme.palette.accent1Color,
       hoverButtonDuplicate: muiTheme.palette.primary3Color,
     }
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
 
     const emptyContentAction = (
       <FlatButtonWithResourceDisplayControl
         resourceDependencies={collectionDependencies.addDependencies}
-        label={intl.formatMessage({ id: 'collection.no.collection.subtitle' })}
+        label={formatMessage({ id: 'collection.no.collection.subtitle' })}
         onClick={navigateToCreateCollection}
         primary
       />
@@ -156,11 +158,11 @@ export class CollectionListComponent extends React.Component {
     const columns = [
       // 1 - label column
       new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.feature.label')
-        .label(intl.formatMessage({ id: 'collection.list.table.label' }))
+        .label(formatMessage({ id: 'collection.list.table.label' }))
         .build(),
       // 2 - model column
       new TableColumnBuilder('column.model').titleHeaderCell().propertyRenderCell('content.feature.model')
-        .label(intl.formatMessage({ id: 'collection.list.table.model' }))
+        .label(formatMessage({ id: 'collection.list.table.model' }))
         .build(),
       // 3 - options
       new TableColumnBuilder().optionsColumn([{
@@ -190,8 +192,8 @@ export class CollectionListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'collection.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'collection.list.subtitle' })}
+          title={formatMessage({ id: 'collection.list.title' })}
+          subtitle={formatMessage({ id: 'collection.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -201,7 +203,7 @@ export class CollectionListComponent extends React.Component {
               <TableHeaderOptionsArea>
                 <TableHeaderOptionGroup>
                   <FlatButton
-                    label={intl.formatMessage({ id: 'collection.table.refresh.button' })}
+                    label={formatMessage({ id: 'collection.table.refresh.button' })}
                     icon={<Refresh />}
                     onClick={this.props.onRefresh}
                   />
@@ -228,9 +230,9 @@ export class CollectionListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={<FormattedMessage id="collection.list.action.add" />}
+            mainButtonLabel={formatMessage({ id: 'collection.list.action.add' })}
             mainHateoasDependencies={CollectionListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({
+            secondaryButtonLabel={formatMessage({
               id: 'collection.list.action.cancel',
             })}
             secondaryButtonUrl={backUrl}

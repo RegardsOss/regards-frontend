@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
@@ -217,7 +217,7 @@ export class DatasetListComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonUrl={createUrl}
-            mainButtonLabel={<FormattedMessage id="dataset.list.action.add" />}
+            mainButtonLabel={formatMessage({ id: 'dataset.list.action.add' })}
             mainHateoasDependencies={DatasetListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({
               id: 'dataset.list.action.cancel',

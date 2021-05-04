@@ -23,7 +23,7 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import { CardActionsComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -86,7 +86,7 @@ class ServiceConfigurationListComponent extends React.Component {
           <div className={pluginStyles.line.classes}>
             <div className={pluginStyles.description.classes}>
               <div>
-                <FormattedMessage id="service.listconf.plugin.title" />
+                {formatMessage({ id: 'service.listconf.plugin.title' })}
               </div>
               <div>
                 {formatMessage({ id: 'service.listconf.plugin.description' }, { value: plugin.info.description })}
@@ -123,10 +123,10 @@ class ServiceConfigurationListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="service.listconf.table.label" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="service.listconf.table.status" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="service.listconf.table.default" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="service.listconf.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'service.listconf.table.label' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'service.listconf.table.status' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'service.listconf.table.default' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'service.listconf.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -172,9 +172,7 @@ class ServiceConfigurationListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="service.listconf.action.add"
-              />
+              formatMessage({ id: 'service.listconf.action.add' })
             }
             mainHateoasDependencies={ServiceConfigurationListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={formatMessage({ id: 'service.listconf.action.back' })}

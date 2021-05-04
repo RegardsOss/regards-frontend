@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import { browserHistory } from 'react-router'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -50,7 +50,9 @@ export class CollectionStepperComponent extends React.Component {
   }
 
   getAttributesStep = () => {
-    const text = (<FormattedMessage id="collection.stepper.attributes" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'collection.stepper.attributes' })
     if (!this.isDisabled(STEPS_ID.ATTRIBUTES)
       && this.props.stepIndex !== STEPS_ID.ATTRIBUTES) {
       return (
@@ -62,7 +64,9 @@ export class CollectionStepperComponent extends React.Component {
   }
 
   getFilesStep = () => {
-    const text = (<FormattedMessage id="collection.stepper.files" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'collection.stepper.files' })
     if (!this.isDisabled(STEPS_ID.FILES) && this.props.stepIndex !== STEPS_ID.FILES) {
       return (
         <StepButton onClick={this.handleFilesClick}>
@@ -73,7 +77,9 @@ export class CollectionStepperComponent extends React.Component {
   }
 
   getLinksStep = () => {
-    const text = (<FormattedMessage id="collection.stepper.links" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'collection.stepper.links' })
     if (!this.isDisabled(STEPS_ID.LINKS) && this.props.stepIndex !== STEPS_ID.LINKS) {
       return (
         <StepButton onClick={this.handleLinksClick}>

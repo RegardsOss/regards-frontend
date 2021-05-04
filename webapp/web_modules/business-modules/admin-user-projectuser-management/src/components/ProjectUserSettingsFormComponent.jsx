@@ -36,7 +36,7 @@ import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import {
   RenderSelectField, Field, reduxForm, RenderTextField, ValidationHelpers, FieldHelp,
 } from '@regardsoss/form-utils'
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import dependencies from '../dependencies'
 import UserGroupChip from './UserGroupChip'
@@ -158,7 +158,8 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   }
 
   renderChipInput = () => {
-    const { moduleTheme: { userForm } } = this.context
+    const { moduleTheme: { userForm }, intl: { formatMessage } } = this.context
+
     return (
       <div style={userForm.renderChipInput}>
         {map(this.state.tempGroups, (groupName) => (
@@ -174,7 +175,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
               size={32}
               icon={<AddSvg />}
             />
-            <FormattedMessage id="projectUser.create.action.add" />
+            {formatMessage({ id: 'projectUser.create.action.add' })}
           </Chip>
         </ShowableAtRender>
         <Popover
@@ -263,7 +264,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
               ))}
             </Field>
             <div style={userForm.groupsLabel}>
-              <FormattedMessage id="projectUser.create.input.groups" />
+              {formatMessage({ id: 'projectUser.create.input.groups' })}
             </div>
             {this.renderChipInput()}
           </CardText>

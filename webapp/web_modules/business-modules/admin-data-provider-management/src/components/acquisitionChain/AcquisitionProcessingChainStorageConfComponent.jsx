@@ -23,7 +23,7 @@ import map from 'lodash/map'
 import some from 'lodash/some'
 import MenuItem from 'material-ui/MenuItem'
 import RadioButton, { RadioButtonGroup } from 'material-ui/RadioButton'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Field, RenderSelectField, FieldArray, StringComparison, ValidationHelpers,
 } from '@regardsoss/form-utils'
@@ -148,16 +148,16 @@ export class AcquisitionProcessingChainStorageConfComponent extends React.Compon
 
     return (
       <div style={storageTabStyle}>
-        <FormattedMessage id="acquisition-chain.form.general.section.storage.mode.info" />
+        {formatMessage({ id: 'acquisition-chain.form.general.section.storage.mode.info' })}
         <div style={storageTypeListStyle}>
           <ul>
             <li>
-              <span style={typeStyle}><FormattedMessage id="acquisition-chain.form.general.section.storage.mode.store.name" /></span>
-              <FormattedMessage id="acquisition-chain.form.general.section.storage.mode.store" />
+              <span style={typeStyle}>{formatMessage({ id: 'acquisition-chain.form.general.section.storage.mode.store.name' })}</span>
+              {formatMessage({ id: 'acquisition-chain.form.general.section.storage.mode.store' })}
             </li>
             <li>
-              <span style={typeStyle}><FormattedMessage id="acquisition-chain.form.general.section.storage.mode.ref.name" /></span>
-              <FormattedMessage id="acquisition-chain.form.general.section.storage.mode.ref" />
+              <span style={typeStyle}>{formatMessage({ id: 'acquisition-chain.form.general.section.storage.mode.ref.name' })}</span>
+              {formatMessage({ id: 'acquisition-chain.form.general.section.storage.mode.ref' })}
             </li>
           </ul>
         </div>
