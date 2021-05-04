@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
+// const StatsPlugin = require('stats-webpack-plugin')
 const getCommonConfig = require('./webpack.common.config')
 
 
@@ -38,9 +38,9 @@ module.exports = function (projectContextPath, frontendWebappPath) {
         manifest: require('../../dist/coreoss-manifest.json'),
         context: path.join(projectContextPath, frontendWebappPath),
       }),
-      new StatsPlugin(`../prod-plugins-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../prod-plugins-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   })
 }

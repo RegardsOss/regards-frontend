@@ -2,7 +2,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
+// const StatsPlugin = require('stats-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 const getCommonConfig = require('./webpack.common.config')
@@ -87,9 +87,9 @@ module.exports = function (projectContextPath) {
         API_URL: JSON.stringify('api/v1'),
         'process.env.NODE_ENV': JSON.stringify('development'),
       }),
-      new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   })
   return config

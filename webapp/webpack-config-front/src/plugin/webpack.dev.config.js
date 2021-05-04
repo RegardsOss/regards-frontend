@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
+// const StatsPlugin = require('stats-webpack-plugin')
 const getCommonConfig = require('./webpack.common.config')
 
 
@@ -39,9 +39,9 @@ module.exports = function (projectContextPath) {
         manifest: require(`${projectContextPath}/../../../dist/dev/core-manifest.json`),
         context: path.join(projectContextPath, '/../../../'),
       }),
-      new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   })
 }
