@@ -18,7 +18,17 @@
  **/
 // Last react-intl does not provide any proptypes anymore
 const contextType = {
-  intl: PropTypes.any.isRequired,
+  intl: PropTypes.shape({
+    locale: PropTypes.string,
+    formatMessage: PropTypes.function,
+    formatDate: PropTypes.function,
+    formatTime: PropTypes.function,
+    formatRelative: PropTypes.function,
+    formatNumber: PropTypes.function,
+    formatPlural: PropTypes.function,
+    now: PropTypes.function,
+  }).isRequired,
+
 }
 
 export default contextType

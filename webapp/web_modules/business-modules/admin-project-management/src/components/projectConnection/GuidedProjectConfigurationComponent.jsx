@@ -109,7 +109,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
     return (
       <StepButton {...stepButtonProps}>
-        {formatMessage({ id: 'database.form.edit.title', values: { titleLabelValues } })}
+        {formatMessage({ id: 'database.form.edit.title' }, { titleLabelValues })}
       </StepButton>
     )
   }

@@ -26,11 +26,9 @@ import I18nSelectors from '../model/I18nSelectors'
 
 /**
  * React provider to enable messages internationalisation.
- * Under this provider, use the react-intl <FormatedMessage id='...' /> to display message
+ * Under this provider, use the react-intl context this.context.intl.formatMessage('...') to display message
  * in the current language. The curent language is stored in the redux store common.i18n.locale.
- * By default the locale is the navigator langugage.
- * Under this provider, we can also use the below syntaxe du get the localise messages :
- *  this.context.intl.formatMessage({id:"..."})
+ * By default the locale is the navigator language.
  * To do so, the react component must be configured with :
  * context
  * static contextTypes = {

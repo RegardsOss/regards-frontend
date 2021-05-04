@@ -23,7 +23,7 @@ export function getLocalizedIntlStub(locale = UIDomain.LOCALES_ENUM.en) {
   return {
     locale,
     formatMessage: (m) => m.id,
-    formatDate: () => { },
+    formatDate: (date) => date && date.toISOString ? date.toISOString() : date,
     formatTime: () => { },
     formatRelative: () => { },
     formatNumber: (n) => isNil(n) ? '' : n.toString(),

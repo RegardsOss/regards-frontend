@@ -194,7 +194,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            {formatMessage({ id: `user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`, values: { count: nbNotif } })}
+            {formatMessage({ id: `user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title` }, { count: nbNotif })}
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton

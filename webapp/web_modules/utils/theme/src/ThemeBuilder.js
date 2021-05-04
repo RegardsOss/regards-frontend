@@ -23,7 +23,7 @@ import defaultCustomConfiguration from './custom/defaultCustomConfiguration'
 
 // Initialize userAgent for generating muiTheme context
 if (process.env.NODE_ENV === 'test' || process.env.NODE_ENV === 'coverage') {
-  root.navigator = { userAgent: 'all' };
+  root.navigator = { userAgent: 'all' }
 }
 
 /**
