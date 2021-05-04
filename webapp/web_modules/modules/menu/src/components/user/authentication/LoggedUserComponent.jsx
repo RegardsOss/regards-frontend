@@ -19,6 +19,7 @@
 import React from 'react'
 import map from 'lodash/map'
 import keys from 'lodash/keys'
+import isEqual from 'lodash/isEqual'
 import MenuItem from 'material-ui/MenuItem'
 import Divider from 'material-ui/Divider'
 import AccountMenuIcon from 'mdi-material-ui/AccountBox'
@@ -56,6 +57,27 @@ export class LoggedUserComponent extends React.Component {
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  /**
+   * Avoid to re render the list when nothing changes, as the quota pooler would love to re render the list even nothing changes
+   * @returns true when re-render required
+   */
+  shouldComponentUpdate(nextProps) {
+    const {
+      name, currentRole, borrowableRoles, quotaInfo, onBorrowRole, onLogout,
+      showProfileDialog, onShowProfileEdition, onShowQuotaInformation,
+    } = this.props
+
+    return !isEqual(name, nextProps.name)
+      || !isEqual(currentRole, nextProps.currentRole)
+      || !isEqual(borrowableRoles, nextProps.borrowableRoles)
+      || !isEqual(quotaInfo, nextProps.quotaInfo)
+      || !isEqual(onBorrowRole, nextProps.onBorrowRole)
+      || !isEqual(onLogout, nextProps.onLogout)
+      || !isEqual(showProfileDialog, nextProps.showProfileDialog)
+      || !isEqual(onShowProfileEdition, nextProps.onShowProfileEdition)
+      || !isEqual(onShowQuotaInformation, nextProps.onShowQuotaInformation)
   }
 
   render() {
