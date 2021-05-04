@@ -18,7 +18,6 @@
  **/
 import getDOPropertiesValuesClient from './clients/EnumeratedDOPropertyValuesClient'
 
-
 /**
  * Plugin reducer builder function. Note: plugins reducer must be builder functions using pluginInstanceId as paramter and producing
  * an object like:

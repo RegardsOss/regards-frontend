@@ -49,10 +49,10 @@ export class TwoNumericalCriteriaComponent extends React.Component {
     } = this.props
     return firstField.jsonPath === secondField.jsonPath // same attribute?
       ? <SingleAttributeContainer
-        searchField={firstField}
-        label={label}
-        state={state || SingleAttributeContainer.DEFAULT_STATE} // ensure a default state for the component below
-        publishState={publishState}
+          searchField={firstField}
+          label={label}
+          state={state || SingleAttributeContainer.DEFAULT_STATE} // ensure a default state for the component below
+          publishState={publishState}
       /> : <MultipleAttributesContainer
         firstField={firstField}
         secondField={secondField}
