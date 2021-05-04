@@ -114,10 +114,12 @@ class ProfileEditionDialogComponent extends React.Component {
 
   render() {
     const {
+      intl: { formatMessage },
       moduleTheme: {
         notifications,
       },
     } = this.context
+
     const {
       userMetadata, notificationSettings, view, quotaInfo,
       onHideDialog, onEditProfile, onEditNotificationSettings,
@@ -138,24 +140,24 @@ class ProfileEditionDialogComponent extends React.Component {
                 <FormattedMessage id="user.menu.profile.leftbar.title" />
               </Subheader>
               { /** List options: add download information for users that have limited rate or quota */
-              [
-                ProfileEditionDialogComponent.LIST_OPTIONS.profileEdition,
-                ProfileEditionDialogComponent.LIST_OPTIONS.notificationSettings,
-                (quotaInfo.quotaState === QUOTA_INFO_STATE_ENUM.UNLIMITED && quotaInfo.rateState === QUOTA_INFO_STATE_ENUM.UNLIMITED)
-                  ? null
-                  : ProfileEditionDialogComponent.LIST_OPTIONS.quotaInformation,
-              ].filter((c) => !!c) // remove null options if any
-                .map(({
-                  value, i18nKey, Icon, callbackName,
-                }) => (
-                  <ListItem
-                    key={value}
-                    primaryText={<FormattedMessage id={i18nKey} />}
-                    leftIcon={<Icon color={this.getListItemIconColor(value)} />}
-                    style={this.getListItemStyle(value)}
-                    innerDivStyle={this.getListItemTextStyle(value)}
-                    onClick={this[callbackName]}
-                  />))
+                [
+                  ProfileEditionDialogComponent.LIST_OPTIONS.profileEdition,
+                  ProfileEditionDialogComponent.LIST_OPTIONS.notificationSettings,
+                  (quotaInfo.quotaState === QUOTA_INFO_STATE_ENUM.UNLIMITED && quotaInfo.rateState === QUOTA_INFO_STATE_ENUM.UNLIMITED)
+                    ? null
+                    : ProfileEditionDialogComponent.LIST_OPTIONS.quotaInformation,
+                ].filter((c) => !!c) // remove null options if any
+                  .map(({
+                    value, i18nKey, Icon, callbackName,
+                  }) => (
+                    <ListItem
+                      key={value}
+                      primaryText={formatMessage({ id: i18nKey })}
+                      leftIcon={<Icon color={this.getListItemIconColor(value)} />}
+                      style={this.getListItemStyle(value)}
+                      innerDivStyle={this.getListItemTextStyle(value)}
+                      onClick={this[callbackName]}
+                    />))
               }
             </List>
           </div>

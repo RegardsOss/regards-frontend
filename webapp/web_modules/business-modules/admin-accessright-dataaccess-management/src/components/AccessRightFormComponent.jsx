@@ -132,7 +132,7 @@ export class AccessRightFormComponent extends React.Component {
                     className={`selenium-pick-metaDataAccessLevel-${value}`}
                     value={value}
                     key={key}
-                    primaryText={<FormattedMessage id={label} />}
+                    primaryText={formatMessage({ id: label })}
                   />
                 )
               })}
@@ -153,27 +153,27 @@ export class AccessRightFormComponent extends React.Component {
             }
             {/* 4. Data access level, when metadata level is DATASET_AND_OBJECT_ACCESS or CUSTOM_ACCESS,
                   as other metadata access types prevent data access */
-                  selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS
-                  || selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
-                    <Field
-                      className="selenium-pick-dataAccess"
-                      name="dataAccess"
-                      fullWidth
-                      component={RenderSelectField}
-                      label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
-                    >
-                      {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
-                        const label = `accessright.form.data.accessLevel.${value}`
-                        return (
-                          <MenuItem
-                            className={`selenium-pick-dataAccess-${value}`}
-                            value={value}
-                            key={key}
-                            primaryText={<FormattedMessage id={label} />}
-                          />
-                        )
-                      })}
-                    </Field>) : null
+              selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.DATASET_AND_OBJECT_ACCESS
+                || selectedAccessLevel === AccessRightsEnum.METADATA_ACCESS_ENUM.CUSTOM_ACCESS ? (
+                <Field
+                  className="selenium-pick-dataAccess"
+                  name="dataAccess"
+                  fullWidth
+                  component={RenderSelectField}
+                  label={formatMessage({ id: 'accessright.form.data.accessLevel' })}
+                >
+                  {map(AccessRightsEnum.DATA_ACCESS_ENUM, (value, key) => {
+                    const label = `accessright.form.data.accessLevel.${value}`
+                    return (
+                      <MenuItem
+                        className={`selenium-pick-dataAccess-${value}`}
+                        value={value}
+                        key={key}
+                        primaryText={formatMessage({ id: label })}
+                      />
+                    )
+                  })}
+                </Field>) : null
             }
           </CardText>
           {/* 5. Form actions */}
