@@ -150,6 +150,7 @@ export default {
   'oais.requests.selection.version.option.IGNORE': 'Ignorer {requestCount, plural, one {le produit modifié} other {les produits modifiés}}',
   'oais.requests.selection.version.option.INC_VERSION': 'Créer une nouvelle version {requestCount, plural, one {du produit modifié} other {des produits modifiés}}',
   'oais.requests.selection.version.option.REPLACE': 'Remplacer {requestCount, plural, one {le produit actuel} other {les produits actuels}} par {requestCount, plural, one {le produit modifié} other {les produits modifiés}}',
+  'oais.requests.selection.version.option.async.info': 'La prise en compte de cette opération est asynchrone et nécessite un rafraîchissement',
 
   'oais.aips.list.subtitle': 'Liste des AIPS pour la session sélectionnée',
   'oais.aips.list.filters.data.storage.label': 'Stocké sur',

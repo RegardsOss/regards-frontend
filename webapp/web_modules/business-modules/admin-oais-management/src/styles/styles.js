@@ -210,6 +210,9 @@ const aipManagementStyles = (theme) => ({
         lineHeight: `${theme.radioButton.size}px`,
         marginBottom: theme.radioButton.size,
       },
+      asyncInfo: {
+        fontStyle: 'italic',
+      },
     },
   },
 })

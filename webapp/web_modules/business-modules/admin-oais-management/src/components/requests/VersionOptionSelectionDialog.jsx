@@ -42,7 +42,7 @@ export default function VersionOptionSelectionDialog(
   { selection, onClose, onConfirm },
   {
     intl: { formatMessage },
-    moduleTheme: { requests: { selectionDialog: { headerMessage } } },
+    moduleTheme: { requests: { selectionDialog: { headerMessage, asyncInfo } } },
   }) {
   if (!selection.open) { // avoid computing anything while closed
     return null
@@ -89,6 +89,14 @@ export default function VersionOptionSelectionDialog(
             providerId: isSingleElt ? selection.entities[0].content.providerId : null,
           })
         }
+        <br />
+        <i style={asyncInfo}>
+          { /* Async note*/
+            formatMessage({
+              id: 'oais.requests.selection.version.option.async.info',
+            })
+          }
+        </i>
       </div>
       <div>
         <RadioButtonGroup name="options.group" valueSelected={selectedOption} onChange={onOptionSelected}>

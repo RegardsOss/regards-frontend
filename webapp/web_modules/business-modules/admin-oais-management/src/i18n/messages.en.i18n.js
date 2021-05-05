@@ -150,6 +150,7 @@ export default {
   'oais.requests.selection.version.option.IGNORE': 'Reject modified {requestCount, plural, one {product} other {products}}',
   'oais.requests.selection.version.option.INC_VERSION': 'Create {requestCount, plural, one {a new product version} other {new product versions}}',
   'oais.requests.selection.version.option.REPLACE': 'Replace current {requestCount, plural, one {product} other {products}} by modified {requestCount, plural, one {product} other {products}}',
+  'oais.requests.selection.version.option.async.info': 'This operation is asynchronous and requires a refresh to see the update',
 
   'oais.aips.list.subtitle': 'List of AIPs for selected session',
   'oais.aips.list.filters.data.storage.label': 'Stored on',
