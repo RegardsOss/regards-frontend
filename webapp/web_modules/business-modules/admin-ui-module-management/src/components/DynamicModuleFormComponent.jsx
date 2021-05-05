@@ -19,6 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * React component to display and configure dynamic module configuration
@@ -39,6 +40,10 @@ class DynamicModuleFormComponent extends React.Component {
       // eslint-disable-next-line react/forbid-prop-types
       form: PropTypes.object,
     }),
+  }
+
+  static contextTypes = {
+    ...i18nContextType,
   }
 
   state = {

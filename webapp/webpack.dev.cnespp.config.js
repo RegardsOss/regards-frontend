@@ -32,7 +32,7 @@ const conf = webpackConfigurator
   .merge({
     plugins: [
       new webpack.DefinePlugin({
-        GATEWAY_HOSTNAME: JSON.stringify('https://regards-pp.cnes.fr/'),
+        GATEWAY_HOSTNAME: JSON.stringify('https://regards-pp.cnes.fr'),
       }),
     ],
   })
