@@ -23,7 +23,7 @@ const contextType = {
     formatMessage: PropTypes.function,
     formatDate: PropTypes.function,
     formatTime: PropTypes.function,
-    formatRelative: PropTypes.function,
+    formatRelativeTime: PropTypes.function,
     formatNumber: PropTypes.function,
     formatPlural: PropTypes.function,
     now: PropTypes.function,

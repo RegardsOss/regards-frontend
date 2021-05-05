@@ -47,6 +47,7 @@
   ],
   "license": "GPL-3.0",
   "dependencies": {
+    "@formatjs/intl-utils": "^3.8.4",
     "@regardsoss-modules/authentication": "file:web_modules/modules/authentication",
     "@regardsoss-modules/description": "file:web_modules/modules/description",
     "@regardsoss-modules/embedded-html": "file:web_modules/modules/embedded-html",
