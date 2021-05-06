@@ -302,9 +302,10 @@ export class StorageLocationListComponent extends React.Component {
 
   renderDeleteFilesConfirmDialog = () => {
     const { entitytoDeleteFiles, deleteFilesForce } = this.state
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { storageTable: { dialog: { warning, messageDiv } } } } = this.context
     if (entitytoDeleteFiles) {
       const { name } = entitytoDeleteFiles.content.configuration
+      const { allowsPhysicalDeletion } = entitytoDeleteFiles.content
       return (
         <PositionedDialog
           dialogType={ConfirmDialogComponentTypes.DELETE}
@@ -326,7 +327,17 @@ export class StorageLocationListComponent extends React.Component {
           dialogHeightPercent={20}
           dialogWidthPercent={50}
         >
-          <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })} />
+          {
+            allowsPhysicalDeletion
+              ? <div>
+                <div style={messageDiv}>{formatMessage({ id: 'storage.location.delete.confirm.message.option' })}</div>
+                <Checkbox onCheck={this.onCheckForceDelete} name="confirm-delete-file-force" checked={deleteFilesForce} label={formatMessage({ id: 'storage.location.delete.confirm.option' }, { name })} />
+              </div>
+              : <div>
+                <span style={warning}>{formatMessage({ id: 'storage.location.delete.message.warning.option' })}</span>
+                <span>{formatMessage({ id: 'storage.location.delete.message.option' })}</span>
+              </div>
+          }
         </PositionedDialog>
       )
     }
