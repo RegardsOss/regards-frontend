@@ -38,7 +38,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerContainer', () => 
   })
   it('should render correctly', () => {
     const props = {
-      filters: {},
+      featureManagerFilters: {},
       params: {
         project: 'any',
       },
@@ -50,17 +50,22 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerContainer', () => 
         number: 0,
       },
       tableSelection: [],
+      selectionMode: 'any',
+      areAllSelected: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<ReferencesManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(ReferencesManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      filters: props.filters,
+      featureManagerFilters: props.featureManagerFilters,
       onRefresh: enzymeWrapper.instance().onRefresh,
-      project: props.params.project,
       deleteReferences: props.deleteReferences,
       notifyReferences: props.notifyReferences,
       tableSelection: props.tableSelection,
+      selectionMode: props.selectionMode,
+      areAllSelected: props.areAllSelected,
+      isFetching: props.isFetching,
     }, 'Component should define the expected properties')
   })
 })

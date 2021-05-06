@@ -18,6 +18,7 @@
  **/
 
 import { SessionStep } from './SessionStep'
+import { ManagerState } from './ManagerState'
 
 export const Session = PropTypes.shape({
   content: PropTypes.shape({
@@ -27,9 +28,7 @@ export const Session = PropTypes.shape({
     creationDate: PropTypes.string.isRequired,
     lastUpdateDate: PropTypes.string.isRequired,
     steps: PropTypes.arrayOf(SessionStep).isRequired,
-    running: PropTypes.bool,
-    error: PropTypes.bool,
-    waiting: PropTypes.bool,
+    managerState: ManagerState.isRequired,
   }),
 })
 

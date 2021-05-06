@@ -26,21 +26,24 @@ const dashboardManagementStyles = (theme) => ({
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
+      justifyContent: 'space-between',
     },
     cardTitleStyle: {
-      width: '100%',
+      width: '50%',
+      padding: '5px',
     },
     cardActionDivStyle: {
-      padding: '16px',
+      padding: '5px',
+      width: '50%',
       display: 'flex',
-      justifyContent: 'flex-end',
       alignItems: 'center',
-    },
-    iconButtonStyle: {
-      marginRight: '0px',
+      justifyContent: 'flex-end',
     },
   },
   dashboardStyle: {
+    cardTextField: {
+      padding: '0',
+    },
     dashboardDivStyle: {
       display: 'flex',
       flexDirection: 'column',
@@ -64,13 +67,13 @@ const dashboardManagementStyles = (theme) => ({
       overlayStyle: {
         iconDivStyle: {
           display: 'flex',
-          width: '100%',
-          marginLeft: '15px',
+          width: '33%',
+          height: '100%',
+          marginLeft: '10px',
         },
         iconButton: {
           style: {
             padding: 0,
-            width: '20px',
             height: '15px',
           },
         },
@@ -78,21 +81,41 @@ const dashboardManagementStyles = (theme) => ({
           runningStyle: {
             position: 'absolute',
             height: '33px',
-            width: '33px',
+            width: '24px',
             fill: 'blue',
-            marginRight: '15px',
+          },
+          runningAltStyle: {
+            position: 'absolute',
+            height: '33px',
+            width: '24px',
+            fill: 'blue',
+            marginRight: '5px',
           },
           waitingStyle: {
             position: 'absolute',
             height: '33px',
-            width: '33px',
+            width: '24px',
             fill: 'orange',
+          },
+          waitingAltStyle: {
+            position: 'absolute',
+            height: '33px',
+            width: '24px',
+            fill: 'orange',
+            marginLeft: '10px',
           },
           errorStyle: {
             position: 'absolute',
             height: '33px',
-            width: '33px',
+            width: '24px',
             fill: 'red',
+          },
+          errorAltStyle: {
+            position: 'absolute',
+            height: '33px',
+            width: '24px',
+            fill: 'red',
+            marginLeft: '10px',
           },
         },
         style: {
@@ -114,16 +137,40 @@ const dashboardManagementStyles = (theme) => ({
             top: '13px',
             zIndex: '1',
             left: '9px',
+            marginLeft: '5px',
           },
         },
       },
       selectOptionStyle: {
-        buttonStyle: {
-          height: '24px',
+        textStyle: {
+          color: theme.palette.accent1Color,
         },
-        iconStyle: {
-          fill: theme.palette.accent1Color,
-        },
+      },
+    },
+    componentDiv: {
+      cardStyle: {
+        width: '50%',
+      },
+      cardTextStyle: {
+        padding: '5px',
+      },
+      headerLineDivStyle: {
+        marginTop: '-30px',
+      },
+      headerOptionDivStyle: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'flex-end',
+      },
+      cardTitleStyle: {
+        padding: '5px',
+        marginRight: '10px',
+      },
+      autoCompleteStyle: {
+        marginRight: '10px',
+      },
+      selectFieldStyle: {
+        width: '148px',
       },
     },
   },
@@ -131,11 +178,20 @@ const dashboardManagementStyles = (theme) => ({
     cardStyle: {
       width: '25%',
     },
-    cardTitleStyle: {
-      textAlign: 'center',
+    cardTitleDivStyle: {
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '40px',
+    },
+    cardTextStyle: {
+      display: 'flex',
+      width: '100%',
+      padding: '5px',
     },
     cardTitleTextStyle: {
       color: theme.palette.accent1Color,
+      fontSize: '18px',
     },
     cardContentStyle: {
       display: 'flex',
@@ -144,6 +200,42 @@ const dashboardManagementStyles = (theme) => ({
     cardButtonStyle: {
       display: 'flex',
       flexDirection: 'column',
+    },
+    listItemStyle: {
+      padding: '5px',
+    },
+    raisedListStyle: {
+      width: '100%',
+      height: '100%',
+      padding: '3px',
+    },
+    deleteButtonStyle: {
+      marginRight: '10px',
+      color: 'red',
+    },
+  },
+  displayIconsComponentStyle: {
+    mainDivStyle: {
+      width: '25%',
+    },
+    displayIconsDivStyle: {
+      width: '100%',
+      display: 'flex',
+      height: '100%',
+    },
+    displayIconDivStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '33%',
+    },
+    displayIconsWithCountDivStyle: {
+      width: '100%',
+      display: 'flex',
+      height: '100%',
+    },
+    displayNone: {
+      display: 'none',
     },
   },
 })

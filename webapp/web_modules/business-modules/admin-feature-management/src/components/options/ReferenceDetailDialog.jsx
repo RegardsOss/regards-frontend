@@ -29,44 +29,44 @@ import { CardActionsComponent, CodeFileDisplayer } from '@regardsoss/components'
   * @author Théo Lasserre
   */
 class ReferenceDetailDialog extends React.Component {
-   static propTypes = {
-     reference: FemShapes.Reference,
-     onClose: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    reference: FemShapes.Reference,
+    onClose: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     // enable plugin theme access through this.context
-     ...themeContextType,
-     // enable i18n access trhough this.context
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    // enable plugin theme access through this.context
+    ...themeContextType,
+    // enable i18n access trhough this.context
+    ...i18nContextType,
+  }
 
-   render() {
-     const { reference } = this.props
-     const { intl, moduleTheme } = this.context
-     return (
-       <Dialog
-         title={intl.formatMessage({ id: 'feature.references.detail.title' })}
-         open
-       >
-         <Card>
-           <CardMedia>
-             <CodeFileDisplayer
-               content={JSON.stringify(reference, null, '\t')}
-               contentType={MIME_TYPES.JSON_MIME_TYPE}
-               style={moduleTheme.detailsStyle}
-             />
-           </CardMedia>
-           <CardActions>
-             <CardActionsComponent
-               mainButtonLabel={intl.formatMessage({ id: 'feature.close' })}
-               mainButtonClick={this.props.onClose}
-             />
-           </CardActions>
-         </Card>
-       </Dialog>
+  render() {
+    const { reference } = this.props
+    const { intl, moduleTheme } = this.context
+    return (
+      <Dialog
+        title={intl.formatMessage({ id: 'feature.references.detail.title' })}
+        open
+      >
+        <Card>
+          <CardMedia>
+            <CodeFileDisplayer
+              content={JSON.stringify(reference, null, '\t')}
+              contentType={MIME_TYPES.JSON_MIME_TYPE}
+              style={moduleTheme.detailsStyle}
+            />
+          </CardMedia>
+          <CardActions>
+            <CardActionsComponent
+              mainButtonLabel={intl.formatMessage({ id: 'feature.close' })}
+              mainButtonClick={this.props.onClose}
+            />
+          </CardActions>
+        </Card>
+      </Dialog>
 
-     )
-   }
+    )
+  }
 }
 export default ReferenceDetailDialog

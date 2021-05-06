@@ -48,6 +48,7 @@ export class ReferencesManagerContainer extends React.Component {
     tableSelection: PropTypes.arrayOf(FemShapes.Reference),
     selectionMode: PropTypes.string.isRequired,
     areAllSelected: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   /**
@@ -61,6 +62,7 @@ export class ReferencesManagerContainer extends React.Component {
     tableSelection: referencesTableSelectors.getToggledElementsAsList(state),
     selectionMode: referencesTableSelectors.getSelectionMode(state),
     areAllSelected: referencesTableSelectors.areAllSelected(state, referencesSelectors),
+    isFetching: referencesSelectors.isFetching(state),
   })
 
   /**
@@ -100,6 +102,7 @@ export class ReferencesManagerContainer extends React.Component {
       notifyReferences,
       selectionMode,
       areAllSelected,
+      isFetching,
     } = this.props
     return (
       <ReferencesManagerComponent
@@ -110,6 +113,7 @@ export class ReferencesManagerContainer extends React.Component {
         tableSelection={tableSelection}
         selectionMode={selectionMode}
         areAllSelected={areAllSelected}
+        isFetching={isFetching}
       />
     )
   }

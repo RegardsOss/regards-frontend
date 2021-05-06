@@ -23,12 +23,10 @@ import { HateOASLink } from '../rs-common'
  * @author Théo Lasserre
  */
 export const RefrenceContent = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    lastUpdate: PropTypes.string,
-    providerId: PropTypes.string,
-    version: PropTypes.number,
-  }),
+  id: PropTypes.number,
+  lastUpdate: PropTypes.string,
+  providerId: PropTypes.string,
+  version: PropTypes.number,
 })
 
 export const Reference = PropTypes.shape({

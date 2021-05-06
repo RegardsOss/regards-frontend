@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 export { default as dashboardManagementRouter } from './router'
 export { default as dashboardManagementDependencies } from './dependencies'

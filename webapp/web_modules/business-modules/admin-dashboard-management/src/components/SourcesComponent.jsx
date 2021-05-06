@@ -44,7 +44,6 @@ import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES } from '../domain/statusTypes'
-import SelectOption from './option/SelectOption'
 
 const SOURCE_FILTER_PARAMS = {
   NAME: 'name',
@@ -59,12 +58,13 @@ class SourcesComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     selectedSource: AdminShapes.Source,
-    onSourceSelected: PropTypes.func.isRequired,
+    onSelected: PropTypes.func.isRequired,
+    selectedSession: AdminShapes.Session,
   }
 
   static contextTypes = {
-    ...i18nContextType,
-    ...themeContextType,
+    ...i18nContextType, // relancer les erreurs => endpoint retry avec payload filters : { source & session }
+    ...themeContextType, // relancer les erreurs -> Acquisition (DP -> FEM (requete d'extraction)). Référecement (soit Ingest soit FEM (toute les autres))
   }
 
   /**
@@ -82,8 +82,6 @@ class SourcesComponent extends React.Component {
     ACTIONS: 'actions',
   }
 
-  static PAGE_SIZE = 20
-
   static EMPTY_COMPONENT = (
     <NoContentComponent
       titleKey="dashboard.sources.table.empty"
@@ -99,7 +97,7 @@ class SourcesComponent extends React.Component {
  * @param {*} newStateValue
  * @param {*} filterElement
  */
-  updateFilter(newStateValue, filterElement) {
+  updateFilter = (newStateValue, filterElement) => {
     const { filters } = this.state
     const newState = {
       filters: {
@@ -112,10 +110,19 @@ class SourcesComponent extends React.Component {
 
   render() {
     const {
-      project, onSourceSelected, selectedSource,
+      project, onSelected, selectedSource, selectedSession,
     } = this.props
     const { filters } = this.state
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const {
+      intl: { formatMessage }, muiTheme, moduleTheme: {
+        dashboardStyle: {
+          componentDiv: {
+            cardStyle, cardTextStyle, headerLineDivStyle, headerOptionDivStyle,
+            cardTitleStyle, autoCompleteStyle, selectFieldStyle,
+          },
+        },
+      },
+    } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
       // 1 - source name
@@ -123,8 +130,13 @@ class SourcesComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sources.table.column.sourceName' }))
         .rowCellDefinition({
           Constructor: NameRender,
+          props: {
+            onSelected,
+            selectedEntity: selectedSource,
+            cellType: CELL_TYPE_ENUM.SOURCE,
+          },
         }).titleHeaderCell()
-        .optionsSizing(6)
+        .optionsSizing(9)
         .build(),
       // 2 - referenced product
       new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.REFERENCED_PRODUCTS)
@@ -133,7 +145,7 @@ class SourcesComponent extends React.Component {
           Constructor: ReferencedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
-        .optionsSizing(3.83)
+        .optionsSizing(3)
         .build(),
       // 2 - diffused product
       new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.DIFFUSED_PRODUCTS)
@@ -142,60 +154,59 @@ class SourcesComponent extends React.Component {
           Constructor: DiffusedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
-        .optionsSizing(3.83)
+        .optionsSizing(3)
         .build(),
-      // 3 - select source option
-      new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: SelectOption,
-        optionProps: {
-          onEntitySelected: onSourceSelected,
-          selectedEntity: selectedSource,
-          cellType: CELL_TYPE_ENUM.SOURCE,
-        },
-      }]).build(),
     ]
 
     return (
-      <Card style={{ width: '50%' }}>
-        <CardText>
+      <Card style={cardStyle}>
+        <CardText style={cardTextStyle}>
           <TableLayout>
             <TableHeaderLine key="filters">
-              <CardTitle
-                title={this.context.intl.formatMessage({ id: 'dashboard.sources.title' })}
-              />
-              <TableHeaderOptionsArea>
-                <TableHeaderOptionGroup>
-                  <TableHeaderAutoCompleteFilterContainer
-                    onChangeText={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
-                    text={filters[SOURCE_FILTER_PARAMS.NAME] || ''}
-                    hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
-                    key="sourceAuto"
-                    arrayActions={searchSourcesActions}
-                    arraySelectors={searchSourcesSelectors}
-                    style={{ marginRight: '10px' }}
-                  />
-                  <SelectField
-                    id="dashboard.sources.filter.status"
-                    multiple
-                    value={filters[SOURCE_FILTER_PARAMS.STATUS]}
-                    floatingLabelText={formatMessage({ id: 'dashboard.sources.filter.status' })}
-                    onChange={(event, index, value) => this.updateFilter(value, STATUS_TYPES.STATUS)}
-                  >
-                    {map(STATUS_TYPES, (status) => (
-                      <MenuItem key={status} value={status} primaryText={status} />
-                    ))}
-                  </SelectField>
-                </TableHeaderOptionGroup>
-              </TableHeaderOptionsArea>
+              <div style={headerLineDivStyle}>
+                <TableHeaderOptionsArea reducible alignLeft>
+                  <TableHeaderOptionGroup>
+                    <div style={headerOptionDivStyle}>
+                      <CardTitle
+                        title={this.context.intl.formatMessage({ id: 'dashboard.sources.title' })}
+                        style={cardTitleStyle}
+                      />
+                      <TableHeaderAutoCompleteFilterContainer
+                        onChangeText={(value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
+                        text={filters[SOURCE_FILTER_PARAMS.NAME]}
+                        hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
+                        key="sourceAuto"
+                        arrayActions={searchSourcesActions}
+                        arraySelectors={searchSourcesSelectors}
+                        style={autoCompleteStyle}
+                      />
+                      <div>
+                        <SelectField
+                          id="dashboard.sources.filter.status"
+                          value={filters[SOURCE_FILTER_PARAMS.STATUS]}
+                          floatingLabelText={formatMessage({ id: 'dashboard.sources.filter.status' })}
+                          onChange={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.STATUS)}
+                          style={selectFieldStyle}
+                        >
+                          {map(STATUS_TYPES, (status) => (
+                            <MenuItem key={status} value={status} primaryText={status} />
+                          ))}
+                        </SelectField>
+                      </div>
+                    </div>
+                  </TableHeaderOptionGroup>
+                </TableHeaderOptionsArea>
+              </div>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
+              key="source"
               name="sources-table"
               minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
+              maxRowCount={selectedSession ? minRowCount : maxRowCount}
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
               requestParams={{ ...filters, tenant: project }}
-              pageSize={SourcesComponent.PAGE_SIZE}
+              pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}
             />

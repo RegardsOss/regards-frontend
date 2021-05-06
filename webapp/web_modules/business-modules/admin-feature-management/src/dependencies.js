@@ -25,7 +25,7 @@ import { referencesActions } from './clients/ReferencesClient'
   */
 
 const listDependencies = [
-  // referencesActions.getDependency(RequestVerbEnum.GET),
+  referencesActions.getDependency(RequestVerbEnum.GET),
 ]
 
 export default {

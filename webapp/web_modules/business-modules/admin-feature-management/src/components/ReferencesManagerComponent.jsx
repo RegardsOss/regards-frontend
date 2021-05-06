@@ -29,7 +29,7 @@ import NoContentIcon from 'mdi-material-ui/CropFree'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
-  DateValueRender, NoContentComponent, TableHeaderLine,
+  DateValueRender, NoContentComponent, TableHeaderLine, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -65,6 +65,7 @@ export class ReferencesManagerComponent extends React.Component {
     tableSelection: PropTypes.arrayOf(FemShapes.Reference),
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     areAllSelected: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -149,9 +150,9 @@ export class ReferencesManagerComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-   UNSAFE_componentWillMount = () => {
-     this.onRequestStateUpdated(this.props.featureManagerFilters)
-   }
+  UNSAFE_componentWillMount = () => {
+    this.onFiltersUpdated(this.props.featureManagerFilters)
+  }
 
   /**
     * Lifecycle method: component receive props. Used here to detect properties change and update local state
@@ -168,11 +169,11 @@ export class ReferencesManagerComponent extends React.Component {
     */
   onPropertiesUpdated = (oldProps, newProps) => {
     if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters)
+      this.onFiltersUpdated(newProps.featureManagerFilters)
     }
   }
 
-  onRequestStateUpdated = (featureManagerFilters) => {
+  onFiltersUpdated = (featureManagerFilters) => {
     this.setState({
       contextRequestParameters: ReferencesManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
     })
@@ -325,10 +326,10 @@ export class ReferencesManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      onRefresh, tableSelection, selectionMode,
+      onRefresh, tableSelection, selectionMode, isFetching,
     } = this.props
     const { contextRequestParameters, columnsSorting } = this.state
     // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
@@ -404,6 +405,9 @@ export class ReferencesManagerComponent extends React.Component {
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
           </TableHeaderLine>
+          <div style={loadingStyle}>
+            <TableHeaderLoadingComponent loading={isFetching} />
+          </div>
           <PageableInfiniteTableContainer
             name="feature-management-table"
             pageActions={referencesActions}

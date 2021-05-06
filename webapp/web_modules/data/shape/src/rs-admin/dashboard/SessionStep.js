@@ -28,6 +28,7 @@ export const SessionStep = PropTypes.shape({
   in: PropTypes.number,
   out: PropTypes.number,
   state: StepState,
-  properties: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
+  properties: PropTypes.object,
   lastUpdate: PropTypes.string.isRequired,
 })

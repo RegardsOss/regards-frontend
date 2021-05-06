@@ -19,14 +19,17 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { Card } from 'material-ui/Card'
+import { CardActionsComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ReferencesManagerContainer from '../../src/containers/ReferencesManagerContainer'
 import RequestManagerContainer from '../../src/containers/RequestManagerContainer'
 import FeatureManagerFiltersComponent from '../../src/components/filters/FeatureManagerFiltersComponent'
-import SwitchTables from '../../src/components/SwitchTables'
+import SwitchTables from '../../src/containers/SwitchTables'
 import FeatureManagerComponent from '../../src/components/FeatureManagerComponent'
-import { PANE_TYPES_ENUM } from '../../src/domain/PaneTypes'
 import styles from '../../src/styles'
+
+// mock router
+const router = require('react-router')
 
 const context = buildTestContext(styles)
 
@@ -35,8 +38,17 @@ const context = buildTestContext(styles)
  * @author Théo Lasserre
  */
 describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
-  before(testSuiteHelpers.before)
-  after(testSuiteHelpers.after)
+  let currentLocation = {}
+  before(() => {
+    testSuiteHelpers.before()
+    router.browserHistory.setMockedResult(currentLocation)
+    router.browserHistory.setReplaceSpy((location) => {
+      currentLocation = location
+    })
+  })
+  after(() => {
+    testSuiteHelpers.after()
+  })
 
   it('should exists', () => {
     assert.isDefined(FeatureManagerComponent)
@@ -46,8 +58,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       params: {
         project: 'any',
       },
-      clearReferencesSelection: () => {},
-      clearRequestSelection: () => {},
+      clearReferencesSelection: () => { },
+      clearCreationSelection: () => { },
+      clearDeleteSelection: () => { },
+      clearExtractionSelection: () => { },
+      clearNotificationSelection: () => { },
+      clearUpdateSelection: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -56,7 +72,8 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     const filterWrapper = enzymeWrapper.find(FeatureManagerFiltersComponent)
     assert.lengthOf(filterWrapper, 1, 'There should be a FeatureManagerFiltersComponent')
     testSuiteHelpers.assertWrapperProperties(filterWrapper, {
-      onApplyFilters: enzymeWrapper.instance().applyFilters,
+      onApplyFilters: enzymeWrapper.instance().onApplyFilters,
+      featureManagerFilters: enzymeWrapper.instance().state.featureManagerFilters,
     }, 'Component should define the expected properties')
 
     const switchWrapper = enzymeWrapper.find(SwitchTables)
@@ -64,24 +81,21 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
     testSuiteHelpers.assertWrapperProperties(switchWrapper, {
       params: props.params,
       onSwitchToPane: enzymeWrapper.instance().onSwitchToPane,
-      openedPane: PANE_TYPES_ENUM.REFERENCES,
+      openedPane: enzymeWrapper.instance().state.openedPane,
     }, 'Component should define the expected properties')
 
     const referenceWrapper = enzymeWrapper.find(ReferencesManagerContainer)
     assert.lengthOf(referenceWrapper, 1, 'There should be a ReferencesManagerContainer')
     testSuiteHelpers.assertWrapperProperties(referenceWrapper, {
       params: props.params,
-      filters: FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE,
-      paneType: PANE_TYPES_ENUM.REFERENCES,
+      featureManagerFilters: enzymeWrapper.instance().state.featureManagerFilters,
+      paneType: enzymeWrapper.instance().state.openedPane,
     }, 'Component should define the expected properties')
 
     const requestWrapper = enzymeWrapper.find(RequestManagerContainer)
-    assert.lengthOf(requestWrapper, 1, 'There should be a RequestManagerContainer')
-    testSuiteHelpers.assertWrapperProperties(requestWrapper, {
-      params: props.params,
-      filters: FeatureManagerFiltersComponent.DEFAULT_FILTERS_STATE,
-      paneType: PANE_TYPES_ENUM.REFERENCES,
-      onApplyFilters: enzymeWrapper.instance().applyFilters,
-    }, 'Component should define the expected properties')
+    assert.lengthOf(requestWrapper, 5, 'There should be 5 RequestManagerContainer')
+
+    const cardActionsComponent = enzymeWrapper.find(CardActionsComponent)
+    assert.lengthOf(cardActionsComponent, 1, 'There should be a CardActionsComponent')
   })
 })

@@ -18,12 +18,12 @@
  **/
 
 import { AdminDomain } from '@regardsoss/domain'
-import { StepState } from './StepState'
+import { AggregationState } from './AggregationState'
 
 export const SourceStepAggregation = PropTypes.shape({
   source: PropTypes.string.isRequired,
   type: PropTypes.oneOf(AdminDomain.STEP_TYPE).isRequired,
   totalIn: PropTypes.number.isRequired,
   totalOut: PropTypes.number.isRequired,
-  state: StepState,
+  state: AggregationState,
 })

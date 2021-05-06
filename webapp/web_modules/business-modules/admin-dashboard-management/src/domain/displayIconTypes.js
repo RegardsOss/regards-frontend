@@ -17,20 +17,11 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-/**
- * Pane types
- * @author Théo Lasserre
- */
 import values from 'lodash/values'
 
-/** Possible pane types */
-export const PANE_TYPES_ENUM = {
-  REFERENCES: 'REFERENCES',
-  EXTRACTION: 'EXTRACTION',
-  CREATION: 'CREATION',
-  UPDATE: 'UPDATE',
-  DELETE: 'DELETE',
-  NOTIFICATION: 'NOTIFICATION',
+export const DISPLAY_ICON_TYPE_ENUM = {
+  COUNT: 'COUNT', // for session or source table display
+  NO_COUNT: 'NO_COUNT', // for session step title display
 }
 
-export const PANE_TYPES = values(PANE_TYPES_ENUM)
+export const DISPLAY_ICON_TYPE = values(DISPLAY_ICON_TYPE_ENUM)

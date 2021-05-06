@@ -21,11 +21,8 @@ import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import { CommonShapes } from '@regardsoss/shape'
-import FlatButton from 'material-ui/FlatButton'
-import Alert from 'mdi-material-ui/AlertCircleOutline'
-import Chip from 'material-ui/Chip'
-import { LoadingComponent } from '@regardsoss/display-control'
-import { PANE_TYPES_ENUM, PANE_TYPES } from '../domain/PaneTypes'
+import { FemDomain } from '@regardsoss/domain'
+import SwitchComponent from '../components/SwitchComponent'
 import { referencesActions, referencesSelectors } from '../clients/ReferencesClient'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
@@ -62,15 +59,21 @@ export class SwitchTables extends React.Component {
   static mapStateToProps(state) {
     return {
       referencesMeta: referencesSelectors.getMetaData(state),
+      isReferencesFetching: referencesSelectors.isFetching(state),
       extractionMeta: extractionRequestSelectors.getMetaData(state),
+      isExtractionFetching: extractionRequestSelectors.isFetching(state),
       extractionInfo: extractionRequestSelectors.getInfo(state),
       creationMeta: creationRequestSelectors.getMetaData(state),
+      isCreationFetching: creationRequestSelectors.isFetching(state),
       creationInfo: creationRequestSelectors.getInfo(state),
       updateMeta: updateRequestSelectors.getMetaData(state),
+      isUpdateFetching: updateRequestSelectors.isFetching(state),
       updateInfo: updateRequestSelectors.getInfo(state),
       deleteMeta: deleteRequestSelectors.getMetaData(state),
+      isDeleteFetching: deleteRequestSelectors.isFetching(state),
       deleteInfo: deleteRequestSelectors.getInfo(state),
       notificationMeta: notificationRequestSelectors.getMetaData(state),
+      isNotificationFetching: notificationRequestSelectors.isFetching(state),
       notificationInfo: notificationRequestSelectors.getInfo(state),
     }
   }
@@ -79,17 +82,22 @@ export class SwitchTables extends React.Component {
     // from router
     params: PropTypes.shape({
       project: PropTypes.string,
-      session: PropTypes.string,
     }),
     onSwitchToPane: PropTypes.func.isRequired,
     openedPane: PropTypes.string,
     // from mapStateToProps
     referencesMeta: CommonShapes.PageMetadata,
+    isReferencesFetching: PropTypes.bool.isRequired,
     extractionMeta: CommonShapes.PageMetadata,
+    isExtractionFetching: PropTypes.bool.isRequired,
     creationMeta: CommonShapes.PageMetadata,
+    isCreationFetching: PropTypes.bool.isRequired,
     updateMeta: CommonShapes.PageMetadata,
+    isUpdateFetching: PropTypes.bool.isRequired,
     deleteMeta: CommonShapes.PageMetadata,
+    isDeleteFetching: PropTypes.bool.isRequired,
     notificationMeta: CommonShapes.PageMetadata,
+    isNotificationFetching: PropTypes.bool.isRequired,
     extractionInfo: CommonShapes.PageInfo,
     creationInfo: CommonShapes.PageInfo,
     updateInfo: CommonShapes.PageInfo,
@@ -109,27 +117,6 @@ export class SwitchTables extends React.Component {
     ...i18nContextType,
   }
 
-  state = {
-    [PANE_TYPES_ENUM.REFERENCES]: {
-      isLoading: true,
-    },
-    [PANE_TYPES_ENUM.EXTRACTION]: {
-      isLoading: false,
-    },
-    [PANE_TYPES_ENUM.CREATION]: {
-      isLoading: true,
-    },
-    [PANE_TYPES_ENUM.UPDATE]: {
-      isLoading: true,
-    },
-    [PANE_TYPES_ENUM.DELETE]: {
-      isLoading: true,
-    },
-    [PANE_TYPES_ENUM.NOTIFICATION]: {
-      isLoading: true,
-    },
-  }
-
   UNSAFE_componentWillMount = () => {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
@@ -142,26 +129,39 @@ export class SwitchTables extends React.Component {
     fetchUpdateRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
   }
 
-  displayIcon = (elementCount, pane) => {
-    const {
-      moduleTheme: { tableStyle: { overlayStyle } },
-    } = this.context
-    return (
-      <div style={overlayStyle.style}>
-        <Alert style={overlayStyle.icon.style} />
-        <Chip
-          labelStyle={overlayStyle.chip.labelStyle}
-          style={overlayStyle.chip.style}
-        >
-          {elementCount}
-        </Chip>
-      </div>)
-  }
-
   extractInfos = (meta, info = null) => ({
     nbElements: meta ? meta.totalElements : 0,
     nbErrors: info ? info.nbErrors : 0,
   })
+
+  isFetching = (pane) => {
+    const {
+      isReferencesFetching, isCreationFetching, isDeleteFetching, isUpdateFetching, isNotificationFetching, isExtractionFetching,
+    } = this.props
+    let isFetching = true
+    switch (pane) {
+      case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
+        isFetching = isReferencesFetching
+        break
+      case FemDomain.REQUEST_TYPES_ENUM.EXTRACTION:
+        isFetching = isExtractionFetching
+        break
+      case FemDomain.REQUEST_TYPES_ENUM.CREATION:
+        isFetching = isCreationFetching
+        break
+      case FemDomain.REQUEST_TYPES_ENUM.UPDATE:
+        isFetching = isUpdateFetching
+        break
+      case FemDomain.REQUEST_TYPES_ENUM.DELETE:
+        isFetching = isDeleteFetching
+        break
+      case FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION:
+        isFetching = isNotificationFetching
+        break
+      default:
+    }
+    return isFetching
+  }
 
   getNbElementsInfos = (pane) => {
     const {
@@ -171,26 +171,26 @@ export class SwitchTables extends React.Component {
     let meta = null
     let info = null
     switch (pane) {
-      case PANE_TYPES_ENUM.REFERENCES:
+      case FemDomain.REQUEST_TYPES_ENUM.REFERENCES:
         meta = referencesMeta
         break
-      case PANE_TYPES_ENUM.EXTRACTION:
+      case FemDomain.REQUEST_TYPES_ENUM.EXTRACTION:
         meta = extractionMeta
         info = extractionInfo
         break
-      case PANE_TYPES_ENUM.CREATION:
+      case FemDomain.REQUEST_TYPES_ENUM.CREATION:
         meta = creationMeta
         info = creationInfo
         break
-      case PANE_TYPES_ENUM.UPDATE:
+      case FemDomain.REQUEST_TYPES_ENUM.UPDATE:
         meta = updateMeta
         info = updateInfo
         break
-      case PANE_TYPES_ENUM.DELETE:
+      case FemDomain.REQUEST_TYPES_ENUM.DELETE:
         meta = deleteMeta
         info = deleteInfo
         break
-      case PANE_TYPES_ENUM.NOTIFICATION:
+      case FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION:
         meta = notificationMeta
         info = notificationInfo
         break
@@ -199,44 +199,30 @@ export class SwitchTables extends React.Component {
     return this.extractInfos(meta, info)
   }
 
-  // displayLabel = (isLoading, nbElements) => {
-  //   const { intl: { formatMessage } } = this.context
-  //   !isLoading ? (formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements }))
-  //   : (<div>formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })</div>)
-  // }
-
-  displayLabel = (pane, isLoading, nbElements) => {
-    const { intl: { formatMessage } } = this.context
-    if (!isLoading) {
-      return formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })
-    }
-    return <div style={{ display: 'flex' }}>
-      {formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElements })}
-      <LoadingComponent />
-    </div>
-  }
-
   render() {
-    const { intl: { formatMessage }, moduleTheme: { switchButton } } = this.context
+    const {
+      moduleTheme: {
+        switchTable: {
+          divStyle,
+        },
+      },
+    } = this.context
     const {
       openedPane, onSwitchToPane,
     } = this.props
     return (
-      <div style={{ display: 'flex' }}>
-        {map(PANE_TYPES, (pane) => {
+      <div style={divStyle}>
+        {map(FemDomain.REQUEST_TYPES, (pane) => {
           const nbElementsInfos = this.getNbElementsInfos(pane)
-          const { isLoading } = this.state[pane]
-          return (<div key={`switch-table-${pane}`} style={{ display: 'flex' }}>
-            <FlatButton
-              // label={formatMessage({ id: `feature.references.switch-to.${pane}.label` }, { productsNb: nbElementsInfos.nbElements })}
-              label={this.displayLabel(pane, isLoading, nbElementsInfos.nbElements)}
-              title={formatMessage({ id: `feature.references.switch-to.${pane}.title` })}
-              onClick={() => onSwitchToPane(pane)}
-              style={openedPane === pane ? switchButton : null}
-              disabled={openedPane === pane}
-            />
-            {nbElementsInfos.nbErrors !== 0 ? this.displayIcon(nbElementsInfos.nbErrors, pane) : null}
-          </div>)
+          const isFetching = this.isFetching(pane)
+          return (<SwitchComponent
+            key={`switch-table-${pane}`}
+            loading={isFetching}
+            pane={pane}
+            openedPane={openedPane}
+            nbElementsInfos={nbElementsInfos}
+            onSwitchToPane={onSwitchToPane}
+          />)
         })}
       </div>
     )

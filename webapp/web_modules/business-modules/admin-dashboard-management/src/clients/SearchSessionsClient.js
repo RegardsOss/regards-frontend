@@ -20,7 +20,7 @@ import { AdminClient } from '@regardsoss/client'
 
 /**
  * Dataprovider product entities client.
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'dashboard', 'searchSessions']
 const REDUX_ACTION_NAMESPACE = 'admin-dashboard-management/search-sessions'

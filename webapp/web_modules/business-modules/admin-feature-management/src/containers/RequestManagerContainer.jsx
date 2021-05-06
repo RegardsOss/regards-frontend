@@ -19,7 +19,7 @@
 import { connect } from '@regardsoss/redux'
 import { FemShapes } from '@regardsoss/shape'
 import { HateoasLinks } from '@regardsoss/display-control'
-import { PANE_TYPES } from '../domain/PaneTypes'
+import { FemDomain } from '@regardsoss/domain'
 import RequestManagerComponent from '../components/RequestManagerComponent'
 import { requestDeleteActions } from '../clients/RequestDeleteClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
@@ -32,10 +32,7 @@ export class RequestManagerContainer extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     featureManagerFilters: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    requestFilters: PropTypes.object.isRequired,
-    paneType: PropTypes.oneOf(PANE_TYPES),
-    onApplyRequestFilter: PropTypes.func.isRequired,
+    paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES),
     // eslint-disable-next-line react/forbid-prop-types
     clients: PropTypes.object.isRequired,
     // from mapDistpathToProps
@@ -50,6 +47,7 @@ export class RequestManagerContainer extends React.Component {
     links: PropTypes.arrayOf(HateoasLinks),
     tableSelection: PropTypes.arrayOf(FemShapes.Request),
     selectionMode: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     // are all selected in current state?
     areAllSelected: PropTypes.bool.isRequired,
   }
@@ -66,6 +64,7 @@ export class RequestManagerContainer extends React.Component {
     selectionMode: ownProps.clients.tableSelectors.getSelectionMode(state),
     links: ownProps.clients.selectors.getLinks(state),
     areAllSelected: ownProps.clients.tableSelectors.areAllSelected(state, ownProps.clients.selectors),
+    isFetching: ownProps.clients.selectors.isFetching(state),
   })
 
   /**
@@ -95,22 +94,19 @@ export class RequestManagerContainer extends React.Component {
   render() {
     const {
       featureManagerFilters,
-      requestFilters,
       tableSelection,
       deleteRequests,
       retryRequests,
-      onApplyRequestFilter,
       paneType,
       clients,
       links,
       selectionMode,
       areAllSelected,
+      isFetching,
     } = this.props
     return (
       <RequestManagerComponent
         featureManagerFilters={featureManagerFilters}
-        requestFilters={requestFilters}
-        onApplyRequestFilter={onApplyRequestFilter}
         onRefresh={this.onRefresh}
         deleteRequests={deleteRequests}
         retryRequests={retryRequests}
@@ -120,6 +116,7 @@ export class RequestManagerContainer extends React.Component {
         selectionMode={selectionMode}
         links={links}
         areAllSelected={areAllSelected}
+        isFetching={isFetching}
       />
     )
   }

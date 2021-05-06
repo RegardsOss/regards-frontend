@@ -23,7 +23,7 @@ import MessagesFr from '../../src/i18n/messages.fr.i18n'
 import MessagesEn from '../../src/i18n/messages.en.i18n'
 
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 describe('[ADMIN DASHBOARD MANAGEMENT] Testing i18n', () => {
   before(testSuiteHelpers.before)

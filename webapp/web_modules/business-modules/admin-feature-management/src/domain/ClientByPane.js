@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+
+import { FemDomain } from '@regardsoss/domain'
 import { creationRequestActions, creationRequestSelectors } from '../clients/CreationRequestsClient'
 import { creationRequestsTableActions, creationRequestsTableSelectors } from '../clients/CreationRequestsTableClient'
 import { deleteRequestActions, deleteRequestSelectors } from '../clients/DeleteRequestsClient'
@@ -26,34 +28,33 @@ import { notificationRequestActions, notificationRequestSelectors } from '../cli
 import { notificationRequestsTableActions, notificationRequestsTableSelectors } from '../clients/NotificationRequestsTableClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
-import { PANE_TYPES_ENUM } from './PaneTypes'
 
 export default {
-  [PANE_TYPES_ENUM.EXTRACTION]: {
+  [FemDomain.REQUEST_TYPES_ENUM.EXTRACTION]: {
     actions: extractionRequestActions,
     selectors: extractionRequestSelectors,
     tableActions: extractionRequestsTableActions,
     tableSelectors: extractionRequestsTableSelectors,
   },
-  [PANE_TYPES_ENUM.CREATION]: {
+  [FemDomain.REQUEST_TYPES_ENUM.CREATION]: {
     actions: creationRequestActions,
     selectors: creationRequestSelectors,
     tableActions: creationRequestsTableActions,
     tableSelectors: creationRequestsTableSelectors,
   },
-  [PANE_TYPES_ENUM.UPDATE]: {
+  [FemDomain.REQUEST_TYPES_ENUM.UPDATE]: {
     actions: updateRequestActions,
     selectors: updateRequestSelectors,
     tableActions: updateRequestsTableActions,
     tableSelectors: updateRequestsTableSelectors,
   },
-  [PANE_TYPES_ENUM.DELETE]: {
+  [FemDomain.REQUEST_TYPES_ENUM.DELETE]: {
     actions: deleteRequestActions,
     selectors: deleteRequestSelectors,
     tableActions: deleteRequestsTableActions,
     tableSelectors: deleteRequestsTableSelectors,
   },
-  [PANE_TYPES_ENUM.NOTIFICATION]: {
+  [FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION]: {
     actions: notificationRequestActions,
     selectors: notificationRequestSelectors,
     tableActions: notificationRequestsTableActions,

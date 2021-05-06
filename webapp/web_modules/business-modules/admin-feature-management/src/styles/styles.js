@@ -21,6 +21,12 @@
  * @author Théo Lasserre
  */
 const featureManagementStyles = (theme) => ({
+  displayBlock: {
+    display: 'block',
+  },
+  displayNone: {
+    display: 'none',
+  },
   filter: {
     fieldStyle: {
       width: '190px',
@@ -41,6 +47,12 @@ const featureManagementStyles = (theme) => ({
         display: 'flex',
         alignItems: 'center',
       },
+    },
+    loadingStyle: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '10px',
+      marginBottom: '10px',
     },
     overlayStyle: {
       iconButton: {
@@ -78,8 +90,23 @@ const featureManagementStyles = (theme) => ({
       },
     },
   },
-  switchButton: {
-    color: theme.palette.accent1Color,
+  switchTable: {
+    divStyle: {
+      display: 'flex',
+    },
+    switchButton: {
+      color: theme.palette.accent1Color,
+    },
+    displayIndicator: {
+      display: 'flex',
+      alignItems: 'center',
+    },
+    displayNone: {
+      display: 'none',
+    },
+    indicatorStyle: {
+      position: 'relative',
+    },
   },
   detailsStyle: {
     height: '300px',

@@ -19,7 +19,7 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { PANE_TYPES_ENUM } from '../../src/domain/PaneTypes'
+import { FemDomain } from '@regardsoss/domain'
 import RequestManagerComponent from '../../src/components/RequestManagerComponent'
 import { RequestManagerContainer } from '../../src/containers/RequestManagerContainer'
 import styles from '../../src/styles'
@@ -39,12 +39,9 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerContainer', () => {
   })
   it('should render correctly', () => {
     const props = {
-      filters: {},
-      params: {
-        project: 'any',
-      },
-      paneType: PANE_TYPES_ENUM.REFERENCES,
-      onApplyFilters: () => { },
+      featureManagerFilters: {},
+      paneType: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
+      clients: {},
       fetchRequests: () => { },
       clearSelection: () => { },
       deleteRequests: () => { },
@@ -52,19 +49,26 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestManagerContainer', () => {
       meta: {
         number: 0,
       },
+      links: [],
       tableSelection: [],
+      selectionMode: '',
+      isFetching: false,
+      areAllSelected: false,
     }
     const enzymeWrapper = shallow(<RequestManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(RequestManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      filters: props.filters,
-      onApplyFilters: props.onApplyFilters,
+      featureManagerFilters: props.featureManagerFilters,
       onRefresh: enzymeWrapper.instance().onRefresh,
-      project: props.params.project,
+      clients: props.clients,
+      links: props.links,
       deleteRequests: props.deleteRequests,
       retryRequests: props.retryRequests,
       tableSelection: props.tableSelection,
+      selectionMode: props.selectionMode,
+      isFetching: props.isFetching,
+      areAllSelected: props.areAllSelected,
     }, 'Component should define the expected properties')
   })
 })

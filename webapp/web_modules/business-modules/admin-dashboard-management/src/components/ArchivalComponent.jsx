@@ -17,11 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { AdminShapes } from '@regardsoss/shape'
 import { ListItem } from 'material-ui/List'
-import FlatButton from 'material-ui/FlatButton'
+import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import DisplayIconsComponent from './DisplayIconsComponent'
+import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 
 /**
  * ArchivalComponent
@@ -29,7 +33,8 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class ArchivalComponent extends React.Component {
   static propTypes = {
-    sessionStep: PropTypes.object,
+    project: PropTypes.string.isRequired,
+    sessionStep: AdminShapes.SessionStep,
   }
 
   static contextTypes = {
@@ -37,30 +42,45 @@ class ArchivalComponent extends React.Component {
     ...i18nContextType,
   }
 
+  onClick = () => {
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
+  }
+
   // Case DataProvider
   displayDP = () => {
     const { sessionStep } = this.props
-    const { intl: { formatMessage }, moduleTheme: { selectedSession: { cardContentStyle, cardButtonStyle } } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSession: {
+          raisedListStyle, listItemStyle, cardContentStyle, cardButtonStyle,
+        },
+      },
+    } = this.context
     return <div style={cardContentStyle}>
       <div>
         <ListItem
           primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.in' }, { nbIn: sessionStep.in })}
           disabled
+          style={listItemStyle}
         />
         <ListItem
           primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.error' }, { nbError: -1 })}
           disabled
+          style={listItemStyle}
         />
         <ListItem
           primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.stored' }, { nbStored: sessionStep.out })}
           disabled
+          style={listItemStyle}
         />
       </div>
       <div style={cardButtonStyle}>
-        <FlatButton
-    // onClick={this.addNewValue}
+        <RaisedButton
+          onClick={this.onClick}
           label={formatMessage({ id: 'dashboard.selectedsession.storage.dp.button.see-stockage' })}
           primary
+          style={raisedListStyle}
         />
       </div>
     </div>
@@ -68,15 +88,27 @@ class ArchivalComponent extends React.Component {
 
   render() {
     const { sessionStep } = this.props
-    const { intl: { formatMessage }, moduleTheme: { selectedSession: { cardStyle, cardTitleStyle, cardTitleTextStyle } } } = this.context
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSession: {
+          cardStyle, cardTitleDivStyle, cardTitleStyle, cardTitleTextStyle,
+        },
+      },
+    } = this.context
     return (
       sessionStep
-        ? <Card style={cardStyle} expandable initiallyExpanded={false}>
-          <CardTitle
-            title={formatMessage({ id: 'dashboard.selectedsession.storage.title' })}
-            style={cardTitleStyle}
-            titleStyle={cardTitleTextStyle}
-          />
+        ? <Card style={cardStyle}>
+          <div style={cardTitleDivStyle}>
+            <CardTitle
+              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' })}
+              style={cardTitleStyle}
+              titleStyle={cardTitleTextStyle}
+            />
+            <DisplayIconsComponent
+              entity={sessionStep}
+              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+            />
+          </div>
           <CardText>
             {this.displayDP()}
           </CardText>

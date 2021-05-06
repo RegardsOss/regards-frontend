@@ -23,13 +23,11 @@ import { HateOASLink } from '../rs-common'
   * @author Théo Lasserre
   */
 export const RequestContent = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number,
-    registrationDate: PropTypes.string,
-    providerId: PropTypes.string.isRequired,
-    state: PropTypes.string.isRequired,
-    errors: PropTypes.arrayOf(PropTypes.string).isRequired,
-  }),
+  id: PropTypes.number,
+  registrationDate: PropTypes.string,
+  providerId: PropTypes.string.isRequired,
+  state: PropTypes.string.isRequired,
+  errors: PropTypes.arrayOf(PropTypes.string).isRequired,
 })
 
 export const Request = PropTypes.shape({

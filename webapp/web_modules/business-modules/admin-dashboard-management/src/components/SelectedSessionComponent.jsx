@@ -20,17 +20,17 @@ import find from 'lodash/find'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import IconButton from 'material-ui/IconButton'
-import Close from 'mdi-material-ui/Close'
+import FlatButton from 'material-ui/FlatButton'
 import { AdminDomain } from '@regardsoss/domain'
 import { AdminShapes } from '@regardsoss/shape'
-import { CardActionsComponent } from '@regardsoss/components'
+import { CardActionsComponent, ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
 import AcquisitionComponent from './AcquisitionComponent'
 import ReferencingComponent from './ReferencingComponent'
 import ArchivalComponent from './ArchivalComponent'
 import DiffusionComponent from './DiffusionComponent'
+import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 
 /**
  * SelectedSessionComponent
@@ -38,7 +38,13 @@ import DiffusionComponent from './DiffusionComponent'
  */
 class SelectedSessionComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     selectedSession: AdminShapes.Session,
+    onSelected: PropTypes.func.isRequired,
+    relaunchProducts: PropTypes.func.isRequired,
+    relaunchAIP: PropTypes.func.isRequired,
+    retryRequests: PropTypes.func.isRequired,
+    deleteSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -46,15 +52,53 @@ class SelectedSessionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    isDeleteDialogOpen: false,
+  }
+
   getSessionStep = (selectedSession, stepType) => (find(selectedSession.content.steps, (step) => (step.type === stepType)))
 
+  openDeleteDialog = () => {
+    this.setState({
+      isDeleteDialogOpen: true,
+    })
+  }
+
+  closeDeleteDialog = () => {
+    this.setState({
+      isDeleteDialogOpen: false,
+    })
+  }
+
+  renderDeleteDialog = () => {
+    const { intl: { formatMessage } } = this.context
+    const { selectedSession, deleteSession } = this.props
+    const { isDeleteDialogOpen } = this.state
+    if (isDeleteDialogOpen) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.DELETE}
+          title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
+          onConfirm={() => deleteSession(selectedSession.content.id)}
+          onClose={() => this.closeDeleteDialog()}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
-    const { selectedSession } = this.props
+    const {
+      selectedSession, onSelected, project, relaunchProducts, relaunchAIP, retryRequests,
+    } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: {
         headerStyle: {
-          headerDivStyle, cardTitleStyle, cardActionDivStyle, iconButtonStyle,
+          headerDivStyle, cardActionDivStyle,
+        },
+        selectedSession: {
+          deleteButtonStyle, cardTextStyle,
         },
       },
     } = this.context
@@ -63,36 +107,43 @@ class SelectedSessionComponent extends React.Component {
         <div style={headerDivStyle}>
           <CardTitle
             title={formatMessage({ id: 'dashboard.selectedsession.title' }, { source: selectedSession.content.source, session: selectedSession.content.name })}
-            style={cardTitleStyle}
           />
           <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.delete' })}
-              mainButtonType="submit"
+            <FlatButton
+              label={formatMessage({ id: 'dashboard.selectedsession.delete' })}
+              style={deleteButtonStyle}
+              onClick={() => this.openDeleteDialog()}
             />
             <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.refresh' })}
+              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
               mainButtonType="submit"
+              mainButtonClick={() => onSelected(null, CELL_TYPE_ENUM.SESSION)}
             />
-            <IconButton style={iconButtonStyle}>
-              <Close />
-            </IconButton>
           </CardActions>
         </div>
-        <CardText style={{ display: 'flex', width: '100%' }}>
+        <CardText style={cardTextStyle}>
           <AcquisitionComponent
+            project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
+            relaunchProducts={relaunchProducts}
+            retryRequests={retryRequests}
           />
           <ReferencingComponent
+            project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCEMENT)}
+            relaunchAIP={relaunchAIP}
+            retryRequests={retryRequests}
           />
           <ArchivalComponent
+            project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
           />
           <DiffusionComponent
+            project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)}
           />
         </CardText>
+        {this.renderDeleteDialog()}
       </Card>
     )
   }

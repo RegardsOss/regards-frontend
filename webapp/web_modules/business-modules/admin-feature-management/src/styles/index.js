@@ -19,7 +19,7 @@
 import styles from './styles'
 
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 export default {
   styles,

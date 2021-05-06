@@ -18,6 +18,7 @@
  **/
 
 import { SourceStepAggregation } from './SourceStepAggregation'
+import { ManagerState } from './ManagerState'
 
 export const Source = PropTypes.shape({
   content: PropTypes.shape({
@@ -25,8 +26,6 @@ export const Source = PropTypes.shape({
     nbSessions: PropTypes.number.isRequired,
     steps: PropTypes.arrayOf(SourceStepAggregation),
     lastUpdate: PropTypes.string.isRequired,
-    running: PropTypes.bool.isRequired,
-    error: PropTypes.bool.isRequired,
-    waiting: PropTypes.bool.isRequired,
+    managerState: ManagerState.isRequired,
   }),
 })

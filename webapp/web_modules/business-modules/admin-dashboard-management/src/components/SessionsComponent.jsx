@@ -44,7 +44,6 @@ import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES } from '../domain/statusTypes'
-import SelectOption from './option/SelectOption'
 
 const SESSION_FILTER_PARAMS = {
   NAME: 'name',
@@ -59,7 +58,7 @@ class SessionsComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     selectedSession: AdminShapes.Session,
-    onSessionSelected: PropTypes.func.isRequired,
+    onSelected: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -74,8 +73,6 @@ class SessionsComponent extends React.Component {
     [SESSION_FILTER_PARAMS.NAME]: '',
     [SESSION_FILTER_PARAMS.STATUS]: '',
   }
-
-  static PAGE_SIZE = 20
 
   static EMPTY_COMPONENT = (
     <NoContentComponent
@@ -92,7 +89,7 @@ class SessionsComponent extends React.Component {
  * @param {*} newStateValue
  * @param {*} filterElement
  */
-  updateFilter(newStateValue, filterElement) {
+  updateFilter = (newStateValue, filterElement) => {
     const { filters } = this.state
     const newState = {
       filters: {
@@ -105,10 +102,19 @@ class SessionsComponent extends React.Component {
 
   render() {
     const {
-      project, onSessionSelected, selectedSession,
+      project, onSelected, selectedSession,
     } = this.props
     const { filters } = this.state
-    const { intl: { formatMessage }, muiTheme } = this.context
+    const {
+      intl: { formatMessage }, muiTheme, moduleTheme: {
+        dashboardStyle: {
+          componentDiv: {
+            cardStyle, cardTextStyle, headerLineDivStyle, headerOptionDivStyle,
+            cardTitleStyle, autoCompleteStyle, selectFieldStyle,
+          },
+        },
+      },
+    } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const columns = [ // eslint wont fix: Major API rework required
       // 1 - source name
@@ -116,8 +122,13 @@ class SessionsComponent extends React.Component {
         .label(formatMessage({ id: 'dashboard.sessions.table.column.sessionName' }))
         .rowCellDefinition({
           Constructor: NameRender,
+          props: {
+            onSelected,
+            selectedEntity: selectedSession,
+            cellType: CELL_TYPE_ENUM.SESSION,
+          },
         }).titleHeaderCell()
-        .optionsSizing(6)
+        .optionsSizing(9)
         .build(),
       // 2 - referenced product
       new TableColumnBuilder('column.referencedProducts')
@@ -126,7 +137,7 @@ class SessionsComponent extends React.Component {
           Constructor: ReferencedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
-        .optionsSizing(3.83)
+        .optionsSizing(3)
         .build(),
       // 2 - diffused product
       new TableColumnBuilder('column.diffusedProducts')
@@ -135,60 +146,56 @@ class SessionsComponent extends React.Component {
           Constructor: DiffusedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
-        .optionsSizing(3.83)
+        .optionsSizing(3)
         .build(),
-      // 3 - select source option
-      new TableColumnBuilder().optionsColumn([{
-        OptionConstructor: SelectOption,
-        optionProps: {
-          onEntitySelected: onSessionSelected,
-          selectedEntity: selectedSession,
-          cellType: CELL_TYPE_ENUM.SESSION,
-        },
-      }]).build(),
     ]
 
     return (
-      <Card style={{ width: '50%' }}>
-        <CardText>
+      <Card style={cardStyle}>
+        <CardText style={cardTextStyle}>
           <TableLayout>
             <TableHeaderLine key="filters">
-              <CardTitle
-                title={this.context.intl.formatMessage({ id: 'dashboard.sessions.title' })}
-              />
-              <TableHeaderOptionsArea>
-                <TableHeaderOptionGroup>
-                  <TableHeaderAutoCompleteFilterContainer
-                    onChangeText={(event, index, value) => this.updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
-                    text={filters[SESSION_FILTER_PARAMS.NAME] || ''}
-                    hintText={formatMessage({ id: 'dashboard.sessions.filter.name' })}
-                    key="sourceAuto"
-                    arrayActions={searchSourcesActions}
-                    arraySelectors={searchSourcesSelectors}
-                    style={{ marginRight: '10px' }}
-                  />
-                  <SelectField
-                    id="dashboard.sources.filter.status"
-                    multiple
-                    value={filters[SESSION_FILTER_PARAMS.STATUS]}
-                    floatingLabelText={formatMessage({ id: 'dashboard.sessions.filter.status' })}
-                    onChange={(event, index, value) => this.updateFilter(value, STATUS_TYPES.STATUS)}
-                  >
-                    {map(STATUS_TYPES, (status) => (
-                      <MenuItem key={status} value={status} primaryText={status} />
-                    ))}
-                  </SelectField>
-                </TableHeaderOptionGroup>
-              </TableHeaderOptionsArea>
+              <div style={headerLineDivStyle}>
+                <TableHeaderOptionsArea reducible alignLeft>
+                  <TableHeaderOptionGroup>
+                    <div style={headerOptionDivStyle}>
+                      <CardTitle
+                        title={this.context.intl.formatMessage({ id: 'dashboard.sessions.title' })}
+                        style={cardTitleStyle}
+                      />
+                      <TableHeaderAutoCompleteFilterContainer
+                        onChangeText={(value) => this.updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
+                        text={filters[SESSION_FILTER_PARAMS.NAME]}
+                        hintText={formatMessage({ id: 'dashboard.sessions.filter.name' })}
+                        key="sessionAuto"
+                        arrayActions={searchSourcesActions}
+                        arraySelectors={searchSourcesSelectors}
+                        style={autoCompleteStyle}
+                      />
+                      <SelectField
+                        id="dashboard.sources.filter.status"
+                        value={filters[SESSION_FILTER_PARAMS.STATUS]}
+                        floatingLabelText={formatMessage({ id: 'dashboard.sessions.filter.status' })}
+                        onChange={(event, index, value) => this.updateFilter(value, SESSION_FILTER_PARAMS.STATUS)}
+                        style={selectFieldStyle}
+                      >
+                        {map(STATUS_TYPES, (status) => (
+                          <MenuItem key={status} value={status} primaryText={status} />
+                        ))}
+                      </SelectField>
+                    </div>
+                  </TableHeaderOptionGroup>
+                </TableHeaderOptionsArea>
+              </div>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="sources-table"
               minRowCount={minRowCount}
-              maxRowCount={maxRowCount}
+              maxRowCount={selectedSession ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
               requestParams={{ ...filters, tenant: project }}
-              pageSize={SessionsComponent.PAGE_SIZE}
+              pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}
             />

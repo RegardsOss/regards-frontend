@@ -17,11 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
-import FlatButton from 'material-ui/FlatButton'
+import { AdminShapes } from '@regardsoss/shape'
+import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import DisplayIconsComponent from './DisplayIconsComponent'
+import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 
 /**
  * DiffusionComponent
@@ -29,7 +33,8 @@ import { i18nContextType } from '@regardsoss/i18n'
  */
 class DiffusionComponent extends React.Component {
   static propTypes = {
-    sessionStep: PropTypes.object,
+    project: PropTypes.string.isRequired,
+    sessionStep: AdminShapes.SessionStep,
   }
 
   static contextTypes = {
@@ -37,39 +42,54 @@ class DiffusionComponent extends React.Component {
     ...i18nContextType,
   }
 
+  onClick = () => {
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
+  }
+
   render() {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSession: {
-          cardStyle, cardTitleStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
+          cardStyle, cardTitleStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
+          listItemStyle, raisedListStyle,
         },
       },
     } = this.context
     return (
       sessionStep
         ? <Card style={cardStyle}>
-          <CardTitle
-            title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' })}
-            style={cardTitleStyle}
-            titleStyle={cardTitleTextStyle}
-          />
+          <div style={cardTitleDivStyle}>
+            <CardTitle
+              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' })}
+              style={cardTitleStyle}
+              titleStyle={cardTitleTextStyle}
+            />
+            <DisplayIconsComponent
+              entity={sessionStep}
+              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+            />
+          </div>
           <CardText style={cardContentStyle}>
             <div>
               <ListItem
                 primaryText={formatMessage({ id: 'dashboard.selectedsession.diffusion.out' }, { nbOut: sessionStep.out })}
                 disabled
+                style={listItemStyle}
               />
               <ListItem
                 primaryText={formatMessage({ id: 'dashboard.selectedsession.diffusion.dp.error' }, { nbError: -1 })}
                 disabled
+                style={listItemStyle}
               />
             </div>
             <div style={cardButtonStyle}>
-              <FlatButton
-    // onClick={this.addNewValue}
+              <RaisedButton
+                onClick={this.onClick}
                 label={formatMessage({ id: 'dashboard.selectedsession.diffusion.button.see-detail' })}
                 primary
+                style={raisedListStyle}
               />
             </div>
           </CardText>

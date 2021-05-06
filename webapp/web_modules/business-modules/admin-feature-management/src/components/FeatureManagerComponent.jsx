@@ -21,15 +21,16 @@ import includes from 'lodash/includes'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardActions } from 'material-ui/Card'
 import { Breadcrumb, CardActionsComponent } from '@regardsoss/components'
+import { FemDomain } from '@regardsoss/domain'
 import PageView from 'mdi-material-ui/CardSearch'
 import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 import throttle from 'lodash/throttle'
 import ReferencesManagerContainer from '../containers/ReferencesManagerContainer'
 import RequestManagerContainer from '../containers/RequestManagerContainer'
 import FeatureManagerFiltersComponent from './filters/FeatureManagerFiltersComponent'
-import SwitchTables from './SwitchTables'
+import SwitchTables from '../containers/SwitchTables'
 import clientByPane from '../domain/ClientByPane'
-import { PANE_TYPES, PANE_TYPES_ENUM } from '../domain/PaneTypes'
 
 /**
 * Feature manager component.
@@ -51,17 +52,17 @@ class FeatureManagerComponent extends React.Component {
 
   static contextTypes = {
     ...i18nContextType,
+    ...themeContextType,
   }
 
   state = {
-    openedPane: PANE_TYPES_ENUM.REFERENCES,
+    openedPane: FemDomain.REQUEST_TYPES_ENUM.REFERENCES,
     featureManagerFilters: FeatureManagerFiltersComponent.extractFiltersFromURL(),
-    requestFilters: FeatureManagerFiltersComponent.extractStateFromURL(),
   }
 
   UNSAFE_componentWillMount = () => {
     const { params: { type } } = this.props
-    if (includes(PANE_TYPES, type)) {
+    if (includes(FemDomain.REQUEST_TYPES, type)) {
       this.setState({
         openedPane: type,
       })
@@ -119,15 +120,11 @@ class FeatureManagerComponent extends React.Component {
     )
   }
 
-  onApplyRequestFilter = (requestFilters) => {
-    this.setState({ requestFilters })
-  }
-
   render() {
-    const { intl: { formatMessage } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { displayBlock, displayNone } } = this.context
     const { params } = this.props
     const {
-      openedPane, featureManagerFilters, requestFilters,
+      openedPane, featureManagerFilters,
     } = this.state
     return (
       <div>
@@ -138,6 +135,7 @@ class FeatureManagerComponent extends React.Component {
           <FeatureManagerFiltersComponent
             onApplyFilters={this.onApplyFilters}
             featureManagerFilters={featureManagerFilters}
+            openedPane={openedPane}
           />
           <SwitchTables
             params={params}
@@ -145,27 +143,25 @@ class FeatureManagerComponent extends React.Component {
             openedPane={openedPane}
           />
           <div>
+            <div style={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES ? displayBlock : displayNone}>
+              <ReferencesManagerContainer
+                key={`feature-manager-${openedPane}`}
+                featureManagerFilters={featureManagerFilters}
+                params={params}
+                paneType={openedPane}
+              />
+            </div>
             {
-              openedPane === PANE_TYPES_ENUM.REFERENCES
-                ? <ReferencesManagerContainer
-                    key={`feature-manager-${openedPane}`}
-                    featureManagerFilters={featureManagerFilters}
-                    params={params}
-                    paneType={openedPane}
-                /> : null
-            }
-            {
-              map(PANE_TYPES, (pane) => {
-                if (pane !== PANE_TYPES_ENUM.REFERENCES && openedPane === pane) {
+              map(FemDomain.REQUEST_TYPES, (pane) => {
+                if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
                   return (
-                    <RequestManagerContainer
-                      key={pane}
-                      featureManagerFilters={featureManagerFilters}
-                      requestFilters={requestFilters}
-                      onApplyRequestFilter={this.onApplyRequestFilter}
-                      paneType={pane}
-                      clients={clientByPane[pane]}
-                    />
+                    <div key={pane} style={openedPane === pane ? displayBlock : displayNone}>
+                      <RequestManagerContainer
+                        featureManagerFilters={featureManagerFilters}
+                        paneType={pane}
+                        clients={clientByPane[pane]}
+                      />
+                    </div>
                   )
                 }
                 return null

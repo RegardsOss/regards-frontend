@@ -20,5 +20,5 @@
 export const StepState = PropTypes.shape({
   errors: PropTypes.number.isRequired,
   waiting: PropTypes.number.isRequired,
-  running: PropTypes.bool.isRequired,
+  running: PropTypes.number.isRequired,
 })

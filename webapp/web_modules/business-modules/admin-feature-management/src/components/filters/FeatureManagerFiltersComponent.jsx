@@ -19,7 +19,10 @@
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
 import isEqual from 'lodash/isEqual'
+import MenuItem from 'material-ui/MenuItem'
+import SelectField from 'material-ui/SelectField'
 import { i18nContextType } from '@regardsoss/i18n'
+import { FemDomain } from '@regardsoss/domain'
 import { themeContextType } from '@regardsoss/theme'
 import {
   TableLayout, TableHeaderLine, TableHeaderOptionsArea, TableHeaderOptionGroup, TableHeaderAutoCompleteFilterContainer, DatePickerField, TableHeaderTextField,
@@ -33,26 +36,28 @@ import { FILTER_PARAMS } from '../../domain/FilterParams'
   * @author Théo Lasserre
   */
 export class FeatureManagerFiltersComponent extends React.Component {
-   static propTypes = {
-     onApplyFilters: PropTypes.func.isRequired,
-     // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
-     featureManagerFilters: PropTypes.object.isRequired,
-   }
+  static propTypes = {
+    onApplyFilters: PropTypes.func.isRequired,
+    // eslint-disable-next-line react/forbid-prop-types, react/no-unused-prop-types
+    featureManagerFilters: PropTypes.object.isRequired,
+    openedPane: PropTypes.string,
+  }
 
-   static contextTypes = {
-     ...themeContextType,
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...themeContextType,
+    ...i18nContextType,
+  }
 
-   /**
-   * Default state for filters edition
-   */
+  /**
+  * Default state for filters edition
+  */
   static DEFAULT_FILTERS_STATE = {
     [FILTER_PARAMS.SOURCE]: '',
     [FILTER_PARAMS.SESSION]: '',
     [FILTER_PARAMS.PROVIDER_ID]: '',
     [FILTER_PARAMS.FROM]: '',
     [FILTER_PARAMS.TO]: '',
+    [FILTER_PARAMS.STATE]: '',
   }
 
   /**
@@ -79,7 +84,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
     const urlFilters = {}
     if (values(query).length > 0) {
       const {
-        source, session, providerId, from, to,
+        source, session, providerId, from, to, state,
       } = query
       if (source) {
         urlFilters.source = source
@@ -96,17 +101,6 @@ export class FeatureManagerFiltersComponent extends React.Component {
       if (to) {
         urlFilters.lastUpdate.to = to.fromISOString()
       }
-    }
-    return urlFilters
-  }
-
-  static extractStateFromURL = () => {
-    const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = {}
-    if (values(query).length > 0) {
-      const {
-        state,
-      } = query
       if (state) {
         urlFilters.state = state
       }
@@ -121,19 +115,19 @@ export class FeatureManagerFiltersComponent extends React.Component {
   /**
    * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-   UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
-   /**
-   * Lifecycle method: component receive props. Used here to detect properties change and update local state
-   * @param {*} nextProps next component properties
-   */
-   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
-
-   /**
-  * Properties change detected: update local state
-  * @param oldProps previous component properties
-  * @param newProps next component properties
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+ * Properties change detected: update local state
+ * @param oldProps previous component properties
+ * @param newProps next component properties
+ */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       featureManagerFilters,
@@ -167,6 +161,7 @@ export class FeatureManagerFiltersComponent extends React.Component {
   render() {
     const { intl: { formatMessage, locale }, moduleTheme: { filter } } = this.context
     const { filters } = this.state
+    const { openedPane } = this.props
     return (
       <>
         <TableLayout>
@@ -218,6 +213,19 @@ export class FeatureManagerFiltersComponent extends React.Component {
                   locale={locale}
                   key="dateto"
                 />
+              </TableHeaderOptionGroup>
+              <TableHeaderOptionGroup key="first">
+                <SelectField
+                  autoWidth
+                  style={filter.fieldStyle}
+                  hintText={formatMessage({ id: 'feature.requests.list.filters.state' })}
+                  value={filters.state || ''}
+                  onChange={(event, index, value) => this.updateState(value, FILTER_PARAMS.STATE)}
+                  disabled={openedPane === FemDomain.REQUEST_TYPES_ENUM.REFERENCES}
+                >
+                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
+                  {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
+                </SelectField>
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
           </TableHeaderLine>

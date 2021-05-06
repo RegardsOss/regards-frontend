@@ -25,46 +25,46 @@ import messages from '../../i18n'
   * Confirm action dialog component.
   */
 export class ReferenceNotifyDialog extends React.Component {
-   static propTypes = {
-     onConfirmNotify: PropTypes.func.isRequired,
-     onClose: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    onConfirmNotify: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-   render() {
-     const { onClose, onConfirmNotify } = this.props
-     const { intl: { formatMessage, formatHTMLMessage } } = this.context
+  render() {
+    const { onClose, onConfirmNotify } = this.props
+    const { intl: { formatMessage, formatHTMLMessage } } = this.context
 
-     return (
-       <Dialog
-         title={formatMessage({ id: 'feature.references.notify.title' })}
-         actions={<>
-           <FlatButton
-             key="cancel"
-             id="confirm.dialog.cancel"
-             label={formatMessage({ id: 'feature.close' })}
-             keyboardFocused
-             onClick={onClose}
-           />
-           <FlatButton
-             key="deleteReference"
-             className="selenium-confirmDialogButton"
-             primary
-             keyboardFocused
-             label={formatMessage({ id: 'feature.references.notify' })}
-             onClick={onConfirmNotify}
-           />
-         </>}
-         modal={false}
-         open
-       >
-         {formatHTMLMessage({ id: 'feature.references.notify.message' })}
-       </Dialog>
-     )
-   }
+    return (
+      <Dialog
+        title={formatMessage({ id: 'feature.references.notify.title' })}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'feature.close' })}
+            keyboardFocused
+            onClick={onClose}
+          />
+          <FlatButton
+            key="deleteReference"
+            className="selenium-confirmDialogButton"
+            primary
+            keyboardFocused
+            label={formatMessage({ id: 'feature.references.notify' })}
+            onClick={onConfirmNotify}
+          />
+        </>}
+        modal={false}
+        open
+      >
+        {formatHTMLMessage({ id: 'feature.references.notify.message' })}
+      </Dialog>
+    )
+  }
 }
 
 export default withI18n(messages)(ReferenceNotifyDialog)

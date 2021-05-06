@@ -24,11 +24,16 @@ import { CardActionsComponent } from '@regardsoss/components'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'
-import { sessionsActions, sessionsSelectors } from '../clients/SessionsClient'
+import {
+  sessionsActions, sessionsSelectors, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
+  sessionDeleteActions,
+} from '../clients/SessionsClient'
 import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
+import { requestRetryActions } from '../clients/RequestRetryClient'
 import SourcesComponent from '../components/SourcesComponent'
 import SessionsComponent from '../components/SessionsComponent'
 import SelectedSessionComponent from '../components/SelectedSessionComponent'
+import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -37,8 +42,6 @@ import styles from '../styles'
  * @author Théo Lasserre
  */
 export class DashboardContainer extends React.Component {
-  static PAGE_SIZE = 20
-
   static propTypes = {
     // from router
     params: PropTypes.shape({
@@ -54,6 +57,10 @@ export class DashboardContainer extends React.Component {
     // from mapDispatchToProps
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
+    relaunchProducts: PropTypes.func.isRequired,
+    relaunchAIP: PropTypes.func.isRequired,
+    retryRequests: PropTypes.func.isRequired,
+    deleteSession: PropTypes.func.isRequired,
   }
 
   /**
@@ -76,6 +83,10 @@ export class DashboardContainer extends React.Component {
   static mapDispatchToProps = (dispatch) => ({
     fetchSessions: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchSources: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sourcesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
+    relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
+    retryRequests: (payload, type) => dispatch(requestRetryActions.relaunchProducts('POST', payload, { type })),
+    deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
   })
 
   static contextTypes = {
@@ -93,171 +104,80 @@ export class DashboardContainer extends React.Component {
     return `/admin/${project}/data/acquisition/board`
   }
 
-  getPageSize = (meta) => {
+  getPageSize = (type) => {
+    const {
+      sessionsMeta, sourcesMeta,
+    } = this.props
+    let meta
+    switch (type) {
+      case CELL_TYPE_ENUM.SOURCE:
+        meta = sourcesMeta
+        break
+      case CELL_TYPE_ENUM.SESSION:
+        meta = sessionsMeta
+        break
+      default:
+        meta = sourcesMeta
+    }
     const lastPage = (meta && meta.number) || 0
-    return DashboardContainer.PAGE_SIZE * (lastPage + 1)
+    return STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
   }
 
-  onRefresh = () => {
+  onRefresh = (selectedSession) => {
     const {
-      sessionsMeta, sourcesMeta, fetchSessions, fetchSources,
+      fetchSessions, fetchSources,
     } = this.props
-    const fetchPageSessionsSize = this.getPageSize(sessionsMeta)
-    const fetchPageSourcesSize = this.getPageSize(sourcesMeta)
-    fetchSessions(0, fetchPageSessionsSize, {}, {})
+    const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
+    const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
+    fetchSessions(0, fetchPageSessionsSize, {}, { session: selectedSession ? selectedSession.content.name : null })
     fetchSources(0, fetchPageSourcesSize, {}, {})
   }
 
-  onSourceSelected = (source) => {
+  onSelected = (entity, type) => {
     const {
-      sessionsMeta, fetchSessions,
+      fetchSessions,
     } = this.props
-    this.setState({
-      selectedSource: source,
-    })
-    const fetchPageSessionsSize = this.getPageSize(sessionsMeta)
-    fetchSessions(0, fetchPageSessionsSize, {}, { source })
-  }
-
-  onSessionSelected = () => {
-
+    const {
+      selectedSource, selectedSession,
+    } = this.state
+    let fetchPageSessionsSize
+    let nextState = { ...this.state }
+    switch (type) {
+      case CELL_TYPE_ENUM.SESSION:
+        nextState = {
+          selectedSession: selectedSession === entity || !entity ? null : entity,
+        }
+        this.onRefresh(nextState.selectedSession)
+        break
+      case CELL_TYPE_ENUM.SOURCE:
+        nextState = {
+          selectedSource: selectedSource !== entity ? entity : null,
+        }
+        if (nextState.selectedSource !== null) {
+          fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION, selectedSession)
+          fetchSessions(0, fetchPageSessionsSize, {}, { source: nextState.selectedSource.content.name })
+        }
+        break
+      default:
+    }
+    this.setState(nextState)
   }
 
   render() {
-    const { params: { project } } = this.props
+    const {
+      params: { project }, relaunchProducts, relaunchAIP, retryRequests,
+      deleteSession,
+    } = this.props
     const {
       intl: { formatMessage },
       moduleTheme: {
         headerStyle: { headerDivStyle, cardTitleStyle, cardActionDivStyle },
-        dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle },
+        dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle, cardTextField },
       },
     } = this.context
-    const selectedSession = { // TODO REMOVE
-      content: {
-        id: 0,
-        source: 'TEST_SOURCE',
-        name: 'TEST_NAME',
-        creationDate: 'TEST_DATE',
-        lastUpdateDate: 'TEST_DATE',
-        steps: [{
-          stepId: '0',
-          source: 'TEST_SOURCE',
-          session: 'TEST_SESSION',
-          type: 'ACQUISITION',
-          in: 1000,
-          out: 994,
-          state: {
-            errors: 2,
-            waiting: 3,
-            running: true,
-          },
-          properties: '',
-          lastUpdate: 'TEST_DATE',
-        }, {
-          stepId: '0',
-          source: 'TEST_SOURCE',
-          session: 'TEST_SESSION',
-          type: 'REFERENCEMENT',
-          in: 1000,
-          out: 994,
-          state: {
-            errors: 2,
-            waiting: 3,
-            running: true,
-          },
-          properties: '',
-          lastUpdate: 'TEST_DATE',
-        }, {
-          stepId: '0',
-          source: 'TEST_SOURCE',
-          session: 'TEST_SESSION',
-          type: 'STORAGE',
-          in: 1000,
-          out: 994,
-          state: {
-            errors: 2,
-            waiting: 3,
-            running: true,
-          },
-          properties: '',
-          lastUpdate: 'TEST_DATE',
-        }, {
-          stepId: '0',
-          source: 'TEST_SOURCE',
-          session: 'TEST_SESSION',
-          type: 'DISSEMINATION',
-          in: 1000,
-          out: 994,
-          state: {
-            errors: 2,
-            waiting: 3,
-            running: true,
-          },
-          properties: '',
-          lastUpdate: 'TEST_DATE',
-        }],
-        running: true,
-        error: true,
-        waiting: true,
-      },
-    }
-    const selectedSource = {
-      content: {
-        name: 'Test_Source1',
-        nbSessions: 1,
-        steps: [
-          {
-            source: 'Test_Source1',
-            type: 'ACQUISITION',
-            totalIn: 30,
-            totalOut: 30,
-            state: {
-              errors: 3,
-              waiting: 2,
-              running: true,
-            },
-          },
-          {
-            source: 'Test_Source1',
-            type: 'REFERENCEMENT',
-            totalIn: 30,
-            totalOut: 30,
-            state: {
-              errors: 3,
-              waiting: 2,
-              running: true,
-            },
-          },
-          {
-            source: 'Test_Source1',
-            type: 'STORAGE',
-            totalIn: 30,
-            totalOut: 30,
-            state: {
-              errors: 3,
-              waiting: 2,
-              running: true,
-            },
-          },
-          {
-            source: 'Test_Source1',
-            type: 'DISSEMINATION',
-            totalIn: 30,
-            totalOut: 30,
-            state: {
-              errors: 3,
-              waiting: 2,
-              running: true,
-            },
-          },
-        ],
-        lastUpdate: '01/01/21',
-        running: true,
-        error: true,
-        waiting: true,
-      },
-      links: [],
-    }
+    const {
+      selectedSource, selectedSession,
+    } = this.state
     return (
       <Card>
         <div style={headerDivStyle}>
@@ -269,30 +189,38 @@ export class DashboardContainer extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={this.onRefresh}
+              mainButtonClick={() => this.onRefresh(selectedSession)}
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={this.getBackURL}
             />
           </CardActions>
         </div>
-        <CardText>
+        <CardText style={cardTextField}>
           <div style={dashboardDivStyle}>
             <div style={dashboardComponentsStyle}>
               <SourcesComponent
                 project={project}
-                onSourceSelected={this.onSourceSelected}
+                onSelected={this.onSelected}
                 selectedSource={selectedSource}
+                selectedSession={selectedSession}
               />
               <SessionsComponent
                 project={project}
-                onSessionSelected={this.onSessionSelected}
+                onSelected={this.onSelected}
                 selectedSession={selectedSession}
               />
             </div>
-            <div />
-            <SelectedSessionComponent
-              selectedSession={selectedSession}
-            />
+            {this.state.selectedSession
+              ? <SelectedSessionComponent
+                  project={project}
+                  selectedSession={this.state.selectedSession}
+                  onSelected={this.onSelected}
+                  relaunchProducts={relaunchProducts}
+                  relaunchAIP={relaunchAIP}
+                  retryRequests={retryRequests}
+                  deleteSession={deleteSession}
+              />
+              : null}
           </div>
         </CardText>
       </Card>

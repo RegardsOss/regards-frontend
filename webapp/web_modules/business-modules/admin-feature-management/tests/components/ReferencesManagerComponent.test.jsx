@@ -20,9 +20,10 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import {
-  PageableInfiniteTableContainer,
+  TableLayout, PageableInfiniteTableContainer, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
-import ReferencesManagerComponent from '../../src/components/ReferencesManagerComponent'
+import FlatButton from 'material-ui/FlatButton'
+import { ReferencesManagerComponent } from '../../src/components/ReferencesManagerComponent'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
@@ -31,7 +32,7 @@ const context = buildTestContext(styles)
  * Test ReferencesManagerComponent
  * @author Théo Lasserre
  */
-describe('[ Module name] Testing ReferencesManagerComponent', () => {
+describe('[ADMIN FEATURE MANAGEMENT] Testing ReferencesManagerComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
@@ -40,13 +41,26 @@ describe('[ Module name] Testing ReferencesManagerComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
-      onRefresh: () => {},
-      filters: {},
-      project: 'any',
-      deleteReferences: () => {},
-      notifyReferences: () => {},
+      onRefresh: () => { },
+      featureManagerFilters: {},
+      deleteReferences: () => { },
+      notifyReferences: () => { },
       tableSelection: [],
+      selectionMode: 'include.selected',
+      areAllSelected: false,
+      isFetching: false,
     }
     const enzymeWrapper = shallow(<ReferencesManagerComponent {...props} />, { context })
+    const tableWrapper = enzymeWrapper.find(TableLayout)
+    assert.lengthOf(tableWrapper, 1, 'There should be a TableLayout')
+
+    const refreshButton = enzymeWrapper.find(FlatButton)
+    assert.lengthOf(refreshButton, 1, 'There should be a FlatButton')
+
+    const loadingComponent = enzymeWrapper.find(TableHeaderLoadingComponent)
+    assert.lengthOf(loadingComponent, 1, 'There should be a TableHeaderLoadingComponent')
+
+    const tableContainer = enzymeWrapper.find(PageableInfiniteTableContainer)
+    assert.lengthOf(tableContainer, 1, 'There should be a PageableInfiniteTableContainer')
   })
 })

@@ -40,9 +40,14 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
     const props = {
       params: {
         project: 'any',
+        type: 'any',
       },
-      clearReferencesSelection: () => {},
-      clearRequestSelection: () => {},
+      clearReferencesSelection: () => { },
+      clearCreationSelection: () => { },
+      clearDeleteSelection: () => { },
+      clearExtractionSelection: () => { },
+      clearNotificationSelection: () => { },
+      clearUpdateSelection: () => { },
     }
     const enzymeWrapper = shallow(<FeatureManagerContainer {...props} />, { context })
     const componentWrapper = enzymeWrapper.find(FeatureManagerComponent)
@@ -50,7 +55,11 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerContainer', () => {
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       params: props.params,
       clearReferencesSelection: props.clearReferencesSelection,
-      clearRequestSelection: props.clearRequestSelection,
+      clearCreationSelection: props.clearCreationSelection,
+      clearDeleteSelection: props.clearDeleteSelection,
+      clearExtractionSelection: props.clearExtractionSelection,
+      clearNotificationSelection: props.clearNotificationSelection,
+      clearUpdateSelection: props.clearUpdateSelection,
     }, 'Component should define the expected properties')
   })
 })

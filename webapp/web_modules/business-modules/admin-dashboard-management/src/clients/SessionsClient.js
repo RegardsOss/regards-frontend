@@ -29,3 +29,8 @@ const SESSIONS_STORE_PATH = ['admin', 'acquisition', 'dashboard', 'sessions']
 export const sessionsActions = new AdminClient.SessionsActions(SESSIONS_NAMESPACE)
 export const sessionsReducer = AdminClient.getSessionsReducer(SESSIONS_NAMESPACE)
 export const sessionsSelectors = AdminClient.getSessionsSelectors(SESSIONS_STORE_PATH)
+
+/** Specific operations */
+export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchProductActions(`${SESSIONS_NAMESPACE}/relaunch-products`)
+export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(`${SESSIONS_NAMESPACE}/relaunch-aip`)
+export const sessionDeleteActions = new AdminClient.SessionsDeleteActions(`${SESSIONS_NAMESPACE}/delete-session`)

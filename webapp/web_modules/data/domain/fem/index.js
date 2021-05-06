@@ -18,3 +18,4 @@
  **/
 
 export { REQUEST_STATUS, REQUEST_STATUS_ENUM } from './RequestStatusEnum'
+export { REQUEST_TYPES_ENUM, REQUEST_TYPES } from './RequestType'

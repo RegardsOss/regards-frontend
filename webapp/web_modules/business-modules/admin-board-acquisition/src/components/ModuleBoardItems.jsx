@@ -142,9 +142,9 @@ const items = (projectName, intl, onResetIndex) => [
         path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
-        // hateoasDependencies: [
-        //   ...storageManagementDependencies.listDependencies, //TODO : FIX later
-        // ],
+        hateoasDependencies: [
+          ...storageManagementDependencies.listDependencies,
+        ],
       },
     ],
   },

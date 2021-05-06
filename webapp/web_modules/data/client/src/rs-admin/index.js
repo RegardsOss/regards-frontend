@@ -103,6 +103,7 @@ export { default as getSearchSourcesSelectors } from './session/SearchSourcesSel
 
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
+export { default as SessionsDeleteActions } from './session/SessionsDeleteActions'
 
 export { default as SourcesActions } from './sources/SourcesActions'
 export { default as getSourcesReducer } from './sources/SourcesReducer'

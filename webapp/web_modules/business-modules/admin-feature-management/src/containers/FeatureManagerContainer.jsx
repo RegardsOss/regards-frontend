@@ -41,14 +41,14 @@ export class FeatureManagerContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-   static mapDispatchToProps = (dispatch) => ({
-     clearReferencesSelection: () => dispatch(referencesTableActions.unselectAll()),
-     clearCreationSelection: () => dispatch(creationRequestsTableActions.unselectAll()),
-     clearDeleteSelection: () => dispatch(deleteRequestsTableActions.unselectAll()),
-     clearExtractionSelection: () => dispatch(extractionRequestsTableActions.unselectAll()),
-     clearNotificationSelection: () => dispatch(notificationRequestsTableActions.unselectAll()),
-     clearUpdateSelection: () => dispatch(updateRequestsTableActions.unselectAll()),
-   })
+  static mapDispatchToProps = (dispatch) => ({
+    clearReferencesSelection: () => dispatch(referencesTableActions.unselectAll()),
+    clearCreationSelection: () => dispatch(creationRequestsTableActions.unselectAll()),
+    clearDeleteSelection: () => dispatch(deleteRequestsTableActions.unselectAll()),
+    clearExtractionSelection: () => dispatch(extractionRequestsTableActions.unselectAll()),
+    clearNotificationSelection: () => dispatch(notificationRequestsTableActions.unselectAll()),
+    clearUpdateSelection: () => dispatch(updateRequestsTableActions.unselectAll()),
+  })
 
   static propTypes = {
     // from router

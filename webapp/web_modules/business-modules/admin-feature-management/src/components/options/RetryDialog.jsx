@@ -25,45 +25,45 @@ import messages from '../../i18n'
   * Confirm action dialog component.
   */
 export class RetryDialog extends React.Component {
-   static propTypes = {
-     onConfirmRetry: PropTypes.func.isRequired,
-     onClose: PropTypes.func.isRequired,
-   }
+  static propTypes = {
+    onConfirmRetry: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+  }
 
-   static contextTypes = {
-     ...i18nContextType,
-   }
+  static contextTypes = {
+    ...i18nContextType,
+  }
 
-   render() {
-     const { onClose, onConfirmRetry } = this.props
-     const { intl: { formatMessage, formatHTMLMessage } } = this.context
+  render() {
+    const { onClose, onConfirmRetry } = this.props
+    const { intl: { formatMessage, formatHTMLMessage } } = this.context
 
-     return (
-       <Dialog
-         title={formatMessage({ id: 'feature.request.retry.title' })}
-         actions={<>
-           <FlatButton
-             key="cancel"
-             id="confirm.dialog.cancel"
-             label={formatMessage({ id: 'feature.close' })}
-             onClick={onClose}
-           />
-           <FlatButton
-             key="retryReference"
-             className="selenium-confirmDialogButton"
-             primary
-             keyboardFocused
-             label={formatMessage({ id: 'feature.requests.retry' })}
-             onClick={onConfirmRetry}
-           />
-         </>}
-         modal={false}
-         open
-       >
-         {formatHTMLMessage({ id: 'feature.requests.confirm.retry.message' })}
-       </Dialog>
-     )
-   }
+    return (
+      <Dialog
+        title={formatMessage({ id: 'feature.request.retry.title' })}
+        actions={<>
+          <FlatButton
+            key="cancel"
+            id="confirm.dialog.cancel"
+            label={formatMessage({ id: 'feature.close' })}
+            onClick={onClose}
+          />
+          <FlatButton
+            key="retryReference"
+            className="selenium-confirmDialogButton"
+            primary
+            keyboardFocused
+            label={formatMessage({ id: 'feature.requests.retry' })}
+            onClick={onConfirmRetry}
+          />
+        </>}
+        modal={false}
+        open
+      >
+        {formatHTMLMessage({ id: 'feature.requests.confirm.retry.message' })}
+      </Dialog>
+    )
+  }
 }
 
 export default withI18n(messages)(RetryDialog)

@@ -23,8 +23,6 @@ import map from 'lodash/map'
 import isEmpty from 'lodash/isEmpty'
 import every from 'lodash/every'
 import isEqual from 'lodash/isEqual'
-import MenuItem from 'material-ui/MenuItem'
-import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
 import DeleteOnAllIcon from 'mdi-material-ui/DeleteForever'
 import NoContentIcon from 'mdi-material-ui/CropFree'
@@ -32,7 +30,7 @@ import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
   NoContentComponent, TableHeaderLine, TableSelectionModes, ConfirmDialogComponent,
-  ConfirmDialogComponentTypes,
+  ConfirmDialogComponentTypes, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import {
   withResourceDisplayControl, allMatchHateoasDisplayLogic, LoadableContentDisplayDecorator, HateoasLinks,
@@ -48,7 +46,6 @@ import RequestDeleteOption from './options/RequestDeleteOption'
 import RequestRetryOption from './options/RequestRetryOption'
 import StatusRender from './render/StatusRender'
 import ErrorDetailsDialog from './options/ErrorDetailsDialog'
-import { PANE_TYPES, PANE_TYPES_ENUM } from '../domain/PaneTypes'
 import { FILTER_PARAMS } from '../domain/FilterParams'
 import messages from '../i18n'
 import styles from '../styles'
@@ -63,19 +60,17 @@ export class RequestManagerComponent extends React.Component {
   static propTypes = {
     // eslint-disable-next-line react/forbid-prop-types
     featureManagerFilters: PropTypes.object.isRequired,
-    // eslint-disable-next-line react/forbid-prop-types
-    requestFilters: PropTypes.object.isRequired,
-    onApplyRequestFilter: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     deleteRequests: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     tableSelection: PropTypes.arrayOf(FemShapes.Request),
-    paneType: PropTypes.oneOf(PANE_TYPES),
+    paneType: PropTypes.oneOf(FemDomain.REQUEST_TYPES),
     // eslint-disable-next-line react/forbid-prop-types
     clients: PropTypes.object.isRequired,
     selectionMode: PropTypes.oneOf(values(TableSelectionModes)).isRequired,
     links: PropTypes.arrayOf(HateoasLinks),
     areAllSelected: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
   }
 
   static contextTypes = {
@@ -184,7 +179,7 @@ export class RequestManagerComponent extends React.Component {
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
   UNSAFE_componentWillMount = () => {
-    this.onRequestStateUpdated(this.props.featureManagerFilters, this.props.requestFilters || {})
+    this.onFiltersUpdated(this.props.featureManagerFilters)
   }
 
   /**
@@ -201,24 +196,15 @@ export class RequestManagerComponent extends React.Component {
     * @param newProps next component properties
     */
   onPropertiesUpdated = (oldProps, newProps) => {
-    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters) || !isEqual(newProps.requestFilters, this.props.requestFilters)) {
-      this.onRequestStateUpdated(newProps.featureManagerFilters, newProps.requestFilters)
+    if (!isEqual(newProps.featureManagerFilters, this.props.featureManagerFilters)) {
+      this.onFiltersUpdated(newProps.featureManagerFilters)
     }
   }
 
-  onRequestStateUpdated = (featureManagerFilters, requestFilters) => {
+  onFiltersUpdated = (featureManagerFilters) => {
     this.setState({
-      contextRequestParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters, ...requestFilters }),
+      contextRequestParameters: RequestManagerComponent.buildContextRequestBody({ ...featureManagerFilters }),
     })
-  }
-
-  onChangeStatusFilter = (event, index, newValue) => {
-    const { onApplyRequestFilter, featureManagerFilters } = this.props
-    const newFilters = {
-      [FILTER_PARAMS.STATE]: newValue,
-    }
-    onApplyRequestFilter(newFilters)
-    this.onRequestStateUpdated(featureManagerFilters, newFilters)
   }
 
   onSort = (columnSortKey, order) => {
@@ -415,30 +401,18 @@ export class RequestManagerComponent extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
+    const { intl: { formatMessage }, muiTheme, moduleTheme: { tableStyle: { loadingStyle } } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      tableSelection, onRefresh, requestFilters, paneType, clients, selectionMode,
+      tableSelection, onRefresh, paneType, clients, selectionMode,
+      isFetching,
     } = this.props
     const { contextRequestParameters, columnsSorting } = this.state
     return (
       <div>
         <TableLayout>
           <TableHeaderLine key="table.options">
-            <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
-              <TableHeaderOptionGroup key="first">
-                <SelectField
-                  autoWidth
-                  style={filter.fieldStyle}
-                  hintText={formatMessage({ id: 'feature.requests.list.filters.state' })}
-                  value={requestFilters.state}
-                  onChange={this.onChangeStatusFilter}
-                >
-                  <MenuItem key="no.value" value={null} primaryText={formatMessage({ id: 'feature.requests.status.any' })} />
-                  {FemDomain.REQUEST_STATUS.map((status) => <MenuItem key={status} value={status} primaryText={formatMessage({ id: `feature.requests.status.${status}` })} />)}
-                </SelectField>
-              </TableHeaderOptionGroup>
-            </TableHeaderOptionsArea>
+            <TableHeaderOptionsArea reducible />
             <TableHeaderOptionsArea key="options" reducible>
               <TableHeaderOptionGroup>
                 <ResourceFlatButton
@@ -470,6 +444,9 @@ export class RequestManagerComponent extends React.Component {
               </TableHeaderOptionGroup>
             </TableHeaderOptionsArea>
           </TableHeaderLine>
+          <div style={loadingStyle}>
+            <TableHeaderLoadingComponent loading={isFetching} />
+          </div>
           <PageableInfiniteTableContainer
             name="request-management-table"
             pageActions={clients.actions}
@@ -482,8 +459,8 @@ export class RequestManagerComponent extends React.Component {
               new TableColumnBuilder()
                 .selectionColumn(true, clients.selectors, clients.tableActions, clients.tableSelectors)
                 .build(),
-              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell(paneType === PANE_TYPES_ENUM.EXTRACTION ? 'content.id' : 'content.providerId')
-                .label(formatMessage(paneType === PANE_TYPES_ENUM.EXTRACTION ? { id: 'feature.requests.list.filters.id' } : { id: 'feature.requests.list.filters.providerId' }))
+              new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.PROVIDER_ID).titleHeaderCell().propertyRenderCell(paneType === FemDomain.REQUEST_TYPES_ENUM.EXTRACTION ? 'content.id' : 'content.providerId')
+                .label(formatMessage(paneType === FemDomain.REQUEST_TYPES_ENUM.EXTRACTION ? { id: 'feature.requests.list.filters.id' } : { id: 'feature.requests.list.filters.providerId' }))
                 .build(),
               new TableColumnBuilder(RequestManagerComponent.COLUMN_KEYS.REGISTRATION_DATE).titleHeaderCell().propertyRenderCell('content.registrationDate', DateValueRender)
                 .label(formatMessage({ id: 'feature.requests.list.filters.lastSubmission' }))

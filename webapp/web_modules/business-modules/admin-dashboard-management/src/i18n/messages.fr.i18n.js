@@ -19,7 +19,7 @@
 import { Locales } from '@regardsoss/form-utils'
 
 /**
- * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 const messages = {
   'dashboard.title': 'Tableau de bord',
@@ -48,8 +48,10 @@ const messages = {
 
   // Selected Session
   'dashboard.selectedsession.title': '{source} / {session}',
+  'dashboard.selectedsession.close': 'Fermer',
   'dashboard.selectedsession.delete': 'Supprimer',
   'dashboard.selectedsession.refresh': 'Rafraichir',
+  'dashboard.selectedsession.dialog.delete.title': 'Supprimer la session {sessionName} ?',
   'dashboard.selectedsession.acquisition.title': 'Acquisition',
   'dashboard.selectedsession.acquisition.fem.in': 'Demandes d\'acquisition : {nbIn}',
   'dashboard.selectedsession.acquisition.fem.refused': 'Demandes refusées : {nbRefused}',
@@ -64,6 +66,10 @@ const messages = {
   'dashboard.selectedsession.acquisition.dp.acquired': 'Produits acquis: {nbAcquired}',
   'dashboard.selectedsession.acquisition.dp.button.see-errors': 'Voir les erreurs',
   'dashboard.selectedsession.acquisition.dp.button.retry-errors': 'Relancer les erreurs',
+  'dashboard.selectedsession.acquisition.dp.dialog.title': 'Produits',
+  'dashboard.selectedsession.acquisition.dp.dialog.button.close': 'Fermer',
+  'dashboard.selectedsession.acquisition.dp.dialog.table.column.name': 'Nom',
+  'dashboard.selectedsession.acquisition.dp.dialog.table.column.error': 'Erreur',
   'dashboard.selectedsession.referencing.title': 'Référencement',
   'dashboard.selectedsession.referencing.fem.in': 'Demandes de référencement : {nbIn}',
   'dashboard.selectedsession.referencing.fem.suppress': 'Demandes de suppression : {nbSuppress}',
