@@ -22,7 +22,7 @@ import values from 'lodash/values'
 export const STATUS_TYPES_ENUM = {
   ALL: 'all',
   OK: 'ok',
-  ERROR: 'error',
+  ERROR: 'errors',
   RUNNING: 'running',
   WAITING: 'waiting',
 }

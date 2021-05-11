@@ -45,7 +45,7 @@ const messages = {
   'data.board.action.storages.tooltip': 'Espaces de stockage',
 
   'data.board.dashboard.title': 'Tableau de bord',
-  'data.board.dashboard.description': 'Permet de visualiser, par source et par session, une synthèse de l\'état des requêtes et d\'accéder à l\'écran de gestio des requêtes.',
+  'data.board.dashboard.description': 'Permet de visualiser, par source et par session, une synthèse de l\'état des requêtes et d\'accéder à l\'écran de gestion des requêtes.',
   'data.board.action.dashboard.tooltip': 'Tableau de bord',
 
   'data.board.featuremanager.title': 'Feature Manager',

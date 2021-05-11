@@ -62,7 +62,7 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
-    deleteSession: PropTypes.func.isRequired,
+    deleteSession: PropTypes.func.isRequired, // Delete products of a session
     fetchSelectedSession: PropTypes.func.isRequired,
     flushSelectedSession: PropTypes.func.isRequired,
   }
