@@ -30,6 +30,7 @@ import { processingChainDependencies } from '@regardsoss/admin-ingest-processing
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
 import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
+import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 import { oaisDependencies } from '../../../admin-oais-management'
 
@@ -143,7 +144,7 @@ const items = (projectName, intl, onResetIndex) => [
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
         hateoasDependencies: [
-          ...storageManagementDependencies.listDependencies,
+          ...dashboardManagementDependencies.listDependencies,
         ],
       },
     ],

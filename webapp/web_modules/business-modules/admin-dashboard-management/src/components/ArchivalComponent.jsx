@@ -47,12 +47,12 @@ class ArchivalComponent extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
   }
 
-  // Case DataProvider
-  displayDP = () => {
+  // Case Storage
+  displayStorage = () => {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           raisedListStyle, listItemStyle, cardContentStyle, cardButtonStyle,
         },
       },
@@ -60,7 +60,7 @@ class ArchivalComponent extends React.Component {
     return <div style={cardContentStyle}>
       <div>
         <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.in' }, { nbIn: sessionStep.in })}
+          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.in' }, { nbIn: sessionStep.inputRelated })}
           disabled
           style={listItemStyle}
         />
@@ -70,7 +70,7 @@ class ArchivalComponent extends React.Component {
           style={listItemStyle}
         />
         <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.stored' }, { nbStored: sessionStep.out })}
+          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.stored' }, { nbStored: sessionStep.outputRelated })}
           disabled
           style={listItemStyle}
         />
@@ -90,7 +90,7 @@ class ArchivalComponent extends React.Component {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           cardStyle, cardTitleDivStyle, cardTitleStyle, cardTitleTextStyle,
         },
       },
@@ -110,7 +110,7 @@ class ArchivalComponent extends React.Component {
             />
           </div>
           <CardText>
-            {this.displayDP()}
+            {this.displayStorage()}
           </CardText>
         </Card> : null
     )

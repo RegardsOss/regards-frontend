@@ -45,6 +45,7 @@ class SelectedSessionComponent extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    onRefreshSelectedSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -72,7 +73,9 @@ class SelectedSessionComponent extends React.Component {
 
   renderDeleteDialog = () => {
     const { intl: { formatMessage } } = this.context
-    const { selectedSession, deleteSession } = this.props
+    const {
+      selectedSession, deleteSession,
+    } = this.props
     const { isDeleteDialogOpen } = this.state
     if (isDeleteDialogOpen) {
       return (
@@ -90,6 +93,7 @@ class SelectedSessionComponent extends React.Component {
   render() {
     const {
       selectedSession, onSelected, project, relaunchProducts, relaunchAIP, retryRequests,
+      onRefreshSelectedSession,
     } = this.props
     const {
       intl: { formatMessage },
@@ -97,7 +101,7 @@ class SelectedSessionComponent extends React.Component {
         headerStyle: {
           headerDivStyle, cardActionDivStyle,
         },
-        selectedSession: {
+        selectedSessionStyle: {
           deleteButtonStyle, cardTextStyle,
         },
       },
@@ -115,6 +119,11 @@ class SelectedSessionComponent extends React.Component {
               onClick={() => this.openDeleteDialog()}
             />
             <CardActionsComponent
+              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.refresh' })}
+              mainButtonType="submit"
+              mainButtonClick={() => onRefreshSelectedSession(selectedSession.content.id)}
+            />
+            <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
               mainButtonType="submit"
               mainButtonClick={() => onSelected(null, CELL_TYPE_ENUM.SESSION)}
@@ -126,11 +135,13 @@ class SelectedSessionComponent extends React.Component {
             project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.ACQUISITION)}
             relaunchProducts={relaunchProducts}
+            selectedSession={selectedSession}
             retryRequests={retryRequests}
           />
           <ReferencingComponent
             project={project}
-            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCEMENT)}
+            selectedSession={selectedSession}
+            sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING)}
             relaunchAIP={relaunchAIP}
             retryRequests={retryRequests}
           />

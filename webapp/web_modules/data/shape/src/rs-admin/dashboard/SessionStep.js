@@ -25,10 +25,10 @@ export const SessionStep = PropTypes.shape({
   source: PropTypes.string.isRequired,
   session: PropTypes.string.isRequired,
   type: PropTypes.oneOf(AdminDomain.STEP_TYPE).isRequired,
-  in: PropTypes.number,
-  out: PropTypes.number,
-  state: StepState,
+  inputRelated: PropTypes.number.isRequired,
+  outputRelated: PropTypes.number.isRequired,
+  state: StepState.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object,
-  lastUpdate: PropTypes.string.isRequired,
+  lastUpdateDate: PropTypes.string.isRequired,
 })

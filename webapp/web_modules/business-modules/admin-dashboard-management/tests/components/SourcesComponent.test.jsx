@@ -45,8 +45,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SourcesComponent', () => {
     const props = {
       project: 'any',
       selectedSource: null,
+      selectedSession: null,
       onSelected: () => { },
-      getPageSize: () => { },
+      onApplyFilters: () => { },
     }
     const enzymeWrapper = shallow(<SourcesComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)

@@ -16,17 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { BasicArrayReducers } from '@regardsoss/store-utils'
-import SearchSessionsActions from './SearchSessionsActions'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
-export class SearchSessionsReducer extends BasicArrayReducers {
-  constructor(namespace) {
-    super(new SearchSessionsActions(namespace))
-  }
-}
-
-/** Closure builder for reducer function */
-export default (namespace) => {
-  const reducerInstance = new SearchSessionsReducer(namespace)
-  return (state, action) => reducerInstance.reduce(state, action)
-}
+export default (storePath) => new BasicListSelectors(storePath)

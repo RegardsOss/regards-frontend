@@ -28,6 +28,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-dashboard-management/search-sessions'
 export const searchSessionsActions = new AdminClient.SearchSessionsActions(REDUX_ACTION_NAMESPACE)
 export const searchSessionsReducer = AdminClient.getSearchSessionsReducer(REDUX_ACTION_NAMESPACE)
 export const searchSessionsSelectors = AdminClient.getSearchSessionsSelectors(ENTITIES_STORE_PATH)
-
-export const SEARCH_SESSIONS_ENDPOINT = AdminClient.SearchSessionsActions.ENDPOINT
-export const SEARCH_SESSIONS_ENTITY_ID = AdminClient.SearchSessionsActions.ENTITY_ID

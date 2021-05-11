@@ -154,9 +154,6 @@ const dashboardManagementStyles = (theme) => ({
       cardTextStyle: {
         padding: '5px',
       },
-      headerLineDivStyle: {
-        marginTop: '-30px',
-      },
       headerOptionDivStyle: {
         display: 'flex',
         flexDirection: 'row',
@@ -174,7 +171,7 @@ const dashboardManagementStyles = (theme) => ({
       },
     },
   },
-  selectedSession: {
+  selectedSessionStyle: {
     cardStyle: {
       width: '25%',
     },

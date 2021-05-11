@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * REGARDS is distributed in the hope that it will be useful,
+ * REGARDS is distributed inputRelated the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -38,23 +38,32 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
   it('should exists', () => {
     assert.isDefined(ReferencingComponent)
   })
-  it('should render correctly a DP session with errors', () => {
+  it('should render correctly a INGEST session with errors', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '1',
+        id: 0,
+        stepId: 'oais',
         source: 'Test_Source1',
         session: 'Test_Session1',
-        type: 'REFERENCEMENT',
-        in: 3,
-        out: 3,
+        type: 'REFERENCING',
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 3,
           waiting: 2,
           running: 1,
         },
-        properties: {},
-        lastUpdate: '01/01/21',
+        properties: {
+          totalRequests: 1,
+          requestsErrors: 1,
+          generatedProducts: 1,
+          newProductVersions: 1,
+          replacedProducts: 1,
+          ignoredProducts: 1,
+          productWaitVersionMode: 1,
+        },
+        lastUpdateDate: '01/01/21',
       },
       relaunchAIP: () => { },
       retryRequests: () => { },
@@ -70,23 +79,32 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
     const buttonWrapper = enzymeWrapper.find(RaisedButton)
     assert.lengthOf(buttonWrapper, 4, 'There should be 4 RaisedButton')
   })
-  it('should render correctly a DP session without errors', () => {
+  it('should render correctly a INGEST session without errors', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '1',
+        id: 0,
+        stepId: 'oais',
         source: 'Test_Source1',
         session: 'Test_Session1',
-        type: 'REFERENCEMENT',
-        in: 3,
-        out: 3,
+        type: 'REFERENCING',
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 0,
           waiting: 2,
           running: 1,
         },
-        properties: {},
-        lastUpdate: '01/01/21',
+        properties: {
+          totalRequests: 1,
+          requestsErrors: 1,
+          generatedProducts: 1,
+          newProductVersions: 1,
+          replacedProducts: 1,
+          ignoredProducts: 1,
+          productWaitVersionMode: 1,
+        },
+        lastUpdateDate: '01/01/21',
       },
       relaunchAIP: () => { },
       retryRequests: () => { },
@@ -106,19 +124,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '0',
+        id: 0,
+        stepId: 'feature',
         source: 'Test_Source1',
         session: 'Test_Session1',
-        type: 'REFERENCEMENT',
-        in: 3,
-        out: 3,
+        type: 'REFERENCING',
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 3,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchAIP: () => { },
       retryRequests: () => { },
@@ -138,19 +157,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '0',
+        id: 0,
+        stepId: 'feature',
         source: 'Test_Source1',
         session: 'Test_Session1',
-        type: 'REFERENCEMENT',
-        in: 3,
-        out: 3,
+        type: 'REFERENCING',
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 0,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchAIP: () => { },
       retryRequests: () => { },

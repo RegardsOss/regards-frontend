@@ -46,7 +46,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SessionsComponent', () => {
       project: 'any',
       selectedSession: null,
       onSelected: () => { },
-      getPageSize: () => { },
+      onApplyFilters: () => { },
     }
     const enzymeWrapper = shallow(<SessionsComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)

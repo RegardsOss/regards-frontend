@@ -25,8 +25,8 @@ import { sessionsActions } from './clients/SessionsClient'
  * @author Théo Lasserre
  */
 const listDependencies = [
-  sourcesActions.getDependency(RequestVerbEnum.GET_LIST),
-  sessionsActions.getDependency(RequestVerbEnum.GET_LIST),
+  sourcesActions.getDependency(RequestVerbEnum.GET),
+  sessionsActions.getDependency(RequestVerbEnum.GET),
 ]
 
 export default {

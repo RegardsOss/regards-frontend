@@ -19,6 +19,6 @@
 
 export const ManagerState = PropTypes.shape({
   running: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  errors: PropTypes.bool.isRequired,
   waiting: PropTypes.bool.isRequired,
 })

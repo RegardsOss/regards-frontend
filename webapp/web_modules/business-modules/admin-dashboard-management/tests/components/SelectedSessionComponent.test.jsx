@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * REGARDS is distributed in the hope that it will be useful,
+ * REGARDS is distributed inputRelated the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -54,69 +54,73 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
           lastUpdateDate: '01/01/21',
           steps: [
             {
-              stepId: '0',
+              id: 0,
+              stepId: 'scan',
               source: 'Test_Source1',
               session: 'Test_Session1',
               type: 'ACQUISITION',
-              in: 3,
-              out: 3,
+              inputRelated: 3,
+              outputRelated: 3,
               state: {
                 errors: 3,
                 waiting: 2,
                 running: 1,
               },
               properties: {},
-              lastUpdate: '01/01/21',
+              lastUpdateDate: '01/01/21',
             },
             {
-              stepId: '0',
+              id: 1,
+              stepId: 'oais',
               source: 'Test_Source1',
               session: 'Test_Session1',
-              type: 'REFERENCEMENT',
-              in: 3,
-              out: 3,
+              type: 'REFERENCING',
+              inputRelated: 3,
+              outputRelated: 3,
               state: {
                 errors: 3,
                 waiting: 2,
                 running: 1,
               },
               properties: {},
-              lastUpdate: '01/01/21',
+              lastUpdateDate: '01/01/21',
             },
             {
-              stepId: '0',
+              id: 2,
+              stepId: 'storage',
               source: 'Test_Source1',
               session: 'Test_Session1',
               type: 'STORAGE',
-              in: 3,
-              out: 3,
+              inputRelated: 3,
+              outputRelated: 3,
               state: {
                 errors: 3,
                 waiting: 2,
                 running: 1,
               },
               properties: {},
-              lastUpdate: '01/01/21',
+              lastUpdateDate: '01/01/21',
             },
             {
-              stepId: '0',
+              id: 3,
+              stepId: 'metacatalog',
               source: 'Test_Source1',
               session: 'Test_Session1',
               type: 'DISSEMINATION',
-              in: 3,
-              out: 3,
+              inputRelated: 3,
+              outputRelated: 3,
               state: {
                 errors: 3,
                 waiting: 2,
                 running: 1,
               },
               properties: {},
-              lastUpdate: '01/01/21',
+              lastUpdateDate: '01/01/21',
             },
           ],
           managerState: {
             running: true,
-            error: true,
+            errors: true,
             waiting: true,
           },
         },
@@ -127,11 +131,12 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
+      onRefreshSelectedSession: () => { },
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
     const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(cardActionWrapper, 1, 'There should be 1 CardActionsComponent')
+    assert.lengthOf(cardActionWrapper, 2, 'There should be 2 CardActionsComponent')
 
     const flatButtonWrapper = enzymeWrapper.find(FlatButton)
     assert.lengthOf(flatButtonWrapper, 1, 'There should be a FlatButton')
@@ -149,7 +154,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     assert.lengthOf(referencingWrapper, 1, 'There should be a ReferencingComponent')
     testSuiteHelpers.assertWrapperProperties(referencingWrapper, {
       project: props.project,
-      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCEMENT),
+      sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.REFERENCING),
       relaunchAIP: props.relaunchAIP,
       retryRequests: props.retryRequests,
     }, 'Component should define the expected properties')

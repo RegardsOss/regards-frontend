@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -43,11 +43,11 @@ import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
-import { STATUS_TYPES } from '../domain/statusTypes'
+import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 
 const SOURCE_FILTER_PARAMS = {
   NAME: 'name',
-  STATUS: 'status',
+  STATUS: 'state',
 }
 
 /**
@@ -60,6 +60,7 @@ class SourcesComponent extends React.Component {
     selectedSource: AdminShapes.Source,
     onSelected: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
+    onApplyFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -98,13 +99,15 @@ class SourcesComponent extends React.Component {
  * @param {*} filterElement
  */
   updateFilter = (newStateValue, filterElement) => {
+    const { onApplyFilters } = this.props
     const { filters } = this.state
     const newState = {
       filters: {
         ...filters,
-        [filterElement]: newStateValue,
+        [filterElement]: newStateValue !== STATUS_TYPES_ENUM.ALL ? newStateValue : null,
       },
     }
+    onApplyFilters(newState.filters, CELL_TYPE_ENUM.SOURCE)
     this.setState(newState)
   }
 
@@ -117,7 +120,7 @@ class SourcesComponent extends React.Component {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
           componentDiv: {
-            cardStyle, cardTextStyle, headerLineDivStyle, headerOptionDivStyle,
+            cardStyle, cardTextStyle, headerOptionDivStyle,
             cardTitleStyle, autoCompleteStyle, selectFieldStyle,
           },
         },
@@ -163,46 +166,44 @@ class SourcesComponent extends React.Component {
         <CardText style={cardTextStyle}>
           <TableLayout>
             <TableHeaderLine key="filters">
-              <div style={headerLineDivStyle}>
-                <TableHeaderOptionsArea reducible alignLeft>
-                  <TableHeaderOptionGroup>
-                    <div style={headerOptionDivStyle}>
-                      <CardTitle
-                        title={this.context.intl.formatMessage({ id: 'dashboard.sources.title' })}
-                        style={cardTitleStyle}
-                      />
-                      <TableHeaderAutoCompleteFilterContainer
-                        onChangeText={(value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
-                        text={filters[SOURCE_FILTER_PARAMS.NAME]}
-                        hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
-                        key="sourceAuto"
-                        arrayActions={searchSourcesActions}
-                        arraySelectors={searchSourcesSelectors}
-                        style={autoCompleteStyle}
-                      />
-                      <div>
-                        <SelectField
-                          id="dashboard.sources.filter.status"
-                          value={filters[SOURCE_FILTER_PARAMS.STATUS]}
-                          floatingLabelText={formatMessage({ id: 'dashboard.sources.filter.status' })}
-                          onChange={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.STATUS)}
-                          style={selectFieldStyle}
-                        >
-                          {map(STATUS_TYPES, (status) => (
-                            <MenuItem key={status} value={status} primaryText={status} />
-                          ))}
-                        </SelectField>
-                      </div>
+              <TableHeaderOptionsArea reducible alignLeft>
+                <TableHeaderOptionGroup>
+                  <div style={headerOptionDivStyle}>
+                    <CardTitle
+                      title={formatMessage({ id: 'dashboard.sources.title' })}
+                      style={cardTitleStyle}
+                    />
+                    <TableHeaderAutoCompleteFilterContainer
+                      onChangeText={(value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.NAME)}
+                      text={filters[SOURCE_FILTER_PARAMS.NAME]}
+                      hintText={formatMessage({ id: 'dashboard.sources.filter.name' })}
+                      key="sourceAuto"
+                      arrayActions={searchSourcesActions}
+                      arraySelectors={searchSourcesSelectors}
+                      style={autoCompleteStyle}
+                    />
+                    <div>
+                      <SelectField
+                        id="dashboard.sources.filter.status"
+                        value={filters[SOURCE_FILTER_PARAMS.STATUS]}
+                        hintText={formatMessage({ id: 'dashboard.sources.filter.status' })}
+                        onChange={(event, index, value) => this.updateFilter(value, SOURCE_FILTER_PARAMS.STATUS)}
+                        style={selectFieldStyle}
+                      >
+                        {map(STATUS_TYPES, (status) => (
+                          <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.sources.filter.status.${status}` })} />
+                        ))}
+                      </SelectField>
                     </div>
-                  </TableHeaderOptionGroup>
-                </TableHeaderOptionsArea>
-              </div>
+                  </div>
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               key="source"
               name="sources-table"
               minRowCount={minRowCount}
-              maxRowCount={selectedSession ? minRowCount : maxRowCount}
+              maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
               requestParams={{ ...filters, tenant: project }}

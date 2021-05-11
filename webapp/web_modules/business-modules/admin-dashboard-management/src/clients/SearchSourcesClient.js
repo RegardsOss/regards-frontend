@@ -28,6 +28,3 @@ const REDUX_ACTION_NAMESPACE = 'admin-dashboard-management/search-sources'
 export const searchSourcesActions = new AdminClient.SearchSourcesActions(REDUX_ACTION_NAMESPACE)
 export const searchSourcesReducer = AdminClient.getSearchSourcesReducer(REDUX_ACTION_NAMESPACE)
 export const searchSourcesSelectors = AdminClient.getSearchSourcesSelectors(ENTITIES_STORE_PATH)
-
-export const SEARCH_SOURCES_ENDPOINT = AdminClient.SearchSourcesActions.ENDPOINT
-export const SEARCH_SOURCES_ENTITY_ID = AdminClient.SearchSourcesActions.ENTITY_ID

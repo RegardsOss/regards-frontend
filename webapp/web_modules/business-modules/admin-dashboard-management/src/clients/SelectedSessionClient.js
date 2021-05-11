@@ -17,20 +17,15 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { SessionStep } from './SessionStep'
-import { ManagerState } from './ManagerState'
+import { AdminClient } from '@regardsoss/client'
 
-export const Session = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    source: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    creationDate: PropTypes.string.isRequired,
-    lastUpdateDate: PropTypes.string.isRequired,
-    steps: PropTypes.arrayOf(SessionStep).isRequired,
-    managerState: ManagerState.isRequired,
-  }),
-})
+/**
+ * selected session actions client.
+ * @author Théo Lasserre
+ */
+const SESSIONS_NAMESPACE = 'dashboard-management/selectedSession'
+const SESSIONS_STORE_PATH = ['admin', 'acquisition', 'dashboard', 'selectedSession']
 
-export const SessionList = PropTypes.objectOf(Session)
-export const SessionArray = PropTypes.arrayOf(Session)
+export const selectedSessionActions = new AdminClient.SelectedSessionActions(SESSIONS_NAMESPACE)
+export const selectedSessionReducer = AdminClient.getSelectedSessionReducer(SESSIONS_NAMESPACE)
+export const selectedSessionSelectors = AdminClient.getSelectedSessionSelectors(SESSIONS_STORE_PATH)

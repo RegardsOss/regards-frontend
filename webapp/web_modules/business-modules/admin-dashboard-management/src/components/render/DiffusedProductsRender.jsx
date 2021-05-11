@@ -43,8 +43,11 @@ class DiffusedProductsRender extends React.Component {
    */
   static getDiffusedProducts(attributeModel, cellType) {
     const { steps } = attributeModel.content
-    const referencingStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
-    return cellType === CELL_TYPE_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.out
+    const diffusionStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.DISSEMINATION)
+    if (diffusionStep) {
+      return cellType === CELL_TYPE_ENUM.SOURCE ? diffusionStep.totalOut : diffusionStep.outputRelated
+    }
+    return 0
   }
 
   render() {

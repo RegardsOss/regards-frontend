@@ -16,23 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { browserHistory } from 'react-router'
+import findLastKey from 'lodash/findLastKey'
+import isEqual from 'lodash/isEqual'
+import isEmpty from 'lodash/isEmpty'
 import { connect } from '@regardsoss/redux'
 import compose from 'lodash/fp/compose'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { withModuleStyle, themeContextType } from '@regardsoss/theme'
-import { CardActionsComponent } from '@regardsoss/components'
-import {
-  Card, CardText, CardTitle, CardActions,
-} from 'material-ui/Card'
+import { AdminShapes } from '@regardsoss/shape'
 import {
   sessionsActions, sessionsSelectors, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
   sessionDeleteActions,
 } from '../clients/SessionsClient'
 import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
+import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
-import SourcesComponent from '../components/SourcesComponent'
-import SessionsComponent from '../components/SessionsComponent'
-import SelectedSessionComponent from '../components/SelectedSessionComponent'
+import DashboardComponent from '../components/DashboardComponent'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import messages from '../i18n'
 import styles from '../styles'
@@ -48,6 +48,8 @@ export class DashboardContainer extends React.Component {
       project: PropTypes.string,
     }),
     // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
+    selectedSession: AdminShapes.SessionList,
     sessionsMeta: PropTypes.shape({
       number: PropTypes.number,
     }),
@@ -61,6 +63,8 @@ export class DashboardContainer extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
+    fetchSelectedSession: PropTypes.func.isRequired,
+    flushSelectedSession: PropTypes.func.isRequired,
   }
 
   /**
@@ -72,6 +76,7 @@ export class DashboardContainer extends React.Component {
   static mapStateToProps = (state) => ({
     sessionsMeta: sessionsSelectors.getMetaData(state),
     sourcesMeta: sourcesSelectors.getMetaData(state),
+    selectedSession: selectedSessionSelectors.getList(state),
   })
 
   /**
@@ -83,6 +88,8 @@ export class DashboardContainer extends React.Component {
   static mapDispatchToProps = (dispatch) => ({
     fetchSessions: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sessionsActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     fetchSources: (pageIndex, pageSize, pathParams, queryParams) => dispatch(sourcesActions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
+    fetchSelectedSession: (sessionId) => dispatch(selectedSessionActions.fetchEntity(sessionId)),
+    flushSelectedSession: () => dispatch(selectedSessionActions.flush()),
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
     retryRequests: (payload, type) => dispatch(requestRetryActions.relaunchProducts('POST', payload, { type })),
@@ -99,9 +106,43 @@ export class DashboardContainer extends React.Component {
     selectedSession: null,
   }
 
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+ * Properties change detected: update local state
+ * @param oldProps previous component properties
+ * @param newProps next component properties
+ */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      selectedSession,
+    } = newProps
+
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    // component mount -> reset selectedSession (do not use selectedSession of redux store in case of it was previously removed)
+    if (isEmpty(oldProps)) {
+      newState.selectedSession = null
+    } else if (!isEqual(oldProps.selectedSession, selectedSession)) {
+      newState.selectedSession = selectedSession[findLastKey(selectedSession)]
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
+  }
+
   getBackURL = () => {
     const { params: { project } } = this.props
-    return `/admin/${project}/data/acquisition/board`
+    browserHistory.push(`/admin/${project}/data/acquisition/board`)
   }
 
   getPageSize = (type) => {
@@ -123,107 +164,78 @@ export class DashboardContainer extends React.Component {
     return STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
   }
 
-  onRefresh = (selectedSession) => {
+  onRefresh = (sourceFilters, sessionFilters) => {
     const {
       fetchSessions, fetchSources,
     } = this.props
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
     const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
-    fetchSessions(0, fetchPageSessionsSize, {}, { session: selectedSession ? selectedSession.content.name : null })
-    fetchSources(0, fetchPageSourcesSize, {}, {})
+    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters })
+    fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters })
   }
 
-  onSelected = (entity, type) => {
+  onDeleteSession = (sessionId, sourceFilters, sessionFilters) => {
+    const { deleteSession } = this.props
+    deleteSession(sessionId).then((actionResult) => {
+      if (!actionResult.error) {
+        this.onRefresh(sourceFilters, sessionFilters)
+        this.setState({
+          selectedSession: null,
+        })
+      }
+    })
+  }
+
+  onRefreshSelectedSession = (selectedSessionId) => {
     const {
-      fetchSessions,
+      fetchSelectedSession,
     } = this.props
-    const {
-      selectedSource, selectedSession,
-    } = this.state
-    let fetchPageSessionsSize
-    let nextState = { ...this.state }
-    switch (type) {
-      case CELL_TYPE_ENUM.SESSION:
-        nextState = {
-          selectedSession: selectedSession === entity || !entity ? null : entity,
-        }
-        this.onRefresh(nextState.selectedSession)
-        break
-      case CELL_TYPE_ENUM.SOURCE:
-        nextState = {
-          selectedSource: selectedSource !== entity ? entity : null,
-        }
-        if (nextState.selectedSource !== null) {
-          fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION, selectedSession)
-          fetchSessions(0, fetchPageSessionsSize, {}, { source: nextState.selectedSource.content.name })
-        }
-        break
-      default:
+    fetchSelectedSession(selectedSessionId)
+  }
+
+  fetchSelectedSource = (source, sessionFilters) => {
+    const { fetchSessions } = this.props
+    const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
+    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, source: source ? source.content.name : null })
+    this.setState({
+      selectedSource: source,
+    })
+  }
+
+  fetchSelectedSession = (sessionId) => {
+    const { fetchSelectedSession, flushSelectedSession } = this.props
+    flushSelectedSession()
+    if (sessionId) {
+      fetchSelectedSession(sessionId)
+    } else {
+      this.setState({
+        selectedSession: null,
+      })
     }
-    this.setState(nextState)
   }
 
   render() {
     const {
       params: { project }, relaunchProducts, relaunchAIP, retryRequests,
-      deleteSession,
     } = this.props
-    const {
-      intl: { formatMessage },
-      moduleTheme: {
-        headerStyle: { headerDivStyle, cardTitleStyle, cardActionDivStyle },
-        dashboardStyle: { dashboardDivStyle, dashboardComponentsStyle, cardTextField },
-      },
-    } = this.context
     const {
       selectedSource, selectedSession,
     } = this.state
     return (
-      <Card>
-        <div style={headerDivStyle}>
-          <CardTitle
-            title={formatMessage({ id: 'dashboard.title' })}
-            style={cardTitleStyle}
-          />
-          <CardActions style={cardActionDivStyle}>
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={() => this.onRefresh(selectedSession)}
-              secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
-              secondaryButtonClick={this.getBackURL}
-            />
-          </CardActions>
-        </div>
-        <CardText style={cardTextField}>
-          <div style={dashboardDivStyle}>
-            <div style={dashboardComponentsStyle}>
-              <SourcesComponent
-                project={project}
-                onSelected={this.onSelected}
-                selectedSource={selectedSource}
-                selectedSession={selectedSession}
-              />
-              <SessionsComponent
-                project={project}
-                onSelected={this.onSelected}
-                selectedSession={selectedSession}
-              />
-            </div>
-            {this.state.selectedSession
-              ? <SelectedSessionComponent
-                  project={project}
-                  selectedSession={this.state.selectedSession}
-                  onSelected={this.onSelected}
-                  relaunchProducts={relaunchProducts}
-                  relaunchAIP={relaunchAIP}
-                  retryRequests={retryRequests}
-                  deleteSession={deleteSession}
-              />
-              : null}
-          </div>
-        </CardText>
-      </Card>
+      <DashboardComponent
+        project={project}
+        relaunchProducts={relaunchProducts}
+        relaunchAIP={relaunchAIP}
+        retryRequests={retryRequests}
+        fetchSelectedSource={this.fetchSelectedSource}
+        fetchSelectedSession={this.fetchSelectedSession}
+        deleteSession={this.onDeleteSession}
+        selectedSession={selectedSession}
+        selectedSource={selectedSource}
+        onRefreshSelectedSession={this.onRefreshSelectedSession}
+        getBackURL={this.getBackURL}
+        onRefresh={this.onRefresh}
+      />
     )
   }
 }

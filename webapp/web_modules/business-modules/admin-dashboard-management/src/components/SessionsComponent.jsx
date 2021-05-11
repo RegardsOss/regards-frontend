@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -37,17 +37,17 @@ import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 import CardTitle from 'material-ui/Card/CardTitle'
 import CardText from 'material-ui/Card/CardText'
-import { searchSourcesActions, searchSourcesSelectors } from '../clients/SearchSourcesClient'
+import { searchSessionsActions, searchSessionsSelectors } from '../clients/SearchSessionsClient'
 import { sessionsActions, sessionsSelectors } from '../clients/SessionsClient'
 import ReferencedProductsRender from './render/ReferencedProductsRender'
 import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
-import { STATUS_TYPES } from '../domain/statusTypes'
+import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 
 const SESSION_FILTER_PARAMS = {
   NAME: 'name',
-  STATUS: 'status',
+  STATUS: 'state',
 }
 
 /**
@@ -59,6 +59,7 @@ class SessionsComponent extends React.Component {
     project: PropTypes.string.isRequired,
     selectedSession: AdminShapes.Session,
     onSelected: PropTypes.func.isRequired,
+    onApplyFilters: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -90,13 +91,15 @@ class SessionsComponent extends React.Component {
  * @param {*} filterElement
  */
   updateFilter = (newStateValue, filterElement) => {
+    const { onApplyFilters } = this.props
     const { filters } = this.state
     const newState = {
       filters: {
         ...filters,
-        [filterElement]: newStateValue,
+        [filterElement]: newStateValue !== STATUS_TYPES_ENUM.ALL ? newStateValue : null,
       },
     }
+    onApplyFilters(newState.filters, CELL_TYPE_ENUM.SESSION)
     this.setState(newState)
   }
 
@@ -109,7 +112,7 @@ class SessionsComponent extends React.Component {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
           componentDiv: {
-            cardStyle, cardTextStyle, headerLineDivStyle, headerOptionDivStyle,
+            cardStyle, cardTextStyle, headerOptionDivStyle,
             cardTitleStyle, autoCompleteStyle, selectFieldStyle,
           },
         },
@@ -155,43 +158,41 @@ class SessionsComponent extends React.Component {
         <CardText style={cardTextStyle}>
           <TableLayout>
             <TableHeaderLine key="filters">
-              <div style={headerLineDivStyle}>
-                <TableHeaderOptionsArea reducible alignLeft>
-                  <TableHeaderOptionGroup>
-                    <div style={headerOptionDivStyle}>
-                      <CardTitle
-                        title={this.context.intl.formatMessage({ id: 'dashboard.sessions.title' })}
-                        style={cardTitleStyle}
-                      />
-                      <TableHeaderAutoCompleteFilterContainer
-                        onChangeText={(value) => this.updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
-                        text={filters[SESSION_FILTER_PARAMS.NAME]}
-                        hintText={formatMessage({ id: 'dashboard.sessions.filter.name' })}
-                        key="sessionAuto"
-                        arrayActions={searchSourcesActions}
-                        arraySelectors={searchSourcesSelectors}
-                        style={autoCompleteStyle}
-                      />
-                      <SelectField
-                        id="dashboard.sources.filter.status"
-                        value={filters[SESSION_FILTER_PARAMS.STATUS]}
-                        floatingLabelText={formatMessage({ id: 'dashboard.sessions.filter.status' })}
-                        onChange={(event, index, value) => this.updateFilter(value, SESSION_FILTER_PARAMS.STATUS)}
-                        style={selectFieldStyle}
-                      >
-                        {map(STATUS_TYPES, (status) => (
-                          <MenuItem key={status} value={status} primaryText={status} />
-                        ))}
-                      </SelectField>
-                    </div>
-                  </TableHeaderOptionGroup>
-                </TableHeaderOptionsArea>
-              </div>
+              <TableHeaderOptionsArea reducible alignLeft>
+                <TableHeaderOptionGroup>
+                  <div style={headerOptionDivStyle}>
+                    <CardTitle
+                      title={formatMessage({ id: 'dashboard.sessions.title' })}
+                      style={cardTitleStyle}
+                    />
+                    <TableHeaderAutoCompleteFilterContainer
+                      onChangeText={(value) => this.updateFilter(value, SESSION_FILTER_PARAMS.NAME)}
+                      text={filters[SESSION_FILTER_PARAMS.NAME]}
+                      hintText={formatMessage({ id: 'dashboard.sessions.filter.name' })}
+                      key="sessionAuto"
+                      arrayActions={searchSessionsActions}
+                      arraySelectors={searchSessionsSelectors}
+                      style={autoCompleteStyle}
+                    />
+                    <SelectField
+                      id="dashboard.sources.filter.status"
+                      value={filters[SESSION_FILTER_PARAMS.STATUS]}
+                      hintText={formatMessage({ id: 'dashboard.sessions.filter.status' })}
+                      onChange={(event, index, value) => this.updateFilter(value, SESSION_FILTER_PARAMS.STATUS)}
+                      style={selectFieldStyle}
+                    >
+                      {map(STATUS_TYPES, (status) => (
+                        <MenuItem key={status} value={status} primaryText={formatMessage({ id: `dashboard.sources.filter.status.${status}` })} />
+                      ))}
+                    </SelectField>
+                  </div>
+                </TableHeaderOptionGroup>
+              </TableHeaderOptionsArea>
             </TableHeaderLine>
             <PageableInfiniteTableContainer
               name="sources-table"
               minRowCount={minRowCount}
-              maxRowCount={selectedSession ? minRowCount : maxRowCount}
+              maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
               requestParams={{ ...filters, tenant: project }}

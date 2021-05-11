@@ -15,23 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- */
-import { BasicArrayActions } from '@regardsoss/store-utils'
+ **/
 
-export default class SearchSessionsActions extends BasicArrayActions {
-  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions/sources`
+import values from 'lodash/values'
 
-  static ENTITY_ID = 'session_id'
-
-  constructor(namespace) {
-    super({
-      namespace,
-      entityEndpoint: SearchSessionsActions.ENDPOINT,
-      entityPathVariable: SearchSessionsActions.ENTITY_ID,
-    })
-  }
-
-  autoCompleteActionDispatch(text) {
-    return this.fetchEntityList(null, { source: text })
-  }
+export const INGEST_PROP_TYPE_ENUM = {
+  TOTAL_REQUESTS: 'totalRequests',
+  REQUESTS_ERROS: 'requestsErrors',
+  GENERATED_PRODUCTS: 'generatedProducts',
+  NEW_PRODUCT_VERSIONS: 'newProductVersions',
+  REPLACED_PRODUCTS: 'replacedProducts',
+  IGNORED_PRODUCTS: 'ignoredProducts',
+  PRODUCT_WAIT_VERSION_MODE: 'productWaitVersionMode',
 }
+
+export const INGEST_PROP_TYPE = values(INGEST_PROP_TYPE_ENUM)

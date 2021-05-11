@@ -43,8 +43,11 @@ class ReferencedProductsRender extends React.Component {
    */
   static getReferencedProducts(attributeModel, cellType) {
     const { steps } = attributeModel.content
-    const referencingStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCEMENT)
-    return cellType === CELL_TYPE_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.out
+    const referencingStep = find(steps, (step) => step.type === AdminDomain.STEP_TYPE_ENUM.REFERENCING)
+    if (referencingStep) {
+      return cellType === CELL_TYPE_ENUM.SOURCE ? referencingStep.totalOut : referencingStep.outputRelated
+    }
+    return 0
   }
 
   render() {

@@ -53,7 +53,7 @@ class DisplayProductsComponent extends React.Component {
       new TableColumnBuilder('column.name').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.table.column.name' })).propertyRenderCell('content.productName')
         .fixedSizing(300)
         .build(),
-      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.table.column.error' })).propertyRenderCell('content.error')
+      new TableColumnBuilder('column.error').titleHeaderCell().label(formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.table.column.error' })).propertyRenderCell('content.managerState.errors')
         .build(),
     ]
     const requestParameters = { session: sessionName, sipState: DisplayProductsComponent.ERROR_SIP_STATES, state: DisplayProductsComponent.INVALID_INCOMPLETE_PRODUCT_STATES }

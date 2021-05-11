@@ -15,22 +15,18 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { BasicArrayReducers } from '@regardsoss/store-utils'
+import SearchSourcesActions from './SearchSourcesActions'
 
-import { SessionStep } from './SessionStep'
-import { ManagerState } from './ManagerState'
+export class SearchSourcesReducer extends BasicArrayReducers {
+  constructor(namespace) {
+    super(new SearchSourcesActions(namespace))
+  }
+}
 
-export const Session = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    source: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    creationDate: PropTypes.string.isRequired,
-    lastUpdateDate: PropTypes.string.isRequired,
-    steps: PropTypes.arrayOf(SessionStep).isRequired,
-    managerState: ManagerState.isRequired,
-  }),
-})
-
-export const SessionList = PropTypes.objectOf(Session)
-export const SessionArray = PropTypes.arrayOf(Session)
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new SearchSourcesReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
+}

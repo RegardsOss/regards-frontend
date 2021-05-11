@@ -21,7 +21,7 @@ import { AdminDomain } from '@regardsoss/domain'
 import { AggregationState } from './AggregationState'
 
 export const SourceStepAggregation = PropTypes.shape({
-  source: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   type: PropTypes.oneOf(AdminDomain.STEP_TYPE).isRequired,
   totalIn: PropTypes.number.isRequired,
   totalOut: PropTypes.number.isRequired,

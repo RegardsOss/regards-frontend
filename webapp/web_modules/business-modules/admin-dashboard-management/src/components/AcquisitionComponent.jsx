@@ -19,6 +19,7 @@
 import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { FemDomain } from '@regardsoss/domain'
 import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -27,9 +28,13 @@ import { AdminShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
 import Dialog from 'material-ui/Dialog'
 import DisplayProductsComponent from './DisplayProductsComponent'
-import { IMPL_TYPE_ENUM } from '../domain/implTypes'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
+
+const ACQUISITION_TYPE = {
+  EXTRACT: 'extract',
+  SCAN: 'scan',
+}
 
 /**
  * AcquisitionComponent
@@ -38,6 +43,7 @@ import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 class AcquisitionComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
+    selectedSession: AdminShapes.Session,
     sessionStep: AdminShapes.SessionStep,
     relaunchProducts: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
@@ -50,13 +56,14 @@ class AcquisitionComponent extends React.Component {
 
   state = {
     productDialogOpen: false,
+    isRetryErrorsDialogOpen: false,
   }
 
   handleOpenProductDialog = () => this.setState({ productDialogOpen: true })
 
   handleCloseProductDialog = () => this.setState({ productDialogOpen: false })
 
-  displayProductDialog = () => {
+  renderProductDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { productDialogOpen } = this.state
     const { sessionStep } = this.props
@@ -80,12 +87,12 @@ class AcquisitionComponent extends React.Component {
   }
 
   onSeeErrors = (type) => {
-    const { project } = this.props
+    const { project, selectedSession } = this.props
     switch (type) {
-      case IMPL_TYPE_ENUM.FEM:
-        browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/EXTRACTION?state=ERROR`)
+      case ACQUISITION_TYPE.EXTRACT:
+        browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/EXTRACTION?display=packages&session=${selectedSession.content.name}&state=ERROR`)
         break
-      case IMPL_TYPE_ENUM.DP:
+      case ACQUISITION_TYPE.SCAN:
         this.handleOpenProductDialog()
         break
       default:
@@ -95,7 +102,7 @@ class AcquisitionComponent extends React.Component {
   onRetryErrors = (type) => {
     const { relaunchProducts, sessionStep, retryRequests } = this.props
     switch (type) {
-      case IMPL_TYPE_ENUM.FEM:
+      case ACQUISITION_TYPE.EXTRACT:
         retryRequests({
           filters: {
             session: sessionStep.session,
@@ -105,11 +112,12 @@ class AcquisitionComponent extends React.Component {
           requestIds: [],
         }, FemDomain.REQUEST_TYPES_ENUM.REFERENCES)
         break
-      case IMPL_TYPE_ENUM.DP:
+      case ACQUISITION_TYPE.SCAN:
         relaunchProducts(sessionStep.source, sessionStep.session)
         break
       default:
     }
+    this.closeRetryErrorsDialog()
   }
 
   // Case FeatureManager
@@ -117,7 +125,7 @@ class AcquisitionComponent extends React.Component {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           raisedListStyle, listItemStyle, cardContentStyle, cardButtonStyle,
         },
       },
@@ -125,7 +133,7 @@ class AcquisitionComponent extends React.Component {
     return <div style={cardContentStyle}>
       <div>
         <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.in' }, { nbIn: sessionStep.in })}
+          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.in' }, { nbIn: sessionStep.inputRelated })}
           disabled
           style={listItemStyle}
         />
@@ -140,7 +148,7 @@ class AcquisitionComponent extends React.Component {
           style={listItemStyle}
         />
         <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.acquired' }, { nbAcquired: sessionStep.out })}
+          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.acquired' }, { nbAcquired: sessionStep.outputRelated })}
           disabled
           style={listItemStyle}
         />
@@ -149,13 +157,13 @@ class AcquisitionComponent extends React.Component {
         nbErrors !== 0
           ? <div style={cardButtonStyle}>
             <RaisedButton
-              onClick={() => this.onSeeErrors(IMPL_TYPE_ENUM.FEM)}
+              onClick={() => this.onSeeErrors(ACQUISITION_TYPE.EXTRACT)}
               label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.button.see-errors' })}
               primary
               style={raisedListStyle}
             />
             <RaisedButton
-              onClick={() => this.onRetryErrors(IMPL_TYPE_ENUM.FEM)}
+              onClick={() => this.openRetryErrorsDialog()}
               label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.button.retry-errors' })}
               primary
               style={raisedListStyle}
@@ -171,7 +179,7 @@ class AcquisitionComponent extends React.Component {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           raisedListStyle, listItemStyle, cardContentStyle, cardButtonStyle,
         },
       },
@@ -208,13 +216,13 @@ class AcquisitionComponent extends React.Component {
         nbErrors !== 0
           ? <div style={cardButtonStyle}>
             <RaisedButton
-              onClick={() => this.onSeeErrors(IMPL_TYPE_ENUM.DP)}
+              onClick={() => this.onSeeErrors(ACQUISITION_TYPE.SCAN)}
               label={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.button.see-errors' })}
               primary
               style={raisedListStyle}
             />
             <RaisedButton
-              onClick={() => this.onRetryErrors(IMPL_TYPE_ENUM.DP)}
+              onClick={() => this.openRetryErrorsDialog()}
               label={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.button.retry-errors' })}
               primary
               style={raisedListStyle}
@@ -225,11 +233,39 @@ class AcquisitionComponent extends React.Component {
     </div>
   }
 
+  openRetryErrorsDialog = () => {
+    this.setState({
+      isRetryErrorsDialogOpen: true,
+    })
+  }
+
+  closeRetryErrorsDialog = () => {
+    this.setState({
+      isRetryErrorsDialogOpen: false,
+    })
+  }
+
+  renderRetryErrorsDialog = (type) => {
+    const { intl: { formatMessage } } = this.context
+    const { isRetryErrorsDialogOpen } = this.state
+    if (isRetryErrorsDialogOpen) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.CONFIRM}
+          title={formatMessage({ id: 'dashboard.selectedsessionZ.dialog.retry.title' })}
+          onConfirm={() => this.onRetryErrors(type)}
+          onClose={() => this.closeDeleteDialog()}
+        />
+      )
+    }
+    return null
+  }
+
   render() {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           cardStyle, cardTitleDivStyle, cardTitleStyle, cardTitleTextStyle,
         },
       },
@@ -250,9 +286,10 @@ class AcquisitionComponent extends React.Component {
             />
           </div>
           <CardText>
-            {sessionStep.stepId === '0' ? this.displayFEM(nbErrors) : this.displayDP(nbErrors)}
+            {sessionStep.stepId === ACQUISITION_TYPE.EXTRACT ? this.displayFEM(nbErrors) : this.displayDP(nbErrors)}
           </CardText>
-          {this.displayProductDialog()}
+          {this.renderProductDialog()}
+          {this.renderRetryErrorsDialog(sessionStep.stepId)}
         </Card> : null
     )
   }

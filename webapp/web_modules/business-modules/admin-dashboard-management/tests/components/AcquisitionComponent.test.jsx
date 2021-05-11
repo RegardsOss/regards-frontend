@@ -8,7 +8,7 @@
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * REGARDS is distributed in the hope that it will be useful,
+ * REGARDS is distributed inputRelated the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
@@ -42,19 +42,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '1',
+        id: 0,
+        stepId: 'scan',
         source: 'Test_Source1',
         session: 'Test_Session1',
         type: 'ACQUISITION',
-        in: 3,
-        out: 3,
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 3,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchProducts: () => { },
       retryRequests: () => { },
@@ -74,19 +75,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '1',
+        id: 0,
+        stepId: 'scan',
         source: 'Test_Source1',
         session: 'Test_Session1',
         type: 'ACQUISITION',
-        in: 3,
-        out: 3,
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 0,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchProducts: () => { },
       retryRequests: () => { },
@@ -106,19 +108,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '0',
+        id: 0,
+        stepId: 'extract',
         source: 'Test_Source1',
         session: 'Test_Session1',
         type: 'ACQUISITION',
-        in: 3,
-        out: 3,
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 3,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchProducts: () => { },
       retryRequests: () => { },
@@ -138,19 +141,20 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
     const props = {
       project: 'any',
       sessionStep: {
-        stepId: '0',
+        id: 0,
+        stepId: 'extract',
         source: 'Test_Source1',
         session: 'Test_Session1',
         type: 'ACQUISITION',
-        in: 3,
-        out: 3,
+        inputRelated: 3,
+        outputRelated: 3,
         state: {
           errors: 0,
           waiting: 2,
           running: 1,
         },
         properties: {},
-        lastUpdate: '01/01/21',
+        lastUpdateDate: '01/01/21',
       },
       relaunchProducts: () => { },
       retryRequests: () => { },

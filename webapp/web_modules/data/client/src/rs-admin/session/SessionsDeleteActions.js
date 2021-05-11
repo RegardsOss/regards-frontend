@@ -21,7 +21,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class SessionsDeleteActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions/{sessionId}`,
       namespace,
     })
   }

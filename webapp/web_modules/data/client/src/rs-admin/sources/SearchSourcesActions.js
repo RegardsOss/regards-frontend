@@ -15,22 +15,23 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
+ */
+import { BasicArrayActions } from '@regardsoss/store-utils'
 
-import { SessionStep } from './SessionStep'
-import { ManagerState } from './ManagerState'
+export default class SearchSourcesActions extends BasicArrayActions {
+  static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sources/names`
 
-export const Session = PropTypes.shape({
-  content: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    source: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    creationDate: PropTypes.string.isRequired,
-    lastUpdateDate: PropTypes.string.isRequired,
-    steps: PropTypes.arrayOf(SessionStep).isRequired,
-    managerState: ManagerState.isRequired,
-  }),
-})
+  static ENTITY_ID = 'source_id'
 
-export const SessionList = PropTypes.objectOf(Session)
-export const SessionArray = PropTypes.arrayOf(Session)
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: SearchSourcesActions.ENDPOINT,
+      entityPathVariable: SearchSourcesActions.ENTITY_ID,
+    })
+  }
+
+  autoCompleteActionDispatch(text) {
+    return this.fetchEntityList(null, { source: text })
+  }
+}

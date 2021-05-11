@@ -24,8 +24,8 @@ export const Source = PropTypes.shape({
   content: PropTypes.shape({
     name: PropTypes.string.isRequired,
     nbSessions: PropTypes.number.isRequired,
-    steps: PropTypes.arrayOf(SourceStepAggregation),
-    lastUpdate: PropTypes.string.isRequired,
+    steps: PropTypes.arrayOf(SourceStepAggregation).isRequired,
+    lastUpdateDate: PropTypes.string.isRequired,
     managerState: ManagerState.isRequired,
   }),
 })

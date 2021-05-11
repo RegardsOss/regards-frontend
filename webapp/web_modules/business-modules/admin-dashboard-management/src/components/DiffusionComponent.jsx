@@ -51,7 +51,7 @@ class DiffusionComponent extends React.Component {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
-        selectedSession: {
+        selectedSessionStyle: {
           cardStyle, cardTitleStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
           listItemStyle, raisedListStyle,
         },
