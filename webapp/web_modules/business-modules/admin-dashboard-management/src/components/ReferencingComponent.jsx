@@ -113,7 +113,7 @@ class ReferencingComponent extends React.Component {
         break
       default:
     }
-    this.closeRetryErrorsDialog()
+    this.toggleRetryErrorsDialog()
   }
 
   onSeeWaiting = () => {
@@ -175,7 +175,7 @@ class ReferencingComponent extends React.Component {
                 style={raisedListStyle}
               />
               <RaisedButton
-                onClick={() => this.openRetryErrorsDialog()}
+                onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
@@ -252,7 +252,7 @@ class ReferencingComponent extends React.Component {
                 style={raisedListStyle}
               />
               <RaisedButton
-                onClick={() => this.openRetryErrorsDialog()}
+                onClick={this.toggleRetryErrorsDialog}
                 label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
@@ -265,15 +265,10 @@ class ReferencingComponent extends React.Component {
     </div>
   }
 
-  openRetryErrorsDialog = () => {
+  toggleRetryErrorsDialog = () => {
+    const { isRetryErrorsDialogOpen } = this.state
     this.setState({
-      isRetryErrorsDialogOpen: true,
-    })
-  }
-
-  closeRetryErrorsDialog = () => {
-    this.setState({
-      isRetryErrorsDialogOpen: false,
+      isRetryErrorsDialogOpen: !isRetryErrorsDialogOpen
     })
   }
 
@@ -286,7 +281,7 @@ class ReferencingComponent extends React.Component {
           dialogType={ConfirmDialogComponentTypes.CONFIRM}
           title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
           onConfirm={() => this.onRetryErrors(type)}
-          onClose={() => this.closeRetryErrorsDialog()}
+          onClose={this.toggleRetryErrorsDialog}
         />
       )
     }

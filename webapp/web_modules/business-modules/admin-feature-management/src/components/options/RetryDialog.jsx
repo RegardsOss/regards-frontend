@@ -36,7 +36,7 @@ export class RetryDialog extends React.Component {
 
   render() {
     const { onClose, onConfirmRetry } = this.props
-    const { intl: { formatMessage, formatHTMLMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
       <Dialog
@@ -60,7 +60,7 @@ export class RetryDialog extends React.Component {
         modal={false}
         open
       >
-        {formatHTMLMessage({ id: 'feature.requests.confirm.retry.message' })}
+        {formatMessage({ id: 'feature.requests.confirm.retry.message' })}
       </Dialog>
     )
   }

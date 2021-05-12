@@ -36,7 +36,7 @@ export class DeleteDialog extends React.Component {
 
   render() {
     const { onClose, onConfirmDelete } = this.props
-    const { intl: { formatMessage, formatHTMLMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
       <Dialog
@@ -60,7 +60,7 @@ export class DeleteDialog extends React.Component {
         modal={false}
         open
       >
-        {formatHTMLMessage({ id: 'feature.references.confirm.delete.message' })}
+        {formatMessage({ id: 'feature.references.confirm.delete.message' })}
       </Dialog>
     )
   }

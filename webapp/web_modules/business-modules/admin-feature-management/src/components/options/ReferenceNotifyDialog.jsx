@@ -36,7 +36,7 @@ export class ReferenceNotifyDialog extends React.Component {
 
   render() {
     const { onClose, onConfirmNotify } = this.props
-    const { intl: { formatMessage, formatHTMLMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
       <Dialog
@@ -61,7 +61,7 @@ export class ReferenceNotifyDialog extends React.Component {
         modal={false}
         open
       >
-        {formatHTMLMessage({ id: 'feature.references.notify.message' })}
+        {formatMessage({ id: 'feature.references.notify.message' })}
       </Dialog>
     )
   }
