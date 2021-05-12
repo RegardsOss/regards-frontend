@@ -23,10 +23,10 @@ import { connect } from '@regardsoss/redux'
 import get from 'lodash/get'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
-import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
+import togeojson from '@mapbox/togeojson'
 import DragAndDrop from './DragAndDrop'
 import { getExtension } from './FileHelpers'
 import { UPLOADER_DISPLAY_MODES } from './UploaderDisplayModes'
@@ -38,6 +38,8 @@ const SUPPORTED_FORMATS = {
   GEOJSON: 'geojson',
   JSON: 'json',
   ZIP: 'zip',
+  KML: 'kml',
+  KMZ: 'kmz',
 }
 
 /**
@@ -91,9 +93,27 @@ class ToponymUploader extends React.Component {
       case SUPPORTED_FORMATS.JSON:
         return this.processJSON(files[0])
       case SUPPORTED_FORMATS.ZIP:
-        return this.processZip(files[0])
+        return this.processShapefile(files[0])
+      case SUPPORTED_FORMATS.KML:
+        return this.processKml(files[0])
+      case SUPPORTED_FORMATS.KMZ:
+        return this.processKmz(files[0])
       default:
         return throwError(formatMessage({ id: 'toponym.uploader.drop.unsupported-file' }))
+    }
+  }
+
+  cleanGeometry = (featureCollection) => {
+    // Ensure the geometry has no Z position on each point
+    const coordinates = map(get(featureCollection.features[0], 'geometry.coordinates[0]', []), (coord) => [coord[0], coord[1]])
+    return {
+      ...featureCollection.features[0],
+      geometry: {
+        ...featureCollection.features[0].geometry,
+        coordinates: [
+          coordinates,
+        ],
+      },
     }
   }
 
@@ -114,13 +134,19 @@ class ToponymUploader extends React.Component {
     if (!isEmpty(projection) && !projection.includes('CRS84')) {
       return throwError(formatMessage({ id: 'toponym.uploader.geojson.invalid-projection' }))
     }
-    const feature = featureCollection.features[0]
+    const feature = this.cleanGeometry(featureCollection)
     return uploadToponym(feature).then((actionResult) => {
       if (!actionResult.error) {
         const businessId = get(actionResult, 'payload.content.businessId', '')
         onToponymUploaded(businessId)
       }
     })
+  }
+
+  handleKML = (kmlContentFile) => {
+    const xmldom = (new DOMParser()).parseFromString(kmlContentFile, 'text/xml')
+    const geojson = togeojson.kml(xmldom)
+    return this.handleGeoJSON(geojson)
   }
 
   processJSON = (jsonFile) => {
@@ -132,7 +158,54 @@ class ToponymUploader extends React.Component {
     reader.readAsText(jsonFile)
   }
 
-  processZip = (zipFile) => {
+  processKml = (kmlFile) => {
+    const reader = new FileReader()
+    reader.onloadend = (e) => {
+      this.handleKML(e.target.result)
+    }
+    reader.readAsText(kmlFile)
+  }
+
+  processKmz = (zipFile) => {
+    const { formatMessage } = this.context.intl
+    const {
+      throwError,
+    } = this.props
+    require.ensure([], (require) => {
+      const JSZip = require('jszip')
+      JSZip.loadAsync(zipFile).then((zip) => {
+        const zipFiles = zip.file(/.+/)
+        let kmlFile
+        let nbFile = 0
+        // New with JSZip 3 - read all files concurrently
+        const readers = []
+
+        zipFiles.forEach((a) => {
+          const extension = getExtension(a)
+          if (extension === 'kml') {
+            const reader = a.async('string').then((content) => {
+              kmlFile = content
+            })
+            readers.push(reader)
+            nbFile += 1
+          }
+        })
+
+        Promise.all(readers).then(() => {
+          if (nbFile > 1) {
+            return throwError(formatMessage({ id: 'toponym.uploader.kmz.too-many-files' }))
+          }
+          if (nbFile === 0) {
+            return throwError(formatMessage({ id: 'toponym.uploader.kmz.missing-files' }))
+          }
+
+          return this.handleKML(kmlFile)
+        })
+      }).catch((reason) => throwError(formatMessage({ id: 'toponym.uploader.zip.parse.error' }, { reason })))
+    })
+  }
+
+  processShapefile = (zipFile) => {
     const { formatMessage } = this.context.intl
     const {
       throwError,
@@ -175,6 +248,7 @@ class ToponymUploader extends React.Component {
           }
 
           const features = shp.parseShp(shpFile, prjStr)
+          console.error('features : ', features)
 
           const featureCollection = {
             type: 'FeatureCollection',
@@ -200,7 +274,7 @@ class ToponymUploader extends React.Component {
     return (
       <DragAndDrop
         handleDrop={this.handleDrop}
-        resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
+        // resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
         onHideDisplayComponent={children}
         title={title}
         subtitle={subtitle}

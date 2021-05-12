@@ -23,6 +23,8 @@ import { processingChainManagementReducer } from '@regardsoss/admin-ingest-proce
 import { storageManagementReducer } from '@regardsoss/admin-storage-management'
 import { dataProviderManagementReducer } from '@regardsoss/admin-data-provider-management'
 import { oaisManagementReducer } from '@regardsoss/admin-oais-management'
+import { dashboardManagementReducer } from '@regardsoss/admin-dashboard-management'
+import { featureManagementReducer } from '@regardsoss/admin-feature-management'
 
 const acquisitionReducers = combineReducers({
   connection: connectionDataManagementReducer,
@@ -31,6 +33,8 @@ const acquisitionReducers = combineReducers({
   processingChain: processingChainManagementReducer,
   storage: storageManagementReducer,
   oais: oaisManagementReducer,
+  dashboard: dashboardManagementReducer,
+  feature: featureManagementReducer,
 })
 
 export default acquisitionReducers

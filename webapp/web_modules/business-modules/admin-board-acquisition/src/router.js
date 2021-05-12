@@ -86,6 +86,26 @@ export const oaisManagementRouter = {
   },
 }
 
+export const dashboardManagementRouter = {
+  path: 'dashboard',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const dashboardManagement = require('@regardsoss/admin-dashboard-management')
+      cb(null, [dashboardManagement.dashboardManagementRouter])
+    })
+  },
+}
+
+export const featureManagementRouter = {
+  path: 'featuremanager',
+  getChildRoutes(nextState, cb) {
+    require.ensure([], (require) => {
+      const featureManagement = require('@regardsoss/admin-feature-management')
+      cb(null, [featureManagement.featureManagementRouter])
+    })
+  },
+}
+
 const acquisitionRouter = {
   childRoutes: [
     boardRoute,
@@ -95,6 +115,8 @@ const acquisitionRouter = {
     connectionManagementRouter,
     storageManagementRouter,
     oaisManagementRouter,
+    dashboardManagementRouter,
+    featureManagementRouter,
   ],
 }
 

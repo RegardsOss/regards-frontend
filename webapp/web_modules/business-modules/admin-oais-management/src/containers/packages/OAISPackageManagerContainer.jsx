@@ -69,8 +69,6 @@ export class OAISPackageManagerContainer extends React.Component {
     },
   }
 
-  static PAGE_SIZE = 20
-
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -183,7 +181,7 @@ export class OAISPackageManagerContainer extends React.Component {
         updateStateFromFeatureManagerFilters={updateStateFromFeatureManagerFilters}
         updateStateFromPackageManager={updateStateFromPackageManager}
         urlFilters={urlFilters}
-        pageSize={OAISPackageManagerContainer.PAGE_SIZE}
+        pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
         pageMeta={meta}
         featureManagerFilters={featureManagerFilters}
         productFilters={productFilters}

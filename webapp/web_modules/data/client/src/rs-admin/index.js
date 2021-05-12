@@ -97,12 +97,21 @@ export { default as SearchSessionsActions } from './session/SearchSessionsAction
 export { default as getSearchSessionsReducer } from './session/SearchSessionsReducer'
 export { default as getSearchSessionsSelectors } from './session/SearchSessionsSelectors'
 
-export { default as SearchSourcesActions } from './session/SearchSourcesActions'
-export { default as getSearchSourcesReducer } from './session/SearchSourcesReducer'
-export { default as getSearchSourcesSelectors } from './session/SearchSourcesSelectors'
+export { default as SearchSourcesActions } from './sources/SearchSourcesActions'
+export { default as getSearchSourcesReducer } from './sources/SearchSourcesReducer'
+export { default as getSearchSourcesSelectors } from './sources/SearchSourcesSelectors'
+
+export { default as SelectedSessionActions } from './session/SelectedSessionActions'
+export { default as getSelectedSessionReducer } from './session/SelectedSessionReducer'
+export { default as getSelectedSessionSelectors } from './session/SelectedSessionSelectors'
 
 export { default as SessionsRelaunchProductActions } from './session/SessionsRelaunchProductActions'
 export { default as SessionsRelaunchAIPActions } from './session/SessionsRelaunchAIPActions'
+export { default as SessionsDeleteActions } from './session/SessionsDeleteActions'
+
+export { default as SourcesActions } from './sources/SourcesActions'
+export { default as getSourcesReducer } from './sources/SourcesReducer'
+export { default as getSourcesSelectors } from './sources/SourcesSelectors'
 
 export { default as MyUserActions } from './user/MyUserActions'
 export { default as getMyUserReducer } from './user/MyUserReducer'

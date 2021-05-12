@@ -24,6 +24,8 @@ import { processingChainManagementRouter } from '@regardsoss/admin-ingest-proces
 import { dataProviderManagementRouter } from '@regardsoss/admin-data-provider-management'
 import { storageManagementRouter } from '@regardsoss/admin-storage-management'
 import { oaisManagementRouter } from '@regardsoss/admin-oais-management'
+import { dashboardManagementRouter } from '@regardsoss/admin-dashboard-management'
+import { featureManagementRouter } from '@regardsoss/admin-feature-management'
 import Routes from '../src/router'
 import ModuleContainer from '../src/components/ModuleContainer'
 
@@ -33,7 +35,7 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(7)
+    expect(Routes.childRoutes).to.have.length(9)
     expect(Routes.childRoutes[0].path).to.eq('board')
     expect(Routes.childRoutes[1].path).to.eq('chain')
     expect(Routes.childRoutes[2].path).to.eq('dataprovider')
@@ -41,6 +43,8 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
     expect(Routes.childRoutes[4].path).to.eq('connection')
     expect(Routes.childRoutes[5].path).to.eq('storage')
     expect(Routes.childRoutes[6].path).to.eq('oais')
+    expect(Routes.childRoutes[7].path).to.eq('dashboard')
+    expect(Routes.childRoutes[8].path).to.eq('featuremanager')
   })
 
   it('should return BoardContainer', (done) => {
@@ -82,6 +86,18 @@ describe('[ADMIN BOARD Acquisition] Testing acquisition board router', () => {
   it('should return oaisManagementRouter', (done) => {
     Routes.childRoutes[6].getChildRoutes(undefined, (smth, component) => {
       expect(component[0]).to.eq(oaisManagementRouter)
+      done()
+    })
+  })
+  it('should return dashboardManagementRouter', (done) => {
+    Routes.childRoutes[7].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(dashboardManagementRouter)
+      done()
+    })
+  })
+  it('should return featureManagementRouter', (done) => {
+    Routes.childRoutes[8].getChildRoutes(undefined, (smth, component) => {
+      expect(component[0]).to.eq(featureManagementRouter)
       done()
     })
   })

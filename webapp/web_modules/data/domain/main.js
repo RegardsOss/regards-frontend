@@ -24,6 +24,7 @@ import * as ArchivalStorageDom from './archival-storage'
 import * as CatalogDom from './catalog'
 import * as CommonDom from './common'
 import * as DataProviderDom from './data-provider'
+import * as FemDom from './fem'
 import * as IngestDom from './ingest'
 import * as OrderDom from './order'
 import * as StorageDom from './storage'
@@ -39,6 +40,7 @@ export const ArchivalStorageDomain = ArchivalStorageDom
 export const CatalogDomain = CatalogDom
 export const CommonDomain = CommonDom
 export const DataProviderDomain = DataProviderDom
+export const FemDomain = FemDom
 export const IngestDomain = IngestDom
 export const OrderDomain = OrderDom
 export const StorageDomain = StorageDom

@@ -1,0 +1,62 @@
+{
+  "content":
+    {
+      "Test_Source1": {
+        "content": {
+          "name": "Test_Source1",
+          "nbSessions": 1,
+          "steps": [
+            {
+              "source": "Test_Source1",
+              "type": "ACQUISITION",
+              "totalIn": 30,
+              "totalOut": 30,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              }
+            },
+            {
+              "source": "Test_Source1",
+              "type": "REFERENCEMENT",
+              "totalIn": 30,
+              "totalOut": 30,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              }
+            },
+            {
+              "source": "Test_Source1",
+              "type": "STORAGE",
+              "totalIn": 30,
+              "totalOut": 30,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              }
+            },
+            {
+              "source": "Test_Source1",
+              "type": "DISSEMINATION",
+              "totalIn": 30,
+              "totalOut": 30,
+              "state": {
+                "errors": 3,
+                "waiting": 2,
+                "running": true
+              }
+            }
+          ],
+          "lastUpdate": "01/01/21",
+          "running": true,
+          "error": true,
+          "waiting": true
+        },
+        "links": []
+      }
+    }
+}

@@ -70,6 +70,8 @@ export { STORAGE_REQUEST, STORAGE_REQUEST_ARRAY, StorageRequestConfiguration } f
 export { RESOURCE_ACCESS, RESOURCE_ACCESS_ARRAY, ResourceAccessConfiguration } from './admin/ResourceAccess'
 export { ENDPOINT, ENDPOINT_ARRAY, EndpointConfiguration } from './admin/Endpoint'
 export { SESSION, SESSION_ARRAY, SessionConfiguration } from './admin/Session'
+export { SOURCE, SOURCE_ARRAY, SourceConfiguration } from './admin/Source'
+
 // Catalog
 export { ATTRIBUTE_BOUNDS, ATTRIBUTE_BOUNDS_ARRAY, AttributeBoundsConfiguration } from './catalog/AttributeBounds'
 export { ENTITY_ARRAY, ENTITY, EntityConfiguration } from './catalog/Entity'
@@ -92,3 +94,8 @@ export { ACQUISITION_FILE_ARRAY, ACQUISITION_FILE, AcquisitionFileConfiguration 
 export { PROCESSING, PROCESSING_ARRAY, ProcessingConfiguration } from './processing/Processing'
 export { PROCESSING_MONITORING, PROCESSING_MONITORING_ARRAY, ProcessingMonitoringConfiguration } from './processing/ProcessingMonitoring'
 export { LINK_PROCESSING_DATASET, LINK_PROCESSING_DATASET_ARRAY, LinkProcessingDatasetConfiguration } from './processing/LinkProcessingDataset'
+// Fem
+export { REFERENCE, REFERENCE_ARRAY, ReferenceConfiguration } from './fem/Reference'
+export {
+  REQUEST_FEM, REQUEST_FEM_ARRAY, RequestFemConfiguration, REQUEST_EXTRACTION_FEM, REQUEST_EXTRACTION_FEM_ARRAY, RequestFemExtractionConfiguration,
+} from './fem/Request'

@@ -44,6 +44,14 @@ const messages = {
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Permet de visualiser, par source et par session, une synthèse de l\'état des requêtes et d\'accéder à l\'écran de gestion des requêtes.',
+  'data.board.action.dashboard.tooltip': 'Tableau de bord',
+
+  'data.board.featuremanager.title': 'Feature Manager',
+  'data.board.featuremanager.description': 'Un écran de consultation, relance et suppression, dédié aux requêtes.',
+  'data.board.action.featuremanager.tooltip': 'Feature Manager',
+
 }
 
 export default messages

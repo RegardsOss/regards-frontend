@@ -44,6 +44,13 @@ const messages = {
   'data.board.storage.description': 'Configure one or multiples data storage locations.',
   'data.board.action.storages.tooltip': 'Configure locations',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Allows you to view, by source and by session, a summary of the status of requests and to access the feature management screen.',
+  'data.board.action.dashboard.tooltip': 'Tableau de bord',
+
+  'data.board.featuremanager.title': 'Feature Manager',
+  'data.board.featuremanager.description': 'A consultation, relaunch and deletion screen, dedicated to requests.',
+  'data.board.action.featuremanager.tooltip': 'Feature Manager',
 }
 
 export default messages

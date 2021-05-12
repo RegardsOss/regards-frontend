@@ -51,6 +51,20 @@ export class AddElementToCartContainer extends React.Component {
   ]
 
   /**
+   * Check if the entity contains at least one orderable file (any quicklook or any raw data)
+   * @param {*} entity
+   * @returns
+   */
+  static canOrderDataObject = (entity) => {
+    const {
+      content: {
+        files,
+      },
+    } = entity
+    return AddElementToCartContainer.ORDERABLE_FILES_TYPES.some((fileType) => get(files, `${fileType}.length`, 0) > 0)
+  }
+
+  /**
    * Callback: user adds entity into the basket
    */
   onAddElementToCart = () => {
@@ -66,19 +80,20 @@ export class AddElementToCartContainer extends React.Component {
    */
   canAddToCart() {
     const {
-      entity: {
-        content: {
-          entityType,
-          files,
-        },
-      },
+      entity,
     } = this.props
+    const {
+      content: {
+        entityType,
+      },
+    } = entity
+
     // add to cart is allowed when:
     // the object is a dataset (A)
-    // Or : the object is a data object and it contains ar least one orderable file (any quicklook or any raw data)
+    // Or : the object is a data object and has an orderable file (any quicklook or any raw data)
     return entityType === DamDomain.ENTITY_TYPES_ENUM.DATASET // (A)
       || (entityType === DamDomain.ENTITY_TYPES_ENUM.DATA
-        && AddElementToCartContainer.ORDERABLE_FILES_TYPES.some((fileType) => get(files, `${fileType}.length`, 0) > 0))// (B)
+        && AddElementToCartContainer.canOrderDataObject(entity))// (B)
   }
 
   render() {

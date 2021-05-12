@@ -1,5 +1,5 @@
 /**
- * Put in this file (method buildLocalServices) every local service structured as 
+ * Put in this file (method buildLocalServices) every local service structured as
  * {
  *   METHOD: {
  *     SERVICE_NAME: {
@@ -9,25 +9,27 @@
  *   }
  * }
  * Note: you can access gateway URL in handler context
- * 
+ *
  * When finding delegates, the server will use it instead of proxying the real server
  * The handler must return an object like:
- * { 
- *   content: (optional, string | object | binary content, default={}), 
+ * {
+ *   content: (optional, string | object | binary content, default={}),
  *   code: (optional, integer, default=200),
  *   contentType: (optional, string, default = 'application/json; charset=utf-8'),
  *   binary: (optional, boolean, default= false)
- * } 
+ * }
  * OR A PROMISE (in such case, the server-main will resolve the promise and except a similar result on end)
  */
 const _ = require('lodash')
 const fetch = require('node-fetch')
 const { MOCK_RESOURCES } = require('./resources/mock-resources')
-const { addLinks, loadFile, writeFile, logMessage } = require('./utils')
+const {
+  addLinks, loadFile, writeFile, logMessage,
+} = require('./utils')
 
 function findServiceWithType(type, condition) {
   const services = _.flowRight([_.flatten, _.values])(catalogServices)
-  return services.find(s => s.type === type && condition(s))
+  return services.find((s) => s.type === type && condition(s))
 }
 
 /**
@@ -35,8 +37,8 @@ function findServiceWithType(type, condition) {
  * @param {string} urlRoot URL root like {gateway}/api/v1/anything, does not include parameters
  * @return {function} to build contant URL based on parameters
  */
-function buildGetConstantProxiedURL(urlRoot){
-  return function getConstantProxiedURL(requestURL, parameters){
+function buildGetConstantProxiedURL(urlRoot) {
+  return function getConstantProxiedURL(requestURL, parameters) {
     return `${urlRoot}?${_.join(_.map(parameters, (value, key) => `${key}=${value}`), '&')}`
   }
 }
@@ -46,15 +48,15 @@ function buildGetConstantProxiedURL(urlRoot){
  * @param {string} gatewayURL regards gateway URL
  * @return {string} constant proxy URL builder (to include parameters values)
  */
-function buildREGARDSPassthroughProxiedURL(gatewayURL){
-  return function (requestURL, parameters){
+function buildREGARDSPassthroughProxiedURL(gatewayURL) {
+  return function (requestURL, parameters) {
     return `${gatewayURL}${requestURL}`
   }
 }
 
 /**
  * Decorates handler that require to fetch a server result in order to build a response
- * @param {Function} getProxiedURL method that builds URL to proxy on 
+ * @param {Function} getProxiedURL method that builds URL to proxy on
  * request URL (URL:string, parameters: {*}) => (URL:string)
  * @param {Function} handler handler (pathParams, queryParams, bodyParams) => { normal handler result}
  * @return {Function} request handler
@@ -65,7 +67,7 @@ function withProxyFetcher(getProxiedURL, handler) {
     // fetching induce promise resolution first
     const dynamicProxyURL = getProxiedURL(request.url, queryParams)
     logMessage(`Serving on proxy mock service using real back URL ${dynamicProxyURL}`, false, 'Local services')
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       fetch(dynamicProxyURL, {
         headers: request.headers,
       }).then((fetchedResults) => {
@@ -74,30 +76,33 @@ function withProxyFetcher(getProxiedURL, handler) {
           resolve({ code: fetchedResults.status, content: fetchedResults.statusText })
         } else {
           // note: fetch res.headers.raw() return an object where each field is an array: we need here to keep only a single value
-          const serverHeaders = _.reduce(fetchedResults.headers.raw(), (acc, [value], key) =>
-            Object.assign({ [key]: value }, acc), {}) // note: we reuse here accumulator for perfs
+          const serverHeaders = _.reduce(fetchedResults.headers.raw(), (acc, [value], key) => ({ [key]: value, ...acc }), {}) // note: we reuse here accumulator for perfs
           // read the content and provide it to subhandler
           fetchedResults.json().then((json) => {
-            const { content, code, contentType, binary, headers = {} } = handler(json, pathParams, queryParams, bodyParams)
-            resolve({ content, code, contentType, binary, headers: Object.assign({}, headers, serverHeaders) })
+            const {
+              content, code, contentType, binary, headers = {},
+            } = handler(json, pathParams, queryParams, bodyParams)
+            resolve({
+              content, code, contentType, binary, headers: { ...headers, ...serverHeaders },
+            })
           })
         }
       })
-    }).catch(error => resolve({ code: 500, content: error }))
+    }).catch((error) => resolve({ code: 500, content: error }))
   }
 }
 
 function getResourcesDependencies({ content, links, metadata }, pathParams, queryParams, bodyParams) {
   return {
     content: {
-      content: content.concat(MOCK_RESOURCES), 
+      content: content.concat(MOCK_RESOURCES),
       links,
       metadata: {
         size: metadata.size + MOCK_RESOURCES.length,
         totalElements: metadata.totalElements + MOCK_RESOURCES.length,
         totalPages: metadata.totalPages,
-      }
-    }
+      },
+    },
   }
 }
 
@@ -119,24 +124,25 @@ const fileExtToType = {
   md: {
     type: 'QUICKLOOK_MD',
     size: 256,
-  }, hd: {
+  },
+  hd: {
     type: 'QUICKLOOK_HD',
     size: 2048,
-  }
+  },
 }
 
 /** All quicklook definitions for mock */
-const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
+const quicklooksDataFiles = quicklooksFiles.reduce((acc, fileName, index) => {
   // get group name, type and resolution from file name
   const fileData = fileName.split('_')
-  let groupName = fileData[0]
+  const groupName = fileData[0]
   const types = []
   let width
   let height
   const commonDef = fileExtToType[fileData[1]]
-  const type = commonDef.type
-  if (groupName === 'unknown'){
-    if (type === 'QUICKLOOK_SD'){
+  const { type } = commonDef
+  if (groupName === 'unknown') {
+    if (type === 'QUICKLOOK_SD') {
       width = 12
       height = 128
     } else {
@@ -145,15 +151,15 @@ const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
     }
   } else {
     types.push(groupName)
-    if(groupName === 'large'){
-      if (type === 'QUICKLOOK_SD'){
+    if (groupName === 'large') {
+      if (type === 'QUICKLOOK_SD') {
         width = 128
         height = 12
       } else {
         width = 4000
         height = 300
       }
-    } else if (groupName ==='veryLarge'){
+    } else if (groupName === 'veryLarge') {
       width = 6000
       height = 4000
     } else {
@@ -162,7 +168,7 @@ const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
     }
   }
 
-  if (groupName === 'diamond'){
+  if (groupName === 'diamond') {
     types.push('primary')
   }
 
@@ -181,8 +187,8 @@ const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
         checksum: index.toString(),
         filename: fileName,
         types,
-      }
-    ]
+      },
+    ],
   }
 }, {
   QUICKLOOK_SD: [],
@@ -190,7 +196,7 @@ const quicklooksDataFiles = quicklooksFiles.reduce((acc,fileName, index) => {
   QUICKLOOK_HD: [],
 })
 
-function getDescriptionEntityWithMockQuicklooks({content, links}){
+function getDescriptionEntityWithMockQuicklooks({ content, links }) {
   return {
     content: {
       content: {
@@ -200,26 +206,28 @@ function getDescriptionEntityWithMockQuicklooks({content, links}){
           THUMBNAIL: [{
             dataType: 'THUMBNAIL',
             reference: true,
-            uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=0`,
+            uri: 'http://localhost:3000/api/v1/tempFiles?fileIndex=0',
             mimeType: 'image/png',
             imageWidth: 64,
             imageHeight: 64,
             online: true,
             checksum: '0',
-            filename: 'myThumbnail', 
+            filename: 'myThumbnail',
           }],
-          ...quicklooksDataFiles
-        }
+          ...quicklooksDataFiles,
+        },
       },
       links,
     },
   }
 }
 
-function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
+function getCatalogPageWithMockQuicklooks({
+  content, facets, links, metadata,
+}) {
   return {
     content: {
-      content: content.map(entity => ({
+      content: content.map((entity) => ({
         content: {
           ...entity.content,
           files: {
@@ -227,13 +235,13 @@ function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
             THUMBNAIL: [{
               dataType: 'THUMBNAIL',
               reference: true,
-              uri: `http://localhost:3000/api/v1/tempFiles?fileIndex=13`,
+              uri: 'http://localhost:3000/api/v1/tempFiles?fileIndex=13',
               mimeType: 'image/png',
               imageWidth: 300,
               imageHeight: 4000,
               online: true,
-              checksum: '0', 
-              filename: 'myThumbnail', 
+              checksum: '0',
+              filename: 'myThumbnail',
             }],
             ...quicklooksDataFiles,
           },
@@ -243,78 +251,77 @@ function getCatalogPageWithMockQuicklooks({content, facets, links, metadata}){
       facets,
       links,
       metadata,
-    }
+    },
   }
-
 }
 
 const tempFilesMap = [
   // for quicklook tests
-  ...quicklooksFiles.map(name => ({
+  ...quicklooksFiles.map((name) => ({
     name: `ql/${name}.png`,
     binary: true,
-    mimeType: 'image/png', 
+    mimeType: 'image/png',
   })),
   {
     name: 'CSS-TEST.css',
     binary: false,
-    mimeType: 'text/css', 
+    mimeType: 'text/css',
   }, {
     name: 'GIF-TEST.gif',
     binary: true,
-    mimeType: 'image/gif', 
+    mimeType: 'image/gif',
   }, {
     name: 'HTML-TEST.html',
     binary: false,
-    mimeType: 'text/html', 
+    mimeType: 'text/html',
   }, {
     name: 'JPEG-TEST.jpeg',
     binary: true,
-    mimeType: 'image/jpeg', 
+    mimeType: 'image/jpeg',
   }, {
     name: 'JPEG-BIG-TEST.jpeg',
     binary: true,
-    mimeType: 'image/jpeg', 
-  },  {
+    mimeType: 'image/jpeg',
+  }, {
     name: 'JSON-TEST.json',
     binary: false,
-    mimeType: 'application/json', 
+    mimeType: 'application/json',
   }, {
     name: 'JS-TEST.js',
     binary: false,
-    mimeType: 'application/javascript', 
+    mimeType: 'application/javascript',
   }, {
     name: 'MD-TEST.md',
     binary: false,
-    mimeType: 'text/markdown', 
+    mimeType: 'text/markdown',
   }, {
     name: 'PDF-TEST.pdf',
     binary: true,
-    mimeType: 'application/pdf', 
+    mimeType: 'application/pdf',
   }, {
     name: 'PNG-TEST.png',
     binary: true,
-    mimeType: 'image/png', 
+    mimeType: 'image/png',
   }, {
     name: 'TEXT-TEST.txt',
     binary: false,
-    mimeType: 'text/plain', 
+    mimeType: 'text/plain',
   }, {
     name: 'XHTML-TEST.xhtml',
     binary: false,
-    mimeType: 'application/xhtml+xml', 
+    mimeType: 'application/xhtml+xml',
   }, {
     name: 'XML-TEST.xml',
     binary: false,
-    mimeType: 'application/xml', 
+    mimeType: 'application/xml',
   }, {
     name: 'TEST-UNKNOWN.unk',
     binary: false,
-    mimeType: 'text/unknown', 
+    mimeType: 'text/unknown',
   },
 ]
 
-function compareOrder(attribute, order='ASC') {
+function compareOrder(attribute, order = 'ASC') {
   return function (a, b) {
     const stringA = a.content[attribute].toUpperCase()
     const stringB = b.content[attribute].toUpperCase()
@@ -325,7 +332,7 @@ function compareOrder(attribute, order='ASC') {
     } else if (stringA < stringB) {
       comparison = -1
     }
-    return (order ==='DESC' ? (comparison * -1) : comparison)
+    return (order === 'DESC' ? (comparison * -1) : comparison)
   }
 }
 
@@ -335,86 +342,95 @@ function buildLocalServices(gatewayURL) {
       // Mock: add missing dependencies
       proxyDependencies: {
         url: 'rs-admin/resources',
-        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getResourcesDependencies)
+        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getResourcesDependencies),
       },
       getSearchEngines: {
         url: 'rs-catalog/enginesconfig',
-        handler: (req, resp) => {
-          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengines.json')) }
-        }
+        handler: (req, resp) => ({ content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengines.json')) }),
       },
       getSearchEngine: {
         url: 'rs-catalog/enginesconfig/2',
-        handler: (req, resp) => {
-          return { content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengine.json')) }
-        }
+        handler: (req, resp) => ({ content: JSON.parse(loadFile('mocks/proxy/resources/mock-searchengine.json')) }),
       },
       getDescriptionEntityWithMockQuicklooks: {
-         url: 'rs-catalog/engines/legacy/entities/{entity}',
-         handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getDescriptionEntityWithMockQuicklooks)
+        url: 'rs-catalog/engines/legacy/entities/{entity}',
+        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getDescriptionEntityWithMockQuicklooks),
       },
       searchEntitiesWithMockQuicklooks: {
         url: 'rs-access-project/dataobjects/search',
-        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getCatalogPageWithMockQuicklooks)
+        handler: withProxyFetcher(buildREGARDSPassthroughProxiedURL(gatewayURL), getCatalogPageWithMockQuicklooks),
       },
 
       // wrap (description) http://localhost:3000/api/v1/rs-catalog/engines/legacy/entities/URN:AIP:DATA:project1:8239915a-bcc0-30a6-94bd-5435bf1539ad:V1
       // wrap (ql): http://localhost:3000/api/v1/rs-access-project/dataobjects/search?q=datasetModelNames%3AEmptyDataset&sort=properties.CREATION_DATE%2CASC&offset=0&page=0&size=500
 
-
       getTempFile: {
         url: 'tempFiles',
-        handler: (req, resp, pathParams, {fileIndex}) => {
+        handler: (req, resp, pathParams, { fileIndex }) => {
           const fileIndexAsNumber = parseInt(fileIndex, 10)
-          if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < tempFilesMap.length){
+          if (!isNaN(fileIndex) && fileIndex >= 0 && fileIndex < tempFilesMap.length) {
             const fileData = tempFilesMap[fileIndexAsNumber]
             return {
-              content: loadFile(`mocks/proxy/resources/files/${fileData.name}`, fileData.binary  ? 'binary' : 'utf-8'),
+              content: loadFile(`mocks/proxy/resources/files/${fileData.name}`, fileData.binary ? 'binary' : 'utf-8'),
               contentType: fileData.mimeType,
-              binary:  fileData.binary,
+              binary: fileData.binary,
             }
           }
           return { content: 'Invalid file index', code: 404 }
-        }
+        },
       },
-      getSession: {
-        url: 'rs-admin/sessions',
-        handler: (req, resp, pathParams, requestParams) => {
-          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
-          
-          if (requestParams.sort) {
-            let param = requestParams.sort
-            let content = [...myMock.content]
-            if (!Array.isArray(requestParams.sort)) {
-              param = [requestParams.sort]
-            }
-            param.reverse().forEach((element) => {
-              let split = element.split(',')
-              content.sort(compareOrder(split[0], split[1]))
-            })
-            myMock.content = content
-          }
+      // getSession: {
+      //   url: 'rs-admin/sessions',
+      //   handler: (req, resp, pathParams, requestParams) => {
+      //     const myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json'))
+
+      //     if (requestParams.sort) {
+      //       let param = requestParams.sort
+      //       const content = [...myMock.content]
+      //       if (!Array.isArray(requestParams.sort)) {
+      //         param = [requestParams.sort]
+      //       }
+      //       param.reverse().forEach((element) => {
+      //         const split = element.split(',')
+      //         content.sort(compareOrder(split[0], split[1]))
+      //       })
+      //       myMock.content = content
+      //     }
+      //     return { content: myMock }
+      //   },
+      // },
+      // getSourcesList: {
+      //   url: 'rs-admin/sessions/sources',
+      //   handler: (req, resp) => {
+      //     const myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+      //     return myMock
+      //   },
+      // },
+      // getSessionsList: {
+      //   url: 'rs-admin/sessions/names',
+      //   handler: (req, resp) => {
+      //     const myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
+      //     return myMock
+      //   },
+      // },
+      // getChainInfo: {
+      //   url: 'rs-dataprovider/chains/1',
+      //   handler: (req, resp) => {
+      //     const myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-chain-edit.json'))
+      //     return { content: myMock }
+      //   },
+      // },
+      getSources: {
+        url: 'rs-admin/sources',
+        handler: (req, resp) => {
+          const myMock = JSON.parse(loadFile('mocks/proxy/resources/sources.json'))
           return { content: myMock }
         },
       },
-      getSourcesList: {
-        url: 'rs-admin/sessions/sources',
+      getSessions: {
+        url: 'rs-admin/sessions',
         handler: (req, resp) => {
-          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
-          return myMock
-        },
-      },
-      getSessionsList: {
-        url: 'rs-admin/sessions/names',
-        handler: (req, resp) => {
-          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions-list.json'))
-          return myMock
-        },
-      },
-      getChainInfo: {
-        url: 'rs-dataprovider/chains/1',
-        handler: (req, resp) => {
-          let myMock = JSON.parse(loadFile('mocks/proxy/resources/mock-chain-edit.json'))
+          const myMock = JSON.parse(loadFile('mocks/proxy/resources/sessions.json'))
           return { content: myMock }
         },
       },
@@ -445,7 +461,7 @@ function buildLocalServices(gatewayURL) {
         url: 'rs-admin/sessions/3/acknowledge',
         handler: (req, resp) => {
           const result = JSON.parse(loadFile('mocks/proxy/resources/mock-sessions.json')).content[3]
-          result.content.state= 'ACKNOWLEDGED'
+          result.content.state = 'ACKNOWLEDGED'
           return { content: result }
         },
       },
