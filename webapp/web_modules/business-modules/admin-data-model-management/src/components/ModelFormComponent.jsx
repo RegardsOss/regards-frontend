@@ -21,7 +21,7 @@ import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import {
   RenderTextField,
   RenderFileFieldWithMui,
@@ -170,7 +170,7 @@ export class ModelFormComponent extends React.Component {
             <ShowableAtRender show={isCreating}>
               <hr />
               <br />
-              <FormattedMessage id="model.form.file" />
+              {formatMessage({ id: 'model.form.file' })}
               <Field
                 name="file"
                 component={RenderFileFieldWithMui}

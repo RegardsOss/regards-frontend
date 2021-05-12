@@ -34,7 +34,7 @@ import ContentCopy from 'mdi-material-ui/ContentCopy'
 import Settings from 'mdi-material-ui/VideoInputComponent'
 import Delete from 'mdi-material-ui/Delete'
 import ShowGroupUsersIcon from 'mdi-material-ui/OpenInNew'
-import { FormattedMessage } from 'react-intl'
+
 import { HateoasKeys } from '@regardsoss/display-control'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -96,8 +96,10 @@ export class AccessGroupListComponent extends React.Component {
   }
 
   renderDeleteConfirmDialog = () => {
+    const { intl: { formatMessage } } = this.context
+
     const name = this.state.entityToDelete ? this.state.entityToDelete.content.name : ' '
-    const title = this.context.intl.formatMessage({ id: 'group.list.delete.message' }, { name })
+    const title = formatMessage({ id: 'group.list.delete.message' }, { name })
     return (
       <ShowableAtRender
         show={this.state.deleteDialogOpened}
@@ -118,7 +120,8 @@ export class AccessGroupListComponent extends React.Component {
     const {
       accessGroupList, handleShowGroupUsers, handleEdit, handleEditAccessRights, handleDuplicate, createUrl, backUrl,
     } = this.props
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
+
     const style = {
       hoverButtonEdit: this.context.muiTheme.palette.primary1Color,
       hoverButtonDelete: this.context.muiTheme.palette.accent1Color,
@@ -128,8 +131,8 @@ export class AccessGroupListComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={intl.formatMessage({ id: 'group.list.title' })}
-          subtitle={intl.formatMessage({ id: 'group.list.subtitle' })}
+          title={formatMessage({ id: 'group.list.title' })}
+          subtitle={formatMessage({ id: 'group.list.subtitle' })}
         />
         <CardText>
           {this.renderDeleteConfirmDialog()}
@@ -142,9 +145,9 @@ export class AccessGroupListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.name' })}</TableHeaderColumn>
-                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.nbUser' })}</TableHeaderColumn>
-                <TableHeaderColumn>{intl.formatMessage({ id: 'group.list.table.actions' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'group.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'group.list.table.nbUser' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'group.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -157,21 +160,21 @@ export class AccessGroupListComponent extends React.Component {
                   <TableRowColumn>{accessGroup.content.name}</TableRowColumn>
                   <TableRowColumn>
                     { // Show number of users or ALL for public groups
-                    accessGroup.content.isPublic
-                      ? intl.formatMessage({ id: 'group.list.table.all.users' })
-                      : accessGroup.content.users.length
+                      accessGroup.content.isPublic
+                        ? formatMessage({ id: 'group.list.table.all.users' })
+                        : accessGroup.content.users.length
                     }
                   </TableRowColumn>
                   <TableRowColumn>
                     <ActionsMenuCell breakpoints={actionsBreakpoints}>
                       <IconButton
-                        title={intl.formatMessage({ id: 'group.list.table.actions.show.group.users' })}
+                        title={formatMessage({ id: 'group.list.table.actions.show.group.users' })}
                         onClick={() => handleShowGroupUsers(accessGroup.content.name)}
                       >
                         <ShowGroupUsersIcon hoverColor={style.hoverButtonEdit} />
                       </IconButton>
                       <HateoasIconAction
-                        title={intl.formatMessage({ id: 'group.list.table.actions.edit' })}
+                        title={formatMessage({ id: 'group.list.table.actions.edit' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onClick={() => handleEdit(accessGroup.content.name)}
@@ -179,14 +182,14 @@ export class AccessGroupListComponent extends React.Component {
                         <Edit hoverColor={style.hoverButtonEdit} />
                       </HateoasIconAction>
                       <ResourceIconAction
-                        title={intl.formatMessage({ id: 'group.list.table.actions.accessrights' })}
+                        title={formatMessage({ id: 'group.list.table.actions.accessrights' })}
                         resourceDependencies={accessRightDependencies.listAccessGroupAccessRightsDeps}
                         onClick={() => handleEditAccessRights(accessGroup.content.name)}
                       >
                         <Settings hoverColor={style.hoverButtonEdit} />
                       </ResourceIconAction>
                       <HateoasIconAction
-                        title={intl.formatMessage({ id: 'group.list.table.actions.duplicate' })}
+                        title={formatMessage({ id: 'group.list.table.actions.duplicate' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.UPDATE}
                         onClick={() => handleDuplicate(accessGroup.content.name)}
@@ -194,7 +197,7 @@ export class AccessGroupListComponent extends React.Component {
                         <ContentCopy hoverColor={style.hoverButtonDuplicate} />
                       </HateoasIconAction>
                       <HateoasIconAction
-                        title={intl.formatMessage({ id: 'group.list.table.actions.delete' })}
+                        title={formatMessage({ id: 'group.list.table.actions.delete' })}
                         entityLinks={accessGroup.links}
                         hateoasKey={HateoasKeys.DELETE}
                         onClick={() => this.openDeleteDialog(accessGroup)}
@@ -212,13 +215,11 @@ export class AccessGroupListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="group.list.action.add"
-              />
+              formatMessage({ id: 'group.list.action.add' })
             }
             mainButtonClassName="selenium-createButton"
             mainHateoasDependencies={AccessGroupListComponent.CREATE_DEPENDENCIES}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'group.list.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'group.list.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

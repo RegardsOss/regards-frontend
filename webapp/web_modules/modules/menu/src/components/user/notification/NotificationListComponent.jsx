@@ -32,7 +32,7 @@ import {
 } from '@regardsoss/components'
 import { List } from 'material-ui/List'
 import Subheader from 'material-ui/Subheader'
-import { FormattedMessage } from 'react-intl'
+
 import NotificationSystem from 'react-notification-system'
 import { AdminShapes } from '@regardsoss/shape'
 import FlatButton from 'material-ui/FlatButton'
@@ -184,7 +184,8 @@ class NotificationListComponent extends React.Component {
    * @param mode display mode
    */
   renderNotificationList = (mode, nbNotif) => {
-    const { moduleTheme: { notifications: notificationStyle } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { notifications: notificationStyle } } = this.context
+
     return [
       <List key={`title-${mode}`}>
         <Subheader
@@ -193,7 +194,7 @@ class NotificationListComponent extends React.Component {
         >
           <div style={notificationStyle.list.subHeader.titleWrapper}>
             {mode === this.state.mode ? <Less /> : <More />}
-            <FormattedMessage id={`user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title`} values={{ count: nbNotif }} />
+            {formatMessage({ id: `user.menu.notification.${mode === MODE.DISPLAY_UNREAD ? 'unread.' : ''}title` }, { count: nbNotif })}
           </div>
           {mode === MODE.DISPLAY_UNREAD
             ? <IconButton
@@ -235,7 +236,8 @@ class NotificationListComponent extends React.Component {
    * Renders the notification center dialog
    */
   renderNotificationDialog = () => {
-    const { moduleTheme: { notifications: { dialog } } } = this.context
+    const { moduleTheme: { notifications: { dialog } }, intl: { formatMessage } } = this.context
+
     const { openedNotification } = this.state
     const { isInstance } = this.props
     return openedNotification ? (
@@ -259,7 +261,7 @@ class NotificationListComponent extends React.Component {
         <CardActions style={dialog.details.actions.style}>
           <FlatButton
             label={
-              <FormattedMessage id="user.menu.notification.action.delete.read" />
+              formatMessage({ id: 'user.menu.notification.action.delete.read' })
             }
             key="delete"
             primary
@@ -267,7 +269,7 @@ class NotificationListComponent extends React.Component {
           />
           <FlatButton
             label={
-              <FormattedMessage id="user.menu.notification.action.close" />
+              formatMessage({ id: 'user.menu.notification.action.close' })
             }
             key="close"
             primary

@@ -20,7 +20,6 @@ import IconButton from 'material-ui/IconButton'
 import HelpCircle from 'mdi-material-ui/HelpCircle'
 import RaisedButton from 'material-ui/RaisedButton'
 import Dialog from 'material-ui/Dialog'
-import { FormattedHTMLMessage } from 'react-intl'
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 /**
@@ -61,7 +60,14 @@ class AttributeModelUnitFieldComponent extends React.Component {
         </>}
         modal
       >
-        <FormattedHTMLMessage id="attrmodel.form.unit.description.dialog.content" />
+        {
+          formatMessage({ id: 'attrmodel.form.unit.description.dialog.content' },
+            {
+              br: () => <br />,
+              ul: (chunks) => <ul>{chunks}</ul>,
+              li: (chunks) => <li>{chunks}</li>,
+            })
+        }
       </Dialog>
     )
   }

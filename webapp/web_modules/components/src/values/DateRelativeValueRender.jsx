@@ -19,6 +19,7 @@
 import isNaN from 'lodash/isNaN'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { selectUnit } from '@formatjs/intl-utils'
 
 /**
  * Component to display Date values group value
@@ -29,18 +30,19 @@ import { themeContextType } from '@regardsoss/theme'
 class DateRelativeValueRender extends React.Component {
   /**
    * Formats a date using intl and date text
-   * @param {formatMessage: function, formatDate: function, formatTime: function} intl intl context, with formatMessage,
+   * @param {formatMessage: function, formatRelativeTime: function} intl intl context, with formatMessage,
    * formatDate and formatTime
    * @param dateText date text
    * @return formatted date text if valid or null if invalid
    */
-  static getFormattedDate({ formatMessage, formatRelative }, dateText, displayOnlyFutureDate) {
+  static getFormattedDate({ formatMessage, formatRelativeTime }, dateText, displayOnlyFutureDate) {
     if (!dateText) {
       return null
     }
     const dateWrapper = new Date(dateText)
     if (!isNaN(dateWrapper.getDate()) && (!displayOnlyFutureDate || (dateWrapper > Date.now()))) {
-      return formatRelative(dateWrapper, { style: 'numeric' })
+      const { value, unit } = selectUnit(dateWrapper)
+      return formatRelativeTime(value, unit)
     }
     return null
   }

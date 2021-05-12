@@ -137,7 +137,7 @@ export class EnumeratedCriterionContainer extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update current options on context change and selected option on list change
@@ -167,7 +167,6 @@ export class EnumeratedCriterionContainer extends React.Component {
       }
     }
   }
-
 
   /**
    * Inner callback: updates state on user input
@@ -199,7 +198,7 @@ export class EnumeratedCriterionContainer extends React.Component {
    * Callback: the user selected a value
    * @param {string} test selected parameter value or validated text field value
    */
-  onFilterSelected = text => this.onTextInput(text)
+  onFilterSelected = (text) => this.onTextInput(text)
 
   /**
    * Method to display search criteria

@@ -22,7 +22,7 @@
  * @param theme Material UI theme, can be used to compute dynamic style values from current theme (automatically updated)
  * @author Raphaël Mechali
  */
-export default function getStyles(theme){
+export default function getStyles(theme) {
   return {
     menuStyle: {
       marginRight: 20,

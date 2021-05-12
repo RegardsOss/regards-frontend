@@ -18,7 +18,6 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { FormattedDate } from 'react-intl'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import FormattedNotificationDate from '../../../../src/components/user/notification/FormattedNotificationDate'
 import styles from '../../../../src/styles'
@@ -42,8 +41,6 @@ describe('[Menu] Testing FormattedNotificationDate', () => {
       notification: aNotif,
     }
     const enzymeWrapper = shallow(<FormattedNotificationDate {...props} />, { context })
-    const dateWrapper = enzymeWrapper.find(FormattedDate)
-    assert.lengthOf(dateWrapper, 1)
-    assert.deepEqual(dateWrapper.props().value, new Date(props.notification.date))
+    assert.deepEqual(enzymeWrapper.text(), aNotif.date)
   })
 })

@@ -102,7 +102,6 @@ describe('[Enumerated criterion] Testing EnumeratedCriterionComponent', () => {
       })
     })
 
-
     // 1 - check label is displayed
   })
   it('should render correctly fetching', () => {

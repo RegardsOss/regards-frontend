@@ -1,7 +1,7 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
+// const StatsPlugin = require('stats-webpack-plugin')
 const getCommonConfig = require('./webpack.common.config')
 
 
@@ -12,13 +12,11 @@ module.exports = function (projectContextPath) {
   process.env.NODE_ENV = 'development'
 
   return merge(config, {
+    mode: 'development',
     devtool: 'source-map',
     plugins: [
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-        },
       }),
       // Use the DLL every times your plugin depends of something that is already in the DLL
       new webpack.DllReferencePlugin({
@@ -39,9 +37,9 @@ module.exports = function (projectContextPath) {
         manifest: require(`${projectContextPath}/../../../dist/dev/core-manifest.json`),
         context: path.join(projectContextPath, '/../../../'),
       }),
-      new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../dev-plugins-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   })
 }

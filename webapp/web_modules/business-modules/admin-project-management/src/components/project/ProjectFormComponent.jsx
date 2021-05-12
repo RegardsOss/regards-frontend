@@ -189,6 +189,7 @@ export class ProjectFormComponent extends React.Component {
             <Field
               className="selenium-pick-crs"
               name="crs"
+              validate={required}
               fullWidth
               component={RenderSelectField}
               label={this.context.intl.formatMessage({ id: 'project.form.crs' })}

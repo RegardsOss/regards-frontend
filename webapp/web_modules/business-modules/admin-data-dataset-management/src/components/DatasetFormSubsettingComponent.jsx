@@ -21,7 +21,7 @@ import get from 'lodash/get'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import Subheader from 'material-ui/Subheader'
 import { DataManagementShapes } from '@regardsoss/shape'
 import TextField from 'material-ui/TextField'
@@ -63,11 +63,13 @@ export class DatasetFormSubsettingComponent extends React.Component {
   }
 
   getTitle = () => {
+    const { intl: { formatMessage } } = this.context
+
     const { isEditing } = this.props
     if (!isEditing) {
-      return this.context.intl.formatMessage({ id: 'dataset.create.title' })
+      return formatMessage({ id: 'dataset.create.title' })
     }
-    return this.context.intl.formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
+    return formatMessage({ id: 'dataset.edit.title' }, { name: this.props.currentDataset.content.label })
   }
 
   getPropertyAttributeName = (attribute) => {
@@ -86,11 +88,13 @@ export class DatasetFormSubsettingComponent extends React.Component {
     const {
       currentDataset, modelAttributeList, handleBack, onSubmit, handleTestSubsetting,
     } = this.props
+    const { intl: { formatMessage } } = this.context
+
     return (
       <Card>
         <CardTitle
           title={this.getTitle()}
-          subtitle={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.subtitle' })}
+          subtitle={formatMessage({ id: 'dataset.form.subsetting.subtitle' })}
         />
         <DatasetStepperContainer
           stepIndex={1}
@@ -102,7 +106,7 @@ export class DatasetFormSubsettingComponent extends React.Component {
           <div className="row">
             <div className="col-sm-30">
               <List>
-                <Subheader><FormattedMessage id="dataset.form.subsetting.attributes" /></Subheader>
+                <Subheader>{formatMessage({ id: 'dataset.form.subsetting.attributes' })}</Subheader>
                 {map(modelAttributeList, (modelAttribute, id) => (
                   <ListItem
                     primaryText={this.getPropertyAttributeName(modelAttribute.content.attribute)}
@@ -114,8 +118,8 @@ export class DatasetFormSubsettingComponent extends React.Component {
             </div>
             <div className="col-sm-70">
               <TextField
-                hintText={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.opensearch' })}
-                floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.opensearch' })}
+                hintText={formatMessage({ id: 'dataset.form.subsetting.opensearch' })}
+                floatingLabelText={formatMessage({ id: 'dataset.form.subsetting.opensearch' })}
                 type="text"
                 value={subsetting}
                 onChange={this.onSubsettingChange}
@@ -134,9 +138,9 @@ export class DatasetFormSubsettingComponent extends React.Component {
         </CardText>
         <CardActions>
           <CardActionsComponent
-            mainButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.next' })}
+            mainButtonLabel={formatMessage({ id: 'dataset.form.subsetting.action.next' })}
             mainButtonClick={() => { onSubmit(this.state.subsetting) }}
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.subsetting.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'dataset.form.subsetting.action.cancel' })}
             secondaryButtonClick={handleBack}
           />
         </CardActions>

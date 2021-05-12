@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
@@ -56,18 +56,17 @@ class AccountOperationMessage extends React.Component {
 
   render() {
     const { operationId, operationAction } = this.props
-    const { moduleTheme } = this.context
-
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <Card>
-        <CardTitle title={<FormattedMessage id={`${operationId}.title`} />} />
+        <CardTitle title={formatMessage({ id: `${operationId}.title` })} />
         <CardText>
-          <FormattedMessage id={`${operationId}.message`} />
+          {formatMessage({ id: `${operationId}.message` })}
         </CardText>
         <CardActions style={moduleTheme.action}>
           <RaisedButton
             onClick={operationAction}
-            label={<FormattedMessage id={`${operationId}.option`} />}
+            label={formatMessage({ id: `${operationId}.option` })}
             primary
             type="submit"
           />

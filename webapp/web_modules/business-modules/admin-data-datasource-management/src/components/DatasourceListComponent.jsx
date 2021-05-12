@@ -21,7 +21,7 @@ import {
 } from 'material-ui/Card'
 import FlatButton from 'material-ui/FlatButton'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
+
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
   TableLayout, InfiniteTableContainer, TableColumnBuilder,
@@ -182,9 +182,7 @@ export default class DatasourceListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="datasource.list.action.add"
-              />
+              formatMessage({ id: 'datasource.list.action.add' })
             }
             mainHateoasDependencies={DatasourceListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'datasource.list.action.cancel' })}

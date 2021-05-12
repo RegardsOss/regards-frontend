@@ -23,6 +23,7 @@ export default [{
     nbStorageError: 0,
     nbFilesStored: 0,
     totalStoredFilesSize: 0,
+    allowsPhysicalDeletion: true,
     configuration: {
       id: 1,
       name: 'Disk storage 1',
@@ -47,6 +48,7 @@ export default [{
     nbDeletionError: 0,
     nbStorageError: 0,
     nbFilesStored: 0,
+    allowsPhysicalDeletion: true,
     configuration: {
       name: 'Disk storage 2',
       id: 2,
@@ -71,6 +73,7 @@ export default [{
     nbDeletionError: 0,
     nbStorageError: 0,
     nbFilesStored: 0,
+    allowsPhysicalDeletion: false,
     configuration: {
       name: 'STAF storage 1',
       id: 3,
@@ -95,6 +98,7 @@ export default [{
     nbDeletionError: 0,
     nbStorageError: 0,
     nbFilesStored: 0,
+    allowsPhysicalDeletion: false,
     configuration: {
       id: 4,
       name: 'STAF storage 2',

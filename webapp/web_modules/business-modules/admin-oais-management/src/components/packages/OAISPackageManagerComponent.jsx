@@ -700,7 +700,6 @@ export class OAISPackageManagerComponent extends React.Component {
                 <ResourceFlatButton
                   displayLogic={allMatchHateoasDisplayLogic}
                   resourceDependencies={dependencies.updateDependency}
-                  hideDisabled
                   key="modifySelection"
                   title={formatMessage({ id: 'oais.packages.tooltip.selection.modify' })}
                   label={formatMessage({ id: 'oais.packages.list.filters.buttons.modify' })}
@@ -712,7 +711,6 @@ export class OAISPackageManagerComponent extends React.Component {
                   key="deleteSelection"
                   displayLogic={allMatchHateoasDisplayLogic}
                   resourceDependencies={dependencies.deleteDependency}
-                  hideDisabled
                   title={formatMessage({ id: 'oais.packages.tooltip.selection.delete' })}
                   label={formatMessage({ id: 'oais.packages.list.filters.buttons.delete' })}
                   icon={<Delete />}

@@ -19,9 +19,11 @@
 import { shallow } from 'enzyme'
 import sinon from 'sinon'
 import { expect, assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { MicroserviceBoardContainer } from '../../src/containers/MicroserviceBoardContainer'
 import MicroserviceBoardComponent from '../../src/components/MicroserviceBoardComponent'
+
+const context = buildTestContext()
 
 /**
  * Plugin tests
@@ -51,7 +53,7 @@ describe('[ADMIN MICROSERVICE MANAGEMENT] Testing microservice board container',
         project: 'projectName',
       },
     }
-    const enzymeWrapper = shallow(<MicroserviceBoardContainer {...props} />)
+    const enzymeWrapper = shallow(<MicroserviceBoardContainer {...props} />, { context })
     expect(enzymeWrapper.find(MicroserviceBoardComponent)).to.have.length(1)
   })
 })

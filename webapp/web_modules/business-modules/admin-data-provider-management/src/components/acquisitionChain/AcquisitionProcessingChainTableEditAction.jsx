@@ -57,7 +57,6 @@ class AcquisitionProcessingChainTableEditAction extends React.Component {
     return (
       <ResourceIconAction
         resourceDependencies={AcquisitionProcessingChainTableEditAction.editDependency}
-        hideDisabled={false}
         className={`selenium-edit-${chain.chainId}`}
         title={formatMessage({ id: 'acquisition-chain.list.edit.tooltip' })}
         iconStyle={AcquisitionProcessingChainTableEditAction.iconStyle}

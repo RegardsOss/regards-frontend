@@ -79,7 +79,7 @@ export class EnumeratedCriterionComponent extends React.Component {
    * Lifecycle method: component receive props. Used here to detect properties change and update local state
    * @param {*} nextProps next component properties
    */
-  UNSAFE_componentWillReceiveProps = nextProps => this.onPropertiesUpdated(this.props, nextProps)
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
    * Properties change detected: update local state
@@ -90,7 +90,7 @@ export class EnumeratedCriterionComponent extends React.Component {
     // when available values change, rebuild the hints datasource (avoids consuming time and memory at render)
     if (oldProps.availablePropertyValues !== newProps.availablePropertyValues) {
       this.setState({
-        currentHints: (newProps.availablePropertyValues || []).map(value => ({
+        currentHints: (newProps.availablePropertyValues || []).map((value) => ({
           id: value, // element id
           text: value, // element text (similar)
           value: <MenuItem primaryText={value} />, // graphical value (in menu)

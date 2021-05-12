@@ -15,21 +15,27 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
+ **/
+
+/**
+ * Webpack configuration file
+ * Override the default dev configuration in order to run the app with the Regards continuous integration backend on VM perf.
  */
-import isNil from 'lodash/isNil'
-import { UIDomain } from '@regardsoss/domain'
+const webpackConfigurator = require('@regardsoss/webpack-config-front')
+const webpack = require('webpack')
 
-export function getLocalizedIntlStub(locale = UIDomain.LOCALES_ENUM.en) {
-  return {
-    locale,
-    formatMessage: (m) => m.id,
-    formatDate: (date) => date && date.toISOString ? date.toISOString() : date,
-    formatTime: () => { },
-    formatRelativeTime: () => { },
-    formatNumber: (n) => isNil(n) ? '' : n.toString(),
-    formatPlural: () => { },
-    now: () => { },
-  }
-}
+const conf = webpackConfigurator
+  .generateConfig({
+    mode: 'dev',
+    projectContextPath: __dirname,
+  })
+  .merge({
+    plugins: [
+      new webpack.DefinePlugin({
+        GATEWAY_HOSTNAME: JSON.stringify('https://regards-pp.cnes.fr'),
+      }),
+    ],
+  })
+  .get()
 
-export const IntlStub = getLocalizedIntlStub()
+module.exports = conf

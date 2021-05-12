@@ -9,12 +9,13 @@ RUN groupadd -g ${TUXGID} tux \
 
 VOLUME /app_to_build
 
-COPY install.sh install-plugin.sh build_webapp.sh build_plugin.sh run_coverage.sh /
+COPY install.sh install-plugin.sh build_webapp.sh lint_webapp.sh build_plugin.sh run_coverage.sh /
 
 	# Set rights on scripts
 RUN chmod +x /install.sh \
 			/install-plugin.sh \
 			/build_webapp.sh \
+			/lint_webapp.sh \
 			/run_coverage.sh \
 			/build_plugin.sh
 
@@ -28,3 +29,5 @@ RUN npm config set strict-ssl false --no-update-notifier \
 
 ENV https_proxy "http://proxy2.si.c-s.fr:3128"
 ENV no_proxy "172.26.46.158,172.26.47.129"
+# Set max number of CPU
+ENV NB_THREAD "1"

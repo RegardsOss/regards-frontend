@@ -1,6 +1,5 @@
 const runShell = require('./runShell')
 
-
 // Save the plugin into the webpack dev server public folder
 module.exports = function (oldConf, frontendWebappPath, pluginType, pluginName) {
   return runShell(oldConf, {

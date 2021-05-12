@@ -19,7 +19,7 @@
 import get from 'lodash/get'
 import isEmpty from 'lodash/isEmpty'
 import MoodIcon from 'mdi-material-ui/EmoticonOutline'
-import { FormattedMessage } from 'react-intl'
+
 import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton'
 import {
   Card, CardActions, CardText, CardTitle,
@@ -149,6 +149,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
   renderDescription = () => {
     const {
       moduleTheme: { markdownDialog },
+      intl: { formatMessage },
     } = this.context
 
     let button
@@ -161,7 +162,7 @@ export class SearchEngineConfigurationFormComponent extends React.Component {
           onClick={this.handleOpenDescriptionDialog}
           href="#"
         >
-          <FormattedMessage id="plugin.configuration.form.description.more" />
+          {formatMessage({ id: 'plugin.configuration.form.description.more' })}
         </a>
       )
     }

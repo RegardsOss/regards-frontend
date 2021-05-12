@@ -21,7 +21,7 @@ import map from 'lodash/map'
 import keys from 'lodash/keys'
 import values from 'lodash/values'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Step, Stepper, StepButton, StepContent,
 } from 'material-ui/Stepper'
@@ -93,6 +93,8 @@ class GuidedProjectConfigurationComponent extends React.Component {
   }
 
   getStepButton = (microservice, projectConnection, key) => {
+    const { intl: { formatMessage } } = this.context
+
     const stepButtonProps = {
       onClick: () => this.setState({ stepIndex: parseInt(key, 10) }),
     }
@@ -107,10 +109,7 @@ class GuidedProjectConfigurationComponent extends React.Component {
 
     return (
       <StepButton {...stepButtonProps}>
-        <FormattedMessage
-          id="database.form.edit.title"
-          values={titleLabelValues}
-        />
+        {formatMessage({ id: 'database.form.edit.title' }, { titleLabelValues })}
       </StepButton>
     )
   }

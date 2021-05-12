@@ -24,7 +24,7 @@ import { CardTitle, CardText } from 'material-ui/Card'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import { DataManagementShapes } from '@regardsoss/shape'
 import { RenderTextField, Field } from '@regardsoss/form-utils'
 import { themeContextType } from '@regardsoss/theme'
@@ -58,6 +58,7 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
     const {
       modelAttributeList, table, tableAttributeList, change,
     } = this.props
+    const { intl: { formatMessage } } = this.context
 
     const mappingLines = flow(
       fpsortBy('content.attribute.optional'),
@@ -76,8 +77,8 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
     return (
       <div>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.custom.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'datasource.form.mapping.custom.subtitle' })}
+          title={formatMessage({ id: 'datasource.form.mapping.custom.title' })}
+          subtitle={formatMessage({ id: 'datasource.form.mapping.custom.subtitle' })}
         />
         <CardText>
           <Field
@@ -85,7 +86,7 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
             fullWidth
             component={RenderTextField}
             type="text"
-            label={this.context.intl.formatMessage({ id: 'datasource.form.mapping.custom.fromClause' })}
+            label={formatMessage({ id: 'datasource.form.mapping.custom.fromClause' })}
             multiLine
           />
         </CardText>
@@ -98,8 +99,8 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
             displaySelectAll={false}
           >
             <TableRow>
-              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.attributeStatic" /></TableHeaderColumn>
-              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.dbValue" /></TableHeaderColumn>
+              <TableHeaderColumn>{formatMessage({ id: 'datasource.form.mapping.table.attributeStatic' })}</TableHeaderColumn>
+              <TableHeaderColumn>{formatMessage({ id: 'datasource.form.mapping.table.dbValue' })}</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody
@@ -129,8 +130,8 @@ export class DBDatasourceFormMappingCustomComponent extends React.Component {
             displaySelectAll={false}
           >
             <TableRow>
-              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.attribute" /></TableHeaderColumn>
-              <TableHeaderColumn><FormattedMessage id="datasource.form.mapping.table.dbValue" /></TableHeaderColumn>
+              <TableHeaderColumn>{formatMessage({ id: 'datasource.form.mapping.table.attribute' })}</TableHeaderColumn>
+              <TableHeaderColumn>{formatMessage({ id: 'datasource.form.mapping.table.dbValue' })}</TableHeaderColumn>
             </TableRow>
           </TableHeader>
           <TableBody

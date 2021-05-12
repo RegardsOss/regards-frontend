@@ -20,7 +20,7 @@ import { browserHistory } from 'react-router'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import map from 'lodash/map'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -61,6 +61,8 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const style = {
       display: 'flex',
       alignItems: 'center',
@@ -77,13 +79,13 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
       <div>
         <Card>
           <CardTitle
-            title={this.context.intl.formatMessage({ id: 'dataset.form.create.title' })}
-            subtitle={this.context.intl.formatMessage({ id: 'dataset.form.create.subtitle' })}
+            title={formatMessage({ id: 'dataset.form.create.title' })}
+            subtitle={formatMessage({ id: 'dataset.form.create.subtitle' })}
           />
           <CardText>
             <SelectField
               className="selenium-pickDatasource"
-              floatingLabelText={this.context.intl.formatMessage({ id: 'dataset.form.create.datasource' })}
+              floatingLabelText={formatMessage({ id: 'dataset.form.create.datasource' })}
               onChange={this.handleChange}
               value={currentDatasource}
               fullWidth
@@ -102,12 +104,10 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
             <CardActionsComponent
               mainButtonClick={() => { handleDone(currentDatasource) }}
               mainButtonLabel={
-                <FormattedMessage
-                  id="dataset.form.create.action.next"
-                />
+                formatMessage({ id: 'dataset.form.create.action.next' })
               }
               isMainButtonDisabled={currentDatasource === undefined}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'dataset.form.create.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'dataset.form.create.action.cancel' })}
               secondaryButtonUrl={backUrl}
             />
           </CardActions>
@@ -115,7 +115,7 @@ export class DatasetCreateOrPickDatasourceComponent extends React.Component {
         <Card>
           <div style={style}>
             <RaisedButton
-              label={this.context.intl.formatMessage({ id: 'dataset.form.create.action.datasource' })}
+              label={formatMessage({ id: 'dataset.form.create.action.datasource' })}
               secondary
               style={styleButton}
               onClick={this.goToDatasource}

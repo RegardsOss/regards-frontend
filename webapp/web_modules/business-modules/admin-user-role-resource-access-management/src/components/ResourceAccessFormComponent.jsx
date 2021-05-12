@@ -21,7 +21,7 @@ import values from 'lodash/values'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import { ListItem } from 'material-ui/List'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -67,7 +67,8 @@ export class ResourceAccessFormComponent extends React.Component {
 
   render() {
     const { backUrl, microserviceList, currentRole } = this.props
-    const { moduleTheme } = this.context
+    const { moduleTheme, intl: { formatMessage } } = this.context
+
     const { activeMicroservice } = this.state
     const {
       microserviceSplitPanel: {
@@ -77,8 +78,8 @@ export class ResourceAccessFormComponent extends React.Component {
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'role.list.title' }, { role: this.getRoleLabel(currentRole.content.name) })}
-          subtitle={this.context.intl.formatMessage({ id: 'role.list.subtitle' })}
+          title={formatMessage({ id: 'role.list.title' }, { role: this.getRoleLabel(currentRole.content.name) })}
+          subtitle={formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>
           <div style={layoutStyle}>
@@ -114,9 +115,7 @@ export class ResourceAccessFormComponent extends React.Component {
         <CardActions>
           <CardActionsComponent
             mainButtonLabel={
-              <FormattedMessage
-                id="role.list.action.back"
-              />
+              formatMessage({ id: 'role.list.action.back' })
             }
             mainButtonUrl={backUrl}
           />

@@ -16,10 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { intlShape } from 'react-intl'
-
+// Last react-intl does not provide any proptypes anymore
 const contextType = {
-  intl: intlShape,
+  intl: PropTypes.shape({
+    locale: PropTypes.string,
+    formatMessage: PropTypes.function,
+    formatDate: PropTypes.function,
+    formatTime: PropTypes.function,
+    formatRelativeTime: PropTypes.function,
+    formatNumber: PropTypes.function,
+    formatPlural: PropTypes.function,
+    now: PropTypes.function,
+  }).isRequired,
+
 }
 
 export default contextType

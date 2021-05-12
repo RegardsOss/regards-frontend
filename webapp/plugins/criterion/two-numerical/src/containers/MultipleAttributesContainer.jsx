@@ -178,14 +178,12 @@ export class MultipleAttributesContainer extends React.Component {
     return (
       <MultipleAttributesComponent
         label={label}
-
         attribute1={firstField}
         error1={error1}
         value1={value1}
         comparator1={comparator1}
         availableComparators1={MultipleAttributesContainer.getAvailableComparators(firstField)}
         onValue1Changed={this.onValue1Changed}
-
         error2={error2}
         attribute2={secondField}
         value2={value2}

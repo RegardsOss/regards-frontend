@@ -18,7 +18,7 @@
  */
 import values from 'lodash/values'
 import trim from 'lodash/trim'
-import { FormattedMessage } from 'react-intl'
+
 import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
@@ -89,7 +89,7 @@ export class AccountRequestFormComponent extends React.Component {
       requestFormId, errorMessage, submitting,
       invalid, onRequestAction, handleSubmit,
     } = this.props
-    const { moduleTheme } = this.context
+    const { intl: { formatMessage }, moduleTheme } = this.context
     return (
       <div style={moduleTheme.layout}>
         <form
@@ -98,8 +98,8 @@ export class AccountRequestFormComponent extends React.Component {
         >
           <Card>
             <CardTitle
-              title={<FormattedMessage id={`${requestFormId}.title`} />}
-              subtitle={<FormattedMessage id={`${requestFormId}.message`} />}
+              title={formatMessage({ id: `${requestFormId}.title` })}
+              subtitle={formatMessage({ id: `${requestFormId}.message` })}
             />
             <CardText>
               <FormErrorMessage>{errorMessage}</FormErrorMessage>

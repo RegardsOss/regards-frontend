@@ -18,7 +18,7 @@
  **/
 import map from 'lodash/map'
 import { browserHistory } from 'react-router'
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import KeyboardArrowUp from 'mdi-material-ui/ChevronUp'
 import KeyboardArrowDown from 'mdi-material-ui/ChevronDown'
@@ -86,12 +86,14 @@ class BaseBoardComponent extends React.Component {
   }
 
   renderAdvancedToggle = (computedStyles) => {
+    const { intl: { formatMessage } } = this.context
+
     if (!this.props.advancedBoardItemComponents || this.props.advancedBoardItemComponents.length === 0) {
       return null
     }
     const labelToggleAdvanced = this.state.showAdvanced
-      ? <FormattedMessage id="hideAdvanced" />
-      : <FormattedMessage id="showAdvanced" />
+      ? formatMessage({ id: 'hideAdvanced' })
+      : formatMessage({ id: 'showAdvanced' })
     const iconToggleAdvanced = this.state.showAdvanced
       ? <KeyboardArrowUp />
       : <KeyboardArrowDown />

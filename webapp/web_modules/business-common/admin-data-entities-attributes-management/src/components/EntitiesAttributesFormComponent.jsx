@@ -20,7 +20,6 @@ import map from 'lodash/map'
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -42,6 +41,7 @@ export class EntitiesAttributesFormComponent extends React.Component {
 
   render() {
     const { modelAttributeList, isEditing } = this.props
+    const { intl: { formatMessage } } = this.context
     return (
       <Table
         selectable={false}
@@ -52,9 +52,9 @@ export class EntitiesAttributesFormComponent extends React.Component {
           displaySelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.fragmentAndLabel" /></TableHeaderColumn>
-            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.type" /></TableHeaderColumn>
-            <TableHeaderColumn><FormattedMessage id="entities-attributes.form.table.value" /></TableHeaderColumn>
+            <TableHeaderColumn>{formatMessage({ id: 'entities-attributes.form.table.fragmentAndLabel' })}</TableHeaderColumn>
+            <TableHeaderColumn>{formatMessage({ id: 'entities-attributes.form.table.type' })}</TableHeaderColumn>
+            <TableHeaderColumn>{formatMessage({ id: 'entities-attributes.form.table.value' })}</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody

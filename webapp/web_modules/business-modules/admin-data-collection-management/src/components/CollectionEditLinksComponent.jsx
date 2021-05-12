@@ -20,7 +20,7 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { List, ListItem } from 'material-ui/List'
-import { FormattedMessage } from 'react-intl'
+
 import map from 'lodash/map'
 import Add from 'mdi-material-ui/PlusCircleOutline'
 import Clear from 'mdi-material-ui/Close'
@@ -75,14 +75,16 @@ export class CollectionEditLinksComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const {
       linkedCollections, collectionStringTags, remainingCollections, handleAdd, handleDelete, handleSearch, doneUrl, backUrl, projectName, collectionId,
     } = this.props
     return (
       <Card>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'collection.form.links.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'collection.form.links.subtitle' })}
+          title={formatMessage({ id: 'collection.form.links.title' })}
+          subtitle={formatMessage({ id: 'collection.form.links.subtitle' })}
         />
         <CollectionStepperComponent
           stepIndex={2}
@@ -94,11 +96,11 @@ export class CollectionEditLinksComponent extends React.Component {
           <div className="row">
             <div className="col-sm-48">
               <List>
-                <Subheader><FormattedMessage id="collection.form.links.remainingcollection.subtitle" /></Subheader>
+                <Subheader>{formatMessage({ id: 'collection.form.links.remainingcollection.subtitle' })}</Subheader>
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'collection.form.links.remainingcollection.search' })}
+                      hintText={formatMessage({ id: 'collection.form.links.remainingcollection.search' })}
                       onChange={handleSearch}
                       fullWidth
                     />
@@ -129,7 +131,7 @@ export class CollectionEditLinksComponent extends React.Component {
             </div>
             <div className="col-sm-48 col-sm-offset-4 ">
               <List>
-                <div><FormattedMessage id="collection.form.links.collection.subtitle" /></div>
+                <div>{formatMessage({ id: 'collection.form.links.collection.subtitle' })}</div>
                 <br />
                 <Divider />
                 {map(linkedCollections, (collection, id) => (
@@ -146,17 +148,17 @@ export class CollectionEditLinksComponent extends React.Component {
                 ))}
                 <ShowableAtRender show={linkedCollections.length === 0}>
                   <ListItem
-                    primaryText={this.context.intl.formatMessage({ id: 'collection.form.links.collection.none' })}
+                    primaryText={formatMessage({ id: 'collection.form.links.collection.none' })}
                     disabled
                   />
                 </ShowableAtRender>
-                <div><FormattedMessage id="collection.form.links.tag.subtitle" /></div>
+                <div>{formatMessage({ id: 'collection.form.links.tag.subtitle' })}</div>
                 <br />
                 <Divider />
                 <ListItem
                   primaryText={
                     <TextField
-                      hintText={this.context.intl.formatMessage({ id: 'collection.form.links.tag.add' })}
+                      hintText={formatMessage({ id: 'collection.form.links.tag.add' })}
                       onChange={this.handleCreateTagChange}
                       value={this.state.tagField}
                       fullWidth
@@ -167,7 +169,7 @@ export class CollectionEditLinksComponent extends React.Component {
                       <br />
                       <IconButton
                         onClick={this.handleCreateTag}
-                        tooltip={this.context.intl.formatMessage({ id: 'collection.form.links.tag.add.button' })}
+                        tooltip={formatMessage({ id: 'collection.form.links.tag.add.button' })}
                       >
                         <Add />
                       </IconButton>
@@ -182,7 +184,7 @@ export class CollectionEditLinksComponent extends React.Component {
                     rightIconButton={
                       <IconButton
                         onClick={() => handleDelete(tag)}
-                        tooltip={this.context.intl.formatMessage({ id: 'collection.form.links.tag.remove.button' })}
+                        tooltip={formatMessage({ id: 'collection.form.links.tag.remove.button' })}
                       >
                         <Clear />
                       </IconButton>
@@ -198,11 +200,9 @@ export class CollectionEditLinksComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={doneUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="collection.form.links.action.done"
-              />
+              formatMessage({ id: 'collection.form.links.action.done' })
             }
-            secondaryButtonLabel={this.context.intl.formatMessage({ id: 'collection.form.links.action.cancel' })}
+            secondaryButtonLabel={formatMessage({ id: 'collection.form.links.action.cancel' })}
             secondaryButtonUrl={backUrl}
           />
         </CardActions>

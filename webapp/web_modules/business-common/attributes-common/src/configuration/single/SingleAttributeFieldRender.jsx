@@ -20,7 +20,6 @@ import omit from 'lodash/omit'
 import compose from 'lodash/fp/compose'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import { connect } from '@regardsoss/redux'
-import { intlShape } from 'react-intl'
 import { UIDomain } from '@regardsoss/domain'
 import { DataManagementShapes } from '@regardsoss/shape'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -40,7 +39,7 @@ export class SingleAttributeFieldRender extends React.Component {
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     label: PropTypes.string.isRequired,
-    intl: intlShape.isRequired,
+    ...i18nContextType,
     // From mapStateToProps
     i18n: PropTypes.string, // automatically add by REGARDS connect method
   }

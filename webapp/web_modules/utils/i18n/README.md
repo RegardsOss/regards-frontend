@@ -57,7 +57,7 @@ of the `@regardsoss/i18n` package.
 
 ```javascript
 import { i18nContextType } from '@regardsoss/i18n'
-import { FormattedMessage } from 'react-intl'
+
 
 export class ExmapleComponent extends React.Component {
 
@@ -70,7 +70,7 @@ export class ExmapleComponent extends React.Component {
 		return (
 			<div>
 				<span>{internationalizedMessage}</span>
-				<FormattedMessage id="example.message" />
+				{formatMessage({ id: "example.message" })}
 			</div>
 		)
 	}
@@ -136,7 +136,7 @@ in your component (surrounded) by the `I18nProvider` :
 		return (
 			<div>
 				<span>{message}</span>
-				<FormattedMessage 
+				formatMessage({ id: AAA }) 
 					id="example.message.with.parameter"
 					values={{name: name}} 
 				/>

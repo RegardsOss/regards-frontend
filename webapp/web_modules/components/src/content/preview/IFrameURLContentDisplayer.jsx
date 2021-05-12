@@ -18,8 +18,8 @@
  **/
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { MIME_TYPES } from '@regardsoss/mime-types'
+import isEqual from 'lodash/isEqual'
 import styles from '../styles'
-import { MeasureResultProvider } from '../../../../utils/display-control/src/main'
 
 /**
  * Shows content of any accepted browser type within an iFrame (required for PDF/ HTML, ...), contained in a dialog
@@ -73,8 +73,10 @@ export class IFrameURLContentDisplayer extends React.Component {
     onContentLoaded: PropTypes.func, // callback, called when IFrame content was loaded
     onContentError: PropTypes.func,
     // style to dimension / decorate the component (must keep display:block to avoid unexpected behaviors)
+    // eslint-disable-next-line react/no-unused-prop-types
     style: PropTypes.objectOf(PropTypes.any),
     // iFrame style: optional iFrame style, when globalTheme.fileContent.background should not be used
+    // eslint-disable-next-line react/no-unused-prop-types
     iFrameStyle: PropTypes.objectOf(PropTypes.any),
   }
 
@@ -91,41 +93,63 @@ export class IFrameURLContentDisplayer extends React.Component {
     ...themeContextType,
   }
 
+  state = {
+    wrapperStyle: {},
+    iframeStyle: {},
+  }
+
   /**
-   * Converts measured with and height into iFrame style
-   * @param {number} width measured available width
-   * @param {number} height measure available height
-   * @return {*}
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
    */
-  toIFrameStyle = (width, height) => {
-    const { moduleTheme: { fileContent: { iFrame: fileContentStyle } } } = this.context
-    const { iFrameStyle } = this.props
-    return {
-      width,
-      height,
-      // user or common style
-      ...(iFrameStyle || fileContentStyle),
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const { style, iFrameStyle, fileContentStyle } = newProps
+    if (!isEqual(style, oldProps.style) || !isEqual(iFrameStyle, oldProps.iFrameStyle) || !isEqual(fileContentStyle, oldProps.fileContentStyle)) {
+      this.setState({
+        wrapperStyle: {
+          ...style,
+          position: 'relative',
+          // user or common style
+          ...(iFrameStyle || fileContentStyle),
+        },
+        iframeStyle: {
+          height: '100%',
+          width: '100%',
+          position: 'absolute',
+        },
+      })
     }
   }
 
   render() {
     const {
-      source, onContentLoaded, onContentError, style,
+      source, onContentLoaded, onContentError,
     } = this.props
-    /*
-     * Measure the available space using root style (user provided), as iFrames are not able using
-     * flexShrink, flexGrow, height / width: 100%
-     */
+    const {
+      wrapperStyle, iframeStyle,
+    } = this.state
     return (
-      <MeasureResultProvider style={style} targetPropertyName="style" toMeasureResult={this.toIFrameStyle}>
-        {/* Display iFrame with computed style */}
+      <div style={wrapperStyle}>
         <iframe
           title="content-displayer"
           src={source}
           onLoad={onContentLoaded}
           onError={onContentError}
+          style={iframeStyle}
         />
-      </MeasureResultProvider>
+      </div>
     )
   }
 }

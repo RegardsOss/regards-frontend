@@ -1,4 +1,3 @@
-/** @module common */
 /**
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
@@ -20,21 +19,16 @@
 import get from 'lodash/get'
 import keys from 'lodash/keys'
 import { connect } from 'react-redux'
-import { addLocaleData, IntlProvider } from 'react-intl'
-import frLocaleData from 'react-intl/locale-data/fr'
+import { createIntl, createIntlCache, RawIntlProvider } from 'react-intl'
 import { UIDomain } from '@regardsoss/domain'
+import isEqual from 'lodash/isEqual'
 import I18nSelectors from '../model/I18nSelectors'
-import i18nContextType from '../contextType'
-
-addLocaleData(frLocaleData)
 
 /**
  * React provider to enable messages internationalisation.
- * Under this provider, use the react-intl <FormatedMessage id='...' /> to display message
+ * Under this provider, use the react-intl context this.context.intl.formatMessage('...') to display message
  * in the current language. The curent language is stored in the redux store common.i18n.locale.
- * By default the locale is the navigator langugage.
- * Under this provider, we can also use the below syntaxe du get the localise messages :
- *  this.context.intl.formatMessage({id:"..."})
+ * By default the locale is the navigator language.
  * To do so, the react component must be configured with :
  * context
  * static contextTypes = {
@@ -48,10 +42,14 @@ addLocaleData(frLocaleData)
  */
 export class I18nProvider extends React.Component {
   static propTypes = {
+    // eslint-disable-next-line react/no-unused-prop-types
     children: PropTypes.element,
+    // eslint-disable-next-line react/no-unused-prop-types
     messages: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     stackCallingContext: PropTypes.bool,
     // from mapStateToProps
+    // eslint-disable-next-line react/no-unused-prop-types
     locale: PropTypes.oneOf(UIDomain.LOCALES).isRequired,
   }
 
@@ -59,33 +57,94 @@ export class I18nProvider extends React.Component {
     stackCallingContext: false,
   }
 
+  /**
+   *
+   * @type {{moduleTheme: *}}
+   */
   static contextTypes = {
-    ...i18nContextType,
+    // eslint-disable-next-line react/forbid-prop-types
+    intl: PropTypes.any,
+  }
+
+  /**
+   *
+   * @type {{moduleTheme: *}}
+   */
+  static childContextTypes = {
+    // eslint-disable-next-line react/forbid-prop-types
+    intl: PropTypes.any,
+  }
+
+  state = {
+    intl: null,
+  }
+
+  /**
+   * Return child contexts
+   * @returns {{intl: *}}
+   */
+  getChildContext() {
+    const { intl } = this.state
+    return {
+      intl,
+    }
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+   * Properties change detected: update current options on context change and selected option on list change
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      messages, locale, stackCallingContext,
+    } = newProps
+
+    if (!isEqual(oldProps.messages, messages) || !isEqual(oldProps.locale, locale) || !isEqual(oldProps.stackCallingContext, stackCallingContext)) {
+      if (!messages) {
+        throw new Error('You must provide messages when using I18N provider ')
+      }
+      const callingContextMessages = get(this.context, 'intl.messages', null)
+      if (stackCallingContext && !callingContextMessages) {
+        throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
+      }
+
+      // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
+      const subContextMessages = { // eslint wont fix: context is provided only during runtime, no workaround
+        ...(messages[locale] || messages[keys(messages)[0]]),
+        ...(stackCallingContext ? callingContextMessages : {}),
+      }
+      const cache = createIntlCache()
+
+      const intl = createIntl(
+        {
+          locale,
+          messages: subContextMessages,
+        },
+        cache,
+      )
+      this.setState({
+        intl,
+      })
+    }
   }
 
   render() {
-    const { messages, stackCallingContext, locale } = this.props
-    if (!messages) {
-      throw new Error('You must provide messages when using I18N provider ')
-    }
-    const callingContextMessages = get(this.context, 'intl.messages', null)
-    if (stackCallingContext && !callingContextMessages) {
-      throw new Error('You must provide calling messages (through context) when using I18N provider with stackCallingContext=true')
-    }
-
-    // eslint-disable-next-line react-perf/jsx-no-new-object-as-prop
-    const subContextMessages = { // eslint wont fix: context is provided only during runtime, no workaround
-      ...(messages[locale] || messages[keys(messages)[0]]),
-      ...(stackCallingContext ? callingContextMessages : {}),
-    }
-
+    const { intl } = this.state
     return (
-      <IntlProvider
-        locale={locale}
-        messages={subContextMessages}
-      >
-        {this.props.children}
-      </IntlProvider>
+      <RawIntlProvider value={intl}>{this.props.children}</RawIntlProvider>
+
     )
   }
 }

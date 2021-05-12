@@ -102,6 +102,14 @@ const storageManagementStyles = (theme) => ({
         margin: 0,
       },
     },
+    dialog: {
+      messageDiv: {
+        marginBottom: '10px',
+      },
+      warning: {
+        color: theme.palette.accent1Color,
+      },
+    },
   },
   dropdown: {
     minWidth: '300px',

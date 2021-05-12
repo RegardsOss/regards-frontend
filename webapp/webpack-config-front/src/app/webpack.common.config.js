@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const alias = require('../utils/alias')
+const cpus = require('../utils/cpu')
 
 const cesiumSource = 'node_modules/cesium/Source'
 
@@ -41,13 +42,18 @@ module.exports = function (projectContextPath, mode = 'dev') {
           // and staticConfiguration this file is just copied not interpreted
           exclude: [/node_modules/, /dist/, /staticConfiguration(\.dev)?\.js$/],
           use: [
-            'thread-loader',
-            // used to cache the results of the loader.
-            // Next builds will attempt to read from the cache
-            // the cache is different depending of the value of NODE_ENV
+            {
+              loader: 'thread-loader',
+              options: {
+                workers: cpus,
+              },
+            },
             {
               loader: 'babel-loader',
               options: {
+                // used to cache the results of the loader.
+                // Next builds will attempt to read from the cache
+                // the cache is different depending of the value of NODE_ENV
                 cacheDirectory: true,
               },
             },

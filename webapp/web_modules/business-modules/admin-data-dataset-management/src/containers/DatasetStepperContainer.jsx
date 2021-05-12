@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { browserHistory } from 'react-router'
@@ -67,7 +67,9 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   getPluginsUIProcessing = () => {
-    const text = (<FormattedMessage id="dataset.stepper.pluginsUIProcessing" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'dataset.stepper.pluginsUIProcessing' })
     if (!this.isDisabled(STEPS_ID.PLUGINS_UI_PROCESSING) && this.props.stepIndex !== STEPS_ID.PLUGINS_UI_PROCESSING) {
       return (
         <StepButton onClick={this.handlePluginsUIProcessingClick}>
@@ -79,7 +81,9 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   getAttributesStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.attributes" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'dataset.stepper.attributes' })
     if (!this.isDisabled(STEPS_ID.ATTRIBUTES)
       && this.props.stepIndex !== STEPS_ID.ATTRIBUTES
       && this.props.stepIndex !== STEPS_ID.SUBSETTING) {
@@ -92,7 +96,9 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   getFilesStep = () => {
-    const text = (<FormattedMessage id="dataset.stepper.files" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'dataset.stepper.files' })
     if (!this.isDisabled(STEPS_ID.FILES) && this.props.stepIndex !== STEPS_ID.FILES) {
       return (
         <StepButton onClick={this.handleFilesClick}>
@@ -103,8 +109,9 @@ export class DatasetStepperContainer extends React.Component {
   }
 
   getLinksStep = () => {
-    const text = (
-      <FormattedMessage id="dataset.stepper.links" />)
+    const { intl: { formatMessage } } = this.context
+
+    const text = formatMessage({ id: 'dataset.stepper.links' })
     if (!this.isDisabled(STEPS_ID.LINKS) && this.props.stepIndex !== STEPS_ID.LINKS) {
       return (
         <StepButton onClick={this.handleLinksClick}>
@@ -145,6 +152,8 @@ export class DatasetStepperContainer extends React.Component {
 
   render() {
     const { stepIndex } = this.props
+    const { intl: { formatMessage } } = this.context
+
     return (
       <div>
         <ScrollArea
@@ -167,7 +176,7 @@ export class DatasetStepperContainer extends React.Component {
                 <StepLabel
                   disabled={this.isDisabled(STEPS_ID.SUBSETTING)}
                 >
-                  <FormattedMessage id="dataset.stepper.subsetting" />
+                  {formatMessage({ id: 'dataset.stepper.subsetting' })}
                 </StepLabel>
               </Step>
               <Step>

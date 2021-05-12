@@ -23,7 +23,7 @@ import { DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import {
   Table, TableBody, TableRow, TableRowColumn, TableHeader, TableHeaderColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import { PluginConfigurationPickerComponent } from '@regardsoss/components'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -78,6 +78,8 @@ class ModelAttributeComponent extends React.Component {
   }
 
   displayTableHeader = () => {
+    const { intl: { formatMessage } } = this.context
+
     if (this.props.shouldDisplayHeader) {
       return (
         <TableHeader
@@ -86,10 +88,10 @@ class ModelAttributeComponent extends React.Component {
           displaySelectAll={false}
         >
           <TableRow>
-            <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.name" /></TableHeaderColumn>
+            <TableHeaderColumn>{formatMessage({ id: 'modelattr.edit.table.name' })}</TableHeaderColumn>
             { /* show 2nd column only when the computing plugins are allowed */
               this.isComputingPluginAllowed() ? (
-                <TableHeaderColumn><FormattedMessage id="modelattr.edit.table.computationMethod" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'modelattr.edit.table.computationMethod' })}</TableHeaderColumn>
               ) : null
             }
           </TableRow>
@@ -104,6 +106,7 @@ class ModelAttributeComponent extends React.Component {
 
   render() {
     const { modelAttribute, pluginMetaDataList, pluginConfigurationList } = this.props
+
     return (
       <Table
         selectable={false}

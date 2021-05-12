@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
-import { FormattedMessage } from 'react-intl'
+
 import { ShowableAtRender } from '@regardsoss/components'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
@@ -41,7 +41,7 @@ class DatasetAttributes extends React.Component {
 
   render() {
     const { visible, state, datasetAttributes } = this.props
-    const { intl: { locale }, moduleTheme: { user: { datasetItem: { attributes } } } } = this.context
+    const { intl: { formatMessage, locale }, moduleTheme: { user: { datasetItem: { attributes } } } } = this.context
 
     // compute styles for current state
     const containerStyles = ItemLink.selectStyles(state, attributes.container, attributes.container.commonStyles)
@@ -61,10 +61,10 @@ class DatasetAttributes extends React.Component {
                 <div style={detailLabelStyles}>{label[locale]}</div>
                 <div style={detailValueStlyles}>
                   {
-                      renderValue
-                        ? (<TypeRender multilineDisplay value={renderValue} {...renderProps} />)
-                        : (<FormattedMessage id="search.graph.dataset.attribute.no.value" />)
-                    }
+                    renderValue
+                      ? (<TypeRender multilineDisplay value={renderValue} {...renderProps} />)
+                      : formatMessage({ id: 'search.graph.dataset.attribute.no.value' })
+                  }
                 </div>
               </div>))
           }

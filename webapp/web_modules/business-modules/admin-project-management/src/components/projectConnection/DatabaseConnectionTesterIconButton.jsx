@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FormattedMessage } from 'react-intl'
+
 import IconButton from 'material-ui/IconButton'
 import PlayArrow from 'mdi-material-ui/Play'
 import Check from 'mdi-material-ui/Check'
@@ -79,7 +79,7 @@ class DatabaseConnectionTesterIconButton extends React.Component {
     const testButton = (
       <IconButton
         title={formatMessage({ id: 'database.connectionTester.default.tooltip' })}
-        label={<FormattedMessage id="database.connectionTester.start" />}
+        label={formatMessage({ id: 'database.connectionTester.start' })}
         onClick={this.handleTouchTap}
       >
         <PlayArrow hoverColor={this.context.muiTheme.palette.primary1Color} />

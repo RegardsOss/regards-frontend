@@ -13,6 +13,9 @@ time npm run test:mocha --no-update-notifier --silent
 echo "Compare dependencies"
 ../../../scripts/compareDependencies.js ../../../package.json ./package.json
 
+echo "Lint"
+time npm run lint
+
 echo "Bundle the plugin and copy it to the dist/prod "
 time npm run build:production --no-update-notifier
 mkdir -p ../../../dist/prod/plugins/${PLUGIN_PATH}/

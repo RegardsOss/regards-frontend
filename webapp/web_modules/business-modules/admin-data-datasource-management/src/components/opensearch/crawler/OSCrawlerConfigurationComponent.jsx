@@ -20,7 +20,7 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -130,9 +130,7 @@ export class OSCrawlerConfigurationComponent extends React.Component {
               mainButtonType="submit"
               isMainButtonDisabled={submitting || invalid}
               mainButtonLabel={
-                <FormattedMessage
-                  id="datasource.form.create.action.next"
-                />
+                formatMessage({ id: 'datasource.form.create.action.next' })
               }
               secondaryButtonLabel={formatMessage({ id: 'datasource.form.create.action.cancel' })}
               secondaryButtonClick={onBack}

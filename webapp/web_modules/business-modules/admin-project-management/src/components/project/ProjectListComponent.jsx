@@ -24,7 +24,7 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import Edit from 'mdi-material-ui/Pencil'
 import Settings from 'mdi-material-ui/VideoInputComponent'
 import Open from 'mdi-material-ui/OpenInNew'
@@ -91,22 +91,25 @@ export class ProjectListComponent extends React.Component {
   }
 
   getVisibility = (isPublic) => {
+    const { intl: { formatMessage } } = this.context
     if (isPublic) {
-      return (<FormattedMessage id="project.list.value.isPublic" />)
+      return formatMessage({ id: 'project.list.value.isPublic' })
     }
-    return (<FormattedMessage id="project.list.value.isPrivate" />)
+    return formatMessage({ id: 'project.list.value.isPrivate' })
   }
 
   getAccessibility = (isAccessible) => {
+    const { intl: { formatMessage } } = this.context
     if (isAccessible) {
-      return (<FormattedMessage id="project.list.value.isAccessible" />)
+      return formatMessage({ id: 'project.list.value.isAccessible' })
     }
-    return (<FormattedMessage id="project.list.value.isNotAccessible" />)
+    return formatMessage({ id: 'project.list.value.isNotAccessible' })
   }
 
   getDeletedState = (isDeleted) => {
+    const { intl: { formatMessage } } = this.context
     if (isDeleted) {
-      return (<FormattedMessage id="project.list.value.isDeleted" />)
+      return formatMessage({ id: 'project.list.value.isDeleted' })
     }
     return (null)
   }
@@ -122,7 +125,7 @@ export class ProjectListComponent extends React.Component {
   }
 
   render() {
-    const { intl } = this.context
+    const { intl: { formatMessage } } = this.context
     const {
       projectList, handleEdit, handleOpen, handleConfigureConnections, createUrl,
     } = this.props
@@ -141,13 +144,13 @@ export class ProjectListComponent extends React.Component {
           <ConfirmDialogComponent
             onConfirm={this.state.currentDialog ? this.state.currentDialog.onConfirm : noop}
             onClose={this.cancelDialog}
-            title={this.state.currentDialog ? intl.formatMessage({ id: this.state.currentDialog.titleKey }) : ''}
-            message={this.state.currentDialog && this.state.currentDialog.messageKey && intl.formatMessage({ id: this.state.currentDialog.messageKey })}
+            title={this.state.currentDialog ? formatMessage({ id: this.state.currentDialog.titleKey }) : ''}
+            message={this.state.currentDialog && this.state.currentDialog.messageKey && formatMessage({ id: this.state.currentDialog.messageKey })}
           />
         </ShowableAtRender>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'project.list.title' })}
-          subtitle={this.context.intl.formatMessage({ id: 'project.list.subtitle' })}
+          title={formatMessage({ id: 'project.list.title' })}
+          subtitle={formatMessage({ id: 'project.list.subtitle' })}
         />
         <CardText>
           <Table
@@ -160,22 +163,22 @@ export class ProjectListComponent extends React.Component {
             >
               <TableRow>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-13">
-                  <FormattedMessage id="project.list.table.name" />
+                  {formatMessage({ id: 'project.list.table.name' })}
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-25">
-                  <FormattedMessage id="project.list.table.description" />
+                  {formatMessage({ id: 'project.list.table.description' })}
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-12">
-                  <FormattedMessage id="project.list.table.isPublic" />
+                  {formatMessage({ id: 'project.list.table.isPublic' })}
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-12">
-                  <FormattedMessage id="project.list.table.isAccessible" />
+                  {formatMessage({ id: 'project.list.table.isAccessible' })}
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-12">
-                  <FormattedMessage id="project.list.table.isDeleted" />
+                  {formatMessage({ id: 'project.list.table.isDeleted' })}
                 </TableHeaderColumn>
                 <TableHeaderColumn style={styles.tableRow} className="col-md-26">
-                  <FormattedMessage id="project.list.table.actions" />
+                  {formatMessage({ id: 'project.list.table.actions' })}
                 </TableHeaderColumn>
               </TableRow>
             </TableHeader>
@@ -210,7 +213,7 @@ export class ProjectListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         disableInsteadOfHide
                         alwaysDisplayforInstanceUser={false}
-                        title={intl.formatMessage({ id: 'project.list.action.openbutton' })}
+                        title={formatMessage({ id: 'project.list.action.openbutton' })}
                         onClick={() => handleOpen(project.content.name)}
                         className="selenium-openbutton"
                       >
@@ -221,7 +224,7 @@ export class ProjectListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         disableInsteadOfHide
                         alwaysDisplayforInstanceUser={false}
-                        title={intl.formatMessage({ id: 'project.list.action.editbutton' })}
+                        title={formatMessage({ id: 'project.list.action.editbutton' })}
                         onClick={() => handleEdit(project.content.name)}
                         className="selenium-editbutton"
                       >
@@ -232,7 +235,7 @@ export class ProjectListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         disableInsteadOfHide
                         alwaysDisplayforInstanceUser={false}
-                        title={intl.formatMessage({ id: 'project.list.action.edit.connections.button' })}
+                        title={formatMessage({ id: 'project.list.action.edit.connections.button' })}
                         onClick={() => handleConfigureConnections(project.content.name)}
                         className="selenium-editconnections"
                       >
@@ -244,7 +247,7 @@ export class ProjectListComponent extends React.Component {
                         hateoasKey={HateoasKeys.UPDATE}
                         disableInsteadOfHide
                         alwaysDisplayforInstanceUser={false}
-                        title={intl.formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
+                        title={formatMessage({ id: 'project.list.action.licenseUpdateButton' })}
                         onClick={() => this.onLicenseUpdate(project.content.name)}
                         disabled={!!project.content.license}
                         className="selenium-licenseUpdateButton"
@@ -256,7 +259,7 @@ export class ProjectListComponent extends React.Component {
                         hateoasKey={HateoasKeys.DELETE}
                         disableInsteadOfHide
                         alwaysDisplayforInstanceUser={false}
-                        title={intl.formatMessage({ id: 'project.list.action.deletebutton' })}
+                        title={formatMessage({ id: 'project.list.action.deletebutton' })}
                         onClick={() => this.onDelete(project.content.name)}
                         className="selenium-deletebutton"
                       >
@@ -274,9 +277,7 @@ export class ProjectListComponent extends React.Component {
             mainButtonClassName="selenium-addButton"
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="project.list.action.add"
-              />
+              formatMessage({ id: 'project.list.action.add' })
             }
           />
         </CardActions>

@@ -53,7 +53,7 @@ export class AIPDeleteDialog extends React.Component {
 
   render() {
     const { onClose } = this.props
-    const { intl: { formatMessage, formatHTMLMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
 
     return (
       <Dialog
@@ -83,7 +83,7 @@ export class AIPDeleteDialog extends React.Component {
         modal={false}
         open
       >
-        {formatHTMLMessage({ id: 'oais.packages.confirm.delete.message' })}
+        {formatMessage({ id: 'oais.packages.confirm.delete.message' })}
       </Dialog>
     )
   }

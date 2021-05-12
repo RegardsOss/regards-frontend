@@ -25,7 +25,7 @@ import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
 import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
-import { FormattedMessage } from 'react-intl'
+
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { DataManagementShapes } from '@regardsoss/shape'
 import {
@@ -181,9 +181,7 @@ export class AttributeModelListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="attrmodel.list.action.add"
-              />
+              formatMessage({ id: 'attrmodel.list.action.add' })
             }
             mainHateoasDependencies={AttributeModelListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={this.context.intl.formatMessage({ id: 'attrmodel.list.action.cancel' })}

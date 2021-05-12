@@ -17,7 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import forEach from 'lodash/forEach'
-import { FormattedMessage } from 'react-intl'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'
@@ -197,7 +196,7 @@ export class PluginFormComponent extends React.Component {
             onClick={this.handleOpenDescriptionDialog}
             href="#"
           >
-            <FormattedMessage id="plugin.configuration.form.description.more" />
+            {formatMessage({ id: 'plugin.configuration.form.description.more' })}
           </a>}
       </div>
     )

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import map from 'lodash/map'
-import { FormattedMessage } from 'react-intl'
+
 import Chip from 'material-ui/Chip'
 import { List, ListItem } from 'material-ui/List'
 import { CardActionsComponent } from '@regardsoss/components'
@@ -58,11 +58,7 @@ class ResourceAccessModalOverviewComponent extends React.Component {
       <Dialog
         title={title}
         actions={<CardActionsComponent
-          mainButtonLabel={
-            <FormattedMessage
-              id="role.modal.action.back"
-            />
-          }
+          mainButtonLabel={formatMessage({ id: 'role.modal.action.back' })}
           mainButtonClick={this.props.onClose}
         />}
         autoScrollBodyContent

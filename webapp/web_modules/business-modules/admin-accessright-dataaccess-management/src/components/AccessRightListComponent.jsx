@@ -37,7 +37,7 @@ import {
   ShowableAtRender,
   CardActionsComponent,
 } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import { withResourceDisplayControl } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { DataManagementShapes } from '@regardsoss/shape'
@@ -103,28 +103,28 @@ export class AccessRightListComponent extends React.Component {
   /**
     * Lifecycle method: component will mount. Used here to detect first properties change and update local state
     */
-    UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
 
-   /**
-    * Lifecycle method: component receive props. Used here to detect properties change and update local state
-    * @param {*} nextProps next component properties
-    */
-   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
-   /**
-    * Properties change detected: update local state
-    * @param oldProps previous component properties
-    * @param newProps next component properties
-    */
-   onPropertiesUpdated = (oldProps, newProps) => {
-     if (!isEqual(oldProps.accessGroup, newProps.accessGroup)) {
-       this.setState({
-         pathParams: {
-           accessGroupName: newProps.accessGroup.name,
-         },
-       })
-     }
-   }
+  /**
+   * Properties change detected: update local state
+   * @param oldProps previous component properties
+   * @param newProps next component properties
+   */
+  onPropertiesUpdated = (oldProps, newProps) => {
+    if (!isEqual(oldProps.accessGroup, newProps.accessGroup)) {
+      this.setState({
+        pathParams: {
+          accessGroupName: newProps.accessGroup.name,
+        },
+      })
+    }
+  }
 
   onDelete = () => {
     this.props.deleteAccessRight(this.state.entityToDelete)
@@ -365,9 +365,7 @@ export class AccessRightListComponent extends React.Component {
             <CardActionsComponent
               mainButtonUrl={backURL}
               mainButtonLabel={
-                <FormattedMessage
-                  id="accessright.form.action.back"
-                />
+                formatMessage({ id: 'accessright.form.action.back' })
               }
             />
           </CardActions>

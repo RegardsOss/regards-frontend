@@ -20,7 +20,7 @@ import AddToPhotos from 'mdi-material-ui/PlusBoxMultiple'
 import {
   Card, CardText, CardTitle,
 } from 'material-ui/Card'
-import { FormattedMessage } from 'react-intl'
+
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import {
@@ -143,12 +143,12 @@ export class AuthenticationPluginListComponent extends React.Component {
           <div style={moduleTheme.descriptionDiv}>
             <ul>
               <li>
-                <span style={moduleTheme.description}><FormattedMessage id="user.authentication.plugins.list.subtitle.idp" /></span>
-                <FormattedMessage id="user.authentication.plugins.list.subtitle.idp.description" />
+                <span style={moduleTheme.description}>{formatMessage({ id: 'user.authentication.plugins.list.subtitle.idp' })}</span>
+                {formatMessage({ id: 'user.authentication.plugins.list.subtitle.idp.description' })}
               </li>
               <li>
-                <span style={moduleTheme.description}><FormattedMessage id="user.authentication.plugins.list.subtitle.service" /></span>
-                <FormattedMessage id="user.authentication.plugins.list.subtitle.service.description" />
+                <span style={moduleTheme.description}>{formatMessage({ id: 'user.authentication.plugins.list.subtitle.service' })}</span>
+                {formatMessage({ id: 'user.authentication.plugins.list.subtitle.service.description' })}
               </li>
             </ul>
           </div>
@@ -164,7 +164,7 @@ export class AuthenticationPluginListComponent extends React.Component {
               <TableLayout>
                 <TableHeaderLineLoadingAndResults isFetching={isLoading} resultsCount={entities.length} />
                 <InfiniteTableContainer
-              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+                  // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
                   columns={[ // eslint wont fix: Infinite table APi issue
                     new TableColumnBuilder('column.label').titleHeaderCell().propertyRenderCell('content.label')
                       .label(formatMessage({ id: 'user.authentication.plugins.list.header.name.label' }))
@@ -201,7 +201,7 @@ export class AuthenticationPluginListComponent extends React.Component {
               <TableLayout>
                 <TableHeaderLineLoadingAndResults resultsCount={serviceProviderCount} />
                 <PageableInfiniteTableContainer
-              // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
+                  // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop
                   columns={[ // eslint wont fix: Infinite table APi issue
                     new TableColumnBuilder('column.name').titleHeaderCell().propertyRenderCell('content.name')
                       .label(formatMessage({ id: 'user.authentication.plugins.list.header.name' }))

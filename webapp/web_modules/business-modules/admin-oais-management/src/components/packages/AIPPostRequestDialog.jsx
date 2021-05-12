@@ -37,7 +37,7 @@ export class AIPPostRequestDialog extends React.Component {
 
   render() {
     const { onClose } = this.props
-    const { intl: { formatMessage, formatHTMLMessage } } = this.context
+    const { intl: { formatMessage } } = this.context
     const { deletionErrors, modifyErrors } = this.props
 
     return (
@@ -58,7 +58,7 @@ export class AIPPostRequestDialog extends React.Component {
       >
         {deletionErrors}
         {modifyErrors}
-        {formatHTMLMessage({ id: 'oais.packages.post.message' })}
+        {formatMessage({ id: 'oais.packages.post.message' })}
       </Dialog>
     )
   }

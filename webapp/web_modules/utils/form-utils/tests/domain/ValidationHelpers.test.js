@@ -32,6 +32,7 @@ describe('[FORM UTILS] Testing validation helpers', () => {
   it('should should accept only valid emails', () => {
     assert.isFalse(ValidationHelpers.isValidEmail('myemail'))
     assert.isTrue(ValidationHelpers.isValidEmail('myemail@cnn.fr'))
+    assert.isTrue(ValidationHelpers.isValidEmail('didier.marchal@tumine.world'))
   })
   it('should should accept only valid urls', () => {
     assert.isTrue(ValidationHelpers.isValidUrl('http://monserveur', false), 'A1')

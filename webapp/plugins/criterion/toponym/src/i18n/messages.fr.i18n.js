@@ -26,7 +26,7 @@ const messages = {
   'criterion.toponym.equal.tooltip': 'Les résultats sont strictement égaux au texte saisi',
   'criterion.toponym.title.tooltip': 'Limiter la recherche aux produits contenus dans une zone géographique',
   'criterion.toponym.hintText': 'Rechercher un toponyme',
-  'criterion.toponym.trick': 'Astuce: Glissez déposez votre fichier shapefile ou geojson pour l\'utiliser comme restriction géographique',
+  'criterion.toponym.trick': 'Astuce: Glissez déposez votre fichier shapefile zip, KML, KMZ ou GeoJSON pour l\'utiliser comme restriction géographique',
 }
 
 export default messages

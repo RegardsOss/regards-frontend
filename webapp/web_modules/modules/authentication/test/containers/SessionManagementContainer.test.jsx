@@ -20,10 +20,12 @@ import sinon from 'sinon'
 import { shallow } from 'enzyme'
 import root from 'window-or-global'
 import { assert } from 'chai'
-import { testSuiteHelpers } from '@regardsoss/tests-helpers'
+import { testSuiteHelpers, buildTestContext } from '@regardsoss/tests-helpers'
 import { UIDomain } from '@regardsoss/domain'
 import AuthenticationDialogComponent from '../../src/components/AuthenticationDialogComponent'
 import { SessionManagementContainer } from '../../src/containers/SessionManagementContainer'
+
+const context = buildTestContext()
 
 describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
   before(() => {
@@ -41,7 +43,6 @@ describe('[AUTHENTICATION] Testing SessionManagementContainer', () => {
   it('should exists', () => {
     assert.isDefined(SessionManagementContainer)
   })
-  const context = {}
   it('should render correctly, using a visible dialog when authentication is visible or session is locked', () => {
     const renderAndTest = (useCase, props) => {
       const enzymeWrapper = shallow(<SessionManagementContainer {...props} />, { context })

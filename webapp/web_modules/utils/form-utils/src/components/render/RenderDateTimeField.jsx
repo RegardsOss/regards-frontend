@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { intlShape } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 import { fieldInputPropTypes, fieldMetaPropTypes } from 'redux-form'
 import isDate from 'lodash/isDate'
 import IconButton from 'material-ui/IconButton'
@@ -43,9 +43,9 @@ export class RenderDateTimeField extends React.Component {
     input: PropTypes.shape(fieldInputPropTypes).isRequired,
     label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
     displayTime: PropTypes.bool,
-    intl: intlShape,
     meta: PropTypes.shape(fieldMetaPropTypes).isRequired,
     fullWidth: PropTypes.bool,
+    ...i18nContextType,
   }
 
   static defaultProps = {

@@ -64,7 +64,7 @@ you do not need to specify the `AdminContainer` in the `main.js` module entrypoi
 The here-under React component example shows you how to create a form to create a configuration of your module.  
 
 ```javascript
-import { FormattedMessage } from 'react-intl'
+
 import { i18nContextType } from '@regardsoss/i18n'
 import { RenderTextField, RenderCheckbox, Field } from '@regardsoss/form-utils'
 
@@ -161,7 +161,7 @@ contains the configuration created with the `AdminContainer` and injected in you
 ```javascript
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
-import { FormattedMessage } from 'react-intl'
+
 
 class ModuleContainer extends React.Component {
   static propTypes = {
@@ -186,7 +186,7 @@ class ModuleContainer extends React.Component {
     const { moduleConf: {myParameter} } = this.props
     return (
      <div>
-      <FormattedMessage id="example.message" />
+      {formatMessage({ id: "example.message" })}
       <div style={moduleTheme.myParameterStyles}>
         {myParameter}
        </div>

@@ -19,7 +19,7 @@
 import flow from 'lodash/flow'
 import fpmap from 'lodash/fp/map'
 import fpsortBy from 'lodash/fp/sortBy'
-import { FormattedMessage } from 'react-intl'
+
 import { List, ListItem } from 'material-ui/List'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -129,6 +129,7 @@ export class ConnectionViewerComponent extends React.Component {
   render() {
     const { tableList, displayTableAsSelected } = this.props
     const { tableOpen } = this.state
+    const { intl: { formatMessage } } = this.context
     const subtitle = displayTableAsSelected ? 'datasource.form.mapping.connectionViewerFromTable.subtitle'
       : 'datasource.form.mapping.connectionViewerCustom.subtitle'
     const style = {
@@ -159,8 +160,8 @@ export class ConnectionViewerComponent extends React.Component {
     return (
       <div style={style}>
         <CardTitle
-          title={this.context.intl.formatMessage({ id: 'datasource.form.mapping.connectionViewer.title' })}
-          subtitle={<FormattedMessage id={subtitle} />}
+          title={formatMessage({ id: 'datasource.form.mapping.connectionViewer.title' })}
+          subtitle={formatMessage({ id: subtitle })}
         />
         <List>
           {elements}

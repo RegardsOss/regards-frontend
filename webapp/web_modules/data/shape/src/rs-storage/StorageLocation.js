@@ -34,6 +34,7 @@ export const StorageLocationContent = PropTypes.shape({
   totalStoredFilesSizeKo: PropTypes.number,
   nbStorageError: PropTypes.number,
   nbDeletionError: PropTypes.number,
+  allowsPhysicalDeletion: PropTypes.bool.isRequired,
   configuration: StorageLocationConfiguration,
 }).isRequired
 

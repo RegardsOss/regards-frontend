@@ -19,7 +19,7 @@
 import isEqual from 'lodash/isEqual'
 import { LazyModuleComponent } from '@regardsoss/modules'
 import { AccessShapes } from '@regardsoss/shape'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * React component to display and configure dynamic module configuration
@@ -42,6 +42,10 @@ class DynamicModuleFormComponent extends React.Component {
     }),
   }
 
+  static contextTypes = {
+    ...i18nContextType,
+  }
+
   state = {
     module: null,
   }
@@ -61,6 +65,7 @@ class DynamicModuleFormComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
     if (!this.props.module && !this.props.module.type) {
       return null
     }
@@ -68,7 +73,7 @@ class DynamicModuleFormComponent extends React.Component {
       <div>
         { /* No configuration common message */
           this.state.module && !this.state.module.adminContainer
-            ? <FormattedMessage id="module.form.module.no.setting.message" />
+            ? formatMessage({ id: 'module.form.module.no.setting.message' })
             : null
         }
         {/* Module loader */}

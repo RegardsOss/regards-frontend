@@ -20,7 +20,7 @@ import {
   Card, CardActions, CardTitle, CardText,
 } from 'material-ui/Card'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
-import { FormattedMessage } from 'react-intl'
+
 import {
   RenderTextField, RenderFileFieldWithMui, Field, ValidationHelpers, reduxForm,
 } from '@regardsoss/form-utils'
@@ -76,10 +76,12 @@ export class FragmentFormComponent extends React.Component {
    * @returns {XML}
    */
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const { pristine, submitting, invalid } = this.props
     const title = this.props.isCreating
-      ? this.context.intl.formatMessage({ id: 'fragment.create.title' })
-      : this.context.intl.formatMessage({ id: 'fragment.edit.title' }, { name: this.props.currentFragment.content.name })
+      ? formatMessage({ id: 'fragment.create.title' })
+      : formatMessage({ id: 'fragment.edit.title' }, { name: this.props.currentFragment.content.name })
     return (
       <form
         onSubmit={this.props.handleSubmit(this.props.onSubmit)}
@@ -95,7 +97,7 @@ export class FragmentFormComponent extends React.Component {
                 fullWidth
                 component={RenderTextField}
                 type="text"
-                label={this.context.intl.formatMessage({ id: 'fragment.form.name' })}
+                label={formatMessage({ id: 'fragment.form.name' })}
                 validate={nameValidators}
               />
             </ShowableAtRender>
@@ -104,13 +106,13 @@ export class FragmentFormComponent extends React.Component {
               fullWidth
               component={RenderTextField}
               type="text"
-              label={this.context.intl.formatMessage({ id: 'fragment.form.description' })}
+              label={formatMessage({ id: 'fragment.form.description' })}
             />
             <ShowableAtRender show={this.props.isCreating}>
               <div>
                 <hr />
                 <br />
-                <FormattedMessage id="fragment.form.file" />
+                {formatMessage({ id: 'fragment.form.file' })}
                 <Field
                   name="file"
                   component={RenderFileFieldWithMui}
@@ -121,10 +123,10 @@ export class FragmentFormComponent extends React.Component {
           </CardText>
           <CardActions>
             <CardActionsComponent
-              mainButtonLabel={this.context.intl.formatMessage({ id: 'fragment.form.action.submit' })}
+              mainButtonLabel={formatMessage({ id: 'fragment.form.action.submit' })}
               mainButtonType="submit"
               isMainButtonDisabled={pristine || submitting || invalid}
-              secondaryButtonLabel={this.context.intl.formatMessage({ id: 'fragment.form.action.cancel' })}
+              secondaryButtonLabel={formatMessage({ id: 'fragment.form.action.cancel' })}
               secondaryButtonUrl={this.props.backUrl}
             />
           </CardActions>

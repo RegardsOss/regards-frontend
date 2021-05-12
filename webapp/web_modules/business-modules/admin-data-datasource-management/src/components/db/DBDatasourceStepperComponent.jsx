@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { FormattedMessage } from 'react-intl'
+
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import {
@@ -38,19 +38,21 @@ export class DBDatasourceStepperComponent extends React.Component {
   }
 
   render() {
+    const { intl: { formatMessage } } = this.context
+
     const { stepIndex } = this.props
     return (
       <div className="row">
         <div className="col-sm-50 col-sm-offset-15">
           <Stepper activeStep={stepIndex}>
             <Step>
-              <StepLabel><FormattedMessage id="datasource.stepper.connection" /></StepLabel>
+              <StepLabel>{formatMessage({ id: 'datasource.stepper.connection' })}</StepLabel>
             </Step>
             <Step>
-              <StepLabel><FormattedMessage id="datasource.stepper.attributes" /></StepLabel>
+              <StepLabel>{formatMessage({ id: 'datasource.stepper.attributes' })}</StepLabel>
             </Step>
             <Step>
-              <StepLabel><FormattedMessage id="datasource.stepper.mapping" /></StepLabel>
+              <StepLabel>{formatMessage({ id: 'datasource.stepper.mapping' })}</StepLabel>
             </Step>
           </Stepper>
         </div>

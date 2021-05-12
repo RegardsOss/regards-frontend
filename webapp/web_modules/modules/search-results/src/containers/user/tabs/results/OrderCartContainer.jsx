@@ -21,6 +21,7 @@ import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import isEqual from 'lodash/isEqual'
 import values from 'lodash/values'
+import some from 'lodash/some'
 import { connect } from '@regardsoss/redux'
 import { DamDomain, UIDomain } from '@regardsoss/domain'
 import { AccessProjectClient, OrderClient } from '@regardsoss/client'
@@ -33,6 +34,7 @@ import { TableSelectionModes } from '@regardsoss/components'
 import { allMatchHateoasDisplayLogic, HOCUtils } from '@regardsoss/display-control'
 import { getTableClient } from '../../../../clients/TableClient'
 import { getSearchCatalogClient } from '../../../../clients/SearchEntitiesClient'
+import AddElementToCartContainer from './common/options/AddElementToCartContainer'
 
 // get default modules client actions and reducers instances - we will use it to verify if a basket exists AND if it is in a dynamic container
 const modulesSelectors = AccessProjectClient.getModuleSelectors()
@@ -173,13 +175,30 @@ export class OrderCartContainer extends React.Component {
     // update callbacks when basket available state changes or view object type changes
     if (oldProps.viewObjectType !== newProps.viewObjectType
       || oldProps.emptySelection !== newProps.emptySelection
-      || oldState.basketAvailaible !== newState.basketAvailaible) {
+      || oldState.basketAvailaible !== newState.basketAvailaible
+      || !isEqual(oldProps.toggledElements, newProps.toggledElements)) {
       if (newState.basketAvailaible) {
         // set up the right callbacks for current state
         if (newProps.viewObjectType === DamDomain.ENTITY_TYPES_ENUM.DATA) {
           newState.onAddElementToBasket = this.onAddDataObjectToBasket
-          // enable selection add only when there is a selection
-          newState.onAddSelectionToBasket = newProps.emptySelection ? null : this.onAddDataObjectsSelectionToBasket
+          // 1- enable selection add when there is a selection
+          const allowAddSelectionToBasket = !newProps.emptySelection
+            // One of these possibilities
+            && (
+              (
+                // 2.1 - user picked few elements from the list
+                newProps.selectionMode === TableSelectionModes.includeSelected
+                // 2.2 - at least one item has some orderable file
+                && some(newProps.toggledElements, (element) => AddElementToCartContainer.canOrderDataObject(element))
+              )
+              // 3 - user selected all elements and we cannot check if they are orderable
+              || newProps.selectionMode === TableSelectionModes.excludeSelected
+            )
+          if (allowAddSelectionToBasket) {
+            newState.onAddSelectionToBasket = this.onAddDataObjectsSelectionToBasket
+          } else {
+            newState.onAddSelectionToBasket = null
+          }
         } else {
           newState.onAddElementToBasket = this.onAddDatasetToBasket
           newState.onAddSelectionToBasket = null // user cannot add a dataset selection to basket

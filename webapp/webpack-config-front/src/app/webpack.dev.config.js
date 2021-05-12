@@ -2,20 +2,19 @@
 const webpack = require('webpack')
 const { merge } = require('webpack-merge')
 const path = require('path')
-const StatsPlugin = require('stats-webpack-plugin')
-const threadLoader = require('thread-loader')
+// const StatsPlugin = require('stats-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const HtmlWebpackTagsPlugin = require('html-webpack-tags-plugin')
 const getCommonConfig = require('./webpack.common.config')
+const cpus = require('../utils/cpu')
 
 module.exports = function (projectContextPath) {
   let config = getCommonConfig(projectContextPath, 'dev')
-  // Prewarm pool thread
-  threadLoader.warmup({}, ['babel-loader'])
   // Ensure babel environment variable is correctly setup to development
   process.env.NODE_ENV = 'development'
 
   config = merge(config, {
+    mode: 'development',
     // Enable sourcemaps for debugging webpack's output.
     devtool: 'eval-source-map',
     output: {
@@ -87,13 +86,10 @@ module.exports = function (projectContextPath) {
       }),
       new webpack.DefinePlugin({
         API_URL: JSON.stringify('api/v1'),
-        'process.env': {
-          NODE_ENV: JSON.stringify('development'),
-        },
       }),
-      new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
-        chunkModules: true,
-      }),
+      // new StatsPlugin(`../../reports/dev-${Date.now()}-profile.json`, {
+      //   chunkModules: true,
+      // }),
     ],
   })
   return config

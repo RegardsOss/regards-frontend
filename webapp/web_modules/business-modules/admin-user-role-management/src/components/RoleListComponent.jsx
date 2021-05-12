@@ -23,7 +23,7 @@ import {
 import {
   Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn,
 } from 'material-ui/Table'
-import { FormattedMessage } from 'react-intl'
+
 import { AdminDomain } from '@regardsoss/domain'
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import {
@@ -69,10 +69,12 @@ export class RoleListComponent extends React.Component {
   }
 
   getBooleanAsString = (value) => {
+    const { intl: { formatMessage } } = this.context
+
     if (value) {
-      return (<FormattedMessage id="role.list.value.true" />)
+      return formatMessage({ id: 'role.list.value.true' })
     }
-    return (<FormattedMessage id="role.list.value.false" />)
+    return formatMessage({ id: 'role.list.value.false' })
   }
 
   /**
@@ -106,8 +108,10 @@ export class RoleListComponent extends React.Component {
    * @returns {*}
    */
   getState = (isDeleted) => {
+    const { intl: { formatMessage } } = this.context
+
     if (isDeleted) {
-      return (<FormattedMessage id="projects.table.isDeleted" />)
+      return formatMessage({ id: 'projects.table.isDeleted' })
     }
     return (null)
   }
@@ -151,30 +155,30 @@ export class RoleListComponent extends React.Component {
       <Card>
         <CardTitle
           title={formatMessage({ id: 'role.list.title' })}
-          subtitle={<FormattedMessage id="role.list.subtitle" />}
+          subtitle={formatMessage({ id: 'role.list.subtitle' })}
         />
         <CardText>
           <div style={moduleTheme.roleListCardStyle}>
             <ul>
               <li>
-                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.public.name" /></span>
-                <FormattedMessage id="role.list.public.description" />
+                <span style={moduleTheme.descritiveRoleStyle}>{formatMessage({ id: 'role.list.public.name' })}</span>
+                {formatMessage({ id: 'role.list.public.description' })}
               </li>
               <li>
-                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.registered.user.name" /></span>
-                <FormattedMessage id="role.list.registered.user.description" />
+                <span style={moduleTheme.descritiveRoleStyle}>{formatMessage({ id: 'role.list.registered.user.name' })}</span>
+                {formatMessage({ id: 'role.list.registered.user.description' })}
               </li>
               <li>
-                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.exploit.name" /></span>
-                <FormattedMessage id="role.list.exploit.description" />
+                <span style={moduleTheme.descritiveRoleStyle}>{formatMessage({ id: 'role.list.exploit.name' })}</span>
+                {formatMessage({ id: 'role.list.exploit.description' })}
               </li>
               <li>
-                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.admin.name" /></span>
-                <FormattedMessage id="role.list.admin.description" />
+                <span style={moduleTheme.descritiveRoleStyle}>{formatMessage({ id: 'role.list.admin.name' })}</span>
+                {formatMessage({ id: 'role.list.admin.description' })}
               </li>
               <li>
-                <span style={moduleTheme.descritiveRoleStyle}><FormattedMessage id="role.list.admin.project.name" /></span>
-                <FormattedMessage id="role.list.admin.project.description" />
+                <span style={moduleTheme.descritiveRoleStyle}>{formatMessage({ id: 'role.list.admin.project.name' })}</span>
+                {formatMessage({ id: 'role.list.admin.project.description' })}
               </li>
             </ul>
           </div>
@@ -188,9 +192,9 @@ export class RoleListComponent extends React.Component {
               displaySelectAll={false}
             >
               <TableRow>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.name" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.parentRole" /></TableHeaderColumn>
-                <TableHeaderColumn><FormattedMessage id="role.list.table.actions" /></TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'role.list.table.name' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'role.list.table.parentRole' })}</TableHeaderColumn>
+                <TableHeaderColumn>{formatMessage({ id: 'role.list.table.actions' })}</TableHeaderColumn>
               </TableRow>
             </TableHeader>
             <TableBody
@@ -201,7 +205,7 @@ export class RoleListComponent extends React.Component {
               {map(roleList, (role, i) => (
                 <TableRow key={i}>
                   <TableRowColumn>{this.getRoleLabel(role.content.name)}</TableRowColumn>
-                  <TableRowColumn>{this.getParentRoleLabel(role.content.parentRole) }</TableRowColumn>
+                  <TableRowColumn>{this.getParentRoleLabel(role.content.parentRole)}</TableRowColumn>
                   <TableRowColumn>
                     <EditResourceAccessComponent role={role} onEditResourceAccess={handleEditResourceAccess} />
                     <EditRoleComponent role={role} onEdit={handleEdit} />
@@ -216,15 +220,11 @@ export class RoleListComponent extends React.Component {
           <CardActionsComponent
             mainButtonUrl={createUrl}
             mainButtonLabel={
-              <FormattedMessage
-                id="role.list.action.add"
-              />
+              formatMessage({ id: 'role.list.action.add' })
             }
             mainHateoasDependencies={RoleListComponent.CREATE_DEPENDENCIES}
             secondaryButtonLabel={
-              <FormattedMessage
-                id="role.list.action.cancel"
-              />
+              formatMessage({ id: 'role.list.action.cancel' })
             }
             secondaryButtonUrl={this.props.backUrl}
           />

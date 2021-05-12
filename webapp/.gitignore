@@ -5,3 +5,4 @@ npm-debug.log*
 reports/
 .nyc_output/
 package-lock.json.*
+.eslintcache

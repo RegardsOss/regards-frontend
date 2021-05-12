@@ -18,7 +18,7 @@
  */
 import React from 'react'
 import LinearProgress from 'material-ui/LinearProgress'
-import { FormattedMessage } from 'react-intl'
+import { i18nContextType } from '@regardsoss/i18n'
 
 /**
  * Wraps a Material-Ui's {@link LinearProgress} with styles adapted for usage in {@link DatabaseConnectionTester}
@@ -33,15 +33,16 @@ const testerStyles = {
   alignItems: 'center',
   flexDirection: 'column',
 }
-const ConnectionTesterProgress = () => (
+const ConnectionTesterProgress = (props, { intl: { formatMessage } }) => (
   <div style={styles}>
     <div style={testerStyles}>
-      <FormattedMessage
-        id="database.connectionTester.pending"
-        style={labelStyles}
-      />
+      <span style={labelStyles}>
+        {formatMessage({ id: 'database.connectionTester.pending' })}
+      </span>
       <LinearProgress mode="indeterminate" />
     </div>
   </div>)
+
+ConnectionTesterProgress.contextTypes = { ...i18nContextType }
 
 export default ConnectionTesterProgress
