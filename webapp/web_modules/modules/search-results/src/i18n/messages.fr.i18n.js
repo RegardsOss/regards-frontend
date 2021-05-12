@@ -259,6 +259,20 @@ const messages = {
   'results.map.tools.opaque': 'Opaque',
   'results.map.tools.transparent': 'Transparent',
   'results.map.search.hintText': 'Rechercher un toponyme...',
+
+  'results.map.help.title': 'Guide des fonctionnalités',
+  'results.map.help.tooltip.close': 'Fermer l\'aide',
+  'results.map.help.action.close': 'Fermer ce message et ne plus me l\'afficher',
+  'results.map.help.draw.title': 'Dessiner une zone',
+  'results.map.help.draw.first_sentence': 'Vous pouvez dessiner un rectangle pour rechercher les produits dans cette zone.',
+  'results.map.help.draw.snd_sentence': 'Cette option est disponible dans la barre d\'outil de la carte.',
+  'results.map.help.draw.thr_sentence': 'Très utile pour vérifier qu\'une zone contient des données !',
+  'results.map.help.toponym.title': 'Toponymes',
+  'results.map.help.toponym.first_sentence': 'Nous apportons des milliers de toponymes pour restreindre votre recherche à une zone.',
+  'results.map.help.toponym.snd_sentence': 'Utilisez le moteur de recherche de toponyme pour rechercher un lieu.',
+  'results.map.help.upload.title': 'Emprise personnalisée',
+  'results.map.help.upload.first_sentence': 'Vous pouvez glisser-déposer sur la carte votre fichier contenant un polygone.',
+  'results.map.help.upload.snd_sentence': 'Formats autorisées: shapefile zip, KML, KMZ et GeoJSON - Doit contenir un seul polygone.',
 }
 
 export default messages

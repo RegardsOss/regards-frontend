@@ -255,6 +255,20 @@ const messages = {
   'results.map.tools.opaque': 'Opaque',
   'results.map.tools.transparent': 'Transparent',
   'results.map.search.hintText': 'Search a toponym...',
+
+  'results.map.help.title': 'Let\'s get you started',
+  'results.map.help.tooltip.close': 'Close help',
+  'results.map.help.action.close': 'Close message and don\'t show me this again',
+  'results.map.help.draw.title': 'Draw your zone',
+  'results.map.help.draw.first_sentence': 'You can draw a rectangle to research products on that zone.',
+  'results.map.help.draw.snd_sentence': 'This option is available in the map tool bar.',
+  'results.map.help.draw.thr_sentence': 'Very useful for checking that an area contains data!',
+  'results.map.help.toponym.title': 'Toponyms',
+  'results.map.help.toponym.first_sentence': 'We provide thousands of toponyms to restrict your research on one zone.',
+  'results.map.help.toponym.snd_sentence': 'Use the toponym search engine to find your place.',
+  'results.map.help.upload.title': 'Custom geographical restriction',
+  'results.map.help.upload.first_sentence': 'You can drag and drop on the map your own polygon file.',
+  'results.map.help.upload.snd_sentence': 'Allowed format: shapefile zip, KML, KMZ or GeoJSON - Must contains one polygon.',
 }
 
 export default messages
