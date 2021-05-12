@@ -59,16 +59,26 @@ class SelectedSessionComponent extends React.Component {
 
   getSessionStep = (selectedSession, stepType) => (find(selectedSession.content.steps, (step) => (step.type === stepType)))
 
-  openDeleteDialog = () => {
+  toggleDeleteDialog = () => {
+    const { isDeleteDialogOpen } = this.state
     this.setState({
-      isDeleteDialogOpen: true,
+      isDeleteDialogOpen: !isDeleteDialogOpen
     })
   }
 
-  closeDeleteDialog = () => {
-    this.setState({
-      isDeleteDialogOpen: false,
-    })
+  handleDeleteSession = () => {
+    const { selectedSession, deleteSession } = this.props
+    deleteSession(selectedSession.content.id)
+  }
+
+  handleRefreshSelectedSession = () => {
+    const { onRefreshSelectedSession, selectedSession } = this.props
+    onRefreshSelectedSession(selectedSession.content.id)
+  }
+
+  handleSessionSelected = () => {
+    const { onSelected } = this.props
+    onSelected(null, CELL_TYPE_ENUM.SESSION)
   }
 
   renderDeleteDialog = () => {
@@ -82,8 +92,8 @@ class SelectedSessionComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
-          onConfirm={() => deleteSession(selectedSession.content.id)}
-          onClose={() => this.closeDeleteDialog()}
+          onConfirm={this.handleDeleteSession}
+          onClose={this.toggleDeleteDialog}
         />
       )
     }
@@ -92,8 +102,7 @@ class SelectedSessionComponent extends React.Component {
 
   render() {
     const {
-      selectedSession, onSelected, project, relaunchProducts, relaunchAIP, retryRequests,
-      onRefreshSelectedSession,
+      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests,
     } = this.props
     const {
       intl: { formatMessage },
@@ -116,17 +125,17 @@ class SelectedSessionComponent extends React.Component {
             <FlatButton
               label={formatMessage({ id: 'dashboard.selectedsession.delete' })}
               style={deleteButtonStyle}
-              onClick={() => this.openDeleteDialog()}
+              onClick={this.toggleDeleteDialog}
             />
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={() => onRefreshSelectedSession(selectedSession.content.id)}
+              mainButtonClick={this.handleRefreshSelectedSession}
             />
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}
               mainButtonType="submit"
-              mainButtonClick={() => onSelected(null, CELL_TYPE_ENUM.SESSION)}
+              mainButtonClick={this.handleSessionSelected}
             />
           </CardActions>
         </div>
