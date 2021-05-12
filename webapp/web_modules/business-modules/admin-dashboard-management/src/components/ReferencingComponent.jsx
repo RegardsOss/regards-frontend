@@ -268,7 +268,7 @@ class ReferencingComponent extends React.Component {
   toggleRetryErrorsDialog = () => {
     const { isRetryErrorsDialogOpen } = this.state
     this.setState({
-      isRetryErrorsDialogOpen: !isRetryErrorsDialogOpen
+      isRetryErrorsDialogOpen: !isRetryErrorsDialogOpen,
     })
   }
 

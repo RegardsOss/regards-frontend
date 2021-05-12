@@ -62,7 +62,7 @@ class SelectedSessionComponent extends React.Component {
   toggleDeleteDialog = () => {
     const { isDeleteDialogOpen } = this.state
     this.setState({
-      isDeleteDialogOpen: !isDeleteDialogOpen
+      isDeleteDialogOpen: !isDeleteDialogOpen,
     })
   }
 
@@ -84,7 +84,7 @@ class SelectedSessionComponent extends React.Component {
   renderDeleteDialog = () => {
     const { intl: { formatMessage } } = this.context
     const {
-      selectedSession, deleteSession,
+      selectedSession,
     } = this.props
     const { isDeleteDialogOpen } = this.state
     if (isDeleteDialogOpen) {
