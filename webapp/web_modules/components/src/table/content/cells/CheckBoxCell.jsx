@@ -31,6 +31,11 @@ export class CheckBoxCell extends React.Component {
   static propTypes = {
     selected: PropTypes.bool.isRequired,
     onToggleSelection: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
+  }
+
+  static defaultProps = {
+    disabled: false,
   }
 
   static contextTypes = {
@@ -39,7 +44,7 @@ export class CheckBoxCell extends React.Component {
   }
 
   render() {
-    const { selected, onToggleSelection } = this.props
+    const { selected, onToggleSelection, disabled } = this.props
     const { intl: { formatMessage }, moduleTheme: { checkButton: { styles, checkedIcon, uncheckedIcon } } } = this.context
 
     const Icon = selected ? Checked : Unchecked
@@ -49,6 +54,7 @@ export class CheckBoxCell extends React.Component {
         iconStyle={selected ? checkedIcon : uncheckedIcon}
         onClick={onToggleSelection}
         title={formatMessage({ id: selected ? 'table.unselect.row.tooltip' : 'table.select.row.tooltip' })}
+        disabled={disabled}
       >
         <Icon />
       </IconButton>)

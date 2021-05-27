@@ -101,8 +101,10 @@ const messages = {
   'search.results.form.restrictions.configuration.opensearch.dialog.title': 'Construire une requête OpenSearch',
   'search.results.form.restrictions.configuration.opensearch.dialog.link': 'Lien vers la documentation',
   'search.results.form.restrictions.configuration.opensearch.dialog.message': 'Pour savoir comment construire une requête OpenSearch rendez-vous sur la documentation REGARDS: section Backend, sous-section Catalogue, puis SearchAPI.',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
-  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
+  'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Veuillez sélectionner jusqu\'à {max} jeux. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.model.count.max': 'Veuillez sélectionner jusqu\'à {max} modèles. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount}/{max} element{selectionCount, plural, 
     =0 {} 
     one {} 
     other {s}
