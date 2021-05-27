@@ -178,6 +178,17 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
       <TableLayout>
         {/* 0. Empty placeholder to show first row spacing and separator */}
         <TableHeaderLine />
+        {/* Configuration text*/}
+        <TableHeaderLine>
+          <TableHeaderContentBox>
+            <TableHeaderText text={formatMessage({
+              id: currentRestrictionType === UIDomain.DATASET_RESTRICTIONS_TYPES_ENUM.SELECTED_DATASETS
+                ? 'search.results.form.restrictions.configuration.selection.dataset.count.max'
+                : 'search.results.form.restrictions.configuration.selection.model.count.max',
+            }, { max: ToggleElementSelectionComponent.MAX_SELECTED_DATASET })}
+            />
+          </TableHeaderContentBox>
+        </TableHeaderLine>
         {/* Main header bar */}
         <TableHeaderLine>
           {/* Selected elements count (warn when none) */}
@@ -187,7 +198,7 @@ class DatasetRestrictionsSelectionComponent extends React.Component {
                 id: selectionCount
                   ? 'search.results.form.restrictions.configuration.selection.count.message'
                   : 'search.results.form.restrictions.configuration.no.selection.message',
-              }, { selectionCount })}
+              }, { selectionCount, max: ToggleElementSelectionComponent.MAX_SELECTED_DATASET })}
               error={!selectionCount}
             />
           </TableHeaderContentBox>

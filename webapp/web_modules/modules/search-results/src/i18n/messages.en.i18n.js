@@ -101,7 +101,9 @@ const messages = {
   'search.results.form.restrictions.configuration.opensearch.dialog.title': 'Build an OpenSearch query',
   'search.results.form.restrictions.configuration.opensearch.dialog.link': 'Link to documentation',
   'search.results.form.restrictions.configuration.opensearch.dialog.message': 'To find out how to build an OpenSearch query, go to the REGARDS documentation: Backend section, Catalog sub-section, then SearchAPI.',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'No selection',
+  'search.results.form.restrictions.configuration.no.selection.message': 'No selection',
+  'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Please select datasets up to {max}. If you need more complex retriction use the opensearch filter above.',
+  'search.results.form.restrictions.configuration.selection.model.count.max': 'Please select models up to {max}. If you need more complex retriction use the opensearch filter above.',
   'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} selected element{selectionCount, plural, 
     =0 {} 
     one {} 
