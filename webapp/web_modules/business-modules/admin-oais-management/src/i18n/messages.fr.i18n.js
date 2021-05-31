@@ -75,6 +75,7 @@ export default {
   'oais.packages.modify.tag': 'Mot-clefs',
   'oais.packages.modify.no.tag': 'Aucun mot-clef',
   'oais.packages.empty.results': 'Aucun produit trouvé',
+  'oais.packages.loading.results': 'Chargement des produits ...',
   'oais.packages.details.sip.title': 'Détails du SIP',
   'oais.packages.details.aip.title': 'Détail de l\'AIP',
 
@@ -140,6 +141,7 @@ export default {
   'oais.requests.confirm.retry.message': 'Voulez vous relancer les requêtes sélectionnées ?',
   'oais.request.details.button.close': 'Fermer',
   'oais.requests.empty.results': 'Aucune requête trouvée',
+  'oais.requests.loading.results': 'Chargement des requêtes ...',
   'oais.requests.retry.title': 'Relancer le traitement',
   'oais.requests.delete.title': 'Supprimer le traitement',
   'oais.requests.selection.version.option.title': 'Gestion {requestCount, plural, one {du produit modifié} other {des produits modifiés}}',

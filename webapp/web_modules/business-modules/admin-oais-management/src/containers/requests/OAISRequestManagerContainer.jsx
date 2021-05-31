@@ -51,6 +51,7 @@ export class OAISRequestManagerContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    pageLoading: PropTypes.bool.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
     updateStateFromRequestManager: PropTypes.func.isRequired,
@@ -88,6 +89,7 @@ export class OAISRequestManagerContainer extends React.Component {
   static mapStateToProps(state) {
     return {
       meta: requestSelectors.getMetaData(state),
+      pageLoading: requestSelectors.isFetching(state),
       tableSelection: requestTableSelectors.getToggledElementsAsList(state),
       selectionMode: requestTableSelectors.getSelectionMode(state),
       availableDependencies: CommonEndpointClient.endpointSelectors.getListOfKeys(state),
@@ -166,7 +168,7 @@ export class OAISRequestManagerContainer extends React.Component {
     const {
       featureManagerFilters, requestFilters, tableSelection, selectionMode,
       selectVersionOption, deleteRequests, retryRequests, abortRequests,
-      updateStateFromRequestManager, meta, fetchPage, clearSelection,
+      updateStateFromRequestManager, meta, fetchPage, clearSelection, pageLoading,
     } = this.props
     const { modeSelectionAllowed } = this.state
 
@@ -174,6 +176,7 @@ export class OAISRequestManagerContainer extends React.Component {
       <OAISRequestManagerComponent
         pageSize={OAISRequestManagerContainer.PAGE_SIZE}
         pageMeta={meta}
+        pageLoading={pageLoading}
         featureManagerFilters={featureManagerFilters}
         requestFilters={requestFilters}
         modeSelectionAllowed={modeSelectionAllowed}

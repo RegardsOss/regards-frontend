@@ -55,6 +55,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerComponent', () => {
         totalElements: 112,
         totalPages: 6,
       },
+      pageLoading: false,
       featureManagerFilters: {},
       requestFilters: {},
       modeSelectionAllowed: true,
