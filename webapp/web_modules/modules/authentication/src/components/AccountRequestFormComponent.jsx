@@ -102,7 +102,6 @@ export class AccountRequestFormComponent extends React.Component {
               subtitle={formatMessage({ id: `${requestFormId}.message` })}
             />
             <CardText>
-              <div style={{ bacgroundColor: 'Red', position: 'absolute' }}> Loading</div>
               <FormErrorMessage>{errorMessage}</FormErrorMessage>
               <Field
                 name={mailFieldId}
