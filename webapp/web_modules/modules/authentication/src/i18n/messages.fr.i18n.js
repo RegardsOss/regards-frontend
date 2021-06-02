@@ -77,6 +77,7 @@ const messages = {
   'ask.project.access.confirm.password': 'Confirmation du mot de passe (*)',
   'ask.project.access.send': 'Envoyer',
   'ask.project.access.form.back': 'Retour',
+  'ask.project.access.request.submitting': 'Soumission',
   'ask.create.account.error.409': 'Cette adresse e-mail est déjà utilisée par un compte REGARDS existant',
   'ask.create.account.error.unknown': 'Une erreur inconnue s\'est produite  ({status})',
   'ask.create.user.error.404': 'Il n\'existe aucun compte REGARDS pour l\'adresse e-mail saisie',

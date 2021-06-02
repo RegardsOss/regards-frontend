@@ -63,7 +63,7 @@ export class AccountRequestFormContainer extends React.Component {
     // store current mail value
     this.submittedMail = formValues[mailFieldId]
     const { fetchRequestAction } = this.props
-    fetchRequestAction(this.submittedMail)
+    return fetchRequestAction(this.submittedMail)
   }
 
   render() {
