@@ -58,6 +58,7 @@ export class OAISPackageManagerContainer extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    pageLoading: PropTypes.bool,
     storages: PropTypes.arrayOf(PropTypes.string),
     tableSelection: PropTypes.arrayOf(IngestShapes.AIPEntity),
     selectionMode: PropTypes.string.isRequired,
@@ -77,6 +78,7 @@ export class OAISPackageManagerContainer extends React.Component {
    */
   static mapStateToProps = (state) => ({
     meta: aipSelectors.getMetaData(state),
+    pageLoading: aipSelectors.isFetching(state),
     storages: aipStorageSearchSelectors.getArray(state),
     tableSelection: aipTableSelectors.getToggledElementsAsList(state),
     selectionMode: aipTableSelectors.getSelectionMode(state),
@@ -165,6 +167,7 @@ export class OAISPackageManagerContainer extends React.Component {
       updateStateFromFeatureManagerFilters,
       updateStateFromPackageManager,
       meta,
+      pageLoading,
       featureManagerFilters,
       productFilters,
       tableSelection,
@@ -183,6 +186,7 @@ export class OAISPackageManagerContainer extends React.Component {
         urlFilters={urlFilters}
         pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
         pageMeta={meta}
+        pageLoading={pageLoading}
         featureManagerFilters={featureManagerFilters}
         productFilters={productFilters}
         storages={storages}

@@ -26,7 +26,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { connect } from '@regardsoss/redux'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FormErrorMessage, HelpMessageComponent } from '@regardsoss/components'
+import { FormErrorMessage, HelpMessageComponent, LoadingFilterComponent } from '@regardsoss/components'
 import {
   reduxForm, RenderTextField, RenderCheckbox, Field, ValidationHelpers, ErrorTypes,
 } from '@regardsoss/form-utils'
@@ -98,13 +98,17 @@ export class AskProjectAccessFormComponent extends React.Component {
     const { moduleTheme, intl: { formatMessage } } = this.context
     return (
       <div style={moduleTheme.layout}>
-        <form onSubmit={handleSubmit(onRequestAction)}>
+        <form onSubmit={handleSubmit(onRequestAction)} disabled>
           <Card>
             <CardTitle
               title={formatMessage({ id: 'ask.project.access.request.title' })}
               subtitle={formatMessage({ id: 'ask.project.access.request.message' })}
             />
             <CardText>
+              <LoadingFilterComponent
+                display={submitting}
+                text={formatMessage({ id: 'ask.project.access.request.submitting' })}
+              />
               <HelpMessageComponent
                 message={passwordRules}
               />
@@ -118,6 +122,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                   name={useExistingAccountFieldId}
                   component={RenderCheckbox}
                   label={formatMessage({ id: 'ask.project.access.using.existing.account' })}
+                  disabled={submitting}
                 />
                 <Field
                   name={mailFieldId}
@@ -127,6 +132,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                   floatingLabelText={formatMessage({ id: 'ask.project.access.mail' })}
                   normalize={trim}
                   validate={validString128}
+                  disabled={submitting}
                 />
                 {useExistingAccount ? null : (
                   <div>
@@ -139,6 +145,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       floatingLabelText={formatMessage({ id: 'ask.project.access.new.password' })}
                       normalize={trim}
                       validate={validString255}
+                      disabled={submitting}
                     />
                     <Field
                       key="confirmPassword"
@@ -149,6 +156,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       floatingLabelText={formatMessage({ id: 'ask.project.access.confirm.password' })}
                       normalize={trim}
                       validate={validString255}
+                      disabled={submitting}
                     />
                     <Field
                       key="firstName"
@@ -158,6 +166,7 @@ export class AskProjectAccessFormComponent extends React.Component {
                       type="text"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.first.name' })}
                       validate={validString128}
+                      disabled={submitting}
                     />
                     <Field
                       key="lastName"
@@ -167,12 +176,13 @@ export class AskProjectAccessFormComponent extends React.Component {
                       type="text"
                       floatingLabelText={formatMessage({ id: 'ask.project.access.last.name' })}
                       validate={validString128}
+                      disabled={submitting}
                     />
                   </div>
                 )}
                 {
                   // whatever the case: show project metadata
-                  projectMetadata.map((metadata) => <MetadataField key={metadata.key} metadata={metadata} fullWidth />)
+                  projectMetadata.map((metadata) => <MetadataField key={metadata.key} metadata={metadata} fullWidth disabled={submitting} />)
                 }
                 <br />
                 <br />

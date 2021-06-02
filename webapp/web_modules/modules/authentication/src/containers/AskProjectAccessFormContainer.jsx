@@ -96,13 +96,12 @@ export class AskProjectAccessFormContainer extends React.Component {
       // keep request type
       this.setState({ lastRequestType: requestTypes.createUser })
       // create a new project user
-      fetchNewUser(this.submittedMail, metadata)
-    } else {
-      // keep request type
-      this.setState({ lastRequestType: requestTypes.createAccount })
-      // create a new account, plus corresponding user
-      fetchNewAccount(this.submittedMail, firstName, lastName, newPassword, metadata)
+      return fetchNewUser(this.submittedMail, metadata)
     }
+    // keep request type
+    this.setState({ lastRequestType: requestTypes.createAccount })
+    // create a new account, plus corresponding user
+    return fetchNewAccount(this.submittedMail, firstName, lastName, newPassword, metadata)
   }
 
   /**

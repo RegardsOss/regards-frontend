@@ -34,6 +34,7 @@ const DEFAULT_MULTILINES_COUNT = 3
 class MetadataField extends React.Component {
   static propTypes = {
     metadata: Metadata,
+    disabled: PropTypes.bool,
   }
 
   static contextTypes = {
@@ -87,6 +88,7 @@ class MetadataField extends React.Component {
   renderChoiceMetadataField = (metadata, fieldProperties) => {
     const { intl: { formatMessage } } = this.context
     const { options } = this.state
+    const { disabled } = this.props
     return (
       <Field
         name={metadata.key}
@@ -94,6 +96,7 @@ class MetadataField extends React.Component {
         floatingLabelText={`${formatMessage({ id: metadata.labelKey })} ${this.showStarIfFieldRequired()}`}
         {...fieldProperties}
         validate={this.validateFieldValue}
+        disabled={disabled}
       >
         {options.map(({ key, message }) => (
           <MenuItem
@@ -113,6 +116,7 @@ class MetadataField extends React.Component {
    */
   renderTextMetadataField = (metadata, fieldProperties, multiline = false) => {
     const { intl: { formatMessage } } = this.context
+    const { disabled } = this.props
     return (
       <Field
         name={metadata.key}
@@ -121,6 +125,7 @@ class MetadataField extends React.Component {
         floatingLabelText={`${formatMessage({ id: metadata.labelKey })} ${this.showStarIfFieldRequired()}`}
         validate={this.validateFieldValue}
         multiLine={multiline}
+        disaled={disabled}
         rows={multiline ? DEFAULT_MULTILINES_COUNT : 1}
         {...fieldProperties}
       />)
