@@ -77,6 +77,7 @@ const messages = {
   'ask.project.access.confirm.password': 'Confirm password (*)',
   'ask.project.access.send': 'Send',
   'ask.project.access.form.back': 'Cancel',
+  'ask.project.access.request.submitting': 'Submitting',
   'ask.create.account.error.409': 'That email address is already in use',
   'ask.create.account.error.unknown': 'An unknown error occurred ({status})',
   'ask.create.user.error.404': 'There is no REGARDS user for this email address',

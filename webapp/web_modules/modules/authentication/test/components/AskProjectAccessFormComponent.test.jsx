@@ -43,6 +43,7 @@ describe('[AUTHENTICATION] Testing AskProjectAccessFormComponent', () => {
     projectMetadata: getMetadataArray(),
     handleSubmit: () => { },
     initialize: () => { },
+    submitting: false,
   }
   it('should render properly', () => {
     // render disconnected
