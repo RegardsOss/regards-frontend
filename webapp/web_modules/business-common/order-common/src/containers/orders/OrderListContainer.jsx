@@ -32,6 +32,7 @@ import OrderListComponent from '../../components/orders/OrderListComponent'
 import AsynchronousRequestInformationComponent from '../../components/orders/dialog/AsynchronousRequestInformationComponent'
 import RequestFailedInformationComponent from '../../components/orders/dialog/RequestFailedInformationComponent'
 import DeleteOrderConfirmationComponent from '../../components/orders/dialog/DeleteOrderConfirmationComponent'
+import RetryOrderSelectionModeComponent from '../../components/orders/dialog/RetryOrderSelectionModeComponent'
 
 // create a local instance of order state actions (we don't use the reducer / selector for
 // those as they are used though promises)
@@ -84,6 +85,8 @@ export class OrderListContainer extends React.Component {
     asynchRequestInformation: false,
     // current delete operation like {completeDelete: boolean, onDelete: function}, null when none
     deleteConfirmation: null,
+    // current retry operation
+    retryMode: null,
   }
 
   /**
@@ -171,6 +174,12 @@ export class OrderListContainer extends React.Component {
   /** User callback: hide aynchronous information */
   onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
 
+  /** On show retry action dialog */
+  onShowRetryMode = (label, canretry, canDelete, onModeSelected) => this.setState({ retryMode: { label, canretry, canDelete, onModeSelected}})
+
+  /** User callback: hide aynchronous information */
+  onHideRetryMode = () => this.setState({ retryMode: null })
+
   render() {
     const {
       children, displayMode, isFetching, totalOrderCount, navigationActions,
@@ -178,7 +187,7 @@ export class OrderListContainer extends React.Component {
     } = this.props
     const {
       columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
-      currentFailureResponse, asynchRequestInformation, deleteConfirmation,
+      currentFailureResponse, asynchRequestInformation, deleteConfirmation, retryMode,
     } = this.state
     return (
       <>
@@ -200,6 +209,14 @@ export class OrderListContainer extends React.Component {
           onClose={this.onHideDeleteConfirmation}
           onDelete={get(deleteConfirmation, 'onDelete', noop)}
         />
+        <RetryOrderSelectionModeComponent 
+          visible={!!retryMode}
+          orderLabel={get(retryMode,'label','')}
+          canRetry={get(retryMode,'canRetry', false)}
+          canRestart={get(retryMode,'canRestart', false)}
+          onModeSelected={get(retryMode,'onModeSelected', noop)}
+          onClose={this.onHideRetryMode}
+        />
         { /* Order list component */}
         <OrderListComponent
           displayMode={displayMode}
@@ -219,6 +236,7 @@ export class OrderListContainer extends React.Component {
           onShowRequestFailedInformation={this.onShowRequestFailedInformation}
           onShowAsynchronousRequestInformation={this.onShowAsynchronousRequestInformation}
           onShowDeleteConfirmation={this.onShowDeleteConfirmation}
+          onShowRetryMode={this.onShowRetryMode}
         >
           {HOCUtils.renderChildren(children)}
         </OrderListComponent>

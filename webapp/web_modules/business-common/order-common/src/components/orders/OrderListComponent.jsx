@@ -37,6 +37,7 @@ import DownloadOrderFilesAsZipContainer from '../../containers/orders/options/Do
 import DownloadOrderMetaLinkFileContainer from '../../containers/orders/options/DownloadOrderMetaLinkFileContainer'
 import PauseResumeOrderContainer from '../../containers/orders/options/PauseResumeOrderContainer'
 import ShowOrderDatasetsContainer from '../../containers/orders/options/ShowOrderDatasetsContainer'
+import RetryOrderContainer from '../../containers/orders/options/RetryOrderContainer'
 import ErrorsCountRender from './cells/ErrorsCountRender'
 import StatusRender from './cells/StatusRender'
 
@@ -89,6 +90,8 @@ class OrderListComponent extends React.Component {
     onShowAsynchronousRequestInformation: PropTypes.func.isRequired,
     // shows delete confirmation callback: (completeDelete:boolean, onDelete:function like () => ()) => ()
     onShowDeleteConfirmation: PropTypes.func.isRequired,
+    // shows retry order dialog callback (orderLabel:string, canRetry:bool, canRestart:bool, onRetryModeSelected: () => {}))
+    onShowRetryMode: PropTypes.func.isRequired,
     // optional children, can be used to add rows into orders table header
     children: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.node),
@@ -179,8 +182,8 @@ class OrderListComponent extends React.Component {
   buildOptions = () => {
     const {
       displayMode, pageSize, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
-      ordersActions, ordersSelectors, navigationActions, orderStateActions,
-      onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
+      ordersActions, ordersSelectors, navigationActions, orderStateActions, onShowRetryMode,
+      onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation, 
     } = this.props
     return [
       // 1 - Pause / resume order option (must have sufficient rights)
@@ -199,6 +202,8 @@ class OrderListComponent extends React.Component {
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderMetaLinkFileContainer } : null,
       // 3 - user only option: metalink files
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
+      // 4 - retry option (only for error orders)
+      { OptionConstructor: RetryOrderContainer, optionProps : { orderStateActions, onShowRetryMode } },
       // 4 - delete option (superficial and complete)
       hasDeleteSuperficially || hasDeleteCompletely ? {
         OptionConstructor: DeleteOrderContainer,

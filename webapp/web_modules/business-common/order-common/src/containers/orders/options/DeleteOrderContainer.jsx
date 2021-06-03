@@ -154,13 +154,15 @@ export class DeleteOrderContainer extends React.Component {
     fetchOrders(0, pageSize * (lastPage + 1))
   }
 
+  canDelete = () => this.props.entity.links.some( (link) => link.rel === 'delete')
+
   /**
    * Can perform a complete delete opetarion? Note: never true when delete superficially is possible
    * @return true if user can perfor a complete delete operation on order
    */
   canDeleteCompletely = () => {
     const { entity: { content: { status } }, hasDeleteCompletely } = this.props
-    return DeleteOrderContainer.COMPLETELY_DELETABLE_STATES.includes(status) && hasDeleteCompletely
+    return this.canDelete() && DeleteOrderContainer.COMPLETELY_DELETABLE_STATES.includes(status) && hasDeleteCompletely
   }
 
   /**
@@ -169,7 +171,7 @@ export class DeleteOrderContainer extends React.Component {
    */
   canDeleteSuperficially = () => {
     const { entity: { content: { status } }, hasDeleteSuperficially } = this.props
-    return DeleteOrderContainer.SUPERFICIALLY_DELETABLE_STATES.includes(status) && hasDeleteSuperficially
+    return this.canDelete() && DeleteOrderContainer.SUPERFICIALLY_DELETABLE_STATES.includes(status) && hasDeleteSuperficially
   }
 
   render() {
