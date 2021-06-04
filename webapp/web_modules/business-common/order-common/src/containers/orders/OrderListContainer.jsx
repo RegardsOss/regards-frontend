@@ -175,7 +175,7 @@ export class OrderListContainer extends React.Component {
   onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
 
   /** On show retry action dialog */
-  onShowRetryMode = (label, canretry, canDelete, onModeSelected) => this.setState({ retryMode: { label, canretry, canDelete, onModeSelected}})
+  onShowRetryMode = (label, canRetry, canRestart, onModeSelected) => this.setState({ retryMode: { label, canRetry, canRestart, onModeSelected}})
 
   /** User callback: hide aynchronous information */
   onHideRetryMode = () => this.setState({ retryMode: null })

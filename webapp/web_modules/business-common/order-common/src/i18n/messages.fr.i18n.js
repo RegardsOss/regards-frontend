@@ -17,6 +17,9 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
+import { themeInstanceActions } from "@regardsoss/theme/src/clients/ThemeInstanceClient"
+import CommunicationDialerSip from "material-ui/svg-icons/communication/dialer-sip"
+
 /**
  * Module message for FR local
  * @author Raphaël Mechali
@@ -80,9 +83,14 @@ const messages = {
   'order.list.option.cell.pause.order.tooltip': 'Mettre la commande en pause',
   'order.list.option.cell.resume.order.tooltip': 'Reprendre la commande',
   'order.list.option.cell.retry.order.tooltip': 'Relancer la commande',
-  'order.list.option.cell.retry.mode.selection.title' : 'Relancer la commande - {name}',
-  'order.list.options.retry.retry.label': 'Relancer les erreurs',
-  'order.list.options.retry.restart.label': 'Relancer la commande complete',
+  'order.list.option.cell.retry.mode.selection.dialog.title' : 'Relancer la commande - {name}',
+  'order.list.option.cell.retry.mode.selection.dialog.retry.button.label': 'Relancer les erreurs',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.button.label': 'Relancer la commande complète',
+  'order.list.option.cell.retry.mode.selection.dialog.close.button.label': 'Annuler',
+  'order.list.option.cell.retry.mode.selection.dialog.ALL.info': 'La commande sélectionée contient des erreurs. Vous pouvez réaliser au choix les actions suivantes',
+  'order.list.option.cell.retry.mode.selection.dialog.RETRY.info': 'Relancer la récupération des fichiers en erreurs sur la même commande.',
+  'order.list.option.cell.retry.mode.selection.dialog.RESTART.info': 'Relancer la commande complète au travers de la création d\'une nouvelle commande.',
+  'order.list.option.cell.retry.mode.selection.dialog.NONE.info': 'Désolé, mais la commande sélectionné ne peut pas être relancer pour l\'instant. Merci de patientier que la commande soit terminée.',
   'order.list.option.cell.detail.title': 'Détail',
   'order.list.options.error.title': 'Échec de la requête',
   'order.list.options.error.close.button.label': 'Fermer',

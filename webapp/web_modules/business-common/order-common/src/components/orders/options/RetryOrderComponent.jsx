@@ -37,10 +37,9 @@
    render() {
      const { onRetry, canRetry } = this.props
      const { intl: { formatMessage } } = this.context
-     // FIXME : remettre la bonne condition de disabled
      return (
        <IconButton
-         disabled={canRetry}
+         disabled={!canRetry}
          onClick={onRetry}
          title={formatMessage({ id: 'order.list.option.cell.retry.order.tooltip' })}
        >

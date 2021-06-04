@@ -59,9 +59,11 @@ export class RetryOrderContainer extends React.Component {
     }
   }
 
-  canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
-
-  canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
+  // FIXME : Remettre les bonnes conditions canRetry et canRestart
+  // canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
+  // canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
+  canRetry = () => true
+  canRestart = () => true
 
   onRetryOrder = () => {
     const { onShowRetryMode, entity } = this.props
@@ -69,12 +71,11 @@ export class RetryOrderContainer extends React.Component {
   }
 
   onRetryModeSelected = (mode, label, onSuccessFullUrl) => {
-    // FIXME : Remettre les bonnes conditions canRetry et canRestart
     switch(mode) {
       case RetryOrderSelectionModeComponent.RESTART_MODE :
-        return !this.canRestart() ? this.props.onRestart(label, onSuccessFullUrl) : null
+        return this.canRestart() ? this.props.onRestart(label, onSuccessFullUrl) : null
       case RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE : 
-        return !this.canRetry() ? this.props.onRetryErrors(label, onSuccessFullUrl) : null
+        return this.canRetry() ? this.props.onRetryErrors(label, onSuccessFullUrl) : null
     }
   }
 
