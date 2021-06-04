@@ -19,108 +19,138 @@
 import Dialog from 'material-ui/Dialog'
 import FlatButton from 'material-ui/FlatButton'
 import { i18nContextType } from '@regardsoss/i18n'
-import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
- 
- /**
+import { ErrorDecoratorComponent } from '@regardsoss/components'
+
+/**
  * Retry order selection mode component
  * @author Sébastien Binda
  */
- class RetryOrderSelectionModeComponent extends React.Component {
+class RetryOrderSelectionModeComponent extends React.Component {
+  static RETRY_ERRORS_MODE='RETRY'
 
-  static RETRY_ERRORS_MODE="RETRY"
-  static RESTART_MODE="RESTART"
+  static RESTART_MODE='RESTART'
 
   static MODES = {
-    ALL:'ALL',
-    RETRY_ONLY:'RETRY',
-    RESTART_ONLY:'RESTART',
-    NONE:'NONE',
+    ALL: 'ALL',
+    RETRY_ONLY: 'RETRY',
+    RESTART_ONLY: 'RESTART',
+    NONE: 'NONE',
   }
-  
+
    static propTypes = {
-    canRetry: PropTypes.bool.isRequired,
-    canRestart: PropTypes.bool.isRequired,
-    orderLabel: PropTypes.string.isRequired,
-    onModeSelected: PropTypes.func.isRequired,
+     project: PropTypes.string.isRequired,
+     canRetry: PropTypes.bool.isRequired,
+     canRestart: PropTypes.bool.isRequired,
+     orderLabel: PropTypes.string.isRequired,
+     onModeSelected: PropTypes.func.isRequired,
      // is curretnly visible?
-    visible: PropTypes.bool.isRequired,
-    // on close callback like () => ()
-    onClose: PropTypes.func.isRequired,
+     visible: PropTypes.bool.isRequired,
+     // on close callback like () => ()
+     onClose: PropTypes.func.isRequired,
    }
- 
+
    static contextTypes = {
      ...i18nContextType,
    }
 
-   renderModeAllText =() => {
-     return (
-       <div>
-         {this.context.intl.formatMessage({id: 'order.list.option.cell.retry.mode.selection.dialog.ALL.info'})}
-         <ul>
-           <li>{this.renderModeRetryText()}</li>
-           <li>{this.renderModeRestartText()}</li>
-         </ul>
-       </div>
-     )
+   state = {
+     error: null,
    }
 
-   renderModeRetryText = () => {
-     return this.context.intl.formatMessage({id: 'order.list.option.cell.retry.mode.selection.dialog.RETRY.info'})
+   close = () => {
+     this.setState({ error: null })
+     this.props.onClose()
    }
 
-   renderModeRestartText = () => {
-    return this.context.intl.formatMessage({id: 'order.list.option.cell.retry.mode.selection.dialog.RESTART.info'})
+   getRestartOrderLabel = (currentOrderLabel) => {
+     const result = currentOrderLabel.replace(/ -r\d+$/, (attr) => attr.replace(/\d+/, (val) => parseInt(val) + 1))
+     return result === currentOrderLabel ? `${currentOrderLabel} -r1` : result
    }
 
-   renderModeNoneText = () => {
-     return this.context.intl.formatMessage({id: 'order.list.option.cell.retry.mode.selection.dialog.NONE.info'})
+   /**
+   * Generate the URL that will be used in the mail sent by the server to the user
+   */
+  getOnSucceedOrderURL = () => {
+    const {
+      project,
+    } = this.props
+    return `/user/${project}/redirect?module=order-history`
+  }
+
+   renderModeAllText =() => (
+     <div>
+       {this.context.intl.formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.ALL.info' })}
+       <ul>
+         <li>{this.renderModeRetryText()}</li>
+         <li>{this.renderModeRestartText()}</li>
+       </ul>
+     </div>
+   )
+
+   renderModeRetryText = () => this.context.intl.formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.RETRY.info' })
+
+   renderModeRestartText = () => this.context.intl.formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.RESTART.info' })
+
+   renderModeNoneText = () => this.context.intl.formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.NONE.info' })
+
+   onModeSelected = (mode, newOrderLabel, onSuccessfullUrl) => {
+     Promise.resolve(this.props.onModeSelected(mode, newOrderLabel, onSuccessfullUrl)).then((actionResult) => {
+       if (actionResult.error) {
+         const { intl: { formatMessage } } = this.context
+         this.setState({ error: formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.restart.error' }) })
+       } else {
+         this.close()
+       }
+     })
    }
 
    renderActions = () => {
-    const { intl: { formatMessage } } = this.context
-    const { canRetry, canRestart, onClose, onModeSelected } = this.props
-    const newOrderLabel = "Polopop !!!"
-    const onSuccessfullUrl = "pilipipi !!!"
+     const { intl: { formatMessage } } = this.context
+     const { canRetry, canRestart, orderLabel } = this.props
+     const newOrderLabel = this.getRestartOrderLabel(orderLabel)
+     const onSuccessfullUrl = this.getOnSucceedOrderURL()
      return (
-      <>
-        { canRetry ? <FlatButton
-          key="restart.button"
-          label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.restart.button.label' })}
-          onClick={ () => onModeSelected(RetryOrderSelectionModeComponent.RESTART_MODE, newOrderLabel, onSuccessfullUrl)}
-          primary
-        /> : null }
-        { canRestart ? <FlatButton
-          key="retry.button"
-          label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.retry.button.label' })}
-          onClick={ () => onModeSelected(RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE, null, null)}
-          primary
-        /> : null }
-        <FlatButton
-          key="close.button"
-          label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.close.button.label' })}
-          onClick={onClose}
-          primary
-        />
-      </>
+       <>
+         { canRetry ? <FlatButton
+           key="restart.button"
+           label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.restart.button.label' })}
+           onClick={() => this.onModeSelected(RetryOrderSelectionModeComponent.RESTART_MODE, newOrderLabel, onSuccessfullUrl)}
+           primary
+         /> : null }
+         { canRestart ? <FlatButton
+           key="retry.button"
+           label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.retry.button.label' })}
+           onClick={() => this.onModeSelected(RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE, null, null)}
+           primary
+         /> : null }
+         <FlatButton
+           key="close.button"
+           label={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.close.button.label' })}
+           onClick={this.close}
+           primary
+         />
+       </>
      )
    }
 
    renderText =(mode) => {
-     switch(mode) {
-       case RetryOrderSelectionModeComponent.MODES.ALL :
-          return this.renderModeAllText()
-       case RetryOrderSelectionModeComponent.MODES.RETRY_ONLY : 
-          return this.renderModeRetryText()
-        case RetryOrderSelectionModeComponent.MODES.RESTART_ONLY : 
-          return this.renderModeRestartText()
-        case RetryOrderSelectionModeComponent.MODES.NONE : 
-          return this.renderModeNoneText()
+     switch (mode) {
+       case RetryOrderSelectionModeComponent.MODES.ALL:
+         return this.renderModeAllText()
+       case RetryOrderSelectionModeComponent.MODES.RETRY_ONLY:
+         return this.renderModeRetryText()
+       case RetryOrderSelectionModeComponent.MODES.RESTART_ONLY:
+         return this.renderModeRestartText()
+       case RetryOrderSelectionModeComponent.MODES.NONE:
+         return this.renderModeNoneText()
      }
    }
- 
+
    render() {
      const { intl: { formatMessage } } = this.context
-     const { canRetry, canRestart, visible, onClose, orderLabel } = this.props
+     const {
+       canRetry, canRestart, visible, onClose, orderLabel,
+     } = this.props
 
      let mode
      if (canRetry && canRestart) {
@@ -132,18 +162,18 @@ import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss
      } else {
        mode = RetryOrderSelectionModeComponent.MODES.NONE
      }
- 
+
      return (
-      <Dialog
-        title={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.title' }, {name: orderLabel})}
-        actions={this.renderActions()}
-        modal={false}
-        open={visible}
-        onRequestClose={onClose}
-      >
-        {this.renderText(mode)}
-    </Dialog>)
+       <Dialog
+         title={formatMessage({ id: 'order.list.option.cell.retry.mode.selection.dialog.title' }, { name: orderLabel })}
+         actions={this.renderActions()}
+         modal
+         open={visible}
+         onRequestClose={onClose}
+       >
+         <ErrorDecoratorComponent>{this.state.error}</ErrorDecoratorComponent>
+         {this.renderText(mode)}
+       </Dialog>)
    }
- }
- export default RetryOrderSelectionModeComponent
- 
+}
+export default RetryOrderSelectionModeComponent

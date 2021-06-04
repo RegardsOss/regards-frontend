@@ -24,7 +24,6 @@ import RetryOrderComponent from '../../../components/orders/options/RetryOrderCo
 import RetryOrderSelectionModeComponent from '../../../components/orders/dialog/RetryOrderSelectionModeComponent'
 
 export class RetryOrderContainer extends React.Component {
-
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderWithContent.isRequired,
@@ -41,7 +40,7 @@ export class RetryOrderContainer extends React.Component {
    * @param {*} props: (optional) current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of component properties extracted from redux state
    */
-   static mapStateToProps(state, { ordersSelectors }) {
+  static mapStateToProps(state, { ordersSelectors }) {
     return {
     }
   }
@@ -52,10 +51,10 @@ export class RetryOrderContainer extends React.Component {
    * @param {*} props: (optional)  current component properties (excepted those from mapStateToProps and mapDispatchToProps)
    * @return {*} list of actions ready to be dispatched in the redux store
    */
-  static mapDispatchToProps(dispatch, { entity, orderStateActions } ) {
+  static mapDispatchToProps(dispatch, { entity, orderStateActions }) {
     return {
-      onRetryErrors : () => dispatch(orderStateActions.retryOrder(entity.content.id)),
-      onRestart : (label, onSuccessFullUrl) => dispatch(orderStateActions.restartOrder(entity.content.id, label, onSuccessFullUrl)),
+      onRetryErrors: () => dispatch(orderStateActions.retryOrder(entity.content.id)),
+      onRestart: (label, onSuccessFullUrl) => dispatch(orderStateActions.restartOrder(entity.content.id, label, onSuccessFullUrl)),
     }
   }
 
@@ -63,18 +62,19 @@ export class RetryOrderContainer extends React.Component {
   // canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
   // canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
   canRetry = () => true
+
   canRestart = () => true
 
   onRetryOrder = () => {
     const { onShowRetryMode, entity } = this.props
-    onShowRetryMode(get(entity,'content.label',' - '), this.canRetry(), this.canRestart(), this.onRetryModeSelected)
+    onShowRetryMode(get(entity, 'content.label', ' - '), this.canRetry(), this.canRestart(), this.onRetryModeSelected)
   }
 
   onRetryModeSelected = (mode, label, onSuccessFullUrl) => {
-    switch(mode) {
-      case RetryOrderSelectionModeComponent.RESTART_MODE :
+    switch (mode) {
+      case RetryOrderSelectionModeComponent.RESTART_MODE:
         return this.canRestart() ? this.props.onRestart(label, onSuccessFullUrl) : null
-      case RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE : 
+      case RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE:
         return this.canRetry() ? this.props.onRetryErrors(label, onSuccessFullUrl) : null
     }
   }

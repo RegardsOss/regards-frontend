@@ -55,7 +55,7 @@ class OrderHistoryComponent extends React.Component {
       description, page, defaultIconURL,
       ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, navigationActions, navigationSelectors,
-      processingSelectors, isProcessingDependenciesExist,
+      processingSelectors, isProcessingDependenciesExist, project,
     } = this.props
     const { intl: { locale } } = this.context
     return (
@@ -80,6 +80,7 @@ class OrderHistoryComponent extends React.Component {
         {...this.props}
       >
         <OrderDisplayContainer
+          project={project}
           ordersActions={ordersActions}
           ordersSelectors={ordersSelectors}
           orderFilesActions={orderFilesActions}

@@ -183,7 +183,7 @@ class OrderListComponent extends React.Component {
     const {
       displayMode, pageSize, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
       ordersActions, ordersSelectors, navigationActions, orderStateActions, onShowRetryMode,
-      onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation, 
+      onShowRequestFailedInformation, onShowAsynchronousRequestInformation, onShowDeleteConfirmation,
     } = this.props
     return [
       // 1 - Pause / resume order option (must have sufficient rights)
@@ -203,7 +203,7 @@ class OrderListComponent extends React.Component {
       // 3 - user only option: metalink files
       displayMode === ORDER_DISPLAY_MODES.USER ? { OptionConstructor: DownloadOrderFilesAsZipContainer } : null,
       // 4 - retry option (only for error orders)
-      { OptionConstructor: RetryOrderContainer, optionProps : { orderStateActions, onShowRetryMode } },
+      { OptionConstructor: RetryOrderContainer, optionProps: { orderStateActions, onShowRetryMode } },
       // 4 - delete option (superficial and complete)
       hasDeleteSuperficially || hasDeleteCompletely ? {
         OptionConstructor: DeleteOrderContainer,

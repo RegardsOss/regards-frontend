@@ -55,6 +55,7 @@ export class OrderDisplayContainer extends React.Component {
   }
 
   static propTypes = {
+    project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     // parameters appying on the orders list request
     ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
@@ -83,7 +84,7 @@ export class OrderDisplayContainer extends React.Component {
 
   render() {
     const {
-      navigationActions, navigationPath, displayMode, children,
+      navigationActions, navigationPath, displayMode, children, project,
       ordersRequestParameters, ordersActions, ordersSelectors, orderFilesActions,
       orderFilesSelectors, processingSelectors, isProcessingDependenciesExist,
     } = this.props
@@ -92,6 +93,7 @@ export class OrderDisplayContainer extends React.Component {
         // root level: all commands
         return (
           <OrderListContainer
+            project={project}
             displayMode={displayMode}
             ordersRequestParameters={ordersRequestParameters}
             ordersActions={ordersActions}

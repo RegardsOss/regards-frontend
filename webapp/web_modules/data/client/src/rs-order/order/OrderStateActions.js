@@ -97,11 +97,11 @@ class OrderStateActions {
   }
 
   retryOrder(orderId) {
-    return this.retryDelegate.sendSignal('PUT', {  }, { orderId })
+    return this.retryDelegate.sendSignal('PUT', { }, { orderId })
   }
 
   restartOrder(orderId, label, onSuccessUrl) {
-    return this.restartDelegate.sendSignal('POST', { label,onSuccessUrl }, { orderId })
+    return this.restartDelegate.sendSignal('POST', { label, onSuccessUrl }, { orderId })
   }
 
   /**

@@ -50,6 +50,8 @@ const deleteCompletelyDependencies = [orderStateActions.getDeleteCompletelyDepen
  */
 export class OrderListContainer extends React.Component {
   static propTypes = {
+    // from router
+    project: PropTypes.string.isRequired,
     displayMode: PropTypes.oneOf(values(ORDER_DISPLAY_MODES)).isRequired,
     ordersRequestParameters: PropTypes.objectOf(PropTypes.string),
     ordersActions: PropTypes.instanceOf(OrderClient.OrderListActions).isRequired,
@@ -175,7 +177,11 @@ export class OrderListContainer extends React.Component {
   onHideDeleteConfirmation = () => this.setState({ deleteConfirmation: null })
 
   /** On show retry action dialog */
-  onShowRetryMode = (label, canRetry, canRestart, onModeSelected) => this.setState({ retryMode: { label, canRetry, canRestart, onModeSelected}})
+  onShowRetryMode = (label, canRetry, canRestart, onModeSelected) => this.setState({
+    retryMode: {
+      label, canRetry, canRestart, onModeSelected,
+    },
+  })
 
   /** User callback: hide aynchronous information */
   onHideRetryMode = () => this.setState({ retryMode: null })
@@ -183,7 +189,7 @@ export class OrderListContainer extends React.Component {
   render() {
     const {
       children, displayMode, isFetching, totalOrderCount, navigationActions,
-      ordersRequestParameters, ordersActions, ordersSelectors,
+      ordersRequestParameters, ordersActions, ordersSelectors, project,
     } = this.props
     const {
       columnsVisibility, hasDeleteCompletely, hasDeleteSuperficially, hasPauseResume,
@@ -209,12 +215,13 @@ export class OrderListContainer extends React.Component {
           onClose={this.onHideDeleteConfirmation}
           onDelete={get(deleteConfirmation, 'onDelete', noop)}
         />
-        <RetryOrderSelectionModeComponent 
+        <RetryOrderSelectionModeComponent
+          project={project}
           visible={!!retryMode}
-          orderLabel={get(retryMode,'label','')}
-          canRetry={get(retryMode,'canRetry', false)}
-          canRestart={get(retryMode,'canRestart', false)}
-          onModeSelected={get(retryMode,'onModeSelected', noop)}
+          orderLabel={get(retryMode, 'label', '')}
+          canRetry={get(retryMode, 'canRetry', false)}
+          canRestart={get(retryMode, 'canRestart', false)}
+          onModeSelected={get(retryMode, 'onModeSelected', noop)}
           onClose={this.onHideRetryMode}
         />
         { /* Order list component */}

@@ -154,7 +154,7 @@ export class DeleteOrderContainer extends React.Component {
     fetchOrders(0, pageSize * (lastPage + 1))
   }
 
-  canDelete = () => this.props.entity.links.some( (link) => link.rel === 'delete')
+  canDelete = () => this.props.entity.links.some((link) => link.rel === 'delete')
 
   /**
    * Can perform a complete delete opetarion? Note: never true when delete superficially is possible

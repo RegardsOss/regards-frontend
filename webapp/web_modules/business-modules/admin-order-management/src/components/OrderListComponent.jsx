@@ -33,6 +33,7 @@ import OrderListFiltersContainer from '../containers/OrderListFiltersContainer'
 */
 class OrderListComponent extends React.Component {
   static propTypes = {
+    project: PropTypes.string.isRequired,
     // current order request parameters
     ordersRequestParameters: PropTypes.objectOf(PropTypes.string).isRequired,
 
@@ -52,7 +53,7 @@ class OrderListComponent extends React.Component {
 
   render() {
     const {
-      ordersRequestParameters, backUrl, ordersActions, ordersSelectors, onUserFilterSelected,
+      ordersRequestParameters, backUrl, ordersActions, ordersSelectors, onUserFilterSelected, project,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { orderList: { cardTextStyle } } } = this.context
     return (
@@ -64,6 +65,7 @@ class OrderListComponent extends React.Component {
         />
         <CardText style={cardTextStyle}>
           <OrderDisplayContainer
+            project={project}
             ordersRequestParameters={ordersRequestParameters}
             ordersActions={ordersActions}
             ordersSelectors={ordersSelectors}
