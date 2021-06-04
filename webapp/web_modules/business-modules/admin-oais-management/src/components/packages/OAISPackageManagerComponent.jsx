@@ -585,7 +585,7 @@ export class OAISPackageManagerComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      pageSize, storages, tableSelection, selectionMode, productFilters, pageLoading, 
+      pageSize, storages, tableSelection, selectionMode, productFilters, pageLoading,
     } = this.props
     const {
       contextRequestURLParameters, contextRequestBodyParameters,
