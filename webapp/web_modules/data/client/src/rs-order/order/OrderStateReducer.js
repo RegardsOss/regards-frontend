@@ -37,6 +37,8 @@ class OrderStateReducer {
       this.actions.deleteCompletelyDelegate,
       this.actions.pauseDelegate,
       this.actions.resumeDelegate,
+      this.actions.retryDelegate,
+      this.actions.restartDelegate,
     ]
     this.reducerDelegates = allActionsDelegates.reduce((acc, actionDelegate) => {
       const reducerDelegate = new BasicSignalReducers(actionDelegate)
