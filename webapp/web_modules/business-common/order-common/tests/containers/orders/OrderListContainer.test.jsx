@@ -47,6 +47,7 @@ describe('[Order Common] Testing OrderListContainer', () => {
   const orderStateActions = new OrderClient.OrderStateActions('any')
 
   const commonProperties = {
+    project: 'default',
     ordersActions: new OrderClient.OrderListActions('any'),
     ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
     navigationActions: new OrdersNavigationActions('any'),

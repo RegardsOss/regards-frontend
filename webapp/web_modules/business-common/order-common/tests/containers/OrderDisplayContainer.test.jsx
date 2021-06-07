@@ -44,6 +44,7 @@ describe('[Order Common] Testing OrderDisplayContainer', () => {
     assert.isDefined(OrderDisplayContainer)
   })
   const commonProps = {
+    project: 'default',
     displayMode: ORDER_DISPLAY_MODES.PROJECT_ADMINISTRATOR,
     ordersActions: new OrderClient.OrderListActions('idk'),
     ordersSelectors: OrderClient.getOrderListSelectors(['idk']),
