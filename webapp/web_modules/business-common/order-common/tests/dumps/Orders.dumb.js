@@ -50,7 +50,12 @@ export const SOME_ORDERS = {
           },
         ],
       },
-      links: [],
+      links: [
+        {
+          rel: 'delete',
+          url: 'http://delete',
+        },
+      ],
     },
     1: {
       content: {

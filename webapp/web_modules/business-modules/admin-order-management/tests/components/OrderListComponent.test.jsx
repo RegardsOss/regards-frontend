@@ -41,6 +41,7 @@ describe('[Admin Order Management] Testing OrderListComponent', () => {
   })
   it('should render correctly', () => {
     const props = {
+      project: 'default',
       ordersRequestParameters: { deepDown: 'below' },
       backUrl: 'random-url_value#123',
       ordersActions: orderListActions,
