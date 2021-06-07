@@ -59,9 +59,9 @@ export class RetryOrderContainer extends React.Component {
     }
   }
 
-  canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
+  canRetry = () => this.props.entity.links.some((link) => link.rel === 'retry')
 
-  canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
+  canRestart = () => this.props.entity.links.some((link) => link.rel === 'restart')
 
   onRetryOrder = () => {
     const { onShowRetryMode, entity } = this.props
