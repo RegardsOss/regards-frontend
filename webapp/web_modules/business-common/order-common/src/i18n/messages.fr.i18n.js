@@ -17,9 +17,6 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { themeInstanceActions } from '@regardsoss/theme/src/clients/ThemeInstanceClient'
-import CommunicationDialerSip from 'material-ui/svg-icons/communication/dialer-sip'
-
 /**
  * Module message for FR local
  * @author Raphaël Mechali
@@ -86,7 +83,12 @@ const messages = {
   'order.list.option.cell.retry.mode.selection.dialog.title': 'Relancer la commande - {name}',
   'order.list.option.cell.retry.mode.selection.dialog.retry.button.label': 'Relancer les erreurs',
   'order.list.option.cell.retry.mode.selection.dialog.restart.button.label': 'Relancer la commande complète',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.back.button.label': 'Retour',
   'order.list.option.cell.retry.mode.selection.dialog.close.button.label': 'Annuler',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.order.new.label.info': 'Veuillez saisir le nom de la nouvelle commande',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.error.unique.label': 'Une commande avec ce nom existe déjà',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.error.too.long.label': 'Le nom saisie pour la nouvelle commande est trop long',
+  'order.list.option.cell.retry.mode.selection.dialog.restart.order.new.label.too.long': 'Taille maximum autorisée {size}',
   'order.list.option.cell.retry.mode.selection.dialog.restart.error': 'Erreur durant la relance de votre commande.',
   'order.list.option.cell.retry.mode.selection.dialog.ALL.info': 'La commande sélectionée contient des erreurs. Vous pouvez réaliser au choix les actions suivantes',
   'order.list.option.cell.retry.mode.selection.dialog.RETRY.info': 'Relancer la récupération des fichiers en erreurs sur la même commande.',

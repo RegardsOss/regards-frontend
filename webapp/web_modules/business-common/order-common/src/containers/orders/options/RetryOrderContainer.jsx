@@ -27,6 +27,7 @@ export class RetryOrderContainer extends React.Component {
   static propTypes = {
     // from table cell API
     entity: OrderShapes.OrderWithContent.isRequired,
+    // eslint-disable-next-line react/no-unused-prop-types
     orderStateActions: PropTypes.instanceOf(OrderClient.OrderStateActions).isRequired, // used in mapDispatchToProps
     onShowRetryMode: PropTypes.func.isRequired,
     // from mapstateToProps
@@ -58,12 +59,9 @@ export class RetryOrderContainer extends React.Component {
     }
   }
 
-  // FIXME : Remettre les bonnes conditions canRetry et canRestart
-  // canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
-  // canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
-  canRetry = () => true
+  canRetry = () => this.props.entity.links.some( (link) => link.rel === 'retry')
 
-  canRestart = () => true
+  canRestart = () => this.props.entity.links.some( (link) => link.rel === 'restart')
 
   onRetryOrder = () => {
     const { onShowRetryMode, entity } = this.props
@@ -76,6 +74,8 @@ export class RetryOrderContainer extends React.Component {
         return this.canRestart() ? this.props.onRestart(label, onSuccessFullUrl) : null
       case RetryOrderSelectionModeComponent.RETRY_ERRORS_MODE:
         return this.canRetry() ? this.props.onRetryErrors(label, onSuccessFullUrl) : null
+      default:
+        return null
     }
   }
 
