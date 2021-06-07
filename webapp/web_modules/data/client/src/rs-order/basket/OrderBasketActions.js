@@ -106,15 +106,11 @@ class OrderBasketActions {
           // and do not change the results set)
           if (CatalogDomain.CatalogSearchQueryHelper.RESULTS_FILTERING_PARAMETERS.includes(key)) {
             // that parameter must be kept. If it has mustiple values,  keep only first one
-            let parameterValue = null
-            if (isArray(value)) {
-              if (value.length >= 1) {
-                parameterValue = value[0]
-              } // else : do not add that parameter in request as is empty
-            } else {
-              parameterValue = value
-            }
-            if (parameterValue) {
+            if (value) {
+              let parameterValue = value
+              if (!isArray(value)) {
+                parameterValue = [value]
+              }
               return {
                 ...acc,
                 [key]: parameterValue,
