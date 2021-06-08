@@ -42,6 +42,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing RequestDeleteOption', () => {
         content: {
           providerId: '0',
           state: 'ERROR',
+          step: 'LOCAL_ERROR',
           errors: ['Error'],
         },
       },

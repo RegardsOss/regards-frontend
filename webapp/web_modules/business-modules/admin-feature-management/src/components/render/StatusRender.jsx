@@ -22,6 +22,7 @@ import { StringValueRender } from '@regardsoss/components'
 import { FemShapes } from '@regardsoss/shape'
 import IconButton from 'material-ui/IconButton'
 import { themeContextType } from '@regardsoss/theme'
+import { i18nContextType } from '@regardsoss/i18n'
 import AlertError from 'mdi-material-ui/AlertCircle'
 
 /**
@@ -36,13 +37,16 @@ class StatusRender extends React.Component {
 
   static contextTypes = {
     ...themeContextType,
+    ...i18nContextType,
   }
 
   render() {
-    const { entity: { content: { state, errors } }, onViewRequestErrors } = this.props
-    const { moduleTheme: { tableStyle: { renderStyle: { statusStyle } } } } = this.context
+    const { entity: { content: { state, step, errors } }, onViewRequestErrors } = this.props
+    const { intl : { formatMessage } , moduleTheme: { tableStyle: { renderStyle: { statusStyle } } } } = this.context
+    const stateLabel = formatMessage( { id : `feature.request.state.${state}`})
+    const stepLabel = formatMessage( { id : `feature.request.step.${step}`})
     return <div style={statusStyle}>
-      <StringValueRender value={state} />
+      <StringValueRender value={`${stateLabel} - ${stepLabel}`} />
       {
         isEmpty(errors)
           ? null
