@@ -40,7 +40,7 @@ const messages = {
   'data.board.action.featuremanager.tooltip': 'Consulter les produits',
 
   'ingest.board.external.datasources.title': 'Aspiration',
-  'ingest.board.external.datasources.description': 'Permet de construire le catalogue de données depuis des produits référencés depuis diverses sources de données. Cette étape est obligatoire pour rendre visible à vos utilisateurs les produits référencés depuis les gestionnaire de prdouits ou bien présents dans une base de données ou même accessible depuis un service web.',
+  'ingest.board.external.datasources.description': 'Permet de construire le catalogue de données depuis des produits référencés depuis diverses sources de données. Cette étape est obligatoire pour rendre visible à vos utilisateurs les produits référencés depuis les gestionnaire de produits ou bien présents dans une base de données ou même accessible depuis un service web.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations de données',
   'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
