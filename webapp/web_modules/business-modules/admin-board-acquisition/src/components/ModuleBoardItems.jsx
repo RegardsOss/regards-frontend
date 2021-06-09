@@ -41,6 +41,21 @@ import { oaisDependencies } from '../../../admin-oais-management'
  */
 const items = (projectName, intl, onResetIndex) => [
   {
+    title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
+    description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
+        hateoasDependencies: [
+          ...dashboardManagementDependencies.listDependencies,
+        ],
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'data-provider.board.title' }),
     description: intl.formatMessage({ id: 'data-provider.board.description' }),
     advanced: false,
@@ -81,6 +96,21 @@ const items = (projectName, intl, onResetIndex) => [
         icon: <PageView />,
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
+    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
+        hateoasDependencies: [
+          ...featureManagementDependencies.listDependencies,
+        ],
       },
     ],
   },
@@ -130,36 +160,6 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.tooltip' }),
         hateoasDependencies: [
           ...storageManagementDependencies.listDependencies,
-        ],
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
-    description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
-        hateoasDependencies: [
-          ...dashboardManagementDependencies.listDependencies,
-        ],
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
-    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
-        hateoasDependencies: [
-          ...featureManagementDependencies.listDependencies,
         ],
       },
     ],

@@ -20,19 +20,27 @@ const messages = {
   'data.board.action.list.tooltip': 'Liste',
   'data.board.action.add.tooltip': 'Ajouter',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Le tableau de bord permet de centraliser toutes les informations concernant les produits référencés dans votre projet. Vous pouvez ici visualiser via un regroupement par source/session l\"avancement de vos chaînes de traitements des produits.',
+  'data.board.action.dashboard.tooltip': 'Consulter le tableau de bord',
+
   'data-provider.board.title': 'Acquisition de données',
   'data-provider.board.description': 'Permet de configurer des processus d\'acquisition de nouvelles données détectées (la méthode de détection est configurable). Pour chaque donnée détectée, un paquet d\'information (SIP) est généré et ensuite fourni au système pour ingestion.',
   'data-provider.board.action.configure.tooltip': 'Chaînes d\'acquisition',
   'data-provider.board.action.sessions.tooltip': 'Sessions d\'acquisition',
 
   'data.board.oais.title': 'Gestionnaire de produits (OAIS)',
-  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les produits. Un produit est une association entre un SIP (Submission Information Package) et un AIP (Archive Information Package).',
+  'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les produits référéncés ou en cours de traitement dans le service Ingest. Un produit est une association entre un SIP (Submission Information Package) et un AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Consulter les produits',
   'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
   'data.board.oais.tooltip.submition': 'Soumettre des produits',
 
+  'data.board.featuremanager.title': 'Gestionnaire de produits (GeoJson)',
+  'data.board.featuremanager.description': 'Le gestionnaire de produits (GeoJson) vous permet de gérer les produits référencés ou en cours de traitement dans le service FeatureManager. Un produit est défini par un objet au format GeoJson standard contenant les métadonnées et optionnelement les fichiers physiques associés au produit.',
+  'data.board.action.featuremanager.tooltip': 'Consulter les produits',
+
   'ingest.board.external.datasources.title': 'Aspiration',
-  'ingest.board.external.datasources.description': 'Permet d\'aspirer des données depuis une source de données déjà existante en associant les champs de la source de données aux modèles de données.',
+  'ingest.board.external.datasources.description': 'Permet de construire le catalogue de données depuis des produits référencés depuis diverses sources de données. Cette étape est obligatoire pour rendre visible à vos utilisateurs les produits référencés depuis les gestionnaire de prdouits ou bien présents dans une base de données ou même accessible depuis un service web.',
   'ingest.board.action.external.datasources.list.tooltip': 'Configurer les aspirations de données',
   'ingest.board.action.connection.list.tooltip': 'Configurer les connexions aux bases de données externes',
   'ingest.board.action.datasource.monitor.tooltip': 'Suivre les aspirations de données',
@@ -44,13 +52,6 @@ const messages = {
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
 
-  'data.board.dashboard.title': 'Tableau de bord',
-  'data.board.dashboard.description': 'Permet de visualiser, par source et par session, une synthèse de l\'état des requêtes et d\'accéder à l\'écran de gestion des requêtes.',
-  'data.board.action.dashboard.tooltip': 'Tableau de bord',
-
-  'data.board.featuremanager.title': 'Feature Manager',
-  'data.board.featuremanager.description': 'Un écran de consultation, relance et suppression, dédié aux requêtes.',
-  'data.board.action.featuremanager.tooltip': 'Feature Manager',
 
 }
 

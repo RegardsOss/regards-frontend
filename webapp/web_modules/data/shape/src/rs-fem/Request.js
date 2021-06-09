@@ -25,10 +25,10 @@ import { HateOASLink } from '../rs-common'
 export const RequestContent = PropTypes.shape({
   id: PropTypes.number,
   registrationDate: PropTypes.string,
-  providerId: PropTypes.string.isRequired,
+  providerId: PropTypes.string,
   state: PropTypes.string.isRequired,
   step: PropTypes.string.isRequired,
-  errors: PropTypes.arrayOf(PropTypes.string).isRequired,
+  errors: PropTypes.arrayOf(PropTypes.string),
 })
 
 export const Request = PropTypes.shape({
