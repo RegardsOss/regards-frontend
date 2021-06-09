@@ -144,6 +144,7 @@
     "@regardsoss/user-metadata-common": "file:web_modules/business-common/user-metadata-common",
     "@regardsoss/vendors": "file:web_modules/vendors",
     "bignumber.js": "^8.0.1",
+    "buffer": "^6.0.3",
     "cesium": "^1.80.0",
     "chart.js": "^2.7.3",
     "date-fns": "^1.29.0",
