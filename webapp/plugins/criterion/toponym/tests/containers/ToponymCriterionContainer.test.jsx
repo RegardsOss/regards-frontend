@@ -20,10 +20,11 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { UIDomain } from '@regardsoss/domain'
 import { buildTestContext, testSuiteHelpers, criterionTestSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AccessProjectClient } from '@regardsoss/client'
 import { ToponymCriterionContainer } from '../../src/containers/ToponymCriterionContainer'
 import styles from '../../src/styles/styles'
 import ToponymCriterionComponent from '../../src/components/ToponymCriterionComponent'
+import { getUploadToponymClient } from '../../src/clients/UploadToponymClient'
+import { getSearchToponymClient } from '../../src/clients/SearchToponymClient'
 
 const context = buildTestContext(styles)
 
@@ -43,10 +44,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       pluginInstanceId: 'any',
       searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchToponymClient: {
-        actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: AccessProjectClient.getSearchToponymSelectors(),
-      },
+      searchToponymClient: getSearchToponymClient('stub.namespace'),
+      uploadToponymClient: getUploadToponymClient('stub.namespace'),
       state: ToponymCriterionContainer.DEFAULT_STATE,
       isFetching: false,
       toponyms: {
@@ -83,10 +82,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       pluginInstanceId: 'any',
       searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchToponymClient: {
-        actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: AccessProjectClient.getSearchToponymSelectors(),
-      },
+      searchToponymClient: getSearchToponymClient('stub.namespace'),
+      uploadToponymClient: getUploadToponymClient('stub.namespace'),
       state: {
         error: true,
         toponymFilterText: 'testValue',
@@ -139,10 +136,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       pluginInstanceId: 'any',
       searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchToponymClient: {
-        actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: AccessProjectClient.getSearchToponymSelectors(),
-      },
+      searchToponymClient: getSearchToponymClient('stub.namespace'),
+      uploadToponymClient: getUploadToponymClient('stub.namespace'),
       state: {
         error: true,
         toponymFilterText: 'testValue',
@@ -215,10 +210,8 @@ describe('[toponym] Testing ToponymCriterionContainer', () => {
       pluginInstanceId: 'any',
       searchContext: criterionTestSuiteHelpers.getSearchContextStub(),
       label: criterionTestSuiteHelpers.getLabelStub(),
-      searchToponymClient: {
-        actions: new AccessProjectClient.SearchToponymActions('stub.namespace'),
-        selectors: AccessProjectClient.getSearchToponymSelectors(),
-      },
+      searchToponymClient: getSearchToponymClient('stub.namespace'),
+      uploadToponymClient: getUploadToponymClient('stub.namespace'),
       state: {
         currentLocale: UIDomain.LOCALES_ENUM.fr,
         toponymFilterText: '',
