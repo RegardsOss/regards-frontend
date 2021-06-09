@@ -274,7 +274,7 @@ const messages = {
   'results.map.help.toponym.snd_sentence': 'Utilisez le moteur de recherche de toponyme pour rechercher un lieu.',
   'results.map.help.upload.title': 'Emprise personnalisée',
   'results.map.help.upload.first_sentence': 'Vous pouvez glisser-déposer sur la carte votre fichier contenant un polygone.',
-  'results.map.help.upload.snd_sentence': 'Formats autorisées: shapefile zip, KML, KMZ et GeoJSON - Doit contenir un seul polygone.',
+  'results.map.help.upload.snd_sentence': 'Formats autorisées: shapefile zip, KML, KMZ et GeoJSON - Doit contenir un seul polygone ou un multi polygone.',
 }
 
 export default messages

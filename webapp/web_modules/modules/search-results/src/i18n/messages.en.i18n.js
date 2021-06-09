@@ -270,7 +270,7 @@ const messages = {
   'results.map.help.toponym.snd_sentence': 'Use the toponym search engine to find your place.',
   'results.map.help.upload.title': 'Custom geographical restriction',
   'results.map.help.upload.first_sentence': 'You can drag and drop on the map your own polygon file.',
-  'results.map.help.upload.snd_sentence': 'Allowed format: shapefile zip, KML, KMZ or GeoJSON - Must contains one polygon.',
+  'results.map.help.upload.snd_sentence': 'Allowed format: shapefile zip, KML, KMZ or GeoJSON - Must contains one polygon or one multi polygon.',
 }
 
 export default messages
