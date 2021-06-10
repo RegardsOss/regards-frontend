@@ -85,5 +85,9 @@ STATIC_CONF = {
   },
   MAP: {
     PAGE_SIZE_MAP: 400,
+    /**
+     * When user clicks on a point feature, the distance in meter above the point
+     */
+    POINT_ZOOM_LEVEL: 100000,
   },
 }
