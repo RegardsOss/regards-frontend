@@ -74,3 +74,8 @@ export { default as getRequestSelectVersionModeReducer } from './request/Request
 export { default as getRequestSelectVersionModeSelectors } from './request/RequestSelectVersionModeSelectors'
 
 export { default as RequestAbortActions } from './request/RequestAbortActions'
+
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

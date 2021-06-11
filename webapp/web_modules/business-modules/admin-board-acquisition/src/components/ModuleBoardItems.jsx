@@ -22,6 +22,7 @@ import AddIcon from 'mdi-material-ui/PlusCircle'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
+import SettingsIcon from 'mdi-material-ui/Cog'
 
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
@@ -82,6 +83,12 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/oais/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.settings' }),
+        hateoasDependencies: oaisDependencies.settingDependencies,
+      },
     ],
   },
   {
@@ -132,6 +139,14 @@ const items = (projectName, intl, onResetIndex) => [
           ...storageManagementDependencies.listDependencies,
         ],
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
+        hateoasDependencies: [
+          ...storageManagementDependencies.settingsDependencies,
+        ],
+      },
     ],
   },
   {
@@ -161,6 +176,12 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: [
           ...featureManagementDependencies.listDependencies,
         ],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.settings.tooltip' }),
+        hateoasDependencies: featureManagementDependencies.settingDependencies,
       },
     ],
   },

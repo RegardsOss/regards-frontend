@@ -40,3 +40,4 @@ export {
   ServiceProvider, ServiceProviderContent,
   ServiceProviderList, ServiceProviderArray,
 } from './ServiceProvider/ServiceProvider'
+export { SettingsList, SettingsArray } from './Settings'

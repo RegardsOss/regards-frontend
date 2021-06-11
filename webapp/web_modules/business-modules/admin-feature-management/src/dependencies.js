@@ -23,11 +23,16 @@ import { deleteRequestActions } from './clients/DeleteRequestsClient'
 import { extractionRequestActions } from './clients/ExtractionRequestsClient'
 import { notificationRequestActions } from './clients/NotificationRequestsClient'
 import { updateRequestActions } from './clients/UpdateRequestsClient'
+import { settingsActions } from './clients/SettingsClient'
 
 /**
   * Module hateoas depencies
   * @author Théo Lasserre
   */
+
+const settingDependencies = [
+  settingsActions.getDependency(RequestVerbEnum.GET),
+]
 
 const listDependencies = [
   referencesActions.getDependency(RequestVerbEnum.GET),
@@ -40,4 +45,5 @@ const listDependencies = [
 
 export default {
   listDependencies,
+  settingDependencies,
 }

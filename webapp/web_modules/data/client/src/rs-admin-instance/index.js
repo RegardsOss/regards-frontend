@@ -38,3 +38,4 @@ export { default as getEnableAccountSelectors } from './account/EnableAccountSel
 export { default as RefuseAccountActions } from './account/RefuseAccountActions'
 export { default as getRefuseAccountReducer } from './account/RefuseAccountReducer'
 export { default as getRefuseAccountSelectors } from './account/RefuseAccountSelectors'
+export { default as UpdateSettingActions } from './account/UpdateSettingActions'

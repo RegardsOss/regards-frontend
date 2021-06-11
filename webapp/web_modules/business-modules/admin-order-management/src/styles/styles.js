@@ -30,4 +30,9 @@ export default (theme) => ({
       },
     },
   },
+  settings: {
+    settingDiv: {
+      display: 'flex',
+    },
+  },
 })

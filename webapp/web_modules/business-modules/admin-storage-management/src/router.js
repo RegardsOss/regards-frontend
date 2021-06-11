@@ -59,11 +59,24 @@ export const storageLocationEditFormRoute = {
   },
 }
 
+export const storageSettingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/StorageSettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const storageManagementRouter = {
   childRoutes: [
     storageLocationListRoute,
     storageLocationCreateFormRoute,
     storageLocationEditFormRoute,
+    storageSettingsRoute,
   ],
 }
 

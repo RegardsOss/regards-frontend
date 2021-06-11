@@ -86,6 +86,8 @@ class ArchivalComponent extends React.Component {
     </div>
   }
 
+  // AJOUTER RELANCER LES ERREURS DE STOCKAGE
+
   render() {
     const { sessionStep } = this.props
     const {

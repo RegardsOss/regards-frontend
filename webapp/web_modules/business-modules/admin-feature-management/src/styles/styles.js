@@ -112,6 +112,11 @@ const featureManagementStyles = (theme) => ({
     height: '300px',
     width: '100%',
   },
+  settings: {
+    settingDiv: {
+      display: 'flex',
+    },
+  },
 })
 
 export default featureManagementStyles

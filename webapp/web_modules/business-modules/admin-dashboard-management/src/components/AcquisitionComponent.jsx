@@ -110,7 +110,7 @@ class AcquisitionComponent extends React.Component {
           },
           requestIdSelectionMode: 'EXCLUDE',
           requestIds: [],
-        }, FemDomain.REQUEST_TYPES_ENUM.REFERENCES)
+        }, FemDomain.REQUEST_TYPES_ENUM.EXTRACTION)
         break
       case ACQUISITION_TYPE.SCAN:
         relaunchProducts(sessionStep.source, sessionStep.session)

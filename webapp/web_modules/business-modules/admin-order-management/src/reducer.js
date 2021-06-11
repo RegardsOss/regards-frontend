@@ -19,10 +19,12 @@
 import { combineReducers } from 'redux'
 import { orderListReducer } from './clients/OrderListClient'
 import { projectUserReducer } from './clients/ProjectUserClient'
+import { settingsReducer } from './clients/SettingsClient'
 
 const orderManagementReducer = combineReducers({
   orders: orderListReducer,
   users: projectUserReducer,
+  settings: settingsReducer,
 })
 
 export default orderManagementReducer

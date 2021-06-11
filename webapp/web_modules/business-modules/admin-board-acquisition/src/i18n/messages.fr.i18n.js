@@ -28,6 +28,7 @@ const messages = {
   'data.board.oais.title': 'Gestionnaire de produits (OAIS)',
   'data.board.oais.description': 'Gestionnaire de produits (OAIS) vous permet de gérer les produits. Un produit est une association entre un SIP (Submission Information Package) et un AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Consulter les produits',
+  'data.board.oais.tooltip.settings': 'Paramètres',
   'data.board.oais.tooltip.configure': 'Configurer l\'ingestion',
   'data.board.oais.tooltip.submition': 'Soumettre des produits',
 
@@ -43,6 +44,7 @@ const messages = {
   'data.board.storage.title': 'Stockage',
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
+  'data.board.action.storages.settings.tooltip': 'Paramètres',
 
   'data.board.dashboard.title': 'Tableau de bord',
   'data.board.dashboard.description': 'Permet de visualiser, par source et par session, une synthèse de l\'état des requêtes et d\'accéder à l\'écran de gestion des requêtes.',
@@ -51,6 +53,7 @@ const messages = {
   'data.board.featuremanager.title': 'Feature Manager',
   'data.board.featuremanager.description': 'Un écran de consultation, relance et suppression, dédié aux requêtes.',
   'data.board.action.featuremanager.tooltip': 'Feature Manager',
+  'data.board.action.featuremanager.settings.tooltip': 'Paramètres',
 
 }
 

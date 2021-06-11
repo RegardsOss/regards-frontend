@@ -35,6 +35,7 @@ import { deleteRequestReducer } from './clients/DeleteRequestsClient'
 import { deleteRequestsTableReducer } from './clients/DeleteRequestsTableClient'
 import { notificationRequestReducer } from './clients/NotificationRequestsClient'
 import { notificationRequestsTableReducer } from './clients/NotificationRequestsTableClient'
+import { settingsReducer } from './clients/SettingsClient'
 
 /**
  * @author Théo Lasserre
@@ -58,6 +59,7 @@ const featureManagementReducer = combineReducers({
   'delete-requests-table': deleteRequestsTableReducer,
   notificationRequests: notificationRequestReducer,
   'notification-requests-table': notificationRequestsTableReducer,
+  settings: settingsReducer,
 })
 
 export default featureManagementReducer

@@ -18,18 +18,20 @@
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { orderListActions } from './clients/OrderListClient'
-/**
- * Module hateoas depencies
- * @author Sébastien binda
- */
+import { settingsActions } from './clients/SettingsClient'
 
 /**
  * Module hateoas depencies
  * @author Raphaël Mechali
+ * @author Sébastien binda
+ * @author Théo Lasserre
  */
 
 const listDependencies = [orderListActions.getDependency(RequestVerbEnum.GET_LIST)]
 
+const settingDependencies = [settingsActions.getDependency(RequestVerbEnum.GET)]
+
 export default {
   listDependencies,
+  settingDependencies,
 }

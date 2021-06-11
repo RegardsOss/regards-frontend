@@ -117,6 +117,14 @@ const messages = {
   'storage.type.OFFLINE': 'Offline',
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
+
+  'storage.settings.title': 'Paramètres de stockage des fichiers téléversés pour les jeux de données et les collections',
+  'storage.settings.subtitle': 'Configurez les parametres',
+  'storage.settings.field.storeFiles': 'Sauvegarder les fichiers',
+  'storage.settings.field.storageLocation': 'Location',
+  'storage.settings.field.storageSubdirectory': 'Sous dossier',
+  'storage.settings.action.confirm': 'Confirmer',
+  'storage.settings.action.cancel': 'Annuler',
   ...Locales.fr,
 }
 

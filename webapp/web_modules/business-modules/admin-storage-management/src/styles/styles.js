@@ -114,6 +114,11 @@ const storageManagementStyles = (theme) => ({
   dropdown: {
     minWidth: '300px',
   },
+  settings: {
+    settingDiv: {
+      display: 'flex',
+    },
+  },
 })
 
 export default storageManagementStyles

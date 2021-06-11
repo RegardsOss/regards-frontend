@@ -117,8 +117,8 @@ class ReferencingComponent extends React.Component {
   }
 
   onSeeWaiting = () => {
-    const { project } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
+    const { project, selectedSession } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&session=${selectedSession.content.name}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   // Case FeatureManager

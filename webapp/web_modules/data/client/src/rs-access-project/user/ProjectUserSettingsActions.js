@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { BasicListActions } from '@regardsoss/store-utils'
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
 
 /**
  * Project user (accesses) settings actions. Those actions are a bit specific as they work
  * with the single backend entity AccessSettings (retrieve / update)
  * @author Raphaël Mechali
  */
-export default class ProjectUserSettingsActions extends BasicSignalActions {
+export default class ProjectUserSettingsActions extends BasicListActions {
   /**
    * Constructor
    * @param {string} namespace  actions namespace
@@ -32,22 +33,10 @@ export default class ProjectUserSettingsActions extends BasicSignalActions {
     super({
       namespace,
       entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/accesses/settings`,
-      resourcesEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ACCESS_PROJECT}/accesses/settings`,
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
     })
-  }
-
-  /**
-   * @return {*} redux action to dispatch to fetch settings
-   */
-  getSettings() {
-    return this.sendSignal('GET')
-  }
-
-  /**
-   * @param settings settings entity updated (pay attention to keep id in it)
-   * @return {*} redux action to dispatch to update settings
-   */
-  updateSettings(settings) {
-    return this.sendSignal('PUT', settings)
   }
 }

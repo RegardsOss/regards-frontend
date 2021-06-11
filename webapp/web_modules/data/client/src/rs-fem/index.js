@@ -60,3 +60,8 @@ export { default as getDeleteRequestSelectors } from './request/DeleteRequestSel
 export { default as NotificationRequestActions } from './request/NotificationRequestActions'
 export { default as getNotificationRequestReducer } from './request/NotificationRequestReducer'
 export { default as getNotificationRequestSelectors } from './request/NotificationRequestSelectors'
+
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

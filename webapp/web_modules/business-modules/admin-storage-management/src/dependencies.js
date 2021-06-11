@@ -17,13 +17,14 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { RequestVerbEnum } from '@regardsoss/store-utils'
-import { StorageClient } from '@regardsoss/client'
+import { StorageClient, DataManagementClient } from '@regardsoss/client'
 import { pluginMetaDataActions } from './clients/PluginMetadataClient'
 import { pluginConfigurationActions } from './clients/PluginConfigurationClient'
 
 /**
  * Module hateoas depencies
  * @author Sébastien binda
+ * @author Théo Lasserre
  */
 const listDependencies = [
   new StorageClient.StorageLocationActions().getDependency(RequestVerbEnum.GET_LIST),
@@ -39,8 +40,13 @@ const stopDependencies = [
   new StorageClient.StorageRequestStopActions().getDependency(RequestVerbEnum.GET),
 ]
 
+const settingsDependencies = [
+  new DataManagementClient.SettingsActions().getDependency(RequestVerbEnum.GET),
+]
+
 export default {
   stopDependencies,
   listDependencies,
   addDependencies,
+  settingsDependencies,
 }

@@ -16,9 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
+import keys from 'lodash/keys'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AdminShapes, DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
@@ -26,7 +29,7 @@ import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import ProjectUserSettingsFormComponent from '../components/ProjectUserSettingsFormComponent'
 import { roleActions, roleSelectors } from '../clients/RoleClient'
 import { accessGroupActions, accessGroupSelectors } from '../clients/AccessGroupClient'
-import { projectUserSettingsActions, projectUserSettingsSelectors } from '../clients/ProjectUserSettingsClient'
+import { projectUserSettingsActions, projectUserSettingsSelectors, updateSettingActions } from '../clients/ProjectUserSettingsClient'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -50,9 +53,8 @@ export class ProjectUserSettingsFormContainer extends React.Component {
       groupList: accessGroupSelectors.getList(state),
       isFetchingGroupList: accessGroupSelectors.isFetching(state),
       hasErrorGroupList: accessGroupSelectors.hasError(state),
-      settings: projectUserSettingsSelectors.getResult(state),
+      settings: projectUserSettingsSelectors.getList(state),
       hasErrorSettings: projectUserSettingsSelectors.hasError(state),
-      isFetchingSettings: projectUserSettingsSelectors.isFetching(state),
     }
   }
 
@@ -66,8 +68,9 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     return {
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),
       fetchGroupList: () => dispatch(accessGroupActions.fetchPagedEntityList()),
-      fetchSettings: () => dispatch(projectUserSettingsActions.getSettings()),
-      updateSettings: (accountSettings) => dispatch(projectUserSettingsActions.updateSettings(accountSettings)),
+      fetchSettings: () => dispatch(projectUserSettingsActions.fetchEntityList()),
+      updateSettings: (settingName, settingValue) => dispatch(updateSettingActions.updateSetting(settingName, settingValue)),
+      flushSettings: () => dispatch(projectUserSettingsActions.flush()),
     }
   }
 
@@ -83,23 +86,64 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     groupList: DataManagementShapes.AccessGroupList,
     isFetchingGroupList: PropTypes.bool.isRequired,
     hasErrorGroupList: PropTypes.bool.isRequired,
-    settings: AdminShapes.ProjectUserSettingsWithContent,
+    // eslint-disable-next-line react/no-unused-prop-types
+    settings: CommonShapes.SettingsList,
     hasErrorSettings: PropTypes.bool.isRequired,
-    isFetchingSettings: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchRoleList: PropTypes.func.isRequired,
     fetchGroupList: PropTypes.func.isRequired,
     fetchSettings: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    flushSettings: PropTypes.func.isRequired,
+  }
+
+  state = {
+    settings: null,
+    isFetchingSettings: true,
   }
 
   /**
    * Lifecycle method component did mount, used here to start loading server data
    */
-  UNSAFE_componentWillMount() {
-    this.props.fetchSettings()
-    this.props.fetchRoleList()
-    this.props.fetchGroupList()
+  componentDidMount() {
+    const tasks = []
+    tasks.push(this.props.fetchSettings())
+    tasks.push(this.props.fetchRoleList())
+    tasks.push(this.props.fetchGroupList())
+    Promise.all(tasks)
+      .then((actionResults) => {
+        if (!find(actionResults, (actionResult) => actionResult.error)) {
+          this.setState({
+            isFetchingSettings: false,
+          })
+        }
+      })
+  }
+
+  /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  componentWillUnmount = () => {
+    const { flushSettings } = this.props
+    flushSettings()
+  }
+
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      settings,
+    } = newProps
+
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    if (!isEqual(oldProps.settings, settings)) {
+      newState.settings = settings
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   /**
@@ -115,33 +159,33 @@ export class ProjectUserSettingsFormContainer extends React.Component {
    * @param {*} values edited settrings values
    */
   onSubmit = (values) => {
-    const { updateSettings, settings } = this.props
-    updateSettings({
-      // merge current settings info and edited value
-      ...settings.content,
-      ...values,
-    }).then((result) => {
-      if (!result.error) { // show back when saved sucessfully
-        this.onBack()
-      }
-    })
+    const { updateSettings } = this.props
+    const tasks = map(keys(values), (key) => updateSettings(key, values[key]))
+    Promise.all(tasks)
+      .then((actionResults) => {
+        if (!find(actionResults, (actionResult) => actionResult.error)) {
+          this.onBack()
+        }
+      })
   }
 
   render() {
     const {
-      hasErrorSettings, settings, isFetchingSettings, roleList, groupList,
+      hasErrorSettings, roleList, groupList,
       isFetchingRoleList, hasErrorRoleList, isFetchingGroupList, hasErrorGroupList,
     } = this.props
+    const {
+      settings, isFetchingSettings,
+    } = this.state
     return (
       <I18nProvider messages={messages}>
         <ModuleStyleProvider module={styles}>
           <LoadableContentDisplayDecorator
             isLoading={isFetchingSettings || isFetchingRoleList || isFetchingGroupList}
             isContentError={hasErrorSettings || hasErrorRoleList || hasErrorGroupList}
-            isEmpty={!settings}
           >
             <ProjectUserSettingsFormComponent
-              settings={get(settings, 'content', null)}
+              settings={settings}
               onBack={this.onBack}
               onSubmit={this.onSubmit}
               roleList={roleList}

@@ -142,3 +142,8 @@ export { default as getEntityAttachmentSelectors } from './entityAttachment/Enti
 export { default as OpensearchDescriptorSelectors } from './opensearchDescriptor/OpensearchDescriptorSelectors'
 export { default as OpensearchDescriptorActions } from './opensearchDescriptor/OpensearchDescriptorActions'
 export { default as OpensearchDescriptorReducer } from './opensearchDescriptor/OpensearchDescriptorReducer'
+
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

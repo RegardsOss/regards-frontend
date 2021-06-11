@@ -149,5 +149,10 @@ export default function buildStyles(theme) {
         justifyContent: 'space-between',
       },
     },
+    settings: {
+      settingDiv: {
+        display: 'flex',
+      },
+    },
   }
 }

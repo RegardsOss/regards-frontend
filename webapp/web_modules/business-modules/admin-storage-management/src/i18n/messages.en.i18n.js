@@ -117,6 +117,14 @@ const messages = {
   'storage.type.OFFLINE': 'Offline',
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
+
+  'storage.settings.title': 'Storage settings for datasets and collections uploaded files',
+  'storage.settings.subtitle': 'Configure settings',
+  'storage.settings.field.storeFiles': 'Save files',
+  'storage.settings.field.storageLocation': 'Location',
+  'storage.settings.field.storageSubdirectory': 'Sub directory',
+  'storage.settings.action.confirm': 'Confirm',
+  'storage.settings.action.cancel': 'Cancel',
   ...Locales.en,
 }
 

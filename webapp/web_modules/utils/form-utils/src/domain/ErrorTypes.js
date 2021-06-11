@@ -43,6 +43,7 @@ export default {
   INVALID_MIME_TYPE: 'invalid.mime_type',
   INVALID_ABSOLUTE_PATH: 'invalid.abs_path',
   INVALID_CONFIGURATION: 'invalid.configuration',
+  INVALID_CRON: 'invalid.cron',
   invalidRegex: (regexp) => ({
     key: 'invalid.regex.pattern',
     props: { regexp },

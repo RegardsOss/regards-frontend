@@ -117,6 +117,11 @@ export class DashboardContainer extends React.Component {
   */
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
+  componentWillUnmount = () => {
+    const { flushSelectedSession } = this.props
+    flushSelectedSession()
+  }
+
   /**
  * Properties change detected: update local state
  * @param oldProps previous component properties

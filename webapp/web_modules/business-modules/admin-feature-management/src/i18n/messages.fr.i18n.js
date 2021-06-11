@@ -111,6 +111,18 @@ const messages = {
   'feature.requests.confirmRetryDialog.message.not-ok': 'Le nombre maximum de requêtes à relancer a été dépassé. {totalHandled} requête(s) relancée(s). Relancez les requêtes restantes.',
   'feature.request.error.title': 'Erreurs',
 
+  // Settings
+  'feature.settings.title': 'Parametres',
+  'feature.settings.subtitle': 'Configurer les parametres',
+  'feature.settings.field.activeNotifications': 'Activer les notifications',
+  'feature.settings.fieldgroup.dumpParameters': 'Paramètres de dump',
+  'feature.settings.fieldgroup.dumpParameters.isActiveModule': 'Activer le module',
+  'feature.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
+  'feature.settings.fieldgroup.dumpParameters.dumpLocation': 'Emplacement du dump',
+  'feature.settings.field.lastDumpReqDate': 'Dernière requête effectuée',
+  'feature.settings.action.confirm': 'Confirmer',
+  'feature.settings.action.cancel': 'Retour',
+
   ...Locales.fr,
 }
 

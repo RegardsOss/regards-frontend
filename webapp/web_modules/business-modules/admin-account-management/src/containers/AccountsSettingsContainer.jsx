@@ -16,15 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import get from 'lodash/get'
+import keys from 'lodash/keys'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
-import { AdminInstanceShapes } from '@regardsoss/shape'
+import { CommonShapes } from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
+import { ModuleStyleProvider } from '@regardsoss/theme'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import AccountsSettingsComponent from '../components/AccountsSettingsComponent'
-import { accountSettingsActions, accountSettingsSelectors } from '../clients/AccountSettingsClient'
+import { accountSettingsActions, accountSettingsSelectors, updateSettingActions } from '../clients/AccountSettingsClient'
 import messages from '../i18n'
+import styles from '../styles'
 
 /**
  * Accounts settings form container
@@ -39,7 +44,7 @@ export class AccountsSettingsContainer extends React.Component {
    */
   static mapStateToProps(state) {
     return {
-      settings: accountSettingsSelectors.getResult(state),
+      settings: accountSettingsSelectors.getList(state),
       hasError: accountSettingsSelectors.hasError(state),
     }
   }
@@ -52,22 +57,26 @@ export class AccountsSettingsContainer extends React.Component {
  */
   static mapDispatchToProps(dispatch) {
     return {
-      fetchSettings: () => dispatch(accountSettingsActions.getSettings()),
-      updateSettings: (accountSettings) => dispatch(accountSettingsActions.updateSettings(accountSettings)),
+      fetchSettings: () => dispatch(accountSettingsActions.fetchEntityList()),
+      updateSettings: (settingName, settingValue) => dispatch(updateSettingActions.updateSetting(settingName, settingValue)),
+      flushSettings: () => dispatch(accountSettingsActions.flush()),
     }
   }
 
   static propTypes = {
     // from mapStateToProps
-    settings: AdminInstanceShapes.AccountSettingsWithContent,
+    // eslint-disable-next-line react/no-unused-prop-types
+    settings: CommonShapes.SettingsList,
     hasError: PropTypes.bool.isRequired,
     // from mapDispatchToProps
     fetchSettings: PropTypes.func.isRequired,
     updateSettings: PropTypes.func.isRequired,
+    flushSettings: PropTypes.func.isRequired,
   }
 
   state = {
     isLoading: true,
+    settings: null,
   }
 
   /**
@@ -84,6 +93,32 @@ export class AccountsSettingsContainer extends React.Component {
   }
 
   /**
+   * Lifecycle method: component receive props. Used here to detect properties change and update local state
+   * @param {*} nextProps next component properties
+   */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  componentWillUnmount = () => {
+    const { flushSettings } = this.props
+    flushSettings()
+  }
+
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      settings,
+    } = newProps
+
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    if (!isEqual(oldProps.settings, settings)) {
+      newState.settings = settings
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
+  }
+
+  /**
    * On back button clicked callback
    */
   onBack = () => {
@@ -95,34 +130,33 @@ export class AccountsSettingsContainer extends React.Component {
    * @param {*} values edited settrings values
    */
   onSubmit = (values) => {
-    const { updateSettings, settings } = this.props
-    updateSettings({
-      // merge current settings info and edited value
-      ...settings.content,
-      ...values,
-    }).then((result) => {
-      if (!result.error) { // show back when saved sucessfully
-        this.onBack()
-      }
-    })
+    const { updateSettings } = this.props
+    const tasks = map(keys(values), (key) => updateSettings(key, values[key]))
+    Promise.all(tasks)
+      .then((actionResults) => {
+        if (!find(actionResults, (actionResult) => actionResult.error)) {
+          this.onBack()
+        }
+      })
   }
 
   render() {
-    const { isLoading } = this.state
-    const { hasError, settings } = this.props
+    const { isLoading, settings } = this.state
+    const { hasError } = this.props
     return (
       <I18nProvider messages={messages}>
-        <LoadableContentDisplayDecorator
-          isLoading={isLoading}
-          isContentError={hasError}
-          isEmpty={!settings}
-        >
-          <AccountsSettingsComponent
-            settings={get(settings, 'content', null)}
-            onBack={this.onBack}
-            onSubmit={this.onSubmit}
-          />
-        </LoadableContentDisplayDecorator>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isLoading}
+            isContentError={hasError}
+          >
+            <AccountsSettingsComponent
+              settings={settings}
+              onBack={this.onBack}
+              onSubmit={this.onSubmit}
+            />
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
       </I18nProvider>
     )
   }

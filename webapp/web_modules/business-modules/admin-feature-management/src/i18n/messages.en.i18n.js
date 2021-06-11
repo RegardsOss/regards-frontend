@@ -111,6 +111,18 @@ const messages = {
   'feature.requests.confirmRetryDialog.message.not-ok': 'The maximum number of requests to relaunch has been exceeded. {totalHandled} request(s) restarted. Relaunch the remaining requests.',
   'feature.request.error.title': 'Errors',
 
+  // Settings
+  'feature.settings.title': 'Settings',
+  'feature.settings.subtitle': 'Configure settings',
+  'feature.settings.field.activeNotifications': 'Enable notifications',
+  'feature.settings.fieldgroup.dumpParameters': 'Dump parameters',
+  'feature.settings.fieldgroup.dumpParameters.isActiveModule': 'Enable module',
+  'feature.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
+  'feature.settings.fieldgroup.dumpParameters.dumpLocation': 'Dump location',
+  'feature.settings.field.lastDumpReqDate': 'Last dump request date',
+  'feature.settings.action.confirm': 'Confirm',
+  'feature.settings.action.cancel': 'Back',
+
   ...Locales.en,
 }
 

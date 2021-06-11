@@ -215,6 +215,11 @@ const aipManagementStyles = (theme) => ({
       },
     },
   },
+  settings: {
+    settingDiv: {
+      display: 'flex',
+    },
+  },
 })
 
 export default aipManagementStyles

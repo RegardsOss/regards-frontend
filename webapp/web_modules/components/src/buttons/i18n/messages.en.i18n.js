@@ -19,6 +19,7 @@
 
 const messages = {
   'clear.button.tooltip': 'Clear field content',
+  'reset.default.value.button.tooltip': 'Set to default value',
   'components.buttons.select.all': 'Select all',
   'components.buttons.unselect.all': 'Unselect all',
   'numerical.comparator.selector.EQ.label': 'equal to',

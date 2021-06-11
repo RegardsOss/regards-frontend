@@ -148,6 +148,7 @@
     "bignumber.js": "^8.0.1",
     "cesium": "^1.80.0",
     "chart.js": "^2.7.3",
+    "cron-validator": "^1.2.1",
     "date-fns": "^1.29.0",
     "detect-browser": "^3.0.1",
     "fixed-data-table-2": "0.8.15",

@@ -219,11 +219,6 @@ export default {
   'oais.aips.session.clear.filters.button': 'Vider les filtres',
   'oais.aips.session.apply.filters.button': 'Appliquer les filtres',
 
-  STORED: 'STORED',
-  DELETED: 'DELETED',
-  ERROR: 'ERROR',
-  GENERATED: 'GENERATED',
-
   'oais.aips.files.modal.action.close': 'Fermer',
   'oais.aips.files.modal.title': 'Trace ...',
   'oais.aips.files.table.headers.name': 'Nom',
@@ -325,4 +320,16 @@ export default {
   'sips.submission-summary.back.button': 'Retour',
   'sips.submission-summary.go.to.session': 'Suivre la session {sessionOwner}/{session}',
   'sips.submission-summary.go.to.submission': 'Soumettre un nouveau fichier',
+
+  'oais.settings.title': 'Paramètres du gestionnaire des produits OAIS',
+  'oais.settings.subtitle': 'Configurer les parametres',
+  'oais.settings.clear': 'Réinitialiser',
+  'oais.settings.field.activeNotifications': 'Activer les notifications',
+  'oais.settings.fieldgroup.dumpParameters': 'Paramètres de dump',
+  'oais.settings.fieldgroup.dumpParameters.isActiveModule': 'Activer le module',
+  'oais.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
+  'oais.settings.fieldgroup.dumpParameters.dumpLocation': 'Emplacement du dump',
+  'oais.settings.field.lastDumpReqDate': 'Dernière requête effectuée',
+  'oais.settings.action.confirm': 'Confirmer',
+  'oais.settings.action.cancel': 'Retour',
 }

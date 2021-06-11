@@ -53,11 +53,24 @@ export const oaisFeatureManagerRoute = {
   },
 }
 
+export const oaisSettingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/OAISSettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const aipManagementRouter = {
   childRoutes: [
     sipSumitionRoute,
     sipSumitionSummaryRoute,
     oaisFeatureManagerRoute,
+    oaisSettingsRoute,
   ],
 }
 

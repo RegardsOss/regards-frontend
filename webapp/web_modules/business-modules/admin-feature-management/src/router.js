@@ -47,10 +47,23 @@ export const featureManagementRoute = {
   },
 }
 
+export const featureManagementSettingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 const featureManagementRouter = {
   childRoutes: [
     featureManagementRoute,
     featureManagementRouteType,
+    featureManagementSettingsRoute,
   ],
 }
 

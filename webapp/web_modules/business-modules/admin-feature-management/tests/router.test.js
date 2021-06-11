@@ -20,18 +20,20 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import FeatureManagerContainer from '../src/containers/FeatureManagerContainer'
+import SettingsContainer from '../src/containers/SettingsContainer'
 /**
  * @author Théo Lasserre
  */
-describe('[ADMIN FEATURE MANAGEMENT] Testing storage router', () => {
+describe('[ADMIN FEATURE MANAGEMENT] Testing feature management router', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(2)
+    expect(Routes.childRoutes).to.have.length(3)
     expect(Routes.childRoutes[0].path).to.eq('monitor')
     expect(Routes.childRoutes[1].path).to.eq('monitor/:type')
+    expect(Routes.childRoutes[2].path).to.eq('settings')
   })
   it('board should return FeatureManagerContainer', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -42,6 +44,12 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing storage router', () => {
   it('board should return FeatureManagerContainer with a type', (done) => {
     Routes.childRoutes[1].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(FeatureManagerContainer)
+      done()
+    })
+  })
+  it('board should return SettingsContainer with a type', (done) => {
+    Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(SettingsContainer)
       done()
     })
   })
