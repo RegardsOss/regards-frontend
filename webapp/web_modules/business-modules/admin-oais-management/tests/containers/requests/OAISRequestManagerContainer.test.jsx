@@ -82,7 +82,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
       updateStateFromRequestManager: props.updateStateFromRequestManager,
-      pageSize: STATIC_CONF.TABLE.PAGE_SIZE,
+      pageSize: STATIC_CONF.TABLE.PAGE_SIZE || 20,
       pageMeta: props.meta,
       featureManagerFilters: props.featureManagerFilters,
       requestFilters: props.requestFilters,

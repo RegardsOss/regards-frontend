@@ -20,20 +20,28 @@ const messages = {
   'data.board.action.list.tooltip': 'List',
   'data.board.action.add.tooltip': 'Add',
 
+  'data.board.dashboard.title': 'Dashboard',
+  'data.board.dashboard.description': 'Dashboard allows to centralize information about all referenced products and all running processes about products. You can here oversee all informations about products dispatched by product sources and sessions.',
+  'data.board.action.dashboard.tooltip': 'Display dashboard',
+
   'data-provider.board.title': 'Data acquisition',
   'data-provider.board.description': 'Configure data acquisition chains allowing to acquire new detected data (detection method is configurable). These processes generate Submission Information Package (SIP) to be provided to the system for ingestion.',
   'data-provider.board.action.configure.tooltip': 'Acquisition chains',
   'data-provider.board.action.sessions.tooltip': 'Acquisition sessions',
 
   'data.board.oais.title': 'Products Manager (OAIS)',
-  'data.board.oais.description': 'Products Manager (OAIS) allows you to manage products. A product is the package associating a SIP (Submission Information Package) and an AIP (Archive Information Package).',
+  'data.board.oais.description': 'Products Manager (OAIS) allows you to manage products referenced by the Ingest service through the OAIS format. A product is the package associating a SIP (Submission Information Package) and an AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show products',
   'data.board.oais.tooltip.settings': 'Settings',
   'data.board.oais.tooltip.configure': 'Configure',
   'data.board.oais.tooltip.submition': 'Submit products',
 
+  'data.board.featuremanager.title': 'Products Manager (GeoJson)',
+  'data.board.featuremanager.description': 'Products Manager (GeoJson) allows to manage products referenced by the FeatureManager service through the standard GeoJson format. A product is a GeoJson package containing metadata and optionally associated physical files.',
+  'data.board.action.featuremanager.tooltip': 'Show products',
+
   'ingest.board.external.datasources.title': 'Crawling',
-  'ingest.board.external.datasources.description': 'This feature allows you to configure data crawling process. A data crawling process is the addition of adding data through external data sources.',
+  'ingest.board.external.datasources.description': 'Allows you to build the data catalog that will be exposed to all users. This feature is mandatory to expose products handled by Products Manager OAIS and GoJson or accessible from an external database or even from an accessible web service.',
   'ingest.board.action.external.datasources.list.tooltip': 'Map data sources to internal models',
   'ingest.board.action.connection.list.tooltip': 'Configure connection to external databases',
   'ingest.board.action.datasource.monitor.tooltip': 'Monitor data crawling',

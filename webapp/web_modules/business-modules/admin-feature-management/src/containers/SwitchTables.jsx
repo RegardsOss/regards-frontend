@@ -35,6 +35,8 @@ import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateR
   * @author Théo Lasserre
   */
 export class SwitchTables extends React.Component {
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   /**
    * Redux: map dispatch to props function
    * @param {*} dispatch: redux dispatch function
@@ -121,12 +123,12 @@ export class SwitchTables extends React.Component {
     const {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
     } = this.props
-    fetchReferences(0, STATIC_CONF.TABLE.PAGE_SIZE)
-    fetchCreationRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
-    fetchDeleteRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
-    fetchExtractionRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
-    fetchNotificationRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
-    fetchUpdateRequests(0, STATIC_CONF.TABLE.PAGE_SIZE)
+    fetchReferences(0, SwitchTables.PAGE_SIZE)
+    fetchCreationRequests(0, SwitchTables.PAGE_SIZE)
+    fetchDeleteRequests(0, SwitchTables.PAGE_SIZE)
+    fetchExtractionRequests(0, SwitchTables.PAGE_SIZE)
+    fetchNotificationRequests(0, SwitchTables.PAGE_SIZE)
+    fetchUpdateRequests(0, SwitchTables.PAGE_SIZE)
   }
 
   extractInfos = (meta, info = null) => ({

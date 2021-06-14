@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import get from 'lodash/get'
+import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
@@ -24,6 +25,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
+import { STORAGE_PROPERTIES } from '../domain/storageProperties'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 
@@ -47,6 +49,29 @@ class ArchivalComponent extends React.Component {
     browserHistory.push(`/admin/${project}/data/acquisition/storage/storages`)
   }
 
+  displayListItem = (property) => {
+    const { sessionStep } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSessionStyle: {
+          listItemStyle,
+        },
+      },
+    } = this.context
+    const propValue = get(sessionStep, `properties.${property}`, false)
+    if (propValue) {
+      return (
+        <ListItem
+          key={property}
+          primaryText={formatMessage({ id: `dashboard.selectedsession.storage.dp.${property}` }, { value: propValue })}
+          disabled
+          style={listItemStyle}
+        />
+      )
+    }
+    return null
+  }
+
   // Case Storage
   displayStorage = () => {
     const { sessionStep } = this.props
@@ -64,11 +89,9 @@ class ArchivalComponent extends React.Component {
           disabled
           style={listItemStyle}
         />
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.error' }, { nbError: -1 })}
-          disabled
-          style={listItemStyle}
-        />
+        {
+          map(STORAGE_PROPERTIES, (property) => (this.displayListItem(property)))
+        }
         <ListItem
           primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.stored' }, { nbStored: sessionStep.outputRelated })}
           disabled

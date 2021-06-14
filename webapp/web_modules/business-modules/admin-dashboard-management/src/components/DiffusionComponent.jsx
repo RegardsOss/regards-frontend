@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-
+import map from 'lodash/map'
+import get from 'lodash/get'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { ListItem } from 'material-ui/List'
@@ -26,6 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
+import { DIFFUSION_PROPERTIES } from '../domain/diffusionProperties'
 
 /**
  * DiffusionComponent
@@ -45,6 +47,29 @@ class DiffusionComponent extends React.Component {
   onClick = () => {
     const { project } = this.props
     browserHistory.push(`/admin/${project}/data/acquisition/datasource/monitor`)
+  }
+
+  displayListItem = (property) => {
+    const { sessionStep } = this.props
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSessionStyle: {
+          listItemStyle,
+        },
+      },
+    } = this.context
+    const propValue = get(sessionStep, `properties.${property}`, false)
+    if (propValue) {
+      return (
+        <ListItem
+          key={property}
+          primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.dp.${property}` }, { value: propValue })}
+          disabled
+          style={listItemStyle}
+        />
+      )
+    }
+    return null
   }
 
   render() {
@@ -78,11 +103,9 @@ class DiffusionComponent extends React.Component {
                 disabled
                 style={listItemStyle}
               />
-              <ListItem
-                primaryText={formatMessage({ id: 'dashboard.selectedsession.diffusion.dp.error' }, { nbError: -1 })}
-                disabled
-                style={listItemStyle}
-              />
+              {
+                map(DIFFUSION_PROPERTIES, (property) => (this.displayListItem(property)))
+              }
             </div>
             <div style={cardButtonStyle}>
               <RaisedButton

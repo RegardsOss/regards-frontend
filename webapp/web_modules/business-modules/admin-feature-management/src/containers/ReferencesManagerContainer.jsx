@@ -51,6 +51,8 @@ export class ReferencesManagerContainer extends React.Component {
     isFetching: PropTypes.bool.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -89,7 +91,7 @@ export class ReferencesManagerContainer extends React.Component {
     } = this.props
     // compute page size to refresh all current entities in the table
     const lastPage = (meta && meta.number) || 0
-    const fetchPageSize = STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
+    const fetchPageSize = (ReferencesManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
     fetchReferences(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters })
   }

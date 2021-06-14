@@ -16,22 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { HateOASLink } from '../rs-common'
 
-/**
-  * Describes a request shape
-  * @author Théo Lasserre
-  */
-export const RequestContent = PropTypes.shape({
-  id: PropTypes.number,
-  registrationDate: PropTypes.string,
-  providerId: PropTypes.string,
-  state: PropTypes.string.isRequired,
-  step: PropTypes.string.isRequired,
-  errors: PropTypes.arrayOf(PropTypes.string),
-})
+import values from 'lodash/values'
 
-export const Request = PropTypes.shape({
-  content: RequestContent.isRequired,
-  links: PropTypes.arrayOf(HateOASLink),
-})
+export const FEATURE_PROVIDER_PROPERTIES_ENUM = {
+  TOTAL_REQUESTS: 'totalRequests',
+  REQUESTS_ERRORS: 'requestsErrors',
+  GENERATED_PRODUCTS: 'generatedProducts',
+  REQUESTS_REFUSED: 'requestsRefused',
+}
+
+export const FEATURE_PROVIDER_PROPERTIES = values(FEATURE_PROVIDER_PROPERTIES_ENUM)

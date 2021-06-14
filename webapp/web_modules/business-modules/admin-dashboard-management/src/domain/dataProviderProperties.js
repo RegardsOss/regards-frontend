@@ -19,14 +19,15 @@
 
 import values from 'lodash/values'
 
-export const INGEST_PROP_TYPE_ENUM = {
-  TOTAL_REQUESTS: 'totalRequests',
-  REQUESTS_ERROS: 'requestsErrors',
+export const DATA_PROVIDER_PROPERTIES_ENUM = {
+  FILES_ACQUIRED: 'filesAcquired',
   GENERATED_PRODUCTS: 'generatedProducts',
-  NEW_PRODUCT_VERSIONS: 'newProductVersions',
-  REPLACED_PRODUCTS: 'replacedProducts',
-  IGNORED_PRODUCTS: 'ignoredProducts',
-  PRODUCT_WAIT_VERSION_MODE: 'productWaitVersionMode',
+  GENERATION_ERROR: 'generationError',
+  INCOMPLETE: 'incomplete',
+  INVALID: 'invalid',
+  INGESTION_FAILED: 'ingestionFailed',
+  COMPLETE: 'complete',
+  INGESTED: 'ingested',
 }
 
-export const INGEST_PROP_TYPE = values(INGEST_PROP_TYPE_ENUM)
+export const DATA_PROVIDER_PROPERTIES = values(DATA_PROVIDER_PROPERTIES_ENUM)

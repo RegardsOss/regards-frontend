@@ -20,8 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
-import RaisedButton from 'material-ui/RaisedButton'
 import AcquisitionComponent from '../../src/components/AcquisitionComponent'
 import styles from '../../src/styles'
 
@@ -38,7 +36,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
   it('should exists', () => {
     assert.isDefined(AcquisitionComponent)
   })
-  it('should render correctly a DP session with errors', () => {
+  it('should render correctly a DP session', () => {
     const props = {
       project: 'any',
       sessionStep: {
@@ -64,47 +62,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 5, 'There should be 5 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 2, 'There should be 2 RaisedButton')
   })
-  it('should render correctly a DP session without errors', () => {
-    const props = {
-      project: 'any',
-      sessionStep: {
-        id: 0,
-        stepId: 'scan',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'ACQUISITION',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 0,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      relaunchProducts: () => { },
-      retryRequests: () => { },
-    }
-    const enzymeWrapper = shallow(<AcquisitionComponent {...props} />, { context })
-
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 5, 'There should be 5 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 0, 'There should not be 2 RaisedButton')
-  })
-  it('should render correctly a FEM session with errors', () => {
+  it('should render correctly a FEM session', () => {
     const props = {
       project: 'any',
       sessionStep: {
@@ -130,44 +89,5 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing AcquisitionComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 4, 'There should be 4 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 2, 'There should be 2 RaisedButton')
-  })
-  it('should render correctly a FEM session without errors', () => {
-    const props = {
-      project: 'any',
-      sessionStep: {
-        id: 0,
-        stepId: 'extract',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'ACQUISITION',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 0,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      relaunchProducts: () => { },
-      retryRequests: () => { },
-    }
-    const enzymeWrapper = shallow(<AcquisitionComponent {...props} />, { context })
-
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 4, 'There should be 4 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 0, 'There should not be 2 RaisedButton')
   })
 })

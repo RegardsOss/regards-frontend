@@ -20,8 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
-import RaisedButton from 'material-ui/RaisedButton'
 import ReferencingComponent from '../../src/components/ReferencingComponent'
 import styles from '../../src/styles'
 
@@ -38,7 +36,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
   it('should exists', () => {
     assert.isDefined(ReferencingComponent)
   })
-  it('should render correctly a INGEST session with errors', () => {
+  it('should render correctly a INGEST session', () => {
     const props = {
       project: 'any',
       sessionStep: {
@@ -72,55 +70,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 7, 'There should be 7 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 4, 'There should be 4 RaisedButton')
   })
-  it('should render correctly a INGEST session without errors', () => {
-    const props = {
-      project: 'any',
-      sessionStep: {
-        id: 0,
-        stepId: 'oais',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'REFERENCING',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 0,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {
-          totalRequests: 1,
-          requestsErrors: 1,
-          generatedProducts: 1,
-          newProductVersions: 1,
-          replacedProducts: 1,
-          ignoredProducts: 1,
-          productWaitVersionMode: 1,
-        },
-        lastUpdateDate: '01/01/21',
-      },
-      relaunchAIP: () => { },
-      retryRequests: () => { },
-    }
-    const enzymeWrapper = shallow(<ReferencingComponent {...props} />, { context })
-
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 7, 'There should be 7 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 2, 'There should not be 2 RaisedButton')
-  })
-  it('should render correctly a FEM session with errors', () => {
+  it('should render correctly a FEM session', () => {
     const props = {
       project: 'any',
       sessionStep: {
@@ -146,44 +97,5 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ReferencingComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 6, 'There should be 6 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 3, 'There should be 3 RaisedButton')
-  })
-  it('should render correctly a FEM session without errors', () => {
-    const props = {
-      project: 'any',
-      sessionStep: {
-        id: 0,
-        stepId: 'feature',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'REFERENCING',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 0,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      relaunchAIP: () => { },
-      retryRequests: () => { },
-    }
-    const enzymeWrapper = shallow(<ReferencingComponent {...props} />, { context })
-
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 6, 'There should be 6 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should not be 1 RaisedButton')
   })
 })

@@ -45,6 +45,7 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing ErrorDetailsDialog', () => {
           id: 0,
           providerId: '0',
           state: 'ERROR',
+          step: 'LOCAL_ERROR',
           errors: ['Erreur'],
         },
       },
