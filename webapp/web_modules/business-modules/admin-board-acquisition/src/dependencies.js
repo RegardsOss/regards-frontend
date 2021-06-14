@@ -21,6 +21,8 @@ import { datasourceDependencies } from '@regardsoss/admin-data-datasource-manage
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
+import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
+import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
 
 /**
  * Mandatory Dependencies to display module in project menu
@@ -37,4 +39,6 @@ export default [
   processingChainDependencies.listDependencies,
   storageManagementDependencies.listDependencies,
   storageManagementDependencies.addDependencies,
+  dashboardManagementDependencies.listDependencies,
+  featureManagementDependencies.listDependencies,
 ]

@@ -39,6 +39,8 @@ export { default as OnHoverSwitchIconButton } from './buttons/OnHoverSwitchIconB
 export { default as OnHoverSwitchRaisedButton } from './buttons/OnHoverSwitchRaisedButton'
 export * from './buttons/ResourceIconAction'
 
+export { default as ClearSettingFieldButton } from './buttons/ClearSettingFieldButton'
+
 export { default as ActionButtonComponent } from './cards/ActionButtonComponent'
 export { default as CardActionsComponent } from './cards/CardActionsComponent'
 export { default as CardActionsView } from './cards/CardActionsView'

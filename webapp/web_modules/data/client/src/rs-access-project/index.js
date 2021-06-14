@@ -87,3 +87,5 @@ export { default as getToponymSelectors } from './toponym/ToponymSelectors'
 export { default as UploadToponymActions } from './uploadToponym/UploadToponymActions'
 export { default as getUploadToponymReducer } from './uploadToponym/UploadToponymReducer'
 export { default as getUploadToponymSelectors } from './uploadToponym/UploadToponymSelectors'
+
+export { default as UpdateSettingActions } from './user/UpdateSettingActions'

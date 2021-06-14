@@ -20,6 +20,7 @@ const messages = {
   'commands.board.orders.title': 'Commandes',
   'commands.board.orders.description': 'Consulter et gérer les commandes lancées par les utilisateurs du projet',
   'commands.board.tooltip.list': 'Liste',
+  'commands.board.tooltip.settings': 'Paramètres',
   'commands.board.processing.title': 'Traitements',
   'commands.board.processing.description': 'Consulter et gérer les traitements sur les commandes',
   'commands.board.processing.tooltip.monitoring': 'Monitoring des traitements en cours',

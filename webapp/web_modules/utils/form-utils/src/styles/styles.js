@@ -75,14 +75,14 @@ export default function styles(theme) {
         readOnly: false,
       },
     },
+    fieldsLine: {
+      height: theme.formsExtensions.dateField.height,
+      display: 'flex',
+      alignItems: 'center',
+      width: '100%',
+    },
     // date field
     dateFieldStyles: {
-      fieldsLine: {
-        height: theme.formsExtensions.dateField.height,
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-      },
       datePickerDivStyle: {
         display: 'flex',
         flexWrap: 'wrap',

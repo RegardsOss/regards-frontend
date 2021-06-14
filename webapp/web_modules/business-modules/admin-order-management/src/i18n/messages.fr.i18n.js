@@ -26,6 +26,15 @@ const messages = {
   'order.list.filter.by.email.hint': 'Utilisateur',
   'order.list.clear.filter.tooltip': 'Effacer le filtre',
 
+  'order.settings.title': 'Paramètres des commandes',
+  'order.settings.subtitle': 'Configurer les parametres',
+  'order.settings.clear': 'Réinitialiser',
+  'order.settings.field.appSubOrderDuration': 'Durée d\'une sous commande applicative (en heure)',
+  'order.settings.fieldgroup.userOrderParameters': 'Paramètres des commandes utilisateurs',
+  'order.settings.fieldgroup.userOrderParameters.subOrderDuration': 'Durée d\'une sous commande utilisateur (en heure)',
+  'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification': 'Delai avant la notification par email lorsqu\'une sous commande est prête (en heure)',
+  'order.settings.action.confirm': 'Confirmer',
+  'order.settings.action.cancel': 'Retour',
   ...Locales.fr,
 }
 

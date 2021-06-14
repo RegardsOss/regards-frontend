@@ -20,15 +20,16 @@ import forEach from 'lodash/forEach'
 import MenuItem from 'material-ui/MenuItem'
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AdminDomain } from '@regardsoss/domain'
+import { AdminDomain, CommonDomain } from '@regardsoss/domain'
 import { CardActionsComponent } from '@regardsoss/components'
 import { Field, RenderSelectField, RenderTextField } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { ProjectUserSettingsFormComponent } from '../../src/components/ProjectUserSettingsFormComponent'
+import { ProjectUserSettingsFormComponent, SETTINGS } from '../../src/components/ProjectUserSettingsFormComponent'
 import dependencies from '../../src/dependencies'
 import styles from '../../src/styles'
 
 const context = buildTestContext(styles)
+const { getValue } = CommonDomain.SettingsUtils
 
 /**
  * Test ProjectUserSettingsFormComponent
@@ -44,25 +45,67 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
   })
   it('should render correctly and initialize form values', () => {
     let spiedInitializedData = null
-    let spiedSubmit = null
     const props = {
       settings: {
-        id: 1,
-        mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.MANUAL,
-        maxQuota: 1150,
-        rateLimit: -1,
-        role: {
-          id: 2,
-          name: 'REGISTERED_USER',
-          parentRole: {
-            id: 1,
-            name: 'PUBLIC',
+        0: {
+          content: {
+            name: SETTINGS.MAX_QUOTA,
+            description: '',
+            value: 1150,
+            defaultValue: 1150,
           },
-          isDefault: true,
-          isNative: true,
-          authorizedAddresses: [],
         },
-        groups: [],
+        1: {
+          content: {
+            name: SETTINGS.RATE_LIMIT,
+            description: '',
+            value: -1,
+            defaultValue: 10,
+          },
+        },
+        2: {
+          content: {
+            name: SETTINGS.MODE,
+            description: '',
+            value: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.MANUAL,
+            defaultValue: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.MANUAL,
+          },
+        },
+        3: {
+          content: {
+            name: SETTINGS.GROUPS,
+            description: '',
+            value: [],
+          },
+        },
+        4: {
+          content: {
+            name: SETTINGS.ROLE,
+            description: '',
+            value: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+            defaultValue: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+          },
+        },
       },
       roleList: {
         REGISTERED_USER: {
@@ -91,9 +134,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
         },
       },
       onBack: () => { },
-      onSubmit: (values) => {
-        spiedSubmit = values
-      },
+      onSubmit: () => { },
       submitting: false,
       pristine: false,
       invalid: false,
@@ -104,16 +145,16 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
     }
     const enzymeWrapper = shallow(<ProjectUserSettingsFormComponent {...props} />, { context })
     assert.deepEqual(spiedInitializedData, {
-      mode: props.settings.mode,
-      maxQuota: props.settings.maxQuota.toString(),
-      rateLimit: props.settings.rateLimit.toString(),
-      role: props.settings.role.name,
-      groups: props.settings.groups,
+      [SETTINGS.MODE]: getValue(props.settings, SETTINGS.MODE),
+      [SETTINGS.MAX_QUOTA]: getValue(props.settings, SETTINGS.MAX_QUOTA).toString(),
+      [SETTINGS.RATE_LIMIT]: getValue(props.settings, SETTINGS.RATE_LIMIT).toString(),
+      [SETTINGS.ROLE]: getValue(props.settings, SETTINGS.ROLE),
+      [SETTINGS.GROUPS]: getValue(props.settings, SETTINGS.GROUPS),
     })
 
     // check fields
     const modeFieldWrapper = testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
-      name: 'mode',
+      name: SETTINGS.MODE,
       label: 'project.user.settings.mode.field',
       component: RenderSelectField,
     }, 'There should be the mode field')
@@ -125,7 +166,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
     })
 
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
-      name: 'maxQuota',
+      name: SETTINGS.MAX_QUOTA,
       component: RenderTextField,
       validate: ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS,
       help: ProjectUserSettingsFormComponent.MAX_QUOTA_HELP,
@@ -133,7 +174,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
     }, 'There should be the mode field')
 
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
-      name: 'rateLimit',
+      name: SETTINGS.RATE_LIMIT,
       component: RenderTextField,
       validate: ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS,
       help: ProjectUserSettingsFormComponent.RATE_LIMIT_HELP,
@@ -141,7 +182,7 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
     }, 'There should be the mode field')
 
     testSuiteHelpers.assertCompWithProps(enzymeWrapper, Field, {
-      name: 'role',
+      name: SETTINGS.ROLE,
       component: RenderSelectField,
       label: 'projectUser.create.input.role.default',
     })
@@ -157,32 +198,5 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCom
       secondaryButtonLabel: 'project.user.settings.action.cancel',
       secondaryButtonClick: props.onBack,
     })
-
-    // check submit conversion
-    enzymeWrapper.instance().onSubmit({
-      mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-      maxQuota: '505',
-      rateLimit: '20',
-      role: 'REGISTERED_USER',
-      groups: [],
-    })
-
-    assert.deepEqual(spiedSubmit, {
-      mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-      maxQuota: 505,
-      rateLimit: 20,
-      role: {
-        id: 2,
-        name: 'REGISTERED_USER',
-        parentRole: {
-          id: 1,
-          name: 'PUBLIC',
-        },
-        isDefault: true,
-        isNative: true,
-        authorizedAddresses: [],
-      },
-      groups: [],
-    }, 'Values should be converted to server format at submission')
   })
 })

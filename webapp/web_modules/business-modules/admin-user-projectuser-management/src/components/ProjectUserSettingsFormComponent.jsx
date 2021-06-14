@@ -25,14 +25,18 @@ import Avatar from 'material-ui/Avatar'
 import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import map from 'lodash/map'
+import IconButton from 'material-ui/IconButton'
+import Clear from 'mdi-material-ui/Backspace'
 import MenuItem from 'material-ui/MenuItem'
 import {
   Card, CardTitle, CardText, CardActions,
 } from 'material-ui/Card'
-import { AdminDomain } from '@regardsoss/domain'
-import { AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import { AdminDomain, CommonDomain } from '@regardsoss/domain'
+import { formValueSelector } from 'redux-form'
+import { connect } from '@regardsoss/redux'
+import { AdminShapes, DataManagementShapes, CommonShapes } from '@regardsoss/shape'
 import { i18nContextType } from '@regardsoss/i18n'
-import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
+import { CardActionsComponent, ShowableAtRender, ClearSettingFieldButton } from '@regardsoss/components'
 import {
   RenderSelectField, Field, reduxForm, RenderTextField, ValidationHelpers, FieldHelp,
 } from '@regardsoss/form-utils'
@@ -41,6 +45,18 @@ import { themeContextType } from '@regardsoss/theme'
 import dependencies from '../dependencies'
 import UserGroupChip from './UserGroupChip'
 
+const {
+  getValue, getUpdatedSettingValue, getSetting, isDefaultValue,
+} = CommonDomain.SettingsUtils
+
+export const SETTINGS = {
+  MAX_QUOTA: 'maxQuota',
+  RATE_LIMIT: 'rateLimit',
+  MODE: 'acceptance_mode',
+  GROUPS: 'default_groups',
+  ROLE: 'default_role',
+}
+
 /**
  * Project user settings form component
  * @author Raphaël Mechali
@@ -48,7 +64,7 @@ import UserGroupChip from './UserGroupChip'
  */
 export class ProjectUserSettingsFormComponent extends React.Component {
   static propTypes = {
-    settings: AdminShapes.ProjectUserSettings,
+    settings: CommonShapes.SettingsList,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
     roleList: AdminShapes.RoleList,
@@ -60,6 +76,10 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     initialize: PropTypes.func.isRequired,
     handleSubmit: PropTypes.func.isRequired,
     change: PropTypes.func,
+    editedMaxQuota: PropTypes.number,
+    editedRateLimit: PropTypes.number,
+    editedMode: PropTypes.string,
+    editedRole: PropTypes.string,
   }
 
   static QUOTA_RESTRICTION_VALIDATORS = [
@@ -88,16 +108,17 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   /** Lifecycle method component will mount, used here to initialize form values */
   UNSAFE_componentWillMount() {
     const { settings, initialize } = this.props
-    const groups = settings.groups || []
+    const groups = getValue(settings, SETTINGS.GROUPS) || []
+    const role = getValue(settings, SETTINGS.ROLE)
     this.setState({
       tempGroups: groups,
     })
     initialize({
-      mode: settings.mode,
-      maxQuota: (settings.maxQuota || 0).toString(),
-      rateLimit: (settings.rateLimit || 0).toString(),
-      role: (settings.role.name || AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
-      groups,
+      [SETTINGS.MODE]: getValue(settings, SETTINGS.MODE),
+      [SETTINGS.MAX_QUOTA]: (getValue(settings, SETTINGS.MAX_QUOTA) || 0).toString(),
+      [SETTINGS.RATE_LIMIT]: (getValue(settings, SETTINGS.RATE_LIMIT) || 0).toString(),
+      [SETTINGS.ROLE]: (role || AdminDomain.DEFAULT_ROLES_ENUM.PUBLIC),
+      [SETTINGS.GROUPS]: groups,
     })
   }
 
@@ -114,14 +135,14 @@ export class ProjectUserSettingsFormComponent extends React.Component {
    * @param {*} values form edited values
    */
   onSubmit = (values) => {
-    const { onSubmit, roleList } = this.props
-    const submitRole = get(find(roleList, (role) => role.content.name === values.role), 'content', {})
+    const { onSubmit, roleList, settings } = this.props
+    const submitRole = get(find(roleList, (role) => role.content.name === values[SETTINGS.ROLE]), 'content', {})
     onSubmit({
-      mode: values.mode,
-      maxQuota: parseInt(values.maxQuota, 10),
-      rateLimit: parseInt(values.rateLimit, 10),
-      role: submitRole,
-      groups: values.groups,
+      [SETTINGS.MODE]: getUpdatedSettingValue(settings, SETTINGS.MODE, values[SETTINGS.MODE]),
+      [SETTINGS.MAX_QUOTA]: parseInt(getUpdatedSettingValue(settings, SETTINGS.MAX_QUOTA, values[SETTINGS.MAX_QUOTA]), 10),
+      [SETTINGS.RATE_LIMIT]: parseInt(getUpdatedSettingValue(settings, SETTINGS.RATE_LIMIT, values[SETTINGS.RATE_LIMIT]), 10),
+      [SETTINGS.ROLE]: getUpdatedSettingValue(settings, SETTINGS.ROLE, submitRole),
+      [SETTINGS.GROUPS]: getUpdatedSettingValue(settings, SETTINGS.GROUPS, values[SETTINGS.GROUPS]),
     })
   }
 
@@ -203,12 +224,30 @@ export class ProjectUserSettingsFormComponent extends React.Component {
       </div>)
   }
 
+  onClearInput = (settingName) => {
+    const { settings, change } = this.props
+    const settingFound = getSetting(settings, settingName)
+    if (settingFound) {
+      change(settingName, settingFound.content.defaultValue)
+    }
+  }
+
+  renderClearIcon = (settingName) => {
+    const { intl: { formatMessage } } = this.context
+    return (<IconButton
+      tooltip={formatMessage({ id: 'oais.settings.clear' })}
+    >
+      <Clear onClick={() => this.onClearInput(settingName)} />
+    </IconButton>)
+  }
+
   render() {
     const {
       submitting, pristine, invalid,
-      handleSubmit, onBack, roleList,
+      handleSubmit, onBack, roleList, settings, editedMaxQuota,
+      editedRateLimit, editedMode, editedRole,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { userForm } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { userForm, settings: { settingDiv } } } = this.context
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Card>
@@ -218,13 +257,19 @@ export class ProjectUserSettingsFormComponent extends React.Component {
           />
           <CardText>
             {/* Project user validation mode  */}
-            <Field
-              name="mode"
-              fullWidth
-              component={RenderSelectField}
-              label={formatMessage({ id: 'project.user.settings.mode.field' })}
-            >
-              { /* provide choice for every modes */
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.MODE)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.MODE, editedMode)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.MODE}
+                fullWidth
+                component={RenderSelectField}
+                label={formatMessage({ id: 'project.user.settings.mode.field' })}
+              >
+                { /* provide choice for every modes */
                 map(AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM, (value, key) => (
                   <MenuItem
                     key={key}
@@ -232,37 +277,59 @@ export class ProjectUserSettingsFormComponent extends React.Component {
                     value={value}
                   />))
               }
-            </Field>
-            <Field
-              name="maxQuota"
-              fullWidth
-              component={RenderTextField}
-              validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
-              help={ProjectUserSettingsFormComponent.MAX_QUOTA_HELP}
-              label={formatMessage({ id: 'project.user.settings.max.quota.field' })}
-            />
-            <Field
-              name="rateLimit"
-              fullWidth
-              component={RenderTextField}
-              validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
-              help={ProjectUserSettingsFormComponent.RATE_LIMIT_HELP}
-              label={formatMessage({ id: 'project.user.settings.rate.limit.field' })}
-            />
-            <Field
-              name="role"
-              fullWidth
-              component={RenderSelectField}
-              label={formatMessage({ id: 'projectUser.create.input.role.default' })}
-            >
-              {map(roleList, (role, id) => (
-                <MenuItem
-                  value={role.content.name}
-                  key={id}
-                  primaryText={this.getRoleName(role.content.name)}
-                />
-              ))}
-            </Field>
+              </Field>
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.MAX_QUOTA)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.MAX_QUOTA, editedMaxQuota)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.MAX_QUOTA}
+                fullWidth
+                component={RenderTextField}
+                validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
+                help={ProjectUserSettingsFormComponent.MAX_QUOTA_HELP}
+                label={formatMessage({ id: 'project.user.settings.max.quota.field' })}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.RATE_LIMIT)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.RATE_LIMIT, editedRateLimit)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.RATE_LIMIT}
+                fullWidth
+                component={RenderTextField}
+                validate={ProjectUserSettingsFormComponent.QUOTA_RESTRICTION_VALIDATORS}
+                help={ProjectUserSettingsFormComponent.RATE_LIMIT_HELP}
+                label={formatMessage({ id: 'project.user.settings.rate.limit.field' })}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.ROLE)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.ROLE, editedRole)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.ROLE}
+                fullWidth
+                component={RenderSelectField}
+                label={formatMessage({ id: 'projectUser.create.input.role.default' })}
+              >
+                {map(roleList, (role, id) => (
+                  <MenuItem
+                    value={role.content.name}
+                    key={id}
+                    primaryText={this.getRoleName(role.content.name)}
+                  />
+                ))}
+              </Field>
+            </div>
             <div style={userForm.groupsLabel}>
               {formatMessage({ id: 'projectUser.create.input.groups' })}
             </div>
@@ -283,6 +350,19 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'projectuser-setttings-form',
-})(ProjectUserSettingsFormComponent)
+const formID = 'projectuser-setttings-form'
+const formValuesSelector = formValueSelector(formID)
+
+/**
+ * Selects currently edited attributes
+ */
+function selectedSetting(state) {
+  return {
+    editedMaxQuota: parseInt(formValuesSelector(state, [SETTINGS.MAX_QUOTA]), 10),
+    editedRateLimit: parseInt(formValuesSelector(state, [SETTINGS.RATE_LIMIT]), 10),
+    editedMode: formValuesSelector(state, [SETTINGS.MODE]),
+    editedRole: formValuesSelector(state, [SETTINGS.ROLE]),
+  }
+}
+
+export default connect(selectedSetting)(reduxForm({ form: formID })(ProjectUserSettingsFormComponent))

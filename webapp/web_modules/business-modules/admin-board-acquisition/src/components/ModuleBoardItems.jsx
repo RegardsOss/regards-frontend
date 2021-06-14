@@ -22,6 +22,7 @@ import AddIcon from 'mdi-material-ui/PlusCircle'
 import DeleteIcon from 'mdi-material-ui/Delete'
 import Database from 'mdi-material-ui/Database'
 import Archive from 'mdi-material-ui/Archive'
+import SettingsIcon from 'mdi-material-ui/Cog'
 
 import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { connectionDependencies } from '@regardsoss/admin-data-connection-management'
@@ -29,6 +30,8 @@ import { datasourceDependencies } from '@regardsoss/admin-data-datasource-manage
 import { processingChainDependencies } from '@regardsoss/admin-ingest-processing-chain-management'
 import { dataProviderDependencies } from '@regardsoss/admin-data-provider-management'
 import { storageManagementDependencies } from '@regardsoss/admin-storage-management'
+import { featureManagementDependencies } from '@regardsoss/admin-feature-management'
+import { dashboardManagementDependencies } from '@regardsoss/admin-dashboard-management'
 import { indexActions, RESET_INDEX_ACTION } from '../clients/IndexClient'
 import { oaisDependencies } from '../../../admin-oais-management'
 
@@ -80,6 +83,12 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.see' }),
         hateoasDependencies: oaisDependencies.listDependencies,
       },
+      {
+        path: `/admin/${projectName}/data/acquisition/oais/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.oais.tooltip.settings' }),
+        hateoasDependencies: oaisDependencies.settingDependencies,
+      },
     ],
   },
   {
@@ -129,6 +138,50 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: [
           ...storageManagementDependencies.listDependencies,
         ],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/storage/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
+        hateoasDependencies: [
+          ...storageManagementDependencies.settingsDependencies,
+        ],
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
+    description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
+        hateoasDependencies: [
+          ...dashboardManagementDependencies.listDependencies,
+        ],
+      },
+    ],
+  },
+  {
+    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
+    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
+        hateoasDependencies: [
+          ...featureManagementDependencies.listDependencies,
+        ],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.settings.tooltip' }),
+        hateoasDependencies: featureManagementDependencies.settingDependencies,
       },
     ],
   },

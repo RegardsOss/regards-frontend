@@ -25,10 +25,12 @@ import { requestRetryActions } from './clients/RequestRetryClient'
 import { requestDeleteActions } from './clients/RequestDeleteClient'
 import { requestAbortActions } from './clients/RequestAbortClient'
 import { aipDeleteActions } from './clients/AIPDeleteClient'
+import { settingsActions } from './clients/SettingsClient'
 
 /**
  * Module hateoas depencies
  * @author Simon MILHAU
+ * @author Théo Lasserre
  */
 /**
  * Mandatory Dependencies to display module in parent board
@@ -37,6 +39,10 @@ import { aipDeleteActions } from './clients/AIPDeleteClient'
 const listDependencies = [
   // sipActions.getDependency(RequestVerbEnum.POST),
   aipActions.getDependency(RequestVerbEnum.POST),
+]
+
+const settingDependencies = [
+  settingsActions.getDependency(RequestVerbEnum.GET),
 ]
 
 /**
@@ -68,4 +74,5 @@ export default {
   retryRequestDependency,
   deleteRequestDependency,
   abortRequestsDependency,
+  settingDependencies,
 }

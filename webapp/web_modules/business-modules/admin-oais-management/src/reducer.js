@@ -36,6 +36,7 @@ import { aipDeleteReducer } from './clients/AIPDeleteClient'
 import { requestSelectVersionModeReducer } from './clients/RequestSelectVersionModeClient'
 import { requestRetryReducer } from './clients/RequestRetryClient'
 import { requestDeleteReducer } from './clients/RequestDeleteClient'
+import { settingsReducer } from './clients/SettingsClient'
 
 const oaisManagementReducer = combineReducers({
   aip: aipReducer,
@@ -57,6 +58,7 @@ const oaisManagementReducer = combineReducers({
   chain: processingChainReducer,
   searchSessions: searchSessionsReducer,
   searchSources: searchSourcesReducer,
+  settings: settingsReducer,
 })
 
 export default oaisManagementReducer

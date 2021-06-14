@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalSelectors } from '@regardsoss/store-utils'
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
  * Project user settings state selectors
@@ -29,5 +29,5 @@ import { BasicSignalSelectors } from '@regardsoss/store-utils'
  * @return selectors instance
  */
 export default function getProjectUserSettingsSelectors(storePath) {
-  return new BasicSignalSelectors(storePath)
+  return new BasicListSelectors(storePath)
 }

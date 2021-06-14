@@ -255,6 +255,7 @@ class ToponymUploader extends React.Component {
           }
 
           const features = shp.parseShp(shpFile, prjStr)
+          console.error('features : ', features)
 
           const featureCollection = {
             type: 'FeatureCollection',
@@ -280,7 +281,7 @@ class ToponymUploader extends React.Component {
     return (
       <DragAndDrop
         handleDrop={this.handleDrop}
-        resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
+        // resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
         onHideDisplayComponent={children}
         title={title}
         subtitle={subtitle}

@@ -22,7 +22,7 @@ import { AdminInstanceDomain } from '@regardsoss/domain'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import AccountsSettingsComponent from '../../src/components/AccountsSettingsComponent'
+import { SETTINGS } from '../../src/components/AccountsSettingsComponent'
 import { AccountsSettingsContainer } from '../../src/containers/AccountsSettingsContainer'
 
 const context = buildTestContext()
@@ -38,23 +38,24 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
   it('should exists', () => {
     assert.isDefined(AccountsSettingsContainer)
   })
-  it('should render correctly with edition data', () => {
+  it('should render correctly', () => {
     const props = {
       settings: {
-        content: {
-          id: 1,
-          mode: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+        0: {
+          content: {
+            name: SETTINGS.MODE,
+            description: '',
+            value: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+            defaultValue: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+          },
         },
       },
       hasError: false,
       fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
+      flushSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
-    enzymeWrapper.setState({
-      isLoading: false,
-    })
-    const wrapperInstance = enzymeWrapper.instance()
     // check i18n
     const i18nProviderWrapper = enzymeWrapper.find(I18nProvider)
     assert.lengthOf(i18nProviderWrapper, 1, 'i18n should be provided to child component')
@@ -62,30 +63,26 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
     const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
     testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
+      isLoading: true,
       isContentError: false,
-      isEmpty: false,
     })
-    // check component
-    const componentWrapper = enzymeWrapper.find(AccountsSettingsComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      settings: props.settings.content,
-      onBack: wrapperInstance.onBack,
-      onSubmit: wrapperInstance.onSubmit,
-    }, 'Component should define the expected properties')
   })
-  it('should render correctly loading', () => {
+  it('should render correctly in error', () => {
     const props = {
       settings: {
-        content: {
-          id: 1,
-          mode: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+        0: {
+          content: {
+            name: SETTINGS.MODE,
+            description: '',
+            value: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+            defaultValue: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
+          },
         },
       },
-      hasError: false,
+      hasError: true,
       fetchSettings: () => new Promise(() => { }),
       updateSettings: () => { },
+      flushSettings: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
     // check loader wrapper
@@ -93,52 +90,7 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsContainer', () => {
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
     testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
       isLoading: true,
-      isContentError: false,
-      isEmpty: false,
-    })
-  })
-  it('should render correctly empty (no data)', () => {
-    const props = {
-      hasError: false,
-      fetchSettings: () => new Promise(() => { }),
-      updateSettings: () => { },
-    }
-    const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
-    enzymeWrapper.setState({
-      isLoading: false,
-    })
-    // check loader wrapper
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
-    testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
-      isContentError: false,
-      isEmpty: true,
-    })
-  })
-  it('should render correctly in error', () => {
-    const props = {
-      settings: {
-        content: {
-          id: 1,
-          mode: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.AUTO,
-        },
-      },
-      hasError: true,
-      fetchSettings: () => new Promise(() => { }),
-      updateSettings: () => { },
-    }
-    const enzymeWrapper = shallow(<AccountsSettingsContainer {...props} />, { context })
-    enzymeWrapper.setState({
-      isLoading: false,
-    })
-    // check loader wrapper
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
-    testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
       isContentError: true,
-      isEmpty: false,
     })
   })
 })

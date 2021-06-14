@@ -30,4 +30,21 @@ export default (theme) => ({
       color: theme.palette.secondaryTextColor,
     },
   },
+  clearSettingFieldButtonStyle: {
+    defaultValueStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      marginRight: '15px',
+      borderRight: '1px solid',
+      borderRightColor: theme.palette.primary1Color,
+    },
+    valueStyle: {
+      display: 'flex',
+      alignItems: 'center',
+      marginRight: '15px',
+    },
+    alternateStyle: {
+      marginTop: '16px',
+    },
+  },
 })

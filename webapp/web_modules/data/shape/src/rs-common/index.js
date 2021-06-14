@@ -30,6 +30,7 @@ export { HateOASLink } from './HateOASLink'
 export { JSONObject } from './JSONObject'
 export { default as LocationShape } from './LocationShape'
 export { default as PageMetadata } from './PageMetadata'
+export { default as PageInfo } from './PageInfo'
 export { default as Percent } from './Percent'
 export { default as RangedNumber } from './RangedNumber'
 export { RequestParameters } from './RequestParameters'
@@ -39,3 +40,4 @@ export {
   ServiceProvider, ServiceProviderContent,
   ServiceProviderList, ServiceProviderArray,
 } from './ServiceProvider/ServiceProvider'
+export { SettingsList, SettingsArray } from './Settings'

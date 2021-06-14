@@ -45,6 +45,7 @@ const messages = {
   'invalid.more.than': '{number} ou plus',
   'invalid.abs_path': 'Répertoire invalide. le répertoire doit commencer par \'/\'',
   'invalid.configuration': 'La configuration du formulaire n\'est pas valide',
+  'invalid.cron': 'L\'expression cron est invalide',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Annuler',

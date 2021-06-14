@@ -72,10 +72,10 @@ export class RenderCheckbox extends React.Component {
       alwaysShowError, input, className, label, disabled, meta: { touched, error },
       intl, noSpacing,
     } = this.props
-    const { moduleTheme: { field: { error: errorStyle } } } = this.context
+    const { moduleTheme: { fieldsLine, field: { error: errorStyle } } } = this.context
     const checked = !!input.value
     return (
-      <div>
+      <div style={fieldsLine}>
         <Checkbox
           style={noSpacing ? null : RenderCheckbox.STYLES.rootStyles}
           labelStyle={RenderCheckbox.STYLES.labelStyles}

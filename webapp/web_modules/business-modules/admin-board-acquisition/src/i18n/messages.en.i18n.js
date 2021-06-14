@@ -28,6 +28,7 @@ const messages = {
   'data.board.oais.title': 'Products Manager (OAIS)',
   'data.board.oais.description': 'Products Manager (OAIS) allows you to manage products. A product is the package associating a SIP (Submission Information Package) and an AIP (Archive Information Package).',
   'data.board.oais.tooltip.see': 'Show products',
+  'data.board.oais.tooltip.settings': 'Settings',
   'data.board.oais.tooltip.configure': 'Configure',
   'data.board.oais.tooltip.submition': 'Submit products',
 
@@ -43,7 +44,16 @@ const messages = {
   'data.board.storage.title': 'Storage',
   'data.board.storage.description': 'Configure one or multiples data storage locations.',
   'data.board.action.storages.tooltip': 'Configure locations',
+  'data.board.action.storages.settings.tooltip': 'Settings',
 
+  'data.board.dashboard.title': 'Tableau de bord',
+  'data.board.dashboard.description': 'Allows you to view, by source and by session, a summary of the status of requests and to access the feature management screen.',
+  'data.board.action.dashboard.tooltip': 'Tableau de bord',
+
+  'data.board.featuremanager.title': 'Feature Manager',
+  'data.board.featuremanager.description': 'A consultation, relaunch and deletion screen, dedicated to requests.',
+  'data.board.action.featuremanager.tooltip': 'Feature Manager',
+  'data.board.action.featuremanager.settings.tooltip': 'Settings',
 }
 
 export default messages

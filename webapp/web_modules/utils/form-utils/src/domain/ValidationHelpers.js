@@ -23,8 +23,16 @@ import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isNumber from 'lodash/isNumber'
 import BigNumber from 'bignumber.js'
+import { isValidCron } from 'cron-validator'
 import { validURLRegexp, relativeURLRegexp, validURIRegexp } from '@regardsoss/domain/common'
 import ErrorTypes from './ErrorTypes'
+
+/**
+ * Returns {@code true} if the passed String is a valid cron expression.
+ * @param {String} cron
+ * @returns
+ */
+const isValidCronExp = (cron) => !isNil(cron) && isValidCron(cron) ? undefined : ErrorTypes.INVALID_CRON
 
 /**
  * Returns {@code true} if the passed String matches an email format.
@@ -115,6 +123,8 @@ const string = (value) => isString(value) || isNil(value) ? undefined : ErrorTyp
 const validRequiredNumber = (value) => !isNil(value) && value !== '' && !isNaN(value) ? undefined : ErrorTypes.REQUIRED
 
 const matchRegex = (regex) => (value) => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
+
+const isValidAbsolutePathOrEmpty = (value) => (matchRegex(/^\/.+/)(value) === undefined) ? undefined : ErrorTypes.INVALID_ABSOLUTE_PATH
 
 /**
  * Redux-Form-style validator for Fields which content must be an valid absolute path directory.
@@ -294,6 +304,8 @@ const javaFloatValidator = parsableNumberValidator(ErrorTypes.INVALID_FLOATING_N
 const characterValidator = (value) => value && value.length && value.length !== 1 ? ErrorTypes.INVALID_CHARACTER : undefined
 
 export default {
+  isValidCronExp,
+  isValidAbsolutePathOrEmpty,
   isValidAbsolutePath,
   isValidEmail,
   isValidUrl,

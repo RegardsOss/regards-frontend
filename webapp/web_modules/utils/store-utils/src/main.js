@@ -31,6 +31,10 @@ export { default as BasicFacetsPageableSelectors } from './facets/BasicFacetsPag
 export { default as BasicFacetsPageableActions } from './facets/BasicFacetsPageableActions'
 export { default as BasicFacetsPageableReducers } from './facets/BasicFacetsPageableReducers'
 
+export { default as BasicInfosPageableActions } from './info/BasicInfosPageableActions'
+export { default as BasicInfosPageableReducers } from './info/BasicInfosPageableReducers'
+export { default as BasicInfosPageableSelectors } from './info/BasicInfosPageableSelectors'
+
 export { default as BasicArraySelectors } from './array/BasicArraySelectors'
 export { default as BasicArrayActions } from './array/BasicArrayActions'
 export { default as BasicArrayReducers } from './array/BasicArrayReducers'

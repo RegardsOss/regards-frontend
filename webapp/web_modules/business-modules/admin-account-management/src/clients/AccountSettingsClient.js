@@ -22,3 +22,5 @@ const namespace = 'admin-account-management/settings'
 export const accountSettingsActions = new AdminInstanceClient.AccountSettingsActions(namespace)
 export const accountSettingsReducer = AdminInstanceClient.getAccountSettingsReducer(namespace)
 export const accountSettingsSelectors = AdminInstanceClient.getAccountSettingsSelectors(['admin', 'account-management', 'accounts', 'settings'])
+
+export const updateSettingActions = new AdminInstanceClient.UpdateSettingActions('admin-oais-management/settings-update')

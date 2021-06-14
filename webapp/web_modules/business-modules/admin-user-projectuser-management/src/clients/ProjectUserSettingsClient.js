@@ -22,3 +22,5 @@ const namespace = 'admin-user-projectuser-management/project-user-settings'
 export const projectUserSettingsActions = new AccessProjectClient.ProjectUserSettingsActions(namespace)
 export const projectUserSettingsReducer = AccessProjectClient.getProjectUserSettingsReducer(namespace)
 export const projectUserSettingsSelectors = AccessProjectClient.getProjectUserSettingsSelectors(['admin', 'user-management', 'project-user-management', 'settings'])
+
+export const updateSettingActions = new AccessProjectClient.UpdateSettingActions('admin-user-projectuser-management/project-user-settings-update')

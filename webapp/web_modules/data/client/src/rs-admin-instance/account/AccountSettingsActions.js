@@ -16,14 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalActions } from '@regardsoss/store-utils'
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
  * Accounts settings actions. Those actions are a bit specific as they work with the single backend entity
  * AccountSettings (retrieve / update)
  * @author Raphaël Mechali
  */
-export default class AccountSettingsActions extends BasicSignalActions {
+export default class AccountSettingsActions extends BasicListActions {
   /**
    * Constructor
    * @param {string} namespace  actions namespace
@@ -31,7 +32,11 @@ export default class AccountSettingsActions extends BasicSignalActions {
   constructor(namespace) {
     super({
       namespace,
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/accounts/settings`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.IMSERVICES.ADMIN_INSTANCE}/settings`,
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
     })
   }
 

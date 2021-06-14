@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { SettingsConfiguration } from '@regardsoss/api'
 import AccountSettingsActions from './AccountSettingsActions'
 
 /**
@@ -30,6 +31,6 @@ import AccountSettingsActions from './AccountSettingsActions'
  * @return {function} reduce function (state, action) => state
  */
 export default function getAccountSettingsReducer(namespace) {
-  const instance = new BasicSignalReducers(new AccountSettingsActions(namespace), null)
+  const instance = new BasicListReducers(SettingsConfiguration, new AccountSettingsActions(namespace))
   return (state, action) => instance.reduce(state, action)
 }

@@ -20,6 +20,7 @@ import { assert, expect } from 'chai'
 import { testSuiteHelpers } from '@regardsoss/tests-helpers'
 import Routes from '../src/router'
 import StorageLocationFormContainer from '../src/containers/StorageLocationFormContainer'
+import StorageSettingsContainer from '../src/containers/StorageSettingsContainer'
 import StorageLocationsComponent from '../src/components/StorageLocationsComponent'
 /**
  * @author Sébastien Binda
@@ -30,10 +31,11 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
 
   it('should return the correct value', () => {
     assert.isNotNull(Routes)
-    expect(Routes.childRoutes).to.have.length(3)
+    expect(Routes.childRoutes).to.have.length(4)
     expect(Routes.childRoutes[0].path).to.eq('storages')
     expect(Routes.childRoutes[1].path).to.eq('storages/create')
     expect(Routes.childRoutes[2].path).to.eq('storages/:name/:mode')
+    expect(Routes.childRoutes[3].path).to.eq('settings')
   })
   it('board should return StoragesPluginListComponent', (done) => {
     Routes.childRoutes[0].getComponents(undefined, (smth, component) => {
@@ -50,6 +52,12 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing storage router', () => {
   it('board should return StorageLocationFormContainer dor edition/copy mode', (done) => {
     Routes.childRoutes[2].getComponents(undefined, (smth, component) => {
       expect(component.content).to.eq(StorageLocationFormContainer)
+      done()
+    })
+  })
+  it('board should return StorageSettingsContainer', (done) => {
+    Routes.childRoutes[3].getComponents(undefined, (smth, component) => {
+      expect(component.content).to.eq(StorageSettingsContainer)
       done()
     })
   })

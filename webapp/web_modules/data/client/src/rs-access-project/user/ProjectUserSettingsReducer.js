@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { BasicSignalReducers } from '@regardsoss/store-utils'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { SettingsConfiguration } from '@regardsoss/api'
 import ProjectUserSettingsActions from './ProjectUserSettingsActions'
 
 /**
@@ -30,6 +31,6 @@ import ProjectUserSettingsActions from './ProjectUserSettingsActions'
  * @return {function} reduce function (state, action) => state
  */
 export default function getProjectUserSettingsReducer(namespace) {
-  const instance = new BasicSignalReducers(new ProjectUserSettingsActions(namespace), null)
+  const instance = new BasicListReducers(SettingsConfiguration, new ProjectUserSettingsActions(namespace))
   return (state, action) => instance.reduce(state, action)
 }

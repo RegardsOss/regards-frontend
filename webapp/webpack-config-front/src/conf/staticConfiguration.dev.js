@@ -84,4 +84,7 @@ STATIC_CONF = {
      */
     POINT_ZOOM_LEVEL: 100000,
   },
+  TABLE: {
+    PAGE_SIZE: 20,
+  },
 }

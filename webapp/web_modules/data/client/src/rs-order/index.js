@@ -51,3 +51,9 @@ export { default as getOrderListSelectors } from './order/OrderListSelectors'
 export { default as OrderStateActions } from './order/OrderStateActions'
 export { default as getOrderStateReducer } from './order/OrderStateReducer'
 export { default as getOrderStateSelectors } from './order/OrderStateSelectors'
+
+// order settings
+export { default as SettingsActions } from './settings/SettingsActions'
+export { default as getSettingsReducer } from './settings/SettingsReducer'
+export { default as getSettingsSelectors } from './settings/SettingsSelectors'
+export { default as UpdateSettingActions } from './settings/UpdateSettingActions'

@@ -25,6 +25,16 @@ const messages = {
   'order.list.filters.label': 'Filter results',
   'order.list.filter.by.email.hint': 'User',
   'order.list.clear.filter.tooltip': 'Clear filter',
+
+  'order.settings.title': 'Order settings',
+  'order.settings.subtitle': 'Configure settings',
+  'order.settings.clear': 'Clear',
+  'order.settings.field.appSubOrderDuration': 'Sub order applicative duration (in hour)',
+  'order.settings.fieldgroup.userOrderParameters': 'User order settings',
+  'order.settings.fieldgroup.userOrderParameters.subOrderDuration': 'Sub order user duration (in hour)',
+  'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification': 'Delay before email notification when an order is ready (in hour)',
+  'order.settings.action.confirm': 'Confirmer',
+  'order.settings.action.cancel': 'Retour',
   ...Locales.en,
 }
 

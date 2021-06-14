@@ -107,12 +107,12 @@ export class RenderDateTimeField extends React.Component {
     const {
       intl, input, label, displayTime, fullWidth,
     } = this.props
-    const { moduleTheme: { dateFieldStyles } } = this.context
+    const { moduleTheme: { fieldsLine, dateFieldStyles } } = this.context
     const clearButtonDisplayed = !!input.value
     // At first the value is an empty string
     const dateValue = this.getDateForComponent(input.value)
     return (
-      <div style={dateFieldStyles.fieldsLine}>
+      <div style={fieldsLine}>
         <DatePickerField
           id={input.name}
           value={dateValue}

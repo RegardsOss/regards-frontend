@@ -28,8 +28,21 @@ export const listOrderRoute = {
   },
 }
 
+export const settingsRoute = {
+  path: 'settings',
+  getComponents(nextState, cb) {
+    require.ensure([], (require) => {
+      const container = require('./containers/SettingsContainer')
+      cb(null, {
+        content: container.default,
+      })
+    })
+  },
+}
+
 export default {
   childRoutes: [
     listOrderRoute,
+    settingsRoute,
   ],
 }

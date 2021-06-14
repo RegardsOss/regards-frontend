@@ -33,3 +33,6 @@ export { validURIRegexp } from './URIRegex'
 
 // Documentation links
 export { LINK_DOC_SEARCH_API } from './DocumentationLinks'
+
+// Settings
+export { default as SettingsUtils } from './SettingsUtils'

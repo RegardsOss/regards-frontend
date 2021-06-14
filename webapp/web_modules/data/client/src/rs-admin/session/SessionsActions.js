@@ -22,13 +22,11 @@ import { BasicPageableActions } from '@regardsoss/store-utils'
 export default class SessionsActions extends BasicPageableActions {
   static ENDPOINT = `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.ADMIN}/sessions`
 
-  static ENTITY_ID = 'session_id'
-
   constructor(namespace) {
     super({
       namespace,
       entityEndpoint: SessionsActions.ENDPOINT,
-      entityPathVariable: SessionsActions.ENTITY_ID,
+      entityPathVariable: 'id',
       schemaTypes: {
         ENTITY: SESSION,
         ENTITY_ARRAY: SESSION_ARRAY,

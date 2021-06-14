@@ -18,14 +18,16 @@
  **/
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
-import { AdminInstanceDomain } from '@regardsoss/domain'
+import { AdminInstanceDomain, CommonDomain } from '@regardsoss/domain'
 import { CardActionsComponent } from '@regardsoss/components'
 import { Field } from '@regardsoss/form-utils'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { AccountsSettingsComponent } from '../../src/components/AccountsSettingsComponent'
+import { AccountsSettingsComponent, SETTINGS } from '../../src/components/AccountsSettingsComponent'
 import dependencies from '../../src/dependencies'
+import styles from '../../src/styles'
 
-const context = buildTestContext()
+const context = buildTestContext(styles)
+const { getValue } = CommonDomain.SettingsUtils
 
 /**
  * Test AccountsSettingsComponent
@@ -42,8 +44,14 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsComponent', () => {
     let spiedInitiliazeData = null
     const props = {
       settings: {
-        id: 1,
-        mode: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.MANUAL,
+        0: {
+          content: {
+            name: SETTINGS.MODE,
+            description: '',
+            value: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.MANUAL,
+            defaultValue: AdminInstanceDomain.ACCOUNT_SETTINGS_MODE_ENUM.MANUAL,
+          },
+        },
       },
       onBack: () => { },
       onSubmit: () => { },
@@ -54,11 +62,12 @@ describe('[ADMIN ACCOUNT MANAGEMENT] Testing AccountsSettingsComponent', () => {
         spiedInitiliazeData = values
       },
       handleSubmit: () => { },
+      change: () => { },
     }
     const enzymeWrapper = shallow(<AccountsSettingsComponent {...props} />, { context })
-    assert.deepEqual(spiedInitiliazeData, { mode: props.settings.mode })
+    assert.deepEqual(spiedInitiliazeData, { [SETTINGS.MODE]: getValue(props.settings, SETTINGS.MODE) })
 
-    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === 'mode'), 1, 'There should be the mode field')
+    assert.lengthOf(enzymeWrapper.find(Field).findWhere((n) => n.props().name === SETTINGS.MODE), 1, 'There should be the mode field')
 
     const cardActionsWrapper = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsWrapper, 1, 'There should be the card actions')

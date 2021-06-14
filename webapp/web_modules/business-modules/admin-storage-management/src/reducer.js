@@ -19,13 +19,18 @@
 import { combineReducers } from 'redux'
 import { storageLocationReducer } from './clients/StorageLocationClient'
 import { storageRequestReducers } from './clients/StorageRequestClient'
+import { settingsReducer } from './clients/StorageSettingsClient'
+import { storagesListReducer } from './clients/StoragesListClient'
 
 /**
  * @author Sébastien Binda
+ * @author Théo Lasserre
  */
 const microserviceManagementReducer = combineReducers({
   'storage-location': storageLocationReducer,
   'storage-request': storageRequestReducers,
+  settings: settingsReducer,
+  storages: storagesListReducer,
 })
 
 export default microserviceManagementReducer

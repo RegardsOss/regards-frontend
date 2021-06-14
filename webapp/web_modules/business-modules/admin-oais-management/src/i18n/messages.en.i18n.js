@@ -219,11 +219,6 @@ export default {
   'oais.aips.session.clear.filters.button': 'Clear filters',
   'oais.aips.session.apply.filters.button': 'Apply filters',
 
-  STORED: 'STORED',
-  DELETED: 'DELETED',
-  ERROR: 'ERROR',
-  GENERATED: 'GENERATED',
-
   'oais.aips.files.modal.action.close': 'Close',
   'oais.aips.files.modal.title': 'Trace ..',
   'oais.aips.files.table.headers.name': 'Name',
@@ -325,4 +320,16 @@ export default {
   'sips.submission-summary.back.button': 'Ok',
   'sips.submission-summary.go.to.session': 'Display session monitoring',
   'sips.submission-summary.go.to.submission': 'Send an other submission file',
+
+  'oais.settings.title': 'OAIS Product manager settings',
+  'oais.settings.subtitle': 'Configure settings',
+  'oais.settings.clear': 'Clear',
+  'oais.settings.field.activeNotifications': 'Enable notifications',
+  'oais.settings.fieldgroup.dumpParameters': 'Dump parameters',
+  'oais.settings.fieldgroup.dumpParameters.isActiveModule': 'Enable module',
+  'oais.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
+  'oais.settings.fieldgroup.dumpParameters.dumpLocation': 'Dump location',
+  'oais.settings.field.lastDumpReqDate': 'Last dump request date',
+  'oais.settings.action.confirm': 'Confirm',
+  'oais.settings.action.cancel': 'Back',
 }

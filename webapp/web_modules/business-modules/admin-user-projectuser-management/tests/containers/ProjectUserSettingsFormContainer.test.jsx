@@ -22,7 +22,6 @@ import { AdminDomain } from '@regardsoss/domain'
 import { I18nProvider } from '@regardsoss/i18n'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import ProjectUserSettingsFormComponent from '../../src/components/ProjectUserSettingsFormComponent'
 import { ProjectUserSettingsFormContainer } from '../../src/containers/ProjectUserSettingsFormContainer'
 
 const context = buildTestContext()
@@ -39,18 +38,71 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
   it('should exists', () => {
     assert.isDefined(ProjectUserSettingsFormContainer)
   })
-  it('should render correctly with edition data', () => {
+  it('should render correctly', () => {
     const props = {
       params: {
         project: 'any',
       },
       settings: {
-        content: {
-          id: 1,
-          maxQuota: 1150,
-          rateLimit: 150,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-          authorizedAddresses: [],
+        0: {
+          content: {
+            name: 'maxQuota',
+            description: '',
+            value: 100,
+            defaultValue: 100,
+          },
+        },
+        1: {
+          content: {
+            name: 'rateLimit',
+            description: '',
+            value: 10,
+            defaultValue: 10,
+          },
+        },
+        2: {
+          content: {
+            name: 'acceptance_mode',
+            description: '',
+            value: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+            defaultValue: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          },
+        },
+        3: {
+          content: {
+            name: 'default_groups',
+            description: '',
+            value: [],
+            defaultValue: [],
+          },
+        },
+        4: {
+          content: {
+            name: 'default_role',
+            description: '',
+            value: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+            defaultValue: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+          },
         },
       },
       roleList: {
@@ -80,18 +132,17 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
         },
       },
       hasErrorSettings: false,
-      isFetchingSettings: false,
       isFetchingRoleList: false,
       hasErrorRoleList: false,
       isFetchingGroupList: false,
       hasErrorGroupList: false,
       fetchRoleList: () => { },
       fetchGroupList: () => { },
-      fetchSettings: () => { },
+      fetchSettings: testSuiteHelpers.getSuccessDispatchStub(),
       updateSettings: () => { },
+      flushSettings: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserSettingsFormContainer {...props} />, { context })
-    const wrapperInstance = enzymeWrapper.instance()
     // check i18n
     const i18nProviderWrapper = enzymeWrapper.find(I18nProvider)
     assert.lengthOf(i18nProviderWrapper, 1, 'i18n should be provided to child component')
@@ -99,105 +150,8 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
     const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
     testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
-      isContentError: false,
-      isEmpty: false,
-    })
-    // check component
-    const componentWrapper = enzymeWrapper.find(ProjectUserSettingsFormComponent)
-    assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
-    testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      settings: props.settings.content,
-      onBack: wrapperInstance.onBack,
-      onSubmit: wrapperInstance.onSubmit,
-      roleList: props.roleList,
-      groupList: props.groupList,
-    }, 'Component should define the expected properties')
-  })
-  it('should render correctly loading', () => {
-    const props = {
-      params: {
-        project: 'any',
-      },
-      settings: {
-        content: {
-          id: 1,
-          maxQuota: -1,
-          rateLimit: -1,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-        },
-      },
-      roleList: {
-        REGISTERED_USER: {
-          content: {
-            id: 2,
-            name: 'REGISTERED_USER',
-            parentRole: {
-              id: 1,
-              name: 'PUBLIC',
-            },
-            isDefault: true,
-            isNative: true,
-            authorizedAddresses: [],
-          },
-        },
-      },
-      groupList: {
-        Public: {
-          content: {
-            id: 1,
-            name: 'Public',
-            email: 'testemail',
-            isPublic: true,
-            isInternal: true,
-          },
-        },
-      },
-      hasErrorSettings: false,
-      isFetchingSettings: true,
-      isFetchingRoleList: false,
-      hasErrorRoleList: false,
-      isFetchingGroupList: false,
-      hasErrorGroupList: false,
-      fetchRoleList: () => { },
-      fetchGroupList: () => { },
-      fetchSettings: () => { },
-      updateSettings: () => { },
-    }
-    const enzymeWrapper = shallow(<ProjectUserSettingsFormContainer {...props} />, { context })
-    // check loader wrapper
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
-    testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
       isLoading: true,
       isContentError: false,
-      isEmpty: false,
-    })
-  })
-  it('should render correctly empty (no data)', () => {
-    const props = {
-      params: {
-        project: 'any',
-      },
-      hasErrorSettings: false,
-      isFetchingSettings: false,
-      isFetchingRoleList: false,
-      hasErrorRoleList: false,
-      isFetchingGroupList: false,
-      hasErrorGroupList: false,
-      fetchRoleList: () => { },
-      fetchGroupList: () => { },
-      fetchSettings: () => { },
-      updateSettings: () => { },
-    }
-    const enzymeWrapper = shallow(<ProjectUserSettingsFormContainer {...props} />, { context })
-    // check loader wrapper
-    const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
-    assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
-    testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
-      isContentError: false,
-      isEmpty: true,
     })
   })
   it('should render correctly in error', () => {
@@ -206,11 +160,65 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
         project: 'any',
       },
       settings: {
-        content: {
-          id: 1,
-          maxQuota: -1,
-          rateLimit: 50,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+        0: {
+          content: {
+            name: 'maxQuota',
+            description: '',
+            value: 100,
+            defaultValue: 100,
+          },
+        },
+        1: {
+          content: {
+            name: 'rateLimit',
+            description: '',
+            value: 10,
+            defaultValue: 10,
+          },
+        },
+        2: {
+          content: {
+            name: 'acceptance_mode',
+            description: '',
+            value: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+            defaultValue: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+          },
+        },
+        3: {
+          content: {
+            name: 'default_groups',
+            description: '',
+            value: [],
+            defaultValue: [],
+          },
+        },
+        4: {
+          content: {
+            name: 'default_role',
+            description: '',
+            value: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+            defaultValue: {
+              id: 2,
+              name: 'REGISTERED_USER',
+              parentRole: {
+                id: 1,
+                name: 'PUBLIC',
+              },
+              isDefault: true,
+              isNative: true,
+              authorizedAddresses: [],
+            },
+          },
         },
       },
       roleList: {
@@ -240,24 +248,23 @@ describe('[ADMIN USER PROJECTUSER MANAGEMENT] Testing ProjectUserSettingsFormCon
         },
       },
       hasErrorSettings: true,
-      isFetchingSettings: false,
       isFetchingRoleList: false,
       hasErrorRoleList: false,
       isFetchingGroupList: false,
       hasErrorGroupList: false,
       fetchRoleList: () => { },
       fetchGroupList: () => { },
-      fetchSettings: () => { },
+      fetchSettings: testSuiteHelpers.getSuccessDispatchStub(),
       updateSettings: () => { },
+      flushSettings: () => { },
     }
     const enzymeWrapper = shallow(<ProjectUserSettingsFormContainer {...props} />, { context })
     // check loader wrapper
     const loaderWrapper = enzymeWrapper.find(LoadableContentDisplayDecorator)
     assert.lengthOf(loaderWrapper, 1, 'There should be a loader wrapper')
     testSuiteHelpers.assertWrapperProperties(loaderWrapper, {
-      isLoading: false,
+      isLoading: true,
       isContentError: true,
-      isEmpty: false,
     })
   })
 })

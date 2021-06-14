@@ -45,6 +45,7 @@ const messages = {
   'invalid.more.than': '{number} or more',
   'invalid.abs_path': 'Directory is not a valid absolute path. Should start with /',
   'invalid.configuration': 'Invalid form configuration',
+  'invalid.cron': 'Invalid cron expression',
 
   'form.datetimepicker.ok': 'Ok',
   'form.datetimepicker.cancel': 'Cancel',
