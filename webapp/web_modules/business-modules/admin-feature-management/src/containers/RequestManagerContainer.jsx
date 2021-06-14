@@ -52,6 +52,8 @@ export class RequestManagerContainer extends React.Component {
     areAllSelected: PropTypes.bool.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -82,13 +84,13 @@ export class RequestManagerContainer extends React.Component {
 
   onRefresh = (columnsSorting, contextRequestParameters) => {
     const {
-      meta, clearSelection, fetchRequests,
+      meta, clearSelection, fetchRequests, featureManagerFilters,
     } = this.props
     // compute page size to refresh all current entities in the table
     const lastPage = (meta && meta.number) || 0
-    const fetchPageSize = STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
+    const fetchPageSize = (RequestManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
-    fetchRequests(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters })
+    fetchRequests(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters, ...featureManagerFilters })
   }
 
   render() {

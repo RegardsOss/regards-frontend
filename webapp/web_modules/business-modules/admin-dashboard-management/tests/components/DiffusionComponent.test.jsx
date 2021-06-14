@@ -20,8 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
-import RaisedButton from 'material-ui/RaisedButton'
 import DiffusionComponent from '../../src/components/DiffusionComponent'
 import styles from '../../src/styles'
 
@@ -62,11 +60,5 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DiffusionComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 2, 'There should be 2 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should be 1 RaisedButton')
   })
 })

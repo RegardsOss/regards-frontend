@@ -67,6 +67,8 @@ export class DashboardContainer extends React.Component {
     flushSelectedSession: PropTypes.func.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   /**
    * Redux: map state to props function
    * @param {*} state: current redux state
@@ -117,6 +119,11 @@ export class DashboardContainer extends React.Component {
   */
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
+  componentWillUnmount = () => {
+    const { flushSelectedSession } = this.props
+    flushSelectedSession()
+  }
+
   /**
  * Properties change detected: update local state
  * @param oldProps previous component properties
@@ -161,7 +168,7 @@ export class DashboardContainer extends React.Component {
         meta = sourcesMeta
     }
     const lastPage = (meta && meta.number) || 0
-    return STATIC_CONF.TABLE.PAGE_SIZE * (lastPage + 1)
+    return (DashboardContainer.PAGE_SIZE) * (lastPage + 1)
   }
 
   onRefresh = (sourceFilters, sessionFilters) => {
@@ -203,8 +210,7 @@ export class DashboardContainer extends React.Component {
   }
 
   fetchSelectedSession = (sessionId) => {
-    const { fetchSelectedSession, flushSelectedSession } = this.props
-    flushSelectedSession()
+    const { fetchSelectedSession } = this.props
     if (sessionId) {
       fetchSelectedSession(sessionId)
     } else {

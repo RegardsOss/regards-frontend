@@ -89,6 +89,8 @@ class SourcesComponent extends React.Component {
       Icon={AddToPhotos}
     />)
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   state = {
     filters: SourcesComponent.DEFAULT_FILTERS_STATE,
   }
@@ -207,7 +209,7 @@ class SourcesComponent extends React.Component {
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
               requestParams={{ ...filters, tenant: project }}
-              pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
+              pageSize={SourcesComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}
             />

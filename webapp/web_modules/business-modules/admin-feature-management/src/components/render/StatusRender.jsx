@@ -42,9 +42,9 @@ class StatusRender extends React.Component {
 
   render() {
     const { entity: { content: { state, step, errors } }, onViewRequestErrors } = this.props
-    const { intl : { formatMessage } , moduleTheme: { tableStyle: { renderStyle: { statusStyle } } } } = this.context
-    const stateLabel = formatMessage( { id : `feature.request.state.${state}`})
-    const stepLabel = formatMessage( { id : `feature.request.step.${step}`})
+    const { intl: { formatMessage }, moduleTheme: { tableStyle: { renderStyle: { statusStyle } } } } = this.context
+    const stateLabel = formatMessage({ id: `feature.request.state.${state}` })
+    const stepLabel = formatMessage({ id: `feature.request.step.${step}` })
     return <div style={statusStyle}>
       <StringValueRender value={`${stateLabel} - ${stepLabel}`} />
       {

@@ -66,12 +66,6 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.configure.tooltip' }),
         hateoasDependencies: dataProviderDependencies.listDependencies,
       },
-      {
-        path: `/admin/${projectName}/data/acquisition/dataprovider/sessions`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data-provider.board.action.sessions.tooltip' }),
-        hateoasDependencies: dataProviderDependencies.listDependencies,
-      },
     ],
   },
   {

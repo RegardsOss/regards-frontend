@@ -73,6 +73,8 @@ export class RequestManagerComponent extends React.Component {
     isFetching: PropTypes.bool.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -451,7 +453,7 @@ export class RequestManagerComponent extends React.Component {
             name="request-management-table"
             pageActions={clients.actions}
             pageSelectors={clients.selectors}
-            pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
+            pageSize={RequestManagerComponent.PAGE_SIZE}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             // eslint-disable-next-line react-perf/jsx-no-new-array-as-prop

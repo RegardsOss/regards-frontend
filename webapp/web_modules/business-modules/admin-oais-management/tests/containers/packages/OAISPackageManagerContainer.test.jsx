@@ -80,7 +80,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerContainer', () => {
     const componentWrapper = enzymeWrapper.find(OAISPackageManagerComponent)
     assert.lengthOf(componentWrapper, 1, 'There should be the corresponding component')
     testSuiteHelpers.assertWrapperProperties(componentWrapper, {
-      pageSize: STATIC_CONF.TABLE.PAGE_SIZE,
+      pageSize: STATIC_CONF.TABLE.PAGE_SIZE || 20,
       featureManagerFilters: props.featureManagerFilters,
       storages: props.storages,
       onRefresh: wrapperInstance.onRefresh,

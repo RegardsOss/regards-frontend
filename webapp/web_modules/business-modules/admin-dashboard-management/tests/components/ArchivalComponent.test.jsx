@@ -20,8 +20,6 @@ import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import { Card } from 'material-ui/Card'
-import { ListItem } from 'material-ui/List'
-import RaisedButton from 'material-ui/RaisedButton'
 import ArchivalComponent from '../../src/components/ArchivalComponent'
 import styles from '../../src/styles'
 
@@ -38,7 +36,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ArchivalComponent', () => {
   it('should exists', () => {
     assert.isDefined(ArchivalComponent)
   })
-  it('should render correctly a DP session with errors', () => {
+  it('should render correctly a Storage session', () => {
     const props = {
       project: 'any',
       sessionStep: {
@@ -62,43 +60,5 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ArchivalComponent', () => {
 
     const cardWrapper = enzymeWrapper.find(Card)
     assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 3, 'There should be 3 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should be 1 RaisedButton')
-  })
-  it('should render correctly a DP session without errors', () => {
-    const props = {
-      project: 'any',
-      sessionStep: {
-        id: 0,
-        stepId: 'storage',
-        source: 'Test_Source1',
-        session: 'Test_Session1',
-        type: 'REFERENCING',
-        inputRelated: 3,
-        outputRelated: 3,
-        state: {
-          errors: 0,
-          waiting: 2,
-          running: 1,
-        },
-        properties: {},
-        lastUpdateDate: '01/01/21',
-      },
-      relaunchProducts: () => { },
-    }
-    const enzymeWrapper = shallow(<ArchivalComponent {...props} />, { context })
-
-    const cardWrapper = enzymeWrapper.find(Card)
-    assert.lengthOf(cardWrapper, 1, 'There should be a Card')
-
-    const listItemWrapper = enzymeWrapper.find(ListItem)
-    assert.lengthOf(listItemWrapper, 3, 'There should be 3 ListItem')
-
-    const buttonWrapper = enzymeWrapper.find(RaisedButton)
-    assert.lengthOf(buttonWrapper, 1, 'There should be 1 RaisedButton')
   })
 })

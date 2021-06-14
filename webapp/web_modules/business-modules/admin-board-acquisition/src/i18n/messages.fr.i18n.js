@@ -21,7 +21,7 @@ const messages = {
   'data.board.action.add.tooltip': 'Ajouter',
 
   'data.board.dashboard.title': 'Tableau de bord',
-  'data.board.dashboard.description': 'Le tableau de bord permet de centraliser toutes les informations concernant les produits référencés dans votre projet. Vous pouvez ici visualiser via un regroupement par source/session l\"avancement de vos chaînes de traitements des produits.',
+  'data.board.dashboard.description': 'Le tableau de bord permet de centraliser toutes les informations concernant les produits référencés dans votre projet. Vous pouvez ici visualiser via un regroupement par source/session l\'avancement de vos chaînes de traitements des produits.',
   'data.board.action.dashboard.tooltip': 'Consulter le tableau de bord',
 
   'data-provider.board.title': 'Acquisition de données',
@@ -51,7 +51,6 @@ const messages = {
   'data.board.storage.title': 'Stockage',
   'data.board.storage.description': 'Permet de configurer un ou plusieurs espaces de stockage de données.',
   'data.board.action.storages.tooltip': 'Espaces de stockage',
-
 
 }
 

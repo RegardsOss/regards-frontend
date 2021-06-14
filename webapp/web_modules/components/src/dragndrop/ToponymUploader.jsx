@@ -248,7 +248,6 @@ class ToponymUploader extends React.Component {
           }
 
           const features = shp.parseShp(shpFile, prjStr)
-          console.error('features : ', features)
 
           const featureCollection = {
             type: 'FeatureCollection',

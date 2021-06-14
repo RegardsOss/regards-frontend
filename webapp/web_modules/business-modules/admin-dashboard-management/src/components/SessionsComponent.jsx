@@ -81,6 +81,8 @@ class SessionsComponent extends React.Component {
       Icon={AddToPhotos}
     />)
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   state = {
     filters: SessionsComponent.DEFAULT_FILTERS_STATE,
   }
@@ -196,7 +198,7 @@ class SessionsComponent extends React.Component {
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
               requestParams={{ ...filters, tenant: project }}
-              pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
+              pageSize={SessionsComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}
             />

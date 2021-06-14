@@ -68,6 +68,8 @@ export class ReferencesManagerComponent extends React.Component {
     isFetching: PropTypes.bool.isRequired,
   }
 
+  static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
+
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
@@ -412,7 +414,7 @@ export class ReferencesManagerComponent extends React.Component {
             name="feature-management-table"
             pageActions={referencesActions}
             pageSelectors={referencesSelectors}
-            pageSize={STATIC_CONF.TABLE.PAGE_SIZE}
+            pageSize={ReferencesManagerComponent.PAGE_SIZE}
             minRowCount={minRowCount}
             maxRowCount={maxRowCount}
             columns={columns}
