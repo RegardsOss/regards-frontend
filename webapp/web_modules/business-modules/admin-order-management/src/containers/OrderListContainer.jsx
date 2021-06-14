@@ -61,8 +61,10 @@ export class OrderListContainer extends React.Component {
 
   render() {
     const { ordersRequestParameters } = this.state
+    const { params: { project } } = this.props
     return (
       <OrderListComponent
+        project={project}
         onUserFilterSelected={this.onUserFilterSelected}
         ordersRequestParameters={ordersRequestParameters}
         backUrl={this.getBackURL()}

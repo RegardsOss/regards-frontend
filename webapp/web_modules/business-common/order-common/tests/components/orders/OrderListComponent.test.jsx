@@ -63,6 +63,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       onShowRequestFailedInformation: () => { },
       onShowAsynchronousRequestInformation: () => { },
       onShowDeleteConfirmation: () => { },
+      onShowRetryMode: () => {},
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')
@@ -97,6 +98,7 @@ describe('[Order Common] Testing OrderListComponent', () => {
       onShowRequestFailedInformation: () => { },
       onShowAsynchronousRequestInformation: () => { },
       onShowDeleteConfirmation: () => { },
+      onShowRetryMode: () => { },
     }
     const enzymeWrapper = shallow(<OrderListComponent {...props} />, { context })
     assert.lengthOf(enzymeWrapper.find(TableLayout), 1, 'Table layout should be set')

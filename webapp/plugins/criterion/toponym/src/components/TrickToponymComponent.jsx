@@ -16,18 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { withResourceDisplayControl } from '@regardsoss/display-control'
+import { i18nContextType } from '@regardsoss/i18n'
+import { themeContextType } from '@regardsoss/theme'
 
 /**
- * i18n messages for French language
- * @author Theo Lasserre
+ * Display help message when toponym upload autorised
+ * @author Léo Mieulet
  */
-const messages = {
-  'criterion.toponym.equal.label': 'égal(e) à',
-  'criterion.toponym.equal.tooltip': 'Les résultats sont strictement égaux au texte saisi',
-  'criterion.toponym.title.tooltip': 'Limiter la recherche aux produits contenus dans une zone géographique',
-  'criterion.toponym.hintText': 'Rechercher un toponyme',
-  'criterion.toponym.trick': 'Astuce: Glissez déposez votre fichier shapefile zip, KML, KMZ ou GeoJSON pour l\'utiliser comme restriction géographique',
-  'criterion.toponym.remove.tooltip': 'Supprimer ce toponyme',
+class TrickToponymComponent extends React.Component {
+  static contextTypes = {
+    ...i18nContextType,
+    ...themeContextType,
+  }
+
+  render() {
+    const { intl: { formatMessage }, moduleTheme: { trickStyle } } = this.context
+    return (
+      <div style={trickStyle}>{formatMessage({ id: 'criterion.toponym.trick' })}</div>
+    )
+  }
 }
 
-export default messages
+export default withResourceDisplayControl(TrickToponymComponent)

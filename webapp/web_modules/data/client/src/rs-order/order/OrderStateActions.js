@@ -55,6 +55,18 @@ class OrderStateActions {
       namespace: `${namespace}/resume`,
       bypassErrorMiddleware: true,
     })
+    // retry
+    this.retryDelegate = new BasicSignalActions({
+      entityEndpoint: `${OrderStateActions.ROOT_ENDPOINT}/{orderId}/retry`,
+      namespace: `${namespace}/resume`,
+      bypassErrorMiddleware: true,
+    })
+    // restart
+    this.restartDelegate = new BasicSignalActions({
+      entityEndpoint: `${OrderStateActions.ROOT_ENDPOINT}/{orderId}/restart`,
+      namespace: `${namespace}/resume`,
+      bypassErrorMiddleware: true,
+    })
   }
 
   /**
@@ -82,6 +94,14 @@ class OrderStateActions {
    */
   pauseOrder(orderId) {
     return this.pauseDelegate.sendSignal(RequestVerbEnum.PUT, null, { orderId })
+  }
+
+  retryOrder(orderId) {
+    return this.retryDelegate.sendSignal('PUT', { }, { orderId })
+  }
+
+  restartOrder(orderId, label, onSuccessUrl) {
+    return this.restartDelegate.sendSignal('POST', { label, onSuccessUrl }, { orderId })
   }
 
   /**

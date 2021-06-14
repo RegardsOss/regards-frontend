@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { getSearchToponymClient } from '../clients/SearchToponymClient'
+import { getUploadToponymClient } from '../clients/UploadToponymClient'
 
 /**
  * This component wires clients required by this plugin,
@@ -35,8 +36,9 @@ const withClient = (Component) => class WithClient extends React.Component {
   render() {
     const { pluginInstanceId } = this.props
     const searchToponymClient = getSearchToponymClient(pluginInstanceId)
+    const uploadToponymClient = getUploadToponymClient(pluginInstanceId)
     return (
-      <Component {...this.props} searchToponymClient={searchToponymClient} />
+      <Component {...this.props} searchToponymClient={searchToponymClient} uploadToponymClient={uploadToponymClient} />
     )
   }
 }

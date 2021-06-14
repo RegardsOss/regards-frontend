@@ -23,6 +23,8 @@ import { connect } from '@regardsoss/redux'
 import get from 'lodash/get'
 import values from 'lodash/values'
 import isEmpty from 'lodash/isEmpty'
+import isArray from 'lodash/isArray'
+import { RequestVerbEnum } from '@regardsoss/store-utils'
 import { withI18n, i18nContextType } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
 import { ApplicationErrorAction } from '@regardsoss/global-system-error'
@@ -103,16 +105,21 @@ class ToponymUploader extends React.Component {
     }
   }
 
+  recursiveRemoveThirdCoordinate = (coords) => map(coords, (coord) => {
+    if (isArray(coord[0])) {
+      return this.recursiveRemoveThirdCoordinate(coord)
+    }
+    return [coord[0], coord[1]]
+  })
+
   cleanGeometry = (featureCollection) => {
     // Ensure the geometry has no Z position on each point
-    const coordinates = map(get(featureCollection.features[0], 'geometry.coordinates[0]', []), (coord) => [coord[0], coord[1]])
+    const coordinates = this.recursiveRemoveThirdCoordinate(get(featureCollection.features[0], 'geometry.coordinates', []))
     return {
       ...featureCollection.features[0],
       geometry: {
         ...featureCollection.features[0].geometry,
-        coordinates: [
-          coordinates,
-        ],
+        coordinates,
       },
     }
   }
