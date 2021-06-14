@@ -27,6 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { Measure } from '@regardsoss/adapters'
 import MapContainer from '../../../../../containers/user/tabs/results/map/MapContainer'
 import QuicklooksViewContainer from '../../../../../containers/user/tabs/results/quickooks/QuicklooksViewContainer'
+import MapHelpComponent from './MapHelpComponent'
 
 /**
  * Map view display component. It shows map on left and quicklooks on right
@@ -163,6 +164,7 @@ class MapViewComponent extends React.Component {
       <Measure bounds onMeasure={this.onComponentResized}>
         {({ bind }) => (
           <div style={mapViewStyles.geoLayout} {...bind('measureDiv')}>
+            <MapHelpComponent />
             <SplitPane
               split="vertical"
               minSize={mizar.minWidth}

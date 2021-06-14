@@ -28,9 +28,6 @@ module.exports = function (projectContextPath, mode = 'dev') {
         'node_modules',
       ],
       alias: alias(projectContextPath, mode),
-      fallback: {
-        buffer: false,
-      },
     },
     module: {
       unknownContextCritical: false,
@@ -167,6 +164,8 @@ module.exports = function (projectContextPath, mode = 'dev') {
         PropTypes: 'prop-types',
         Jquery: 'jquery',
         'jquery-ui': 'jquery-ui-dist/jquery-ui.js',
+        // Fix jsZIP
+        Buffer: ['buffer', 'Buffer'],
       }),
       // Create a single css file for the whole application instead of setting css inline in the javascript
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),

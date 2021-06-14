@@ -51,7 +51,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
         size: 20,
         totalElements: 50,
       },
-
+      pageLoading: false,
       featureManagerFilters: {
         state: '',
         from: '',
@@ -107,6 +107,7 @@ describe('[OAIS AIP MANAGEMENT] Testing OAISRequestManagerContainer', () => {
         size: 20,
         totalElements: 50,
       },
+      pageLoading: false,
       featureManagerFilters: {},
       tableSelection: [],
       selectionMode: TableSelectionModes.includeSelected,

@@ -101,8 +101,10 @@ const messages = {
   'search.results.form.restrictions.configuration.opensearch.dialog.title': 'Construire une requête OpenSearch',
   'search.results.form.restrictions.configuration.opensearch.dialog.link': 'Lien vers la documentation',
   'search.results.form.restrictions.configuration.opensearch.dialog.message': 'Pour savoir comment construire une requête OpenSearch rendez-vous sur la documentation REGARDS: section Backend, sous-section Catalogue, puis SearchAPI.',
-  'search.results.form.restrictions.configuration.no.selection.messsage': 'Aucune sélection',
-  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount} element{selectionCount, plural, 
+  'search.results.form.restrictions.configuration.no.selection.message': 'Aucune sélection',
+  'search.results.form.restrictions.configuration.selection.dataset.count.max': 'Veuillez sélectionner jusqu\'à {max} jeux. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.model.count.max': 'Veuillez sélectionner jusqu\'à {max} modèles. Si vous avez besoin d\'un filtre plus comlpexe veuillez utiliser la requête opensearch de filtre proposée plus haut.',
+  'search.results.form.restrictions.configuration.selection.count.message': `{selectionCount}/{max} element{selectionCount, plural, 
     =0 {} 
     one {} 
     other {s}
@@ -259,6 +261,20 @@ const messages = {
   'results.map.tools.opaque': 'Opaque',
   'results.map.tools.transparent': 'Transparent',
   'results.map.search.hintText': 'Rechercher un toponyme...',
+
+  'results.map.help.title': 'Guide des fonctionnalités',
+  'results.map.help.tooltip.close': 'Fermer l\'aide',
+  'results.map.help.action.close': 'Fermer ce message et ne plus me l\'afficher',
+  'results.map.help.draw.title': 'Dessiner une zone',
+  'results.map.help.draw.first_sentence': 'Vous pouvez dessiner un rectangle pour rechercher les produits dans cette zone.',
+  'results.map.help.draw.snd_sentence': 'Cette option est disponible dans la barre d\'outil de la carte.',
+  'results.map.help.draw.thr_sentence': 'Très utile pour vérifier qu\'une zone contient des données !',
+  'results.map.help.toponym.title': 'Toponymes',
+  'results.map.help.toponym.first_sentence': 'Nous apportons des milliers de toponymes pour restreindre votre recherche à une zone.',
+  'results.map.help.toponym.snd_sentence': 'Utilisez le moteur de recherche de toponyme pour rechercher un lieu.',
+  'results.map.help.upload.title': 'Emprise personnalisée',
+  'results.map.help.upload.first_sentence': 'Vous pouvez glisser-déposer sur la carte votre fichier contenant un polygone.',
+  'results.map.help.upload.snd_sentence': 'Formats autorisées: shapefile zip, KML, KMZ et GeoJSON - Doit contenir un seul polygone ou un multi polygone.',
 }
 
 export default messages

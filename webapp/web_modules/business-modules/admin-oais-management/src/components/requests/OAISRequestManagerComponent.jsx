@@ -24,10 +24,11 @@ import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
 import NoContentIcon from 'mdi-material-ui/CropFree'
+import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, DateValueRender,
-  TableSelectionModes, NoContentComponent, TableHeaderLine,
+  TableSelectionModes, NoContentComponent, TableHeaderLine, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -59,6 +60,7 @@ import AbortAllRequestsDialog from './AbortAllRequestsDialog'
 export class OAISRequestManagerComponent extends React.Component {
   static propTypes = {
     pageMeta: CommonShapes.PageMetadata.isRequired,
+    pageLoading: PropTypes.bool.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     requestFilters: OAISCriterionShape,
@@ -91,6 +93,11 @@ export class OAISRequestManagerComponent extends React.Component {
   static EMPTY_COMPONENT = <NoContentComponent
     titleKey="oais.requests.empty.results"
     Icon={NoContentIcon}
+  />
+
+  static LOADING_COMPONENT = <NoContentComponent
+    titleKey="oais.requests.loading.results"
+    Icon={SearchIcon}
   />
 
   static DELETION_SELECTION_MODE = {
@@ -396,12 +403,13 @@ export class OAISRequestManagerComponent extends React.Component {
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
       tableSelection, selectionMode, requestFilters, modeSelectionAllowed,
-      pageSize, pageMeta,
+      pageSize, pageMeta, pageLoading,
     } = this.props
     const { contextRequestURLParameters, contextRequestBodyParameters } = this.state
     return (
       <div>
         <TableLayout>
+          <TableHeaderLoadingComponent loading={pageLoading} />
           <TableHeaderLine key="table.options">
             <TableHeaderOptionsArea key="filtersArea" reducible alignLeft>
               <TableHeaderOptionGroup key="first">
@@ -500,7 +508,7 @@ export class OAISRequestManagerComponent extends React.Component {
             ]}
             requestParams={contextRequestURLParameters}
             bodyParams={contextRequestBodyParameters}
-            emptyComponent={OAISRequestManagerComponent.EMPTY_COMPONENT}
+            emptyComponent={pageLoading ? OAISRequestManagerComponent.LOADING_COMPONENT : OAISRequestManagerComponent.EMPTY_COMPONENT}
             fetchUsingPostMethod
           />
         </TableLayout>

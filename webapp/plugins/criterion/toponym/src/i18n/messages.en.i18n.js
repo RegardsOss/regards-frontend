@@ -27,6 +27,7 @@ const messages = {
   'criterion.toponym.title.tooltip': 'Limit search to products contained in toponym area',
   'criterion.toponym.hintText': 'Search for a toponym',
   'criterion.toponym.trick': 'Tips: Drag and drop your zip shapefile, KML, KMZ or GeoJSON file to use it as geographical restriction',
+  'criterion.toponym.remove.tooltip': 'Delete this toponym',
 }
 
 export default messages

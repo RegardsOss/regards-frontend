@@ -19,38 +19,27 @@
 import { shallow } from 'enzyme'
 import { assert } from 'chai'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
-import { TableLayout } from '@regardsoss/components'
-import { OAISPackageManagerComponent } from '../../../src/components/packages/OAISPackageManagerComponent'
-import styles from '../../../src/styles'
+import MapHelpComponent from '../../../../../../src/components/user/tabs/results/map/MapHelpComponent'
+import MapDrawHelpComponent from '../../../../../../src/components/user/tabs/results/map/help/MapDrawHelpComponent'
+import styles from '../../../../../../src/styles'
 
 const context = buildTestContext(styles)
 
 /**
- * Test AIPModifyDialogComponent
- * @author Simon MILHAU
+ * Test MapHelpComponent
+ * @author Léo Mieulet
  */
-describe('[OAIS AIP MANAGEMENT] Testing OAISPackageManagerComponent', () => {
+describe('[SEARCH RESULTS] Testing MapHelpComponent', () => {
   before(testSuiteHelpers.before)
   after(testSuiteHelpers.after)
 
   it('should exists', () => {
-    assert.isDefined(OAISPackageManagerComponent)
+    assert.isDefined(MapHelpComponent)
   })
-
   it('should render correctly', () => {
-    const props = {
-      updateStateFromFeatureManagerFilters: () => {},
-      updateStateFromPackageManager: () => {},
-      pageSize: 1,
-      pageLoading: false,
-      fetchPage: () => {},
-      clearSelection: () => {},
-      deleteAips: () => {},
-      modifyAips: () => {},
-      selectionMode: '',
-    }
-    const enzymeWrapper = shallow(<OAISPackageManagerComponent {...props} />, { context })
-    const tableLayoutWrapper = enzymeWrapper.find(TableLayout)
-    assert.lengthOf(tableLayoutWrapper, 1, 'There should be a TableLayout')
+    const enzymeWrapper = shallow(<MapHelpComponent />, { context })
+
+    const drawHelp = enzymeWrapper.find(MapDrawHelpComponent)
+    assert.equal(drawHelp.length, 1, 'There should be an draw help compo')
   })
 })

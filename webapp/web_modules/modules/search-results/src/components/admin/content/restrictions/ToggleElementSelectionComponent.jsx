@@ -17,12 +17,19 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import { CheckBoxCell } from '@regardsoss/components'
+import { console } from 'window-or-global'
 
 /**
  * Option (checkbox) to toggle element selection on / off.
  * @author Raphaël Mechali
  */
 class ToggleElementSelectionComponent extends React.Component {
+  /**
+   * As search request parameters are sent to backend through GET parameters, we need to limit the size of the parameters.
+   * So, limit the number of dataset filters.
+   */
+  static MAX_SELECTED_DATASET = 10
+
   static propTypes = {
     entity: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -37,13 +44,24 @@ class ToggleElementSelectionComponent extends React.Component {
    * User callback: selection of the row has been toggled, propagate event to parent
    */
   onToggleSelection = () => {
-    const { rowIndex, onToggleSelection } = this.props
-    onToggleSelection(rowIndex)
+    const {
+      rowIndex, onToggleSelection, selectedElements, entity,
+    } = this.props
+    if (!selectedElements.includes(entity.id) && selectedElements.length >= ToggleElementSelectionComponent.MAX_SELECTED_DATASET) {
+      console.error('Too much. Selection of this dataset shouldn\'t be possible', selectedElements, entity.id)
+    } else {
+      onToggleSelection(rowIndex)
+    }
+  }
+
+  isDisabled = () => {
+    const { selectedElements, entity } = this.props
+    return !selectedElements.includes(entity.id) && selectedElements.length >= ToggleElementSelectionComponent.MAX_SELECTED_DATASET
   }
 
   render() {
     const { selectedElements, entity } = this.props
-    return <CheckBoxCell selected={selectedElements.includes(entity.id)} onToggleSelection={this.onToggleSelection} />
+    return <CheckBoxCell selected={selectedElements.includes(entity.id)} onToggleSelection={this.onToggleSelection} disabled={this.isDisabled()} />
   }
 }
 export default ToggleElementSelectionComponent

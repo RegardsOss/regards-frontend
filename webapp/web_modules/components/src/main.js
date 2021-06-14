@@ -86,6 +86,7 @@ export { default as PageableListContainer } from './list/PageableListContainer'
 export { default as SelectableList } from './list/SelectableList'
 
 export { default as LoadingPaneComponent } from './loading/LoadingPaneComponent'
+export { default as LoadingFilterComponent } from './loading/LoadingFilterComponent'
 
 export { default as DynamicModulePane } from './module/DynamicModulePane'
 export { default as HorizontalAreasSeparator } from './module/HorizontalAreasSeparator'

@@ -649,6 +649,77 @@ const styles = (theme) => ({
         minWidth: theme.button.iconButtonSize,
       },
       resizer: buildSplitResizerStyle(theme),
+      help: {
+        wrapper: {
+          backgroundColor: 'rgb(22 22 22/ 87%)',
+          position: 'absolute',
+          width: '100%',
+          minHeight: '100%',
+          zIndex: 6,
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        title: {
+          wrapper: {
+            display: 'flex',
+            justifyContent: 'space-between',
+          },
+          leftStub: { width: 53 },
+          titleText: {
+            fontSize: '2em',
+            marginTop: 30,
+          },
+          closeIcon: { height: 46, width: 46 },
+          closeButton: {
+            padding: 0, height: 53, width: 53, marginRight: 5,
+          },
+        },
+        main: {
+          wrapper: {
+            flexGrow: 1,
+            flexShrink: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          },
+          itemsWrapper: {
+            display: 'flex',
+            justifyContent: 'center',
+          },
+          itemWrapper: {
+            boxSizing: 'border-box',
+            borderRadius: '2px',
+            maxWidth: '400px',
+            margin: '0 50px',
+            display: 'flex',
+            alignItems: 'center',
+            flexDirection: 'column',
+          },
+          icon: {
+            height: '120px',
+            width: '120px',
+          },
+          title: {
+            fontWeight: 500,
+            marginBottom: 25,
+            marginTop: 10,
+            fontSize: '1.7em',
+          },
+          text: {
+            fontSize: '1.2em',
+            lineHeight: '1.3em',
+            textAlign: 'justify',
+          },
+        },
+        action: {
+          wrapper: {
+            display: 'flex',
+            justifyContent: 'center',
+            fontSize: '20px',
+            marginBottom: 30,
+          },
+        },
+      },
     },
     restrictionStyle: {
       openSearchContent: {

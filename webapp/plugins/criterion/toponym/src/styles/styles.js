@@ -33,5 +33,24 @@ export default function getStyles(theme) {
     trickStyle: {
       fontStyle: 'italic',
     },
+    close: {
+      wrapper: {
+        display: 'flex',
+        alignItems: 'center',
+      },
+      closeIconButton: {
+        padding: 0,
+        flexGrow: 0,
+        flexShrink: 0,
+        alignSelf: theme.module.searchResults.tabs.closeButton.alignSelf,
+        margin: theme.module.searchResults.tabs.closeButton.margin,
+        width: 20,
+        height: 20,
+      },
+      closeIcon: {
+        width: 20,
+        height: 20,
+      },
+    },
   }
 }

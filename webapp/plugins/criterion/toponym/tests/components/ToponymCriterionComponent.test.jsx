@@ -42,6 +42,8 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: false,
       toponymFilterText: 'en',
+      selectedToponymBusinessId: 'en',
+      uploadToponymDependency: 'rs-access@POST...',
       matchingToponyms: {
         id: {
           content: {
@@ -52,6 +54,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         },
       },
       isFetching: false,
+      onRemoveToponym: () => { },
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
@@ -78,6 +81,8 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: false,
       toponymFilterText: 'en',
+      selectedToponymBusinessId: 'en',
+      uploadToponymDependency: 'rs-access@POST...',
       matchingToponyms: {
         id: {
           content: {
@@ -88,6 +93,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         },
       },
       isFetching: false,
+      onRemoveToponym: () => { },
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
@@ -119,6 +125,8 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: false,
       toponymFilterText: 'en',
+      selectedToponymBusinessId: 'en',
+      uploadToponymDependency: 'rs-access@POST...',
       matchingToponyms: {
         id: {
           content: {
@@ -129,6 +137,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         },
       },
       isFetching: true,
+      onRemoveToponym: () => { },
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,
@@ -146,6 +155,8 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
       label: criterionTestSuiteHelpers.getLabelStub(),
       error: true,
       toponymFilterText: 'idk',
+      selectedToponymBusinessId: 'en',
+      uploadToponymDependency: 'rs-access@POST...',
       matchingToponyms: {
         id: {
           content: {
@@ -156,6 +167,7 @@ describe('[Toponym criterion] Testing ToponymCriterionComponent', () => {
         },
       },
       isFetching: false,
+      onRemoveToponym: () => { },
       onUpdateToponymsFilter: () => { },
       onToponymFilterSelected: () => { },
       currentLocale: UIDomain.LOCALES_ENUM.en,

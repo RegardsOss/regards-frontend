@@ -34,7 +34,7 @@ import {
 } from 'resium'
 import {
   ScreenSpaceEventType, Color, OpenStreetMapImageryProvider, WebMapServiceImageryProvider, WebMapTileServiceImageryProvider, BingMapsImageryProvider,
-  SceneMode, Rectangle,
+  SceneMode, Rectangle, Cartesian3,
 } from 'cesium'
 import toBBox from 'geojson-bounding-box'
 import CesiumEventAndPolygonDrawerComponent from './CesiumEventAndPolygonDrawerComponent'
@@ -79,6 +79,8 @@ export default class CesiumAdapter extends React.Component {
     height: '100%',
     width: '100%',
   }
+
+  static DEFAULT_POINT_ZOOM_LEVEL = 100000
 
   state = {
     greyBackgroundProvider: null, // background layer
@@ -253,8 +255,16 @@ export default class CesiumAdapter extends React.Component {
    * @param {*} geometry
    */
   getCameraDestination = (geometry) => {
-    const bBox = toBBox(geometry)
-    return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
+    switch (geometry.type) {
+      case 'Point': {
+        const zoom = STATIC_CONF.MAP.POINT_ZOOM_LEVEL || CesiumAdapter.DEFAULT_POINT_ZOOM_LEVEL
+        return Cartesian3.fromDegrees(geometry.coordinates[0], geometry.coordinates[1], zoom)
+      }
+      default: {
+        const bBox = toBBox(geometry)
+        return Rectangle.fromDegrees(bBox[0], bBox[1], bBox[2], bBox[3])
+      }
+    }
   }
 
   getImageryProvider = (layerInfo, rectangle = null, maximumLevel = 19) => {

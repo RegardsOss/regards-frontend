@@ -75,6 +75,7 @@ export default {
   'oais.packages.modify.tag': 'Tags',
   'oais.packages.modify.no.tag': 'No tag',
   'oais.packages.empty.results': 'No product found',
+  'oais.packages.loading.results': 'Products loading ...',
   'oais.packages.details.sip.title': 'SIP Details',
   'oais.packages.details.aip.title': 'AIP Details',
 
@@ -140,6 +141,7 @@ export default {
   'oais.requests.confirm.retry.message': 'Do you want to retry the selected request',
   'oais.request.details.button.close': 'Close',
   'oais.requests.empty.results': 'No requests found',
+  'oais.requests.loading.results': 'Requests loading ...',
   'oais.requests.retry.title': 'Retry request',
   'oais.requests.delete.title': 'Delete request',
   'oais.requests.selection.version.option.title': 'Modified {requestCount, plural, one {product} other {products}} management',

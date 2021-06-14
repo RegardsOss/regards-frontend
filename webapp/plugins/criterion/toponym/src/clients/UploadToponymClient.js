@@ -40,12 +40,12 @@ const clientInfoBuilder = new ClientConfBuilder(pluginName, storeKey)
   .setSelectorsBuilder(selectorsBuilder)
   .setReducerBuilder(reducerBuilder)
 
-// Expose searchToponym client
+// Expose uploadToponym client
 export function getUploadToponymClient(pluginInstanceId) {
   return clientInfoBuilder.getClient(pluginInstanceId)
 }
 
-// Expose searchToponym reducer
+// Expose uploadToponym reducer
 export function getUploadToponymReducer(pluginInstanceId) {
   return clientInfoBuilder.getReducer(pluginInstanceId)
 }

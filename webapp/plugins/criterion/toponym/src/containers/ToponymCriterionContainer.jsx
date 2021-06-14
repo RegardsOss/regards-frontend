@@ -21,7 +21,7 @@ import get from 'lodash/get'
 import { AccessProjectClient } from '@regardsoss/client'
 import { CatalogDomain } from '@regardsoss/domain'
 import { CatalogShapes, UIShapes, AccessShapes } from '@regardsoss/shape'
-import { BasicListSelectors } from '@regardsoss/store-utils'
+import { BasicListSelectors, RequestVerbEnum } from '@regardsoss/store-utils'
 import { isToponymFound, getSelectedToponymBusinessId } from '@regardsoss/toponym-common'
 import { StabilityDelayer } from '@regardsoss/display-control'
 import { connect } from '@regardsoss/redux'
@@ -42,6 +42,8 @@ export class ToponymCriterionContainer extends React.Component {
     currentLocale: '',
     criteria: '', // used to specify which criteria (outside searchCriteria) to update in redux store
   }
+
+  static CRITERIA_NAME = 'toponymCriteria'
 
   /**
    * Redux: map state to props function
@@ -84,6 +86,10 @@ export class ToponymCriterionContainer extends React.Component {
     searchToponymClient: PropTypes.shape({
       actions: PropTypes.instanceOf(AccessProjectClient.SearchToponymActions),
       selectors: PropTypes.instanceOf(BasicListSelectors),
+    }).isRequired,
+    // Connected client to upload toponym
+    uploadToponymClient: PropTypes.shape({
+      actions: PropTypes.instanceOf(AccessProjectClient.UploadToponymActions),
     }).isRequired,
     // state shared and consumed by this criterion
     state: PropTypes.shape({
@@ -169,10 +175,12 @@ export class ToponymCriterionContainer extends React.Component {
       currentLocale,
       toponymFilterText: searchText,
       selectedToponymBusinessId,
-      criteria: 'toponymCriteria',
+      criteria: ToponymCriterionContainer.CRITERIA_NAME,
     }
 
-    if (!isEqual(nextState, state)) {
+    if (!isEqual(nextState, state)
+      // Ensure the text is different and its a real event, otherwise when the field is cleared the selectedToponymBusinessId is always cleared
+      && searchText !== state.toponymFilterText) {
       // update redux state and query
       publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
     }
@@ -192,6 +200,25 @@ export class ToponymCriterionContainer extends React.Component {
 
   onToponymUploaded = (selectedToponymBusinessId) => {
     const {
+      state: { error },
+      currentLocale, publishState,
+    } = this.props
+    const nextState = {
+      error,
+      currentLocale,
+      toponymFilterText: ToponymCriterionContainer.DEFAULT_STATE.toponymFilterText,
+      selectedToponymBusinessId,
+      criteria: ToponymCriterionContainer.CRITERIA_NAME,
+    }
+
+    publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
+  }
+
+  /**
+   * Remove the previous toponym uploaded
+   */
+  onRemoveToponym = () => {
+    const {
       state: { error, toponymFilterText },
       currentLocale, publishState,
     } = this.props
@@ -199,20 +226,21 @@ export class ToponymCriterionContainer extends React.Component {
       error,
       currentLocale,
       toponymFilterText,
-      selectedToponymBusinessId,
-      criteria: 'toponymCriteria',
+      selectedToponymBusinessId: ToponymCriterionContainer.DEFAULT_STATE.selectedToponymBusinessId,
+      criteria: ToponymCriterionContainer.CRITERIA_NAME,
     }
     publishState(nextState, ToponymCriterionContainer.convertToRequestParameters(nextState))
   }
 
   render() {
     const {
-      label, state: { error, toponymFilterText },
-      isFetching, toponyms, currentLocale,
+      label, state: { error, toponymFilterText, selectedToponymBusinessId },
+      isFetching, toponyms, currentLocale, uploadToponymClient: { actions },
     } = this.props
     return (
       <ToponymCriterionComponent
         toponymFilterText={toponymFilterText}
+        selectedToponymBusinessId={selectedToponymBusinessId}
         matchingToponyms={toponyms}
         error={error}
         isFetching={isFetching}
@@ -221,6 +249,8 @@ export class ToponymCriterionContainer extends React.Component {
         label={label}
         currentLocale={currentLocale}
         onToponymUploaded={this.onToponymUploaded}
+        uploadToponymDependency={actions.getDependency(RequestVerbEnum.POST)}
+        onRemoveToponym={this.onRemoveToponym}
       />
     )
   }

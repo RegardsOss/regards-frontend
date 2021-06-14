@@ -115,6 +115,8 @@ module.exports = function (projectContextPath, mode) {
       new webpack.ProvidePlugin({
         React: 'react',
         PropTypes: 'prop-types',
+        // Fix jsZIP
+        Buffer: ['buffer', 'Buffer'],
       }),
       new MiniCssExtractPlugin({ filename: 'css/styles.css' }),
       new webpack.optimize.LimitChunkCountPlugin({

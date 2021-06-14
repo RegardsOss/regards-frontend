@@ -26,10 +26,11 @@ import MenuItem from 'material-ui/MenuItem'
 import SelectField from 'material-ui/SelectField'
 import Refresh from 'mdi-material-ui/Refresh'
 import NoContentIcon from 'mdi-material-ui/CropFree'
+import SearchIcon from 'mdi-material-ui/FolderSearchOutline'
 import {
   TableLayout, TableColumnBuilder, PageableInfiniteTableContainer,
   TableHeaderOptionsArea, TableHeaderOptionGroup, TableSelectionModes,
-  DateValueRender, NoContentComponent, TableHeaderLine,
+  DateValueRender, NoContentComponent, TableHeaderLine, TableHeaderLoadingComponent,
 } from '@regardsoss/components'
 import { withResourceDisplayControl, allMatchHateoasDisplayLogic } from '@regardsoss/display-control'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
@@ -73,6 +74,7 @@ export class OAISPackageManagerComponent extends React.Component {
       size: PropTypes.number,
       totalElements: PropTypes.number,
     }),
+    pageLoading: PropTypes.bool.isRequired,
     pageSize: PropTypes.number.isRequired,
     featureManagerFilters: OAISCriterionShape,
     productFilters: OAISCriterionShape,
@@ -93,6 +95,11 @@ export class OAISPackageManagerComponent extends React.Component {
   static EMPTY_COMPONENT = <NoContentComponent
     titleKey="oais.packages.empty.results"
     Icon={NoContentIcon}
+  />
+
+  static LOADING_COMPONENT = <NoContentComponent
+    titleKey="oais.packages.loading.results"
+    Icon={SearchIcon}
   />
 
   static DELETION_SELECTION_MODE = {
@@ -578,7 +585,7 @@ export class OAISPackageManagerComponent extends React.Component {
     const { intl: { formatMessage }, muiTheme, moduleTheme: { filter } } = this.context
     const { admin: { minRowCount, maxRowCount } } = muiTheme.components.infiniteTable
     const {
-      pageSize, storages, tableSelection, selectionMode, productFilters,
+      pageSize, storages, tableSelection, selectionMode, productFilters, pageLoading,
     } = this.props
     const {
       contextRequestURLParameters, contextRequestBodyParameters,
@@ -639,6 +646,7 @@ export class OAISPackageManagerComponent extends React.Component {
     return (
       <div>
         <TableLayout>
+          <TableHeaderLoadingComponent loading={pageLoading} />
           <TableHeaderLine>
             <TableHeaderOptionsArea reducible>
               <TableHeaderOptionGroup>
@@ -737,7 +745,7 @@ export class OAISPackageManagerComponent extends React.Component {
             columns={columns}
             requestParams={contextRequestURLParameters}
             bodyParams={contextRequestBodyParameters}
-            emptyComponent={OAISPackageManagerComponent.EMPTY_COMPONENT}
+            emptyComponent={pageLoading ? OAISPackageManagerComponent.LOADING_COMPONENT : OAISPackageManagerComponent.EMPTY_COMPONENT}
             fetchUsingPostMethod
           />
         </TableLayout>
