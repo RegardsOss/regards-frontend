@@ -101,21 +101,6 @@ const items = (projectName, intl, onResetIndex) => [
     ],
   },
   {
-    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
-    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
-        hateoasDependencies: [
-          ...featureManagementDependencies.listDependencies,
-        ],
-      },
-    ],
-  },
-  {
     title: intl.formatMessage({ id: 'ingest.board.external.datasources.title' }),
     description: intl.formatMessage({ id: 'ingest.board.external.datasources.description' }),
     advanced: false,
@@ -169,21 +154,6 @@ const items = (projectName, intl, onResetIndex) => [
         tooltipMsg: intl.formatMessage({ id: 'data.board.action.storages.settings.tooltip' }),
         hateoasDependencies: [
           ...storageManagementDependencies.settingsDependencies,
-        ],
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.dashboard.title' }),
-    description: intl.formatMessage({ id: 'data.board.dashboard.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/dashboard/monitor`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.dashboard.tooltip' }),
-        hateoasDependencies: [
-          ...dashboardManagementDependencies.listDependencies,
         ],
       },
     ],

@@ -87,13 +87,13 @@ export class ReferencesManagerContainer extends React.Component {
 
   onRefresh = (columnsSorting, contextRequestParameters) => {
     const {
-      meta, clearSelection, fetchReferences,
+      meta, clearSelection, fetchReferences, featureManagerFilters,
     } = this.props
     // compute page size to refresh all current entities in the table
     const lastPage = (meta && meta.number) || 0
     const fetchPageSize = (ReferencesManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
-    fetchReferences(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters })
+    fetchReferences(0, fetchPageSize, {}, { columnsSorting, ...featureManagerFilters }, { ...contextRequestParameters })
   }
 
   render() {

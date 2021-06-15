@@ -36,6 +36,8 @@ import { deleteRequestsTableReducer } from './clients/DeleteRequestsTableClient'
 import { notificationRequestReducer } from './clients/NotificationRequestsClient'
 import { notificationRequestsTableReducer } from './clients/NotificationRequestsTableClient'
 import { settingsReducer } from './clients/SettingsClient'
+import { extractionRequestDeleteReducer } from './clients/ExtractionDeleteRequestClient'
+import { extractionRequestRetryReducer } from './clients/ExtractionRequestRetryClient'
 
 /**
  * @author Théo Lasserre
@@ -60,6 +62,8 @@ const featureManagementReducer = combineReducers({
   notificationRequests: notificationRequestReducer,
   'notification-requests-table': notificationRequestsTableReducer,
   settings: settingsReducer,
+  extractionDeleteRequest: extractionRequestDeleteReducer,
+  extractionRetryRequest: extractionRequestRetryReducer,
 })
 
 export default featureManagementReducer

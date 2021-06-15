@@ -144,7 +144,7 @@ export class AcquisitionProcessingChainListContainer extends React.Component {
    */
   onListSessions = (source) => {
     const { params: { project } } = this.props
-    const url = `/admin/${project}/data/acquisition/dataprovider/sessions?source=${source}`
+    const url = `/admin/${project}/data/acquisition/dashboard/monitor?sourceName=${source}`
     browserHistory.push(url)
   }
 

@@ -19,13 +19,13 @@
 import { FeatureManagementClient } from '@regardsoss/client'
 
 /**
- * Request entities client.
+ * Model attributes entities client.
  *
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'notificationRequests']
-const REDUX_ACTION_NAMESPACE = 'admin-feature-management/notification-requests'
+const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'extractionDeleteRequest']
+const REDUX_ACTION_NAMESPACE = 'admin-feature-management/extractionDeleteRequest'
 
-export const notificationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
-export const notificationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
-export const notificationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
+export const extractionRequestDeleteActions = new FeatureManagementClient.ExtractionRequestDeleteActions(REDUX_ACTION_NAMESPACE)
+export const extractionRequestDeleteReducer = FeatureManagementClient.getExtractionRequestDeleteReducer(REDUX_ACTION_NAMESPACE)
+export const extractionRequestDeleteSelectors = FeatureManagementClient.getExtractionRequestDeleteSelectors(ENTITIES_STORE_PATH)

@@ -21,8 +21,6 @@ import { FemShapes } from '@regardsoss/shape'
 import { HateoasLinks } from '@regardsoss/display-control'
 import { FemDomain } from '@regardsoss/domain'
 import RequestManagerComponent from '../components/RequestManagerComponent'
-import { requestDeleteActions } from '../clients/RequestDeleteClient'
-import { requestRetryActions } from '../clients/RequestRetryClient'
 
 /**
  * RequestManagerContainer
@@ -78,19 +76,19 @@ export class RequestManagerContainer extends React.Component {
   static mapDispatchToProps = (dispatch, ownProps) => ({
     fetchRequests: (pageIndex, pageSize, pathParams, queryParams) => dispatch(ownProps.clients.actions.fetchPagedEntityList(pageIndex, pageSize, pathParams, queryParams)),
     clearSelection: () => dispatch(ownProps.clients.tableActions.unselectAll()),
-    deleteRequests: (payload, type) => dispatch(requestDeleteActions.sendSignal('DELETE', payload, { type })),
-    retryRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
+    deleteRequests: (payload, type) => dispatch(ownProps.clients.deleteActions.sendSignal('DELETE', payload, { type })),
+    retryRequests: (payload, type) => dispatch(ownProps.clients.retryActions.sendSignal('POST', payload, { type })),
   })
 
   onRefresh = (columnsSorting, contextRequestParameters) => {
     const {
-      meta, clearSelection, fetchRequests, featureManagerFilters,
+      meta, clearSelection, fetchRequests, featureManagerFilters, paneType,
     } = this.props
     // compute page size to refresh all current entities in the table
     const lastPage = (meta && meta.number) || 0
     const fetchPageSize = (RequestManagerContainer.PAGE_SIZE) * (lastPage + 1)
     clearSelection()
-    fetchRequests(0, fetchPageSize, {}, columnsSorting, { ...contextRequestParameters, ...featureManagerFilters })
+    fetchRequests(0, fetchPageSize, { type: paneType }, { columnsSorting, ...featureManagerFilters }, { ...contextRequestParameters })
   }
 
   render() {

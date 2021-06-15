@@ -487,6 +487,7 @@ export class RequestManagerComponent extends React.Component {
                 .build(),
             ]}
             requestParams={contextRequestParameters}
+            pathParams={{ type: paneType }}
             emptyComponent={RequestManagerComponent.EMPTY_COMPONENT}
           />
         </TableLayout>

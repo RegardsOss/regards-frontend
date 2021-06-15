@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -46,8 +48,8 @@ import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 
 const SESSION_FILTER_PARAMS = {
-  NAME: 'name',
-  STATUS: 'state',
+  NAME: 'sessionName',
+  STATUS: 'sessionState',
 }
 
 /**
@@ -72,7 +74,7 @@ class SessionsComponent extends React.Component {
    */
   static DEFAULT_FILTERS_STATE = {
     [SESSION_FILTER_PARAMS.NAME]: '',
-    [SESSION_FILTER_PARAMS.STATUS]: '',
+    [SESSION_FILTER_PARAMS.STATUS]: STATUS_TYPES_ENUM.ALL,
   }
 
   static EMPTY_COMPONENT = (
@@ -83,8 +85,25 @@ class SessionsComponent extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
+  static extractFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    const urlFilters = SessionsComponent.DEFAULT_FILTERS_STATE
+    if (values(query).length > 0) {
+      const {
+        sessionName, sessionState,
+      } = query
+      if (sessionName) {
+        urlFilters[SESSION_FILTER_PARAMS.NAME] = sessionName
+      }
+      if (sessionState) {
+        urlFilters[SESSION_FILTER_PARAMS.STATUS] = sessionState
+      }
+    }
+    return urlFilters
+  }
+
   state = {
-    filters: SessionsComponent.DEFAULT_FILTERS_STATE,
+    filters: SessionsComponent.extractFiltersFromURL(),
   }
 
   /**

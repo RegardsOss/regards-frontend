@@ -16,16 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FeatureManagementClient } from '@regardsoss/client'
+import { REQUEST_FEM, REQUEST_ARRAY } from '@regardsoss/api'
+import { BasicInfosPageableActions } from '@regardsoss/store-utils'
 
 /**
- * Request entities client.
- *
+ * Redux actions to handle request entities from backend server.
  * @author Théo Lasserre
  */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'notificationRequests']
-const REDUX_ACTION_NAMESPACE = 'admin-feature-management/notification-requests'
-
-export const notificationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
-export const notificationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
-export const notificationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
+export default class RequestActions extends BasicInfosPageableActions {
+  /**
+   * Construtor
+   * @param namespace
+   */
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/requests/search/{type}`,
+      schemaTypes: {
+        ENTITY: REQUEST_FEM,
+        ENTITY_ARRAY: REQUEST_ARRAY,
+      },
+    })
+  }
+}

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright 2017-2021 CNES - CENTRE NATIONAL d'ETUDES SPATIALES
  *
  * This file is part of REGARDS.
@@ -16,16 +16,19 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  */
-import { FeatureManagementClient } from '@regardsoss/client'
+import { BasicInfosPageableReducers } from '@regardsoss/store-utils'
+import { RequestFemConfiguration } from '@regardsoss/api'
 
-/**
- * Request entities client.
- *
- * @author Théo Lasserre
- */
-const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'notificationRequests']
-const REDUX_ACTION_NAMESPACE = 'admin-feature-management/notification-requests'
+import RequestActions from './RequestActions'
 
-export const notificationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
-export const notificationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
-export const notificationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
+class RequestReducer extends BasicInfosPageableReducers {
+  constructor(namespace) {
+    super(RequestFemConfiguration, new RequestActions(namespace))
+  }
+}
+
+/** Closure builder for reducer function */
+export default (namespace) => {
+  const reducerInstance = new RequestReducer(namespace)
+  return (state, action) => reducerInstance.reduce(state, action)
+}

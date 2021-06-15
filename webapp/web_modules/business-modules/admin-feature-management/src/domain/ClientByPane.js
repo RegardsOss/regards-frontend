@@ -28,6 +28,10 @@ import { notificationRequestActions, notificationRequestSelectors } from '../cli
 import { notificationRequestsTableActions, notificationRequestsTableSelectors } from '../clients/NotificationRequestsTableClient'
 import { updateRequestActions, updateRequestSelectors } from '../clients/UpdateRequestsClient'
 import { updateRequestsTableActions, updateRequestsTableSelectors } from '../clients/UpdateRequestsTableClient'
+import { extractionRequestRetryActions } from '../clients/ExtractionRequestRetryClient'
+import { extractionRequestDeleteActions } from '../clients/ExtractionDeleteRequestClient'
+import { requestRetryActions } from '../clients/RequestRetryClient'
+import { requestDeleteActions } from '../clients/RequestDeleteClient'
 
 export default {
   [FemDomain.REQUEST_TYPES_ENUM.EXTRACTION]: {
@@ -35,29 +39,39 @@ export default {
     selectors: extractionRequestSelectors,
     tableActions: extractionRequestsTableActions,
     tableSelectors: extractionRequestsTableSelectors,
+    retryActions: extractionRequestRetryActions,
+    deleteActions: extractionRequestDeleteActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.CREATION]: {
     actions: creationRequestActions,
     selectors: creationRequestSelectors,
     tableActions: creationRequestsTableActions,
     tableSelectors: creationRequestsTableSelectors,
+    retryActions: requestRetryActions,
+    deleteActions: requestDeleteActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.UPDATE]: {
     actions: updateRequestActions,
     selectors: updateRequestSelectors,
     tableActions: updateRequestsTableActions,
     tableSelectors: updateRequestsTableSelectors,
+    retryActions: requestRetryActions,
+    deleteActions: requestDeleteActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.DELETE]: {
     actions: deleteRequestActions,
     selectors: deleteRequestSelectors,
     tableActions: deleteRequestsTableActions,
     tableSelectors: deleteRequestsTableSelectors,
+    retryActions: requestRetryActions,
+    deleteActions: requestDeleteActions,
   },
   [FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION]: {
     actions: notificationRequestActions,
     selectors: notificationRequestSelectors,
     tableActions: notificationRequestsTableActions,
     tableSelectors: notificationRequestsTableSelectors,
+    retryActions: requestRetryActions,
+    deleteActions: requestDeleteActions,
   },
 }

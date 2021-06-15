@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import values from 'lodash/values'
+import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
@@ -46,8 +48,8 @@ import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
 
 const SOURCE_FILTER_PARAMS = {
-  NAME: 'name',
-  STATUS: 'state',
+  NAME: 'sourceName',
+  STATUS: 'sourceState',
 }
 
 /**
@@ -73,7 +75,7 @@ class SourcesComponent extends React.Component {
    */
   static DEFAULT_FILTERS_STATE = {
     [SOURCE_FILTER_PARAMS.NAME]: '',
-    [SOURCE_FILTER_PARAMS.STATUS]: '',
+    [SOURCE_FILTER_PARAMS.STATUS]: STATUS_TYPES_ENUM.ALL,
   }
 
   static COLUMN_KEYS = {
@@ -91,8 +93,25 @@ class SourcesComponent extends React.Component {
 
   static PAGE_SIZE = STATIC_CONF.TABLE.PAGE_SIZE || 20
 
+  static extractFiltersFromURL = () => {
+    const { query } = browserHistory.getCurrentLocation()
+    const urlFilters = SourcesComponent.DEFAULT_FILTERS_STATE
+    if (values(query).length > 0) {
+      const {
+        sourceName, sourceState,
+      } = query
+      if (sourceName) {
+        urlFilters[SOURCE_FILTER_PARAMS.NAME] = sourceName
+      }
+      if (sourceState) {
+        urlFilters[SOURCE_FILTER_PARAMS.STATUS] = sourceState
+      }
+    }
+    return urlFilters
+  }
+
   state = {
-    filters: SourcesComponent.DEFAULT_FILTERS_STATE,
+    filters: SourcesComponent.extractFiltersFromURL(),
   }
 
   /**

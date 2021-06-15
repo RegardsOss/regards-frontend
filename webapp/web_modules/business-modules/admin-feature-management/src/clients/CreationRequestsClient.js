@@ -26,6 +26,6 @@ import { FeatureManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'creationRequests']
 const REDUX_ACTION_NAMESPACE = 'admin-feature-management/creation-requests'
 
-export const creationRequestActions = new FeatureManagementClient.CreationRequestActions(REDUX_ACTION_NAMESPACE)
-export const creationRequestReducer = FeatureManagementClient.getCreationRequestReducer(REDUX_ACTION_NAMESPACE)
-export const creationRequestSelectors = FeatureManagementClient.getCreationRequestSelectors(ENTITIES_STORE_PATH)
+export const creationRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
+export const creationRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
+export const creationRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)

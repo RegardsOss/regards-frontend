@@ -151,6 +151,16 @@ class FeatureManagerComponent extends React.Component {
                 paneType={openedPane}
               />
             </div>
+            {/* {
+              openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
+                ? <div>
+                  <RequestManagerContainer
+                    featureManagerFilters={featureManagerFilters}
+                    paneType={openedPane}
+                    clients={clientByPane[openedPane]}
+                  />
+                </div> : null
+              } */}
             {
               map(FemDomain.REQUEST_TYPES, (pane) => {
                 if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {

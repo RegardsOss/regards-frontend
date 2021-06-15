@@ -124,11 +124,11 @@ export class SwitchTables extends React.Component {
       fetchReferences, fetchCreationRequests, fetchDeleteRequests, fetchExtractionRequests, fetchNotificationRequests, fetchUpdateRequests,
     } = this.props
     fetchReferences(0, SwitchTables.PAGE_SIZE)
-    fetchCreationRequests(0, SwitchTables.PAGE_SIZE)
-    fetchDeleteRequests(0, SwitchTables.PAGE_SIZE)
-    fetchExtractionRequests(0, SwitchTables.PAGE_SIZE)
-    fetchNotificationRequests(0, SwitchTables.PAGE_SIZE)
-    fetchUpdateRequests(0, SwitchTables.PAGE_SIZE)
+    fetchCreationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.CREATION })
+    fetchDeleteRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.DELETE })
+    fetchExtractionRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.EXTRACTION })
+    fetchNotificationRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.NOTIFICATION })
+    fetchUpdateRequests(0, SwitchTables.PAGE_SIZE, { type: FemDomain.REQUEST_TYPES_ENUM.UPDATE })
   }
 
   extractInfos = (meta, info = null) => ({

@@ -26,6 +26,6 @@ import { FeatureManagementClient } from '@regardsoss/client'
 const ENTITIES_STORE_PATH = ['admin', 'acquisition', 'feature', 'deleteRequests']
 const REDUX_ACTION_NAMESPACE = 'admin-feature-management/delete-requests'
 
-export const deleteRequestActions = new FeatureManagementClient.DeleteRequestActions(REDUX_ACTION_NAMESPACE)
-export const deleteRequestReducer = FeatureManagementClient.getDeleteRequestReducer(REDUX_ACTION_NAMESPACE)
-export const deleteRequestSelectors = FeatureManagementClient.getDeleteRequestSelectors(ENTITIES_STORE_PATH)
+export const deleteRequestActions = new FeatureManagementClient.RequestActions(REDUX_ACTION_NAMESPACE)
+export const deleteRequestReducer = FeatureManagementClient.getRequestReducer(REDUX_ACTION_NAMESPACE)
+export const deleteRequestSelectors = FeatureManagementClient.getRequestSelectors(ENTITIES_STORE_PATH)
