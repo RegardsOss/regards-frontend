@@ -280,7 +280,7 @@ class ToponymUploader extends React.Component {
     return (
       <DragAndDrop
         handleDrop={this.handleDrop}
-        // resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
+        resourceDependencies={uploadToponymActions.getDependency(RequestVerbEnum.POST)}
         onHideDisplayComponent={children}
         title={title}
         subtitle={subtitle}
