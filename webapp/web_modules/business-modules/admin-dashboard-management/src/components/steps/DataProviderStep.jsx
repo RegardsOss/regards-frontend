@@ -167,7 +167,7 @@ class DataProviderStep extends React.Component {
           style={listItemStyle}
         />
         {
-          map(DATA_PROVIDER_PROPERTIES, (property) => (this.displayIngestListItem(property)))
+          map(DATA_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
         }
         <ListItem
           primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.acquired' }, { nbAcquired: sessionStep.out })}
