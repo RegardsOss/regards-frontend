@@ -29,7 +29,9 @@ import { browserHistory } from 'react-router'
 import { connect } from '@regardsoss/redux'
 import { I18nProvider } from '@regardsoss/i18n'
 import { ModuleStyleProvider } from '@regardsoss/theme'
-import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import {
+  AccessShapes, AdminShapes, CommonShapes, DataManagementShapes,
+} from '@regardsoss/shape'
 import { getMetadataArray, packMetadataField } from '@regardsoss/user-metadata-common'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import { AuthenticationRouteParameters } from '@regardsoss/authentication-utils'
@@ -56,7 +58,7 @@ export class ProjectUserFormContainer extends React.Component {
     groupList: DataManagementShapes.AccessGroupList,
     user: AccessShapes.ProjectUser,
     passwordRules: PropTypes.string.isRequired, // fetched password rules description
-    settings: AdminShapes.ProjectUserSettingsWithContent,
+    settings: CommonShapes.SettingsList,
     // from mapDispatchToProps
     createProjectUser: PropTypes.func.isRequired,
     updateProjectUser: PropTypes.func.isRequired,
@@ -82,7 +84,7 @@ export class ProjectUserFormContainer extends React.Component {
       groupList: accessGroupSelectors.getList(state),
       user: ownProps.params.user_id ? projectUserSelectors.getById(state, ownProps.params.user_id) : null,
       passwordRules: accountPasswordSelectors.getRules(state),
-      settings: projectUserSettingsSelectors.getResult(state),
+      settings: projectUserSettingsSelectors.getList(state),
     }
   }
 
@@ -95,7 +97,7 @@ export class ProjectUserFormContainer extends React.Component {
   static mapDispatchToProps(dispatch) {
     return {
       fetchUser: (userId) => dispatch(projectUserActions.fetchEntity(userId)),
-      fetchSettings: () => dispatch(projectUserSettingsActions.getSettings()),
+      fetchSettings: () => dispatch(projectUserSettingsActions.fetchEntityList()),
       createProjectUser: ({ useExistingAccount, ...values }) => dispatch(projectUserActions.createEntity(omit(values, ['useExistingAccount']))),
       updateProjectUser: (id, values) => dispatch(projectUserActions.updateEntity(id, omit(values, ['useExistingAccount']))),
       fetchRoleList: () => dispatch(roleActions.fetchEntityList()),

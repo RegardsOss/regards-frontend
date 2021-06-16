@@ -21,7 +21,6 @@ export { ConnectivityCheck, ConnectivityCheckList } from './ConnectivityCheck'
 export { MetadataContent, MetadataContentArray } from './Metadata'
 export { ProjectContent, Project, ProjectList } from './Project'
 export { ProjectConnection, ProjectConnectionList } from './ProjectConnection'
-export { ProjectUserSettings, ProjectUserSettingsWithContent } from './ProjectUserSettings'
 export { Resource, ResourceList, ResourceArray } from './Resource'
 export { Role, RoleList, RoleArray } from './Role'
 export {

@@ -35,16 +35,22 @@ import Popover, { PopoverAnimationVertical } from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 
 import { formValueSelector } from 'redux-form'
-import { AccessShapes, AdminShapes, DataManagementShapes } from '@regardsoss/shape'
+import {
+  AccessShapes, AdminShapes, CommonShapes, DataManagementShapes,
+} from '@regardsoss/shape'
 import { connect } from '@regardsoss/redux'
 import { i18nContextType } from '@regardsoss/i18n'
 import { themeContextType } from '@regardsoss/theme'
+import { CommonDomain } from '@regardsoss/domain'
 import { MetadataList, MetadataField } from '@regardsoss/user-metadata-common'
 import { CardActionsComponent, ShowableAtRender } from '@regardsoss/components'
 import {
   RenderTextField, ErrorTypes, Field, ValidationHelpers, RenderSelectField, RenderCheckbox, reduxForm, FieldHelp,
 } from '@regardsoss/form-utils'
 import UserGroupChip from './UserGroupChip'
+import { SETTINGS } from './ProjectUserSettingsFormComponent'
+
+const { getValue } = CommonDomain.SettingsUtils
 
 /**
  * Display edit and create project form
@@ -55,7 +61,7 @@ export class ProjectUserFormComponent extends React.Component {
   static propTypes = {
     currentUser: AccessShapes.ProjectUser,
     userMetadata: MetadataList.isRequired,
-    settings: AdminShapes.ProjectUserSettingsWithContent.isRequired,
+    settings: CommonShapes.SettingsList,
     roleList: AdminShapes.RoleList,
     groupList: DataManagementShapes.AccessGroupList,
     onSubmit: PropTypes.func.isRequired,
@@ -126,8 +132,8 @@ export class ProjectUserFormComponent extends React.Component {
     if (this.state.isCreating) {
       // A.1 - when creating: no value to restore, initialize quota related parameters to tenant defaults
       initialFormValues.useExistingAccount = false
-      initialFormValues.maxQuota = settings.content.maxQuota
-      initialFormValues.rateLimit = settings.content.rateLimit
+      initialFormValues.maxQuota = getValue(settings, SETTINGS.MAX_QUOTA)
+      initialFormValues.rateLimit = getValue(settings, SETTINGS.RATE_LIMIT)
     } else {
       // A.2 - only when editing: initialize groups already associated with user, and restore other user values
       const currentUserGroups = this.getCurrentUserGroups(currentUser.content)
