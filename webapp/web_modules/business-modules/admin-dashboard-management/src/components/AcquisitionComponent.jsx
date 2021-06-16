@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import get from 'lodash/get'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
@@ -59,12 +60,14 @@ class AcquisitionComponent extends React.Component {
         },
       },
     } = this.context
+    const inputRelated = get(sessionStep, 'inputRelated', 0)
+    const outputRelated = get(sessionStep, 'outputRelated', 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' })}
+              title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
               style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
             />

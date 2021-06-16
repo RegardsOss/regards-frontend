@@ -59,17 +59,14 @@ class DiffusionComponent extends React.Component {
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={property}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.dp.${property}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
-    }
-    return null
+    return (
+      <ListItem
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.diffusion.${property}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   render() {
@@ -78,16 +75,18 @@ class DiffusionComponent extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           cardStyle, cardTitleStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
-          listItemStyle, raisedListStyle,
+          raisedListStyle,
         },
       },
     } = this.context
+    const inputRelated = get(sessionStep, 'inputRelated', 0)
+    const outputRelated = get(sessionStep, 'outputRelated', 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' })}
+              title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
               style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
             />
@@ -98,11 +97,6 @@ class DiffusionComponent extends React.Component {
           </div>
           <CardText style={cardContentStyle}>
             <div>
-              <ListItem
-                primaryText={formatMessage({ id: 'dashboard.selectedsession.diffusion.out' }, { nbOut: sessionStep.out })}
-                disabled
-                style={listItemStyle}
-              />
               {
                 map(DIFFUSION_PROPERTIES, (property) => (this.displayListItem(property)))
               }

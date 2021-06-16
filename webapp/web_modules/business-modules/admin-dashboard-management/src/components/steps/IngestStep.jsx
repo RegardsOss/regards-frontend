@@ -80,17 +80,14 @@ class IngestStep extends React.Component {
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={property}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.dp.${property}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
-    }
-    return null
+    return (
+      <ListItem
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.ingest.${property}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   toggleRetryErrorsDialog = () => {
@@ -121,7 +118,7 @@ class IngestStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle,
         },
       },
     } = this.context
@@ -129,24 +126,14 @@ class IngestStep extends React.Component {
     const nbWaiting = get(sessionStep, 'state.waiting', 0)
     return <div style={cardContentStyle}>
       <div>
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.in' }, { nbIn: sessionStep.inputRelated })}
-          disabled
-          style={listItemStyle}
-        />
         {
           map(INGEST_PROPERTIES, (property) => (this.displayListItem(property)))
         }
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.out' }, { nbIn: sessionStep.inputRelated })}
-          disabled
-          style={listItemStyle}
-        />
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -154,7 +141,7 @@ class IngestStep extends React.Component {
           nbWaiting !== 0
             ? <RaisedButton
                 onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-waiting' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
             /> : null
@@ -164,13 +151,13 @@ class IngestStep extends React.Component {
             ? <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />

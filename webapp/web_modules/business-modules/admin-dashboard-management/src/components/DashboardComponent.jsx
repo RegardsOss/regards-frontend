@@ -48,6 +48,7 @@ class DashboardComponent extends React.Component {
     fetchSelectedSource: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
+    onFlushSelectedSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -84,13 +85,14 @@ class DashboardComponent extends React.Component {
 
   onSelected = (entity, type) => {
     const {
-      fetchSelectedSession, fetchSelectedSource, selectedSource, selectedSession,
+      fetchSelectedSession, fetchSelectedSource, selectedSource, selectedSession, onFlushSelectedSession,
     } = this.props
     const {
       sessionFilters,
     } = this.state
     switch (type) {
       case CELL_TYPE_ENUM.SESSION:
+        onFlushSelectedSession()
         fetchSelectedSession(entity && !isEqual(entity, selectedSession) ? entity.content.id : null)
         break
       case CELL_TYPE_ENUM.SOURCE:

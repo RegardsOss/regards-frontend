@@ -57,22 +57,6 @@ export { default as ExtractionRequestRetryActions } from './request/ExtractionRe
 export { default as getExtractionRequestRetryReducer } from './request/ExtractionRequestRetryReducer'
 export { default as getExtractionRequestRetrySelectors } from './request/ExtractionRequestRetrySelectors'
 
-// export { default as CreationRequestActions } from './request/CreationRequestActions'
-// export { default as getCreationRequestReducer } from './request/CreationRequestReducer'
-// export { default as getCreationRequestSelectors } from './request/CreationRequestSelectors'
-
-// export { default as UpdateRequestActions } from './request/UpdateRequestActions'
-// export { default as getUpdateRequestReducer } from './request/UpdateRequestReducer'
-// export { default as getUpdateRequestSelectors } from './request/UpdateRequestSelectors'
-
-// export { default as DeleteRequestActions } from './request/DeleteRequestActions'
-// export { default as getDeleteRequestReducer } from './request/DeleteRequestReducer'
-// export { default as getDeleteRequestSelectors } from './request/DeleteRequestSelectors'
-
-// export { default as NotificationRequestActions } from './request/NotificationRequestActions'
-// export { default as getNotificationRequestReducer } from './request/NotificationRequestReducer'
-// export { default as getNotificationRequestSelectors } from './request/NotificationRequestSelectors'
-
 export { default as SettingsActions } from './settings/SettingsActions'
 export { default as getSettingsReducer } from './settings/SettingsReducer'
 export { default as getSettingsSelectors } from './settings/SettingsSelectors'

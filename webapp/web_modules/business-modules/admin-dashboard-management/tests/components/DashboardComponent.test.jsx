@@ -138,6 +138,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       fetchSelectedSource: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
+      onFlushSelectedSession: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -182,6 +183,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       fetchSelectedSource: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
+      onFlushSelectedSession: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
 

@@ -21,13 +21,10 @@ import values from 'lodash/values'
 
 export const DATA_PROVIDER_PROPERTIES_ENUM = {
   FILES_ACQUIRED: 'filesAcquired',
-  GENERATED_PRODUCTS: 'generatedProducts',
-  GENERATION_ERROR: 'generationError',
   INCOMPLETE: 'incomplete',
   INVALID: 'invalid',
-  INGESTION_FAILED: 'ingestionFailed',
-  COMPLETE: 'complete',
-  INGESTED: 'ingested',
+  PRODUCTS_ERRORS: 'productsErrors',
+  GENERATED_PRODUCTS: 'generatedProducts',
 }
 
 export const DATA_PROVIDER_PROPERTIES = values(DATA_PROVIDER_PROPERTIES_ENUM)

@@ -107,43 +107,30 @@ class FeatureProviderStep extends React.Component {
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${femPropType}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={femPropType}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fem.${femPropType}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
-    }
-    return null
+    return (
+      <ListItem
+        key={femPropType}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${femPropType}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   render() {
     const { sessionStep } = this.props
-    const { intl: { formatMessage }, moduleTheme: { raisedListStyle, selectedSessionStyle: { cardContentStyle, listItemStyle, cardButtonStyle } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { raisedListStyle, selectedSessionStyle: { cardContentStyle, cardButtonStyle } } } = this.context
     const nbErrors = get(sessionStep, 'state.errors', 0)
     return <div style={cardContentStyle}>
       <div>
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.in' }, { nbIn: sessionStep.inputRelated })}
-          disabled
-          style={listItemStyle}
-        />
         {
           map(FEATURE_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
         }
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.fem.acquired' }, { nbAcquired: sessionStep.outputRelated })}
-          disabled
-          style={listItemStyle}
-        />
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -152,13 +139,13 @@ class FeatureProviderStep extends React.Component {
             ? (<div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />

@@ -59,49 +59,35 @@ class ArchivalComponent extends React.Component {
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={property}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.storage.dp.${property}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
-    }
-    return null
+    return (
+      <ListItem
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.storage.${property}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   // Case Storage
   displayStorage = () => {
-    const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, listItemStyle, cardContentStyle, cardButtonStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle,
         },
       },
     } = this.context
     return <div style={cardContentStyle}>
       <div>
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.in' }, { nbIn: sessionStep.inputRelated })}
-          disabled
-          style={listItemStyle}
-        />
         {
           map(STORAGE_PROPERTIES, (property) => (this.displayListItem(property)))
         }
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.storage.dp.stored' }, { nbStored: sessionStep.outputRelated })}
-          disabled
-          style={listItemStyle}
-        />
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onClick}
-          label={formatMessage({ id: 'dashboard.selectedsession.storage.dp.button.see-stockage' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.storage.button.see-stockage' })}
           primary
           style={raisedListStyle}
         />
@@ -120,12 +106,14 @@ class ArchivalComponent extends React.Component {
         },
       },
     } = this.context
+    const inputRelated = get(sessionStep, 'inputRelated', 0)
+    const outputRelated = get(sessionStep, 'outputRelated', 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
           <div style={cardTitleDivStyle}>
             <CardTitle
-              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' })}
+              title={formatMessage({ id: 'dashboard.selectedsession.storage.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
               style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
             />
