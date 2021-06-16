@@ -27,7 +27,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DATA_PROVIDER_PROPERTIES } from '../../domain/dataProviderProperties'
+import { DATA_PROVIDER_PROPERTIES, DATA_PROVIDER_PROPERTIES_ENUM } from '../../domain/dataProviderProperties'
 import DisplayProductsComponent from '../DisplayProductsComponent'
 
 /**
@@ -81,18 +81,18 @@ class DataProviderStep extends React.Component {
         },
       },
     } = this.context
-    const propValue = get(sessionStep, `properties.${property}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={property}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.dp.${property}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
+    let propValue = get(sessionStep, `properties.${property}`, false)
+    if (property === DATA_PROVIDER_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
+      propValue = get(sessionStep, 'properties.generationError', 0) + get(sessionStep, 'properties.ingestionFailed', 0)
     }
-    return null
+    return (
+      <ListItem
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   toggleRetryErrorsDialog = () => {
@@ -125,6 +125,13 @@ class DataProviderStep extends React.Component {
     return null
   }
 
+  // OK -> ajouter produit oais -> suivre session envoit vers ancien ecran. supprimer ancien écran
+  // A TESTER -> tableau de bord -> il n'y a pas toutes les propriétés et les clés sont pas messages
+  // tableau de bord -> sélectionnée une session + déselectionner la session + resélectionner la session fonctionne pas
+  // OK -> tableau de bord -> largeur des colonnes plus basse -> il ne doit pas y avoir de scroll
+  // OK -> client CreationRequest etc -> supprimer dans index
+  // OK -> tableau de bord -> entete step ajouter in/out + ne pas afficher in & out dans la step. (facultitif)
+
   renderProductDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { productDialogOpen } = this.state
@@ -153,7 +160,7 @@ class DataProviderStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle,
         },
       },
     } = this.context
@@ -161,24 +168,14 @@ class DataProviderStep extends React.Component {
     const nbWaiting = get(sessionStep, 'state.waiting', 0)
     return <div style={cardContentStyle}>
       <div>
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.in' }, { nbIn: sessionStep.in })}
-          disabled
-          style={listItemStyle}
-        />
         {
           map(DATA_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
         }
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.acquired' }, { nbAcquired: sessionStep.out })}
-          disabled
-          style={listItemStyle}
-        />
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -186,7 +183,7 @@ class DataProviderStep extends React.Component {
           nbWaiting !== 0
             ? <RaisedButton
                 onClick={this.onSeeWaiting}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-waiting' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-waiting' })}
                 primary
                 style={raisedListStyle}
             /> : null
@@ -196,13 +193,13 @@ class DataProviderStep extends React.Component {
             ? <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />

@@ -222,7 +222,7 @@ export class DashboardContainer extends React.Component {
 
   render() {
     const {
-      params: { project }, relaunchProducts, relaunchAIP, retryRequests,
+      params: { project }, relaunchProducts, relaunchAIP, retryRequests, flushSelectedSession,
     } = this.props
     const {
       selectedSource, selectedSession,
@@ -241,6 +241,7 @@ export class DashboardContainer extends React.Component {
         onRefreshSelectedSession={this.onRefreshSelectedSession}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
+        onFlushSelectedSession={flushSelectedSession}
       />
     )
   }

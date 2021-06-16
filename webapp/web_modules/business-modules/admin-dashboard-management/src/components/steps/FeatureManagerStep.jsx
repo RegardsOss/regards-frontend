@@ -27,7 +27,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { INGEST_PROPERTIES } from '../../domain/ingestProperties'
+import { FEM_PROPERTIES, FEM_PROPERTIES_ENUM } from '../../domain/femProperties'
 
 /**
   * FeatureManagerStep
@@ -87,18 +87,18 @@ class FeatureManagerStep extends React.Component {
         },
       },
     } = this.context
-    const propValue = get(sessionStep, `properties.${property}`, false)
-    if (propValue) {
-      return (
-        <ListItem
-          key={property}
-          primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}` }, { value: propValue })}
-          disabled
-          style={listItemStyle}
-        />
-      )
+    let propValue = get(sessionStep, `properties.${property}`, false)
+    if (property === FEM_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      propValue = get(sessionStep, 'properties.inErrorReferencingRequests', 0) + get(sessionStep, 'properties.inErrorDeleteRequests', 0) + get(sessionStep, 'properties.inErrorUpdateRequests', 0) + get(sessionStep, 'properties.inErrorNotifyRequests', 0)
     }
-    return null
+    return (
+      <ListItem
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.fem.${property}` }, { value: propValue || 0 })}
+        disabled
+        style={listItemStyle}
+      />
+    )
   }
 
   toggleRetryErrorsDialog = () => {
@@ -129,31 +129,21 @@ class FeatureManagerStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle, listItemStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle,
         },
       },
     } = this.context
     const nbErrors = get(sessionStep, 'state.errors', 0)
     return <div style={cardContentStyle}>
       <div>
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.in' }, { nbIn: sessionStep.inputRelated })}
-          disabled
-          style={listItemStyle}
-        />
         {
-          map(INGEST_PROPERTIES, (property) => (this.displayListItem(property)))
+          map(FEM_PROPERTIES, (property) => (this.displayListItem(property)))
         }
-        <ListItem
-          primaryText={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.out' }, { nbOut: sessionStep.outputRelated })}
-          disabled
-          style={listItemStyle}
-        />
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
           onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-referenced' })}
+          label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-referenced' })}
           primary
           style={raisedListStyle}
         />
@@ -162,13 +152,13 @@ class FeatureManagerStep extends React.Component {
             ? <div style={cardButtonStyle}>
               <RaisedButton
                 onClick={this.onSeeErrors}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.see-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.see-errors' })}
                 primary
                 style={raisedListStyle}
               />
               <RaisedButton
                 onClick={this.toggleRetryErrorsDialog}
-                label={formatMessage({ id: 'dashboard.selectedsession.referencing.dp.button.retry-errors' })}
+                label={formatMessage({ id: 'dashboard.selectedsession.referencing.fem.button.retry-errors' })}
                 primary
                 style={raisedListStyle}
               />
