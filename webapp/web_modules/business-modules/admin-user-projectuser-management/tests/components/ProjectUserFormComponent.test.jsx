@@ -38,7 +38,7 @@ const defaultSettings = {
     content: {
       name: SETTINGS.MAX_QUOTA,
       description: '',
-      value: '-1',
+      value: '500',
       defaultValue: '-1',
     },
   },
@@ -46,7 +46,7 @@ const defaultSettings = {
     content: {
       name: SETTINGS.RATE_LIMIT,
       description: '',
-      value: '-1',
+      value: '50',
       defaultValue: '-1',
     },
   },
@@ -200,8 +200,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
     // A - init
     assert.deepEqual(spyInit.values, {
-      maxQuota: getValue(props.settings, SETTINGS.MAX_QUOTA), // from tenant user settings
-      rateLimit: getValue(props.settings, SETTINGS.RATE_LIMIT), // from tenant user settings
+      maxQuota: '500', // from tenant user settings
+      rateLimit: '50', // from tenant user settings
       useExistingAccount: false, // by default
       // with edited meta
       ...props.userMetadata.reduce((acc, { currentValue, key }) => ({
@@ -294,14 +294,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const props = {
       currentUser: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       userMetadata: getMetadataArray(DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')),
-      settings: {
-        content: {
-          id: 0,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-          maxQuota: 500,
-          rateLimit: 50,
-        },
-      },
+      settings: defaultSettings,
       roleList: DumpProvider.get('AdminClient', 'Role'),
       groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       passwordRules: '',
