@@ -15,23 +15,25 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
-import { settingsReducer, storageSettingsReducer } from './clients/StorageSettingsClient'
-import { storagesListReducer } from './clients/StoragesListClient'
+ */
+import { SETTINGS, SETTINGS_ARRAY } from '@regardsoss/api'
+import { BasicListActions } from '@regardsoss/store-utils'
 
 /**
- * @author Sébastien Binda
+ * Actions to get Settings
  * @author Théo Lasserre
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-  settings: settingsReducer,
-  storages: storagesListReducer,
-  'settings-storage': storageSettingsReducer,
-})
+class SettingsActions extends BasicListActions {
+  constructor(namespace) {
+    super({
+      namespace,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/settings`,
+      schemaTypes: {
+        ENTITY: SETTINGS,
+        ENTITY_ARRAY: SETTINGS_ARRAY,
+      },
+    })
+  }
+}
 
-export default microserviceManagementReducer
+export default SettingsActions

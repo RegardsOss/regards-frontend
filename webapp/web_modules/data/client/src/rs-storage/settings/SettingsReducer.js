@@ -16,22 +16,26 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
-import { settingsReducer, storageSettingsReducer } from './clients/StorageSettingsClient'
-import { storagesListReducer } from './clients/StoragesListClient'
+import { BasicListReducers } from '@regardsoss/store-utils'
+import { SettingsConfiguration } from '@regardsoss/api'
+import SettingsActions from './SettingsActions'
 
 /**
- * @author Sébastien Binda
+ * settings fetch reducer
  * @author Théo Lasserre
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-  settings: settingsReducer,
-  storages: storagesListReducer,
-  'settings-storage': storageSettingsReducer,
-})
+class SettingsReducer extends BasicListReducers {
+  constructor(namespace) {
+    super(SettingsConfiguration, new SettingsActions(namespace))
+  }
+}
 
-export default microserviceManagementReducer
+/**
+ * Exports the reducer builder on namespace
+ * @param {string} namespace namespace
+ * @returns {function} reduce function
+ */
+export default (namespace) => {
+  const instance = new SettingsReducer(namespace)
+  return (state, action) => instance.reduce(state, action)
+}

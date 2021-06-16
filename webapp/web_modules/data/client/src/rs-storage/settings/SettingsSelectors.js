@@ -15,23 +15,12 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
- **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
-import { settingsReducer, storageSettingsReducer } from './clients/StorageSettingsClient'
-import { storagesListReducer } from './clients/StoragesListClient'
+ */
+import { BasicListSelectors } from '@regardsoss/store-utils'
 
 /**
- * @author Sébastien Binda
- * @author Théo Lasserre
+ * Export selectors builder on store path.
+ * @param storePath redux store path to access reduced data
+ * @return selectors instance
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-  settings: settingsReducer,
-  storages: storagesListReducer,
-  'settings-storage': storageSettingsReducer,
-})
-
-export default microserviceManagementReducer
+export default (storePath) => new BasicListSelectors(storePath)

@@ -329,7 +329,7 @@ export default {
   'oais.settings.fieldgroup.dumpParameters.isActiveModule': 'Activer le module',
   'oais.settings.fieldgroup.dumpParameters.cronTrigger': 'Cron trigger',
   'oais.settings.fieldgroup.dumpParameters.dumpLocation': 'Emplacement du dump',
-  'oais.settings.field.lastDumpReqDate': 'Dernière requête effectuée',
+  'oais.settings.field.lastDumpReqDate': 'Dernière requête de dump effectuée',
   'oais.settings.action.confirm': 'Confirmer',
   'oais.settings.action.cancel': 'Retour',
 }

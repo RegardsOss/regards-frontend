@@ -26,8 +26,8 @@ import {
 } from 'material-ui/Card'
 import { CardActionsComponent, ClearSettingFieldButton } from '@regardsoss/components'
 import {
-  RenderDateTimeField, Field, reduxForm, RenderTextField, ValidationHelpers, RenderCheckbox,
-  FieldsGroup, FormPresentation, FormRow,
+  RenderDateTimeField, Field, reduxForm, RenderTextField, RenderCheckbox,
+  FieldsGroup,
 } from '@regardsoss/form-utils'
 import { CommonDomain } from '@regardsoss/domain'
 
@@ -125,77 +125,67 @@ export class OAISSettingsComponent extends React.Component {
             subtitle={formatMessage({ id: 'oais.settings.subtitle' })}
           />
           <CardText>
-            <FormPresentation>
-              <FormRow>
-                <FieldsGroup
-                  clearSpaceToChildren
-                >
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.ACTIVE_NOTIFICATION)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.ACTIVE_NOTIFICATION, editedActiveNotification)}
-                      addAlternateStyle
-                    />
-                    <Field
-                      name={SETTINGS.ACTIVE_NOTIFICATION}
-                      label={formatMessage({ id: 'oais.settings.field.activeNotifications' })}
-                      component={RenderCheckbox}
-                      fullWidth
-                      disabled={isDisabled(settings, SETTINGS.ACTIVE_NOTIFICATION)}
-                    />
-                  </div>
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.LAST_DUMP_REQ_DATE)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.LAST_DUMP_REQ_DATE, editedLastDumpReqDate)}
-                    />
-                    <Field
-                      name={SETTINGS.LAST_DUMP_REQ_DATE}
-                      label={formatMessage({ id: 'oais.settings.field.lastDumpReqDate' })}
-                      component={RenderDateTimeField}
-                      fullWidth
-                      disabled={isDisabled(settings, SETTINGS.LAST_DUMP_REQ_DATE)}
-                    />
-                  </div>
-                </FieldsGroup>
-              </FormRow>
-              <FormRow>
-                <div style={settingDiv}>
-                  <ClearSettingFieldButton
-                    onClick={() => this.onClearInput(SETTINGS.DUMP_PARAMETERS)}
-                    isDefaultValue={isDefaultValue(settings, SETTINGS.DUMP_PARAMETERS, editedDumpParameters)}
-                  />
-                  <FieldsGroup
-                    title={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters' })}
-                    clearSpaceToChildren
-                  >
-                    <Field
-                      name={`${SETTINGS.DUMP_PARAMETERS}.isActiveModule`}
-                      component={RenderCheckbox}
-                      label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.isActiveModule' })}
-                      fullWidth
-                      disabled={isDumpParametersDisabled}
-                    />
-                    <Field
-                      name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.cronTrigger' })}
-                      validate={ValidationHelpers.isValidCronExp}
-                      fullWidth
-                      disabled={isDumpParametersDisabled}
-                    />
-                    <Field
-                      name={`${SETTINGS.DUMP_PARAMETERS}.dumpLocation`}
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.dumpLocation' })}
-                      validate={ValidationHelpers.isValidAbsolutePath}
-                      fullWidth
-                      disabled={isDumpParametersDisabled}
-                    />
-                  </FieldsGroup>
-                </div>
-              </FormRow>
-            </FormPresentation>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.ACTIVE_NOTIFICATION)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.ACTIVE_NOTIFICATION, editedActiveNotification)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.ACTIVE_NOTIFICATION}
+                label={formatMessage({ id: 'oais.settings.field.activeNotifications' })}
+                component={RenderCheckbox}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS.ACTIVE_NOTIFICATION)}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.LAST_DUMP_REQ_DATE)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.LAST_DUMP_REQ_DATE, editedLastDumpReqDate)}
+              />
+              <Field
+                name={SETTINGS.LAST_DUMP_REQ_DATE}
+                label={formatMessage({ id: 'oais.settings.field.lastDumpReqDate' })}
+                component={RenderDateTimeField}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS.LAST_DUMP_REQ_DATE)}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.DUMP_PARAMETERS)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.DUMP_PARAMETERS, editedDumpParameters)}
+              />
+              <FieldsGroup
+                title={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters' })}
+                clearSpaceToChildren
+                spanFullWidth
+              >
+                <Field
+                  name={`${SETTINGS.DUMP_PARAMETERS}.isActiveModule`}
+                  component={RenderCheckbox}
+                  label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.isActiveModule' })}
+                  fullWidth
+                  disabled={isDumpParametersDisabled}
+                />
+                <Field
+                  name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
+                  component={RenderTextField}
+                  label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.cronTrigger' })}
+                  fullWidth
+                  disabled={isDumpParametersDisabled}
+                  help={OAISSettingsComponent.CRON_HELP}
+                />
+                <Field
+                  name={`${SETTINGS.DUMP_PARAMETERS}.dumpLocation`}
+                  component={RenderTextField}
+                  label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.dumpLocation' })}
+                  fullWidth
+                  disabled={isDumpParametersDisabled}
+                />
+              </FieldsGroup>
+            </div>
           </CardText>
           <CardActions>
             <CardActionsComponent

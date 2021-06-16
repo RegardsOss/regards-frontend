@@ -76,6 +76,9 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageSettingsContainer', () => {
       fetchSettings: testSuiteHelpers.getSuccessDispatchStub(),
       updateSettings: () => { },
       flushSettings: () => { },
+      fetchStorageSettings: () => { },
+      updateStorageSettings: () => { },
+      flushStorageSettings: () => { },
     }
     const enzymeWrapper = shallow(<StorageSettingsContainer {...props} />, { context })
     // check i18n
@@ -128,6 +131,9 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageSettingsContainer', () => {
       fetchSettings: testSuiteHelpers.getSuccessDispatchStub(),
       updateSettings: () => { },
       flushSettings: () => { },
+      fetchStorageSettings: () => { },
+      updateStorageSettings: () => { },
+      flushStorageSettings: () => { },
     }
     const enzymeWrapper = shallow(<StorageSettingsContainer {...props} />, { context })
     // check loader wrapper

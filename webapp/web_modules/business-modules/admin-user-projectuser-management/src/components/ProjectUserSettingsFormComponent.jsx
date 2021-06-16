@@ -18,7 +18,6 @@
  **/
 import isEqual from 'lodash/isEqual'
 import find from 'lodash/find'
-import get from 'lodash/get'
 import Chip from 'material-ui/Chip'
 import AddSvg from 'mdi-material-ui/Plus'
 import Avatar from 'material-ui/Avatar'
@@ -80,6 +79,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     editedRateLimit: PropTypes.number,
     editedMode: PropTypes.string,
     editedRole: PropTypes.string,
+    editedGroups: PropTypes.arrayOf(PropTypes.string),
   }
 
   static QUOTA_RESTRICTION_VALIDATORS = [
@@ -135,13 +135,12 @@ export class ProjectUserSettingsFormComponent extends React.Component {
    * @param {*} values form edited values
    */
   onSubmit = (values) => {
-    const { onSubmit, roleList, settings } = this.props
-    const submitRole = get(find(roleList, (role) => role.content.name === values[SETTINGS.ROLE]), 'content', {})
+    const { onSubmit, settings } = this.props
     onSubmit({
       [SETTINGS.MODE]: getUpdatedSettingValue(settings, SETTINGS.MODE, values[SETTINGS.MODE]),
-      [SETTINGS.MAX_QUOTA]: parseInt(getUpdatedSettingValue(settings, SETTINGS.MAX_QUOTA, values[SETTINGS.MAX_QUOTA]), 10),
-      [SETTINGS.RATE_LIMIT]: parseInt(getUpdatedSettingValue(settings, SETTINGS.RATE_LIMIT, values[SETTINGS.RATE_LIMIT]), 10),
-      [SETTINGS.ROLE]: getUpdatedSettingValue(settings, SETTINGS.ROLE, submitRole),
+      [SETTINGS.MAX_QUOTA]: getUpdatedSettingValue(settings, SETTINGS.MAX_QUOTA, parseInt(values[SETTINGS.MAX_QUOTA], 10)),
+      [SETTINGS.RATE_LIMIT]: getUpdatedSettingValue(settings, SETTINGS.RATE_LIMIT, parseInt(values[SETTINGS.RATE_LIMIT], 10)),
+      [SETTINGS.ROLE]: getUpdatedSettingValue(settings, SETTINGS.ROLE, values[SETTINGS.ROLE]),
       [SETTINGS.GROUPS]: getUpdatedSettingValue(settings, SETTINGS.GROUPS, values[SETTINGS.GROUPS]),
     })
   }
@@ -159,7 +158,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
   handleRemoveGroup = (groupName) => {
     this.setState({
       tempGroups: this.state.tempGroups.filter((val) => val !== groupName),
-    }, () => this.props.change('groups', this.state.tempGroups))
+    }, () => this.props.change([SETTINGS.GROUPS], this.state.tempGroups))
   }
 
   handlePopoverClose = () => {
@@ -174,7 +173,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
         ...this.state.tempGroups,
         groupName,
       ],
-    }, () => this.props.change('groups', this.state.tempGroups))
+    }, () => this.props.change([SETTINGS.GROUPS], this.state.tempGroups))
     this.handlePopoverClose()
   }
 
@@ -228,6 +227,11 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     const { settings, change } = this.props
     const settingFound = getSetting(settings, settingName)
     if (settingFound) {
+      if (settingName === SETTINGS.GROUPS) { // we force re-render of groups field in order to correctly display the add group chip
+        this.setState({
+          tempGroups: [],
+        })
+      }
       change(settingName, settingFound.content.defaultValue)
     }
   }
@@ -245,7 +249,7 @@ export class ProjectUserSettingsFormComponent extends React.Component {
     const {
       submitting, pristine, invalid,
       handleSubmit, onBack, roleList, settings, editedMaxQuota,
-      editedRateLimit, editedMode, editedRole,
+      editedRateLimit, editedMode, editedRole, editedGroups,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { userForm, settings: { settingDiv } } } = this.context
     return (
@@ -330,10 +334,18 @@ export class ProjectUserSettingsFormComponent extends React.Component {
                 ))}
               </Field>
             </div>
-            <div style={userForm.groupsLabel}>
-              {formatMessage({ id: 'projectUser.create.input.groups' })}
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.GROUPS)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.GROUPS, editedGroups)}
+                addAlternateStyle
+              />
+              <div style={userForm.groupsLabel}>
+                {formatMessage({ id: 'projectUser.create.input.groups' })}
+                {this.renderChipInput()}
+
+              </div>
             </div>
-            {this.renderChipInput()}
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -362,6 +374,7 @@ function selectedSetting(state) {
     editedRateLimit: parseInt(formValuesSelector(state, [SETTINGS.RATE_LIMIT]), 10),
     editedMode: formValuesSelector(state, [SETTINGS.MODE]),
     editedRole: formValuesSelector(state, [SETTINGS.ROLE]),
+    editedGroups: formValuesSelector(state, [SETTINGS.GROUPS]),
   }
 }
 

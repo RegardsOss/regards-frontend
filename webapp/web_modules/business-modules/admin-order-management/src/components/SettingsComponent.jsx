@@ -28,7 +28,7 @@ import {
 import { CardActionsComponent, ClearSettingFieldButton } from '@regardsoss/components'
 import {
   Field, reduxForm, RenderTextField,
-  FieldsGroup, FormPresentation, FormRow,
+  FieldsGroup,
 } from '@regardsoss/form-utils'
 import IconButton from 'material-ui/IconButton'
 import Clear from 'mdi-material-ui/Backspace'
@@ -129,55 +129,46 @@ export class SettingsComponent extends React.Component {
             subtitle={formatMessage({ id: 'order.settings.subtitle' })}
           />
           <CardText>
-            <FormPresentation>
-              <FormRow>
-                <FieldsGroup
-                  clearSpaceToChildren
-                >
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.APP_SUB_ORDER_DURATION)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.APP_SUB_ORDER_DURATION, editedAppSubOrderDuration)}
-                      addAlternateStyle
-                    />
-                    <Field
-                      name={SETTINGS.APP_SUB_ORDER_DURATION}
-                      label={formatMessage({ id: 'order.settings.field.appSubOrderDuration' })}
-                      component={RenderTextField}
-                      fullWidth
-                      disabled={isDisabled(settings, SETTINGS.APP_SUB_ORDER_DURATION)}
-                    />
-                  </div>
-                </FieldsGroup>
-              </FormRow>
-              <FormRow>
-                <div style={settingDiv}>
-                  <ClearSettingFieldButton
-                    onClick={() => this.onClearInput(SETTINGS.USER_ORDER_PARAMETERS)}
-                    isDefaultValue={isDefaultValue(settings, SETTINGS.USER_ORDER_PARAMETERS, editedUserOrderParameters)}
-                  />
-                  <FieldsGroup
-                    title={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters' })}
-                    clearSpaceToChildren
-                  >
-                    <Field
-                      name={`${SETTINGS.USER_ORDER_PARAMETERS}.subOrderDuration`}
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters.subOrderDuration' })}
-                      fullWidth
-                      disabled={isUserOrderParametersDisabled}
-                    />
-                    <Field
-                      name={`${SETTINGS.USER_ORDER_PARAMETERS}.delayBeforeEmailNotification`}
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification' })}
-                      fullWidth
-                      disabled={isUserOrderParametersDisabled}
-                    />
-                  </FieldsGroup>
-                </div>
-              </FormRow>
-            </FormPresentation>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.APP_SUB_ORDER_DURATION)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.APP_SUB_ORDER_DURATION, editedAppSubOrderDuration)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS.APP_SUB_ORDER_DURATION}
+                label={formatMessage({ id: 'order.settings.field.appSubOrderDuration' })}
+                component={RenderTextField}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS.APP_SUB_ORDER_DURATION)}
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(SETTINGS.USER_ORDER_PARAMETERS)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS.USER_ORDER_PARAMETERS, editedUserOrderParameters)}
+              />
+              <FieldsGroup
+                title={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters' })}
+                clearSpaceToChildren
+                spanFullWidth
+              >
+                <Field
+                  name={`${SETTINGS.USER_ORDER_PARAMETERS}.subOrderDuration`}
+                  component={RenderTextField}
+                  label={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters.subOrderDuration' })}
+                  fullWidth
+                  disabled={isUserOrderParametersDisabled}
+                />
+                <Field
+                  name={`${SETTINGS.USER_ORDER_PARAMETERS}.delayBeforeEmailNotification`}
+                  component={RenderTextField}
+                  label={formatMessage({ id: 'order.settings.fieldgroup.userOrderParameters.delayBeforeEmailNotification' })}
+                  fullWidth
+                  disabled={isUserOrderParametersDisabled}
+                />
+              </FieldsGroup>
+            </div>
           </CardText>
           <CardActions>
             <CardActionsComponent

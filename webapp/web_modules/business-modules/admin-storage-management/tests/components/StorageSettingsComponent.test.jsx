@@ -79,6 +79,6 @@ describe('[ADMIN STORAGE MANAGEMENT] Testing StorageSettingsComponent', () => {
     }
     const enzymeWrapper = shallow(<StorageSettingsComponent {...props} />, { context })
     const fieldsWrapper = enzymeWrapper.find(Field)
-    assert.lengthOf(fieldsWrapper, 3, 'There should be 3 Field component')
+    assert.lengthOf(fieldsWrapper, 5, 'There should be 5 Field component')
   })
 })

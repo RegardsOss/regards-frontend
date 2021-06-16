@@ -16,22 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
-import { settingsReducer, storageSettingsReducer } from './clients/StorageSettingsClient'
-import { storagesListReducer } from './clients/StoragesListClient'
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
 /**
- * @author Sébastien Binda
- * @author Théo Lasserre
+ * Update a setting
  */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-  settings: settingsReducer,
-  storages: storagesListReducer,
-  'settings-storage': storageSettingsReducer,
-})
+export default class UpdateSettingActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/settings/{name}`,
+      namespace,
+    })
+  }
 
-export default microserviceManagementReducer
+  updateSetting = (settingName, settingValue) => this.sendSignal('PUT', {
+    ...settingValue,
+  }, {
+    name: settingName,
+  })
+}

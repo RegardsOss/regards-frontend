@@ -29,9 +29,11 @@ import { ModuleStyleProvider } from '@regardsoss/theme'
 import { LoadableContentDisplayDecorator } from '@regardsoss/display-control'
 import StorageSettingsComponent from '../components/StorageSettingsComponent'
 import {
-  settingsActions, settingsSelectors, updateSettingActions,
+  settingsActions, settingsSelectors, updateSettingActions, storageSettingsActions, updateStorageSettingActions,
+  storageSettingsSelectors,
 } from '../clients/StorageSettingsClient'
 import { storagesListActions, storagesListSelectors } from '../clients/StoragesListClient'
+import { SETTINGS_ENUM } from '../domain/StorageSettings'
 import messages from '../i18n'
 import styles from '../styles'
 
@@ -48,6 +50,8 @@ export class StorageSettingsContainer extends React.Component {
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     settings: CommonShapes.SettingsList,
+    // eslint-disable-next-line react/no-unused-prop-types
+    settingsStorage: CommonShapes.SettingsList,
     storages: CommonShapes.PluginConfigurationArray.isRequired,
     hasErrorSettings: PropTypes.bool.isRequired,
     isFetchingStorages: PropTypes.bool.isRequired,
@@ -57,6 +61,9 @@ export class StorageSettingsContainer extends React.Component {
     updateSettings: PropTypes.func.isRequired,
     getStorages: PropTypes.func.isRequired,
     flushSettings: PropTypes.func.isRequired,
+    fetchStorageSettings: PropTypes.func.isRequired,
+    updateStorageSettings: PropTypes.func.isRequired,
+    flushStorageSettings: PropTypes.func.isRequired,
   }
 
   /**
@@ -72,6 +79,7 @@ export class StorageSettingsContainer extends React.Component {
       storages: storagesListSelectors.getOrderedList(state),
       isFetchingStorages: storagesListSelectors.isFetching(state),
       hasErrorStorages: storagesListSelectors.hasError(state),
+      settingsStorage: storageSettingsSelectors.getList(state),
     }
   }
 
@@ -87,21 +95,26 @@ export class StorageSettingsContainer extends React.Component {
       updateSettings: (settingName, settingValue) => dispatch(updateSettingActions.updateSetting(settingName, settingValue)),
       getStorages: (microserviceName, pluginType) => dispatch(storagesListActions.getPluginConfigurationsByType(microserviceName, pluginType)),
       flushSettings: () => dispatch(settingsActions.flush()),
+      fetchStorageSettings: () => dispatch(storageSettingsActions.fetchEntityList()),
+      updateStorageSettings: (settingName, settingValue) => dispatch(updateStorageSettingActions.updateSetting(settingName, settingValue)),
+      flushStorageSettings: () => dispatch(storageSettingsActions.flush()),
     }
   }
 
   state = {
     settings: null,
     isFetchingSettings: true,
+    settingsStorage: null,
   }
 
   /**
    * Lifecycle method component did mount, used here to start loading server data
    */
   componentDidMount() {
-    const { getStorages, fetchSettings } = this.props
+    const { getStorages, fetchSettings, fetchStorageSettings } = this.props
     const tasks = []
     tasks.push(fetchSettings())
+    tasks.push(fetchStorageSettings())
     tasks.push(getStorages(STATIC_CONF.MSERVICES.STORAGE, StorageDomain.PluginTypeEnum.STORAGE))
     Promise.all(tasks)
       .then((actionResults) => {
@@ -120,19 +133,23 @@ export class StorageSettingsContainer extends React.Component {
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   componentWillUnmount = () => {
-    const { flushSettings } = this.props
+    const { flushSettings, flushStorageSettings } = this.props
     flushSettings()
+    flushStorageSettings()
   }
 
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
-      settings,
+      settings, settingsStorage,
     } = newProps
 
     const oldState = this.state || {}
     const newState = { ...oldState }
     if (!isEqual(oldProps.settings, settings)) {
       newState.settings = settings
+    }
+    if (!isEqual(oldProps.settingsStorage, settingsStorage)) {
+      newState.settingsStorage = settingsStorage
     }
     if (!isEqual(oldState, newState)) {
       this.setState(newState)
@@ -151,44 +168,50 @@ export class StorageSettingsContainer extends React.Component {
    * On submit callback
    * @param {*} values edited settrings values
    */
-   onSubmit = (values) => {
-     const { updateSettings } = this.props
-     const tasks = map(keys(values), (key) => updateSettings(key, values[key]))
-     Promise.all(tasks)
-       .then((actionResults) => {
-         if (!find(actionResults, (actionResult) => actionResult.error)) {
-           this.onBack()
-         }
-       })
-   }
+  onSubmit = (values) => {
+    const { updateSettings, updateStorageSettings } = this.props
+    const tasks = map(keys(values), (key) => {
+      if (key === SETTINGS_ENUM.CACHE_MAX_SIZE || key === SETTINGS_ENUM.TENANT_CACHE_PATH) {
+        return updateStorageSettings(key, values[key])
+      }
+      return updateSettings(key, values[key])
+    })
+    Promise.all(tasks)
+      .then((actionResults) => {
+        if (!find(actionResults, (actionResult) => actionResult.error)) {
+          this.onBack()
+        }
+      })
+  }
 
-   render() {
-     const {
-       hasErrorSettings,
-       isFetchingStorages, hasErrorStorages, storages,
-     } = this.props
-     const {
-       settings, isFetchingSettings,
-     } = this.state
-     return (
-       <I18nProvider messages={messages}>
-         <ModuleStyleProvider module={styles}>
-           <LoadableContentDisplayDecorator
-             isLoading={isFetchingSettings || isFetchingStorages}
-             isContentError={hasErrorSettings || hasErrorStorages}
-             isEmpty={!settings}
-           >
-             <StorageSettingsComponent
-               settings={settings}
-               onBack={this.onBack}
-               onSubmit={this.onSubmit}
-               storages={storages}
-             />
-           </LoadableContentDisplayDecorator>
-         </ModuleStyleProvider>
-       </I18nProvider>
-     )
-   }
+  render() {
+    const {
+      hasErrorSettings,
+      isFetchingStorages, hasErrorStorages, storages,
+    } = this.props
+    const {
+      settings, isFetchingSettings, settingsStorage,
+    } = this.state
+    return (
+      <I18nProvider messages={messages}>
+        <ModuleStyleProvider module={styles}>
+          <LoadableContentDisplayDecorator
+            isLoading={isFetchingSettings || isFetchingStorages}
+            isContentError={hasErrorSettings || hasErrorStorages}
+            isEmpty={!settings && !settingsStorage}
+          >
+            <StorageSettingsComponent
+              settings={settings}
+              settingsStorage={settingsStorage}
+              onBack={this.onBack}
+              onSubmit={this.onSubmit}
+              storages={storages}
+            />
+          </LoadableContentDisplayDecorator>
+        </ModuleStyleProvider>
+      </I18nProvider>
+    )
+  }
 }
 export default connect(
   StorageSettingsContainer.mapStateToProps,

@@ -124,8 +124,6 @@ const validRequiredNumber = (value) => !isNil(value) && value !== '' && !isNaN(v
 
 const matchRegex = (regex) => (value) => isString(value) && (value.search(regex) !== -1) ? undefined : ErrorTypes.invalidRegex(regex)
 
-const isValidAbsolutePathOrEmpty = (value) => (matchRegex(/^\/.+/)(value) === undefined) ? undefined : ErrorTypes.INVALID_ABSOLUTE_PATH
-
 /**
  * Redux-Form-style validator for Fields which content must be an valid absolute path directory.
  * @param {*} value
@@ -305,7 +303,6 @@ const characterValidator = (value) => value && value.length && value.length !== 
 
 export default {
   isValidCronExp,
-  isValidAbsolutePathOrEmpty,
   isValidAbsolutePath,
   isValidEmail,
   isValidUrl,

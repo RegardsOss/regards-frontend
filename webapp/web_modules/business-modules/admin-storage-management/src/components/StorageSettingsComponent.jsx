@@ -31,19 +31,14 @@ import MenuItem from 'material-ui/MenuItem'
 import { CardActionsComponent, ClearSettingFieldButton } from '@regardsoss/components'
 import {
   Field, reduxForm, RenderTextField, ValidationHelpers, RenderCheckbox,
-  FieldsGroup, FormPresentation, FormRow, RenderSelectField,
+  RenderSelectField,
 } from '@regardsoss/form-utils'
+import { SETTINGS_ENUM } from '../domain/StorageSettings'
 
 const {
   getValue, getUpdatedSettingValue, getSetting,
   isDisabled, isDefaultValue,
 } = CommonDomain.SettingsUtils
-
-const SETTINGS = {
-  STORE_FILES: 'store_files',
-  STORAGE_LOCATION: 'storage_location',
-  STORAGE_SUB_DIRECTORY: 'storage_subdirectory',
-}
 
 /**
  * StorageSettingsComponent
@@ -52,6 +47,7 @@ const SETTINGS = {
 export class StorageSettingsComponent extends React.Component {
   static propTypes = {
     settings: CommonShapes.SettingsList,
+    settingsStorage: CommonShapes.SettingsList,
     storages: CommonShapes.PluginConfigurationArray.isRequired,
     onBack: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -65,6 +61,8 @@ export class StorageSettingsComponent extends React.Component {
     editedStoreFiles: PropTypes.bool,
     editedStorageLocation: PropTypes.string,
     editedStorageSubDirectory: PropTypes.string,
+    editedCacheMaxSize: PropTypes.number,
+    editedTenantCachePath: PropTypes.string,
   }
 
   static contextTypes = {
@@ -74,11 +72,13 @@ export class StorageSettingsComponent extends React.Component {
 
   /** Lifecycle method component will mount, used here to initialize form values */
   UNSAFE_componentWillMount() {
-    const { initialize, settings } = this.props
+    const { initialize, settings, settingsStorage } = this.props
     initialize({
-      [SETTINGS.STORE_FILES]: getValue(settings, SETTINGS.STORE_FILES),
-      [SETTINGS.STORAGE_LOCATION]: getValue(settings, SETTINGS.STORAGE_LOCATION),
-      [SETTINGS.STORAGE_SUB_DIRECTORY]: getValue(settings, SETTINGS.STORAGE_SUB_DIRECTORY),
+      [SETTINGS_ENUM.STORE_FILES]: getValue(settings, SETTINGS_ENUM.STORE_FILES),
+      [SETTINGS_ENUM.STORAGE_LOCATION]: getValue(settings, SETTINGS_ENUM.STORAGE_LOCATION),
+      [SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]: getValue(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY),
+      [SETTINGS_ENUM.CACHE_MAX_SIZE]: getValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE),
+      [SETTINGS_ENUM.TENANT_CACHE_PATH]: getValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH),
     })
   }
 
@@ -87,16 +87,18 @@ export class StorageSettingsComponent extends React.Component {
    * @param {*} values form edited values
    */
   onSubmit = (values) => {
-    const { onSubmit, settings } = this.props
+    const { onSubmit, settings, settingsStorage } = this.props
     onSubmit({
-      [SETTINGS.STORE_FILES]: getUpdatedSettingValue(settings, SETTINGS.STORE_FILES, values[SETTINGS.STORE_FILES]),
-      [SETTINGS.STORAGE_LOCATION]: getUpdatedSettingValue(settings, SETTINGS.STORAGE_LOCATION, values[SETTINGS.STORAGE_LOCATION]),
-      [SETTINGS.STORAGE_SUB_DIRECTORY]: getUpdatedSettingValue(settings, SETTINGS.STORAGE_SUB_DIRECTORY, values[SETTINGS.STORAGE_SUB_DIRECTORY]),
+      [SETTINGS_ENUM.STORE_FILES]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORE_FILES, values[SETTINGS_ENUM.STORE_FILES]),
+      [SETTINGS_ENUM.STORAGE_LOCATION]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORAGE_LOCATION, values[SETTINGS_ENUM.STORAGE_LOCATION]),
+      [SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]: getUpdatedSettingValue(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY, values[SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]),
+      [SETTINGS_ENUM.CACHE_MAX_SIZE]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, values[SETTINGS_ENUM.CACHE_MAX_SIZE]),
+      [SETTINGS_ENUM.TENANT_CACHE_PATH]: getUpdatedSettingValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, values[SETTINGS_ENUM.TENANT_CACHE_PATH]),
     })
   }
 
-  onClearInput = (settingName) => {
-    const { settings, change } = this.props
+  onClearInput = (settings, settingName) => {
+    const { change } = this.props
     const settingFound = getSetting(settings, settingName)
     if (settingFound) {
       change(settingName, settingFound.content.defaultValue)
@@ -105,9 +107,9 @@ export class StorageSettingsComponent extends React.Component {
 
   render() {
     const {
-      submitting, pristine, invalid,
-      handleSubmit, onBack, storages, settings, editedStoreFiles,
-      editedStorageLocation, editedStorageSubDirectory,
+      submitting, pristine, invalid, settings, settingsStorage,
+      handleSubmit, onBack, storages, editedStoreFiles, editedCacheMaxSize,
+      editedStorageLocation, editedStorageSubDirectory, editedTenantCachePath,
     } = this.props
     const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv } } } = this.context
     return (
@@ -118,63 +120,85 @@ export class StorageSettingsComponent extends React.Component {
             subtitle={formatMessage({ id: 'storage.settings.subtitle' })}
           />
           <CardText>
-            <FormPresentation>
-              <FormRow>
-                <FieldsGroup
-                  clearSpaceToChildren
-                >
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.STORE_FILES)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.STORE_FILES, editedStoreFiles)}
-                      addAlternateStyle
-                    />
-                    <Field
-                      name={SETTINGS.STORE_FILES}
-                      label={formatMessage({ id: 'storage.settings.field.storeFiles' })}
-                      component={RenderCheckbox}
-                      disabled={isDisabled(settings, SETTINGS.STORE_FILES)}
-                    />
-                  </div>
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.STORAGE_LOCATION)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.STORAGE_LOCATION, editedStorageLocation)}
-                      addAlternateStyle
-                    />
-                    <Field
-                      name={SETTINGS.STORAGE_LOCATION}
-                      label={formatMessage({ id: 'storage.settings.field.storageLocation' })}
-                      component={RenderSelectField}
-                      fullWidth
-                      disabled={isDisabled(settings, SETTINGS.STORAGE_LOCATION)}
-                    >
-                      {map(storages, (storage) => (
-                        <MenuItem
-                          value={get(storage, 'content.businessId')}
-                          key={get(storage, 'content.businessId')}
-                          primaryText={get(storage, 'content.label')}
-                        />
-                      ))}
-                    </Field>
-                  </div>
-                  <div style={settingDiv}>
-                    <ClearSettingFieldButton
-                      onClick={() => this.onClearInput(SETTINGS.STORAGE_SUB_DIRECTORY)}
-                      isDefaultValue={isDefaultValue(settings, SETTINGS.STORAGE_SUB_DIRECTORY, editedStorageSubDirectory)}
-                      addAlternateStyle
-                    />
-                    <Field
-                      name={SETTINGS.STORAGE_SUB_DIRECTORY}
-                      component={RenderTextField}
-                      label={formatMessage({ id: 'storage.settings.field.storageSubdirectory' })}
-                      disabled={isDisabled(settings, SETTINGS.STORAGE_SUB_DIRECTORY)}
-                      validate={ValidationHelpers.isValidAbsolutePathOrEmpty}
-                    />
-                  </div>
-                </FieldsGroup>
-              </FormRow>
-            </FormPresentation>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(settings, SETTINGS_ENUM.STORE_FILES)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS_ENUM.STORE_FILES, editedStoreFiles)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS_ENUM.STORE_FILES}
+                label={formatMessage({ id: 'storage.settings.field.storeFiles' })}
+                component={RenderCheckbox}
+                disabled={isDisabled(settings, SETTINGS_ENUM.STORE_FILES)}
+                fullWidth
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(settings, SETTINGS_ENUM.STORAGE_LOCATION)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS_ENUM.STORAGE_LOCATION, editedStorageLocation)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS_ENUM.STORAGE_LOCATION}
+                label={formatMessage({ id: 'storage.settings.field.storageLocation' })}
+                component={RenderSelectField}
+                fullWidth
+                disabled={isDisabled(settings, SETTINGS_ENUM.STORAGE_LOCATION)}
+              >
+                {map(storages, (storage) => (
+                  <MenuItem
+                    value={get(storage, 'content.businessId')}
+                    key={get(storage, 'content.businessId')}
+                    primaryText={get(storage, 'content.label')}
+                  />
+                ))}
+              </Field>
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY)}
+                isDefaultValue={isDefaultValue(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY, editedStorageSubDirectory)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS_ENUM.STORAGE_SUB_DIRECTORY}
+                component={RenderTextField}
+                label={formatMessage({ id: 'storage.settings.field.storageSubdirectory' })}
+                disabled={isDisabled(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY)}
+                fullWidth
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
+                isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE, editedCacheMaxSize)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS_ENUM.CACHE_MAX_SIZE}
+                label={formatMessage({ id: 'storage.settings.field.cacheMaxSize' })}
+                component={RenderTextField}
+                disabled={isDisabled(settingsStorage, SETTINGS_ENUM.CACHE_MAX_SIZE)}
+                validate={ValidationHelpers.positiveIntNumber}
+                fullWidth
+              />
+            </div>
+            <div style={settingDiv}>
+              <ClearSettingFieldButton
+                onClick={() => this.onClearInput(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
+                isDefaultValue={isDefaultValue(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH, editedTenantCachePath)}
+                addAlternateStyle
+              />
+              <Field
+                name={SETTINGS_ENUM.TENANT_CACHE_PATH}
+                label={formatMessage({ id: 'storage.settings.field.tenantCachePath' })}
+                component={RenderTextField}
+                disabled={isDisabled(settingsStorage, SETTINGS_ENUM.TENANT_CACHE_PATH)}
+                fullWidth
+              />
+            </div>
           </CardText>
           <CardActions>
             <CardActionsComponent
@@ -199,9 +223,11 @@ const formValuesSelector = formValueSelector(formID)
  */
 function selectedSetting(state) {
   return {
-    editedStoreFiles: formValuesSelector(state, [SETTINGS.STORE_FILES]),
-    editedStorageLocation: formValuesSelector(state, [SETTINGS.STORAGE_LOCATION]),
-    editedStorageSubDirectory: formValuesSelector(state, [SETTINGS.STORAGE_SUB_DIRECTORY]),
+    editedStoreFiles: formValuesSelector(state, [SETTINGS_ENUM.STORE_FILES]),
+    editedStorageLocation: formValuesSelector(state, [SETTINGS_ENUM.STORAGE_LOCATION]),
+    editedStorageSubDirectory: formValuesSelector(state, [SETTINGS_ENUM.STORAGE_SUB_DIRECTORY]),
+    editedCacheMaxSize: parseInt(formValuesSelector(state, [SETTINGS_ENUM.CACHE_MAX_SIZE]), 10),
+    editedTenantCachePath: formValuesSelector(state, [SETTINGS_ENUM.TENANT_CACHE_PATH]),
   }
 }
 

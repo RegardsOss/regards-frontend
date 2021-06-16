@@ -121,6 +121,8 @@ const messages = {
   'storage.settings.title': 'Storage settings for datasets and collections uploaded files',
   'storage.settings.subtitle': 'Configure settings',
   'storage.settings.field.storeFiles': 'Save files',
+  'storage.settings.field.cacheMaxSize': 'Cache max size (kB)',
+  'storage.settings.field.tenantCachePath': 'Cache path',
   'storage.settings.field.storageLocation': 'Location',
   'storage.settings.field.storageSubdirectory': 'Sub directory',
   'storage.settings.action.confirm': 'Confirm',

@@ -16,22 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import { combineReducers } from 'redux'
-import { storageLocationReducer } from './clients/StorageLocationClient'
-import { storageRequestReducers } from './clients/StorageRequestClient'
-import { settingsReducer, storageSettingsReducer } from './clients/StorageSettingsClient'
-import { storagesListReducer } from './clients/StoragesListClient'
 
-/**
- * @author Sébastien Binda
- * @author Théo Lasserre
- */
-const microserviceManagementReducer = combineReducers({
-  'storage-location': storageLocationReducer,
-  'storage-request': storageRequestReducers,
-  settings: settingsReducer,
-  storages: storagesListReducer,
-  'settings-storage': storageSettingsReducer,
-})
+import values from 'lodash/values'
 
-export default microserviceManagementReducer
+export const SETTINGS_ENUM = {
+  STORE_FILES: 'store_files',
+  STORAGE_LOCATION: 'storage_location',
+  STORAGE_SUB_DIRECTORY: 'storage_subdirectory',
+  CACHE_MAX_SIZE: 'cacheMaxSize',
+  TENANT_CACHE_PATH: 'tenantCachePath',
+}
+
+export const SETTINGS = values(SETTINGS_ENUM)
