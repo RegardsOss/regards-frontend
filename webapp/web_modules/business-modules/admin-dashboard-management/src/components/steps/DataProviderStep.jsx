@@ -125,13 +125,6 @@ class DataProviderStep extends React.Component {
     return null
   }
 
-  // OK -> ajouter produit oais -> suivre session envoit vers ancien ecran. supprimer ancien écran
-  // A TESTER -> tableau de bord -> il n'y a pas toutes les propriétés et les clés sont pas messages
-  // tableau de bord -> sélectionnée une session + déselectionner la session + resélectionner la session fonctionne pas
-  // OK -> tableau de bord -> largeur des colonnes plus basse -> il ne doit pas y avoir de scroll
-  // OK -> client CreationRequest etc -> supprimer dans index
-  // OK -> tableau de bord -> entete step ajouter in/out + ne pas afficher in & out dans la step. (facultitif)
-
   renderProductDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { productDialogOpen } = this.state
