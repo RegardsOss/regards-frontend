@@ -24,12 +24,10 @@ import {
 } from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
-import { AdminDomain, CommonDomain } from '@regardsoss/domain'
+import { AdminDomain } from '@regardsoss/domain'
 import { ProjectUserFormComponent } from '../../src/components/ProjectUserFormComponent'
 import { SETTINGS } from '../../src/components/ProjectUserSettingsFormComponent'
 import styles from '../../src/styles'
-
-const { getValue } = CommonDomain.SettingsUtils
 
 const context = buildTestContext(styles)
 
