@@ -24,11 +24,41 @@ import {
 } from '@regardsoss/form-utils'
 import { getMetadataArray, MetadataField } from '@regardsoss/user-metadata-common'
 import { ShowableAtRender } from '@regardsoss/components'
-import { AdminDomain } from '@regardsoss/domain'
+import { AdminDomain, CommonDomain } from '@regardsoss/domain'
 import { ProjectUserFormComponent } from '../../src/components/ProjectUserFormComponent'
+import { SETTINGS } from '../../src/components/ProjectUserSettingsFormComponent'
 import styles from '../../src/styles'
 
+const { getValue } = CommonDomain.SettingsUtils
+
 const context = buildTestContext(styles)
+
+const defaultSettings = {
+  0: {
+    content: {
+      name: SETTINGS.MAX_QUOTA,
+      description: '',
+      value: '-1',
+      defaultValue: '-1',
+    },
+  },
+  1: {
+    content: {
+      name: SETTINGS.RATE_LIMIT,
+      description: '',
+      value: '-1',
+      defaultValue: '-1',
+    },
+  },
+  2: {
+    content: {
+      name: SETTINGS.MODE,
+      description: '',
+      value: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+      defaultValue: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
+    },
+  },
+}
 
 // Test a component rendering
 describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () => {
@@ -44,14 +74,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const props = {
       currentUser: DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser'),
       userMetadata: getMetadataArray(DumpProvider.getFirstEntity('AccessProjectClient', 'ProjectUser')),
-      settings: {
-        content: {
-          id: 0,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-          maxQuota: 500,
-          rateLimit: 50,
-        },
-      },
+      settings: defaultSettings,
       roleList: DumpProvider.get('AdminClient', 'Role'),
       groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       passwordRules: '',
@@ -163,14 +186,7 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const props = {
       currentUser: null,
       userMetadata: getMetadataArray(),
-      settings: {
-        content: {
-          id: 0,
-          mode: AdminDomain.PROJECT_USER_SETTINGS_MODE_ENUM.AUTO,
-          maxQuota: 500,
-          rateLimit: 50,
-        },
-      },
+      settings: defaultSettings,
       roleList: DumpProvider.get('AdminClient', 'Role'),
       groupList: DumpProvider.get('DataManagementClient', 'AccessGroup'),
       passwordRules: '',
@@ -184,8 +200,8 @@ describe('[ADMIN PROJECTUSER MANAGEMENT] Testing ProjectUserFormComponent', () =
     const enzymeWrapper = shallow(<ProjectUserFormComponent {...props} />, { context })
     // A - init
     assert.deepEqual(spyInit.values, {
-      maxQuota: props.settings.content.maxQuota, // from tenant user settings
-      rateLimit: props.settings.content.rateLimit, // from tenant user settings
+      maxQuota: getValue(props.settings, SETTINGS.MAX_QUOTA), // from tenant user settings
+      rateLimit: getValue(props.settings, SETTINGS.RATE_LIMIT), // from tenant user settings
       useExistingAccount: false, // by default
       // with edited meta
       ...props.userMetadata.reduce((acc, { currentValue, key }) => ({
