@@ -151,21 +151,11 @@ class FeatureManagerComponent extends React.Component {
                 paneType={openedPane}
               />
             </div>
-            {/* {
-              openedPane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-                ? <div>
-                  <RequestManagerContainer
-                    featureManagerFilters={featureManagerFilters}
-                    paneType={openedPane}
-                    clients={clientByPane[openedPane]}
-                  />
-                </div> : null
-              } */}
             {
               map(FemDomain.REQUEST_TYPES, (pane) => {
-                if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES) {
+                if (pane !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES && pane === openedPane) {
                   return (
-                    <div key={pane} style={openedPane === pane ? displayBlock : displayNone}>
+                    <div key={pane}>
                       <RequestManagerContainer
                         featureManagerFilters={featureManagerFilters}
                         paneType={pane}

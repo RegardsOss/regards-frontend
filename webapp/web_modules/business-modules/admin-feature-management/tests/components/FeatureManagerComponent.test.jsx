@@ -22,7 +22,6 @@ import { Card } from 'material-ui/Card'
 import { CardActionsComponent } from '@regardsoss/components'
 import { buildTestContext, testSuiteHelpers } from '@regardsoss/tests-helpers'
 import ReferencesManagerContainer from '../../src/containers/ReferencesManagerContainer'
-import RequestManagerContainer from '../../src/containers/RequestManagerContainer'
 import FeatureManagerFiltersComponent from '../../src/components/filters/FeatureManagerFiltersComponent'
 import SwitchTables from '../../src/containers/SwitchTables'
 import FeatureManagerComponent from '../../src/components/FeatureManagerComponent'
@@ -91,9 +90,6 @@ describe('[ADMIN FEATURE MANAGEMENT] Testing FeatureManagerComponent', () => {
       featureManagerFilters: enzymeWrapper.instance().state.featureManagerFilters,
       paneType: enzymeWrapper.instance().state.openedPane,
     }, 'Component should define the expected properties')
-
-    const requestWrapper = enzymeWrapper.find(RequestManagerContainer)
-    assert.lengthOf(requestWrapper, 5, 'There should be 5 RequestManagerContainer')
 
     const cardActionsComponent = enzymeWrapper.find(CardActionsComponent)
     assert.lengthOf(cardActionsComponent, 1, 'There should be a CardActionsComponent')
