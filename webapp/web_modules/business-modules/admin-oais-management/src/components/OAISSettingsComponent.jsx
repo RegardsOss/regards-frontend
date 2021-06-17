@@ -24,10 +24,14 @@ import { connect } from '@regardsoss/redux'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import IconButton from 'material-ui/IconButton'
+import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { CardActionsComponent, ClearSettingFieldButton } from '@regardsoss/components'
 import {
   RenderDateTimeField, Field, reduxForm, RenderTextField, RenderCheckbox,
-  FieldsGroup,
+  FieldsGroup, ValidationHelpers,
 } from '@regardsoss/form-utils'
 import { CommonDomain } from '@regardsoss/domain'
 
@@ -67,6 +71,10 @@ export class OAISSettingsComponent extends React.Component {
   static contextTypes = {
     ...i18nContextType,
     ...themeContextType,
+  }
+
+  state = {
+    isHelpCronDialogOpen: false,
   }
 
   /** Lifecycle method component will mount, used here to initialize form values */
@@ -109,13 +117,53 @@ export class OAISSettingsComponent extends React.Component {
     }
   }
 
+  toggleHelpCronDialog = () => {
+    const { isHelpCronDialogOpen } = this.state
+    this.setState({
+      isHelpCronDialogOpen: !isHelpCronDialogOpen,
+    })
+  }
+
+  renderHelpCronDialog = () => {
+    const { intl: { formatMessage }, moduleTheme: { settings: { dialogExampleDivStyle } } } = this.context
+    const { isHelpCronDialogOpen } = this.state
+    return (
+      <Dialog
+        open={isHelpCronDialogOpen}
+        title={formatMessage({ id: 'oais.settings.dialog.title' })}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'oais.settings.dialog.close' })}
+            primary
+            onClick={this.toggleHelpCronDialog}
+          />
+        </>}
+        modal
+      >
+        {
+          formatMessage({ id: 'oais.settings.field.cron.help.message' })
+        }
+        <div style={dialogExampleDivStyle}>
+          {
+            formatMessage({ id: 'oais.settings.field.cron.help.message.example' },
+              {
+                ul: (chunks) => <ul>{chunks}</ul>,
+                li: (chunks) => <li><span>{chunks}</span></li>,
+              })
+          }
+        </div>
+      </Dialog>
+    )
+  }
+
   render() {
     const {
       submitting, pristine, invalid,
       handleSubmit, onBack, settings, editedActiveNotification,
       editedLastDumpReqDate, editedDumpParameters,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, cronDivStyle, settingDivAlt } } } = this.context
     const isDumpParametersDisabled = isDisabled(settings, SETTINGS.DUMP_PARAMETERS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -152,7 +200,7 @@ export class OAISSettingsComponent extends React.Component {
                 disabled={isDisabled(settings, SETTINGS.LAST_DUMP_REQ_DATE)}
               />
             </div>
-            <div style={settingDiv}>
+            <div style={settingDivAlt}>
               <ClearSettingFieldButton
                 onClick={() => this.onClearInput(SETTINGS.DUMP_PARAMETERS)}
                 isDefaultValue={isDefaultValue(settings, SETTINGS.DUMP_PARAMETERS, editedDumpParameters)}
@@ -169,14 +217,17 @@ export class OAISSettingsComponent extends React.Component {
                   fullWidth
                   disabled={isDumpParametersDisabled}
                 />
-                <Field
-                  name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
-                  component={RenderTextField}
-                  label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.cronTrigger' })}
-                  fullWidth
-                  disabled={isDumpParametersDisabled}
-                  help={OAISSettingsComponent.CRON_HELP}
-                />
+                <div style={cronDivStyle}>
+                  <Field
+                    name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'oais.settings.fieldgroup.dumpParameters.cronTrigger' })}
+                    fullWidth
+                    disabled={isDumpParametersDisabled}
+                    validate={ValidationHelpers.isValidCronExp}
+                  />
+                  <IconButton onClick={this.toggleHelpCronDialog}><HelpCircle /></IconButton>
+                </div>
                 <Field
                   name={`${SETTINGS.DUMP_PARAMETERS}.dumpLocation`}
                   component={RenderTextField}
@@ -186,6 +237,7 @@ export class OAISSettingsComponent extends React.Component {
                 />
               </FieldsGroup>
             </div>
+            {this.renderHelpCronDialog()}
           </CardText>
           <CardActions>
             <CardActionsComponent

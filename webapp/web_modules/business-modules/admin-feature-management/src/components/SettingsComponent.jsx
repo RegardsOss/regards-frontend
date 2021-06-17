@@ -25,6 +25,10 @@ import { connect } from '@regardsoss/redux'
 import {
   Card, CardText, CardTitle, CardActions,
 } from 'material-ui/Card'
+import RaisedButton from 'material-ui/RaisedButton'
+import Dialog from 'material-ui/Dialog'
+import IconButton from 'material-ui/IconButton'
+import HelpCircle from 'mdi-material-ui/HelpCircle'
 import { CardActionsComponent, ClearSettingFieldButton } from '@regardsoss/components'
 import {
   RenderDateTimeField, Field, reduxForm, RenderTextField, ValidationHelpers, RenderCheckbox,
@@ -69,6 +73,10 @@ export class SettingsComponent extends React.Component {
     ...themeContextType,
   }
 
+  state = {
+    isHelpCronDialogOpen: false,
+  }
+
   /** Lifecycle method component will mount, used here to initialize form values */
   UNSAFE_componentWillMount() {
     const { initialize, settings } = this.props
@@ -109,13 +117,53 @@ export class SettingsComponent extends React.Component {
     }
   }
 
+  toggleHelpCronDialog = () => {
+    const { isHelpCronDialogOpen } = this.state
+    this.setState({
+      isHelpCronDialogOpen: !isHelpCronDialogOpen,
+    })
+  }
+
+  renderHelpCronDialog = () => {
+    const { intl: { formatMessage }, moduleTheme: { settings: { dialogExampleDivStyle } } } = this.context
+    const { isHelpCronDialogOpen } = this.state
+    return (
+      <Dialog
+        open={isHelpCronDialogOpen}
+        title={formatMessage({ id: 'feature.settings.dialog.title' })}
+        actions={<>
+          <RaisedButton
+            key="close"
+            label={formatMessage({ id: 'feature.settings.dialog.close' })}
+            primary
+            onClick={this.toggleHelpCronDialog}
+          />
+        </>}
+        modal
+      >
+        {
+          formatMessage({ id: 'feature.settings.field.cron.help.message' })
+        }
+        <div style={dialogExampleDivStyle}>
+          {
+            formatMessage({ id: 'feature.settings.field.cron.help.message.example' },
+              {
+                ul: (chunks) => <ul>{chunks}</ul>,
+                li: (chunks) => <li><span>{chunks}</span></li>,
+              })
+          }
+        </div>
+      </Dialog>
+    )
+  }
+
   render() {
     const {
       submitting, pristine, invalid,
       handleSubmit, onBack, settings, editedActiveNotification,
       editedLastDumpReqDate, editedDumpParameters,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, cronDivStyle, settingDivAlt } } } = this.context
     const isDumpParametersDisabled = isDisabled(settings, SETTINGS.DUMP_PARAMETERS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -129,6 +177,7 @@ export class SettingsComponent extends React.Component {
               <ClearSettingFieldButton
                 onClick={() => this.onClearInput(SETTINGS.ACTIVE_NOTIFICATION)}
                 isDefaultValue={isDefaultValue(settings, SETTINGS.ACTIVE_NOTIFICATION, editedActiveNotification)}
+                addAlternateStyle
               />
               <Field
                 name={SETTINGS.ACTIVE_NOTIFICATION}
@@ -151,7 +200,7 @@ export class SettingsComponent extends React.Component {
                 disabled={isDisabled(settings, SETTINGS.LAST_DUMP_REQ_DATE)}
               />
             </div>
-            <div style={settingDiv}>
+            <div style={settingDivAlt}>
               <ClearSettingFieldButton
                 onClick={() => this.onClearInput(SETTINGS.DUMP_PARAMETERS)}
                 isDefaultValue={isDefaultValue(settings, SETTINGS.DUMP_PARAMETERS, editedDumpParameters)}
@@ -168,24 +217,28 @@ export class SettingsComponent extends React.Component {
                   fullWidth
                   disabled={isDumpParametersDisabled}
                 />
-                <Field
-                  name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
-                  component={RenderTextField}
-                  label={formatMessage({ id: 'feature.settings.fieldgroup.dumpParameters.cronTrigger' })}
-                  fullWidth
-                  disabled={isDumpParametersDisabled}
-                />
+                <div style={cronDivStyle}>
+                  <Field
+                    name={`${SETTINGS.DUMP_PARAMETERS}.cronTrigger`}
+                    component={RenderTextField}
+                    label={formatMessage({ id: 'feature.settings.fieldgroup.dumpParameters.cronTrigger' })}
+                    fullWidth
+                    disabled={isDumpParametersDisabled}
+                    validate={ValidationHelpers.isValidCronExp}
+                  />
+                  <IconButton onClick={this.toggleHelpCronDialog}><HelpCircle /></IconButton>
+                </div>
                 <Field
                   name={`${SETTINGS.DUMP_PARAMETERS}.dumpLocation`}
                   component={RenderTextField}
                   label={formatMessage({ id: 'feature.settings.fieldgroup.dumpParameters.dumpLocation' })}
-                  validate={ValidationHelpers.isValidAbsolutePath}
                   fullWidth
                   disabled={isDumpParametersDisabled}
                 />
               </FieldsGroup>
             </div>
           </CardText>
+          {this.renderHelpCronDialog()}
           <CardActions>
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'feature.settings.action.confirm' })}

@@ -34,5 +34,9 @@ export default (theme) => ({
     settingDiv: {
       display: 'flex',
     },
+    settingDivAlt: {
+      display: 'flex',
+      marginTop: '20px',
+    },
   },
 })

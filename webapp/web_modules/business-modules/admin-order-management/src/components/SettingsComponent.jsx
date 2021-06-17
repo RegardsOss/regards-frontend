@@ -119,7 +119,7 @@ export class SettingsComponent extends React.Component {
       submitting, pristine, invalid, editedAppSubOrderDuration,
       handleSubmit, onBack, settings, editedUserOrderParameters,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, settingDivAlt } } } = this.context
     const isUserOrderParametersDisabled = isDisabled(settings, SETTINGS.USER_ORDER_PARAMETERS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -143,7 +143,7 @@ export class SettingsComponent extends React.Component {
                 disabled={isDisabled(settings, SETTINGS.APP_SUB_ORDER_DURATION)}
               />
             </div>
-            <div style={settingDiv}>
+            <div style={settingDivAlt}>
               <ClearSettingFieldButton
                 onClick={() => this.onClearInput(SETTINGS.USER_ORDER_PARAMETERS)}
                 isDefaultValue={isDefaultValue(settings, SETTINGS.USER_ORDER_PARAMETERS, editedUserOrderParameters)}

@@ -23,7 +23,7 @@ import isNaN from 'lodash/isNaN'
 import isString from 'lodash/isString'
 import isNumber from 'lodash/isNumber'
 import BigNumber from 'bignumber.js'
-import { isValidCron } from 'cron-validator'
+import cron from 'cron-validate'
 import { validURLRegexp, relativeURLRegexp, validURIRegexp } from '@regardsoss/domain/common'
 import ErrorTypes from './ErrorTypes'
 
@@ -32,7 +32,7 @@ import ErrorTypes from './ErrorTypes'
  * @param {String} cron
  * @returns
  */
-const isValidCronExp = (cron) => !isNil(cron) && isValidCron(cron) ? undefined : ErrorTypes.INVALID_CRON
+const isValidCronExp = (cronExp) => !isNil(cronExp) && cron(cronExp, { preset: 'default', override: { useSeconds: true, useAliases: true } }).isValid() ? undefined : ErrorTypes.INVALID_CRON
 
 /**
  * Returns {@code true} if the passed String matches an email format.

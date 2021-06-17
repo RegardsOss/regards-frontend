@@ -219,6 +219,18 @@ const aipManagementStyles = (theme) => ({
     settingDiv: {
       display: 'flex',
     },
+    settingDivAlt: {
+      display: 'flex',
+      marginTop: '20px',
+    },
+    cronDivStyle: {
+      display: 'flex',
+      flexDirection: 'row',
+    },
+    dialogExampleDivStyle: {
+      marginTop: '10px',
+      marginLeft: '20px',
+    },
   },
 })
 
