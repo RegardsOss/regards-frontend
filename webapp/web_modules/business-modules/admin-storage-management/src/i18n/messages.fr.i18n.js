@@ -118,8 +118,10 @@ const messages = {
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
 
-  'storage.settings.title': 'Paramètres de stockage des fichiers téléversés pour les jeux de données et les collections',
+  'storage.settings.title': 'Paramètres de stockage',
   'storage.settings.subtitle': 'Configurez les parametres',
+  'storage.settings.fieldgroup.file.title': 'Paramètres de stockage des fichiers téléversés pour les jeux de données et le collections',
+  'storage.settings.fieldgroup.cache.title': 'Paramètres du cache',
   'storage.settings.field.storeFiles': 'Sauvegarder les fichiers',
   'storage.settings.field.cacheMaxSize': 'Taille maximale du cache (en ko)',
   'storage.settings.field.tenantCachePath': 'Chemin du cache',

@@ -118,6 +118,15 @@ const storageManagementStyles = (theme) => ({
     settingDiv: {
       display: 'flex',
     },
+    settingTitleStyle: {
+      marginLeft: '64px',
+      fontSize: '1.2em',
+    },
+    settingTitleAltStyle: {
+      marginLeft: '64px',
+      marginTop: '20px',
+      fontSize: '1.2em',
+    },
   },
 })
 

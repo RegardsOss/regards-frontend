@@ -118,8 +118,10 @@ const messages = {
   'storage.type.NEARLINE': 'Nearline',
   'storage.type.CACHE': 'Cache',
 
-  'storage.settings.title': 'Storage settings for datasets and collections uploaded files',
+  'storage.settings.title': 'Storage settings',
   'storage.settings.subtitle': 'Configure settings',
+  'storage.settings.fieldgroup.file.title': 'Storage settings for datasets and collections uploaded files',
+  'storage.settings.fieldgroup.cache.title': 'Cache settings',
   'storage.settings.field.storeFiles': 'Save files',
   'storage.settings.field.cacheMaxSize': 'Cache max size (kB)',
   'storage.settings.field.tenantCachePath': 'Cache path',

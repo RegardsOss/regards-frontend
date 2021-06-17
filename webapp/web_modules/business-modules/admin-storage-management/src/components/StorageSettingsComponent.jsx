@@ -111,7 +111,7 @@ export class StorageSettingsComponent extends React.Component {
       handleSubmit, onBack, storages, editedStoreFiles, editedCacheMaxSize,
       editedStorageLocation, editedStorageSubDirectory, editedTenantCachePath,
     } = this.props
-    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { settings: { settingDiv, settingTitleStyle, settingTitleAltStyle } } } = this.context
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <Card>
@@ -120,6 +120,11 @@ export class StorageSettingsComponent extends React.Component {
             subtitle={formatMessage({ id: 'storage.settings.subtitle' })}
           />
           <CardText>
+            <div style={settingTitleStyle}>
+              {
+                formatMessage({ id: 'storage.settings.fieldgroup.file.title' })
+              }
+            </div>
             <div style={settingDiv}>
               <ClearSettingFieldButton
                 onClick={() => this.onClearInput(settings, SETTINGS_ENUM.STORE_FILES)}
@@ -165,10 +170,15 @@ export class StorageSettingsComponent extends React.Component {
               <Field
                 name={SETTINGS_ENUM.STORAGE_SUB_DIRECTORY}
                 component={RenderTextField}
-                label={formatMessage({ id: 'storage.settings.field.storageSubdirectory' })}
+                label={formatMessage({ id: 'storage.settings.fieldgroup.cache.title' })}
                 disabled={isDisabled(settings, SETTINGS_ENUM.STORAGE_SUB_DIRECTORY)}
                 fullWidth
               />
+            </div>
+            <div style={settingTitleAltStyle}>
+              {
+                formatMessage({ id: 'storage.settings.fieldgroup.file.title' })
+              }
             </div>
             <div style={settingDiv}>
               <ClearSettingFieldButton
