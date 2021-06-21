@@ -22,6 +22,7 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import { themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
+import { i18nContextType } from '@regardsoss/i18n'
 import IconButton from 'material-ui/IconButton'
 import Chip from 'material-ui/Chip'
 import Running from 'mdi-material-ui/PlayCircleOutline'
@@ -45,6 +46,7 @@ class DisplayIconsComponent extends React.Component {
   }
 
   static contextTypes = {
+    ...i18nContextType,
     ...themeContextType,
   }
 
@@ -60,6 +62,7 @@ class DisplayIconsComponent extends React.Component {
   // Display icon in session step title
   displayIcon = (iconType) => {
     const {
+      intl: { formatMessage },
       moduleTheme: { dashboardStyle: { tableStyle: { overlayStyle } }, displayIconsComponentStyle: { displayIconDivStyle } },
     } = this.context
     let iconComponent
@@ -75,7 +78,7 @@ class DisplayIconsComponent extends React.Component {
         break
       default:
     }
-    return <div style={displayIconDivStyle}>
+    return <div style={displayIconDivStyle} title={formatMessage({ id: `dashboard.table.icon.tooltip.${iconType}` })}>
       {iconComponent}
     </div>
   }
@@ -101,7 +104,7 @@ class DisplayIconsComponent extends React.Component {
 
   displayIconWithCount = (iconType) => {
     const {
-      moduleTheme: { dashboardStyle: { tableStyle: { overlayStyle } }, displayIconsComponentStyle: { displayNone } },
+      intl: { formatMessage }, moduleTheme: { dashboardStyle: { tableStyle: { overlayStyle } }, displayIconsComponentStyle: { displayNone } },
     } = this.context
     let iconComponent
     const elementCount = this.getElementCount(iconType)
@@ -117,11 +120,10 @@ class DisplayIconsComponent extends React.Component {
         break
       default:
     }
-    return (<div style={overlayStyle.iconDivStyle}>
+    return (<div style={overlayStyle.iconDivStyle} title={formatMessage({ id: `dashboard.table.icon.tooltip.${iconType}` })}>
       <IconButton
-        // disabled
+        disabled
         style={overlayStyle.iconButton.style}
-        tooltip="TEST"
       />
       <div style={overlayStyle.style}>
         <Chip

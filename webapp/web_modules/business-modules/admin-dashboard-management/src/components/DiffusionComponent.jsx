@@ -65,7 +65,7 @@ class DiffusionComponent extends React.Component {
       style = listItemStyle
     }
     if (property === DIFFUSION_PROPERTIES_ENUM.INDEXED_ERROR) {
-      style = listItemErrorStyle
+      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
     return (
       <ListItem
