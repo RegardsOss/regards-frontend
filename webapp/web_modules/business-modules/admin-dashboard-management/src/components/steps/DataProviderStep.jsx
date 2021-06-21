@@ -83,12 +83,12 @@ class DataProviderStep extends React.Component {
     } = this.context
     let propValue = get(sessionStep, `properties.${property}`, false)
     let style = listItemNoValueStyle
+    if (propValue > 0) {
+      style = listItemStyle
+    }
     if (property === DATA_PROVIDER_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
       propValue = get(sessionStep, 'properties.generationError', 0) + get(sessionStep, 'properties.ingestionFailed', 0)
       style = listItemErrorStyle
-    }
-    if (propValue > 0) {
-      style = listItemStyle
     }
     return (
       <ListItem

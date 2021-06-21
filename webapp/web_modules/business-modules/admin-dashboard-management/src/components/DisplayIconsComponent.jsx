@@ -50,12 +50,10 @@ class DisplayIconsComponent extends React.Component {
 
   getValue = (entity, iconType, displayIconType) => (displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT ? get(entity, `content.managerState.${iconType}`, false) : get(entity, `state.${iconType}`, 0))
 
-  displayIcons = (errors, waitings, runnings) => {
+  displayIcons = (runnings) => {
     const { moduleTheme: { displayIconsComponentStyle: { displayIconsDivStyle } } } = this.context
     return (<div style={displayIconsDivStyle}>
       {runnings ? this.displayIcon(ICON_TYPE_ENUM.RUNNING) : null}
-      {waitings !== 0 ? this.displayIcon(ICON_TYPE_ENUM.WAITING) : null}
-      {errors !== 0 ? this.displayIcon(ICON_TYPE_ENUM.ERRORS) : null}
     </div>)
   }
 
@@ -147,7 +145,7 @@ class DisplayIconsComponent extends React.Component {
         {
           displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT
             ? this.displayIconsWithCount(errors, waitings, runnings)
-            : this.displayIcons(errors, waitings, runnings)
+            : this.displayIcons(runnings)
         }
       </div>
     )

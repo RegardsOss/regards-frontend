@@ -46,12 +46,7 @@ import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
-
-const SOURCE_FILTER_PARAMS = {
-  NAME: 'sourceName',
-  STATUS: 'sourceState',
-}
-
+import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 /**
  * SourcesComponent
  * @author Théo Lasserre

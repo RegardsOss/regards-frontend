@@ -46,11 +46,7 @@ import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
-
-const SESSION_FILTER_PARAMS = {
-  NAME: 'sessionName',
-  STATUS: 'sessionState',
-}
+import { SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
   * SessionsComponent

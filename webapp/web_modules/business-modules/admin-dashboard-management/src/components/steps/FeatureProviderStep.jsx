@@ -108,11 +108,11 @@ class FeatureProviderStep extends React.Component {
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
     let style = listItemNoValueStyle
-    if (property === FEATURE_PROVIDER_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = listItemErrorStyle
-    }
     if (propValue > 0) {
       style = listItemStyle
+    }
+    if (property === FEATURE_PROVIDER_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = listItemErrorStyle
     }
     return (
       <ListItem

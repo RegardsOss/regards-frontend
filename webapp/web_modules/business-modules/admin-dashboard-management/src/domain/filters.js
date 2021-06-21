@@ -17,18 +17,12 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import values from 'lodash/values'
-
-export const STORAGE_PROPERTIES_ENUM = {
-  REFERENCE_REQUESTS: 'referenceRequests',
-  STORE_REQUESTS: 'storeRequests',
-  COPY_REQUESTS: 'copyRequests',
-  DELETE_REQUESTS: 'deleteRequests',
-  REQUESTS_REFUSED: 'requestsRefused',
-  REQUESTS_ERRORS: 'requestsErrors',
-  STORED_FILES: 'storedFiles',
-  REFERENCED_FILES: 'referencedFiles',
-  DELETED_FILES: 'deletedFiles',
+export const SESSION_FILTER_PARAMS = {
+  NAME: 'sessionName',
+  STATUS: 'sessionState',
 }
 
-export const STORAGE_PROPERTIES = values(STORAGE_PROPERTIES_ENUM)
+export const SOURCE_FILTER_PARAMS = {
+  NAME: 'sourceName',
+  STATUS: 'sourceState',
+}

@@ -25,6 +25,7 @@ import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import FeatureProviderStep from './steps/FeatureProviderStep'
 import DataProviderStep from './steps/DataProviderStep'
+import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 const ACQUISITION_TYPE = {
   EXTRACT: 'extract',
@@ -62,6 +63,7 @@ class AcquisitionComponent extends React.Component {
     } = this.context
     const inputRelated = get(sessionStep, 'inputRelated', 0)
     const outputRelated = get(sessionStep, 'outputRelated', 0)
+    const running = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
@@ -71,10 +73,12 @@ class AcquisitionComponent extends React.Component {
               titleStyle={cardTitleTextStyle}
               style={cardTitleStyle}
             />
-            <DisplayIconsComponent
-              entity={sessionStep}
-              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-            />
+            { running !== 0
+              ? <DisplayIconsComponent
+                  entity={sessionStep}
+                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+              />
+              : null}
           </div>
           <CardText>
             {sessionStep.stepId === ACQUISITION_TYPE.EXTRACT

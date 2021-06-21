@@ -28,6 +28,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { DIFFUSION_PROPERTIES, DIFFUSION_PROPERTIES_ENUM } from '../domain/diffusionProperties'
+import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 /**
  * DiffusionComponent
@@ -60,11 +61,11 @@ class DiffusionComponent extends React.Component {
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
     let style = listItemNoValueStyle
-    if (property === DIFFUSION_PROPERTIES_ENUM.INDEXED_ERROR) {
-      style = listItemErrorStyle
-    }
     if (propValue > 0) {
       style = listItemStyle
+    }
+    if (property === DIFFUSION_PROPERTIES_ENUM.INDEXED_ERROR) {
+      style = listItemErrorStyle
     }
     return (
       <ListItem
@@ -88,6 +89,7 @@ class DiffusionComponent extends React.Component {
     } = this.context
     const inputRelated = get(sessionStep, 'inputRelated', 0)
     const outputRelated = get(sessionStep, 'outputRelated', 0)
+    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
@@ -97,10 +99,12 @@ class DiffusionComponent extends React.Component {
               titleStyle={cardTitleTextStyle}
               style={cardTitleStyle}
             />
-            <DisplayIconsComponent
-              entity={sessionStep}
-              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-            />
+            { runnings !== 0
+              ? <DisplayIconsComponent
+                  entity={sessionStep}
+                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+              />
+              : null}
           </div>
           <CardText style={cardContentStyle}>
             <div style={listItemDivStyle}>

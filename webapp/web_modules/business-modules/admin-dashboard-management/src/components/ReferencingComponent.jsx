@@ -25,6 +25,7 @@ import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import FeatureManagerStep from './steps/FeatureManagerStep'
 import IngestStep from './steps/IngestStep'
+import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 const REFERENCING_TYPE = {
   FEATURE: 'feature',
@@ -62,6 +63,7 @@ class ReferencingComponent extends React.Component {
     } = this.context
     const inputRelated = get(sessionStep, 'inputRelated', 0)
     const outputRelated = get(sessionStep, 'outputRelated', 0)
+    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
@@ -71,10 +73,12 @@ class ReferencingComponent extends React.Component {
               titleStyle={cardTitleTextStyle}
               style={cardTitleStyle}
             />
-            <DisplayIconsComponent
-              entity={sessionStep}
-              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-            />
+            { runnings !== 0
+              ? <DisplayIconsComponent
+                  entity={sessionStep}
+                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+              />
+              : null}
           </div>
           <CardText>
             {sessionStep.stepId === REFERENCING_TYPE.FEATURE

@@ -33,6 +33,7 @@ import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
 import { requestRetryActions } from '../clients/RequestRetryClient'
 import DashboardComponent from '../components/DashboardComponent'
+import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import messages from '../i18n'
 import styles from '../styles'
@@ -197,7 +198,7 @@ export class DashboardContainer extends React.Component {
   fetchSelectedSource = (source, sessionFilters) => {
     const { fetchSessions } = this.props
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
-    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, source: source ? source.content.name : null })
+    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: source ? source.content.name : null })
     this.setState({
       selectedSource: source,
     })

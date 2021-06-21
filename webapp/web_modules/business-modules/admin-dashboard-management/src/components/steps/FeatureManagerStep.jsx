@@ -89,12 +89,12 @@ class FeatureManagerStep extends React.Component {
     } = this.context
     let propValue = get(sessionStep, `properties.${property}`, false)
     let style = listItemNoValueStyle
+    if (propValue > 0) {
+      style = listItemStyle
+    }
     if (property === FEM_PROPERTIES_ENUM.REQUESTS_ERRORS) {
       propValue = get(sessionStep, 'properties.inErrorReferencingRequests', 0) + get(sessionStep, 'properties.inErrorDeleteRequests', 0) + get(sessionStep, 'properties.inErrorUpdateRequests', 0) + get(sessionStep, 'properties.inErrorNotifyRequests', 0)
       style = listItemErrorStyle
-    }
-    if (propValue > 0) {
-      style = listItemStyle
     }
     return (
       <ListItem

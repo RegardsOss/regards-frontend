@@ -167,7 +167,7 @@ const dashboardManagementStyles = (theme) => ({
         marginRight: '10px',
       },
       selectFieldStyle: {
-        width: '148px',
+        width: '105px',
       },
     },
   },
@@ -203,34 +203,18 @@ const dashboardManagementStyles = (theme) => ({
     },
     listItemStyle: {
       padding: '5px',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      width: '215px',
     },
     listItemErrorStyle: {
       padding: '5px',
       color: 'red',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      width: '215px',
     },
     listItemNoValueStyle: {
       padding: '5px',
       color: 'grey',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      width: '215px',
     },
     listItemWaitStyle: {
       padding: '5px',
       color: 'yellow',
-      whiteSpace: 'nowrap',
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      width: '215px',
     },
     listItemWithSpace: {
       marginTop: '10px',

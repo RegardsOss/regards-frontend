@@ -28,6 +28,7 @@ import { i18nContextType } from '@regardsoss/i18n'
 import { STORAGE_PROPERTIES, STORAGE_PROPERTIES_ENUM } from '../domain/storageProperties'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
+import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 /**
  * ArchivalComponent
@@ -60,11 +61,11 @@ class ArchivalComponent extends React.Component {
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
     let style = listItemNoValueStyle
-    if (property === STORAGE_PROPERTIES_ENUM.REQUESTS_ERRORs) {
-      style = listItemErrorStyle
-    }
     if (propValue > 0) {
       style = listItemStyle
+    }
+    if (property === STORAGE_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = listItemErrorStyle
     }
     return (
       <ListItem
@@ -73,7 +74,6 @@ class ArchivalComponent extends React.Component {
         disabled
         style={style}
       />
-
     )
   }
 
@@ -114,6 +114,7 @@ class ArchivalComponent extends React.Component {
     } = this.context
     const inputRelated = get(sessionStep, 'inputRelated', 0)
     const outputRelated = get(sessionStep, 'outputRelated', 0)
+    const runnings = get(sessionStep, `state.${ICON_TYPE_ENUM.RUNNING}`, 0)
     return (
       sessionStep
         ? <Card style={cardStyle}>
@@ -123,10 +124,12 @@ class ArchivalComponent extends React.Component {
               titleStyle={cardTitleTextStyle}
               style={cardTitleStyle}
             />
-            <DisplayIconsComponent
-              entity={sessionStep}
-              displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
-            />
+            { runnings !== 0
+              ? <DisplayIconsComponent
+                  entity={sessionStep}
+                  displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
+              />
+              : null }
           </div>
           <CardText>
             {this.displayStorage()}

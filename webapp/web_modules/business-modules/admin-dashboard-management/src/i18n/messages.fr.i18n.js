@@ -58,7 +58,7 @@ const messages = {
   'dashboard.selectedsession.refresh': 'Rafraichir',
   'dashboard.selectedsession.dialog.delete.title': 'Supprimer les produits de la session {sessionName} ?',
   'dashboard.selectedsession.dialog.retry.title': 'Voulez vous relancer les erreurs ?',
-  'dashboard.selectedsession.acquisition.title': 'Acquisition {nbIn}/{nbOut}',
+  'dashboard.selectedsession.acquisition.title': 'Acquisition {nbIn} -> {nbOut}',
   'dashboard.selectedsession.acquisition.fp.totalRequests': 'Demandes d\'acquisition : {value}',
   'dashboard.selectedsession.acquisition.fp.requestsErrors': 'Demandes en erreur : {value}',
   'dashboard.selectedsession.acquisition.fp.generatedProducts': 'Produits acquis : {value}',
@@ -77,7 +77,7 @@ const messages = {
   'dashboard.selectedsession.acquisition.dp.dialog.button.close': 'Fermer',
   'dashboard.selectedsession.acquisition.dp.dialog.table.column.name': 'Nom',
   'dashboard.selectedsession.acquisition.dp.dialog.table.column.error': 'Erreur',
-  'dashboard.selectedsession.referencing.title': 'Référencement {nbIn}/{nbOut}',
+  'dashboard.selectedsession.referencing.title': 'Référencement {nbIn} -> {nbOut}',
   'dashboard.selectedsession.referencing.fem.referencingRequests': 'Demandes de référencement : {value}',
   'dashboard.selectedsession.referencing.fem.deleteRequests': 'Demandes de suppression : {value}',
   'dashboard.selectedsession.referencing.fem.updateRequests': 'Demandes de mise à jour : {value}',
@@ -101,7 +101,7 @@ const messages = {
   'dashboard.selectedsession.referencing.ingest.button.see-waiting': 'Voir en attente',
   'dashboard.selectedsession.referencing.ingest.button.see-errors': 'Voir les erreurs',
   'dashboard.selectedsession.referencing.ingest.button.retry-errors': 'Relancer les erreurs',
-  'dashboard.selectedsession.storage.title': 'Archivage {nbIn}/{nbOut}',
+  'dashboard.selectedsession.storage.title': 'Archivage {nbIn} -> {nbOut}',
   'dashboard.selectedsession.storage.referenceRequests': 'Demandes de référencement : {value}',
   'dashboard.selectedsession.storage.storeRequests': 'Demandes d\'archivage : {value}',
   'dashboard.selectedsession.storage.copyRequests': 'Demandes de copie : {value}',
@@ -112,7 +112,7 @@ const messages = {
   'dashboard.selectedsession.storage.referencedFiles': 'Fichiers référencés : {value}',
   'dashboard.selectedsession.storage.deletedFiles': 'Fichiers supprimés : {value}',
   'dashboard.selectedsession.storage.button.see-stockage': 'Visualiser les espaces de stockage',
-  'dashboard.selectedsession.diffusion.title': 'Diffusion {nbIn}/{nbOut}',
+  'dashboard.selectedsession.diffusion.title': 'Diffusion {nbIn} -> {nbOut}',
   'dashboard.selectedsession.diffusion.indexed': 'Produits diffusés : {value}',
   'dashboard.selectedsession.diffusion.indexedError': 'Erreurs : {value}',
   'dashboard.selectedsession.diffusion.button.see-detail': 'Voir le détail',
@@ -122,13 +122,19 @@ const messages = {
 
 export default messages
 
-// propriété -> si 0 -> couleur grise -> OK
-// aligner les boutons en bas -> OK
-// propriété -> les en attentes = en jaune, les en erreurs = en rouge -> OK
-// step ingest ajouter espace au dessus de nouvelle versions -> OK
-// icone running en vert -> OK
-
-// 1 seul bouton rafraichir qui rafraichi tout
-// reduire taille tableau du dashboard
+// propriété  ->  si 0  ->  couleur grise  ->  OK
+// aligner les boutons en bas  ->  OK
+// propriété  ->  les en attentes = en jaune, les en erreurs = en rouge  ->  OK
+// step ingest ajouter espace au dessus de nouvelle versions  ->  OK
+// icone running en vert  ->  OK
+// 1 seul bouton rafraichir qui rafraichi tout -> OK
+// reduire taille tableau du dashboard -> OK
+// juste icone running dans les steps -> OK
 
 // AJOUTER RELANCER LES ERREURS DE STOCKAGE
+// ... fin labels steps
+// changer les couleurs
+
+// sélection filtre session = session sélectionnée
+// flush les filtres lors du umount
+// si le filtre de source change -> reset liste session (flush table session ?)
