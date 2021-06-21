@@ -86,8 +86,12 @@ class DataProviderStep extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
+    if (property === DATA_PROVIDER_PROPERTIES_ENUM.GENERATED_PRODUCTS) {
+      propValue = +get(sessionStep, 'properties.generatedProducts', 0) + +get(sessionStep, 'properties.ingested', 0)
+      style = listItemStyle
+    }
     if (property === DATA_PROVIDER_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
-      propValue = get(sessionStep, 'properties.generationError', 0) + get(sessionStep, 'properties.ingestionFailed', 0)
+      propValue = +get(sessionStep, 'properties.generationError', 0) + +get(sessionStep, 'properties.ingestionFailed', 0)
       style = listItemErrorStyle
     }
     return (

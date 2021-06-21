@@ -93,7 +93,7 @@ class FeatureManagerStep extends React.Component {
       style = listItemStyle
     }
     if (property === FEM_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      propValue = get(sessionStep, 'properties.inErrorReferencingRequests', 0) + get(sessionStep, 'properties.inErrorDeleteRequests', 0) + get(sessionStep, 'properties.inErrorUpdateRequests', 0) + get(sessionStep, 'properties.inErrorNotifyRequests', 0)
+      propValue = +get(sessionStep, 'properties.inErrorReferencingRequests', 0) + +get(sessionStep, 'properties.inErrorDeleteRequests', 0) + +get(sessionStep, 'properties.inErrorUpdateRequests', 0) + +get(sessionStep, 'properties.inErrorNotifyRequests', 0)
       style = listItemErrorStyle
     }
     return (

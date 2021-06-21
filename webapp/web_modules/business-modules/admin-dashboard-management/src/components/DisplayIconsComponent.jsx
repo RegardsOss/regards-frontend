@@ -119,8 +119,9 @@ class DisplayIconsComponent extends React.Component {
     }
     return (<div style={overlayStyle.iconDivStyle}>
       <IconButton
-        disabled
+        // disabled
         style={overlayStyle.iconButton.style}
+        tooltip="TEST"
       />
       <div style={overlayStyle.style}>
         <Chip

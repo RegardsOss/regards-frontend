@@ -130,11 +130,13 @@ export default messages
 // 1 seul bouton rafraichir qui rafraichi tout -> OK
 // reduire taille tableau du dashboard -> OK
 // juste icone running dans les steps -> OK
+// flush les filtres lors du umount -> OK ?
 
 // AJOUTER RELANCER LES ERREURS DE STOCKAGE
 // ... fin labels steps
 // changer les couleurs
-
+// step -> test regrouper properties
 // sélection filtre session = session sélectionnée
-// flush les filtres lors du umount
 // si le filtre de source change -> reset liste session (flush table session ?)
+// tooltip icon (erreur, en cours, en attente)
+// demande en attente + en erreur -> grisé si 0

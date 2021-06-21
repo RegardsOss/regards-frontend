@@ -180,7 +180,9 @@ export class DashboardContainer extends React.Component {
     const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
     fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters })
     fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters })
-    fetchSelectedSession(selectedSession.content.id)
+    if (selectedSession) {
+      fetchSelectedSession(selectedSession.content.id)
+    }
   }
 
   onDeleteSession = (sessionId, sourceFilters, sessionFilters) => {
