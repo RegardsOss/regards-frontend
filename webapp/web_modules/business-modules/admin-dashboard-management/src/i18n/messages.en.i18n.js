@@ -25,6 +25,9 @@ const messages = {
   'dashboard.title': 'Dashboard',
   'dashboard.refresh': 'Refresh',
   'dashboard.back': 'Back',
+  'dashboard.table.icon.tooltip.running': 'Running',
+  'dashboard.table.icon.tooltip.waiting': 'Waiting',
+  'dashboard.table.icon.tooltip.errors': 'Error',
 
   // Sources
   'dashboard.sources.table.column.sourceName': 'Name',

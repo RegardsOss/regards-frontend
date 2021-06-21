@@ -85,9 +85,9 @@ class IngestStep extends React.Component {
       style = listItemStyle
     }
     if (property === INGEST_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = listItemErrorStyle
+      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     } else if (property === INGEST_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
-      style = listItemWaitStyle
+      style = propValue > 0 ? listItemWaitStyle : listItemNoValueStyle
     } else if (property === INGEST_PROPERTIES_ENUM.NEW_PRODUCT_VERSIONS) {
       style = {
         ...style,

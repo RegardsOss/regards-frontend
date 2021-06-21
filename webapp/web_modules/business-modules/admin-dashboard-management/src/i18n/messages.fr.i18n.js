@@ -25,6 +25,9 @@ const messages = {
   'dashboard.title': 'Tableau de bord',
   'dashboard.refresh': 'Rafraichir',
   'dashboard.back': 'Retour',
+  'dashboard.table.icon.tooltip.running': 'En cours',
+  'dashboard.table.icon.tooltip.waiting': 'En attente',
+  'dashboard.table.icon.tooltip.errors': 'En erreur',
 
   // Sources
   'dashboard.sources.table.column.sourceName': 'Nom',
@@ -130,13 +133,14 @@ export default messages
 // 1 seul bouton rafraichir qui rafraichi tout -> OK
 // reduire taille tableau du dashboard -> OK
 // juste icone running dans les steps -> OK
-// flush les filtres lors du umount -> OK ?
+// flush les filtres lors du umount -> OK -> pas vraiment un problème
 
 // AJOUTER RELANCER LES ERREURS DE STOCKAGE
 // ... fin labels steps
-// changer les couleurs
 // step -> test regrouper properties
 // sélection filtre session = session sélectionnée
 // si le filtre de source change -> reset liste session (flush table session ?)
+
 // tooltip icon (erreur, en cours, en attente)
 // demande en attente + en erreur -> grisé si 0
+// changer les couleurs

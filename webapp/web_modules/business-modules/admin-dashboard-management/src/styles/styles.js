@@ -95,26 +95,26 @@ const dashboardManagementStyles = (theme) => ({
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'yellow',
+            fill: '#d5d53b',
           },
           waitingAltStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'yellow',
+            fill: '#d5d53b',
             marginLeft: '10px',
           },
           errorStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'red',
+            fill: '#cb1616',
           },
           errorAltStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'red',
+            fill: '#cb1616',
             marginLeft: '10px',
           },
         },
@@ -206,7 +206,7 @@ const dashboardManagementStyles = (theme) => ({
     },
     listItemErrorStyle: {
       padding: '5px',
-      color: 'red',
+      color: '#cb1616',
     },
     listItemNoValueStyle: {
       padding: '5px',
@@ -214,7 +214,7 @@ const dashboardManagementStyles = (theme) => ({
     },
     listItemWaitStyle: {
       padding: '5px',
-      color: 'yellow',
+      color: '#d5d53b',
     },
     listItemWithSpace: {
       marginTop: '10px',

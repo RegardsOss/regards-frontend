@@ -65,7 +65,7 @@ class ArchivalComponent extends React.Component {
       style = listItemStyle
     }
     if (property === STORAGE_PROPERTIES_ENUM.REQUESTS_ERRORS) {
-      style = listItemErrorStyle
+      style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
     return (
       <ListItem
