@@ -71,7 +71,7 @@ const messages = {
   'dashboard.selectedsession.acquisition.fp.button.retry-errors': 'Relancer les erreurs',
   'dashboard.selectedsession.acquisition.dp.filesAcquired': 'Fichiers détéctés : {value}',
   'dashboard.selectedsession.acquisition.dp.incomplete': 'Produits incomplets : {value}',
-  'dashboard.selectedsession.acquisition.dp.invalid': 'Produits invalide : {value}',
+  'dashboard.selectedsession.acquisition.dp.invalid': 'Produits invalides : {value}',
   'dashboard.selectedsession.acquisition.dp.productsErrors': 'Produits en erreur : {value}',
   'dashboard.selectedsession.acquisition.dp.generatedProducts': 'Produits générés : {value}',
   'dashboard.selectedsession.acquisition.dp.button.see-errors': 'Voir les erreurs',
