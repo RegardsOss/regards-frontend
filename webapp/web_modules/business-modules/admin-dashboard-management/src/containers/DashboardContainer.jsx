@@ -171,14 +171,15 @@ export class DashboardContainer extends React.Component {
     return (DashboardContainer.PAGE_SIZE) * (lastPage + 1)
   }
 
-  onRefresh = (sourceFilters, sessionFilters) => {
+  onRefresh = (sourceFilters, sessionFilters, selectedSession) => {
     const {
-      fetchSessions, fetchSources,
+      fetchSessions, fetchSources, fetchSelectedSession,
     } = this.props
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
     const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
     fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters })
     fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters })
+    fetchSelectedSession(selectedSession.content.id)
   }
 
   onDeleteSession = (sessionId, sourceFilters, sessionFilters) => {
@@ -191,13 +192,6 @@ export class DashboardContainer extends React.Component {
         })
       }
     })
-  }
-
-  onRefreshSelectedSession = (selectedSessionId) => {
-    const {
-      fetchSelectedSession,
-    } = this.props
-    fetchSelectedSession(selectedSessionId)
   }
 
   fetchSelectedSource = (source, sessionFilters) => {
@@ -238,7 +232,6 @@ export class DashboardContainer extends React.Component {
         deleteSession={this.onDeleteSession}
         selectedSession={selectedSession}
         selectedSource={selectedSource}
-        onRefreshSelectedSession={this.onRefreshSelectedSession}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
         onFlushSelectedSession={flushSelectedSession}

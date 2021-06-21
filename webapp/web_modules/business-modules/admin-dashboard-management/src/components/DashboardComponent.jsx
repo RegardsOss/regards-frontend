@@ -41,7 +41,6 @@ class DashboardComponent extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    onRefreshSelectedSession: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
     selectedSource: AdminShapes.Source,
     fetchSelectedSession: PropTypes.func.isRequired,
@@ -111,7 +110,7 @@ class DashboardComponent extends React.Component {
   render() {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
-      onRefresh, selectedSession, onRefreshSelectedSession, selectedSource,
+      onRefresh, selectedSession, selectedSource,
     } = this.props
     const {
       intl: { formatMessage },
@@ -134,7 +133,7 @@ class DashboardComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters)}
+              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSession)}
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={getBackURL}
             />
@@ -168,7 +167,6 @@ class DashboardComponent extends React.Component {
                   deleteSession={this.onDeleteSession}
                   sourceFilters={sourceFilters}
                   sessionFilters={sessionFilters}
-                  onRefreshSelectedSession={onRefreshSelectedSession}
               />
               : null}
           </div>

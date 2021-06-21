@@ -131,7 +131,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
-      onRefreshSelectedSession: () => { },
       selectedSession: null,
       selectedSource: null,
       fetchSelectedSession: () => { },
@@ -176,7 +175,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
-      onRefreshSelectedSession: () => { },
       selectedSession,
       selectedSource: null,
       fetchSelectedSession: () => { },
@@ -199,7 +197,6 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       deleteSession: enzymeWrapper.instance().onDeleteSession,
       sourceFilters: enzymeWrapper.instance().state.sourceFilters,
       sessionFilters: enzymeWrapper.instance().state.sessionFilters,
-      onRefreshSelectedSession: props.onRefreshSelectedSession,
     }, 'Component should define the expected properties')
   })
 })

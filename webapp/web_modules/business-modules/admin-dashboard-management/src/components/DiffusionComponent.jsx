@@ -27,7 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import { DIFFUSION_PROPERTIES } from '../domain/diffusionProperties'
+import { DIFFUSION_PROPERTIES, DIFFUSION_PROPERTIES_ENUM } from '../domain/diffusionProperties'
 
 /**
  * DiffusionComponent
@@ -54,17 +54,24 @@ class DiffusionComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
         },
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
+    let style = listItemNoValueStyle
+    if (property === DIFFUSION_PROPERTIES_ENUM.INDEXED_ERROR) {
+      style = listItemErrorStyle
+    }
+    if (propValue > 0) {
+      style = listItemStyle
+    }
     return (
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.diffusion.${property}` }, { value: propValue || 0 })}
         disabled
-        style={listItemStyle}
+        style={style}
       />
     )
   }
@@ -74,8 +81,8 @@ class DiffusionComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
-          raisedListStyle,
+          cardStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
+          raisedListStyle, listItemDivStyle, cardTitleStyle,
         },
       },
     } = this.context
@@ -87,8 +94,8 @@ class DiffusionComponent extends React.Component {
           <div style={cardTitleDivStyle}>
             <CardTitle
               title={formatMessage({ id: 'dashboard.selectedsession.diffusion.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
-              style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
+              style={cardTitleStyle}
             />
             <DisplayIconsComponent
               entity={sessionStep}
@@ -96,7 +103,7 @@ class DiffusionComponent extends React.Component {
             />
           </div>
           <CardText style={cardContentStyle}>
-            <div>
+            <div style={listItemDivStyle}>
               {
                 map(DIFFUSION_PROPERTIES, (property) => (this.displayListItem(property)))
               }

@@ -24,11 +24,11 @@ export const FEM_PROPERTIES_ENUM = {
   DELETE_REQUESTS: 'deleteRequests',
   UPDATE_REQUESTS: 'updateRequests',
   NOTIFY_REQUESTS: 'notifyRequests',
+  REQUESTS_ERRORS: 'requestsErrors',
   REFERENCED_PRODUCTS: 'referencedProducts',
   DELETED_PRODUCTS: 'deletedProducts',
   UPDATED_PRODUCTS: 'updatedProducts',
   NOTIFY_PRODUCTS: 'notifyProducts',
-  REQUESTS_ERRORS: 'requestsErrors',
 }
 
 export const FEM_PROPERTIES = values(FEM_PROPERTIES_ENUM)

@@ -131,12 +131,11 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
-      onRefreshSelectedSession: () => { },
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
     const cardActionWrapper = enzymeWrapper.find(CardActionsComponent)
-    assert.lengthOf(cardActionWrapper, 2, 'There should be 2 CardActionsComponent')
+    assert.lengthOf(cardActionWrapper, 1, 'There should be 1 CardActionsComponent')
 
     const flatButtonWrapper = enzymeWrapper.find(FlatButton)
     assert.lengthOf(flatButtonWrapper, 1, 'There should be a FlatButton')

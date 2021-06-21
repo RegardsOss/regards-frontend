@@ -56,7 +56,7 @@ class AcquisitionComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleStyle, cardTitleTextStyle,
+          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle,
         },
       },
     } = this.context
@@ -68,8 +68,8 @@ class AcquisitionComponent extends React.Component {
           <div style={cardTitleDivStyle}>
             <CardTitle
               title={formatMessage({ id: 'dashboard.selectedsession.acquisition.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
-              style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
+              style={cardTitleStyle}
             />
             <DisplayIconsComponent
               entity={sessionStep}

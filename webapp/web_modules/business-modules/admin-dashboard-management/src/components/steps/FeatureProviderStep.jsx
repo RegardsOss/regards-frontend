@@ -27,7 +27,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEATURE_PROVIDER_PROPERTIES } from '../../domain/featureProviderProperties'
+import { FEATURE_PROVIDER_PROPERTIES, FEATURE_PROVIDER_PROPERTIES_ENUM } from '../../domain/featureProviderProperties'
 
 /**
  * FeatureProviderStep
@@ -97,32 +97,39 @@ class FeatureProviderStep extends React.Component {
     this.toggleRetryErrorsDialog()
   }
 
-  displayListItem = (femPropType) => {
+  displayListItem = (property) => {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
         },
       },
     } = this.context
-    const propValue = get(sessionStep, `properties.${femPropType}`, false)
+    const propValue = get(sessionStep, `properties.${property}`, false)
+    let style = listItemNoValueStyle
+    if (property === FEATURE_PROVIDER_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = listItemErrorStyle
+    }
+    if (propValue > 0) {
+      style = listItemStyle
+    }
     return (
       <ListItem
-        key={femPropType}
-        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${femPropType}` }, { value: propValue || 0 })}
+        key={property}
+        primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.fp.${property}` }, { value: propValue || 0 })}
         disabled
-        style={listItemStyle}
+        style={style}
       />
     )
   }
 
   render() {
     const { sessionStep } = this.props
-    const { intl: { formatMessage }, moduleTheme: { raisedListStyle, selectedSessionStyle: { cardContentStyle, cardButtonStyle } } } = this.context
+    const { intl: { formatMessage }, moduleTheme: { raisedListStyle, selectedSessionStyle: { cardContentStyle, cardButtonStyle, listItemDivStyle } } } = this.context
     const nbErrors = get(sessionStep, 'state.errors', 0)
     return <div style={cardContentStyle}>
-      <div>
+      <div style={listItemDivStyle}>
         {
           map(FEATURE_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
         }

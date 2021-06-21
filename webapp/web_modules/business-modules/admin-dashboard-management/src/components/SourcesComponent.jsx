@@ -160,7 +160,6 @@ class SourcesComponent extends React.Component {
             cellType: CELL_TYPE_ENUM.SOURCE,
           },
         }).titleHeaderCell()
-        .optionsSizing(9)
         .build(),
       // 2 - referenced product
       new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.REFERENCED_PRODUCTS)
@@ -169,7 +168,7 @@ class SourcesComponent extends React.Component {
           Constructor: ReferencedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
-        .optionsSizing(3)
+        .optionsSizing(2.75)
         .build(),
       // 2 - diffused product
       new TableColumnBuilder(SourcesComponent.COLUMN_KEYS.DIFFUSED_PRODUCTS)
@@ -178,7 +177,7 @@ class SourcesComponent extends React.Component {
           Constructor: DiffusedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SOURCE },
         }).titleHeaderCell()
-        .optionsSizing(3)
+        .optionsSizing(2.5)
         .build(),
     ]
 
@@ -231,6 +230,7 @@ class SourcesComponent extends React.Component {
               pageSize={SourcesComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             />
           </TableLayout>
         </CardText>

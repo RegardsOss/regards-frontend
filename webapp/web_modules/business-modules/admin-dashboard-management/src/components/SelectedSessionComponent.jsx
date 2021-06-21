@@ -45,7 +45,6 @@ class SelectedSessionComponent extends React.Component {
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
-    onRefreshSelectedSession: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
@@ -69,11 +68,6 @@ class SelectedSessionComponent extends React.Component {
   handleDeleteSession = () => {
     const { selectedSession, deleteSession } = this.props
     deleteSession(selectedSession.content.id)
-  }
-
-  handleRefreshSelectedSession = () => {
-    const { onRefreshSelectedSession, selectedSession } = this.props
-    onRefreshSelectedSession(selectedSession.content.id)
   }
 
   handleSessionSelected = () => {
@@ -126,11 +120,6 @@ class SelectedSessionComponent extends React.Component {
               label={formatMessage({ id: 'dashboard.selectedsession.delete' })}
               style={deleteButtonStyle}
               onClick={this.toggleDeleteDialog}
-            />
-            <CardActionsComponent
-              mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.refresh' })}
-              mainButtonType="submit"
-              mainButtonClick={this.handleRefreshSelectedSession}
             />
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.selectedsession.close' })}

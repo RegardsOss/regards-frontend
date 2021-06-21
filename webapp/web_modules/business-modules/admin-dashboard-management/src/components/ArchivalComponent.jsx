@@ -25,7 +25,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { STORAGE_PROPERTIES } from '../domain/storageProperties'
+import { STORAGE_PROPERTIES, STORAGE_PROPERTIES_ENUM } from '../domain/storageProperties'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 
@@ -54,18 +54,26 @@ class ArchivalComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
         },
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
+    let style = listItemNoValueStyle
+    if (property === STORAGE_PROPERTIES_ENUM.REQUESTS_ERRORs) {
+      style = listItemErrorStyle
+    }
+    if (propValue > 0) {
+      style = listItemStyle
+    }
     return (
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.storage.${property}` }, { value: propValue || 0 })}
         disabled
-        style={listItemStyle}
+        style={style}
       />
+
     )
   }
 
@@ -74,12 +82,12 @@ class ArchivalComponent extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
         },
       },
     } = this.context
     return <div style={cardContentStyle}>
-      <div>
+      <div style={listItemDivStyle}>
         {
           map(STORAGE_PROPERTIES, (property) => (this.displayListItem(property)))
         }
@@ -95,14 +103,12 @@ class ArchivalComponent extends React.Component {
     </div>
   }
 
-  // AJOUTER RELANCER LES ERREURS DE STOCKAGE
-
   render() {
     const { sessionStep } = this.props
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          cardStyle, cardTitleDivStyle, cardTitleStyle, cardTitleTextStyle,
+          cardStyle, cardTitleDivStyle, cardTitleTextStyle, cardTitleStyle,
         },
       },
     } = this.context
@@ -114,8 +120,8 @@ class ArchivalComponent extends React.Component {
           <div style={cardTitleDivStyle}>
             <CardTitle
               title={formatMessage({ id: 'dashboard.selectedsession.storage.title' }, { nbIn: inputRelated, nbOut: outputRelated })}
-              style={cardTitleStyle}
               titleStyle={cardTitleTextStyle}
+              style={cardTitleStyle}
             />
             <DisplayIconsComponent
               entity={sessionStep}

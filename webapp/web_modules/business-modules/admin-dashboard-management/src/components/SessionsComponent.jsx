@@ -152,7 +152,6 @@ class SessionsComponent extends React.Component {
             cellType: CELL_TYPE_ENUM.SESSION,
           },
         }).titleHeaderCell()
-        .optionsSizing(9)
         .build(),
       // 2 - referenced product
       new TableColumnBuilder('column.referencedProducts')
@@ -161,7 +160,7 @@ class SessionsComponent extends React.Component {
           Constructor: ReferencedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
-        .optionsSizing(3)
+        .optionsSizing(2.75)
         .build(),
       // 2 - diffused product
       new TableColumnBuilder('column.diffusedProducts')
@@ -170,7 +169,7 @@ class SessionsComponent extends React.Component {
           Constructor: DiffusedProductsRender,
           props: { cellType: CELL_TYPE_ENUM.SESSION },
         }).titleHeaderCell()
-        .optionsSizing(3)
+        .optionsSizing(2.5)
         .build(),
     ]
 

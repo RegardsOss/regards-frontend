@@ -21,7 +21,7 @@ import values from 'lodash/values'
 
 export const INGEST_PROPERTIES_ENUM = {
   TOTAL_REQUESTS: 'totalRequests',
-  REQUESTS_ERROS: 'requestsErrors',
+  REQUESTS_ERRORS: 'requestsErrors',
   REFERENCED_PRODUCTS: 'referencedProducts',
   NEW_PRODUCT_VERSIONS: 'newProductVersions',
   REPLACED_PRODUCTS: 'replacedProducts',

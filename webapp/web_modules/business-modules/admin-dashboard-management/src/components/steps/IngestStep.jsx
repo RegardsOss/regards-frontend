@@ -26,7 +26,7 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { INGEST_PROPERTIES } from '../../domain/ingestProperties'
+import { INGEST_PROPERTIES, INGEST_PROPERTIES_ENUM } from '../../domain/ingestProperties'
 
 /**
  * IngestStep
@@ -75,17 +75,31 @@ class IngestStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle, listItemWaitStyle, listItemWithSpace,
         },
       },
     } = this.context
     const propValue = get(sessionStep, `properties.${property}`, false)
+    let style = listItemNoValueStyle
+    if (propValue > 0) {
+      style = listItemStyle
+    }
+    if (property === INGEST_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+      style = listItemErrorStyle
+    } else if (property === INGEST_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
+      style = listItemWaitStyle
+    } else if (property === INGEST_PROPERTIES_ENUM.NEW_PRODUCT_VERSIONS) {
+      style = {
+        ...style,
+        ...listItemWithSpace,
+      }
+    }
     return (
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.referencing.ingest.${property}` }, { value: propValue || 0 })}
         disabled
-        style={listItemStyle}
+        style={style}
       />
     )
   }
@@ -118,14 +132,14 @@ class IngestStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
         },
       },
     } = this.context
     const nbErrors = get(sessionStep, 'state.errors', 0)
     const nbWaiting = get(sessionStep, 'state.waiting', 0)
     return <div style={cardContentStyle}>
-      <div>
+      <div style={listItemDivStyle}>
         {
           map(INGEST_PROPERTIES, (property) => (this.displayListItem(property)))
         }

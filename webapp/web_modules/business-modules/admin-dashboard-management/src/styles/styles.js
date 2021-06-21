@@ -82,26 +82,26 @@ const dashboardManagementStyles = (theme) => ({
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'blue',
+            fill: 'green',
           },
           runningAltStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'blue',
+            fill: 'green',
             marginRight: '5px',
           },
           waitingStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'orange',
+            fill: 'yellow',
           },
           waitingAltStyle: {
             position: 'absolute',
             height: '33px',
             width: '24px',
-            fill: 'orange',
+            fill: 'yellow',
             marginLeft: '10px',
           },
           errorStyle: {
@@ -181,6 +181,9 @@ const dashboardManagementStyles = (theme) => ({
       alignItems: 'center',
       height: '40px',
     },
+    cardTitleStyle: {
+      textAlign: 'center',
+    },
     cardTextStyle: {
       display: 'flex',
       width: '100%',
@@ -200,6 +203,40 @@ const dashboardManagementStyles = (theme) => ({
     },
     listItemStyle: {
       padding: '5px',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      width: '215px',
+    },
+    listItemErrorStyle: {
+      padding: '5px',
+      color: 'red',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      width: '215px',
+    },
+    listItemNoValueStyle: {
+      padding: '5px',
+      color: 'grey',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      width: '215px',
+    },
+    listItemWaitStyle: {
+      padding: '5px',
+      color: 'yellow',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis',
+      overflow: 'hidden',
+      width: '215px',
+    },
+    listItemWithSpace: {
+      marginTop: '10px',
+    },
+    listItemDivStyle: {
+      height: '280px',
     },
     raisedListStyle: {
       width: '100%',

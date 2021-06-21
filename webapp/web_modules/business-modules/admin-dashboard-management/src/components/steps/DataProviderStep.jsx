@@ -77,20 +77,25 @@ class DataProviderStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle,
         },
       },
     } = this.context
     let propValue = get(sessionStep, `properties.${property}`, false)
+    let style = listItemNoValueStyle
     if (property === DATA_PROVIDER_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
       propValue = get(sessionStep, 'properties.generationError', 0) + get(sessionStep, 'properties.ingestionFailed', 0)
+      style = listItemErrorStyle
+    }
+    if (propValue > 0) {
+      style = listItemStyle
     }
     return (
       <ListItem
         key={property}
         primaryText={formatMessage({ id: `dashboard.selectedsession.acquisition.dp.${property}` }, { value: propValue || 0 })}
         disabled
-        style={listItemStyle}
+        style={style}
       />
     )
   }
@@ -127,10 +132,10 @@ class DataProviderStep extends React.Component {
 
   renderProductDialog = () => {
     const { intl: { formatMessage } } = this.context
-    const { productDialogOpen } = this.state
+    const { isProductDialogOpen } = this.state
     const { sessionStep } = this.props
     return (<Dialog
-      open={productDialogOpen}
+      open={isProductDialogOpen}
       title={formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.dialog.title' })}
       actions={<>
         <RaisedButton
@@ -153,14 +158,14 @@ class DataProviderStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          raisedListStyle, cardContentStyle, cardButtonStyle,
+          raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
         },
       },
     } = this.context
     const nbErrors = get(sessionStep, 'state.errors', 0)
     const nbWaiting = get(sessionStep, 'state.waiting', 0)
     return <div style={cardContentStyle}>
-      <div>
+      <div style={listItemDivStyle}>
         {
           map(DATA_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
         }
