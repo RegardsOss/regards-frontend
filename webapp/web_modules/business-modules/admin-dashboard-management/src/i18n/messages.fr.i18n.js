@@ -139,9 +139,9 @@ export default messages
 // changer les couleurs -> OK
 // refresh ne conserve pas les filtres en veant des chaines d'acquisitions) -> OK
 // si le filtre de source change -> reset liste session (flush table session ?) -> OK
+// sélection filtre session = session sélectionnée -> OK
 
 // AJOUTER RELANCER LES ERREURS DE STOCKAGE
 // ... fin labels steps
 // step -> test regrouper properties
-// sélection filtre session = session sélectionnée
 // revoir le throttle
