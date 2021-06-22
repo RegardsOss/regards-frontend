@@ -20,6 +20,7 @@ import values from 'lodash/values'
 import find from 'lodash/find'
 import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import { AdminShapes } from '@regardsoss/shape'
@@ -109,6 +110,40 @@ class SourcesComponent extends React.Component {
 
   state = {
     filters: SourcesComponent.extractFiltersFromURL(),
+  }
+
+  /**
+   * Lifecycle method: component will mount. Used here to detect first properties change and update local state
+   */
+  UNSAFE_componentWillMount = () => this.onPropertiesUpdated({}, this.props)
+
+  /**
+  * Lifecycle method: component receive props. Used here to detect properties change and update local state
+  * @param {*} nextProps next component properties
+  */
+  UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
+
+  /**
+* Properties change detected: update local state
+* @param oldProps previous component properties
+* @param newProps next component properties
+*/
+  onPropertiesUpdated = (oldProps, newProps) => {
+    const {
+      sources, onSelected,
+    } = newProps
+
+    const oldState = this.state || {}
+    const newState = { ...oldState }
+    if (!isEqual(oldProps.sources, sources) && !isEmpty(sources)) {
+      const sourceExist = find(sources, (source) => source.content.name === newState.filters[SOURCE_FILTER_PARAMS.NAME])
+      if (sourceExist) {
+        onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
+      }
+    }
+    if (!isEqual(oldState, newState)) {
+      this.setState(newState)
+    }
   }
 
   /**
