@@ -29,3 +29,6 @@ export const Source = PropTypes.shape({
     managerState: ManagerState.isRequired,
   }),
 })
+
+export const SourceList = PropTypes.objectOf(Source)
+export const SourceArray = PropTypes.arrayOf(Source)

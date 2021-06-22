@@ -137,10 +137,11 @@ export default messages
 // tooltip icon (erreur, en cours, en attente) -> OK
 // demande en attente + en erreur -> grisé si 0 -> OK
 // changer les couleurs -> OK
+// refresh ne conserve pas les filtres en veant des chaines d'acquisitions) -> OK
+// si le filtre de source change -> reset liste session (flush table session ?) -> OK
 
 // AJOUTER RELANCER LES ERREURS DE STOCKAGE
 // ... fin labels steps
 // step -> test regrouper properties
 // sélection filtre session = session sélectionnée
-// si le filtre de source change -> reset liste session (flush table session ?)
-// refresh ne conserve pas les filtres en veant des chaines d'acquisitions)
+// revoir le throttle

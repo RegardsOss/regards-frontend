@@ -51,6 +51,8 @@ export class DashboardContainer extends React.Component {
     // from mapStateToProps
     // eslint-disable-next-line react/no-unused-prop-types
     selectedSession: AdminShapes.SessionList,
+    sources: AdminShapes.SourceList,
+    sessions: AdminShapes.SessionList,
     sessionsMeta: PropTypes.shape({
       number: PropTypes.number,
     }),
@@ -80,6 +82,8 @@ export class DashboardContainer extends React.Component {
     sessionsMeta: sessionsSelectors.getMetaData(state),
     sourcesMeta: sourcesSelectors.getMetaData(state),
     selectedSession: selectedSessionSelectors.getList(state),
+    sources: sourcesSelectors.getList(state),
+    sessions: sessionsSelectors.getList(state),
   })
 
   /**
@@ -223,6 +227,7 @@ export class DashboardContainer extends React.Component {
   render() {
     const {
       params: { project }, relaunchProducts, relaunchAIP, retryRequests, flushSelectedSession,
+      sources, sessions,
     } = this.props
     const {
       selectedSource, selectedSession,
@@ -241,6 +246,8 @@ export class DashboardContainer extends React.Component {
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
         onFlushSelectedSession={flushSelectedSession}
+        sources={sources}
+        sessions={sessions}
       />
     )
   }

@@ -138,6 +138,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       getBackURL: () => { },
       onRefresh: () => { },
       onFlushSelectedSession: () => { },
+      sources: {},
+      sessions: {},
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -154,6 +156,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       selectedSource: props.selectedSource,
       selectedSession: props.selectedSession,
       onApplyFilters: enzymeWrapper.instance().onApplyFilters,
+      sources: props.sources,
     }, 'Component should define the expected properties')
 
     const sessionComponentWrapper = enzymeWrapper.find(SessionsComponent)
@@ -163,6 +166,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       onSelected: enzymeWrapper.instance().onSelected,
       selectedSession: props.selectedSession,
       onApplyFilters: enzymeWrapper.instance().onApplyFilters,
+      sessions: props.sessions,
     }, 'Component should define the expected properties')
 
     const selectedSessionWrapper = enzymeWrapper.find(SelectedSessionComponent)

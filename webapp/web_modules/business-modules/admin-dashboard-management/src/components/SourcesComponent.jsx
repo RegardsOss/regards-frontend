@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
+import find from 'lodash/find'
 import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
@@ -58,6 +59,7 @@ class SourcesComponent extends React.Component {
     onSelected: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
     onApplyFilters: PropTypes.func.isRequired,
+    sources: AdminShapes.SourceList,
   }
 
   static contextTypes = {
@@ -115,8 +117,14 @@ class SourcesComponent extends React.Component {
  * @param {*} filterElement
  */
   updateFilter = (newStateValue, filterElement) => {
-    const { onApplyFilters } = this.props
+    const { onApplyFilters, sources, onSelected } = this.props
     const { filters } = this.state
+    if (filterElement === SOURCE_FILTER_PARAMS.NAME) {
+      const sourceExist = find(sources, (source) => source.content.name === newStateValue)
+      if (sourceExist) {
+        onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
+      }
+    }
     const newState = {
       filters: {
         ...filters,

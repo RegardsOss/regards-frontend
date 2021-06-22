@@ -48,6 +48,8 @@ class DashboardComponent extends React.Component {
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onFlushSelectedSession: PropTypes.func.isRequired,
+    sources: AdminShapes.SourceList,
+    sessions: AdminShapes.SessionList,
   }
 
   static contextTypes = {
@@ -110,7 +112,7 @@ class DashboardComponent extends React.Component {
   render() {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
-      onRefresh, selectedSession, selectedSource,
+      onRefresh, selectedSession, selectedSource, sources, sessions,
     } = this.props
     const {
       intl: { formatMessage },
@@ -148,12 +150,14 @@ class DashboardComponent extends React.Component {
                 selectedSource={selectedSource}
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
+                sources={sources}
               />
               <SessionsComponent
                 project={project}
                 onSelected={this.onSelected}
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
+                sessions={sessions}
               />
             </div>
             {!isEmpty(selectedSession)

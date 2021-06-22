@@ -17,6 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import values from 'lodash/values'
+import find from 'lodash/find'
 import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import { themeContextType } from '@regardsoss/theme'
@@ -58,6 +59,7 @@ class SessionsComponent extends React.Component {
     selectedSession: AdminShapes.Session,
     onSelected: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
+    sessions: AdminShapes.SessionList,
   }
 
   static contextTypes = {
@@ -108,8 +110,14 @@ class SessionsComponent extends React.Component {
  * @param {*} filterElement
  */
   updateFilter = (newStateValue, filterElement) => {
-    const { onApplyFilters } = this.props
+    const { onApplyFilters, onSelected, sessions } = this.props
     const { filters } = this.state
+    if (filterElement === SESSION_FILTER_PARAMS.NAME) {
+      const sessionExist = find(sessions, (session) => session.content.name === newStateValue)
+      if (sessionExist) {
+        onSelected(sessionExist, CELL_TYPE_ENUM.SESSION)
+      }
+    }
     const newState = {
       filters: {
         ...filters,

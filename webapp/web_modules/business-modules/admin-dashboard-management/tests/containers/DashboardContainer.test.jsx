@@ -47,6 +47,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       sourcesMeta: {
         number: 20,
       },
+      sources: {},
+      sessions: {},
       fetchSessions: () => { },
       fetchSources: () => { },
       relaunchProducts: () => { },
@@ -73,6 +75,8 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       onRefreshSelectedSession: enzymeWrapper.instance().onRefreshSelectedSession,
       getBackURL: enzymeWrapper.instance().getBackURL,
       onRefresh: enzymeWrapper.instance().onRefresh,
+      sources: props.sources,
+      sessions: props.sessions,
     }, 'Component should define the expected properties')
   })
 })

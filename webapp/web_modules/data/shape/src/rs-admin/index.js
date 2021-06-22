@@ -29,6 +29,6 @@ export {
 export { NotificationSettings } from './NotificationSettings'
 export { Session, SessionList, SessionArray } from './dashboard/Session'
 export { SessionStep } from './dashboard/SessionStep'
-export { Source } from './dashboard/Source'
+export { Source, SourceList, SourceArray } from './dashboard/Source'
 export { SourceStepAggregation } from './dashboard/SourceStepAggregation'
 export { StepState } from './dashboard/StepState'
