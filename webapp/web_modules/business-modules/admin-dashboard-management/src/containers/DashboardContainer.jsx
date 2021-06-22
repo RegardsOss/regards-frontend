@@ -172,13 +172,16 @@ export class DashboardContainer extends React.Component {
     return (DashboardContainer.PAGE_SIZE) * (lastPage + 1)
   }
 
-  onRefresh = (sourceFilters, sessionFilters, selectedSession) => {
+  onRefresh = (sourceFilters, sessionFilters) => {
     const {
       fetchSessions, fetchSources, fetchSelectedSession,
     } = this.props
+    const {
+      selectedSession, selectedSource,
+    } = this.state
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
     const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
-    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters })
+    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null })
     fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters })
     if (selectedSession) {
       fetchSelectedSession(selectedSession.content.id)

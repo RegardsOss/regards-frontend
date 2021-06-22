@@ -139,18 +139,16 @@ class DisplayIconsComponent extends React.Component {
 
   render() {
     const { entity, displayIconType } = this.props
-    const { moduleTheme: { displayIconsComponentStyle: { mainDivStyle } } } = this.context
+    const { moduleTheme: { displayIconsComponentStyle: { mainDivStyle, mainDivStyleAlt } } } = this.context
     const errors = this.getValue(entity, ICON_TYPE_ENUM.ERRORS, displayIconType)
     const waitings = this.getValue(entity, ICON_TYPE_ENUM.WAITING, displayIconType)
     const runnings = this.getValue(entity, ICON_TYPE_ENUM.RUNNING, displayIconType)
     return (
-      <div style={mainDivStyle}>
-        {
-          displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT
-            ? this.displayIconsWithCount(errors, waitings, runnings)
-            : this.displayIcons(runnings)
-        }
-      </div>
+      displayIconType === DISPLAY_ICON_TYPE_ENUM.COUNT
+        ? <div style={mainDivStyle}>
+          {this.displayIconsWithCount(errors, waitings, runnings)}
+        </div>
+        : <div style={mainDivStyleAlt}>{this.displayIcons(runnings)}</div>
     )
   }
 }

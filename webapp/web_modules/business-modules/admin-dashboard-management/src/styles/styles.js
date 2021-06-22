@@ -236,6 +236,9 @@ const dashboardManagementStyles = (theme) => ({
     mainDivStyle: {
       width: '25%',
     },
+    mainDivStyleAlt: {
+      width: '10%',
+    },
     displayIconsDivStyle: {
       width: '100%',
       display: 'flex',

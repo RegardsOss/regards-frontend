@@ -133,7 +133,7 @@ class DashboardComponent extends React.Component {
             <CardActionsComponent
               mainButtonLabel={formatMessage({ id: 'dashboard.refresh' })}
               mainButtonType="submit"
-              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters, selectedSession)}
+              mainButtonClick={() => onRefresh(sourceFilters, sessionFilters)}
               secondaryButtonLabel={formatMessage({ id: 'dashboard.back' })}
               secondaryButtonClick={getBackURL}
             />
