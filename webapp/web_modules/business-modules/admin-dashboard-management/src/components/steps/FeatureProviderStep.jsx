@@ -27,7 +27,8 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEATURE_PROVIDER_PROPERTIES, FEATURE_PROVIDER_PROPERTIES_ENUM } from '../../domain/featureProviderProperties'
+import { FEATURE_PROVIDER_REQUESTS_PROPERTIES, FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM, FEATURE_PROVIDER_PRODUCTS_PROPERTIES } from '../../domain/featureProviderProperties'
+import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
  * FeatureProviderStep
@@ -46,14 +47,19 @@ class FeatureProviderStep extends React.Component {
     ...i18nContextType,
   }
 
+  state = {
+    isRetryErrorsDialogOpen: false,
+  }
+
   onSeeReferenced = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?session=${selectedSession.content.name}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}`)
   }
 
   onSeeErrors = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?session=${selectedSession.content.name}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    console.error('lalala')
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   toggleRetryErrorsDialog = () => {
@@ -111,7 +117,7 @@ class FeatureProviderStep extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === FEATURE_PROVIDER_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+    if (property === FEATURE_PROVIDER_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
     return (
@@ -126,13 +132,33 @@ class FeatureProviderStep extends React.Component {
 
   render() {
     const { sessionStep } = this.props
-    const { intl: { formatMessage }, moduleTheme: { raisedListStyle, selectedSessionStyle: { cardContentStyle, cardButtonStyle, listItemDivStyle } } } = this.context
-    const nbErrors = get(sessionStep, 'state.errors', 0)
+    const {
+      intl: { formatMessage }, moduleTheme: {
+        selectedSessionStyle: {
+          cardContentStyle, cardButtonStyle, listItemDivStyle, propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt,
+          propertiesDivStyleAlt, raisedListStyle,
+        },
+      },
+    } = this.context
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
     return <div style={cardContentStyle}>
       <div style={listItemDivStyle}>
-        {
-          map(FEATURE_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
-        }
+        <div style={propertiesTitleStyle}>
+          <div style={propertiesDivStyleAlt}>
+            {formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.properties.requests.title' })}
+          </div>
+          {
+            map(FEATURE_PROVIDER_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
+        <div style={propertiesTitleStyleAlt}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.acquisition.fp.properties.products.title' })}
+          </div>
+          {
+            map(FEATURE_PROVIDER_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton

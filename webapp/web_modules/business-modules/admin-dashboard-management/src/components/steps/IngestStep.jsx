@@ -26,7 +26,10 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { INGEST_PROPERTIES, INGEST_PROPERTIES_ENUM } from '../../domain/ingestProperties'
+import {
+  INGEST_REQUESTS_PROPERTIES, INGEST_REQUESTS_PROPERTIES_ENUM, INGEST_PRODUCTS_PROPERTIES, INGEST_PRODUCTS_PROPERTIES_ENUM,
+} from '../../domain/ingestProperties'
+import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
  * IngestStep
@@ -66,8 +69,8 @@ class IngestStep extends React.Component {
   }
 
   onSeeWaiting = () => {
-    const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&session=${selectedSession.content.name}&sessionOwner=${selectedSession.content.source}&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
+    const { project } = this.props
+    browserHistory.push(`/admin/${project}/data/acquisition/oais/featureManager?display=requests&state=${IngestDomain.AIP_REQUEST_STATUS_ENUM.WAITING_VERSIONING_MODE}`)
   }
 
   displayListItem = (property) => {
@@ -75,7 +78,7 @@ class IngestStep extends React.Component {
     const {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
-          listItemStyle, listItemNoValueStyle, listItemErrorStyle, listItemWaitStyle, listItemWithSpace,
+          listItemStyle, listItemNoValueStyle, listItemErrorStyle, listItemWaitStyle,
         },
       },
     } = this.context
@@ -84,15 +87,10 @@ class IngestStep extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === INGEST_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+    if (property === INGEST_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
-    } else if (property === INGEST_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
+    } else if (property === INGEST_PRODUCTS_PROPERTIES_ENUM.PRODUCT_WAIT_VERSION_MODE) {
       style = propValue > 0 ? listItemWaitStyle : listItemNoValueStyle
-    } else if (property === INGEST_PROPERTIES_ENUM.NEW_PRODUCT_VERSIONS) {
-      style = {
-        ...style,
-        ...listItemWithSpace,
-      }
     }
     return (
       <ListItem
@@ -133,16 +131,30 @@ class IngestStep extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
+          propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt, propertiesDivStyleAlt,
         },
       },
     } = this.context
-    const nbErrors = get(sessionStep, 'state.errors', 0)
-    const nbWaiting = get(sessionStep, 'state.waiting', 0)
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
+    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
     return <div style={cardContentStyle}>
       <div style={listItemDivStyle}>
-        {
-          map(INGEST_PROPERTIES, (property) => (this.displayListItem(property)))
-        }
+        <div style={propertiesTitleStyle}>
+          <div style={propertiesDivStyleAlt}>
+            {formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.properties.requests.title' })}
+          </div>
+          {
+            map(INGEST_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
+        <div style={propertiesTitleStyleAlt}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.properties.products.title' })}
+          </div>
+          {
+            map(INGEST_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton

@@ -19,16 +19,21 @@
 
 import values from 'lodash/values'
 
-export const STORAGE_PROPERTIES_ENUM = {
+export const STORAGE_REQUESTS_PROPERTIES_ENUM = {
   REFERENCE_REQUESTS: 'referenceRequests',
   STORE_REQUESTS: 'storeRequests',
   COPY_REQUESTS: 'copyRequests',
   DELETE_REQUESTS: 'deleteRequests',
   REQUESTS_REFUSED: 'requestsRefused',
   REQUESTS_ERRORS: 'requestsErrors',
+}
+
+export const STORAGE_REQUESTS_PROPERTIES = values(STORAGE_REQUESTS_PROPERTIES_ENUM)
+
+export const STORAGE_FILES_PROPERTIES_ENUM = {
   STORED_FILES: 'storedFiles',
   REFERENCED_FILES: 'referencedFiles',
   DELETED_FILES: 'deletedFiles',
 }
 
-export const STORAGE_PROPERTIES = values(STORAGE_PROPERTIES_ENUM)
+export const STORAGE_FILES_PROPERTIES = values(STORAGE_FILES_PROPERTIES_ENUM)

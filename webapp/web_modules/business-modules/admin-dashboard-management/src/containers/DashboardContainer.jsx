@@ -27,7 +27,7 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 import {
   sessionsActions, sessionsSelectors, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
-  sessionDeleteActions,
+  sessionDeleteActions, storagesRelaunchActions,
 } from '../clients/SessionsClient'
 import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
@@ -63,6 +63,7 @@ export class DashboardContainer extends React.Component {
     fetchSessions: PropTypes.func.isRequired,
     fetchSources: PropTypes.func.isRequired,
     relaunchProducts: PropTypes.func.isRequired,
+    relaunchStorages: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired, // Delete products of a session
@@ -83,7 +84,7 @@ export class DashboardContainer extends React.Component {
     sourcesMeta: sourcesSelectors.getMetaData(state),
     selectedSession: selectedSessionSelectors.getList(state),
     sources: sourcesSelectors.getList(state),
-    sessions: sessionsSelectors.getList(state),
+    session: sessionsSelectors.getList(state),
   })
 
   /**
@@ -99,6 +100,7 @@ export class DashboardContainer extends React.Component {
     flushSelectedSession: () => dispatch(selectedSessionActions.flush()),
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
+    relaunchStorages: (source, session) => dispatch(storagesRelaunchActions.relaunchStorages(source, session)),
     retryRequests: (payload, type) => dispatch(requestRetryActions.relaunchProducts('POST', payload, { type })),
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
   })
@@ -176,6 +178,11 @@ export class DashboardContainer extends React.Component {
     return (DashboardContainer.PAGE_SIZE) * (lastPage + 1)
   }
 
+  /**
+   * Refresh session table, source table and selected session
+   * @param {*} sourceFilters
+   * @param {*} sessionFilters
+   */
   onRefresh = (sourceFilters, sessionFilters) => {
     const {
       fetchSessions, fetchSources, fetchSelectedSession,
@@ -204,7 +211,12 @@ export class DashboardContainer extends React.Component {
     })
   }
 
-  fetchSelectedSource = (source, sessionFilters) => {
+  /**
+   * Fetch sessions from source name and sessions filters
+   * @param {*} source
+   * @param {*} sessionFilters
+   */
+  fetchSessions = (source, sessionFilters) => {
     const { fetchSessions } = this.props
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
     fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: source ? source.content.name : null })
@@ -213,21 +225,24 @@ export class DashboardContainer extends React.Component {
     })
   }
 
-  fetchSelectedSession = (sessionId) => {
+  /**
+   * Fetch a session thanks to its id
+   * @param {*} sessionId
+   */
+  fetchSelectedSession = (session) => {
     const { fetchSelectedSession } = this.props
-    if (sessionId) {
-      fetchSelectedSession(sessionId)
-    } else {
-      this.setState({
-        selectedSession: null,
-      })
+    if (session) {
+      fetchSelectedSession(session.content.id)
     }
+    this.setState({
+      selectedSession: session,
+    })
   }
 
   render() {
     const {
       params: { project }, relaunchProducts, relaunchAIP, retryRequests, flushSelectedSession,
-      sources, sessions,
+      sources, sessions, relaunchStorages,
     } = this.props
     const {
       selectedSource, selectedSession,
@@ -238,11 +253,12 @@ export class DashboardContainer extends React.Component {
         relaunchProducts={relaunchProducts}
         relaunchAIP={relaunchAIP}
         retryRequests={retryRequests}
-        fetchSelectedSource={this.fetchSelectedSource}
+        fetchSessions={this.fetchSessions}
         fetchSelectedSession={this.fetchSelectedSession}
         deleteSession={this.onDeleteSession}
         selectedSession={selectedSession}
         selectedSource={selectedSource}
+        relaunchStorages={relaunchStorages}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
         onFlushSelectedSession={flushSelectedSession}

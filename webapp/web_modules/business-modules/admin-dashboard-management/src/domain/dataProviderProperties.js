@@ -19,12 +19,17 @@
 
 import values from 'lodash/values'
 
-export const DATA_PROVIDER_PROPERTIES_ENUM = {
+export const DATA_PROVIDER_FILES_PROPERTIES_ENUM = {
   FILES_ACQUIRED: 'filesAcquired',
+}
+
+export const DATA_PROVIDER_FILES_PROPERTIES = values(DATA_PROVIDER_FILES_PROPERTIES_ENUM)
+
+export const DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM = {
   GENERATED_PRODUCTS: 'generatedProducts',
   INCOMPLETE: 'incomplete',
   INVALID: 'invalid',
   PRODUCTS_ERRORS: 'productsErrors',
 }
 
-export const DATA_PROVIDER_PROPERTIES = values(DATA_PROVIDER_PROPERTIES_ENUM)
+export const DATA_PROVIDER_PRODUCTS_PROPERTIES = values(DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM)

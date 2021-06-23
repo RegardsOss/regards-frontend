@@ -57,6 +57,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       deleteSession: () => { },
       fetchSelectedSession: () => { },
       flushSelectedSession: () => { },
+      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<DashboardContainer {...props} />, { context })
 
@@ -75,6 +76,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       onRefreshSelectedSession: enzymeWrapper.instance().onRefreshSelectedSession,
       getBackURL: enzymeWrapper.instance().getBackURL,
       onRefresh: enzymeWrapper.instance().onRefresh,
+      relaunchStorages: props.relaunchStorages,
       sources: props.sources,
       sessions: props.sessions,
     }, 'Component should define the expected properties')

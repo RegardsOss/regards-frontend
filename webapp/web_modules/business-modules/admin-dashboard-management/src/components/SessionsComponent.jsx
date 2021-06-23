@@ -48,7 +48,7 @@ import DiffusedProductsRender from './render/DiffusedProductsRender'
 import NameRender from './render/NameRender'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
 import { STATUS_TYPES, STATUS_TYPES_ENUM } from '../domain/statusTypes'
-import { SESSION_FILTER_PARAMS } from '../domain/filters'
+import { SOURCE_FILTER_PARAMS, SESSION_FILTER_PARAMS } from '../domain/filters'
 
 /**
   * SessionsComponent
@@ -61,6 +61,7 @@ class SessionsComponent extends React.Component {
     onSelected: PropTypes.func.isRequired,
     onApplyFilters: PropTypes.func.isRequired,
     sessions: AdminShapes.SessionList,
+    selectedSource: AdminShapes.Source,
   }
 
   static contextTypes = {
@@ -165,7 +166,7 @@ class SessionsComponent extends React.Component {
 
   render() {
     const {
-      project, onSelected, selectedSession,
+      project, onSelected, selectedSession, selectedSource,
     } = this.props
     const { filters } = this.state
     const {
@@ -254,7 +255,7 @@ class SessionsComponent extends React.Component {
               maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
-              requestParams={{ ...filters, tenant: project }}
+              requestParams={{ ...filters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null, tenant: project }}
               pageSize={SessionsComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}

@@ -55,6 +55,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing ArchivalComponent', () => {
         properties: {},
         lastUpdateDate: '01/01/21',
       },
+      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<ArchivalComponent {...props} />, { context })
 

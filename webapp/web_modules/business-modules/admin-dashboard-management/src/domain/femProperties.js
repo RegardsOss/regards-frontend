@@ -19,16 +19,21 @@
 
 import values from 'lodash/values'
 
-export const FEM_PROPERTIES_ENUM = {
+export const FEM_REQUESTS_PROPERTIES_ENUM = {
   REFERENCING_REQUESTS: 'referencingRequests',
   DELETE_REQUESTS: 'deleteRequests',
   UPDATE_REQUESTS: 'updateRequests',
   NOTIFY_REQUESTS: 'notifyRequests',
   REQUESTS_ERRORS: 'requestsErrors',
+}
+
+export const FEM_REQUESTS_PROPERTIES = values(FEM_REQUESTS_PROPERTIES_ENUM)
+
+export const FEM_PRODUCTS_PROPERTIES_ENUM = {
   REFERENCED_PRODUCTS: 'referencedProducts',
   DELETED_PRODUCTS: 'deletedProducts',
   UPDATED_PRODUCTS: 'updatedProducts',
   NOTIFY_PRODUCTS: 'notifyProducts',
 }
 
-export const FEM_PROPERTIES = values(FEM_PROPERTIES_ENUM)
+export const FEM_PRODUCTS_PROPERTIES = values(FEM_PRODUCTS_PROPERTIES_ENUM)

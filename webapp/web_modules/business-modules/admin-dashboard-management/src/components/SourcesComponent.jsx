@@ -124,10 +124,10 @@ class SourcesComponent extends React.Component {
   UNSAFE_componentWillReceiveProps = (nextProps) => this.onPropertiesUpdated(this.props, nextProps)
 
   /**
-* Properties change detected: update local state
-* @param oldProps previous component properties
-* @param newProps next component properties
-*/
+  * Properties change detected: update local state
+  * @param oldProps previous component properties
+  * @param newProps next component properties
+  */
   onPropertiesUpdated = (oldProps, newProps) => {
     const {
       sources, onSelected,
@@ -136,7 +136,7 @@ class SourcesComponent extends React.Component {
     const oldState = this.state || {}
     const newState = { ...oldState }
     if (!isEqual(oldProps.sources, sources) && !isEmpty(sources)) {
-      const sourceExist = find(sources, (source) => source.content.name === newState.filters[SOURCE_FILTER_PARAMS.NAME])
+      const sourceExist = this.getSource(sources, newState.filters[SOURCE_FILTER_PARAMS.NAME])
       if (sourceExist) {
         onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
       }
@@ -146,16 +146,18 @@ class SourcesComponent extends React.Component {
     }
   }
 
+  getSource = (sources, sourceName) => find(sources, (source) => source.content.name === sourceName)
+
   /**
- * Update filters
- * @param {*} newStateValue
- * @param {*} filterElement
- */
+   * Update filters
+   * @param {*} newStateValue
+   * @param {*} filterElement
+   */
   updateFilter = (newStateValue, filterElement) => {
     const { onApplyFilters, sources, onSelected } = this.props
     const { filters } = this.state
     if (filterElement === SOURCE_FILTER_PARAMS.NAME) {
-      const sourceExist = find(sources, (source) => source.content.name === newStateValue)
+      const sourceExist = this.getSource(sources, newStateValue)
       if (sourceExist) {
         onSelected(sourceExist, CELL_TYPE_ENUM.SOURCE)
       }
@@ -268,7 +270,6 @@ class SourcesComponent extends React.Component {
               pageSize={SourcesComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             />
           </TableLayout>
         </CardText>

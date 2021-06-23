@@ -27,7 +27,8 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { FEM_PROPERTIES, FEM_PROPERTIES_ENUM } from '../../domain/femProperties'
+import { FEM_REQUESTS_PROPERTIES, FEM_PRODUCTS_PROPERTIES, FEM_REQUESTS_PROPERTIES_ENUM } from '../../domain/femProperties'
+import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
   * FeatureManagerStep
@@ -52,12 +53,12 @@ class FeatureManagerStep extends React.Component {
 
   onSeeErrors = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?session=${selectedSession.content.name}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.CREATION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 
   onSeeReferenced = () => {
     const { project, selectedSession } = this.props
-    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?session=${selectedSession.content.name}`)
+    browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor?session=${selectedSession.content.name}&source=${selectedSession.content.source}`)
   }
 
   onRetryErrors = () => {
@@ -92,7 +93,7 @@ class FeatureManagerStep extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === FEM_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+    if (property === FEM_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
       propValue = +get(sessionStep, 'properties.inErrorReferencingRequests', 0) + +get(sessionStep, 'properties.inErrorDeleteRequests', 0) + +get(sessionStep, 'properties.inErrorUpdateRequests', 0) + +get(sessionStep, 'properties.inErrorNotifyRequests', 0)
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
@@ -135,15 +136,29 @@ class FeatureManagerStep extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
+          propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt, propertiesDivStyleAlt,
         },
       },
     } = this.context
-    const nbErrors = get(sessionStep, 'state.errors', 0)
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
     return <div style={cardContentStyle}>
       <div style={listItemDivStyle}>
-        {
-          map(FEM_PROPERTIES, (property) => (this.displayListItem(property)))
-        }
+        <div style={propertiesTitleStyle}>
+          <div style={propertiesDivStyleAlt}>
+            {formatMessage({ id: 'dashboard.selectedsession.referencing.fem.properties.requests.title' })}
+          </div>
+          {
+            map(FEM_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
+        <div style={propertiesTitleStyleAlt}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.referencing.fem.properties.products.title' })}
+          </div>
+          {
+            map(FEM_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton

@@ -134,12 +134,13 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       selectedSession: null,
       selectedSource: null,
       fetchSelectedSession: () => { },
-      fetchSelectedSource: () => { },
+      fetchSessions: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
       onFlushSelectedSession: () => { },
       sources: {},
       sessions: {},
+      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -182,10 +183,11 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       selectedSession,
       selectedSource: null,
       fetchSelectedSession: () => { },
-      fetchSelectedSource: () => { },
+      fetchSessions: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
       onFlushSelectedSession: () => { },
+      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
 
@@ -201,6 +203,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       deleteSession: enzymeWrapper.instance().onDeleteSession,
       sourceFilters: enzymeWrapper.instance().state.sourceFilters,
       sessionFilters: enzymeWrapper.instance().state.sessionFilters,
+      relaunchStorages: props.relaunchStorages,
     }, 'Component should define the expected properties')
   })
 })

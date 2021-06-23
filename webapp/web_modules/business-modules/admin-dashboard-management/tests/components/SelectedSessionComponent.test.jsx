@@ -131,6 +131,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
       relaunchAIP: () => { },
       retryRequests: () => { },
       deleteSession: () => { },
+      relaunchStorages: () => { },
     }
     const enzymeWrapper = shallow(<SelectedSessionComponent {...props} />, { context })
 
@@ -163,6 +164,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing SelectedSessionComponent', () => 
     testSuiteHelpers.assertWrapperProperties(storageWrapper, {
       project: props.project,
       sessionStep: enzymeWrapper.instance().getSessionStep(props.selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE),
+      relaunchStorages: props.relaunchStorages,
     }, 'Component should define the expected properties')
 
     const diffusionWrapper = enzymeWrapper.find(DiffusionComponent)

@@ -216,11 +216,8 @@ const dashboardManagementStyles = (theme) => ({
       padding: '5px',
       color: '#d5d53b',
     },
-    listItemWithSpace: {
-      marginTop: '10px',
-    },
     listItemDivStyle: {
-      height: '280px',
+      height: '300px',
     },
     raisedListStyle: {
       width: '100%',
@@ -230,6 +227,31 @@ const dashboardManagementStyles = (theme) => ({
     deleteButtonStyle: {
       marginRight: '10px',
       color: 'red',
+    },
+    propertiesDivStyle: {
+      marginTop: '-22px',
+      lineHeight: '20px',
+      fontSize: '15px',
+      backgroundColor: '#303030',
+      width: '72px',
+      paddingLeft: '5px',
+    },
+    propertiesDivStyleAlt: {
+      marginTop: '-22px',
+      lineHeight: '20px',
+      fontSize: '15px',
+      backgroundColor: '#303030',
+      width: '82px',
+      paddingLeft: '5px',
+    },
+    propertiesTitleStyle: {
+      border: '1px solid #ff6d00',
+      padding: '10px',
+    },
+    propertiesTitleStyleAlt: {
+      border: '1px solid #ff6d00',
+      padding: '10px',
+      marginTop: '20px',
     },
   },
   displayIconsComponentStyle: {

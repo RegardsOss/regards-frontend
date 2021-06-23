@@ -39,12 +39,13 @@ class DashboardComponent extends React.Component {
     project: PropTypes.string.isRequired,
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
+    relaunchStorages: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
     selectedSession: AdminShapes.Session,
     selectedSource: AdminShapes.Source,
     fetchSelectedSession: PropTypes.func.isRequired,
-    fetchSelectedSource: PropTypes.func.isRequired,
+    fetchSessions: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
     onFlushSelectedSession: PropTypes.func.isRequired,
@@ -86,7 +87,7 @@ class DashboardComponent extends React.Component {
 
   onSelected = (entity, type) => {
     const {
-      fetchSelectedSession, fetchSelectedSource, selectedSource, selectedSession, onFlushSelectedSession,
+      fetchSelectedSession, fetchSessions, selectedSource, selectedSession, onFlushSelectedSession,
     } = this.props
     const {
       sessionFilters,
@@ -94,10 +95,10 @@ class DashboardComponent extends React.Component {
     switch (type) {
       case CELL_TYPE_ENUM.SESSION:
         onFlushSelectedSession()
-        fetchSelectedSession(entity && !isEqual(entity, selectedSession) ? entity.content.id : null)
+        fetchSelectedSession(entity && !isEqual(entity, selectedSession) ? entity : null)
         break
       case CELL_TYPE_ENUM.SOURCE:
-        fetchSelectedSource(!isEqual(entity, selectedSource) ? entity : null, sessionFilters)
+        fetchSessions(!isEqual(entity, selectedSource) ? entity : null, sessionFilters)
         break
       default:
     }
@@ -112,7 +113,7 @@ class DashboardComponent extends React.Component {
   render() {
     const {
       project, getBackURL, relaunchProducts, relaunchAIP, retryRequests,
-      onRefresh, selectedSession, selectedSource, sources, sessions,
+      onRefresh, selectedSession, selectedSource, sources, sessions, relaunchStorages,
     } = this.props
     const {
       intl: { formatMessage },
@@ -158,6 +159,7 @@ class DashboardComponent extends React.Component {
                 selectedSession={selectedSession}
                 onApplyFilters={this.onApplyFilters}
                 sessions={sessions}
+                selectedSource={selectedSource}
               />
             </div>
             {!isEmpty(selectedSession)
@@ -168,6 +170,7 @@ class DashboardComponent extends React.Component {
                   relaunchProducts={relaunchProducts}
                   relaunchAIP={relaunchAIP}
                   retryRequests={retryRequests}
+                  relaunchStorages={relaunchStorages}
                   deleteSession={this.onDeleteSession}
                   sourceFilters={sourceFilters}
                   sessionFilters={sessionFilters}

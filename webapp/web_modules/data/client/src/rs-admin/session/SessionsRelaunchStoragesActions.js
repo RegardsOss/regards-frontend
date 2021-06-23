@@ -16,12 +16,17 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
+import { BasicSignalActions } from '@regardsoss/store-utils'
 
-import values from 'lodash/values'
+export default class SessionsRelaunchStoragesActions extends BasicSignalActions {
+  constructor(namespace) {
+    super({
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.STORAGE}/storages/retry/{source}/{session}`,
+      namespace,
+    })
+  }
 
-export const DIFFUSION_PRODUCTS_PROPERTIES_ENUM = {
-  INDEXED: 'indexed',
-  INDEXED_ERROR: 'indexedError',
+  relaunchStorages(source, session) {
+    return this.sendSignal('GET', null, { source, session })
+  }
 }
-
-export const DIFFUSION_PRODUCTS_PROPERTIES = values(DIFFUSION_PRODUCTS_PROPERTIES_ENUM)

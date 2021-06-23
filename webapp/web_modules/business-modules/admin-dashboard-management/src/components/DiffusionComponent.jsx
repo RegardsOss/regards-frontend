@@ -27,7 +27,7 @@ import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
-import { DIFFUSION_PROPERTIES, DIFFUSION_PROPERTIES_ENUM } from '../domain/diffusionProperties'
+import { DIFFUSION_PRODUCTS_PROPERTIES, DIFFUSION_PRODUCTS_PROPERTIES_ENUM } from '../domain/diffusionProperties'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
 
 /**
@@ -64,7 +64,7 @@ class DiffusionComponent extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === DIFFUSION_PROPERTIES_ENUM.INDEXED_ERROR) {
+    if (property === DIFFUSION_PRODUCTS_PROPERTIES_ENUM.INDEXED_ERROR) {
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
     return (
@@ -83,7 +83,7 @@ class DiffusionComponent extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           cardStyle, cardTitleDivStyle, cardContentStyle, cardButtonStyle, cardTitleTextStyle,
-          raisedListStyle, listItemDivStyle, cardTitleStyle,
+          raisedListStyle, listItemDivStyle, cardTitleStyle, propertiesTitleStyle, propertiesDivStyle,
         },
       },
     } = this.context
@@ -99,7 +99,7 @@ class DiffusionComponent extends React.Component {
               titleStyle={cardTitleTextStyle}
               style={cardTitleStyle}
             />
-            { runnings !== 0
+            {runnings !== 0
               ? <DisplayIconsComponent
                   entity={sessionStep}
                   displayIconType={DISPLAY_ICON_TYPE_ENUM.NO_COUNT}
@@ -108,9 +108,14 @@ class DiffusionComponent extends React.Component {
           </div>
           <CardText style={cardContentStyle}>
             <div style={listItemDivStyle}>
-              {
-                map(DIFFUSION_PROPERTIES, (property) => (this.displayListItem(property)))
-              }
+              <div style={propertiesTitleStyle}>
+                <div style={propertiesDivStyle}>
+                  {formatMessage({ id: 'dashboard.selectedsession.diffusion.properties.products.title' })}
+                </div>
+                {
+                  map(DIFFUSION_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
+                }
+              </div>
             </div>
             <div style={cardButtonStyle}>
               <RaisedButton

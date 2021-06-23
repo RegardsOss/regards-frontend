@@ -21,11 +21,12 @@ import map from 'lodash/map'
 import { browserHistory } from 'react-router'
 import { Card, CardTitle, CardText } from 'material-ui/Card'
 import { AdminShapes } from '@regardsoss/shape'
+import { ConfirmDialogComponent, ConfirmDialogComponentTypes } from '@regardsoss/components'
 import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { STORAGE_PROPERTIES, STORAGE_PROPERTIES_ENUM } from '../domain/storageProperties'
+import { STORAGE_FILES_PROPERTIES, STORAGE_REQUESTS_PROPERTIES_ENUM, STORAGE_REQUESTS_PROPERTIES } from '../domain/storageProperties'
 import DisplayIconsComponent from './DisplayIconsComponent'
 import { DISPLAY_ICON_TYPE_ENUM } from '../domain/displayIconTypes'
 import { ICON_TYPE_ENUM } from '../domain/iconType'
@@ -38,11 +39,16 @@ class ArchivalComponent extends React.Component {
   static propTypes = {
     project: PropTypes.string.isRequired,
     sessionStep: AdminShapes.SessionStep,
+    relaunchStorages: PropTypes.func.isRequired,
   }
 
   static contextTypes = {
     ...themeContextType,
     ...i18nContextType,
+  }
+
+  state = {
+    isRetryErrorsDialogOpen: false,
   }
 
   onClick = () => {
@@ -64,7 +70,7 @@ class ArchivalComponent extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === STORAGE_PROPERTIES_ENUM.REQUESTS_ERRORS) {
+    if (property === STORAGE_REQUESTS_PROPERTIES_ENUM.REQUESTS_ERRORS) {
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
     return (
@@ -83,14 +89,30 @@ class ArchivalComponent extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
+          propertiesTitleStyle, propertiesDivStyle, propertiesTitleStyleAlt, propertiesDivStyleAlt,
         },
       },
     } = this.context
+    const { sessionStep } = this.props
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
     return <div style={cardContentStyle}>
       <div style={listItemDivStyle}>
-        {
-          map(STORAGE_PROPERTIES, (property) => (this.displayListItem(property)))
-        }
+        <div style={propertiesTitleStyle}>
+          <div style={propertiesDivStyleAlt}>
+            {formatMessage({ id: 'dashboard.selectedsession.storage.properties.requests.title' })}
+          </div>
+          {
+            map(STORAGE_REQUESTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
+        <div style={propertiesTitleStyleAlt}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.storage.properties.files.title' })}
+          </div>
+          {
+            map(STORAGE_FILES_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
       </div>
       <div style={cardButtonStyle}>
         <RaisedButton
@@ -100,7 +122,45 @@ class ArchivalComponent extends React.Component {
           style={raisedListStyle}
         />
       </div>
+      {
+        nbErrors !== 0
+          ? <RaisedButton
+              onClick={this.toggleRetryErrorsDialog}
+              label={formatMessage({ id: 'dashboard.selectedsession.storage.button.retry-errors' })}
+              primary
+              style={raisedListStyle}
+          /> : null
+      }
     </div>
+  }
+
+  toggleRetryErrorsDialog = () => {
+    const { isRetryErrorsDialogOpen } = this.state
+    this.setState({
+      isRetryErrorsDialogOpen: !isRetryErrorsDialogOpen,
+    })
+  }
+
+  renderRetryErrorsDialog = (type) => {
+    const { intl: { formatMessage } } = this.context
+    const { isRetryErrorsDialogOpen } = this.state
+    if (isRetryErrorsDialogOpen) {
+      return (
+        <ConfirmDialogComponent
+          dialogType={ConfirmDialogComponentTypes.CONFIRM}
+          title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+          onConfirm={this.onRetryErrors}
+          onClose={this.toggleRetryErrorsDialog}
+        />
+      )
+    }
+    return null
+  }
+
+  onRetryErrors = () => {
+    const { relaunchStorages, sessionStep } = this.props
+    relaunchStorages(sessionStep.source, sessionStep.session)
+    this.toggleRetryErrorsDialog()
   }
 
   render() {
@@ -133,6 +193,7 @@ class ArchivalComponent extends React.Component {
           </div>
           <CardText>
             {this.displayStorage()}
+            {this.renderRetryErrorsDialog()}
           </CardText>
         </Card> : null
     )

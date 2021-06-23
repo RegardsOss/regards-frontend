@@ -43,6 +43,7 @@ class SelectedSessionComponent extends React.Component {
     onSelected: PropTypes.func.isRequired,
     relaunchProducts: PropTypes.func.isRequired,
     relaunchAIP: PropTypes.func.isRequired,
+    relaunchStorages: PropTypes.func.isRequired,
     retryRequests: PropTypes.func.isRequired,
     deleteSession: PropTypes.func.isRequired,
   }
@@ -86,6 +87,7 @@ class SelectedSessionComponent extends React.Component {
         <ConfirmDialogComponent
           dialogType={ConfirmDialogComponentTypes.DELETE}
           title={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.title' }, { sessionName: selectedSession.content.name })}
+          message={formatMessage({ id: 'dashboard.selectedsession.dialog.delete.message' })}
           onConfirm={this.handleDeleteSession}
           onClose={this.toggleDeleteDialog}
         />
@@ -96,7 +98,7 @@ class SelectedSessionComponent extends React.Component {
 
   render() {
     const {
-      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests,
+      selectedSession, project, relaunchProducts, relaunchAIP, retryRequests, relaunchStorages,
     } = this.props
     const {
       intl: { formatMessage },
@@ -146,6 +148,7 @@ class SelectedSessionComponent extends React.Component {
           <ArchivalComponent
             project={project}
             sessionStep={this.getSessionStep(selectedSession, AdminDomain.STEP_TYPE_ENUM.STORAGE)}
+            relaunchStorages={relaunchStorages}
           />
           <DiffusionComponent
             project={project}

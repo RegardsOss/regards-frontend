@@ -27,8 +27,9 @@ import { ListItem } from 'material-ui/List'
 import RaisedButton from 'material-ui/RaisedButton'
 import { themeContextType } from '@regardsoss/theme'
 import { i18nContextType } from '@regardsoss/i18n'
-import { DATA_PROVIDER_PROPERTIES, DATA_PROVIDER_PROPERTIES_ENUM } from '../../domain/dataProviderProperties'
+import { DATA_PROVIDER_PRODUCTS_PROPERTIES, DATA_PROVIDER_FILES_PROPERTIES, DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM } from '../../domain/dataProviderProperties'
 import DisplayProductsComponent from '../DisplayProductsComponent'
+import { ICON_TYPE_ENUM } from '../../domain/iconType'
 
 /**
   * DataProviderStep
@@ -86,11 +87,11 @@ class DataProviderStep extends React.Component {
     if (propValue > 0) {
       style = listItemStyle
     }
-    if (property === DATA_PROVIDER_PROPERTIES_ENUM.GENERATED_PRODUCTS) {
+    if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.GENERATED_PRODUCTS) {
       propValue = +get(sessionStep, 'properties.generatedProducts', 0) + +get(sessionStep, 'properties.ingested', 0)
       style = propValue > 0 ? listItemStyle : listItemNoValueStyle
     }
-    if (property === DATA_PROVIDER_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
+    if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
       propValue = +get(sessionStep, 'properties.generationError', 0) + +get(sessionStep, 'properties.ingestionFailed', 0)
       style = propValue > 0 ? listItemErrorStyle : listItemNoValueStyle
     }
@@ -163,24 +164,32 @@ class DataProviderStep extends React.Component {
       intl: { formatMessage }, moduleTheme: {
         selectedSessionStyle: {
           raisedListStyle, cardContentStyle, cardButtonStyle, listItemDivStyle,
+          propertiesTitleStyle, propertiesTitleStyleAlt, propertiesDivStyle,
         },
       },
     } = this.context
-    const nbErrors = get(sessionStep, 'state.errors', 0)
-    const nbWaiting = get(sessionStep, 'state.waiting', 0)
+    const nbErrors = get(sessionStep, `state.${ICON_TYPE_ENUM.ERRORS}`, 0)
+    const nbWaiting = get(sessionStep, `state.${ICON_TYPE_ENUM.WAITING}`, 0)
     return <div style={cardContentStyle}>
       <div style={listItemDivStyle}>
-        {
-          map(DATA_PROVIDER_PROPERTIES, (property) => (this.displayListItem(property)))
-        }
+        <div style={propertiesTitleStyle}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.properties.files.title' })}
+          </div>
+          {
+            map(DATA_PROVIDER_FILES_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
+        <div style={propertiesTitleStyleAlt}>
+          <div style={propertiesDivStyle}>
+            {formatMessage({ id: 'dashboard.selectedsession.acquisition.dp.properties.products.title' })}
+          </div>
+          {
+            map(DATA_PROVIDER_PRODUCTS_PROPERTIES, (property) => (this.displayListItem(property)))
+          }
+        </div>
       </div>
       <div style={cardButtonStyle}>
-        <RaisedButton
-          onClick={this.onSeeReferenced}
-          label={formatMessage({ id: 'dashboard.selectedsession.referencing.ingest.button.see-referenced' })}
-          primary
-          style={raisedListStyle}
-        />
         {
           nbWaiting !== 0
             ? <RaisedButton
