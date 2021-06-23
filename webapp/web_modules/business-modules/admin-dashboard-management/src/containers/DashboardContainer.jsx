@@ -143,7 +143,6 @@ export class DashboardContainer extends React.Component {
 
     const oldState = this.state || {}
     const newState = { ...oldState }
-    // component mount -> reset selectedSession (do not use selectedSession of redux store in case of it was previously removed)
     if (isEmpty(oldProps)) {
       newState.selectedSession = null
     } else if (!isEqual(oldProps.selectedSession, selectedSession)) {

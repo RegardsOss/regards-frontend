@@ -138,30 +138,3 @@ const messages = {
 }
 
 export default messages
-
-// propriété  ->  si 0  ->  couleur grise  ->  OK
-// aligner les boutons en bas  ->  OK
-// propriété  ->  les en attentes = en jaune, les en erreurs = en rouge  ->  OK
-// step ingest ajouter espace au dessus de nouvelle versions  ->  OK
-// icone running en vert  ->  OK
-// 1 seul bouton rafraichir qui rafraichi tout -> OK
-// reduire taille tableau du dashboard -> OK
-// juste icone running dans les steps -> OK
-// flush les filtres lors du umount -> OK -> pas vraiment un problème
-// tooltip icon (erreur, en cours, en attente) -> OK
-// demande en attente + en erreur -> grisé si 0 -> OK
-// changer les couleurs -> OK
-// refresh ne conserve pas les filtres en veant des chaines d'acquisitions) -> OK
-// si le filtre de source change -> reset liste session (flush table session ?) -> OK
-// sélection filtre session = session sélectionnée -> OK
-// Etape référencement : le filtre sur session+source quand on passe de dahsboard vers Produits OAIS ou Produits GeoJson -> OK
-// Etape acquisition : pas de bouton visualiser les produirs pour dataprovider. -> OK
-// Etape acquisition : Visualiser les demandes sur FeatureProvider amene sur l'onglet "Demande d'extractions" de "Produits GeoJson". -> OK
-// Etape acquisition : Visualiser les erreurs sur feature provider amene sur l'onglet "Demande d'extractions" filtré sur erreur de "Produits Geojson" -> OK
-// AJOUTER RELANCER LES ERREURS DE STOCKAGE -> OK
-// ... fin labels steps -> OK
-// step -> test regrouper properties -> OK
-
-// revoir le throttle
-// change de selectedsession -> pas de suppression puis creation de la card
-// Etape acquisition : Visualiser les erreurs sur dataprovider ouvre une dialogue contenan les erreurs

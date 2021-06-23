@@ -58,7 +58,6 @@ class FeatureProviderStep extends React.Component {
 
   onSeeErrors = () => {
     const { project, selectedSession } = this.props
-    console.error('lalala')
     browserHistory.push(`/admin/${project}/data/acquisition/featuremanager/monitor/${FemDomain.REQUEST_TYPES_ENUM.EXTRACTION}?session=${selectedSession.content.name}&source=${selectedSession.content.source}&state=${FemDomain.REQUEST_STATUS_ENUM.ERROR}`)
   }
 

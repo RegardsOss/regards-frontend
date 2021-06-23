@@ -190,8 +190,8 @@ const dashboardManagementStyles = (theme) => ({
       padding: '5px',
     },
     cardTitleTextStyle: {
-      color: theme.palette.accent1Color,
       fontSize: '18px',
+      fontStyle: 'bold',
     },
     cardContentStyle: {
       display: 'flex',
@@ -232,7 +232,7 @@ const dashboardManagementStyles = (theme) => ({
       marginTop: '-22px',
       lineHeight: '20px',
       fontSize: '15px',
-      backgroundColor: '#303030',
+      backgroundColor: theme.palette.canvasColor,
       width: '72px',
       paddingLeft: '5px',
     },
@@ -240,18 +240,20 @@ const dashboardManagementStyles = (theme) => ({
       marginTop: '-22px',
       lineHeight: '20px',
       fontSize: '15px',
-      backgroundColor: '#303030',
+      backgroundColor: theme.palette.canvasColor,
       width: '82px',
       paddingLeft: '5px',
     },
     propertiesTitleStyle: {
-      border: '1px solid #ff6d00',
+      border: `1px solid ${theme.palette.accent1Color}`,
       padding: '10px',
+      color: theme.palette.accent1Color,
     },
     propertiesTitleStyleAlt: {
-      border: '1px solid #ff6d00',
+      border: `1px solid ${theme.palette.accent1Color}`,
       padding: '10px',
       marginTop: '20px',
+      color: theme.palette.accent1Color,
     },
   },
   displayIconsComponentStyle: {
