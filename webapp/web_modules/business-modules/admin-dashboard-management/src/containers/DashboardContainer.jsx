@@ -101,7 +101,7 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
     relaunchStorages: (source, session) => dispatch(storagesRelaunchActions.relaunchStorages(source, session)),
-    retryRequests: (payload, type) => dispatch(requestRetryActions.relaunchProducts('POST', payload, { type })),
+    retryRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
   })
 

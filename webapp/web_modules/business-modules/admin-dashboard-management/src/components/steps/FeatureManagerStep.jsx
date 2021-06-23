@@ -65,7 +65,7 @@ class FeatureManagerStep extends React.Component {
     const { sessionStep, retryRequests } = this.props
     forEach(FemDomain.REQUEST_TYPES, (reqType) => {
       if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-        || reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
+        && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
         retryRequests({
           filters: {
             session: sessionStep.session,
