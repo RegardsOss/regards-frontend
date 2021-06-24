@@ -18,6 +18,7 @@
  **/
 import values from 'lodash/values'
 import find from 'lodash/find'
+import throttle from 'lodash/throttle'
 import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -102,8 +103,16 @@ class SessionsComponent extends React.Component {
     return urlFilters
   }
 
+  applySessionFilters = throttle((filters) => {
+    this.setState({ sessionFilters: filters })
+  }, 1000, { leading: true })
+
+  // we use two filters variables.
+  // filters is used to update directly field values
+  // sessionFilters is used to update table values with a delay. Prevent multiple network call
   state = {
     filters: SessionsComponent.extractFiltersFromURL(),
+    sessionFilters: SessionsComponent.extractFiltersFromURL(),
   }
 
   /**
@@ -161,6 +170,7 @@ class SessionsComponent extends React.Component {
       },
     }
     onApplyFilters(newState.filters, CELL_TYPE_ENUM.SESSION)
+    this.applySessionFilters(newState.filters)
     this.setState(newState)
   }
 
@@ -168,7 +178,7 @@ class SessionsComponent extends React.Component {
     const {
       project, onSelected, selectedSession, selectedSource,
     } = this.props
-    const { filters } = this.state
+    const { filters, sessionFilters } = this.state
     const {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
@@ -255,7 +265,7 @@ class SessionsComponent extends React.Component {
               maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sessionsActions}
               pageSelectors={sessionsSelectors}
-              requestParams={{ ...filters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null, tenant: project }}
+              requestParams={{ ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null, tenant: project }}
               pageSize={SessionsComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SessionsComponent.EMPTY_COMPONENT}

@@ -144,23 +144,20 @@ class ArchivalComponent extends React.Component {
   renderRetryErrorsDialog = (type) => {
     const { intl: { formatMessage } } = this.context
     const { isRetryErrorsDialogOpen } = this.state
-    if (isRetryErrorsDialogOpen) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
-          onConfirm={this.onRetryErrors}
-          onClose={this.toggleRetryErrorsDialog}
-        />
-      )
-    }
-    return null
+    return (
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        onConfirm={this.onRetryErrors}
+        onClose={this.toggleRetryErrorsDialog}
+        open={isRetryErrorsDialogOpen}
+      />
+    )
   }
 
   onRetryErrors = () => {
     const { relaunchStorages, sessionStep } = this.props
-    relaunchStorages(sessionStep.source, sessionStep.session)
-    this.toggleRetryErrorsDialog()
+    return relaunchStorages(sessionStep.source, sessionStep.session)
   }
 
   render() {

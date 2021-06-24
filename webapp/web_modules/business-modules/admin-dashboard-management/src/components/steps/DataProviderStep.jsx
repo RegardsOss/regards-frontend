@@ -64,8 +64,7 @@ class DataProviderStep extends React.Component {
 
   onRetryErrors = () => {
     const { relaunchProducts, sessionStep } = this.props
-    relaunchProducts(sessionStep.source, sessionStep.session)
-    this.toggleRetryErrorsDialog()
+    return relaunchProducts(sessionStep.source, sessionStep.session)
   }
 
   onSeeWaiting = () => {
@@ -86,10 +85,6 @@ class DataProviderStep extends React.Component {
     let style = listItemNoValueStyle
     if (propValue > 0) {
       style = listItemStyle
-    }
-    if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.GENERATED_PRODUCTS) {
-      propValue = +get(sessionStep, 'properties.generatedProducts', 0) + +get(sessionStep, 'properties.ingested', 0)
-      style = propValue > 0 ? listItemStyle : listItemNoValueStyle
     }
     if (property === DATA_PROVIDER_PRODUCTS_PROPERTIES_ENUM.PRODUCTS_ERRORS) {
       propValue = +get(sessionStep, 'properties.generationError', 0) + +get(sessionStep, 'properties.ingestionFailed', 0)
@@ -122,17 +117,15 @@ class DataProviderStep extends React.Component {
   renderRetryErrorsDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { isRetryErrorsDialogOpen } = this.state
-    if (isRetryErrorsDialogOpen) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
-          onConfirm={this.onRetryErrors}
-          onClose={this.toggleRetryErrorsDialog}
-        />
-      )
-    }
-    return null
+    return (
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        onConfirm={this.onRetryErrors}
+        onClose={this.toggleRetryErrorsDialog}
+        open={isRetryErrorsDialogOpen}
+      />
+    )
   }
 
   renderProductDialog = () => {

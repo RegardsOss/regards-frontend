@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import keys from 'lodash/keys'
-import find from 'lodash/find'
+import every from 'lodash/every'
 import map from 'lodash/map'
 import isEqual from 'lodash/isEqual'
 import { browserHistory } from 'react-router'
@@ -112,7 +112,7 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     tasks.push(this.props.fetchGroupList())
     Promise.all(tasks)
       .then((actionResults) => {
-        if (!find(actionResults, (actionResult) => actionResult.error)) {
+        if (every(actionResults, (actionResult) => !actionResult.error)) {
           this.setState({
             isFetchingSettings: false,
           })
@@ -163,7 +163,7 @@ export class ProjectUserSettingsFormContainer extends React.Component {
     const tasks = map(keys(values), (key) => updateSettings(key, values[key]))
     Promise.all(tasks)
       .then((actionResults) => {
-        if (!find(actionResults, (actionResult) => actionResult.error)) {
+        if (every(actionResults, (actionResult) => !actionResult.error)) {
           this.onBack()
         }
       })

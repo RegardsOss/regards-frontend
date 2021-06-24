@@ -65,7 +65,6 @@ class IngestStep extends React.Component {
   onRetryErrors = () => {
     const { relaunchAIP, sessionStep } = this.props
     relaunchAIP(sessionStep.source, sessionStep.session)
-    this.toggleRetryErrorsDialog()
   }
 
   onSeeWaiting = () => {
@@ -112,17 +111,15 @@ class IngestStep extends React.Component {
   renderRetryErrorsDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { isRetryErrorsDialogOpen } = this.state
-    if (isRetryErrorsDialogOpen) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
-          onConfirm={this.onRetryErrors}
-          onClose={this.toggleRetryErrorsDialog}
-        />
-      )
-    }
-    return null
+    return (
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        onConfirm={this.onRetryErrors}
+        onClose={this.toggleRetryErrorsDialog}
+        open={isRetryErrorsDialogOpen}
+      />
+    )
   }
 
   render() {

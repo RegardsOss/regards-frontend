@@ -67,25 +67,23 @@ class FeatureProviderStep extends React.Component {
     })
   }
 
-  renderRetryErrorsDialog = (type) => {
+  renderRetryErrorsDialog = () => {
     const { intl: { formatMessage } } = this.context
     const { isRetryErrorsDialogOpen } = this.state
-    if (isRetryErrorsDialogOpen) {
-      return (
-        <ConfirmDialogComponent
-          dialogType={ConfirmDialogComponentTypes.CONFIRM}
-          title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
-          onConfirm={this.onRetryErrors}
-          onClose={this.toggleRetryErrorsDialog}
-        />
-      )
-    }
-    return null
+    return (
+      <ConfirmDialogComponent
+        dialogType={ConfirmDialogComponentTypes.CONFIRM}
+        title={formatMessage({ id: 'dashboard.selectedsession.dialog.retry.title' })}
+        onConfirm={this.onRetryErrors}
+        onClose={this.toggleRetryErrorsDialog}
+        open={isRetryErrorsDialogOpen}
+      />
+    )
   }
 
   onRetryErrors = () => {
     const { sessionStep, retryRequests } = this.props
-    retryRequests({
+    return retryRequests({
       filters: {
         session: sessionStep.session,
         source: sessionStep.source,
@@ -93,7 +91,6 @@ class FeatureProviderStep extends React.Component {
       requestIdSelectionMode: 'EXCLUDE',
       requestIds: [],
     }, FemDomain.REQUEST_TYPES_ENUM.EXTRACTION)
-    this.toggleRetryErrorsDialog()
   }
 
   displayListItem = (property) => {

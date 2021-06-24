@@ -18,6 +18,7 @@
  **/
 import values from 'lodash/values'
 import find from 'lodash/find'
+import throttle from 'lodash/throttle'
 import { browserHistory } from 'react-router'
 import isEmpty from 'lodash/isEmpty'
 import isEqual from 'lodash/isEqual'
@@ -108,8 +109,16 @@ class SourcesComponent extends React.Component {
     return urlFilters
   }
 
+  applySourceFilters = throttle((filters) => {
+    this.setState({ sourceFilters: filters })
+  }, 1000, { leading: true })
+
+  // we use two filters variables.
+  // filters is used to update directly field values
+  // sourceFilters is used to update table values with a delay. Prevent multiple network call
   state = {
     filters: SourcesComponent.extractFiltersFromURL(),
+    sourceFilters: SourcesComponent.extractFiltersFromURL(),
   }
 
   /**
@@ -169,6 +178,7 @@ class SourcesComponent extends React.Component {
       },
     }
     onApplyFilters(newState.filters, CELL_TYPE_ENUM.SOURCE)
+    this.applySourceFilters(newState.filters)
     this.setState(newState)
   }
 
@@ -176,7 +186,7 @@ class SourcesComponent extends React.Component {
     const {
       project, onSelected, selectedSource, selectedSession,
     } = this.props
-    const { filters } = this.state
+    const { filters, sourceFilters } = this.state
     const {
       intl: { formatMessage }, muiTheme, moduleTheme: {
         dashboardStyle: {
@@ -266,7 +276,7 @@ class SourcesComponent extends React.Component {
               maxRowCount={!isEmpty(selectedSession) ? minRowCount : maxRowCount}
               pageActions={sourcesActions}
               pageSelectors={sourcesSelectors}
-              requestParams={{ ...filters, tenant: project }}
+              requestParams={{ ...sourceFilters, tenant: project }}
               pageSize={SourcesComponent.PAGE_SIZE}
               columns={columns}
               emptyComponent={SourcesComponent.EMPTY_COMPONENT}
