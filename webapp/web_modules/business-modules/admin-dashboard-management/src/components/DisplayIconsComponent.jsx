@@ -55,7 +55,7 @@ class DisplayIconsComponent extends React.Component {
   displayIcons = (runnings) => {
     const { moduleTheme: { displayIconsComponentStyle: { displayIconsDivStyle } } } = this.context
     return (<div style={displayIconsDivStyle}>
-      {runnings ? this.displayIcon(ICON_TYPE_ENUM.RUNNING) : null}
+      {runnings > 0 ? this.displayIcon(ICON_TYPE_ENUM.RUNNING) : null}
     </div>)
   }
 

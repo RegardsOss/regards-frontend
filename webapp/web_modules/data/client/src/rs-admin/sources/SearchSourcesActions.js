@@ -32,6 +32,6 @@ export default class SearchSourcesActions extends BasicArrayActions {
   }
 
   autoCompleteActionDispatch(text) {
-    return this.fetchEntityList(null, { source: text })
+    return this.fetchEntityList(null, { name: text })
   }
 }

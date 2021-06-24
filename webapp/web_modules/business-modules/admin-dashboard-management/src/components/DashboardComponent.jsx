@@ -48,7 +48,8 @@ class DashboardComponent extends React.Component {
     fetchSessions: PropTypes.func.isRequired,
     getBackURL: PropTypes.func.isRequired,
     onRefresh: PropTypes.func.isRequired,
-    onFlushSelectedSession: PropTypes.func.isRequired,
+    flushSelectedSession: PropTypes.func.isRequired,
+    flushSelectedSource: PropTypes.func.isRequired,
     sources: AdminShapes.SourceList,
     sessions: AdminShapes.SessionList,
   }
@@ -64,6 +65,7 @@ class DashboardComponent extends React.Component {
   }
 
   onApplyFilters = (filters, type) => {
+    const { flushSelectedSession, flushSelectedSource } = this.props
     let nextState = {
       ...this.state,
     }
@@ -82,19 +84,21 @@ class DashboardComponent extends React.Component {
         break
       default:
     }
+    flushSelectedSession()
+    flushSelectedSource()
     this.setState(nextState)
   }
 
   onSelected = (entity, type) => {
     const {
-      fetchSelectedSession, fetchSessions, selectedSource, selectedSession, onFlushSelectedSession,
+      fetchSelectedSession, fetchSessions, selectedSource, selectedSession, flushSelectedSession,
     } = this.props
     const {
       sessionFilters,
     } = this.state
     switch (type) {
       case CELL_TYPE_ENUM.SESSION:
-        onFlushSelectedSession()
+        flushSelectedSession()
         fetchSelectedSession(entity && !isEqual(entity, selectedSession) ? entity : null)
         break
       case CELL_TYPE_ENUM.SOURCE:

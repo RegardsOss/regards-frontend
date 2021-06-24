@@ -16,7 +16,6 @@
  * You should have received a copy of the GNU General Public License
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
-import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import map from 'lodash/map'
 import { browserHistory } from 'react-router'
@@ -86,19 +85,14 @@ class FeatureProviderStep extends React.Component {
 
   onRetryErrors = () => {
     const { sessionStep, retryRequests } = this.props
-    forEach(FemDomain.REQUEST_TYPES, (reqType) => {
-      if (reqType !== FemDomain.REQUEST_TYPES_ENUM.REFERENCES
-        && reqType !== FemDomain.REQUEST_TYPES_ENUM.EXTRACTION) {
-        retryRequests({
-          filters: {
-            session: sessionStep.session,
-            source: sessionStep.source,
-          },
-          requestIdSelectionMode: 'EXCLUDE',
-          requestIds: [],
-        }, reqType)
-      }
-    })
+    retryRequests({
+      filters: {
+        session: sessionStep.session,
+        source: sessionStep.source,
+      },
+      requestIdSelectionMode: 'EXCLUDE',
+      requestIds: [],
+    }, FemDomain.REQUEST_TYPES_ENUM.EXTRACTION)
     this.toggleRetryErrorsDialog()
   }
 

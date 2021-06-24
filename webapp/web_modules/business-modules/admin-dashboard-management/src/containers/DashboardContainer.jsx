@@ -27,11 +27,10 @@ import { withModuleStyle, themeContextType } from '@regardsoss/theme'
 import { AdminShapes } from '@regardsoss/shape'
 import {
   sessionsActions, sessionsSelectors, sessionsRelaunchProductActions, sessionsRelaunchAIPActions,
-  sessionDeleteActions, storagesRelaunchActions,
+  sessionDeleteActions, storagesRelaunchActions, fProviderRetryErrorsActions,
 } from '../clients/SessionsClient'
 import { sourcesActions, sourcesSelectors } from '../clients/SourcesClient'
 import { selectedSessionActions, selectedSessionSelectors } from '../clients/SelectedSessionClient'
-import { requestRetryActions } from '../clients/RequestRetryClient'
 import DashboardComponent from '../components/DashboardComponent'
 import { SOURCE_FILTER_PARAMS } from '../domain/filters'
 import { CELL_TYPE_ENUM } from '../domain/cellTypes'
@@ -101,7 +100,7 @@ export class DashboardContainer extends React.Component {
     relaunchProducts: (source, session) => dispatch(sessionsRelaunchProductActions.relaunchProducts(source, session)),
     relaunchAIP: (source, session) => dispatch(sessionsRelaunchAIPActions.relaunchProducts(source, session)),
     relaunchStorages: (source, session) => dispatch(storagesRelaunchActions.relaunchStorages(source, session)),
-    retryRequests: (payload, type) => dispatch(requestRetryActions.sendSignal('POST', payload, { type })),
+    retryRequests: (payload, type) => dispatch(fProviderRetryErrorsActions.sendSignal('POST', payload, { type })),
     deleteSession: (sessionId) => dispatch(sessionDeleteActions.deleteSession(sessionId)),
   })
 
@@ -191,11 +190,13 @@ export class DashboardContainer extends React.Component {
     } = this.state
     const fetchPageSessionsSize = this.getPageSize(CELL_TYPE_ENUM.SESSION)
     const fetchPageSourcesSize = this.getPageSize(CELL_TYPE_ENUM.SOURCE)
-    fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null })
-    fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters })
+    const tasks = []
+    tasks.push(fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: selectedSource ? selectedSource.content.name : null }))
+    tasks.push(fetchSources(0, fetchPageSourcesSize, {}, { ...sourceFilters }))
     if (selectedSession) {
-      fetchSelectedSession(selectedSession.content.id)
+      tasks.push(fetchSelectedSession(selectedSession.content.id))
     }
+    Promise.all(tasks)
   }
 
   onDeleteSession = (sessionId, sourceFilters, sessionFilters) => {
@@ -221,6 +222,7 @@ export class DashboardContainer extends React.Component {
     fetchSessions(0, fetchPageSessionsSize, {}, { ...sessionFilters, [SOURCE_FILTER_PARAMS.NAME]: source ? source.content.name : null })
     this.setState({
       selectedSource: source,
+      selectedSession: null,
     })
   }
 
@@ -235,6 +237,12 @@ export class DashboardContainer extends React.Component {
     }
     this.setState({
       selectedSession: session,
+    })
+  }
+
+  flushSelectedSource = () => {
+    this.setState({
+      selectedSource: null,
     })
   }
 
@@ -260,7 +268,8 @@ export class DashboardContainer extends React.Component {
         relaunchStorages={relaunchStorages}
         getBackURL={this.getBackURL}
         onRefresh={this.onRefresh}
-        onFlushSelectedSession={flushSelectedSession}
+        flushSelectedSession={flushSelectedSession}
+        flushSelectedSource={this.flushSelectedSource}
         sources={sources}
         sessions={sessions}
       />

@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 
-import { AdminClient } from '@regardsoss/client'
+import { AdminClient, FeatureManagementClient } from '@regardsoss/client'
 
 /**
  * sessions actions client.
@@ -34,3 +34,4 @@ export const sessionsRelaunchProductActions = new AdminClient.SessionsRelaunchPr
 export const sessionsRelaunchAIPActions = new AdminClient.SessionsRelaunchAIPActions(`${SESSIONS_NAMESPACE}/relaunch-aip`)
 export const sessionDeleteActions = new AdminClient.SessionsDeleteActions(`${SESSIONS_NAMESPACE}/delete-session`)
 export const storagesRelaunchActions = new AdminClient.SessionsRelaunchStoragesActions(`${SESSIONS_NAMESPACE}/relaunch-storages`)
+export const fProviderRetryErrorsActions = new FeatureManagementClient.ExtractionRequestRetryActions(`${SESSIONS_NAMESPACE}/relaunch-featureProvider`)

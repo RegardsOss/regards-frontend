@@ -24,7 +24,7 @@ import { BasicSignalActions } from '@regardsoss/store-utils'
 export default class ExtractionRequestRetryActions extends BasicSignalActions {
   constructor(namespace) {
     super({
-      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/extracts/requests/retry`,
+      entityEndpoint: `${GATEWAY_HOSTNAME}/${API_URL}/${STATIC_CONF.MSERVICES.FEM}/extraction/requests/retry`,
       namespace,
       bypassErrorMiddleware: false,
     })

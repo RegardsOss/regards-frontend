@@ -79,6 +79,7 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardContainer', () => {
       relaunchStorages: props.relaunchStorages,
       sources: props.sources,
       sessions: props.sessions,
+      flushSelectedSource: enzymeWrapper.instance().flushSelectedSource,
     }, 'Component should define the expected properties')
   })
 })

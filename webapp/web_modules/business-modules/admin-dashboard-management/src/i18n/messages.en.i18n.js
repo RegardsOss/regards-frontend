@@ -63,7 +63,7 @@ const messages = {
   'dashboard.selectedsession.dialog.delete.message': 'You are about to request the deletion of all products in the selected session. This request will be taken into account by each component of the session. It may take a while for the deletion request to be done. You can refresh the state of the session regularly to see how it has been taken into account.',
   'dashboard.selectedsession.dialog.retry.title': 'Retry errors ?',
   'dashboard.selectedsession.acquisition.title': 'Acquisition {nbIn} -> {nbOut}',
-  'dashboard.selectedsession.acquisition.fp.totalRequests': 'Acquisitions : {value}',
+  'dashboard.selectedsession.acquisition.fp.totalRequests': 'Extractions : {value}',
   'dashboard.selectedsession.acquisition.fp.requestsErrors': 'Errors : {value}',
   'dashboard.selectedsession.acquisition.fp.generatedProducts': 'Generated : {value}',
   'dashboard.selectedsession.acquisition.fp.requestsRefused': 'Refused : {value}',

@@ -137,10 +137,11 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       fetchSessions: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
-      onFlushSelectedSession: () => { },
+      flushSelectedSession: () => { },
       sources: {},
       sessions: {},
       relaunchStorages: () => { },
+      flushSelectedSource: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
     const cardWrapper = enzymeWrapper.find(Card)
@@ -186,8 +187,9 @@ describe('[ADMIN DASHBOARD MANAGEMENT] Testing DashboardComponent', () => {
       fetchSessions: () => { },
       getBackURL: () => { },
       onRefresh: () => { },
-      onFlushSelectedSession: () => { },
+      flushSelectedSession: () => { },
       relaunchStorages: () => { },
+      flushSelectedSource: () => { },
     }
     const enzymeWrapper = shallow(<DashboardComponent {...props} />, { context })
 
