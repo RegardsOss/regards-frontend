@@ -17,7 +17,7 @@
  * along with REGARDS. If not, see <http://www.gnu.org/licenses/>.
  **/
 import IconButton from 'material-ui/IconButton'
-import SettingsIcon from 'mdi-material-ui/Cog'
+import SettingsIcon from 'mdi-material-ui/BackupRestore'
 import compose from 'lodash/fp/compose'
 import { i18nContextType, withI18n } from '@regardsoss/i18n'
 import { themeContextType, withModuleStyle } from '@regardsoss/theme'
@@ -56,7 +56,7 @@ export class ClearSettingFieldButton extends React.Component {
           title={formatMessage({ id: 'reset.default.value.button.tooltip' })}
           onClick={onClick}
         >
-          <SettingsIcon />
+          <SettingsIcon color="gray" />
         </IconButton>
       </div>
     )
