@@ -88,7 +88,9 @@ class SessionsComponent extends React.Component {
 
   static extractFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = SessionsComponent.DEFAULT_FILTERS_STATE
+    const urlFilters = {}
+    urlFilters[SESSION_FILTER_PARAMS.NAME] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.NAME]
+    urlFilters[SESSION_FILTER_PARAMS.STATUS] = SessionsComponent.DEFAULT_FILTERS_STATE[SESSION_FILTER_PARAMS.STATUS]
     if (values(query).length > 0) {
       const {
         sessionName, sessionState,

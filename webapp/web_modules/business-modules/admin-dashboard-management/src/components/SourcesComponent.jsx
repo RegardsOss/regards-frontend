@@ -94,7 +94,9 @@ class SourcesComponent extends React.Component {
 
   static extractFiltersFromURL = () => {
     const { query } = browserHistory.getCurrentLocation()
-    const urlFilters = SourcesComponent.DEFAULT_FILTERS_STATE
+    const urlFilters = {}
+    urlFilters[SOURCE_FILTER_PARAMS.NAME] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.NAME]
+    urlFilters[SOURCE_FILTER_PARAMS.STATUS] = SourcesComponent.DEFAULT_FILTERS_STATE[SOURCE_FILTER_PARAMS.STATUS]
     if (values(query).length > 0) {
       const {
         sourceName, sourceState,
