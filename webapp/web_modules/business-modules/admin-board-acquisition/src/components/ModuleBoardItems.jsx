@@ -70,6 +70,27 @@ const items = (projectName, intl, onResetIndex) => [
     ],
   },
   {
+    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
+    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
+    advanced: false,
+    actions: [
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
+        icon: <PageView />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
+        hateoasDependencies: [
+          ...featureManagementDependencies.listDependencies,
+        ],
+      },
+      {
+        path: `/admin/${projectName}/data/acquisition/featuremanager/settings`,
+        icon: <SettingsIcon />,
+        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.settings.tooltip' }),
+        hateoasDependencies: featureManagementDependencies.settingDependencies,
+      },
+    ],
+  },
+  {
     title: intl.formatMessage({ id: 'data.board.oais.title' }),
     description: intl.formatMessage({ id: 'data.board.oais.description' }),
     advanced: false,
@@ -155,27 +176,6 @@ const items = (projectName, intl, onResetIndex) => [
         hateoasDependencies: [
           ...storageManagementDependencies.settingsDependencies,
         ],
-      },
-    ],
-  },
-  {
-    title: intl.formatMessage({ id: 'data.board.featuremanager.title' }),
-    description: intl.formatMessage({ id: 'data.board.featuremanager.description' }),
-    advanced: false,
-    actions: [
-      {
-        path: `/admin/${projectName}/data/acquisition/featuremanager/monitor`,
-        icon: <PageView />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.tooltip' }),
-        hateoasDependencies: [
-          ...featureManagementDependencies.listDependencies,
-        ],
-      },
-      {
-        path: `/admin/${projectName}/data/acquisition/featuremanager/settings`,
-        icon: <SettingsIcon />,
-        tooltipMsg: intl.formatMessage({ id: 'data.board.action.featuremanager.settings.tooltip' }),
-        hateoasDependencies: featureManagementDependencies.settingDependencies,
       },
     ],
   },
