@@ -1,6 +1,6 @@
-# REGARDS Frontend
+# REGARDS OSS FRONTEND
 
-REGARDS is still under development. **This version is a beta version**.
+This repository contains the source of the REGARDS HMI.
 
 ## Webapp
 
@@ -8,9 +8,12 @@ The webapp directory contains the source code of the frontend webapp. Please rea
 
 ## Frontend-boot
 
-Frontend boot, is a maven project to create an executable WAR with his own jetty application-server.
+**Legacy**
 
-## Build
+Frontend boot, is a maven project to create an executable WAR with its own jetty application-server.
+
+## Java Build
+
 The [README](https://github.com/RegardsOss/regards-deployment/blob/master/README.md) of the project [rs-deployment](https://github.com/RegardsOss/regards-deployment) describes how to generate all the REGARDS repositories.
 
 To run the compiled WAR file run command :
