@@ -21,6 +21,7 @@ import values from 'lodash/values'
 
 export const DATA_PROVIDER_FILES_PROPERTIES_ENUM = {
   FILES_ACQUIRED: 'filesAcquired',
+  FILES_INVALID: 'filesInvalid',
 }
 
 export const DATA_PROVIDER_FILES_PROPERTIES = values(DATA_PROVIDER_FILES_PROPERTIES_ENUM)

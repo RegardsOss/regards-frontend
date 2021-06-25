@@ -73,6 +73,7 @@ const messages = {
   'dashboard.selectedsession.acquisition.fp.button.see-errors': 'Voir les demandes en erreurs',
   'dashboard.selectedsession.acquisition.fp.button.retry-errors': 'Relancer les erreurs',
   'dashboard.selectedsession.acquisition.dp.filesAcquired': 'Détectés : {value}',
+  'dashboard.selectedsession.acquisition.dp.filesInvalid': 'Invalides : {value}',
   'dashboard.selectedsession.acquisition.dp.incomplete': 'Incomplets : {value}',
   'dashboard.selectedsession.acquisition.dp.invalid': 'Invalides : {value}',
   'dashboard.selectedsession.acquisition.dp.productsErrors': 'Erreurs : {value}',
